@@ -33,10 +33,8 @@ namespace AGRemapCore {
      :cpp:class:`BufBaseFloat`'s concrete subclasses, or :cpp:class:`BufUnorm`
 
      .. warning::
-        Unlike the pure-Python original (where any subclass can be defined in plain Python and used
-        immediately -- ``BufDataType.decode``/``encode`` dispatch dynamically on whatever object is
-        passed in), a brand-new elementary data type not already covered by one of this class's
-        existing C++ subclasses needs a real C++ subclass and a rebuild -- this port does not expose
+        A brand-new elementary data type not already covered by one of this class's
+        existing C++ subclasses needs a real C++ subclass and a rebuild -- this library does not expose
         a Python-overridable virtual dispatch point for :cpp:func:`decode`/:cpp:func:`encode`
      @endrst
      */

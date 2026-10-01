@@ -112,10 +112,9 @@ namespace AGRemapCore {
              *
              * @note
              @rst
-             Unlike the pure-Python original's ``getNode``, there is no separate 'default' parameter
-             for the not-found-and-not-erroring case -- a ``nullptr`` return already serves as that
-             default, and none of this codebase's real call sites ever pass a custom one (matching
-             :cpp:class:`BaseDFA`'s own ``get*Ptr`` accessors, which have the same shape)
+             There is no separate 'default' parameter for the not-found-and-not-erroring case -- a
+             ``nullptr`` return already serves as that default (matching :cpp:class:`BaseDFA`'s own
+             ``get*Ptr`` accessors, which have the same shape)
              @endrst
              *
              * @throws std::out_of_range If no matching node is found and 'errorOnNotFound' is ``true``
@@ -132,8 +131,7 @@ namespace AGRemapCore {
              Determines whether the id of some node has no children of its own :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Ported as-is from the pure-Python original's own ``isChild``, name and all -- despite
-                the name, this checks whether 'nodeId' has *no entry* in #children (i.e. it's a leaf/
+                Despite the name, this checks whether 'nodeId' has *no entry* in #children (i.e. it's a leaf/
                 token node produced by a shift, as opposed to an internal node produced by reducing a
                 production), not whether it appears as some other node's child
              @endrst

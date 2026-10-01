@@ -53,8 +53,7 @@ namespace AGRemapCore {
              #. The decoded data for the line
              #. The starting byte index of the line within the file
              #. The line index being processed, as ``i / bytesPerLine`` -- kept as a
-                `floating point`_ value rather than truncated to an integer, matching the pure-Python
-                original's own (`true division`_-based) computation of this argument exactly
+                `floating point`_ value (a `true division`_) rather than truncated to an integer
              #. The size of each line, in bytes
 
              and returns the (possibly modified) decoded data for the line
@@ -79,8 +78,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The result of :cpp:func:`fix` -- either the raw bytes for the fixed file (when no
-             output file path was given) or the output file path that was written to (echoed back,
-             matching the pure-Python original's own return convention)
+             output file path was given) or the output file path that was written to (echoed back)
              @endrst
              */
             using FixResult = std::variant<std::string, ByteVec>;
@@ -372,9 +370,8 @@ namespace AGRemapCore {
              .. note::
                 Every number is formatted exactly the way `Python`_'s ``str`` would format it --
                 shortest round-trip for a `floating point`_ value, and `Python`_'s own choice
-                between fixed and scientific notation. That is not cosmetic: it keeps this byte
-                identical to what the pure-`Python`_ implementation this replaced produced, and to
-                what a real frame analysis writes
+                between fixed and scientific notation. That is not cosmetic: it keeps the output byte
+                identical to what a real frame analysis writes
              @endrst
              *
              * @param prefix The buffer name each entry is prefixed with -- the vertex buffer slot
@@ -458,7 +455,7 @@ namespace AGRemapCore {
              and a data type with no matching column encodes as 0. The number of lines produced is
              the longest column's length :raw-html:`<br />` :raw-html:`<br />`
 
-             Like the pure-Python tools built on it, this sets #getSrc to the newly encoded bytes
+             This sets #getSrc to the newly encoded bytes
              and re-reads from it, so the usual :cpp:func:`read` validation applies
              @endrst
              *

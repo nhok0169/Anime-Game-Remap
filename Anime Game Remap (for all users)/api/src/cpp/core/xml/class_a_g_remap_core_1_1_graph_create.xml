@@ -78,8 +78,8 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The key identifying a graph -- ``(component name, mod object name)``, the direct
-equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
+The key identifying a graph -- ``(component name, mod object name)``, the
+equivalent of a `Python`_ ``Tuple[str, str]``
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>
@@ -98,9 +98,7 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
 <para><verbatim>embed:rst 
 Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
-tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
 fields rather than restating them
 </verbatim>    </para>
         </detaileddescription>

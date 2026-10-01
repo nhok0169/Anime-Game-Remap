@@ -96,8 +96,8 @@ rather than rediscovering per parser
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Where every downloadable default part is published -- the pure-Python original&apos;s own
-``GithubDownloadFolder`` (``data/FileDownloadData.py``)
+Where every downloadable default part is published -- the same location as the
+`Python`_ package&apos;s ``GithubDownloadFolder`` (``data/FileDownloadData.py``)
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -130,7 +130,7 @@ One row out of :cpp:class:`VertexCountData`, by its ``(version, mod name, compon
 key :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 ``VertexCountData.h`` exposes only the raw row list -- there is no lookup helper -- so
-this is the small scan the pure-Python original gets for free from a nested dict
+this is a small scan over it
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -432,11 +432,11 @@ This is the download-side spelling of
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-``&lt;game&gt;/&lt;charFolder&gt;/&lt;versionFolder&gt;/&lt;prefix&gt;&lt;kind&gt;&lt;ext&gt;`` -- the five-argument form
+``&lt;game&gt;/&lt;charFolder&gt;/&lt;versionFolder&gt;/&lt;prefix&gt;&lt;kind&gt;&lt;ext&gt;`` -- the six-argument form
 with the game folder spelled out. The five-argument form is this with ``&quot;GI&quot;``; a WuWa
-download passes ``&quot;WuWa&quot;`` (``WuWa/Sanhua/2_5/SanhuaTexture89ba19a1.dds``, the first
-one, 2026-09-19 -- a WWMI character&apos;s textures are filed by the hash the game binds
-them under, so &apos;kind&apos; is ``&quot;Texture&quot; + hash`` there)
+download passes ``&quot;WuWa&quot;`` (eg. ``WuWa/Sanhua/2_5/SanhuaTexture89ba19a1.dds`` -- a WWMI
+character&apos;s textures are filed by the hash the game binds them under, so &apos;kind&apos; is
+``&quot;Texture&quot; + hash`` there)
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>

@@ -1703,6 +1703,20 @@ same session's explanation of TexFx ("it draws at its line") contradicted a fram
 in Creating Remaps (a TexFx call is a request served on the next outline draw), shipped in one commit, and was
 caught only while writing this habit. A mechanism you reasoned out is a hypothesis until a dump or the game agrees.
 
+**87. A DOC COMMENT IS PUBLISHED: WRITE IT FOR A NEW API USER, NOT AS A WORK LOG (2026-10-01).** Every Doxygen
+comment in `core/include` (and on a definition in `core/src`), every pybind11 `R"(...)"` docstring and every
+Python docstring renders on <https://anime-game-remap.readthedocs.io>. An audit that day found ~1,200 lines of
+work log on the two reference pages -- dates, "matches / mirrors / is a port of the pure-Python original",
+"until 2026-09-17 this did ...", "found on Kaeya's mod in round 3", internal-guide links -- and ~90 method docs that
+were simply WRONG because they were never revisited after the history they described ("Stub for ... returns
+defaultFactory" on real fixes; "builds a plain `BaseIniParser`" where it builds a `GIMIParser`). A reader of the
+site does not know the library was ever pure Python and cannot open `AI Agent Help/`. So: state what the code does
+NOW, in the present tense; put the story (why, which mod, which date) in `AI Agent Help/` or a plain `//` comment,
+which does not render; and when you change behaviour, re-read the doc block above it. A new public class or
+function also needs its entry on `Docs/src/api.rst` / `coreAPI.rst` -- 164 exports had none, including ones the
+examples call. `Tools/Misc/Docs/auditApiDocs.py --html <build>` checks all three (exports, rendered history and
+dates, dead repo links); see [Documentation](../Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE FOR A NEW USER".
+
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
 those asserts rot; three of them were stale on arrival this session and only one failure of four was

@@ -154,19 +154,18 @@ Whether this slot is drawn in the TARGET&apos;s outline pass :raw-html:`&lt;br /
 A skin may outline a slot with a shader of its own -- CitlaliWhisperofStars&apos; dress
 (Body B and C) uses outline shaders nothing else of hers does, made for thin two-sided
 cloth. Merged into a target object, the slot is drawn by the TARGET&apos;s outline shader
-instead, and on Citlali the hull of the skirt&apos;s far panel covered its lining in black
-(a frame dump: the outline draw wrote 4890 pixels outside the silhouette and turned 7141
-inside it near-black). ``false`` puts the member&apos;s block under ``if vs != 037730.0``,
+instead, and on Citlali the hull of the skirt&apos;s far panel covers its lining in black.
+``false`` puts the member&apos;s block under ``if vs != 037730.0``,
 the ``filter_index`` ORFix gives every outline vertex shader, so it keeps the main
 passes and loses only its outline :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Honoured for a MERGED member drawn by an appended block; a slot that is its object&apos;s
-representative, or whose object&apos;s draws go per branch, is logged and drawn as before
+representative, or whose object&apos;s draws go per branch, is logged and drawn normally
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="137" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="137" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="136" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="136" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1afebc9b032e9da726363f5ee33d7fa432" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -183,8 +182,8 @@ ordinary slot :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 A skin slot may hold two kinds of surface the target shades in different draws: LumineHeaven&apos;s
 main ``Head`` is the back hair AND the sleeves, neck scarf and bow, all on the Head textures. On
-Lumine&apos;s head draw the cloth shaded as hair (yellow in shade); on her body draw the hair shaded as
-cloth (grey in shade, beside blonde bangs), in game, 2026-09-30. A split slot lists the slot it
+Lumine&apos;s head draw the cloth shades as hair (yellow in shade); on her body draw the hair shades as
+cloth (grey in shade). A split slot lists the slot it
 comes from, the target object its part goes to (:cpp:member:`to`) and :cpp:member:`splitBands`:
 every triangle of that slot whose light map band under its centroid falls in one of the ranges
 moves here, and the rest stay :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
@@ -198,7 +197,7 @@ have, or whose light map cannot be read, is not split. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="160" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="160" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="159" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a1bd559df662932cd9c376973bfddfe6b" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; std::uint8_t, std::uint8_t &gt; &gt;</type>
@@ -216,7 +215,7 @@ it takes. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="169" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="169" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="168" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="168" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -224,7 +223,7 @@ it takes. **Default**: empty
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="42" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="42" bodyend="170"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="42" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="42" bodyend="169"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a7fa587445c3646f13eec5b2d9eb79ac9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>borrowFrom</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1acf808a2381d511005662ead192b6d702" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Slot</scope><name>index</name></member>

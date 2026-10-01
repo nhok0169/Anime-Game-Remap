@@ -726,7 +726,7 @@ segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
     <detaileddescription>
 <para><verbatim>embed:rst 
 Class for representing a version string, following the same `PEP 440`_ grammar and ordering
-rules as Python&apos;s `packaging.version.Version`_ -- this is a from-scratch C++ port of that
+rules as Python&apos;s `packaging.version.Version`_ -- this is a from-scratch C++ implementation of that
 class&apos;s parsing/normalization/comparison algorithm (``epoch!release.preN.postN.devN+local``),
 not an approximation of it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 

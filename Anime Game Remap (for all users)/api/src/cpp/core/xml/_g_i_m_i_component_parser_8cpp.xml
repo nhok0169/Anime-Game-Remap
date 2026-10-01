@@ -28,39 +28,6 @@
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
-      <node id="118">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
-      </node>
-      <node id="48">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="117">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="133">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="54">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="122">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1672,6 +1639,39 @@
         </childnode>
         <childnode refid="150" relation="include">
         </childnode>
+      </node>
+      <node id="118">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
+      </node>
+      <node id="48">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="117">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="133">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="54">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="146">
         <label>GIMIParser.tpp</label>

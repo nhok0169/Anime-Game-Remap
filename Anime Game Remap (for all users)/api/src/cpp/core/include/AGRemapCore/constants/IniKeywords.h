@@ -470,7 +470,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Written in place of a ``match_first_index`` that has no mapping onto the mod being
-             fixed to -- the index counterpart of \ref HashNotFound
+             fixed to -- the index counterpart of :cpp:member:`HashNotFound`
              @endrst
              */
             static inline const std::string IndexNotFound = "IndexNotFound";

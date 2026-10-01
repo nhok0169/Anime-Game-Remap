@@ -101,7 +101,7 @@ namespace AGRemapCore {
      A single-component target draws through ONE set of buffer hashes, so the components' buffers
      have to become one set: several ``.ini`` files each binding that hash to different bytes does
      not work, because a hash binds once and the other components' index buffers then address the
-     winner's vertices (measured in game, 2026-09-13) :raw-html:`<br />` :raw-html:`<br />`
+     winner's vertices :raw-html:`<br />` :raw-html:`<br />`
 
      The components are laid end to end in the order given, so the first keeps its index buffers
      unchanged, and every later one's indices shift by the vertices before it. Each component's

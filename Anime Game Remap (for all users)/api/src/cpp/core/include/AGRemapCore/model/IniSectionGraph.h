@@ -42,8 +42,8 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Class for constructing a directed subgraph for how the `sections`_ in the .ini file are ran --
-     the C++ port of ``IniSectionGraph.py`` :raw-html:`<br />` :raw-html:`<br />`
+     Class for constructing a directed subgraph for how the `sections`_ in the .ini file are ran
+     :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         The nodes are the `sections`_ of the .ini file; the directed edges are the command calls
@@ -52,9 +52,8 @@ namespace AGRemapCore {
      .. note::
         Unlike this class's `IfTemplate`/`IfTemplateNode`/`IfTemplateTree` dependencies (which
         always own everything reachable from them), this class's #sections are, by default,
-        **borrowed, non-owning references** -- matching the pure-Python original's own
-        ``self.sections = sections`` (a plain reference to whatever dict was passed in, shared with
-        the caller, eg. an ``IniFile``'s own ``sectionIfTemplates``). Only when constructed with
+        **borrowed, non-owning references** -- shared with the caller (eg. an ``IniFile``'s own
+        ``sectionIfTemplates``). Only when constructed with
         ``copySections = true`` does this graph deep-copy and genuinely own its own sections (see
         #ownedSections_).
      @endrst
@@ -178,13 +177,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Retrieves the out-neighbours of some `section`_ :raw-html:`<br />` :raw-html:`<br />`
-
-             .. note::
-                The pure-Python original's own ``getNeighbours`` has an empty body (a documented,
-                never-implemented stub -- confirmed via grep that nothing anywhere calls it), so
-                there's no existing behavior to preserve here; this implements the contract its own
-                docstring already describes rather than porting "always returns ``None``" forward.
+             Retrieves the out-neighbours of some `section`_
              @endrst
              */
             std::unordered_map<std::string, Section*> getNeighbours(const std::string& sectionName) const;
@@ -194,7 +187,7 @@ namespace AGRemapCore {
              *
              * @param targetSections The names of the `sections`_ to retrieve the children of
              * @param getNeighbourChildren Whether to also retrieve the children for the neighbours. **Default**: ``true``
-             * @return The names of the children `sections`_, per given `section`_ -- preserves first-seen order (matching the `OrderedSet`_ the pure-Python original uses)
+             * @return The names of the children `sections`_, per given `section`_ -- preserves first-seen order
              */
             std::unordered_map<std::string, std::vector<std::string>> getChildren(const std::vector<std::string>& targetSections, bool getNeighbourChildren = true) const;
 
@@ -216,10 +209,9 @@ namespace AGRemapCore {
              * @brief
              @rst
              Performs a deep copy on the object. Deliberately does **not** deep-copy #z3Ctx_ -- the
-             copy keeps a reference to the exact same :cpp:class:`Z3Context`, matching the
-             pure-Python original's own custom ``__deepcopy__`` (see that class's own note on why:
-             every predicate reachable from a deep copy still needs to be combinable with the
-             original's).
+             copy keeps a reference to the exact same :cpp:class:`Z3Context`, because every
+             predicate reachable from a deep copy still needs to be combinable with the
+             original's.
              @endrst
              *
              * @param minimal Only copy `sections`_ that are part of the graph. **Default**: ``true``
@@ -297,20 +289,9 @@ namespace AGRemapCore {
              */
             void normalize();
 
-            /**
-             * @brief Retrieves the common mods to fix to, based off every :cpp:class:`IfTemplate` in the graph
-             *
-             @rst
-             .. note::
-                Deliberately not ported -- see this port's own migration notes: the pure-Python
-                original (``IfTemplate.getMods``/``IniSectionGraph.getCommonMods``) references
-                attributes (``self.hashes``/``self.indices``) that are never actually set anywhere
-                in the live codebase, so calling either always raises ``AttributeError`` today, and
-                the only real (non-deprecated) caller of ``getCommonMods`` no longer exists. Omitted
-                by explicit user decision rather than guessed at.
-             @endrst
-             */
-            // std::unordered_set<std::string> getCommonMods(...) const;  -- intentionally omitted, see above
+            // getCommonMods (the common mods to fix to, based off every IfTemplate in the graph) is
+            // intentionally omitted: it has no working definition to implement.
+            // std::unordered_set<std::string> getCommonMods(...) const;
 
             /**
              * @brief An iterator that iterates through all #ContentPart of the given `sections`_ using `DFS`_
@@ -358,7 +339,7 @@ namespace AGRemapCore {
              .. note::
                 A repeat whose text DIFFERS is still written. Two same-named sections that disagree
                 are a real conflict rather than a duplicate, and silently dropping one would pick a
-                winner where the old behaviour at least leaves the evidence in the file
+                winner, where writing both leaves the evidence in the file
              @endrst
              */
             std::string toStr(const std::function<std::string(Section&, const std::string&, bool)>& sectionToStr, bool autoindent = true,

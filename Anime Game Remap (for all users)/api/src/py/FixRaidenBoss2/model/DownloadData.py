@@ -40,17 +40,17 @@ class DownloadData():
 
     refToSection: : class:`bool`
         Whether to add the download reference to only the top of some `section`_ or to add the download reference to all
-        the needed :class:`IfContentPart`s of the `section`_ `<br />` :raw-html:`<br />`
+        the needed :class:`IfContentPart`\\ s of the `section`_ :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
 
     downloadRefKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     resourceKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -64,7 +64,7 @@ class DownloadData():
 
     refToSection: : class:`bool`
         Whether to add the download reference to only the top of some `section`_ or to add the download reference to all
-        the needed :class:`IfContentPart`s of the `section`_
+        the needed :class:`IfContentPart`\\ s of the `section`_
 
     downloadRefKVPs: List[Tuple[:class:`str`, :class:`str`]]
         Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart`
@@ -173,12 +173,12 @@ class BlendDownloadData(DownloadData):
                 (# of bytes in the Blend.buf file) / 32 = vertexCount
 
     downloadRefKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     resourceKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """

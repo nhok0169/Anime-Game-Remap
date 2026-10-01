@@ -36,14 +36,11 @@ namespace AGRemapCore {
      The ``.ini`` file a resource edit is building resources *for*, behind an interface
      :raw-html:`<br />` :raw-html:`<br />`
 
-     **Why this isn't just an** :cpp:class:`IniFile` **pointer.** The ``.ini`` file every real
-     caller of this subsystem passes is the *`Python`_* ``IniFile`` (``model/files/IniFile.py``),
-     which is an unrelated class to :cpp:class:`AGRemapCore::IniFile` and has no C++ counterpart to
-     cast to -- so a plain ``IniFile*`` parameter would always be ``nullptr`` here, and every
-     resource edit would be inert (compare the ``regEdits/`` family, where that *is* the right
-     answer, because those edits genuinely never read the ``.ini`` file). Resource edits do the
-     opposite: reading the ``.ini`` file's `sections`_ is most of what they do. This interface is
-     the narrowest thing that makes them work against either implementation.
+     **Why this isn't just an** :cpp:class:`IniFile` **pointer.** A resource edit can be driven
+     both from a plain C++ caller, over an :cpp:class:`AGRemapCore::IniFile`, and from the
+     `pybind11`_ layer, over the `Python`_-facing ``IniFile``. Reading the ``.ini`` file's
+     `sections`_ is most of what resource edits do, so this interface is the narrowest thing that
+     makes them work against either implementation.
 
      :raw-html:`<br />`
 
@@ -72,8 +69,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The folder the ``.ini`` file lives in (the equivalent of the pure-Python original's
-             ``ini.folder``), or an empty string when there is no ``.ini`` file
+             The folder the ``.ini`` file lives in, or an empty string when there is no ``.ini``
+             file
              @endrst
              */
             virtual std::string iniFolder() const = 0;
@@ -101,9 +98,8 @@ namespace AGRemapCore {
              @rst
              Stores one built resource model under 'fileKey' :raw-html:`<br />` :raw-html:`<br />`
 
-             Where it goes is the environment's business: the pure-Python original either appends to
-             ``ini.resources`` or collects into a caller-supplied ``Dict[str, Deque[IniResource]]``,
-             and a resource edit itself never reads a built model back
+             Where it goes is the environment's business (the ``.ini`` file's own resources, or a
+             caller-supplied collect map), and a resource edit itself never reads a built model back
              @endrst
              *
              * @param fileKey The assigned id for the source file
@@ -145,8 +141,7 @@ namespace AGRemapCore {
              Whether there is a real ``.ini`` file behind this context :raw-html:`<br />`
              :raw-html:`<br />`
 
-             ``false`` stands in for the pure-Python original's ``ini = None``, which several
-             resource-edit paths check before doing anything at all
+             Several resource-edit paths check this before doing anything at all
              @endrst
              */
             virtual bool hasIni() const = 0;
@@ -154,8 +149,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of
-             the pure-Python original's ``ini.sectionIfTemplates``. Borrowed, not owned
+             Every `section`_ parsed out of the ``.ini`` file, keyed by name. Borrowed, not owned
              @endrst
              */
             virtual std::unordered_map<std::string, Section*> sectionIfTemplates() const = 0;
@@ -163,8 +157,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The one `Z3`_ context this ``.ini`` file owns (the equivalent of the pure-Python
-             original's ``ini._z3Ctx``), or ``nullptr`` :raw-html:`<br />` :raw-html:`<br />`
+             The one `Z3`_ context this ``.ini`` file owns, or ``nullptr`` :raw-html:`<br />` :raw-html:`<br />`
 
              There is deliberately one context per ``.ini`` file, not one per
              :cpp:class:`IniSectionGraph` -- every graph built here borrows this one

@@ -56,7 +56,7 @@ namespace AGRemapCore {
 
             /**
              * @brief The keyword text for a :cpp:enum:`IfPredPartType` (eg. ``IfPredPartType::EndIf``
-             *      -> ``"endif"``) -- the C++ counterpart to the pure-Python enum member's own
+             *      -> ``"endif"``) -- the C++ counterpart to the `Python`_ enum member's own
              *      ``.value``
              *
              * @param value The :cpp:enum:`IfPredPartType` to retrieve the keyword for
@@ -74,9 +74,8 @@ namespace AGRemapCore {
              .. note::
                 Matches by a case-insensitive *prefix* check only, with no word-boundary
                 requirement after the keyword (eg. ``"iffy ..."`` still classifies as
-                :cpp:enumerator:`IfPredPartType::If`) -- this is a deliberate (if permissive) match
-                to the pure-Python original's own equally permissive ``str.startswith`` checks, not
-                a bug to tighten up here
+                :cpp:enumerator:`IfPredPartType::If`) -- this permissive match is deliberate, not a
+                bug to tighten up here
              @endrst
              *
              * @param rawPredPart The predicate string for the :cpp:class:`IfPredPart`

@@ -14,12 +14,6 @@
     <includedby refid="_if_template_render_8cpp" local="yes">src/model/iftemplate/IfTemplateRender.cpp</includedby>
     <includedby refid="_ini_fix_builder_8cpp" local="yes">src/model/strategies/iniFixers/IniFixBuilder.cpp</includedby>
     <incdepgraph>
-      <node id="27">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="33">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
       <node id="44">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -397,6 +391,12 @@
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
+      </node>
+      <node id="27">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="33">
+        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="41">
         <label>IfContentPart.tpp</label>

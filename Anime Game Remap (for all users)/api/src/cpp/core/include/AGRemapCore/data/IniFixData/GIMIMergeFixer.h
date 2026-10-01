@@ -124,14 +124,13 @@ namespace AGRemapCore {
              A skin may outline a slot with a shader of its own -- CitlaliWhisperofStars' dress
              (Body B and C) uses outline shaders nothing else of hers does, made for thin two-sided
              cloth. Merged into a target object, the slot is drawn by the TARGET's outline shader
-             instead, and on Citlali the hull of the skirt's far panel covered its lining in black
-             (a frame dump: the outline draw wrote 4890 pixels outside the silhouette and turned 7141
-             inside it near-black). ``false`` puts the member's block under ``if vs != 037730.0``,
+             instead, and on Citlali the hull of the skirt's far panel covers its lining in black.
+             ``false`` puts the member's block under ``if vs != 037730.0``,
              the ``filter_index`` ORFix gives every outline vertex shader, so it keeps the main
              passes and loses only its outline :raw-html:`<br />` :raw-html:`<br />`
 
              Honoured for a MERGED member drawn by an appended block; a slot that is its object's
-             representative, or whose object's draws go per branch, is logged and drawn as before
+             representative, or whose object's draws go per branch, is logged and drawn normally
              @endrst
              */
             bool outline = true;
@@ -144,8 +143,8 @@ namespace AGRemapCore {
 
              A skin slot may hold two kinds of surface the target shades in different draws: LumineHeaven's
              main ``Head`` is the back hair AND the sleeves, neck scarf and bow, all on the Head textures. On
-             Lumine's head draw the cloth shaded as hair (yellow in shade); on her body draw the hair shaded as
-             cloth (grey in shade, beside blonde bangs), in game, 2026-09-30. A split slot lists the slot it
+             Lumine's head draw the cloth shades as hair (yellow in shade); on her body draw the hair shades as
+             cloth (grey in shade). A split slot lists the slot it
              comes from, the target object its part goes to (:cpp:member:`to`) and :cpp:member:`splitBands`:
              every triangle of that slot whose light map band under its centroid falls in one of the ranges
              moves here, and the rest stay :raw-html:`<br />` :raw-html:`<br />`
@@ -188,9 +187,9 @@ namespace AGRemapCore {
              The same field as ``GIMIComponentParserConfig::Component::modTypeName``, for a component
              that is not named that way: NeuvilletteMelusent's main mesh is the UNNAMED component
              ``""`` (its files are ``NeuvilletteMelusentHead.ib``, ``NeuvilletteMelusentBlend.buf``)
-             and is filed as ``NeuvilletteMelusentMain``. Derived, the name was the skin's own, which
-             has no buffer hashes, and every buffer of the main mesh fell back to a download
-             (2026-09-25). **Default**: empty
+             and is filed as ``NeuvilletteMelusentMain``. Derived, the name would be the skin's own,
+             which has no buffer hashes, and every buffer of the main mesh would fall back to a
+             download. **Default**: empty
              @endrst
              */
             std::string modTypeName;
@@ -236,9 +235,9 @@ namespace AGRemapCore {
 
              Two skins of one character may put the same part at different heights: NeuvilletteMelusent's
              Eye is Neuvillette's 168 eye vertices 1.24 cm lower, so the forward fix moves his eyes DOWN
-             (``GIMIComponentFixerConfig::Component::positionOffset``), and the reverse, without this, put
-             the skin's eyes 1.24 cm low in his face -- NeuvilletteMelusent1's "eyes looking down"
-             (2026-09-26). The reverse of the forward offset
+             (``GIMIComponentFixerConfig::Component::positionOffset``), and the reverse, without this, puts
+             the skin's eyes 1.24 cm low in his face (the eyes look down). This is the reverse of the
+             forward offset
              @endrst
              */
             std::array<float, 3> positionOffset{0.0f, 0.0f, 0.0f};
@@ -285,7 +284,7 @@ namespace AGRemapCore {
          as ``Unable to open file:`` with nothing after the colon and loses that whole ``.ini``
          file's buffers. Only ever used for a path the mod itself does not supply
 
-         Empty disables the fallback, which is the old behaviour
+         Empty disables the fallback
          @endrst
          */
         std::string downloadPrefix;
@@ -312,7 +311,7 @@ namespace AGRemapCore {
 
          For two skins of one character that draw the SAME face meshes with the SAME face diffuse hash
          (Yaoyao and YaoyaoBamboo: ``c70ae897``), the mod's own section already fires on the target, and a
-         copy is a second `TextureOverride`_ on that hash -- 3DMigoto reports it as a mod conflict on every
+         copy is a second ``TextureOverride`` section on that hash -- 3DMigoto reports it as a mod conflict on every
          reload. A binding by ``this =`` names no register and never moves. The forward direction's rule
          is ``GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg``. **Default**: ``false``, always copied
          @endrst
@@ -327,7 +326,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              ``ps-t0`` diffuse, ``ps-t1`` light map, under ``NNFix``: a source slot's normal map is
-             dropped and the rest shifted down. Every target before Citlali -- Yelan, Bennett, Ganyu
+             dropped and the rest shifted down. Eg. Yelan, Bennett, Ganyu
              @endrst
              */
             Plain,
@@ -340,9 +339,9 @@ namespace AGRemapCore {
              register moved, and one on the plain layout is shifted UP (with no normal map of its
              own, the draw reads whatever ``ps-t0`` holds) :raw-html:`<br />` :raw-html:`<br />`
 
-             CitlaliWhisperofStars -> Citlali (2026-09-22): both sides read the normal-map layout,
-             and the plain handling dropped every normal map the skin's mods carry, then issued
-             ``NNFix`` on a shader that wants ``ORFix``
+             Eg. CitlaliWhisperofStars -> Citlali: both sides read the normal-map layout, and the
+             plain handling would drop every normal map the skin's mods carry, then issue ``NNFix``
+             on a shader that wants ``ORFix``
              @endrst
              */
             NormalMap
@@ -352,7 +351,7 @@ namespace AGRemapCore {
          * @brief
          @rst
          How the TARGET's shader reads its textures -- see :cpp:enum:`TargetLayout`.
-         **Default**: :cpp:enumerator:`TargetLayout::Plain`, the behaviour before this field existed
+         **Default**: :cpp:enumerator:`TargetLayout::Plain`
          @endrst
          */
         TargetLayout targetLayout = TargetLayout::Plain;
@@ -368,10 +367,8 @@ namespace AGRemapCore {
          light map from ``ps-t2``), so a remapped `section`_ that keeps the mod's own bindings and
          then calls one has to put them there first. **A mod dumped straight from the game does not
          have them there**: CitlaliWhisperofStars mods bind the light map, normal map and diffuse at
-         ``ps-t0/1/2``, which is what the game's own draw of that `ib`_ binds (frame dump, ``ib``
-         ``f117984b``), and ``ORFix`` over that reads every role out of the wrong slot -- the shoes,
-         eyes and sleeping mask of one mod, while every slot the fix had downloaded and bound itself
-         was right :raw-html:`<br />` :raw-html:`<br />`
+         ``ps-t0/1/2``, which is what the game's own draw of that ``ib`` binds (frame dump, ``ib``
+         ``f117984b``), and ``ORFix`` over that reads every role out of the wrong slot :raw-html:`<br />` :raw-html:`<br />`
 
          Which texture is which comes from the resource NAME (:cpp:class:`RegValChecks`, whose
          header records why the pixels are deliberately not consulted). A binding naming no role is
@@ -379,7 +376,7 @@ namespace AGRemapCore {
          \ref GIMIMergeFixerConfig::targetLayout's positional shift of a plain slot rather than
          running beside it :raw-html:`<br />` :raw-html:`<br />`
 
-         **Default**: ``false``, the positional shift every compiled character was written against
+         **Default**: ``false``, the positional shift
          @endrst
          */
         bool texRegsByName = false;
@@ -392,8 +389,8 @@ namespace AGRemapCore {
          declares it :raw-html:`<br />` :raw-html:`<br />`
 
          Unset, the merged stride is the widest source component's, which is right while some
-         component is as wide as the target. NeuvilletteMelusent's four components all carry 12 bytes
-         and Neuvillette reads 20 (2026-09-25). **Default**: ``0``, the widest component's
+         component is as wide as the target. Eg. NeuvilletteMelusent's four components all carry 12
+         bytes and Neuvillette reads 20. **Default**: ``0``, the widest component's
          @endrst
          */
         std::size_t texcoordStride = 0;
@@ -415,8 +412,8 @@ namespace AGRemapCore {
 
          A diffuse's ALPHA is read by the target's own shader, and two skins of one character may mean
          different things by it. YaoyaoBamboo's body diffuse is alpha 255 all over and Yaoyao's is ~0: on
-         her body shader 255 is a glow, and the skin's identity mod came out lit up white from the collar
-         down (2026-09-27). The component template's ``GIMIComponentFixerConfig::diffuseEdits`` is the same
+         her body shader 255 is a glow, so unedited the skin's body comes out lit up white from the collar
+         down. The component template's ``GIMIComponentFixerConfig::diffuseEdits`` is the same
          idea keyed by the source object. **Default**: empty, no edit
          @endrst
          */
@@ -464,8 +461,7 @@ namespace AGRemapCore {
          A mod's ``run = CommandList\TexFx\TN.0`` leaves a request the NEXT outline draw serves with
          ``drawindexed = auto`` -- and an object the merge draws nothing through still draws its own outline
          over the merged buffers, so TexFx would draw its whole index buffer there (the component
-         template's ``unremappedSlots`` guards the same thing the other way). **Default**: ``false``, so no
-         config before it writes anything new
+         template's ``unremappedSlots`` guards the same thing the other way). **Default**: ``false``
          @endrst
          */
         bool texFxGuardUnreached = false;
@@ -475,10 +471,10 @@ namespace AGRemapCore {
          @rst
          Whether a slot's `TexFx`_ calls are moved onto the TARGET's layout variant -- ``.0`` for a slot with
          no normal map, ``.1`` for one with it at ``ps-t0`` -- when the part's SOURCE layout differs. See
-         :cpp:class:`TexFxLayout`: a mod's call names its own character's layout, and Lumine10's ``T.0`` on
-         LumineHeaven's normal-map slots barely glowed. A call already naming the target's layout is kept, so an
-         author's deliberate choice survives wherever the layout does not change. **Default**: ``true``
-         Decided per SLOT, from the layout read off the mod against :cpp:member:`targetLayout`
+         :cpp:class:`TexFxLayout`: a mod's call names its own character's layout, so eg. a Lumine mod's ``T.0`` on
+         LumineHeaven's normal-map slots barely glows. A call already naming the target's layout is kept, so an
+         author's deliberate choice survives wherever the layout does not change. Decided per SLOT, from the
+         layout read off the mod against :cpp:member:`targetLayout`. **Default**: ``true``
          @endrst
          */
         bool texFxLayoutSwitch = true;

@@ -73,10 +73,9 @@ It is a prototyping aid. A fix worth keeping belongs in the C++ tables.
     "the newest", taking the highest override registered. An override registered *without* a
     version is the fallback, used only when no versioned one applied.
 
-    Exact matching was tried first and is wrong for what this class is for: a run resolves a mod's
-    version off the .ini file and normally passes no version at all, so an override registered for
-    ``6.1`` --- the literal case "override Raiden 6.1" means --- fired zero times on an ordinary
-    run.
+    A run resolves a mod's version off the .ini file and normally passes no version at all, so
+    under this rule an override registered for ``6.1`` (eg. "override Raiden 6.1") still applies
+    on an ordinary run.
 
 .. warning::
     Not synchronised. Register and clear **around** a run, never during one.

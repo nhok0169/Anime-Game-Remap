@@ -25,9 +25,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The file stats for the overall remap process :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the pure-Python ``RemapStats`` class (``model/stats/RemapStats.py``)
+     The file stats for the overall remap process
      @endrst
      */
     class RemapStats {
@@ -127,9 +125,8 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              The names are :cpp:class:`RemapIniRemover::ResourceType`'s members, which are spelled
-             to match this class's own member names precisely so this lookup can exist -- it is the
-             C++ counterpart to the pure-Python original's ``getattr(self.stats, resType)``, which
-             a caller sorting removed resources into their buckets relied on :raw-html:`<br />`
+             to match this class's own member names precisely so this lookup can exist -- a caller
+             sorting removed resources into their buckets looks each bucket up by that name :raw-html:`<br />`
              :raw-html:`<br />`
 
              ``"ini"`` resolves to #ini as well, even though a ``.ini`` file is never a resource

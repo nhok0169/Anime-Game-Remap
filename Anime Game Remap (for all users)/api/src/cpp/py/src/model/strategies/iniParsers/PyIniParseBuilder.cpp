@@ -68,8 +68,7 @@ every mod type from :meth:`GIBuilder.all` does -- can say so
     py::class_<AGRC::IniParseBuilder, py::smart_holder>(m, "IniParseBuilder", R"doc(
 A factory that builds the :class:`CppBaseIniParser` for one .ini file
 
-What :attr:`ModType.iniParseBuilder` holds, and what the pure-Python builder of this name was
-replaced by. It comes in two flavours:
+What :attr:`ModType.iniParseBuilder` holds. It comes in two flavours:
 
 * **Fixed** -- one factory used for every .ini file, whatever its version
 * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every

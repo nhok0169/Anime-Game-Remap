@@ -57,30 +57,6 @@
     <includedby refid="_yaoyao_parser_8cpp" local="yes">src/data/IniParseData/Yaoyao/YaoyaoParser.cpp</includedby>
     <includedby refid="_yelan_parser_8cpp" local="yes">src/data/IniParseData/Yelan/YelanParser.cpp</includedby>
     <incdepgraph>
-      <node id="47">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="53">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="104">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="99">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1063,6 +1039,30 @@
         <childnode refid="74" relation="include">
         </childnode>
       </node>
+      <node id="47">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="53">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="104">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="87">
         <label>Generator.tpp</label>
       </node>
@@ -1562,22 +1562,22 @@
 <codeline lineno="186"><highlight class="normal"></highlight></codeline>
 <codeline lineno="190" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab0c8df44e6253b48f5b4bc4bc404e063" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ObjDownloadRegs&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab0c8df44e6253b48f5b4bc4bc404e063" kindref="member">objDownloadRegs</ref>;</highlight></codeline>
 <codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" kindref="member">faceDownloadVersionFolder</ref>;</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"></highlight></codeline>
-<codeline lineno="220" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" kindref="member">faceDownloadPrefix</ref>;</highlight></codeline>
-<codeline lineno="221"><highlight class="normal"></highlight></codeline>
-<codeline lineno="237" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" kindref="member">faceDownload</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="238"><highlight class="normal"></highlight></codeline>
-<codeline lineno="242" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" kindref="member">positionStride</ref><sp/>=<sp/>40;</highlight></codeline>
-<codeline lineno="243"><highlight class="normal"></highlight></codeline>
-<codeline lineno="247" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" kindref="member">blendStride</ref><sp/>=<sp/>32;</highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" kindref="member">faceDownloadVersionFolder</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" kindref="member">faceDownloadPrefix</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" kindref="member">faceDownload</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" kindref="member">positionStride</ref><sp/>=<sp/>40;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" kindref="member">blendStride</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
 <codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" kindref="member">makeGIMICharParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"></highlight></codeline>
-<codeline lineno="282"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" kindref="member">makeGIMICharParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h"/>
   </compounddef>

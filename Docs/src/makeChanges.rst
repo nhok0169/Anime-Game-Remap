@@ -7,7 +7,16 @@ How to Make Changes to the Project
 
 1. Clone the Project
 --------------------
-Fork the `Github repo`_ , then do a ``git clone`` on your fork
+Fork the `Github repo`_ , then clone your fork **together with its submodules**
+(the C++ libraries the API depends on are git submodules under ``api/extern``):
+
+.. code-block:: bash
+
+    git clone --recurse-submodules <url of your fork>
+
+If you already have a clone without the submodules, run ``git submodule update --init --recursive``
+
+Create a new branch for your changes off the ``master`` branch.
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -16,7 +25,7 @@ Fork the `Github repo`_ , then do a ``git clone`` on your fork
 --------------------
 AG Remap has 3 different types of builds:
 
-#. `The API`_ (The source code for the project)
+#. `The API`_ (The source code for the project: a C++ core, its Python bindings and some Cython extensions, under a Python package)
 #. `The API Mirror`_ (A mirror to the API)
 #. `The Script`_ (A compatible script for users who do not know how to use Pypi or any other Python package manager)
 
@@ -24,14 +33,44 @@ AG Remap has 3 different types of builds:
 
 You would want to make your changes within `the API`_ . All the other builds are generated using other tools within the project.
 
+Within `the API`_, the source code is split into:
+
+* ``src/cpp/core``: the C++ core, where most of the logic and all the data for the remaps live (see :doc:`coreAPI`)
+* ``src/cpp/py``: the pybind11 bindings that expose the C++ core to Python
+* ``src/cy``: the Cython extensions
+* ``src/py/FixRaidenBoss2``: the Python package (see :doc:`api`)
+
+.. note::
+    If you change the source code of `the Script`_ itself, its source is at `Tools/Script`_
+
 :raw-html:`<br />`
 :raw-html:`<br />`
 
 3. Compile your Changes
 -----------------------
-Once you are done making changes, you want compile your changes to be updated within the other builds.
+Since the API contains compiled code, you need to build it before you can run or test your changes.
 
-You can do this by running the `CI Pipeline`_
+You can do this by running the `API Builder`_. The build requires `CMake`_, `Ninja`_, a C++23 compiler
+(Visual Studio's MSVC on Windows, GCC 13 or newer on Linux) and the Python packages in the API Builder's ``requirements.txt``.
+
+.. code-block:: bash
+
+    cd Tools/APIBuilder
+    python3 main.py -pb -pi
+
+The ``-pb`` and ``-pi`` options build and install the external libraries (the first time takes a while) and skip themselves
+once they are done, so afterwards a plain ``python3 main.py`` is enough. The build installs the compiled modules into
+``api/src/py/FixRaidenBoss2``.
+
+.. note::
+    On Windows, run the API Builder from a shell where Visual Studio's ``vcvarsall.bat x64`` has already been called.
+
+    Add the ``-d`` option if you changed any documentation in the C++ core or the Python bindings. It requires `Doxygen`_ and
+    regenerates the committed ``core/xml`` and ``core.pyi`` files that the docs are built from.
+
+:raw-html:`<br />`
+
+To update the other builds (the Script and the API Mirror) with your changes, run the `CI Pipeline`_ (its first stage runs the API Builder)
 
 Steps on how to run the CI Pipeline are here:
 https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/CIPipeline
@@ -69,14 +108,20 @@ https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester
     The unit tests are built using Python's `unittest` library. You can check out `the different unit tests here`_ for 
     how to make a unit tests within the project
 
+.. note::
+    Code in the C++ core that has no Python binding cannot be reached by the Unit tester. For such code,
+    write a standalone C++ test at `core/tests`_ (one ``<Name>_test.cpp`` file per test).
+    These tests are not built automatically, so also rebuild the tests that mention any C++ class you changed.
+
 :raw-html:`<br />`
 
 II. Acceptance Tests
 ~~~~~~~~~~~~~~~~~~~~
 This test is where you verify whether your changes actually work in the game.
 
-#. Within `the Script`_ build, copy ``AGRemap.py`` into the ``Mod`` folder of 3dmigoto
-#. Run ``AGRemap.py``
+#. Go to `Tools/Script`_ , which runs the software against the API in your copy of the repository
+#. Run ``python3 main.py -s <the Mods folder of 3dmigoto>``
+#. Check the fixed mods in the game
 
 .. tip::
     Here are some useful command options when running the build:
@@ -99,7 +144,7 @@ different types of folder/file structures
 For steps on how to run the Integration tester, see the link below:
 https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester
 
-You can check out the specific integration tests here
+You can check out the `specific integration tests here`_
 
 .. warning::
     This test may take a while since it performs a lot of file manipulation
@@ -111,11 +156,11 @@ You can check out the specific integration tests here
 ----------------------
 When all tests are clear, commmit your changes using ``git``, then push your changes back to your forked Github repo.
 
-After send a `Pull Request (PR)`_ to merge your new changes from your fork back to the `AG Remap repo`_
+After send a `Pull Request (PR)`_ to merge your new changes from your fork back to the ``master`` branch of the `AG Remap repo`_
 We will do a code review on your PR.
 
 .. note::
-    When you push or merge your changes to Github, Github will trigger a CD pipeline that will automatically run your changes 
+    When you open a Pull Request, Github will trigger a CI pipeline that builds the API and automatically runs your changes 
     against the `unit tests`_ and the `integration tests`_ to make sure your changes have met the test requirements.
 
 :raw-html:`<br />`
@@ -133,6 +178,12 @@ Once your PR is approved, we will merge your changes back to the `AG Remap repo`
 .. _The Script: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2
 .. _regression testing: https://en.wikipedia.org/wiki/Regression_testing
 .. _CI Pipeline: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/CIPipeline
+.. _API Builder: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/APIBuilder
+.. _Tools/Script: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/Script
+.. _core/tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api/src/cpp/core/tests
+.. _CMake: https://cmake.org/
+.. _Ninja: https://ninja-build.org/
+.. _Doxygen: https://www.doxygen.nl/
 .. _Unit tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester
 .. _Integration tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester
 .. _unittest: https://docs.python.org/3/library/unittest.html

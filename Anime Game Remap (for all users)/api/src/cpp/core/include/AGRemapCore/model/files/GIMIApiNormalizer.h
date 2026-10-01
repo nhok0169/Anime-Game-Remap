@@ -36,9 +36,8 @@ namespace AGRemapCore {
      registers -- ``Resource\GIMI\NormalMap`` / ``Diffuse`` / ``LightMap = ref <resource>``,
      then ``run = CommandList\GIMI\SetTextures`` -- which is ORFix's own reference-and-fix
      read from those names rather than from ``ps-t0`` / ``ps-t1`` / ``ps-t2``
-     (``Core/GIMI/Libraries/ORFixAPI.ini``). Few mods use it, and nothing in this library read
-     it: a CitlaliWhisperofStars mod written that way had every merged slot drawn with the
-     GAME's textures (2026-09-22). Rather than teach every reader and every fixer a second
+     (``Core/GIMI/Libraries/ORFixAPI.ini``). Few mods use it, but a fix that does not read it
+     draws every slot of such a mod with the GAME's textures. Rather than teach every reader and every fixer a second
      spelling, the fixes speak the traditional API only, and a mod's sections are brought into it
      here, as they are read :raw-html:`<br />` :raw-html:`<br />`
 

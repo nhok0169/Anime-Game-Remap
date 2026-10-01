@@ -66,9 +66,7 @@
 <para><verbatim>embed:rst 
 Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
-tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
 fields rather than restating them
 </verbatim>    </para>
         </detaileddescription>
@@ -102,13 +100,12 @@ fields rather than restating them
         <detaileddescription>
 <para><verbatim>embed:rst 
 Renames one `section`_ -- takes the old name, returns the new one. An empty
-``std::function`` stands in for the pure-Python original&apos;s &quot;no rename function given&quot;,
-which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
+``std::function`` means &quot;no rename function given&quot;, which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="81" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="81" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="80" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="80" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_remap_1afb03b40cec260a7648773663f2689c65" prot="public" static="no">
         <type>std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1af217f5c1716c480bda2f49fa0e5d2c92" kindref="member">GraphId</ref>, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target" kindref="compound">RemapTarget</ref> &gt; &gt; &gt;</type>
@@ -123,15 +120,15 @@ which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
 The remap for the graphs -- an ordered sequence of ``(source graph, its targets)``
 pairs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-A ``std::vector`` of pairs rather than a map, deliberately: the pure-Python original
-is a `Python`_ ``dict`` whose *iteration order* decides the order remapped graphs are
-created in (and therefore which target wins a collision), so the ordering has to be
-part of the type rather than an incidental property of a hash container
+A ``std::vector`` of pairs rather than a map, deliberately: the *iteration order*
+decides the order remapped graphs are created in (and therefore which target wins a
+collision), so the ordering has to be part of the type rather than an incidental
+property of a hash container
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="127" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="127" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="126" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_remap_1a859b6b6081e8ad395f67ed417dfce571" prot="public" static="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a5ee1316cfc7628b7b702cb7d516d6a1c" kindref="member">Graph</ref> *(<ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a0763a24995b133f057e960f8bd667270" kindref="member">GraphGroups</ref> &amp;graphGroups, <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a5ee1316cfc7628b7b702cb7d516d6a1c" kindref="member">Graph</ref> &amp;fromGraph, const <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1af217f5c1716c480bda2f49fa0e5d2c92" kindref="member">GraphId</ref> &amp;fromId, const <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1af217f5c1716c480bda2f49fa0e5d2c92" kindref="member">GraphId</ref> &amp;toId, const <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">RenameFunc</ref> &amp;renameFunc)&gt;</type>
@@ -154,7 +151,7 @@ that target
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="140" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="140" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="139" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="139" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -171,7 +168,7 @@ that target
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="146" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="146" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="145" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="145" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -203,7 +200,7 @@ that target
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="153" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="152" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_remap_1a4b27c3a40a220e4f1f304846d025db2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a0763a24995b133f057e960f8bd667270" kindref="member">GraphGroups</ref> &amp;</type>
@@ -263,7 +260,7 @@ Remaps the graphs from a group of graphs :raw-html:`&lt;br /&gt;` :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="181" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="180" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_remap_1a9a367cbccdb7e492237aa1fe7c893074" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a0763a24995b133f057e960f8bd667270" kindref="member">GraphGroups</ref> &amp;</type>
@@ -320,7 +317,7 @@ Remaps the graphs from a group of graphs :raw-html:`&lt;br /&gt;` :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="215" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="214" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -421,7 +418,7 @@ The rename function to use. When empty, falls back to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="203" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="202" column="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -509,7 +506,7 @@ how many :cpp:class:`IniGraphGroup`\\s there are
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="50" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="50" bodyend="216"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="50" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="50" bodyend="215"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_group_remap_1ae7319daa94ba24c395da5db038ed6d29" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap</scope><name>Base</name></member>

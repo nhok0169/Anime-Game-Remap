@@ -72,8 +72,7 @@ every mod type from :meth:`GIBuilder.all` does -- can say so
     py::class_<AGRC::IniFixBuilder, py::smart_holder>(m, "IniFixBuilder", R"doc(
 A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
 
-What :attr:`ModType.iniFixBuilder` holds, and what the pure-Python builder of this name was
-replaced by. It comes in two flavours:
+What :attr:`ModType.iniFixBuilder` holds. It comes in two flavours:
 
 * **Fixed** -- one factory used for every .ini file, whatever its version
 * **Version-dependent** -- a lookup table consulted on every :meth:`build`

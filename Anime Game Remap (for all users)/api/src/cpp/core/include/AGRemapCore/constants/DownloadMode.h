@@ -80,9 +80,9 @@ namespace AGRemapCore {
              whitespace :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                An **exact** match on the trimmed, lowercased text, where the pure-Python
-                ``DownloadMode.search`` did a maximal-substring `Aho-Corasick`_ match. With three
-                short values that search accepted things like ``"normally"`` and
+                An **exact** match on the trimmed, lowercased text, where the `Python`_
+                ``DownloadMode.search`` does a maximal-substring `Aho-Corasick`_ match. With three
+                short values that search accepts things like ``"normally"`` and
                 ``"not disabled"`` -- the latter meaning the opposite of what it was matched to.
                 Nothing needs the leniency, and a typo reported as an error beats one silently
                 resolved to the wrong mode

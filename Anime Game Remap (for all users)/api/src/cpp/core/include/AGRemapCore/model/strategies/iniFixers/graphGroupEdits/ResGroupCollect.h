@@ -171,10 +171,9 @@ namespace AGRemapCore {
              @rst
              Builds one type of grouped resource :raw-html:`<br />` :raw-html:`<br />`
 
-             The pure-Python original takes an ``IniGroupedResBuilder``, which wraps a *user-supplied
-             class* to instantiate -- there is nothing for this class to construct itself. Behind an
-             interface, the same holds for a plain C++ caller, and the `pybind11`_ layer's
-             implementation simply calls the caller's own `Python`_ builder
+             The grouped resource to instantiate is *caller-supplied* -- there is nothing for this
+             class to construct itself. A plain C++ caller implements this interface, and the
+             `pybind11`_ layer's implementation simply calls the caller's own `Python`_ builder
              @endrst
              */
             class GroupedResBuilder {
@@ -335,15 +334,11 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The pure-Python original stored these entries **inside** the grouped resource's own
-                ``resources`` dict, as placeholder tuples later overwritten with real resource
-                objects, and ``copy.deepcopy``'d the whole thing to fork a group. That only works
-                because the `Python`_-facing ``resources`` is an untyped ``dict``; the real
-                :cpp:member:`IniGroupedResource::resources` is a typed map of owned
-                :cpp:class:`IniResource`\\s and could never hold a placeholder. Keeping the working
-                state here instead is both typed and cheaper to fork -- and the grouped resource
-                itself is only built once a group actually survives (see #connectResGroups), rather
-                than once per candidate
+                This working state is kept here rather than inside the grouped resource's own
+                :cpp:member:`IniGroupedResource::resources`, which is a typed map of owned
+                :cpp:class:`IniResource`\\s and could never hold a placeholder. Keeping it here is
+                both typed and cheap to fork -- and the grouped resource itself is only built once a
+                group actually survives (see #connectResGroups), rather than once per candidate
              @endrst
              */
             struct ResGroup {
@@ -378,7 +373,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Sets the types of the resource groups -- duplicates are dropped, keeping the first
-             occurrence of each, exactly as the pure-Python original's own property setter did
+             occurrence of each
              @endrst
              *
              * @param newResGroupTypes The new types for the resource groups
@@ -580,9 +575,9 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              The build half needs a context, and :cpp:func:`BaseIniGraphGroupEdit::editFromIni`
-             deliberately drops the ``.ini`` file it is handed -- so a plain C++ fixer that drives
-             this edit through the inherited one collected everything and built nothing, silently
-             (2026-09-12, the first grouped fix driven from C++). Same constraint as the flat
+             deliberately drops the ``.ini`` file it is handed -- so a plain C++ fixer that drove
+             this edit through the inherited one would collect everything and build nothing,
+             silently. Same constraint as the flat
              collect: only the ``std::string`` instantiation gets a context, any other falls back
              to the collect-only behaviour
              @endrst

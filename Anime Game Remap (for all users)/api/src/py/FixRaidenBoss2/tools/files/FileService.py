@@ -216,7 +216,7 @@ class FileService():
             The files partitioned for each type of file
 
             * If ``filters`` only contains 1 element and ``optional`` is ``False``, then will return :class:`str`
-            * If ``filters`` contains more than 1 element and ``optional`` is ``False`, then will return List[:class:`str`]
+            * If ``filters`` contains more than 1 element and ``optional`` is ``False``, then will return List[:class:`str`]
             * If ``filters`` only contains 1 element and ``optional`` is ``True``, then will return Optional[:class:`str`]
             * Otherwise, returns List[Optional[:class:`str`]]
         """

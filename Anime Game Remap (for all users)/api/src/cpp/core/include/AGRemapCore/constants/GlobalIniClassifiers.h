@@ -25,24 +25,24 @@ namespace AGRemapCore {
      Global, shared classifier module used by the software to help identify what mod a .ini file
      belongs to :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``GlobalIniClassifiers`` class (``constants/GlobalIniClassifiers.py``)
-     -- a ``DeferredEnum`` there, lazily building its one ``IniClassifierOld`` instance the first
-     time it's accessed, so the (potentially expensive) construction only ever happens once, and
-     only if something actually needs it. #classifier below gets the same lazy,
-     build-once-then-reuse behavior for free from a C++11 function-local ``static`` (guaranteed
-     thread-safe, exactly-once initialization) :raw-html:`<br />` :raw-html:`<br />`
+     #classifier is built lazily the first time it is accessed, so the (potentially expensive)
+     construction only ever happens once, and only if something actually needs it -- a C++11
+     function-local ``static`` (guaranteed thread-safe, exactly-once initialization)
+     :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        #classifier arrives **fully populated** with every shipped GI mod type: its lazy
-        initializer walks :cpp:func:`GlobalModTypes::all` and registers each one's
-        `section`_-name keywords (:cpp:func:`ModTypeIdTools::getSectionKeywords`) via
-        :cpp:func:`IniClassifier::addGIModType`. That mirrors the pure-Python original, whose
-        ``GlobalIniClassifiers.Classifier`` is likewise an ``IniClassifierOld`` built through an
-        ``IniClassifierBuilderOld`` :raw-html:`<br />` :raw-html:`<br />`
+        #classifier arrives **fully populated** with every shipped mod type: its lazy initializer
+        walks :cpp:func:`GlobalModTypes::all` and registers each one. A GI mod type is registered
+        via :cpp:func:`IniClassifier::addGIModType` with its `section`_-name keywords
+        (:cpp:func:`ModTypeIdTools::getSectionKeywords`) and the hashes that identify it -- its
+        ``ib``, ``draw_vb``, ``position_vb``, ``blend_vb`` and ``texcoord_vb`` hashes from every
+        game version (and, for a skin of several components, its components' too). A WuWa mod type
+        is registered via :cpp:func:`IniClassifier::addWuWaModType` with its ``vb0`` hashes alone.
+        Texture hashes are never registered, since they are shared between characters, and a hash
+        claimed by more than one mod type is registered for neither :raw-html:`<br />`
+        :raw-html:`<br />`
 
-        No hashes are registered, only keywords -- the pure-Python builder identifies a mod type by
-        `section`_ name alone, so passing hashes here would be a behaviour change rather than a
-        port. A caller wanting an empty classifier constructs an :cpp:class:`IniClassifier`
+        A caller wanting an empty classifier constructs an :cpp:class:`IniClassifier`
         directly instead of going through this class :raw-html:`<br />` :raw-html:`<br />`
 
         Asking for it also files the shipped mod types into :cpp:class:`ModTypeIdTools`'s registry
@@ -52,13 +52,13 @@ namespace AGRemapCore {
         one leaves :cpp:func:`IniFile::classify` naming an id it cannot resolve :raw-html:`<br />`
         :raw-html:`<br />`
 
-        Two things about *that* half specifically, both of which it used to get wrong by being
-        welded to this function's one-shot lazy initializer:
+        Two things about *that* half specifically, neither of which is part of the one-shot lazy
+        initializer:
 
         * it is re-done whenever :cpp:func:`ModTypeIdTools::clear` has emptied the registry since
-          the last look (tracked by :cpp:func:`ModTypeIdTools::generation`). Before, a ``clear()``
-          after the first use left this classifier naming ids nothing could resolve for the rest of
-          the process -- every ``.ini`` file coming back ``isMod == true`` with no mod types at all
+          the last look (tracked by :cpp:func:`ModTypeIdTools::generation`), so a ``clear()``
+          after the first use does not leave this classifier naming ids nothing can resolve --
+          which would have every ``.ini`` file come back ``isMod == true`` with no mod types at all
         * it uses :cpp:func:`GlobalModTypes::registerMissing`, not
           :cpp:func:`GlobalModTypes::registerAll`, so a :cpp:class:`ModType` the caller registered
           for itself under one of the shipped ids is left alone rather than silently replaced the

@@ -73,8 +73,8 @@
 Thrown when a string meant to be a game version is not one :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-The pure-Python original raised a bare ``ValueError`` here rather than one of its own
-``Error`` subclasses, so this does **not** carry the ``ERROR:`` prefix the other two do -- see
+The `Python`_ layer surfaces this as a bare ``ValueError`` rather than one of the package&apos;s
+own ``Error`` subclasses, so this does **not** carry the ``ERROR:`` prefix the other two do -- see
 :cpp:func:`InvalidModType::buildMessage`
 </verbatim> </para>
     </detaileddescription>

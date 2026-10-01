@@ -37,8 +37,8 @@ class RemapServiceCLI(CppRemapServiceCLI):
     :raw-html:`<br />`
 
     .. note::
-        Argument parsing itself stays outside this class, in ``main.py``, exactly as it did for the
-        pure-Python :class:`RemapService` this replaced. This class takes values, not an ``argv``
+        Argument parsing itself stays outside this class, in ``main.py``. This class takes values,
+        not an ``argv``
     """
 
     def fix(self):

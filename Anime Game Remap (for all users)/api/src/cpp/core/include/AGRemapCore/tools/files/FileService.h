@@ -31,10 +31,9 @@ namespace AGRemapCore {
      Tools for handling with files and folders :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        This is a **partial** port of the pure-Python ``FileService`` class
-        (``tools/files/FileService.py``) -- only #absPathOfRelPath is included so far, since it's
-        the one method the ``iniresources`` model classes need. Add more methods as later-ported
-        subsystems need them
+        This holds only the subset of the `Python`_ ``FileService`` class's methods
+        (``tools/files/FileService.py``) that the C++ core needs, plus the UTF-8 path conversions
+        the core relies on
      @endrst
      */
     class FileService {
@@ -54,10 +53,10 @@ namespace AGRemapCore {
                 represent -- and there is no such character in most code pages for, say, a Chinese
                 file name :raw-html:`<br />` :raw-html:`<br />`
 
-                That is not hypothetical: a real Mona CN mod ships a file called ``命令.txt``, and
-                it took down the **entire run** -- the folder walk threw before a single ``.ini``
-                file was fixed. Measured, the same path gives ``string()`` -> throws and
-                ``u8string()`` -> 17 correct UTF-8 bytes
+                For example, a mod that ships a file called ``命令.txt`` would take down the
+                **entire run** -- the folder walk would throw before a single ``.ini`` file was
+                fixed. For that path ``string()`` throws, while ``u8string()`` gives 17 correct
+                UTF-8 bytes
              @endrst
              *
              * @param path The path to convert
@@ -195,16 +194,13 @@ namespace AGRemapCore {
              certain folder :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Unlike the pure-Python original (which always normalizes through Windows-style
-                ``ntpath`` rules first, then swaps in the host OS's separator), this uses
-                ``std::filesystem`` directly and returns the host platform's own native separator
-                style throughout -- matching this codebase's existing precedent (see
-                :cpp:class:`IniNamingTools`'s own path-joining methods) rather than replicating
-                Python's Windows-first normalization quirk
+                This uses ``std::filesystem`` directly and returns the host platform's own native
+                separator style throughout, like :cpp:class:`IniNamingTools`'s own path-joining
+                methods
 
              .. note::
-                An empty 'relFolder' is the working directory, as in the pure-Python original --
-                which is what an ``.ini`` file with no path resolves its resources against
+                An empty 'relFolder' is the working directory -- which is what an ``.ini`` file
+                with no path resolves its resources against
              @endrst
              *
              * @param dstPath The target file path to resolve
@@ -219,7 +215,7 @@ namespace AGRemapCore {
              @rst
              The folder the software was started from :raw-html:`<br />` :raw-html:`<br />`
 
-             Ports the pure-Python ``FilePathConsts.DefaultPath``
+             The counterpart of the `Python`_ ``FilePathConsts.DefaultPath``
              (``constants/FilePathConsts.py``), including its *when* -- that constant is the
              process's working directory as it stood when the package was first imported, **not**
              whatever the working directory happens to be at the moment it's read. So this is
@@ -237,10 +233,8 @@ namespace AGRemapCore {
              Normalizes a string containing some sort of file path :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Carries the same caveat as :cpp:func:`absPathOfRelPath`: the pure-Python original
-             normalizes through Windows-style ``ntpath`` rules and then swaps in the host OS's
-             separator, whereas this uses ``std::filesystem`` directly and stays in the host
-             platform's own native separator style throughout
+             Like :cpp:func:`absPathOfRelPath`, this uses ``std::filesystem`` directly and stays in
+             the host platform's own native separator style throughout
              @endrst
              *
              * @param path The string containing some sort of file path
@@ -255,7 +249,7 @@ namespace AGRemapCore {
              Retrieves a file path, falling back to :cpp:func:`defaultPath` when none was given
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Ports the pure-Python ``FileService.getPath``/``FilePathConsts.getPath``
+             The counterpart of the `Python`_ ``FileService.getPath``/``FilePathConsts.getPath``
              @endrst
              *
              * @param path The file path to retrieve, if any
@@ -270,8 +264,7 @@ namespace AGRemapCore {
              Retrieves the files and folders contained in a certain folder :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Ports the pure-Python ``FileService.getFilesAndDirs``, including its two rather
-             different shapes: non-recursively this lists only the folder's *direct* children,
+             Comes in two rather different shapes: non-recursively this lists only the folder's *direct* children,
              while recursively it is an ``os.walk`` -- every descendant file and every descendant
              folder, at any depth, flattened into the same two lists :raw-html:`<br />`
              :raw-html:`<br />`
@@ -295,6 +288,9 @@ namespace AGRemapCore {
              *
              * @return The files within the folder, then the folders within it
              */
+            static std::pair<std::vector<std::string>, std::vector<std::string>> getFilesAndDirs(const std::string& path,
+                                                                                                bool recursive = false);
+
             /**
              * @brief
              @rst
@@ -325,17 +321,13 @@ namespace AGRemapCore {
              */
             static bool makeFolderFor(const std::string& filePath);
 
-            static std::pair<std::vector<std::string>, std::vector<std::string>> getFilesAndDirs(const std::string& path,
-                                                                                                bool recursive = false);
-
             /**
              * @brief
              @rst
              Tries to get the path of a file/folder relative to another folder :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Ports the pure-Python ``FileService.getRelPath``, including its fallback: when no
-             relative path exists -- eg. the two paths sit on different mounts (a ``C:/`` drive
+             When no relative path exists -- eg. the two paths sit on different mounts (a ``C:/`` drive
              file against a ``D:/`` drive folder) -- the original path is handed back untouched
              rather than an error being raised
              @endrst

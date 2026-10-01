@@ -100,11 +100,11 @@ There are **two** ways to build one, and which you want depends on what you are 
 :raw-html:`<br />`
 
 **From strings** -- what an argument parser produced. This is the one ``main.py`` uses, and it takes
-the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
+the arguments ``path``, ``keepBackups``, ``fixOnly``,
 ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
 ``verbose``, ``handleExceptions``, ``version``, ``fromVersion``, ``remappedTypes``, ``proxy``,
 ``downloadMode`` and ``gameTypes`` and ``compressTextures``. ``version`` is the version being
-fixed **to** -- the pure-Python API's own meaning -- and ``fromVersion`` the one the mods were
+fixed **to**, and ``fromVersion`` the one the mods were
 written for; they select the fixer and the parser respectively and are independent. Mod type and game names/aliases become
 :class:`ModTypeId`/:class:`GameTypeId` ints (ignoring case and surrounding whitespace), a
 `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a :class:`DownloadMode`

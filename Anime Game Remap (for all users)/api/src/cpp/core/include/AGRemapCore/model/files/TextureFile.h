@@ -155,10 +155,10 @@ namespace AGRemapCore {
              uncompressed against 8MB as BC7 :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                ``false`` is exactly what the pure-Python `Pillow`_ engine always did:
+                ``false`` is exactly what the `Pillow`_ engine does:
                 ``img.save(src, 'DDS')`` writes 32-bit uncompressed and never encodes BCn at all.
-                That is worth knowing when comparing the two implementations' speed -- they were
-                never doing the same work
+                That is worth knowing when comparing the two engines' speed -- they are not doing
+                the same work
 
              **Default**: ``true``
              @endrst
@@ -261,11 +261,9 @@ namespace AGRemapCore {
              Writes #getPixels to 'dest' as a plain 32-bit uncompressed ``.dds``, without handing
              the buffer to `Compressonator`_ at all :raw-html:`<br />` :raw-html:`<br />`
 
-             **Byte-for-byte what CMP_SaveTexture produced for this case**, which is the only
-             reason it is allowed to exist: the uncompressed write turned out to be a fixed
+             **Byte-for-byte what CMP_SaveTexture produces for this case**: a fixed
              128-byte legacy header followed by the pixels swizzled ``RGBA`` -> ``BGRA``, and
-             nothing else. Verified against the previous writer over every texture the corpus
-             produces :raw-html:`<br />` :raw-html:`<br />`
+             nothing else :raw-html:`<br />` :raw-html:`<br />`
 
              Worth bypassing because the library's own path costs far more than the bytes do --
              measured on a 4096x4096 texture, 4.22s to write 64MB whose disk I/O is ~0.05s, with

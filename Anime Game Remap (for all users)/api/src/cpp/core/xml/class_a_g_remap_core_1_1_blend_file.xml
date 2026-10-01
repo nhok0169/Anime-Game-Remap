@@ -19,16 +19,12 @@
 The two element names every `blend`_ buffer uses, in both games :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-Here rather than in each reader because three files had their own file-local copies of
-the pair -- this one, ``VGComponentSplit.cpp`` and ``WWMIFixer.cpp`` -- and a spelling
-repeated per file is a spelling that can be wrong in one of them. One such copy was
-silently emptied by a patch script and every Sanhua `blend`_ in a corpus was skipped
-from a clean build (2026-09-29)
+Kept here so that every reader of a `blend`_ buffer shares one spelling of them
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="115" column="45" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="115" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="111" column="45" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_blend_file_1a16768dc301ccee51e87d8ed238802217" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -43,7 +39,7 @@ from a clean build (2026-09-29)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="116" column="45" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="112" column="45" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="112" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -288,7 +284,7 @@ constructor, which is what the WuWa fixer does
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BlendFile.h" line="136" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="29" bodyend="41"/>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="132" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="29" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -346,7 +342,7 @@ Used for handling ``Blend.buf`` files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/BlendFile.h" line="51" column="5" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="51" bodyend="137"/>
+    <location file="include/AGRemapCore/model/files/BlendFile.h" line="51" column="5" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="51" bodyend="133"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7c915ab0ed85cd3e85087a0efe8437f3" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>append</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BinaryFile</name></member>

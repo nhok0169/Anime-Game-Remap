@@ -32,8 +32,7 @@ namespace AGRemapCore {
 
      .. note::
         ``DefaultHeading``'s *title* (``".*Remap"``) has no member here on purpose. Despite living
-        on the heading, it is never written into a ``.ini`` file -- ``IniFile._setType`` clears the
-        title on every construction and every reclassification, so the title a fix is actually
+        on the heading, it is never written into a ``.ini`` file -- the title a fix is actually
         wrapped in is always the derived :cpp:func:`RemapIniFixContext::headingName`. The literal
         is a *regular expression* used by :cpp:class:`RemapIniRemover` to find a fix again
         later, and belongs with that class rather than with this one

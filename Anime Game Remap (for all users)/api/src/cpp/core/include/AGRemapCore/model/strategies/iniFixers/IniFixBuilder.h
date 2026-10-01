@@ -36,28 +36,23 @@ namespace AGRemapCore {
      *which* fixer (and with which arguments) based on the mod's name and the game version the
      ``.ini`` file came from :raw-html:`<br />` :raw-html:`<br />`
 
-     The C++ counterpart to the pure-Python ``IniFixBuilder``
-     (``model/strategies/iniFixers/IniFixBuilder.py``), and what
-     :cpp:member:`ModType::iniFixBuilder` holds. The exact sibling of
+     This is what :cpp:member:`ModType::iniFixBuilder` holds. The exact sibling of
      :cpp:class:`IniParseBuilder`, with the same two flavours (fixed factory, or a version-dependent
      #ArgsRepo) -- read that class's notes first; only the differences are repeated here
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         The one structural difference from :cpp:class:`IniParseBuilder`: a fixer is built from the
-        **parser** for that ``.ini`` file rather than from the file itself, matching the pure-Python
-        original's ``iniFixBuilder.build(self._iniParser, ...)``. That is also why
-        :cpp:func:`IniFile::fix` cannot build a fixer for a mod type whose parser it could not build
-        -- the same reason the original's ``_getFixer`` refuses to build while ``self._iniParser``
-        is still ``None``
+        **parser** for that ``.ini`` file rather than from the file itself. That is also why
+        :cpp:func:`IniFile::fix` cannot build a fixer for a mod type whose parser it could not
+        build
 
      .. note::
         These builders are deliberately **not** folded into a shared class template, even though
         all three of them (:cpp:class:`IniParseBuilder`, this, and :cpp:class:`IniRemoveBuilder`)
         now share a shape. Their #Factory signatures, #ArgsRepo key shapes and #build parameter
         lists all differ, so what is common between them is the two-flavour *structure* rather than
-        anything a template could actually carry -- and the pure-Python originals are three
-        unrelated classes, one of which (``IniRemoveBuilder``) is not even this shape
+        anything a template could actually carry
      @endrst
      */
     class IniFixBuilder {
@@ -66,25 +61,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Builds one fixer, already bound to the parser it takes its data from -- the C++
-             stand-in for the pure-Python original's ``(cls, args, kwargs)`` triple, see
+             Builds one fixer, already bound to the parser it takes its data from -- see
              :cpp:type:`IniParseBuilder::Factory` :raw-html:`<br />` :raw-html:`<br />`
 
-             The :cpp:class:`BaseIniParser` argument is what the original's
-             ``Builder.build(parser)`` passes positionally to the fixer's constructor; it may be
-             ``nullptr``, since :cpp:class:`BaseIniFixer` allows an unbound fixer :raw-html:`<br />`
+             The :cpp:class:`BaseIniParser` argument may be ``nullptr``, since :cpp:class:`BaseIniFixer` allows an unbound fixer :raw-html:`<br />`
              :raw-html:`<br />`
 
              The three arguments are the parser, the name of the mod being fixed **to**, and the
              :cpp:enum:`ModTypeId` of the mod type being fixed **from**
 
              .. note::
-                That third argument mirrors :cpp:type:`IniParseBuilder::Factory`, which has always
-                carried a ``modTypeId``. Without it a fixer's context had no way to resolve its own
-                mod type at all -- :cpp:func:`IniFileFixContext::modType` looks that id up in the
-                ``.ini`` file's own map -- so anything asking the fix side which mod type it was
-                working from (the fixer's own progress messages, for one) got nothing back while
-                the identical question on the parse side answered fine
+                That third argument mirrors :cpp:type:`IniParseBuilder::Factory`'s ``modTypeId``.
+                It is how a fixer's context resolves its own mod type --
+                :cpp:func:`IniFileFixContext::modType` looks that id up in the ``.ini`` file's own
+                map -- so anything asking the fix side which mod type it is working from (the
+                fixer's own progress messages, for one) gets an answer
              @endrst
              */
             using Factory = std::function<std::shared_ptr<BaseIniFixer<>>(BaseIniParser<>*,
@@ -94,9 +85,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The version-dependent lookup table a #build consults -- the C++ counterpart to the
-             pure-Python ``IniFixBuilderArgs`` (``model/assets/IniFixBuilderArgs.py``)
-             :raw-html:`<br />` :raw-html:`<br />`
+             The version-dependent lookup table a #build consults :raw-html:`<br />` :raw-html:`<br />`
 
              **Four** index columns -- ``fromVersion``, ``fromModName``, ``toVersion``,
              ``toModName`` -- of which **two** are version columns (``fromVersion`` at position 0 and
@@ -109,16 +98,6 @@ namespace AGRemapCore {
                 reason :cpp:class:`VGRemaps` needs one. It is also why one source mod can have
                 *several* fixers at once (``Jean`` fixes to both ``JeanCN`` and ``JeanSea``), which
                 is what #buildAll exists to return
-
-             .. note::
-                The pure-Python original invokes its generator as ``builderArgsGenerator(self)``,
-                passing the builder itself. That indirection is **not** mirrored here, for two
-                reasons: nothing would use it (a C++ row is already a closure, so anything it needs
-                is captured rather than passed in), and it does not actually work in the original
-                either -- every generator in ``data/IniFixBuilderData.py`` is a zero-argument
-                ``classmethod``, so that call raises ``TypeError`` (verified against the live
-                package). The parse-side original calls its generator with no arguments, which is
-                the behaviour reproduced here
              @endrst
              */
             using ArgsRepo = ModAssets<std::string, Factory>;
@@ -130,22 +109,15 @@ namespace AGRemapCore {
              :cpp:class:`GIMIFixer` over an :cpp:class:`IniFileFixContext`, rendering through
              :cpp:func:`renderIfTemplate` :raw-html:`<br />` :raw-html:`<br />`
 
-             A ``GIMIFixer`` and not a bare :cpp:class:`BaseIniFixer`, matching the pure-Python
-             ``ModType.__init__``'s own ``IniFixBuilder(GIMIFixer)`` default. It is handed a
-             renderer because a ``GIMIFixer`` without one builds its groups correctly and then
-             renders **nothing** -- see :cpp:type:`GIMIFixer::SectionToStr` :raw-html:`<br />` :raw-html:`<br />`
-
-             Stands in for the pure-Python original's ``IniFixBuilder(GIMIFixer)`` default. It is
-             the *base* class rather than a ``GIMIFixer`` simply because no concrete C++ fixer has
-             been ported yet -- change this one function when one lands, and every fallback path
-             picks it up at once
+             It is handed a renderer because a ``GIMIFixer`` without one builds its groups
+             correctly and then renders **nothing** -- see :cpp:type:`GIMIFixer::SectionToStr`
              @endrst
              */
             static Factory defaultFactory();
 
             /**
-             * @brief Constructs a builder that always builds a plain :cpp:class:`BaseIniFixer` --
-             *      see #defaultFactory
+             * @brief Constructs a builder that always builds the fixer #defaultFactory builds
+             *      (a :cpp:class:`GIMIFixer`)
              */
             IniFixBuilder();
 
@@ -155,7 +127,7 @@ namespace AGRemapCore {
              * @param factory
              @rst
              The factory to build every fixer with. If this is empty, #defaultFactory is used
-             instead, mirroring the pure-Python original's own ``iniFixBuilder`` null-fallback
+             instead
              @endrst
              */
             explicit IniFixBuilder(Factory factory);
@@ -166,9 +138,7 @@ namespace AGRemapCore {
              * @param builderArgs
              @rst
              The lookup table to resolve a factory from -- see #ArgsRepo. Held by ``shared_ptr`` so
-             one table is shared by every :cpp:class:`ModType` of a game, exactly as the pure-Python
-             original's 43 ``IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value)`` calls share a
-             single ``IniFixBuilderArgs`` instance :raw-html:`<br />` :raw-html:`<br />`
+             one table is shared by every :cpp:class:`ModType` of a game :raw-html:`<br />` :raw-html:`<br />`
 
              If this is ``nullptr``, the builder degrades to the #defaultFactory-only behaviour of
              the default constructor
@@ -188,7 +158,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The lookup table this builder resolves factories from, or ``nullptr`` if it is a
-             fixed-factory builder -- the equivalent of the pure-Python original's ``_builderArgs``
+             fixed-factory builder
              @endrst
              */
             const std::shared_ptr<const ArgsRepo>& getBuilderArgs() const;
@@ -205,9 +175,7 @@ namespace AGRemapCore {
              Builds the fixer that fixes one specific source mod onto one specific target mod
              :raw-html:`<br />` :raw-html:`<br />`
 
-             For a fixed-factory builder every key argument is ignored entirely -- matching the
-             pure-Python original's own "this argument has no effect if ``_buildCls`` is not
-             ``None``" warning. Otherwise the four are looked up in #getBuilderArgs :raw-html:`<br />`
+             For a fixed-factory builder every key argument is ignored entirely. Otherwise the four are looked up in #getBuilderArgs :raw-html:`<br />`
              :raw-html:`<br />`
 
              .. note::

@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="70" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="70" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_parse_download_data_1a94689ece5a1af2f00c26c60ad1242d5e" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="75" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="75" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_parse_download_data_1abeed22bd9516cfcca0c0a1a50456930c" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context" kindref="compound">IniParseContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="80" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="80" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="78" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="82" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="80" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1aea7519a951d29647ebcfdb9abe493dd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="87" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="85" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1ac269f30d155ccc9269bf883295d733a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -117,7 +117,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="96" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="94" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1adc2a8b7b67f858a78c530ef2e34d9a9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -171,7 +171,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="105" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="103" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1a5da5b42829fb564e5d33272a165b23dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -225,7 +225,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="114" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="112" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1abd44b82490fb08d23b9ad44e6248afcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a75e08249fc0bcbf4671a5934df993583" kindref="member">Section</ref> *</type>
@@ -272,7 +272,7 @@ Builds the `section`_ that holds this download&apos;s resource and registers it 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="128" column="29"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="126" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_download_data_1ad2da4de3eea34813fb88df7b61b85ce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -293,9 +293,7 @@ Builds the `section`_ that holds this download&apos;s resource and registers it 
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Records the actual file download with the ``.ini`` file -- the equivalent of the
-pure-Python original&apos;s
-``ini.fileDownloads.append(RemapIniDownload(iniFolder, dd.download.filename, dd.download))``
+Records the actual file download with the ``.ini`` file
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -318,7 +316,7 @@ pure-Python original&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="141" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="137" column="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -326,12 +324,10 @@ pure-Python original&apos;s
     <detaileddescription>
 <para><verbatim>embed:rst 
 One file a mod is missing and has to download, behind an interface -- the seam a parser
-reaches the pure-Python ``DownloadData`` (``model/DownloadData.py``) through
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+reaches the pure-Python ``DownloadData`` class through :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-**Why this is an interface rather than a concrete class.** ``DownloadData`` is still pure
-`Python`_, and (unlike most collaborator types this port has met) it is genuinely
-*polymorphic* there: ``BlendDownloadData`` overrides ``addToPart`` to append its own
+**Why this is an interface rather than a concrete class.** ``DownloadData`` is pure
+`Python`_, and it is genuinely *polymorphic* there: ``BlendDownloadData`` overrides ``addToPart`` to append its own
 ``handling``/``draw`` `KVPs`_, and a user is free to subclass it further. Converting one into
 a plain C++ struct at the binding boundary would silently run the base class&apos;s behaviour for
 every subclass, so the parser talks to this interface and the binding layer supplies an
@@ -394,7 +390,7 @@ implementation that calls straight back into the real `Python`_ object
         <link refid="class_a_g_remap_core_1_1_ini_parse_download_data"/>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="64" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="64" bodyend="142"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="62" bodyend="138"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1ad2da4de3eea34813fb88df7b61b85ce2" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>addFileDownload</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_download_data_1adc2a8b7b67f858a78c530ef2e34d9a9d" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseDownloadData</scope><name>addToPart</name></member>

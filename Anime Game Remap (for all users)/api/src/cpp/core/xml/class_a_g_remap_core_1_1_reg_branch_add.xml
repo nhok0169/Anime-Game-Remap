@@ -67,10 +67,8 @@
 The filter used to indicate the valid order indices to process for some
 :cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
-matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
-convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
-for that original&apos;s ``partFilter = None``. Identical to
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers -- an
+empty ``std::function`` means &quot;no filter&quot;. Identical to
 :cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
 </verbatim>    </para>
         </detaileddescription>
@@ -240,8 +238,7 @@ runs under
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched), matching
-the pure-Python original&apos;s ``pass``
+Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -370,7 +367,7 @@ branch&apos;s condition is satisfiable with
    content part as atomic, so a part holding both a ``run =`` and a ``drawindexed`` takes the
    call before its own draw and counts every path covered -- leaving the draws inside the
    callee with none. Keeping the branch&apos;s additions in the branch avoids creating that part at
-   all (2026-09-16)
+   all
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>

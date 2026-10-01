@@ -30,21 +30,16 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniFixResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniFixResource`
 
-     Class for fixing some ``Blend.buf`` file used by the overall remap process -- mirrors the
-     pure-Python ``RemapBlendResource`` class (``model/iniresources/RemapBlendResource.py``)
+     Class for fixing some ``Blend.buf`` file used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        #fixExists isn't re-overridden here -- the Python original re-declares it with an identical
-        body to what :cpp:class:`RemapIniFixResource` (its own base) already does
-        (``os.path.isfile(fixedPath)``), so this class just inherits :cpp:func:`RemapIniFixResource::fixExists`
-        directly rather than duplicating it
+        #fixExists isn't re-overridden here: this class inherits :cpp:func:`RemapIniFixResource::fixExists`
+        (whether the fixed file exists on disk) directly
 
-        #_fix's return value: same "the Python original has no ``return`` statement here at all, so
-        it always implicitly returns ``None``/falsy" gap as :cpp:class:`RemapIniDownload::_fix` --
-        see that class's own doc comment. This port returns ``true`` on success instead
+        #_fix returns ``true`` on success
      @endrst
      */
     class RemapBlendResource: public RemapIniFixResource {
@@ -62,13 +57,13 @@ namespace AGRemapCore {
              * @param blendElements
              @rst
              The sequence of elements for constructing the ``Blend.buf`` file -- if this is empty,
-             :cpp:class:`BlendFile` uses the elements for a GIMI character instead (see
-             :cpp:class:`BlendFile`'s own constructor) :raw-html:`<br />` :raw-html:`<br />`
+             :cpp:class:`AGRemapCore::BlendFile` uses the elements for a GIMI character instead (see
+             :cpp:class:`AGRemapCore::BlendFile`'s own constructor) :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 None of 'type'/'fixFunc'/'blendElements' have a default value here, unlike most
                 other trailing constructor parameters in this codebase -- 'blendElements' can't (see
-                :cpp:class:`IniGroupedResource`'s own constructor doc comment for the MSVC
+                :cpp:class:`AGRemapCore::IniGroupedResource`'s own constructor doc comment for the MSVC
                 move-only-container-default-argument quirk this works around), and since a
                 defaulted parameter can't precede a non-defaulted one, 'type'/'fixFunc' lost their
                 defaults too rather than reordering this constructor's parameter list. Pass explicit
@@ -86,7 +81,7 @@ namespace AGRemapCore {
              .. note::
                 Explicitly declared (rather than left implicit) to work around the same MSVC
                 eager-instantiation-of-a-deleted-copy-constructor quirk documented on
-                :cpp:class:`IniGroupedResource`'s own explicit special member declarations --
+                :cpp:class:`AGRemapCore::IniGroupedResource`'s own explicit special member declarations --
                 #blendElements is a ``std::vector`` of ``unique_ptr``, which triggers it identically
              @endrst
              */

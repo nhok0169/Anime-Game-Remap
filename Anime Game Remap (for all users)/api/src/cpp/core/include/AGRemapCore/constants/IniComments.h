@@ -26,7 +26,7 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        Nothing assigns it on its own -- no fixer, no writer, nothing. It is the text :cpp:member:`GIMIFixer::copyPreamble` is *meant* to be set to, kept as a
+        Nothing in the library assigns this on its own -- no fixer, no writer. It is the text :cpp:member:`GIMIFixer::copyPreamble` is *meant* to be set to, kept as a
         named constant so a caller opting in does not have to carry the paragraph itself
      @endrst
      */

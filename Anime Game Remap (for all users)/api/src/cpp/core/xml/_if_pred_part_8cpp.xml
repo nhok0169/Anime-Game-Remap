@@ -12,15 +12,6 @@
     <includes refid="_syntax_err_8h" local="yes">AGRemapCore/tools/parsing/SyntaxErr.h</includes>
     <includes refid="_z3_internal_8h" local="yes">tools/z3/Z3Internal.h</includes>
     <incdepgraph>
-      <node id="34">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="45">
-        <label>BaseSLR1Parser.tpp</label>
-      </node>
-      <node id="33">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="5">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -386,6 +377,15 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+      </node>
+      <node id="34">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="45">
+        <label>BaseSLR1Parser.tpp</label>
+      </node>
+      <node id="33">
+        <label>BiMap.tpp</label>
       </node>
       <node id="10">
         <label>IncIdGenerator.tpp</label>

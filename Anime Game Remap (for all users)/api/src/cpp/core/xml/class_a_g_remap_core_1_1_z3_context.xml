@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="73" column="29" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="73" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="69" column="29" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="friend">
@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="78" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="74" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_context_1a9fde4fa8b28865381ff06b5c28d96f62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>class</type>
@@ -53,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="83" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="83" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="79" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_context_1a912275d05fa8ac9140612a6015976d0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>class</type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="90" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="90" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="86" column="26" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_context_1a8d9e2d4e5b4fe42350662ffeedf69662" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="96" column="25" bodyfile="src/tools/z3/Z3Internal.h" bodystart="96" bodyend="98"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="92" column="25" bodyfile="src/tools/z3/Z3Internal.h" bodystart="96" bodyend="98"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="54" column="13" bodyfile="src/tools/z3/Z3Context.cpp" bodystart="21" bodyend="21"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="50" column="13" bodyfile="src/tools/z3/Z3Context.cpp" bodystart="21" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1afabfce2f1a39ce97faad4e2f8454f643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -119,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="56" column="13"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="52" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1ac44a12999e7a8a378287ee94ac8ef6b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="58" column="13"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="54" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1aa85ad77927b8821c2e350a1b8b11393e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref> &amp;</type>
@@ -153,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="59" column="23"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="55" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1a525eec8182d8905734edd3dda611cfe2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type></type>
@@ -170,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="61" column="13"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="57" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1a04a86d44e414a79f1780fa882bd7ea58" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref> &amp;</type>
@@ -187,7 +187,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="62" column="23"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="58" column="23"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -203,7 +203,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="75" column="18" bodyfile="src/tools/z3/Z3Context.cpp" bodystart="28" bodyend="30"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="71" column="18" bodyfile="src/tools/z3/Z3Context.cpp" bodystart="28" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1af6ed86c34cd93898ecfa9a369eec49df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
@@ -217,7 +217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="76" column="24" bodyfile="src/tools/z3/Z3Context.cpp" bodystart="32" bodyend="34"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="72" column="24" bodyfile="src/tools/z3/Z3Context.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -237,17 +237,13 @@ never requires ``z3++.h`` to be on the include path
    ``z3::context`` alive via a shared reference, so a ``Z3Context`` going out of scope (or
    being garbage-collected in Python) while ``Z3Predicate``\\s built from it are still alive
    is safe, in any destruction order -- including predicates of several already-gone
-   contexts being destroyed interleaved with each other. An earlier version of this comment
-   described that interleaved case as a &quot;known limitation of Z3&apos;s own C++ API&quot;; it was in
-   fact a member-declaration-order bug in ``Z3Predicate``&apos;s pimpl (the keep-alive was
-   destroyed *before* the ``z3::expr`` it protected, so the last predicate on a context
-   ``dec_ref``&apos;d into a freed context), fixed on 2026-09-05 and pinned by
-   ``core/tests/Z3Predicate_MemberOrder_test.cpp``. Sharing one long-lived ``Z3Context`` per
-   ``.ini`` file (``IniFile``&apos;s own shape) is still the right design, since predicates from
-   different contexts cannot be combined -- but it is no longer needed for memory safety.
+   contexts being destroyed interleaved with each other. Sharing one long-lived
+   ``Z3Context`` per ``.ini`` file (:cpp:class:`IniFile`&apos;s own shape) is still the right
+   design, since predicates from different contexts cannot be combined -- but it is not
+   needed for memory safety.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="48" column="5" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="48" bodyend="97"/>
+    <location file="include/AGRemapCore/tools/z3/Z3Context.h" line="44" column="5" bodyfile="include/AGRemapCore/tools/z3/Z3Context.h" bodystart="44" bodyend="93"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_z3_context_1a8d9e2d4e5b4fe42350662ffeedf69662" prot="private" virt="non-virtual"><scope>AGRemapCore::Z3Context</scope><name>getZ3ContextImplForTesting</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_context_1a9fde4fa8b28865381ff06b5c28d96f62" prot="private" virt="non-virtual"><scope>AGRemapCore::Z3Context</scope><name>IfPredPart</name></member>

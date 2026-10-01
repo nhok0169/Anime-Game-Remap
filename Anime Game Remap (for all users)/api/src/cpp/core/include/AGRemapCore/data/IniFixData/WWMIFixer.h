@@ -44,8 +44,7 @@ namespace AGRemapCore {
      assemble at draw time from ``$\\WWMIv1\\vg_offset`` / ``vg_count``. So a remap between two WuWa
      characters is a **multi-component onto multi-component** remap, and every WuWa pair is: it
      never splits or merges buffers the way the GIMI templates do. What it does instead, per
-     ``.ini`` file (read off ``Tools/Misc/Prototypes/sanhuaExorcistFix.py``, confirmed in game on
-     four Sanhua mods on 2026-09-19):
+     ``.ini`` file:
 
      #. **retargets every draw slot the mod has a section for** onto the target slot
         :cpp:member:`plan` names -- the target's ``vb0`` hash, ``match_first_index``,
@@ -70,7 +69,7 @@ namespace AGRemapCore {
         not GIMI's 32
      #. **writes one remapped section per target draw per file**: several source components landing
         on one target slot (a skin with one torso slot for the source's arm skin, bodice and skirt)
-        collide, and a file holding two remapped sections on one draw rendered the whole body wavy.
+        collide, and a file holding two remapped sections on one draw renders the whole body wavy.
         The second claimant of a slot lands in a further ``.ini`` group, written as
         ``<name>RemapFix1.ini`` -- the API's merge, exactly as a GIMI merge does it
      #. **skips the target slots nothing is drawn through**, bones still merged, so the skin's own
@@ -105,8 +104,8 @@ namespace AGRemapCore {
                  UV: a lookup, a ramp, a matcap. For a UV-MAPPED texture it is wrong by
                  construction, because the geometry under it is the SOURCE's, so the target's art
                  is sampled at UVs it was never authored for -- which renders as irregular blotches
-                 that follow the target's layout rather than the mod's. Chisa's hair ``ps-t5`` is a
-                 2048 x 2048 map and was exactly that (2026-09-26); confirmed in game by nulling it.
+                 that follow the target's layout rather than the mod's. Chisa's hair ``ps-t5``, a
+                 2048 x 2048 map, is an example.
              @endrst
              */
             std::string role;
@@ -152,7 +151,7 @@ namespace AGRemapCore {
          */
         struct CreatedTexture {
             /**
-             * @brief The role a :cpp:member:`Binding` names it by, eg. ``"SkinMask"``
+             * @brief The role a :cpp:struct:`AGRemapCore::WWMIFixerConfig::Binding` names it by, eg. ``"SkinMask"``
              */
             std::string role;
 
@@ -278,7 +277,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The textures the fix invents, each bound wherever a :cpp:member:`Binding` names its role.
+         The textures the fix invents, each bound wherever a :cpp:struct:`AGRemapCore::WWMIFixerConfig::Binding` names its role.
          Written into the mod's texture folder as ``<role><target>RemapTex.dds``
          @endrst
          */
@@ -293,7 +292,7 @@ namespace AGRemapCore {
          A material mask marks regions. A mod that ships one holding a single value everywhere is not
          saying "no preference": ``R = 255`` everywhere says "all of this is bare skin", and carried
          across faithfully that is what the target's shader is told -- a jacket shaded as skin, or
-         bare thighs shaded as cloth (Chisa13, 2026-09-26) :raw-html:`<br />` :raw-html:`<br />`
+         bare thighs shaded as cloth :raw-html:`<br />` :raw-html:`<br />`
 
          A role named here whose only candidate file is flat is treated as a role the mod has NO file
          for, so it takes \ref fallbackTextures like any other: the SOURCE's own texture, which has
@@ -306,8 +305,7 @@ namespace AGRemapCore {
             normal map is nearly flat by construction, so naming either here would throw away art the
             mod meant :raw-html:`<br />` :raw-html:`<br />`
 
-            Measured over 24 Chisa mods: 4 of 36 repacked body masks are flat, on 2 mods. Empty (the
-            default) keeps every candidate whatever its pixels
+            Empty (the default) keeps every candidate whatever its pixels
          @endrst
          */
         std::set<std::string> flatFallsBackToSource;
@@ -320,14 +318,13 @@ namespace AGRemapCore {
 
          Both drop the mod's flat file; they differ in what stands in for it. A body mask takes the
          source's, because the mod's UVs are the source's and its regions land where they belong. A
-         HAIR mask is left alone, which is the maintainer's call and what this repo's own hair-mask
-         finding said: a flat hair mask of ``(255, 0, 126, 0)`` shaded the crown of the hair red,
-         and the register is better left to the game than filled in :raw-html:`<br />`
+         HAIR mask is left alone: a flat hair mask such as ``(255, 0, 126, 0)`` shades the crown of
+         the hair red, and the register is better left to the game than filled in :raw-html:`<br />`
          :raw-html:`<br />`
 
          .. note::
             This suppresses the fallback for that role even though \ref fallbackTextures names it.
-            A hair mask the mod never ships still downloads as before -- only a FLAT one is left
+            A hair mask the mod never ships still downloads -- only a FLAT one is left
             alone, because "the mod gave us nothing" and "the mod gave us something meaningless"
             deserve different answers here
          @endrst
@@ -354,8 +351,8 @@ namespace AGRemapCore {
          @rst
          The mod objects (of :cpp:struct:`WWMIParserConfig`'s hash-only ones) whose sections are
          commented out of the mod's own text and copied nowhere. **Default**: the two shape-key
-         overrides -- the maintainer's working hand remap has them off, and the mod's keys are
-         sized for the source's shape-key vertex count, not the target's
+         overrides, since the mod's keys are sized for the source's shape-key vertex count, not the
+         target's
          @endrst
          */
         std::vector<std::string> hiddenObjs = {"shapekeyOffsets", "shapekeyScale"};
@@ -386,13 +383,13 @@ namespace AGRemapCore {
          @rst
          Register lines a remapped section drops, on top of everything the template removes anyway.
 
-         Two kinds have needed this so far, both on Chisa:
+         Two kinds, both needed for Chisa:
 
          * the ``Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref ...`` lines a
            mod of a character past 256 merged bones carries. They point the draw at WWMI's blend
            remap of the SOURCE, and the two shaders are exact inverses, so copied into a remapped
            section they feed the draw the source's own merged index against the TARGET's skeleton --
-           in game, the components that have a blend remap collapse into a drape under an intact
+           the components that have a blend remap collapse into a drape under an intact
            head. Match ``"ref"`` and not the bare name: the shared cleanup list sets the same three
            to ``null``, which is a safety net worth keeping
          * the ``run`` of RabbitFX's ``SetTextures`` and the maps it names, which otherwise override
@@ -407,10 +404,10 @@ namespace AGRemapCore {
          member is remapped to whatever the ROOT maps to.
 
          A part the target has no counterpart for wants one rigid anchor rather than the finder's
-         per-bone nearest -- the Yelan lesson. Two of Chisa's need it:
+         per-bone nearest. Two of Chisa's need it:
 
          * her fox mask and hairpins, a rigid prop whose bones the finder matched one at a time and
-           scattered from her head to her waist, which reads in game as the prop being GONE rather
+           scattered from her head to her waist, which looks like the prop being GONE rather
            than as anything misplaced, because it is smeared through the torso it is buried in
          * her back skirt panel, which flew out behind her on the skin. Its bones are not mapped to
            the wrong PLACE -- they land 0.8 to 6.1 units from where they live on her, and the panel
@@ -430,10 +427,10 @@ namespace AGRemapCore {
              component, so a member another component also weights is pinned in that component too
              -- and for a body bone that is a welded torso, silently and totally.
 
-             Measured on ChisaParfait -> Chisa (2026-09-28): ``wwmiAnchorSearch.py`` named a good
-             bone for both of her extra parts, and **100% of the hip prop's weight and 81.3% of the
-             frilled panel's sits on bones the upper or lower body also uses**, so neither may be
-             anchored at all and that pair's row is deliberately empty. Check with
+             Eg. on ChisaParfait -> Chisa, ``wwmiAnchorSearch.py`` names a good bone for both of her
+             extra parts, but **most of the hip prop's and the frilled panel's weight sits on bones
+             the upper or lower body also uses**, so neither may be anchored at all and that pair's
+             row is deliberately empty. Check with
              ``Tools/Misc/Diagnostics/anchorSafety.py`` before adding a row
          @endrst
          */
@@ -471,9 +468,8 @@ namespace AGRemapCore {
          because a ``[ShaderOverride]`` is keyed by shader hash GLOBALLY it does that for any mod
          drawing with those shaders, not only this one. Tagging just the passes RabbitFX leaves alone
          is not a readable list: six of its regexes have their dump lines commented out, so a pass
-         can be RabbitFX's with no trace in any dump -- one was, and a backless sweater's
-         see-through panels rendered red in game because the ``ps`` tag switched that pass's FX-map
-         discard off.
+         can be RabbitFX's with no trace in any dump, and a ``ps`` tag on such a pass switches its
+         FX-map discard off (eg. a backless sweater's see-through panels render red).
 
          A pass left out of a non-empty map is an error rather than a fallback to its pixel shader:
          the fallback would be silent and would reintroduce exactly that. Read the pairs off every
@@ -491,8 +487,8 @@ namespace AGRemapCore {
          (:cpp:member:`WWMIParserConfig::textures`), so a character states these once, in
          ``<Name>Textures.cpp``, rather than once per fix row :raw-html:`<br />` :raw-html:`<br />`
 
-         :cpp:member:`WWMITextureFacts::registerRoles` is the field this used to be, and the one the
-         fix reads most: ``{component: {register: role}}``.
+         :cpp:member:`WWMITextureFacts::registerRoles` is the one the fix reads most:
+         ``{component: {register: role}}``.
 
          A mod that REPAINTS a texture is identified by none of the other paths: its hash is its own,
          its pixels are its own art, and its exporter may name the file anything. What still
@@ -519,7 +515,8 @@ namespace AGRemapCore {
          Nothing else the fix writes reaches it -- the remapped sections match the MAIN mesh's
          ``vb0`` hash, and a mod's ``[TextureOverrideTexture]`` overrides by the hash the GAME binds,
          which on the skin is never the source's. So such a mesh keeps the target's art however much
-         texture work is done elsewhere, and a flat-colour paint reaching no slot is what finds it.
+         texture work is done elsewhere -- painting every slot a flat colour and seeing which part
+         stays unpainted is how to find such a mesh.
 
          The geometry is shared, so there is nothing to remap: only the textures to rebind, on the
          passes where the two characters differ.
@@ -661,8 +658,7 @@ namespace AGRemapCore {
          With this, such a mod's blend is read per component and lifted through the map before the
          library's row is applied, and the fix supplies the merged skeleton the mod lacks. Without
          it, the fix REFUSES a mod of that shape rather than remapping local indices as if they were
-         merged, which scrambles every bone of the body (SanhuaExorcist3 in game: "the body became a
-         noodle mess", 2026-09-19)
+         merged, which would scramble every bone of the body
          @endrst
          */
         std::map<int, std::vector<int>> sourceVgMaps;

@@ -57,25 +57,22 @@ namespace AGRemapCore {
          :raw-html:`<br />` :raw-html:`<br />`
 
          :cpp:enumerator:`PerSegment` is correct only while no path draws more than once. A section
-         whose draws sit in INDEPENDENT ``if`` blocks issues several in a single pass -- measured
-         over one real mod library, **66 sections across 14 mod folders** do -- and every second draw
-         of such a section came out unfixed (2026-09-14) :raw-html:`<br />` :raw-html:`<br />`
+         whose draws sit in INDEPENDENT ``if`` blocks issues several in a single pass -- a common
+         shape in real mods -- and under :cpp:enumerator:`PerSegment` every second draw of such a
+         section comes out unfixed :raw-html:`<br />` :raw-html:`<br />`
 
          What mod authors write by hand is exactly this mode: one ``run =`` at the top of the
          `section`_, after the texture registers and before anything conditional, however many
-         ``drawindexed`` lines follow. The pure-Python original reaches the same placement a
-         different way -- it never inserts a call at all, it renames the modder's own out of the way
-         and back again, which preserves wherever they put it
+         ``drawindexed`` lines follow
 
          .. note::
             This mode assumes the addition is invalidated only by the **delimiter**, never by
             anything between two of them. For the fix libraries that means a `section`_ must not
-            rebind its ``ps-t`` registers after drawing: measured over **33030** real
-            ``TextureOverride`` `section`_\\s, **none** do -- but a Citlali mod found since does (bind,
-            ``ORFix``, draw, bind again, ``ORFix``, draw), and one call per path drew its second
-            binding un-reslotted. Where the mod's own calls are already the right library, keeping
-            them is correct and re-issuing is not: see ``keepOwnFixCalls`` in
-            ``GIMIComponentFixer.cpp`` and ``Tools/Misc/Diagnostics/unfixedDraws.py``
+            rebind its ``ps-t`` registers after drawing. Most ``TextureOverride`` `section`_\\s do
+            not, but some mods do (bind, ``ORFix``, draw, bind again, ``ORFix``, draw), and one call
+            per path then leaves the second binding un-reslotted -- see
+            :cpp:enumerator:`PerBindingGeneration`. Where the mod's own calls are already the right
+            library, keeping them is correct and re-issuing is not
          @endrst
          */
         PerPath,
@@ -95,9 +92,9 @@ namespace AGRemapCore {
          therefore too few for a `section`_ that binds twice and too many for nothing
          :raw-html:`<br />` :raw-html:`<br />`
 
-         Real mods write both shapes. A CitlaliWhisperofStars mod binds its own slot's textures and
-         draws, then binds Citlali's and draws again (2026-09-22): under :cpp:enumerator:`PerPath`
-         its second draw went un-reslotted. The same mod supplies the other half -- its own
+         Real mods write both shapes. For example, a CitlaliWhisperofStars mod may bind its own
+         slot's textures and draw, then bind Citlali's and draw again: under
+         :cpp:enumerator:`PerPath` its second draw would go un-reslotted. The same mod supplies the other half -- its own
          ``run =`` over its own second binding -- which is why
          :cpp:member:`RegDelimitedAdd::coveredRegs` marks a generation the mod already serves, so
          the author's call is kept and not doubled :raw-html:`<br />` :raw-html:`<br />`

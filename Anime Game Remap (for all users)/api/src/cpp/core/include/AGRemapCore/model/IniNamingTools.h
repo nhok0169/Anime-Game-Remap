@@ -297,8 +297,7 @@ namespace AGRemapCore {
 
              .. note::
                 Unlike #getFixedFile, a bare filename with no directory component returns with no
-                folder prefix at all (matches the pure-Python original's own explicit special-case
-                for this)
+                folder prefix at all
              @endrst
              *
              * @param file The file path to the original file
@@ -338,10 +337,8 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                Built like the pure-Python original's own ``os.path.dirname``/``os.path.basename``
-                based implementation, not the `pathlib`_-based one #getFixedFile/#getFixedElementFile
-                use -- a bare filename with no directory component returns with no folder prefix at
-                all (same no-prefix behavior as #getFixedElementFile, but arrived at differently)
+                A bare filename with no directory component returns with no folder prefix at
+                all (the same no-prefix behavior as #getFixedElementFile)
              @endrst
              *
              * @param texFile The file path to the original .dds file
@@ -369,7 +366,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
-             (each part `capitalized <#capitalize>`_) within 'name' and replaces it with
+             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
              ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
              to #getRemapFixName with 'modName' extended by the new object's name instead
              @endrst

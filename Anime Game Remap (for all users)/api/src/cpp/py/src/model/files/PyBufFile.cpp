@@ -625,8 +625,7 @@ filters: Optional[List[Callable[[Dict[:class:`str`, List[Any]], :class:`int`, :c
 
     #. The data for a particular line
     #. The starting byte index of the line that is read
-    #. The line index being processed (``i / bytesPerLine`` -- a `floating point`_ value, matching
-       this codebase's pure-Python original exactly)
+    #. The line index being processed (``i / bytesPerLine`` -- a `floating point`_ value)
     #. The size of each line
 
     The output of the filters is the resultant data that consists where the keys are the names of

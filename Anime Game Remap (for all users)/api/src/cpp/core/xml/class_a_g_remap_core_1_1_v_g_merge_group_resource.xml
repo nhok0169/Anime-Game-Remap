@@ -127,7 +127,7 @@
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`RemapIniGroupedResource`
+This class inherits from :cpp:class:`AGRemapCore::RemapIniGroupedResource`
 
 A group of one mod&apos;s buffers, fixed by :cpp:func:`fixVGMergeGroup` -- see there
 </verbatim> </para>

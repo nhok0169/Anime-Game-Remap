@@ -56,8 +56,7 @@ Base class for a filter that edits some caller/callee graph of :class:`IniSectio
 Edits the caller/callee graph of :class:`IniSectionGraph` with state info from 'ini'
 
 .. note::
-    This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
-    original does
+    This forwards straight to :meth:`edit` and ignores 'ini' entirely
 
 Parameters
 ----------
@@ -118,8 +117,7 @@ Returns
 Edits the caller/callee graph of :class:`IniSectionGraph`
 
 .. note::
-    The base implementation is a no-op that hands 'graph' straight back, matching the pure-Python
-    original's ``pass``
+    The base implementation is a no-op that hands 'graph' straight back
 
 Parameters
 ----------

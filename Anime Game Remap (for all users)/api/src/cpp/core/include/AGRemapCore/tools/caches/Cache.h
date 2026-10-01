@@ -27,13 +27,12 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     A generic cache with no eviction policy of its own -- the C++ counterpart to the pure-Python
+     A generic cache with no eviction policy of its own -- the C++ counterpart to the `Python`_
      ``Cache`` class (``tools/caches/Cache.py``). :cpp:class:`LruCache` extends this class the same
-     way the pure-Python ``LruCache`` extends ``Cache`` :raw-html:`<br />` :raw-html:`<br />`
+     way the `Python`_ ``LruCache`` extends ``Cache`` :raw-html:`<br />` :raw-html:`<br />`
 
-     #capacity is stored but never acted on here -- :cpp:func:`put` never evicts anything, matching
-     the pure-Python original exactly (a subclass, e.g. :cpp:class:`LruCache`, is what actually
-     enforces it)
+     #capacity is stored but never acted on here -- :cpp:func:`put` never evicts anything (a
+     subclass, e.g. :cpp:class:`LruCache`, is what actually enforces it)
      @endrst
      *
      * @tparam K The type for a key
@@ -47,7 +46,7 @@ namespace AGRemapCore {
 
             /**
              * @brief Default capacity used when none is explicitly specified, matching the
-             *      pure-Python ``Cache``'s own ``DefaultCacheSize``
+             *      `Python`_ ``Cache``'s own ``DefaultCacheSize``
              */
             static constexpr std::size_t DefaultCapacity = 128;
 

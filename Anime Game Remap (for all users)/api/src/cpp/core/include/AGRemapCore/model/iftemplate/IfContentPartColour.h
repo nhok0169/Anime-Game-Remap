@@ -40,7 +40,6 @@ namespace AGRemapCore {
      * @brief
      @rst
      Class to store the change in state of a particular key for an :cpp:class:`IfContentPartColouring`
-     -- the C++ port of ``IfContentPartColourChange`` from ``IfContentPartColour.py``.
      @endrst
      *
      * @tparam V The type of the values stored by the owning :cpp:class:`IfContentPartColouring`
@@ -122,7 +121,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Class that keeps track of the current state of the `KVPs`_ within an :cpp:class:`IfContentPart`
-     -- the C++ port of ``IfContentPartColouring`` from ``IfContentPartColour.py``. :raw-html:`<br />` :raw-html:`<br />`
+     :raw-html:`<br />` :raw-html:`<br />`
 
      A thin, ordered dict-like wrapper (backed by a `tsl::ordered_map`_) from key to
      :cpp:type:`StateValue`:
@@ -131,8 +130,7 @@ namespace AGRemapCore {
      * A ``std::vector<IndexedValue>`` means the values come from the current :cpp:class:`IfContentPart`,
        each paired with its index of occurrence within that part
 
-     Unlike the deprecated Python version's ``getVals`` (which returns either a ``list`` or a
-     ``set``, chosen by its ``unique`` flag), this class splits that into two separately-typed
+     Retrieving the values is split into two separately-typed
      methods, :cpp:func:`getVals` and :cpp:func:`getUniqueVals` -- matching how :cpp:class:`IfContentPart`
      itself already splits ``getVals``/``getKeys`` (a ``std::vector`` vs a real hash set) rather than
      returning a union type C++ can't express directly.
@@ -301,8 +299,7 @@ namespace AGRemapCore {
                 Unlike :cpp:func:`getVals`, ``filter`` is only ever applied when ``key``'s state
                 comes from the current :cpp:class:`IfContentPart` (a list of indexed occurrences) --
                 a value carried over from a previous part is always returned unfiltered, as
-                ``(std::nullopt, value)``. This intentionally mirrors an asymmetry already present
-                in the original Python source between its own ``getIndVals``/``getVals``.
+                ``(std::nullopt, value)``. This asymmetry is intentional.
              @endrst
              *
              * @param key The key to search for

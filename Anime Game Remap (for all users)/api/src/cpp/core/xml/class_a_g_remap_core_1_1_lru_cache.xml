@@ -137,7 +137,7 @@ least-recently-used entry first if the cache is already at capacity -- unlike
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-A generic `LRU cache`_ -- the C++ counterpart to the pure-Python ``LruCache`` class
+A generic `LRU cache`_ -- the C++ counterpart to the `Python`_ ``LruCache`` class
 (``tools/caches/LRUCache.py``), which extends ``Cache`` the same way this class extends
 :cpp:class:`Cache` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
@@ -145,7 +145,7 @@ Only :cpp:func:`get`/:cpp:func:`put` are overridden here, to add recency-promoti
 capacity-based eviction on top of :cpp:class:`Cache`&apos;s shared storage --
 :cpp:func:`Cache::contains`/:cpp:func:`Cache::clear`/:cpp:func:`Cache::size`/
 :cpp:func:`Cache::getCapacity` are inherited unchanged, mirroring exactly which methods the
-pure-Python ``LruCache`` does (and doesn&apos;t) override on ``Cache``
+`Python`_ ``LruCache`` does (and doesn&apos;t) override on ``Cache``
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>

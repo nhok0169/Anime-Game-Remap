@@ -64,8 +64,8 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The key identifying a graph -- ``(component name, mod object name)``, the direct
-equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
+The key identifying a graph -- ``(component name, mod object name)``, the
+equivalent of a `Python`_ ``Tuple[str, str]``
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>
@@ -523,12 +523,12 @@ The sequence of :cpp:class:`IniGraphGroup`\\s (one per ``.ini`` file) that every
 ``graphGroupEdits/`` edit operates on, behind an interface :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-**Why this interface exists at all.** Every other ported subsystem in this codebase could
-name its container concretely, because both callers agreed on it. This one can&apos;t: a plain C++
+**Why this interface exists at all.** Elsewhere in this codebase a container can be named
+concretely, because both callers agree on it. This one can&apos;t: a plain C++
 caller&apos;s groups are a ``std::vector&lt;IniGraphGroup&lt;K, V&gt;&gt;`` (real C++ values, owned by the
 vector), while the `Python`_-facing groups are a `Python`_ ``list`` of ``IniGraphGroup``
 objects whose ``graphs`` really *is* a `Python`_ ``dict`` (``PyIniGraphGroup`` -- deliberately
-so, because ``GIMIParser.py`` depends on that dict&apos;s *reference* semantics; see
+so, because `Python`_ callers depend on that dict&apos;s *reference* semantics; see
 :cpp:class:`IniGraphGroup`&apos;s own note). Converting one into the other at the binding boundary
 would silently break that aliasing, so instead the algorithms are written against this
 interface and each side supplies its own implementation:

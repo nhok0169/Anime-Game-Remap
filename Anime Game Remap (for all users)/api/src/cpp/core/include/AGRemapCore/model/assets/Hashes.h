@@ -32,9 +32,8 @@ namespace AGRemapCore {
      Unlike :cpp:class:`ModMappedAssets` (a generic, reusable engine), this is one *specific*
      instance of it: its rows (:cpp:func:`Data::getHashDataRows`) and its 3-index
      ``(version, name, type)`` shape are baked in at construction, so a default-constructed
-     ``Hashes`` already knows every hash the software ships with. That matches the pure-Python
-     ``Hashes``'s own contract exactly -- there, too, a bare ``Hashes()`` is fully populated, which
-     is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
+     ``Hashes`` already knows every hash the software ships with (the `Python`_ ``Hashes`` behaves
+     the same way: a bare ``Hashes()`` is fully populated), which is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::

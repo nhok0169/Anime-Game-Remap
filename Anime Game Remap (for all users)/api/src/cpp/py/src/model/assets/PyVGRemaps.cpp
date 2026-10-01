@@ -139,8 +139,7 @@ Constructs a new, fully-populated vertex group remap table
 :raw-html:`<br />`
 
 .. note::
-    Unlike the pure-Python original there is no 'repo' argument -- nothing in this project passed
-    one, and :meth:`addRows` already covers extending the table. Note that
+    To extend the table, use :meth:`addRows`. Note that
     :attr:`ModDataAssets.VGRemaps` hands out a **shared** instance, so mutating that one is visible
     to every :class:`ModType` that fell back to it; construct one directly for an independent table
         )doc"))

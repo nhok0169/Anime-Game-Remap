@@ -31,14 +31,12 @@ namespace AGRemapCore {
      Base class to parse a ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        Two deliberate divergences from the pure-Python
-        ``FixRaidenBoss2.model.strategies.iniParsers.BaseIniParser`` original (which has since been
-        deleted outright -- this class *is* the ``BaseIniParser`` the `Python`_ API exposes now):
+        Two things to know about this base:
 
-        * There is no ``_modsToFix`` attribute (and so #clear has nothing of its own to reset, and
-          is a no-op by default). The pure-Python original's ``clear`` exists *only* to clear that
-          set, so subclasses here own whatever state they accumulate and reset it themselves
-        * #parse returns the parsed :cpp:class:`IniGraphGroup`\\s instead of ``None``, so a parser
+        * It has no ``_modsToFix`` attribute (only its `Python`_ binding adds one), so #clear has
+          nothing of its own to reset and is a no-op by default. Subclasses own whatever state they
+          accumulate and reset it themselves
+        * #parse returns the parsed :cpp:class:`IniGraphGroup`\\s, so a parser
           hands its results back to its caller as a real value rather than by mutating the
           :cpp:class:`IniFile` it was given
 
@@ -55,9 +53,8 @@ namespace AGRemapCore {
      .. note::
         :cpp:class:`IniParseBuilder` (and, through it, :cpp:member:`ModType::iniParseBuilder` and
         :cpp:func:`IniFile::getParser`) deliberately stays pinned to ``BaseIniParser<>`` rather
-        than becoming a template of its own: nothing on the `Python`_ side builds parsers through
-        it (the `Python`_ API has its own pure-Python ``IniParseBuilder``), so the only instantiation
-        it ever needs is the plain-``std::string`` one
+        than becoming a template of its own: the only instantiation it needs is the
+        plain-``std::string`` one
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -96,9 +93,9 @@ namespace AGRemapCore {
              .. note::
                 :cpp:class:`GIMIParser` -- the one concrete parser in this hierarchy -- does **not**
                 read the ``.ini`` file through this pointer at all; it goes through a
-                :cpp:class:`IniParseContext` instead, because the ``.ini`` file its real callers
-                hand it is the *`Python`_* ``IniFile``, an unrelated class to
-                :cpp:class:`AGRemapCore::IniFile`. See that class's own note
+                :cpp:class:`IniParseContext` instead, so the same parser can read a C++
+                :cpp:class:`AGRemapCore::IniFile` or an ``.ini`` file reached from `Python`_. See
+                that class's own note
 
              :raw-html:`<br />`
 
@@ -129,7 +126,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Clears any saved data. No-op by default -- see this class's own note on why there's
-             nothing here to clear, unlike the pure-Python original
+             nothing here to clear
              @endrst
              */
             virtual void clear();
@@ -137,8 +134,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Parses the ``.ini`` file. Returns an empty vector by default, matching the pure-Python
-             original's ``pass`` :raw-html:`<br />` :raw-html:`<br />`
+             Parses the ``.ini`` file. Returns an empty vector by default :raw-html:`<br />`
+             :raw-html:`<br />`
 
              .. note::
                 :cpp:class:`IniGraphGroup` is move-only (it holds move-only

@@ -79,8 +79,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              The target `sections`_ that reference the resource -- old `section`_ name mapped to its
-             fixed name. Insertion-ordered, because the pure-Python original's own
-             ``list(collectedSections.keys())`` order decides the built graph's target order
+             fixed name. Insertion-ordered, because this order decides the built graph's target
+             order
              @endrst
              */
             using CollectedSections = tsl::ordered_map<std::string, std::string>;
@@ -152,9 +152,9 @@ namespace AGRemapCore {
                  different: its output depends on the other members too. A merged master whose two
                  variants bind the same ``.ib`` through two sections (``ResourceHead.0`` and
                  ``ResourceHead.1``) over two different blends needs two split index buffers -- each
-                 variant keeps a different set of vertices -- and one shared name had the second
-                 variant's write land on the first's file, drawing variant 2 with variant 1's
-                 indices (Neuvillette, shattered, 2026-09-24).
+                 variant keeps a different set of vertices -- and with one shared name the second
+                 variant's write would land on the first's file, drawing variant 2 with variant 1's
+                 indices.
 
                  The first section to name a file keeps the plain fixed name, so nothing moves where
                  no file is shared; a later one adds a short hash of its own section name.
@@ -216,13 +216,10 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                The value is **not** byte-identical to the pure-Python original's, which hashed a
-                `Python`_ tuple through ``CyHashTools.hashLibSerialize``. It is an opaque
-                within-one-run dictionary key -- never written to a file, never persisted, never
-                compared against a previously stored value (the hash that *does* reach a filename is
-                the separate ``graphId`` one, which hashes a plain string and is unchanged) -- so a
-                different canonical serialization is safe here, and avoids two disagreeing
-                implementations of the same id inside one run
+                The value is an opaque within-one-run dictionary key -- never written to a file,
+                never persisted, never compared against a previously stored value (the hash that
+                *does* reach a filename is the separate ``graphId`` one, which hashes a plain
+                string)
              @endrst
              *
              * @param modObj The mod object holding the graph for the resource
@@ -259,8 +256,8 @@ namespace AGRemapCore {
              *
              * @return
              @rst
-             The `section`_ name of the fixed resource, or ``std::nullopt`` (the pure-Python
-             original's ``None``) to indicate there is no name change between the original resource
+             The `section`_ name of the fixed resource, or ``std::nullopt`` to indicate there is no
+             name change between the original resource
              and the fixed resource
              @endrst
              */
@@ -457,15 +454,7 @@ namespace AGRemapCore {
      This class inherits from :cpp:class:`BaseResEdit`
 
      Class that creates the necessary parts for a fixed resource by building upon the existing
-     :cpp:class:`IniSectionGraph` of the original resource :raw-html:`<br />` :raw-html:`<br />`
-
-     .. note::
-        The pure-Python original also overrode ``buildResources`` here, identically to the base's
-        except for one out-of-range guard reading ``iniInd > len(graphGroups)`` where every sibling
-        (including its own base) reads ``>=``. That difference is not a feature: at exactly
-        ``iniInd == len(graphGroups)`` the ``>`` version fell straight through into an
-        ``IndexError``. There is no override here, so the base's ``>=`` guard applies and that case
-        is skipped, like everywhere else in this family
+     :cpp:class:`IniSectionGraph` of the original resource
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

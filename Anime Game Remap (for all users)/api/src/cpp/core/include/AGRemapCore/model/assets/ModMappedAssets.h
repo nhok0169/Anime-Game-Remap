@@ -33,21 +33,15 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Class to handle assets of any type where asset retrieval is based on a mapping -- the C++
-     counterpart to the pure-Python ``ModMappedAssets`` (``model/assets/ModMappedAssets.py``) --
+     Class to handle assets of any type where asset retrieval is based on a mapping --
      this is a `bipartite graph`_ that maps assets to fix from to assets to fix to :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         The reverse (value -> originating key) index this class builds is derived directly from
-        #getRepo's already-flat :cpp:func:`ModDictAssets::forEachEntry` data, **not** by re-walking
-        a nested dict the way the pure-Python ``updateKeys`` does. This isn't just a style
-        preference: a live side-by-side check against the real pure-Python ``ModMappedAssets``
-        during development (two names sharing one hash value at the same version) found that its
-        stack-based nested-dict traversal actually **corrupts** a sibling candidate into
-        ``NaN``/``NaN`` and silently drops it from the reverse index whenever a value is shared
-        across more than one name at the same version -- a real, confirmed bug, not a hypothetical
-        one. Building the reverse index from the flat, already-tested :cpp:class:`ModDictAssets`
-        data instead avoids that whole bug class structurally, not just incidentally
+        #getRepo's already-flat :cpp:func:`ModDictAssets::forEachEntry` data, **not** by walking
+        a nested dict. This matters when a value is shared across more than one name at the same
+        version (eg. two names sharing one hash): every one of its originating keys is kept in the
+        reverse index
      @endrst
      *
      * @tparam K The type for an index value
@@ -87,14 +81,10 @@ namespace AGRemapCore {
              for any table not backed by named indices :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The binding layer is the main consumer: with names present it accepts the flexible
-                bare-value / list / dict-keyed-by-name argument shape the pure-Python
-                ``Hashes``/``Indices`` used to provide through their own
-                ``_convertNonVersionVals`` override, instead of requiring an already-positional
-                list. That convenience used to live on a pybind-only ``PyModMappedAssets``
-                subclass, which is why this member reads as Python-flavoured -- it is the one thing
-                that subclass added, and it moved here so the core class and the `Python`_-facing
-                one could stop being two different types
+                The binding layer is the main consumer: with names present it accepts a flexible
+                bare-value / list / dict-keyed-by-name argument shape (as the `Python`_
+                ``Hashes``/``Indices`` do), instead of requiring an already-positional list, which
+                is why this member reads as Python-flavoured
              @endrst
              */
             std::optional<std::vector<std::string>> nonVersionIndexNames;
@@ -116,7 +106,7 @@ namespace AGRemapCore {
              Merges new entries into the existing `adjacency list`_ (see #getMap) -- for any
              ``fromAsset`` already present, new ``toAsset`` values are appended after the existing
              ones, skipping any that are already present (a set-union that preserves insertion
-             order, matching the pure-Python original's `OrderedSet`_-based ``addMap``)
+             order)
              @endrst
              *
              * @param assetMap The new adjacency entries to merge in
@@ -192,14 +182,10 @@ namespace AGRemapCore {
              ``std::nullopt`` if none is found and 'errorOnNotFound' is ``false`` :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Earlier drafts of this method also returned the specific version the key was
-                found at, alongside the key itself. Dropped deliberately: the pure-Python
-                original this replaces returns just the bare key, and at least one real caller
-                (``GIMIParser.py``'s hash/index resolution) destructures the result positionally
-                (``key[-1]``) assuming exactly that shape -- returning anything richer would
-                silently corrupt that caller rather than erroring. \ref replace/\ref replaceAll
-                still resolve the version internally (via a private overload) since they need it;
-                it just isn't part of this method's own public return value
+                Only the key is returned, not the version it was found at.
+                \ref replace/\ref replaceAll still resolve the version internally (via a private
+                overload) since they need it; it just isn't part of this method's own public return
+                value
              @endrst
              */
             std::optional<std::vector<K>> getKey(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool errorOnNotFound = true) const;
@@ -218,11 +204,8 @@ namespace AGRemapCore {
              Whether to throw if 'asset' (or a mapping for it) isn't found at all :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                This governs only the initial lookup of 'asset' itself and of its mapping --
-                unlike the pure-Python original (where the equivalent "asset's fromAsset isn't in
-                the map at all" case always raises regardless of the ``errorOnNotFound`` argument,
-                seemingly inconsistently with every other failure path in the same method), this
-                deliberately makes every failure path respect 'errorOnNotFound' uniformly. Once
+                This governs only the initial lookup of 'asset' itself and of its mapping, and
+                every such failure path respects 'errorOnNotFound' uniformly. Once
                 past that point, "toAssetName isn't actually mapped from asset's name" or "no data
                 exists for it at the queried version" always just returns ``std::nullopt``,
                 'errorOnNotFound' notwithstanding -- those aren't failures to find 'asset', they're

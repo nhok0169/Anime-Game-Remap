@@ -5,15 +5,6 @@
     <includes refid="_ini_section_graph_8h" local="yes">AGRemapCore/model/IniSectionGraph.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
-      <node id="30">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="45">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="51">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -519,6 +510,15 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+      </node>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="45">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="66">
         <label>Generator.tpp</label>

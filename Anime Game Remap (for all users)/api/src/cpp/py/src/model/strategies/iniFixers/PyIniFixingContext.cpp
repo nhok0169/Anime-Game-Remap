@@ -57,11 +57,10 @@ has to happen exactly once :raw-html:`<br />` :raw-html:`<br />`
 
 :meth:`GIMIFixer.fix` uses it to gate ``keepBackup`` -- disabling the existing .ini file as a backup
 is the whole file's business, and a later mod type doing it again would be backing up a file the
-first pass already moved aside. The condition it gates is otherwise unchanged: ``keepBackup`` still
-also needs ``fixOnly`` and an .ini file that already exists on disk :raw-html:`<br />` :raw-html:`<br />`
+first pass already moved aside. The backup also needs ``fixOnly`` and an .ini file that already exists on disk :raw-html:`<br />` :raw-html:`<br />`
 
 **Default**: ``True``, so a fixer driven directly -- the only one, hence both the first and the last
--- backs up as it always did
+-- backs up the .ini file
        )doc"))
 
        .def_readwrite("isLastModType", &AGRC::IniFixingContext::isLastModType, py::doc(R"doc(

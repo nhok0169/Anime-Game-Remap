@@ -94,8 +94,7 @@
         <detaileddescription>
 <para><verbatim>embed:rst 
 Restricts an edit to specific areas of a :cpp:class:`IfContentPart` -- an empty
-``std::function`` means &quot;the whole part&quot;, the equivalent of the pure-Python original&apos;s
-own ``Ranges.createFull()`` default filter
+``std::function`` means &quot;the whole part&quot;
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>

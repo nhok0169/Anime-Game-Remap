@@ -30,17 +30,15 @@ namespace AGRemapCore {
      @rst
      The result of `IniSectionGraph::buildCallGraph` -- a `call graph`_ over the
      :cpp:class:`IfContentPart`\\s of an `IniSectionGraph`, suitable for the `dataflow analysis`_
-     tools at `GraphTools` -- the C++ port of ``CallGraph.py`` :raw-html:`<br />` :raw-html:`<br />`
+     tools at `GraphTools` :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        Unlike the pure-Python original (whose nodes are either ``id(part)`` or
-        ``("exit", id(part))``, using CPython's own built-in ``id()`` as a stand-in for part
-        identity), this class's nodes are #Node -- a real ``(part pointer, isExit)`` pair. The
+        This class's nodes are #Node -- a real ``(part pointer, isExit)`` pair. The
         `pybind11`_ binding layer is responsible for translating a #Node into whatever shape
         `Python`_ callers expect (an ``id(part)``-equal integer, or an ``("exit", ...)`` tuple) --
-        see that binding's own top-level note for why this translation has to happen there, not
-        here (real callers like ``RegSurroundedAdd.py`` correlate a part they already hold via
-        `Python`_'s own builtin ``id()``, which this generic core has no way to compute itself).
+        the translation has to happen there, not here, because `Python`_ callers correlate a part
+        they already hold via `Python`_'s own builtin ``id()``, which this generic core has no way
+        to compute itself.
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

@@ -117,8 +117,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The predicate for which particular occurence of a register to accept, taking in the
-             value of the occurence -- an **empty** function accepts any value (mirrors the
-             pure-Python original's ``None`` meaning "any occurence accepted")
+             value of the occurence -- an **empty** function accepts any value
              @endrst
              */
             using Predicate = std::function<bool(const V&)>;

@@ -29,7 +29,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Class for representing a version string, following the same `PEP 440`_ grammar and ordering
-     rules as Python's `packaging.version.Version`_ -- this is a from-scratch C++ port of that
+     rules as Python's `packaging.version.Version`_ -- this is a from-scratch C++ implementation of that
      class's parsing/normalization/comparison algorithm (``epoch!release.preN.postN.devN+local``),
      not an approximation of it :raw-html:`<br />` :raw-html:`<br />`
 

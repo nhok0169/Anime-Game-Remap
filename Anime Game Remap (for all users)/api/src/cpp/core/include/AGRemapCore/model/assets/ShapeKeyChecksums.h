@@ -27,7 +27,7 @@ namespace AGRemapCore {
      The shape-key ``checksum`` of a wwmi character -- the sum of the first four shape-key offsets of the game's own mesh, which a mod's ``$\\wwmiv1\\shapekey_checksum`` must equal for wwmi's shapekeyoverrider to accept the mod's shape keys as this character's (the ``type`` column is ``shapekeys``) -- a :cpp:class:`ModMappedAssets` pre-populated with this project's real data
      (:cpp:func:`Data::getShapeKeyChecksumDataRows`) :raw-html:`<br />` :raw-html:`<br />`
 
-     The exact sibling of :cpp:class:`Indices`, added for Wuthering Waves (2026-09-19): read that
+     The exact sibling of :cpp:class:`Indices`, for Wuthering Waves: read that
      class first, everything there applies here too. Same **4** index columns -- ``version`` (the
      version index, at position 0), ``name``, ``component`` and ``type`` -- so
      :cpp:class:`ModMappedAssets`'s query methods take three non-version values positionally, in

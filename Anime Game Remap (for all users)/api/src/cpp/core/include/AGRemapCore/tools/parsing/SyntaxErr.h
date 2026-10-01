@@ -34,7 +34,7 @@ namespace AGRemapCore {
      that catches this (see ``PyBaseTokenizer.cpp``) constructs the real
      ``FixRaidenBoss2.exceptions.SyntaxErr.SyntaxErr`` Python object from :cpp:func:`ctx` /
      :cpp:func:`token` / :cpp:func:`process` instead, so that logic keeps living in exactly one
-     place (the pure-Python class) rather than being duplicated here
+     place (the `Python`_ class) rather than being duplicated here
      @endrst
      */
     class SyntaxErr : public std::runtime_error {

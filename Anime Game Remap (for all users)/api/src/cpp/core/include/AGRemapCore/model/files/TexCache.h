@@ -34,8 +34,8 @@ namespace AGRemapCore {
      writing the same pixels :raw-html:`<br />` :raw-html:`<br />`
 
      A fix edits a texture once per DESTINATION, not once per distinct image, so a mod whose
-     toggles all reference the same few textures pays the full cost every time. Measured on a
-     194-``.ini`` Ayaka6 mod: **579 edit operations producing 7 distinct texture contents**, and
+     toggles all reference the same few textures pays the full cost every time. For example, a mod
+     of 194 ``.ini`` files can make **579 edit operations producing 7 distinct texture contents**, and
      on a 1024x1024 ``BC7`` source at the CLI's default (uncompressed) settings each of those is
      ~0.20s to decode plus ~0.26s to write, against ~0.003s for the disk I/O the write actually
      needs :raw-html:`<br />` :raw-html:`<br />`

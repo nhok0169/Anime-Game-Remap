@@ -69,8 +69,7 @@ Base class for a filter that edits a group of caller/callee graphs across many .
 Edits a group of caller/callee graphs with state info from 'ini'
 
 .. note::
-    This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
-    original does
+    This forwards straight to :meth:`edit` and ignores 'ini' entirely
 
 Parameters
 ----------
@@ -103,8 +102,7 @@ List[:class:`IniGraphGroup`]
 Edits a group of caller/callee graphs
 
 .. note::
-    The base implementation is a no-op that hands 'graphGroups' straight back, matching the
-    pure-Python original's ``pass``
+    The base implementation is a no-op that hands 'graphGroups' straight back
 
 Parameters
 ----------

@@ -13,9 +13,11 @@ Two source trees, two audiences:
   `api/src/py`, so this documents your locally-built package, not a pip-installed one.
 
 **Both files list each of their live sections' entries in strict alphabetical order**
-(case-insensitive) — keep new entries sorted in, don't just append. Each file currently has two
-live sections, `Model` and `Tools` (see the dedicated structure section below for what belongs in
-which). This is the intent and mostly holds, but isn't airtight already — `api.rst`'s `Tools`
+(case-insensitive) — keep new entries sorted in, don't just append. `coreAPI.rst` has three
+live sections, `Model` (with `=`-level groups such as `Ini Fixers`), `View` and `Tools`; `api.rst` has six,
+`Model`, `View`, `Constants`, `Data`, `Exceptions` and `Tools`, after two orientation sections ("Where to
+start", "How a fix works") that a new class may need a line in (see the dedicated structure section below
+for what belongs in which, and "THE REFERENCE PAGES ARE FOR A NEW USER" for what goes on them). This is the intent and mostly holds, but isn't airtight already — `api.rst`'s `Tools`
 section has at least one pre-existing pair (`OrderedMultiMap`/`OrderedMultiMapSqrt`) sitting out
 of order, from before this rule was established. Don't take a pre-existing neighbor's position as
 proof of where a new entry alphabetically belongs — compute it from the full section's names
@@ -94,6 +96,17 @@ mod's pre-fix `RemapBKUP`, and the last 4 in a `ButtonUI/Out UI.ini` that has no
 block, i.e. a file the fix never wrote. **Attribute every one of them, not a sample**: the first
 pass of that check called those 4 unexplained purely because it only knew how to look in backups.
 
+**On Linux, plain `doxygen Doxyfile` renames every file in `core/xml`.** The Doxyfile says
+`CASE_SENSE_NAMES = SYSTEM`, which is YES on Linux, so the output is `Algo_8h.xml` where the committed
+tree has `_algo_8h.xml` -- every file shows as deleted and re-added. Pass the override on stdin rather than
+editing the Doxyfile, then restore `xml/Doxyfile.xml`, which records it:
+
+```bash
+rm -rf xml; ls xml 2>/dev/null | wc -l          # must print 0
+(cat Doxyfile; echo "CASE_SENSE_NAMES = NO") | doxygen -
+git checkout -- xml/Doxyfile.xml
+```
+
 ## Building the docs
 ```bash
 cd Docs
@@ -118,7 +131,8 @@ enumerated list in `findVertexGroupRemap.rst`, **4 `duplicate object description
 `TexCreator`/`TexEditor` docstrings** (a numpydoc `Attributes` section on a bound class --- pre-existing,
 and note they are attributed to the *docstring*, not to `api.rst`), and 2 intersphinx inventory failures
 that are **this machine's TLS-inspecting proxy only** and will not appear on Read the Docs, which should
-therefore report 14. None from
+therefore report 14. **Re-measured 2026-10-01 on Linux: 16 again**, after `master` had drifted to 20 (four
+`Unknown target name: "blend"` from Breathe, fixed by the docs audit). None from
 `api.rst`/`coreAPI.rst`/`index.rst` — beware that the
 `[autosummary] generating autosummary for: ...` line names every `.rst`, so a naive per-file grep
 counts one phantom hit for each of those three. Verify a new `coreAPI.rst` entry by extracting the
@@ -496,6 +510,58 @@ What that means for a task that touches the API's behaviour or names:
 
 Build the docs afterwards; the regenerated page itself builds with **no** warnings.
 
+## THE REFERENCE PAGES ARE FOR A NEW USER (2026-10-01)
+
+The maintainer's brief for the docs audit of that day: read `api.rst` / `coreAPI.rst` as someone who has
+just installed the library, and remove anything that only makes sense to whoever wrote it. What that meant,
+and what to keep doing:
+
+- **Everything a doc comment says is published.** Doxygen comments in `core/include` (and on definitions in
+  `core/src`), pybind11 `R"(...)"` docstrings in `cpp/py/src`, and Python / Cython docstrings all render. So no
+  date stamps, no "matches / mirrors / a port of the pure-Python original", no "used to ... until ...", no
+  "found on <mod> in round N" stories, and no links into `AI Agent Help/` or `../CreatingRemaps/CLAUDE.md`
+  (dead on the site). State the current behaviour; keep the history in these guides or in plain `//`
+  comments, which do NOT render (nor do Doxygen comments in `cpp/py/src` headers: the Doxyfile's `INPUT` is
+  core's `include src` only). "pure-Python" is fine when it names a Python class that still EXISTS
+  (`IniNamingTools`, `BufFile`, `Version`, `DownloadData`, ...). ~90 method docs were also found WRONG for the
+  same reason -- never revisited after the history they described -- so re-read the doc block of anything
+  whose behaviour you change.
+- **Every public export needs an entry.** `api.rst` had none for 164 names `FixRaidenBoss2` exports, among
+  them `CppStrategyOverrides`, `makeGIMICharFixer`, `GIMICharFixerConfig`, `Logger`, `ModTypes` and every
+  exception -- several of them CALLED in `apiExamples.rst`. `coreAPI.rst` lacked `RemapService` /
+  `RemapServiceCLI`, the removers, the `.ini` resources, the stats and the fixer/parser configs. The ~110
+  per-character `XxxFixer` / `XxxParser` classes stay off the C++ page on purpose (internal).
+- **Run `Tools/Misc/Docs/auditApiDocs.py --html <build>` after a docs change.** It checks the three things
+  above (missing exports, history and dates in the RENDERED text, repo links to paths that no longer exist,
+  plus dead in-page anchors). Proved both ways: clean on the audited tree, and 161 / 13 / 334 problems on
+  `master` before the audit. Its rendered check needs a build; the other two do not.
+- **The install page must match the version these docs describe.** `pyproject.toml`'s version (`|release|` in
+  the `.rst`) can be a PRE-release that `pip install -U AnimeGameRemap` will not pick: on 2026-10-01 PyPI's
+  stable release was 4.6.4, the old pure-Python library, while the docs described 5.0.0a1 -- whose wheels are
+  CPython 3.12 only (`python-publish.yml`'s `CIBW_BUILD`). `apiSetup.rst` pins `==|release|` with a
+  `parsed-literal` and names the Python versions; update that note when `CIBW_BUILD` widens.
+
+Traps hit while doing it, each worth a rebuild cycle:
+
+1. **A `DeferredEnum` subclass must be documented WITHOUT `:members:`.** autodoc reads each enum member's
+   `.value`, which for a `DeferredEnum` CONSTRUCTS the object -- under the `.pyi` stand-ins that called a stubbed
+   `@overload` and crashed the whole build (`NotImplementedError: You should not call an overloaded
+   function`). `ModTypes`, `GlobalClassifiers`, `BufDataTypes` and the rest list their members in an
+   `Attributes` section of their own docstring instead; `auditApiDocs.py` flags a regression.
+2. **A `` `name`_ `` link target is per PAGE.** `api.rst` and `coreAPI.rst` each define their own at the bottom;
+   a docstring that renders on `api.rst` using `` `KVP`_ `` needs `.. _KVP:` in `api.rst`, even though
+   `coreAPI.rst` has one. Newly documented classes brought ~70 `Unknown target name` errors this way.
+3. **Inside a derived class, Breathe resolves a bare base-class name to the base CONSTRUCTOR** (`cpp:class
+   targets a function (AGRemapCore::RemapIniResource::IniResource)`). Qualify it:
+   `` :cpp:class:`AGRemapCore::IniResource` ``. Same for a member function written as a class
+   (`` :cpp:func:`AGRemapCore::IniSrcResourceModel::items` ``), and `IniFile*` is not a valid role target.
+4. **Breathe cannot parse a long string or brace initializer** (`IniComments`' preamble, `IniKeywords::MatchKeys`)
+   and warns on every build; those two are documented on the Python page only.
+5. **A class whose name equals a section title collides with it** (`Model` the class vs the `Model` section:
+   `Duplicate target name ... "model"`). The class's entry is titled `Model (class)`.
+6. **An RST simple table's first column must be as wide as its widest cell**, or the whole table is
+   `Malformed` -- one `("", "position")` row in `GIMICharParserConfig`'s doc broke it.
+
 ## Doc-writing conventions specific to this codebase
 
 ### C++ side (Doxygen, in `.h`/`.tpp` comments)
@@ -801,12 +867,12 @@ Build the docs afterwards; the regenerated page itself builds with **no** warnin
   once — six warnings, all of which vanished with the sections removed.
 
 ### `Docs/src/api.rst` / `Docs/src/coreAPI.rst` structure — read before touching either
-- **Most of each file is deliberately commented out** (`.. ClassName`, `.. .. autoclass::`, every
-  line of the block prefixed with `..`) — this is not stale/broken documentation to clean up, and
-  not something to silently uncomment while working on something else. Per the maintainer, it
-  reflects an in-progress migration (more code moving to C++, `.ini` parsing moving to a more
-  graph-based approach) — a commented block means "not ready to publish yet," not "forgotten."
-  Leave it alone unless the user explicitly asks to make a specific class live.
+- **Neither file has a commented-out block any more (2026-10-01).** `api.rst` used to end in ~2,000
+  lines of `.. ClassName` / `.. .. autoclass::` entries for the pre-C++ classes (`GIMIObjMergeFixer`,
+  `RegTexEdit`, `Mod`, ...), kept as "not ready to publish yet"; the docs audit of that day removed them,
+  since every class they named was deleted or now has a live entry. They are in git history
+  (`git show 5100308^:Docs/src/api.rst`) if a placeholder is wanted back. Don't hunt for a commented
+  entry before adding a class: check `auditApiDocs.py`'s list of undocumented exports instead.
 - **A brand-new class (added this session or recently) may not appear in either file *at all* —
   not even as a commented-out placeholder** — don't assume "check if it's commented out" is the
   only two states a class can be in. Confirmed for a whole new subsystem (`ModTypeId`/
@@ -821,7 +887,7 @@ Build the docs afterwards; the regenerated page itself builds with **no** warnin
   commented entry (that pre-existing entry is very likely for a different, unrelated original —
   e.g. this codebase's commented `.. ModType`/`.. GIBuilder`/`.. IniClassifier` entries are for the
   old, live pure-Python classes of those names, not the new C++ ones described above at all).
-- **Each file has two live, h1-headed sections: `Model` and `Tools`**, both kept in strict
+- **The live sections (see the top of this file for the full list) are each kept in strict
   alphabetical order (case-insensitive) internally — a maintainer-driven split, not something
   either file always had. **`Tools` is for generic, reusable-outside-this-project building blocks**
   (data structures, algorithms, string/hash/graph utilities — things with no idea what a "mod" or

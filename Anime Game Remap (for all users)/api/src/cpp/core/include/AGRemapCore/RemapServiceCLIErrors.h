@@ -129,8 +129,8 @@ namespace AGRemapCore {
      Thrown when a string meant to be a game version is not one :raw-html:`<br />`
      :raw-html:`<br />`
 
-     The pure-Python original raised a bare ``ValueError`` here rather than one of its own
-     ``Error`` subclasses, so this does **not** carry the ``ERROR:`` prefix the other two do -- see
+     The `Python`_ layer surfaces this as a bare ``ValueError`` rather than one of the package's
+     own ``Error`` subclasses, so this does **not** carry the ``ERROR:`` prefix the other two do -- see
      :cpp:func:`InvalidModType::buildMessage`
      @endrst
      */

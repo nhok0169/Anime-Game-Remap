@@ -5,6 +5,35 @@
 C++ Core API Reference
 ======================
 
+The C++ library behind the :doc:`Python API <api>`, ``AGRemapCore``. Everything on this page lives in the
+``AGRemapCore`` namespace, and its headers are under ``include/AGRemapCore/`` (for example
+``AGRemapCore::IniFile`` is declared in ``AGRemapCore/model/files/IniFile.h``).
+
+Most users want the :doc:`Python API <api>`, which exposes the same classes; this page is for code that links
+against the C++ library directly, or for reading what a Python class does underneath.
+
+:raw-html:`<br />`
+
+Where to start
+**************
+
+- **Fix (or undo the fix of) a whole folder of mods**: :cpp:class:`AGRemapCore::RemapService` (typed options) or
+  :cpp:class:`AGRemapCore::RemapServiceCLI` (string options, as typed by a user), both under `Remap Service`_.
+  Progress and errors are reported through a :cpp:class:`AGRemapCore::BaseLogger` (see `View`_).
+- **Fix a single .ini file**: :cpp:class:`AGRemapCore::IniFile` -- ``parse()`` it, then ``fix()`` it.
+- **The supported characters**: :cpp:class:`AGRemapCore::ModType` (one per character), identified by
+  :cpp:enum:`AGRemapCore::ModTypeId`; :cpp:class:`AGRemapCore::GIBuilder` and
+  :cpp:class:`AGRemapCore::WWMIBuilder` create them for Genshin Impact and Wuthering Waves.
+- **How a character's mods are read and remapped**: a parser (:cpp:class:`AGRemapCore::BaseIniParser`, see
+  `Ini Parsers`_), a fixer (:cpp:class:`AGRemapCore::BaseIniFixer`, see `Ini Fixers`_) and a remover
+  (:cpp:class:`AGRemapCore::BaseIniRemover`, see `Ini Removers`_), chosen per mod type by the builders under
+  `Ini Builders`_. Most characters' fixers are made by one of the ``make...Fixer`` factories from a config
+  struct such as :cpp:struct:`AGRemapCore::GIMICharFixerConfig`, and :cpp:class:`AGRemapCore::StrategyOverrides`
+  replaces a mod type's parser or fixer at runtime.
+- **The edits a fixer is made of**: `Reg Edits`_ (the keys of one section), `Graph Edits`_ (one graph of
+  sections linked by ``run =``) and `Graph Group Edits`_ (several graphs at once, and the files they reference).
+- **Mod files**: `Buf Files`_ (``.buf`` vertex/index buffers) and `Textures`_ (``.dds`` files).
+
 :raw-html:`<br />`
 :raw-html:`<br />`
 
@@ -33,6 +62,17 @@ Hashes
 
 :raw-html:`<br />`
 
+IndexCounts
+-----------
+
+.. cppattributetable:: AGRemapCore::IndexCounts
+
+.. doxygenclass:: AGRemapCore::IndexCounts
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 Indices
 -------
 
@@ -44,12 +84,78 @@ Indices
 
 :raw-html:`<br />`
 
+ModAssets
+---------
+
+.. cppattributetable:: AGRemapCore::ModAssets
+
+.. doxygenclass:: AGRemapCore::ModAssets
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ModDictAssets
+-------------
+
+.. cppattributetable:: AGRemapCore::ModDictAssets
+
+.. doxygenclass:: AGRemapCore::ModDictAssets
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ModMappedAssets
+---------------
+
+.. cppattributetable:: AGRemapCore::ModMappedAssets
+
+.. doxygenclass:: AGRemapCore::ModMappedAssets
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ShapeKeyChecksums
+-----------------
+
+.. cppattributetable:: AGRemapCore::ShapeKeyChecksums
+
+.. doxygenclass:: AGRemapCore::ShapeKeyChecksums
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 VertexCounts
 ------------
 
 .. cppattributetable:: AGRemapCore::VertexCounts
 
 .. doxygenclass:: AGRemapCore::VertexCounts
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGCounts
+--------
+
+.. cppattributetable:: AGRemapCore::VGCounts
+
+.. doxygenclass:: AGRemapCore::VGCounts
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGOffsets
+---------
+
+.. cppattributetable:: AGRemapCore::VGOffsets
+
+.. doxygenclass:: AGRemapCore::VGOffsets
     :members:
     :protected-members:
 
@@ -69,6 +175,17 @@ VGRemaps
 
 Buf Files
 =========
+
+:raw-html:`<br />`
+
+BadBufData
+----------
+
+.. cppattributetable:: AGRemapCore::BadBufData
+
+.. doxygenclass:: AGRemapCore::BadBufData
+    :members:
+    :protected-members:
 
 :raw-html:`<br />`
 
@@ -171,6 +288,17 @@ BufFile
 
 :raw-html:`<br />`
 
+BufFileNotRecognized
+--------------------
+
+.. cppattributetable:: AGRemapCore::BufFileNotRecognized
+
+.. doxygenclass:: AGRemapCore::BufFileNotRecognized
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 BufFloat
 --------
 
@@ -248,6 +376,17 @@ IbFile
 
 :raw-html:`<br />`
 
+InnerLayerOutline
+-----------------
+
+.. cppattributetable:: AGRemapCore::InnerLayerOutline
+
+.. doxygenstruct:: AGRemapCore::InnerLayerOutline
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 PositionFile
 ------------
 
@@ -265,6 +404,83 @@ VbFile
 .. cppattributetable:: AGRemapCore::VbFile
 
 .. doxygenclass:: AGRemapCore::VbFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGComponentBuffers
+------------------
+
+.. cppattributetable:: AGRemapCore::VGComponentBuffers
+
+.. doxygenstruct:: AGRemapCore::VGComponentBuffers
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGComponentMerge
+----------------
+
+.. cppattributetable:: AGRemapCore::VGComponentMerge
+
+.. doxygenclass:: AGRemapCore::VGComponentMerge
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGComponentMergeStats
+---------------------
+
+.. cppattributetable:: AGRemapCore::VGComponentMergeStats
+
+.. doxygenstruct:: AGRemapCore::VGComponentMergeStats
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGComponentSpec
+---------------
+
+.. cppattributetable:: AGRemapCore::VGComponentSpec
+
+.. doxygenstruct:: AGRemapCore::VGComponentSpec
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGComponentSplit
+----------------
+
+.. cppattributetable:: AGRemapCore::VGComponentSplit
+
+.. doxygenclass:: AGRemapCore::VGComponentSplit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGComponentSplitStats
+---------------------
+
+.. cppattributetable:: AGRemapCore::VGComponentSplitStats
+
+.. doxygenstruct:: AGRemapCore::VGComponentSplitStats
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGMergeComponentSpec
+--------------------
+
+.. cppattributetable:: AGRemapCore::VGMergeComponentSpec
+
+.. doxygenstruct:: AGRemapCore::VGMergeComponentSpec
     :members:
     :protected-members:
 
@@ -294,12 +510,67 @@ DownloadMode
 
 :raw-html:`<br />`
 
+DownloadModeTools
+-----------------
+
+.. cppattributetable:: AGRemapCore::DownloadModeTools
+
+.. doxygenclass:: AGRemapCore::DownloadModeTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileExt
+-------
+
+.. cppattributetable:: AGRemapCore::FileExt
+
+.. doxygenclass:: AGRemapCore::FileExt
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 FilePrefixes
 ------------
 
 .. cppattributetable:: AGRemapCore::FilePrefixes
 
 .. doxygenclass:: AGRemapCore::FilePrefixes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileSuffixes
+------------
+
+.. cppattributetable:: AGRemapCore::FileSuffixes
+
+.. doxygenclass:: AGRemapCore::FileSuffixes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileTypes
+---------
+
+.. cppattributetable:: AGRemapCore::FileTypes
+
+.. doxygenclass:: AGRemapCore::FileTypes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GameType
+--------
+
+.. cppattributetable:: AGRemapCore::GameType
+
+.. doxygenclass:: AGRemapCore::GameType
     :members:
     :protected-members:
 
@@ -351,6 +622,17 @@ GlobalModTypes
 .. cppattributetable:: AGRemapCore::GlobalModTypes
 
 .. doxygenclass:: AGRemapCore::GlobalModTypes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfPredPartTypeTools
+-------------------
+
+.. cppattributetable:: AGRemapCore::IfPredPartTypeTools
+
+.. doxygenclass:: AGRemapCore::IfPredPartTypeTools
     :members:
     :protected-members:
 
@@ -417,6 +699,27 @@ RegFillMissingMode
 
 :raw-html:`<br />`
 
+StrategyOverrides
+-----------------
+
+.. cppattributetable:: AGRemapCore::StrategyOverrides
+
+.. doxygenclass:: AGRemapCore::StrategyOverrides
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIBuilder
+-----------
+
+.. cppattributetable:: AGRemapCore::WWMIBuilder
+
+.. doxygenclass:: AGRemapCore::WWMIBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Data
@@ -579,6 +882,17 @@ BaseResEdit
 
 :raw-html:`<br />`
 
+BufReplace
+----------
+
+.. cppattributetable:: AGRemapCore::BufReplace
+
+.. doxygenclass:: AGRemapCore::BufReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphCreate
 -----------
 
@@ -656,23 +970,23 @@ IIniGraphGroups
 
 :raw-html:`<br />`
 
-IniGraphGroupsVec
------------------
-
-.. cppattributetable:: AGRemapCore::IniGraphGroupsVec
-
-.. doxygenclass:: AGRemapCore::IniGraphGroupsVec
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 IniFileResEditContext
 ---------------------
 
 .. cppattributetable:: AGRemapCore::IniFileResEditContext
 
 .. doxygenclass:: AGRemapCore::IniFileResEditContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniGraphGroupsVec
+-----------------
+
+.. cppattributetable:: AGRemapCore::IniGraphGroupsVec
+
+.. doxygenclass:: AGRemapCore::IniGraphGroupsVec
     :members:
     :protected-members:
 
@@ -761,6 +1075,39 @@ TexCreate
 .. cppattributetable:: AGRemapCore::TexCreate
 
 .. doxygenclass:: AGRemapCore::TexCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TexReplace
+----------
+
+.. cppattributetable:: AGRemapCore::TexReplace
+
+.. doxygenclass:: AGRemapCore::TexReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGMergeGroupResBuilder
+----------------------
+
+.. cppattributetable:: AGRemapCore::VGMergeGroupResBuilder
+
+.. doxygenclass:: AGRemapCore::VGMergeGroupResBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGSplitGroupResBuilder
+----------------------
+
+.. cppattributetable:: AGRemapCore::VGSplitGroupResBuilder
+
+.. doxygenclass:: AGRemapCore::VGSplitGroupResBuilder
     :members:
     :protected-members:
 
@@ -888,6 +1235,17 @@ IfTemplateTree
 .. cppattributetable:: AGRemapCore::IfTemplateTree
 
 .. doxygenclass:: AGRemapCore::IfTemplateTree
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniGraphGroup
+-------------
+
+.. cppattributetable:: AGRemapCore::IniGraphGroup
+
+.. doxygenclass:: AGRemapCore::IniGraphGroup
     :members:
     :protected-members:
 
@@ -1053,6 +1411,17 @@ IniFile
     :protected-members:
 
 :raw-html:`<br />`
+
+IniNamingTools
+--------------
+
+.. cppattributetable:: AGRemapCore::IniNamingTools
+
+.. doxygenclass:: AGRemapCore::IniNamingTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Ini Fixers
@@ -1071,6 +1440,28 @@ BaseIniFixer
 
 :raw-html:`<br />`
 
+GIMICharFixerConfig
+-------------------
+
+.. cppattributetable:: AGRemapCore::GIMICharFixerConfig
+
+.. doxygenstruct:: AGRemapCore::GIMICharFixerConfig
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMIComponentFixerConfig
+------------------------
+
+.. cppattributetable:: AGRemapCore::GIMIComponentFixerConfig
+
+.. doxygenstruct:: AGRemapCore::GIMIComponentFixerConfig
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GIMIFixer
 ---------
 
@@ -1082,12 +1473,23 @@ GIMIFixer
 
 :raw-html:`<br />`
 
-MultiModFixer
--------------
+GIMIMergeFixerConfig
+--------------------
 
-.. cppattributetable:: AGRemapCore::MultiModFixer
+.. cppattributetable:: AGRemapCore::GIMIMergeFixerConfig
 
-.. doxygenclass:: AGRemapCore::MultiModFixer
+.. doxygenstruct:: AGRemapCore::GIMIMergeFixerConfig
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMIObjPartFilter
+-----------------
+
+.. cppattributetable:: AGRemapCore::GIMIObjPartFilter
+
+.. doxygenclass:: AGRemapCore::GIMIObjPartFilter
     :members:
     :protected-members:
 
@@ -1126,12 +1528,62 @@ IniFixingContext
 
 :raw-html:`<br />`
 
+makeGIMICharFixer
+-----------------
+
+.. doxygenfunction:: AGRemapCore::makeGIMICharFixer
+
+:raw-html:`<br />`
+
+makeGIMIComponentFixer
+----------------------
+
+.. doxygenfunction:: AGRemapCore::makeGIMIComponentFixer
+
+:raw-html:`<br />`
+
+makeGIMIMergeFixer
+------------------
+
+.. doxygenfunction:: AGRemapCore::makeGIMIMergeFixer
+
+:raw-html:`<br />`
+
+makeWWMIFixer
+-------------
+
+.. doxygenfunction:: AGRemapCore::makeWWMIFixer
+
+:raw-html:`<br />`
+
+MultiModFixer
+-------------
+
+.. cppattributetable:: AGRemapCore::MultiModFixer
+
+.. doxygenclass:: AGRemapCore::MultiModFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RemapIniFixContext
 ------------------
 
 .. cppattributetable:: AGRemapCore::RemapIniFixContext
 
 .. doxygenclass:: AGRemapCore::RemapIniFixContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIFixerConfig
+---------------
+
+.. cppattributetable:: AGRemapCore::WWMIFixerConfig
+
+.. doxygenstruct:: AGRemapCore::WWMIFixerConfig
     :members:
     :protected-members:
 
@@ -1160,6 +1612,28 @@ DownloadData
 .. cppattributetable:: AGRemapCore::DownloadData
 
 .. doxygenclass:: AGRemapCore::DownloadData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMICharParserConfig
+--------------------
+
+.. cppattributetable:: AGRemapCore::GIMICharParserConfig
+
+.. doxygenstruct:: AGRemapCore::GIMICharParserConfig
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMIComponentParserConfig
+-------------------------
+
+.. cppattributetable:: AGRemapCore::GIMIComponentParserConfig
+
+.. doxygenstruct:: AGRemapCore::GIMIComponentParserConfig
     :members:
     :protected-members:
 
@@ -1219,6 +1693,314 @@ IniParseDownloadData
     :protected-members:
 
 :raw-html:`<br />`
+
+makeGIMICharParser
+------------------
+
+.. doxygenfunction:: AGRemapCore::makeGIMICharParser
+
+:raw-html:`<br />`
+
+makeGIMIComponentParser
+-----------------------
+
+.. doxygenfunction:: AGRemapCore::makeGIMIComponentParser
+
+:raw-html:`<br />`
+
+makeWWMIParser
+--------------
+
+.. doxygenfunction:: AGRemapCore::makeWWMIParser
+
+:raw-html:`<br />`
+
+WWMIParserConfig
+----------------
+
+.. cppattributetable:: AGRemapCore::WWMIParserConfig
+
+.. doxygenstruct:: AGRemapCore::WWMIParserConfig
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Ini Removers
+============
+
+:raw-html:`<br />`
+
+BaseIniRemover
+--------------
+
+.. cppattributetable:: AGRemapCore::BaseIniRemover
+
+.. doxygenclass:: AGRemapCore::BaseIniRemover
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GlobalRemapIniRemover
+---------------------
+
+.. cppattributetable:: AGRemapCore::GlobalRemapIniRemover
+
+.. doxygenclass:: AGRemapCore::GlobalRemapIniRemover
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFileRemoveContext
+--------------------
+
+.. cppattributetable:: AGRemapCore::IniFileRemoveContext
+
+.. doxygenclass:: AGRemapCore::IniFileRemoveContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniRemovalContext
+-----------------
+
+.. cppattributetable:: AGRemapCore::IniRemovalContext
+
+.. doxygenstruct:: AGRemapCore::IniRemovalContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniRemoveContext
+----------------
+
+.. cppattributetable:: AGRemapCore::IniRemoveContext
+
+.. doxygenclass:: AGRemapCore::IniRemoveContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapIniRemover
+---------------
+
+.. cppattributetable:: AGRemapCore::RemapIniRemover
+
+.. doxygenclass:: AGRemapCore::RemapIniRemover
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Ini Resources
+=============
+
+:raw-html:`<br />`
+
+IniDownloadModel
+----------------
+
+.. cppattributetable:: AGRemapCore::IniDownloadModel
+
+.. doxygenclass:: AGRemapCore::IniDownloadModel
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFixResource
+--------------
+
+.. cppattributetable:: AGRemapCore::IniFixResource
+
+.. doxygenclass:: AGRemapCore::IniFixResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFixResourceModel
+-------------------
+
+.. cppattributetable:: AGRemapCore::IniFixResourceModel
+
+.. doxygenclass:: AGRemapCore::IniFixResourceModel
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniGroupedResource
+------------------
+
+.. cppattributetable:: AGRemapCore::IniGroupedResource
+
+.. doxygenclass:: AGRemapCore::IniGroupedResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniResource
+-----------
+
+.. cppattributetable:: AGRemapCore::IniResource
+
+.. doxygenclass:: AGRemapCore::IniResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniResourceModel
+----------------
+
+.. cppattributetable:: AGRemapCore::IniResourceModel
+
+.. doxygenclass:: AGRemapCore::IniResourceModel
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniSrcResourceModel
+-------------------
+
+.. cppattributetable:: AGRemapCore::IniSrcResourceModel
+
+.. doxygenclass:: AGRemapCore::IniSrcResourceModel
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniTexModel
+-----------
+
+.. cppattributetable:: AGRemapCore::IniTexModel
+
+.. doxygenclass:: AGRemapCore::IniTexModel
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapBlendResource
+------------------
+
+.. cppattributetable:: AGRemapCore::RemapBlendResource
+
+.. doxygenclass:: AGRemapCore::RemapBlendResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapIniDownload
+----------------
+
+.. cppattributetable:: AGRemapCore::RemapIniDownload
+
+.. doxygenclass:: AGRemapCore::RemapIniDownload
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapIniFixResource
+-------------------
+
+.. cppattributetable:: AGRemapCore::RemapIniFixResource
+
+.. doxygenclass:: AGRemapCore::RemapIniFixResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapIniGroupedResource
+-----------------------
+
+.. cppattributetable:: AGRemapCore::RemapIniGroupedResource
+
+.. doxygenclass:: AGRemapCore::RemapIniGroupedResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapIniResource
+----------------
+
+.. cppattributetable:: AGRemapCore::RemapIniResource
+
+.. doxygenclass:: AGRemapCore::RemapIniResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapIniResourceMixin
+---------------------
+
+.. cppattributetable:: AGRemapCore::RemapIniResourceMixin
+
+.. doxygenclass:: AGRemapCore::RemapIniResourceMixin
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapTexAddResource
+-------------------
+
+.. cppattributetable:: AGRemapCore::RemapTexAddResource
+
+.. doxygenclass:: AGRemapCore::RemapTexAddResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapTexEditResource
+--------------------
+
+.. cppattributetable:: AGRemapCore::RemapTexEditResource
+
+.. doxygenclass:: AGRemapCore::RemapTexEditResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGMergeGroupResource
+--------------------
+
+.. cppattributetable:: AGRemapCore::VGMergeGroupResource
+
+.. doxygenclass:: AGRemapCore::VGMergeGroupResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGSplitGroupResource
+--------------------
+
+.. cppattributetable:: AGRemapCore::VGSplitGroupResource
+
+.. doxygenclass:: AGRemapCore::VGSplitGroupResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Predicate Parsers
@@ -1247,7 +2029,7 @@ SympyParser
     :protected-members:
 
 :raw-html:`<br />`
-
+:raw-html:`<br />`
 
 Predicate Tokenizers
 =====================
@@ -1365,6 +2147,117 @@ RegRestrict
 .. cppattributetable:: AGRemapCore::RegRestrict
 
 .. doxygenclass:: AGRemapCore::RegRestrict
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Remap Service
+=============
+
+:raw-html:`<br />`
+
+InvalidDownloadMode
+-------------------
+
+.. cppattributetable:: AGRemapCore::InvalidDownloadMode
+
+.. doxygenclass:: AGRemapCore::InvalidDownloadMode
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+InvalidGameType
+---------------
+
+.. cppattributetable:: AGRemapCore::InvalidGameType
+
+.. doxygenclass:: AGRemapCore::InvalidGameType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+InvalidModType
+--------------
+
+.. cppattributetable:: AGRemapCore::InvalidModType
+
+.. doxygenclass:: AGRemapCore::InvalidModType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+InvalidVersion
+--------------
+
+.. cppattributetable:: AGRemapCore::InvalidVersion
+
+.. doxygenclass:: AGRemapCore::InvalidVersion
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapService
+------------
+
+.. cppattributetable:: AGRemapCore::RemapService
+
+.. doxygenclass:: AGRemapCore::RemapService
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapServiceCLI
+---------------
+
+.. cppattributetable:: AGRemapCore::RemapServiceCLI
+
+.. doxygenclass:: AGRemapCore::RemapServiceCLI
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Stats
+=====
+
+:raw-html:`<br />`
+
+CachedFileStats
+---------------
+
+.. cppattributetable:: AGRemapCore::CachedFileStats
+
+.. doxygenclass:: AGRemapCore::CachedFileStats
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileStats
+---------
+
+.. cppattributetable:: AGRemapCore::FileStats
+
+.. doxygenclass:: AGRemapCore::FileStats
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapStats
+----------
+
+.. cppattributetable:: AGRemapCore::RemapStats
+
+.. doxygenclass:: AGRemapCore::RemapStats
     :members:
     :protected-members:
 
@@ -1552,6 +2445,17 @@ TempControl
 
 :raw-html:`<br />`
 
+TexCache
+--------
+
+.. cppattributetable:: AGRemapCore::TexCache
+
+.. doxygenclass:: AGRemapCore::TexCache
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 TexCreator
 ----------
 
@@ -1613,6 +2517,34 @@ TransparencyAdjustFilter
 .. cppattributetable:: AGRemapCore::TransparencyAdjustFilter
 
 .. doxygenclass:: AGRemapCore::TransparencyAdjustFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Versions
+========
+
+:raw-html:`<br />`
+
+Version
+-------
+
+.. cppattributetable:: AGRemapCore::Version
+
+.. doxygenclass:: AGRemapCore::Version
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VersionSet
+----------
+
+.. cppattributetable:: AGRemapCore::VersionSet
+
+.. doxygenclass:: AGRemapCore::VersionSet
     :members:
     :protected-members:
 
@@ -1694,6 +2626,32 @@ BiMap
 
 :raw-html:`<br />`
 
+Caches
+======
+
+:raw-html:`<br />`
+
+Cache
+-----
+
+.. cppattributetable:: AGRemapCore::Cache
+
+.. doxygenclass:: AGRemapCore::Cache
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+LruCache
+--------
+
+.. cppattributetable:: AGRemapCore::LruCache
+
+.. doxygenclass:: AGRemapCore::LruCache
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 
 DFAs and Tries
 ==============
@@ -1733,6 +2691,43 @@ BaseTrie
 
 :raw-html:`<br />`
 
+Files and Downloads
+===================
+
+:raw-html:`<br />`
+
+DownloadTools
+-------------
+
+.. cppattributetable:: AGRemapCore::DownloadTools
+
+.. doxygenclass:: AGRemapCore::DownloadTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileDownload
+------------
+
+.. cppattributetable:: AGRemapCore::FileDownload
+
+.. doxygenclass:: AGRemapCore::FileDownload
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileService
+-----------
+
+.. cppattributetable:: AGRemapCore::FileService
+
+.. doxygenclass:: AGRemapCore::FileService
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 
 GraphemeIterator
 ================
@@ -1766,19 +2761,6 @@ GraphTools
     :protected-members:
 
 :raw-html:`<br />`
-
-
-Heading
-=======
-
-.. cppattributetable:: AGRemapCore::Heading
-
-.. doxygenclass:: AGRemapCore::Heading
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 
 Hashing
 =======
@@ -1829,6 +2811,17 @@ HashTools
 
 :raw-html:`<br />`
 
+Heading
+=======
+
+.. cppattributetable:: AGRemapCore::Heading
+
+.. doxygenclass:: AGRemapCore::Heading
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IncIdGenerator
 ==============
 
@@ -1862,6 +2855,16 @@ ListTools
 
 :raw-html:`<br />`
 
+NumTools
+========
+
+.. cppattributetable:: AGRemapCore::NumTools
+
+.. doxygenclass:: AGRemapCore::NumTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 
 Ordered MultiMaps
 ==================
@@ -1951,7 +2954,6 @@ RemappedKeyData
     :protected-members:
 
 :raw-html:`<br />`
-
 
 Parsing
 =======
@@ -2057,7 +3059,6 @@ Token
 
 :raw-html:`<br />`
 
-
 Ranges
 ======
 
@@ -2080,6 +3081,17 @@ StringTools
 
 :raw-html:`<br />`
 
+TextTools
+=========
+
+.. cppattributetable:: AGRemapCore::TextTools
+
+.. doxygenclass:: AGRemapCore::TextTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 UuidIdGenerator
 ===============
 
@@ -2090,7 +3102,6 @@ UuidIdGenerator
     :protected-members:
 
 :raw-html:`<br />`
-
 
 Z3
 ==
@@ -2118,7 +3129,6 @@ Z3Predicate
     :protected-members:
 
 :raw-html:`<br />`
-
 
 .. _DFA: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
@@ -2200,3 +3210,17 @@ Z3Predicate
 .. _Simple Image Temperature/Tint Adjust Algorithm: https://tannerhelland.com/2014/07/01/simple-algorithms-adjusting-image-temperature-tint.html
 .. _Highlight Shadow Approximation Reference: https://stackoverflow.com/questions/51591445/what-is-the-algorithm-behind-photoshops-highlight-or-shadow-alteration
 .. _endianness: https://en.wikipedia.org/wiki/Endianness
+.. _bipartite graph: https://en.wikipedia.org/wiki/Bipartite_graph
+.. _blend: https://en.wikipedia.org/wiki/Skeletal_animation
+.. _DataFrame: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
+.. _Direct Draw Surface: https://en.wikipedia.org/wiki/DirectDraw_Surface
+.. _libcurl: https://curl.se/libcurl/
+.. _LRU Cache: https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
+.. _NNFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini
+.. _ORFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini
+.. _packaging.version.Version: https://packaging.pypa.io/en/stable/version.html#packaging.version.Version
+.. _pandas: https://pandas.pydata.org/
+.. _pathlib: https://docs.python.org/3/library/pathlib.html
+.. _PEP 440: https://peps.python.org/pep-0440/
+.. _requests: https://requests.readthedocs.io/
+.. _TexFx: https://github.com/leotorrez/LeoTools/blob/main/releases/TexFx.ini

@@ -43,7 +43,7 @@ namespace AGRemapCore {
         **Why the diffuse gate exists.** A mod need not follow its own character's legend at all,
         because **a mod that is itself a PORT carries some THIRD character's bands** -- a Clorinde
         port of a Yelan skin keeps Clorinde's legend, with hair where the target expects skin.
-        Lifting that hair onto the skin ramp put speckles all over it. So a move may be conditioned
+        Lifting that hair onto the skin ramp would put speckles all over it. So a move may be conditioned
         on the colour under the pixel actually looking like the material being moved. A move whose
         source band cannot be mistaken for anything else needs no gate; a move off band ``0`` -- the
         DEFAULT that a lazy or ported mod leaves everything on -- always does.

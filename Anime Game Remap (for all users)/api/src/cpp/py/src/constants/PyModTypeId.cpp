@@ -291,9 +291,8 @@ tell whether the registry it populated is still the one being read. Deliberately
         .def_static("getHashRemapTargets", &AGRC::ModTypeIdTools::getHashRemapTargets, py::arg("value"), py::doc(R"doc(
 Retrieves the mod types a given mod type's **hashes** can be remapped onto
 
-This is the remap graph itself. It mirrors the ``map`` argument the pure-Python :class:`GIBuilder`
-passes to each mod type's :class:`Hashes`, lifted out of the 43 individual factories into one table
-so a target is named by :class:`ModTypeId` rather than by a bare string
+This is the remap graph itself: one table, naming each target by :class:`ModTypeId` rather than by
+a bare string
 
 .. note::
     Two :class:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as

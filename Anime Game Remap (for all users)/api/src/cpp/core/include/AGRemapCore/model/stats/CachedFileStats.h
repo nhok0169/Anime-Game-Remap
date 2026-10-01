@@ -31,7 +31,7 @@ namespace AGRemapCore {
      This class inherits from :cpp:class:`FileStats`
 
      Adds tracking for a file retrieved via a cache hit, on top of what :cpp:class:`FileStats`
-     already tracks -- mirrors the pure-Python ``CachedFileStats`` class (``model/stats/CachedFileStats.py``)
+     already tracks
      @endrst
      */
     class CachedFileStats: public FileStats {

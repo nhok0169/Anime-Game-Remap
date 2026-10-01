@@ -660,8 +660,8 @@ construct already exists
 Retrieves a unique id for a file within a single .ini file
 
 .. note::
-    The returned value is not byte-identical to the one the pure-Python original produced -- it is
-    an opaque, within-one-run dictionary key that is never persisted or written to a file
+    The returned value is an opaque, within-one-run dictionary key that is never persisted or
+    written to a file
 
 Parameters
 ----------

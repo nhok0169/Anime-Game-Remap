@@ -32,17 +32,14 @@ namespace AGRemapCore {
      pulled off the network once and COPIED everywhere else it is needed
      :raw-html:`<br />` :raw-html:`<br />`
 
-     :cpp:class:`FileDownload` has a cache of its own (``prevPath_``), and in the pure-Python
-     original that was enough: its ``IniParseBuilder`` was a flyweight, so every ``.ini`` file
-     of a given mod type shared ONE parser, one ``DownloadData``, and therefore one
-     ``FileDownload`` object holding one ``_prevPath``. This port builds a parser per
-     :cpp:class:`IniFile` (and the builders were de-flyweighted deliberately), so that
-     per-object cache can never be hit -- a fresh :cpp:class:`FileDownload` reaches every
-     download with an empty ``prevPath_``. Measured on a 36-``.ini`` XingqiuBamboo mod:
-     *downloaded 36 files, copied 0 files from existing downloads*, all 36 the same URL
-     :raw-html:`<br />` :raw-html:`<br />`
+     :cpp:class:`FileDownload` has a cache of its own (``prevPath_``), but it only helps when the
+     same :cpp:class:`FileDownload` object is asked twice. Every :cpp:class:`IniFile` gets a
+     parser of its own, so that per-object cache is never hit across ``.ini`` files -- a fresh
+     :cpp:class:`FileDownload` reaches every download with an empty ``prevPath_``, and a mod of 36
+     ``.ini`` files all needing the same file would download it 36 times :raw-html:`<br />`
+     :raw-html:`<br />`
 
-     So the cache moves to where the question actually belongs. "Have we already fetched this
+     So the cache lives where the question actually belongs. "Have we already fetched this
      URL?" is a property of the RUN, not of a parser strategy -- :cpp:class:`RemapService`
      owns one of these and hands it to each download as it goes, exactly as it hands over the
      logger :raw-html:`<br />` :raw-html:`<br />`
@@ -110,18 +107,16 @@ namespace AGRemapCore {
      @rst
      Class to handle file downloads from some server :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``FileDownload`` class (``tools/files/FileDownload.py``) --
      :cpp:func:`get`'s caching decision logic (whether to re-download, copy a cached file, or
-     re-download after a failed copy) is fully ported and independently testable :raw-html:`<br />`
+     re-download after a failed copy) is independently testable :raw-html:`<br />`
      :raw-html:`<br />`
 
      .. note::
-        :cpp:func:`download` is backed by `libcurl`_'s easy API (``curl_easy_*``), matching the
-        Python original's use of the `requests`_ package -- entirely confined to
-        ``FileDownload.cpp``, so this public header (and every other public ``AGRemapCore`` header
-        that transitively includes it) stays free of any ``<curl/curl.h>`` dependency, the same
-        "wrap a third-party C library without leaking it into public headers" posture this codebase
-        already takes for `Z3`_ (see the Architecture doc's own section on that). Unlike `Z3`_
+        :cpp:func:`download` is backed by `libcurl`_'s easy API (``curl_easy_*``), entirely
+        confined to ``FileDownload.cpp``, so this public header (and every other public
+        ``AGRemapCore`` header that transitively includes it) stays free of any ``<curl/curl.h>``
+        dependency, the same "wrap a third-party C library without leaking it into public headers"
+        posture this codebase takes for `Z3`_. Unlike `Z3`_
         though, no persistent per-instance state needs wrapping here -- a download is a single,
         self-contained ``curl_easy_init``/``curl_easy_perform``/``curl_easy_cleanup`` sequence local
         to one #download call, so no pimpl is needed at all, just keeping the ``#include`` itself

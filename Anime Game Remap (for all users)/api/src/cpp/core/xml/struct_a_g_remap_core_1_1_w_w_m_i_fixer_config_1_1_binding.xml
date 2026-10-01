@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="91" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="90" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1ad0f70660feabdef8c691a192c49aa385" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -42,13 +42,13 @@ so the GAME&apos;s texture serves the register.
     UV: a lookup, a ramp, a matcap. For a UV-MAPPED texture it is wrong by
     construction, because the geometry under it is the SOURCE&apos;s, so the target&apos;s art
     is sampled at UVs it was never authored for -- which renders as irregular blotches
-    that follow the target&apos;s layout rather than the mod&apos;s. Chisa&apos;s hair ``ps-t5`` is a
-    2048 x 2048 map and was exactly that (2026-09-26); confirmed in game by nulling it.
+    that follow the target&apos;s layout rather than the mod&apos;s. Chisa&apos;s hair ``ps-t5``, a
+    2048 x 2048 map, is an example.
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="112" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="112" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="111" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1aca109c48fe2fae8ea8d5b8f0c787ed74" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -78,7 +78,7 @@ rows carry this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="132" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="132" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="131" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="131" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -86,7 +86,7 @@ rows carry this
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="87" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="87" bodyend="133"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="86" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="86" bodyend="132"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1a99e4c6e3364f88d11563948895948872" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Binding</scope><name>reg</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding_1ad0f70660feabdef8c691a192c49aa385" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Binding</scope><name>role</name></member>

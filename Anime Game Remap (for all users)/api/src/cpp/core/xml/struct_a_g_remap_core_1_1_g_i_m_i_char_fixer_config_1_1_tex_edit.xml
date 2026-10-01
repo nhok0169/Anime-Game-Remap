@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="320" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="320" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="319" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="319" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="325" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="325" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="324" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="324" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -51,7 +51,7 @@ What the edited texture is called in the ``.ini`` file it is written into, eg.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="334" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="334" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="333" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="333" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
@@ -66,7 +66,7 @@ What the edited texture is called in the ``.ini`` file it is written into, eg.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="339" column="31" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="339" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="338" column="31" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="338" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -85,7 +85,7 @@ Whether the edited texture is written back compressed -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="348" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="348" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="347" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="347" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -103,13 +103,13 @@ every copy of \ref obj :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 Only meaningful under a **merge**, where several sources land on one target and each
 arrives in a group of its own. Xiangling is the worked example: her ``DarkDiffuse``
 edit is declared on her head, and her head, body and dress all merge onto
-XianglingCheer&apos;s head -- so without this the body and dress copies are darkened too,
-which the pure-Python output shows they are not
+XianglingCheer&apos;s head -- so without this the body and dress copies would be darkened
+too
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="363" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="363" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="362" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="362" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -137,7 +137,7 @@ Kirara is the worked example
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="382" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="382" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="381" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="381" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a2a9626fb8b6cec32a7ad71d9b368a9a5" kindref="member">RegValCheck</ref></type>
@@ -165,7 +165,7 @@ one branch and something else on another, and only the first is hers to edit
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="401" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="401" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="400" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="400" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -173,7 +173,7 @@ one branch and something else on another, and only the first is hers to edit
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="316" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="316" bodyend="402"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="315" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="315" bodyend="401"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>check</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>compress</name></member>

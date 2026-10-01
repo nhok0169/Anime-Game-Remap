@@ -107,8 +107,8 @@ fromVersion: Optional[:class:`Version`]
     The game version the parsed .ini files originate from -- picks the PARSER
 
 toVersion: Optional[:class:`Version`]
-    The game version the .ini files are fixed to -- picks the FIXER. This is the pure-Python
-    API's ``version``
+    The game version the .ini files are fixed to -- picks the FIXER. This is what ``--version``
+    means on the command line
 
 toModTypeIds: Optional[Set[:class:`int`]]
     The :class:`ModTypeId` values to accept when fixing
@@ -208,8 +208,8 @@ Picks the parser, and the hashes/indices the mod is read with)doc"))
     py::doc(R"doc(Optional[:class:`Version`]: The game version the .ini files are being fixed to
 
 Picks the fixer: the fix table is keyed ``{fromVersion, fromMod, toVersion, toMod}`` and every
-shipped row is keyed from ``1.0``, so this half alone selects it. It is the pure-Python API's
-``version``, and what ``--version`` means on the command line)doc"))
+shipped row is keyed from ``1.0``, so this half alone selects it. It is what ``--version`` means
+on the command line)doc"))
 
         .def_readwrite("toModTypeIds", &AGRC::RemapService::toModTypeIds,
     py::doc(R"doc(Optional[Set[:class:`int`]]: The mod types to accept when fixing)doc"))

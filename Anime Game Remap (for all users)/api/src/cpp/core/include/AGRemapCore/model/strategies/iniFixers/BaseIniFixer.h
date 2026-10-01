@@ -33,11 +33,6 @@ namespace AGRemapCore {
      Base class to fix a ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        Only :cpp:class:`GIMIFixer` is ported so far -- none of the pure-Python original's other
-        concrete subclasses (``GIMIObjSplitFixer``, ``GIMIObjMergeFixer``, ``MultiModFixer``, ...)
-        exist in C++ yet
-
-     .. note::
         This is a class template over the same ``K``/``V``/``KeyHash``/``KeyEqual`` as the
         :cpp:class:`IfContentPart`\s the `sections`_ it fixes are made of, defaulting to
         ``<std::string, std::string>``. It has to be, for the same reason
@@ -51,20 +46,13 @@ namespace AGRemapCore {
         same reason :cpp:class:`IniParseBuilder` does -- see that class's own note
 
      .. note::
-        Divergences from the pure-Python
-        ``FixRaidenBoss2.model.strategies.iniFixers.BaseIniFixer`` original:
-
-        * #fix always returns a map of file path to new content. The original returns
-          ``Union[str, Dict[Union[str, int], str]]`` -- either a single ``.ini`` file's new content,
-          or several keyed by path *or* by an integer id when a path isn't available. The single-file
-          case is just a one-entry map here, and the integer-id fallback is dropped, so callers
-          never have to unpack a union
-        * The pure-Python original's ``fix`` sets ``self._iniFile._isFixed = True`` after running.
-          That's deliberately **not** done here -- :cpp:member:`IniFile::isFixed` is currently owned
-          by :cpp:func:`IniFile::classify` (it means "this .ini file was *detected* as already
+        * #fix always returns a map of file path to new content. A fix that produces a single
+          ``.ini`` file's new content returns a one-entry map, so callers never have to unpack a
+          union
+        * #fix does **not** set :cpp:member:`IniFile::isFixed`. That flag is owned by
+          :cpp:func:`IniFile::classify` (it means "this .ini file was *detected* as already
           fixed"), so having a fixer write to it would conflate two different meanings. The
-          `pybind11`_ layer *does* set it, because the `Python`_ ``IniFile`` uses the flag the
-          original's way
+          `pybind11`_ layer *does* set it after a fix
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -112,8 +100,7 @@ namespace AGRemapCore {
              The associated parser to retrieve data for the fix :raw-html:`<br />` :raw-html:`<br />`
 
              This is a non-owning pointer to a parser owned elsewhere -- it must outlive this fixer.
-             #getIniFile is taken from it, matching the pure-Python original's own
-             ``self._iniFile = parser._iniFile`` :raw-html:`<br />` :raw-html:`<br />`
+             #getIniFile is taken from it :raw-html:`<br />` :raw-html:`<br />`
 
              ``nullptr`` is allowed so a fixer can exist before it's bound to a parser; call
              #setParser before #fix in that case :raw-html:`<br />` :raw-html:`<br />`
@@ -164,8 +151,7 @@ namespace AGRemapCore {
              @rst
              Fixes the ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
-             Thin non-virtual wrapper over #fixImpl, matching how the pure-Python original's public
-             ``fix`` delegates to its own ``_fix`` with ``withBoilerPlate``/``withSrc`` both forced
+             Thin non-virtual wrapper over #fixImpl, with ``withBoilerPlate``/``withSrc`` both forced
              to ``true`` -- those two are internal knobs only the fixing pipeline itself varies, so
              they aren't part of this public entry point. Override #fixImpl, not this
              @endrst
@@ -186,9 +172,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Does the actual fixing -- the customization point behind #fix, and the direct
-             equivalent of the pure-Python original's ``_fix``. Returns an empty map by default,
-             matching that original's ``pass``
+             Does the actual fixing -- the customization point behind #fix. Returns an empty map
+             by default
              @endrst
              *
              * @param parseData The parse data to fix from -- see #ParseData

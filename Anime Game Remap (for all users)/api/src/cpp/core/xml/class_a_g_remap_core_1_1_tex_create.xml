@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="136" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="136" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="133" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="133" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_create_1a14519c82b0b1576640f88bd1af381609" prot="private" static="no" mutable="yes">
         <type>std::unordered_map&lt; std::string, std::string &gt;</type>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="140" column="40" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="140" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="137" column="40" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="137" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -232,8 +232,7 @@ name and does not advance the counter :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
    by construction -- there is nothing for a counter to tell apart. Without the
    memo, a mod whose graph binds the register in several branches asks once per
    branch and gets ``NormalMap``, ``NormalMap1``, ``NormalMap2``, ``NormalMap3``:
-   four byte-identical 4MB ``.dds`` files where the pure-Python original writes one.
-   Kaeya&apos;s four-way ``$swapvar`` mod is where that surfaced (2026-09-12).
+   four byte-identical 4MB ``.dds`` files where one would do.
 
 .. note::
    The counter still exists and still numbers genuinely different textures apart --
@@ -260,7 +259,7 @@ name and does not advance the counter :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="104" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="103" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -292,11 +291,9 @@ The fixed texture file path -- :cpp:func:`IniNamingTools::getFixedTexFile`
 
 .. note::
    When a &apos;graphId&apos; is given, the id is appended to the **original** &apos;file&apos;, not to the
-   fixed path just computed -- so the fixed name is discarded in that case. That is
-   exactly what the pure-Python original did (``return self.fileAddGraphId(file,
-   graphId = graphId)``, where every sibling passes ``result``), and it is preserved
-   here rather than quietly corrected: it is not one of the bugs this port was asked to
-   fix, and changing it would rename real output files
+   fixed path just computed -- so the fixed name is discarded in that case. Every
+   sibling appends it to the fixed path instead; this one is kept as is because
+   changing it would rename real output files
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -327,7 +324,7 @@ The fixed texture file path -- :cpp:func:`IniNamingTools::getFixedTexFile`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="125" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="122" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_create_1a7132801beb6ccd4b5231e702c400f5ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -342,7 +339,7 @@ The fixed texture file path -- :cpp:func:`IniNamingTools::getFixedTexFile`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="131" column="17"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="128" column="17"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -459,7 +456,7 @@ Class that builds the necessary parts to create some new texture file :raw-html:
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="50" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="50" bodyend="141"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="50" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="50" bodyend="138"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_tex_create_1a93e6ee385fa0d27caf0e127c8c44ce1e" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreate</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreate</scope><name>BaseResEdit</name></member>

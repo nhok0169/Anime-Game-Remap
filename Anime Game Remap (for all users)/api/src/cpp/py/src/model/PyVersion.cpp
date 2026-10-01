@@ -71,9 +71,8 @@ void initCppVersion(pybind11::module_ &m) {
     // One version VALUE. A searchable collection of them is VersionSet, below -- the pure-Python
     // 'Version' class used to be the collection, and the two names were split when it was replaced.
     py::class_<AGRC::Version>(m, "Version", R"doc(
-A single `PEP 440`_ version value -- a from-scratch C++ port of Python's `packaging.version.Version`_,
-matching its parsing/normalization/comparison behaviour exactly (verified empirically against the
-real ``packaging`` library during development, not just read off its source)
+A single `PEP 440`_ version value -- a C++ implementation of Python's `packaging.version.Version`_,
+matching its parsing/normalization/comparison behaviour exactly
 
 :raw-html:`<br />`
 

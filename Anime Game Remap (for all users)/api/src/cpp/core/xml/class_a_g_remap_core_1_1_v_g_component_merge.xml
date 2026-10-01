@@ -447,7 +447,7 @@ the inverse of :cpp:class:`VGComponentSplit` :raw-html:`&lt;br /&gt;` :raw-html:
 A single-component target draws through ONE set of buffer hashes, so the components&apos; buffers
 have to become one set: several ``.ini`` files each binding that hash to different bytes does
 not work, because a hash binds once and the other components&apos; index buffers then address the
-winner&apos;s vertices (measured in game, 2026-09-13) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+winner&apos;s vertices :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 The components are laid end to end in the order given, so the first keeps its index buffers
 unchanged, and every later one&apos;s indices shift by the vertices before it. Each component&apos;s

@@ -158,8 +158,7 @@ Constructs a new asset lookup table
 :raw-html:`<br />`
 
 .. note::
-    Any extra keyword argument is accepted and ignored, matching the pure-Python original this
-    replaced (whose own constructor ended in ``**kwargs``)
+    Any extra keyword argument is accepted and ignored
 
 Parameters
 ----------
@@ -201,8 +200,7 @@ Raises
         .def("addRows", [](PyModAssets &self, const py::object &rows) {
             self.addRows(convertObjRowsOrNestedDict(rows, self.getTotalIndices()));
         }, py::arg("rows"), py::doc(R"doc(
-Adds new rows to the table (an addition beyond the pure-Python original, which has no
-incremental-add capability at all) -- overwrites the value of any row whose full key already exists
+Adds new rows to the table -- overwrites the value of any row whose full key already exists
 
 Parameters
 ----------

@@ -121,8 +121,8 @@ jobs:
     # identical for every version -- would otherwise be recompiled for each one. Through sccache it
     # compiles once per runner; only the bindings, which include Python's headers, compile per version.
     # Its LOCAL disk cache, not GitHub's: the reuse is within one runner's run, and a release could not
-    # read another release's entries anyway (tag-scoped). So with ONE python in CIBW_BUILD it saves
-    # nothing yet -- it is here for when CIBW_BUILD widens.
+    # read another release's entries anyway (tag-scoped). With the seven pythons in CIBW_BUILD, every
+    # wheel after a runner's first should find the core's compiles in it.
     #
     # NOT Windows: scikit-build-core builds there with the Visual Studio generator, which ignores a
     # compiler launcher, and AGREMAP_SCCACHE would still turn the precompiled headers off.
@@ -163,10 +163,23 @@ jobs:
     # -------------------------------------------------
     - name: Build wheels
       env:
-        # ONE python for now, to keep the matrix quick while this is being proven. Delete this line
-        #   (or widen it) to ship for every python cibuildwheel supports; 'skip = "pp*"' in
-        #   api/pyproject.toml already keeps PyPy out either way.
-        CIBW_BUILD: "cp312-*"
+        # every CPython the pinned cibuildwheel (4.2.1) builds: 3.9 - 3.15. Listed rather than left to
+        #   cibuildwheel's default, so a cibuildwheel bump cannot start shipping a version nobody has
+        #   built here yet -- add the new one to this list (and check numpy has wheels for it first).
+        #   Kept in step with 'requires-python' in api/pyproject.toml (and apiMirror's).
+        #
+        # NOT the free-threaded builds (cp314t, cp315t), which cibuildwheel's default would add:
+        #   numpy, which the Cython modules build against, ships no free-threaded wheels, so each would
+        #   compile numpy from source -- and neither the pybind11 module nor the Cython ones declare
+        #   themselves free-threading safe, so importing them re-enables the GIL anyway.
+        #   'skip = "pp*"' in api/pyproject.toml keeps PyPy out.
+        CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-* cp315-*"
+
+        # import each wheel in a clean environment of its own python (numpy included, from PyPI) before
+        #   anything is published: a wheel that builds but cannot load -- a missing DLL, a wrong ABI, a
+        #   stdlib module a newer python removed -- fails HERE rather than on a user's machine.
+        CIBW_TEST_COMMAND: >-
+          python -c "import sys, FixRaidenBoss2; print('FixRaidenBoss2 imports on', sys.version)"
 
         # see the note at the top of this job: musllinux would link the manylinux z3
         CIBW_SKIP: "*-musllinux_*"

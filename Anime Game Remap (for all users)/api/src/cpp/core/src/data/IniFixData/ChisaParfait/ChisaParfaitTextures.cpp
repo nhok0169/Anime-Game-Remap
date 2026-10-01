@@ -25,6 +25,9 @@ namespace AGRemapCore {
             // shared with Chisa outright
             {"d3b9ba76", "frontHairMask"}, {"f2646d21", "frontHairDiffuse"}, {"9ccd7ea7", "frontHairNormal"},
             {"226b31fc", "irisDiffuse"},
+            // the eye slot's ps-t4, the 2048 COLOURED iris -- see Chisa's side for why ps-t1 alone
+            // left the target's own eye rendering and a mod's eye toggle with nothing to swap
+            {"8224e584", "eyeDiffuse"},
             // hers
             {"3f433212", "hairMask"}, {"a94ee44f", "hairDiffuse"}, {"81f48e54", "hairRamp"},
             {"57aa5a71", "hairTipRamp"}, {"d547f3c6", "hairNormal"},
@@ -57,7 +60,7 @@ namespace AGRemapCore {
             {5, {{"ps-t1", "panelMask"}, {"ps-t2", "panelNormal"}, {"ps-t3", "panelDiffuse"},
                  {"Resource\\RabbitFX\\Diffuse", "panelDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "panelNormal"},
                  {"Resource\\RabbitFX\\Lightmap", "panelMask"}}},
-            {6, {{"ps-t1", "irisDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
+            {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
             {7, {{"ps-t0", "propMask"}, {"ps-t2", "propDiffuse"}, {"ps-t4", "propNormal"},
                  {"Resource\\RabbitFX\\Diffuse", "propDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "propNormal"},
                  {"Resource\\RabbitFX\\Lightmap", "propMask"}}},

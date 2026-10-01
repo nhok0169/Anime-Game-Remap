@@ -448,7 +448,11 @@ namespace AGRemapCore {
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t3", "upperDiffuse"}, {"ps-t8", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}, {"ps-t4", "DetailZero00000000"}, {"ps-t10", "DetailZero00000000"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t3", "lowerDiffuse"}, {"ps-t5", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}}}},
             {5, {5, {{"ps-t0", "accessoryDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t3", "accessorySheen"}, {"ps-t5", "frontHairNormal"}}}},
-            {6, {6, {{"ps-t1", "irisDiffuse"}}}},
+            // ps-t4 as well as ps-t1: the eye draw sets six registers and two of them are the
+            // character's own -- the 512 greyscale structure map at ps-t1 and the 2048 COLOURED iris
+            // at ps-t4. Naming only ps-t1 left the skin's own eye rendering on every remap, and a
+            // mod whose eye TOGGLE swaps the coloured one (Chisa6's heart eyes) had nothing to swap.
+            {6, {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}}}},
         };
 
         // ---- a slot's OTHER passes bind the same art at different registers ----

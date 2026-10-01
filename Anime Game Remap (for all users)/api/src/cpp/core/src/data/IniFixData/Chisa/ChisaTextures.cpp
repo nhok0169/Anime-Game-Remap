@@ -26,6 +26,11 @@ namespace AGRemapCore {
             {"06790f7e", "skinRamp"},
             {"165f3a1b", "upperDiffuse"},
             {"226b31fc", "irisDiffuse"},
+            // The eye slot's ps-t4: the 2048 COLOURED iris, where `irisDiffuse` above is the 512
+            // greyscale structure map at ps-t1. Unnamed until 2026-10-01, so the fix bound only the
+            // structure map and the skin's own eye rendered on the remap -- which is what "the swap
+            // eyes toggle does nothing" was.
+            {"8224e584", "eyeDiffuse"},
             {"232c2dbc", "hairRamp"},
             {"2b16c5ac", "hairTipRamp"},
             {"2b6f8bcb", "lowerNormal"},
@@ -48,13 +53,13 @@ namespace AGRemapCore {
 
         // ---- which role each register binds, per component ----
         facts.registerRoles = {
-            {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}, {"Resource\\RabbitFX\\Diffuse", "frontHairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "frontHairNormal"}, {"Resource\\RabbitFX\\Lightmap", "frontHairMask"}}},
+            {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t4", "eyeDiffuse"}, {"ps-t5", "frontHairNormal"}, {"Resource\\RabbitFX\\Diffuse", "frontHairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "frontHairNormal"}, {"Resource\\RabbitFX\\Lightmap", "frontHairMask"}}},
             {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t5", "hairNormal"}, {"Resource\\RabbitFX\\Diffuse", "hairDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "hairNormal"}, {"Resource\\RabbitFX\\Lightmap", "hairMask"}}},
-            {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "faceDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "faceMask"}}},
+            {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}, {"ps-t4", "eyeDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "faceDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "faceMask"}}},
             {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "upperDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "upperNormal"}, {"Resource\\RabbitFX\\Lightmap", "upperMask"}}},
             {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "lowerDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "lowerNormal"}, {"Resource\\RabbitFX\\Lightmap", "lowerMask"}}},
             {5, {{"ps-t0", "accessoryDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "accessoryDiffuse"}, {"Resource\\RabbitFX\\Normalmap", "accessoryNormal"}}},
-            {6, {{"ps-t1", "irisDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
+            {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "irisDiffuse"}}},
         };
 
         // ---- and her own textures' PIXELS, for a file no hash and no register names ----
@@ -97,6 +102,7 @@ namespace AGRemapCore {
             {"hairNormal", "e921181d"},
             {"hairRamp", "232c2dbc"},
             {"hairTipRamp", "2b16c5ac"},
+            {"eyeDiffuse", "8224e584"},
             {"irisDiffuse", "226b31fc"},
             {"lowerDiffuse", "f642139e"},
             {"lowerMask", "3f0e6f21"},

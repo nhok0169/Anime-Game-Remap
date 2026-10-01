@@ -232,7 +232,9 @@ namespace AGRemapCore {
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}}},
             {5, {3, {{"ps-t0", "panelNormal"}, {"ps-t1", "panelMask"}, {"ps-t2", "panelDiffuse"}}}},
-            {6, {6, {{"ps-t1", "irisDiffuse"}}}},
+            // ps-t4 as well: the eye draw sets the 512 greyscale structure map at ps-t1 and the
+            // 2048 COLOURED iris at ps-t4, and only the first had a role until 2026-10-01
+            {6, {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}}}},
             {7, {4, {{"ps-t0", "propNormal"}, {"ps-t1", "propMask"}, {"ps-t2", "propDiffuse"}}}},
         };
 

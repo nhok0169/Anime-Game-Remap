@@ -1633,6 +1633,14 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "11105c28"},
         {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "7b7f1a19"},
         {{"3.2", ModTypeIdTools::getName(ModTypeId::Chisa), "faceDiffuse"}, "a620843e"},
+        // THE EYE DIFFUSE'S OLDER GENERATIONS (2026-10-01). `cc6e7ae6` is Chisa6's, shipped
+        //   unmodified and correlating +1.0000 with the current `8224e584`. `1131e4c1` rests on
+        //   structural evidence instead: Chisa4, Chisa7 and Chisa12 all bind it in `Components-6`
+        //   under an eyes toggle, and Chisa6 binds it to the SAME resource pair as `cc6e7ae6`. Its
+        //   own file is a REPAINT (+0.45 at best), so its pixels do not vote -- the rule in
+        //   Tools/Misc/Diagnostics/wwmiHashHistory.py's header.
+        {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "eyeDiffuse"}, "cc6e7ae6"},
+        {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "eyeDiffuse"}, "1131e4c1"},
         {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "faceMask"}, "f1c2e889"},
         {{"3.0", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairDiffuse"}, "15cddd7c"},
         {{"3.1", ModTypeIdTools::getName(ModTypeId::Chisa), "frontHairDiffuse"}, "37250244"},

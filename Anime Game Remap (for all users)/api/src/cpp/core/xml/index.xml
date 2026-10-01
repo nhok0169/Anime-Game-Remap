@@ -2693,6 +2693,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a3fc1b7f115ed6ff06bc2c9f9f48eac2a" kind="function"><name>isDisabled</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a7144695ad50e5ae3758e2baadc8e0478" kind="function"><name>getRegTag</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a24e1210ce2efc8bca4cf88459482c3ef" kind="function"><name>getObjRemapFixName</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a5f8e707eafe85670f1204fbec0505c99" kind="function"><name>looksRemapped</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_builder" kind="class"><name>AGRemapCore::IniParseBuilder</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kind="typedef"><name>Factory</name></member>

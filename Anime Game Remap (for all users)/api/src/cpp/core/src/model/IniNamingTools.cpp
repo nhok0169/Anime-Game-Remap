@@ -364,4 +364,54 @@ namespace AGRemapCore {
         std::string newName = name.substr(0, matchStart) + newObjNameStr + name.substr(matchStart + matchLen);
         return getRemapFixName(newName, capModName);
     }
+
+    bool IniNamingTools::looksRemapped(const std::string& sectionName, const std::vector<std::string>& modNames,
+                                       const std::string& remapKeyword) {
+        if (remapKeyword.empty() || sectionName.find(remapKeyword) == std::string::npos) {
+            return false;
+        }
+
+        // With no names to go on -- a hand-built caller, or a context that does not know its mod
+        // types -- the old rule: the keyword anywhere.
+        if (modNames.empty()) {
+            return true;
+        }
+
+        // Otherwise the name has to be shaped the way this software names a fix: '<modName>Remap'
+        // (getRemapName). The keyword ALONE is not enough, and the difference is not academic:
+        // WWMI's own blend remap declares ResourceBlendRemapVertexVGBuffer / ...ForwardBuffer /
+        // ...ReverseBuffer, which the old rule made candidates -- one target reaching them took the
+        // whole blend-remap web with it and deleted three .buf files of a mod that had never been
+        // fixed, every fix undoing first (Chisa, 2026-09-20).
+        for (const std::string& modName : modNames) {
+            if (!modName.empty() && sectionName.find(modName + remapKeyword) != std::string::npos) {
+                return true;
+            }
+        }
+
+        // ...or named for ANOTHER mod, by the kind this software appends after the keyword
+        // (<mod>RemapBlend / Position / Texcoord / IB, <name><mod>RemapFix / Tex / DL / Ref, and the
+        // IBRemapHide a component template writes). The mod-name test alone stopped the last remover
+        // sweeping a leftover of a different mod type -- `[TextureOverrideFooRemapBlend]`, which
+        // IniFile.removeFix has always removed (test_iniFileRemoveFix_ignoresModType) -- while
+        // WWMI's own names stay out: the keyword there is followed by VertexVG / Forward / Reverse /
+        // MergedSkeleton / "ped" / "s", or ends the name, and none of those is a kind.
+        static const std::vector<std::string> Kinds = {IniKeywords::Texcoord, IniKeywords::Position, IniKeywords::Blend, "IB",
+                                                       "Fix", "Tex", "DL", "Ref", "Hide"};
+        for (std::size_t at = sectionName.find(remapKeyword); at != std::string::npos; at = sectionName.find(remapKeyword, at + 1)) {
+            std::size_t kindAt = at + remapKeyword.size();
+            for (const std::string& kind : Kinds) {
+                if (sectionName.compare(kindAt, kind.size(), kind) != 0) {
+                    continue;
+                }
+                // the kind must END there: "RemapTex" is a kind, "RemapTexture" is not
+                std::size_t after = kindAt + kind.size();
+                if (after >= sectionName.size() || sectionName[after] < 'a' || sectionName[after] > 'z') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

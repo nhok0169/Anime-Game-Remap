@@ -1374,6 +1374,12 @@ namespace AGRemapCore {
 
                     source_ = std::move(*src);
                     target_ = std::move(*dst);
+
+                    // The names a fix of this .ini could have written its sections under -- the
+                    // source's and the target's. IniFileRemoveContext::modTypeNames builds the same
+                    // list for the undo, from every type the .ini classified as and everything each
+                    // remaps onto; a fixer is built for ONE pair, which is this one.
+                    remapNames_ = {source_.name, target_.name};
                     return true;
                 }
 
@@ -1802,7 +1808,17 @@ namespace AGRemapCore {
                         // default: Chisa12 declares 50 files in its root (37 .dds and 13 .assets)
                         // against 41 in `res/`, which holds only its UI art, and every texture the
                         // fix made went into the UI folder (2026-09-30). The library's own answer had
-                        // the right behaviour the whole time.
+                        // ...and only a TEXTURE votes on where the textures are. This counted
+                        // every resource the .ini declares, a mod's Meshes/*.buf included, and was
+                        // only ever right because an already-fixed mod's previous RemapDL / RemapTex
+                        // sections were being counted as the mod's own -- many of them, all
+                        // textures, outvoting the buffers by accident. The moment those stopped
+                        // counting (they name sections the undo is about to delete) five mods wrote
+                        // every texture they own into Meshes/ (2026-09-30).
+                        if (StringTools::endsWithIgnoreCase(rel, FileExt::Buf)) {
+                            continue;
+                        }
+
                         ++folderCounts[FileService::parentOf(rel)];
                     }
 
@@ -2234,7 +2250,21 @@ namespace AGRemapCore {
 
                             fileOfRole_[role] = best;
                             auto own = scan.resourceOfFile.find(best);
-                            if (own != scan.resourceOfFile.end()) {
+
+                            // ...unless a PREVIOUS run of the fix is what declared it. A fix undoes
+                            // first and the undo removes every section a fix named, so binding
+                            // `[Resource<Role><Target>RemapRef]` -- which exists precisely to point
+                            // at one of the MOD'S files -- writes a reference the same run deletes:
+                            // 65 dangling `ps-t` bindings across the two corpus mods that arrive
+                            // already fixed (Chisa9, Sanhua3), each naming a section nothing
+                            // declares, which in game leaves whatever was last in the register. The
+                            // file is still the mod's, so it falls through and gets a fresh
+                            // declaration below rather than being dropped (2026-09-30).
+                            //
+                            // IniNamingTools::looksRemapped is the undo's own test, so the two
+                            // cannot disagree about what is about to be removed.
+                            if (own != scan.resourceOfFile.end()
+                                && !IniNamingTools::looksRemapped(own->second, remapNames_)) {
                                 resourceOfSlotRole_[{role, component}] = own->second;
                                 return;
                             }
@@ -4128,6 +4158,7 @@ namespace AGRemapCore {
                 std::string textureFolder_;
                 std::map<std::string, std::string> resourceOfRole_;   // role -> resource, for what every component shares (a created texture, a download)
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
+                std::vector<std::string> remapNames_;   // the mod names a fix of this .ini could have named its sections after
                 std::vector<std::pair<std::string, std::string>> declared_;   // (file, path relative to the .ini) for a file no resource of the .ini names
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;

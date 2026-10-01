@@ -7261,6 +7261,15 @@ class GIMIComponentFixerConfig:
         def innerOutlineReach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
+        def mirrorBackUV(self) -> bool:
+            """
+            :class:`bool`: Whether the :attr:`mirroredObjs` layer reads the source's back-face UVs (``TEXCOORD1``) where it has them
+            --- a two-sided cloth shader textures its back faces that way (Lumine10's starry skirt lining). ``False`` by default
+            """
+        @mirrorBackUV.setter
+        def mirrorBackUV(self, arg0: bool) -> None:
+            ...
+        @property
         def mirrorBackedReach(self) -> float:
             """
             :class:`float`: How far behind a :attr:`mirroredObjs` triangle a layer of the mod facing the other way makes its twin

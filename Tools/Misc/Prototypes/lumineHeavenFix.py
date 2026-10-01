@@ -180,6 +180,8 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
     # ...but not where the mod models its own lining: a twin moved inward from a coat lands in front of the lining a
     # few millimetres behind, as flat grey polygons over Lumine2's coat flaps (in game, 2026-09-29).
     main.mirrorBackedReach = mirrorBackedReach
+    # ...and reads her BACK-face UVs (TEXCOORD1): her dress shader is two-sided (Lumine10's starry lining).
+    main.mirrorBackUV = True
     # Her mods' TexFx calls name HER layout (`T.0`); the skin's slots read a normal map, where `.0` barely glows.
     main.texFxNormalMap = True
     bang.texFxNormalMap = True

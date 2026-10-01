@@ -136,6 +136,21 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Whether a MIRRORED copy (:cpp:member:`VGComponentBuffers::mirrored`) takes the source's SECOND UV set
+         (``TEXCOORD1``, bytes 12-19 of a 20-byte ``Texcoord.buf`` line) as its first, wherever that set is not zero
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A two-sided cloth shader textures a BACK face through ``TEXCOORD1``: Lumine's dress lining, and Lumine10's
+         starry skirt lining, which maps 1101 back faces into a galaxy quadrant of its atlas. The mirrored layer stands in
+         for those back faces on a one-sided target, so it has to read what they read -- with the front UVs it showed the
+         outside's black instead (2026-09-30). **Default**: ``false``
+         @endrst
+         */
+        bool mirrorBackUV = false;
+
+        /**
+         * @brief
+         @rst
          Pushes applied to the written ``Position.buf`` -- each kept vertex (and its mirrored copy) moves
          HORIZONTALLY away from a push's :cpp:member:`VGPushAway::from` by :cpp:member:`VGPushAway::distance`
          times its weight share on the push's groups, read off the SOURCE blend :raw-html:`<br />`

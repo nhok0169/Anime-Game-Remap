@@ -875,6 +875,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a593f45356806307ea80ce6ed5894f871" kind="variable"><name>mirrorBackedReach</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1af7fa1cbd758fecef046d5eced70bea32" kind="variable"><name>mirrorBackUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8e48326f59a942a80a07de2e27f2a54a" kind="variable"><name>innerOutlineObjs</name></member>
@@ -5205,6 +5206,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" kind="variable"><name>positionLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" kind="variable"><name>mirrorLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a355c81ab695cbc47ab0d7c75ca737211" kind="variable"><name>mirrorOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1acaea6cfbeaad84fd129560de6e4c9f35" kind="variable"><name>mirrorBackUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" kind="variable"><name>innerOutline</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" kind="variable"><name>innerOutlineIbs</name></member>

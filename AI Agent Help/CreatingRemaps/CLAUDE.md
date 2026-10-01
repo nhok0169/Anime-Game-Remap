@@ -2037,8 +2037,13 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    shader layout, `.0` for a part with no normal map and `.1` for one with it at `ps-t0`, and a mod's call names ITS
    character's layout. Lumine has none, the skin's slots have one, and `T.0` there glowed faintly where `T.1` glows like
    her own outfit. `Component::texFxNormalMap` (new, off by default) moves `T`/`T.0` -> `T.1`, `TN.0` -> `TN.1` and the
-   other named variants in a normal-map component's remapped sections; the plain Eye slot keeps `.0`. Open: her starry
-   skirt LINING (TexFx-drawn inside faces) does not show on the skin.
+   other named variants in a normal-map component's remapped sections; the plain Eye slot keeps `.0`. **And her starry
+   skirt LINING was not TexFx at all**: her dress shader is TWO-SIDED (`is_front_face`) and textures a back face through
+   `TEXCOORD1` -- Lumine10 maps 1101 back faces into a galaxy quadrant of its atlas, and even her vanilla model carries a
+   second UV set on 865 vertices. The skin's shader is one-sided, the mirrored layer stands in for those back faces, and
+   it copied the FRONT UVs, so the inside showed the outside's black. `Component::mirrorBackUV` (core
+   `VGSplitGroupConfig::mirrorBackUV`, new, off by default) gives each mirrored copy the source's second UV set wherever
+   it is non-zero. Found by removing TexFx from her OWN outfit: the galaxy stayed.
    And a re-fix in place can lose its DOWNLOADS to the intermittent GitHub failure, leaving the head draw bound to
    nothing and the whole remap invisible: check every `filename =` resolves after a re-fix.
 8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib

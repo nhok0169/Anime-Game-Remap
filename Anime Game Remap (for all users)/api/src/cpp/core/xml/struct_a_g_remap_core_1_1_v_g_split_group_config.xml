@@ -163,6 +163,31 @@ The inward offset :cpp:member:`mirrorLineEdit` applies, so a copy with a smaller
         </inbodydescription>
         <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="134" column="15" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="134" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1acaea6cfbeaad84fd129560de6e4c9f35" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::VGSplitGroupConfig::mirrorBackUV</definition>
+        <argsstring></argsstring>
+        <name>mirrorBackUV</name>
+        <qualifiedname>AGRemapCore::VGSplitGroupConfig::mirrorBackUV</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a MIRRORED copy (:cpp:member:`VGComponentBuffers::mirrored`) takes the source&apos;s SECOND UV set
+(``TEXCOORD1``, bytes 12-19 of a 20-byte ``Texcoord.buf`` line) as its first, wherever that set is not zero
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A two-sided cloth shader textures a BACK face through ``TEXCOORD1``: Lumine&apos;s dress lining, and Lumine10&apos;s
+starry skirt lining, which maps 1101 back faces into a galaxy quadrant of its atlas. The mirrored layer stands in
+for those back faces on a one-sided target, so it has to read what they read -- with the front UVs it showed the
+outside&apos;s black instead (2026-09-30). **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="149" column="14" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_push_away" kindref="compound">VGPushAway</ref> &gt;</type>
         <definition>std::vector&lt;VGPushAway&gt; AGRemapCore::VGSplitGroupConfig::pushAway</definition>
@@ -185,7 +210,7 @@ outward, it hangs clear. Empty by default
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="149" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="164" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="164" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_inner_layer_outline" kindref="compound">InnerLayerOutline</ref> &gt;</type>
@@ -205,7 +230,7 @@ found too; needs the group&apos;s ``Position.buf``. Unset by default
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="160" column="23" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="160" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="175" column="23" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::size_t &gt;</type>
@@ -222,14 +247,14 @@ Which of :cpp:member:`ibPaths`, by position, :cpp:member:`innerOutline` asks abo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="168" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="183" column="21" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="183" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="65" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="65" bodyend="169"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="65" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="65" bodyend="184"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a4e8b12263210463aab075475aaafa2bd" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>component</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ad75ebe60410e2eec68015719fe4a3a0b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>ibBytesPerIndex</name></member>
@@ -237,6 +262,7 @@ Which of :cpp:member:`ibPaths`, by position, :cpp:member:`innerOutline` asks abo
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>innerOutline</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>innerOutlineIbs</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>LineEdit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1acaea6cfbeaad84fd129560de6e4c9f35" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>mirrorBackUV</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>mirrorLineEdit</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a355c81ab695cbc47ab0d7c75ca737211" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>mirrorOffset</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupConfig</scope><name>positionLineEdit</name></member>

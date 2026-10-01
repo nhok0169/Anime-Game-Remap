@@ -505,6 +505,10 @@ for single-layer cloth whose back faces the target's shader does not shade as cl
         )doc"))
         .def_readwrite("mirrorOffset", &AGRC::GIMIComponentFixerConfig::Component::mirrorOffset,
                        py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside"))
+        .def_readwrite("mirrorBackUV", &AGRC::GIMIComponentFixerConfig::Component::mirrorBackUV, py::doc(R"doc(
+:class:`bool`: Whether the :attr:`mirroredObjs` layer reads the source's back-face UVs (``TEXCOORD1``) where it has them
+--- a two-sided cloth shader textures its back faces that way (Lumine10's starry skirt lining). ``False`` by default
+        )doc"))
         .def_readwrite("texFxNormalMap", &AGRC::GIMIComponentFixerConfig::Component::texFxNormalMap, py::doc(R"doc(
 :class:`bool`: Whether this component's remapped sections move the mod's TexFx calls onto TexFx's normal-map variants
 (``T.0`` -> ``T.1``, ``TN.0`` -> ``TN.1``, ...) --- a mod's call names its own character's layout, and a ``.0`` call on a

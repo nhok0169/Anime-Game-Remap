@@ -134,6 +134,11 @@ namespace AGRemapCore {
             // dress brown ones). A triangle with a layer facing the other way within 1 cm behind it gets no twin.
             main.mirrorBackedReach = 0.01f;
 
+            // ...and the layer reads her BACK-face UVs: her dress shader is two-sided and textures a back face through
+            // TEXCOORD1 (her own drape lining; Lumine10's starry skirt lining, 1101 back faces into a galaxy quadrant),
+            // which with the front UVs showed the outside's black (2026-09-30).
+            main.mirrorBackUV = true;
+
             // ...and her layered clothes lose the outline of their INNER layers (Yaoyao's hair fix, core
             // InnerLayerOutline). The skin's outline shell sits further out than hers, and the shell of a jacket's
             // under-layer came out through the jacket as small dark red squares on the sleeve, the waist and the

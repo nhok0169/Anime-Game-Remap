@@ -319,6 +319,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether the :cpp:member:`mirroredObjs` layer reads the source's back-face UVs (``TEXCOORD1``) where it has
+             them -- see :cpp:member:`VGSplitGroupConfig::mirrorBackUV`. A source whose cloth shader is two-sided textures
+             its back faces that way, and the layer stands in for them. **Default**: ``false``
+             @endrst
+             */
+            bool mirrorBackUV = false;
+
+            /**
+             * @brief
+             @rst
              Source groups whose weight this component SHARES among several of its bones, as
              ``{source group: [(bone, share), ...]}`` -- see :cpp:member:`VGComponentSpec::splitGroups`. For a
              cloth part the target has no counterpart for, between a bone it clips on and one it folds on.

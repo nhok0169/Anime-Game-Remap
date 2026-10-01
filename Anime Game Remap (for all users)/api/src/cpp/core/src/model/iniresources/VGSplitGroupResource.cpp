@@ -314,6 +314,30 @@ namespace AGRemapCore {
         if (texcoord != nullptr) {
             ByteVec lines = filterVertexBuffer(texcoord->srcPath, split.vertexCount(), buffers.vertices, config.texcoordLineEdit);
 
+            // The mirrored copies read the BACK face's UVs -- see VGSplitGroupConfig::mirrorBackUV.
+            if (config.mirrorBackUV && !buffers.mirrored.empty() && !buffers.vertices.empty()) {
+                BinaryFile srcTexcoords(texcoord->srcPath);
+                const ByteVec src = srcTexcoords.read();
+                const std::size_t srcStride = src.size() / std::max<std::size_t>(split.vertexCount(), 1);
+                const std::size_t stride = lines.size() / buffers.vertices.size();
+                std::size_t taken = 0;
+                for (std::size_t i = 0; i < buffers.mirrored.size() && i < buffers.vertices.size() && srcStride >= 20 && stride >= 12; ++i) {
+                    const std::size_t v = buffers.vertices[i];
+                    if (!buffers.mirrored[i] || (v + 1) * srcStride > src.size()) {
+                        continue;
+                    }
+                    const std::uint8_t* back = src.data() + v * srcStride + 12;
+                    if (std::all_of(back, back + 8, [](std::uint8_t b) { return b == 0; })) {
+                        continue;
+                    }
+                    std::copy(back, back + 8, lines.begin() + static_cast<std::ptrdiff_t>(i * stride + 4));
+                    ++taken;
+                }
+                if (logger != nullptr && taken > 0) {
+                    logger->log("gave " + std::to_string(taken) + " mirrored vertices their back-face UVs");
+                }
+            }
+
             // The inner layers' outline width (the vertex colour's alpha, byte 3), by each line's source vertex
             if (!noOutline.empty() && !buffers.vertices.empty()) {
                 const std::size_t stride = lines.size() / buffers.vertices.size();

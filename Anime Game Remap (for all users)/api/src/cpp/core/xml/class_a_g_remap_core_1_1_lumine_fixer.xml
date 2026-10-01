@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="212" bodyend="214"/>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="217" bodyend="219"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_fixer_1afc1b6eb61f715436d07dc669da42a64a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="217" bodyend="219"/>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="222" bodyend="224"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_fixer_1a02b11223c07be2ff37d1a2d9d8c0bd1f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="222" bodyend="224"/>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="227" bodyend="229"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -3430,31 +3430,6 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. Colours
-.. ~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.Colours
-
-.. .. autoclass:: FixRaidenBoss2.Colours
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. ColourRanges
-.. ~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.ColourRanges
-
-.. .. autoclass:: FixRaidenBoss2.ColourRanges
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-
-.. :raw-html:`<br />`
-
 .. ImgFormats
 .. ~~~~~~~~~~~
 
@@ -3522,18 +3497,6 @@ Z3Predicate
 .. .. attributetable:: FixRaidenBoss2.GlobalClassifiers
 
 .. .. autoclass:: FixRaidenBoss2.GlobalClassifiers
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. GlobalIniRemoveBuilders
-.. ~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.GlobalIniRemoveBuilders
-
-.. .. autoclass:: FixRaidenBoss2.GlobalIniRemoveBuilders
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:

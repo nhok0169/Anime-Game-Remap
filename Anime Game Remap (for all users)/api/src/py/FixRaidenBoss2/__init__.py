@@ -217,24 +217,18 @@ from .constants.BufElementTypes import BufElementTypes
 from .constants.BufFormatNames import BufFormatNames
 from .constants.BufTypeNames import BufDataTypeNames, BufElementNames
 from .constants.ByteSize import ByteSize
-from .constants.Colours import Colours
 from .constants.DownloadMode import DownloadMode
 from .constants.ColourConsts import ColourConsts
-from .constants.Colours import ColourRanges
 from .constants.FileExt import FileExt
 from .constants.FileTypes import FileTypes
 from .constants.FileEncodings import FileEncodings
 from .constants.FilePrefixes import FilePrefixes
-from .constants.FileSuffixes import FileSuffixes
 from .constants.FilePathConsts import FilePathConsts
 from .constants.ImgFormats import ImgFormats
-from .constants.IniConsts import IniKeywords, IniBoilerPlate, IniGraphModObjKeywords
+from .constants.IniConsts import IniKeywords, IniGraphModObjKeywords
 from .constants.IniGraphReplaceMode import IniGraphReplaceMode
-from .constants.GameTypeNames import GameTypeNames
 from .constants.GameTypes import GameTypes
 from .constants.GlobalClassifiers import GlobalClassifiers
-from .constants.GlobalCompilerParts import GlobalCompilerParts
-from .constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from .constants.GlobalPackageManager import GlobalPackageManager
 from .constants.IfPredPartType import IfPredPartType
 from .constants.BaseModTypeBuilder import BaseModTypeBuilder
@@ -384,7 +378,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
-           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GameTypes", "GIBuilder", "WWMIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine", "RegFillMissingMode", 
+           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "DownloadMode", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniGraphReplaceMode", "GameTypes", "GIBuilder", "WWMIBuilder", "GlobalClassifiers", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine", "RegFillMissingMode", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode", "InvalidGameType",

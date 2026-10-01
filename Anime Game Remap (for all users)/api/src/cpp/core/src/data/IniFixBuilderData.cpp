@@ -330,12 +330,16 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist),
                   "2.5", ModTypeIdTools::getName(ModTypeId::Sanhua)}, IniFixBuilderFuncs::sanhua2_5()},
 
-                // ===== Chisa <-> ChisaParfait (2026-09-20), STUBS =====
-                // Both directions are stubs: the pair is registered for its asset tables, and its
-                // vertex group remap is a proposal in Data/RemapDrafts/ChisaRemapDraft.xlsx that
-                // nothing has checked in game yet.
+                // ===== Chisa <-> ChisaParfait =====
+                //
+                // The forward row is filed at toVersion 3.7, not at ChisaParfait's release 3.5:
+                // WuWa 3.7 moved her vb0 and nothing else of hers (2026-09-30), and the toVersion
+                // key is the game version being fixed TO, so a row at 3.5 writes a hash the live
+                // game no longer binds. HashData keeps both of her vb0 rows, so `-fv 3.5` still
+                // reads a mod exported before the move. The reverse row stays at 2.8 -- Chisa, its
+                // target, did not move at all.
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa),
-                  "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniFixBuilderFuncs::chisaParfait3_5()},
+                  "3.7", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniFixBuilderFuncs::chisaParfait3_7()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::ChisaParfait),
                   "2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniFixBuilderFuncs::chisa2_8()},
 

@@ -20,20 +20,20 @@
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_fixer_1a13fccb7d093308a6f98a211563090aa2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_fixer_1a868dc9778d75e011e08b78378bb4614a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
-        <definition>IniFixBuilder::Factory AGRemapCore::ChisaFixer::parfait3_5</definition>
+        <definition>IniFixBuilder::Factory AGRemapCore::ChisaFixer::parfait3_7</definition>
         <argsstring>()</argsstring>
-        <name>parfait3_5</name>
-        <qualifiedname>AGRemapCore::ChisaFixer::parfait3_5</qualifiedname>
+        <name>parfait3_7</name>
+        <qualifiedname>AGRemapCore::ChisaFixer::parfait3_7</qualifiedname>
         <briefdescription>
-<para><computeroutput>Chisa -&gt; ChisaParfait</computeroutput> at game version <computeroutput>3.5</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" kindref="member">IniFixBuilderFuncs::chisaParfait3_5</ref></computeroutput> </para>
+<para><computeroutput>Chisa -&gt; ChisaParfait</computeroutput> at game version <computeroutput>3.7</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaa6b31d53e03aa1ef898b453a8bf872c" kindref="member">IniFixBuilderFuncs::chisaParfait3_7</ref></computeroutput> </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="615" bodyend="617"/>
+        <location file="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="618" bodyend="620"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -65,7 +65,7 @@ What she needs that Sanhua does not, each of it a field of
     <location file="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" line="46" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaFixer.h" bodystart="46" bodyend="55"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_chisa_fixer_1ac32afffbb67e667c8570f7420a72c2a0" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaFixer</scope><name>ChisaFixer</name></member>
-      <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a13fccb7d093308a6f98a211563090aa2" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaFixer</scope><name>parfait3_5</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a868dc9778d75e011e08b78378bb4614a" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaFixer</scope><name>parfait3_7</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

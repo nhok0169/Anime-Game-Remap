@@ -392,10 +392,13 @@ namespace AGRemapCore {
     }
 
 
-    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_5() {
+    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_7() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChisaParfait;
-        config.version = "3.5";
+        // 3.7, not her release 3.5: that update moved her vb0 (e611d493 -> 95ecef77) and nothing
+        // else of hers, so a fix built at 3.5 writes a hash the game no longer binds. Every other
+        // lookup here resolves from the 3.5 bucket by the inclusive floor -- see HashData's note.
+        config.version = "3.7";
         config.sourceVersion = "2.8";          // hers, and not her skin's -- see the field's note
 
 
@@ -612,7 +615,7 @@ namespace AGRemapCore {
     }
 
 
-    IniFixBuilder::Factory ChisaFixer::parfait3_5() {
-        return IniFixBuilderFuncs::chisaParfait3_5();
+    IniFixBuilder::Factory ChisaFixer::parfait3_7() {
+        return IniFixBuilderFuncs::chisaParfait3_7();
     }
 }

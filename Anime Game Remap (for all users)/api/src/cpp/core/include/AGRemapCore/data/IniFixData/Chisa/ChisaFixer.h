@@ -48,10 +48,10 @@ namespace AGRemapCore {
             ChisaFixer() = delete;
 
             /**
-             * @brief ``Chisa -> ChisaParfait`` at game version ``3.5`` -- see
-             *        :cpp:func:`IniFixBuilderFuncs::chisaParfait3_5`
+             * @brief ``Chisa -> ChisaParfait`` at game version ``3.7`` -- see
+             *        :cpp:func:`IniFixBuilderFuncs::chisaParfait3_7`
              */
-            static IniFixBuilder::Factory parfait3_5();
+            static IniFixBuilder::Factory parfait3_7();
     };
 }
 

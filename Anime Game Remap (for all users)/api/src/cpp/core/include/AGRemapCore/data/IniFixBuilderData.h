@@ -360,11 +360,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             ``Chisa -> ChisaParfait`` at game version ``3.5``, built by :cpp:func:`makeWWMIFixer`.
+             ``Chisa -> ChisaParfait`` at game version ``3.7``, built by :cpp:func:`makeWWMIFixer`.
              See ``data/IniFixData/Chisa/ChisaFixer.cpp``
+
+             Filed at 3.7 rather than her release 3.5 because that is the version whose hashes it
+             writes: 3.7 moved ChisaParfait's ``vb0``, so a fix built against the 3.5 bucket labels
+             every remapped section with a hash the game no longer binds, and the mod renders
+             nothing. The fixer itself is unchanged
              @endrst
              */
-            static IniFixBuilder::Factory chisaParfait3_5();
+            static IniFixBuilder::Factory chisaParfait3_7();
 
             /**
              * @brief

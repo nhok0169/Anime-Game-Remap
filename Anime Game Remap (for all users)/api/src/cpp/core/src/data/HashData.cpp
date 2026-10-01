@@ -1662,6 +1662,21 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "cb4"}, "f02baf77"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "shapekey_offsets"}, "57bb099f"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "shapekey_scale"}, "9c738856"},
+        // ChisaParfait (3.7): ONE row, because 3.7 moved ONE of her hashes (2026-09-30). The game
+        //   updated its model system at 3.7 and every WuWa mod stopped matching, which reads as a
+        //   rehash of everything -- it is not. Re-dumped and rebuilt, Chisa, Sanhua and
+        //   SanhuaExorcist are byte-identical to their shipped download folders, hashes included,
+        //   and of ChisaParfait's own data only Position / Texcoord / Color / ShapeKeyVertexOffset
+        //   carry small edits. Her vb0 is the hash OF the position buffer, which is why it alone
+        //   moved; cb4, both shape key hashes, every texture hash and every index offset, count and
+        //   vg window are unchanged, so they resolve here from the 3.5 bucket by the inclusive floor
+        //   and need no row of their own.
+        //
+        //   The 3.5 row STAYS. Every ChisaParfait mod that exists was exported before 3.7 and
+        //   declares `e611d493`; GlobalIniClassifiers registers every version's vb0 for exactly that
+        //   reason, and a `-fv 3.5` run still reads one. Evidence for the move:
+        //   Data/Mod Downloads/WuWa/README.md's 3.7 table, and the folder 3_7 beside 3_5.
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "vb0"}, "95ecef77"},
 
         //   Her OLDER texture generation, the same shape as Chisa's rows above and for the same
         //   reason: `WWMIFixerConfig::roles` is written from ONE generation, a mod carries whatever

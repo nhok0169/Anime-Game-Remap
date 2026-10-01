@@ -1299,6 +1299,32 @@ namespace AGRemapCore {
                     return ModObj("", config_.slotPrefix + std::to_string(component));
                 }
 
+                // Is 'hash' a vb0 the library files under the SOURCE -- at any game version, not
+                // only the one `fromVersion()` resolves to?
+                //
+                // GlobalIniClassifiers registers every version's vb0 for a reason it states: a
+                // mod's .ini carries whichever version's hashes its author dumped, and nothing can
+                // tell which that was. Matching only the resolved one here made the two disagree
+                // the moment a character's vb0 moved -- ChisaParfait's did at WuWa 3.7 -- so a mod
+                // of the other generation classified as her and then found no section of its own.
+                // The caller's slot test is what keeps this safe: the section must still carry a
+                // match_first_index one of the source's slots declares AT `fromVersion()`, so this
+                // can only turn a rejection into a match where the geometry agrees too.
+                bool isSourceVb0(const std::string& hash) const {
+                    if (hash == source_.vb0Hash) {
+                        return true;
+                    }
+
+                    const ModType* source = ctx_.modType();
+                    if (source == nullptr || source->hashes == nullptr) {
+                        return false;
+                    }
+
+                    return source->hashes->hasFrom(hash, std::nullopt,
+                                                   {std::optional<std::string>(source->name),
+                                                    std::optional<std::string>(Vb0HashKey)});
+                }
+
                 std::optional<Version> fromVersion() const {
                     std::optional<Version> version = ctx_.version();
                     if (!version.has_value()) {
@@ -1371,25 +1397,20 @@ namespace AGRemapCore {
                         const IfTemplate<std::string, std::string>& tpl = *entry.second;
                         std::optional<std::string> hash = ModBranches::firstVal(tpl, IniKeywords::Hash);
                         std::optional<std::string> index = ModBranches::firstVal(tpl, IniKeywords::MatchFirstIndex);
-                        if (!hash.has_value() || !index.has_value() || StringTools::toLower(*hash) != source_.vb0Hash) {
+                        if (!hash.has_value() || !index.has_value() || !isSourceVb0(StringTools::toLower(*hash))) {
                             continue;
                         }
 
                         for (std::size_t i = 0; i < source_.slots.size(); ++i) {
                             if (source_.slots[i].indexOffset == *index) {
                                 present_[static_cast<int>(i)].push_back(entry.first);
-                                std::size_t draws = 0;
-                                for (const auto& part : tpl.parts()) {
-                                    (void)part;
-                                }
-
-                                (void)draws;
                             }
                         }
                     }
 
                     if (present_.empty()) {
-                        error = "no [TextureOverrideComponent*] section on " + source_.name + "'s hash " + source_.vb0Hash;
+                        error = "no [TextureOverrideComponent*] section on any vb0 hash the library"
+                                " files under " + source_.name + " (" + source_.vb0Hash + " at the version asked)";
                         return false;
                     }
 

@@ -404,35 +404,35 @@ namespace AGRemapCore {
 
         // ---- the passes the TARGET draws each slot on, off her frame dumps ----
         config.slotPasses = {
-            {"c0ad88a930c4d853", "71f60c461ae3f166"},    // front hair
-            {"71f60c461ae3f166"},    // hair
-            {"2060326dcea397fb"},    // face
-            {"3311e8a58d8c5d20"},    // upper body
-            {"a99f09b6f36e94af"},    // lower body
-            {"3df800c350681ec9"},    // the skin's own (nothing maps onto it)
-            {"da00ec8f7c73d5e3"},    // eyes
+            {"f863af7e80af9aed", "f863af7e80af9aed"},    // front hair
+            {"f863af7e80af9aed"},    // hair
+            {"6e25bfc4ac027787"},    // face
+            {"3f2e3788f5cb485a"},    // upper body
+            {"01e5bb58c3054b73"},    // lower body
+            {"0fbe7ebba08cd1b0"},    // the skin's own (nothing maps onto it)
+            {"275e4ce82ebf0976"},    // eyes
         };
 
         // ---- every pass gated through its VERTEX shaders: see passVertexShaders ----
         config.passVertexShaders = {
-            {"c0ad88a930c4d853", {"d83a54772fc666f9"}},
-            {"71f60c461ae3f166", {"d83a54772fc666f9"}},
-            {"2060326dcea397fb", {"683e019f389b2624", "c277738ca4039045"}},
-            {"3311e8a58d8c5d20", {"d24888b5b268a084"}},
-            {"a99f09b6f36e94af", {"22195a190e37d3cf"}},
-            {"3df800c350681ec9", {"bbabe18b97a63509"}},
-            {"87825a9a29529f9b", {"6594231b96dfca5f"}},
-            {"ced9a47fb6ad4d16", {"6594231b96dfca5f"}},
-            {"da00ec8f7c73d5e3", {"72f45530b1e1f75a", "a6e9eb6303b1b631"}},
+            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
+            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
+            {"6e25bfc4ac027787", {"75501c2d87600e89", "c277738ca4039045"}},
+            {"3f2e3788f5cb485a", {"343a49bd31719ade"}},
+            {"01e5bb58c3054b73", {"6dd634933d8f0837"}},
+            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
+            {"5e31423fa8ddfcec", {"d8d93966d246ed2b"}},
+            {"ced9a47fb6ad4d16", {"d8d93966d246ed2b"}},
+            {"275e4ce82ebf0976", {"72f45530b1e1f75a", "729d10a88623b937"}},
             {"259b766b59f72419", {"fd12d3374ac7a7dd", "1479e3f5a626af60"}},
-            {"21176cf68a65ab7a", {"0ccd030bff8b515c", "5d60ebdc89fe3833"}},
-            {"32414b557630d98d", {"ba4eee7b53cf726e", "60b893ec7f585976", "f906b8aa4c220a6f", "3edca9a0f68c8b15", "59585b690c6e1f01", "4cf784b1b2c7ca1c"}},
+            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
+            {"32414b557630d98d", {"255061ec51f15e29", "60b893ec7f585976", "f906b8aa4c220a6f", "af60c434a9393b08", "166a83e1c94c5a59", "4cf784b1b2c7ca1c"}},
             {"ca134b7ad59cdf8c", {"0b22e4a80375c4d0", "a5cd08444f0fca2e"}},
             {"a7bdec26cf254853", {"ee6166816ce9f788"}},
             {"21a483170781cfeb", {"da98d2d08d937357"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"320a753b019eff67", {"ac592389c85c3e38", "aef4fc536fbff1e7"}},
-            {"92ca4bd985fe6887", {"676fdbd61b302294", "89577c176b52b351"}},
+            {"021a95efb2428e47", {"ac592389c85c3e38", "98b6b0d294299cd6"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "89577c176b52b351"}},
         };
         config.filterBase = 3381.71;
         config.filterStep = 0.001;
@@ -454,24 +454,24 @@ namespace AGRemapCore {
         // ---- a slot's OTHER passes bind the same art at different registers ----
         config.extraPassRegs = {
             {0, {
-                {"21176cf68a65ab7a", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
                 {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {1, {
-                {"21176cf68a65ab7a", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
                 {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {2, {
                 {"259b766b59f72419", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {3, {
-                {"21176cf68a65ab7a", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {4, {
-                {"21176cf68a65ab7a", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {5, {
-                {"87825a9a29529f9b", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
+                {"5e31423fa8ddfcec", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
                 {"ced9a47fb6ad4d16", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
             }},
         };

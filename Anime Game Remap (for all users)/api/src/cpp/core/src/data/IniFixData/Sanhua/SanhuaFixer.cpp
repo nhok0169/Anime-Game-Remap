@@ -48,12 +48,12 @@ namespace AGRemapCore {
             // shader and the see-through pass over the eyes -- and its third pass (94d9d5e9, the
             // eye region) binds only globals, so it is not here.
             config.slotPasses = {
-                {"69e3d3219c979981", "8fbb55320274f090"},   // 0: bangs
-                {"69e3d3219c979981"},                       // 1: hair
-                {"374a4f8fc9a5ea6a"},                       // 2: face
-                {"3093e3c72c791456"},                       // 3: torso, arms, ribbons
-                {"5cc08ed68341dd38"},                       // 4: hair bun, trousers
-                {"056f9f3c356ff96e"},                       // 5: eyes
+                {"0f1752e476c3804d", "394feb3747bda7a0"},   // 0: bangs
+                {"0f1752e476c3804d"},                       // 1: hair
+                {"ed1c0f8b2ba08ac4"},                       // 2: face
+                {"fbe2f2f061949559"},                       // 3: torso, arms, ribbons
+                {"348ac69e57e38686"},                       // 4: hair bun, trousers
+                {"0512a7e61d6bd01d"},                       // 5: eyes
             };
 
             // Source component -> target slot, and the registers each pass reads. Shader families

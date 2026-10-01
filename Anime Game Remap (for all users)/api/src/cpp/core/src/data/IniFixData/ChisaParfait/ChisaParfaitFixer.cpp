@@ -100,13 +100,17 @@ namespace AGRemapCore {
         // Slot 0 has two: 86560277 sets her bangs' set, and b455d737 -- the HAIR shader -- draws the
         // bangs as well as the hair, each with its own textures.
         config.slotPasses = {
-            {"86560277b8531781", "b455d737821784cd"},   // 0: front hair / bangs
-            {"b455d737821784cd"},                       // 1: hair
-            {"374a4f8fc9a5ea6a"},                       // 2: face
-            {"42721e1d0c282918"},                       // 3: upper body
-            {"6ea8898edc27d7aa"},                       // 4: lower body
-            {"3df800c350681ec9"},                       // 5: her ribbon and props (nothing maps here)
-            {"da00ec8f7c73d5e3"},                       // 6: eyes
+            {"13a86b87d383a40f", "5eb19d847b81ed33"},   // 0: front hair / bangs
+            // 3.7 SPLIT the shader that used to draw both: old b455d737821784cd was slot 0's second
+            // pass AND slot 1's only one, and the two are different shaders now. Slot 1's is the one
+            // slot 0 draws FIRST with -- see the dumps' pass tables, which agree on the role layout
+            // (ps-t0 mask, ps-t1 diffuse, ps-t2 ramp, ps-t5 normal) before and after.
+            {"13a86b87d383a40f"},                       // 1: hair
+            {"ed1c0f8b2ba08ac4"},                       // 2: face
+            {"c9cdf1b99fb01750"},                       // 3: upper body
+            {"3bbc20374cc3d229"},                       // 4: lower body
+            {"0fbe7ebba08cd1b0"},                       // 5: her ribbon and props (nothing maps here)
+            {"275e4ce82ebf0976"},                       // 6: eyes
         };
 
         // ---- every pass gated through its VERTEX shaders -----------------------------------------
@@ -115,19 +119,19 @@ namespace AGRemapCore {
         // loaded .ini -- so tagging a pixel shader switches RabbitFX off for every mod drawn with it,
         // globally. Read off her own dump's draw table, which pairs each ps with its vs.
         config.passVertexShaders = {
-            {"86560277b8531781", {"d83a54772fc666f9"}},
-            {"b455d737821784cd", {"d83a54772fc666f9"}},
-            {"374a4f8fc9a5ea6a", {"e35973101a6ba4fe"}},
-            {"42721e1d0c282918", {"5a674a73c6741bd7"}},
-            {"6ea8898edc27d7aa", {"6e4d16a7da96fde0"}},
-            {"3df800c350681ec9", {"bbabe18b97a63509"}},
-            {"da00ec8f7c73d5e3", {"a6e9eb6303b1b631"}},
+            {"13a86b87d383a40f", {"3e7bb648e306c671"}},
+            {"5eb19d847b81ed33", {"3e7bb648e306c671"}},
+            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3"}},
+            {"c9cdf1b99fb01750", {"b3c7ad652f7a1c40"}},
+            {"3bbc20374cc3d229", {"9cf0b7666af23697"}},
+            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
+            {"275e4ce82ebf0976", {"729d10a88623b937"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"21176cf68a65ab7a", {"0ccd030bff8b515c", "5d60ebdc89fe3833"}},
-            {"32414b557630d98d", {"ba4eee7b53cf726e"}},
+            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
+            {"32414b557630d98d", {"255061ec51f15e29"}},
             {"320a753b019eff67", {"aef4fc536fbff1e7"}},
             {"259b766b59f72419", {"fd12d3374ac7a7dd"}},
-            {"50f2ed8061f3d351", {"503033bc07782274", "84e073e202127beb", "a208489c9b30ad3d"}},
+            {"50f2ed8061f3d351", {"49d13f65f2b7838a", "84e073e202127beb", "91256be56071db94"}},
             {"92ca4bd985fe6887", {"676fdbd61b302294"}},
         };
 
@@ -147,22 +151,22 @@ namespace AGRemapCore {
         //     files of every installed mod and reports any shader carrying two values.
         config.filterIndices = {
             // shared with Chisa -> ChisaParfait; these values are ITS
-            {"d83a54772fc666f9", "3381.71"},    // her bangs and hair
-            {"bbabe18b97a63509", "3381.715"},   // her ribbon / prop slot
-            {"a6e9eb6303b1b631", "3381.717"},   // her eyes
-            {"0ccd030bff8b515c", "3381.722"},   // the shared outline-ish pass, slots 0/1/4
-            {"5d60ebdc89fe3833", "3381.723"},   //   ...and slot 3
-            {"ba4eee7b53cf726e", "3381.724"},
+            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
+            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
+            {"729d10a88623b937", "3381.717"},   // her eyes
+            {"6a6650a9db8983ce", "3381.722"},   // the shared outline-ish pass, slots 0/1/4
+            {"e4a3da6d1d1068b9", "3381.723"},   //   ...and slot 3
+            {"255061ec51f15e29", "3381.724"},
             {"fd12d3374ac7a7dd", "3381.73"},
             // this direction's own
-            {"e35973101a6ba4fe", "3381.76"},    // her face
-            {"5a674a73c6741bd7", "3381.761"},   // her upper body
-            {"6e4d16a7da96fde0", "3381.762"},   // her lower body
+            {"7c0b4db32cee62d3", "3381.76"},    // her face
+            {"b3c7ad652f7a1c40", "3381.761"},   // her upper body
+            {"9cf0b7666af23697", "3381.762"},   // her lower body
             {"5102d7edd774359e", "3381.763"},
             {"aef4fc536fbff1e7", "3381.764"},
-            {"503033bc07782274", "3381.765"},
+            {"49d13f65f2b7838a", "3381.765"},
             {"84e073e202127beb", "3381.766"},
-            {"a208489c9b30ad3d", "3381.767"},
+            {"91256be56071db94", "3381.767"},
             {"676fdbd61b302294", "3381.768"},
         };
 
@@ -335,11 +339,11 @@ namespace AGRemapCore {
         // file for each. Without it both bindings land in one list and the second wins for the
         // source it does not belong to.
         config.extraPassRegs = {
-            {0, {{"21176cf68a65ab7a", {{"ps-t0", "frontHairDiffuse"}}}}},
-            {1, {{"21176cf68a65ab7a", {{"ps-t0", "hairDiffuse"}}}}},
-            {3, {{"21176cf68a65ab7a", {{"ps-t0", "upperDiffuse", 3},
+            {0, {{"f8c96a270bf847dd", {{"ps-t0", "frontHairDiffuse"}}}}},
+            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
+            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3},
                                       {"ps-t0", "panelDiffuse", 5}}}}},
-            {4, {{"21176cf68a65ab7a", {{"ps-t0", "lowerDiffuse", 4},
+            {4, {{"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse", 4},
                                       {"ps-t0", "propDiffuse", 7}}}}},
         };
 

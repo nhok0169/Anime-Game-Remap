@@ -1020,7 +1020,7 @@ Retrieves the new name of the `section`_ for a new mod object :raw-html:`&lt;br 
 :raw-html:`&lt;br /&gt;`
 
 Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
-(each part `capitalized &lt;#capitalize&gt;`_) within &apos;name&apos; and replaces it with
+(each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within &apos;name&apos; and replaces it with
 ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
 to #getRemapFixName with &apos;modName&apos; extended by the new object&apos;s name instead
 </verbatim></para>

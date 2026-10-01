@@ -368,7 +368,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
-             (each part `capitalized <#capitalize>`_) within 'name' and replaces it with
+             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
              ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
              to #getRemapFixName with 'modName' extended by the new object's name instead
              @endrst

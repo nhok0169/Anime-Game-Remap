@@ -2,7 +2,7 @@
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/tests.yml?branch=master&label=Unit%2FIntegration%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/tests.yml)
 
-AG Remap's automated tester for testing out the overall functionality of the [script](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py) and [API](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api).
+AG Remap's automated tester for testing out the overall functionality of the [script](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py) and [API](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Anime%20Game%20Remap%20(for%20all%20users)/api).
 
 <br>
 

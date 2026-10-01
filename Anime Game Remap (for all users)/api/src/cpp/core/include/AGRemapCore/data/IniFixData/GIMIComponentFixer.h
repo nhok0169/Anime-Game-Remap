@@ -398,7 +398,7 @@ namespace AGRemapCore {
              a coat a centimetre higher still reads as the same outfit -- but a part that has to sit
              inside something the GAME draws cannot be off at all. The eyes sit in the sockets of a
              face mesh neither mod carries: eg. NeuvilletteMelusent's eye mesh is Neuvillette's own
-             moved 1.24 cm higher, so unshifted, his irises sit behind the skin's upper lid and the
+             moved 1.24 cm lower, so unshifted, his irises sit behind the skin's upper lid and the
              eyes look white with no pupils.
 
              Measure it rather than guess it: take the target component's own Position buffer and the

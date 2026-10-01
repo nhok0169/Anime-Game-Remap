@@ -49,7 +49,7 @@ it exists rather than assuming the fix duplicated their mod by mistake
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniComments.h" line="54" column="45" bodyfile="include/AGRemapCore/constants/IniComments.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniComments.h" line="52" column="45" bodyfile="include/AGRemapCore/constants/IniComments.h" bodystart="52" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -59,16 +59,14 @@ it exists rather than assuming the fix duplicated their mod by mistake
 Comment blocks this software writes into the ``.ini`` files it generates :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-A port of the pure-Python ``IniComments`` enum (``constants/IniConsts.py``)
+Matches the `Python`_ ``IniComments`` enum (``constants/IniConsts.py``)
 
 .. note::
-   The pure-Python constant this comes from was declared and then never referenced by anything
-   -- no fixer, no writer, nothing -- and that is still true here: nothing assigns it on its
-   own. It is the text :cpp:member:`GIMIFixer::copyPreamble` is *meant* to be set to, kept as a
+   Nothing in the library assigns this on its own -- no fixer, no writer. It is the text :cpp:member:`GIMIFixer::copyPreamble` is *meant* to be set to, kept as a
    named constant so a caller opting in does not have to carry the paragraph itself
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniComments.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/IniComments.h" bodystart="37" bodyend="76"/>
+    <location file="include/AGRemapCore/constants/IniComments.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/IniComments.h" bodystart="35" bodyend="74"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" prot="public" virt="non-virtual"><scope>AGRemapCore::IniComments</scope><name>GIMIObjMergerPreamble</name></member>
     </listofallmembers>

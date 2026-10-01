@@ -151,7 +151,7 @@ namespace AGRemapCore {
          */
         struct CreatedTexture {
             /**
-             * @brief The role a :cpp:member:`Binding` names it by, eg. ``"SkinMask"``
+             * @brief The role a :cpp:struct:`AGRemapCore::WWMIFixerConfig::Binding` names it by, eg. ``"SkinMask"``
              */
             std::string role;
 
@@ -277,7 +277,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         The textures the fix invents, each bound wherever a :cpp:member:`Binding` names its role.
+         The textures the fix invents, each bound wherever a :cpp:struct:`AGRemapCore::WWMIFixerConfig::Binding` names its role.
          Written into the mod's texture folder as ``<role><target>RemapTex.dds``
          @endrst
          */

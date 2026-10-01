@@ -9,18 +9,6 @@
     <includes local="yes">GraphRemove.tpp</includes>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <incdepgraph>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="74">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -604,6 +592,18 @@
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
+      </node>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="74">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="70">
         <label>Generator.tpp</label>

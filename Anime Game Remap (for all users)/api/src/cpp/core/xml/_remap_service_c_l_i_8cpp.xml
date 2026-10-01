@@ -17,33 +17,6 @@
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_version_8h" local="yes">AGRemapCore/model/Version.h</includes>
     <incdepgraph>
-      <node id="120">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="40">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="136">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="101">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="100">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="46">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="135">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="133">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="54">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="13">
         <label>AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1377,6 +1350,33 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+      </node>
+      <node id="120">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="40">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="136">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="101">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="100">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="46">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="135">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="133">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="54">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

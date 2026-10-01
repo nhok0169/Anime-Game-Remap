@@ -20,18 +20,6 @@
     <includedby refid="_ini_fix_builder_8cpp" local="yes">src/model/strategies/iniFixers/IniFixBuilder.cpp</includedby>
     <includedby refid="_base_ini_parser_instantiation_8cpp" local="yes">src/model/strategies/iniParsers/BaseIniParserInstantiation.cpp</includedby>
     <incdepgraph>
-      <node id="31">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="70">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="37">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -565,6 +553,18 @@
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
+      </node>
+      <node id="31">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="70">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="37">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="67">
         <label>Generator.tpp</label>
@@ -3382,40 +3382,40 @@
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>;</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
-<codeline lineno="69" refid="class_a_g_remap_core_1_1_base_ini_parser" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" kindref="member">BaseIniParser</ref><sp/>{</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75" refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" kindref="member">GraphGroup</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108" refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" kindref="member">BaseIniParser</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110" refid="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" kindref="member">~BaseIniParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115" refid="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" kindref="member">getIniFile</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126" refid="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" kindref="member">setIniFile</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile);</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135" refid="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" kindref="member">clear</ref>();</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"></highlight></codeline>
-<codeline lineno="151" refid="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;GraphGroup&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" kindref="member">parse</ref>();</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"></highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"></highlight></codeline>
-<codeline lineno="161" refid="class_a_g_remap_core_1_1_base_ini_parser_1a55efacdce5969b858c7022ff8e933258" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a55efacdce5969b858c7022ff8e933258" kindref="member">iniFile_</ref>;</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseIniParser.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>note:<sp/>every<sp/>translation<sp/>unit<sp/>that<sp/>uses<sp/>these<sp/>with<sp/>&lt;std::string,<sp/>std::string&gt;<sp/>would<sp/>otherwise</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>instantiate<sp/>all<sp/>of<sp/>their<sp/>member<sp/>bodies<sp/>itself;<sp/>they<sp/>are<sp/>compiled<sp/>once,<sp/>in</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>src/model/strategies/iniParsers/BaseIniParserInstantiation.cpp,<sp/>instead.<sp/>Any<sp/>other<sp/>instantiation<sp/>still<sp/>happens<sp/>implicitly.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BaseIniParser&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
-<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"></highlight></codeline>
-<codeline lineno="174"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="66" refid="class_a_g_remap_core_1_1_base_ini_parser" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" kindref="member">BaseIniParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" kindref="member">GraphGroup</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" kindref="member">BaseIniParser</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" kindref="member">~BaseIniParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" kindref="member">getIniFile</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" kindref="member">setIniFile</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;GraphGroup&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" kindref="member">parse</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="class_a_g_remap_core_1_1_base_ini_parser_1a55efacdce5969b858c7022ff8e933258" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_parser_1a55efacdce5969b858c7022ff8e933258" kindref="member">iniFile_</ref>;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseIniParser.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>note:<sp/>every<sp/>translation<sp/>unit<sp/>that<sp/>uses<sp/>these<sp/>with<sp/>&lt;std::string,<sp/>std::string&gt;<sp/>would<sp/>otherwise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>instantiate<sp/>all<sp/>of<sp/>their<sp/>member<sp/>bodies<sp/>itself;<sp/>they<sp/>are<sp/>compiled<sp/>once,<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>src/model/strategies/iniParsers/BaseIniParserInstantiation.cpp,<sp/>instead.<sp/>Any<sp/>other<sp/>instantiation<sp/>still<sp/>happens<sp/>implicitly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">BaseIniParser&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"/>
   </compounddef>

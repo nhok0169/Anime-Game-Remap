@@ -82,9 +82,7 @@
 <para><verbatim>embed:rst 
 Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
-tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
 fields rather than restating them
 </verbatim>    </para>
         </detaileddescription>
@@ -193,8 +191,7 @@ fields rather than restating them
         <detaileddescription>
 <para><verbatim>embed:rst 
 Renames one `section`_ -- takes the old name, returns the new one. An empty
-``std::function`` stands in for the pure-Python original&apos;s &quot;no rename function given&quot;,
-which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
+``std::function`` means &quot;no rename function given&quot;, which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>
@@ -272,7 +269,7 @@ was found in. An empty ``std::function`` accepts everything
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="341" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="341" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="337" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="337" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -719,11 +716,7 @@ C++ counterpart, over :cpp:class:`IniFileResEditContext`
         <detaileddescription>
 <para><verbatim>embed:rst 
 Collects and remaps, but builds nothing -- there is no ``.ini`` file to build resources
-for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-.. note::
-   Faithful to the pure-Python original, whose own ``_buildResource`` is a no-op when
-   ``ini`` is ``None``
+for
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -756,7 +749,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="331" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="327" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -784,7 +777,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="343" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="339" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a3ff3038683952907b81ce249f776b25f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -806,7 +799,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="344" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="340" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1ab3a243bad4fd648d6c18ac1dccfb686c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -848,7 +841,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="345" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="341" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_reg_collect_1a42b346a00f66ba288982f192fcb5033e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_res_reg_collect_1a638c5d218f1888f54956d343ecee02d8" kindref="member">GraphGroups</ref> &amp;</type>
@@ -878,7 +871,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="348" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="344" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -968,7 +961,7 @@ reference, rewrites it in place, and hands the collected set to that subtype&apo
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="62" bodyend="349"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h" bodystart="62" bodyend="345"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_res_reg_collect_1af02b4bc40c9f15df41392a4c1846b5ef" prot="public" virt="non-virtual"><scope>AGRemapCore::ResRegCollect</scope><name>Base</name></member>

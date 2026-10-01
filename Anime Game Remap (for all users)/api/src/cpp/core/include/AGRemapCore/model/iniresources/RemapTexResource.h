@@ -28,7 +28,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniResource`
 
      Class for adding a brand new texture file used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
@@ -61,8 +61,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              The run's texture cache, or ``nullptr`` for none -- handed over by
-             :cpp:class:`RemapService` exactly where a download is handed its
-             :cpp:class:`DownloadCache`. Not owned
+             :cpp:class:`AGRemapCore::RemapService` exactly where a download is handed its
+             :cpp:class:`AGRemapCore::DownloadCache`. Not owned
              @endrst
              */
             TexCache* texCache = nullptr;
@@ -110,21 +110,21 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniFixResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniFixResource`
 
      Class for editing a texture file used by the overall remap process :raw-html:`<br />`
      :raw-html:`<br />`
 
-     The texture counterpart to :cpp:class:`RemapBlendResource`, and shaped like it rather than
-     like :cpp:class:`RemapTexAddResource`: an **edit** reads one file and writes another, so it
-     needs the ``srcPath``/``fixedPath`` pair :cpp:class:`RemapIniFixResource` carries. An *add*
-     has only the one path, which is why that class sits on :cpp:class:`RemapIniResource` instead
+     The texture counterpart to :cpp:class:`AGRemapCore::RemapBlendResource`, and shaped like it rather than
+     like :cpp:class:`AGRemapCore::RemapTexAddResource`: an **edit** reads one file and writes another, so it
+     needs the ``srcPath``/``fixedPath`` pair :cpp:class:`AGRemapCore::RemapIniFixResource` carries. An *add*
+     has only the one path, which is why that class sits on :cpp:class:`AGRemapCore::RemapIniResource` instead
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         #fixExists is not overridden here -- :cpp:func:`RemapIniFixResource::fixExists` already
         asks the right question for an edit ("is the fixed file on disk at #fixedPath"), exactly as
-        :cpp:class:`RemapBlendResource` relies on
+        :cpp:class:`AGRemapCore::RemapBlendResource` relies on
      @endrst
      */
     class RemapTexEditResource: public RemapIniFixResource {
@@ -154,8 +154,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              The run's texture cache, or ``nullptr`` for none -- handed over by
-             :cpp:class:`RemapService` exactly where a download is handed its
-             :cpp:class:`DownloadCache`. Not owned
+             :cpp:class:`AGRemapCore::RemapService` exactly where a download is handed its
+             :cpp:class:`AGRemapCore::DownloadCache`. Not owned
              @endrst
              */
             TexCache* texCache = nullptr;

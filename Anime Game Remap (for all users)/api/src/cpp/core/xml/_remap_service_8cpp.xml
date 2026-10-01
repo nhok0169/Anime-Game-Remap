@@ -25,24 +25,6 @@
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
-      <node id="117">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="36">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="98">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="97">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="42">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="50">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="2">
         <label>AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1512,6 +1494,24 @@
         </childnode>
         <childnode refid="145" relation="include">
         </childnode>
+      </node>
+      <node id="117">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="36">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="98">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="97">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="42">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="50">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="71">
         <label>Generator.tpp</label>

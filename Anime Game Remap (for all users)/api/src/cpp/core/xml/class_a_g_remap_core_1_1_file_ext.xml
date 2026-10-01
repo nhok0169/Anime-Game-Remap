@@ -77,7 +77,7 @@
 <para><verbatim>embed:rst 
 Different file extensions for files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``FileExt`` enum (``constants/FileExt.py``)
+Has the same members as the `Python`_ ``FileExt`` enum (``constants/FileExt.py``)
 </verbatim> </para>
     </detaileddescription>
     <location file="include/AGRemapCore/constants/FileExt.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="30" bodyend="55"/>

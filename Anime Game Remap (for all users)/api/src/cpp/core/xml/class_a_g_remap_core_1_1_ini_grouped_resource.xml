@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="197" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="197" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="191" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="191" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a94f04ef8bda03cf46992f546bed9cef4" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="202" column="32" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="202" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="196" column="32" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="196" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" prot="public" static="no" mutable="no">
         <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref> &amp;)&gt;</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="207" column="27" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="207" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="201" column="27" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="212" column="18" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="212" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="206" column="18" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="206" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a67ed5fe1ecf770d7075014acfbade161" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
@@ -79,7 +79,7 @@ Where this grouped resource reports progress and problems, or ``nullptr`` for no
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Its own member rather than an inherited one: unlike every other resource here, this
-class is **not** an :cpp:class:`IniResource` -- it is a separate root that merely
+class is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is a separate root that merely
 *holds* them. See :cpp:member:`IniResource::logger` for why this is an attribute rather
 than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same obstacle
 
@@ -91,7 +91,7 @@ than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same ob
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="231" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="231" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="225" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="225" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -172,7 +172,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="170" column="22" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="28" bodyend="30"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="164" column="22" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="28" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1aecb977f1d91aabf1a16b07e17a7d4346" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -186,7 +186,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="173" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="167" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a3ba7c1c9c108a81ded6b8a90f9693844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -214,7 +214,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="189" column="13"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="183" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a8f3dbfc08d6e833588a7c7e12a90bfb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref> &amp;</type>
@@ -231,7 +231,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="190" column="32"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="184" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a1e41492849be4dad06792e63bcd6bc8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -248,7 +248,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="191" column="13"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="185" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1ac722aca40727fcbe1e6452dc79ad5313" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref> &amp;</type>
@@ -265,7 +265,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="192" column="32"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="186" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1ad3682833e5e7e59892b1a9a0a0010b7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -283,7 +283,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="238" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="36" bodyend="42"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="232" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="36" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a120f751bdcbc61bb5a4250cf9af4d409" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -317,7 +317,7 @@ missing some type of resource from the given subset
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="251" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="44" bodyend="52"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="245" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="44" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -358,7 +358,7 @@ missing some type of resource from the given subset
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="259" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="54" bodyend="56"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="253" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="54" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a197fd7cd70ea7f09515c735390d78fe4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> * &gt;</type>
@@ -387,7 +387,7 @@ that. Read them through here, never off #resources
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="278" column="33" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="58" bodyend="69"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="272" column="33" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="58" bodyend="69"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -410,18 +410,17 @@ that. Read them through here, never off #resources
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="287" column="26" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="32" bodyend="34"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="281" column="26" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-Base class for a group of resources -- mirrors the pure-Python ``IniGroupedResource`` class
-(``model/iniresources/IniResource.py``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Base class for a group of resources :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Unlike :cpp:class:`IniResource`/:cpp:class:`IniFixResource`, this class keeps a generic
-#fixFunc/#fix/#_fix override mechanism, since (per :cpp:class:`IniResource`&apos;s own doc comment)
+Unlike :cpp:class:`AGRemapCore::IniResource`/:cpp:class:`AGRemapCore::IniFixResource`, this class keeps a generic
+#fixFunc/#fix/#_fix override mechanism, since (per :cpp:class:`AGRemapCore::IniResource`&apos;s own doc comment)
 it&apos;s actually used directly/bare rather than through a dedicated leaf subclass
 </verbatim> </para>
     </detaileddescription>
@@ -449,7 +448,7 @@ it&apos;s actually used directly/bare rather than through a dedicated leaf subcl
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="146" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="146" bodyend="288"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="140" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="140" bodyend="282"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" prot="protected" virt="virtual"><scope>AGRemapCore::IniGroupedResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGroupedResource</scope><name>addResource</name></member>

@@ -31,7 +31,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     What a :cpp:class:`VGSplitGroupResource` needs to know beyond its members: which component of
+     What a :cpp:class:`AGRemapCore::VGSplitGroupResource` needs to know beyond its members: which component of
      the target it writes, every component of the target (the split is joint -- which triangles a
      cut component gets depends on what the negative-index components keep), and which of the mod's
      index buffers take part
@@ -98,7 +98,7 @@ namespace AGRemapCore {
 
          The width is carried rather than inferred because it CANNOT be inferred: a 16-bit buffer
          whose byte count divides by 12 reads as 32-bit without complaint, at half the index count
-         and with values past the end of the mesh. See :cpp:class:`IbFile`
+         and with values past the end of the mesh. See :cpp:class:`AGRemapCore::IbFile`
          @endrst
          */
         std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
@@ -167,7 +167,7 @@ namespace AGRemapCore {
          * @brief
          @rst
          When set, the written ``Texcoord.buf`` draws NO OUTLINE (vertex colour alpha 0) on the inner layers of
-         the index buffers in :cpp:member:`innerOutlineIbs` -- see :cpp:class:`InnerLayerOutline`. Decided on the
+         the index buffers in :cpp:member:`innerOutlineIbs` -- see :cpp:class:`AGRemapCore::InnerLayerOutline`. Decided on the
          SOURCE mesh, every one of :cpp:member:`ibPaths` covering, so a layer another component's part covers is
          found too; needs the group's ``Position.buf``. Unset by default
          @endrst
@@ -187,19 +187,19 @@ namespace AGRemapCore {
      * @brief
      @rst
      Splits a mod's buffers for one component of a multi-component target, as a fix over a group of
-     resources -- the resource-group counterpart of :cpp:class:`RemapBlendResource` :raw-html:`<br />`
+     resources -- the resource-group counterpart of :cpp:class:`AGRemapCore::RemapBlendResource` :raw-html:`<br />`
      :raw-html:`<br />`
 
      A mod's ``Blend.buf``, ``Position.buf``, ``Texcoord.buf`` and ``.ib`` files cannot be fixed one
      at a time here: the blend decides which vertices a component keeps, the index buffers decide
      which triangles, and every vertex buffer then has to follow the same vertex set, renumbered the
-     same way (issue #190). So the members are fixed together, from the one :cpp:class:`VGComponentSplit`
+     same way (issue #190). So the members are fixed together, from the one :cpp:class:`AGRemapCore::VGComponentSplit`
      :raw-html:`<br />` :raw-html:`<br />`
 
      Members are told apart by :cpp:member:`IniResource::type`: ``blend`` (exactly one), ``position``
      and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, matched to
      :cpp:member:`VGSplitGroupConfig::ibPaths` by source path). Every member is an
-     :cpp:class:`IniFixResource`, read from its ``srcPath`` and written to its ``fixedPath``
+     :cpp:class:`AGRemapCore::IniFixResource`, read from its ``srcPath`` and written to its ``fixedPath``
      @endrst
      *
      * @param group The group of resources
@@ -215,7 +215,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniGroupedResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniGroupedResource`
 
      A group of one mod's buffers, fixed by :cpp:func:`fixVGSplitGroup` -- see there
      @endrst

@@ -81,18 +81,6 @@
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
     <includedby refid="_ini_parse_builder_8cpp" local="yes">src/model/strategies/iniParsers/IniParseBuilder.cpp</includedby>
     <incdepgraph>
-      <node id="36">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="75">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="42">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="51">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="57">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -690,6 +678,18 @@
         </childnode>
         <childnode refid="59" relation="include">
         </childnode>
+      </node>
+      <node id="36">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="75">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="42">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="72">
         <label>Generator.tpp</label>
@@ -2429,42 +2429,42 @@
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>;</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72" refid="class_a_g_remap_core_1_1_ini_parse_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref><sp/>{</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88" refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/>=<sp/>std::function&lt;std::shared_ptr&lt;BaseIniParser&lt;&gt;&gt;(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*,<sp/>std::optional&lt;int&gt;)&gt;;</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110" refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" kindref="member">ArgsRepo</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets&lt;std::string, Factory&gt;</ref>;</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a9e03a36078c815d1ca3e2ab49e8b2a38" kindref="member">defaultFactory</ref>();</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref>();</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref>(<ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/>factory);</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"></highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref>(std::shared_ptr&lt;const<sp/>ArgsRepo&gt;<sp/>builderArgs,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>errorOnNotFound<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"></highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a4d2299fcca9ab796fb22998e069f748a" kindref="member">getBuilderArgs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ae97743daafc33cadc1120ac53f332d26" kindref="member">getErrorOnNotFound</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"></highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;BaseIniParser&lt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a6c54954d98ec779cc54d10dc56c9fa69" kindref="member">build</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName,</highlight></codeline>
-<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;&amp;<sp/>version<sp/>=<sp/>std::nullopt,</highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/>modTypeId<sp/>=<sp/>std::nullopt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>exactly<sp/>when<sp/>builderArgs_<sp/>is<sp/>set<sp/>--<sp/>the<sp/>two<sp/>flavours<sp/>are<sp/>mutually<sp/>exclusive,</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>same<sp/>way<sp/>the<sp/>pure-Python<sp/>original<sp/>nulls<sp/>out<sp/>&apos;_buildCls&apos;<sp/>once<sp/>&apos;_builderArgs&apos;<sp/>is</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>provided.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="254" refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac0043c0940842d0cb2d9be171eacaa77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac0043c0940842d0cb2d9be171eacaa77" kindref="member">factory_</ref>;</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"></highlight></codeline>
-<codeline lineno="256" refid="class_a_g_remap_core_1_1_ini_parse_builder_1a7ab67404f2db9ae55943a8f3c446301c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;const<sp/>ArgsRepo&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a7ab67404f2db9ae55943a8f3c446301c" kindref="member">builderArgs_</ref>;</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"></highlight></codeline>
-<codeline lineno="258" refid="class_a_g_remap_core_1_1_ini_parse_builder_1aeff38f670fce64a9a0537fc95aff1279" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aeff38f670fce64a9a0537fc95aff1279" kindref="member">errorOnNotFound_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="261"><highlight class="normal"></highlight></codeline>
-<codeline lineno="262"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="59" refid="class_a_g_remap_core_1_1_ini_parse_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/>=<sp/>std::function&lt;std::shared_ptr&lt;BaseIniParser&lt;&gt;&gt;(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*,<sp/>std::optional&lt;int&gt;)&gt;;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" kindref="member">ArgsRepo</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets&lt;std::string, Factory&gt;</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a9e03a36078c815d1ca3e2ab49e8b2a38" kindref="member">defaultFactory</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref>(<ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/>factory);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac47682690444a837b41aac14c5828c55" kindref="member">IniParseBuilder</ref>(std::shared_ptr&lt;const<sp/>ArgsRepo&gt;<sp/>builderArgs,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>errorOnNotFound<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a4d2299fcca9ab796fb22998e069f748a" kindref="member">getBuilderArgs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ae97743daafc33cadc1120ac53f332d26" kindref="member">getErrorOnNotFound</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;BaseIniParser&lt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a6c54954d98ec779cc54d10dc56c9fa69" kindref="member">build</ref>(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>iniFile,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;&amp;<sp/>version<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/>modTypeId<sp/>=<sp/>std::nullopt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>exactly<sp/>when<sp/>builderArgs_<sp/>is<sp/>set<sp/>--<sp/>the<sp/>two<sp/>flavours<sp/>are<sp/>mutually<sp/>exclusive,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>same<sp/>way<sp/>the<sp/>pure-Python<sp/>original<sp/>nulls<sp/>out<sp/>&apos;_buildCls&apos;<sp/>once<sp/>&apos;_builderArgs&apos;<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>provided.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac0043c0940842d0cb2d9be171eacaa77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1ac0043c0940842d0cb2d9be171eacaa77" kindref="member">factory_</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="class_a_g_remap_core_1_1_ini_parse_builder_1a7ab67404f2db9ae55943a8f3c446301c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;const<sp/>ArgsRepo&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a7ab67404f2db9ae55943a8f3c446301c" kindref="member">builderArgs_</ref>;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="class_a_g_remap_core_1_1_ini_parse_builder_1aeff38f670fce64a9a0537fc95aff1279" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aeff38f670fce64a9a0537fc95aff1279" kindref="member">errorOnNotFound_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"/>
   </compounddef>

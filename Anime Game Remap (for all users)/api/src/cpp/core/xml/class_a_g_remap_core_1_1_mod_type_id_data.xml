@@ -94,8 +94,8 @@ registered in :cpp:enum:`ModTypeId` can still be represented
 Cheap data for a type of mod, held by an ini classifier (e.g. :cpp:class:`IniClassifier`)
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Not meant to be a full representation of a mod type on its own -- the Python-side ``ModType``
-is meant to build its own richer representation from this data
+Not meant to be a full representation of a mod type on its own -- see :cpp:class:`ModType`
+for that
 </verbatim> </para>
     </detaileddescription>
     <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="30" bodyend="61"/>

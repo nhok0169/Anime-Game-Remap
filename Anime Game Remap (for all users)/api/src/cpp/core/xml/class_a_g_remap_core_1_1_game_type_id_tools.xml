@@ -54,7 +54,7 @@ that the value actually corresponds to one of :cpp:enum:`GameTypeId`&apos;s decl
 <para><verbatim>embed:rst 
 Retrieves the corresponding name for a :cpp:enum:`GameTypeId` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``GameTypeNames`` enum&apos;s values (``constants/GameTypeNames.py``)
+Matches the values of the `Python`_ ``GameTypeNames`` enum (``constants/GameTypeNames.py``)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

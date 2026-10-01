@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="39" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="37" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -39,7 +39,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="44" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -50,9 +50,7 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The pure-Python original also declares ``edit``/``editFromIni`` here, as
-   ``(*args, modType, modName = &quot;&quot;, **kwargs) -&gt; Any``. That signature can&apos;t be expressed in
-   C++ -- every subclass takes genuinely different arguments and returns a different type
+   There is no common ``edit``/``editFromIni`` declared here: every subclass takes genuinely different arguments and returns a different type
    (:cpp:class:`BaseIniGraphEdit` edits an :cpp:class:`IniSectionGraph`,
    :cpp:class:`BaseRegEdit` edits an :cpp:class:`IfContentPart`,
    :cpp:class:`BaseIniGraphGroupEdit` edits a whole vector of
@@ -264,7 +262,7 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="37" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="37" bodyend="45"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" bodystart="35" bodyend="43"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniPartEdit</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniPartEdit</scope><name>~BaseIniPartEdit</name></member>

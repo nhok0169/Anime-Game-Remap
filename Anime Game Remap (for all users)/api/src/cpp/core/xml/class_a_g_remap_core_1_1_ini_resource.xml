@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="67" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="67" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="63" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="72" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="72" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="68" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
@@ -59,22 +59,22 @@ on the base, for two reasons :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
   a *parameter* would mean either denying it to those custom fixes -- the case where
   narration matters most -- or reshaping every one of those ``std::function`` typedefs,
   each of which is pinned by a `pybind11`_ binding
-* a plain :cpp:class:`IniResource` is what actually gets registered today, not one of
+* a plain :cpp:class:`AGRemapCore::IniResource` is what actually gets registered today, not one of
   the ``Remap`` subclasses, so a view attached only to those would reach nothing
 
 :raw-html:`&lt;br /&gt;`
 
-A ``shared_ptr``, so a :cpp:class:`BaseLogger` subclass defined in `Python`_ stays alive
+A ``shared_ptr``, so a :cpp:class:`AGRemapCore::BaseLogger` subclass defined in `Python`_ stays alive
 for exactly as long as this resource holds it
 
 .. note::
-   :cpp:class:`IniGroupedResource` is **not** an :cpp:class:`IniResource` -- it is its
+   :cpp:class:`AGRemapCore::IniGroupedResource` is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is its
    own root -- so it carries its own copy of this member rather than inheriting one
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="103" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="99" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="99" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -129,7 +129,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="60" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="22" bodyend="23"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="56" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="22" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -143,7 +143,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="62" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="58" column="21"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -152,18 +152,14 @@ for exactly as long as this resource holds it
 <para><verbatim>embed:rst 
 Base class for a resource in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.py``)
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
 .. note::
-   The Python original also carries a generic, per-instance ``fixFunc``/``fix()``/``_fix()``
-   override mechanism at this level, built on ``*args``/``**kwargs`` -- that pattern doesn&apos;t
-   translate to a single, uniform C++ virtual signature (every real subclass in this codebase&apos;s
-   port -- ``RemapBlendResource``, ``RemapTexAddResource``, ``RemapIniDownload`` -- needs a
-   genuinely different signature for its own fix logic), so this class stays a plain data
+   This class has no generic, per-instance ``fixFunc``/``fix()``/``_fix()`` override
+   mechanism: every real subclass -- :cpp:class:`AGRemapCore::RemapBlendResource`,
+   :cpp:class:`AGRemapCore::RemapTexAddResource`, :cpp:class:`AGRemapCore::RemapIniDownload` -- needs a
+   genuinely different signature for its own fix logic, so this class stays a plain data
    holder: each concrete leaf class defines its own, concretely-typed ``fix()`` (and its own
    ``fixFunc`` member, typed for that leaf specifically) instead of inheriting a generic one
-   from here. :cpp:class:`IniGroupedResource` is the one exception in this hierarchy that keeps
+   from here. :cpp:class:`AGRemapCore::IniGroupedResource` is the one exception in this hierarchy that keeps
    the generic pattern, since (unlike every other class here) it&apos;s actually used directly/bare,
    with no natural leaf subclass of its own to hold concrete fix logic
 </verbatim> </para>
@@ -222,7 +218,7 @@ Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="50" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="50" bodyend="104"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="46" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="46" bodyend="100"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>IniResource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>logger</name></member>

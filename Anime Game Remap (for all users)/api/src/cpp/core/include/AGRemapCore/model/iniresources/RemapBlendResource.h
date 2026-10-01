@@ -30,7 +30,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniFixResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniFixResource`
 
      Class for fixing some ``Blend.buf`` file used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
@@ -57,13 +57,13 @@ namespace AGRemapCore {
              * @param blendElements
              @rst
              The sequence of elements for constructing the ``Blend.buf`` file -- if this is empty,
-             :cpp:class:`BlendFile` uses the elements for a GIMI character instead (see
-             :cpp:class:`BlendFile`'s own constructor) :raw-html:`<br />` :raw-html:`<br />`
+             :cpp:class:`AGRemapCore::BlendFile` uses the elements for a GIMI character instead (see
+             :cpp:class:`AGRemapCore::BlendFile`'s own constructor) :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 None of 'type'/'fixFunc'/'blendElements' have a default value here, unlike most
                 other trailing constructor parameters in this codebase -- 'blendElements' can't (see
-                :cpp:class:`IniGroupedResource`'s own constructor doc comment for the MSVC
+                :cpp:class:`AGRemapCore::IniGroupedResource`'s own constructor doc comment for the MSVC
                 move-only-container-default-argument quirk this works around), and since a
                 defaulted parameter can't precede a non-defaulted one, 'type'/'fixFunc' lost their
                 defaults too rather than reordering this constructor's parameter list. Pass explicit
@@ -81,7 +81,7 @@ namespace AGRemapCore {
              .. note::
                 Explicitly declared (rather than left implicit) to work around the same MSVC
                 eager-instantiation-of-a-deleted-copy-constructor quirk documented on
-                :cpp:class:`IniGroupedResource`'s own explicit special member declarations --
+                :cpp:class:`AGRemapCore::IniGroupedResource`'s own explicit special member declarations --
                 #blendElements is a ``std::vector`` of ``unique_ptr``, which triggers it identically
              @endrst
              */

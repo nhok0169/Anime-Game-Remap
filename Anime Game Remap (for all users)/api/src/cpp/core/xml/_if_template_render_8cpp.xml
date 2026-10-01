@@ -6,12 +6,6 @@
     <includes local="no">vector</includes>
     <includes refid="_if_pred_part_8h" local="yes">AGRemapCore/model/iftemplate/IfPredPart.h</includes>
     <incdepgraph>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
       <node id="45">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -399,6 +393,12 @@
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
+      </node>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="42">
         <label>IfContentPart.tpp</label>

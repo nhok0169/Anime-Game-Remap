@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="45" column="9" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="44" column="9" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="struct_a_g_remap_core_1_1_inner_layer_outline_1add23feabd4f91c4ae042c96fb259652e" prot="public" static="no">
         <type>std::vector&lt; std::array&lt; unsigned long long, 3 &gt; &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="46" column="9" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="45" column="9" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="45" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="51" column="15" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="50" column="15" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_inner_layer_outline_1a99caa7ff291921bf6ec2a164d641ca10" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -69,7 +69,7 @@ of its body side, and only this finds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="61" column="14" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="61" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="60" column="14" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_inner_layer_outline_1a924df1814e99ba2acbf62beeaedacb31" prot="public" static="no" mutable="no">
         <type>float</type>
@@ -88,7 +88,7 @@ the horizontal direction out from the axis must be below ``-facingCos``. **Defau
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="70" column="15" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="70" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="69" column="15" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -160,7 +160,7 @@ Whether each target vertex&apos;s NORMAL runs into an occluder triangle (one it 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="86" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="86" bodyend="173"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="85" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="86" bodyend="173"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_inner_layer_outline_1a50b3932d1f90b3967f656218e66d268e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; bool &gt;</type>
@@ -227,7 +227,7 @@ Whether each target vertex&apos;s NORMAL runs into an occluder triangle (one it 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="99" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="388" bodyend="442"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="98" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="388" bodyend="442"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -268,10 +268,8 @@ its corners :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 Cloth modelled with its own lining is two surfaces a few millimetres apart, facing away from each other,
 and the back of either is never seen. A mirrored inner layer (:cpp:member:`VGComponentSpec::mirroredIbs`)
 moved inward from such a surface lands IN FRONT of the other one, and shows from outside as a flat grey
-polygon over the cloth (Lumine2&apos;s coat on LumineHeaven, 2026-09-29: 27% of its twins crossed its lining
-within 5 mm). A triangle backed this way needs no twin. All four points must reach the lining: a triangle
-only PARTLY over it keeps its twin, or the part the lining does not cover shows its back face (Lumine7&apos;s
-skirt, brown patches at the front opening, when one point was enough) -- such a twin is kept short of the
+polygon over the cloth. A triangle backed this way needs no twin. All four points must reach the lining: a triangle
+only PARTLY over it keeps its twin, or the part the lining does not cover shows its back face -- such a twin is kept short of the
 lining instead, see :cpp:func:`behind`. A surface facing the SAME way behind it -- the body under a skirt --
 does not count: a twin pushed into it is hidden behind it
 </verbatim></para>
@@ -322,7 +320,7 @@ does not count: a twin pushed into it is hidden behind it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="128" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="176" bodyend="293"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="125" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="176" bodyend="293"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_inner_layer_outline_1a437151c4cc626ba50eb4962c48b1329b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; float &gt;</type>
@@ -362,7 +360,7 @@ mirrored twin of that vertex may move inward before it comes out through a linin
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="140" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="296" bodyend="385"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="137" column="28" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="296" bodyend="385"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -406,7 +404,7 @@ byte 12, any stride of at least 24)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="152" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="445" bodyend="460"/>
+        <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="149" column="21" bodyfile="src/model/buffers/InnerLayerOutline.cpp" bodystart="445" bodyend="460"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -420,8 +418,7 @@ GI&apos;s outline pass redraws a mesh as a shell pushed out along each vertex&ap
 faces culled, so what shows is the shell&apos;s back faces around the silhouette. Hair built of two-sided sheets
 whose layers sit close together has a problem with that on a skin whose outline sits further out than the
 character&apos;s own: the INNER face&apos;s shell -- the face turned towards the body, or covered by another layer --
-comes out in front of the outer face, as small dark shards all over the hair (Yaoyao5 on YaoyaoBamboo,
-2026-09-28). The outer faces draw the silhouette on their own, so the inner ones can lose their outline and
+comes out in front of the outer face, as small dark shards all over the hair. The outer faces draw the silhouette on their own, so the inner ones can lose their outline and
 nothing visible goes with it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 A target triangle is INNER when at least two of its corners are :cpp:func:`covered` or, with
@@ -432,7 +429,7 @@ inner triangle&apos;s wedge is back-facing, so it draws -- one such wedge showed
 lock
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="44" column="5" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="44" bodyend="153"/>
+    <location file="include/AGRemapCore/model/buffers/InnerLayerOutline.h" line="43" column="5" bodyfile="include/AGRemapCore/model/buffers/InnerLayerOutline.h" bodystart="43" bodyend="150"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ab8e99e38f2d544811dd21904ea76972b" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>backed</name></member>
       <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a437151c4cc626ba50eb4962c48b1329b" prot="public" virt="non-virtual"><scope>AGRemapCore::InnerLayerOutline</scope><name>behind</name></member>

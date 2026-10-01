@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="116" column="25" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="115" column="25" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="115" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" prot="private" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="117" column="27" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="117" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="116" column="27" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_lru_cache" kindref="compound">LruCache</ref>&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>, <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="118" column="22" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="118" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="117" column="22" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="117" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -96,11 +96,11 @@ Adds a new available version, keeping the internal version list sorted and
 deduplicated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. warning::
-    Matching the pure-Python original: this does **not** invalidate the
+    This does **not** invalidate the
     closest-version cache used by :cpp:func:`findClosest`. A version added after a
     query has already been cached for some target can leave that cached result
     stale (no longer the true closest match) until :cpp:func:`clear` is called. This
-    is an inherited quirk, not a deliberate design choice -- call :cpp:func:`clear`
+    is a known quirk, not a deliberate design choice -- call :cpp:func:`clear`
     first if a caller needs strict re-computation after adding versions
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -190,8 +190,7 @@ Finds the closest available version to &apos;version&apos; :raw-html:`&lt;br /&g
 If &apos;version&apos; is ``std::nullopt``, returns the latest available version. Otherwise,
 returns the largest available version :math:`\leq` &apos;version&apos; -- or, if every
 available version is greater than &apos;version&apos;, the smallest available version
-(matching the pure-Python original&apos;s fallback behaviour rather than returning
-``std::nullopt`` in that case)
+(rather than returning ``std::nullopt`` in that case)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -216,7 +215,7 @@ available version is greater than &apos;version&apos;, the smallest available ve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="103" column="27" bodyfile="src/model/VersionSet.cpp" bodystart="70" bodyend="89"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="102" column="27" bodyfile="src/model/VersionSet.cpp" bodystart="70" bodyend="89"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -261,7 +260,7 @@ available version is greater than &apos;version&apos;, the smallest available ve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="113" column="28" bodyfile="src/model/VersionSet.cpp" bodystart="58" bodyend="68"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="112" column="28" bodyfile="src/model/VersionSet.cpp" bodystart="58" bodyend="68"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -281,7 +280,7 @@ available version is greater than &apos;version&apos;, the smallest available ve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="120" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="23" bodyend="27"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="119" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="23" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -316,7 +315,7 @@ the two concepts avoids that overload on the C++ side
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/VersionSet.h" line="39" column="5" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="39" bodyend="121"/>
+    <location file="include/AGRemapCore/model/VersionSet.h" line="39" column="5" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="39" bodyend="120"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_version_set_1a7345274baf51de3158a3bd17bd65d669" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>add</name></member>
       <member refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" prot="private" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>cache_</name></member>

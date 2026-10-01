@@ -649,17 +649,6 @@ IniBoilerPlate
 
 :raw-html:`<br />`
 
-IniComments
------------
-
-.. cppattributetable:: AGRemapCore::IniComments
-
-.. doxygenclass:: AGRemapCore::IniComments
-    :members:
-    :protected-members:
-
-:raw-html:`<br />`
-
 IniGraphModObjKeywords
 ----------------------
 
@@ -675,17 +664,6 @@ IniGraphReplaceMode
 -------------------
 
 .. doxygenenum:: AGRemapCore::IniGraphReplaceMode
-
-:raw-html:`<br />`
-
-IniKeywords
------------
-
-.. cppattributetable:: AGRemapCore::IniKeywords
-
-.. doxygenclass:: AGRemapCore::IniKeywords
-    :members:
-    :protected-members:
 
 :raw-html:`<br />`
 

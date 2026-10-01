@@ -226,8 +226,8 @@
 </parameteritem>
 </parameterlist>
 <simplesect kind="return"><para><verbatim>embed:rst 
-The `section`_ name of the fixed resource, or ``std::nullopt`` (the pure-Python
-original&apos;s ``None``) to indicate there is no name change between the original resource
+The `section`_ name of the fixed resource, or ``std::nullopt`` to indicate there is no
+name change between the original resource
 and the fixed resource
 </verbatim> </para>
 </simplesect>

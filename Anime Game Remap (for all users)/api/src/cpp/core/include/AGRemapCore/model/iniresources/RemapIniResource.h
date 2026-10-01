@@ -39,7 +39,7 @@ namespace AGRemapCore {
      .. note::
         #fixExists has one uniform ``stats``-taking signature across every implementation
         (:cpp:func:`RemapIniResource::fixExists` actually *uses* ``stats``);
-        :cpp:class:`RemapIniFixResource`'s own override just doesn't reference the parameter
+        :cpp:class:`AGRemapCore::RemapIniFixResource`'s own override just doesn't reference the parameter
      @endrst
      */
     class RemapIniResourceMixin {
@@ -102,7 +102,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniResource` and :cpp:class:`RemapIniResourceMixin`
+     This class inherits from :cpp:class:`AGRemapCore::IniResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
      Base class for some resource in a .ini file that's used by the overall remap process
      @endrst
@@ -122,7 +122,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniFixResource` and :cpp:class:`RemapIniResourceMixin`
+     This class inherits from :cpp:class:`AGRemapCore::IniFixResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
      Base class for some resource to fix in a .ini file that's used by the overall remap process
      @endrst
@@ -144,7 +144,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniGroupedResource` and :cpp:class:`RemapIniResourceMixin`
+     This class inherits from :cpp:class:`AGRemapCore::IniGroupedResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
      Base class for a group of resources to fix in a .ini file that's used by the overall remap
      process
@@ -158,7 +158,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniResource`
 
      Class for some download resource in a .ini file that's used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
@@ -204,7 +204,7 @@ namespace AGRemapCore {
              The run's own record of what has already been fetched, borrowed -- not owned
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Set by whoever drives the fix (:cpp:class:`RemapService` does it in
+             Set by whoever drives the fix (:cpp:class:`AGRemapCore::RemapService` does it in
              ``_fixResource``), for the same reason it sets :cpp:member:`IniResource::logger`
              there: a download is built by the PARSER, which has neither. Left ``nullptr`` this
              resource simply cannot share anything with the rest of the run and downloads its own

@@ -257,17 +257,17 @@ namespace AGRemapCore {
 
      Every mod object it produces:
 
-     ===================  ====================================================================
-     Mod object           What it is
-     ===================  ====================================================================
-     each of 'drawnObjs'  a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
-     ``("", "ib")``       the shared draw call -- the ``ib`` hash and **no** index
-     ``("", "blend")``    the ``Blend.buf`` the fix remaps
+     ======================  ====================================================================
+     Mod object              What it is
+     ======================  ====================================================================
+     each of 'drawnObjs'     a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
+     ``("", "ib")``          the shared draw call -- the ``ib`` hash and **no** index
+     ``("", "blend")``       the ``Blend.buf`` the fix remaps
      ``("", "position")``
      ``("", "texcoord")``
-     ``("", "other")``    ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
-     ``("", "face")``     ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
-     ===================  ====================================================================
+     ``("", "other")``       ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
+     ``("", "face")``        ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
+     ======================  ====================================================================
 
      Pair it with :cpp:func:`makeGIMICharFixer`; the two agree on these names by hand, and neither
      half makes sense alone

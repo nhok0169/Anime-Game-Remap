@@ -30,13 +30,13 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniFixResourceModel`
+     This class inherits from :cpp:class:`AGRemapCore::IniFixResourceModel`
 
      Contains data for editing some texture files in a .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     #texEdits owns its :cpp:class:`BaseTexEditor`\\s via ``std::unique_ptr`` since it's a
+     #texEdits owns its :cpp:class:`AGRemapCore::BaseTexEditor`\\s via ``std::unique_ptr`` since it's a
      polymorphic type (matches how it's used elsewhere in this codebase, eg.
-     :cpp:class:`BlendFile`'s owned ``BufElementType``\\s)
+     :cpp:class:`AGRemapCore::BlendFile`'s owned ``BufElementType``\\s)
      @endrst
      */
     class IniTexModel: public IniFixResourceModel {
@@ -46,15 +46,15 @@ namespace AGRemapCore {
              * @brief Constructs new data for editing a texture file in a .ini file
              *
              * @param iniFolderPath The folder path to where the .ini file of the resource is located
-             * @param fixedPaths See :cpp:class:`IniFixResourceModel`'s constructor
+             * @param fixedPaths See :cpp:class:`AGRemapCore::IniFixResourceModel`'s constructor
              * @param texEdits
              @rst
              The texture editors used to edit the texture -- the outer keys are the indices to the
-             :cpp:class:`IfContentPart` that the ``.dds`` file appears in the :cpp:class:`IfTemplate`
+             :cpp:class:`AGRemapCore::IfContentPart` that the ``.dds`` file appears in the :cpp:class:`AGRemapCore::IfTemplate`
              for some texture, the inner keys are the names for the type of mod to fix to, and the
              inner values are the different texture editors used on the ``.dds`` files
              @endrst
-             * @param origPaths See :cpp:class:`IniFixResourceModel`'s constructor
+             * @param origPaths See :cpp:class:`AGRemapCore::IniFixResourceModel`'s constructor
              */
             IniTexModel(std::string iniFolderPath,
                         tsl::ordered_map<int, tsl::ordered_map<std::string, std::vector<std::string>>> fixedPaths,

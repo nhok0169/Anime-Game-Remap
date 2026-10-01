@@ -321,7 +321,7 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              Only meaningful for the plain ``<std::string, std::string>`` instantiation, since
-             :cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile*` can be
+             :cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile` pointer can be
              turned into
              @endrst
              */
@@ -521,7 +521,7 @@ namespace AGRemapCore {
              :cpp:class:`IniFileRemoveContext` over it :raw-html:`<br />` :raw-html:`<br />`
 
              Only the plain ``<std::string, std::string>`` instantiation can do this -- every other
-             one leaves #getContext alone, since there is no context an :cpp:class:`IniFile*` can be
+             one leaves #getContext alone, since there is no context an :cpp:class:`IniFile` pointer can be
              turned into for it. A context handed to the constructor (or to #setContext) is never
              replaced by this
              @endrst

@@ -3541,11 +3541,11 @@
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a96183ddee8fca68f4e4ec8e6986a1321" kindref="member">getName</ref>(<ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref><sp/>value);</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;IfPredPartType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a7268c424766322f01538e4bd0032d060" kindref="member">getType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rawPredPart);</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;IfPredPartType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a7268c424766322f01538e4bd0032d060" kindref="member">getType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rawPredPart);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/IfPredPartType.h"/>
   </compounddef>

@@ -9,9 +9,6 @@
     <includes refid="_lru_cache_8h" local="yes">AGRemapCore/tools/caches/LruCache.h</includes>
     <includedby refid="_version_set_8cpp" local="yes">src/model/VersionSet.cpp</includedby>
     <incdepgraph>
-      <node id="14">
-        <label>Cache.tpp</label>
-      </node>
       <node id="5">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
@@ -77,6 +74,9 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+      </node>
+      <node id="14">
+        <label>Cache.tpp</label>
       </node>
       <node id="15">
         <label>LruCache.tpp</label>
@@ -167,20 +167,20 @@
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Version&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1a6280be3685ace3ddaeb93da93b63635e" kindref="member">getVersions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Version&gt;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1aa8fb36c082069308b86cef53c04443f7" kindref="member">findClosest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;&amp;<sp/>version,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fromCache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref><sp/><ref refid="class_a_g_remap_core_1_1_version_set_1a3d4541cce79eaafe4c970edbbad41685" kindref="member">findClosestFromSorted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Version&gt;&amp;<sp/>versions,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>&amp;<sp/>version);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="116" refid="class_a_g_remap_core_1_1_version_set_1aaa7c89ac6bdc1fb159912d675e37846c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Version&gt;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1aaa7c89ac6bdc1fb159912d675e37846c" kindref="member">versions_</ref>;</highlight></codeline>
-<codeline lineno="117" refid="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Version&gt;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" kindref="member">latestVersion_</ref>;</highlight></codeline>
-<codeline lineno="118" refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_lru_cache" kindref="compound">LruCache&lt;Version, Version&gt;</ref><sp/><ref refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" kindref="member">cache_</ref>;</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version_set_1a2a917b4e5c1957efe05e8590439aa5e0" kindref="member">updateLatestVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>&amp;<sp/>newVersion);</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Version&gt;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1aa8fb36c082069308b86cef53c04443f7" kindref="member">findClosest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;&amp;<sp/>version,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fromCache<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref><sp/><ref refid="class_a_g_remap_core_1_1_version_set_1a3d4541cce79eaafe4c970edbbad41685" kindref="member">findClosestFromSorted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Version&gt;&amp;<sp/>versions,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>&amp;<sp/>version);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115" refid="class_a_g_remap_core_1_1_version_set_1aaa7c89ac6bdc1fb159912d675e37846c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Version&gt;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1aaa7c89ac6bdc1fb159912d675e37846c" kindref="member">versions_</ref>;</highlight></codeline>
+<codeline lineno="116" refid="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Version&gt;<sp/><ref refid="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" kindref="member">latestVersion_</ref>;</highlight></codeline>
+<codeline lineno="117" refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_lru_cache" kindref="compound">LruCache&lt;Version, Version&gt;</ref><sp/><ref refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" kindref="member">cache_</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version_set_1a2a917b4e5c1957efe05e8590439aa5e0" kindref="member">updateLatestVersion</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>&amp;<sp/>newVersion);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/VersionSet.h"/>
   </compounddef>

@@ -10,9 +10,6 @@
     <includes refid="_hash128_8h" local="yes">AGRemapCore/tools/hashing/Hash128.h</includes>
     <includedby refid="_hash_tools_8cpp" local="yes">src/tools/hashing/HashTools.cpp</includedby>
     <incdepgraph>
-      <node id="11">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
       <node id="7">
         <label>AGRemapCore/tools/hashing/Hash128.h</label>
         <link refid="_hash128_8h"/>
@@ -56,6 +53,9 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+      </node>
+      <node id="11">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="10">
         <label>array</label>

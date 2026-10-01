@@ -24,7 +24,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="133" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="133" bodyend="135"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="127" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="127" bodyend="129"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -32,7 +32,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="132" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="132" bodyend="136"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="126" bodyend="130"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_equal_1af5a37d4cd1b3aae5ea626e5c0dc4bdc0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::IndexKeyEqual</scope><name>operator()</name></member>
     </listofallmembers>

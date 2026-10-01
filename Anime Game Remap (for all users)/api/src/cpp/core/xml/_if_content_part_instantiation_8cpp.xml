@@ -5,12 +5,6 @@
     <includes refid="_if_content_part_8h" local="yes">AGRemapCore/model/iftemplate/IfContentPart.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
-      <node id="26">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="32">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
       <node id="2">
         <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
@@ -234,6 +228,12 @@
         </childnode>
         <childnode refid="41" relation="include">
         </childnode>
+      </node>
+      <node id="26">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="32">
+        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="40">
         <label>IfContentPart.tpp</label>

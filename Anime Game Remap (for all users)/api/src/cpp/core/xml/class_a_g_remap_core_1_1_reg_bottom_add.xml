@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="86" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="84" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1a3ab2e1ddd29e829b30f5c2ace24be8bd" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="89" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1a14b5e4e88be66d04626ff3a80ce331f5" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
@@ -66,16 +66,14 @@
 The filter used to indicate the valid order indices to process for some
 :cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
-matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
-convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
-for that original&apos;s ``partFilter = None``. Identical to
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers -- an
+empty ``std::function`` means &quot;no filter&quot;. Identical to
 :cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="96" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="94" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1a8803cb9adb81524fad77b22cf04b2072" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">Base::IterData</ref></type>
@@ -90,7 +88,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="99" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="99" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1a6ae69cf1d9099172eb7f95acb002c471" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" kindref="member">Base::OrderRanges</ref></type>
@@ -108,7 +106,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="106" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="106" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="104" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1ac6a7fd35db90b3e3a24412b18e8b65cf" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
@@ -123,7 +121,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="111" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="109" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1aa00082d9f0c51f9301c707cca5e1c31d" prot="public" static="no">
         <type>typename Graph::ContentPart</type>
@@ -138,7 +136,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="114" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="114" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1a3472b464cb5e33e705f33d3568717495" prot="public" static="no">
         <type>typename Graph::Section</type>
@@ -153,7 +151,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="121" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="121" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="119" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="119" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_bottom_add_1a7903deac5d4b9e9fe35b7305e98234d1" prot="public" static="no">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -168,7 +166,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="126" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="126" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="124" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="124" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -188,7 +186,7 @@ consecutive lines in this order -- an empty list makes the edit a no-op
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="135" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="133" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="133" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_bottom_add_1ac79daa1d82d2ed742c721e7533dd43fa" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -212,14 +210,14 @@ What it is for: a draw that belongs in some of the passes a `section`_ runs in a
 the others. CitlaliWhisperofStars&apos; dress is outlined by the skin with a cloth-specific
 outline shader Citlali does not have, and drawn through Citlali&apos;s outline pass its hull
 covered the skirt&apos;s lining in black; ``vs != 037730.0`` -- the ``filter_index`` ORFix
-gives every outline vertex shader -- keeps it to the other passes (2026-09-22). A
+gives every outline vertex shader -- keeps it to the other passes. A
 condition that does not parse as a :cpp:class:`Z3Predicate` (``vs`` is not a variable)
 is still written; analyses of the graph then treat the block as possibly taken
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="157" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="157" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="155" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="155" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -264,7 +262,7 @@ is still written; analyses of the graph then treat the block as possibly taken
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="165" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="163" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_bottom_add_1a7b463b1aa87e8cfc26d421a973d2b291" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_bottom_add_1a3ab2e1ddd29e829b30f5c2ace24be8bd" kindref="member">Graph</ref> &amp;</type>
@@ -301,8 +299,7 @@ is still written; analyses of the graph then treat the block as possibly taken
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched), matching
-the pure-Python original&apos;s ``pass``
+Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -377,7 +374,7 @@ meaning &quot;every key&quot;, matching
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="170" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="168" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -411,11 +408,9 @@ same position but only for a register the graph is MISSING, which is a different
 asking it about a register the mod already has makes it do nothing at all
 
 .. note::
-   This exists because the alternative was measurably worse. Before it, the same placement was
-   reached by filling a register nothing reads, in `BottomCover`, and renaming it afterwards --
-   the trick the pure-Python original plays with its ``tempDrawIndexed``. That works, but it
-   costs one edit per `KVP`_ plus a :cpp:class:`RegRemap` to undo the disguise, and it reads
-   like a workaround because it is one (2026-09-14)
+   The same placement can also be reached by filling a register nothing reads, in
+   `BottomCover`, and renaming it afterwards -- but that costs one edit per `KVP`_ plus a
+   :cpp:class:`RegRemap` to undo the disguise. Prefer this edit
 
 .. note::
    Every root gets the additions, so a graph whose roots overlap gets them once per root by
@@ -508,7 +503,7 @@ rejects is left alone entirely
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="80" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="80" bodyend="173"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" line="78" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h" bodystart="78" bodyend="171"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a7903deac5d4b9e9fe35b7305e98234d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>Additions</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_bottom_add_1a963171c4640c2bc7d4dc55201262cf79" prot="public" virt="non-virtual"><scope>AGRemapCore::RegBottomAdd</scope><name>additions</name></member>

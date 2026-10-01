@@ -86,7 +86,7 @@ context. ``nullptr`` makes every method here answer as if there were no ``.ini``
 Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-``false`` stands in for the pure-Python original&apos;s ``ini = None``, and makes
+``false`` when there is no ``.ini`` file, which makes
 :cpp:func:`RemapIniRemover::remove` a no-op
 </verbatim> </para>
         </detaileddescription>
@@ -105,8 +105,8 @@ Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The folder the ``.ini`` file lives in (the equivalent of the pure-Python original&apos;s
-``ini.folder``), or an empty string when it has none :raw-html:`&lt;br /&gt;`
+The folder the ``.ini`` file lives in (``ini.folder``), or an empty string when it has
+none :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 Every path :cpp:func:`RemapIniRemover::getRemovedResources` hands back is resolved against
@@ -153,8 +153,9 @@ Borrowed, not owned; may be empty :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&g
 A **vector**, unlike :cpp:func:`IniParseContext::modTypeHashes`, because an
 :cpp:class:`AGRemapCore::IniFile` can carry several mod types at once and
 :cpp:func:`IniFile::removeFix` hands the same file to each one&apos;s remover in turn
-without telling any of them which one it is acting for. The pure-Python ``IniFile``,
-whose ``availableType`` is singular, simply returns a one-element (or empty) vector
+without telling any of them which one it is acting for. An implementation whose
+``.ini`` file has a single ``availableType`` simply returns a one-element (or empty)
+vector
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -189,7 +190,7 @@ whose ``availableType`` is singular, simply returns a one-element (or empty) vec
         <detaileddescription>
 <para><verbatim>embed:rst 
 The text lines of the ``.ini`` file, reading it from disk first if that has not
-happened yet -- the equivalent of the pure-Python original&apos;s ``_readLines`` decorator
+happened yet
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Each line keeps its own trailing newline, except possibly the last
@@ -210,8 +211,8 @@ Each line keeps its own trailing newline, except possibly the last
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of the
-pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
+Every `section`_ parsed out of the ``.ini`` file, keyed by name
+(``ini.sectionIfTemplates``). Borrowed, not owned
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -350,17 +351,8 @@ Records that the ``.ini`` file no longer holds a fix (``ini._isFixed = False``)
 The removing counterpart of :cpp:func:`IniFixContext::setIsFixed`, and the same note
 applies: :cpp:class:`AGRemapCore::IniFile` owns that flag through
 :cpp:func:`IniFile::classify` and does not let a remover write it, so a plain C++
-implementation of this is free to do nothing. The `Python`_ ``IniFile`` uses the flag
-the pure-Python original&apos;s way, and its implementation does clear it :raw-html:`&lt;br /&gt;`
-:raw-html:`&lt;br /&gt;`
-
-.. note::
-   The pure-Python original also sets ``ini._hideOriginalReplaced = True`` here. That
-   is deliberately **not** on this interface: the only thing that flag does is let
-   ``IniFile.getSectionOptions`` skip stripping the hide-original comment from lines
-   that might still carry it -- and by the time this is called
-   :cpp:func:`RemapIniRemover::remove` has already stripped every one of them out of the
-   text, so the strip it would skip is a no-op either way
+implementation of this is free to do nothing. An implementation over a `Python`_
+``.ini`` file object that keeps its own ``_isFixed`` flag does clear it
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

@@ -313,7 +313,7 @@ class BaseAhoCorasickDFA():
 
                 #. The first largest keyword found
                 #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
-                'errorOnNotFound' is set to ``False``
+                   'errorOnNotFound' is set to ``False``
 
             * If the 'count' argument is greater than 1, then the data contains:
 

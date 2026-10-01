@@ -38,7 +38,7 @@ The initial `adjacency list`_ mapping the hashes to fix **from** to the hashes t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/Hashes.h" line="69" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="55" bodyend="65"/>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="68" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="55" bodyend="65"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -51,9 +51,8 @@ this project&apos;s real hash data :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
 Unlike :cpp:class:`ModMappedAssets` (a generic, reusable engine), this is one *specific*
 instance of it: its rows (:cpp:func:`Data::getHashDataRows`) and its 3-index
 ``(version, name, type)`` shape are baked in at construction, so a default-constructed
-``Hashes`` already knows every hash the software ships with. That matches the pure-Python
-``Hashes``&apos;s own contract exactly -- there, too, a bare ``Hashes()`` is fully populated, which
-is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
+``Hashes`` already knows every hash the software ships with (the `Python`_ ``Hashes`` behaves
+the same way: a bare ``Hashes()`` is fully populated), which is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
@@ -102,7 +101,7 @@ is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/Hashes.h" line="55" column="5" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="55" bodyend="70"/>
+    <location file="include/AGRemapCore/model/assets/Hashes.h" line="54" column="5" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="54" bodyend="69"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>addMap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>addRepoRows</name></member>

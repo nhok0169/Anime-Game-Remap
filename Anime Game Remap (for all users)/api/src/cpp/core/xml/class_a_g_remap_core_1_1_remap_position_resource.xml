@@ -296,10 +296,10 @@ and the direct equivalent of the pure-Python ``BufEditor(filters = [...])``
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`RemapIniFixResource`
+This class inherits from :cpp:class:`AGRemapCore::RemapIniFixResource`
 
 Class for fixing a ``Position.buf`` file used by the overall remap process -- the position
-counterpart of :cpp:class:`RemapBlendResource`, and built the same way :raw-html:`&lt;br /&gt;`
+counterpart of :cpp:class:`AGRemapCore::RemapBlendResource`, and built the same way :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 **Most remaps need nothing of the sort.** A position buffer holds where the mesh&apos;s vertices

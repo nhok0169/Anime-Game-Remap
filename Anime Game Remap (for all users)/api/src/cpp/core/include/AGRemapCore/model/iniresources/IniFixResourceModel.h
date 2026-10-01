@@ -28,11 +28,11 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniResourceModel`
+     This class inherits from :cpp:class:`AGRemapCore::IniResourceModel`
 
      Contains data for fixing a particular resource in a .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     See :cpp:class:`IniSrcResourceModel`'s own doc comment for why ``tsl::ordered_map`` is used throughout instead of ``std::unordered_map``
+     See :cpp:class:`AGRemapCore::IniSrcResourceModel`'s own doc comment for why ``tsl::ordered_map`` is used throughout instead of ``std::unordered_map``
      @endrst
      */
     class IniFixResourceModel: public IniResourceModel {
@@ -70,16 +70,16 @@ namespace AGRemapCore {
              * @param fixedPaths
              @rst
              The file paths to the fixed files for the resource -- the outer keys are the indices to
-             the :cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+             the :cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
              for some resource, the inner keys are the names for the type of mod to fix to, and the
-             inner values are the file paths within that :cpp:class:`IfContentPart`
+             inner values are the file paths within that :cpp:class:`AGRemapCore::IfContentPart`
              @endrst
              * @param origPaths
              @rst
              The file paths for the (unfixed) resource -- the keys are the indices to the
-             :cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+             :cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
              for some resource, and the values are the file paths within that
-             :cpp:class:`IfContentPart`. ``std::nullopt`` if there's no original-file data at all
+             :cpp:class:`AGRemapCore::IfContentPart`. ``std::nullopt`` if there's no original-file data at all
              @endrst
              */
             IniFixResourceModel(std::string iniFolderPath,
@@ -111,9 +111,9 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every fixed/orig path combination across every :cpp:class:`IfContentPart` and mod type
+             Every fixed/orig path combination across every :cpp:class:`AGRemapCore::IfContentPart` and mod type
              in #fixedPaths, in the same order #fixedPaths itself iterates (see
-             :cpp:class:`IniSrcResourceModel::items` for why this is a plain flattened list rather
+             :cpp:func:`AGRemapCore::IniSrcResourceModel::items` for why this is a plain flattened list rather
              than a lazy generator)
              @endrst
              *

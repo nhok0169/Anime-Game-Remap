@@ -50,9 +50,7 @@
 <para><verbatim>embed:rst 
 Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
-tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
 fields rather than restating them
 </verbatim>       </para>
         </detaileddescription>
@@ -328,7 +326,7 @@ Builds a real :cpp:class:`RemapBlendResource`, carrying the vertex group remap
 :raw-html:`&lt;br /&gt;`
 
 The resource&apos;s ``type`` is this edit&apos;s own ``resType``, not the &apos;resType&apos; argument --
-faithful to both the pure-Python original and the `pybind11`_ override
+the same as the `pybind11`_ override
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -406,8 +404,8 @@ hand it. This class is that missing override, done against
 **Every fix that touches a** ``Blend.buf`` **wants this one, not the base.** The inherited
 behaviour is not a milder version of the same thing -- it is the bug it looks like in game. The
 boss reads the character&apos;s blend weights against its own skeleton, every vertex binds to a bone
-that means something else on the target rig, and the mesh scatters into loose polygons (see
-``AI Agent Help/CreatingRemaps/Images/Raiden/6_1/RaidenBlendBroken.jpg``). A remapped ``.ini``
+that means something else on the target rig, and the mesh scatters into loose polygons. A
+remapped ``.ini``
 pointing at an unremapped ``.buf`` is *worse* than emitting nothing, because every observable
 signal -- the section names, the file on disk, the fix&apos;s own summary line -- says it worked
 

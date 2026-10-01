@@ -101,9 +101,8 @@ namespace AGRemapCore {
              * @param modType
              @rst
              The type of mod to fix -- also a **non-owning, nullable** pointer, for the same
-             reason ``ini`` is one: none of this class's own subclasses read it, and the
-             `pybind11`_ layer has no C++ :cpp:class:`ModType` to hand over (the `Python`_ API's
-             ``ModType`` is still a pure-`Python`_ class of its own) :raw-html:`<br />` :raw-html:`<br />`
+             reason ``ini`` is one: none of this class's own subclasses read it, so a caller may pass
+             ``nullptr`` :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst

@@ -85,7 +85,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="163" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="28" bodyend="30"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="155" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="28" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1a3ba7c1c9c108a81ded6b8a90f9693844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -113,7 +113,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="163" column="13"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="155" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1a1e41492849be4dad06792e63bcd6bc8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -130,18 +130,17 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="163" column="13"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="155" column="13"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`IniGroupedResource` and :cpp:class:`RemapIniResourceMixin`
+This class inherits from :cpp:class:`AGRemapCore::IniGroupedResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
 Base class for a group of resources to fix in a .ini file that&apos;s used by the overall remap
-process -- mirrors the pure-Python ``RemapIniGroupedResource`` class
-(``model/iniresources/RemapIniResource.py``)
+process
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -192,7 +191,7 @@ process -- mirrors the pure-Python ``RemapIniGroupedResource`` class
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="161" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="161" bodyend="164"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="153" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="153" bodyend="156"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" prot="protected" virt="virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>addResource</name></member>

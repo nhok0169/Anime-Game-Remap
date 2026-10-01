@@ -466,7 +466,7 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The `Python`_-facing ``DownloadMode`` is a separate, still-pure-Python ``Enum``
+   The `Python`_-facing ``DownloadMode`` is a separate `Python`_ ``Enum``
    (``constants/DownloadMode.py``) whose members carry the same three string values. The
    binding layer maps one onto the other by that value, rather than either side being replaced
    -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
@@ -548,7 +548,7 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
 <para><verbatim>embed:rst 
 The possible types for an :cpp:class:`IfPredPart` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
+Matches the `Python`_ ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -591,7 +591,7 @@ Different replacement modes for when the :cpp:class:`IniSectionGraph` already ex
 :cpp:class:`BaseResEdit` builds the corresponding graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The `Python`_-facing ``IniGraphReplaceMode`` is a separate, still-pure-Python ``Enum``
+   The `Python`_-facing ``IniGraphReplaceMode`` is a separate `Python`_ ``Enum``
    (``constants/IniGraphReplaceMode.py``) whose members carry the same three string values.
    The binding layer maps one onto the other by that value, rather than either side being
    replaced -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all
@@ -1322,7 +1322,7 @@ Like the boss ids, nothing classifies a ``.ini`` file AS one of these; the skin 
           </briefdescription>
           <detaileddescription>
 <para><verbatim>embed:rst 
-Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type (2026-09-19) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Sanhua from WuWa (Wuthering Waves), a WWMI mod type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 A WWMI character is drawn as several ``Component N`` slots of ONE vertex buffer sharing ONE
 merged skeleton (each slot&apos;s ``vg_map`` in WWMI-Assets&apos; ``Metadata.json`` maps its bones into
@@ -1346,13 +1346,12 @@ slots are the ``type`` column of :cpp:class:`Indices`, :cpp:class:`IndexCounts`,
           </briefdescription>
           <detaileddescription>
 <para><verbatim>embed:rst 
-Chisa from WuWa (Wuthering Waves), the second WWMI pair (2026-09-20) -- see
+Chisa from WuWa (Wuthering Waves), a WWMI mod type -- see
 :cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-WWMI-Assets has neither her nor her skin, so her asset tables come from a frame dump
-(``Tools/Misc/Prototypes/wwmiExtractDump.py``), which is also what
-``Data/Mod Downloads/WuWa/Chisa/2_8`` was built from. She is the first character here whose
-merged skeleton passes 256 bones (420), so a mod of hers carries WWMI&apos;s blend remap
+WWMI-Assets has neither her nor her skin, so her asset tables (and
+``Data/Mod Downloads/WuWa/Chisa/2_8``) come from a frame dump. Her merged skeleton passes
+256 bones (420), so a mod of hers carries WWMI&apos;s blend remap
 </verbatim> </para>
           </detaileddescription>
         </enumvalue>
@@ -1370,12 +1369,12 @@ merged skeleton passes 256 bones (420), so a mod of hers carries WWMI&apos;s ble
 <para><verbatim>embed:rst 
 The names of the different types of mods this fix will fix from or fix to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+Mirrors the keys of the `Python`_ ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="548"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="547"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1415,25 +1414,22 @@ with the light map sampled as the albedo -- **a model rendered flat green**
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 :cpp:enumerator:`PerSegment` is correct only while no path draws more than once. A section
-whose draws sit in INDEPENDENT ``if`` blocks issues several in a single pass -- measured
-over one real mod library, **66 sections across 14 mod folders** do -- and every second draw
-of such a section came out unfixed (2026-09-14) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+whose draws sit in INDEPENDENT ``if`` blocks issues several in a single pass -- a common
+shape in real mods -- and under :cpp:enumerator:`PerSegment` every second draw of such a
+section comes out unfixed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 What mod authors write by hand is exactly this mode: one ``run =`` at the top of the
 `section`_, after the texture registers and before anything conditional, however many
-``drawindexed`` lines follow. The pure-Python original reaches the same placement a
-different way -- it never inserts a call at all, it renames the modder&apos;s own out of the way
-and back again, which preserves wherever they put it
+``drawindexed`` lines follow
 
 .. note::
    This mode assumes the addition is invalidated only by the **delimiter**, never by
    anything between two of them. For the fix libraries that means a `section`_ must not
-   rebind its ``ps-t`` registers after drawing: measured over **33030** real
-   ``TextureOverride`` `section`_\\s, **none** do -- but a Citlali mod found since does (bind,
-   ``ORFix``, draw, bind again, ``ORFix``, draw), and one call per path drew its second
-   binding un-reslotted. Where the mod&apos;s own calls are already the right library, keeping
-   them is correct and re-issuing is not: see ``keepOwnFixCalls`` in
-   ``GIMIComponentFixer.cpp`` and ``Tools/Misc/Diagnostics/unfixedDraws.py``
+   rebind its ``ps-t`` registers after drawing. Most ``TextureOverride`` `section`_\\s do
+   not, but some mods do (bind, ``ORFix``, draw, bind again, ``ORFix``, draw), and one call
+   per path then leaves the second binding un-reslotted -- see
+   :cpp:enumerator:`PerBindingGeneration`. Where the mod&apos;s own calls are already the right
+   library, keeping them is correct and re-issuing is not
 </verbatim> </para>
           </detaileddescription>
         </enumvalue>
@@ -1455,9 +1451,9 @@ second call over registers that have NOT moved undoes the first. One call per pa
 therefore too few for a `section`_ that binds twice and too many for nothing
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Real mods write both shapes. A CitlaliWhisperofStars mod binds its own slot&apos;s textures and
-draws, then binds Citlali&apos;s and draws again (2026-09-22): under :cpp:enumerator:`PerPath`
-its second draw went un-reslotted. The same mod supplies the other half -- its own
+Real mods write both shapes. For example, a CitlaliWhisperofStars mod may bind its own
+slot&apos;s textures and draw, then bind Citlali&apos;s and draw again: under
+:cpp:enumerator:`PerPath` its second draw would go un-reslotted. The same mod supplies the other half -- its own
 ``run =`` over its own second binding -- which is why
 :cpp:member:`RegDelimitedAdd::coveredRegs` marks a generation the mod already serves, so
 the author&apos;s call is kept and not doubled :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
@@ -1480,7 +1476,7 @@ single path gets it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="110"/>
+        <location file="include/AGRemapCore/constants/RegDelimitedAddMode.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/RegDelimitedAddMode.h" bodystart="30" bodyend="107"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
         <type></type>
@@ -1523,7 +1519,7 @@ The mode for a draw call. :cpp:enumerator:`FillMissing` fills the FIRST content 
 section that lacks the register, which is the whole section while it is one part -- and the
 wrong end once something has split it (a :cpp:class:`ResGroupCollect` splicing a collected
 register into an ``if`` block does), where the draw would then run before the ``ib`` and
-the textures it depends on (2026-09-12)
+the textures it depends on
 </verbatim> </para>
           </detaileddescription>
         </enumvalue>
@@ -1535,7 +1531,7 @@ Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The `Python`_-facing ``RegFillMissingMode`` is a separate, still-pure-Python ``Enum``
+   The `Python`_-facing ``RegFillMissingMode`` is a separate `Python`_ ``Enum``
    (``constants/RegFillMissingMode.py``) whose members carry the same three string values. The
    binding layer maps one onto the other by that value, rather than either side being replaced
    -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
@@ -1649,7 +1645,7 @@ suffixed with an occurrence count if the same name repeats) and the values are t
         <detaileddescription>
 <para><verbatim>embed:rst 
 Either a file path (``std::string``) or a raw, already-in-memory sequence of bytes -- the C++
-analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+analogue of a `Python`_ ``Union[str, bytes]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -1950,8 +1946,7 @@ character):
 .. note::
    This is **not** the shape for remapping onto a boss that shares the source&apos;s geometry --
    that keeps the source&apos;s hashes and has to hide the originals instead. Raiden has her own
-   fixer for exactly that reason; see `Creating Remaps &lt;../CreatingRemaps/CLAUDE.md&gt;`_&apos;s
-   &quot;Two shapes of remap&quot;
+   fixer for exactly that reason
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -1966,7 +1961,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1331" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1331" bodyend="1335" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="647" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1331" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1331" bodyend="1335" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2014,7 +2009,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2365" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2365" bodyend="2369" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="773" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2365" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2365" bodyend="2369" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="757" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2048,7 +2043,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3293" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3293" bodyend="3297" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="506" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3293" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3293" bodyend="3297" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="502" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
@@ -2163,7 +2158,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="4188" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4188" bodyend="4192" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="731" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="4188" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4188" bodyend="4192" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="727" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2186,17 +2181,17 @@ outright by their own hashes, plus ``(&quot;&quot;, &quot;other&quot;)`` and ``(
 
 Every mod object it produces:
 
-===================  ====================================================================
-Mod object           What it is
-===================  ====================================================================
-each of &apos;drawnObjs&apos;  a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
-``(&quot;&quot;, &quot;ib&quot;)``       the shared draw call -- the ``ib`` hash and **no** index
-``(&quot;&quot;, &quot;blend&quot;)``    the ``Blend.buf`` the fix remaps
+======================  ====================================================================
+Mod object              What it is
+======================  ====================================================================
+each of &apos;drawnObjs&apos;     a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
+``(&quot;&quot;, &quot;ib&quot;)``          the shared draw call -- the ``ib`` hash and **no** index
+``(&quot;&quot;, &quot;blend&quot;)``       the ``Blend.buf`` the fix remaps
 ``(&quot;&quot;, &quot;position&quot;)``
 ``(&quot;&quot;, &quot;texcoord&quot;)``
-``(&quot;&quot;, &quot;other&quot;)``    ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
-``(&quot;&quot;, &quot;face&quot;)``     ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
-===================  ====================================================================
+``(&quot;&quot;, &quot;other&quot;)``       ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
+``(&quot;&quot;, &quot;face&quot;)``        ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
+======================  ====================================================================
 
 Pair it with :cpp:func:`makeGIMICharFixer`; the two agree on these names by hand, and neither
 half makes sense alone
@@ -2214,7 +2209,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="345" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="345" bodyend="402" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="279" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="343" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="343" bodyend="400" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="278" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2249,7 +2244,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="972" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="972" bodyend="988" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="227" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="972" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="972" bodyend="988" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2279,7 +2274,7 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="364" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="364" bodyend="375" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="145" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="364" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="364" bodyend="375" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="143" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af345bf406bf262670fdd608726f76ee4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>long long</type>
@@ -2501,7 +2496,7 @@ resources -- the inverse of :cpp:func:`fixVGSplitGroup` :raw-html:`&lt;br /&gt;`
 
 The buffers cannot be fixed one at a time: every component&apos;s index buffer shifts by the vertices
 of the components before it, so an index buffer written without knowing the others is wrong. So
-the members are fixed together, from the one :cpp:class:`VGComponentMerge` :raw-html:`&lt;br /&gt;`
+the members are fixed together, from the one :cpp:class:`AGRemapCore::VGComponentMerge` :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 Members are told apart by :cpp:member:`IniResource::type`, exactly as the split does it:
@@ -2575,19 +2570,19 @@ draws one source object needs no member at all: its index buffer is already righ
         <detaileddescription>
 <para><verbatim>embed:rst 
 Splits a mod&apos;s buffers for one component of a multi-component target, as a fix over a group of
-resources -- the resource-group counterpart of :cpp:class:`RemapBlendResource` :raw-html:`&lt;br /&gt;`
+resources -- the resource-group counterpart of :cpp:class:`AGRemapCore::RemapBlendResource` :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 A mod&apos;s ``Blend.buf``, ``Position.buf``, ``Texcoord.buf`` and ``.ib`` files cannot be fixed one
 at a time here: the blend decides which vertices a component keeps, the index buffers decide
 which triangles, and every vertex buffer then has to follow the same vertex set, renumbered the
-same way (issue #190). So the members are fixed together, from the one :cpp:class:`VGComponentSplit`
+same way (issue #190). So the members are fixed together, from the one :cpp:class:`AGRemapCore::VGComponentSplit`
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Members are told apart by :cpp:member:`IniResource::type`: ``blend`` (exactly one), ``position``
 and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, matched to
 :cpp:member:`VGSplitGroupConfig::ibPaths` by source path). Every member is an
-:cpp:class:`IniFixResource`, read from its ``srcPath`` and written to its ``fixedPath``
+:cpp:class:`AGRemapCore::IniFixResource`, read from its ``srcPath`` and written to its ``fixedPath``
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

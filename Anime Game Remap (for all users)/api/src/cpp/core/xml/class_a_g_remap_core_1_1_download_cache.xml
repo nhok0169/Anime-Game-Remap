@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="103" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="100" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="100" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_cache_1a649e107b164b74fe25bcc31ecaba9532" prot="private" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="104" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="101" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="101" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="69" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="179" bodyend="186"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="66" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="179" bodyend="186"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a9c1caed7568fea59b614ff9ed2bc7f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="77" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="188" bodyend="194"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="74" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="188" bodyend="194"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a4993a56b97b75cdcbe57b740b6c84752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -139,7 +139,7 @@ minutes of pure waiting to reach the answer it already had
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="93" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="196" bodyend="198"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="90" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="196" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a9da31704148dd44c9c6990b8f03e52fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -168,7 +168,7 @@ minutes of pure waiting to reach the answer it already had
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="100" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="200" bodyend="202"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="97" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="200" bodyend="202"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -179,17 +179,14 @@ What has already been fetched during one remap, keyed by URL -- so the same file
 pulled off the network once and COPIED everywhere else it is needed
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-:cpp:class:`FileDownload` has a cache of its own (``prevPath_``), and in the pure-Python
-original that was enough: its ``IniParseBuilder`` was a flyweight, so every ``.ini`` file
-of a given mod type shared ONE parser, one ``DownloadData``, and therefore one
-``FileDownload`` object holding one ``_prevPath``. This port builds a parser per
-:cpp:class:`IniFile` (and the builders were de-flyweighted deliberately), so that
-per-object cache can never be hit -- a fresh :cpp:class:`FileDownload` reaches every
-download with an empty ``prevPath_``. Measured on a 36-``.ini`` XingqiuBamboo mod:
-*downloaded 36 files, copied 0 files from existing downloads*, all 36 the same URL
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+:cpp:class:`FileDownload` has a cache of its own (``prevPath_``), but it only helps when the
+same :cpp:class:`FileDownload` object is asked twice. Every :cpp:class:`IniFile` gets a
+parser of its own, so that per-object cache is never hit across ``.ini`` files -- a fresh
+:cpp:class:`FileDownload` reaches every download with an empty ``prevPath_``, and a mod of 36
+``.ini`` files all needing the same file would download it 36 times :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
 
-So the cache moves to where the question actually belongs. &quot;Have we already fetched this
+So the cache lives where the question actually belongs. &quot;Have we already fetched this
 URL?&quot; is a property of the RUN, not of a parser strategy -- :cpp:class:`RemapService`
 owns one of these and hands it to each download as it goes, exactly as it hands over the
 logger :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
@@ -205,7 +202,7 @@ logger :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    ``copy_file`` and self-heals
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/files/FileDownload.h" line="61" column="5" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="61" bodyend="105"/>
+    <location file="include/AGRemapCore/tools/files/FileDownload.h" line="58" column="5" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="58" bodyend="102"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_download_cache_1a649e107b164b74fe25bcc31ecaba9532" prot="private" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>failed_</name></member>
       <member refid="class_a_g_remap_core_1_1_download_cache_1a9da31704148dd44c9c6990b8f03e52fc" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>hasFailed</name></member>

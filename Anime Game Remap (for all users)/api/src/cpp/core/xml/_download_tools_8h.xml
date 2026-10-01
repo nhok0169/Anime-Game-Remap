@@ -14,30 +14,6 @@
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_download_tools_8cpp" local="yes">src/tools/DownloadTools.cpp</includedby>
     <incdepgraph>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="109">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="96">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="98">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="106">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="79">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="68">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1083,6 +1059,30 @@
         </childnode>
         <childnode refid="61" relation="include">
         </childnode>
+      </node>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="96">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="98">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="106">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="79">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="110">
         <label>GIMIParser.tpp</label>

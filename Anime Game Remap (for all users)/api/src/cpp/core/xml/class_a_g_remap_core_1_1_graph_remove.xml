@@ -65,9 +65,7 @@
 <para><verbatim>embed:rst 
 Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
-tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
 fields rather than restating them
 </verbatim>    </para>
         </detaileddescription>

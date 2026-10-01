@@ -26,7 +26,7 @@ class ConcurrentManager(Generic[T]):
     """
     Base class to manage running many executions
 
-    Paramaters
+    Parameters
     ----------
     executionCls: Type[T]
         The class for building the executions

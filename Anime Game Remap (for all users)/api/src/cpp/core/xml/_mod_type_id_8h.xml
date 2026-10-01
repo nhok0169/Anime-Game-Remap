@@ -111,30 +111,6 @@
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
     <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
     <incdepgraph>
-      <node id="46">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="91">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="52">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="105">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="103">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="67">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="98">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1104,6 +1080,30 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
+      </node>
+      <node id="46">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="91">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="52">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="105">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="103">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="67">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>
@@ -2198,65 +2198,65 @@
 <codeline lineno="524"><highlight class="normal"></highlight></codeline>
 <codeline lineno="528" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa20a11d20a03cacc27e48688909994c25" kindref="member">SanhuaExorcist</ref>,</highlight></codeline>
 <codeline lineno="529"><highlight class="normal"></highlight></codeline>
-<codeline lineno="542" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa74e403d261b9f7b084acf93c0c589818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa74e403d261b9f7b084acf93c0c589818" kindref="member">Chisa</ref>,</highlight></codeline>
-<codeline lineno="543"><highlight class="normal"></highlight></codeline>
-<codeline lineno="547" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" kindref="member">ChisaParfait</ref></highlight></codeline>
-<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="549"><highlight class="normal"></highlight></codeline>
-<codeline lineno="553" refid="class_a_g_remap_core_1_1_mod_type_id_tools" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools" kindref="compound">ModTypeIdTools</ref><sp/>{</highlight></codeline>
-<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="555"><highlight class="normal"></highlight></codeline>
-<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" kindref="member">getEnum</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
-<codeline lineno="568"><highlight class="normal"></highlight></codeline>
-<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="582"><highlight class="normal"></highlight></codeline>
-<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aee7d56b1c696efdaea722164b19eda9d" kindref="member">getModType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>modTypeId);</highlight></codeline>
-<codeline lineno="608"><highlight class="normal"></highlight></codeline>
-<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">registerModType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/>&amp;modType);</highlight></codeline>
-<codeline lineno="622"><highlight class="normal"></highlight></codeline>
-<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a905e32d0a9f31b61e3df227bc57fea20" kindref="member">registerModTypes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ModType&gt;<sp/>&amp;modTypes);</highlight></codeline>
-<codeline lineno="640"><highlight class="normal"></highlight></codeline>
-<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" kindref="member">findByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;name,<sp/>std::optional&lt;GameTypeId&gt;<sp/>gameTypeId<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="668"><highlight class="normal"></highlight></codeline>
-<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" kindref="member">clear</ref>();</highlight></codeline>
-<codeline lineno="681"><highlight class="normal"></highlight></codeline>
-<codeline lineno="704"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aab992f9ff6f0ec37367e622f98acde20" kindref="member">generation</ref>();</highlight></codeline>
-<codeline lineno="705"><highlight class="normal"></highlight></codeline>
-<codeline lineno="727"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a4fb8ba441068345ac9208e45dd5a9bb2" kindref="member">getHashRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="728"><highlight class="normal"></highlight></codeline>
-<codeline lineno="743"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a662e30ad3ff2f90e88ca7b8a800afb64" kindref="member">getIndexRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="744"><highlight class="normal"></highlight></codeline>
-<codeline lineno="771"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a4730608469ef13c622c1799362dd3d9f" kindref="member">getComponentIds</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="772"><highlight class="normal"></highlight></codeline>
-<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a0b33ca653c4cf909d7ff8141a89ce4b3" kindref="member">getSectionKeywords</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="800"><highlight class="normal"></highlight></codeline>
-<codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="802" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;int,<sp/>ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" kindref="member">_modTypes</ref>;</highlight></codeline>
-<codeline lineno="803"><highlight class="normal"></highlight></codeline>
-<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bumped<sp/>by<sp/>clear().<sp/>See<sp/>generation()&apos;s<sp/>own<sp/>note<sp/>for<sp/>what<sp/>reads<sp/>it<sp/>and<sp/>why.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="805" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" kindref="member">_generation</ref>;</highlight></codeline>
-<codeline lineno="806"><highlight class="normal"></highlight></codeline>
-<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>ModTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact<sp/>name/alias</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(game-agnostic;<sp/>narrowed<sp/>down<sp/>to<sp/>a<sp/>specific<sp/>GameTypeId,<sp/>when<sp/>requested,<sp/>by</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cross-referencing<sp/>each<sp/>candidate&apos;s<sp/>own<sp/>entry<sp/>in<sp/>&apos;_modTypes&apos;)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="810" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA&lt;std::unordered_set&lt;int&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" kindref="member">_nameDFA</ref>;</highlight></codeline>
-<codeline lineno="811"><highlight class="normal"></highlight></codeline>
-<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>GameTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>--<sp/>mirrors<sp/>IniClassifier&apos;s<sp/>&apos;keywordGameTypeIds&apos;,<sp/>used<sp/>the<sp/>same<sp/>way<sp/>to<sp/>build</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>KeywordPredicate<sp/>for<sp/>&apos;_nameDFA&apos;s<sp/>maximal-match<sp/>search</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="815" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;int&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" kindref="member">_nameGameTypeIds</ref>;</highlight></codeline>
-<codeline lineno="816"><highlight class="normal"></highlight></codeline>
-<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>&apos;_nameDFA&apos;s<sp/>duplicate-merging<sp/>behavior<sp/>exactly<sp/>once<sp/>(mirrors<sp/>what</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IniClassifier&apos;s<sp/>constructor<sp/>does<sp/>for<sp/>its<sp/>own<sp/>&apos;sectionKeywordsDFA&apos;)<sp/>--<sp/>mutates</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;_nameDFA&apos;<sp/>in<sp/>place<sp/>via<sp/>&apos;setHandleDuplicate&apos;<sp/>rather<sp/>than<sp/>constructing-and-returning<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>whole<sp/>BaseAhoCorasickDFA<sp/>by<sp/>value,<sp/>since<sp/>that<sp/>type<sp/>holds<sp/>a<sp/>unique_ptr<sp/>member<sp/>and<sp/>so</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>has<sp/>no<sp/>copy/move<sp/>constructor<sp/>to<sp/>return<sp/>through.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" kindref="member">_setupNameDFA</ref>();</highlight></codeline>
-<codeline lineno="823" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" kindref="member">_nameDFAInitialized</ref>;</highlight></codeline>
-<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="825"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="826"><highlight class="normal"></highlight></codeline>
-<codeline lineno="827"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="541" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa74e403d261b9f7b084acf93c0c589818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa74e403d261b9f7b084acf93c0c589818" kindref="member">Chisa</ref>,</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="546" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" kindref="member">ChisaParfait</ref></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="552" refid="class_a_g_remap_core_1_1_mod_type_id_tools" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools" kindref="compound">ModTypeIdTools</ref><sp/>{</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" kindref="member">getEnum</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"></highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aee7d56b1c696efdaea722164b19eda9d" kindref="member">getModType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>modTypeId);</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"></highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">registerModType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/>&amp;modType);</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"></highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a905e32d0a9f31b61e3df227bc57fea20" kindref="member">registerModTypes</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ModType&gt;<sp/>&amp;modTypes);</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"></highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" kindref="member">findByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;name,<sp/>std::optional&lt;GameTypeId&gt;<sp/>gameTypeId<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"></highlight></codeline>
+<codeline lineno="679"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"></highlight></codeline>
+<codeline lineno="701"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aab992f9ff6f0ec37367e622f98acde20" kindref="member">generation</ref>();</highlight></codeline>
+<codeline lineno="702"><highlight class="normal"></highlight></codeline>
+<codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a4fb8ba441068345ac9208e45dd5a9bb2" kindref="member">getHashRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="724"><highlight class="normal"></highlight></codeline>
+<codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a662e30ad3ff2f90e88ca7b8a800afb64" kindref="member">getIndexRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="740"><highlight class="normal"></highlight></codeline>
+<codeline lineno="767"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a4730608469ef13c622c1799362dd3d9f" kindref="member">getComponentIds</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="768"><highlight class="normal"></highlight></codeline>
+<codeline lineno="790"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a0b33ca653c4cf909d7ff8141a89ce4b3" kindref="member">getSectionKeywords</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="791"><highlight class="normal"></highlight></codeline>
+<codeline lineno="792"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="793" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;int,<sp/>ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" kindref="member">_modTypes</ref>;</highlight></codeline>
+<codeline lineno="794"><highlight class="normal"></highlight></codeline>
+<codeline lineno="795"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bumped<sp/>by<sp/>clear().<sp/>See<sp/>generation()&apos;s<sp/>own<sp/>note<sp/>for<sp/>what<sp/>reads<sp/>it<sp/>and<sp/>why.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="796" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" kindref="member">_generation</ref>;</highlight></codeline>
+<codeline lineno="797"><highlight class="normal"></highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>ModTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact<sp/>name/alias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(game-agnostic;<sp/>narrowed<sp/>down<sp/>to<sp/>a<sp/>specific<sp/>GameTypeId,<sp/>when<sp/>requested,<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="800"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cross-referencing<sp/>each<sp/>candidate&apos;s<sp/>own<sp/>entry<sp/>in<sp/>&apos;_modTypes&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="801" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA&lt;std::unordered_set&lt;int&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" kindref="member">_nameDFA</ref>;</highlight></codeline>
+<codeline lineno="802"><highlight class="normal"></highlight></codeline>
+<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>GameTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>--<sp/>mirrors<sp/>IniClassifier&apos;s<sp/>&apos;keywordGameTypeIds&apos;,<sp/>used<sp/>the<sp/>same<sp/>way<sp/>to<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="805"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>KeywordPredicate<sp/>for<sp/>&apos;_nameDFA&apos;s<sp/>maximal-match<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="806" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;int&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" kindref="member">_nameGameTypeIds</ref>;</highlight></codeline>
+<codeline lineno="807"><highlight class="normal"></highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>&apos;_nameDFA&apos;s<sp/>duplicate-merging<sp/>behavior<sp/>exactly<sp/>once<sp/>(mirrors<sp/>what</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IniClassifier&apos;s<sp/>constructor<sp/>does<sp/>for<sp/>its<sp/>own<sp/>&apos;sectionKeywordsDFA&apos;)<sp/>--<sp/>mutates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;_nameDFA&apos;<sp/>in<sp/>place<sp/>via<sp/>&apos;setHandleDuplicate&apos;<sp/>rather<sp/>than<sp/>constructing-and-returning<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>whole<sp/>BaseAhoCorasickDFA<sp/>by<sp/>value,<sp/>since<sp/>that<sp/>type<sp/>holds<sp/>a<sp/>unique_ptr<sp/>member<sp/>and<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>has<sp/>no<sp/>copy/move<sp/>constructor<sp/>to<sp/>return<sp/>through.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" kindref="member">_setupNameDFA</ref>();</highlight></codeline>
+<codeline lineno="814" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" kindref="member">_nameDFAInitialized</ref>;</highlight></codeline>
+<codeline lineno="815"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="816"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="817"><highlight class="normal"></highlight></codeline>
+<codeline lineno="818"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/ModTypeId.h"/>
   </compounddef>

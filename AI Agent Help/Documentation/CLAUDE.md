@@ -94,6 +94,17 @@ mod's pre-fix `RemapBKUP`, and the last 4 in a `ButtonUI/Out UI.ini` that has no
 block, i.e. a file the fix never wrote. **Attribute every one of them, not a sample**: the first
 pass of that check called those 4 unexplained purely because it only knew how to look in backups.
 
+**On Linux, plain `doxygen Doxyfile` renames every file in `core/xml`.** The Doxyfile says
+`CASE_SENSE_NAMES = SYSTEM`, which is YES on Linux, so the output is `Algo_8h.xml` where the committed
+tree has `_algo_8h.xml` -- every file shows as deleted and re-added. Pass the override on stdin rather than
+editing the Doxyfile, then restore `xml/Doxyfile.xml`, which records it:
+
+```bash
+rm -rf xml; ls xml 2>/dev/null | wc -l          # must print 0
+(cat Doxyfile; echo "CASE_SENSE_NAMES = NO") | doxygen -
+git checkout -- xml/Doxyfile.xml
+```
+
 ## Building the docs
 ```bash
 cd Docs

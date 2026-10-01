@@ -370,9 +370,8 @@ namespace AGRemapCore {
              .. note::
                 Every number is formatted exactly the way `Python`_'s ``str`` would format it --
                 shortest round-trip for a `floating point`_ value, and `Python`_'s own choice
-                between fixed and scientific notation. That is not cosmetic: it keeps this byte
-                identical to what the pure-`Python`_ implementation this replaced produced, and to
-                what a real frame analysis writes
+                between fixed and scientific notation. That is not cosmetic: it keeps the output byte
+                identical to what a real frame analysis writes
              @endrst
              *
              * @param prefix The buffer name each entry is prefixed with -- the vertex buffer slot

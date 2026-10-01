@@ -7,15 +7,6 @@
     <includes refid="_ini_keywords_8h" local="yes">AGRemapCore/constants/IniKeywords.h</includes>
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <incdepgraph>
-      <node id="30">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="47">
-        <label>BaseRegEdit.tpp</label>
-      </node>
       <node id="49">
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
@@ -323,6 +314,15 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
+      </node>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="47">
+        <label>BaseRegEdit.tpp</label>
       </node>
       <node id="44">
         <label>IfContentPart.tpp</label>

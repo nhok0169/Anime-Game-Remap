@@ -98,7 +98,7 @@ recognized but never written, exactly as #OldBackupFilePrefixV3 is
 <para><verbatim>embed:rst 
 Prefixes this software puts on the files it renames :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-A complete port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
+Has the same members as the `Python`_ ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
 </verbatim> </para>
     </detaileddescription>
     <location file="include/AGRemapCore/constants/FilePrefixes.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="30" bodyend="78"/>

@@ -2543,6 +2543,25 @@ of them cheap:
 
 <br>
 
+## A REFERENCE THAT RESOLVES TO NOTHING IS THE CHEAPEST BUG THIS REPO HAS (2026-09-30)
+
+`wwmiSweep.py` ends with a pass that asks, per folder, whether every `Resource` a section binds is
+declared and every `filename =` exists. It costs seconds over a whole corpus and it has now found
+two separate classes of defect that no A/B could:
+
+- a mod-manager-packaged WuWa mod rendering **nothing but its weapon**, from *one* dangling
+  `filename =` out of 105 (2026-09-25);
+- **65 registers bound to sections the same run deleted** (2026-09-30) -- the fix reusing a previous
+  fix's `RemapRef` section name on the two corpus mods that arrive already fixed.
+
+Neither is visible to a byte comparison, because both builds produce the same wrong bytes. **Read
+the count, and read it as a number that can be wrong**: 284 unresolved references sounds like noise
+until you ask how many are the fix's own names rather than the mods'. Here 65 were, 179 were a test
+fixture's deliberate quirk, and the remainder were mods pointing at files they do not ship -- three
+populations in one total, and only the first is yours. Split it before concluding anything.
+
+<br>
+
 ## WHEN YOU CANNOT TELL WHAT A DRAW IS USING, REPLACE THE TEXTURE WITH SOMETHING UNMISTAKABLE (2026-09-15)
 
 Bennett's remapped hair came out in patches of different white. Three hypotheses were measured,

@@ -5483,6 +5483,42 @@ NEW download is not usable from a release until then.
 
 <br>
 
+### A MOD THAT ARRIVES ALREADY FIXED IS A DIFFERENT INPUT, AND IT IS THE ONE THE MAINTAINER HAS (2026-09-30)
+
+A fix undoes first, and the undo removes **every section a previous fix named**. So anything the
+parser reports out of an already-fixed `.ini` may be about to disappear, and a fixer that reuses it
+writes a reference to something the same run deletes.
+
+That is not hypothetical. `wwmiSweep.py`'s reference check over the two corpora found **65
+registers bound to sections nothing declares** -- `ps-tN = Resource<Role><Target>RemapRef`, in two
+mods, and the two are exactly the ones whose folders arrive already fixed (`Chisa9`, `Sanhua3`).
+In game that register keeps whatever was last bound to it, so the part renders with another part's
+art and the log says nothing. **Every mod in the maintainer's live folders is in that state**, which
+is why a corpus of freshly-downloaded mods will never show it.
+
+The rule: **the fixer may not REUSE a previous fix's section name, and must not drop the FILE
+either.** A `RemapRef` section exists precisely to point at one of the MOD'S OWN textures, so the
+first version of this fix -- which filtered those sections out in the PARSER -- lost the texture
+with the section, and every role so served fell back to downloading the GAME's over the mod's art.
+The corpus said so at once: the mod came back with zero declarations and zero references, which is
+the shape of textures quietly becoming downloads. The test belongs where the file can fall through
+to a fresh declaration, in `WWMIFixer`'s `assignRole`.
+
+`IniNamingTools::looksRemapped(name, modNames)` is that test, and it is the **undo's own**, moved out
+of `RemapIniRemover` so both can ask it -- the two cannot disagree about what is about to be removed.
+A bare `Remap` anywhere in the name is deliberately NOT the test; see the 2026-09-20 note on WWMI's
+blend remap.
+
+**And fixing it exposed a second one: the texture folder was being voted on by BUFFERS.**
+`readTextureFolder` counted every resource the `.ini` declares, a mod's `Meshes/*.buf` included, and
+was only ever right because an already-fixed mod's previous `RemapDL` / `RemapTex` sections were
+being counted as the mod's own -- many of them, all textures, outvoting the buffers by accident.
+The moment those stopped counting, five mods wrote every texture they own into `Meshes/`. Two of
+them (`Chisa2`, `ChisaParfait2`) had been doing it all along. **A vote has to be taken among the
+things the question is about.**
+
+<br>
+
 ### Proving a NEW download folder, without a golden to compare against (2026-09-14)
 
 The conversion from a character's asset dump to its `Data/Mod Downloads` folder is

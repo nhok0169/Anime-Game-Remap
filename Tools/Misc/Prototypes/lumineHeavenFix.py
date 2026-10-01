@@ -112,10 +112,11 @@ def parserConfig() -> "FRB.GIMICharParserConfig":
 
 
 InnerOutlineAxis = True
+CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = 64, 192, 12     # LumineFixer.cpp's, overridden by main()
 
 
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, carryFace = False,
-                mirrored = ("dress",), mirrorBackedReach = 0.01, darkCloth = None, darkClothMid = False, coolGlow = 60) -> "FRB.GIMIComponentFixerConfig":
+                mirrored = ("dress",), mirrorBackedReach = 0.01, darkCloth = None, darkClothMid = False, coolGlow = 60, coolGlowGain = 2.2) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body", "dress"]
@@ -233,8 +234,18 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
             import numpy as np
             px = np.frombuffer(texFile.getPixels(), dtype = np.uint8).copy().reshape(-1, 4)
             rgb = px[:, :3].astype(np.int32)
-            sel = (px[:, 3] > 200) & (rgb.max(axis = 1) > coolGlow) & (rgb[:, 2] > rgb[:, 0])
+            # a dark texel only when DISTINCTLY blue: Lumine10's starry lining (dark navy at alpha 255) is, the near-greys
+            # of Lumine1 / Lumine7 are not -- see LumineFixer.cpp's CoolGlowDarkMargin
+            peak = rgb.max(axis = 1)
+            darkBlue = ((peak > 10) & (rgb[:, 2] >= rgb[:, 0] + CoolGlowDarkMargin) & (rgb[:, 2] >= rgb[:, 1] + CoolGlowDarkMargin)
+                        if CoolGlowDarkMargin >= 0 else np.zeros(len(px), bool))
+            sel = (px[:, 3] > 200) & (((peak > coolGlow) & (rgb[:, 2] > rgb[:, 0])) | darkBlue)
             px[sel, 3] = 0
+            if (coolGlowGain != 1.0):
+                # full gain on a dark texel, none on a bright one (a bright blue times the gain clips to cyan)
+                peak = rgb[sel].max(axis = 1).astype(np.float64)
+                gain = 1 + (coolGlowGain - 1) * np.clip((CoolGlowGainTop - peak) / (CoolGlowGainTop - CoolGlowGainFull), 0, 1)
+                px[sel, :3] = np.clip(rgb[sel] * gain[:, None] + 0.5, 0, 255).astype(np.uint8)
             texFile.setPixels(px.tobytes(), texFile.width, texFile.height)
         config.diffuseEdits = list(config.diffuseEdits) + [("body", clearCoolGlow), ("dress", clearCoolGlow)]
     config.compressTextures = False  # a band selector is exact; BC7 would move it
@@ -249,6 +260,10 @@ def main():
     parser.add_argument("--mirrorBackedReach", type = float, default = 0.01, help = "a mirrored triangle with a layer facing the other way this close behind it gets no twin (default 0.01; 0 mirrors every triangle, the A/B)")
     parser.add_argument("--darkCloth", type = int, default = -1, help = "move body / dress bands 0-63 and 151-200 over a diffuse darker than this (mean RGB) onto the skin's dark-cloth band 78 (default -1, off: an A/B -- the red squares it was for were OUTLINES, see --innerOutline)")
     parser.add_argument("--coolGlow", type = int, default = 60, help = "body / dress diffuse pixels with alpha > 200, brighter than this and bluer than red lose their alpha (the skin glows them gold); -1 off, the A/B")
+    parser.add_argument("--coolGlowGain", type = float, default = 2.2, help = "the RGB of a pixel --coolGlow clears is multiplied by this, tapered (the glow it loses, baked in); 1 off, the A/B")
+    parser.add_argument("--coolGlowDarkMargin", type = int, default = 12, help = "a dark alpha-255 texel this much bluer than red and green is cleared too (Lumine10's starry lining); -1 off, the A/B")
+    parser.add_argument("--coolGlowGainFull", type = int, default = 64, help = "texels this dark (max RGB) take the whole --coolGlowGain")
+    parser.add_argument("--coolGlowGainTop", type = int, default = 192, help = "texels this bright (max RGB) take none of it")
     parser.add_argument("--darkClothMid", action = "store_true", help = "an A/B: --darkCloth also moves 96-150")
     parser.add_argument("--carryFace", action = "store_true", help = "an A/B: carry the mod's face diffuse onto the skin's face hash (it lands on a different mesh)")
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit)")
@@ -259,12 +274,13 @@ def main():
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
-    global InnerOutlineAxis
+    global InnerOutlineAxis, CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin
+    CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = args.coolGlowGainFull, args.coolGlowGainTop, args.coolGlowDarkMargin
     InnerOutlineAxis = not args.noInnerOutlineAxis
 
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha, [o for o in args.innerOutline.split(",") if o], args.carryFace,
                          [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach,
-                         None if args.darkCloth < 0 else args.darkCloth, args.darkClothMid, args.coolGlow)
+                         None if args.darkCloth < 0 else args.darkCloth, args.darkClothMid, args.coolGlow, args.coolGlowGain)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

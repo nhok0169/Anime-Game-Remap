@@ -2083,6 +2083,15 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    it copied the FRONT UVs, so the inside showed the outside's black. `Component::mirrorBackUV` (core
    `VGSplitGroupConfig::mirrorBackUV`, new, off by default) gives each mirrored copy the source's second UV set wherever
    it is non-zero. Found by removing TexFx from her OWN outfit: the galaxy stayed.
+   **Then the lining was too DARK** (the maintainer: lighter on her). The galaxy quadrant is dark navy at alpha 255, so on
+   her it GLOWS a light blue, and on the skin it is either cleared (unlit, nearly black) or kept (a faint gold glow --
+   left on with the clear off, the whole lining went gold). What a cleared pixel loses is the glow's brightness, so it
+   is now baked into its colour: x2.2 on a dark texel, tapering to none at max RGB 192, because a bright blue times a
+   flat gain clips to CYAN (her emblem and boots went cyan-white at a flat 2.2). Dark texels are cleared only when
+   DISTINCTLY blue (blue at least 12 over red and green): Lumine1 and Lumine7 hold near-greys at alpha 255 that the plain
+   "bluer than red" test would have caught. Measured on the lining crop, mean blue of its blue pixels: 128 on her, 102
+   before, 136 after; the other mods' cleared pixels are near-white glow (max RGB >= 179), where the taper gives x1.00
+   to x1.12.
    And a re-fix in place can lose its DOWNLOADS to the intermittent GitHub failure, leaving the head draw bound to
    nothing and the whole remap invisible: check every `filename =` resolves after a re-fix.
 8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib

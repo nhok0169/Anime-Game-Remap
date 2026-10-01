@@ -48,17 +48,38 @@ namespace AGRemapCore {
         // Her shader glows a diffuse-alpha-255 pixel in its own colour; the skin's body shader multiplies every glow by a
         // warm gold of its own. Lumine10's blue arm guards, gems and boots came out green / dark red on the skin, TexFx or
         // not (painted white, the glow was white on her and red-orange on the skin). Such a pixel loses its alpha and the
-        // skin renders it lit in its own colour: blue again. A dark pixel keeps it (on the skin that alpha keeps black
-        // cloth black), and so does a WARM glow (red >= blue), which the tint barely changes -- the skin's own gems glow
-        // gold.
+        // skin renders it lit in its own colour: blue again. A WARM glow (red >= blue) keeps it, which the tint barely
+        // changes -- the skin's own gems glow gold -- and so does a dark pixel that is not distinctly blue (on the skin
+        // that alpha keeps black cloth black; Lumine1 and Lumine7 have near-greys of it).
+        //
+        // What the cleared pixel loses is the glow's brightness, so it is baked into its colour (2026-09-30): Lumine10's
+        // starry dress lining is a whole quadrant of dark navy at alpha 255 that glows a light blue on her and rendered
+        // nearly black on the skin. The gain is whole on a dark texel and tapers to none on a bright one, where a blue
+        // multiplied clips to cyan (her glowing emblem and boots went cyan-white at a flat gain). Measured on the lining's
+        // own render against hers: mean blue 128 on her, 102 cleared, 136 with the gain.
         const int CoolGlowBrightness = 60;
+        const int CoolGlowDarkFloor = 10;           // a darker texel is black, whatever its hue
+        const int CoolGlowDarkMargin = 12;          // a dark texel this much bluer than red AND green is a cool glow
+        const double CoolGlowGain = 2.2;           // in double, as the prototype computes it (float moved 40 texels by one)
+        const double CoolGlowGainFull = 64.0;       // texels this dark (max RGB) take the whole gain...
+        const double CoolGlowGainTop = 192.0;       // ...and this bright, none of it
 
         void clearCoolGlow(TextureFile& texFile) {
             std::vector<std::uint8_t> pixels = texFile.getPixels();
             for (std::size_t i = 0; i + 3 < pixels.size(); i += 4) {
                 const int red = pixels[i], green = pixels[i + 1], blue = pixels[i + 2];
-                if (pixels[i + 3] > 200 && std::max({red, green, blue}) > CoolGlowBrightness && blue > red) {
-                    pixels[i + 3] = 0;
+                const int peak = std::max({red, green, blue});
+                const bool bright = peak > CoolGlowBrightness && blue > red;
+                const bool darkBlue = peak > CoolGlowDarkFloor && blue >= red + CoolGlowDarkMargin && blue >= green + CoolGlowDarkMargin;
+                if (pixels[i + 3] <= 200 || !(bright || darkBlue)) {
+                    continue;
+                }
+
+                pixels[i + 3] = 0;
+                const double taper = std::clamp((CoolGlowGainTop - peak) / (CoolGlowGainTop - CoolGlowGainFull), 0.0, 1.0);
+                const double gain = 1.0 + (CoolGlowGain - 1.0) * taper;
+                for (std::size_t c = 0; c < 3; ++c) {
+                    pixels[i + c] = static_cast<std::uint8_t>(std::min(255.0, pixels[i + c] * gain + 0.5));
                 }
             }
             const int width = texFile.getWidth();

@@ -898,6 +898,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" kind="variable"><name>texFxBlend</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a593f45356806307ea80ce6ed5894f871" kind="variable"><name>mirrorBackedReach</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1af7fa1cbd758fecef046d5eced70bea32" kind="variable"><name>mirrorBackUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a3f614ffd858d4f04d59be573d711f0a5" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a091fd718eea17cace6c632a0ae7b1a6c" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a8e48326f59a942a80a07de2e27f2a54a" kind="variable"><name>innerOutlineObjs</name></member>
@@ -1262,6 +1264,8 @@
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" kind="function"><name>kleeBlossomingStarlight</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" kind="function"><name>lisa</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" kind="function"><name>lisaStudent</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a635b88a9a3870adb2a39f362f10ea624" kind="function"><name>lumine</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a1d136454b704c2e9693f5af5e7086167" kind="function"><name>lumineHeaven</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" kind="function"><name>mona</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" kind="function"><name>monaCN</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a02ef48f74e9403065afde12f1a7e1c4a" kind="function"><name>neuvillette</name></member>
@@ -1350,6 +1354,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" kind="variable"><name>layoutFromOwnFixCall</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kind="variable"><name>faceSwapOnlyFromDiffuseReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" kind="variable"><name>fillDrawOnlyWhenUndrawn</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1ac78fb2c7228c5963bff4b5ce1da5f94e" kind="variable"><name>texFxLayoutSwitch</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kind="variable"><name>texRegsByName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kind="variable"><name>copyPreamble</name></member>
   </compound>
@@ -1366,6 +1371,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" kind="variable"><name>components</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" kind="variable"><name>positionStride</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" kind="variable"><name>blendStride</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1ac01b4016f5a1f94fd0075a47ad7fea18" kind="variable"><name>downloadsByName</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" kind="class"><name>AGRemapCore::GIMIFixer</name>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a48836dbabf78fc8353a871dfd4d8cbf3" kind="typedef"><name>Base</name></member>
@@ -1434,6 +1440,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" kind="variable"><name>copyPreamble</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ac8a0c2d524e953f008d89f24bc43d757" kind="variable"><name>sideMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad6daf92fd229155e2543a6c0e7c10e2b" kind="variable"><name>texFxGuardUnreached</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aa76d69bab7b9ccc53f72cedf32d85788" kind="variable"><name>texFxLayoutSwitch</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter" kind="class"><name>AGRemapCore::GIMIObjPartFilter</name>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a6e6a12f1ee625755c775ac695c707876" kind="typedef"><name>ModObj</name></member>
@@ -2501,6 +2508,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3513e54244248e53b33139d8dc890737" kind="function"><name>yaoyaoBambooMain6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab0617580779efe3c30b4872976b8008b" kind="function"><name>yaoyaoBambooBang6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9e85cfcd5a11837b50c3828d61b03149" kind="function"><name>yaoyaoBambooEye6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1afa122f306c94e6e0707666830bb360aa" kind="function"><name>lumineHeavenMain6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacb62b819d70d29e48b8c58a4eca7b99" kind="function"><name>lumineHeavenBang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af86d6ac0370b4b7111b583be3cc0ad3f" kind="function"><name>lumineHeavenEye6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kind="function"><name>yelanTranquilBody6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kind="function"><name>yelanTranquilBang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kind="function"><name>yelanTranquilEye6_1</name></member>
@@ -2509,6 +2519,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" kind="function"><name>charlotteHurlockToCharlotte6_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kind="function"><name>neuvilletteMelusentToNeuvillette6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a36cbe56a14f88d017d25f021a02ed763" kind="function"><name>yaoyaoBambooToYaoyao6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae98592403e94efb74d4420feef63219d" kind="function"><name>lumineHeavenToLumine6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_fix_context" kind="class"><name>AGRemapCore::IniFixContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kind="typedef"><name>GraphGroups</name></member>
@@ -2785,6 +2796,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7fdbadcb5f58c43b5d2cd1b9c93403da" kind="function"><name>yaoyao4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae5f0679a08dc5a7b76713f6bdcbf9bfb" kind="function"><name>neuvilletteMelusent6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a824eb509b168813ba0fd3e3ba52a0405" kind="function"><name>yaoyaoBamboo6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" kind="function"><name>lumine4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" kind="function"><name>lumineHeaven6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_context" kind="class"><name>AGRemapCore::IniParseContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kind="typedef"><name>Section</name></member>
@@ -2883,6 +2896,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" kind="function"><name>kleeBlossomingStarlight4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" kind="function"><name>lisa4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" kind="function"><name>lisaStudent4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ae3a9a9c7ef3583efdc0411ff73a8f97a" kind="function"><name>lumine4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aea62338749c993fbf7d8a312dca3f7ad" kind="function"><name>lumineHeaven4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" kind="function"><name>mona4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" kind="function"><name>monaCN4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a87753acffffdab79b1ce3af126ba956c" kind="function"><name>neuvillette4_0</name></member>
@@ -3035,6 +3050,8 @@
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a924df1814e99ba2acbf62beeaedacb31" kind="variable"><name>facingCos</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a9624d744136ab24fd2b539bb81425ced" kind="function"><name>covered</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a50b3932d1f90b3967f656218e66d268e" kind="function"><name>find</name></member>
+    <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1ab8e99e38f2d544811dd21904ea76972b" kind="function"><name>backed</name></member>
+    <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1a437151c4cc626ba50eb4962c48b1329b" kind="function"><name>behind</name></member>
     <member refid="struct_a_g_remap_core_1_1_inner_layer_outline_1aa36a314c475b8b02d682e61b2ae8ffde" kind="function"><name>readPositions</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result" kind="struct"><name>AGRemapCore::ModMappedAssets::InternalKeyResult</name>
@@ -3311,6 +3328,24 @@
     <member refid="class_a_g_remap_core_1_1_lru_cache_1af0a3b4fba370bd868ee5caa8d33d20be" kind="function"><name>LruCache</name></member>
     <member refid="class_a_g_remap_core_1_1_lru_cache_1ad6fb34d32291a48cd8218bb95d50edb4" kind="function"><name>get</name></member>
     <member refid="class_a_g_remap_core_1_1_lru_cache_1abf39349a32f87c4e688f25af98dda1f5" kind="function"><name>put</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_lumine_fixer" kind="class"><name>AGRemapCore::LumineFixer</name>
+    <member refid="class_a_g_remap_core_1_1_lumine_fixer_1ae8556c868a2393584a5f027c154256a1" kind="function"><name>LumineFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_lumine_fixer_1aef20c06ad1a1c44148d280396a1d88cf" kind="function"><name>main6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_lumine_fixer_1afc1b6eb61f715436d07dc669da42a64a" kind="function"><name>bang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_lumine_fixer_1a02b11223c07be2ff37d1a2d9d8c0bd1f" kind="function"><name>eye6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_lumine_heaven_fixer" kind="class"><name>AGRemapCore::LumineHeavenFixer</name>
+    <member refid="class_a_g_remap_core_1_1_lumine_heaven_fixer_1aa62029d02ed4bbc4d48871923fecb351" kind="function"><name>LumineHeavenFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_lumine_heaven_fixer_1a3518804ebe8571b180a1d1c8fd8f94e9" kind="function"><name>toLumine6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_lumine_heaven_parser" kind="class"><name>AGRemapCore::LumineHeavenParser</name>
+    <member refid="class_a_g_remap_core_1_1_lumine_heaven_parser_1a9b1eb8136b43c0d82ffd217dac9664cf" kind="function"><name>LumineHeavenParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_lumine_heaven_parser_1ae147fbb62ad89a55681408efa83fd871" kind="function"><name>v6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_lumine_parser" kind="class"><name>AGRemapCore::LumineParser</name>
+    <member refid="class_a_g_remap_core_1_1_lumine_parser_1a81864839a189ac684fa4c6733516f77b" kind="function"><name>LumineParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_lumine_parser_1ab8ff005cbe6e547db1bd7c9ae4910114" kind="function"><name>v4_0</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_material_band_remap_filter" kind="class"><name>AGRemapCore::MaterialBandRemapFilter</name>
     <member refid="class_a_g_remap_core_1_1_material_band_remap_filter_1ab298bcc5ff66159283b3f5b362b715a5" kind="typedef"><name>ColourPredicate</name></member>
@@ -4747,6 +4782,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a7fa587445c3646f13eec5b2d9eb79ac9" kind="variable"><name>borrowFrom</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1aff40506e757fd6a412f9f9058d830f34" kind="variable"><name>indexCount</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a37c93722756242363e4939cf61deffe1" kind="variable"><name>outline</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1afebc9b032e9da726363f5ee33d7fa432" kind="variable"><name>splitFrom</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_slot_1a1bd559df662932cd9c376973bfddfe6b" kind="variable"><name>splitBands</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component" kind="struct"><name>AGRemapCore::WWMIFixerConfig::SourceComponent</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a367138aa205bf3cc3ad100c8610b6263" kind="variable"><name>slot</name></member>
@@ -4945,6 +4982,10 @@
     <member refid="class_a_g_remap_core_1_1_tex_editor_replace_1ac06344514a368fcde496ad747c830de8" kind="function"><name>TexEditorReplace</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31" kind="function"><name>buildResModel</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_tex_fx_layout" kind="class"><name>AGRemapCore::TexFxLayout</name>
+    <member refid="class_a_g_remap_core_1_1_tex_fx_layout_1a57881d901fbdd3d33af12ae1f44761f5" kind="function"><name>retarget</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_fx_layout_1aa3a037eb5d90f7512f5a936d0ec77f08" kind="function"><name>switches</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_tex_reg_layout" kind="class"><name>AGRemapCore::TexRegLayout</name>
     <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1a23759a5af886a29cc26eb31546a68c9a" kind="function"><name>TexRegLayout</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1ae7ae3efd467c365d74ba92e5a221a391" kind="function"><name>fixLibraryRoles</name></member>
@@ -5120,6 +5161,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab39e14a91333ccf25ea30fe0a0471af2" kind="variable"><name>keptTriangleIds</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1aa627441cc2157e41b6a71c60d2dff78a" kind="variable"><name>live</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a1b373ea8ed94588c6bdaa973f59247ef" kind="variable"><name>mirrored</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1a22ee0e98b9491143912d1e3f279a0e9b" kind="variable"><name>mirrorLimits</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_buffers_1ab4e698d9e91a2e0210f31705a4077ce4" kind="variable"><name>stats</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_component_merge" kind="class"><name>AGRemapCore::VGComponentMerge</name>
@@ -5158,6 +5200,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a8fdc1313233c6ce7419e5f99683f77a2" kind="variable"><name>claimShare</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a92e12086f31356ed25ee40a66d630c7a" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a0b57e8a1ec2e5098197048f5b6ccedbb" kind="variable"><name>mirroredIbs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a4bc04db5c1000db92210d14948c67816" kind="variable"><name>mirrorBackedReach</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1a095b1a0f9960336595f5379caf6a6a78" kind="variable"><name>splitGroups</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_spec_1abac762f14f4d58c0c2526e46c3e3b14f" kind="variable"><name>negativeIndex</name></member>
   </compound>
@@ -5170,9 +5213,14 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a4265f9b88e1ca5808754e1b1012ebc0a" kind="variable"><name>ibs_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a46b7066cffe375dcf9f52ecb1bea8833" kind="variable"><name>specs_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a3e08666d5cf9c703b5ad4324096a5673" kind="variable"><name>totals_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a3aa451a23a476bd96ec8ae71640d83aa" kind="variable"><name>positions_</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a0540c0504bd9c7c929e63602d02b1d45" kind="variable"><name>normals_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6f92e43248a484e60db51315efcdfef6" kind="function"><name>VGComponentSplit</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a5f632c741402cbefd73b0693e88852b0" kind="function"><name>vertexCount</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a187d0901ffb710d5c67575290f9c5480" kind="function"><name>specs</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a45345a1711a71f484e348fcf8e0bf654" kind="function"><name>setGeometry</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ab2d96f55b32fad3b30257a2155418305" kind="function"><name>needsGeometry</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ad5f2bf020d73fdc3a98f84fe085f9b20" kind="function"><name>readGeometry</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a589bc6290b5efa5636371c003eb59649" kind="function"><name>split</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6743c5bf640d533dae31d1f9b7cd1cf6" kind="function"><name>readBlend</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a467bd29245be5c8441bbba127bfc62a7" kind="function"><name>readIb</name></member>
@@ -5185,7 +5233,7 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a40d9d1de6d57dc31bf149965f637dea9" kind="function"><name>liveVertices</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1acb2803a433f3473065fa8f5ce0b6b944" kind="function"><name>splitNegative</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_split_1add0cc01f605e916543f36ee3d381e575" kind="function"><name>splitCut</name></member>
-    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ac6385bb49db949c52e84fc2f1459bc39" kind="function"><name>addMirroredLayer</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6565d5d61fb4574c590f6fbbcce352e4" kind="function"><name>addMirroredLayer</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_component_split_stats" kind="struct"><name>AGRemapCore::VGComponentSplitStats</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a287fb32688c4220d2640b40c9b522487" kind="variable"><name>vertexCount</name></member>
@@ -5198,6 +5246,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a3a68e3236f770be1598c9c6a4df101b1" kind="variable"><name>sentinels</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a9804f304038b321b399985e331353fb6" kind="variable"><name>mirroredVertices</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1afee27ea0d3e4732cc24d34d6cecf650e" kind="variable"><name>mirroredTriangles</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1ab733f16c7687baf7b6d0c393df67a929" kind="variable"><name>mirrorBacked</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_split_stats_1a43583c97fc41746306e1d2d6b5404bdb" kind="variable"><name>splitVertices</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_counts" kind="class"><name>AGRemapCore::VGCounts</name>
@@ -5286,6 +5335,8 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a421459c2130b60316250d30bbb86d1c6" kind="variable"><name>texcoordLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1ab2f3ce8c9cbd2704ce0e7461327073f9" kind="variable"><name>positionLineEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" kind="variable"><name>mirrorLineEdit</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a355c81ab695cbc47ab0d7c75ca737211" kind="variable"><name>mirrorOffset</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1acaea6cfbeaad84fd129560de6e4c9f35" kind="variable"><name>mirrorBackUV</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" kind="variable"><name>pushAway</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" kind="variable"><name>innerOutline</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" kind="variable"><name>innerOutlineIbs</name></member>
@@ -5574,6 +5625,11 @@
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kind="enumvalue"><name>KleeBlossomingStarlight</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kind="enumvalue"><name>Lisa</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kind="enumvalue"><name>LisaStudent</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0e54f0607704cdfc2935884850e50542" kind="enumvalue"><name>Lumine</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf5ab68b99f3e6a99d2ed98c940a05db2" kind="enumvalue"><name>LumineHeaven</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faead27dd8f53c7bf97e037d26c9233dd1" kind="enumvalue"><name>LumineHeavenMain</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa3d08bf5d9a84a828a9a1d5f3968a808" kind="enumvalue"><name>LumineHeavenBang</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa48a2c8f13c28663994c0871b632fdee8" kind="enumvalue"><name>LumineHeavenEye</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kind="enumvalue"><name>Mona</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kind="enumvalue"><name>MonaCN</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7fc665b42803f1da751a781f3dee74bf" kind="enumvalue"><name>Neuvillette</name></member>
@@ -5709,6 +5765,8 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d061123222366216110213163302235155103224134323046" kind="namespace"><name>AGRemapCore::@061123222366216110213163302235155103224134323046</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d064162041113047113176213311374147056247322340347" kind="namespace"><name>AGRemapCore::@064162041113047113176213311374147056247322340347</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d074316343015143164266013243277211233155235273071" kind="namespace"><name>AGRemapCore::@074316343015143164266013243277211233155235273071</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d075222215134203315344231262366267274164203204002" kind="namespace"><name>AGRemapCore::@075222215134203315344231262366267274164203204002</name>
@@ -5728,6 +5786,10 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d107314331035143376274177256052141345243337202222" kind="namespace"><name>AGRemapCore::@107314331035143376274177256052141345243337202222</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d110012072151230345010120274243047066217362260212" kind="namespace"><name>AGRemapCore::@110012072151230345010120274243047066217362260212</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d113130175325041214035302037375022266074004345340" kind="namespace"><name>AGRemapCore::@113130175325041214035302037375022266074004345340</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d115245333145124157062225132072067375217146342060" kind="namespace"><name>AGRemapCore::@115245333145124157062225132072067375217146342060</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d116307024135202021301327236014217256211074135135" kind="namespace"><name>AGRemapCore::@116307024135202021301327236014217256211074135135</name>
   </compound>
@@ -6066,6 +6128,10 @@
   </compound>
   <compound refid="_lisa_student_fixer_8h" kind="file"><name>LisaStudentFixer.h</name>
   </compound>
+  <compound refid="_lumine_fixer_8h" kind="file"><name>LumineFixer.h</name>
+  </compound>
+  <compound refid="_lumine_heaven_fixer_8h" kind="file"><name>LumineHeavenFixer.h</name>
+  </compound>
   <compound refid="_mod_branches_8h" kind="file"><name>ModBranches.h</name>
   </compound>
   <compound refid="_mona_fixer_8h" kind="file"><name>MonaFixer.h</name>
@@ -6109,6 +6175,8 @@
   <compound refid="_shenhe_frost_flower_fixer_8h" kind="file"><name>ShenheFrostFlowerFixer.h</name>
   </compound>
   <compound refid="_side_meshes_8h" kind="file"><name>SideMeshes.h</name>
+  </compound>
+  <compound refid="_tex_fx_layout_8h" kind="file"><name>TexFxLayout.h</name>
   </compound>
   <compound refid="_tex_reg_layout_8h" kind="file"><name>TexRegLayout.h</name>
   </compound>
@@ -6207,6 +6275,10 @@
   <compound refid="_lisa_parser_8h" kind="file"><name>LisaParser.h</name>
   </compound>
   <compound refid="_lisa_student_parser_8h" kind="file"><name>LisaStudentParser.h</name>
+  </compound>
+  <compound refid="_lumine_parser_8h" kind="file"><name>LumineParser.h</name>
+  </compound>
+  <compound refid="_lumine_heaven_parser_8h" kind="file"><name>LumineHeavenParser.h</name>
   </compound>
   <compound refid="_mona_parser_8h" kind="file"><name>MonaParser.h</name>
   </compound>
@@ -6863,6 +6935,10 @@
   </compound>
   <compound refid="_lisa_student_fixer_8cpp" kind="file"><name>LisaStudentFixer.cpp</name>
   </compound>
+  <compound refid="_lumine_fixer_8cpp" kind="file"><name>LumineFixer.cpp</name>
+  </compound>
+  <compound refid="_lumine_heaven_fixer_8cpp" kind="file"><name>LumineHeavenFixer.cpp</name>
+  </compound>
   <compound refid="_mod_branches_8cpp" kind="file"><name>ModBranches.cpp</name>
   </compound>
   <compound refid="_mona_fixer_8cpp" kind="file"><name>MonaFixer.cpp</name>
@@ -6906,6 +6982,8 @@
   <compound refid="_shenhe_frost_flower_fixer_8cpp" kind="file"><name>ShenheFrostFlowerFixer.cpp</name>
   </compound>
   <compound refid="_side_meshes_8cpp" kind="file"><name>SideMeshes.cpp</name>
+  </compound>
+  <compound refid="_tex_fx_layout_8cpp" kind="file"><name>TexFxLayout.cpp</name>
   </compound>
   <compound refid="_tex_reg_layout_8cpp" kind="file"><name>TexRegLayout.cpp</name>
   </compound>
@@ -7004,6 +7082,10 @@
   <compound refid="_lisa_parser_8cpp" kind="file"><name>LisaParser.cpp</name>
   </compound>
   <compound refid="_lisa_student_parser_8cpp" kind="file"><name>LisaStudentParser.cpp</name>
+  </compound>
+  <compound refid="_lumine_parser_8cpp" kind="file"><name>LumineParser.cpp</name>
+  </compound>
+  <compound refid="_lumine_heaven_parser_8cpp" kind="file"><name>LumineHeavenParser.cpp</name>
   </compound>
   <compound refid="_mona_parser_8cpp" kind="file"><name>MonaParser.cpp</name>
   </compound>
@@ -7752,6 +7834,22 @@
   <compound refid="dir_5cbb0946bf5bc41fc88fe96bfa57437a" kind="dir"><name>src/data/IniFixData/LisaStudent</name>
   </compound>
   <compound refid="dir_7d73376d641d75fa42fe2a1657940aff" kind="dir"><name>src/data/IniParseData/LisaStudent</name>
+  </compound>
+  <compound refid="dir_a958b0bc0968f0b7227469b95d56532d" kind="dir"><name>include/AGRemapCore/data/IniFixData/Lumine</name>
+  </compound>
+  <compound refid="dir_df14a0b0601f572e0aab30fd6056d1d3" kind="dir"><name>include/AGRemapCore/data/IniParseData/Lumine</name>
+  </compound>
+  <compound refid="dir_73f092bbb03b145931585299d8a467dc" kind="dir"><name>src/data/IniFixData/Lumine</name>
+  </compound>
+  <compound refid="dir_879bc1e101597489e467e64f337e0987" kind="dir"><name>src/data/IniParseData/Lumine</name>
+  </compound>
+  <compound refid="dir_7331e6bdd2535bb68786b1a2c8379a99" kind="dir"><name>include/AGRemapCore/data/IniFixData/LumineHeaven</name>
+  </compound>
+  <compound refid="dir_3a094d1115296184c92cc59429858b74" kind="dir"><name>include/AGRemapCore/data/IniParseData/LumineHeaven</name>
+  </compound>
+  <compound refid="dir_79782ccf31522c62340b7bb330e0f076" kind="dir"><name>src/data/IniFixData/LumineHeaven</name>
+  </compound>
+  <compound refid="dir_d2896b04746a3982447f76eae4d4a3a9" kind="dir"><name>src/data/IniParseData/LumineHeaven</name>
   </compound>
   <compound refid="dir_e253fc737fd26520fa518b4295da2866" kind="dir"><name>include/AGRemapCore/model</name>
   </compound>

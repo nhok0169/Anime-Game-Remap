@@ -89,6 +89,8 @@
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
       </node>
       <node id="6">
         <label>include/AGRemapCore/model/iniresources/IniDownloadModel.h</label>
@@ -123,13 +125,13 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="39" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
       </node>
       <node id="15">
@@ -171,11 +173,11 @@
         <link refid="_v_g_split_group_resource_8h"/>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -186,12 +188,12 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="37">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
         <link refid="_v_g_split_group_res_builder_8h"/>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -226,18 +228,16 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="40">
+      <node id="41">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="41" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="44" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
@@ -249,29 +249,31 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-      </node>
-      <node id="39">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
-        <link refid="_ini_parse_download_data_8h"/>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
         <childnode refid="51" relation="include">
         </childnode>
       </node>
-      <node id="41">
+      <node id="40">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
         <label>include/AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
         <childnode refid="43" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -283,13 +285,13 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="39" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="54" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -325,6 +327,10 @@
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
       <node id="33">
+        <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
+        <link refid="_lumine_fixer_8cpp"/>
+      </node>
+      <node id="34">
         <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
         <link refid="_neuvillette_fixer_8cpp"/>
       </node>
@@ -336,27 +342,27 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="34">
+      <node id="35">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
       </node>
-      <node id="35">
+      <node id="36">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="42">
+      <node id="43">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="43">
+      <node id="44">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="45">
+      <node id="46">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="46">
+      <node id="47">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
@@ -368,7 +374,7 @@
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="52">
+      <node id="53">
         <label>src/model/iniresources/RemapIniResource.cpp</label>
         <link refid="_remap_ini_resource_8cpp"/>
       </node>
@@ -384,11 +390,11 @@
         <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
         <link refid="_v_g_merge_group_resource_8cpp"/>
       </node>
-      <node id="38">
+      <node id="39">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
-      <node id="47">
+      <node id="48">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
@@ -396,31 +402,31 @@
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
         <link refid="_v_g_merge_group_res_builder_8cpp"/>
       </node>
-      <node id="37">
+      <node id="38">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
-      <node id="48">
+      <node id="49">
         <label>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</label>
         <link refid="_g_i_m_i_parser_instantiation_8cpp"/>
       </node>
-      <node id="49">
+      <node id="50">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="50">
+      <node id="51">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="51">
+      <node id="52">
         <label>src/model/strategies/iniParsers/IniParseDownloadDataInstantiation.cpp</label>
         <link refid="_ini_parse_download_data_instantiation_8cpp"/>
       </node>
-      <node id="44">
+      <node id="45">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
-      <node id="53">
+      <node id="54">
         <label>src/tools/files/FileDownload.cpp</label>
         <link refid="_file_download_8cpp"/>
       </node>

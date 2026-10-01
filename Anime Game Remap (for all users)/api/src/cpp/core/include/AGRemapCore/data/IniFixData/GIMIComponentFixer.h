@@ -287,6 +287,32 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             How far behind a :cpp:member:`mirroredObjs` triangle a layer of the mod facing the other way makes its
+             twin unneeded, in model units -- see :cpp:member:`VGComponentSpec::mirrorBackedReach` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A coat modelled with its own lining is two surfaces a few millimetres apart, and a twin moved
+             :cpp:member:`mirrorOffset` inward from one lands in front of the other: flat grey polygons over the flaps
+             of Lumine2's coat, which went when the backed twins did (in game, 2026-09-29). Every mod of Lumine's with
+             a real dress mesh has 13-37% of its dress triangles backed within 5 mm. **Default**: ``0``, every triangle
+             is mirrored (Neuvillette's verified output)
+             @endrst
+             */
+            float mirrorBackedReach = 0.0f;
+
+            /**
+             * @brief
+             @rst
+             Whether the :cpp:member:`mirroredObjs` layer reads the source's back-face UVs (``TEXCOORD1``) where it has
+             them -- see :cpp:member:`VGSplitGroupConfig::mirrorBackUV`. A source whose cloth shader is two-sided textures
+             its back faces that way, and the layer stands in for them. **Default**: ``false``
+             @endrst
+             */
+            bool mirrorBackUV = false;
+
+            /**
+             * @brief
+             @rst
              Source groups whose weight this component SHARES among several of its bones, as
              ``{source group: [(bone, share), ...]}`` -- see :cpp:member:`VGComponentSpec::splitGroups`. For a
              cloth part the target has no counterpart for, between a bone it clips on and one it folds on.
@@ -683,6 +709,18 @@ namespace AGRemapCore {
          @endrst
          */
         bool fillDrawOnlyWhenUndrawn = false;
+
+        /**
+         * @brief
+         @rst
+         Whether a remapped part's `TexFx`_ calls are moved onto the TARGET's layout variant -- ``.0`` for a slot with
+         no normal map, ``.1`` for one with it at ``ps-t0`` -- when the part's SOURCE layout differs. See
+         :cpp:class:`TexFxLayout`: a mod's call names its own character's layout, and Lumine10's ``T.0`` on
+         LumineHeaven's normal-map slots barely glowed. A call already naming the target's layout is kept, so an
+         author's deliberate choice survives wherever the layout does not change. **Default**: ``true``
+         @endrst
+         */
+        bool texFxLayoutSwitch = true;
 
         /**
          * @brief

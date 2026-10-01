@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a958b0bc0968f0b7227469b95d56532d" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Lumine</compoundname>
+    <innerfile refid="_lumine_fixer_8h">LumineFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Lumine/"/>
+  </compounddef>
+</doxygen>

@@ -862,6 +862,28 @@ namespace AGRemapCore {
              */
             static IniParseBuilder::Factory yaoyaoBamboo6_3();
 
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Lumine** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress``, all on the plain layout. See
+             ``data/IniParseData/Lumine/LumineParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lumine4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **LumineHeaven** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+             ``data/IniParseData/LumineHeaven/LumineHeavenParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lumineHeaven6_3();
+
     };
 
     /**

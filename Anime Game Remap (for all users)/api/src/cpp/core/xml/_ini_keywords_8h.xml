@@ -37,6 +37,7 @@
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <includedby refid="_shenhe_frost_flower_fixer_8cpp" local="yes">src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</includedby>
     <includedby refid="_side_meshes_8cpp" local="yes">src/data/IniFixData/SideMeshes.cpp</includedby>
+    <includedby refid="_tex_fx_layout_8cpp" local="yes">src/data/IniFixData/TexFxLayout.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_xiangling_fixer_8cpp" local="yes">src/data/IniFixData/Xiangling/XianglingFixer.cpp</includedby>
     <includedby refid="_xiangling_cheer_fixer_8cpp" local="yes">src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</includedby>
@@ -138,11 +139,13 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
         <childnode refid="74" relation="include">
         </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
         <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
@@ -150,17 +153,17 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
-        </childnode>
         <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
-        </childnode>
         <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
         </childnode>
         <childnode refid="79" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
@@ -529,15 +532,19 @@
         <label>src/data/IniFixData/SideMeshes.cpp</label>
         <link refid="_side_meshes_8cpp"/>
       </node>
+      <node id="74">
+        <label>src/data/IniFixData/TexFxLayout.cpp</label>
+        <link refid="_tex_fx_layout_8cpp"/>
+      </node>
       <node id="20">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="74">
+      <node id="75">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
       </node>
-      <node id="75">
+      <node id="76">
         <label>src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</label>
         <link refid="_xiangling_cheer_fixer_8cpp"/>
       </node>
@@ -573,11 +580,11 @@
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="76">
+      <node id="77">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
       </node>
-      <node id="77">
+      <node id="78">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
@@ -585,15 +592,15 @@
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="78">
+      <node id="79">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
-      <node id="79">
+      <node id="80">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="80">
+      <node id="81">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>

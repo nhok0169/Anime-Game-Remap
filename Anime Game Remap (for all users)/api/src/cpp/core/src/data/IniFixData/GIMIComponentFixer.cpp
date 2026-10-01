@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+#include "AGRemapCore/data/IniFixData/TexFxLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
@@ -1042,6 +1043,12 @@ namespace AGRemapCore {
                                 }
 
                                 VGComponentSplit split(std::move(weights), std::move(indices), std::move(ibs), specsFor(names));
+                                // The same geometry the buffers' writer reads (VGSplitGroupResource), so a skipped
+                                // inner-layer twin is missing from the .ini's counts as well as from the buffer.
+                                if (split.needsGeometry(componentName_) && !files_.position.empty() && fileSize(files_.position) > 0) {
+                                    BinaryFile positions(files_.position);
+                                    split.readGeometry(positions.read());
+                                }
                                 VGComponentBuffers buffers = split.split(componentName_);
                                 result.first = buffers.stats.keptVertices;
 
@@ -1399,6 +1406,8 @@ namespace AGRemapCore {
                     if (!component_.mirroredObjs.empty()) {
                         const float offset = component_.mirrorOffset;
                         splitConfig.mirrorLineEdit = [offset](const ByteVec& line) { return VGComponentSplit::mirrorPositionLine(line, offset); };
+                        splitConfig.mirrorOffset = offset;
+                        splitConfig.mirrorBackUV = component_.mirrorBackUV;
                     }
 
                     // The index buffers PER GROUP: a group is one satisfiable state of the mod, and
@@ -1772,6 +1781,7 @@ namespace AGRemapCore {
                             if (c.name != spec.name || c.mirroredObjs.empty()) {
                                 continue;
                             }
+                            spec.mirrorBackedReach = c.mirrorBackedReach;
                             for (std::size_t i = 0; i < names.size(); ++i) {
                                 if (std::find(c.mirroredObjs.begin(), c.mirroredObjs.end(), names[i]) != c.mirroredObjs.end()) {
                                     spec.mirroredIbs.push_back(i);
@@ -1971,6 +1981,18 @@ namespace AGRemapCore {
                         removeTexFxAdapter_ = std::make_unique<RegPartEdit<>>(removeTexFx_.get());
                     }
 
+                    // The mod's TexFx calls onto the TARGET's layout variant, per object -- see
+                    // GIMIComponentFixerConfig::texFxLayoutSwitch. Both directions built once; each group takes the one
+                    // its target slot reads, and only when its own source layout differs.
+                    if (config_.texFxLayoutSwitch) {
+                        for (bool normalMap : {false, true}) {
+                            for (auto& edit : TexFxLayout::switches(normalMap)) {
+                                texFxLayoutAdapters_[normalMap].push_back(std::make_unique<RegPartEdit<>>(edit.get()));
+                                texFxLayoutEdits_.push_back(std::move(edit));
+                            }
+                        }
+                    }
+
                     // BottomCover: the collects above spliced their registers into `if 1 ... endif`
                     // blocks, which split the section into parts, and the default FillMissing
                     // would put the draw in the FIRST part, ahead of the ib and the textures.
@@ -2132,6 +2154,14 @@ namespace AGRemapCore {
                         std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeReflectionKeysAdapter_.get()};
                         if (removeTexFxAdapter_ != nullptr) {
                             slotEdits.push_back(removeTexFxAdapter_.get());
+                        }
+                        if (group < drawn_.size()) {
+                            const ModObjectFiles* objFiles = objectFiles(drawn_[group]);
+                            if (objFiles != nullptr && objFiles->normalMapLayout != component_.normalMap) {
+                                for (const auto& adapter : texFxLayoutAdapters_[component_.normalMap]) {
+                                    slotEdits.push_back(adapter.get());
+                                }
+                            }
                         }
                         if (!keepOwnFixCalls) {
                             slotEdits.push_back(removeFixCallsAdapter_.get());
@@ -2297,6 +2327,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegRemove<>> removeReflectionKeys_;
                 std::unique_ptr<RegRemove<>> removeTexFx_;
+                std::vector<std::unique_ptr<RegNewVals<>>> texFxLayoutEdits_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> texFxLayoutAdapters_[2];
                 std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;

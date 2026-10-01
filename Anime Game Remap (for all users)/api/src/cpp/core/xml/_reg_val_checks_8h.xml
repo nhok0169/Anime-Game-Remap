@@ -11,6 +11,7 @@
     <includedby refid="_nilou_fixer_8cpp" local="yes">src/data/IniFixData/Nilou/NilouFixer.cpp</includedby>
     <includedby refid="_reg_val_checks_8cpp" local="yes">src/data/IniFixData/RegValChecks.cpp</includedby>
     <includedby refid="_tex_reg_layout_8cpp" local="yes">src/data/IniFixData/TexRegLayout.cpp</includedby>
+    <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/data/IniFixData/RegValChecks.h</label>
@@ -41,6 +42,8 @@
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -74,6 +77,10 @@
       <node id="9">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
+        <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_reg_val_checks" prot="public">AGRemapCore::RegValChecks</innerclass>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_79782ccf31522c62340b7bb330e0f076" kind="dir">
+    <compoundname>src/data/IniFixData/LumineHeaven</compoundname>
+    <innerfile refid="_lumine_heaven_fixer_8cpp">LumineHeavenFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/LumineHeaven/"/>
+  </compounddef>
+</doxygen>

@@ -42,6 +42,9 @@
       <node id="117">
         <label>BiMap.tpp</label>
       </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="83">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -1325,9 +1328,6 @@
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

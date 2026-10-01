@@ -75,6 +75,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%87%F0%9F%93%9C%20The%20Silent%20Gap%20Reader-1-%23f59e0b?style=plastic&labelColor=%23334155)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A5%F0%9F%AA%A1%20The%20Coat%20Tailor-1-%2338bdf8?style=for-the-badge&labelColor=%23172554)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%8B%E2%9C%82%EF%B8%8F%20The%20Bamboo%20Shard%20Trimmer-1-%2384cc16?style=flat-square&labelColor=%23422006)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%8C%F0%9F%AA%A1%20The%20Starlit%20Lining%20Weaver-1-%23fbbf24?style=plastic&labelColor=%231e1b4b)
 
 <br>
 

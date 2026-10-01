@@ -13,13 +13,17 @@
 
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
+#include "AGRemapCore/data/IniFixData/TexFxLayout.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstring>
+#include <fstream>
+#include <functional>
 #include <map>
 #include <filesystem>
 #include <memory>
@@ -38,7 +42,10 @@
 #include "AGRemapCore/model/buffers/VGComponentMerge.h"
 #include "AGRemapCore/model/IniSectionGraph.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
+#include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/buffers/VGComponentSplit.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/VGMergeGroupResource.h"
@@ -315,6 +322,11 @@ namespace AGRemapCore {
             // donor binds different textures per variant was re-bound to the donor's FIRST variant in every
             // other one (the audit of YaoyaoBamboo -> Yaoyao, reproduced on a master of two identities).
             bool borrowed = false;
+
+            // Whether this slot is one half of a split -- see Slot::splitFrom. Such a slot is never carried
+            // and never represents an object: its index buffer is a filtered copy, which its own section's
+            // draw ranges do not address.
+            bool split = false;
         };
 
         // ---- what one source COMPONENT's sections name ----
@@ -395,6 +407,7 @@ namespace AGRemapCore {
 
                     // AFTER buildEdits: the adapter it runs is one buildEdits creates.
                     buildTexRegNormalize();
+                    buildTexFxLayout();
 
                     this->graphGroupEdits.clear();
 
@@ -404,6 +417,10 @@ namespace AGRemapCore {
                     // so that everything after this reads one layout -- see texRegsByName.
                     if (texRegNormalize_.has_value()) {
                         this->graphGroupEdits.push_back(&texRegNormalize_.value());
+                    }
+                    // ...and every slot's TexFx calls onto the target's layout, on the same graphs.
+                    if (texFxLayout_.has_value()) {
+                        this->graphGroupEdits.push_back(&texFxLayout_.value());
                     }
 
                     // BEFORE the slot remap, which is the point: these read a MEMBER's own graph,
@@ -568,7 +585,9 @@ namespace AGRemapCore {
                             remap.emplace_back(GraphId(0, component.name, kind), std::move(targets));
                         }
                         for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
-                            remap.emplace_back(GraphId(0, component.name, slot.name), std::vector<SlotRemap::RemapTarget>{});
+                            if (slot.splitFrom.empty()) {
+                                remap.emplace_back(GraphId(0, component.name, slot.name), std::vector<SlotRemap::RemapTarget>{});
+                            }
                         }
                     }
                     remap.emplace_back(GraphId(0, FaceObj.first, FaceObj.second), std::vector<SlotRemap::RemapTarget>{});
@@ -727,7 +746,7 @@ namespace AGRemapCore {
                                 }
 
                                 for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
-                                    if (slot.index != *index || files.slots.count(slot.name) != 0) {
+                                    if (slot.index != *index || files.slots.count(slot.name) != 0 || !slot.splitFrom.empty()) {
                                         continue;
                                     }
 
@@ -901,8 +920,10 @@ namespace AGRemapCore {
 
                             for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
                                 // A slot the mod never draws on its own character brings nothing --
-                                // see GIMIComponentParseFacts::isSlotUndrawn.
-                                if (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name)) {
+                                // see GIMIComponentParseFacts::isSlotUndrawn. Nor does a split slot: its
+                                // triangles come from another slot, see splitSlots.
+                                if (!slot.splitFrom.empty()
+                                        || (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name))) {
                                     continue;
                                 }
 
@@ -978,7 +999,161 @@ namespace AGRemapCore {
                         }
                     }
 
+                    splitSlots();
                     return !files_.empty();
+                }
+
+                // ---- a slot's triangles shared out by light map band -- see Slot::splitFrom ----
+                //
+                // Per branch of the source slot's ib, two filtered buffers in a scratch folder: the triangles whose
+                // centroid's band is in the split slot's ranges, and the rest. Written at 32 bits whatever the
+                // source's width. A branch left with nothing becomes a nulled one, exactly as `ib = null` reads.
+                void splitSlots() {
+                    for (const GIMIMergeFixerConfig::Component& component : config_.components) {
+                        ComponentFiles* comp = componentFiles(component.name);
+                        if (comp == nullptr) {
+                            continue;
+                        }
+
+                        for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
+                            if (slot.splitFrom.empty() || slot.splitBands.empty()) {
+                                continue;
+                            }
+
+                            auto srcIt = comp->slots.find(slot.splitFrom);
+                            if (srcIt == comp->slots.end() || !srcIt->second.found || srcIt->second.ib.empty()) {
+                                continue;
+                            }
+                            SlotFiles& src = srcIt->second;
+
+                            TextureFile lightMap(src.lightMap);
+                            std::error_code fileError;
+                            if (src.lightMap.empty() || !std::filesystem::is_regular_file(FileService::strToPath(src.lightMap), fileError)) {
+                                ctx_.log("no light map to split the '" + component.name + " " + slot.splitFrom + "' slot by, so it stays whole");
+                                continue;
+                            }
+                            lightMap.open();
+                            if (!lightMap.hasImage() || lightMap.getWidth() <= 0 || lightMap.getHeight() <= 0) {
+                                ctx_.log("could not read the light map to split the '" + component.name + " " + slot.splitFrom + "' slot by");
+                                continue;
+                            }
+
+                            const std::vector<std::uint8_t>& pixels = lightMap.getPixels();
+                            const int width = lightMap.getWidth();
+                            const int height = lightMap.getHeight();
+                            const auto bandAt = [&](float u, float v) {
+                                u -= std::floor(u);
+                                v -= std::floor(v);
+                                const int x = std::min(width - 1, std::max(0, static_cast<int>(u * static_cast<float>(width))));
+                                const int y = std::min(height - 1, std::max(0, static_cast<int>(v * static_cast<float>(height))));
+                                return pixels[(static_cast<std::size_t>(y) * static_cast<std::size_t>(width) + static_cast<std::size_t>(x)) * 4 + 3];
+                            };
+                            const auto inBands = [&](std::uint8_t band) {
+                                for (const auto& range : slot.splitBands) {
+                                    if (band >= range.first && band <= range.second) {
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            };
+
+                            SlotFiles taken = src;
+                            taken.section.clear();
+                            taken.ownFix = false;
+                            taken.draws = false;
+                            taken.drawVals.clear();
+                            taken.byName = false;
+                            taken.split = true;
+                            taken.ibs.clear();
+                            taken.ib.clear();
+                            taken.nullIb = false;
+
+                            std::vector<BranchVal> rest;
+                            SlotFiles& source = src;
+                            source.split = true;
+                            const std::filesystem::path scratch = std::filesystem::temp_directory_path() / "AGRemapSlotSplit";
+                            std::error_code ec;
+                            std::filesystem::create_directories(scratch, ec);
+
+                            std::size_t takenTris = 0;
+                            std::size_t restTris = 0;
+                            for (std::size_t b = 0; b < source.ibs.size(); ++b) {
+                                const BranchVal& branch = source.ibs[b];
+                                if (branch.val.empty()) {
+                                    taken.ibs.push_back(branch);
+                                    rest.push_back(branch);
+                                    continue;
+                                }
+
+                                // The branch's texcoords where the component's branches pair with the slot's, else its first
+                                const std::string& texcoordPath = (comp->texcoords.size() == source.ibs.size() && !comp->texcoords[b].val.empty())
+                                    ? comp->texcoords[b].val : comp->texcoord;
+                                BinaryFile texcoordFile(texcoordPath);
+                                const ByteVec texcoords = texcoordFile.read();
+                                const std::size_t stride = comp->vertexCount == 0 ? 0 : texcoords.size() / comp->vertexCount;
+
+                                auto widthIt = ibBytesPerIndex_.find(branch.val);
+                                IbFile ibFile(branch.val, widthIt == ibBytesPerIndex_.end() ? 4 : widthIt->second);
+                                const VGComponentSplit::Triangles triangles = VGComponentSplit::readIb(ibFile);
+
+                                VGComponentSplit::Triangles mine;
+                                VGComponentSplit::Triangles others;
+                                for (const auto& triangle : triangles) {
+                                    float u = 0.0f, v = 0.0f;
+                                    bool readable = stride >= 12;
+                                    for (unsigned long long corner : triangle) {
+                                        if (!readable || (corner + 1) * stride > texcoords.size()) {
+                                            readable = false;
+                                            break;
+                                        }
+                                        float uv[2];
+                                        std::memcpy(uv, texcoords.data() + corner * stride + 4, sizeof(uv));
+                                        u += uv[0] / 3.0f;
+                                        v += uv[1] / 3.0f;
+                                    }
+                                    ((readable && inBands(bandAt(u, v))) ? mine : others).push_back(triangle);
+                                }
+                                takenTris += mine.size();
+                                restTris += others.size();
+
+                                const std::string stem = std::to_string(std::hash<std::string>{}(branch.val + ";" + slot.name));
+                                const auto write = [&](const VGComponentSplit::Triangles& tris, const std::string& suffix) {
+                                    if (tris.empty()) {
+                                        return std::string();
+                                    }
+                                    const std::string path = FileService::pathToStr(scratch / FileService::strToPath(stem + suffix + ".ib"));
+                                    const ByteVec bytes = VGComponentSplit::encodeIb(tris);
+                                    std::ofstream out(FileService::strToPath(path), std::ios::binary);
+                                    out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                                    ibBytesPerIndex_[path] = 4;
+                                    return path;
+                                };
+                                taken.ibs.push_back(BranchVal{write(mine, "Split"), branch.query});
+                                rest.push_back(BranchVal{write(others, "Rest"), branch.query});
+                            }
+
+                            const auto settle = [this](SlotFiles& files) {
+                                files.ib.clear();
+                                files.nullIb = false;
+                                for (const BranchVal& branch : files.ibs) {
+                                    if (branch.val.empty()) {
+                                        files.nullIb = true;
+                                    } else if (files.ib.empty()) {
+                                        files.ib = branch.val;
+                                    }
+                                }
+                                files.indexCount = indexCountOf(files.ib);
+                            };
+                            source.ibs = std::move(rest);
+                            settle(source);
+                            settle(taken);
+
+                            ctx_.log("split " + std::to_string(takenTris) + " of " + std::to_string(takenTris + restTris)
+                                     + " triangles of the '" + component.name + " " + slot.splitFrom + "' slot onto '" + slot.to + "'");
+                            normalMap_[key(component.name, slot.name)] = normalMap_[key(component.name, slot.splitFrom)];
+                            comp->slots[slot.name] = std::move(taken);
+                        }
+                    }
                 }
 
                 // ---- which target object each source slot lands on, and who represents it ----
@@ -1017,6 +1192,21 @@ namespace AGRemapCore {
 
                             members_[slot.to].push_back({component.name, slot.name});
                         }
+                    }
+
+                    // A SPLIT member never represents its object -- see Slot::splitFrom. The representative is the
+                    // object's FIRST member everywhere (its section draws the start of the merged buffer), so an
+                    // object whose first member is split takes the first one that is not, moved to the front.
+                    for (auto& [obj, members] : members_) {
+                        auto whole = std::find_if(members.begin(), members.end(), [this](const auto& member) {
+                            const SlotFiles* files = slotFiles(member.first, member.second);
+                            return files != nullptr && !files->split;
+                        });
+                        if (whole == members.end() || whole == members.begin()) {
+                            continue;
+                        }
+                        std::rotate(members.begin(), whole, whole + 1);
+                        representative_[obj] = members.front();
                     }
 
                     // The target's draw order, not the source's -- the .ini's sections come out in
@@ -1133,7 +1323,7 @@ namespace AGRemapCore {
 
                     const SlotFiles* repFiles = slotFiles(repIt->second.first, repIt->second.second);
                     const SlotFiles* files = slotFiles(member.first, member.second);
-                    return repFiles != nullptr && repFiles->ibs.size() <= 1 && files != nullptr && files->found
+                    return repFiles != nullptr && repFiles->ibs.size() <= 1 && files != nullptr && files->found && !files->split
                            && !files->section.empty() && files->ibs.size() <= 1 && files->indexCount > 0;
                 }
 
@@ -1229,6 +1419,9 @@ namespace AGRemapCore {
                         }
 
                         for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
+                            if (!slot.splitFrom.empty()) {
+                                continue;     // no section of its own -- see Slot::splitFrom
+                            }
                             std::vector<SlotRemap::RemapTarget> targets;
                             auto it = representative_.find(slot.to);
                             if (it != representative_.end() && it->second.first == component.name
@@ -1315,6 +1508,48 @@ namespace AGRemapCore {
 
                     if (any) {
                         borrowEdit_ = std::make_unique<ObjGroupEdit>(std::move(iniEdits), false);
+                    }
+                }
+
+                // ---- every slot's TexFx calls onto the TARGET's layout -- see texFxLayoutSwitch ----
+                //
+                // Per slot, on its own graph before the remap, like the bindings below: the layout a slot was drawn in is
+                // the one read off the mod (normalMap_), and a carried member's own `run =` lines arrive unchanged
+                // otherwise. A split half has no graph of its own, and a borrower's section binds nothing.
+                void buildTexFxLayout() {
+                    if (!config_.texFxLayoutSwitch) {
+                        return;
+                    }
+
+                    const bool target = normalTarget();
+                    for (auto& edit : TexFxLayout::switches(target)) {
+                        texFxLayoutAdapters_.push_back(std::make_unique<RegPartEdit<>>(edit.get()));
+                        texFxLayoutEdits_.push_back(std::move(edit));
+                    }
+
+                    std::vector<ObjGroupEdit::IniEdits> iniEdits(1);
+                    for (const auto& component : files_) {
+                        for (const auto& slot : component.second.slots) {
+                            if (slot.second.section.empty() || slot.second.borrowed) {
+                                continue;
+                            }
+                            auto layout = normalMap_.find(key(component.first, slot.first));
+                            if (layout == normalMap_.end() || layout->second == target) {
+                                continue;
+                            }
+
+                            const ModObj objKey(component.first, slot.first);
+                            std::vector<ObjGroupEdit::PartEdit*> edits;
+                            for (const auto& adapter : texFxLayoutAdapters_) {
+                                edits.push_back(adapter.get());
+                            }
+                            iniEdits[0].edits[objKey] = std::move(edits);
+                            iniEdits[0].trackKeys[objKey] = false;
+                        }
+                    }
+
+                    if (!iniEdits[0].edits.empty()) {
+                        texFxLayout_ = ObjGroupEdit(std::move(iniEdits), false);
                     }
                 }
 
@@ -2985,6 +3220,9 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<RegPartEdit<>>> indexAdapters_;
                 ObjGroupEdit indexEdits_;
                 std::optional<ObjGroupEdit> texRegNormalize_;
+                std::optional<ObjGroupEdit> texFxLayout_;
+                std::vector<std::unique_ptr<RegNewVals<>>> texFxLayoutEdits_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> texFxLayoutAdapters_;
 
                 std::unique_ptr<GraphRename<>> renameGraph_;
                 std::unique_ptr<GraphRename<>> renameIbGraph_;

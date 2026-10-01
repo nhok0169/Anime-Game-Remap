@@ -133,7 +133,21 @@ line --- ``0`` leaves the line out
         .def_readwrite("positionStride", &AGRC::GIMIComponentParserConfig::positionStride,
                         py::doc(":class:`int`: The position stride, shared by every component. **Default**: ``40``"))
         .def_readwrite("blendStride", &AGRC::GIMIComponentParserConfig::blendStride,
-                        py::doc(":class:`int`: The `blend`_ stride, shared by every component. **Default**: ``32``"));
+                        py::doc(":class:`int`: The `blend`_ stride, shared by every component. **Default**: ``32``"))
+        .def_readwrite("downloadsByName", &AGRC::GIMIComponentParserConfig::downloadsByName, py::doc(R"doc(
+:class:`bool`: Whether a slot's texture downloads follow the resource NAMES its own `section`_ binds, rather than
+the registers
+
+A mod written in the GAME's register order binds its textures somewhere other than the slot's registers:
+LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot got the game's diffuse
+at ``ps-t0`` as well, two textures named a diffuse, and the merge's by-name reading refused both (dark eyes
+on Lumine, 2026-09-29). With this on, when a slot's own section binds its textures under names that are
+believed (every one names exactly one role, no two alike), a role the mod binds gets no download, and a
+missing role whose register holds another role's texture is downloaded onto a register the section leaves
+free. A slot binding nothing, or in the slot's own order, is untouched.
+
+**Default**: ``False``
+        )doc"));
 
     // ------------------------------------------------------------------- the merge fixer config
     py::class_<AGRC::GIMIMergeFixerConfig> fixerConfig(m, "GIMIMergeFixerConfig", R"doc(
@@ -174,6 +188,15 @@ A skin may outline a slot with a shader of its own (CitlaliWhisperofStars' dress
 target object it is drawn by the target's outline shader instead, which can cover it in black;
 ``False`` puts the member's block under ``if vs != 037730.0`` --- the ``filter_index`` ORFix gives every
 outline vertex shader. Honoured for a merged member drawn by an appended block
+        )doc"))
+        .def_readwrite("splitFrom", &AGRC::GIMIMergeFixerConfig::Slot::splitFrom, py::doc(R"doc(
+:class:`str`: Another slot of the SAME component whose triangles this slot takes a part of --- those whose light map
+band under the centroid is in :attr:`splitBands` --- drawn onto :attr:`to`; the rest stay. For a skin slot holding
+two kinds of surface the target shades in different draws (LumineHeaven's head: back hair and cloth). Empty by default
+        )doc"))
+        .def_readwrite("splitBands", &AGRC::GIMIMergeFixerConfig::Slot::splitBands, py::doc(R"doc(
+List[Tuple[:class:`int`, :class:`int`]]: For a :attr:`splitFrom` slot, the light map alpha ranges (inclusive) that
+select its triangles. Empty by default
         )doc"))
         .def_readwrite("indexCount", &AGRC::GIMIMergeFixerConfig::Slot::indexCount, py::doc(R"doc(
 :class:`int`: The GAME model's index count for this slot, used only when the mod does not have the
@@ -341,6 +364,11 @@ List[:class:`str`]: The hash types of the SOURCE skin's side meshes (its own dra
 ``["ib_face", "ib_headupper"]``) --- a mod's section hiding one is written again on the target's hash of the
 same type. Empty by default
         )doc"))
+        .def_readwrite("texFxLayoutSwitch", &AGRC::GIMIMergeFixerConfig::texFxLayoutSwitch, py::doc(R"doc(
+:class:`bool`: Whether a slot's TexFx calls are moved onto the TARGET's layout variant (``.0`` without a normal
+map, ``.1`` with one at ``ps-t0``) when its source layout differs --- a mod's call names its own character's layout.
+A call already naming the target's layout is kept. ``True`` by default
+        )doc"))
         .def_readwrite("texFxGuardUnreached", &AGRC::GIMIMergeFixerConfig::texFxGuardUnreached, py::doc(R"doc(
 :class:`bool`: Whether a target object NO slot is drawn through gets a section withdrawing a pending `TexFx`_
 request, when the mod calls TexFx --- that object's own outline draw would otherwise serve it over the merged
@@ -482,6 +510,15 @@ for single-layer cloth whose back faces the target's shader does not shade as cl
         )doc"))
         .def_readwrite("mirrorOffset", &AGRC::GIMIComponentFixerConfig::Component::mirrorOffset,
                        py::doc(":class:`float`: How far inside the surface the mirrored layer sits, in model units --- ``0.005`` by default: at 1 mm it z-fought the surface from outside"))
+        .def_readwrite("mirrorBackUV", &AGRC::GIMIComponentFixerConfig::Component::mirrorBackUV, py::doc(R"doc(
+:class:`bool`: Whether the :attr:`mirroredObjs` layer reads the source's back-face UVs (``TEXCOORD1``) where it has them
+--- a two-sided cloth shader textures its back faces that way (Lumine10's starry skirt lining). ``False`` by default
+        )doc"))
+        .def_readwrite("mirrorBackedReach", &AGRC::GIMIComponentFixerConfig::Component::mirrorBackedReach, py::doc(R"doc(
+:class:`float`: How far behind a :attr:`mirroredObjs` triangle a layer of the mod facing the other way makes its twin
+unneeded, in model units --- a coat with its own lining otherwise shows its twins as flat grey polygons through it. See
+:attr:`VGComponentSpec.mirrorBackedReach`. ``0`` (the default) mirrors every triangle
+        )doc"))
         .def_readwrite("texFxBlend", &AGRC::GIMIComponentFixerConfig::Component::texFxBlend, py::doc(R"doc(
 :class:`float`: For a component whose mod's TexFx is dropped (:attr:`dropTexFx`): the opacity, 0 to 1, its
 SEE-THROUGH draws are blended at instead --- ``0`` (the default) leaves them opaque
@@ -641,6 +678,11 @@ A binding naming no role stays put. **Default**: ``False``
         .def_readwrite("faceSwapOnlyFromDiffuseReg", &AGRC::GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg, py::doc(R"doc(
 :class:`bool`: Whether the face's ``ps-t0`` <-> ``ps-t1`` swap runs only for a mod binding its face
 diffuse at ``ps-t0`` (a pre-6.x mod). **Default**: ``False``
+        )doc"))
+        .def_readwrite("texFxLayoutSwitch", &AGRC::GIMIComponentFixerConfig::texFxLayoutSwitch, py::doc(R"doc(
+:class:`bool`: Whether a remapped part's TexFx calls are moved onto the TARGET's layout variant (``.0`` without a normal
+map, ``.1`` with one at ``ps-t0``) when its source layout differs --- a mod's call names its own character's layout.
+A call already naming the target's layout is kept. ``True`` by default
         )doc"))
         .def_readwrite("fillDrawOnlyWhenUndrawn", &AGRC::GIMIComponentFixerConfig::fillDrawOnlyWhenUndrawn, py::doc(R"doc(
 :class:`bool`: Whether a remapped slot section gets ``drawindexed = auto`` only when the mod's own section

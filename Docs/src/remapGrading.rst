@@ -307,6 +307,44 @@ Grading
    * - | **Mona <--> MonaCN**
      - | :greenBold:`5.0`
      - |
+   * - | **Lumine --> LumineHeaven**
+     - | :greenBold:`4.4`
+     - | Lumine is ONE mesh (``head``, ``body``, ``dress``) and LumineHeaven is THREE components (an unnamed main
+       | mesh, ``Bang``, ``Eye``), so the mod is split per component and each half's blend weights are remapped
+       | through its own row. Her body and her dress both go through the skin's body.
+       |
+       | - The skin draws its OWN face, and a face texture cannot be moved from her face to the skin's: on the
+       | skin, a mod that repaints her face (make-up, a different face) shows the skin's face instead.
+       |
+       | - Her head's diffuse alpha is moved onto the skin's legend, or her hair renders a glowing orange.
+       |
+       | - Cloth on her ``dress`` (coats, capes, long skirt tails) is given an inside layer, or its lining renders
+       | bright blue or dark on the skin. Where the mod models its own lining, the layer stays behind it.
+       |
+       | - A part of the mod that glows blue keeps its colour, and its TexFx glow is moved onto the skin's normal-map layout.
+       |
+       | - Layered clothes lose the outline of their inner layers, or it shows through the outer one as small dark
+       | red marks.
+       |
+       | - Her centre front skirt panel has no centre counterpart on the skin and follows its right front skirt.
+       |
+       | - A mod whose own outfit is broken by a stale 4.0 hash renders right on the skin.
+   * - | **LumineHeaven --> Lumine**
+     - | :greenBold:`4.5`
+     - | The inverse: the skin's main mesh, ``Bang`` and ``Eye`` merged onto one mesh -- the bangs and the eyes
+       | onto Lumine's ``head``, the rest of the main mesh onto her ``body``; her own ``dress`` is hidden.
+       |
+       | - The skin's head mesh is split in two by what each part is: its hair is drawn as Lumine's hair, and its
+       | sleeves, neck scarf and bow as her clothes, so neither takes the other's shading in shade.
+       |
+       | - Lumine's own face is drawn, for the same reason as the other way round: a mod repainting the skin's
+       | face keeps Lumine's face on her.
+       |
+       | - The skin's flared cuffs, scarf tail and back bow ride Lumine's arm, spine and hip bones, so they do
+       | not flutter as they do on the skin.
+       |
+       | - A mod that binds a slot's textures in the game's own register order (an eye with only a diffuse, say)
+       | is read by the textures' names, and the missing ones are fetched from the game.
    * - | **Neuvillette --> NeuvilletteMelusent**
      - | :greenBold:`4.5`
      - | Neuvillette is ONE mesh (``head``, ``body``, ``dress``) and NeuvilletteMelusent is FOUR components (an

@@ -280,25 +280,27 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/iniresources/VGSplitGroupResource.h</label>
         <link refid="_v_g_split_group_resource_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
         <link refid="_v_g_split_group_res_builder_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -318,22 +320,26 @@
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
       <node id="7">
+        <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
+        <link refid="_lumine_fixer_8cpp"/>
+      </node>
+      <node id="8">
         <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
         <link refid="_neuvillette_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="13">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
-      <node id="11">
+      <node id="12">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
@@ -404,29 +410,33 @@
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
 <codeline lineno="124" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a3e9174cf0f745d58259601f8e4b5c6f4" kindref="member">LineEdit</ref><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a5a81818945ae980a46c0702aaa893cbc" kindref="member">mirrorLineEdit</ref>;</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VGPushAway&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" kindref="member">pushAway</ref>;</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"></highlight></codeline>
-<codeline lineno="150" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;InnerLayerOutline&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" kindref="member">innerOutline</ref>;</highlight></codeline>
-<codeline lineno="151"><highlight class="normal"></highlight></codeline>
-<codeline lineno="158" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" kindref="member">innerOutlineIbs</ref>;</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"></highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" kindref="member">fixVGSplitGroup</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref>&amp;<sp/>config,<sp/><ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref>*<sp/>logger);</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"></highlight></codeline>
-<codeline lineno="198" refid="class_a_g_remap_core_1_1_v_g_split_group_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a5ef8dd91208c9e496d1d69a3b105bf3d" kindref="member">VGSplitGroupResource</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" kindref="compound">RemapIniGroupedResource</ref><sp/>{</highlight></codeline>
-<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a5ef8dd91208c9e496d1d69a3b105bf3d" kindref="member">VGSplitGroupResource</ref>(std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" kindref="member">name</ref>,<sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IniResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a94f04ef8bda03cf46992f546bed9cef4" kindref="member">resources</ref>,</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" kindref="member">config</ref>,<sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(<ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref>&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" kindref="member">fixFunc</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" kindref="member">isBuilt</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="212"><highlight class="normal"></highlight></codeline>
-<codeline lineno="213" refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="134" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a355c81ab695cbc47ab0d7c75ca737211" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a355c81ab695cbc47ab0d7c75ca737211" kindref="member">mirrorOffset</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1acaea6cfbeaad84fd129560de6e4c9f35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1acaea6cfbeaad84fd129560de6e4c9f35" kindref="member">mirrorBackUV</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VGPushAway&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1af3381873bc02309262c55f1c70ca2bc1" kindref="member">pushAway</ref>;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;InnerLayerOutline&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a58596afadcd965271fe6b651c02f9e81" kindref="member">innerOutline</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config_1a8963c71c11c83a19ecccaeb3c4f009f7" kindref="member">innerOutlineIbs</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" kindref="member">fixVGSplitGroup</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref>&amp;<sp/>config,<sp/><ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref>*<sp/>logger);</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
-<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a379cdbb292000313b31b99161b90cbf0" kindref="member">_fix</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="219"><highlight class="normal"></highlight></codeline>
-<codeline lineno="220"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="223" refid="class_a_g_remap_core_1_1_v_g_split_group_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a5ef8dd91208c9e496d1d69a3b105bf3d" kindref="member">VGSplitGroupResource</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" kindref="compound">RemapIniGroupedResource</ref><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a5ef8dd91208c9e496d1d69a3b105bf3d" kindref="member">VGSplitGroupResource</ref>(std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" kindref="member">name</ref>,<sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IniResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a94f04ef8bda03cf46992f546bed9cef4" kindref="member">resources</ref>,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" kindref="member">config</ref>,<sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(<ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref>&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" kindref="member">fixFunc</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" kindref="member">isBuilt</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_v_g_split_group_config" kindref="compound">VGSplitGroupConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a0b87cf990fbb56f6f75837b5cdf74933" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a379cdbb292000313b31b99161b90cbf0" kindref="member">_fix</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h"/>
   </compounddef>

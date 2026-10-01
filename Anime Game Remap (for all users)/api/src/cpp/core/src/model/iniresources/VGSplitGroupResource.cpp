@@ -220,6 +220,22 @@ namespace AGRemapCore {
         }
 
         VGComponentSplit split(std::move(weights), std::move(indices), std::move(triangles), config.specs);
+
+        // The mod's positions, for a mirrored layer that skips BACKED triangles -- see
+        // VGComponentSpec::mirrorBackedReach. The fixer's own split reads them the same way, or the .ini's counts
+        // would describe buffers these are not.
+        if (split.needsGeometry(config.component)) {
+            bool read = false;
+            if (position != nullptr) {
+                BinaryFile srcPositions(position->srcPath);
+                read = split.readGeometry(srcPositions.read());
+            }
+            if (!read) {
+                if (logger != nullptr) {
+                    logger->log("No normals in the group's Position.buf, so every triangle of the inner layer is mirrored");
+                }
+            }
+        }
         VGComponentBuffers buffers = split.split(config.component);
 
         writeBytes(blend->fixedPath, VGComponentSplit::encodeBlend(buffers.weights, buffers.indices));
@@ -280,7 +296,11 @@ namespace AGRemapCore {
                         continue;
                     }
                     const auto from = lines.begin() + static_cast<std::ptrdiff_t>(i * stride);
-                    ByteVec edited = config.mirrorLineEdit(ByteVec(from, from + static_cast<std::ptrdiff_t>(stride)));
+                    const ByteVec line(from, from + static_cast<std::ptrdiff_t>(stride));
+                    // Kept short of a lining behind it -- see VGComponentBuffers::mirrorLimits
+                    const float limit = i < buffers.mirrorLimits.size() ? buffers.mirrorLimits[i] : -1.0f;
+                    ByteVec edited = (limit >= 0.0f && limit < config.mirrorOffset)
+                        ? VGComponentSplit::mirrorPositionLine(line, limit) : config.mirrorLineEdit(line);
                     if (edited.size() != stride) {
                         throw std::invalid_argument("a mirror line edit of '" + position->srcPath + "' changed a line's size");
                     }
@@ -293,6 +313,30 @@ namespace AGRemapCore {
 
         if (texcoord != nullptr) {
             ByteVec lines = filterVertexBuffer(texcoord->srcPath, split.vertexCount(), buffers.vertices, config.texcoordLineEdit);
+
+            // The mirrored copies read the BACK face's UVs -- see VGSplitGroupConfig::mirrorBackUV.
+            if (config.mirrorBackUV && !buffers.mirrored.empty() && !buffers.vertices.empty()) {
+                BinaryFile srcTexcoords(texcoord->srcPath);
+                const ByteVec src = srcTexcoords.read();
+                const std::size_t srcStride = src.size() / std::max<std::size_t>(split.vertexCount(), 1);
+                const std::size_t stride = lines.size() / buffers.vertices.size();
+                std::size_t taken = 0;
+                for (std::size_t i = 0; i < buffers.mirrored.size() && i < buffers.vertices.size() && srcStride >= 20 && stride >= 12; ++i) {
+                    const std::size_t v = buffers.vertices[i];
+                    if (!buffers.mirrored[i] || (v + 1) * srcStride > src.size()) {
+                        continue;
+                    }
+                    const std::uint8_t* back = src.data() + v * srcStride + 12;
+                    if (std::all_of(back, back + 8, [](std::uint8_t b) { return b == 0; })) {
+                        continue;
+                    }
+                    std::copy(back, back + 8, lines.begin() + static_cast<std::ptrdiff_t>(i * stride + 4));
+                    ++taken;
+                }
+                if (logger != nullptr && taken > 0) {
+                    logger->log("gave " + std::to_string(taken) + " mirrored vertices their back-face UVs");
+                }
+            }
 
             // The inner layers' outline width (the vertex colour's alpha, byte 3), by each line's source vertex
             if (!noOutline.empty() && !buffers.vertices.empty()) {

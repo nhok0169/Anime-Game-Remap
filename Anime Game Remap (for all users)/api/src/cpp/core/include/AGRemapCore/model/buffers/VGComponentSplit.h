@@ -120,6 +120,24 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         For a cut component with \ref mirroredIbs: how far behind a mirrored triangle to look for a layer of the
+         mesh facing the other way, in model units -- a triangle so BACKED gets no twin (see
+         :cpp:func:`InnerLayerOutline::backed`) :raw-html:`<br />` :raw-html:`<br />`
+
+         Cloth modelled with its own lining needs no inner layer, and a twin moved inward from it pokes through the
+         lining a few millimetres behind: Lumine2's coat on LumineHeaven showed flat grey polygons over its flaps,
+         and they went with the backed twins (in game, 2026-09-29). Needs the mod's positions, handed over by
+         :cpp:func:`VGComponentSplit::setGeometry`; without them every triangle is mirrored. A triangle only PARTLY
+         over a lining keeps its twin, moved inward no further than half way to the lining
+         (:cpp:member:`VGComponentBuffers::mirrorLimits`). **Default**: ``0``, every triangle of a mirrored buffer
+         gets its twin at the full offset
+         @endrst
+         */
+        float mirrorBackedReach = 0.0f;
+
+        /**
+         * @brief
+         @rst
          For a **cut** component: source groups whose weight is SHARED among several of the component's bones,
          as ``{source group: [(bone, share), ...]}`` -- applied after the remap, over the vertex's final
          weights, the shares summing to 1 :raw-html:`<br />` :raw-html:`<br />`
@@ -160,6 +178,7 @@ namespace AGRemapCore {
         std::size_t sentinels = 0;
         std::size_t mirroredVertices = 0;
         std::size_t mirroredTriangles = 0;
+        std::size_t mirrorBacked = 0;
         std::size_t splitVertices = 0;
     };
 
@@ -218,6 +237,17 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<bool> mirrored;
+
+        /**
+         * @brief
+         @rst
+         Per entry of \ref vertices, for a MIRRORED copy: the most it may move inward, half the distance to the
+         lining facing the other way behind it (:cpp:func:`InnerLayerOutline::backed`'s partial case), or ``-1`` for
+         no limit. Empty when :cpp:member:`VGComponentSpec::mirrorBackedReach` did not apply. A twin kept short of a
+         lining stays hidden behind both surfaces, where one moved the full offset came out in front of it
+         @endrst
+         */
+        std::vector<float> mirrorLimits;
 
         VGComponentSplitStats stats;
     };
@@ -330,6 +360,33 @@ namespace AGRemapCore {
             const std::vector<VGComponentSpec>& specs() const;
 
             /**
+             * @brief
+             @rst
+             Hands the split the mod's own positions and normals, per source vertex -- what
+             :cpp:member:`VGComponentSpec::mirrorBackedReach` asks about. Without them (or with the wrong count)
+             every triangle of a mirrored buffer is mirrored
+             @endrst
+             */
+            void setGeometry(std::vector<std::array<float, 3>> positions, std::vector<std::array<float, 3>> normals);
+
+            /**
+             * @brief Whether splitting for 'component' asks about the mod's geometry -- see \ref setGeometry
+             */
+            bool needsGeometry(const std::string& component) const;
+
+            /**
+             * @brief
+             @rst
+             \ref setGeometry from the mod's own ``Position.buf`` bytes, one line per source vertex. EVERY split whose
+             output has to agree -- the one an ``.ini`` takes its counts from and the one that writes the buffers --
+             reads it this way
+             @endrst
+             *
+             * @return Whether the buffer had a normal on every line; if not, nothing is set
+             */
+            bool readGeometry(const ByteVec& positionBuffer);
+
+            /**
              * @brief Splits for one component
              *
              * @throw std::invalid_argument If no component has that name
@@ -347,13 +404,15 @@ namespace AGRemapCore {
             std::vector<bool> liveVertices(const VGComponentSpec& spec) const;
             VGComponentBuffers splitNegative(const VGComponentSpec& spec) const;
             VGComponentBuffers splitCut(std::size_t column) const;
-            static void addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs);
+            void addMirroredLayer(VGComponentBuffers& result, const VGComponentSpec& spec) const;
 
             Weights weights_;
             Indices indices_;
             std::vector<Triangles> ibs_;
             std::vector<VGComponentSpec> specs_;
             std::vector<double> totals_;
+            std::vector<std::array<float, 3>> positions_;
+            std::vector<std::array<float, 3>> normals_;
     };
 }
 

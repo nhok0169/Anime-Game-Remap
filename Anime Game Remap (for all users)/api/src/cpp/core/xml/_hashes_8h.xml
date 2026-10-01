@@ -136,15 +136,15 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="119">
+      <node id="123">
         <label>include/AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
-        <childnode refid="120" relation="include">
+        <childnode refid="124" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="124">
         <label>include/AGRemapCore/RemapServiceCLI.h</label>
         <link refid="_remap_service_c_l_i_8h"/>
         <childnode refid="32" relation="include">
@@ -175,7 +175,7 @@
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -186,10 +186,6 @@
         <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="93" relation="include">
-        </childnode>
-        <childnode refid="94" relation="include">
         </childnode>
         <childnode refid="95" relation="include">
         </childnode>
@@ -203,21 +199,15 @@
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="101" relation="include">
         </childnode>
         <childnode refid="102" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="103" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="104" relation="include">
         </childnode>
@@ -227,7 +217,21 @@
         </childnode>
         <childnode refid="107" relation="include">
         </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
         <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
@@ -245,11 +249,11 @@
         </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
@@ -259,7 +263,7 @@
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
@@ -269,7 +273,7 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
@@ -305,13 +309,15 @@
         </childnode>
         <childnode refid="68" relation="include">
         </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
         <childnode refid="69" relation="include">
         </childnode>
         <childnode refid="70" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
-        </childnode>
         <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
         </childnode>
         <childnode refid="72" relation="include">
         </childnode>
@@ -323,11 +329,11 @@
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
         <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="77" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
@@ -341,19 +347,13 @@
         </childnode>
         <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
-        </childnode>
         <childnode refid="84" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
-        </childnode>
-        <childnode refid="111" relation="include">
-        </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
         <childnode refid="113" relation="include">
         </childnode>
@@ -363,13 +363,21 @@
         </childnode>
         <childnode refid="116" relation="include">
         </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
       </node>
-      <node id="117">
+      <node id="121">
         <label>include/AGRemapCore/constants/WWMIBuilder.h</label>
         <link refid="_w_w_m_i_builder_8h"/>
         <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -537,13 +545,13 @@
         </childnode>
         <childnode refid="84" relation="include">
         </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
       </node>
-      <node id="85">
+      <node id="86">
         <label>include/AGRemapCore/data/IniParseData/GIMIComponentParser.h</label>
         <link refid="_g_i_m_i_component_parser_8h"/>
         <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="87" relation="include">
         </childnode>
@@ -556,6 +564,10 @@
         <childnode refid="91" relation="include">
         </childnode>
         <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -603,19 +615,19 @@
         </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="131" relation="include">
+        <childnode refid="135" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
-      <node id="118">
+      <node id="122">
         <label>include/AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
-        <childnode refid="119" relation="include">
+        <childnode refid="123" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -623,25 +635,25 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
-        </childnode>
-        <childnode refid="122" relation="include">
-        </childnode>
-        <childnode refid="123" relation="include">
-        </childnode>
-        <childnode refid="124" relation="include">
-        </childnode>
-        <childnode refid="125" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
         <childnode refid="126" relation="include">
         </childnode>
         <childnode refid="127" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+        <childnode refid="130" relation="include">
+        </childnode>
+        <childnode refid="131" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -653,11 +665,11 @@
         </childnode>
         <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
-        <childnode refid="118" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="132" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -665,26 +677,26 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="130" relation="include">
+        <childnode refid="134" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="127" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
       </node>
-      <node id="128">
+      <node id="132">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
         <link refid="_v_g_remap_blend_edit_8h"/>
-        <childnode refid="129" relation="include">
+        <childnode refid="133" relation="include">
         </childnode>
-        <childnode refid="130" relation="include">
+        <childnode refid="134" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="125">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
@@ -704,35 +716,35 @@
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
-      <node id="93">
+      <node id="95">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="94">
+      <node id="96">
         <label>src/constants/WWMIBuilder.cpp</label>
         <link refid="_w_w_m_i_builder_8cpp"/>
       </node>
-      <node id="95">
+      <node id="97">
         <label>src/data/HashData.cpp</label>
         <link refid="_hash_data_8cpp"/>
       </node>
-      <node id="96">
+      <node id="98">
         <label>src/data/IndexCountData.cpp</label>
         <link refid="_index_count_data_8cpp"/>
       </node>
-      <node id="97">
+      <node id="99">
         <label>src/data/IndexData.cpp</label>
         <link refid="_index_data_8cpp"/>
       </node>
-      <node id="98">
+      <node id="100">
         <label>src/data/IniFixBuilderData.cpp</label>
         <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
-      <node id="99">
+      <node id="101">
         <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
         <link refid="_bennett_fixer_8cpp"/>
       </node>
-      <node id="100">
+      <node id="102">
         <label>src/data/IniFixData/Charlotte/CharlotteFixer.cpp</label>
         <link refid="_charlotte_fixer_8cpp"/>
       </node>
@@ -752,11 +764,11 @@
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp</label>
         <link refid="_chisa_parfait_textures_8cpp"/>
       </node>
-      <node id="101">
+      <node id="103">
         <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
         <link refid="_citlali_fixer_8cpp"/>
       </node>
-      <node id="129">
+      <node id="133">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
@@ -768,15 +780,23 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="102">
+      <node id="104">
+        <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
+        <link refid="_lumine_fixer_8cpp"/>
+      </node>
+      <node id="105">
+        <label>src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp</label>
+        <link refid="_lumine_heaven_fixer_8cpp"/>
+      </node>
+      <node id="106">
         <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
         <link refid="_neuvillette_fixer_8cpp"/>
       </node>
-      <node id="103">
+      <node id="107">
         <label>src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp</label>
         <link refid="_neuvillette_melusent_fixer_8cpp"/>
       </node>
-      <node id="130">
+      <node id="134">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
@@ -804,23 +824,23 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="104">
+      <node id="108">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
       </node>
-      <node id="105">
+      <node id="109">
         <label>src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp</label>
         <link refid="_yaoyao_bamboo_fixer_8cpp"/>
       </node>
-      <node id="106">
+      <node id="110">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="107">
+      <node id="111">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
-      <node id="108">
+      <node id="112">
         <label>src/data/IniParseBuilderData.cpp</label>
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
@@ -856,7 +876,7 @@
         <label>src/data/IniParseData/Bennett/BennettParser.cpp</label>
         <link refid="_bennett_parser_8cpp"/>
       </node>
-      <node id="86">
+      <node id="87">
         <label>src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp</label>
         <link refid="_bennett_adventure_parser_8cpp"/>
       </node>
@@ -864,7 +884,7 @@
         <label>src/data/IniParseData/Charlotte/CharlotteParser.cpp</label>
         <link refid="_charlotte_parser_8cpp"/>
       </node>
-      <node id="87">
+      <node id="88">
         <label>src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp</label>
         <link refid="_charlotte_hurlock_parser_8cpp"/>
       </node>
@@ -884,7 +904,7 @@
         <label>src/data/IniParseData/Citlali/CitlaliParser.cpp</label>
         <link refid="_citlali_parser_8cpp"/>
       </node>
-      <node id="88">
+      <node id="89">
         <label>src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp</label>
         <link refid="_citlali_whisperof_stars_parser_8cpp"/>
       </node>
@@ -908,7 +928,7 @@
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="89">
+      <node id="90">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
@@ -977,42 +997,50 @@
         <link refid="_lisa_student_parser_8cpp"/>
       </node>
       <node id="68">
+        <label>src/data/IniParseData/Lumine/LumineParser.cpp</label>
+        <link refid="_lumine_parser_8cpp"/>
+      </node>
+      <node id="91">
+        <label>src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp</label>
+        <link refid="_lumine_heaven_parser_8cpp"/>
+      </node>
+      <node id="69">
         <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="69">
+      <node id="70">
         <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="70">
+      <node id="71">
         <label>src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp</label>
         <link refid="_neuvillette_parser_8cpp"/>
       </node>
-      <node id="90">
+      <node id="92">
         <label>src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp</label>
         <link refid="_neuvillette_melusent_parser_8cpp"/>
       </node>
-      <node id="71">
+      <node id="72">
         <label>src/data/IniParseData/Nilou/NilouParser.cpp</label>
         <link refid="_nilou_parser_8cpp"/>
       </node>
-      <node id="72">
+      <node id="73">
         <label>src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp</label>
         <link refid="_nilou_breeze_parser_8cpp"/>
       </node>
-      <node id="73">
+      <node id="74">
         <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
-      <node id="74">
+      <node id="75">
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="75">
+      <node id="76">
         <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>
-      <node id="76">
+      <node id="77">
         <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
@@ -1024,11 +1052,11 @@
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="77">
+      <node id="78">
         <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
         <link refid="_shenhe_parser_8cpp"/>
       </node>
-      <node id="78">
+      <node id="79">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
@@ -1036,95 +1064,95 @@
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="79">
+      <node id="80">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
       </node>
-      <node id="80">
+      <node id="81">
         <label>src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</label>
         <link refid="_xiangling_cheer_parser_8cpp"/>
       </node>
-      <node id="81">
+      <node id="82">
         <label>src/data/IniParseData/Xingqiu/XingqiuParser.cpp</label>
         <link refid="_xingqiu_parser_8cpp"/>
       </node>
-      <node id="82">
+      <node id="83">
         <label>src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</label>
         <link refid="_xingqiu_bamboo_parser_8cpp"/>
       </node>
-      <node id="83">
+      <node id="84">
         <label>src/data/IniParseData/Yaoyao/YaoyaoParser.cpp</label>
         <link refid="_yaoyao_parser_8cpp"/>
       </node>
-      <node id="91">
+      <node id="93">
         <label>src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp</label>
         <link refid="_yaoyao_bamboo_parser_8cpp"/>
       </node>
-      <node id="84">
+      <node id="85">
         <label>src/data/IniParseData/Yelan/YelanParser.cpp</label>
         <link refid="_yelan_parser_8cpp"/>
       </node>
-      <node id="92">
+      <node id="94">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>
-      <node id="109">
+      <node id="113">
         <label>src/data/IniRemoveBuilderData.cpp</label>
         <link refid="_ini_remove_builder_data_8cpp"/>
       </node>
-      <node id="110">
+      <node id="114">
         <label>src/data/ShapeKeyChecksumData.cpp</label>
         <link refid="_shape_key_checksum_data_8cpp"/>
       </node>
-      <node id="111">
+      <node id="115">
         <label>src/data/VGCountData.cpp</label>
         <link refid="_v_g_count_data_8cpp"/>
       </node>
-      <node id="112">
+      <node id="116">
         <label>src/data/VGOffsetData.cpp</label>
         <link refid="_v_g_offset_data_8cpp"/>
       </node>
-      <node id="113">
+      <node id="117">
         <label>src/data/VGRemapData.cpp</label>
         <link refid="_v_g_remap_data_8cpp"/>
       </node>
-      <node id="114">
+      <node id="118">
         <label>src/data/VertexCountData.cpp</label>
         <link refid="_vertex_count_data_8cpp"/>
       </node>
-      <node id="131">
+      <node id="135">
         <label>src/model/assets/Hashes.cpp</label>
         <link refid="_hashes_8cpp"/>
       </node>
-      <node id="115">
+      <node id="119">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="122">
+      <node id="126">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="123">
+      <node id="127">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="124">
+      <node id="128">
         <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
         <link refid="_ini_file_res_edit_context_8cpp"/>
       </node>
-      <node id="125">
+      <node id="129">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
         <link refid="_v_g_merge_group_res_builder_8cpp"/>
       </node>
-      <node id="126">
+      <node id="130">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
-      <node id="127">
+      <node id="131">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="116">
+      <node id="120">
         <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
         <link refid="_ini_file_remove_context_8cpp"/>
       </node>

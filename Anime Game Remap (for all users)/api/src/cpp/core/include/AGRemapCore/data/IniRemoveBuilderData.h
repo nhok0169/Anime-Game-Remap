@@ -369,6 +369,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Stub for the lumine4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory lumine4_0();
+
+            /**
+             * @brief
+             @rst
+             Stub for the lumineHeaven4_0's remover -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory lumineHeaven4_0();
+
+            /**
+             * @brief
+             @rst
              Stub for the mona4_0's remover -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst

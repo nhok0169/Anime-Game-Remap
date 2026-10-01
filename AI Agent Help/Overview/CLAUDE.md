@@ -1667,6 +1667,42 @@ Tester"). **(3) Look at the one that moved, in game, old build against new**: st
 the importer's drive and swap them with `mods only` (GameView's "Proving a shared-code change in game").
 A byte-for-byte diff says WHAT changed; only the game says whether the change is right.
 
+**84. BEFORE A SCREENSHOT BECOMES EVIDENCE, SAY WHICH FOLDER WAS LOADED -- AND CHECK IT (2026-10-01).** A
+"compiled build matches" shot of Lumine10 was nearly reported that was really the PROTOTYPE's scratch copy:
+`mods only <copy> --from <folder>` had put `L10G4` into `Mods/`, the re-fixed `Lumine10` sat one level up, and
+the next helper call (`closeups.py ... "-::x"`, which shoots whatever is loaded) photographed the copy. It
+looked right because the two are A/B-identical, so the shot itself could not tell the difference. After
+every `mods only`, `ls Mods/` and name the folder next to the result. A shot of the wrong folder reads
+exactly like a shot of the right one, which is habit 1 again. Corollary: name scratch copies so a listing
+shows them for what they are (`L10G4`, not `Lumine10b`), delete them when done, and let `mods GIMI
+restore` put the maintainer's set back. Its "could not undo ... already moved by hand?" lines are copies
+you deleted, not damage.
+
+**85. A RULE AIMED AT ONE PART CHANGES EVERY PIXEL IT SELECTS: LOOK AT THE WHOLE MODEL, EVERY ANGLE
+(2026-10-01).** Lumine10's lining was too dark, and a flat x2.2 on the glow pixels made the lining match
+(mean blue 135 against her 128). It also turned her back emblem, arm guards and boots CYAN-WHITE, because a
+bright blue times 2.2 clips in blue and keeps climbing in red and green. The lining crop said "fixed"; only
+the three-angle full-body sheet showed the damage. So for any tuned constant: (1) measure the reported part
+against ground truth -- the mod on its own character, same pose (click the base card then the skin card to
+reset the pose; a drag carries over), same crop, one number -- for each variant; (2) look at a full sheet of
+every variant before keeping one; (3) survey what else the rule selects across every mod of the character
+(`glowSurvey`-style: count the pixels each mod's textures put under the old rule and the new) -- here that
+found near-grey alpha-255 cloth in Lumine1 / Lumine7 that a looser rule would have brightened. Build the
+variants as scratch copies through the prototype's options (`--coolGlowGain` etc.), not by rebuilding.
+
+**86. A DIFFERENCE BETWEEN TWO CONFIGS IS NOT A BUG UNTIL THE RUNTIME TREATS THEM DIFFERENTLY (2026-09-30).**
+YelanTranquil's slot C is a normal-map slot in the forward config and a plain one in the reverse, and a frame
+dump agreed with the reverse. "Fixing" the forward to match was built, and it LOST two edits confirmed in game:
+the component template applies texture edits only to a normal-map component. What settled it was reading what
+the RUNTIME does with each: the shader's 16-hex hash from the dump's filenames, its `filter_index` in
+`Core/GIMI/Libraries/ORFix.ini`, the `CommandListFixLogic` branch that index takes, and which `Resource*` that
+branch writes back. Every pass of that shader discards the normal map, so the two layouts render alike. Before
+making two things consistent, trace both through the code that consumes them; if they come out the same, write
+the finding down and leave the verified one alone. **And check the trace against what is already written**: the
+same session's explanation of TexFx ("it draws at its line") contradicted a frame-dump finding twenty sections up
+in Creating Remaps (a TexFx call is a request served on the next outline draw), shipped in one commit, and was
+caught only while writing this habit. A mechanism you reasoned out is a hypothesis until a dump or the game agrees.
+
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
 those asserts rot; three of them were stale on arrival this session and only one failure of four was

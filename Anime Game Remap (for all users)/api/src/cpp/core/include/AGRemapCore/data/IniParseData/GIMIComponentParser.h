@@ -176,6 +176,32 @@ namespace AGRemapCore {
 
         int positionStride = 40;
         int blendStride = 32;
+
+        /**
+         * @brief
+         @rst
+         Whether a slot's texture downloads follow the resource NAMES its own `section`_ binds,
+         rather than the registers :raw-html:`<br />` :raw-html:`<br />`
+
+         A download is decided per register: a slot whose section leaves its diffuse register
+         unbound gets the game's diffuse there. A mod written in the GAME's register order binds
+         its textures elsewhere -- LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``, where the
+         skin's own 6.x eye shader reads the diffuse -- so the slot got the game's diffuse at
+         ``ps-t0`` AND kept the mod's at ``ps-t1``, two textures both named a diffuse, which the merge's
+         :cpp:member:`GIMIMergeFixerConfig::texRegsByName` rightly refuses to believe; read by position,
+         the game's eye diffuse drew and the mod's became the light map (dark eyes on Lumine,
+         2026-09-29). :raw-html:`<br />` :raw-html:`<br />`
+
+         With this on, for every slot with textures of its own whose section binds at least one of the
+         slot's texture registers, and whose names are believed (every texture bound at those registers
+         names exactly one role, no two alike -- the merge's own rule): a role the mod binds under some
+         register gets no download, and a role it lacks whose register holds another role's texture
+         has its download moved onto a slot register the section leaves free, where the merge's
+         by-name reading then finds it. A slot that binds nothing, or binds in the slot's own order,
+         is untouched. Read off the section itself, not through ``run =``. **Default**: ``false``
+         @endrst
+         */
+        bool downloadsByName = false;
     };
 
     /**

@@ -35,6 +35,9 @@
       <node id="41">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1178,9 +1181,6 @@
         </childnode>
         <childnode refid="75" relation="include">
         </childnode>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="70">
         <label>Generator.tpp</label>

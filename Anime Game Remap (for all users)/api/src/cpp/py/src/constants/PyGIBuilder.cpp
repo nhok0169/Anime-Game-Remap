@@ -61,6 +61,8 @@ Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-si
         .def_static("kleeBlossomingStarlight", &AGRC::GIBuilder::kleeBlossomingStarlight, py::doc(R"doc(Creates the :class:`ModType` for KleeBlossomingStarlight)doc"))
         .def_static("lisa", &AGRC::GIBuilder::lisa, py::doc(R"doc(Creates the :class:`ModType` for Lisa)doc"))
         .def_static("lisaStudent", &AGRC::GIBuilder::lisaStudent, py::doc(R"doc(Creates the :class:`ModType` for LisaStudent)doc"))
+        .def_static("lumine", &AGRC::GIBuilder::lumine, py::doc(R"doc(Creates the :class:`ModType` for Lumine)doc"))
+        .def_static("lumineHeaven", &AGRC::GIBuilder::lumineHeaven, py::doc(R"doc(Creates the :class:`ModType` for LumineHeaven, the skin of three components; its component ids are fix targets only and have no factory)doc"))
         .def_static("mona", &AGRC::GIBuilder::mona, py::doc(R"doc(Creates the :class:`ModType` for Mona)doc"))
         .def_static("monaCN", &AGRC::GIBuilder::monaCN, py::doc(R"doc(Creates the :class:`ModType` for MonaCN)doc"))
         .def_static("neuvillette", &AGRC::GIBuilder::neuvillette, py::doc(R"doc(Creates the :class:`ModType` for Neuvillette)doc"))

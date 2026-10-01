@@ -38,6 +38,8 @@
     <innerdir refid="dir_f50c04d640180e170023149f22b39cea">src/data/IniFixData/KleeBlossomingStarlight</innerdir>
     <innerdir refid="dir_e9d04ec6215c664d49bb005712e7d917">src/data/IniFixData/Lisa</innerdir>
     <innerdir refid="dir_5cbb0946bf5bc41fc88fe96bfa57437a">src/data/IniFixData/LisaStudent</innerdir>
+    <innerdir refid="dir_73f092bbb03b145931585299d8a467dc">src/data/IniFixData/Lumine</innerdir>
+    <innerdir refid="dir_79782ccf31522c62340b7bb330e0f076">src/data/IniFixData/LumineHeaven</innerdir>
     <innerdir refid="dir_0f276ca38dafcc3dcc40a33a1cdb7007">src/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_605b4137314663323ca47a3cc7379050">src/data/IniFixData/MonaCN</innerdir>
     <innerdir refid="dir_86e3de239d8f3c8e914a04fb8473dfb7">src/data/IniFixData/Neuvillette</innerdir>
@@ -69,6 +71,7 @@
     <innerfile refid="_mod_branches_8cpp">ModBranches.cpp</innerfile>
     <innerfile refid="_reg_val_checks_8cpp">RegValChecks.cpp</innerfile>
     <innerfile refid="_side_meshes_8cpp">SideMeshes.cpp</innerfile>
+    <innerfile refid="_tex_fx_layout_8cpp">TexFxLayout.cpp</innerfile>
     <innerfile refid="_tex_reg_layout_8cpp">TexRegLayout.cpp</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8cpp">WWMIFixer.cpp</innerfile>
     <briefdescription>

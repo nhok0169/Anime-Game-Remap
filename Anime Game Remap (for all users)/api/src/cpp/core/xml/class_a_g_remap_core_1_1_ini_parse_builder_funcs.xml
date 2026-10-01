@@ -1462,6 +1462,46 @@ A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="863" column="45" bodyfile="src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp" bodystart="25" bodyend="71"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lumine4_0</definition>
+        <argsstring>()</argsstring>
+        <name>lumine4_0</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::lumine4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era **Lumine** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress``, all on the plain layout. See
+``data/IniParseData/Lumine/LumineParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="874" column="45" bodyfile="src/data/IniParseData/Lumine/LumineParser.cpp" bodystart="27" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lumineHeaven6_3</definition>
+        <argsstring>()</argsstring>
+        <name>lumineHeaven6_3</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::lumineHeaven6_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 6.3-era **LumineHeaven** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+``data/IniParseData/LumineHeaven/LumineHeavenParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="885" column="45" bodyfile="src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp" bodystart="25" bodyend="78"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -1496,7 +1536,7 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="865"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="887"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0f031e3c3bc6a5784f978725a2f30f90" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amberCN4_0</name></member>
@@ -1545,6 +1585,8 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5e0e8d3c12a797ee525dd5afe57415e1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lisaStudent4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5eee4b72bf3705fb59ce164a00094b41" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lisaStudent5_4</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1afa731ff64faf335aab4d3cf3d179ea74" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lisaStudent5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lumine4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lumineHeaven6_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a965947e4ccfeb3487a53d74c717bf1d2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>mona4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1af77157f3eef27fc14605beda38503e27" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>monaCN4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2f1f954895b4c9ee16ced050708cac5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>neuvillette4_0</name></member>

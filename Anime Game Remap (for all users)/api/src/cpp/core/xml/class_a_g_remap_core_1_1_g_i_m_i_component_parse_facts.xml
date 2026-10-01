@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="215" column="21"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="241" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -40,7 +40,7 @@ of the skin over the real mod&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="230" column="26"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="256" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -91,7 +91,7 @@ its chest (2026-09-24)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="249" column="26"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="275" column="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -105,7 +105,7 @@ The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (a
 everything is assumed to be there -- the behaviour before this existed
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="213" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="213" bodyend="250"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="239" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="239" bodyend="276"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" prot="public" virt="pure-virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>hasRemappableContent</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" prot="public" virt="pure-virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>isSlotUndrawn</name></member>

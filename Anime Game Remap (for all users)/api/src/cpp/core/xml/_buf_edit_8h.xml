@@ -21,6 +21,9 @@
       <node id="82">
         <label>BufEdit.tpp</label>
       </node>
+      <node id="51">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="57">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -700,9 +703,6 @@
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
-      </node>
-      <node id="51">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="72">
         <label>Generator.tpp</label>

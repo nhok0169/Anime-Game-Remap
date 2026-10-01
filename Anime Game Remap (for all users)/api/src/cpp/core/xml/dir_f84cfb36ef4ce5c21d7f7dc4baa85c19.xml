@@ -38,6 +38,8 @@
     <innerdir refid="dir_4bfc0331ce31d6fe58188ba8d5f6d21b">include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight</innerdir>
     <innerdir refid="dir_da0ba03a89fa1cd5fc2ade012dd47132">include/AGRemapCore/data/IniParseData/Lisa</innerdir>
     <innerdir refid="dir_dfab8aa5ba8cd30bb1663a8cb3a8b8e9">include/AGRemapCore/data/IniParseData/LisaStudent</innerdir>
+    <innerdir refid="dir_df14a0b0601f572e0aab30fd6056d1d3">include/AGRemapCore/data/IniParseData/Lumine</innerdir>
+    <innerdir refid="dir_3a094d1115296184c92cc59429858b74">include/AGRemapCore/data/IniParseData/LumineHeaven</innerdir>
     <innerdir refid="dir_504b10f3dae4b02b15cf78dfaec4fd46">include/AGRemapCore/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_2970c4f8f58992fe03449489402f452e">include/AGRemapCore/data/IniParseData/MonaCN</innerdir>
     <innerdir refid="dir_1fde9aebaf50842e760ea057960c63dc">include/AGRemapCore/data/IniParseData/Neuvillette</innerdir>

@@ -38,6 +38,8 @@
     <innerdir refid="dir_0a8fb8e1dfff43262d73a5e048f010e0">src/data/IniParseData/KleeBlossomingStarlight</innerdir>
     <innerdir refid="dir_6bf610a32b06791c3ce4ea5e8d96f2d8">src/data/IniParseData/Lisa</innerdir>
     <innerdir refid="dir_7d73376d641d75fa42fe2a1657940aff">src/data/IniParseData/LisaStudent</innerdir>
+    <innerdir refid="dir_879bc1e101597489e467e64f337e0987">src/data/IniParseData/Lumine</innerdir>
+    <innerdir refid="dir_d2896b04746a3982447f76eae4d4a3a9">src/data/IniParseData/LumineHeaven</innerdir>
     <innerdir refid="dir_8f5bf5a9e6f82f5ebb05da8e603ecbc8">src/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_7354bd2ec5e57e0ae2ee0931671ab40f">src/data/IniParseData/MonaCN</innerdir>
     <innerdir refid="dir_165e623751b8370d6ebcdea880fe6618">src/data/IniParseData/Neuvillette</innerdir>

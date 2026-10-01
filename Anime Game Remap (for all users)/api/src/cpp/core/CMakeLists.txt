@@ -61,6 +61,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/RegValChecks.cpp
     src/data/IniFixData/SideMeshes.cpp
     src/data/IniFixData/TexRegLayout.cpp
+    src/data/IniFixData/TexFxLayout.cpp
     src/data/IniParseData/Barbara/BarbaraParser.cpp
     src/data/IniFixData/Barbara/BarbaraFixer.cpp
     src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp
@@ -162,6 +163,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp
     src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp
     src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp
+    src/data/IniParseData/Lumine/LumineParser.cpp
+    src/data/IniFixData/Lumine/LumineFixer.cpp
+    src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp
+    src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
     src/data/IniFixData/Shenhe/ShenheFixer.cpp

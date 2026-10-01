@@ -64,7 +64,7 @@ class StrEnum(Enum):
         """
         Searches for an exact match for a particular enum
 
-        Paramaters
+        Parameters
         ----------
         name: :class:`str`
             The text to match

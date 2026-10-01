@@ -43,8 +43,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Sets the alpha channel of **every** pixel of 'texFile' to 'alpha', the way the
-             pure-Python ``TexEditor.setTransparency`` does (``texFile.img.putalpha(alpha)``)
+             Sets the alpha channel of **every** pixel of 'texFile' to 'alpha'
              :raw-html:`<br />` :raw-html:`<br />`
 
              ``0`` is fully transparent and ``255`` fully opaque, and values outside that range are
@@ -54,8 +53,7 @@ namespace AGRemapCore {
                 This **overwrites** the alpha channel rather than adjusting it, which is what
                 separates it from :cpp:class:`Transparency` -- and in these textures alpha is very
                 often not opacity at all but a *mask* the shader reads (a blush mask, on a face
-                diffuse), so "make it uniform" and "adjust it" are genuinely different operations.
-                See `Texture Editing <../TextureEditing/CLAUDE.md>`_
+                diffuse), so "make it uniform" and "adjust it" are genuinely different operations
                 :raw-html:`<br />` :raw-html:`<br />`
 
                 A no-op when 'texFile' has no image loaded -- there are no pixels to set
@@ -74,6 +72,11 @@ namespace AGRemapCore {
              @rst
              Whether the edited texture is written back **compressed** -- see #getCompress.
              **Default**: ``true``
+             @endrst
+             * @param mipmaps
+             @rst
+             Whether the edited texture is written back with its full mip chain -- see #getMipmaps.
+             **Default**: ``false``
              @endrst
              */
             explicit TexEditor(std::vector<Filter> filters = {}, bool compress = true, bool mipmaps = false);
@@ -99,9 +102,6 @@ namespace AGRemapCore {
              17-second round trip on a 4096x2048 BC7 texture), and turning it off makes the edit
              roughly eight times faster in exchange for a file about four times larger
              :raw-html:`<br />` :raw-html:`<br />`
-
-             ``false`` is what the pure-Python `Pillow`_ engine did unconditionally -- it never
-             encoded BCn at all :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``true``
              @endrst

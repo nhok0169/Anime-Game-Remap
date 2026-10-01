@@ -44,13 +44,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Class to handle ``.ini`` files :raw-html:`<br />` :raw-html:`<br />`
-
-     .. note::
-        This is a from-scratch C++ port, not a 1-1 translation of the pure-Python
-        ``FixRaidenBoss2.model.files.IniFile`` original -- capability is being ported over
-        incrementally, so this class is expected to grow additional methods/state over time rather
-        than arrive fully-formed in one pass
+     Class to handle ``.ini`` files
      @endrst
      */
     class IniFile {
@@ -198,21 +192,13 @@ namespace AGRemapCore {
              *which* parser a version-dependent :cpp:member:`ModType::iniParseBuilder` picks for
              this particular file :raw-html:`<br />` :raw-html:`<br />`
 
-             A plain, publicly mutable member rather than a getter/setter pair, matching both
-             #downloadMode and the pure-Python original's own ``self.fromVersion`` :raw-html:`<br />`
-             :raw-html:`<br />`
+             A plain, publicly mutable member rather than a getter/setter pair, matching
+             #downloadMode :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 Reassigning this after a parser has already been built for some mod type does
-                **not** rebuild that parser -- #parse caches one parser per mod type (the analogue
-                of the original's ``self._iniParser``), and the original has exactly the same
-                staleness. Call #clear first if the version needs to change mid-flight
-
-             .. note::
-                The pure-Python original also carries a separate ``toVersion`` ("the version to fix
-                the .ini file *to*", used by the fixing side rather than the parsing side). That is
-                not ported yet -- add it here alongside this when the fixer side gets its own
-                builder
+                **not** rebuild that parser -- #parse caches one parser per mod type. Call #clear
+                first if the version needs to change mid-flight
 
              **Default**: ``std::nullopt``
              @endrst
@@ -230,8 +216,7 @@ namespace AGRemapCore {
              version-dependent :cpp:member:`ModType::iniFixBuilder` picks for each target mod
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors the pure-Python original's own ``self.toVersion``. Publicly mutable, with the
-             same staleness caveat as #fromVersion: reassigning it after #fix has already built the
+             Publicly mutable, with the same staleness caveat as #fromVersion: reassigning it after #fix has already built the
              fixers does not rebuild them -- call #clear first :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
@@ -257,8 +242,8 @@ namespace AGRemapCore {
 
              .. note::
                 :cpp:enum:`ModTypeId`\s, matching the constructor's 'filteredFromModTypeIds' on
-                the *source* side -- both halves of the filter speak ids now. The
-                :cpp:type:`IniFixBuilder::ArgsRepo` is still keyed by mod **name**, so #getFixers
+                the *source* side -- both halves of the filter speak ids. The
+                :cpp:type:`IniFixBuilder::ArgsRepo` is keyed by mod **name**, so #getFixers
                 resolves each id through :cpp:func:`ModTypeIdTools::getName` before handing the
                 filter to :cpp:func:`IniFixBuilder::buildAll`. An id that no
                 :cpp:enum:`ModTypeId` recognizes contributes no name, and so matches nothing
@@ -272,22 +257,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The download mode used to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
-
-             A plain, publicly mutable member rather than a getter/setter pair, matching the
-             pure-Python original's own ``self.downloadMode`` -- callers both read it (eg.
-             :cpp:func:`RegFillMissing::editFromIni`) and reassign it between passes over the same
-             ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
-
-             **Default**: :cpp:enumerator:`DownloadMode::Normal`
-             @endrst
-             */
-            /**
-             * @brief
-             @rst
              The :cpp:enum:`ModTypeId`\s (by id) to fall back on when the classifier recognises
-             nothing -- the counterpart to the pure-Python original's ``defaultModType``
-             :raw-html:`<br />` :raw-html:`<br />`
+             nothing :raw-html:`<br />` :raw-html:`<br />`
 
              These come into play in exactly one situation: #classify ran the classifier, and the
              classifier recognised **no** mod type at all. In that case #getModTypes is built from
@@ -349,6 +320,18 @@ namespace AGRemapCore {
              */
             std::shared_ptr<BaseLogger> logger;
 
+            /**
+             * @brief
+             @rst
+             The download mode used to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+             A plain, publicly mutable member rather than a getter/setter pair -- callers both read
+             it (eg. :cpp:func:`RegFillMissing::editFromIni`) and reassign it between passes over
+             the same ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: :cpp:enumerator:`DownloadMode::Normal`
+             @endrst
+             */
             DownloadMode downloadMode = DownloadMode::Normal;
 
             /**
@@ -447,17 +430,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Writes the ``.ini`` file's text content back to disk -- the C++ counterpart of the
-             pure-Python ``IniFile.write`` :raw-html:`<br />` :raw-html:`<br />`
+             Writes the ``.ini`` file's text content back to disk :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors that original's three-way behaviour exactly:
+             It behaves as follows:
 
              #. A ``.ini`` file with no path (#getFile is ``std::nullopt``) writes nothing. If 'txt'
                 was given it becomes the new #getFileTxt first (via #setFileTxt); either way the
                 current #getFileTxt is what comes back
              #. Otherwise ``txt`` -- or #getFileTxt when 'txt' is ``std::nullopt`` -- is written to
                 #getFile and returned
-             #. Note the asymmetry, which is the original's and is kept on purpose: writing an
+             #. Note the asymmetry, which is kept on purpose: writing an
                 explicit 'txt' to a ``.ini`` file that *has* a path does **not** update #getFileTxt,
                 only the file on disk
              @endrst
@@ -477,7 +459,7 @@ namespace AGRemapCore {
              whitespace, starts with ``[`` and has a ``]`` somewhere after it :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Mirrors the pure-Python original's own ``_sectionPattern``
+             The same test as the pattern
              (``re.compile(r"^\s*\[.*\]")``) :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
@@ -500,8 +482,7 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              Falls back to a partial extraction when only one bracket is present, and to the whole
-             trimmed line when neither is. Mirrors the deprecated pure-Python
-             ``IniClassifierOld.getSectionName`` :raw-html:`<br />` :raw-html:`<br />`
+             trimmed line when neither is :raw-html:`<br />` :raw-html:`<br />`
 
              Public for the same reason as #isSectionHeaderLine -- the name this returns is the key
              #getIfTemplates files that `section`_ under
@@ -515,8 +496,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Classifies the .ini file, determining #isMod, #isFixed, and #modTypes -- reads the
-             .ini file first via #readFileLines if it hasn't been read yet (same "read on first use"
-             behavior as the pure-Python original's own ``classify``) :raw-html:`<br />`
+             .ini file first via #readFileLines if it hasn't been read yet :raw-html:`<br />`
              :raw-html:`<br />`
 
              * If the constructor's ``forcedFromModTypeIds`` argument was ``std::nullopt``, calls the
@@ -544,23 +524,16 @@ namespace AGRemapCore {
 
              .. note::
                 Every :cpp:class:`IfTemplate` returned shares the same :cpp:class:`Z3Context`
-                (this instance's own #z3Ctx_) -- matches the pure-Python original's single shared
-                ``self._z3Ctx``, and is what lets a caller later combine predicates from different
+                (this instance's own #z3Ctx_), which is what lets a caller later combine predicates from different
                 `sections`_ of the same .ini file (eg. building an :cpp:class:`IniSectionGraph` over
                 them)
 
              .. note::
-                Deliberately not a 1-1 port of the pure-Python original's ``ConfigParser``-backed
-                key/value parsing -- see the ``parseSectionKVPs`` doc comment in ``IniFile.cpp``
-                (it's a file-local implementation detail, not part of this class) for what's preserved
-                (comment/blank-line skipping, original key **case** preserved -- the pure-Python
-                original disables `ConfigParser`_'s default key-lowercasing via
-                ``self._parser.optionxform=str``, so this does too -- first-``=``-or-``:`` splitting,
-                duplicate-key order preservation) versus what's deliberately simplified for speed
-                (no ``%``-interpolation, no multi-line continuation -- the pure-Python original
-                already strips all leading whitespace from every line before parsing a section,
-                which incidentally neuters `ConfigParser`_'s own indentation-based continuation
-                feature anyway, so this isn't a real behavior change for any real .ini file)
+                The key/value parsing skips comments and blank lines, preserves each key's
+                original **case** (keys are not lowercased), splits on the first ``=`` or ``:``,
+                and preserves the order of duplicate keys. It deliberately has no
+                ``%``-interpolation and no multi-line continuation (leading whitespace is stripped
+                from every line before a section is parsed)
 
              .. note::
                 A single pass over #fileLines_ builds every section's :cpp:class:`IfTemplate`
@@ -582,9 +555,7 @@ namespace AGRemapCore {
 
              That order is load-bearing rather than cosmetic -- see
              :cpp:func:`IniParseContext::sectionNames`, which this answers. It is also why
-             #getIfTemplates is a ``tsl::ordered_map`` and not an ``std::unordered_map``: the
-             pure-Python original gets the same guarantee for free from ``ini.sectionIfTemplates``
-             being a `Python`_ ``dict``
+             #getIfTemplates is a ``tsl::ordered_map`` and not an ``std::unordered_map``
 
              :raw-html:`<br />`
 
@@ -630,8 +601,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every file download recorded for this ``.ini`` file -- the equivalent of the
-             pure-Python original's ``ini.fileDownloads``, and **owned** here :raw-html:`<br />`
+             Every file download recorded for this ``.ini`` file, **owned** here :raw-html:`<br />`
              :raw-html:`<br />`
 
              Filled by a parser through :cpp:func:`IniParseContext::addFileDownload`. Emptied by
@@ -648,8 +618,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Renames this ``.ini`` file aside as a backup, the way the pure-Python original's
-             ``ini.disIni()`` does :raw-html:`<br />` :raw-html:`<br />`
+             Renames this ``.ini`` file aside as a backup :raw-html:`<br />` :raw-html:`<br />`
 
              The file keeps its folder and gains the ``RemapBKUP`` prefix and a ``.txt`` extension,
              so a mod loader stops seeing it as a ``.ini`` file at all. Does nothing when there is
@@ -670,8 +639,8 @@ namespace AGRemapCore {
 
              A fix **moves the file aside before it writes** -- \ref disableIni renames
              ``X.ini`` to ``RemapBKUPX.txt`` and does not copy it back -- so between that rename and
-             the write there is no ``.ini`` file at all. An exception in that window used to leave
-             the mod with nothing: the rename done, the write never reached
+             the write there is no ``.ini`` file at all. Without this, an exception in that window
+             would leave the mod with nothing: the rename done, the write never reached
              :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
@@ -701,8 +670,7 @@ namespace AGRemapCore {
              @rst
              Whether #classify has been called at least once :raw-html:`<br />` :raw-html:`<br />`
 
-             The direct equivalent of the pure-Python original's own ``self._isClassified`` -- lets
-             a caller (eg. :cpp:func:`IniFile::parse`) classify on first use without redundantly
+             Lets a caller (eg. :cpp:func:`IniFile::parse`) classify on first use without redundantly
              re-classifying afterwards
              @endrst
              */
@@ -715,14 +683,11 @@ namespace AGRemapCore {
              #classify, keyed by their :cpp:enum:`ModTypeId` -- empty if #classify hasn't been
              called, or found nothing :raw-html:`<br />` :raw-html:`<br />`
 
-             The closest equivalent of the pure-Python original's own ``availableType``, except that
-             this can hold more than one :cpp:class:`ModType` (see #modTypes)
+             This can hold more than one :cpp:class:`ModType` (see #modTypes)
 
              .. note::
-                There is deliberately no singular ``getAvailableType`` alongside this. The
-                pure-Python original had one because *its* ``.ini`` file could only ever be one mod
-                type; here this method is that answer, and picking "the first" out of it would only
-                ever be a guess. A :cpp:class:`BaseIniParser`/:cpp:class:`BaseIniFixer` does take a
+                There is deliberately no singular ``getAvailableType`` alongside this: picking
+                "the first" mod type out of this map would only ever be a guess. A :cpp:class:`BaseIniParser`/:cpp:class:`BaseIniFixer` does take a
                 single :cpp:class:`ModType` -- but it is handed the one it is being built for, by
                 :cpp:func:`fix`/:cpp:func:`parse` looping over this map, rather than asking the
                 ``.ini`` file to choose
@@ -760,8 +725,7 @@ namespace AGRemapCore {
              .. note::
                 If #getFile is ``std::nullopt``, the default run of this (with 'eraseSourceTxt'
                 ``false``) does **nothing**, because the constructor's ``txt`` is then this object's
-                only source of data. Pass ``true`` to wipe that too -- matching the pure-Python
-                original's own ``clearRead``
+                only source of data. Pass ``true`` to wipe that too
              @endrst
              *
              * @param eraseSourceTxt Whether to also erase the text of a file-less .ini file. **Default**: ``false``
@@ -778,13 +742,8 @@ namespace AGRemapCore {
 
              .. note::
                 The :cpp:class:`Z3Context` is **replaced with a fresh one** rather than cleared in
-                place, exactly as the pure-Python original does. The :cpp:class:`IfTemplate`\s are
+                place. The :cpp:class:`IfTemplate`\s are
                 dropped first, since they hold predicates belonging to the old context
-
-             .. note::
-                The pure-Python original also clears its ``_heading``, ``_resourceBlends`` and the
-                resource models (``clearModels``). None of those exist on this class yet -- add them
-                here when they land
              @endrst
              *
              * @param eraseSourceTxt Whether to also erase the text of a file-less .ini file -- forwarded to #clearRead. **Default**: ``false``
@@ -798,41 +757,32 @@ namespace AGRemapCore {
              from each one's own :cpp:member:`ModType::iniParseBuilder` :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Follows the same order as the pure-Python original's own ``parse``:
+             In order:
 
              #. #classify the file, if it hasn't been classified yet
-             #. Bail out if the file was classified as no known mod type at all (the equivalent of
-                the original's ``if (self.availableType is None): return``)
+             #. Bail out if the file was classified as no known mod type at all
              #. Refresh the :cpp:class:`IfTemplate`\\s (see the 'flushIfTemplates' argument)
              #. For each entry of #getModTypes, build its parser from
                 :cpp:member:`ModType::iniParseBuilder` -- passing that mod type's
                 :cpp:member:`ModType::name` and this file's own #fromVersion, so a version-dependent
                 builder picks the parser appropriate to this file -- then
                 :cpp:func:`BaseIniParser::clear` and :cpp:func:`BaseIniParser::parse` it. A mod type
-                with no builder at all is skipped, the equivalent of the original's ``_getParser``
-                returning ``None``
+                with no builder at all is skipped
 
              :raw-html:`<br />`
 
              .. note::
-                The pure-Python original only ever has a *single* ``availableType``, so it parses
-                once and returns nothing. A C++ :cpp:class:`IniFile` can be classified as several
+                An :cpp:class:`IniFile` can be classified as several
                 :cpp:class:`ModType`\\s at once (see #modTypes), so this parses once per mod type and
                 keys the results by :cpp:enum:`ModTypeId`
 
              .. note::
                 Step 4's built parsers are cached per mod type for the lifetime of this file (until
-                #clear), the analogue of the original's ``self._iniParser`` -- a later #fix reuses
+                #clear) -- a later #fix reuses
                 the same parser rather than building a second one. Each is built already bound to
-                this file, so unlike the earlier shared-parser design nothing is rebound and two
-                :cpp:class:`IniFile`\\s of the same mod type no longer interfere. See
+                this file, so nothing is rebound and two
+                :cpp:class:`IniFile`\\s of the same mod type do not interfere. See
                 :cpp:member:`ModType::iniParseBuilder`
-
-             .. note::
-                The pure-Python original also clears its ``remapBlendModels``/``remapPositionModels``/
-                ``texAddModels``/``texEditModels`` between steps 2 and 3. Those resource-model
-                collections don't exist on the C++ :cpp:class:`IniFile` yet, so there's nothing to
-                clear -- add it here when they land
              @endrst
              *
              * @param flushIfTemplates Whether to re-parse the :cpp:class:`IfTemplate`\\s instead of using the cached values. **Default**: ``true``
@@ -863,9 +813,7 @@ namespace AGRemapCore {
              #. Build that mod type's fixer from :cpp:member:`ModType::iniFixBuilder` -- passing its
                 :cpp:member:`ModType::name` and this file's own #fromVersion, so a version-dependent
                 builder picks the fixer appropriate to this file -- bound to the parser from step 1.
-                Skip the mod type if it has no fix builder, or if that parser could not be built:
-                the equivalent of the pure-Python original's ``_getFixer`` returning ``None``, which
-                likewise refuses to build while ``self._iniParser`` is still ``None``
+                Skip the mod type if it has no fix builder, or if that parser could not be built
              #. Call :cpp:func:`BaseIniFixer::fix` with that parse data
              #. Merge the returned file-path/content pairs into the combined result
 
@@ -877,16 +825,15 @@ namespace AGRemapCore {
                 which that is -- in practice different mod types write different files
 
              .. note::
-                Like #parse's parsers, step 2's built fixers are cached per mod type until #clear,
-                the analogue of the original's ``self._iniFixer`` -- a second #fix reuses the same
+                Like #parse's parsers, step 2's built fixers are cached per mod type until #clear
+                -- a second #fix reuses the same
                 fixer rather than building another. Each is built already bound to this file's own
                 parser, so nothing is rebound and two :cpp:class:`IniFile`\\s of the same mod type
                 do not interfere
 
              .. note::
                 This classifies the file first if needed, so it can be called without a preceding
-                #parse. That is a deliberate divergence from the pure-Python original, whose ``fix``
-                assumes the pipeline already ran ``parse``
+                #parse
              @endrst
              *
              * @param keepBackup Whether to keep backups for the .ini file. **Default**: ``true``
@@ -937,15 +884,12 @@ namespace AGRemapCore {
                 :cpp:func:`IniRemoveBuilder::build` for a fresh one on every call. Nothing here
                 needs it to survive the call (unlike a parser, whose parse data #fix reads back),
                 and a remover holds a non-owning :cpp:class:`IniFile` pointer, so not keeping one
-                is one fewer lifetime to reason about. The pure-Python original caches into
-                ``self._iniRemover`` instead, because its ``Mod`` reads
-                ``ini._iniRemover.getRemovedResources()`` back afterwards -- which is what
-                'removedResources' is for here, so the remover can still go
+                is one fewer lifetime to reason about. A caller that needs the removed resources
+                afterwards passes 'removedResources' instead
 
              .. note::
                 An **unclassified** ``.ini`` file -- one with no #getModTypes at all -- falls back to
-                a single global pass, which is what the pure-Python original's ``_getRemover`` does
-                in its own ``availableType is None`` branch. That pass is the only one, and so the
+                a single global pass. That pass is the only one, and so the
                 last one, and so it sweeps
 
              .. note::
@@ -954,8 +898,8 @@ namespace AGRemapCore {
                 :cpp:enum:`ModTypeId` (``isMod == true``, no mod types), on a call that asked for
                 'readAllIni', gets :cpp:func:`GlobalIniRemoveBuilders::globalRemoveBuilder` -- ie. a
                 :cpp:class:`GlobalRemapIniRemover`, the general-use remover for exactly that state.
-                Anything else falls back to :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` as
-                before. Both passes end up sweeping, so this changes *which class* does the work
+                Anything else falls back to :cpp:func:`GlobalIniRemoveBuilders::removeBuilder`.
+                Both passes end up sweeping, so this changes *which class* does the work
                 rather than the outcome -- which matters to a caller that swapped either builder for
                 one of its own, and to one inspecting the remover
 
@@ -967,8 +911,7 @@ namespace AGRemapCore {
                 by the global remover
 
              .. note::
-                Reads the file first if it hasn't been read yet, which is what the pure-Python
-                original's ``_readLines`` decorator did for each remover
+                Reads the file first if it hasn't been read yet
              @endrst
              *
              * @param parse Whether to also parse for the ``*.RemapBlend.buf`` files that need to be removed. **Default**: ``false``
@@ -983,12 +926,15 @@ namespace AGRemapCore {
              comes from (see the note on that above): an ``isMod`` file with no mod types is swept by
              a :cpp:class:`GlobalRemapIniRemover` when this is set, and by the ordinary
              :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` when it is not. It does
-             **not** gate whether the removal happens -- that decision belongs to the caller, which
-             is where it already lives (``Mod._removeIniFix``'s own ``ini.isModIni or readAllInis``)
+             **not** gate whether the removal happens -- that decision belongs to the caller
              :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``false``
              @endrst
+             * @param keepBackups Whether to keep the ``RemapBKUP`` backup of the .ini file once its
+             *      fix is removed -- see :cpp:member:`IniRemovalContext::keepBackups`. **Default**: ``true``
+             * @param removedResources If not ``nullptr``, receives the resources the removers removed,
+             *      keyed the same way as :cpp:func:`RemapIniRemover::getRemovedResources`. **Default**: ``nullptr``
              *
              * @return The new content of the .ini file
              */
@@ -999,8 +945,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every resource model built for this ``.ini`` file -- the equivalent of the pure-Python
-             original's ``ini.resources``, and **owned** here :raw-html:`<br />` :raw-html:`<br />`
+             Every resource model built for this ``.ini`` file, **owned** here :raw-html:`<br />` :raw-html:`<br />`
 
              Filled by a resource edit through :cpp:func:`IniResEditContext::storeResource`; see
              :cpp:class:`IniFileResEditContext`, which is what puts them here. Nothing in this class
@@ -1011,8 +956,7 @@ namespace AGRemapCore {
              .. danger::
                 #clear empties this, and a :cpp:class:`ResEdit` identifies models it has already
                 built by raw pointer. Clearing a ``.ini`` file mid-edit therefore dangles every one
-                of them. The pure-Python original has the same shape and gets away with it only
-                because `Python`_ refcounts
+                of them
              @endrst
              */
             const std::vector<std::unique_ptr<IniResource>>& getResources() const;
@@ -1031,8 +975,7 @@ namespace AGRemapCore {
              Its own list rather than part of #getResources, because
              :cpp:class:`IniGroupedResource` is deliberately not an :cpp:class:`IniResource`
              -- it is a separate root that merely *holds* them, so it cannot go in a
-             ``vector`` of them. The pure-`Python`_ original had no such problem: its
-             ``ini.resources`` was an untyped list and a group went straight in
+             ``vector`` of them
              :raw-html:`<br />` :raw-html:`<br />`
 
              Filled by :cpp:class:`ResGroupCollect` through its ``GroupedResBuilder::store``,
@@ -1062,8 +1005,7 @@ namespace AGRemapCore {
              #getFileDownloads -- without touching the text read in from disk :raw-html:`<br />`
              :raw-html:`<br />`
 
-             The equivalent of the pure-Python original's ``clearModels()``, and what #clear itself
-             ends with. To drop the read text instead, see #clearRead
+             #clear itself ends with this. To drop the read text instead, see #clearRead
 
              .. danger::
                 Same hazard as #clear: a :cpp:class:`ResEdit` identifies models it has already built
@@ -1084,10 +1026,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                That second half is a deliberate divergence from the pure-Python original, whose
-                own ``getReferencedFolders()`` walks the same set of models but only ever looks at a
-                resource's *source* side (``origFullPath``/``fullPath``), never its fixed one. The
-                fix **writes** files to a ``fixedPath``, so :cpp:func:`RemapService::fix`'s folder
+                That second half is there because the fix **writes** files to a ``fixedPath``, so :cpp:func:`RemapService::fix`'s folder
                 walk has to be able to reach that folder even when no source path points into it
              @endrst
              *
@@ -1098,8 +1037,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The one `Z3`_ context this ``.ini`` file owns -- the equivalent of the pure-Python
-             original's ``ini._z3Ctx`` :raw-html:`<br />` :raw-html:`<br />`
+             The one `Z3`_ context this ``.ini`` file owns :raw-html:`<br />` :raw-html:`<br />`
 
              Never ``nullptr``, and the address is stable for this object's lifetime: #clear
              *replaces the value* rather than reseating anything, so a context holding this pointer
@@ -1111,12 +1049,10 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The folder the ``.ini`` file lives in, or an empty string when it has no path -- the
-             equivalent of the pure-Python original's ``ini.folder`` :raw-html:`<br />` :raw-html:`<br />`
+             The folder the ``.ini`` file lives in, or an empty string when it has no path
+             :raw-html:`<br />` :raw-html:`<br />`
 
-             Derived from #getFile rather than stored. There is deliberately no ``FilePath`` object
-             in this class: ``ini.filePath.path`` is #getFile, and everything else the original's
-             ``FilePath`` offered is a ``std::filesystem`` call away
+             Derived from #getFile rather than stored
              @endrst
              */
             std::string getFolder() const;
@@ -1137,8 +1073,8 @@ namespace AGRemapCore {
 
              #classify owns this, and a fixer is not supposed to set it --
              :cpp:func:`IniFixContext::setIsFixed` is a no-op in both of its implementations for
-             that reason. #setIsFixed exists only because the still-pure-Python ``MultiModFixer``
-             writes ``ini._isFixed`` directly while driving several fixers by hand
+             that reason. #setIsFixed exists only for a caller that drives several fixers by hand
+             (eg. :cpp:class:`MultiModFixer`)
              @endrst
              */
             bool getIsFixed() const;
@@ -1168,13 +1104,12 @@ namespace AGRemapCore {
              The types of mod the .ini file was classified (or forced) as, as of the last call to
              #classify, keyed by their :cpp:enum:`ModTypeId` :raw-html:`<br />` :raw-html:`<br />`
 
-             Unlike the deprecated pure-Python original (where a .ini file could only ever have a
-             single :cpp:class:`ModType`), this can hold more than one entry
+             This can hold more than one entry
 
              .. note::
                 A ``tsl::ordered_map``, so iteration is **insertion order** -- which is what decides
                 which mod type takes the ``.ini`` file's backup and which one hides the original
-                (see #fix). An ``std::unordered_map`` made that arbitrary
+                (see #fix), rather than leaving it arbitrary
              @endrst
              */
             tsl::ordered_map<int, ModType> modTypes;
@@ -1193,16 +1128,13 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              #readFromDisk normalizes every ``\r\n``/``\r`` down to ``\n``, matching the
-             universal-newline translation `Python`_'s text-mode ``open(path, "r")`` does. The
-             original did the same on the way *out* -- a text-mode ``open(path, "w")`` translates
-             ``\n`` back to ``os.linesep`` -- so on Windows a fixed ``.ini`` file kept its
-             ``CRLF`` endings. Writing the normalized text verbatim instead silently reflowed
-             **every line of every** ``.ini`` **file the fix touched**
+             universal-newline translation `Python`_'s text-mode ``open(path, "r")`` does
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Remembering what the file actually had is better than either: it is portable (unlike
-             ``os.linesep``), and it leaves an ``LF`` file alone on Windows and a ``CRLF`` file
-             alone on Linux, where translating on write would corrupt one of them. Defaults to
+             The ending the file actually had is restored when it is written back, rather than
+             writing the normalized text verbatim (which would reflow every line of a ``CRLF``
+             file) or translating to ``os.linesep``. This is portable, and it leaves an ``LF`` file
+             alone on Windows and a ``CRLF`` file alone on Linux, where translating on write would corrupt one of them. Defaults to
              ``"\n"`` for an ``.ini`` file built from raw text rather than read from disk
              @endrst
              */

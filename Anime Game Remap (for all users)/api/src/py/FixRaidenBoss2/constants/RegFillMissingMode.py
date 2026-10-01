@@ -18,8 +18,8 @@ from enum import Enum
 
 ##### Script
 class RegFillMissingMode(Enum):
-    """
-    Different modes for handling :class:`IfContentPart`s with missing registers
+    r"""
+    Different modes for handling :class:`IfContentPart`\ s with missing registers
     """
 
     FillMissing = "fillMissing"

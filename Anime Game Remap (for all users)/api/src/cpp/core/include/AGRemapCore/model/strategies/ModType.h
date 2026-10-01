@@ -52,7 +52,7 @@ namespace AGRemapCore {
 
      Meant to carry the full C++-side representation of a mod type -- contrast with the cheap
      :cpp:class:`ModTypeIdData` an ini classifier (e.g. :cpp:class:`IniClassifier`) holds instead.
-     The Python-side ``ModType`` is meant to build itself using this data.
+     Exposed to Python as ``ModType``.
      @endrst
      */
     class ModType {
@@ -82,8 +82,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              If this is ``nullptr``, a new, fully-populated :cpp:class:`Hashes` is constructed
-             instead, mirroring the pure-Python original's own
-             ``if (hashes is None): hashes = Hashes()`` fallback :raw-html:`<br />` :raw-html:`<br />`
+             instead :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -93,9 +92,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              If this is ``nullptr``, a new, fully-populated :cpp:class:`Indices` is constructed
-             instead, mirroring the pure-Python original's own
-             ``if (indices is None): indices = Indices()`` fallback :raw-html:`<br />`
-             :raw-html:`<br />`
+             instead :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -105,9 +102,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              If this is ``nullptr``, a new, fully-populated :cpp:class:`VertexCounts` is constructed
-             instead, mirroring the pure-Python original's own
-             ``if (vertexCounts is None): vertexCounts = VertexCounts()`` fallback
-             :raw-html:`<br />` :raw-html:`<br />`
+             instead :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -117,9 +112,8 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              If this is ``nullptr``, the **shared** :cpp:func:`ModDataAssets::vgRemaps` is used --
-             *not* a fresh table, unlike #hashes/#indices/#vertexCounts. That mirrors the pure-Python
-             original's own ``if (vgRemaps is None): vgRemaps = ModDataAssets.VGRemaps.value``
-             :raw-html:`<br />` :raw-html:`<br />`
+             *not* a fresh table, unlike #hashes/#indices/#vertexCounts :raw-html:`<br />`
+             :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -129,9 +123,7 @@ namespace AGRemapCore {
              #iniParseBuilder :raw-html:`<br />` :raw-html:`<br />`
 
              If this is ``nullptr``, a default-constructed :cpp:class:`IniParseBuilder` is used
-             instead, mirroring the pure-Python original's own
-             ``if (iniParseBuilder is None): iniParseBuilder = IniParseBuilder(GIMIParser)``
-             fallback :raw-html:`<br />` :raw-html:`<br />`
+             instead :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -141,8 +133,7 @@ namespace AGRemapCore {
              #iniFixBuilder :raw-html:`<br />` :raw-html:`<br />`
 
              If this is ``nullptr``, a default-constructed :cpp:class:`IniFixBuilder` is used
-             instead, mirroring the pure-Python original's own ``iniFixBuilder`` fallback
-             :raw-html:`<br />` :raw-html:`<br />`
+             instead :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -152,9 +143,7 @@ namespace AGRemapCore {
              #iniRemoveBuilder :raw-html:`<br />` :raw-html:`<br />`
 
              If this is ``nullptr``, :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` is used
-             instead, mirroring the pure-Python original's own
-             ``iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value`` fallback -- note
-             that this is a *shared* builder, not a fresh one per :cpp:class:`ModType`
+             instead -- note that this is a *shared* builder, not a fresh one per :cpp:class:`ModType`
              :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
@@ -198,8 +187,7 @@ namespace AGRemapCore {
              @rst
              The hashes related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors the pure-Python ``ModType.hashes``, including its default: a
-             :cpp:class:`ModType` constructed without one gets a **fully-populated**
+             A :cpp:class:`ModType` constructed without one gets a **fully-populated**
              :cpp:class:`Hashes` (every hash the software ships with), not an empty table
              :raw-html:`<br />` :raw-html:`<br />`
 
@@ -208,15 +196,13 @@ namespace AGRemapCore {
                 #iniParseBuilder: :cpp:class:`ModType` must stay cheap to copy (it is returned by
                 value from :cpp:func:`ModTypeIdTools::getModType` and stored by value in
                 :cpp:member:`IniFile::modTypes`), and copying one must *share* its hashes rather
-                than clone them -- which is also what the pure-Python original does, since its
-                ``self.hashes`` is an ordinary object reference
+                than clone them
 
              .. note::
                 :cpp:class:`Hashes` is mutable (:cpp:func:`ModMappedAssets::addRepoRows`/
                 :cpp:func:`ModMappedAssets::addMap`), so two :cpp:class:`ModType`\\s deliberately
                 handed the *same* ``shared_ptr`` share those mutations. Each one built with the
-                ``nullptr`` default instead gets its own table, matching the original's
-                per-``ModType`` ``Hashes()``
+                ``nullptr`` default instead gets its own table
              @endrst
              */
             std::shared_ptr<Hashes> hashes;
@@ -226,8 +212,7 @@ namespace AGRemapCore {
              @rst
              The indices related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors the pure-Python ``ModType.indices``, which likewise lives on the base mod type
-             rather than in a game-specific subclass. Same default as #hashes: a
+             Same default as #hashes: a
              :cpp:class:`ModType` constructed without one gets a **fully-populated**
              :cpp:class:`Indices` (every index the software ships with), not an empty table
              :raw-html:`<br />` :raw-html:`<br />`
@@ -244,8 +229,7 @@ namespace AGRemapCore {
              @rst
              The vertex counts related to the mod :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors the pure-Python ``ModType.vertexCounts``, including its default: a
-             :cpp:class:`ModType` constructed without one gets a **fully-populated**
+             A :cpp:class:`ModType` constructed without one gets a **fully-populated**
              :cpp:class:`VertexCounts`, not an empty table :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
@@ -263,16 +247,13 @@ namespace AGRemapCore {
              The vertex group remaps for the mod -- maps the blend indices of this mod's vertex
              groups onto another mod's :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors the pure-Python ``ModType.vgRemaps`` :raw-html:`<br />` :raw-html:`<br />`
-
              .. warning::
                 **Its default differs from the other three asset tables.** #hashes, #indices and
                 #vertexCounts each get a *fresh* table when not supplied; this one falls back to the
-                single **shared** :cpp:func:`ModDataAssets::vgRemaps`, matching the pure-Python
-                original. So mutating a defaulted ``vgRemaps`` affects every other
-                :cpp:class:`ModType` that also defaulted, whereas mutating a defaulted ``hashes``
-                does not. That asymmetry is deliberate and upstream, not an oversight -- and it
-                matters here because this is much the largest of the tables
+                single **shared** :cpp:func:`ModDataAssets::vgRemaps`. So mutating a defaulted
+                ``vgRemaps`` affects every other :cpp:class:`ModType` that also defaulted, whereas
+                mutating a defaulted ``hashes`` does not. That asymmetry is deliberate -- this is
+                much the largest of the tables
 
              .. note::
                 Otherwise the ownership rules are the same as #hashes: a ``shared_ptr``, shared on
@@ -286,11 +267,10 @@ namespace AGRemapCore {
              @rst
              The ``match_index_count`` of each of the mod's draw slots (WuWa) :raw-html:`<br />` :raw-html:`<br />`
 
-             The first of the FOUR WWMI-only asset tables (2026-09-19), each an :cpp:class:`Indices`
+             The first of the four WWMI-only asset tables, each an :cpp:class:`Indices`
              sibling keyed ``(version, name, component, type)`` with the draw slot as ``type``:
-             this one, #vgOffsets, #vgCounts and #shapeKeyChecksums. They sit after the three
-             builders in the constructor so every earlier positional caller is untouched, and they
-             default the way #hashes does -- a fresh, fully-populated table with an empty remap map,
+             this one, #vgOffsets, #vgCounts and #shapeKeyChecksums. They default the way #hashes
+             does -- a fresh, fully-populated table with an empty remap map,
              which for a GI mod type holds no row of its own and remaps onto nothing
              @endrst
              */
@@ -317,19 +297,14 @@ namespace AGRemapCore {
              The builder that builds the parser for a ``.ini`` file of this type of mod
              :raw-html:`<br />` :raw-html:`<br />`
 
-             A *factory*, not a parser, matching the pure-Python original's own
-             ``iniParseBuilder`` attribute: :cpp:func:`IniFile::parse` builds a **fresh** parser per
+             A *factory*, not a parser: :cpp:func:`IniFile::parse` builds a **fresh** parser per
              ``.ini`` file from it, passing that file's :cpp:member:`IniFile::version` along, so a
              mod type can use a different parser for a 4.0-era ``.ini`` file than for a 5.7-era one
              -- see :cpp:class:`IniParseBuilder` :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                This used to hold one shared :cpp:class:`BaseIniParser` instance that every
-                ``.ini`` file of this mod type rebound to itself via
-                :cpp:func:`BaseIniParser::setIniFile`. Holding a builder instead removes both
-                problems that caused: the built parser now arrives already bound to its own file,
-                and two :cpp:class:`IniFile`\\s of the same mod type no longer stomp each other's
-                binding
+                The built parser arrives already bound to its own file, so two
+                :cpp:class:`IniFile`\\s of the same mod type never share a parser's binding
 
              .. note::
                 A ``shared_ptr`` rather than a ``unique_ptr`` because :cpp:class:`ModType` must stay
@@ -346,17 +321,15 @@ namespace AGRemapCore {
              The builder that builds the fixer for a ``.ini`` file of this type of mod
              :raw-html:`<br />` :raw-html:`<br />`
 
-             A *factory*, not a fixer, matching the pure-Python original's own ``iniFixBuilder``
-             attribute: :cpp:func:`IniFile::fix` builds a **fresh** fixer per ``.ini`` file from it,
+             A *factory*, not a fixer: :cpp:func:`IniFile::fix` builds a **fresh** fixer per ``.ini`` file from it,
              passing that file's :cpp:member:`IniFile::version` along, so a mod type can use a
              different fixer for a 4.0-era ``.ini`` file than for a 5.7-era one -- see
              :cpp:class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The built fixer arrives already bound to that file's own built parser (the original
-                builds it as ``iniFixBuilder.build(self._iniParser, ...)``), so nothing rebinds it
-                afterwards and two :cpp:class:`IniFile`\\s of the same mod type no longer stomp each
-                other -- the same problem the #iniParseBuilder conversion removed on the parser side
+                The built fixer arrives already bound to that file's own built parser, so nothing
+                rebinds it afterwards and two :cpp:class:`IniFile`\\s of the same mod type never
+                share a fixer -- as with #iniParseBuilder on the parser side
 
              .. note::
                 A ``shared_ptr`` for the same reasons as #iniParseBuilder -- :cpp:class:`ModType`
@@ -371,15 +344,12 @@ namespace AGRemapCore {
              The builder that hands out the remover for a ``.ini`` file of this type of mod
              :raw-html:`<br />` :raw-html:`<br />`
 
-             A *factory*, matching the pure-Python original's own ``iniRemoveBuilder`` attribute:
-             :cpp:func:`IniFile::removeFix` asks it for a remover per ``.ini`` file, and it hands
+             A *factory*: :cpp:func:`IniFile::removeFix` asks it for a remover per ``.ini`` file, and it hands
              one back already bound to that file :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 This behaves like #iniParseBuilder and #iniFixBuilder -- a fresh remover per
-                :cpp:func:`IniRemoveBuilder::build`, bound to the caller's file and nobody else's.
-                Its pure-Python original is a ``FlyweightBuilder`` that shares one instance instead;
-                see :cpp:class:`IniRemoveBuilder`'s own warning for why that was not mirrored
+                :cpp:func:`IniRemoveBuilder::build`, bound to the caller's file and nobody else's
 
              .. note::
                 A ``shared_ptr`` for the same reasons as #iniParseBuilder: several
@@ -393,8 +363,7 @@ namespace AGRemapCore {
             /**
              * @brief Determines whether this mod type goes by some name
              @rst
-             Compared case-insensitively against #name and every entry in #aliases, matching the
-             pure-Python original's own ``isName``
+             Compared case-insensitively against #name and every entry in #aliases
              @endrst
              *
              * @param name The name to check
@@ -409,12 +378,8 @@ namespace AGRemapCore {
              The names of the mods this mod type can be fixed onto :raw-html:`<br />`
              :raw-html:`<br />`
 
-             .. warning::
-                **Deliberately not bug-compatible with the pure-Python original.** That one unions
-                ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never
-                populates anywhere, so it returns an empty set for every mod type, always. This
-                reads the remap targets that actually exist
-                (:cpp:func:`ModMappedAssets::getMap`), which is what the name promises
+             Read from the remap targets that actually exist in the asset tables
+             (:cpp:func:`ModMappedAssets::getMap`)
              @endrst
              *
              * @return The names of the mods to fix to
@@ -446,8 +411,7 @@ namespace AGRemapCore {
              * @param toVersion The version being fixed to, or ``std::nullopt`` for the latest
              * @param fromComp
              @rst
-             The component being fixed from. ``std::nullopt`` leaves the column unconstrained,
-             matching how the pure-Python original simply omits the key
+             The component being fixed from. ``std::nullopt`` leaves the column unconstrained
              @endrst
              * @param toComp The component being fixed onto, with the same ``std::nullopt`` meaning
              *
@@ -506,10 +470,9 @@ namespace AGRemapCore {
              * @brief
              @rst
              Fixes a ``.ini`` file, but **only if that file was classified as this mod type** --
-             a no-op otherwise, exactly as the pure-Python original is :raw-html:`<br />`
-             :raw-html:`<br />`
+             a no-op otherwise :raw-html:`<br />` :raw-html:`<br />`
 
-             Returns nothing, also matching the original: the fix it produces is written out by
+             Returns nothing: the fix it produces is written out by
              :cpp:func:`IniFile::fix` rather than handed back. Call that directly to see it
              @endrst
              *

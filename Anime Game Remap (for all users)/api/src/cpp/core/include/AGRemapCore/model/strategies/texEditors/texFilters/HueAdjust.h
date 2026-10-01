@@ -28,13 +28,12 @@ namespace AGRemapCore {
      converting back to RGBA :raw-html:`<br />` :raw-html:`<br />`
 
      .. warning::
-        Ported byte-for-byte from the pure-Python original's own #adjustedHue, which mixes
-        byte-scaled (0-255) and degree-scaled (0-360) arithmetic on the same value -- eg. adding a
-        [-180, 180]-ranged #hue directly onto a 0-255-ranged H byte, and wrapping an overflow past
-        360 with ``360 - result`` (which produces a *negative* result, not a wrapped-around one).
-        This looks like a pre-existing bug in the original, not intentional, but it's preserved here
-        (bounded to [0, 255] before being used as an H byte, since a raw negative/out-of-range value
-        has no well-defined meaning as one) rather than silently corrected
+        #adjustedHue mixes byte-scaled (0-255) and degree-scaled (0-360) arithmetic on the same
+        value -- eg. adding a [-180, 180]-ranged #hue directly onto a 0-255-ranged H byte, and
+        wrapping an overflow past 360 with ``360 - result`` (which produces a *negative* result, not
+        a wrapped-around one). The result is bounded to [0, 255] before being used as an H byte,
+        since a raw negative/out-of-range value has no well-defined meaning as one. So this is not
+        a "correct" hue rotation
      @endrst
      */
     class HueAdjust: public BaseTexFilter {
@@ -55,8 +54,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Adjusts a single H byte (0-255) -- see the class doc comment for why this reproduces
-             the original's own byte/degree-scale mismatch rather than a "correct" hue wraparound
+             Adjusts a single H byte (0-255) -- see the class doc comment for its byte/degree-scale
+             mismatch, which is not a "correct" hue wraparound
              @endrst
              *
              * @param hue The current H byte value that has not been adjusted yet

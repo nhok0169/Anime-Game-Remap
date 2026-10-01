@@ -33,12 +33,10 @@ namespace AGRemapCore {
      * @brief
      @rst
      One file a mod is missing and has to download, behind an interface -- the seam a parser
-     reaches the pure-Python ``DownloadData`` (``model/DownloadData.py``) through
-     :raw-html:`<br />` :raw-html:`<br />`
+     reaches the pure-Python ``DownloadData`` class through :raw-html:`<br />` :raw-html:`<br />`
 
-     **Why this is an interface rather than a concrete class.** ``DownloadData`` is still pure
-     `Python`_, and (unlike most collaborator types this port has met) it is genuinely
-     *polymorphic* there: ``BlendDownloadData`` overrides ``addToPart`` to append its own
+     **Why this is an interface rather than a concrete class.** ``DownloadData`` is pure
+     `Python`_, and it is genuinely *polymorphic* there: ``BlendDownloadData`` overrides ``addToPart`` to append its own
      ``handling``/``draw`` `KVPs`_, and a user is free to subclass it further. Converting one into
      a plain C++ struct at the binding boundary would silently run the base class's behaviour for
      every subclass, so the parser talks to this interface and the binding layer supplies an
@@ -130,9 +128,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Records the actual file download with the ``.ini`` file -- the equivalent of the
-             pure-Python original's
-             ``ini.fileDownloads.append(RemapIniDownload(iniFolder, dd.download.filename, dd.download))``
+             Records the actual file download with the ``.ini`` file
              @endrst
              *
              * @param ctx The ``.ini`` file to record the download with

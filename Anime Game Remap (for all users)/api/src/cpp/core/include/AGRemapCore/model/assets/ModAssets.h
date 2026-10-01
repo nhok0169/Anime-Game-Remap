@@ -30,8 +30,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Class to handle assets of any type for a mod where retrieval is based on some keys where one
-     *or more* of the keys refer to some versioning -- the C++ counterpart to the pure-Python
-     ``ModAssets`` (``model/assets/ModAssets.py``) :raw-html:`<br />` :raw-html:`<br />`
+     *or more* of the keys refer to some versioning :raw-html:`<br />` :raw-html:`<br />`
 
      .. tip::
         If an asset has only one version column, :cpp:class:`ModDictAssets` is the better fit (a
@@ -47,8 +46,8 @@ namespace AGRemapCore {
         on the order of dozens to a few hundred rows, and the query shape itself (progressively
         narrow a candidate set by a growing number of independent, sequentially-resolved version
         columns) doesn't map cleanly onto a single flat hash index the way
-        :cpp:class:`ModDictAssets`'s single-version-column case does. A linear scan over this
-        table's real size is already far cheaper than the `pandas`_-based original it replaces
+        :cpp:class:`ModDictAssets`'s single-version-column case does. A linear scan over a table
+        of this size is already cheap
      @endrst
      *
      * @tparam K The type for an index value
@@ -83,9 +82,7 @@ namespace AGRemapCore {
             ModAssets(std::vector<bool> isVersionColumn, VersionParser parseVersion, std::vector<Row<K, T>> rows = {});
 
             /**
-             * @brief Adds new rows to the table (an addition beyond the pure-Python original,
-             *      which has no incremental-add capability at all -- only whole-table
-             *      replacement via reassigning its ``repo`` property) -- overwrites the value of
+             * @brief Adds new rows to the table -- overwrites the value of
              *      any row whose full key (every column's value) already exists
              *
              * @param newRows The rows to add
@@ -114,8 +111,7 @@ namespace AGRemapCore {
              Version columns are resolved **sequentially, in index order** -- each one's
              floor-match (largest available value :math:`\leq` the target; the smallest available
              value if none qualifies) narrows the candidate set before the next version column is
-             resolved against it. This matches the pure-Python original's own progressive
-             DataFrame-filtering order exactly
+             resolved against it
              @endrst
              * @param errorOnNotFound Whether to throw if no matching asset is found
              *

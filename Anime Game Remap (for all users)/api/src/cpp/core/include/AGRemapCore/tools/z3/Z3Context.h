@@ -35,14 +35,10 @@ namespace AGRemapCore {
         ``z3::context`` alive via a shared reference, so a ``Z3Context`` going out of scope (or
         being garbage-collected in Python) while ``Z3Predicate``\\s built from it are still alive
         is safe, in any destruction order -- including predicates of several already-gone
-        contexts being destroyed interleaved with each other. An earlier version of this comment
-        described that interleaved case as a "known limitation of Z3's own C++ API"; it was in
-        fact a member-declaration-order bug in ``Z3Predicate``'s pimpl (the keep-alive was
-        destroyed *before* the ``z3::expr`` it protected, so the last predicate on a context
-        ``dec_ref``'d into a freed context), fixed on 2026-09-05 and pinned by
-        ``core/tests/Z3Predicate_MemberOrder_test.cpp``. Sharing one long-lived ``Z3Context`` per
-        ``.ini`` file (``IniFile``'s own shape) is still the right design, since predicates from
-        different contexts cannot be combined -- but it is no longer needed for memory safety.
+        contexts being destroyed interleaved with each other. Sharing one long-lived
+        ``Z3Context`` per ``.ini`` file (:cpp:class:`IniFile`'s own shape) is still the right
+        design, since predicates from different contexts cannot be combined -- but it is not
+        needed for memory safety.
      @endrst
      */
     class Z3Context {

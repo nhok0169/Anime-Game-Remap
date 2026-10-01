@@ -31,19 +31,15 @@ namespace AGRemapCore {
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. warning::
-        **This class has no pure-Python counterpart**, unlike its
-        :cpp:class:`IniParseBuilderFuncs`/:cpp:class:`IniFixBuilderFuncs` siblings. There is no
-        ``IniRemoveBuilderData.py`` and no ``IniRemoveBuilderArgs.py``; the whole Python package
-        constructs exactly one ``IniRemoveBuilder(RemapIniRemover)``, globally, in
-        ``constants/GlobalIniRemoveBuilders.py``, with no per-mod or per-version variation at
-        all. This table exists so per-mod removers *can* be expressed in C++ when they are
-        needed -- do not treat its method names as mirroring anything upstream
+        The `Python`_ package has no per-mod remover table: it uses exactly one
+        ``IniRemoveBuilder``, globally, from ``constants/GlobalIniRemoveBuilders.py``, with no
+        per-mod or per-version variation at all. This table exists so per-mod removers *can* be
+        expressed in C++ when they are needed
 
      .. warning::
         **Every method here is currently the same**: they all return
         :cpp:func:`IniRemoveBuilder::defaultFactory`, which builds an :cpp:class:`RemapIniRemover`.
-        That is not a placeholder any more -- it is the real remover, and it is the only one
-        there is, exactly as on the `Python`_ side where every mod type shares one. The rows
+        That is the real remover, and it is the only one there is, exactly as on the `Python`_ side where every mod type shares one. The rows
         exist so a mod that eventually needs its *own* remover can be given one here, without
         touching :cpp:class:`IniRemoveBuilderData` or anything downstream
 
@@ -63,7 +59,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the amber4_0's remover -- returns
+             The remover for the ``amber4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -72,7 +68,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the amberCN4_0's remover -- returns
+             The remover for the ``amberCN4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -81,7 +77,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the ayaka4_0's remover -- returns
+             The remover for the ``ayaka4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -90,7 +86,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the ayakaSpringbloom4_0's remover -- returns
+             The remover for the ``ayakaSpringbloom4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -99,7 +95,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the arlecchino4_0's remover -- returns
+             The remover for the ``arlecchino4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -108,7 +104,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the barbara4_0's remover -- returns
+             The remover for the ``barbara4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -117,7 +113,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the barbaraSummertime4_0's remover -- returns
+             The remover for the ``barbaraSummertime4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -126,7 +122,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the bennett4_0's remover -- returns
+             The remover for the ``bennett4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -135,7 +131,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the bennettAdventure4_0's remover -- returns
+             The remover for the ``bennettAdventure4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -144,7 +140,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the charlotte4_0's remover -- returns
+             The remover for the ``charlotte4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -153,7 +149,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the charlotteHurlock4_0's remover -- returns
+             The remover for the ``charlotteHurlock4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -162,7 +158,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the cherryHuTao4_0's remover -- returns
+             The remover for the ``cherryHuTao4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -171,7 +167,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the citlali4_0's remover -- returns
+             The remover for the ``citlali4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -180,7 +176,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the citlaliWhisperofStars4_0's remover -- returns
+             The remover for the ``citlaliWhisperofStars4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -189,7 +185,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the diluc4_0's remover -- returns
+             The remover for the ``diluc4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -198,7 +194,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the dilucFlamme4_0's remover -- returns
+             The remover for the ``dilucFlamme4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -207,7 +203,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the fischl4_0's remover -- returns
+             The remover for the ``fischl4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -216,7 +212,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the fischlHighness4_0's remover -- returns
+             The remover for the ``fischlHighness4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -225,7 +221,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the ganyu4_0's remover -- returns
+             The remover for the ``ganyu4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -234,7 +230,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the ganyuTwilight4_0's remover -- returns
+             The remover for the ``ganyuTwilight4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -243,7 +239,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the huTao4_0's remover -- returns
+             The remover for the ``huTao4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -252,7 +248,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the jean4_0's remover -- returns
+             The remover for the ``jean4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -261,7 +257,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the jeanCN4_0's remover -- returns
+             The remover for the ``jeanCN4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -270,7 +266,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the jeanSea4_0's remover -- returns
+             The remover for the ``jeanSea4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -279,7 +275,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the kaeya4_0's remover -- returns
+             The remover for the ``kaeya4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -288,7 +284,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the kaeyaSailwind4_0's remover -- returns
+             The remover for the ``kaeyaSailwind4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -297,7 +293,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the keqing4_0's remover -- returns
+             The remover for the ``keqing4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -306,7 +302,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the keqingOpulent4_0's remover -- returns
+             The remover for the ``keqingOpulent4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -315,7 +311,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the kirara4_0's remover -- returns
+             The remover for the ``kirara4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -324,7 +320,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the kiraraBoots4_0's remover -- returns
+             The remover for the ``kiraraBoots4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -333,7 +329,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the klee4_0's remover -- returns
+             The remover for the ``klee4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -342,7 +338,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the kleeBlossomingStarlight4_0's remover -- returns
+             The remover for the ``kleeBlossomingStarlight4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -351,7 +347,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the lisa4_0's remover -- returns
+             The remover for the ``lisa4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -360,7 +356,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the lisaStudent4_0's remover -- returns
+             The remover for the ``lisaStudent4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -369,7 +365,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the lumine4_0's remover -- returns
+             The remover for the ``lumine4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -378,7 +374,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the lumineHeaven4_0's remover -- returns
+             The remover for the ``lumineHeaven4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -387,7 +383,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the mona4_0's remover -- returns
+             The remover for the ``mona4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -396,7 +392,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the monaCN4_0's remover -- returns
+             The remover for the ``monaCN4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -405,7 +401,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the neuvillette4_0's remover -- returns
+             The remover for the ``neuvillette4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -414,7 +410,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the neuvilletteMelusent4_0's remover -- returns
+             The remover for the ``neuvilletteMelusent4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -423,7 +419,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the nilou4_0's remover -- returns
+             The remover for the ``nilou4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -432,7 +428,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the nilouBreeze4_0's remover -- returns
+             The remover for the ``nilouBreeze4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -441,7 +437,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the ningguang4_0's remover -- returns
+             The remover for the ``ningguang4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -450,7 +446,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the ningguangOrchid4_0's remover -- returns
+             The remover for the ``ningguangOrchid4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -459,7 +455,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the raiden4_0's remover -- returns
+             The remover for the ``raiden4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -468,7 +464,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the rosaria4_0's remover -- returns
+             The remover for the ``rosaria4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -477,7 +473,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the rosariaCN4_0's remover -- returns
+             The remover for the ``rosariaCN4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -486,7 +482,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the shenhe4_0's remover -- returns
+             The remover for the ``shenhe4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -495,7 +491,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the shenheFrostFlower4_0's remover -- returns
+             The remover for the ``shenheFrostFlower4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -504,7 +500,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the xiangling4_0's remover -- returns
+             The remover for the ``xiangling4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -513,7 +509,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the xianglingCheer4_0's remover -- returns
+             The remover for the ``xianglingCheer4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -522,7 +518,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the xingqiu4_0's remover -- returns
+             The remover for the ``xingqiu4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -531,7 +527,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the xingqiuBamboo4_0's remover -- returns
+             The remover for the ``xingqiuBamboo4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -540,7 +536,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the yaoyao4_0's remover -- returns
+             The remover for the ``yaoyao4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
@@ -549,24 +545,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the yaoyaoBamboo4_0's remover -- returns
+             The remover for the ``yaoyaoBamboo4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
             static IniRemoveBuilder::Factory yaoyaoBamboo4_0();
 
             /**
-             * @brief Stub for Yelan's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
+             * @brief Yelan's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
              */
             static IniRemoveBuilder::Factory yelan4_0();
 
             /**
-             * @brief Stub for YelanTranquil's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
+             * @brief YelanTranquil's remover -- returns :cpp:func:`IniRemoveBuilder::defaultFactory`
              */
             static IniRemoveBuilder::Factory yelanTranquil4_0();
 
             /**
-             * @brief The STUB every WuWa row points at (2026-09-19) -- :cpp:func:`IniRemoveBuilder::defaultFactory`
+             * @brief The remover every WuWa row points at -- :cpp:func:`IniRemoveBuilder::defaultFactory`
              */
             static IniRemoveBuilder::Factory wwmiStub();
 
@@ -578,10 +574,9 @@ namespace AGRemapCore {
      The version-keyed table of :cpp:class:`IniRemoveBuilder` factories
      :raw-html:`<br />` :raw-html:`<br />`
 
-     Has no pure-Python counterpart -- see :cpp:class:`IniRemoveBuilderFuncs`'s own warning
-     :raw-html:`<br />` :raw-html:`<br />`
+     See :cpp:class:`IniRemoveBuilderFuncs`'s own warning :raw-html:`<br />` :raw-html:`<br />`
 
-     43 rows across 1 game versions (4.0), each mapping a
+     Each row maps a
      ``(version, mod name)`` pair to one :cpp:class:`IniRemoveBuilderFuncs` method
      :raw-html:`<br />` :raw-html:`<br />`
 

@@ -22,9 +22,6 @@ void initCppGIBuilder(pybind11::module_ &m) {
     // constants/GIBuilder.py; see PyModType.cpp's binding comment for the same reasoning.
     py::class_<AGRC::GIBuilder>(m, "GIBuilder", R"doc(
 Creates new :class:`ModType` objects for GI (Genshin Impact) mods
-
-Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-side
-:class:`ModType` (id, name, and aliases only) instead of the full pure-Python :class:`ModType`
     )doc")
 
         .def_static("amber", &AGRC::GIBuilder::amber, py::doc(R"doc(Creates the :class:`ModType` for Amber)doc"))

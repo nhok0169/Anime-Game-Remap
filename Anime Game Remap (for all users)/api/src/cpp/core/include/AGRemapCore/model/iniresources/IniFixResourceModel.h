@@ -32,17 +32,14 @@ namespace AGRemapCore {
 
      Contains data for fixing a particular resource in a .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniFixResourceModel`` class
-     (``model/iniresources/IniFixResourceModel.py``) -- see :cpp:class:`IniSrcResourceModel`'s own
-     doc comment for why ``tsl::ordered_map`` is used throughout instead of ``std::unordered_map``
+     See :cpp:class:`IniSrcResourceModel`'s own doc comment for why ``tsl::ordered_map`` is used throughout instead of ``std::unordered_map``
      @endrst
      */
     class IniFixResourceModel: public IniResourceModel {
         public:
 
             /**
-             * @brief One entry of #items -- the C++ counterpart to one tuple the pure-Python
-             *      original's ``__iter__`` would yield
+             * @brief One entry of #items
              */
             struct Entry {
                 /**
@@ -115,9 +112,9 @@ namespace AGRemapCore {
              * @brief
              @rst
              Every fixed/orig path combination across every :cpp:class:`IfContentPart` and mod type
-             in #fixedPaths, in the same order #fixedPaths itself iterates -- the C++ counterpart to
-             the pure-Python original's ``__iter__`` (see :cpp:class:`IniSrcResourceModel::items` for
-             why this is a plain flattened list rather than a lazy generator)
+             in #fixedPaths, in the same order #fixedPaths itself iterates (see
+             :cpp:class:`IniSrcResourceModel::items` for why this is a plain flattened list rather
+             than a lazy generator)
              @endrst
              *
              * @return The flattened entries

@@ -35,8 +35,9 @@ namespace AGRemapCore {
      The fixing counterpart of :cpp:class:`IniParseContext`, and it exists for exactly the same
      reason -- see that class's own note. Where a parser mostly *reads* `sections`_, a fixer mostly
      drives the ``.ini`` file's own surrounding machinery: the boilerplate it wraps a fix in, the
-     backup it disables, the text it hides, and the files it writes. All of that lives on the
-     *`Python`_* ``IniFile``, which has no C++ counterpart to call into.
+     backup it disables, the text it hides, and the files it writes. :cpp:class:`IniFileFixContext`
+     implements it over a C++ :cpp:class:`AGRemapCore::IniFile`, and the `pybind11`_ layer
+     implements it over the `Python`_-facing ``IniFile``.
 
      :raw-html:`<br />`
 
@@ -73,8 +74,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The names of the mods this ``.ini`` file should be fixed to -- the equivalent of the
-             pure-Python original's ``ini.availableType.getModsToFix()``, empty when the ``.ini``
+             The names of the mods this ``.ini`` file should be fixed to, empty when the ``.ini``
              file was never classified :raw-html:`<br />` :raw-html:`<br />`
 
              Only consulted when :cpp:member:`GIMIFixer::modsToFix` was not set explicitly
@@ -89,8 +89,7 @@ namespace AGRemapCore {
              the ``.ini`` file has no path at all :raw-html:`<br />` :raw-html:`<br />`
 
              Group ``0`` is the ``.ini`` file's own path; every later group is a *copy*, named by
-             appending the ``RemapFixCopy`` suffix and the index to the base name -- the equivalent
-             of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the groups
+             appending the ``RemapFixCopy`` suffix and the index to the base name
              @endrst
              *
              * @param groupInd Which group's destination to build
@@ -121,11 +120,7 @@ namespace AGRemapCore {
              (``ini.hideOriginalSections()``) :raw-html:`<br />` :raw-html:`<br />`
 
              Which `sections`_ those are is the *fixer's* answer, not the ``.ini`` file's: they are
-             the ones the fix it just built actually touched. The pure-Python original splits the
-             same two halves across two objects -- its ``GIMIFixer`` fills the ``.ini`` file's
-             ``_remappedSectionNames`` as it renders, and ``ini.hideOriginalSections()`` then
-             comments out whatever ended up in there -- so an implementation of this that forwards
-             to a `Python`_ ``IniFile`` fills that set first
+             the ones the fix it just built actually touched
 
              :raw-html:`<br />`
 
@@ -179,8 +174,8 @@ namespace AGRemapCore {
 
              :cpp:class:`AGRemapCore::IniFile` deliberately does not let a fixer write its own
              ``isFixed`` (see :cpp:class:`BaseIniFixer`'s own note), so a plain C++ implementation
-             of this is free to do nothing. The `Python`_ ``IniFile`` uses the flag the pure-Python
-             original's way, and its implementation does set it
+             of this is free to do nothing. The `Python`_ ``IniFile``'s implementation does set
+             it
              @endrst
              *
              * @param isFixed Whether the .ini file has been fixed

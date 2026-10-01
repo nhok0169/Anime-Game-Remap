@@ -73,8 +73,8 @@ least :attr:`identityMin` with while every other stays under :attr:`identityGap`
 :attr:`identifyTexture`; empty skips the step
 
 .. note::
-    Leaving this empty is how the pass silently identified nothing for a whole session -- the
-    thumbprints were being set on the FIXER's config, which no longer reads them
+    The thumbprints are read from here only, not from the fixer's config; leaving this empty makes
+    the pass silently identify nothing
         )doc"))
         .def_readwrite("thumbprintSize", &AGRC::WWMITextureFacts::thumbprintSize,
                         py::doc(":class:`int`: The side of a thumbprint. **Default**: ``16``"))

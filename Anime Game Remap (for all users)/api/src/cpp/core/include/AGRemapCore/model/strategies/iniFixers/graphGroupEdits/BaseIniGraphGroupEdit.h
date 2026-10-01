@@ -35,7 +35,7 @@ namespace AGRemapCore {
      :raw-html:`<br />` :raw-html:`<br />`
 
      Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
-     :cpp:class:`BaseIniGraphPartEdit` -- matching the pure-Python original, since this edits whole
+     :cpp:class:`BaseIniGraphPartEdit`, since this edits whole
      *groups* of graphs rather than one part within a single graph :raw-html:`<br />`
      :raw-html:`<br />`
 
@@ -75,9 +75,7 @@ namespace AGRemapCore {
              @rst
              Identifies one graph within a #GraphGroups :raw-html:`<br />` :raw-html:`<br />`
 
-             The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-             holder instead, following this subsystem's own "a named data class beats a positional
-             tuple" convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+             A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
              fields rather than restating them
              @endrst
              */
@@ -131,14 +129,13 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                The base implementation forwards straight to #edit and **ignores 'ini' entirely**,
-                exactly as the pure-Python original does -- see
-                :cpp:func:`BaseIniGraphEdit::editFromIni`'s own note
+                The base implementation forwards straight to #edit and **ignores 'ini' entirely**
+                -- see :cpp:func:`BaseIniGraphEdit::editFromIni`'s own note
              @endrst
              *
              * @param graphGroups The group of graphs to edit for each .ini file, modified in place
-             * @param ini The associated original .ini file. **Nullable** -- see this subsystem's own note on still-pure-Python collaborators
-             * @param modType The type of mod to fix. **Nullable**, same reason
+             * @param ini The associated original .ini file. **Nullable**
+             * @param modType The type of mod to fix. **Nullable**
              * @param modName The name of the mod to fix to. **Default**: ``""``
              *
              * @return The same groups that were passed in, after editing
@@ -150,7 +147,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Edits a group of caller/callee graphs. No-op by default (returns 'graphGroups'
-             untouched), matching the pure-Python original's ``pass``
+             untouched)
              @endrst
              *
              * @param graphGroups The group of graphs to edit for each .ini file, modified in place
@@ -168,11 +165,9 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                The pure-Python original also takes a ``default`` argument to return when nothing is
-                found and ``errorOnNotFound`` is ``False``. That has no typed C++ equivalent, and
-                isn't needed: ``nullptr`` already *is* the "not found" answer. This otherwise matches
-                :cpp:func:`IniSectionGraph::getSection`'s existing
-                found-or-``nullptr``-or-throw convention exactly
+                ``nullptr`` is the "not found" answer, following
+                :cpp:func:`IniSectionGraph::getSection`'s found-or-``nullptr``-or-throw
+                convention
              @endrst
              *
              * @param graphGroups The group of graphs for each .ini file
@@ -203,7 +198,7 @@ namespace AGRemapCore {
              * @return
              @rst
              Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
-             'graphGroups', matching the pure-Python original
+             'graphGroups'
              @endrst
              */
             static bool addGraph(GraphGroups& graphGroups, const GraphId& id, Graph* graph);

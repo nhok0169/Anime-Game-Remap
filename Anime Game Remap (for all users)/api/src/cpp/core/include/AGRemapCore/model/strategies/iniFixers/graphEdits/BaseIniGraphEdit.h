@@ -72,10 +72,8 @@ namespace AGRemapCore {
              The filter used to indicate the valid order indices to process for some
              :cpp:class:`IfContentPart` in the graph :raw-html:`<br />` :raw-html:`<br />`
 
-             The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
-             matching the pure-Python original's ``Optional[IniFile]`` and this subsystem's own
-             convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
-             for that original's ``partFilter = None``. Identical to
+             The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers -- an
+             empty ``std::function`` means "no filter". Identical to
              :cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
              @endrst
              */
@@ -93,15 +91,14 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                The base implementation forwards straight to #edit and **ignores 'ini' entirely**,
-                exactly as the pure-Python original does (its ``BaseIniPartEdit.editFromIni`` calls
-                ``self.edit(*args, **kwargs)`` without passing ``ini`` along). Subclasses that
+                The base implementation forwards straight to #edit and **ignores 'ini' entirely**.
+                Subclasses that
                 actually need the ``.ini`` file's state override this rather than #edit
              @endrst
              *
              * @param graph The graph to edit, modified in place
-             * @param ini The associated .ini file. **Nullable** -- see this subsystem's own note on still-pure-Python collaborators
-             * @param modType The type of mod to fix. **Nullable**, same reason
+             * @param ini The associated .ini file. **Nullable**
+             * @param modType The type of mod to fix. **Nullable**
              * @param modName The name of the mod to fix to. **Default**: ``""``
              * @param partFilter The filter for valid order indices -- empty for "no filter". **Default**: empty
              * @param trackKeys The caller's key-tracking default -- see #edit. **Default**: ``false``
@@ -116,8 +113,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Edits the caller/callee graph. No-op by default (returns 'graph' untouched), matching
-             the pure-Python original's ``pass``
+             Edits the caller/callee graph. No-op by default (returns 'graph' untouched)
              @endrst
              *
              * @param graph The graph to edit, modified in place

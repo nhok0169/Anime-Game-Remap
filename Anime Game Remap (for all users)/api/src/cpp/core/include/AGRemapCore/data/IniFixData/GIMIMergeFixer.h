@@ -312,7 +312,7 @@ namespace AGRemapCore {
 
          For two skins of one character that draw the SAME face meshes with the SAME face diffuse hash
          (Yaoyao and YaoyaoBamboo: ``c70ae897``), the mod's own section already fires on the target, and a
-         copy is a second `TextureOverride`_ on that hash -- 3DMigoto reports it as a mod conflict on every
+         copy is a second ``TextureOverride`` section on that hash -- 3DMigoto reports it as a mod conflict on every
          reload. A binding by ``this =`` names no register and never moves. The forward direction's rule
          is ``GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg``. **Default**: ``false``, always copied
          @endrst
@@ -368,7 +368,7 @@ namespace AGRemapCore {
          light map from ``ps-t2``), so a remapped `section`_ that keeps the mod's own bindings and
          then calls one has to put them there first. **A mod dumped straight from the game does not
          have them there**: CitlaliWhisperofStars mods bind the light map, normal map and diffuse at
-         ``ps-t0/1/2``, which is what the game's own draw of that `ib`_ binds (frame dump, ``ib``
+         ``ps-t0/1/2``, which is what the game's own draw of that ``ib`` binds (frame dump, ``ib``
          ``f117984b``), and ``ORFix`` over that reads every role out of the wrong slot -- the shoes,
          eyes and sleeping mask of one mod, while every slot the fix had downloaded and bound itself
          was right :raw-html:`<br />` :raw-html:`<br />`

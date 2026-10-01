@@ -27,7 +27,7 @@ class ThreadManager(ConcurrentManager[Thread]):
     """
     Class to manage running many threads
 
-    Paramaters
+    Parameters
     ----------
     jobNo: Optional[:class:`int`]
         The number of processes to run at once :raw-html:`<br />` :raw-html:`<br />`

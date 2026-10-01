@@ -38,7 +38,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         `(the register's value) -> does this rule apply to this occurrence?`_
+         A check on a register's value: does this rule apply to this occurrence of the register?
          :raw-html:`<br />` :raw-html:`<br />`
 
          Value-only, deliberately. The two layers underneath take different shapes -- a removal

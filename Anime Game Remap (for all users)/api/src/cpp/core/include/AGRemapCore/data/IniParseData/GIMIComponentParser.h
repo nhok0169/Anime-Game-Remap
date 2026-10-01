@@ -98,10 +98,8 @@ namespace AGRemapCore {
              donor here is what lets those textures be DOWNLOADED rather than read out of the mod
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Measured over five YelanTranquil mods: three of them leave a slot textureless, and
-             reading the mod's donor instead put a repainted atlas under the game's texture
-             coordinates -- one mod's hair and another's eyes came out sampling other islands
-             entirely (2026-09-14)
+             Reading the mod's own donor slot instead would put a repainted atlas under the game's
+             texture coordinates, so the slot samples other islands of it entirely
              @endrst
              */
             std::string textureDonor;
@@ -113,9 +111,9 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              Needed when the TARGET reads normal maps: CitlaliWhisperofStars -> Citlali keeps every
-             slot's normal map (``GIMIMergeFixerConfig::TargetLayout::NormalMap``), and a borrowing
-             slot fetched only the donor's diffuse and light map, so its draw read whatever normal
-             map the game had bound (2026-09-22). Off by default: a plain target drops the normal
+             slot's normal map (``GIMIMergeFixerConfig::TargetLayout::NormalMap``), and without this a
+             borrowing slot fetches only the donor's diffuse and light map, so its draw reads whatever
+             normal map the game had bound. Off by default: a plain target drops the normal
              map, and fetching one only to drop it is a download and a resource section for nothing
              @endrst
              */
@@ -161,9 +159,8 @@ namespace AGRemapCore {
              The GAME model's vertex count for this component, for the downloaded blend's ``draw``
              line. ``0`` leaves the line out :raw-html:`<br />` :raw-html:`<br />`
 
-             In the config rather than :cpp:class:`VertexCounts` because that table's rows all carry
-             an empty component column, and ``VertexCounts_test`` asserts so deliberately -- the day
-             a real per-component count is filed there, that tripwire is the thing that says so
+             In the config rather than :cpp:class:`VertexCounts` because that table holds no
+             per-component counts: all of its rows carry an empty component column
              @endrst
              */
             long long vertexCount = 0;
@@ -185,12 +182,12 @@ namespace AGRemapCore {
 
          A download is decided per register: a slot whose section leaves its diffuse register
          unbound gets the game's diffuse there. A mod written in the GAME's register order binds
-         its textures elsewhere -- LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``, where the
-         skin's own 6.x eye shader reads the diffuse -- so the slot got the game's diffuse at
-         ``ps-t0`` AND kept the mod's at ``ps-t1``, two textures both named a diffuse, which the merge's
-         :cpp:member:`GIMIMergeFixerConfig::texRegsByName` rightly refuses to believe; read by position,
-         the game's eye diffuse drew and the mod's became the light map (dark eyes on Lumine,
-         2026-09-29). :raw-html:`<br />` :raw-html:`<br />`
+         its textures elsewhere -- eg. a LumineHeaven mod whose Eye binds only ``ps-t1 = ...Diffuse``,
+         where the skin's own 6.x eye shader reads the diffuse -- so without this the slot gets the
+         game's diffuse at ``ps-t0`` AND keeps the mod's at ``ps-t1``, two textures both named a
+         diffuse, which the merge's :cpp:member:`GIMIMergeFixerConfig::texRegsByName` rightly refuses
+         to believe; read by position, the game's eye diffuse draws and the mod's becomes the light
+         map (dark eyes). :raw-html:`<br />` :raw-html:`<br />`
 
          With this on, for every slot with textures of its own whose section binds at least one of the
          slot's texture registers, and whose names are believed (every texture bound at those registers
@@ -233,7 +230,7 @@ namespace AGRemapCore {
      merge fixer needs, and cannot read off the sections :raw-html:`<br />` :raw-html:`<br />`
 
      The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser),
-     everything is assumed to be there -- the behaviour before this existed
+     everything is assumed to be there
      @endrst
      */
     class GIMIComponentParseFacts {
@@ -248,7 +245,7 @@ namespace AGRemapCore {
              of the skin's slot texture hashes :raw-html:`<br />` :raw-html:`<br />`
 
              ``false`` for a file that only WATCHES the skin -- a help overlay whose one section
-             matches the position hash to know she is on screen (2026-09-24). Everything the parser
+             matches the position hash to know she is on screen. Everything the parser
              would give such a file comes from downloads, and remapping it puts a second full copy
              of the skin over the real mod's
              @endrst
@@ -264,9 +261,9 @@ namespace AGRemapCore {
 
              Such a slot gets no download and brings nothing to the merge. The game's index buffer
              for it counts in the GAME's vertex order, and drawn over the mod's own buffers it is
-             shards of stretched triangles: CharlotteHurlock1 draws its slot C geometry inside its
-             slot B section and has no C or D section, and the downloaded C and D put its skirt up to
-             its chest (2026-09-24)
+             shards of stretched triangles. Eg. a CharlotteHurlock mod that draws its slot C geometry
+             inside its slot B section and has no C or D section would otherwise get the downloaded C
+             and D drawn too, putting its skirt up to its chest
              @endrst
 
              @param[in] component The source component, eg. ``Body``

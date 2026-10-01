@@ -75,8 +75,7 @@ Manipulates each pixel within an image
 .. note::
     Every whole-image filter in this codebase (eg. :class:`ColourReplaceFilter`) is, under the
     hood, also just a C++ loop over every pixel -- `Compressonator`_ has no vectorized whole-image
-    pixel-remap API the way `Pillow`_ did for the pure-Python original, so there's no "whole image
-    at once" fast path left to prefer instead. A :class:`CppBasePixelTransform` placed in
+    pixel-remap API, so there's no "whole image at once" fast path to prefer instead. A :class:`CppBasePixelTransform` placed in
     :attr:`transforms` runs directly in C++ for every pixel, at the same cost as a dedicated
     filter's own inlined loop body -- only a plain Python callable placed in :attr:`transforms`
     still pays a real per-pixel Python call

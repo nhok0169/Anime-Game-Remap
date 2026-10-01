@@ -46,15 +46,12 @@ namespace AGRemapCore {
      Removes this software's fix from a ``.ini`` file, by *reachability* rather than by name
      :raw-html:`<br />` :raw-html:`<br />`
 
-     **This is deliberately not a port of** ``IniRemover.py``, the pure-Python class it replaced --
-     note the two do not even share a name any more. That original finds the fix with four
-     regular expressions over the raw file text (a ``.*RemapBlend``/``.*RemapPosition``/``.*RemapFix``
-     /``.*RemapTex`` `section`_-name pattern, plus the boilerplate heading pattern) and deletes
-     whatever matches. This one instead *derives* what the fix is:
+     Rather than deleting whatever matches a set of name patterns, it *derives* what the fix is:
 
      #. Every `section`_ the fix boilerplate surrounds is a candidate, whatever it is called
-     #. Every `section`_ **outside** the boilerplate whose name contains ``Remap`` is a candidate
-        too -- the leftovers an interrupted or partly-undone fix leaves behind
+     #. Every `section`_ **outside** the boilerplate whose name contains ``<modName>Remap`` (see
+        :cpp:func:`IniRemoveContext::modTypeNames`; a bare ``Remap`` when the mod type names are not
+        known) is a candidate too -- the leftovers an interrupted or partly-undone fix leaves behind
      #. Those candidates are combined into one :cpp:class:`IniSectionGraph`, whose
         :cpp:func:`IniSectionGraph::targetSectionNames` are the candidates this software is taken to
         have written itself. A candidate is a target when **either**
@@ -68,8 +65,7 @@ namespace AGRemapCore {
 
         A caller that cannot answer that second question, or does not want it asked, sets
         :cpp:member:`IniRemovalContext::ignoreModType` and gets the whole candidate pool as targets
-        instead -- which is exactly what ``IniRemover.py`` always did. See that member for when that
-        is the right call
+        instead. See that member for when that is the right call
 
      #. What gets deleted is every target, everything a target references, **and** everything that
         references one of those from within the candidate pool -- so no surviving `section`_ is left
@@ -83,8 +79,7 @@ namespace AGRemapCore {
      .. note::
         Under the target rule above that last step nearly always lands on "removed": every
         `section`_ inside a boilerplate region is a target, so nothing inside one normally survives
-        to keep it alive. That is the intended outcome -- it is what the pure-Python original does
-        too, whose ``_fixRemovalPattern`` deletes the whole region outright. The keep half stays
+        to keep it alive. That is the intended outcome: the whole region is deleted. The keep half stays
         because it is still reachable through customization (a narrowed #headings, a caller-supplied
         target rule) and because a region holding no `sections`_ at all has to be handled either way
 
@@ -210,21 +205,18 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             One flavour of fix boilerplate this recognizes -- the C++ stand-in for one arm of the
-             pure-Python original's ``_fixRemovalPattern`` alternation :raw-html:`<br />`
-             :raw-html:`<br />`
+             One flavour of fix boilerplate this recognizes :raw-html:`<br />` :raw-html:`<br />`
 
              A boilerplate region opens on a line *starting* ``"; " + side + " " + <title> + " " +
              side`` (where ``side`` is #sideChar repeated #sideLen times) whose ``<title>`` ends
              with #titleSuffix, and closes on the next line reading ``"; "`` followed by nothing but
-             #sideChar -- at least ``2 * (sideLen + 1) + title.size() - 2`` of them, which is the
-             same lower bound the original's ``close()[:-2] + "(-)*"`` imposes :raw-html:`<br />`
-             :raw-html:`<br />`
+             #sideChar -- at least ``2 * (sideLen + 1) + title.size() - 2`` of them
+             :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                "Starting", not "reading exactly", and the ``<title>`` match is greedy -- both
-                because the original's pattern is neither anchored at the end nor applied per line.
-                A heading this software really did write,
+                "Starting", not "reading exactly", and the ``<title>`` match is greedy, so that
+                headings with uneven borders are still recognized. A heading this software really
+                did write,
                 ``"; --------------- Raiden Boss Fix -----------------"``, has 15 ``-`` on its left
                 border and 17 on its right; a whole-line match would reject it
              @endrst
@@ -314,8 +306,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The boilerplate flavours recognized when a caller names none -- the current
-             ``".*Remap"`` heading and the older ``".*Boss Fix"`` one, matching the two arms of the
-             pure-Python original's ``_fixRemovalPattern``
+             ``".*Remap"`` heading and the older ``".*Boss Fix"`` one
              @endrst
              */
             static const std::vector<BoilerPlateHeading>& defaultHeadings();
@@ -429,8 +420,7 @@ namespace AGRemapCore {
                 ``RemapTex``; ``RemapTexAdd`` exists only as the *resource type* string
                 ``"resourceRemapTexAdd"`` (:cpp:class:`RemapTexAddResource`, :cpp:class:`TexEdit`),
                 never in a `section`_ name. So every ``.dds`` currently classifies as
-                #ResourceType::TexEdit. Kept as specified (the maintainer's explicit call) rather
-                than quietly widened to ``RemapTex`` -- change this member if the naming changes
+                #ResourceType::TexEdit. Change this member if the naming changes
              @endrst
              */
             std::string texAddKeyword = IniKeywords::RemapTex + "Add";
@@ -462,8 +452,7 @@ namespace AGRemapCore {
 
              **Default**: ``"RemapTexcoord"`` -- note the lowercase ``c``, which is what
              :cpp:func:`IniNamingTools::getRemapTexcoordName` really builds (it is
-             :cpp:member:`IniKeywords::Texcoord`, not ``TexCoord``). This one is spelled to match the
-             real output rather than literally as specified, per the maintainer's call
+             :cpp:member:`IniKeywords::Texcoord`, not ``TexCoord``)
              @endrst
              */
             std::string texcoordKeyword = IniKeywords::Remap + IniKeywords::Texcoord;
@@ -478,8 +467,7 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                This is the counterpart of the ``.ini`` file's own ``hideOriginalSections()``, and
-                the equivalent of the pure-Python original's ``_removeFixComment``. Without it,
+                This is the counterpart of the ``.ini`` file's own ``hideOriginalSections()``. Without it,
                 undoing a fix that was applied with ``hideOrig`` would leave the *original* mod
                 commented out -- the fix's own `sections`_ gone and nothing left switched on. Set it
                 empty to skip the strip
@@ -609,7 +597,7 @@ namespace AGRemapCore {
                 :cpp:class:`IniResource`'s constructor always does. When that is empty -- a ``.ini``
                 file with no path, or one whose path is a bare relative file name -- the working
                 directory is used instead, which is also what
-                :cpp:func:`FileService::absPathOfRelPath` does with an empty folder (it used to throw)
+                :cpp:func:`FileService::absPathOfRelPath` does with an empty folder
              @endrst
              */
             const std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>& getRemovedResources() const;
@@ -665,22 +653,20 @@ namespace AGRemapCore {
              In order: the file's lines are scanned once for boilerplate regions and `section`_
              spans, the candidate pool is collected out of that scan, the targets are found, the
              removal set is closed over both directions of the reference relation, the surviving
-             lines are re-joined (and, like the pure-Python original, stripped), and the result is
+             lines are re-joined (and stripped), and the result is
              handed back through :cpp:func:`IniRemoveContext::setFileTxt` :raw-html:`<br />`
              :raw-html:`<br />`
 
              .. note::
-                'parse' is accepted and **ignored**. In the pure-Python original it also builds the
-                :cpp:class:`IniResource` models for the ``.buf``/``.dds``/downloaded files that go
-                with the deleted `sections`_; this class collects those unconditionally instead, and
-                hands them back through #getRemovedResources rather than pushing them onto the
+                'parse' is accepted and **ignored**. The :cpp:class:`IniResource` models for the
+                ``.buf``/``.dds``/downloaded files that go with the deleted `sections`_ are always
+                collected, and handed back through #getRemovedResources rather than pushed onto the
                 ``.ini`` file
 
              .. note::
-                Two things happen to the surviving text beyond the `section`_ deletion, both
-                matching the pure-Python original: #hideOriginalComment is stripped out of it (the
-                original's ``_removeFixComment``), and it is stripped of leading/trailing whitespace
-                (the original's ``_removeScriptFix``). The ``.ini`` file is then told it no longer
+                Two things happen to the surviving text beyond the `section`_ deletion:
+                #hideOriginalComment is stripped out of it, and it is stripped of leading/trailing
+                whitespace. The ``.ini`` file is then told it no longer
                 holds a fix, through :cpp:func:`IniRemoveContext::setIsFixed`
              @endrst
              *
@@ -688,8 +674,7 @@ namespace AGRemapCore {
              * @param writeBack
              @rst
              Whether to write the new content out (:cpp:func:`IniRemoveContext::write`) and then
-             :cpp:func:`IniRemoveContext::clearRead` the file, exactly as the pure-Python original
-             does :raw-html:`<br />` :raw-html:`<br />`
+             :cpp:func:`IniRemoveContext::clearRead` the file :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``true``
              @endrst

@@ -76,8 +76,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Data for storing information about a `section`_ in a ``.ini`` file -- the C++ port of
-     ``IfTemplate.py`` :raw-html:`<br />` :raw-html:`<br />`
+     Data for storing information about a `section`_ in a ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         Assuming every ``if``/``else`` clause must be on its own line, we have that an
@@ -142,7 +141,7 @@ namespace AGRemapCore {
              */
             enum class TreeKind {
                 Basic,          ///< AGRemapCore::IfTemplateTree's own (base) algorithm
-                NonEmptyNode,   ///< AGRemapCore::IfTemplateNonEmptyNodeTree's algorithm (the default, matching the pure-Python original's own default)
+                NonEmptyNode,   ///< AGRemapCore::IfTemplateNonEmptyNodeTree's algorithm (the default)
                 Norm            ///< AGRemapCore::IfTemplateNormTree's algorithm
             };
 
@@ -172,8 +171,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Builds an `IfTemplate` by parsing raw parts (matching ``IfTemplate.py``'s own
-             ``build`` classmethod)
+             Builds an `IfTemplate` by parsing raw parts
              @endrst
              *
              * @param rawParts
@@ -259,9 +257,9 @@ namespace AGRemapCore {
              #calledSubCommands() to reflect it, without paying for a full :cpp:func:`rebuild` (which
              would also needlessly reconstruct #tree()) :raw-html:`<br />` :raw-html:`<br />`
 
-             Does nothing if 'partInd' has no existing #calledSubCommands() entry (matches the
-             pure-Python original's own ``rename``, which only ever updates entries that already
-             exist -- renaming never creates a *new* ``run =`` reference out of thin air).
+             Does nothing if 'partInd' has no existing #calledSubCommands() entry (renaming only
+             ever updates entries that already exist -- it never creates a *new* ``run =``
+             reference out of thin air).
              @endrst
              *
              * @param partInd The index (into #parts()) to refresh
@@ -355,8 +353,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Checks whether 'key' appears in all branches of this `IfTemplate` -- see
-             ``IfTemplate.py``'s own ``isKeyFullyCover`` for the full contract
+             Checks whether 'key' appears in all branches of this `IfTemplate`, also following
+             each ``run =`` call into the called `section`_ in 'sections' (a called name that is not
+             in 'sections', eg. an external library command, covers nothing) :raw-html:`<br />` :raw-html:`<br />`
+
+             'visited' collects the names of the `sections`_ already checked, and
+             'sectionsKeyFullCover' records the result for each checked `section`_ (this one
+             included)
              @endrst
              */
             bool isKeyFullyCover(const K& key, const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,
@@ -365,8 +368,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Finds every #ContentPart referenced by this `IfTemplate` that does not have 'key' --
-             see ``IfTemplate.py``'s own ``getKeyMissingParts`` for the full contract
+             Finds every #ContentPart referenced by this `IfTemplate` (including through ``run =``
+             calls into the `sections`_ in 'sections') that does not have 'key' :raw-html:`<br />` :raw-html:`<br />`
+
+             'visited' collects the names of the `sections`_ already checked, and
+             'sectionsMissingParts'/'sectionAllBranchesMissing' record, for each checked
+             `section`_ (this one included), its missing parts and whether every one of its
+             branches is missing 'key'
              @endrst
              */
             std::set<ContentPart*> getKeyMissingParts(const K& key, const std::unordered_map<std::string, IfTemplate<K, V, KeyHash, KeyEqual>*>& sections,

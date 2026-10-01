@@ -198,7 +198,6 @@ Builds the model for the resource
 
 .. note::
     The ``type`` of the built resource comes from :attr:`resType`, not from the 'resType' argument
-    -- faithful to the pure-Python original
 
 Parameters
 ----------

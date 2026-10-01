@@ -24,7 +24,7 @@ namespace AGRemapCore {
      @rst
      Prefixes this software puts on the files it renames :raw-html:`<br />` :raw-html:`<br />`
 
-     A complete port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
+     Has the same members as the `Python`_ ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
      @endrst
      */
     class FilePrefixes {

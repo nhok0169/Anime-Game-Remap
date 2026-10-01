@@ -55,9 +55,8 @@ namespace AGRemapCore {
      .. note::
         Unlike the other three asset tables, :cpp:member:`ModType::vgRemaps` does **not** default to
         a fresh instance per mod type -- it falls back to the single shared
-        :cpp:func:`ModDataAssets::vgRemaps`. That mirrors the pure-Python ``ModType``, whose own
-        default is ``ModDataAssets.VGRemaps.value`` rather than a new ``VGRemaps()``, and it matters
-        here more than elsewhere: this is much the largest of the tables
+        :cpp:func:`ModDataAssets::vgRemaps`. That matters here more than elsewhere: this is much
+        the largest of the tables
      @endrst
      */
     class VGRemaps: public ModAssets<std::string, VGRemap> {

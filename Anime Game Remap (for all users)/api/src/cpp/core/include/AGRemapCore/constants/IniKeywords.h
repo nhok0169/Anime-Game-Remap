@@ -26,11 +26,9 @@ namespace AGRemapCore {
      Common keywords used in the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        This is a **partial** port of the pure-Python ``IniKeywords`` enum
-        (``constants/IniConsts.py``) -- that enum has ~30 members covering many subsystems that
-        haven't been ported to C++ yet; only the members :cpp:class:`IniNamingTools` actually needs
-        are included here. Add more members as later-ported subsystems need them, rather than
-        porting the whole enum speculatively up front
+        This holds only the keywords the C++ code actually uses, so it is not a one-to-one copy of
+        the `Python`_ ``IniKeywords`` enum (``constants/IniConsts.py``). Add members as they are
+        needed
      @endrst
      */
     class IniKeywords {

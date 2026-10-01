@@ -145,8 +145,7 @@ implementation -- pick which concrete ordered-multimap backs a given :class:`IfC
 or any custom :class:`IOrderedMultiMap` implementation of your own, including one implemented
 from Python), and every method on this class is a thin, renamed delegation straight to that
 implementation -- the semantics for every operation are exactly :class:`CppOrderedMultiMap`'s
-documented rules; only the *method names* below intentionally echo this project's deprecated,
-pre-C++-port `IfContentPart` naming (e.g. ``insertAllAt`` -> ``addKVPsByInds``).
+documented rules; only the *method names* below differ (e.g. ``insertAllAt`` -> ``addKVPsByInds``).
 
 :raw-html:`<br />`
 

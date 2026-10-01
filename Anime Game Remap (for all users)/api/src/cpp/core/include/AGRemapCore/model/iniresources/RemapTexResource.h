@@ -30,14 +30,11 @@ namespace AGRemapCore {
      @rst
      This class inherits from :cpp:class:`RemapIniResource`
 
-     Class for adding a brand new texture file used by the overall remap process -- mirrors the
-     pure-Python ``RemapTexAddResource`` class (``model/iniresources/RemapTexResource.py``)
+     Class for adding a brand new texture file used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        #_fix's return value: same "always implicitly ``None``, contradicting the documented intent"
-        gap as :cpp:class:`RemapIniDownload::_fix` -- see that class's own doc comment. This port
-        returns ``true`` on success instead
+        #_fix returns ``true`` on success
      @endrst
      */
     class RemapTexAddResource: public RemapIniResource {

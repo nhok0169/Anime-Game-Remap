@@ -101,8 +101,7 @@ old: Optional[Any]
 
 
     py::class_<PyIfContentPartColouring>(m, "IfContentPartColouring", R"doc(
-Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart` --
-the C++-backed port of the deprecated pure-Python original (since removed)
+Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart`
 
 :raw-html:`<br />`
 
@@ -318,10 +317,9 @@ List[Any]
 
         .def("getUniqueVals", &PyIfContentPartColouring::getUniqueVals, py::arg("key"), py::arg("filter") = py::none(),
     py::doc(R"doc(
-Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a departure from
-the deprecated Python source's own ``getVals(unique=True)``, split into its own method the same
-way :class:`IfContentPart` itself splits ``getVals``/``getKeys`` rather than returning a value
-whose type depends on an argument
+Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a separate
+method the same way :class:`IfContentPart` itself splits ``getVals``/``getKeys``, rather than
+returning a value whose type depends on an argument
 
 Parameters
 ----------

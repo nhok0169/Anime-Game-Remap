@@ -27,11 +27,10 @@ namespace AGRemapCore {
      sequence of them (:cpp:class:`BufElementType`) :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        The pure-Python original also declares ``decode``/``encode`` on this base class, but
+        This base does not declare ``decode``/``encode``:
         :cpp:class:`BufDataType`'s decode/encode work on a single :cpp:type:`BufValue` while
         :cpp:class:`BufElementType`'s work on a ``std::vector<BufValue>`` -- two genuinely
-        incompatible signatures that Python's duck typing lets slide, but a statically-typed
-        virtual interface cannot. This base only formalizes what both branches actually share (a
+        incompatible signatures. This base only formalizes what both branches actually share (a
         ``name``); each branch declares its own decode/encode shape at the point the two diverge
      @endrst
      */

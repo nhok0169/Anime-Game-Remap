@@ -57,7 +57,7 @@ namespace AGRemapCore {
      .. note::
         There is a separate, unrelated ``PyIniGraphGroup`` in the `pybind11`_ binding layer that is
         **not** built on this class. That one deliberately wraps a genuine `Python`_ ``dict``,
-        because real call sites (``GIMIParser.py``) depend on `Python`_ dict *reference* semantics
+        because its `Python`_ call sites depend on `Python`_ dict *reference* semantics
         -- reading ``graphGroups[0].graphs`` back out and expecting the same object identity.
         Converting to/from a C++ map would silently break that aliasing, so the two coexist. The
         seam that lets one algorithm serve both is :cpp:class:`IIniGraphGroups` -- see its own
@@ -81,8 +81,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The key identifying a graph -- ``(component name, mod object name)``, the direct
-             equivalent of the pure-Python original's ``Tuple[str, str]``
+             The key identifying a graph -- ``(component name, mod object name)``, the
+             equivalent of a `Python`_ ``Tuple[str, str]``
              @endrst
              */
             using ModObj = std::pair<std::string, std::string>;
@@ -94,8 +94,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              Uses the same multiply-and-xor combine the standard library's own implementations
-             conventionally use -- nothing in this codebase needed a ``std::pair`` hash before this
-             class, so there was no existing helper to reuse
+             conventionally use
              @endrst
              */
             struct ModObjHash {
@@ -110,8 +109,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              The container the graphs live in -- a ``tsl::ordered_map`` rather than a
-             ``std::unordered_map`` so iteration follows *insertion* order, matching the `Python`_
-             ``dict`` the pure-Python original used (which #toStr's output order depends on)
+             ``std::unordered_map`` so iteration follows *insertion* order, like a `Python`_
+             ``dict`` (#toStr's output order depends on it)
              @endrst
              */
             using GraphMap = tsl::ordered_map<ModObj, std::unique_ptr<Graph>, ModObjHash>;

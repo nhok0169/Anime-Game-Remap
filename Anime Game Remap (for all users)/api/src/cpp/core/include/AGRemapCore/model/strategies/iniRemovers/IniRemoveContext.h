@@ -34,11 +34,9 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      The removing counterpart of :cpp:class:`IniParseContext`/:cpp:class:`IniFixContext`, and it
-     exists for exactly the same reason -- see :cpp:class:`IniParseContext`'s own note. The ``.ini``
-     file every real caller of :cpp:class:`RemapIniRemover` passes is the *`Python`_* ``IniFile``
-     (``model/files/IniFile.py``), an unrelated class to :cpp:class:`AGRemapCore::IniFile` with
-     nothing castable between them, so a plain ``IniFile*`` parameter would always be ``nullptr``
-     there and the remover would be inert.
+     exists for exactly the same reason -- see :cpp:class:`IniParseContext`'s own note: a remover
+     has to work the same whether its ``.ini`` file is a plain C++ :cpp:class:`AGRemapCore::IniFile`
+     (:cpp:class:`IniFileRemoveContext`) or an ``.ini`` file object reached from `Python`_.
 
      :raw-html:`<br />`
 
@@ -89,7 +87,7 @@ namespace AGRemapCore {
              Whether there is a real ``.ini`` file behind this context :raw-html:`<br />`
              :raw-html:`<br />`
 
-             ``false`` stands in for the pure-Python original's ``ini = None``, and makes
+             ``false`` when there is no ``.ini`` file, which makes
              :cpp:func:`RemapIniRemover::remove` a no-op
              @endrst
              */
@@ -98,8 +96,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The folder the ``.ini`` file lives in (the equivalent of the pure-Python original's
-             ``ini.folder``), or an empty string when it has none :raw-html:`<br />`
+             The folder the ``.ini`` file lives in (``ini.folder``), or an empty string when it has
+             none :raw-html:`<br />`
              :raw-html:`<br />`
 
              Every path :cpp:func:`RemapIniRemover::getRemovedResources` hands back is resolved against
@@ -126,8 +124,9 @@ namespace AGRemapCore {
              A **vector**, unlike :cpp:func:`IniParseContext::modTypeHashes`, because an
              :cpp:class:`AGRemapCore::IniFile` can carry several mod types at once and
              :cpp:func:`IniFile::removeFix` hands the same file to each one's remover in turn
-             without telling any of them which one it is acting for. The pure-Python ``IniFile``,
-             whose ``availableType`` is singular, simply returns a one-element (or empty) vector
+             without telling any of them which one it is acting for. An implementation whose
+             ``.ini`` file has a single ``availableType`` simply returns a one-element (or empty)
+             vector
              @endrst
              */
             virtual std::vector<Assets*> modTypeHashes() const = 0;
@@ -140,18 +139,16 @@ namespace AGRemapCore {
              those remaps onto :raw-html:`<br />` :raw-html:`<br />`
 
              :cpp:func:`RemapIniRemover::collectCandidates` uses them to recognise a previous fix's
-             leftovers OUTSIDE the fix's own boilerplate, where the rule used to be "the name
-             contains ``Remap``" and is now "the name contains ``<modName>Remap``"
-             (:cpp:func:`IniNamingTools::getRemapName`'s own shape). The old rule took a mod's OWN
-             `sections`_ with it: a WWMI mod whose merged skeleton passes 256 bones declares
+             leftovers OUTSIDE the fix's own boilerplate: a `section`_ there counts as a leftover
+             when its name contains ``<modName>Remap`` (:cpp:func:`IniNamingTools::getRemapName`'s
+             own shape). A bare ``Remap`` is not enough, because a mod's OWN `sections`_ can contain
+             it: a WWMI mod whose merged skeleton passes 256 bones declares
              ``ResourceBlendRemapVertexVGBuffer`` / ``...ForwardBuffer`` / ``...ReverseBuffer``
-             for WWMI's blend remap, and an undo deleted all three ``.buf`` files -- on a mod that
-             had never been fixed, since every fix undoes first (Chisa, 2026-09-20)
-             :raw-html:`<br />` :raw-html:`<br />`
+             for WWMI's blend remap, and matching on ``Remap`` alone would delete all three ``.buf``
+             files even on a mod that was never fixed :raw-html:`<br />` :raw-html:`<br />`
 
-             **Default**: empty, which keeps the old bare-keyword behaviour -- a context that does
-             not know its mod types (and every standalone test that builds a remover by hand) is no
-             worse off than before
+             **Default**: empty, which falls back to the bare ``Remap`` keyword -- for a context that
+             does not know its mod types (such as a remover built by hand)
              @endrst
              */
             virtual std::vector<std::string> modTypeNames() const { return {}; }
@@ -160,7 +157,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The text lines of the ``.ini`` file, reading it from disk first if that has not
-             happened yet -- the equivalent of the pure-Python original's ``_readLines`` decorator
+             happened yet
              :raw-html:`<br />` :raw-html:`<br />`
 
              Each line keeps its own trailing newline, except possibly the last
@@ -171,8 +168,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of the
-             pure-Python original's ``ini.sectionIfTemplates``. Borrowed, not owned
+             Every `section`_ parsed out of the ``.ini`` file, keyed by name
+             (``ini.sectionIfTemplates``). Borrowed, not owned
              @endrst
              */
             virtual std::unordered_map<std::string, Section*> sectionIfTemplates() const = 0;
@@ -216,17 +213,8 @@ namespace AGRemapCore {
              The removing counterpart of :cpp:func:`IniFixContext::setIsFixed`, and the same note
              applies: :cpp:class:`AGRemapCore::IniFile` owns that flag through
              :cpp:func:`IniFile::classify` and does not let a remover write it, so a plain C++
-             implementation of this is free to do nothing. The `Python`_ ``IniFile`` uses the flag
-             the pure-Python original's way, and its implementation does clear it :raw-html:`<br />`
-             :raw-html:`<br />`
-
-             .. note::
-                The pure-Python original also sets ``ini._hideOriginalReplaced = True`` here. That
-                is deliberately **not** on this interface: the only thing that flag does is let
-                ``IniFile.getSectionOptions`` skip stripping the hide-original comment from lines
-                that might still carry it -- and by the time this is called
-                :cpp:func:`RemapIniRemover::remove` has already stripped every one of them out of the
-                text, so the strip it would skip is a no-op either way
+             implementation of this is free to do nothing. An implementation over a `Python`_
+             ``.ini`` file object that keeps its own ``_isFixed`` flag does clear it
              @endrst
              *
              * @param isFixed Whether the .ini file still holds a fix

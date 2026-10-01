@@ -91,6 +91,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="81">
         <label>AGRemapCore/data/HashToModObjData.h</label>

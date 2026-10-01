@@ -16,6 +16,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniParseBuilderData.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
+#include "AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h"
 
 
 namespace AGRemapCore {
@@ -24,8 +25,9 @@ namespace AGRemapCore {
         // produces. Nothing is Sanhua-specific beyond her id: her seven draw slots come off the
         // library's Indices rows, her hashes off HashData.
         WWMIParserConfig config{};
-        config.modTypeId = ModTypeId::Sanhua;
         config.version = "2.5";
+        // Her own textures, so a mod of hers is sorted into roles at PARSE time.
+        config.textures = sanhuaTextureFacts();
         return makeWWMIParser(std::move(config));
     }
 

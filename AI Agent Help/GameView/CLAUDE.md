@@ -20,6 +20,42 @@ Everything else, including a failed test, is yours to diagnose and retry. The fi
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
 
+## AN ARROW KEY THIS TOOL SENT ARRIVED AS A NUMPAD KEY (fixed 2026-09-27)
+
+`key left`, `key ctrl+left`, `key alt+down` -- every arrow, modified or not -- did **nothing**, in
+total silence, while `f7`, `ctrl+f7`, `esc` and `numpad4` all worked. That pattern reads as a broken
+MODIFIER and is nothing of the kind.
+
+`sendKeyScan` asks Windows for a key's scan code with `MapVirtualKeyW(vk, MAPVK_VK_TO_VSC_EX)`,
+which is documented to put `0xE0` in the high byte for an extended key, and sets
+`KEYEVENTF_EXTENDEDKEY` when it sees one. Measured on this machine:
+
+```
+VK_LEFT      0x025  MAPVK_VK_TO_VSC 0x004b   MAPVK_VK_TO_VSC_EX 0x004b   extended? False
+VK_NUMPAD4   0x064  MAPVK_VK_TO_VSC 0x004b   MAPVK_VK_TO_VSC_EX 0x004b   extended? False
+```
+
+It does not report it. **Bare scan `0x4B` is numpad 4** -- the navigation cluster and the numpad
+share scan codes and the extended flag is the only thing telling them apart -- so every arrow was
+delivered as a numpad press, which is a perfectly valid thing to press and so provokes no error
+anywhere. `win32.EXTENDED_VKS` now forces the flag from a table instead of asking the OS.
+
+This matters more than it sounds: **most mod toggles are arrows**. One Chisa mod binds all four, plus
+`alt` and `ctrl` variants of each, and none of them could be driven at all.
+
+**The lesson is how it was found, not the table.** Three reasonable-looking readings came first and
+all were wrong -- "the modifier is broken", "the hotkey's `condition = $object_detected` is false",
+"the mod's toggle is broken by the fix". What settled it was **rebinding the mod's own hotkey** to
+one candidate at a time (`VK_F7`, `ctrl VK_F7`, `VK_LEFT`, `ctrl VK_LEFT`, `VK_NUMPAD4`) against a
+single unmistakable effect -- blonde gyaru hair against black OG hair, a 67% pixel change -- so each
+answer was a yes or a no rather than a judgement. `keyProbe.py` / `chordTry.py` in that session's
+scratchpad are the shape of it.
+
+**And before any of that: prove the keypress landed at all.** A diff of two screenshots said 19% of
+the head had changed, which read as "the toggle worked"; painting the changed pixels showed every one
+was leaves and canopy. When a toggle switches a texture, **paint the two branch files different flat
+colours** -- then "did it switch" is a colour, not a statistic.
+
 ## Before the first command
 
 1. **Is the game running?** `py -3 main.py status` (from `Tools/GameView`). If not, `launch GIMI`
@@ -132,6 +168,23 @@ that changes.
   and **never dump a character with a mod of that character installed** when the dump is for asset
   extraction: see [Vertex Group Remaps](../VGRemaps/CLAUDE.md). `mods ... only` with an empty
   selection is how you get there, and `mods ... restore` is how you come back.
+- **TAKE THE DUMP FROM THE CHARACTER MENU, NOT THE OVERWORLD (the maintainer's rule, 2026-09-30;
+  BOTH GAMES).** The character / Resonator screen draws the character and almost nothing else, and
+  a frame dump holds *everything on screen*. The overworld does not just cost disk: it is the
+  reason for two failures this repo has already paid for.
+  - **It can kill the game.** ChisaParfait standing in an overworld field at WuWa 3.7 dumped
+    **36857 files, 9.8 GB, 558 draw calls**, and the game was gone by the next command.
+  - **An unrelated object aborts the extraction.** `wwmiExtractDump.py` runs WWMI Tools' own
+    extractor, which walks *every* vb0 object in the dump and raises on the first one whose
+    skeleton buffer is shorter than its highest blend index -- an NPC, a prop, a creature. The
+    message names neither the object nor its hash (`skeleton of Component_0 has only 43 bones,
+    while there are 83 VGs declared`), so a dump whose own character is perfectly readable looks
+    exactly like a dump that is unusable.
+  - And it is the same reason a register read off an overworld dump may belong to a passer-by
+    rather than to the character -- Creating Remaps' "A REGISTER A DRAW INHERITED MAY BELONG TO A
+    DIFFERENT CHARACTER ENTIRELY", which cost an in-game round on a yellow kimono.
+  The character menu also shows the model close and lit, which is what streams its textures in at
+  full size -- the other half of the LOD-bias trap in [Vertex Group Remaps](../VGRemaps/CLAUDE.md).
 - **A texture that looks unchanged may be a cache, not a failed fix.** 3DMigoto can keep serving
   a texture it already loaded (Creating Remaps' "A SCREENSHOT IS EVIDENCE ABOUT THE GAME'S STATE").
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then
@@ -243,6 +296,14 @@ Two WuWa specifics about the tool:
   `toggle` flips it without knowing which way it went. `compare` and `dump` need it ON; `dump`
   toggles it for itself when no dump starts. When a `compare` comes back identical on a mod you know
   draws, toggle and try again before concluding anything.
+- **And `reload` is what usually undid it (2026-09-25).** F10 re-reads `d3dx.ini`, where `hunting`
+  is `2`, so a reload silently puts hunting back to soft-off. The natural order --- fix the mod,
+  `reload`, `compare` --- therefore produces two IDENTICAL halves every time, which reads exactly
+  like a mod that does not draw. Toggle **after** the reload, not before.
+- **`reload --mod`'s "no warnings" is an empty check here.** It reads `d3d11_log.txt`, and WWMI's
+  call logging is off --- which it must stay (110 GB in 40 minutes). `status` shows `log: 0.0 MB`
+  when that is the case, and then the line means "nothing was read", not "nothing was wrong"
+  (Overview's habit 66). On WWMI the picture is the evidence; the log is not available.
 - **A frame dump can kill WuWa.** Unreal's own watchdog ends the game with "Hang detected on
   GameThread" when a frame takes too long, and 3DMigoto freezes the frame for the whole dump. With
   XXMI's WWMI call and debug logging on (every call is written to `d3d11_log.txt`, which grew 110 GB

@@ -27,8 +27,6 @@
 
 namespace AGRemapCore {
     namespace {
-        constexpr const char* BlendWeightKey = "BLENDWEIGHT";
-        constexpr const char* BlendIndicesKey = "BLENDINDICES";
 
         // The most common value, ties going to the one seen first -- Counter.most_common(1)
         std::optional<long long> mostCommon(const std::vector<long long>& values) {
@@ -96,9 +94,9 @@ namespace AGRemapCore {
 
             std::visit([&](auto&& values) {
                 for (std::size_t i = 0; i < values.size(); ++i) {
-                    if (column.elementKey == BlendWeightKey) {
+                    if (column.elementKey == BlendFile::BlendWeightKey) {
                         weights[i][column.valueInd] = static_cast<double>(values[i]);
-                    } else if (column.elementKey == BlendIndicesKey) {
+                    } else if (column.elementKey == BlendFile::BlendIndicesKey) {
                         indices[i][column.valueInd] = static_cast<long long>(values[i]);
                     }
                 }

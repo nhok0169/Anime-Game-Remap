@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -103,6 +104,88 @@ namespace AGRemapCore {
              * @return The path as UTF-8, separated the way the game expects
              */
             static std::string pathToIniStr(const std::filesystem::path& path);
+
+            /**
+             * @brief The reverse of :cpp:func:`FileService::pathToIniStr`: a path as a ``.ini``
+             *      spells it, as a relative path this OS can open
+             *
+             * A path inside a ``.ini`` is a Windows path on every OS, so on POSIX
+             * ``.\\Textures\\x.dds`` is one nonexistent FILENAME rather than a path and every
+             * mod pointing into a subfolder fails. Feed the result to
+             * :cpp:func:`FileService::absPathOfRelPath`.
+             *
+             * @param path The path as the ``.ini`` writes it
+             * @return The same path with this OS's separators
+             */
+            static std::string iniPathToRel(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             The last component of 'path' -- its file name, extension and all
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Spelling this out is ``pathToStr(strToPath(path).filename())``, and both halves are
+                needed: the string has to become a ``path`` to be split, and the piece has to come
+                back through :cpp:func:`pathToStr` rather than ``string()`` for the reason that
+                function's own danger note gives. It was written out by hand in over forty places
+                before this existed
+             @endrst
+             *
+             * @param path The UTF-8 path to read
+             *
+             * @return The path's last component, as UTF-8
+             */
+            static std::string baseName(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             The folder 'path' sits in -- everything before its last component
+             @endrst
+             *
+             * @param path The UTF-8 path to read
+             *
+             * @return The parent folder, as UTF-8, or ``""`` if 'path' has no folder part
+             */
+            static std::string parentOf(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             The last component of 'path' with its extension removed -- ``Blend`` for
+             ``.\Meshes\Blend.buf``
+             @endrst
+             *
+             * @param path The UTF-8 path to read
+             *
+             * @return The path's last component without its extension, as UTF-8
+             */
+            static std::string stem(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             'path' reduced to a key two spellings of the same file compare equal under -- lowercased,
+             with every backslash written as a forward slash :raw-html:`<br />` :raw-html:`<br />`
+
+             For KEYING a map of paths, never for opening one. The two spellings really do both turn
+             up: a path this library built comes out with the native separator, while the same path
+             read out of a ``.ini`` is written the way the game wants it and in whatever case the
+             mod's author typed :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                This is a comparison key on a WINDOWS-style path, so it is only safe where the case
+                really is insensitive. It does not resolve ``..``, a symlink or a short name, so two
+                keys being different does not prove two paths are different files
+             @endrst
+             *
+             * @param path The UTF-8 path to reduce
+             *
+             * @return The comparison key
+             */
+            static std::string pathKey(const std::string& path);
 
 
             /**
@@ -212,6 +295,36 @@ namespace AGRemapCore {
              *
              * @return The files within the folder, then the folders within it
              */
+            /**
+             * @brief
+             @rst
+             The size of a file in bytes, or ``std::nullopt`` when it cannot be read
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             One answer for "there is no such file", "it is not a regular file" and "it could not be
+             read", because a caller deriving a vertex count or a stride from a size treats all three
+             the same -- and because each one otherwise carries its own ``std::error_code`` and its
+             own ``strToPath``, which is the UTF-8 conversion this class exists to own
+             @endrst
+             *
+             * @param path The UTF-8 path to measure
+             *
+             * @return Its size in bytes, or ``std::nullopt``
+             */
+            static std::optional<std::uintmax_t> fileSize(const std::string& path);
+
+            /**
+             * @brief
+             @rst
+             Creates the folder a file is about to be written into, if it is not already there
+             @endrst
+             *
+             * @param filePath The UTF-8 path of the FILE (not of its folder)
+             *
+             * @return Whether the folder exists afterwards
+             */
+            static bool makeFolderFor(const std::string& filePath);
+
             static std::pair<std::vector<std::string>, std::vector<std::string>> getFilesAndDirs(const std::string& path,
                                                                                                 bool recursive = false);
 

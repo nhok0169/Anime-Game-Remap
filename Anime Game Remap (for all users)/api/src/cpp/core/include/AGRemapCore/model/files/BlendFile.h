@@ -99,8 +99,41 @@ namespace AGRemapCore {
              */
             std::variant<std::monostate, std::string, ByteVec> remap(const VGRemap& vgRemap, const std::optional<std::string>& fixedBlendFile = std::nullopt, bool remapMissingIndices = true);
 
+            /**
+             * @brief
+             @rst
+             The two element names every `blend`_ buffer uses, in both games :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Here rather than in each reader because three files had their own file-local copies of
+             the pair -- this one, ``VGComponentSplit.cpp`` and ``WWMIFixer.cpp`` -- and a spelling
+             repeated per file is a spelling that can be wrong in one of them. One such copy was
+             silently emptied by a patch script and every Sanhua `blend`_ in a corpus was skipped
+             from a clean build (2026-09-29)
+             @endrst
+             */
+            static inline const std::string BlendWeightKey = "BLENDWEIGHT";
+            static inline const std::string BlendIndicesKey = "BLENDINDICES";
+
         private:
-            static std::vector<std::unique_ptr<BufElementType>> defaultElements();
+            /**
+             * @brief
+             @rst
+             The ordinary `blend`_ layout: 'influences' 32-bit float weights then 'influences' 32-bit
+             signed indices :raw-html:`<br />` :raw-html:`<br />`
+
+             A width other than four is not exotic -- a Wuthering Waves `blend`_ carries as many as
+             eight, at one byte each -- and nothing in this class assumes the number: #remapIndices,
+             #getMissingIndicesRemap and #remap all run to the SHORTER of the two elements the file
+             actually declares. A caller whose types differ as well hands its own elements to the
+             constructor, which is what the WuWa fixer does
+             @endrst
+             *
+             * @param influences How many (weight, index) slots each vertex carries. **Default**: ``4``
+             *
+             * @return The elements
+             */
+            static std::vector<std::unique_ptr<BufElementType>> defaultElements(std::size_t influences = 4);
     };
 }
 

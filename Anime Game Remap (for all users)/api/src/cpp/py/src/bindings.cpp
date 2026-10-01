@@ -103,6 +103,7 @@ void initCppGIMIObjPartFilter(pybind11::module_ &m);
 void initCppBaseIniGraphGroupEdit(pybind11::module_ &m);
 void initCppGraphRemove(pybind11::module_ &m);
 void initCppGraphGroupRemove(pybind11::module_ &m);
+void initCppGraphCreate(pybind11::module_ &m);
 void initCppGraphInherit(pybind11::module_ &m);
 void initCppGraphGroupRemap(pybind11::module_ &m);
 void initCppGraphGroupEdit(pybind11::module_ &m);
@@ -304,6 +305,7 @@ PYBIND11_MODULE(core, m) {
     initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
     initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
+    initCppGraphCreate(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppIniSectionGraph (its `graph` is one)
     initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)
     initCppGraphGroupRemap(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppBaseRegEdit (its isinstance target for register edits)

@@ -28,10 +28,19 @@ Run it after adding a `ModTypeId`, and before closing out a remap.
 #   api/README.md, apiMirror/README.md (markdown, must stay identical to each other),
 #   Docs/src/commandOpts.rst (a list-table), and the Python ModTypes enum.
 import os, re, sys
-Repo = r"E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss"
+
+# The repo this file is IN, which is the one to check. It was hardcoded to one machine's checkout,
+# so it could not run on the maintainer's other computer, in a worktree, or anywhere an agent works
+# -- the same rot this tool exists to catch in the doc tables. AG_REMAP_REPO overrides, as it does
+# for every other tool here.
+Repo = os.environ.get("AG_REMAP_REPO") or os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 Api = os.path.join(Repo, "Anime Game Remap (for all users)", "api", "src", "py")
+if (not os.path.isdir(Api)):
+    raise SystemExit(f"no API at {Api}; set AG_REMAP_REPO to the checkout to check")
+
 sys.path.insert(0, Api)
-os.add_dll_directory(os.path.join(Api, "FixRaidenBoss2"))
+if (hasattr(os, "add_dll_directory")):
+    os.add_dll_directory(os.path.join(Api, "FixRaidenBoss2"))
 import FixRaidenBoss2 as FRB
 
 live = {}

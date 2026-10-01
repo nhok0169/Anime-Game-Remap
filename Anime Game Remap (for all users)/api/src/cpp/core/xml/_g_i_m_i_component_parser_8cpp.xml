@@ -100,6 +100,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="5">
         <label>AGRemapCore/constants/ModTypeId.h</label>
@@ -1366,6 +1368,8 @@
       <node id="150">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
         <childnode refid="109" relation="include">
         </childnode>
         <childnode refid="6" relation="include">

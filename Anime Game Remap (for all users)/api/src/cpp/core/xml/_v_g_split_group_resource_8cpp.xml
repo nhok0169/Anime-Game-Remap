@@ -23,6 +23,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
       </node>
       <node id="16">
         <label>AGRemapCore/model/VGRemap.h</label>
@@ -48,6 +50,8 @@
         <label>AGRemapCore/model/buffers/BufElementType.h</label>
         <link refid="_buf_element_type_8h"/>
         <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -321,6 +325,8 @@
       <node id="45">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
         <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="6" relation="include">

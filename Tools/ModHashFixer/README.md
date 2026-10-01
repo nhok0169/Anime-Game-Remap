@@ -90,7 +90,7 @@ table resolves it.
 
 If you want the character covered for everyone rather than in your own table, the lasting place is a
 row per `(version, character, role)` in the library's `HashData` --- that is what lets every later
-version be resolved through it. `Tools/Misc/Diagnostics/chisaHashHistory.py` shows the shape.
+version be resolved through it. `Tools/Misc/Diagnostics/wwmiHashHistory.py` shows the shape.
 
 <br>
 
@@ -142,7 +142,7 @@ section naming nothing can be typed by nothing, and the two fixes only compose i
 
 * **It will not invent a hash.** A hash it cannot resolve by the history, by your own table, or by
   the file route's own standard of evidence is reported and left alone. Extending coverage properly
-  means adding rows to `HashData.cpp` --- `Tools/Misc/Diagnostics/chisaHashHistory.py` is how Chisa's
+  means adding rows to `HashData.cpp` --- `Tools/Misc/Diagnostics/wwmiHashHistory.py` is how Chisa's
   older generations were derived, from the mods themselves and on hash-level evidence only.
 * **It will not touch a previous fix's sections.** Anything whose section name carries `Remap` holds
   the *target's* hashes and is correct.

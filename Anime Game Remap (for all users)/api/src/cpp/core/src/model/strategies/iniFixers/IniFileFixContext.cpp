@@ -147,8 +147,20 @@ namespace AGRemapCore {
         // Group 0 is the .ini file's own path; every later group is a copy, named by appending the
         // RemapFix suffix and the index to the base name -- the equivalent of the pure-Python
         // original mutating a deep copy of its FilePath's baseName as it walks the groups.
-        std::filesystem::path copy = path.parent_path() /
-            (FileService::pathToStr(path.stem()) + IniKeywords::RemapFix + std::to_string(groupInd) + FileService::pathToStr(path.extension()));
+        //
+        // FileService::strToPath around the new name, never `parent_path() / std::string`: on
+        // Windows `operator/` reads a narrow string as the ACTIVE CODE PAGE, so a UTF-8 name goes
+        // in and a DIFFERENT file comes out -- strToPath's own danger note, and a site the
+        // 2026-09-11 sweep missed because it is spelled as a join rather than as a conversion.
+        //
+        // What it cost: a mod whose .ini is named `mod-自动生成.ini` (a real ChisaParfait mod) got
+        // its copy written as `mod-è‡ªåŠ¨ç”ŸæˆRemapFix1.ini`, which RemapService::_origIniPath then
+        // could not map back to the .ini it belongs to, so the copy SURVIVED EVERY UNDO -- still
+        // carrying remapped sections, so the mod went on drawing on the target with no fix
+        // installed. A non-Latin FOLDER name was already covered; the file's own name was not.
+        const std::string copyName = FileService::pathToStr(path.stem()) + IniKeywords::RemapFix
+            + std::to_string(groupInd) + FileService::pathToStr(path.extension());
+        std::filesystem::path copy = path.parent_path() / FileService::strToPath(copyName);
 
         return FileService::pathToStr(copy);
     }

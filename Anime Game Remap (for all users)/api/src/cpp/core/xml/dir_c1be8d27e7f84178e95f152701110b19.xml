@@ -17,6 +17,7 @@
     <innerfile refid="_v_g_count_data_8cpp">VGCountData.cpp</innerfile>
     <innerfile refid="_v_g_offset_data_8cpp">VGOffsetData.cpp</innerfile>
     <innerfile refid="_v_g_remap_data_8cpp">VGRemapData.cpp</innerfile>
+    <innerfile refid="_w_w_m_i_texture_roles_8cpp">WWMITextureRoles.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

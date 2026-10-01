@@ -78,6 +78,16 @@ namespace AGRemapCore {
         // IEEE 754 binary16 <-> binary32 conversion. This codebase's target platform (MSVC) has
         // no portable 'std::float16_t'/'_Float16' available, so this is done by hand rather than
         // relying on a compiler-specific half type.
+        //
+        // THIS IS NOW THE ONLY HALF CODEC IN THE CODEBASE (2026-09-29). It used to carry a note
+        // telling you not to merge it with the pair of the same name in
+        // data/IniFixData/WWMIFixer.cpp, because that one rounds HALF TO EVEN -- numpy's float16
+        // cast, and so the prototype that is the WuWa fix's oracle -- where this one TRUNCATED
+        // (`mantissa >> 13`). A difference of 104 in 1,508,336 halves, every one a moved UV.
+        //
+        // Two codecs for one format is not a fact about the format; it was a missing PARAMETER.
+        // `BufFloat16::Rounding` is it, and the WWMIFixer pair is deleted. `Truncate` is the
+        // default and is what this always did, so nothing the library already writes moves.
         float halfToFloat(std::uint16_t half) {
             std::uint32_t sign = static_cast<std::uint32_t>(half & 0x8000) << 16;
             std::uint32_t exponent = (half >> 10) & 0x1F;
@@ -110,7 +120,7 @@ namespace AGRemapCore {
             return result;
         }
 
-        std::uint16_t floatToHalf(float value) {
+        std::uint16_t floatToHalfTruncate(float value) {
             std::uint32_t bits;
             std::memcpy(&bits, &value, sizeof(bits));
 
@@ -130,6 +140,79 @@ namespace AGRemapCore {
             }
 
             return static_cast<std::uint16_t>(sign | (static_cast<std::uint32_t>(exponent) << 10) | (mantissa >> 13));
+        }
+
+        // Round half to even, keeping subnormals and NaNs -- which is what makes decode() then
+        // encode() an exact identity over all 65536 half bit patterns, and so what lets
+        // BufFile::fix (which re-encodes every line) run over a buffer of halves without moving the
+        // ones no filter touched.
+        std::uint16_t floatToHalfNearestEven(float value) {
+            std::uint32_t bits;
+            std::memcpy(&bits, &value, sizeof(bits));
+
+            const std::uint32_t sign = (bits >> 16) & 0x8000;
+            const std::int32_t rawExponent = static_cast<std::int32_t>((bits >> 23) & 0xFF);
+            const std::uint32_t mantissa = bits & 0x7FFFFF;
+
+            // NaN stays NaN rather than becoming infinity: keep the payload's high bits, and make
+            // sure the result is still a NaN when every bit that survived was zero.
+            if (rawExponent == 0xFF) {
+                if (mantissa != 0) {
+                    std::uint32_t kept = mantissa >> 13;
+                    if (kept == 0) {
+                        kept = 1;
+                    }
+
+                    return static_cast<std::uint16_t>(sign | 0x7C00 | kept);
+                }
+
+                return static_cast<std::uint16_t>(sign | 0x7C00);
+            }
+
+            const std::int32_t exponent = rawExponent - 127 + 15;
+
+            if (exponent >= 0x1F) {
+                return static_cast<std::uint16_t>(sign | 0x7C00);            // overflow -> infinity
+            }
+
+            if (exponent > 0) {
+                // A normal half. Round the 13 dropped bits half to even; a carry out of the
+                // mantissa lands in the exponent by construction, which is why the addition is
+                // done on the assembled value rather than on the mantissa alone.
+                std::uint32_t assembled = (static_cast<std::uint32_t>(exponent) << 10) | (mantissa >> 13);
+                const std::uint32_t dropped = mantissa & 0x1FFF;
+                if (dropped > 0x1000 || (dropped == 0x1000 && (assembled & 1) != 0)) {
+                    ++assembled;                                             // may carry into the exponent
+                }
+
+                if (assembled >= 0x7C00) {
+                    return static_cast<std::uint16_t>(sign | 0x7C00);        // rounded up to infinity
+                }
+
+                return static_cast<std::uint16_t>(sign | assembled);
+            }
+
+            // Subnormal territory. Too small even for the smallest subnormal -> zero; otherwise
+            // shift the implicit leading 1 in and round the dropped bits the same way. A carry out
+            // of the subnormal mantissa produces the smallest NORMAL half, which is correct.
+            if (exponent < -10) {
+                return static_cast<std::uint16_t>(sign);
+            }
+
+            const std::uint32_t withImplicit = mantissa | 0x800000;
+            const std::uint32_t shift = static_cast<std::uint32_t>(14 - exponent);
+            std::uint32_t assembled = withImplicit >> shift;
+            const std::uint32_t dropped = withImplicit & ((1u << shift) - 1);
+            const std::uint32_t half = 1u << (shift - 1);
+            if (dropped > half || (dropped == half && (assembled & 1) != 0)) {
+                ++assembled;
+            }
+
+            return static_cast<std::uint16_t>(sign | assembled);
+        }
+
+        std::uint16_t floatToHalf(float value) {
+            return floatToHalfTruncate(value);
         }
     }
 
@@ -160,7 +243,12 @@ namespace AGRemapCore {
         return std::make_unique<BufFloat>(*this);
     }
 
-    BufFloat16::BufFloat16(bool isBigEndian): BufBaseFloat("Float16", 2, isBigEndian) {}
+    BufFloat16::BufFloat16(bool isBigEndian, Rounding rounding):
+        BufBaseFloat("Float16", 2, isBigEndian), rounding_(rounding) {}
+
+    BufFloat16::Rounding BufFloat16::getRounding() const {
+        return rounding_;
+    }
 
     BufValue BufFloat16::decode(const ByteVec& src) const {
         std::uint16_t raw = bytesToU16(src, getIsBigEndian());
@@ -169,7 +257,8 @@ namespace AGRemapCore {
 
     ByteVec BufFloat16::encode(const BufValue& src) const {
         float value = static_cast<float>(toDouble(src));
-        std::uint16_t raw = floatToHalf(value);
+        std::uint16_t raw = (rounding_ == Rounding::NearestEven) ? floatToHalfNearestEven(value)
+                                                                 : floatToHalfTruncate(value);
         return u16ToBytes(raw, getIsBigEndian());
     }
 

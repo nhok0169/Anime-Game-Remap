@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_chisa_parfait_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChisaParfaitFixer</compoundname>
+    <includes refid="_chisa_parfait_fixer_8h" local="no">ChisaParfaitFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a328dc59a34656b9e52efce89ff936002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChisaParfaitFixer::ChisaParfaitFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChisaParfaitFixer</name>
+        <qualifiedname>AGRemapCore::ChisaParfaitFixer::ChisaParfaitFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="52" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a80453746ab78d0b6105edb97efb1e2f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ChisaParfaitFixer::chisa2_8</definition>
+        <argsstring>()</argsstring>
+        <name>chisa2_8</name>
+        <qualifiedname>AGRemapCore::ChisaParfaitFixer::chisa2_8</qualifiedname>
+        <briefdescription>
+<para><computeroutput>ChisaParfait -&gt; Chisa</computeroutput> at game version <computeroutput>2.8</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" kindref="member">IniFixBuilderFuncs::chisa2_8</ref></computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="58" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="416" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+ChisaParfait&apos;s own ``.ini`` fixers -- the reverse of :cpp:class:`ChisaFixer`, through
+:cpp:func:`makeWWMIFixer`. What is specific to this direction, beyond the plan being the
+forward one read backwards:
+
+* **the target is past 256 merged bones.** Chisa&apos;s merged skeleton is 420 slots and a WWMI
+  ``Blend.buf`` names a bone in 8 bits, so the fix writes WWMI&apos;s own blend remap and supplies
+  skeleton buffers sized for 512 bones (:cpp:member:`WWMIFixerConfig::mergedSkeletonSlots`).
+  ChisaParfait is the other way round -- 264 slots, and the bones her model weights stop at 250
+  -- so her mods carry no blend remap of their own and her ``Blend.buf`` holds plain 8-bit
+  merged ids
+* **her mods are 8-influence** (16 bytes a vertex) and carry no blend remap, which is the one
+  shape that reaches ``wwmiBlendElements`` -- see ``wwmiBlendInfluences`` in
+  :cpp:func:`makeWWMIFixer`&apos;s source
+* **two merges**: she has EIGHT draw slots against Chisa&apos;s seven, so her frilled panel goes
+  through Chisa&apos;s upper body and her right-hip prop through Chisa&apos;s lower body, each landing in
+  its own generated ``.ini`` file
+* **seven of the shaders it tags are also the forward direction&apos;s**, so their ``filter_index``
+  values are ITS (:cpp:member:`WWMIFixerConfig::filterIndices`) -- a ``[ShaderOverride]`` is
+  keyed by shader hash across every loaded ``.ini``, and two mods fixed opposite ways would
+  otherwise disagree and silently unbind each other&apos;s textures
+* **Chisa&apos;s body layout is normal / mask / diffuse at ps-t0 / t1 / t2**, where ChisaParfait&apos;s
+  inserts an ``R8_UNORM`` detail map at ``ps-t2`` and puts the diffuse at ``ps-t3``. So the
+  diffuse moves DOWN a register in this direction and the detail map, which Chisa&apos;s shader has
+  no input for, is not bound at all
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="50" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" bodystart="50" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a80453746ab78d0b6105edb97efb1e2f5" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitFixer</scope><name>chisa2_8</name></member>
+      <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a328dc59a34656b9e52efce89ff936002" prot="public" virt="non-virtual"><scope>AGRemapCore::ChisaParfaitFixer</scope><name>ChisaParfaitFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

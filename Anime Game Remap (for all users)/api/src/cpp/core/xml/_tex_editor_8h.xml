@@ -9,6 +9,7 @@
     <includedby refid="_g_i_m_i_char_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/GIMICharFixer.h</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h</includedby>
+    <includedby refid="_w_w_m_i_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/WWMIFixer.h</includedby>
     <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
     <includedby refid="_tex_editor_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</includedby>
     <includedby refid="_material_band_remap_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</includedby>
@@ -186,8 +187,8 @@
         </childnode>
       </node>
       <node id="64">
-        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
-        <link refid="_remap_tex_resource_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
         <childnode refid="65" relation="include">
         </childnode>
         <childnode refid="66" relation="include">
@@ -199,7 +200,21 @@
         <childnode refid="69" relation="include">
         </childnode>
       </node>
-      <node id="65">
+      <node id="70">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
         <link refid="_tex_creator_edit_8h"/>
         <childnode refid="15" relation="include">
@@ -207,7 +222,7 @@
         <childnode refid="50" relation="include">
         </childnode>
       </node>
-      <node id="66">
+      <node id="72">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
         <childnode refid="15" relation="include">
@@ -228,15 +243,17 @@
         </childnode>
         <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="66" relation="include">
-        </childnode>
         <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
@@ -256,10 +273,10 @@
         </childnode>
         <childnode refid="63" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
       </node>
-      <node id="70">
+      <node id="75">
         <label>include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</label>
         <link refid="_material_band_remap_filter_8h"/>
         <childnode refid="47" relation="include">
@@ -274,10 +291,10 @@
         </childnode>
         <childnode refid="63" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="67">
+      <node id="73">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
@@ -329,6 +346,14 @@
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
       </node>
+      <node id="65">
+        <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
+        <link refid="_chisa_fixer_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
+        <link refid="_chisa_parfait_fixer_8cpp"/>
+      </node>
       <node id="49">
         <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
         <link refid="_citlali_fixer_8cpp"/>
@@ -337,7 +362,7 @@
         <label>src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</label>
         <link refid="_citlali_whisperof_stars_fixer_8cpp"/>
       </node>
-      <node id="72">
+      <node id="77">
         <label>src/data/IniFixData/DarkDiffuse.cpp</label>
         <link refid="_dark_diffuse_8cpp"/>
       </node>
@@ -481,6 +506,14 @@
         <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
         <link refid="_rosaria_c_n_fixer_8cpp"/>
       </node>
+      <node id="67">
+        <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
+        <link refid="_sanhua_fixer_8cpp"/>
+      </node>
+      <node id="68">
+        <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
+        <link refid="_sanhua_exorcist_fixer_8cpp"/>
+      </node>
       <node id="40">
         <label>src/data/IniFixData/Shenhe/ShenheFixer.cpp</label>
         <link refid="_shenhe_fixer_8cpp"/>
@@ -489,7 +522,7 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="68">
+      <node id="69">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
@@ -525,15 +558,15 @@
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
-      <node id="69">
+      <node id="74">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="73">
+      <node id="78">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>
-      <node id="71">
+      <node id="76">
         <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
         <link refid="_material_band_remap_filter_8cpp"/>
       </node>

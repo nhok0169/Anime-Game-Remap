@@ -37,6 +37,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="82">
         <label>AGRemapCore/data/IniFixBuilderData.h</label>
@@ -244,6 +246,8 @@
         <label>AGRemapCore/model/buffers/BufElementType.h</label>
         <link refid="_buf_element_type_8h"/>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>

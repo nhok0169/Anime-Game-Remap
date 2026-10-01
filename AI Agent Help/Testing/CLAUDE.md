@@ -649,8 +649,12 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction.
 
-> **Current baseline --- Windows, 2026-09-17: 2288 tests, 0 failures, 0 errors, 0 expected
-> failures** (measured twice in a row, on the build carrying both of that day's binding/core fixes).
+> **Current baseline --- Windows, 2026-09-29: 2386 tests, 0 failures, 0 errors, 0 expected
+> failures** (`cd "Testing/Unit Tester" && py -3 main.py`, ~45s). It was **2288** on 2026-09-17 and
+> that figure was still written here on the 29th: the 98 arrived with other work and nobody re-read
+> it. **Run it and read the number** rather than trusting this line --- the counts in `core/tests`
+> sat three rows stale the same way, and each carried a comment deriving them from a history that
+> had drifted.
 > The seven `baseIniFileTest.py` classes described in the box below RUN now, on the C++ `IniFile`
 > and the C++ `IniClassifier` (see "The `.ini` fixture classes run on the C++ `IniFile`" further
 > down), and the two `expectedFailure`s that box used to carry are gone --- the `ResGroupCollect`
@@ -1195,6 +1199,48 @@ py -3 -m pip uninstall FixRaidenBoss2      # both -- see the shadowing warning b
   [Overview](../Overview/CLAUDE.md)'s operating norms.
 
 ## Integration Tester (`Testing/Integration Tester`)
+
+### THE CHECKED-IN RESULTS FILE WILL LIE TO YOU (2026-09-28)
+
+`integrationTestResults.txt` is tracked, and `Tools/Misc/Linux/integrationTest.sh` used to grep it
+unconditionally after running. So a run that dies before writing it reports the **previous** run's
+numbers as though they were this one's. It reported `Ran 24 tests ... FAILED (failures=21)` for a
+run that had exited **two seconds** in on a `ModuleNotFoundError` — a three-day-old file from a
+*Windows* run, and the only tell was Windows paths in the tracebacks of a Linux run. That was one
+careless glance away from a day spent "fixing" 21 failures that no build of mine had produced.
+
+The script stamps the file's mtime now and refuses to quote it if it did not move. The general form
+of the trap is Overview's habit 66 — **a check that cannot say "nothing was checked" will report a
+tidy number over nothing** — and it applies to any runner that greps a committed artifact.
+
+**And a fresh worktree cannot run it at all until the four Cython modules are there.** Only
+`core.cpython-*.so` comes from `linuxBuild.sh`; `Cy{Algo,DictTools,HashTools,ListTools}` are a
+separate build and are untracked, so a worktree has only their Windows `.pyd`s and the import dies
+before any test. They are plain artifacts: copy them from a checkout that has them once
+`api/src/cython` is confirmed identical between the two.
+
+### The 2026-09-28 run, and what 14 failures turned out to mean
+
+Run on Linux against a Linux build of the `add-chisa` worktree (`~/cbuildlin-worktree`, z3 taken
+from the already-built `cextlin/z3`, 824 targets, ~5 minutes; the suite itself 307s): **14 of 24
+failed, and every single one was a FILE TREE difference with NO content difference at all.**
+
+Every missing file was **untracked** and predates the session — twelve tests missing
+`iniStr_onlyIniFixedPart.py`, one `multiFix/select/Jean/JeanSeaBodyRemapTexPK_ BNl.dds`, one
+`overrideFix/KiraraRosariaCNRemapBlend.buf`. 21 untracked files sit under the goldens, and **0
+are modified or deleted**. Somebody added expected files the tester does not produce and never
+committed them.
+
+So the result is readable as: **no golden's CONTENT moved**, which was the question worth asking,
+because that session changed shared code (`IniNamingTools`, `IniFile::disableIni`,
+`IniFileRemoveContext::removeBackup`, `IniFileFixContext::fixedFilePath`,
+`RemapService::_origIniPath`) and one of those changes is specifically a LINUX behaviour change:
+`FileService::strToPath` translates a backslash to a separator on POSIX where `fs::path(str)` does
+not, and the `blendFromPath` fixture exists to stress backslash paths
+(`Dont\Use\If\Statements\...buf`, `M:\AnotherDrive\...`). It moved nothing.
+
+**Classify the failures before attributing them.** "14 failed" and "14 failed on content" are
+different findings with different owners, and the results file states which.
 
 **It works again, and its goldens are current (2026-09-17).** End-to-end tests of the API's real output:
 each test copies `Tests/<Suite>/inputs/` into `expected_<test>/` (`produceOutputs`) or `output_<test>/`

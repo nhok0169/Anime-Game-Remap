@@ -18,6 +18,19 @@
 
 
 namespace AGRemapCore {
+    std::unique_ptr<BufElementType> BufElementType::repeated(std::string name, std::size_t count,
+                                                              const std::function<std::unique_ptr<BufDataType>()>& make,
+                                                              std::string formatName) {
+        std::vector<std::unique_ptr<BufDataType>> dataTypes;
+        dataTypes.reserve(count);
+        for (std::size_t i = 0; i < count; ++i) {
+            dataTypes.push_back(make());
+        }
+
+        return std::make_unique<BufElementType>(std::move(name), std::move(formatName), std::move(dataTypes));
+    }
+
+
     std::size_t BufElementType::computeSize(const std::vector<std::unique_ptr<BufDataType>>& dataTypes) {
         std::size_t size = 0;
         for (const auto& dataType : dataTypes) {

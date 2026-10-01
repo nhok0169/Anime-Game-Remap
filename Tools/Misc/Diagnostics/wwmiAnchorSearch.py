@@ -16,6 +16,19 @@
 #     part kept its extents calls a bone that merely TURNED the part "stretched" -- it threw away
 #     267 of 272 bones, the right answer among them.
 #
+# READ THE `TODAY` LINE AS A COMPARISON, NEVER AS A VERDICT (2026-09-28). Its "STRETCHED xN" and
+# "N from where it is modelled" compare the part's REST vertices skinned under the target's skeleton
+# as the dump captured it -- a POSED frame, not a bind pose -- against where the source's author
+# modelled it. So a part that renders perfectly still reports a large displacement and a large
+# stretch. Measured on ChisaParfait -> Chisa: her frilled panel reports x2.17 and 70.6 away, and her
+# UPPER BODY -- which renders correctly, and whose remap is verified -- reports x2.37 and 54.1 away.
+# Worse, on the part that is right.
+#
+# The numbers are meaningful only BETWEEN CANDIDATES in one run, which is what the ranking below
+# uses them for. Run the same search on a part you know is fine before reading any absolute figure
+# as a defect; one of these numbers reached a user-facing doc as a stated limitation before that
+# control was run.
+#
 # So this does what the GPU does: applies each candidate bone's matrix to the part's rest vertices,
 # keeps the candidates whose RMS radius from the centroid is unchanged (a rigid transform preserves
 # it, whatever the rotation), and ranks what is left by where the centroid LANDS -- against the

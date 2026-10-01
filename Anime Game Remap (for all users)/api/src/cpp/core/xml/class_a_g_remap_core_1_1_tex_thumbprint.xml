@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_tex_thumbprint" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexThumbprint</compoundname>
+    <includes refid="_tex_thumbprint_8h" local="no">TexThumbprint.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_thumbprint_1a3e3f12f2576ae3376259c105901c1ed1" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt;</type>
+        <definition>using AGRemapCore::TexThumbprint::Table = std::unordered_map&lt;std::string, std::vector&lt;std::uint8_t&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Table</name>
+        <qualifiedname>AGRemapCore::TexThumbprint::Table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A table of thumbprints by whatever names them -- a hash, a role, a file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="57" column="13" bodyfile="include/AGRemapCore/model/textures/TexThumbprint.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_thumbprint_1a61bba32d7ce38368e712de441338d898" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; double &gt; &gt; AGRemapCore::TexThumbprint::of</definition>
+        <argsstring>(const std::string &amp;path, int size)</argsstring>
+        <name>of</name>
+        <qualifiedname>AGRemapCore::TexThumbprint::of</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprint of the image at &apos;path&apos;: an ``size`` x ``size`` grid, row-major, of the
+mean of each block&apos;s ``(r + g + b) / 3``, rounded :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Blocks are ``(width / size)`` x ``(height / size)`` and the remainder is dropped, so an
+image whose sides do not divide evenly is thumbprinted from its top-left. Alpha is not
+read at all
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The image to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grid&apos;s side <ndash/> the thumbprint holds &apos;size&apos; * &apos;size&apos; values</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The thumbprint, or <computeroutput>std::nullopt</computeroutput> if the file will not open, holds no image, or is smaller than &apos;size&apos; on either side </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="77" column="34" bodyfile="src/model/textures/TexThumbprint.cpp" bodystart="25" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_thumbprint_1a6f118e7d941f3a988d69424fe3c364f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double AGRemapCore::TexThumbprint::correlation</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;thumb, const std::vector&lt; std::uint8_t &gt; &amp;stored)</argsstring>
+        <name>correlation</name>
+        <qualifiedname>AGRemapCore::TexThumbprint::correlation</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>thumb</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::uint8_t &gt; &amp;</type>
+          <declname>stored</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`Pearson correlation`_ between a thumbprint and a stored one :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mean-centred, so it answers &quot;is this the same PICTURE&quot; rather than &quot;is this the same
+brightness&quot;: a re-saved, re-exposed or re-compressed copy still correlates near 1
+
+.. _Pearson correlation: https://en.wikipedia.org/wiki/Pearson_correlation_coefficient
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>thumb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A thumbprint, as <ref refid="class_a_g_remap_core_1_1_tex_thumbprint_1a61bba32d7ce38368e712de441338d898" kindref="member">of</ref> returns it </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stored</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A thumbprint from a <ref refid="class_a_g_remap_core_1_1_tex_thumbprint_1a3e3f12f2576ae3376259c105901c1ed1" kindref="member">Table</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The correlation in [-1, 1], or <computeroutput>0</computeroutput> if the two are different lengths, empty, or either is perfectly flat (a flat image correlates with nothing) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="97" column="27" bodyfile="src/model/textures/TexThumbprint.cpp" bodystart="67" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_thumbprint_1a3d88aa1ab85175db1ef9896dd02dee0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexThumbprint::identify</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;thumb, const Table &amp;table, double minScore, double maxRunnerUp)</argsstring>
+        <name>identify</name>
+        <qualifiedname>AGRemapCore::TexThumbprint::identify</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>thumb</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_tex_thumbprint_1a3e3f12f2576ae3376259c105901c1ed1" kindref="member">Table</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minScore</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxRunnerUp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which entry of &apos;table&apos; &apos;thumb&apos; IS, if the answer is unambiguous :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The best match has to reach &apos;minScore&apos; **and** every other entry has to stay under
+&apos;maxRunnerUp&apos;. The second half is what makes a wrong answer rare rather than merely
+unlikely: textures of one character are often near-copies of each other, so &quot;the best
+of these&quot; is a much weaker claim than &quot;this one and nothing else&quot;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>thumb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thumbprint to identify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thumbprints to identify it among </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minScore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How well the best match must correlate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxRunnerUp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How poorly every other entry must correlate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The winning entry&apos;s name, or <computeroutput>std::nullopt</computeroutput> if nothing won cleanly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="118" column="34" bodyfile="src/model/textures/TexThumbprint.cpp" bodystart="97" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_thumbprint_1a40d29ba32330a64beb032f4b5d7b46b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexThumbprint::identifyFile</definition>
+        <argsstring>(const std::string &amp;path, const Table &amp;table, int size, double minScore, double maxRunnerUp)</argsstring>
+        <name>identifyFile</name>
+        <qualifiedname>AGRemapCore::TexThumbprint::identifyFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_tex_thumbprint_1a3e3f12f2576ae3376259c105901c1ed1" kindref="member">Table</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minScore</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxRunnerUp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+\ref of followed by \ref identify -- the whole question in one call
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The image to identify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thumbprints to identify it among </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grid&apos;s side, which must be the one &apos;table&apos; was built at </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minScore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How well the best match must correlate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxRunnerUp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How poorly every other entry must correlate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The winning entry&apos;s name, or <computeroutput>std::nullopt</computeroutput> if the file will not read or nothing won cleanly </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="136" column="34" bodyfile="src/model/textures/TexThumbprint.cpp" bodystart="158" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_thumbprint_1a5477405a44a4810a585534c28b09f923" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TexThumbprint::channelIsConstant</definition>
+        <argsstring>(const std::string &amp;path, int channel)</argsstring>
+        <name>channelIsConstant</name>
+        <qualifiedname>AGRemapCore::TexThumbprint::channelIsConstant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether every texel of &apos;channel&apos; holds the same value -- the texture says nothing about
+WHERE anything is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Worth asking of a texture whose job is to mark regions, such as a material mask, because
+a constant one is not a neutral one. A mod shipping a mask of ``R = 255`` everywhere is
+not saying &quot;no preference&quot;, it is saying &quot;all of this is bare skin&quot;, and a fix that
+carries it across faithfully hands the target&apos;s shader exactly that :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A texture that will not open answers ``false``: an unreadable file is not evidence
+   that its contents are constant, and the caller&apos;s fallback for &quot;no usable file&quot; is a
+   different path from its fallback for &quot;no file&quot;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The image to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which channel to test <ndash/> 0 is red, 3 is alpha</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether that channel is the same value everywhere </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="162" column="25" bodyfile="src/model/textures/TexThumbprint.cpp" bodystart="126" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Recognizing a texture by its PIXELS rather than by its hash :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A thumbprint is a tiny grayscale reduction of an image -- an ``n`` x ``n`` grid of block
+averages -- and two thumbprints correlate near 1 when they came from the same picture at any
+size, in any format, saved by any tool :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Why a fix needs this at all: a texture&apos;s hash drifts. On Wuthering Waves it drifts with both
+texture streaming and the game version, so a table of &quot;this hash is the diffuse&quot; goes stale,
+and a mod that ships a re-saved copy of a game texture has a hash matching nothing. Comparing
+pixels answers the question the hash was standing in for :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A full-size correlation and a 16 x 16 thumbprint made the same decision on every one of one
+   mod&apos;s 19 files, which is why the small grid is enough -- and it needs no download of the
+   original to compare against, only the numbers (2026-09-19)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/textures/TexThumbprint.h" line="48" column="5" bodyfile="include/AGRemapCore/model/textures/TexThumbprint.h" bodystart="48" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_tex_thumbprint_1a5477405a44a4810a585534c28b09f923" prot="public" virt="non-virtual"><scope>AGRemapCore::TexThumbprint</scope><name>channelIsConstant</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_thumbprint_1a6f118e7d941f3a988d69424fe3c364f2" prot="public" virt="non-virtual"><scope>AGRemapCore::TexThumbprint</scope><name>correlation</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_thumbprint_1a3d88aa1ab85175db1ef9896dd02dee0d" prot="public" virt="non-virtual"><scope>AGRemapCore::TexThumbprint</scope><name>identify</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_thumbprint_1a40d29ba32330a64beb032f4b5d7b46b8" prot="public" virt="non-virtual"><scope>AGRemapCore::TexThumbprint</scope><name>identifyFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_thumbprint_1a61bba32d7ce38368e712de441338d898" prot="public" virt="non-virtual"><scope>AGRemapCore::TexThumbprint</scope><name>of</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_thumbprint_1a3e3f12f2576ae3376259c105901c1ed1" prot="public" virt="non-virtual"><scope>AGRemapCore::TexThumbprint</scope><name>Table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -493,7 +493,9 @@ Two consequences, both the opposite of what this file used to say:
   anything --- the list grows, and this paragraph will go stale the same way the last one did.
 
 **THE UNIT TESTER IS GREEN ON BOTH OPERATING SYSTEMS NOW, AND "THE BASELINE HAS 7 ERRORS" IS DEAD
-ADVICE (2026-09-17).** Windows: **2288 tests, 0 failures, 0 errors**. Linux: the same **2288**, and
+ADVICE (2026-09-17).** Windows: **2386 tests, 0 failures, 0 errors** (re-measured 2026-09-29; it
+was 2288 when this line was written, so run the suite rather than trusting the number). Linux: the
+same suite, and
 **0 failures too since 2026-09-18** --- the 11 it used to report were called "test-side assumptions",
 and TWO of them were product bugs: the pure-Python `IniNamingTools.getFixedFile` wrote `./x` into a
 `.ini` path on Linux where the core writes `.\x`, and `IfTemplateNode.children` listed branches in
@@ -691,6 +693,23 @@ mod's UVs are the source's, and the Exorcist's mask at those UVs shaded cloth as
 first WuWa download (`WWMIFixerConfig::fallbackTextures`; `DownloadTools::urlPath` takes a game
 folder now). **Not seen in game through the compiled path yet.** Open: WuWa BUFFER downloads (only textures are fetched so far), the
 reverse direction, retargeting the shape keys, the skin's LOD hashes.
+
+**WUTHERING WAVES 3.7 MOVED ONE CHARACTER OF THE FOUR, NOT ALL OF THEM (2026-09-30).** The 3.7
+update changed the game's model system and every WuWa mod stopped matching, which reads as a rehash
+of everything. It is not: re-dumped and rebuilt, `Chisa`, `Sanhua` and `SanhuaExorcist` are
+**byte-identical** to their shipped download folders, hashes included, and only **ChisaParfait**
+moved -- `vb0` `e611d493` -> `95ecef77`, plus small edits to `Position` / `Texcoord` / `Color` /
+`ShapeKeyVertexOffset`, with every count, offset, texture hash, `cb4`, `shapekey_offsets` and
+`shapekey_scale` unchanged. `Data/Mod Downloads/WuWa/ChisaParfait/3_7` is the new folder; the other
+three need none. **A mod failing to match says nothing about which asset moved** -- and an earlier
+narrow OVERWORLD dump that reported "Chisa 4 of 56 hashes present" was measuring characters that were
+never drawn in that frame. Two rules came out of it, both written up: **take a frame dump from the
+CHARACTER MENU, not the overworld** (the maintainer's, for both games -- an overworld dump was 9.8 GB
+and killed the game, and WWMI Tools' extractor aborts on an unrelated NPC whose skeleton buffer is
+short, naming neither the object nor its hash), and a WuWa download folder is now proved a second way
+by `Tools/Misc/Diagnostics/wwmiCheckDownload.py`, against the dump's own bytes rather than the reader
+that built it. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s dump rules and
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Proving a NEW download folder".
 
 **A WUWA REMAP TO DEBUG OR A NEW WUWA PAIR: three sections of [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)
 carry everything the in-game rounds taught (2026-09-19).** "WuWa triage" maps every report's WORDS
@@ -1335,10 +1354,32 @@ misspelled character (`BarabaraSummertime` --- a name no `--types` argument coul
 missing alias, and the enum was **six characters behind** (Bennett, BennettAdventure, Yelan,
 YelanTranquil, Sanhua, SanhuaExorcist), which is what the CLI's `--help` was printing. All four are
 in step now, `--help` prints the docs link instead of a list that grows with every remap, and
-`core/xml` --- which had not been regenerated since Bennett, so every WuWa class was missing from the
-published core API --- was regenerated with the pinned Doxygen. **Generate these lists, never retype
+`core/xml` --- which had not been regenerated since Bennett --- was brought back in step with the
+pinned Doxygen. (That last one keeps the committed ARTIFACT current and **does not publish
+anything**: `coreAPI.rst` lists framework classes by hand, and a built site has zero pages naming
+`SanhuaExorcistFixer`, `CitlaliWhisperofStarsFixer` or `BennettAdventureFixer` --- measured
+2026-09-25, and the guides that said otherwise are corrected.) **Generate these lists, never retype
 them**: see [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "A CHARACTER IS FOUR DOC
 TABLES" and [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Closing out a remap".
+
+**SEVEN THINGS THE COMPILED WUWA FIX BOUND OVER THE MOD'S OWN ART, AND THE ORDER THEY WERE FOUND IN
+MATTERS MORE THAN ANY OF THEM (2026-09-25).** The A/B against the prototype on ONE mod said clean.
+The same A/B on a SECOND mod said four things: a role matched only against the CURRENT version's
+hashes (eleven roles fell back to downloading the GAME's texture, so a painted outfit rendered
+vanilla), a RabbitFX mod that binds no `ps-t` at all, a role the plan does not name never resolved
+to the mod's own file, and **every texture edit written to disk and bound by no section** while the
+summary said `editted 4 *.dds files and skipped 0`. Then the GAME said three more, one of which no
+A/B could ever say: a mod-manager-packaged mod --- GUID `.assets` files, no `Position.buf` anywhere
+--- rendered **nothing but its weapon**, because two mesh paths were still built as siblings of the
+index file, so no blend was written and the `.ini` bound `vb4` to a file that was not there. Both
+sides of the A/B read the same wrong path and produced the same nothing. What named it in two
+minutes was checking every `filename =` in the fixed `.ini` against the disk: **one dangling
+reference out of 105**, and that check is worth running on any mod that renders wrong. Plus: a mod's
+texture toggle stopped working while its geometry kept switching (the gyaru hair drawn with the OG
+hair's texture --- 10 of 18 of one character's mods have a toggled role, and a Sanhua mod has one
+too), and an edit reached one variant of a role bound in several. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "WHAT THE COMPILED WUWA FIX BOUND
+OVER THE MOD'S OWN ART" and "A MOD'S TEXTURE TOGGLE STOPPED WORKING".
 
 **AND THEY WENT BEHIND AGAIN WITHIN TWO DAYS, SO IT IS A DIAGNOSTIC NOW (2026-09-22).**
 `Tools/Misc/Diagnostics/checkModTypeTables.py` asks the builders and diffs all four; run against the
@@ -1362,7 +1403,14 @@ regardless, so reading that way and writing with `newline=""` **converts the who
 without touching a single line you meant to change. Read binary (or with `newline=""`), normalise
 explicitly, write back explicitly -- then re-check `file` or `git diff --shortstat` against
 `--ignore-cr-at-eol`; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
-return + `ef`), so write patch scripts with the Write tool and run them by path -- **and `sed -i`
+return + `ef`), so write patch scripts with the Write tool and run them by path -- **and "eat" is
+too kind: it TRANSLATES, so the damage can be a byte that prints as nothing.** A Python
+`re.sub` replacement written `r"\1facts."` in a heredoc arrived as `r"<0x01>facts."`: the group
+reference had become the control character, `grep` showed the line looking *correct*, and the
+substitution would have deleted the indentation of every line it touched. Confirmed with
+`cat -A` (`^A`), and fixed by rewriting the byte. **If a heredoc-written script behaves oddly around a
+backslash, `cat -A` the line before re-reading it** -- an escape that survived and one that became a
+control byte look identical in every ordinary view -- **and `sed -i`
 mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (silent whole-file
 line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
 (`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). **The same eating happens to a `py -3 -c` one-liner run

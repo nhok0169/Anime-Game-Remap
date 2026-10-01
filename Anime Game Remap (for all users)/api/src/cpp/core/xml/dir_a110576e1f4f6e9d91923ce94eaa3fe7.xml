@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a110576e1f4f6e9d91923ce94eaa3fe7" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/CharlotteHurlock</compoundname>
+    <innerfile refid="_charlotte_hurlock_fixer_8h">CharlotteHurlockFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/CharlotteHurlock/"/>
+  </compounddef>
+</doxygen>

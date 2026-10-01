@@ -62,7 +62,8 @@ namespace AGRemapCore {
             #ifdef AGREMAPCORE_DOCS_PARSE
             #define ModTypePredicate std::function<bool(const V&, const ModType*)>
             #define ValProducer std::function<V(const ModType*)>
-            #define NewVal std::variant<V, std::function<V(const ModType*)>>
+            #define OldValProducer std::function<V(const V&, const ModType*)>
+            #define NewVal std::variant<V, std::function<V(const ModType*)>, std::function<V(const V&, const ModType*)>>
             #define NewValSpec std::variant<NewVal, std::vector<NewVal>, std::pair<NewVal, std::function<bool(const V&, const ModType*)>>>
             #else
             /**
@@ -99,14 +100,38 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             A single new value -- either the value itself, or a \ref ValProducer that computes it
-             from the :cpp:class:`ModType` being fixed :raw-html:`<br />` :raw-html:`<br />`
+             A new register value computed from the value ALREADY THERE -- takes the old value and
+             the :cpp:class:`ModType` being fixed (whatever was handed to \ref edit, and may be
+             ``nullptr``), and returns the value to write
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             \ref ValProducer one argument wider, for the same reason \ref ModTypePredicate is one
+             wider than :cpp:type:`IfContentPart::Predicate`. Nothing else in this family can write
+             a value derived from the old one: :cpp:class:`RegRemap` moves the KEY (its
+             :cpp:class:`RemappedKeyData` may *test* the value and cannot change it), and
+             :cpp:class:`RegAssetRemap` maps a value through :cpp:class:`ModMappedAssets`, which is
+             the right answer for a hash or an index and no help for anything else
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                A \ref OldValProducer has nothing to read when the key is absent, so \ref
+                addNewKVPs does not apply to one -- an absent key stays absent
+             @endrst
+             */
+            using OldValProducer = std::function<V(const V&, const ModType*)>;
+
+            /**
+             * @brief
+             @rst
+             A single new value -- the value itself, a \ref ValProducer that computes it from the
+             :cpp:class:`ModType` being fixed, or a \ref OldValProducer that computes it from that
+             and the value already there :raw-html:`<br />` :raw-html:`<br />`
 
              Every place :cpp:func:`IfContentPart::replaceVals` accepts a bare ``V``, \ref
              NewValSpec accepts one of these instead
              @endrst
              */
-            using NewVal = std::variant<V, ValProducer>;
+            using NewVal = std::variant<V, ValProducer, OldValProducer>;
 
             /**
              * @brief
@@ -172,6 +197,14 @@ namespace AGRemapCore {
              plain single-argument :cpp:type:`IfContentPart::Predicate`
              :cpp:func:`IfContentPart::replaceVals` expects -- which is why this class keeps its
              own spec type instead of reusing :cpp:type:`IfContentPart::ReplaceSpec` directly
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A key whose spec holds a \ref OldValProducer cannot be handed over at all, since the
+             value to write is not known until the occurrence is in hand. Those keys are written
+             here instead, occurrence by occurrence, under exactly
+             :cpp:func:`IfContentPart::replaceVals`' own rules: a bare spec writes every occurrence,
+             a list writes the i-th occurrence from the i-th entry and ignores any entry past the
+             end, and a conditional writes the occurrences its predicate accepts
              @endrst
              *
              * @param part The part of the `IfTemplate` being edited, modified in place

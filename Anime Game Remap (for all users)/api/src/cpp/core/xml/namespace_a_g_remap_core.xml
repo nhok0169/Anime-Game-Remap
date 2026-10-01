@@ -71,6 +71,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_charlotte_parser" prot="public">AGRemapCore::CharlotteParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_fixer" prot="public">AGRemapCore::CherryHuTaoFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cherry_hu_tao_parser" prot="public">AGRemapCore::CherryHuTaoParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_chisa_fixer" prot="public">AGRemapCore::ChisaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_chisa_parfait_fixer" prot="public">AGRemapCore::ChisaParfaitFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_chisa_parfait_parser" prot="public">AGRemapCore::ChisaParfaitParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_chisa_parser" prot="public">AGRemapCore::ChisaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_citlali_fixer" prot="public">AGRemapCore::CitlaliFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_citlali_parser" prot="public">AGRemapCore::CitlaliParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_citlali_whisperof_stars_fixer" prot="public">AGRemapCore::CitlaliWhisperofStarsFixer</innerclass>
@@ -126,6 +130,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_mod_types" prot="public">AGRemapCore::GlobalModTypes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_remap_ini_remover" prot="public">AGRemapCore::GlobalRemapIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_create" prot="public">AGRemapCore::GraphCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
@@ -202,6 +207,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_res_edit_context" prot="public">AGRemapCore::IniResEditContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource" prot="public">AGRemapCore::IniResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public">AGRemapCore::IniResourceModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_scan" prot="public">AGRemapCore::IniScan</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_scan_section" prot="public">AGRemapCore::IniScanSection</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public">AGRemapCore::IniSrcResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
@@ -276,6 +283,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_ningguang_orchid_parser" prot="public">AGRemapCore::NingguangOrchidParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ningguang_parser" prot="public">AGRemapCore::NingguangParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_node" prot="public">AGRemapCore::Node</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_num_tools" prot="public">AGRemapCore::NumTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" prot="public">AGRemapCore::OrderedMultiMapAdapter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" prot="public">AGRemapCore::OrderedMultiMapSqrt</innerclass>
@@ -334,6 +342,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_sanhua_parser" prot="public">AGRemapCore::SanhuaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_section_text" prot="public">AGRemapCore::SectionText</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shape_key_checksums" prot="public">AGRemapCore::ShapeKeyChecksums</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_fixer" prot="public">AGRemapCore::ShenheFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" prot="public">AGRemapCore::ShenheFrostFlowerFixer</innerclass>
@@ -356,6 +365,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_fx_layout" prot="public">AGRemapCore::TexFxLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_reg_layout" prot="public">AGRemapCore::TexRegLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_thumbprint" prot="public">AGRemapCore::TexThumbprint</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
@@ -390,7 +400,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_resource" prot="public">AGRemapCore::VGSplitGroupResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_builder" prot="public">AGRemapCore::WWMIBuilder</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" prot="public">AGRemapCore::WWMIFixerConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_parse_facts" prot="public">AGRemapCore::WWMIParseFacts</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" prot="public">AGRemapCore::WWMIParserConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" prot="public">AGRemapCore::WWMITextureFacts</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles" prot="public">AGRemapCore::WWMITextureRoles</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_parser" prot="public">AGRemapCore::XianglingCheerParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_fixer" prot="public">AGRemapCore::XianglingFixer</innerclass>
@@ -1623,7 +1636,7 @@ suffixed with an occurrence count if the same name repeats) and the values are t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="59" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="59" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="89" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" prot="public" static="no">
         <type>std::variant&lt; std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
@@ -1821,6 +1834,88 @@ in an :cpp:class:`OrderedMultiMapAdapter`
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1af9d959b1e6776f8f06ff2455c63126f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::chisaTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>chisaTextureFacts</name>
+        <qualifiedname>AGRemapCore::chisaTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What Chisa&apos;s own textures look like -- the hash the game binds each under, and which role each
+register binds per component :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the same facts identify a Chisa mod&apos;s textures whichever skin it is being
+fixed onto, so they belong to the character. The PARSER reads them to work out what a mod&apos;s
+files are; the fixer reads them until it stops needing to
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Chisa/ChisaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Chisa/ChisaTextures.cpp" bodystart="20" bodyend="111" declfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h" declline="34" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a70652c43e2725b050dc97264ae17feac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::chisaTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>chisaTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::chisaTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of Chisa&apos;s own textures (``Data/Mod Downloads/WuWa/Chisa/2_8``), by hash --
+see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Chisa/ChisaThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/Chisa/ChisaThumbprints.cpp" bodystart="26" bodyend="517" declfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a66ac73a4903d46330b30894074995498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::chisaParfaitTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>chisaParfaitTextureFacts</name>
+        <qualifiedname>AGRemapCore::chisaParfaitTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What ChisaParfait&apos;s own textures look like -- the hash the game binds each under, and which role each
+register binds per component :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the same facts identify one of her mods&apos; textures whichever skin it is
+being fixed onto, so they belong to the character. The PARSER reads them to work out what a
+mod&apos;s files are
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" bodystart="20" bodyend="93" declfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h" declline="34" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a8a3cdb2fee3b17d4f9d01c5af5dda7bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::chisaParfaitTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>chisaParfaitTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::chisaParfaitTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of ChisaParfait&apos;s own textures (``Data/Mod Downloads/WuWa/ChisaParfait/3_5``),
+by hash -- see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp" bodystart="26" bodyend="517" declfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
         <definition>IniFixBuilder::Factory AGRemapCore::makeGIMICharFixer</definition>
@@ -1955,6 +2050,28 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </inbodydescription>
         <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3293" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3293" bodyend="3297" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="506" declcolumn="28"/>
       </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::sanhuaTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>sanhuaTextureFacts</name>
+        <qualifiedname>AGRemapCore::sanhuaTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What Sanhua&apos;s own textures look like -- the hash the game binds each under, and which role each
+register binds per component :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the same facts identify one of her mods&apos; textures whichever skin it is
+being fixed onto, so they belong to the character. The PARSER reads them to work out what a
+mod&apos;s files are
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" bodystart="20" bodyend="71" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h" declline="34" declcolumn="22"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
         <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::sanhuaTextureThumbprints</definition>
@@ -1973,6 +2090,28 @@ see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
         <inbodydescription>
         </inbodydescription>
         <location file="src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp" bodystart="26" bodyend="391" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a0b98826622962dae0367d431c7e7a700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::sanhuaExorcistTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>sanhuaExorcistTextureFacts</name>
+        <qualifiedname>AGRemapCore::sanhuaExorcistTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What SanhuaExorcist&apos;s own textures look like -- the hash the game binds each under, and which role each
+register binds per component :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the same facts identify one of her mods&apos; textures whichever skin it is
+being fixed onto, so they belong to the character. The PARSER reads them to work out what a
+mod&apos;s files are
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp" bodystart="20" bodyend="72" declfile="include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1ab0c2c3c4b3706fe534ad497ae01b276d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2024,7 +2163,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="1944" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="1944" bodyend="1948" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="444" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="4188" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4188" bodyend="4192" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="731" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2140,7 +2279,78 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="121" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="121" bodyend="132" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="98" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="364" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="364" bodyend="375" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="145" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1af345bf406bf262670fdd608726f76ee4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long AGRemapCore::bufValueAsInt</definition>
+        <argsstring>(const BufValue &amp;value)</argsstring>
+        <name>bufValueAsInt</name>
+        <qualifiedname>AGRemapCore::bufValueAsInt</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+One :cpp:type:`BufValue` as an integer, whatever alternative it actually holds
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Here rather than in each reader because a caller that tests for ONE alternative --
+``std::holds_alternative&lt;unsigned long long&gt;(v) ? std::get&lt;unsigned long long&gt;(v) : 0`` -- is
+correct only while the :cpp:class:`BufElementType`\s it read the buffer with produce that
+alternative, and silently wrong otherwise. Against a `blend`_ buffer read with the float
+weights of :cpp:func:`BlendFile::defaultElements` such a test reads every influence as
+weight-zero, so a remap does nothing while reporting success. Six sites hand-rolled it
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decoded value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>It as an integer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="71" column="22" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a53ab28865ce362dc377bc159a1d54ac9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double AGRemapCore::bufValueAsFloat</definition>
+        <argsstring>(const BufValue &amp;value)</argsstring>
+        <name>bufValueAsFloat</name>
+        <qualifiedname>AGRemapCore::bufValueAsFloat</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>One :cpp:type:<computeroutput><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></computeroutput> as a <computeroutput>floating point</computeroutput>_ number, whatever alternative it holds <ndash/> see <ref refid="namespace_a_g_remap_core_1af345bf406bf262670fdd608726f76ee4" kindref="member">bufValueAsInt</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decoded value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>It as a number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="81" column="19" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="81" bodyend="83"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_31b0d33c227aa470cf815f8d2fe90348" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/CitlaliWhisperofStars</compoundname>
+    <innerfile refid="_citlali_whisperof_stars_parser_8h">CitlaliWhisperofStarsParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/CitlaliWhisperofStars/"/>
+  </compounddef>
+</doxygen>

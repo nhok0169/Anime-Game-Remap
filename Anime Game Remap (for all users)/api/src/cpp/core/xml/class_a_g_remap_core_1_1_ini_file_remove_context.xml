@@ -300,7 +300,7 @@ Drops the read text/lines so the next read comes from disk again
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="88" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="188" bodyend="194"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="88" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="193" bodyend="199"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1ac22791325a32611d04a89c4fba8c10af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -327,7 +327,7 @@ backup that is not there is not an error -- a ``.ini`` file fixed without
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="89" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="168" bodyend="185"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="89" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="168" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1ab3d2c18bbbdb97fde166714e2fc59b20" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -375,7 +375,7 @@ the pure-Python original&apos;s way, and its implementation does clear it :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="90" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="197" bodyend="202"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="90" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="202" bodyend="207"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -6,18 +6,18 @@
     <includes refid="_file_stats_8h" local="yes">AGRemapCore/model/stats/FileStats.h</includes>
     <includes local="no">filesystem</includes>
     <incdepgraph>
-      <node id="8">
+      <node id="9">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -33,6 +33,8 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
@@ -41,33 +43,36 @@
         <link refid="_file_stats_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="9">
-        <label>exception</label>
       </node>
       <node id="3">
-        <label>filesystem</label>
-      </node>
-      <node id="4">
-        <label>optional</label>
-      </node>
-      <node id="5">
-        <label>string</label>
+        <label>cstdint</label>
       </node>
       <node id="10">
-        <label>unordered_map</label>
+        <label>exception</label>
       </node>
-      <node id="11">
-        <label>unordered_set</label>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
       </node>
       <node id="6">
-        <label>utility</label>
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>unordered_set</label>
       </node>
       <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="8">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -136,7 +141,7 @@
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_file_stats_1ae244b19fe0203e73073b3b0d652bef08" kindref="member">FileStats::addSkipped</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filePath,<sp/>std::exception_ptr<sp/>error,<sp/>std::optional&lt;std::string&gt;<sp/>modFolder)<sp/>{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>resolvedModFolder<sp/>=<sp/>modFolder.has_value()<sp/>?<sp/>*modFolder<sp/>:<sp/><ref refid="class_a_g_remap_core_1_1_file_service_1a12aee01b2903d731d6adb7b052a0daf9" kindref="member">FileService::pathToStr</ref>(<ref refid="class_a_g_remap_core_1_1_file_service_1a90ef14f9d1679c06f89f7b6a05271d01" kindref="member">FileService::strToPath</ref>(filePath).parent_path());</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>resolvedModFolder<sp/>=<sp/>modFolder.has_value()<sp/>?<sp/>*modFolder<sp/>:<sp/><ref refid="class_a_g_remap_core_1_1_file_service_1a47bde6ce3906e99672dacee75b4eecac" kindref="member">FileService::parentOf</ref>(filePath);</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>
 <codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats_1afea1be6daac22af636e942b6a3bb1deb" kindref="member">skipped</ref>[filePath]<sp/>=<sp/>error;</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats_1a97f0ac887bf42b1f0ea647eacb122d4c" kindref="member">skippedByMods</ref>[resolvedModFolder][filePath]<sp/>=<sp/>error;</highlight></codeline>

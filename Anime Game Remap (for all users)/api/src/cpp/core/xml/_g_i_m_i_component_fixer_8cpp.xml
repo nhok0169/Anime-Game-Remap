@@ -145,6 +145,8 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
       </node>
       <node id="178">
         <label>AGRemapCore/constants/RegDelimitedAddMode.h</label>
@@ -578,6 +580,8 @@
         <label>AGRemapCore/model/buffers/BufElementType.h</label>
         <link refid="_buf_element_type_8h"/>
         <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -2125,6 +2129,8 @@
       <node id="214">
         <label>AGRemapCore/tools/files/FileService.h</label>
         <link refid="_file_service_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
         <childnode refid="124" relation="include">
         </childnode>
         <childnode refid="11" relation="include">

@@ -31,6 +31,69 @@ changes any time you rerun Doxygen; that's expected, not a sign something went w
 `Docs/build/` (the actual rendered HTML/Sphinx output) *is* gitignored, so a local Sphinx build
 needs no cleanup regardless.
 
+## A `core/xml` MERGE CONFLICT IS RESOLVED BY REGENERATING, NEVER BY HAND (2026-09-27)
+
+Merging `master` into a long-lived character branch conflicts in `core/xml` and nowhere else, because
+both sides added characters and the generated XML lists them. **Do not resolve those hunks.** They
+carry Doxygen's own node ids:
+
+```xml
+<<<<<<< HEAD
+        <childnode refid="54" relation="include">
+=======
+        <childnode refid="55" relation="include">
+```
+
+Those numbers are assigned per RUN and cross-referenced between files, so any hand-picked combination
+is internally inconsistent while looking perfectly resolved -- and the damage shows up much later, as
+a Sphinx `ParserError` pointing at a line that tells you nothing (see the corrupt-`index.xml` section
+above). Take either side to unblock the index, then regenerate the whole directory with the pinned
+Doxygen and `git add` it. The recipe is the one above: **wipe, check the wipe emptied it, run**.
+
+Worked example, `master` into `add-chisa-on-master`: 12 conflicts, all in `core/xml`, no source file
+conflicted. Regeneration gave 1589 files, a valid `index.xml`, all 1584 parsing, and both sides'
+characters present -- ours (Chisa, Citlali, Sanhua) and master's (Charlotte, CharlotteHurlock,
+Neuvillette, NeuvilletteMelusent). Expect the commit to be far bigger than the merge: the committed
+XML lags whenever anyone edits a header without regenerating, so a merge-time regeneration sweeps up
+all of that drift too.
+
+**Check the merge commit's own title against what it contains.** This one said
+`Merge pull request #254 from nhok0169/add-yaoyao` and there is no Yaoyao anywhere in the tree; the
+branch name was stale. A union check that comes back zero for a name in the title is a question, not
+a result.
+
+### AND A CLEAN TEXTUAL MERGE OF A FILE BOTH SIDES EDITED IS NOT A VERIFIED ONE
+
+No source file conflicted, but `master` and the branch had both edited `WWMIFixer.cpp`. Git merged it
+line by line, which says nothing about whether the result compiles or behaves. Three checks, in
+rising cost, and each caught something the one before could not have:
+
+1. **Build it.** 264 steps, clean link -- so both sides' new members coexist.
+2. **Run the real entry point over a real mod.** The branch's own behaviour still fired (both
+   mask-alias drops logged, the `.ini` fixed) -- a build proves neither.
+3. **Diff the corpus against a pre-merge snapshot.** 672 byte-identical, 2 changed, both Keqing merge
+   outputs -- master had edited `GIMIMergeFixer`, so the location was expected.
+
+Step 3 is also where the merge justified itself. The two changed files gained five
+`[Resource...RemapDL]` declarations, and the pre-merge side had been **referencing all five without
+declaring them** -- five dangling references, the defect class that once left a mod drawing nothing
+but its weapon. A diff that shows only additions still deserves the question "what were those
+references doing before?".
+
+A fourth check, the mod sweep, then failed in a way worth knowing: it died with a
+`UnicodeEncodeError` printing an `.ini` whose name is partly in Han characters, through
+Windows' cp1252 stdout -- **after** every mod had been fixed, in the report loop, so the work was
+done and the answer was thrown away. And because it ran through a pipe, the shell reported the
+PIPE's exit status, so it presented as a clean **exit 0** with a truncated report. Any harness that
+prints a path here wants `sys.stdout.reconfigure(encoding = "utf-8")`, and any harness read through
+`| tail` wants its own status captured separately.
+
+Rerun clean, it gave 24 mods, 0 `<Something>NotFound`, 0 non-zero exits. Its 48 dangling
+`filename =` references all turned out to be the mod AUTHORS' own -- 44 present verbatim in each
+mod's pre-fix `RemapBKUP`, and the last 4 in a `ButtonUI/Out UI.ini` that has no backup and no fix
+block, i.e. a file the fix never wrote. **Attribute every one of them, not a sample**: the first
+pass of that check called those 4 unexplained purely because it only knew how to look in backups.
+
 ## Building the docs
 ```bash
 cd Docs

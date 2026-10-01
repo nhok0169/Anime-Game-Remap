@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="64" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniDownloadModel.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="63" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniDownloadModel.h" bodystart="63" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -57,7 +57,7 @@
 <parametername>paths</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_src_resource_model" kindref="compound">IniSrcResourceModel</ref></computeroutput>&apos;s constructor </para>
+<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_src_resource_model" kindref="compound">AGRemapCore::IniSrcResourceModel</ref></computeroutput>&apos;s constructor </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -67,9 +67,9 @@
 <parameterdescription>
 <para><verbatim>embed:rst 
 The downloader associated with each file -- the keys are the indices to the
-:cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+:cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
 for some resource, and the values are the downloaders for the files within that
-:cpp:class:`IfContentPart`
+:cpp:class:`AGRemapCore::IfContentPart`
 </verbatim> </para>
 </parameterdescription>
 </parameteritem>
@@ -78,21 +78,20 @@ for some resource, and the values are the downloaders for the files within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="58" column="13" bodyfile="src/model/iniresources/IniDownloadModel.cpp" bodystart="20" bodyend="22"/>
+        <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="57" column="13" bodyfile="src/model/iniresources/IniDownloadModel.cpp" bodystart="20" bodyend="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`IniSrcResourceModel`
+This class inherits from :cpp:class:`AGRemapCore::IniSrcResourceModel`
 
 Contains data about a particular resource to download in the original .ini file :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``IniDownloadModel`` class (``model/iniresources/IniDownloadModel.py``)
--- #downloads owns its :cpp:class:`FileDownload`\\s via ``std::unique_ptr`` (matches
-:cpp:class:`IniTexModel`&apos;s own reasoning for owning polymorphic entries this way)
+#downloads owns its :cpp:class:`AGRemapCore::FileDownload`\\s via ``std::unique_ptr`` (matches
+:cpp:class:`AGRemapCore::IniTexModel`&apos;s own reasoning for owning polymorphic entries this way)
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -131,7 +130,7 @@ Mirrors the pure-Python ``IniDownloadModel`` class (``model/iniresources/IniDown
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="42" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniDownloadModel.h" bodystart="42" bodyend="65"/>
+    <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="41" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniDownloadModel.h" bodystart="41" bodyend="64"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_download_model_1a72bb422dd6a0bced1e562aa6dbe56b65" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>downloads</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>fullPaths</name></member>

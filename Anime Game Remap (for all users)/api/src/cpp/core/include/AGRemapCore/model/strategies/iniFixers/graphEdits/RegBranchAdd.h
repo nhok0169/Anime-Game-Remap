@@ -74,7 +74,7 @@ namespace AGRemapCore {
         content part as atomic, so a part holding both a ``run =`` and a ``drawindexed`` takes the
         call before its own draw and counts every path covered -- leaving the draws inside the
         callee with none. Keeping the branch's additions in the branch avoids creating that part at
-        all (2026-09-16)
+        all
      @endrst
      *
      * @tparam K The type of the keys stored in the parts this edits

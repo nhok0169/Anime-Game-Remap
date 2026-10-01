@@ -43,7 +43,7 @@
 The ``match_index_count`` of a wwmi draw slot -- how many indices the game&apos;s draw of that slot covers, which a mod&apos;s ``[textureoverridecomponentn]`` matches on together with the slot&apos;s ``match_first_index`` (an :cpp:class:`indices` row) -- a :cpp:class:`ModMappedAssets` pre-populated with this project&apos;s real data
 (:cpp:func:`Data::getIndexCountDataRows`) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The exact sibling of :cpp:class:`Indices`, added for Wuthering Waves (2026-09-19): read that
+The exact sibling of :cpp:class:`Indices`, for Wuthering Waves: read that
 class first, everything there applies here too. Same **4** index columns -- ``version`` (the
 version index, at position 0), ``name``, ``component`` and ``type`` -- so
 :cpp:class:`ModMappedAssets`&apos;s query methods take three non-version values positionally, in

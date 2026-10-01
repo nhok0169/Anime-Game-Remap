@@ -17,18 +17,6 @@
     <includedby refid="_global_ini_classifiers_8h" local="yes">include/AGRemapCore/constants/GlobalIniClassifiers.h</includedby>
     <includedby refid="_ini_classifier_8cpp" local="yes">src/model/strategies/iniClassifiers/IniClassifier.cpp</includedby>
     <incdepgraph>
-      <node id="29">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="23">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="28">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="21">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="8">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -190,6 +178,18 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+      </node>
+      <node id="29">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="23">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="28">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="21">
+        <label>BiMap.tpp</label>
       </node>
       <node id="15">
         <label>cstdint</label>

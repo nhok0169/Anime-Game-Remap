@@ -12,15 +12,6 @@
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_tex_reg_layout_8cpp" local="yes">src/data/IniFixData/TexRegLayout.cpp</includedby>
     <incdepgraph>
-      <node id="29">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="35">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>BaseRegEdit.tpp</label>
-      </node>
       <node id="1">
         <label>include/AGRemapCore/data/IniFixData/TexRegLayout.h</label>
         <link refid="_tex_reg_layout_8h"/>
@@ -314,6 +305,15 @@
         </childnode>
         <childnode refid="42" relation="include">
         </childnode>
+      </node>
+      <node id="29">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="46">
+        <label>BaseRegEdit.tpp</label>
       </node>
       <node id="43">
         <label>IfContentPart.tpp</label>

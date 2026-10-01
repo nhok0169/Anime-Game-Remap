@@ -86,8 +86,7 @@ namespace AGRemapCore {
 
              .. note::
                 The base implementation forwards straight to \ref edit and **ignores 'ini'
-                entirely**, exactly as the pure-Python original does -- see
-                :cpp:func:`BaseIniGraphEdit::editFromIni`'s own note
+                entirely** -- see :cpp:func:`BaseIniGraphEdit::editFromIni`'s own note
              @endrst
              *
              * @param part The part of the `IfTemplate` being edited, modified in place
@@ -102,9 +101,8 @@ namespace AGRemapCore {
              * @param modType
              @rst
              The type of mod to fix -- also a **non-owning, nullable** pointer, for the same
-             reason ``ini`` is one: none of this class's own subclasses read it, and the
-             `pybind11`_ layer has no C++ :cpp:class:`ModType` to hand over (the `Python`_ API's
-             ``ModType`` is still a pure-`Python`_ class of its own) :raw-html:`<br />` :raw-html:`<br />`
+             reason ``ini`` is one: none of this class's own subclasses read it, so a caller may pass
+             ``nullptr`` :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -112,8 +110,8 @@ namespace AGRemapCore {
              * @param partRanges
              @rst
              The ranges that indicate the valid order indices to process for 'part' -- a
-             **non-owning, nullable** pointer, where ``nullptr`` stands in for the pure-Python
-             original's ``partRanges = None`` :raw-html:`<br />` :raw-html:`<br />`
+             **non-owning, nullable** pointer, where ``nullptr`` means every order index is valid
+             :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
@@ -128,7 +126,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Edits the registers for the current :cpp:class:`IfContentPart`. No-op by default
-             (returns 'part' untouched), matching the pure-Python original's ``pass``
+             (returns 'part' untouched)
              @endrst
              *
              * @param part The part of the `IfTemplate` being edited, modified in place

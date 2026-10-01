@@ -38,14 +38,11 @@ namespace AGRemapCore {
      The ``.ini`` file a parser is parsing, behind an interface :raw-html:`<br />`
      :raw-html:`<br />`
 
-     **Why this isn't just an** :cpp:class:`IniFile` **pointer.** Exactly the same reason
-     :cpp:class:`IniResEditContext` isn't: the ``.ini`` file every real caller of
-     :cpp:class:`GIMIParser` passes is the *`Python`_* ``IniFile`` (``model/files/IniFile.py``),
-     an unrelated class to :cpp:class:`AGRemapCore::IniFile` with nothing castable between them --
-     so a plain ``IniFile*`` parameter would always be ``nullptr`` here and the parser would be
-     inert. Unlike the ``regEdits/`` family (where ``nullptr`` *is* the right answer, because those
-     edits genuinely never read the ``.ini`` file), reading -- and writing -- the ``.ini`` file's
-     `sections`_ is most of what a parser does.
+     **Why this isn't just an** :cpp:class:`IniFile` **pointer.** The same reason
+     :cpp:class:`IniResEditContext` isn't: a parser has to work the same whether its ``.ini`` file
+     is a plain C++ :cpp:class:`AGRemapCore::IniFile` (:cpp:class:`IniFileParseContext`) or an
+     ``.ini`` file object reached from `Python`_ (the `pybind11`_ layer's own implementation), and
+     reading -- and writing -- the ``.ini`` file's `sections`_ is most of what a parser does.
 
      :raw-html:`<br />`
 
@@ -61,9 +58,7 @@ namespace AGRemapCore {
         Routing it through :cpp:class:`IIniGraphGroups` specifically (rather than a bespoke
         factory) is what makes :cpp:func:`GIMIParser::editCommands` work at all: the
         ``graphGroupEdits/`` edit it hands the command graphs to already speaks exactly that
-        interface, so the parser's own graphs *are* the group being edited -- no conversion, and
-        the `Python`_ dict aliasing ``GIMIParser.py``'s
-        ``self.commandGraphs = graphGroups[0].graphs`` depends on is preserved for free
+        interface, so the parser's own graphs *are* the group being edited, with no conversion
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -113,7 +108,7 @@ namespace AGRemapCore {
              Whether there is a real ``.ini`` file behind this context :raw-html:`<br />`
              :raw-html:`<br />`
 
-             ``false`` stands in for the pure-Python original's ``ini = None``
+             ``false`` when the parser has no ``.ini`` file to read
              @endrst
              */
             virtual bool hasIni() const = 0;
@@ -121,8 +116,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The folder the ``.ini`` file lives in (the equivalent of the pure-Python original's
-             ``ini.folder``), or an empty string when there is no ``.ini`` file
+             The folder the ``.ini`` file lives in (``ini.folder``), or an empty string when there
+             is no ``.ini`` file
              @endrst
              */
             virtual std::string iniFolder() const = 0;
@@ -156,8 +151,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of
-             the pure-Python original's ``ini.sectionIfTemplates``. Borrowed, not owned
+             Every `section`_ parsed out of the ``.ini`` file, keyed by name
+             (``ini.sectionIfTemplates``). Borrowed, not owned
              @endrst
              */
             virtual std::unordered_map<std::string, Section*> sectionIfTemplates() const = 0;
@@ -169,8 +164,7 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              Separate from #sectionIfTemplates specifically because that one is an
-             ``std::unordered_map`` and this order is load-bearing: the pure-Python original
-             iterates ``ini.sectionIfTemplates`` (a `Python`_ ``dict``, ie. insertion-ordered) both
+             ``std::unordered_map`` and this order is load-bearing: it is the order used both
              to classify `sections`_ by name and to seed :cpp:func:`GIMIParser::buildGlobalGraph`'s
              target list, and the rendered output of every graph built from it inherits that order
              @endrst
@@ -211,8 +205,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Records one file the ``.ini`` file needs downloaded -- the equivalent of the
-             pure-Python original's ``ini.fileDownloads.append(...)``
+             Records one file the ``.ini`` file needs downloaded (``ini.fileDownloads``)
              @endrst
              *
              * @param download The download to record
@@ -232,9 +225,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The name of the mod type the ``.ini`` file was classified as
-             (``ini.availableType.name``), or an empty string when there is none -- exactly the
-             pure-Python original's own
-             ``modTypeName = "" if (modType is None) else modType.name``
+             (``ini.availableType.name``), or an empty string when there is none
              @endrst
              */
             virtual std::string modTypeName() const = 0;

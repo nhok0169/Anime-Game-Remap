@@ -176,9 +176,8 @@ void initCppRemapIniDownload(pybind11::module_ &m) {
 This class inherits from :class:`RemapIniResource`
 
 Class for some download resource in a .ini file that's used by the overall remap process --
-unlike the deprecated pure-Python original, this class does not accept a ``Mod`` object anywhere --
 :meth:`remapFix`'s progress-reporting callbacks ('downloadHandler'/'cacheHitHandler') are supplied
-by the caller directly instead
+by the caller directly
     )doc")
 
         .def(py::init([](const std::string &iniFolderPath, const std::string &srcPath, py::object download,

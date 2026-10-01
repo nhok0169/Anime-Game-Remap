@@ -98,9 +98,7 @@
 <para><verbatim>embed:rst 
 Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
-holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
-tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+A named holder rather than a positional tuple, reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
 fields rather than restating them
 </verbatim>    </para>
         </detaileddescription>
@@ -134,8 +132,8 @@ fields rather than restating them
         <detaileddescription>
 <para><verbatim>embed:rst 
 The target `sections`_ that reference the resource -- old `section`_ name mapped to its
-fixed name. Insertion-ordered, because the pure-Python original&apos;s own
-``list(collectedSections.keys())`` order decides the built graph&apos;s target order
+fixed name. Insertion-ordered, because this order decides the built graph&apos;s target
+order
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -363,13 +361,10 @@ Retrieves a unique id for a file within a single ``.ini`` file :raw-html:`&lt;br
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The value is **not** byte-identical to the pure-Python original&apos;s, which hashed a
-   `Python`_ tuple through ``CyHashTools.hashLibSerialize``. It is an opaque
-   within-one-run dictionary key -- never written to a file, never persisted, never
-   compared against a previously stored value (the hash that *does* reach a filename is
-   the separate ``graphId`` one, which hashes a plain string and is unchanged) -- so a
-   different canonical serialization is safe here, and avoids two disagreeing
-   implementations of the same id inside one run
+   The value is an opaque within-one-run dictionary key -- never written to a file,
+   never persisted, never compared against a previously stored value (the hash that
+   *does* reach a filename is the separate ``graphId`` one, which hashes a plain
+   string)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -418,7 +413,7 @@ Retrieves a unique id for a file within a single ``.ini`` file :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="236" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="233" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::pair&lt; std::string, std::string &gt;</type>
@@ -467,7 +462,7 @@ argument of \ref buildResGraph)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="251" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="248" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a0567540e3b73dc109dd65dcc8f6b0dce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -520,8 +515,8 @@ argument of \ref buildResGraph)
 </parameteritem>
 </parameterlist>
 <simplesect kind="return"><para><verbatim>embed:rst 
-The `section`_ name of the fixed resource, or ``std::nullopt`` (the pure-Python
-original&apos;s ``None``) to indicate there is no name change between the original resource
+The `section`_ name of the fixed resource, or ``std::nullopt`` to indicate there is no
+name change between the original resource
 and the fixed resource
 </verbatim> </para>
 </simplesect>
@@ -529,7 +524,7 @@ and the fixed resource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="267" column="35"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="264" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -599,7 +594,7 @@ and the fixed resource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="292" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="289" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -702,7 +697,7 @@ The default builds a plain :cpp:class:`IniResource` from &apos;srcPath&apos;, ig
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="316" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="313" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -798,7 +793,7 @@ Builds and saves the resources, given the :cpp:class:`IniSectionGraph` for a res
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="332" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="329" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -843,7 +838,7 @@ getFixResourceName, or the `section`_&apos;s own name when that reports no chang
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="346" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="343" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" kindref="member">Graph</ref> *</type>
@@ -942,7 +937,7 @@ Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="363" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="360" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a8eb8d23624fddd14e28faca046fe3502" kindref="member">GraphGroups</ref> &amp;</type>
@@ -1041,7 +1036,7 @@ resource (reachable via \ref resModObj)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="385" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="382" column="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -1090,7 +1085,7 @@ the file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="281" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="278" column="32"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1238,7 +1233,7 @@ Base class to construct the necessary parts for a particular resource in a ``.in
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="45" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="45" bodyend="388"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="45" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="45" bodyend="385"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>BaseResEdit</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>buildResModel</name></member>

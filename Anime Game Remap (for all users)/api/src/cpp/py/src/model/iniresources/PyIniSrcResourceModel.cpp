@@ -82,8 +82,7 @@ paths: Dict[:class:`int`, List[:class:`str`]]
 
         .def("items", &AGRC::IniSrcResourceModel::items, py::doc(R"doc(
 Every ``(path, fullPath)`` pair across every :class:`IfContentPart` in 'paths', in the same order
-'paths' itself iterates -- the equivalent of iterating directly over the pure-Python original
-(``for path, fullPath in x``)
+'paths' itself iterates
 
 Returns
 -------

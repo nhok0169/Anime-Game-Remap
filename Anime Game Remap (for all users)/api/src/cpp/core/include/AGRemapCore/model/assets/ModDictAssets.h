@@ -31,36 +31,25 @@ namespace AGRemapCore {
      * @brief
      @rst
      Class to handle assets of any type for a mod where retrieval is based on some keys where only
-     one of the keys refers to some versioning -- the C++ counterpart to the pure-Python
-     ``ModDictAssets`` (``model/assets/ModDictAssets.py``) :raw-html:`<br />` :raw-html:`<br />`
+     one of the keys refers to some versioning :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        Unlike the pure-Python original, this class never models the source data as a literal
-        nested ``Dict[Hashable, T]`` -- the pure-Python ``makeIndices`` flattens that nested dict
-        into a `pandas`_ `DataFrame`_ purely to get sorted/filterable version lookups, and
-        ``_get`` separately re-walks the *original* nested dict for the actual leaf value. Here,
-        the flattening happens once, up front (by whoever builds the :cpp:class:`Row` list --
+        This class never models the source data as a literal nested ``Dict[Hashable, T]``.
+        The flattening happens once, up front (by whoever builds the :cpp:class:`Row` list --
         typically the pybind11 binding layer, walking a Python nested dict), and this class only
         ever operates on that flat form: a hash map from a row's non-version index values to a
         version-sorted list of ``(version, value)`` entries. There is no "partial query" support
-        for retrieving an intermediate sub-structure at less than full index depth (something the
-        pure-Python original's fully-generic ``T`` incidentally allows) -- \ref get always requires
+        for retrieving an intermediate sub-structure at less than full index depth -- \ref get always requires
         a value for every non-version index :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        No result caching (unlike the pure-Python original's ``@lru_cache`` on its
-        version-resolution and lookup methods) -- that cache exists there to amortize repeated
-        `pandas`_ boolean-mask filtering, a cost this class's hash-map-plus-per-group-binary-search
-        design doesn't have in the first place. \ref get is already O(1) average for the group
+        No result caching -- the hash-map-plus-per-group-binary-search design does not need it:
+        \ref get is already O(1) average for the group
         lookup plus O(log group size) for the version search
 
      .. note::
-        \ref get's version resolution deliberately does **not** replicate a bug in the pure-Python
-        original: querying for a version that has an *exact* match in the data incorrectly returns
-        the *previous* version's data there (confirmed empirically against the live pure-Python
-        class), except when that exact match happens to be the smallest available version. This
-        class's version resolution is the corrected, inclusive-floor version -- the same algorithm
-        :cpp:class:`VersionSet`'s own (already-correct) `findClosest` uses: an exact match returns
+        \ref get's version resolution is an inclusive floor -- the same algorithm
+        :cpp:class:`VersionSet`'s own `findClosest` uses: an exact match returns
         itself; otherwise the largest available version below the target; otherwise (target smaller
         than every available version) the smallest available version
      @endrst
@@ -107,9 +96,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Adds new rows to the table, overwriting the value of any row whose full key (every
-             non-version index value, plus its parsed version) already exists -- matching the
-             pure-Python original's ``addRepo``/``_updateAssetContent`` default of "new data
-             replaces old data" for an identical full key path :raw-html:`<br />` :raw-html:`<br />`
+             non-version index value, plus its parsed version) already exists :raw-html:`<br />` :raw-html:`<br />`
              @endrst
              *
              * @param newRows The rows to add
@@ -167,9 +154,7 @@ namespace AGRemapCore {
              @rst
              Visits every row currently in the table -- the mechanism :cpp:class:`ModMappedAssets`
              uses to build its reverse (value -> key) index directly from this table's already-flat
-             data, instead of re-walking a nested dict the way the pure-Python
-             ``ModMappedAssets.updateKeys`` does (see :cpp:class:`ModMappedAssets`'s class-level
-             note for why that matters)
+             data (see :cpp:class:`ModMappedAssets`'s class-level note for why that matters)
              @endrst
              *
              * @tparam Visitor A callable of shape ``void(const std::vector<K>& nonVersionVals,

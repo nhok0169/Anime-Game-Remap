@@ -33,12 +33,12 @@ fix would be feeding it its own output
 <para><verbatim>embed:rst 
 Suffixes this software puts on the files it creates :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-A complete port of the pure-Python ``FileSuffixes`` enum (``constants/FileSuffixes.py``)
+Has the same members as the `Python`_ ``FileSuffixes`` enum (``constants/FileSuffixes.py``)
 
 .. note::
    Despite the class name, these are markers looked for **anywhere** in a file&apos;s base name,
-   not only at its end -- the pure-Python original searches for them with the same
-   substring-matching machinery it uses for :cpp:class:`FilePrefixes`, and a remap copy is
+   not only at its end -- they are searched for with the same substring-matching machinery
+   used for :cpp:class:`FilePrefixes`, and a remap copy is
    named ``&lt;something&gt;RemapFix.ini``, so the marker never actually sits at the very end
 </verbatim> </para>
     </detaileddescription>

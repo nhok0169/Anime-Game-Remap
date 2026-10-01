@@ -78,17 +78,17 @@ class IniKeywords(Enum):
 
     Blend = "Blend"
     """
-    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Blend.buf file
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some ``*.Blend.buf`` file
     """
 
     Position = "Position"
     """
-    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Position.buf file
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some ``*.Position.buf`` file
     """
 
     Texcoord = "Texcoord"
     """
-    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Texcoord.buf file
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some ``*.Texcoord.buf`` file
     """
 
     Run = "run"
@@ -108,12 +108,12 @@ class IniKeywords(Enum):
 
     RemapBlend = f"{Remap}{Blend}"
     """
-    The substring used to indicate that the `section`_ references some *.RemapBlend.buf file
+    The substring used to indicate that the `section`_ references some ``*.RemapBlend.buf`` file
     """
 
     RemapPosition = f"{Remap}{Position}"
     """
-    The substring used to indicate that the `section`_ references some *.RemapPosition.buf file
+    The substring used to indicate that the `section`_ references some ``*.RemapPosition.buf`` file
     """
 
     RemapTexcoord = f"{Remap}{Texcoord}"
@@ -128,7 +128,7 @@ class IniKeywords(Enum):
 
     RemapTex = f"{Remap}Tex"
     """
-    The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
+    The substring used to indicate that the `section`_ contains some editted/created texture ``*.Remap.dds`` file
     """
 
     RemapDL = f"{Remap}DL"

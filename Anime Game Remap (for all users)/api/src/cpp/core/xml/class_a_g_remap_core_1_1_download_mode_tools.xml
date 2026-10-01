@@ -53,9 +53,9 @@ Finds the :cpp:enum:`DownloadMode` a string names, ignoring case and surrounding
 whitespace :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   An **exact** match on the trimmed, lowercased text, where the pure-Python
-   ``DownloadMode.search`` did a maximal-substring `Aho-Corasick`_ match. With three
-   short values that search accepted things like ``&quot;normally&quot;`` and
+   An **exact** match on the trimmed, lowercased text, where the `Python`_
+   ``DownloadMode.search`` does a maximal-substring `Aho-Corasick`_ match. With three
+   short values that search accepts things like ``&quot;normally&quot;`` and
    ``&quot;not disabled&quot;`` -- the latter meaning the opposite of what it was matched to.
    Nothing needs the leniency, and a typo reported as an error beats one silently
    resolved to the wrong mode

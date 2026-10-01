@@ -29,14 +29,13 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniSrcResourceModel`
+     This class inherits from :cpp:class:`AGRemapCore::IniSrcResourceModel`
 
      Contains data about a particular resource to download in the original .ini file :raw-html:`<br />`
      :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniDownloadModel`` class (``model/iniresources/IniDownloadModel.py``)
-     -- #downloads owns its :cpp:class:`FileDownload`\\s via ``std::unique_ptr`` (matches
-     :cpp:class:`IniTexModel`'s own reasoning for owning polymorphic entries this way)
+     #downloads owns its :cpp:class:`AGRemapCore::FileDownload`\\s via ``std::unique_ptr`` (matches
+     :cpp:class:`AGRemapCore::IniTexModel`'s own reasoning for owning polymorphic entries this way)
      @endrst
      */
     class IniDownloadModel: public IniSrcResourceModel {
@@ -46,13 +45,13 @@ namespace AGRemapCore {
              * @brief Constructs new data for a resource to download
              *
              * @param iniFolderPath The folder path to where the .ini file of the resource is located
-             * @param paths See :cpp:class:`IniSrcResourceModel`'s constructor
+             * @param paths See :cpp:class:`AGRemapCore::IniSrcResourceModel`'s constructor
              * @param downloads
              @rst
              The downloader associated with each file -- the keys are the indices to the
-             :cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+             :cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
              for some resource, and the values are the downloaders for the files within that
-             :cpp:class:`IfContentPart`
+             :cpp:class:`AGRemapCore::IfContentPart`
              @endrst
              */
             IniDownloadModel(std::string iniFolderPath, tsl::ordered_map<int, std::vector<std::string>> paths,

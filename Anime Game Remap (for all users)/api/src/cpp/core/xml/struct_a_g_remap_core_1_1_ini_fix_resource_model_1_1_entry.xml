@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="51" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="48" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="56" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="53" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aa65d3863db63688afde505adeacb8275" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::string &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="61" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="61" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="58" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aec6ee4628aaa735f83efff8dde436f53" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::string &gt;</type>
@@ -62,15 +62,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="66" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="66" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="63" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="63" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>One entry of <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" kindref="member">items</ref> <ndash/> the C++ counterpart to one tuple the pure-Python original&apos;s <computeroutput>__iter__</computeroutput> would yield. </para>
+<para>One entry of <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" kindref="member">items</ref>. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="47" column="13" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="47" bodyend="67"/>
+    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="44" column="13" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="44" bodyend="64"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a204229d0acbf797ef55409251c28355c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>fixedPath</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>fullPath</name></member>

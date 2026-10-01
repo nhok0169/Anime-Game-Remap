@@ -26,7 +26,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Either a file path (``std::string``) or a raw, already-in-memory sequence of bytes -- the C++
-     analogue of the pure-Python original's ``Union[str, bytes]`` :raw-html:`<br />` :raw-html:`<br />`
+     analogue of a `Python`_ ``Union[str, bytes]`` :raw-html:`<br />` :raw-html:`<br />`
      @endrst
      */
     using BinarySrc = std::variant<std::string, ByteVec>;
@@ -34,13 +34,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     A class to handle binary files :raw-html:`<br />` :raw-html:`<br />`
-
-     .. note::
-        The pure-Python original splits this into two classes -- an abstract ``File`` base (just a
-        ``read()`` marker) and ``BinaryFile`` itself. Nothing else in this codebase's C++ port
-        needs a file model that *isn't* binary, so this port folds the two together rather than
-        carrying an unused abstract layer
+     A class to handle binary files
      @endrst
      */
     class BinaryFile {

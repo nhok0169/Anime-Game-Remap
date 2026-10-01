@@ -10,15 +10,6 @@
     <includedby refid="_ini_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</includedby>
     <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
     <incdepgraph>
-      <node id="20">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="19">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="16">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="15">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
@@ -88,6 +79,15 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+      </node>
+      <node id="20">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="19">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="16">
+        <label>BiMap.tpp</label>
       </node>
       <node id="8">
         <label>cstdint</label>

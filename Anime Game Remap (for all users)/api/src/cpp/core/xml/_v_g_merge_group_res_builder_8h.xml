@@ -12,18 +12,6 @@
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_v_g_merge_group_res_builder_8cpp" local="yes">src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</includedby>
     <incdepgraph>
-      <node id="48">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="90">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="52">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="83">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="65">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -927,6 +915,18 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
+      </node>
+      <node id="48">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="90">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="52">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="83">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>

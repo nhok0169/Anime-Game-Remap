@@ -139,9 +139,9 @@ line --- ``0`` leaves the line out
 the registers
 
 A mod written in the GAME's register order binds its textures somewhere other than the slot's registers:
-LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot got the game's diffuse
-at ``ps-t0`` as well, two textures named a diffuse, and the merge's by-name reading refused both (dark eyes
-on Lumine, 2026-09-29). With this on, when a slot's own section binds its textures under names that are
+eg. a LumineHeaven mod whose Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot would get the
+game's diffuse at ``ps-t0`` as well, two textures would name a diffuse, and the merge's by-name reading would
+refuse both. With this on, when a slot's own section binds its textures under names that are
 believed (every one names exactly one role, no two alike), a role the mod binds gets no download, and a
 missing role whose register holds another role's texture is downloaded onto a register the section leaves
 free. A slot binding nothing, or in the slot's own order, is untouched.
@@ -489,8 +489,8 @@ push's source groups --- for cloth that clips a limb the target moves differentl
         .def_readwrite("innerOutlineObjs", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineObjs, py::doc(R"doc(
 List[:class:`str`]: The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this
 component --- the faces turned in towards the head, or covered by another layer, get vertex colour alpha 0. For hair
-of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out
-(Yaoyao5 on YaoyaoBamboo). Needs the component's ``Position.buf``. Empty by default
+of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out.
+Needs the component's ``Position.buf``. Empty by default
         )doc"))
         .def_readwrite("innerOutlineReach", &AGRC::GIMIComponentFixerConfig::Component::innerOutlineReach, py::doc(R"doc(
 float: How far along its normal a vertex looks for a covering layer, in model units. ``0.1`` by default

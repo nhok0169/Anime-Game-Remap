@@ -54,21 +54,6 @@
     <includedby refid="_xingqiu_fixer_8cpp" local="yes">src/data/IniFixData/Xingqiu/XingqiuFixer.cpp</includedby>
     <includedby refid="_xingqiu_bamboo_fixer_8cpp" local="yes">src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</includedby>
     <incdepgraph>
-      <node id="37">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="78">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="43">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="52">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="58">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -841,6 +826,21 @@
         <childnode refid="60" relation="include">
         </childnode>
       </node>
+      <node id="37">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="78">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="43">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="52">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="73">
         <label>Generator.tpp</label>
       </node>
@@ -1298,74 +1298,74 @@
 <codeline lineno="147"><highlight class="normal"></highlight></codeline>
 <codeline lineno="158" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" kindref="member">drawnObjs</ref>;</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
-<codeline lineno="201" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" kindref="member">objSplits</ref>;</highlight></codeline>
-<codeline lineno="202"><highlight class="normal"></highlight></codeline>
-<codeline lineno="223" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a39f861a5379ad87cfe7d3e3a01836629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRemapRule&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a39f861a5379ad87cfe7d3e3a01836629" kindref="member">objRegRemaps</ref>;</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" kindref="member">objFixCalls</ref>;</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"></highlight></codeline>
-<codeline lineno="269" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aa9089f36c42740f22bf51930592116e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRef&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aa9089f36c42740f22bf51930592116e9" kindref="member">objRegRemovals</ref>;</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"></highlight></codeline>
-<codeline lineno="284" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" kindref="member">objNewRegVals</ref>;</highlight></codeline>
-<codeline lineno="285"><highlight class="normal"></highlight></codeline>
-<codeline lineno="297" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a7b63b098cfa5ecc6547a442880375c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRef&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a7b63b098cfa5ecc6547a442880375c99" kindref="member">srcObjRegRemovals</ref>;</highlight></codeline>
-<codeline lineno="298"><highlight class="normal"></highlight></codeline>
-<codeline lineno="311" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6b066ff1d317c2585c634911381cf775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRemapRule&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6b066ff1d317c2585c634911381cf775" kindref="member">srcObjRegRemaps</ref>;</highlight></codeline>
-<codeline lineno="312"><highlight class="normal"></highlight></codeline>
-<codeline lineno="316" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kindref="compound">TexEdit</ref><sp/>{</highlight></codeline>
-<codeline lineno="320" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" kindref="member">obj</ref>;</highlight></codeline>
-<codeline lineno="321"><highlight class="normal"></highlight></codeline>
-<codeline lineno="325" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" kindref="member">reg</ref>;</highlight></codeline>
-<codeline lineno="326"><highlight class="normal"></highlight></codeline>
-<codeline lineno="334" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" kindref="member">name</ref>;</highlight></codeline>
-<codeline lineno="335"><highlight class="normal"></highlight></codeline>
-<codeline lineno="339" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" kindref="member">filter</ref>;</highlight></codeline>
-<codeline lineno="340"><highlight class="normal"></highlight></codeline>
-<codeline lineno="348" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="349"><highlight class="normal"></highlight></codeline>
-<codeline lineno="363" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" kindref="member">srcObj</ref>;</highlight></codeline>
-<codeline lineno="364"><highlight class="normal"></highlight></codeline>
-<codeline lineno="382" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" kindref="member">toReg</ref>;</highlight></codeline>
-<codeline lineno="383"><highlight class="normal"></highlight></codeline>
-<codeline lineno="401" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a2a9626fb8b6cec32a7ad71d9b368a9a5" kindref="member">RegValCheck</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" kindref="member">check</ref>;</highlight></codeline>
-<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="403"><highlight class="normal"></highlight></codeline>
-<codeline lineno="414" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexEdit&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" kindref="member">texEdits</ref>;</highlight></codeline>
-<codeline lineno="415"><highlight class="normal"></highlight></codeline>
-<codeline lineno="419" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kindref="compound">TexAdd</ref><sp/>{</highlight></codeline>
-<codeline lineno="423" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" kindref="member">obj</ref>;</highlight></codeline>
-<codeline lineno="424"><highlight class="normal"></highlight></codeline>
-<codeline lineno="428" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" kindref="member">reg</ref>;</highlight></codeline>
-<codeline lineno="429"><highlight class="normal"></highlight></codeline>
-<codeline lineno="437" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" kindref="member">name</ref>;</highlight></codeline>
-<codeline lineno="438"><highlight class="normal"></highlight></codeline>
-<codeline lineno="442" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator" kindref="compound">TexCreator</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" kindref="member">texCreator</ref>;</highlight></codeline>
-<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="444"><highlight class="normal"></highlight></codeline>
-<codeline lineno="467" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexAdd&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" kindref="member">texAdds</ref>;</highlight></codeline>
-<codeline lineno="468"><highlight class="normal"></highlight></codeline>
-<codeline lineno="482" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" kindref="member">copyPreamble</ref>;</highlight></codeline>
-<codeline lineno="483"><highlight class="normal"></highlight></codeline>
-<codeline lineno="519" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a76fd1b90241709a7f7ca0f9ead08ee1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">BufFile::Filter</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a76fd1b90241709a7f7ca0f9ead08ee1f" kindref="member">positionEdit</ref>;</highlight></codeline>
-<codeline lineno="520"><highlight class="normal"></highlight></codeline>
-<codeline lineno="521" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" kindref="member">moveDrawIndexed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="522"><highlight class="normal"></highlight></codeline>
-<codeline lineno="538" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" kindref="member">faceDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="539"><highlight class="normal"></highlight></codeline>
-<codeline lineno="550" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" kindref="member">faceLightMapReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="551"><highlight class="normal"></highlight></codeline>
-<codeline lineno="566" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a21dafb09a2cbe02e685484339adbd0c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a21dafb09a2cbe02e685484339adbd0c1" kindref="member">swapFaceRegs</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="567"><highlight class="normal"></highlight></codeline>
-<codeline lineno="594" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a930d112ad02da0cf554b83f1cb68244b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a930d112ad02da0cf554b83f1cb68244b" kindref="member">removeSrcFixCalls</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="595"><highlight class="normal"></highlight></codeline>
-<codeline lineno="614" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a753a14e53eafa93745b5b61d290ae064" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a753a14e53eafa93745b5b61d290ae064" kindref="member">removeSrcTexFxCalls</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="616"><highlight class="normal"></highlight></codeline>
-<codeline lineno="617"><highlight class="normal"></highlight></codeline>
-<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="648"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="649"><highlight class="normal"></highlight></codeline>
-<codeline lineno="650"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="200" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" kindref="member">objSplits</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a39f861a5379ad87cfe7d3e3a01836629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRemapRule&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a39f861a5379ad87cfe7d3e3a01836629" kindref="member">objRegRemaps</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" kindref="member">objFixCalls</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aa9089f36c42740f22bf51930592116e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRef&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aa9089f36c42740f22bf51930592116e9" kindref="member">objRegRemovals</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" kindref="member">objNewRegVals</ref>;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a7b63b098cfa5ecc6547a442880375c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRef&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a7b63b098cfa5ecc6547a442880375c99" kindref="member">srcObjRegRemovals</ref>;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6b066ff1d317c2585c634911381cf775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;RegRemapRule&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6b066ff1d317c2585c634911381cf775" kindref="member">srcObjRegRemaps</ref>;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kindref="compound">TexEdit</ref><sp/>{</highlight></codeline>
+<codeline lineno="319" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" kindref="member">obj</ref>;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" kindref="member">reg</ref>;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" kindref="member">filter</ref>;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a4badb9f98af2304fe702194eb7687366" kindref="member">srcObj</ref>;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1abfb197f86cf7866283e9d9813ecba1ac" kindref="member">toReg</ref>;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a2a9626fb8b6cec32a7ad71d9b368a9a5" kindref="member">RegValCheck</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a1b2d44bf8b8ad465709ffe641095a904" kindref="member">check</ref>;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexEdit&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" kindref="member">texEdits</ref>;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kindref="compound">TexAdd</ref><sp/>{</highlight></codeline>
+<codeline lineno="421" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" kindref="member">obj</ref>;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" kindref="member">reg</ref>;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator" kindref="compound">TexCreator</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" kindref="member">texCreator</ref>;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexAdd&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" kindref="member">texAdds</ref>;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" kindref="member">copyPreamble</ref>;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a76fd1b90241709a7f7ca0f9ead08ee1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">BufFile::Filter</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a76fd1b90241709a7f7ca0f9ead08ee1f" kindref="member">positionEdit</ref>;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight></codeline>
+<codeline lineno="517" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" kindref="member">moveDrawIndexed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="534" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" kindref="member">faceDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="546" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" kindref="member">faceLightMapReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a21dafb09a2cbe02e685484339adbd0c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a21dafb09a2cbe02e685484339adbd0c1" kindref="member">swapFaceRegs</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="584" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a930d112ad02da0cf554b83f1cb68244b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a930d112ad02da0cf554b83f1cb68244b" kindref="member">removeSrcFixCalls</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"></highlight></codeline>
+<codeline lineno="603" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a753a14e53eafa93745b5b61d290ae064" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a753a14e53eafa93745b5b61d290ae064" kindref="member">removeSrcTexFxCalls</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"></highlight></codeline>
+<codeline lineno="606"><highlight class="normal"></highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="636"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"></highlight></codeline>
+<codeline lineno="638"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h"/>
   </compounddef>

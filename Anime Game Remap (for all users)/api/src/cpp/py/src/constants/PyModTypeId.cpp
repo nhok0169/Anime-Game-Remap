@@ -32,7 +32,7 @@ void initCppModTypeId(pybind11::module_ &m) {
     py::enum_<AGRC::ModTypeId>(m, "ModTypeId", R"doc(
 The names of the different types of mods this fix will fix from or fix to
 
-Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+Has the same keys as the :class:`ModTypeNames` enum
     )doc")
         .value("Amber", AGRC::ModTypeId::Amber, R"doc(Amber from GI)doc")
 
@@ -292,9 +292,8 @@ tell whether the registry it populated is still the one being read. Deliberately
         .def_static("getHashRemapTargets", &AGRC::ModTypeIdTools::getHashRemapTargets, py::arg("value"), py::doc(R"doc(
 Retrieves the mod types a given mod type's **hashes** can be remapped onto
 
-This is the remap graph itself. It mirrors the ``map`` argument the pure-Python :class:`GIBuilder`
-passes to each mod type's :class:`Hashes`, lifted out of the 43 individual factories into one table
-so a target is named by :class:`ModTypeId` rather than by a bare string
+This is the remap graph itself: one table, naming each target by :class:`ModTypeId` rather than by
+a bare string
 
 .. note::
     Two :class:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as

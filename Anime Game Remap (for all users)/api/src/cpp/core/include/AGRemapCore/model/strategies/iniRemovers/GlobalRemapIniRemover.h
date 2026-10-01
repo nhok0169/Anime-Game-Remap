@@ -115,7 +115,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              Only meaningful for the plain ``<std::string, std::string>`` instantiation, since
-             :cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile*` can be
+             :cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile` pointer can be
              turned into
              @endrst
              */

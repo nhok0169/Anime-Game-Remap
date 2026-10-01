@@ -13,13 +13,13 @@
         <name>paths</name>
         <qualifiedname>AGRemapCore::IniSrcResourceModel::paths</qualifiedname>
         <briefdescription>
-<para>The file paths to the resource, keyed by :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> index (see the constructor). </para>
+<para>The file paths to the resource, keyed by :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">AGRemapCore::IfContentPart</ref></computeroutput> index (see the constructor). </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="64" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="63" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="69" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="68" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="68" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -71,9 +71,9 @@
 <parameterdescription>
 <para><verbatim>embed:rst 
 The file paths to the resource -- the keys are the indices to the
-:cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+:cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
 for some resource, and the values are the file paths within that
-:cpp:class:`IfContentPart`
+:cpp:class:`AGRemapCore::IfContentPart`
 </verbatim> </para>
 </parameterdescription>
 </parameteritem>
@@ -82,7 +82,7 @@ for some resource, and the values are the file paths within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="57" column="13" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="22" bodyend="34"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="56" column="13" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="22" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a67983c391b4ec64dab303faf83a5294f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -96,7 +96,7 @@ for some resource, and the values are the file paths within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="59" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="58" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1abdf9d6143d246e2691aefe913d008f23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -108,9 +108,8 @@ for some resource, and the values are the file paths within that
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Every ``(path, fullPath)`` pair across every :cpp:class:`IfContentPart` in #paths, in
-the same order #paths itself iterates -- the C++ counterpart to the pure-Python
-original&apos;s ``__iter__`` (a plain flattened list here rather than a lazy generator,
+Every ``(path, fullPath)`` pair across every :cpp:class:`AGRemapCore::IfContentPart` in #paths, in
+the same order #paths itself iterates (a plain flattened list rather than a lazy generator,
 since the whole flattened sequence is small and already fully materialized in #paths/
 #fullPaths anyway)
 </verbatim></para>
@@ -120,22 +119,21 @@ since the whole flattened sequence is small and already fully materialized in #p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="83" column="25" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="36" bodyend="49"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="81" column="25" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="36" bodyend="49"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`IniResourceModel`
+This class inherits from :cpp:class:`AGRemapCore::IniResourceModel`
 
 Contains data for a particular resource in the original .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``IniSrcResourceModel`` class
-(``model/iniresources/IniSrcResourceModel.py``) -- #paths/#fullPaths use ``tsl::ordered_map``
-rather than ``std::unordered_map`` specifically to preserve the same insertion-order iteration
-the Python original&apos;s plain ``dict`` gives for free, since these keys are the (order-meaningful)
-:cpp:class:`IfContentPart` indices for some :cpp:class:`IfTemplate`
+#paths/#fullPaths use ``tsl::ordered_map``
+rather than ``std::unordered_map`` specifically to preserve insertion-order iteration,
+since these keys are the (order-meaningful)
+:cpp:class:`AGRemapCore::IfContentPart` indices for some :cpp:class:`AGRemapCore::IfTemplate`
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -168,7 +166,7 @@ the Python original&apos;s plain ``dict`` gives for free, since these keys are t
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="42" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="42" bodyend="84"/>
+    <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="41" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="41" bodyend="82"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>fullPaths</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>iniFolderPath</name></member>

@@ -489,9 +489,7 @@ Set :attr:`trackKeys` to give that filter a populated :attr:`SectionIterData.col
 from, narrowed to :attr:`keysToTrack`
 
 .. note::
-    The pure-Python original accepted 'partFilter' and dropped it, so this edit applied to every
-    missing part unconditionally. Honouring it is a deliberate behaviour change; an omitted
-    'partFilter' still fills everything, exactly as before
+    An omitted 'partFilter' fills every missing part
 
 .. note::
     Under ``RegFillMissingMode.TopdownCover`` the colouring handed to 'partFilter' is empty by

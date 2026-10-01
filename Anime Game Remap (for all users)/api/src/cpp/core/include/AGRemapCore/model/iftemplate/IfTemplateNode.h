@@ -35,26 +35,21 @@ namespace AGRemapCore {
      @rst
      This class inherits from :cpp:class:`Node`\\<size_t\\>
 
-     A node within the parse tree of some `IfTemplate` -- the C++ port of ``IfTemplateNode.py``.
+     A node within the parse tree of some `IfTemplate`.
      This node contains a subset of the :cpp:class:`IfContentPart`\\<K, V, KeyHash, KeyEqual\\> from
      the original `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
 
-     Unlike the pure-Python original (whose id is a random 128-bit ``uuid.uuid4().int``), this
-     class's id is a plain, sequentially-generated ``size_t`` -- the same
+     This class's id is a plain, sequentially-generated ``size_t`` -- the same
      :cpp:class:`IncIdGenerator`\\<size_t\\> shape :cpp:class:`IfTemplatePart` itself already uses.
-     Nothing depends on a node's id being random or non-monotonic: it's only ever used as a key
-     into #children *within one tree*, never compared across trees, so this is a safe
-     simplification rather than a literal port of the original's id scheme :raw-html:`<br />` :raw-html:`<br />`
+     It's only ever used as a key into #children *within one tree*, never compared across
+     trees :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         Neither this node nor #children own anything -- every node reachable from one
         `IfTemplate`'s parse tree (including this one) is really owned by the
         :cpp:class:`IfTemplateTree` that built it (a flat node pool), the same way none of this
         node's #parts are owned by it either (those are owned by the owning `IfTemplate`'s own
-        parts list). This mirrors the pure-Python original's actual memory model directly -- plain
-        reference-counted objects with no ownership hierarchy of their own, just a web of
-        cross-references -- more faithfully than an owning-tree design would, and it sidesteps a
-        real C++-specific problem an owning design hits: a node being built during tree
+        parts list). This sidesteps a real problem an owning-tree design hits: a node being built during tree
         construction can move in and out of a working stack many times before it ever finds a
         permanent parent (see :cpp:class:`IfTemplateTree`'s own construction algorithm), which has
         no single natural owner until the whole tree is finished -- and, concretely, a
@@ -144,14 +139,10 @@ namespace AGRemapCore {
              note), **in the order they were added** -- which is branch order: an ``if``'s node,
              then each ``else if``'s, then the ``else``'s :raw-html:`<br />` :raw-html:`<br />`
 
-             Insertion-ordered on purpose. This used to be a ``std::unordered_map``, whose order is
-             whatever the standard library's hash table makes of the ids: MSVC happened to iterate
-             it in insertion order and libstdc++ in REVERSE, so the ``children`` dict Python
-             receives listed a chain's branches backwards on Linux only
-             (``test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree`` failed there, and
-             nowhere else, for exactly this). Nothing in core's own use depends on the order --
+             Insertion-ordered on purpose. Nothing in core's own use depends on the order --
              both readers in :cpp:class:`IfTemplate` fold the children with an ``and`` or a set
-             union -- but an order a caller can see has to be the same on every OS
+             union -- but an order a caller can see (such as the ``children`` dict `Python`_
+             receives) has to be the same on every OS
              @endrst
              */
             const tsl::ordered_map<size_t, IfTemplateNode<K, V, KeyHash, KeyEqual>*>& children() const;

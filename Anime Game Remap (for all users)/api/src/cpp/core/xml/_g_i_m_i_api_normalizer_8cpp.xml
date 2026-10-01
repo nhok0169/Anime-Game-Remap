@@ -12,15 +12,6 @@
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <includes refid="_ini_naming_tools_8h" local="yes">AGRemapCore/model/IniNamingTools.h</includes>
     <incdepgraph>
-      <node id="29">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="35">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="61">
-        <label>BaseRegEdit.tpp</label>
-      </node>
       <node id="45">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -516,6 +507,15 @@
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
+      </node>
+      <node id="29">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="61">
+        <label>BaseRegEdit.tpp</label>
       </node>
       <node id="43">
         <label>IfContentPart.tpp</label>

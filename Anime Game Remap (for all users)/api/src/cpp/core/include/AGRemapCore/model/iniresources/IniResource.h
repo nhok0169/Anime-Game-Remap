@@ -31,18 +31,14 @@ namespace AGRemapCore {
      @rst
      Base class for a resource in the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.py``)
-     :raw-html:`<br />` :raw-html:`<br />`
-
      .. note::
-        The Python original also carries a generic, per-instance ``fixFunc``/``fix()``/``_fix()``
-        override mechanism at this level, built on ``*args``/``**kwargs`` -- that pattern doesn't
-        translate to a single, uniform C++ virtual signature (every real subclass in this codebase's
-        port -- ``RemapBlendResource``, ``RemapTexAddResource``, ``RemapIniDownload`` -- needs a
-        genuinely different signature for its own fix logic), so this class stays a plain data
+        This class has no generic, per-instance ``fixFunc``/``fix()``/``_fix()`` override
+        mechanism: every real subclass -- :cpp:class:`AGRemapCore::RemapBlendResource`,
+        :cpp:class:`AGRemapCore::RemapTexAddResource`, :cpp:class:`AGRemapCore::RemapIniDownload` -- needs a
+        genuinely different signature for its own fix logic, so this class stays a plain data
         holder: each concrete leaf class defines its own, concretely-typed ``fix()`` (and its own
         ``fixFunc`` member, typed for that leaf specifically) instead of inheriting a generic one
-        from here. :cpp:class:`IniGroupedResource` is the one exception in this hierarchy that keeps
+        from here. :cpp:class:`AGRemapCore::IniGroupedResource` is the one exception in this hierarchy that keeps
         the generic pattern, since (unlike every other class here) it's actually used directly/bare,
         with no natural leaf subclass of its own to hold concrete fix logic
      @endrst
@@ -87,16 +83,16 @@ namespace AGRemapCore {
                a *parameter* would mean either denying it to those custom fixes -- the case where
                narration matters most -- or reshaping every one of those ``std::function`` typedefs,
                each of which is pinned by a `pybind11`_ binding
-             * a plain :cpp:class:`IniResource` is what actually gets registered today, not one of
+             * a plain :cpp:class:`AGRemapCore::IniResource` is what actually gets registered today, not one of
                the ``Remap`` subclasses, so a view attached only to those would reach nothing
 
              :raw-html:`<br />`
 
-             A ``shared_ptr``, so a :cpp:class:`BaseLogger` subclass defined in `Python`_ stays alive
+             A ``shared_ptr``, so a :cpp:class:`AGRemapCore::BaseLogger` subclass defined in `Python`_ stays alive
              for exactly as long as this resource holds it
 
              .. note::
-                :cpp:class:`IniGroupedResource` is **not** an :cpp:class:`IniResource` -- it is its
+                :cpp:class:`AGRemapCore::IniGroupedResource` is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is its
                 own root -- so it carries its own copy of this member rather than inheriting one
              @endrst
              */
@@ -106,11 +102,10 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniResource`
+     This class inherits from :cpp:class:`AGRemapCore::IniResource`
 
-     Base class for a resource to be fixed in the .ini file -- mirrors the pure-Python
-     ``IniFixResource`` class (``model/iniresources/IniResource.py``); see :cpp:class:`IniResource`'s
-     own doc comment for why the generic ``fixFunc`` mechanism isn't carried over to this level
+     Base class for a resource to be fixed in the .ini file -- see :cpp:class:`AGRemapCore::IniResource`'s
+     own doc comment for why there is no generic ``fixFunc`` mechanism at this level
      @endrst
      */
     class IniFixResource: public IniResource {
@@ -135,11 +130,10 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Base class for a group of resources -- mirrors the pure-Python ``IniGroupedResource`` class
-     (``model/iniresources/IniResource.py``) :raw-html:`<br />` :raw-html:`<br />`
+     Base class for a group of resources :raw-html:`<br />` :raw-html:`<br />`
 
-     Unlike :cpp:class:`IniResource`/:cpp:class:`IniFixResource`, this class keeps a generic
-     #fixFunc/#fix/#_fix override mechanism, since (per :cpp:class:`IniResource`'s own doc comment)
+     Unlike :cpp:class:`AGRemapCore::IniResource`/:cpp:class:`AGRemapCore::IniFixResource`, this class keeps a generic
+     #fixFunc/#fix/#_fix override mechanism, since (per :cpp:class:`AGRemapCore::IniResource`'s own doc comment)
      it's actually used directly/bare rather than through a dedicated leaf subclass
      @endrst
      */
@@ -218,7 +212,7 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              Its own member rather than an inherited one: unlike every other resource here, this
-             class is **not** an :cpp:class:`IniResource` -- it is a separate root that merely
+             class is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is a separate root that merely
              *holds* them. See :cpp:member:`IniResource::logger` for why this is an attribute rather
              than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same obstacle
 

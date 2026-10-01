@@ -5,15 +5,6 @@
     <includes refid="_remap_ini_fix_context_8h" local="yes">AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
-      <node id="35">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="41">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="50">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="56">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -615,6 +606,15 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+      </node>
+      <node id="35">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="41">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="50">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="71">
         <label>Generator.tpp</label>

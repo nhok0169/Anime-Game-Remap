@@ -40,7 +40,7 @@ class TexEditor(CppTexEditor):
         :meth:`fix` is entirely reimplemented in Python here (rather than using
         :class:`CppTexEditor`'s own C++ filter list) so that :attr:`filters` can hold arbitrary
         Python callables -- a plain function, a bound classmethod, or a :class:`BaseTexFilter`
-        instance -- exactly like the original pure-Python implementation
+        instance
 
     Parameters
     ----------
@@ -114,7 +114,7 @@ class TexEditor(CppTexEditor):
         touches it :raw-html:`<br />` :raw-html:`<br />`
 
         The three classmethods below are implemented with `Pillow`_ (`PIL.ImageEnhance`_ has no
-        `Compressonator`_ equivalent), so unlike every ported filter they cannot run against the
+        `Compressonator`_ equivalent), so unlike the C++ filters they cannot run against the
         native pixel buffer. Since :attr:`TextureFile.readPillowImg` defaults to ``False``,
         :attr:`TextureFile.img` is normally ``None`` and reaching straight for it raises
         ``AttributeError: 'NoneType' object has no attribute ...``. :meth:`TextureFile.read` is the

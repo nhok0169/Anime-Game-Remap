@@ -33,13 +33,12 @@ namespace AGRemapCore {
 
      .. note::
         The ``Blend.buf`` file's own vertex-group remap comes from the ``ModType`` being fixed
-        (``modType.getVGRemap(...)``). The `Python`_-facing ``ModType`` is an unrelated pure-Python
-        class with no C++ counterpart, so **this class does not override**
+        (``modType.getVGRemap(...)``), but **this class does not override**
         :cpp:func:`BaseResEdit::buildResModel` -- it inherits :cpp:class:`ResReplace`'s, which builds
         a plain :cpp:class:`IniFixResource`. The `pybind11`_ layer overrides it to build a real
         :cpp:class:`RemapBlendResource` from the `Python`_ ``ModType``. A plain C++ caller that wants
-        the same must override it too; everything else about this class (all the naming) works
-        either way
+        the same should use :cpp:class:`VGRemapBlendEdit`; everything else about this class (all the
+        naming) works either way
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

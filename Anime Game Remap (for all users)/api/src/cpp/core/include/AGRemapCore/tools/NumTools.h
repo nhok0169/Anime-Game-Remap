@@ -25,8 +25,8 @@ namespace AGRemapCore {
      Tools for rendering numbers as text :raw-html:`<br />` :raw-html:`<br />`
 
      Separate from :cpp:class:`StringTools`, which promises `grapheme`_ semantics that mean nothing
-     for a run of ASCII digits, and from :cpp:class:`TextTools`, which is a partial port of the
-     pure-Python ``TextTools`` and should keep matching it
+     for a run of ASCII digits, and from :cpp:class:`TextTools`, which holds a subset of the
+     `Python`_ ``TextTools`` class's methods and should keep matching it
      @endrst
      */
     class NumTools {

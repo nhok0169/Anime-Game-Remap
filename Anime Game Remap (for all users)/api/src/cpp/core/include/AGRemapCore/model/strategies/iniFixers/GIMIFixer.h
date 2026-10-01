@@ -63,24 +63,14 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        Divergences from the pure-Python original, all deliberate:
-
         * **The initial groups come from the** :cpp:type:`BaseIniFixer::ParseData` **handed to**
           #fixImpl, not from reaching back into the parser's ``commandGraphs``/
-          ``downloadResourceGraphs``. That data *is* those two, already collected into the one
-          group shape the original built by hand -- see
-          :cpp:func:`GIMIParser::collectParseResult`
-        * **Every graph is deep-copied**, where the original deep-copies only the command graphs
-          and shares the download-resource ones. Sharing half of them means an edit to a download
-          graph silently writes through to the parser, which no caller wants and the original's own
-          comment doesn't claim
-        * **#getFix hands back a destination per group** rather than a
-          ``Dict[Union[str, int], IniGraphGroup]``. The original keys by file path, falling back to
-          an integer id when the ``.ini`` file has no path -- but that id is only ever the group's
-          own index, so this returns the paths positionally and drops the union
-        * **``hideOrig`` saves the ``.ini`` file's own text.** The original saves ``self._fileTxt``,
-          which no fixer ever sets -- so passing ``hideOrig = True`` raises ``AttributeError``
-          before it can restore anything. Reported rather than reproduced
+          ``downloadResourceGraphs``. That data *is* those two, already collected into one group
+          shape -- see :cpp:func:`GIMIParser::collectParseResult`
+        * **Every graph is deep-copied**, the download-resource ones included, so an edit to any
+          graph never writes through to the parser
+        * **#getFix hands back a destination per group**, positionally -- one entry per group,
+          in group order
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -275,10 +265,9 @@ namespace AGRemapCore {
              Whether :cpp:member:`appendedSections` goes into every generated COPY as well as the
              mod's own ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
              A copy's sections reference the fix's own command lists and resources by name; a GIMI
-             merge is fine with those living in the mod's own file alone, and a WWMI copy was not --
-             the compiled WuWa fix drew every body part with the FIRST claimant's textures until
-             its copies carried the texture command lists and resources themselves, the way the
-             prototype's copies always had (2026-09-19). **Default**: ``false``
+             merge is fine with those living in the mod's own file alone, but a WWMI copy is not --
+             unless its copies carry the texture command lists and resources themselves, every
+             body part is drawn with the FIRST claimant's textures. **Default**: ``false``
              @endrst
              */
             bool appendedSectionsInCopies = false;
@@ -341,9 +330,7 @@ namespace AGRemapCore {
              for none :raw-html:`<br />` :raw-html:`<br />`
 
              When set, #getFix runs *that* fixer's edit pass first and takes over its groups
-             outright (a pointer move, not a copy), leaving it empty -- the direct equivalent of
-             the original's ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
-             ``self.prevFixer.clear()`` pair
+             outright (a pointer move, not a copy), leaving it empty
              @endrst
              */
             GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>* prevFixer;
@@ -362,9 +349,6 @@ namespace AGRemapCore {
              * @brief
              @rst
              This fixer's own groups -- ``nullptr`` until the first #getFix builds them
-             :raw-html:`<br />` :raw-html:`<br />`
-
-             The equivalent of the pure-Python original's ``graphGroups`` list
              @endrst
              */
             GraphGroups* graphGroups() const;
@@ -406,7 +390,7 @@ namespace AGRemapCore {
             std::vector<std::string> getModsToFix() const;
 
             /**
-             * @brief Drops this fixer's groups, matching the pure-Python original's ``self.graphGroups = []``
+             * @brief Drops this fixer's groups
              */
             void clear() override;
 
@@ -457,9 +441,9 @@ namespace AGRemapCore {
              **Choosing this is the fixer's job, not the ``.ini`` file's.** Where a fix gets
              *written* and what it is *keyed by* are two different questions:
              :cpp:func:`IniFixContext::fixedFilePath` answers the first and legitimately has no
-             answer for an ``.ini`` file built from raw text, but the second always has one. This
-             used to conflate them, so a text-only ``.ini`` file silently fixed to an empty map --
-             the fix was produced and then dropped for want of a key :raw-html:`<br />`
+             answer for an ``.ini`` file built from raw text, but the second always has one.
+             Conflating them would silently fix a text-only ``.ini`` file to an empty map -- the fix
+             produced and then dropped for want of a key :raw-html:`<br />`
              :raw-html:`<br />`
 
              The default is the fixed file path when there is one, and the group index otherwise --
@@ -525,11 +509,8 @@ namespace AGRemapCore {
                   remap, not part of the original mod, so hiding it would hide the fix
 
              .. note::
-                The pure-Python original collects the same thing while it renders, straight into
-                the ``.ini`` file's own ``_remappedSectionNames`` -- and only for the *blend*
-                command graph, because that was the only chain it ever rewrote. Reading it off the
-                built groups instead keeps the ``.ini`` file out of it and covers every mod object
-                this fixer actually fixed
+                This is read off the built groups, which keeps the ``.ini`` file out of it and
+                covers every mod object this fixer actually fixed
              @endrst
              */
             std::unordered_set<std::string> touchedSectionNames() const;
@@ -576,8 +557,7 @@ namespace AGRemapCore {
              Call it after the groups are built and **before** any #graphGroupEdits run -- #getFix does.
              An override of #getFix that builds the groups its own way has to call it too: without the
              snapshot, #touchedSectionNames and #hiddenSectionNames are empty, and ``hideOrig`` silently
-             comments out nothing. That is exactly what the `pybind11`_ ``GIMIFixer`` did until
-             2026-09-17
+             comments out nothing
              @endrst
              */
             void snapshotPreEditSectionNames();

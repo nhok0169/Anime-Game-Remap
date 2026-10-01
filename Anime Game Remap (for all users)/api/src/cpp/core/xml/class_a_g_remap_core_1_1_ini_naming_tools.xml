@@ -764,8 +764,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
 
 .. note::
    Unlike #getFixedFile, a bare filename with no directory component returns with no
-   folder prefix at all (matches the pure-Python original&apos;s own explicit special-case
-   for this)
+   folder prefix at all
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -806,7 +805,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="314" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="304" bodyend="316"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="313" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="304" bodyend="316"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1af96e449686a1fb13fa62a308400b78d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -850,7 +849,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="324" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="318" bodyend="320"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="323" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="318" bodyend="320"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a9917b5d1411cf40fc23ee04550ebfded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -894,7 +893,7 @@ Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="334" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="322" bodyend="324"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="333" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="322" bodyend="324"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a21bcb16680ad475099472ff0b47f3ccb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -919,10 +918,8 @@ Retrieves the file path for the fixed RemapTex.dds file :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   Built like the pure-Python original&apos;s own ``os.path.dirname``/``os.path.basename``
-   based implementation, not the `pathlib`_-based one #getFixedFile/#getFixedElementFile
-   use -- a bare filename with no directory component returns with no folder prefix at
-   all (same no-prefix behavior as #getFixedElementFile, but arrived at differently)
+   A bare filename with no directory component returns with no folder prefix at
+   all (the same no-prefix behavior as #getFixedElementFile)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -947,7 +944,7 @@ Retrieves the file path for the fixed RemapTex.dds file :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="354" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="327" bodyend="345"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="351" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="327" bodyend="345"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a085a3c3f880a75b713f311411100f57b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1003,7 +1000,7 @@ Retrieves the file path for the fixed RemapTex.dds file :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="365" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="347" bodyend="349"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="362" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="347" bodyend="349"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a3fc1b7f115ed6ff06bc2c9f9f48eac2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1023,7 +1020,7 @@ Retrieves the new name of the `section`_ for a new mod object :raw-html:`&lt;br 
 :raw-html:`&lt;br /&gt;`
 
 Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
-(each part `capitalized &lt;#capitalize&gt;`_) within &apos;name&apos; and replaces it with
+(each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within &apos;name&apos; and replaces it with
 ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
 to #getRemapFixName with &apos;modName&apos; extended by the new object&apos;s name instead
 </verbatim></para>
@@ -1084,7 +1081,7 @@ two historical prefixes beside it answer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="401" column="25" bodyfile="src/model/IniNamingTools.cpp" bodystart="120" bodyend="122"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="398" column="25" bodyfile="src/model/IniNamingTools.cpp" bodystart="120" bodyend="122"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a7144695ad50e5ae3758e2baadc8e0478" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1121,7 +1118,7 @@ separators come out and the result is capitalized to join onto whatever precedes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="417" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="125" bodyend="134"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="414" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="125" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a24e1210ce2efc8bca4cf88459482c3ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1151,7 +1148,7 @@ separators come out and the result is capitalized to join onto whatever precedes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniNamingTools.h" line="419" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="351" bodyend="366"/>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="416" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="351" bodyend="366"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1163,7 +1160,7 @@ Utilities for some common naming conventions for .ini files :raw-html:`&lt;br /&
 Mirrors the pure-Python ``IniNamingTools`` class (``model/IniNamingTools.py``)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/IniNamingTools.h" line="32" column="5" bodyfile="include/AGRemapCore/model/IniNamingTools.h" bodystart="32" bodyend="422"/>
+    <location file="include/AGRemapCore/model/IniNamingTools.h" line="32" column="5" bodyfile="include/AGRemapCore/model/IniNamingTools.h" bodystart="32" bodyend="419"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1af96e449686a1fb13fa62a308400b78d4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedBlendFile</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a25f78e59e20be5115a22591de0f10ecf" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedElementFile</name></member>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="241" column="21"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="238" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -33,14 +33,14 @@ that binds a buffer, an index buffer, a texture or a draw, or a texture override
 of the skin&apos;s slot texture hashes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 ``false`` for a file that only WATCHES the skin -- a help overlay whose one section
-matches the position hash to know she is on screen (2026-09-24). Everything the parser
+matches the position hash to know she is on screen. Everything the parser
 would give such a file comes from downloads, and remapping it puts a second full copy
 of the skin over the real mod&apos;s
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="256" column="26"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="253" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -66,9 +66,9 @@ the slot -- so on its own character the slot is never drawn :raw-html:`&lt;br /&
 
 Such a slot gets no download and brings nothing to the merge. The game&apos;s index buffer
 for it counts in the GAME&apos;s vertex order, and drawn over the mod&apos;s own buffers it is
-shards of stretched triangles: CharlotteHurlock1 draws its slot C geometry inside its
-slot B section and has no C or D section, and the downloaded C and D put its skirt up to
-its chest (2026-09-24)
+shards of stretched triangles. Eg. a CharlotteHurlock mod that draws its slot C geometry
+inside its slot B section and has no C or D section would otherwise get the downloaded C
+and D drawn too, putting its skirt up to its chest
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -91,7 +91,7 @@ its chest (2026-09-24)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="275" column="26"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="272" column="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -102,10 +102,10 @@ What a parser from :cpp:func:`makeGIMIComponentParser` learned about a ``.ini`` 
 merge fixer needs, and cannot read off the sections :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser),
-everything is assumed to be there -- the behaviour before this existed
+everything is assumed to be there
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="239" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="239" bodyend="276"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="236" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="236" bodyend="273"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1a4075f7c93d5a18acb244ad25f910486a" prot="public" virt="pure-virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>hasRemappableContent</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_component_parse_facts_1adb8ccdf4a9af3dd9fe5606e030e141b4" prot="public" virt="pure-virtual"><scope>AGRemapCore::GIMIComponentParseFacts</scope><name>isSlotUndrawn</name></member>

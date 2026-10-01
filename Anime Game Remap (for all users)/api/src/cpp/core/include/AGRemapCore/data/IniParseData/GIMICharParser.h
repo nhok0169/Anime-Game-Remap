@@ -93,9 +93,9 @@ namespace AGRemapCore {
          :raw-html:`<br />`
 
          .. note::
-            A literal because there is no C++ ``TexcoordByteSizeData`` yet, only
-            ``api/src/py/FixRaidenBoss2/data/TexcoordByteSizeData.py``, which this layer cannot
-            read. Worth porting once enough characters need it
+            A literal because the per-character table of these sizes
+            (``FixRaidenBoss2/data/TexcoordByteSizeData.py``) lives in the `Python`_ package, which
+            this layer cannot read
          @endrst
          */
         int texcoordStride;
@@ -196,10 +196,9 @@ namespace AGRemapCore {
          this character's assets are in -- empty (the usual case) means \ref downloadVersionFolder
          :raw-html:`<br />` :raw-html:`<br />`
 
-         Not a rule, a per-character fact, and a narrow one: of the 44 characters in
-         ``Data/Mod Downloads/GI`` exactly THREE file their face diffuse somewhere other than
-         alongside the rest -- AyakaSpringbloom, Nilou and LisaStudent, all of whom keep it under
-         ``5_4`` while everything else sits in ``4_0``. Get it wrong and the download 404s, which
+         Not a rule, a per-character fact, and a narrow one: only a few characters file their face
+         diffuse somewhere other than alongside the rest -- eg. AyakaSpringbloom, Nilou and
+         LisaStudent keep it under ``5_4`` while everything else sits in ``4_0``. Get it wrong and the download 404s, which
          is invisible until a mod turns up with no face section of its own for the fix to use
          @endrst
          */
@@ -258,17 +257,17 @@ namespace AGRemapCore {
 
      Every mod object it produces:
 
-     ===================  ====================================================================
-     Mod object           What it is
-     ===================  ====================================================================
-     each of 'drawnObjs'  a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
-     ``("", "ib")``       the shared draw call -- the ``ib`` hash and **no** index
-     ``("", "blend")``    the ``Blend.buf`` the fix remaps
+     ======================  ====================================================================
+     Mod object              What it is
+     ======================  ====================================================================
+     each of 'drawnObjs'     a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
+     ``("", "ib")``          the shared draw call -- the ``ib`` hash and **no** index
+     ``("", "blend")``       the ``Blend.buf`` the fix remaps
      ``("", "position")``
      ``("", "texcoord")``
-     ``("", "other")``    ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
-     ``("", "face")``     ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
-     ===================  ====================================================================
+     ``("", "other")``       ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
+     ``("", "face")``        ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
+     ======================  ====================================================================
 
      Pair it with :cpp:func:`makeGIMICharFixer`; the two agree on these names by hand, and neither
      half makes sense alone

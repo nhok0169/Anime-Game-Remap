@@ -33,9 +33,8 @@ namespace AGRemapCore {
      .. note::
         Every whole-image :cpp:class:`BaseTexFilter` in this codebase (eg.
         :cpp:class:`ColourReplaceFilter`) is, at this level, also just a C++ loop over every pixel
-        -- `Compressonator`_ has no vectorized whole-image pixel-remap API the way `Pillow`_ did for
-        the pure-Python original, so there's no longer a real "whole image at once" fast path to
-        prefer instead. A #Filter is called directly, in C++, for every pixel -- no different in
+        -- `Compressonator`_ has no vectorized whole-image pixel-remap API, so there's no real
+        "whole image at once" fast path to prefer instead. A #Filter is called directly, in C++, for every pixel -- no different in
         cost from a dedicated filter's own inlined loop body
      @endrst
      */

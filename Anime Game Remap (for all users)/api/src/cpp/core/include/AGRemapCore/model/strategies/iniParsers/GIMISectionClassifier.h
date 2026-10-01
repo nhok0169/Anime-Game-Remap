@@ -58,15 +58,9 @@ namespace AGRemapCore {
         *next* ``hash``
 
      .. note::
-        Two deliberate divergences from the pure-Python original:
-
-        * ``hashNonVersionVals``/``indexNonVersionVals`` are stored here already normalized into
+        * ``hashNonVersionVals``/``indexNonVersionVals`` are stored already normalized into
           the positional ``std::vector<std::optional<K>>`` shape
-          :cpp:func:`ModMappedAssets::getKey` takes. The original stores the caller's raw
-          bare-value/list/dict form and normalizes it in its ``hashes``/``indices`` setters only --
-          so re-assigning ``hashNonVersionVals`` *after* construction leaves the un-normalized
-          value in ``_currentHashNonVersionVals``. That's harmless there (the `Python`_
-          ``getKey`` re-normalizes whatever it's handed), but there is no reason to reproduce it
+          :cpp:func:`ModMappedAssets::getKey` takes
         * ``hashes``/``indices`` are **nullable borrowed pointers**, not owned values -- they
           belong to the :cpp:class:`ModType` the ``.ini`` file was classified as, and #classify
           simply finds nothing when either is missing, rather than raising
@@ -235,7 +229,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The already-normalized non-version filter used when searching #hashes -- see this
-             class's own note on how this differs from the pure-Python original
+             class's own note
              @endrst
              */
             const std::vector<std::optional<K>>& hashNonVersionVals() const;
@@ -266,8 +260,8 @@ namespace AGRemapCore {
              Classifies which mod objects a particular :cpp:class:`IfContentPart` belongs to
              @endrst
              *
-             * @param sectionName The name of the `section`_ the part belongs to. Unused -- kept because the pure-Python original's signature has it
-             * @param section The `section`_ the part belongs to. Unused, same reason
+             * @param sectionName The name of the `section`_ the part belongs to. Unused
+             * @param section The `section`_ the part belongs to. Unused
              * @param partKeys The current state of the `KVPs`_ for the part
              *
              * @return The classified mod objects, in first-found order

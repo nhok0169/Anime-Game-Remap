@@ -51,8 +51,8 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        Replaces the pure-Python ``Logger`` (``view/Logger.py``) outright -- the `pybind11`_
-        ``Logger`` is a thin subclass of this class, see ``py/src/view/PyLogger.h``
+        The `Python`_-facing ``Logger`` is a thin subclass of this class, see
+        ``py/src/view/PyLogger.h``
      @endrst
      */
     class BaseLogger {
@@ -266,7 +266,7 @@ namespace AGRemapCore {
              Prints the message for an error, from its already-separated parts :raw-html:`<br />` :raw-html:`<br />`
 
              Renders ``"\n{exceptionType}: {message}\n\n{traceback}"`` and hands it to ``error`` --
-             the same shape the pure-Python original built from ``type(e).__name__``/``str(e)``/
+             the same shape `Python`_ gives from ``type(e).__name__``/``str(e)``/
              ``traceback.format_exc()``. Not ``virtual``: a view that wants to treat errors
              specially overrides ``error``, which every error path funnels through
              @endrst

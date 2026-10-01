@@ -27,8 +27,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      Tools for handling with generic directed graphs, represented as adjacency lists (``node ->
-     list of the nodes directly reachable from it``) -- the C++ port of ``GraphTools.py``
-     :raw-html:`<br />` :raw-html:`<br />`
+     list of the nodes directly reachable from it``) :raw-html:`<br />` :raw-html:`<br />`
 
      Nodes can be any type satisfying ``NodeHash``/``NodeEqual`` as a hash-map key -- these tools
      have no notion of what a node "is" (a `section`_, an :cpp:class:`IfContentPart`, a plain

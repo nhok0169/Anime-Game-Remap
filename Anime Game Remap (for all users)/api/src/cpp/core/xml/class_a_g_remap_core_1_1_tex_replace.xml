@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="172" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="172" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="169" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="169" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_replace_1a582a7d83c035777a1b42b90ce8098677" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1ada1a98ff3e419cbfa7c342e48fcb66ba" kindref="member">Base::GraphId</ref></type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="173" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="173" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="170" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="170" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_replace_1a9408f502716d5acf96bd903d4fddce3d" prot="public" static="no">
         <type>typename Base::ResEditConfig</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="174" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="174" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="171" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="171" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="179" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="179" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="176" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="176" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_replace_1af7d136f4d761b6dacb4c571393ff4e2b" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -103,7 +103,7 @@ could collide
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="225" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="225" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="222" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="222" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -172,7 +172,7 @@ could collide
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="189" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="186" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -202,7 +202,7 @@ build on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="201" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="198" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -232,7 +232,7 @@ build on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="206" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="203" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1a2fa260b9a9e8a7493071ce948f6c6f3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -251,7 +251,7 @@ build on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="212" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="209" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -373,7 +373,7 @@ resource model it stands for is a :cpp:class:`RemapTexEditResource` (``srcPath``
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="170" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="170" bodyend="226"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="167" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="167" bodyend="223"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_tex_replace_1a0d821349a5fa0b9a39a2fd5debb15898" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>BaseResEdit</name></member>

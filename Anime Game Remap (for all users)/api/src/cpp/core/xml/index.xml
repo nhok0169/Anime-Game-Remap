@@ -1094,9 +1094,9 @@
     <member refid="class_a_g_remap_core_1_1_file_service_1aa92b672a02bc0b5b26a00fb4f4e5abe9" kind="function"><name>defaultPath</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a1354f348d142e91845467da4f076501d" kind="function"><name>parseOSPath</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a44ac64f58cd3b48b2d0f93461e7485a2" kind="function"><name>getPath</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_service_1add9b4070a288f7d12a696dcf03fe0638" kind="function"><name>getFilesAndDirs</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a994377efec69c9336b2643410d76e97d" kind="function"><name>fileSize</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a7d0d9c7550b26ff25aca348e142cc1cd" kind="function"><name>makeFolderFor</name></member>
-    <member refid="class_a_g_remap_core_1_1_file_service_1add9b4070a288f7d12a696dcf03fe0638" kind="function"><name>getFilesAndDirs</name></member>
     <member refid="class_a_g_remap_core_1_1_file_service_1a6e81c2ff3686891a1b31a3f54323df9c" kind="function"><name>getRelPath</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_file_stats" kind="class"><name>AGRemapCore::FileStats</name>

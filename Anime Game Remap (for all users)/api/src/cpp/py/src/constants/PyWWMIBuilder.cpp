@@ -20,7 +20,7 @@ namespace AGRC = AGRemapCore;
 void initCppWWMIBuilder(pybind11::module_ &m) {
     py::class_<AGRC::WWMIBuilder>(m, "WWMIBuilder", R"doc(
 Creates new :class:`ModType` objects for WuWa (Wuthering Waves) mods -- the WWMI counterpart of
-:class:`GIBuilder`. Their parse / fix / remove rows are stubs until the WWMI strategies exist
+:class:`GIBuilder`. Some of their parse / fix / remove rows are still stubs
     )doc")
         .def_static("sanhua", &AGRC::WWMIBuilder::sanhua, py::doc(R"doc(Creates the :class:`ModType` for Sanhua)doc"))
         .def_static("sanhuaExorcist", &AGRC::WWMIBuilder::sanhuaExorcist, py::doc(R"doc(Creates the :class:`ModType` for SanhuaExorcist (WWMI-Assets' SanhuaSkin1))doc"))

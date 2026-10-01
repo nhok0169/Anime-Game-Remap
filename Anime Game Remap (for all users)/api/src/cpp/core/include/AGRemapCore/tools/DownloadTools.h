@@ -75,8 +75,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Where every downloadable default part is published -- the pure-Python original's own
-             ``GithubDownloadFolder`` (``data/FileDownloadData.py``)
+             Where every downloadable default part is published -- the same location as the
+             `Python`_ package's ``GithubDownloadFolder`` (``data/FileDownloadData.py``)
              @endrst
              */
             static const std::string& downloadFolder();
@@ -88,7 +88,7 @@ namespace AGRemapCore {
              key :raw-html:`<br />` :raw-html:`<br />`
 
              ``VertexCountData.h`` exposes only the raw row list -- there is no lookup helper -- so
-             this is the small scan the pure-Python original gets for free from a nested dict
+             this is a small scan over it
              @endrst
              *
              * @param version The game version the row is keyed under, eg. ``"4.0"``
@@ -183,11 +183,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             ``<game>/<charFolder>/<versionFolder>/<prefix><kind><ext>`` -- the five-argument form
+             ``<game>/<charFolder>/<versionFolder>/<prefix><kind><ext>`` -- the six-argument form
              with the game folder spelled out. The five-argument form is this with ``"GI"``; a WuWa
-             download passes ``"WuWa"`` (``WuWa/Sanhua/2_5/SanhuaTexture89ba19a1.dds``, the first
-             one, 2026-09-19 -- a WWMI character's textures are filed by the hash the game binds
-             them under, so 'kind' is ``"Texture" + hash`` there)
+             download passes ``"WuWa"`` (eg. ``WuWa/Sanhua/2_5/SanhuaTexture89ba19a1.dds`` -- a WWMI
+             character's textures are filed by the hash the game binds them under, so 'kind' is
+             ``"Texture" + hash`` there)
              @endrst
              */
             static std::string urlPath(const std::string& game, const std::string& charFolder,

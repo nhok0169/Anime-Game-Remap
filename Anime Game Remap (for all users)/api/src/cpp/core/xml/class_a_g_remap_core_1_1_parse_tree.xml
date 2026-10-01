@@ -109,7 +109,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="148" column="16" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="146" column="16" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="146" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -265,10 +265,9 @@ The keys are the ids of the parent nodes and the values are the ids of the child
 </parameteritem>
 </parameterlist>
 <simplesect kind="note"><para><verbatim>embed:rst 
-Unlike the pure-Python original&apos;s ``getNode``, there is no separate &apos;default&apos; parameter
-for the not-found-and-not-erroring case -- a ``nullptr`` return already serves as that
-default, and none of this codebase&apos;s real call sites ever pass a custom one (matching
-:cpp:class:`BaseDFA`&apos;s own ``get*Ptr`` accessors, which have the same shape)
+There is no separate &apos;default&apos; parameter for the not-found-and-not-erroring case -- a
+``nullptr`` return already serves as that default (matching :cpp:class:`BaseDFA`&apos;s own
+``get*Ptr`` accessors, which have the same shape)
 </verbatim></para>
 </simplesect>
 <parameterlist kind="exception"><parameteritem>
@@ -286,7 +285,7 @@ default, and none of this codebase&apos;s real call sites ever pass a custom one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="127" column="29"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="126" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -305,8 +304,7 @@ default, and none of this codebase&apos;s real call sites ever pass a custom one
 Determines whether the id of some node has no children of its own :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   Ported as-is from the pure-Python original&apos;s own ``isChild``, name and all -- despite
-   the name, this checks whether &apos;nodeId&apos; has *no entry* in #children (i.e. it&apos;s a leaf/
+   Despite the name, this checks whether &apos;nodeId&apos; has *no entry* in #children (i.e. it&apos;s a leaf/
    token node produced by a shift, as opposed to an internal node produced by reducing a
    production), not whether it appears as some other node&apos;s child
 </verbatim></para>
@@ -325,7 +323,7 @@ Determines whether the id of some node has no children of its own :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="145" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="143" column="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -345,7 +343,7 @@ Determines whether the id of some node has no children of its own :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="150" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="148" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -381,7 +379,7 @@ The generated parse tree after parsing some text
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="39" column="5" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="39" bodyend="151"/>
+    <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="39" column="5" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="39" bodyend="149"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>Children</name></member>
       <member refid="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>children</name></member>

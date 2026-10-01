@@ -26,9 +26,8 @@ namespace AGRemapCore {
      Tools for handling text :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        This is a **partial** port of the pure-Python ``TextTools`` class (``tools/TextTools.py``)
-        -- only the methods needed so far (by :cpp:class:`IniNamingTools`) are included. Add more
-        methods as later-ported subsystems need them
+        This holds only a **subset** of the `Python`_ ``TextTools`` class's methods
+        (``tools/TextTools.py``) -- the ones :cpp:class:`IniNamingTools` needs
      @endrst
      */
     class TextTools {

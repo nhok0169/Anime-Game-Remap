@@ -7,21 +7,6 @@
     <includes local="no">filesystem</includes>
     <includes refid="_ini_file_8h" local="yes">AGRemapCore/model/files/IniFile.h</includes>
     <incdepgraph>
-      <node id="33">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="101">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="100">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="39">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="65">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1095,6 +1080,21 @@
         </childnode>
         <childnode refid="64" relation="include">
         </childnode>
+      </node>
+      <node id="33">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="101">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="100">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="39">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="76">
         <label>Generator.tpp</label>

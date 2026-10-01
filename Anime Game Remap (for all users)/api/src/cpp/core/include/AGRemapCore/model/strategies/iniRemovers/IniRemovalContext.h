@@ -53,8 +53,7 @@ namespace AGRemapCore {
 
          With this set, the hash half is skipped entirely and **every** candidate is a target -- ie.
          every `section`_ inside the boilerplate plus every ``Remap``-named `section`_ outside it,
-         whoever they belong to. That is what the pure-Python ``IniRemover.py`` this replaced always
-         did, and what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
+         whoever they belong to. That is what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
          :raw-html:`<br />` :raw-html:`<br />`
 
          .. note::

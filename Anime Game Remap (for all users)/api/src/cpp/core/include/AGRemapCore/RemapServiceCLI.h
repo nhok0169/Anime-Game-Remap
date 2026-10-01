@@ -31,8 +31,8 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The command-line front end for a remap -- the **UI** half of what the pure-Python
-     ``RemapService`` used to be :raw-html:`<br />` :raw-html:`<br />`
+     The command-line front end for a remap -- the **UI** half of the remap, beside the
+     :cpp:class:`RemapService` model :raw-html:`<br />` :raw-html:`<br />`
 
      :cpp:class:`RemapService` is the model: it takes already-typed data (:cpp:enum:`ModTypeId`
      integers, a parsed :cpp:class:`Version`, a :cpp:enum:`DownloadMode`) and knows nothing about
@@ -45,14 +45,9 @@ namespace AGRemapCore {
      attributes without this class forwarding them by hand :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        Argument parsing is deliberately **not** here. The pure-Python driver (``main.py``) parses
-        the command line and hands the results in, and that split is kept: this class takes values,
-        not an ``argv``. It is why the option *names* a tip would quote (``--revert`` and friends)
+        Argument parsing is deliberately **not** here. The command-line driver (``main.py``) parses
+        the command line and hands the results in: this class takes values, not an ``argv``. It is why the option *names* a tip would quote (``--revert`` and friends)
         are not in this class either -- they belong with the parser that defines them
-
-     .. note::
-        Written from the pure-Python ``RemapService``'s own ``createLog``/``log`` handling
-        (``remapService.py``), which is where the log-file behaviour below comes from
      @endrst
      */
     class RemapServiceCLI {
@@ -74,7 +69,7 @@ namespace AGRemapCore {
              The **folder** to write the log file into, or ``std::nullopt`` not to write one -- see
              #getLog :raw-html:`<br />` :raw-html:`<br />`
 
-             A folder rather than a file path, matching the pure-Python original: the file's own
+             A folder rather than a file path: the file's own
              name is always :cpp:member:`FileTypes::Log` :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
@@ -96,8 +91,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Constructs a front end from what a user **typed** -- the string half of the pure-Python
-             ``RemapService``'s own constructor :raw-html:`<br />` :raw-html:`<br />`
+             Constructs a front end from what a user **typed** :raw-html:`<br />` :raw-html:`<br />`
 
              Every parameter that :cpp:class:`RemapService` takes as already-typed data
              (:cpp:enum:`ModTypeId` integers, a :cpp:class:`Version`, a :cpp:enum:`DownloadMode`)
@@ -106,13 +100,12 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              **A bad string does not throw from here.** The first conversion failure is stored and
-             raised by #fix instead -- see #hasErrorsBeforeFix for why. So is the pure-Python
-             original's own behaviour :raw-html:`<br />` :raw-html:`<br />`
+             raised by #fix instead -- see #hasErrorsBeforeFix for why :raw-html:`<br />`
+             :raw-html:`<br />`
 
              .. note::
                 'gameTypes' is converted here like every other name/alias, through
-                :cpp:func:`GameTypeIdTools::findByName`. That was not always true -- there was a
-                time when nothing resolved a game by name at all and this took only the id
+                :cpp:func:`GameTypeIdTools::findByName`
              @endrst
              *
              * @param path The folder the fix runs from, or ``std::nullopt`` for the current one
@@ -128,7 +121,7 @@ namespace AGRemapCore {
 
              .. note::
                 An empty list means *no filter* here, exactly as ``std::nullopt`` does -- it is the
-                pure-Python original's own reading, and the only one an argument parser can produce
+                only reading an argument parser can produce
                 (a user who names no types wants all of them, not none). That is why this differs
                 from :cpp:member:`RemapService::fromModTypeIds`, where an empty **set** is a filter
                 that accepts nothing: by then the ambiguity has been resolved, and this is where it
@@ -144,8 +137,8 @@ namespace AGRemapCore {
 
              Only ever in play when 'readAllInis' is on and no 'forcedType' was given -- otherwise
              there is either nothing unclassified to fall back for, or a forced type already
-             answering the question. Left unset with 'readAllInis' on, it is ``Raiden``, which is
-             the pure-Python original's own default :raw-html:`<br />` :raw-html:`<br />`
+             answering the question. Left unset with 'readAllInis' on, it is ``Raiden``
+             :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
              @endrst
@@ -167,8 +160,8 @@ namespace AGRemapCore {
              newest fix -- feeds :cpp:member:`RemapService::toVersion` :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Named ``version`` rather than ``toVersion`` because that is what the pure-Python API
-             called it, and what ``--version`` has always meant on the command line
+             Named ``version`` rather than ``toVersion`` because that is what ``--version`` means
+             on the command line
              :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
@@ -183,9 +176,8 @@ namespace AGRemapCore {
              Separate from ``version`` on purpose. It picks the PARSER and the hashes/indices the
              mod is read with, where ``version`` picks the FIXER, and the two are independent --
              every shipped fix row is keyed from ``1.0`` whatever version it fixes to. One option
-             feeding both, which is what this class did for a day, makes a divergence at a
-             historical version impossible to attribute to one selection or the other
-             :raw-html:`<br />` :raw-html:`<br />`
+             feeding both would make a divergence at a historical version impossible to attribute
+             to one selection or the other :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
              @endrst
@@ -206,9 +198,7 @@ namespace AGRemapCore {
              ``"always"``, ignoring case and surrounding whitespace :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Unset means :cpp:enumerator:`DownloadMode::Normal`. The pure-Python original named a
-             ``HardTexDriven`` mode here that no longer exists, so its own unset case has been
-             broken for as long as that member has been gone :raw-html:`<br />` :raw-html:`<br />`
+             Unset means :cpp:enumerator:`DownloadMode::Normal` :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
              @endrst
@@ -295,19 +285,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The full path of the log file, or ``std::nullopt`` when no log is being written
-             @endrst
-             *
-             * @return The log file's path, if there is one
-             */
-            /**
-             * @brief
-             @rst
              Whether a string handed to the string constructor could not be converted
              :raw-html:`<br />` :raw-html:`<br />`
 
              A conversion failure is **stored rather than thrown**, and #fix raises it. Three
-             reasons, all the pure-Python original's: a half-built object is still a usable one to
+             reasons: a half-built object is still a usable one to
              inspect, a caller that never runs the fix never had a problem, and #printModsToFix has
              nothing truthful to print about mod types that could not be resolved -- so it is
              skipped entirely rather than printing a half-list :raw-html:`<br />` :raw-html:`<br />`
@@ -328,6 +310,14 @@ namespace AGRemapCore {
              */
             void raiseErrorsBeforeFix() const;
 
+            /**
+             * @brief
+             @rst
+             The full path of the log file, or ``std::nullopt`` when no log is being written
+             @endrst
+             *
+             * @return The log file's path, if there is one
+             */
             const std::optional<std::string>& getLog() const;
 
             /**
@@ -349,11 +339,9 @@ namespace AGRemapCore {
              @rst
              Whether the fix prints its progress as it runs :raw-html:`<br />` :raw-html:`<br />`
 
-             Reads straight off #logger rather than out of a copy kept here. The pure-Python
-             original kept both and only ever wrote the copy through its own setter, so assigning
-             ``logger.verbose`` directly left the two disagreeing with no way to tell which was
-             being believed. There is one answer now, and it is the view's :raw-html:`<br />`
-             :raw-html:`<br />`
+             Reads straight off #logger rather than out of a copy kept here, so assigning
+             ``logger.verbose`` directly and calling #setVerbose always agree: there is one answer,
+             and it is the view's :raw-html:`<br />` :raw-html:`<br />`
 
              Independent of whether a log file is being written -- see #setLog. A quiet run still
              accumulates a full log
@@ -409,8 +397,7 @@ namespace AGRemapCore {
 
              Called by #fix after the remap and **before** #createLog, so the tips land in the log
              file too, and only when :cpp:func:`RemapService::noErrors` -- advice about what to try
-             next is noise on top of a run that already went wrong. That ordering and that gate are
-             the pure-Python original's own
+             next is noise on top of a run that already went wrong
              @endrst
              */
             virtual void addTips();
@@ -427,13 +414,11 @@ namespace AGRemapCore {
 
              The two empty cases are **not** the same thing, and this is the one place a user sees
              the difference: ``std::nullopt`` is "no filter" and prints *All mods*, while a
-             present-but-empty set accepts nothing and prints *No mods*. The pure-Python original had
-             only one empty (a falsy list) and printed *All mods* for it :raw-html:`<br />`
+             present-but-empty set accepts nothing and prints *No mods* :raw-html:`<br />`
              :raw-html:`<br />`
 
              .. note::
-                Called at the top of #fix, where the pure-Python original called it at the end of its
-                **constructor**. Deliberate: a virtual call from a constructor does not reach an
+                Called at the top of #fix rather than from the **constructor**. Deliberate: a virtual call from a constructor does not reach an
                 override, so a subclass reshaping this banner -- the whole reason it is virtual --
                 would silently never be used. Running it from #fix costs nothing else, since the
                 driver constructs and then immediately fixes

@@ -106,9 +106,7 @@ namespace AGRemapCore {
              .. note::
                 Whether new `KVPs`_ land at the front or the back of a part is **already baked into
                 the function** by the time one of these exists -- see \ref makeFillMissing's
-                ``toFront``. The pure-Python original decided that per edit, from
-                :cpp:member:`fillMode`, inside its own ``_getFillMissingFunc``; a caller who
-                reassigns \ref fillMode after construction has to rebuild \ref fillMissing to match
+                ``toFront``. A caller who reassigns \ref fillMode after construction has to rebuild \ref fillMissing to match
                 (which is exactly what the `pybind11`_ layer does, on every single ``edit`` call)
              @endrst
              */
@@ -216,8 +214,8 @@ namespace AGRemapCore {
              A cover is added unconditionally at a root whenever SOME path through the graph lacks the
              register, so on a section that draws as an ``if`` / ``else if`` chain with no ``else`` (a mod's own
              toggle between variants of one object) the covering ``drawindexed = auto`` runs on EVERY path,
-             each variant's own ranges included, and every variant draws at once (Yaoyao2's three hairstyles
-             on YaoyaoBamboo, 2026-09-27). With this on, a root that already draws on some path is left as its
+             each variant's own ranges included, and every variant draws at once (eg. a mod's three
+             toggleable hairstyles all drawn together). With this on, a root that already draws on some path is left as its
              author wrote it -- the path that draws nothing drew nothing on the mod's own character too --
              and only a root with no draw anywhere below it is covered. :cpp:enumerator:`RegFillMissingMode::FillMissing`
              is not affected :raw-html:`<br />` :raw-html:`<br />`
@@ -498,9 +496,7 @@ namespace AGRemapCore {
              adds no download-specific behaviour of its own :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Unlike the pure-Python original -- which called ``self.edit(graph, modType,
-                modName = modName)`` with no ``partFilter`` at all -- this **forwards** 'partFilter'
-                to \ref edit. Dropping it would silently disable the whole part-selection feature
+                This **forwards** 'partFilter' to \ref edit. Dropping it would silently disable the whole part-selection feature
                 for exactly the callers that supply a filter: :cpp:class:`GraphGroupEdit` routes
                 through ``editFromIni`` (not ``edit``) whenever it has an ``.ini`` file
              @endrst
@@ -535,9 +531,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                The pure-Python original accepted 'partFilter' and dropped it, so this edit applied
-                to every missing part unconditionally. Honouring it is a deliberate behaviour
-                change; an omitted/empty filter still fills everything, exactly as before
+                An omitted/empty filter fills every missing part
              @endrst
              *
              * @param graph The graph to edit, modified in place

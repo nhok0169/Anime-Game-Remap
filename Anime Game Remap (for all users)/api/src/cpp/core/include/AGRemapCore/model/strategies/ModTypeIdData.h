@@ -23,8 +23,8 @@ namespace AGRemapCore {
      Cheap data for a type of mod, held by an ini classifier (e.g. :cpp:class:`IniClassifier`)
      :raw-html:`<br />` :raw-html:`<br />`
 
-     Not meant to be a full representation of a mod type on its own -- the Python-side ``ModType``
-     is meant to build its own richer representation from this data
+     Not meant to be a full representation of a mod type on its own -- see :cpp:class:`ModType`
+     for that
      @endrst
      */
     class ModTypeIdData {

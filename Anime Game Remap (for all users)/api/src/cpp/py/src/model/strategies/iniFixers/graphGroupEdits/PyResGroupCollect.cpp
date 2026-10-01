@@ -545,7 +545,7 @@ Collects and groups the references to the resources
 
 .. note::
     With no .ini file there is nothing to build the resources *for*, so this collects and groups but
-    builds nothing -- exactly as the pure-Python original did
+    builds nothing
 
 Parameters
 ----------

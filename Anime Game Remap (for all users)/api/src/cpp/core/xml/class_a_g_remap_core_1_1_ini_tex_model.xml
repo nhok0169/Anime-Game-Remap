@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="68" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="67" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="67" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -62,7 +62,7 @@
 <parametername>fixedPaths</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" kindref="compound">IniFixResourceModel</ref></computeroutput>&apos;s constructor </para>
+<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" kindref="compound">AGRemapCore::IniFixResourceModel</ref></computeroutput>&apos;s constructor </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -72,7 +72,7 @@
 <parameterdescription>
 <para><verbatim>embed:rst 
 The texture editors used to edit the texture -- the outer keys are the indices to the
-:cpp:class:`IfContentPart` that the ``.dds`` file appears in the :cpp:class:`IfTemplate`
+:cpp:class:`AGRemapCore::IfContentPart` that the ``.dds`` file appears in the :cpp:class:`AGRemapCore::IfTemplate`
 for some texture, the inner keys are the names for the type of mod to fix to, and the
 inner values are the different texture editors used on the ``.dds`` files
 </verbatim> </para>
@@ -83,7 +83,7 @@ inner values are the different texture editors used on the ``.dds`` files
 <parametername>origPaths</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" kindref="compound">IniFixResourceModel</ref></computeroutput>&apos;s constructor </para>
+<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" kindref="compound">AGRemapCore::IniFixResourceModel</ref></computeroutput>&apos;s constructor </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -91,7 +91,7 @@ inner values are the different texture editors used on the ``.dds`` files
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="60" column="13" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="20" bodyend="25"/>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="59" column="13" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="20" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -107,21 +107,20 @@ inner values are the different texture editors used on the ``.dds`` files
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="70" column="18" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="69" column="18" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="27" bodyend="30"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`IniFixResourceModel`
+This class inherits from :cpp:class:`AGRemapCore::IniFixResourceModel`
 
 Contains data for editing some texture files in a .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Mirrors the pure-Python ``IniTexModel`` class (``model/iniresources/IniTexModel.py``) --
-#texEdits owns its :cpp:class:`BaseTexEditor`\\s via ``std::unique_ptr`` since it&apos;s a
+#texEdits owns its :cpp:class:`AGRemapCore::BaseTexEditor`\\s via ``std::unique_ptr`` since it&apos;s a
 polymorphic type (matches how it&apos;s used elsewhere in this codebase, eg.
-:cpp:class:`BlendFile`&apos;s owned ``BufElementType``\\s)
+:cpp:class:`AGRemapCore::BlendFile`&apos;s owned ``BufElementType``\\s)
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -160,7 +159,7 @@ polymorphic type (matches how it&apos;s used elsewhere in this codebase, eg.
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="43" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="43" bodyend="71"/>
+    <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="42" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="42" bodyend="70"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f" prot="public" virt="virtual"><scope>AGRemapCore::IniTexModel</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>fixedPaths</name></member>

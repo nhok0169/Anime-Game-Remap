@@ -35,36 +35,22 @@ namespace AGRemapCore {
      *which* remover based on the mod's name and the game version the ``.ini`` file came from
      :raw-html:`<br />` :raw-html:`<br />`
 
-     The C++ counterpart to the pure-Python ``IniRemoveBuilder``
-     (``model/strategies/iniRemovers/IniRemoveBuilder.py``), and what
-     :cpp:member:`ModType::iniRemoveBuilder` holds. The sibling of :cpp:class:`IniParseBuilder` and
+     What :cpp:member:`ModType::iniRemoveBuilder` holds. The sibling of :cpp:class:`IniParseBuilder` and
      :cpp:class:`IniFixBuilder`, with the same two flavours (fixed factory, or a version-dependent
      #ArgsRepo) -- read :cpp:class:`IniParseBuilder`'s notes first; only the differences are repeated
      here :raw-html:`<br />` :raw-html:`<br />`
 
-     .. warning::
-        **This deliberately does not mirror its pure-Python original's flyweight semantics.** That
-        one derives from ``FlyweightBuilder``: it keeps a ``_cache`` of built removers, hands the
-        *same* instance back to every caller sharing a key, and re-points it at each new caller's
-        ``.ini`` file on the way out. This one builds a fresh remover per #build call, like its two
-        siblings -- so a remover handed out here is bound to the file it was built for and stays that
-        way, and there is no cache to clear, no ``cache`` flag, and no ``id`` cache key
-        :raw-html:`<br />` :raw-html:`<br />`
-
-        That divergence is the maintainer's explicit call, and it removes a real hazard rather than
-        just simplifying: under the flyweight, two :cpp:class:`IniFile`\\s resolving to the same key
-        shared one remover, so holding onto one across a second :cpp:func:`build` left it silently
-        rebound to somebody else's file -- and a cached remover outliving the
-        :cpp:class:`IniFile` it pointed at left a dangling non-owning pointer behind
+     .. note::
+        This builds a fresh remover per #build call, like its two siblings -- it is **not** a
+        flyweight. A remover handed out here is bound to the file it was built for and stays that
+        way, so two :cpp:class:`IniFile`\\s never share one remover, and there is no cache to
+        clear
 
      .. note::
-        The #ArgsRepo flavour is a deliberate **extension beyond** the pure-Python original, not a
-        port of it: there is no ``IniRemoveBuilderData.py`` or ``IniRemoveBuilderArgs.py``, and the
-        only ``IniRemoveBuilder`` the whole Python package ever constructs is the single global
-        ``IniRemoveBuilder(RemapIniRemover)`` in ``constants/GlobalIniRemoveBuilders.py`` -- every
-        mod type there shares one remover class, with no per-mod or per-version variation. The
-        lookup exists here so that per-mod removers *can* be expressed when they are needed; see
-        :cpp:class:`IniRemoveBuilderData` for the table
+        By default every mod type shares one remover class (the single global builder,
+        :cpp:func:`GlobalIniRemoveBuilders::removeBuilder`), with no per-mod or per-version
+        variation. The #ArgsRepo lookup exists so that per-mod removers *can* be expressed when
+        they are needed; see :cpp:class:`IniRemoveBuilderData` for the table
      @endrst
      */
     class IniRemoveBuilder {
@@ -73,12 +59,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Builds one remover, already bound to the ``.ini`` file it will act on -- the C++
-             stand-in for the pure-Python original's ``(cls, args, kwargs)`` triple, see
+             Builds one remover, already bound to the ``.ini`` file it will act on -- see
              :cpp:type:`IniParseBuilder::Factory` :raw-html:`<br />` :raw-html:`<br />`
 
-             The :cpp:class:`IniFile` argument is what the original's ``build(args = [iniFile])``
-             passes positionally to the remover's constructor; it may be ``nullptr``, since
+             The :cpp:class:`IniFile` argument is the file the remover will act on; it may be
+             ``nullptr``, since
              :cpp:class:`BaseIniRemover` allows an unbound remover
              @endrst
              */
@@ -91,8 +76,7 @@ namespace AGRemapCore {
              shape as :cpp:type:`IniParseBuilder::ArgsRepo`, and filled in by
              :cpp:class:`IniRemoveBuilderData` :raw-html:`<br />` :raw-html:`<br />`
 
-             Unlike the other two, this has **no pure-Python counterpart** -- see this class's own
-             note on why it exists anyway
+             See this class's own note on why it exists
              @endrst
              */
             using ArgsRepo = ModDictAssets<std::string, Factory>;
@@ -103,10 +87,6 @@ namespace AGRemapCore {
              The #Factory used when nothing else supplies one -- constructs a
              :cpp:class:`RemapIniRemover` bound to the given file, via
              :cpp:func:`RemapIniRemover::factory` :raw-html:`<br />` :raw-html:`<br />`
-
-             The direct equivalent of the pure-Python original's
-             ``IniRemoveBuilder(RemapIniRemover)`` default (see
-             ``constants/GlobalIniRemoveBuilders.py``) :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 This is the single choke point for the whole family: every row of
@@ -129,7 +109,7 @@ namespace AGRemapCore {
              * @param factory
              @rst
              The factory to build every remover with. If this is empty, #defaultFactory is used
-             instead, mirroring the pure-Python original's own ``iniRemoveBuilder`` null-fallback
+             instead
              @endrst
              */
             explicit IniRemoveBuilder(Factory factory);
@@ -161,7 +141,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The lookup table this builder resolves factories from, or ``nullptr`` if it is a
-             fixed-factory builder -- the equivalent of the pure-Python original's ``_builderArgs``
+             fixed-factory builder
              @endrst
              */
             const std::shared_ptr<const ArgsRepo>& getBuilderArgs() const;
@@ -183,7 +163,7 @@ namespace AGRemapCore {
              #. Construct a remover with it -- a **new** one on every call, see this class's own
                 warning
              #. Bind the result to 'iniFile' with :cpp:func:`BaseIniRemover::setIniFile` before
-                returning -- the equivalent of the original's ``result.iniFile = iniFile``
+                returning
 
              :raw-html:`<br />`
 

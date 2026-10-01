@@ -37,8 +37,7 @@ class GlobalIniRemoveBuilders(DeferredEnum):
     RemoveBuilder = (lambda: IniRemoveBuilder(), )
     """
     .. note::
-        The :class:`RemapIniRemover` built here is the **C++** one (``FixRaidenBoss2.core.RemapIniRemover``),
-        not the pure-Python class of the same name. The two find the fix by genuinely different
-        rules -- see that class's own documentation -- so what a removal leaves behind differs
+        The :class:`RemapIniRemover` built here is the **C++** one (``FixRaidenBoss2.core.RemapIniRemover``)
+        -- see that class's own documentation for the rules it uses to find the fix
     """
 ##### EndScript

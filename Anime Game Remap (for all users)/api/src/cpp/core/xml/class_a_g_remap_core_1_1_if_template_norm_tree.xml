@@ -56,16 +56,14 @@ mutated in place
 <verbatim>embed:rst 
 .. note::
    Each synthetic ``else``&apos;s #IfPredPart::query is built against its own fresh,
-   throwaway :cpp:class:`Z3Context` (not one supplied by the caller) -- matching the
-   pure-Python original exactly (a literal ``Z3Context()`` per synthesized ``else``).
+   throwaway :cpp:class:`Z3Context` (not one supplied by the caller).
    This is safe specifically because a synthetic ``else``&apos;s query is always just the
-   literal ``true``, which never needs to share variable identity with anything else
-   -- see this method&apos;s own implementation comment for the fuller reasoning.
+   literal ``true``, which never needs to share variable identity with anything else.
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="501" column="36"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="496" column="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -75,8 +73,7 @@ mutated in place
 This class inherits from :cpp:class:`IfTemplateNonEmptyNodeTree`
 
 A variation of :cpp:class:`IfTemplateNonEmptyNodeTree` such that an empty ``else`` clause will
-be added for branches that do not end with a single ``else`` -- the C++ port of
-``IfTemplateTree.py``&apos;s ``IfTemplateNormTree`` class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+be added for branches that do not end with a single ``else`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. tip::
    See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
@@ -301,7 +298,7 @@ with the following parse subtree:
         <link refid="class_a_g_remap_core_1_1_node"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="473" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="473" bodyend="503"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="470" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="470" bodyend="498"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNormTree</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_norm_tree_1a36532aebb381096daa8309ec0faa47bc" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNormTree</scope><name>construct</name></member>

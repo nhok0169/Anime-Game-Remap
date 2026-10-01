@@ -19,14 +19,13 @@ Constructs a new, fully-populated vertex count lookup table :raw-html:`&lt;br /&
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   Unlike the pure-Python original there is no ``repo`` argument to swap the whole
-   table out with -- nothing in this project ever passed one, and
-   :cpp:func:`ModDictAssets::addRows` already covers extending it
+   There is no ``repo`` argument to swap the whole table out with --
+   :cpp:func:`ModDictAssets::addRows` covers extending it
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="77" column="13" bodyfile="src/model/assets/VertexCounts.cpp" bodystart="50" bodyend="50"/>
+        <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="72" column="13" bodyfile="src/model/assets/VertexCounts.cpp" bodystart="50" bodyend="50"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -41,11 +40,9 @@ already fully populated, which is what lets :cpp:member:`ModType::vertexCounts` 
 and still be useful :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   Two differences from its :cpp:class:`Hashes`/:cpp:class:`Indices` siblings, both inherited
-   from the pure-Python original:
+   Two differences from its :cpp:class:`Hashes`/:cpp:class:`Indices` siblings:
 
-   #. It derives from :cpp:class:`ModDictAssets`, **not** :cpp:class:`ModMappedAssets` -- the
-      pure-Python ``VertexCounts`` extends ``ModAssets`` rather than ``ModMappedAssets``, so
+   #. It derives from :cpp:class:`ModDictAssets`, **not** :cpp:class:`ModMappedAssets`, so
       there is no fix-from/fix-to adjacency list here and therefore no ``getMap``/``hasFrom``.
       A vertex count is looked *up*, never remapped
    #. Its value type is ``int`` rather than ``std::string``
@@ -61,11 +58,9 @@ and still be useful :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    convention :cpp:class:`Indices` uses for its own ``component`` column
 
 .. note::
-   :cpp:class:`ModDictAssets` rather than :cpp:class:`ModAssets` (which is what the pure-Python
-   original inherits): this table has exactly one version column, which is the case
-   :cpp:class:`ModDictAssets`&apos;s own class note calls out as belonging in the hash-based table
-   rather than the linear-scanning one. The pure-Python ``ModAssets`` supports several version
-   columns; ``VertexCounts`` never used more than one
+   :cpp:class:`ModDictAssets` rather than :cpp:class:`ModAssets`: this table has exactly one
+   version column, which is the case :cpp:class:`ModAssets`&apos;s own class note calls out as
+   belonging in the hash-based table rather than the linear-scanning one
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -92,7 +87,7 @@ and still be useful :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="62" column="5" bodyfile="include/AGRemapCore/model/assets/VertexCounts.h" bodystart="62" bodyend="78"/>
+    <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="58" column="5" bodyfile="include/AGRemapCore/model/assets/VertexCounts.h" bodystart="58" bodyend="73"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>addRows</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1af9700cf4807db87f8d47afe67932cc20" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>extractNonVersionVals</name></member>

@@ -87,7 +87,7 @@ Eye moved to the target&apos;s eye height (:cpp:member:`GIMIMergeFixerConfig::Co
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-One source component&apos;s files, as a :cpp:class:`VGMergeGroupResource` finds them on disk
+One source component&apos;s files, as a :cpp:class:`AGRemapCore::VGMergeGroupResource` finds them on disk
 </verbatim> </para>
     </detaileddescription>
     <collaborationgraph>

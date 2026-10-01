@@ -34,7 +34,7 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        The `Python`_-facing ``IniGraphModObjKeywords`` is a separate, still-pure-Python ``Enum``
+        The `Python`_-facing ``IniGraphModObjKeywords`` is a separate `Python`_ ``Enum``
         (``constants/IniConsts.py``) whose member carries the same string value. The binding layer
         uses the same literal rather than either side being replaced -- this class exists so
         `AGRemapCore` stays usable with no `Python`_ at all, matching what

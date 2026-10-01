@@ -97,11 +97,11 @@ std::vector<AGRC::IniResource*> borrowAll(std::vector<std::unique_ptr<AGRC::IniR
 
 void initCppIniFile(pybind11::module_ &m) {
     py::class_<AGRC::IniFile>(m, "IniFile", R"doc(
-Class for handling .ini files -- the C++-backed counterpart to the pure-Python :class:`IniFile`
+Class for handling .ini files
 :raw-html:`<br />` :raw-html:`<br />`
 
 .. note::
-    Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
+    Mod types cross this boundary as **ids**, not as :class:`ModType` objects: this
     class resolves a mod type's parse/fix/remove builders through the global registry keyed by
     ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
     :class:`ModType`
@@ -208,8 +208,8 @@ by its text
 :class:`str`: The folder the .ini file resides in, or ``""`` when it has no path
 
 .. note::
-    This deliberately differs from the pure-Python :attr:`IniFile.folder`, which falls back to the
-    folder the script is run from. Derived from :attr:`IniFile.file` rather than stored
+    This does not fall back to the folder the script is run from. Derived from
+    :attr:`IniFile.file` rather than stored
         )doc"))
 
         .def_property("fileTxt", &AGRC::IniFile::getFileTxt, &AGRC::IniFile::setFileTxt, py::doc(R"doc(
@@ -653,8 +653,7 @@ The parent folder of each resource's source path, across both :meth:`getResource
 an :class:`IniFixResource`
 
 .. note::
-    That second half is a deliberate divergence from the pure-Python original, whose own
-    ``getReferencedFolders()`` only ever looked at a resource's *source* side. The fix **writes**
+    The fixed paths are included, not only each resource's *source* side, because the fix **writes**
     files to a fixed path, so a folder walk built on this method has to be able to reach that
     folder even when no source path points into it
 

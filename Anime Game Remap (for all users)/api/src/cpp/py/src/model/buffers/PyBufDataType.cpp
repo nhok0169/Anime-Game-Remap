@@ -34,10 +34,9 @@ The abstract base for an elementary data type within a ``.buf`` file (eg. a sing
 :class:`BufBaseFloat`'s concrete subclasses, or :class:`BufUnorm`
 
 .. warning::
-    Unlike the pure-Python original this replaces (where any subclass could be defined in plain
-    Python and used immediately), a brand-new elementary data type not already covered by one of
-    this class's existing subclasses needs a real C++ subclass and a rebuild of this extension --
-    ``decode``/``encode`` are not overridable from pure Python here
+    A brand-new elementary data type not already covered by one of this class's existing
+    subclasses needs a real C++ subclass and a rebuild of this extension --
+    ``decode``/``encode`` are not overridable from Python
     )doc")
 
         .def_property("size", &AGRC::BufDataType::getSize, &AGRC::BufDataType::setSize, py::doc(R"doc(

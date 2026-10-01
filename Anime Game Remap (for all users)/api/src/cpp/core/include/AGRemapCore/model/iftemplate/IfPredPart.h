@@ -33,13 +33,8 @@ namespace AGRemapCore {
 
      Class for defining the predicate part of an `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
 
-     The full replacement for the pure-Python ``IfPredPart`` -- the deprecated pure-Python original
-     (which used a `sympy`_ query, not this class's own :cpp:class:`Z3Predicate`) has since been
-     removed entirely; nothing in this codebase still depends on it (``ResGroupCollect.py`` builds
-     its own query combination directly on :cpp:class:`Z3Predicate`, not a sympy round trip).
-     Registered under the bare ``IfPredPart`` Python name (no ``Cpp`` prefix) -- see this class's
-     own git history/PR description for the fuller reasoning. The `Z3`_-based dataflow-analysis
-     "Ini Graph Editing" subsystem (``IniSectionGraph.py``/``ResGroupCollect.py``) builds its own
+     Registered under the bare ``IfPredPart`` Python name (no ``Cpp`` prefix). The `Z3`_-based
+     dataflow-analysis "Ini Graph Editing" subsystem (``IniSectionGraph``/``ResGroupCollect``) builds its own
      query combination (``&``/``|``/``~``/``simplify``/``isSatisfiable``, see
      :cpp:class:`Z3Predicate`) directly on top of this class's #query
      @endrst
@@ -65,8 +60,7 @@ namespace AGRemapCore {
              'query' isn't already given :raw-html:`<br />` :raw-html:`<br />`
 
              If given, this is mutated in place (its #ParseContext::lines replaced with
-             #getTestStr's result) so it reflects exactly what was parsed -- matching the
-             pure-Python original's own ``ctx.lines = testStr.splitlines()``. If ``nullptr``, a
+             #getTestStr's result) so it reflects exactly what was parsed. If ``nullptr``, a
              fresh, throwaway :cpp:class:`ParseContext` is constructed internally instead :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``

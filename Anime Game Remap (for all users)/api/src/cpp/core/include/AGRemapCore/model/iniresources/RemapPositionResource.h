@@ -26,10 +26,10 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniFixResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniFixResource`
 
      Class for fixing a ``Position.buf`` file used by the overall remap process -- the position
-     counterpart of :cpp:class:`RemapBlendResource`, and built the same way :raw-html:`<br />`
+     counterpart of :cpp:class:`AGRemapCore::RemapBlendResource`, and built the same way :raw-html:`<br />`
      :raw-html:`<br />`
 
      **Most remaps need nothing of the sort.** A position buffer holds where the mesh's vertices

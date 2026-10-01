@@ -18,33 +18,6 @@
     <includes refid="_texture_file_8h" local="yes">AGRemapCore/model/files/TextureFile.h</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
-      <node id="133">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="38">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="120">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="80">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="119">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="117">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="83">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -1328,6 +1301,33 @@
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
+      </node>
+      <node id="133">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="120">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="119">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="117">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

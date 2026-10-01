@@ -38,7 +38,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         `(the register's value) -> does this rule apply to this occurrence?`_
+         A check on a register's value: does this rule apply to this occurrence of the register?
          :raw-html:`<br />` :raw-html:`<br />`
 
          Value-only, deliberately. The two layers underneath take different shapes -- a removal
@@ -61,8 +61,8 @@ namespace AGRemapCore {
          is how a mod that binds two different things to one slot across its ``$swapvar`` branches
          gets each branch treated correctly :raw-html:`<br />` :raw-html:`<br />`
 
-         Implicitly constructible from a string, so every config written before this existed still
-         reads (and compiles) exactly as it did
+         Implicitly constructible from a string, so a plain register name such as ``"ps-t2"`` can be
+         written wherever a ``RegRef`` is expected
          @endrst
          */
         struct RegRef {
@@ -188,8 +188,7 @@ namespace AGRemapCore {
             **A merge produces MORE THAN ONE ``.ini`` file.** Two sources naming one target collide,
             and :cpp:func:`GraphGroupRemap::remapGraphs` puts the loser in an additional
             :cpp:class:`IniGraphGroup` for the same ``.ini`` file, which the fixer writes out as
-            ``<name>RemapFix1.ini``. That is deliberate and is how the pure-Python
-            ``GIMIObjMergeFixer`` worked: the game loads both and overlaps them. Set
+            ``<name>RemapFix1.ini``. That is deliberate: the game loads both and overlaps them. Set
             :cpp:member:`GIMIFixer::copyPreamble` so the extra file says what it is
 
          .. warning::
@@ -356,8 +355,8 @@ namespace AGRemapCore {
              Only meaningful under a **merge**, where several sources land on one target and each
              arrives in a group of its own. Xiangling is the worked example: her ``DarkDiffuse``
              edit is declared on her head, and her head, body and dress all merge onto
-             XianglingCheer's head -- so without this the body and dress copies are darkened too,
-             which the pure-Python output shows they are not
+             XianglingCheer's head -- so without this the body and dress copies would be darkened
+             too
              @endrst
              */
             std::string srcObj;
@@ -404,9 +403,8 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Textures this fix rewrites, repointing the register at the rewritten copy -- the direct
-         equivalent of the pure-Python parser's ``texEdits`` plus the fixer's ``RegTexEdit``, which
-         are one thing here :raw-html:`<br />` :raw-html:`<br />`
+         Textures this fix rewrites, repointing the register at the rewritten copy
+         :raw-html:`<br />` :raw-html:`<br />`
 
          **Default**: empty -- most characters need none
          @endrst
@@ -474,7 +472,7 @@ namespace AGRemapCore {
 
          Only a **merge** generates one: a file the user never asked for and did not write should say
          why it exists. :cpp:member:`IniComments::GIMIObjMergerPreamble` is the paragraph written for
-         that, and is what the pure-Python merge used :raw-html:`<br />` :raw-html:`<br />`
+         that :raw-html:`<br />` :raw-html:`<br />`
 
          **Default**: empty -- right for every shape that writes only the mod's own file
          @endrst
@@ -484,32 +482,16 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Whether the fix takes the shared ``drawindexed`` off ``("", "ib")`` and re-issues one per
-         drawn object :raw-html:`<br />` :raw-html:`<br />`
-
-         **Per character, and not guessable from the ``.ini`` file's shape** -- Amber and Mona both
-         ship a ``[TextureOverride<Char>IB]`` carrying ``handling = skip`` and ``drawindexed = auto``,
-         yet Amber's fix moves the draw call and Mona's leaves it exactly where it is. Check what
-         the pure-Python row for that character does (the ``Ib*`` entries in its
-         ``IniFixBuilderData`` row), or read a mod the old script has already fixed
-         :raw-html:`<br />` :raw-html:`<br />`
-
-         **Default**: ``false`` -- the commoner of the two
-         @endrst
-         */
-        /**
-         * @brief
-         @rst
          What to do to every vertex of the ``Position.buf`` -- **empty (the default) means
          nothing at all**, which is what almost every remap wants :raw-html:`<br />`
          :raw-html:`<br />`
 
          A position buffer holds where the mesh's vertices ARE, and remapping a mod onto
-         another character does not move them. Of the 47 pairs in the pure-Python
-         ``PositionEditorData`` table, 46 are ``None``; the exception is a pair whose two models
-         were authored around different origins, and Xiangling/XianglingCheer are that pair --
-         about 0.78 units apart in Y, so a mod remapped between them lands in mid-air unless
-         every vertex is translated to match :raw-html:`<br />` :raw-html:`<br />`
+         another character does not move them. Almost every pair leaves this empty; the exception
+         is a pair whose two models were authored around different origins, such as
+         Xiangling/XianglingCheer -- about 0.78 units apart in Y, so a mod remapped between them
+         lands in mid-air unless every vertex is translated to match :raw-html:`<br />`
+         :raw-html:`<br />`
 
          Set it and the fix writes a ``[Resource<Mod><Target>RemapPosition.N]`` beside the
          blend's and repoints ``vb0`` at it; leave it and nothing about the position is touched,
@@ -518,6 +500,20 @@ namespace AGRemapCore {
          */
         BufFile::Filter positionEdit;
 
+        /**
+         * @brief
+         @rst
+         Whether the fix takes the shared ``drawindexed`` off ``("", "ib")`` and re-issues one per
+         drawn object :raw-html:`<br />` :raw-html:`<br />`
+
+         **Per character, and not guessable from the ``.ini`` file's shape** -- Amber and Mona both
+         ship a ``[TextureOverride<Char>IB]`` carrying ``handling = skip`` and ``drawindexed = auto``,
+         yet Amber's fix moves the draw call and Mona's leaves it exactly where it is. Check it
+         against a correctly fixed mod of that character :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``false`` -- the commoner of the two
+         @endrst
+         */
         bool moveDrawIndexed = false;
 
         /**
@@ -558,9 +554,7 @@ namespace AGRemapCore {
          Set it false only for a fix transcribed from a PRE-6.x row. The swap is a correction
          for something GI 6.x did; a 4.0-era table describes a game where the shader still read
          the diffuse off \ref faceDiffuseReg, so swapping there moves a correct binding to the
-         wrong register. It has no pure-Python equivalent, so a transcribed row never asks for
-         it and the old script never produces it -- which is exactly what an A/B at
-         ``--version 4.0`` shows (2026-09-13)
+         wrong register
          @endrst
          */
         bool swapFaceRegs = true;
@@ -576,19 +570,15 @@ namespace AGRemapCore {
          they belong, so a survivor of the mod's own would be a duplicate
          :raw-html:`<br />` :raw-html:`<br />`
 
-         Set it false for a fix transcribed from a PRE-6.x row. In the pure-Python original this
-         removal is not framework behaviour at all -- it is per-row configuration, a
-         ``RegRemove(*ORFixCompleteRemoval)`` that every 6.1 row carries and no 4.0 row does. A
-         historical row re-issues nothing, so leaving the removal on deletes the modder's own
-         call and puts nothing back: RosariaCN's head section at ``--version 4.0``, where the old
-         script keeps ``run = CommandList\\global\\ORFix\\NNFix`` and this dropped it (2026-09-13)
+         Set it false for a fix transcribed from a PRE-6.x row. Such a row re-issues nothing, so
+         leaving the removal on deletes the modder's own call and puts nothing back -- eg. a
+         RosariaCN head section's ``run = CommandList\\global\\ORFix\\NNFix`` at ``--version 4.0``
 
          .. note::
             Deriving the set from \ref objFixCalls instead -- stripping exactly what the fixer
-            re-issues -- looks more principled and is not equivalent. Measured over 12 mods it
-            moved two: CherryHuTao gained two ``ORFix`` lines the old script does not write, and
-            GanyuTwilight's ``TexFx`` sub-command changed position as a knock-on. A flag leaves
-            every current character byte-identical, which is the property that matters here
+            re-issues -- is not equivalent: it changes the output for some characters (CherryHuTao
+            would gain two extra ``ORFix`` lines, and GanyuTwilight's ``TexFx`` sub-command would
+            change position), which is why this is a separate flag
          @endrst
          */
         bool removeSrcFixCalls = true;
@@ -602,12 +592,11 @@ namespace AGRemapCore {
 
          False by default on purpose. Matching `TexFx`_ by folder deletes a mod's calls to
          sub-commands this fix knows nothing about, which is modder content rather than a
-         duplicate: GanyuTwilight's dress ships ``CommandList\\TexFx\\Transparency.0``, which the
-         pure-Python original keeps and a folder match silently removed
-         :raw-html:`<br />` :raw-html:`<br />`
+         duplicate: GanyuTwilight's dress ships ``CommandList\\TexFx\\Transparency.0``, which a
+         folder match would silently remove :raw-html:`<br />` :raw-html:`<br />`
 
-         Several 4.0 rows nonetheless ask for exactly that -- it is their ``TexFxRemove``, a
-         folder match -- and several of those do **not** remove `ORFix`_/`NNFix`_, so this is a
+         Several 4.0-era fixes nonetheless need exactly that folder match, and several of those do
+         **not** remove `ORFix`_/`NNFix`_, so this is a
          separate switch from \ref removeSrcFixCalls rather than a degree of it
          @endrst
          */
@@ -638,8 +627,7 @@ namespace AGRemapCore {
      .. note::
         This is **not** the shape for remapping onto a boss that shares the source's geometry --
         that keeps the source's hashes and has to hide the originals instead. Raiden has her own
-        fixer for exactly that reason; see `Creating Remaps <../CreatingRemaps/CLAUDE.md>`_'s
-        "Two shapes of remap"
+        fixer for exactly that reason
      @endrst
      *
      * @param config What this character does differently -- see #GIMICharFixerConfig

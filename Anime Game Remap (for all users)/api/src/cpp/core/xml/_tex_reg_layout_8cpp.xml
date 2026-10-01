@@ -6,15 +6,6 @@
     <includes local="no">functional</includes>
     <includes refid="_reg_val_checks_8h" local="yes">AGRemapCore/data/IniFixData/RegValChecks.h</includes>
     <incdepgraph>
-      <node id="30">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="47">
-        <label>BaseRegEdit.tpp</label>
-      </node>
       <node id="51">
         <label>AGRemapCore/data/IniFixData/RegValChecks.h</label>
         <link refid="_reg_val_checks_8h"/>
@@ -324,6 +315,15 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
+      </node>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="47">
+        <label>BaseRegEdit.tpp</label>
       </node>
       <node id="44">
         <label>IfContentPart.tpp</label>

@@ -41,11 +41,10 @@ namespace AGRemapCore {
      silent -- the ``.ini`` file is perfectly well-formed either way :raw-html:`<br />`
      :raw-html:`<br />`
 
-     This is the direct equivalent of the pure-Python ``BaseIniFixer._getHashReplacement`` /
-     ``_getIndexReplacement`` pair, which are the same call
-     (``assetRepo.replace(asset, version, toAssets = modName)``) against two different tables --
-     which is exactly why this class takes the table per register rather than knowing about hashes
-     or indices itself :raw-html:`<br />` :raw-html:`<br />`
+     Remapping a hash and remapping an index are the same call
+     (:cpp:func:`ModMappedAssets::replace`) against two different tables -- which is exactly why
+     this class takes the table per register rather than knowing about hashes or indices itself
+     :raw-html:`<br />` :raw-html:`<br />`
 
      .. code-block:: cpp
 
@@ -80,8 +79,8 @@ namespace AGRemapCore {
         given and never infers them
 
      .. note::
-        A value with no mapping is written as its register's \\ref AssetSpec::notFoundVal (the
-        pure-Python original's ``HashNotFound``/``IndexNotFound`` sentinels), or left untouched when
+        A value with no mapping is written as its register's \\ref AssetSpec::notFoundVal (eg.
+        the ``HashNotFound``/``IndexNotFound`` sentinels), or left untouched when
         that is ``std::nullopt``. Leaving it is the quieter option but the more dangerous one: an
         unmapped ``hash`` left alone is indistinguishable from one that was correctly mapped to
         itself, so prefer the sentinel unless a caller genuinely wants a pass-through

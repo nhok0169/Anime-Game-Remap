@@ -84,8 +84,7 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Sets the alpha channel of **every** pixel of &apos;texFile&apos; to &apos;alpha&apos;, the way the
-pure-Python ``TexEditor.setTransparency`` does (``texFile.img.putalpha(alpha)``)
+Sets the alpha channel of **every** pixel of &apos;texFile&apos; to &apos;alpha&apos;
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 ``0`` is fully transparent and ``255`` fully opaque, and values outside that range are
@@ -95,8 +94,7 @@ clamped into it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    This **overwrites** the alpha channel rather than adjusting it, which is what
    separates it from :cpp:class:`Transparency` -- and in these textures alpha is very
    often not opacity at all but a *mask* the shader reads (a blush mask, on a face
-   diffuse), so &quot;make it uniform&quot; and &quot;adjust it&quot; are genuinely different operations.
-   See `Texture Editing &lt;../TextureEditing/CLAUDE.md&gt;`_
+   diffuse), so &quot;make it uniform&quot; and &quot;adjust it&quot; are genuinely different operations
    :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
    A no-op when &apos;texFile&apos; has no image loaded -- there are no pixels to set
@@ -122,7 +120,7 @@ clamped into it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="67" column="25" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="25" bodyend="40"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="65" column="25" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="25" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -170,12 +168,23 @@ Whether the edited texture is written back **compressed** -- see #getCompress.
 </verbatim> </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mipmaps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether the edited texture is written back with its full mip chain -- see #getMipmaps.
+**Default**: ``false``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="79" column="22" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="43" bodyend="44"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="82" column="22" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="43" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_editor_1ad93ce33164e951e75618af33e66b44a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">Filter</ref> &gt; &amp;</type>
@@ -190,7 +199,7 @@ Whether the edited texture is written back **compressed** -- see #getCompress.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="84" column="31" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="58" bodyend="60"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="87" column="31" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="58" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_editor_1a92667b0ea7046dd8a709c776f21c5f2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -209,7 +218,7 @@ Whether the edited texture is written back **compressed** -- see #getCompress.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="89" column="18" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="62" bodyend="64"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexEditor.h" line="92" column="18" bodyfile="src/model/strategies/texEditors/TexEditor.cpp" bodystart="62" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_editor_1a49856d547f66ef308c766ec8f8de9631" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -229,9 +238,6 @@ The short version: BCn encoding is almost the entire cost of an edit (~15.5s of 
 17-second round trip on a 4096x2048 BC7 texture), and turning it off makes the edit
 roughly eight times faster in exchange for a file about four times larger
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-``false`` is what the pure-Python `Pillow`_ engine did unconditionally -- it never
-encoded BCn at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 **Default**: ``true``
 </verbatim> </para>

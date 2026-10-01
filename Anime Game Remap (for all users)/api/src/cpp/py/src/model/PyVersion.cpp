@@ -46,9 +46,8 @@ void initCppVersion(pybind11::module_ &m) {
     // packaging.version.Version). Binding this as bare "Version" would silently shadow the
     // existing, unrelated FixRaidenBoss2.Version at the package top level.
     py::class_<AGRC::Version>(m, "CppVersion", R"doc(
-A single `PEP 440`_ version value -- a from-scratch C++ port of Python's `packaging.version.Version`_,
-matching its parsing/normalization/comparison behaviour exactly (verified empirically against the
-real ``packaging`` library during development, not just read off its source)
+A single `PEP 440`_ version value -- a C++ implementation of Python's `packaging.version.Version`_,
+matching its parsing/normalization/comparison behaviour exactly
 
 :raw-html:`<br />`
 

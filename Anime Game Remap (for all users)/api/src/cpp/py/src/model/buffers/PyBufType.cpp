@@ -29,10 +29,9 @@ void initCppBufType(pybind11::module_ &m) {
 The common base for any type used to describe the structure of a ``.buf`` file
 
 .. note::
-    Unlike the pure-Python original this replaces, this class has no ``decode``/``encode`` methods
-    of its own -- see :class:`BufDataType`/:class:`BufElementType` (whose Python originals both
-    overrode ``decode``/``encode`` with genuinely incompatible signatures -- a single value vs. a
-    list of values -- that only Python's duck typing let share one base method name)
+    This class has no ``decode``/``encode`` methods of its own -- see
+    :class:`BufDataType`/:class:`BufElementType`, whose ``decode``/``encode`` have incompatible
+    signatures (a single value vs. a list of values)
     )doc")
 
         .def_property("name", &AGRC::BufType::getName, &AGRC::BufType::setName, py::doc(R"doc(

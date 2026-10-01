@@ -114,9 +114,8 @@ namespace AGRemapCore {
              @rst
              Every line #log was handed, in order :raw-html:`<br />` :raw-html:`<br />`
 
-             An :cpp:class:`AGRemapCore::IniFile` has no logger of its own -- the pure-Python
-             ``ini.print("log", ...)`` writes to one this side has no counterpart for -- so the
-             lines are kept here for a caller to do something with instead of being dropped
+             An :cpp:class:`AGRemapCore::IniFile` has no logger of its own, so the lines are kept
+             here for a caller to do something with instead of being dropped
              @endrst
              */
             const std::vector<std::string>& getLogs() const;

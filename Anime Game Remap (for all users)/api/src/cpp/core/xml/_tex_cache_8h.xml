@@ -16,9 +16,6 @@
     <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
     <includedby refid="_tex_cache_8cpp" local="yes">src/model/files/TexCache.cpp</includedby>
     <incdepgraph>
-      <node id="15">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
       <node id="1">
         <label>include/AGRemapCore/model/files/TexCache.h</label>
         <link refid="_tex_cache_8h"/>
@@ -68,6 +65,9 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="14">
         <label>array</label>

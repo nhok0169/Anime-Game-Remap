@@ -7,15 +7,6 @@
     <includes local="no">vector</includes>
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <incdepgraph>
-      <node id="23">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="22">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="19">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="2">
         <label>AGRemapCore/constants/GameType.h</label>
         <link refid="_game_type_8h"/>
@@ -135,6 +126,15 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
+      </node>
+      <node id="23">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="22">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="19">
+        <label>BiMap.tpp</label>
       </node>
       <node id="14">
         <label>cstdint</label>

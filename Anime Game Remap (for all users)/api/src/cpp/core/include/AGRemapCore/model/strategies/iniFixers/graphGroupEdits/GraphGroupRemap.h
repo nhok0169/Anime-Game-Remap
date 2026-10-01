@@ -74,8 +74,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Renames one `section`_ -- takes the old name, returns the new one. An empty
-             ``std::function`` stands in for the pure-Python original's "no rename function given",
-             which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
+             ``std::function`` means "no rename function given", which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
              @endrst
              */
             using RenameFunc = std::function<std::string(const std::string&)>;
@@ -118,10 +117,10 @@ namespace AGRemapCore {
              The remap for the graphs -- an ordered sequence of ``(source graph, its targets)``
              pairs :raw-html:`<br />` :raw-html:`<br />`
 
-             A ``std::vector`` of pairs rather than a map, deliberately: the pure-Python original
-             is a `Python`_ ``dict`` whose *iteration order* decides the order remapped graphs are
-             created in (and therefore which target wins a collision), so the ordering has to be
-             part of the type rather than an incidental property of a hash container
+             A ``std::vector`` of pairs rather than a map, deliberately: the *iteration order*
+             decides the order remapped graphs are created in (and therefore which target wins a
+             collision), so the ordering has to be part of the type rather than an incidental
+             property of a hash container
              @endrst
              */
             using RemapList = std::vector<std::pair<GraphId, std::vector<RemapTarget>>>;

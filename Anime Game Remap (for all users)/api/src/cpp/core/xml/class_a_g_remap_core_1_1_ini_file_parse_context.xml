@@ -228,7 +228,7 @@ The groups own their graphs, so what comes back stays valid after this context g
 Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-``false`` stands in for the pure-Python original&apos;s ``ini = None``
+``false`` when the parser has no ``.ini`` file to read
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -246,8 +246,8 @@ Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The folder the ``.ini`` file lives in (the equivalent of the pure-Python original&apos;s
-``ini.folder``), or an empty string when there is no ``.ini`` file
+The folder the ``.ini`` file lives in (``ini.folder``), or an empty string when there
+is no ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -322,8 +322,8 @@ There is deliberately one context per ``.ini`` file, not one per
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of
-the pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
+Every `section`_ parsed out of the ``.ini`` file, keyed by name
+(``ini.sectionIfTemplates``). Borrowed, not owned
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -345,8 +345,7 @@ The names of every `section`_, **in the order the ``.ini`` file declared them**
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Separate from #sectionIfTemplates specifically because that one is an
-``std::unordered_map`` and this order is load-bearing: the pure-Python original
-iterates ``ini.sectionIfTemplates`` (a `Python`_ ``dict``, ie. insertion-ordered) both
+``std::unordered_map`` and this order is load-bearing: it is the order used both
 to classify `sections`_ by name and to seed :cpp:func:`GIMIParser::buildGlobalGraph`&apos;s
 target list, and the rendered output of every graph built from it inherits that order
 </verbatim> </para>
@@ -452,8 +451,7 @@ target list, and the rendered output of every graph built from it inherits that 
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Records one file the ``.ini`` file needs downloaded -- the equivalent of the
-pure-Python original&apos;s ``ini.fileDownloads.append(...)``
+Records one file the ``.ini`` file needs downloaded (``ini.fileDownloads``)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -501,9 +499,7 @@ is not None``)
         <detaileddescription>
 <para><verbatim>embed:rst 
 The name of the mod type the ``.ini`` file was classified as
-(``ini.availableType.name``), or an empty string when there is none -- exactly the
-pure-Python original&apos;s own
-``modTypeName = &quot;&quot; if (modType is None) else modType.name``
+(``ini.availableType.name``), or an empty string when there is none
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>

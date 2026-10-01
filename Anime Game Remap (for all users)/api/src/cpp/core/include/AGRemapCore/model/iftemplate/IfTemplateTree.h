@@ -30,8 +30,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The parse tree for some `IfTemplate` -- the C++ port of ``IfTemplateTree.py``'s
-     ``IfTemplateTree`` class :raw-html:`<br />` :raw-html:`<br />`
+     The parse tree for some `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         The parse tree for the `IfTemplate` is structured such that:
@@ -193,8 +192,7 @@ namespace AGRemapCore {
      This class inherits from :cpp:class:`IfTemplateTree`
 
      A variation of :cpp:class:`IfTemplateTree` such that leaf nodes that do not have any parts
-     (eg. empty conditions) will include an empty #ContentPart placeholder -- the C++ port of
-     ``IfTemplateTree.py``'s ``IfTemplateNonEmptyNodeTree`` class :raw-html:`<br />` :raw-html:`<br />`
+     (eg. empty conditions) will include an empty #ContentPart placeholder :raw-html:`<br />` :raw-html:`<br />`
 
      .. tip::
         See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
@@ -321,8 +319,7 @@ namespace AGRemapCore {
      This class inherits from :cpp:class:`IfTemplateNonEmptyNodeTree`
 
      A variation of :cpp:class:`IfTemplateNonEmptyNodeTree` such that an empty ``else`` clause will
-     be added for branches that do not end with a single ``else`` -- the C++ port of
-     ``IfTemplateTree.py``'s ``IfTemplateNormTree`` class :raw-html:`<br />` :raw-html:`<br />`
+     be added for branches that do not end with a single ``else`` :raw-html:`<br />` :raw-html:`<br />`
 
      .. tip::
         See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
@@ -491,11 +488,9 @@ namespace AGRemapCore {
              @rst
              .. note::
                 Each synthetic ``else``'s #IfPredPart::query is built against its own fresh,
-                throwaway :cpp:class:`Z3Context` (not one supplied by the caller) -- matching the
-                pure-Python original exactly (a literal ``Z3Context()`` per synthesized ``else``).
+                throwaway :cpp:class:`Z3Context` (not one supplied by the caller).
                 This is safe specifically because a synthetic ``else``'s query is always just the
-                literal ``true``, which never needs to share variable identity with anything else
-                -- see this method's own implementation comment for the fuller reasoning.
+                literal ``true``, which never needs to share variable identity with anything else.
              @endrst
              */
             static std::unique_ptr<IfTemplateNormTree<K, V, KeyHash, KeyEqual>> construct(

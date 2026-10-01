@@ -18,15 +18,14 @@ The folders still waiting to be visited, in the order they were found
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Queued at the back (#push) and taken from the front (#fix), so a folder found
-first is visited first. **Taking them off the back instead is the bug this shape
-exists to avoid**: every batch queued is already in the order it should be
-reported in, so a walk popping the back reads each batch backwards -- folders
-``A``, ``B``, ``C`` came out ``C``, ``B``, ``A`` until 2026-09-20
+first is visited first. Every batch queued is already in the order it should be
+reported in, so taking them off the back instead would read each batch backwards
+-- folders ``A``, ``B``, ``C`` would come out ``C``, ``B``, ``A``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="631" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="631" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="595" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="595" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1ac552d2f9e034fba385ab3e07cfdebc2d" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -41,7 +40,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="636" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="636" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="600" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="600" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1abdc8888d9cf48291ead5a72be21d0268" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -56,7 +55,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="641" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="641" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="605" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="605" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -71,7 +70,7 @@ reported in, so a walk popping the back reads each batch backwards -- folders
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="646" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="646" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="610" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="610" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -105,7 +104,7 @@ queued
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="657" column="22" bodyfile="src/RemapService.cpp" bodystart="94" bodyend="107"/>
+        <location file="include/AGRemapCore/RemapService.h" line="621" column="22" bodyfile="src/RemapService.cpp" bodystart="94" bodyend="107"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -120,14 +119,13 @@ living on :cpp:class:`RemapService` itself, so a #fix leaves no walk state behin
 the object and two walks can never see each other&apos;s :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-The three sets are exactly the ones the pure-Python original&apos;s ``_fix`` kept as
-locals, under the same names, and they answer three different questions -- a folder
+The three sets answer three different questions -- a folder
 already **visited** is never processed again, a folder already **visiting** is in the
 queue and must not be queued twice, and a folder already in **gotNeighbours** has
 already had the subtree beneath it enumerated by some earlier folder&apos;s recursive scan
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/RemapService.h" line="617" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="617" bodyend="658"/>
+    <location file="include/AGRemapCore/RemapService.h" line="582" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="582" bodyend="622"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>dirs</name></member>
       <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>gotNeighbours</name></member>

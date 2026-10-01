@@ -79,8 +79,7 @@ weight share on them, away from :attr:`from_`'s (x, z)
     py::class_<AGRC::InnerLayerOutline>(m, "InnerLayerOutline", R"doc(
 Which vertices of a mesh's INNER layers draw no outline (vertex colour alpha 0). The outline pass redraws a mesh as a
 shell pushed out along each vertex's outline normal; on hair of close two-sided sheets, the inner face's shell can come
-out in front of the outer face as small dark shards when the target's outline sits further out (Yaoyao5 on
-YaoyaoBamboo). A target triangle is inner when at least two of its corners are :meth:`covered`, or with
+out in front of the outer face as small dark shards when the target's outline sits further out. A target triangle is inner when at least two of its corners are :meth:`covered`, or with
 :attr:`facingAxis` when its face points in towards the vertical axis through the targets' centre -- and the decision
 takes all three corners, since a triangle with its corners at different widths stretches its shell into a wedge
     )doc")

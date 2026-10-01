@@ -135,7 +135,6 @@ namespace AGRemapCore {
              *
              * @param src The decoded values to encode, one per entry of #getDataTypes -- if fewer
              *      values than data types are given, only the leading data types are encoded
-             *      (mirroring the pure-Python original's ``min(len(dataTypes), len(src))`` guard)
              *
              * @return The encoded raw bytes
              */

@@ -214,8 +214,7 @@ class BaseIniGraphEdit(BaseIniGraphPartEdit):
         Edits the caller/callee graph of :class:`IniSectionGraph`
         
         .. note::
-            The base implementation is a no-op that hands 'graph' straight back, matching the pure-Python
-            original's ``pass``
+            The base implementation is a no-op that hands 'graph' straight back
         
         Parameters
         ----------
@@ -261,8 +260,7 @@ class BaseIniGraphEdit(BaseIniGraphPartEdit):
         Edits the caller/callee graph of :class:`IniSectionGraph` with state info from 'ini'
         
         .. note::
-            This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
-            original does
+            This forwards straight to :meth:`edit` and ignores 'ini' entirely
         
         Parameters
         ----------
@@ -384,8 +382,7 @@ class BaseIniGraphGroupEdit(BaseIniPartEdit):
         Edits a group of caller/callee graphs
         
         .. note::
-            The base implementation is a no-op that hands 'graphGroups' straight back, matching the
-            pure-Python original's ``pass``
+            The base implementation is a no-op that hands 'graphGroups' straight back
         
         Parameters
         ----------
@@ -410,8 +407,7 @@ class BaseIniGraphGroupEdit(BaseIniPartEdit):
         Edits a group of caller/callee graphs with state info from 'ini'
         
         .. note::
-            This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
-            original does
+            This forwards straight to :meth:`edit` and ignores 'ini' entirely
         
         Parameters
         ----------
@@ -442,8 +438,7 @@ class BaseIniGraphPartEdit(BaseIniPartEdit):
     Base class for a filter that edits some part of a caller/callee graph (:class:`IniSectionGraph`)
     within a `.ini` file
     
-    Adds nothing of its own over :class:`BaseIniPartEdit` -- exactly like the pure-Python original,
-    this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
+    Adds nothing of its own over :class:`BaseIniPartEdit` -- this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
         
     """
     def __init__(self) -> None:
@@ -497,11 +492,10 @@ class BaseIniPartEdit:
     Base class for a filter that edits some part of a `.ini` file
     
     .. note::
-        The deleted pure-Python original also declared ``edit``/``editFromIni`` here, as
-        ``(*args, modType, modName = "", **kwargs) -> Any``. That signature has no C++ equivalent --
-        every subclass takes genuinely different arguments and returns a different type -- so each
-        subclass family declares its own **typed** ``edit``/``editFromIni`` pair instead (see
-        :class:`BaseRegEdit`), and only :meth:`clear` (which really is common) lives here
+        This class declares no ``edit``/``editFromIni`` of its own: every subclass takes genuinely
+        different arguments and returns a different type, so each subclass family declares its own
+        **typed** ``edit``/``editFromIni`` pair instead (see :class:`BaseRegEdit`), and only
+        :meth:`clear` (which really is common) lives here
         
     """
     def __init__(self) -> None:
@@ -919,8 +913,7 @@ class BaseRegEdit(BaseIniGraphPartEdit):
         Edits the registers for the current :class:`IfContentPart` with state info from 'ini'
         
         .. note::
-            This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
-            original does
+            This forwards straight to :meth:`edit` and ignores 'ini' entirely
         
         Parameters
         ----------
@@ -1002,8 +995,8 @@ class BaseResEdit:
         Retrieves a unique id for a file within a single .ini file
         
         .. note::
-            The returned value is not byte-identical to the one the pure-Python original produced -- it is
-            an opaque, within-one-run dictionary key that is never persisted or written to a file
+            The returned value is an opaque, within-one-run dictionary key that is never persisted or
+            written to a file
         
         Parameters
         ----------
@@ -1859,10 +1852,9 @@ class BufDataType(BufType):
     :class:`BufBaseFloat`'s concrete subclasses, or :class:`BufUnorm`
     
     .. warning::
-        Unlike the pure-Python original this replaces (where any subclass could be defined in plain
-        Python and used immediately), a brand-new elementary data type not already covered by one of
-        this class's existing subclasses needs a real C++ subclass and a rebuild of this extension --
-        ``decode``/``encode`` are not overridable from pure Python here
+        A brand-new elementary data type not already covered by one of this class's existing
+        subclasses needs a real C++ subclass and a rebuild of this extension --
+        ``decode``/``encode`` are not overridable from Python
         
     """
     def decode(self, src: bytes) -> int | int | float:
@@ -2241,10 +2233,9 @@ class BufType:
     The common base for any type used to describe the structure of a ``.buf`` file
     
     .. note::
-        Unlike the pure-Python original this replaces, this class has no ``decode``/``encode`` methods
-        of its own -- see :class:`BufDataType`/:class:`BufElementType` (whose Python originals both
-        overrode ``decode``/``encode`` with genuinely incompatible signatures -- a single value vs. a
-        list of values -- that only Python's duck typing let share one base method name)
+        This class has no ``decode``/``encode`` methods of its own -- see
+        :class:`BufDataType`/:class:`BufElementType`, whose ``decode``/``encode`` have incompatible
+        signatures (a single value vs. a list of values)
         
     """
     @property
@@ -3207,8 +3198,7 @@ class CppBufFile(BinaryFile):
         
             #. The data for a particular line
             #. The starting byte index of the line that is read
-            #. The line index being processed (``i / bytesPerLine`` -- a `floating point`_ value, matching
-               this codebase's pure-Python original exactly)
+            #. The line index being processed (``i / bytesPerLine`` -- a `floating point`_ value)
             #. The size of each line
         
             The output of the filters is the resultant data that consists where the keys are the names of
@@ -3866,8 +3856,7 @@ class CppGlobalModTypes:
     Every :class:`ModType` the software ships with, and the one place that files them into
     :class:`ModTypeIdTools`'s global registry
     
-    The counterpart to the pure-Python :class:`ModTypes` enum, whose ``getAll()`` likewise builds the
-    shipped mod types on demand
+    Builds the shipped mod types on demand, as :meth:`ModTypes.getAll` does
     
     .. important::
         :meth:`registerAll` is **not** called automatically by anything in ``AGRemapCore``, and that is
@@ -3913,7 +3902,7 @@ class CppGlobalModTypes:
         
         The difference from :meth:`registerAll` is only what happens on a collision: that one overwrites,
         this one yields. This is what the implicit population behind :meth:`GlobalIniClassifiers.classifier`
-        uses, so that classifying a .ini file can no longer silently replace a :class:`ModType` you
+        uses, so that classifying a .ini file never silently replaces a :class:`ModType` you
         registered under one of the shipped ids
         """
 class CppHashTools:
@@ -4706,8 +4695,7 @@ class CppPixelFilter(CppBaseTexFilter):
     .. note::
         Every whole-image filter in this codebase (eg. :class:`ColourReplaceFilter`) is, under the
         hood, also just a C++ loop over every pixel -- `Compressonator`_ has no vectorized whole-image
-        pixel-remap API the way `Pillow`_ did for the pure-Python original, so there's no "whole image
-        at once" fast path left to prefer instead. A :class:`CppBasePixelTransform` placed in
+        pixel-remap API, so there's no "whole image at once" fast path to prefer instead. A :class:`CppBasePixelTransform` placed in
         :attr:`transforms` runs directly in C++ for every pixel, at the same cost as a dedicated
         filter's own inlined loop body -- only a plain Python callable placed in :attr:`transforms`
         still pays a real per-pixel Python call
@@ -4745,11 +4733,11 @@ class CppRemapServiceCLI:
     :raw-html:`<br />`
     
     **From strings** -- what an argument parser produced. This is the one ``main.py`` uses, and it takes
-    the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
+    the arguments ``path``, ``keepBackups``, ``fixOnly``,
     ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
     ``verbose``, ``handleExceptions``, ``version``, ``fromVersion``, ``remappedTypes``, ``proxy``,
     ``downloadMode`` and ``gameTypes`` and ``compressTextures``. ``version`` is the version being
-    fixed **to** -- the pure-Python API's own meaning -- and ``fromVersion`` the one the mods were
+    fixed **to**, and ``fromVersion`` the one the mods were
     written for; they select the fixer and the parser respectively and are independent. Mod type and game names/aliases become
     :class:`ModTypeId`/:class:`GameTypeId` ints (ignoring case and surrounding whitespace), a
     `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a :class:`DownloadMode`
@@ -4896,10 +4884,9 @@ class CppStrategyOverrides:
         "the newest", taking the highest override registered. An override registered *without* a
         version is the fallback, used only when no versioned one applied.
     
-        Exact matching was tried first and is wrong for what this class is for: a run resolves a mod's
-        version off the .ini file and normally passes no version at all, so an override registered for
-        ``6.1`` --- the literal case "override Raiden 6.1" means --- fired zero times on an ordinary
-        run.
+        A run resolves a mod's version off the .ini file and normally passes no version at all, so
+        under this rule an override registered for ``6.1`` (eg. "override Raiden 6.1") still applies
+        on an ordinary run.
     
     .. warning::
         Not synchronised. Register and clear **around** a run, never during one.
@@ -5567,9 +5554,8 @@ class CppTrie:
 class CppVersion:
     """
     
-    A single `PEP 440`_ version value -- a from-scratch C++ port of Python's `packaging.version.Version`_,
-    matching its parsing/normalization/comparison behaviour exactly (verified empirically against the
-    real ``packaging`` library during development, not just read off its source)
+    A single `PEP 440`_ version value -- a C++ implementation of Python's `packaging.version.Version`_,
+    matching its parsing/normalization/comparison behaviour exactly
     
     :raw-html:`<br />`
     
@@ -6410,9 +6396,6 @@ class GIBuilder:
     """
     
     Creates new :class:`ModType` objects for GI (Genshin Impact) mods
-    
-    Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-side
-    :class:`ModType` (id, name, and aliases only) instead of the full pure-Python :class:`ModType`
         
     """
     @staticmethod
@@ -7350,8 +7333,8 @@ class GIMIComponentFixerConfig:
             """
             List[:class:`str`]: The SOURCE objects (lowercase, eg. ``"head"``) whose INNER layers draw no outline on this
             component --- the faces turned in towards the head, or covered by another layer, get vertex colour alpha 0. For hair
-            of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out
-            (Yaoyao5 on YaoyaoBamboo). Needs the component's ``Position.buf``. Empty by default
+            of close two-sided sheets, whose inner outline shows through as dark shards on a skin whose outline sits further out.
+            Needs the component's ``Position.buf``. Empty by default
             """
         @innerOutlineObjs.setter
         def innerOutlineObjs(self, arg0: collections.abc.Sequence[str]) -> None:
@@ -8039,9 +8022,9 @@ class GIMIComponentParserConfig:
         the registers
         
         A mod written in the GAME's register order binds its textures somewhere other than the slot's registers:
-        LumineHeaven1's Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot got the game's diffuse
-        at ``ps-t0`` as well, two textures named a diffuse, and the merge's by-name reading refused both (dark eyes
-        on Lumine, 2026-09-29). With this on, when a slot's own section binds its textures under names that are
+        eg. a LumineHeaven mod whose Eye binds only ``ps-t1 = ...Diffuse``. Decided per register, the slot would get the
+        game's diffuse at ``ps-t0`` as well, two textures would name a diffuse, and the merge's by-name reading would
+        refuse both. With this on, when a slot's own section binds its textures under names that are
         believed (every one names exactly one role, no two alike), a role the mod binds gets no download, and a
         missing role whose register holds another role's texture is downloaded onto a register the section leaves
         free. A slot binding nothing, or in the slot's own order, is untouched.
@@ -10982,8 +10965,7 @@ class IfContentPart(IfTemplatePart):
     or any custom :class:`IOrderedMultiMap` implementation of your own, including one implemented
     from Python), and every method on this class is a thin, renamed delegation straight to that
     implementation -- the semantics for every operation are exactly :class:`CppOrderedMultiMap`'s
-    documented rules; only the *method names* below intentionally echo this project's deprecated,
-    pre-C++-port `IfContentPart` naming (e.g. ``insertAllAt`` -> ``addKVPsByInds``).
+    documented rules; only the *method names* below differ (e.g. ``insertAllAt`` -> ``addKVPsByInds``).
     
     :raw-html:`<br />`
     
@@ -11466,8 +11448,7 @@ class IfContentPartColourChange:
 class IfContentPartColouring:
     """
     
-    Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart` --
-    the C++-backed port of the deprecated pure-Python original (since removed)
+    Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart`
     
     :raw-html:`<br />`
     
@@ -11658,10 +11639,9 @@ class IfContentPartColouring:
         """
     def getUniqueVals(self, key: str, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, str], bool] | None = None) -> set[str]:
         """
-        Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a departure from
-        the deprecated Python source's own ``getVals(unique=True)``, split into its own method the same
-        way :class:`IfContentPart` itself splits ``getVals``/``getKeys`` rather than returning a value
-        whose type depends on an argument
+        Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a separate
+        method the same way :class:`IfContentPart` itself splits ``getVals``/``getKeys``, rather than
+        returning a value whose type depends on an argument
         
         Parameters
         ----------
@@ -12991,11 +12971,11 @@ class IniDownloadModel(IniSrcResourceModel):
 class IniFile:
     """
     
-    Class for handling .ini files -- the C++-backed counterpart to the pure-Python :class:`IniFile`
+    Class for handling .ini files
     :raw-html:`<br />` :raw-html:`<br />`
     
     .. note::
-        Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
+        Mod types cross this boundary as **ids**, not as :class:`ModType` objects: this
         class resolves a mod type's parse/fix/remove builders through the global registry keyed by
         ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
         :class:`ModType`
@@ -13246,8 +13226,7 @@ class IniFile:
         an :class:`IniFixResource`
         
         .. note::
-            That second half is a deliberate divergence from the pure-Python original, whose own
-            ``getReferencedFolders()`` only ever looked at a resource's *source* side. The fix **writes**
+            The fixed paths are included, not only each resource's *source* side, because the fix **writes**
             files to a fixed path, so a folder walk built on this method has to be able to reach that
             folder even when no source path points into it
         
@@ -13468,8 +13447,8 @@ class IniFile:
         :class:`str`: The folder the .ini file resides in, or ``""`` when it has no path
         
         .. note::
-            This deliberately differs from the pure-Python :attr:`IniFile.folder`, which falls back to the
-            folder the script is run from. Derived from :attr:`IniFile.file` rather than stored
+            This does not fall back to the folder the script is run from. Derived from
+            :attr:`IniFile.file` rather than stored
         """
     @property
     def fromVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
@@ -13525,8 +13504,7 @@ class IniFixBuilder:
     
     A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
     
-    What :attr:`ModType.iniFixBuilder` holds, and what the pure-Python builder of this name was
-    replaced by. It comes in two flavours:
+    What :attr:`ModType.iniFixBuilder` holds. It comes in two flavours:
     
     * **Fixed** -- one factory used for every .ini file, whatever its version
     * **Version-dependent** -- a lookup table consulted on every :meth:`build`
@@ -13710,8 +13688,7 @@ class IniFixResourceModel(IniResourceModel):
     def items(self) -> list[tuple[str, str, str | None, str | None]]:
         """
         Every fixed/orig path combination across every :class:`IfContentPart` and mod type in 'fixedPaths',
-        in the same order 'fixedPaths' itself iterates -- the equivalent of iterating directly over the
-        pure-Python original (``for fixedPath, fullPath, origPath, origFullPath in x``)
+        in the same order 'fixedPaths' itself iterates, as ``(fixedPath, fullPath, origPath, origFullPath)`` tuples
         
         Returns
         -------
@@ -13785,11 +13762,10 @@ class IniFixingContext:
         
         :meth:`GIMIFixer.fix` uses it to gate ``keepBackup`` -- disabling the existing .ini file as a backup
         is the whole file's business, and a later mod type doing it again would be backing up a file the
-        first pass already moved aside. The condition it gates is otherwise unchanged: ``keepBackup`` still
-        also needs ``fixOnly`` and an .ini file that already exists on disk :raw-html:`<br />` :raw-html:`<br />`
+        first pass already moved aside. The backup also needs ``fixOnly`` and an .ini file that already exists on disk :raw-html:`<br />` :raw-html:`<br />`
         
         **Default**: ``True``, so a fixer driven directly -- the only one, hence both the first and the last
-        -- backs up as it always did
+        -- backs up the .ini file
         """
     @isFirstModType.setter
     def isFirstModType(self, arg0: bool) -> None:
@@ -13971,8 +13947,7 @@ class IniGroupedResource:
             built -- is simply not listed
         
         This is how the remap reads a group's members: they are **not** in the C++ class's own map,
-        and reading that map instead is why a grouped fix used to be credited to nothing and why
-        ``--compressTextures`` did not reach a texture inside a group
+        so reading that map instead misses them
         
         Returns
         -------
@@ -14016,8 +13991,7 @@ class IniParseBuilder:
     
     A factory that builds the :class:`CppBaseIniParser` for one .ini file
     
-    What :attr:`ModType.iniParseBuilder` holds, and what the pure-Python builder of this name was
-    replaced by. It comes in two flavours:
+    What :attr:`ModType.iniParseBuilder` holds. It comes in two flavours:
     
     * **Fixed** -- one factory used for every .ini file, whatever its version
     * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
@@ -14125,8 +14099,8 @@ class IniRemovalContext:
         types. That second half is what recognizes the ``Remap``-named leftovers *outside* the boilerplate :raw-html:`<br />` :raw-html:`<br />`
         
         With this set, the hash half is skipped and **every** candidate is taken -- every `section`_ inside
-        the boilerplate plus every ``Remap``-named `section`_ outside it, whoever they belong to. That is
-        what the pure-Python ``RemapIniRemover`` this replaced always did :raw-html:`<br />` :raw-html:`<br />`
+        the boilerplate plus every ``Remap``-named `section`_ outside it, whoever they belong to
+        :raw-html:`<br />` :raw-html:`<br />`
         
         :class:`IniFile` asks for it on its **last** mod type, so that every earlier pass takes only what it
         can prove is its own and the final pass clears whatever is still standing. Without it, a leftover
@@ -14141,8 +14115,7 @@ class IniRemoveBuilder:
     
     A factory that builds the :class:`CppBaseIniRemover` for one .ini file
     
-    What :attr:`ModType.iniRemoveBuilder` holds, and what the pure-Python builder of this name was
-    replaced by. It comes in two flavours:
+    What :attr:`ModType.iniRemoveBuilder` holds. It comes in two flavours:
     
     * **Fixed** -- one factory used for every .ini file, whatever its version
     * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
@@ -14500,8 +14473,7 @@ class IniSrcResourceModel(IniResourceModel):
     def items(self) -> list[tuple[str, str]]:
         """
         Every ``(path, fullPath)`` pair across every :class:`IfContentPart` in 'paths', in the same order
-        'paths' itself iterates -- the equivalent of iterating directly over the pure-Python original
-        (``for path, fullPath in x``)
+        'paths' itself iterates
         
         Returns
         -------
@@ -14573,8 +14545,7 @@ class InnerLayerOutline:
     
     Which vertices of a mesh's INNER layers draw no outline (vertex colour alpha 0). The outline pass redraws a mesh as a
     shell pushed out along each vertex's outline normal; on hair of close two-sided sheets, the inner face's shell can come
-    out in front of the outer face as small dark shards when the target's outline sits further out (Yaoyao5 on
-    YaoyaoBamboo). A target triangle is inner when at least two of its corners are :meth:`covered`, or with
+    out in front of the outer face as small dark shards when the target's outline sits further out. A target triangle is inner when at least two of its corners are :meth:`covered`, or with
     :attr:`facingAxis` when its face points in towards the vertical axis through the targets' centre -- and the decision
     takes all three corners, since a triangle with its corners at different widths stretches its shell into a wedge
         
@@ -14785,8 +14756,7 @@ class ModAssets:
         :raw-html:`<br />`
         
         .. note::
-            Any extra keyword argument is accepted and ignored, matching the pure-Python original this
-            replaced (whose own constructor ended in ``**kwargs``)
+            Any extra keyword argument is accepted and ignored
         
         Parameters
         ----------
@@ -14830,8 +14800,7 @@ class ModAssets:
         """
     def addRows(self, rows: typing.Any) -> None:
         """
-        Adds new rows to the table (an addition beyond the pure-Python original, which has no
-        incremental-add capability at all) -- overwrites the value of any row whose full key already exists
+        Adds new rows to the table -- overwrites the value of any row whose full key already exists
         
         Parameters
         ----------
@@ -15093,11 +15062,11 @@ class ModMappedAssets:
         :attr:`nonVersionIndexNames` names each position :raw-html:`<br />` :raw-html:`<br />`
         
         .. note::
-            Calling this directly is rarely necessary any more -- :meth:`getKey`/:meth:`hasFrom`/
+            Calling this directly is rarely necessary -- :meth:`getKey`/:meth:`hasFrom`/
             :meth:`replace`/:meth:`replaceAll` all already accept the same flexible shape for their own
             non-version-values argument. Kept as public API for callers that want to convert once and
-            reuse the result across several calls (e.g. ``GIMIParser.py``, filtering many hash/index
-            values per parse against the same fixed non-version filter)
+            reuse the result across several calls (e.g. a parser filtering many hash/index values per
+            parse against the same fixed non-version filter)
         
         Parameters
         ----------
@@ -15128,8 +15097,7 @@ class ModMappedAssets:
         
         rows: Union[List[Tuple[List[Any], Any]], dict]
             Any new rows needed to support 'assetMap' -- either a flat list or a real nested dict --
-            if non-empty, added to :attr:`repo` first (matches the pure-Python original's ``addMap``,
-            whose own ``assets`` argument is a nested dict in exactly this same shape)
+            if non-empty, added to :attr:`repo` first
         
             **Default**: ``[]``
         """
@@ -15291,21 +15259,18 @@ class ModMappedAssets:
     @property
     def fixFrom(self) -> set:
         """
-        Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
-        populates it anywhere
+        Set[Any]: Always empty -- declared but never populated
         """
     @property
     def fixTo(self) -> set:
         """
-        Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
-        populates it anywhere
+        Set[Any]: Always empty -- declared but never populated
         """
     @property
     def fromAssets(self) -> list[str]:
         """
         List[Any]: Every asset value that has at least one known originating key -- a property (not a
-        method), matching the pure-Python original's contract exactly (real callers, e.g. IniFile.py's
-        ``type.hashes.fromAssets``, access it as one)
+        method), e.g. ``type.hashes.fromAssets``
         """
     @property
     def map(self) -> dict:
@@ -15359,7 +15324,7 @@ class ModType:
         """
         Fixes a .ini file, but **only if that file was classified as this mod type** -- a no-op otherwise
         
-        Returns nothing, matching the pure-Python original: the fix it produces is written out by
+        Returns nothing: the fix it produces is written out by
         :meth:`IniFile.fix` rather than handed back. Call that directly to see it
         
         Parameters
@@ -15443,13 +15408,8 @@ class ModType:
         """
     def getModsToFix(self) -> set[str]:
         """
-        Retrieves the names of the mods this mod type can be fixed onto
-        
-        .. warning::
-            **Deliberately not bug-compatible with the pure-Python** :meth:`ModType.getModsToFix`. That one
-            unions ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never populates
-            anywhere, so it returns an empty set for every mod type, always. This reads the remap targets
-            that actually exist
+        Retrieves the names of the mods this mod type can be fixed onto, read from the remap targets
+        that exist in its asset tables
         
         Returns
         -------
@@ -15672,8 +15632,7 @@ class ModType:
         .. warning::
             Unlike :attr:`hashes`/:attr:`indices`/:attr:`vertexCounts`, the default here is the **shared**
             table every mod type uses, not a fresh one -- so mutating a defaulted :attr:`vgRemaps` is
-            visible to every other mod type that also defaulted. That mirrors the pure-Python original's
-            own ``ModDataAssets.VGRemaps.value`` default
+            visible to every other mod type that also defaulted
         """
     @vgRemaps.setter
     def vgRemaps(self, arg0: VGRemaps) -> None:
@@ -15683,7 +15642,7 @@ class ModTypeId:
     
     The names of the different types of mods this fix will fix from or fix to
     
-    Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+    Has the same keys as the :class:`ModTypeNames` enum
         
     
     Members:
@@ -16092,9 +16051,8 @@ class ModTypeIdTools:
         """
         Retrieves the mod types a given mod type's **hashes** can be remapped onto
         
-        This is the remap graph itself. It mirrors the ``map`` argument the pure-Python :class:`GIBuilder`
-        passes to each mod type's :class:`Hashes`, lifted out of the 43 individual factories into one table
-        so a target is named by :class:`ModTypeId` rather than by a bare string
+        This is the remap graph itself: one table, naming each target by :class:`ModTypeId` rather than by
+        a bare string
         
         .. note::
             Two :class:`ModTypeId`\\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as
@@ -19086,9 +19044,7 @@ class RegFillMissing(BaseIniGraphEdit):
         from, narrowed to :attr:`keysToTrack`
         
         .. note::
-            The pure-Python original accepted 'partFilter' and dropped it, so this edit applied to every
-            missing part unconditionally. Honouring it is a deliberate behaviour change; an omitted
-            'partFilter' still fills everything, exactly as before
+            An omitted 'partFilter' fills every missing part
         
         .. note::
             Under ``RegFillMissingMode.TopdownCover`` the colouring handed to 'partFilter' is empty by
@@ -19791,8 +19747,8 @@ class RemapBlendReplace(BaseResEdit):
         Retrieves a unique id for a file within a single .ini file
         
         .. note::
-            The returned value is not byte-identical to the one the pure-Python original produced -- it is
-            an opaque, within-one-run dictionary key that is never persisted or written to a file
+            The returned value is an opaque, within-one-run dictionary key that is never persisted or
+            written to a file
         
         Parameters
         ----------
@@ -19824,7 +19780,6 @@ class RemapBlendReplace(BaseResEdit):
         
         .. note::
             The ``type`` of the built resource comes from :attr:`resType`, not from the 'resType' argument
-            -- faithful to the pure-Python original
         
         Parameters
         ----------
@@ -20218,9 +20173,8 @@ class RemapIniDownload(RemapIniResource):
     This class inherits from :class:`RemapIniResource`
     
     Class for some download resource in a .ini file that's used by the overall remap process --
-    unlike the deprecated pure-Python original, this class does not accept a ``Mod`` object anywhere --
     :meth:`remapFix`'s progress-reporting callbacks ('downloadHandler'/'cacheHitHandler') are supplied
-    by the caller directly instead
+    by the caller directly
         
     """
     def __init__(self, iniFolderPath: str, srcPath: str, download: typing.Any, type: str = 'download', fixFunc: collections.abc.Callable[[RemapIniDownload, CachedFileStats], bool] | None = None) -> None:
@@ -20563,8 +20517,8 @@ class RemapService:
         The game version the parsed .ini files originate from -- picks the PARSER
     
     toVersion: Optional[:class:`CppVersion`]
-        The game version the .ini files are fixed to -- picks the FIXER. This is the pure-Python
-        API's ``version``
+        The game version the .ini files are fixed to -- picks the FIXER. This is what ``--version``
+        means on the command line
     
     toModTypeIds: Optional[Set[:class:`int`]]
         The :class:`ModTypeId` values to accept when fixing
@@ -20780,8 +20734,8 @@ class RemapService:
         Optional[:class:`CppVersion`]: The game version the .ini files are being fixed to
         
         Picks the fixer: the fix table is keyed ``{fromVersion, fromMod, toVersion, toMod}`` and every
-        shipped row is keyed from ``1.0``, so this half alone selects it. It is the pure-Python API's
-        ``version``, and what ``--version`` means on the command line
+        shipped row is keyed from ``1.0``, so this half alone selects it. It is what ``--version`` means
+        on the command line
         """
     @toVersion.setter
     def toVersion(self, arg0: FixRaidenBoss2.core.CppVersion | None) -> None:
@@ -21153,8 +21107,8 @@ class ResCreate(BaseResEdit):
         Retrieves a unique id for a file within a single .ini file
         
         .. note::
-            The returned value is not byte-identical to the one the pure-Python original produced -- it is
-            an opaque, within-one-run dictionary key that is never persisted or written to a file
+            The returned value is an opaque, within-one-run dictionary key that is never persisted or
+            written to a file
         
         Parameters
         ----------
@@ -21565,7 +21519,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         
         .. note::
             With no .ini file there is nothing to build the resources *for*, so this collects and groups but
-            builds nothing -- exactly as the pure-Python original did
+            builds nothing
         
         Parameters
         ----------
@@ -21760,8 +21714,8 @@ class ResIdentity(BaseResEdit):
         Retrieves a unique id for a file within a single .ini file
         
         .. note::
-            The returned value is not byte-identical to the one the pure-Python original produced -- it is
-            an opaque, within-one-run dictionary key that is never persisted or written to a file
+            The returned value is an opaque, within-one-run dictionary key that is never persisted or
+            written to a file
         
         Parameters
         ----------
@@ -22119,7 +22073,7 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         
         .. note::
             With no .ini file there is nothing to build the resources *for*, so this collects and remaps but
-            builds nothing -- exactly as the pure-Python original did
+            builds nothing
         
         Parameters
         ----------
@@ -22290,8 +22244,8 @@ class ResReplace(BaseResEdit):
         Retrieves a unique id for a file within a single .ini file
         
         .. note::
-            The returned value is not byte-identical to the one the pure-Python original produced -- it is
-            an opaque, within-one-run dictionary key that is never persisted or written to a file
+            The returned value is an opaque, within-one-run dictionary key that is never persisted or
+            written to a file
         
         Parameters
         ----------
@@ -23210,8 +23164,8 @@ class TexCreate(BaseResEdit):
         Retrieves a unique id for a file within a single .ini file
         
         .. note::
-            The returned value is not byte-identical to the one the pure-Python original produced -- it is
-            an opaque, within-one-run dictionary key that is never persisted or written to a file
+            The returned value is an opaque, within-one-run dictionary key that is never persisted or
+            written to a file
         
         Parameters
         ----------
@@ -24626,8 +24580,7 @@ class VGRemaps:
         :raw-html:`<br />`
         
         .. note::
-            Unlike the pure-Python original there is no 'repo' argument -- nothing in this project passed
-            one, and :meth:`addRows` already covers extending the table. Note that
+            To extend the table, use :meth:`addRows`. Note that
             :attr:`ModDataAssets.VGRemaps` hands out a **shared** instance, so mutating that one is visible
             to every :class:`ModType` that fell back to it; construct one directly for an independent table
         """
@@ -25029,8 +24982,7 @@ class VertexCounts:
         :raw-html:`<br />`
         
         .. note::
-            Unlike the pure-Python original there is no 'repo' argument to swap the whole table out with --
-            nothing in this project ever passed one, and :meth:`addRows` already covers extending it
+            There is no 'repo' argument to swap the whole table out with; use :meth:`addRows` to extend it
         """
     def __len__(self) -> int:
         """
@@ -25111,7 +25063,7 @@ class WWMIBuilder:
     """
     
     Creates new :class:`ModType` objects for WuWa (Wuthering Waves) mods -- the WWMI counterpart of
-    :class:`GIBuilder`. Their parse / fix / remove rows are stubs until the WWMI strategies exist
+    :class:`GIBuilder`. Some of their parse / fix / remove rows are still stubs
         
     """
     @staticmethod
@@ -25367,9 +25319,7 @@ class WWMIFixerConfig:
         role, its register layout per component, its pixel thumbprints, and where its game textures are
         downloaded from.
         
-        The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once. The field
-        this replaced held only the register layout and was bound nowhere, which left the strongest texture
-        identification path unreachable from a prototype
+        The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once
         """
     @sourceTextures.setter
     def sourceTextures(self, arg0: WWMITextureFacts) -> None:
@@ -25606,8 +25556,8 @@ class WWMITextureFacts:
         :attr:`identifyTexture`; empty skips the step
         
         .. note::
-            Leaving this empty is how the pass silently identified nothing for a whole session -- the
-            thumbprints were being set on the FIXER's config, which no longer reads them
+            The thumbprints are read from here only, not from the fixer's config; leaving this empty makes
+            the pass silently identify nothing
         """
     @textureThumbprints.setter
     def textureThumbprints(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:

@@ -24,7 +24,7 @@ namespace AGRemapCore {
      :cpp:class:`BaseResEdit` builds the corresponding graph :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        The `Python`_-facing ``IniGraphReplaceMode`` is a separate, still-pure-Python ``Enum``
+        The `Python`_-facing ``IniGraphReplaceMode`` is a separate `Python`_ ``Enum``
         (``constants/IniGraphReplaceMode.py``) whose members carry the same three string values.
         The binding layer maps one onto the other by that value, rather than either side being
         replaced -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all

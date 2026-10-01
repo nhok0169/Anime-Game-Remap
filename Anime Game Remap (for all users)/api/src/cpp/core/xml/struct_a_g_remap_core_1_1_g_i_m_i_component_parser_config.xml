@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="175" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="175" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="172" column="21" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="172" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1af496b5ab6ceb3858b94b8e6f9488bdcb" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="177" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="177" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="174" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="174" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -111,7 +111,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="178" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="178" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="175" column="13" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1ac01b4016f5a1f94fd0075a47ad7fea18" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -129,12 +129,12 @@ rather than the registers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 A download is decided per register: a slot whose section leaves its diffuse register
 unbound gets the game&apos;s diffuse there. A mod written in the GAME&apos;s register order binds
-its textures elsewhere -- LumineHeaven1&apos;s Eye binds only ``ps-t1 = ...Diffuse``, where the
-skin&apos;s own 6.x eye shader reads the diffuse -- so the slot got the game&apos;s diffuse at
-``ps-t0`` AND kept the mod&apos;s at ``ps-t1``, two textures both named a diffuse, which the merge&apos;s
-:cpp:member:`GIMIMergeFixerConfig::texRegsByName` rightly refuses to believe; read by position,
-the game&apos;s eye diffuse drew and the mod&apos;s became the light map (dark eyes on Lumine,
-2026-09-29). :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+its textures elsewhere -- eg. a LumineHeaven mod whose Eye binds only ``ps-t1 = ...Diffuse``,
+where the skin&apos;s own 6.x eye shader reads the diffuse -- so without this the slot gets the
+game&apos;s diffuse at ``ps-t0`` AND keeps the mod&apos;s at ``ps-t1``, two textures both named a
+diffuse, which the merge&apos;s :cpp:member:`GIMIMergeFixerConfig::texRegsByName` rightly refuses
+to believe; read by position, the game&apos;s eye diffuse draws and the mod&apos;s becomes the light
+map (dark eyes). :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 With this on, for every slot with textures of its own whose section binds at least one of the
 slot&apos;s texture registers, and whose names are believed (every texture bound at those registers
@@ -147,7 +147,7 @@ is untouched. Read off the section itself, not through ``run =``. **Default**: `
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="204" column="14" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="204" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="201" column="14" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="201" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -158,7 +158,7 @@ What :cpp:func:`makeGIMIComponentParser` needs to read a mod built for a skin of
 components -- the parser counterpart of :cpp:struct:`GIMICharParserConfig`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="29" bodyend="205"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="29" bodyend="202"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a1c62f9cd930d935ad549bf06324eeec8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>blendStride</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1a97cdb5130602390cfa64ec9bdbd43b6d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig</scope><name>components</name></member>

@@ -191,11 +191,9 @@ namespace AGRemapCore {
                 /**
                  * The default parts a modder may have left out, so a fix can still reference them.
                  *
-                 * The pure-Python original splits these across two arguments -- 'objFileDownloads'
-                 * (per mod object) and 'bufDownloads' (per .buf kind). The C++ 'downloads' map is
-                 * keyed by mod object throughout, and the .buf kinds ARE mod objects here (the
-                 * parser classifies blend/position/texcoord in their own right), so the two
-                 * collapse into one map with no information lost.
+                 * Per-object file downloads and per-.buf-kind downloads share one 'downloads' map,
+                 * keyed by mod object throughout: the .buf kinds ARE mod objects here (the parser
+                 * classifies blend/position/texcoord in their own right), so no information is lost.
                  *
                  * The shape is the same for every character this builds: two textures and an index
                  * buffer per drawn object, the three buffers, and the face. Only the names differ.

@@ -29,8 +29,7 @@ namespace AGRemapCore {
      faces culled, so what shows is the shell's back faces around the silhouette. Hair built of two-sided sheets
      whose layers sit close together has a problem with that on a skin whose outline sits further out than the
      character's own: the INNER face's shell -- the face turned towards the body, or covered by another layer --
-     comes out in front of the outer face, as small dark shards all over the hair (Yaoyao5 on YaoyaoBamboo,
-     2026-09-28). The outer faces draw the silhouette on their own, so the inner ones can lose their outline and
+     comes out in front of the outer face, as small dark shards all over the hair. The outer faces draw the silhouette on their own, so the inner ones can lose their outline and
      nothing visible goes with it :raw-html:`<br />` :raw-html:`<br />`
 
      A target triangle is INNER when at least two of its corners are :cpp:func:`covered` or, with
@@ -109,10 +108,8 @@ namespace AGRemapCore {
          Cloth modelled with its own lining is two surfaces a few millimetres apart, facing away from each other,
          and the back of either is never seen. A mirrored inner layer (:cpp:member:`VGComponentSpec::mirroredIbs`)
          moved inward from such a surface lands IN FRONT of the other one, and shows from outside as a flat grey
-         polygon over the cloth (Lumine2's coat on LumineHeaven, 2026-09-29: 27% of its twins crossed its lining
-         within 5 mm). A triangle backed this way needs no twin. All four points must reach the lining: a triangle
-         only PARTLY over it keeps its twin, or the part the lining does not cover shows its back face (Lumine7's
-         skirt, brown patches at the front opening, when one point was enough) -- such a twin is kept short of the
+         polygon over the cloth. A triangle backed this way needs no twin. All four points must reach the lining: a triangle
+         only PARTLY over it keeps its twin, or the part the lining does not cover shows its back face -- such a twin is kept short of the
          lining instead, see :cpp:func:`behind`. A surface facing the SAME way behind it -- the body under a skirt --
          does not count: a twin pushed into it is hidden behind it
          @endrst

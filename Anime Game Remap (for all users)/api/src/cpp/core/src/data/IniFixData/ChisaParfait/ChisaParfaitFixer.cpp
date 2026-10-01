@@ -110,7 +110,13 @@ namespace AGRemapCore {
             {"c9cdf1b99fb01750"},                       // 3: upper body
             {"3bbc20374cc3d229"},                       // 4: lower body
             {"0fbe7ebba08cd1b0"},                       // 5: her ribbon and props (nothing maps here)
-            {"275e4ce82ebf0976"},                       // 6: eyes
+            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
+            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
+            // rest -- and it is the second that renders. Naming only the first gated the eye's
+            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
+            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
+            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
+            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},   // 6: eyes
         };
 
         // ---- every pass gated through its VERTEX shaders -----------------------------------------
@@ -126,6 +132,7 @@ namespace AGRemapCore {
             {"3bbc20374cc3d229", {"9cf0b7666af23697"}},
             {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
             {"275e4ce82ebf0976", {"729d10a88623b937"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
             {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
             {"32414b557630d98d", {"255061ec51f15e29"}},

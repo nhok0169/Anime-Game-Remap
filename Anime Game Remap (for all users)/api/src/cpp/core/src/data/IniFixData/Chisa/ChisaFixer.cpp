@@ -410,7 +410,13 @@ namespace AGRemapCore {
             {"3f2e3788f5cb485a"},    // upper body
             {"01e5bb58c3054b73"},    // lower body
             {"0fbe7ebba08cd1b0"},    // the skin's own (nothing maps onto it)
-            {"275e4ce82ebf0976"},    // eyes
+            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
+            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
+            // rest -- and it is the second that renders. Naming only the first gated the eye's
+            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
+            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
+            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
+            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},    // eyes
         };
 
         // ---- every pass gated through its VERTEX shaders: see passVertexShaders ----

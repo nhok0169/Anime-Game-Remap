@@ -192,7 +192,7 @@ KIRARA_CODE = IMPORT + '''RegRef = AGR.GIMICharFixerConfig.RegRef
 RegValChecks = AGR.GIMICharFixerConfig.RegValChecks
 TexEdit = AGR.GIMICharFixerConfig.TexEdit
 
-ORFix = AGR.IniKeywords.ORFixPath.value
+ORFix = AGR.IniKeywords.ORFixPath
 NNFix = r"CommandList\\global\\ORFix\\NNFix"
 TexFx = r"CommandList\\TexFx\\TN.0"
 
@@ -283,7 +283,7 @@ SECTIONS = {
 
     "Fixing a .ini File to a Specific Version of the Game":
         lambda: pathIniSection("iniPath_toOldVersion", "changeVersionKeqing.ini",
-                               IMPORT + 'version = AGR.CppVersion.parse("4.0")\n\n'
+                               IMPORT + 'version = AGR.Version.parse("4.0")\n\n'
                                '# fromVersion: the version the mod was made for, toVersion: the version to fix the mod to\n'
                                'iniFile = AGR.IniFile("changeVersionKeqing.ini", fromVersion = version, toVersion = version)\niniFile.parse()\niniFile.fix()\n'),
 

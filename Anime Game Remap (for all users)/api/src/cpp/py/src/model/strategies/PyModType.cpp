@@ -216,7 +216,7 @@ Retrieves the number of vertices for this mod
 
 Parameters
 ----------
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The game version wanted :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
@@ -245,7 +245,7 @@ component: :class:`str`
 
     **Default**: ``""``
 
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The game version wanted :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
@@ -275,12 +275,12 @@ Parameters
 modName: :class:`str`
     The name of the mod being fixed onto
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
@@ -336,7 +336,7 @@ Parameters
 partColours: :class:`IfContentPartColouring`
     The current states of the :class:`IfContentPart`
 
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The version the hashes should come from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning any

@@ -8,6 +8,30 @@
     <includes refid="_ini_parse_builder_data_8h" local="yes">AGRemapCore/data/IniParseBuilderData.h</includes>
     <includes refid="_g_i_m_i_char_parser_8h" local="yes">AGRemapCore/data/IniParseData/GIMICharParser.h</includes>
     <incdepgraph>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="95">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="77">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="100">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1018,30 +1042,6 @@
         <childnode refid="110" relation="include">
         </childnode>
       </node>
-      <node id="38">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="95">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="77">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="74">
         <label>Generator.tpp</label>
       </node>
@@ -1208,7 +1208,7 @@
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a0b82cf694088de0d54d7e607a7f48f9f" kindref="member">modTypeId</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">ModTypeId::AyakaSpringbloom</ref>;</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;AyakaSpringbloom&quot;<sp/>here<sp/>(the<sp/>download<sp/>FOLDER)<sp/>but<sp/>&quot;AyakaSpringBloom&quot;<sp/>for<sp/>her<sp/>assets<sp/>--</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ModTypeIdTools::getName<sp/>returns<sp/>the<sp/>capital-B<sp/>spelling,<sp/>mirroring<sp/>ModTypeNames.py.<sp/>The</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ModTypeIdTools::getName<sp/>returns<sp/>the<sp/>capital-B<sp/>spelling,<sp/>the<sp/>name<sp/>it<sp/>has<sp/>always<sp/>had.<sp/>The</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>two<sp/>really<sp/>do<sp/>differ;<sp/>see<sp/>ModTypeId.cpp&apos;s<sp/>own<sp/>note.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.downloadCharFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AyakaSpringbloom&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.downloadVersionFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;4_0&quot;</highlight><highlight class="normal">;</highlight></codeline>

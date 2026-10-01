@@ -159,12 +159,12 @@ fromModName: :class:`str`
 toModName: :class:`str`
     The name of the mod being fixed **to**
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -190,12 +190,12 @@ parser: :class:`CppBaseIniParser`
 fromModName: :class:`str`
     The name of the mod being fixed **from**
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``

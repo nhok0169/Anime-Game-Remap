@@ -15,10 +15,39 @@
 
 #include <stdexcept>
 #include <string>
+#include <vector>
+
+#include "AGRemapCore/model/VersionSet.h"
 
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
+
+
+namespace {
+
+// The lenient half of parseVersionArg: an argument that names no version is None, not an error --
+// what VersionSet.getVersion and VersionSet.add have always done with one.
+std::optional<AGRC::Version> tryVersionArg(const py::object &raw) {
+    if (raw.is_none()) {
+        return std::nullopt;
+    }
+    if (py::isinstance<AGRC::Version>(raw)) {
+        return raw.cast<AGRC::Version>();
+    }
+    return AGRC::Version::parse(py::str(raw).cast<std::string>());
+}
+
+
+std::vector<AGRC::Version> parseVersionList(const py::iterable &versions) {
+    std::vector<AGRC::Version> result;
+    for (py::handle version : versions) {
+        result.push_back(*parseVersionArg(py::reinterpret_borrow<py::object>(version)));
+    }
+    return result;
+}
+
+}
 
 
 std::optional<AGRC::Version> parseVersionArg(const py::object &raw) {
@@ -39,13 +68,9 @@ std::optional<AGRC::Version> parseVersionArg(const py::object &raw) {
 
 
 void initCppVersion(pybind11::module_ &m) {
-    // Bound as "CppVersion", not the bare "Version" -- FixRaidenBoss2.model.Version.Version
-    // already exists as the bare name, but it plays a completely different role there (a
-    // searchable *collection* of versions with closest-match lookup, this port's
-    // AGRC::VersionSet) than this class (a single version *value*, closer in spirit to
-    // packaging.version.Version). Binding this as bare "Version" would silently shadow the
-    // existing, unrelated FixRaidenBoss2.Version at the package top level.
-    py::class_<AGRC::Version>(m, "CppVersion", R"doc(
+    // One version VALUE. A searchable collection of them is VersionSet, below -- the pure-Python
+    // 'Version' class used to be the collection, and the two names were split when it was replaced.
+    py::class_<AGRC::Version>(m, "Version", R"doc(
 A single `PEP 440`_ version value -- a C++ implementation of Python's `packaging.version.Version`_,
 matching its parsing/normalization/comparison behaviour exactly
 
@@ -86,7 +111,7 @@ raw: :class:`str`
 
 Returns
 -------
-Optional[:class:`CppVersion`]
+Optional[:class:`Version`]
     The parsed version, or ``None`` if 'raw' does not conform to `PEP 440`_ in any way
         )doc"))
 
@@ -103,7 +128,7 @@ Returns
 
         .def_property_readonly("release", &AGRC::Version::getRelease, py::doc(R"doc(
 Tuple[:class:`int`, ...]: The numeric components of the release segment, in order, including any
-trailing zeros (e.g. ``CppVersion.parse("2.0.0").release == (2, 0, 0)``)
+trailing zeros (e.g. ``Version.parse("2.0.0").release == (2, 0, 0)``)
         )doc"))
 
         .def_property_readonly("pre", &AGRC::Version::getPre, py::doc(R"doc(Optional[Tuple[:class:`str`, :class:`int`]]: The pre-release segment (normalized letter and number), or ``None`` if there is none)doc"))
@@ -147,7 +172,206 @@ trailing zeros (e.g. ``CppVersion.parse("2.0.0").release == (2, 0, 0)``)
         .def("__hash__", [](const AGRC::Version &self) { return std::hash<AGRC::Version>{}(self); },
     py::doc(R"doc(Retrieves a hash of this instance itself, so that it can be used as a key in a dict/set)doc"))
 
-        .def("__repr__", [](const AGRC::Version &self) { return "CppVersion('" + self.toString() + "')"; })
+        .def("__repr__", [](const AGRC::Version &self) { return "Version('" + self.toString() + "')"; })
 
         .def("__str__", &AGRC::Version::toString);
+
+    py::class_<AGRC::VersionSet>(m, "VersionSet", R"doc(
+A set of available :class:`Version`\s, for finding the closest available version to some queried
+version
+
+Wherever a version is taken, a :class:`str`, :class:`int` or :class:`float` naming one is accepted too
+
+Parameters
+----------
+versions: Optional[List[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]]
+    The versions available :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+    )doc")
+        .def(py::init([](const py::object &versions) {
+            auto result = std::make_unique<AGRC::VersionSet>();
+            if (!versions.is_none()) {
+                for (const AGRC::Version &version : parseVersionList(versions.cast<py::iterable>())) {
+                    result->add(version);
+                }
+            }
+            return result;
+        }), py::arg("versions") = py::none())
+
+        .def_property("versions", &AGRC::VersionSet::getVersions,
+            [](AGRC::VersionSet &self, const py::iterable &versions) {
+                std::vector<AGRC::Version> parsed = parseVersionList(versions);
+                self.clear();
+                for (const AGRC::Version &version : parsed) {
+                    self.add(version);
+                }
+            },
+            py::doc(R"doc(
+The available versions
+
+:getter: The versions in sorted ascending order, without duplicates
+:setter: Replaces every version, and clears the closest-version cache
+:type: List[:class:`Version`]
+            )doc"))
+
+        .def_property_readonly("latestVersion", &AGRC::VersionSet::getLatestVersion,
+            py::doc(R"doc(Optional[:class:`Version`]: The latest version available, or ``None`` if there is none)doc"))
+
+        .def("clear", &AGRC::VersionSet::clear, py::doc(R"doc(
+Clears all the version data, including the closest-version cache
+        )doc"))
+
+        .def("add", [](AGRC::VersionSet &self, const py::object &newVersion) {
+            std::optional<AGRC::Version> parsed = tryVersionArg(newVersion);
+            if (parsed.has_value()) {
+                self.add(*parsed);
+            }
+        }, py::arg("newVersion"), py::doc(R"doc(
+Adds a new version
+
+.. note::
+    A 'newVersion' that names no valid version is ignored, rather than raising
+
+.. warning::
+    Does **not** invalidate the closest-version cache :meth:`findClosest` keeps, so a query cached
+    before this call may still answer with a version that is no longer the closest. Call
+    :meth:`clear` first, or pass ``fromCache = False``, when that matters
+
+Parameters
+----------
+newVersion: Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]
+    The new version to add
+        )doc"))
+
+        .def("findClosest", [](AGRC::VersionSet &self, const py::object &version, bool fromCache) {
+            return self.findClosest(parseVersionArg(version), fromCache);
+        }, py::arg("version") = py::none(), py::arg("fromCache") = true, py::doc(R"doc(
+Finds the closest version available: the largest available version that is not greater than
+'version', or the smallest available version if every one of them is
+
+Parameters
+----------
+version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+    The version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+    If this value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+fromCache: :class:`bool`
+    Whether to use (and fill) the cache of earlier answers :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+
+Raises
+------
+ValueError
+    If 'version' names no valid version
+
+Returns
+-------
+Optional[:class:`Version`]
+    The closest version available, or ``None`` if there are no versions available
+        )doc"))
+
+        .def_static("getVersion", &tryVersionArg, py::arg("rawVersion"), py::doc(R"doc(
+Retrieves the version an argument names
+
+Parameters
+----------
+rawVersion: Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]
+    The version to translate
+
+Returns
+-------
+Optional[:class:`Version`]
+    The corresponding version, or ``None`` if 'rawVersion' names no valid version
+        )doc"))
+
+        .def_static("compareVersions", [](const AGRC::Version &version1, const AGRC::Version &version2) {
+            return (version1 == version2) ? 0 : ((version1 < version2) ? -1 : 1);
+        }, py::arg("version1"), py::arg("version2"), py::doc(R"doc(
+Compares two versions
+
+Parameters
+----------
+version1: :class:`Version`
+    The first version to compare
+
+version2: :class:`Version`
+    The second version to compare
+
+Returns
+-------
+:class:`int`
+    A negative number if 'version1' is less than 'version2', a positive number if 'version1' is
+    greater than 'version2', and zero if they are equal
+        )doc"))
+
+        .def_static("findClosestFromSortedList", [](const py::iterable &versions, const py::object &version) -> std::optional<AGRC::Version> {
+            std::vector<AGRC::Version> parsed = parseVersionList(versions);
+            if (parsed.empty()) {
+                return std::nullopt;
+            }
+
+            std::optional<AGRC::Version> target = parseVersionArg(version);
+            if (!target.has_value()) {
+                return parsed.back();
+            }
+            return AGRC::VersionSet::findClosestFromSorted(parsed, *target);
+        }, py::arg("versions"), py::arg("version"), py::doc(R"doc(
+Finds the closest version available from a sorted list of versions, by the same rule as
+:meth:`findClosest`
+
+Parameters
+----------
+versions: List[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+    The list of versions to search, sorted in ascending order
+
+version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+    The version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+    If this value is ``None``, then will assume we want the latest version
+
+Returns
+-------
+Optional[:class:`Version`]
+    The closest version available, or ``None`` if 'versions' is empty
+        )doc"))
+
+        .def_static("findClosestFromList", [](const py::iterable &versions, const py::object &version) -> std::optional<AGRC::Version> {
+            std::optional<AGRC::Version> target = parseVersionArg(version);
+            std::optional<AGRC::Version> result;
+            for (const AGRC::Version &current : parseVersionList(versions)) {
+                if (target.has_value() && *target < current) {
+                    continue;
+                }
+                if (!result.has_value() || *result < current) {
+                    result = current;
+                }
+            }
+            return result;
+        }, py::arg("versions"), py::arg("version"), py::doc(R"doc(
+Finds the latest version in an unsorted list of versions that is not greater than 'version'
+
+.. note::
+    Unlike :meth:`findClosestFromSortedList`, there is no fallback to the smallest version: if
+    every version in 'versions' is greater than 'version', there is no answer
+
+Parameters
+----------
+versions: List[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+    The list of versions to search
+
+version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+    The version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+    If this value is ``None``, then will assume we want the latest version
+
+Returns
+-------
+Optional[:class:`Version`]
+    The version found, or ``None`` if there is none
+        )doc"));
 }

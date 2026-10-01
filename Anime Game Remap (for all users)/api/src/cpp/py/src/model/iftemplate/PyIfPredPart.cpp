@@ -20,6 +20,7 @@
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/constants/IfPredPartType.h"
+#include "../../constants/PyConstantEnums.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/tools/parsing/ParseContext.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
@@ -40,71 +41,15 @@ namespace {
         return id.cast<size_t>();
     }
 
-    // The fully-qualified dotted path to FixRaidenBoss2.constants.IfPredPartType, derived (once,
-    // at module init -- see initCppIfPredPart) from this 'core' module's own '__name__' rather
-    // than hardcoded. Same reasoning/pattern as PyBaseTokenizer.cpp's own syntaxErrModulePath():
-    // this repo's Unit Tester harness imports the whole package as 'src.py.FixRaidenBoss2'
-    // instead of a top-level 'FixRaidenBoss2', so a hardcoded path breaks specifically there.
-    std::string &ifPredPartTypeModulePath() {
-        static std::string path;
-        return path;
-    }
-
-    // Imported lazily (only on first real use of toPyType/fromPyType, not at module-load time)
-    // for the same circular-import reason as PyBaseTokenizer.cpp's raisePySyntaxErr: 'core' is
-    // loaded from inside FixRaidenBoss2/__init__.py's own 'from .core import ...', so importing
-    // back up into FixRaidenBoss2 at module-init time here would be a real circular import.
-    // Deferring it to first use is safe -- FixRaidenBoss2 has always already finished importing
-    // by the time any bound method actually runs.
-    py::object pyIfPredPartTypeClass() {
-        return py::module_::import(ifPredPartTypeModulePath().c_str()).attr("IfPredPartType");
-    }
-
-    // AGRemapCore::IfPredPartType -> the existing pure-Python IfPredPartType enum member.
-    // IfPredPart.type deliberately keeps returning that same pure-Python enum (not a new,
-    // separately-bound C++ one) -- every *other* real caller across this codebase
-    // (IfTemplateTree.py, IniSectionGraph.py, BaseIniFixerOld.py, IniFile.py, ...) already
-    // compares '.type' against that pure-Python enum directly, with no reason to touch this
-    // class at all, so it has to keep working unchanged.
-    py::object toPyType(AGRC::IfPredPartType type) {
-        // IfPredPartTypeTools::getName's output ("if"/"else"/"elif"/"endif") is exactly the
-        // pure-Python enum's own '.value' set, so constructing the enum by value resolves to the
-        // matching member via Python's own Enum machinery -- no manual mapping table needed.
-        return pyIfPredPartTypeClass()(AGRC::IfPredPartTypeTools::getName(type));
-    }
-
-    // The reverse direction -- a plain 4-way exact match against '.value', deliberately NOT
-    // IfPredPartTypeTools::getType (that's a permissive *classifier* over raw predicate text,
-    // not an exact enum-value lookup -- a Python IfPredPartType instance's '.value' is always
-    // already one of the 4 canonical strings).
-    AGRC::IfPredPartType fromPyType(const py::object &pyType) {
-        std::string value = pyType.attr("value").cast<std::string>();
-        if (value == "if") return AGRC::IfPredPartType::If;
-        if (value == "else") return AGRC::IfPredPartType::Else;
-        if (value == "elif") return AGRC::IfPredPartType::Elif;
-        if (value == "endif") return AGRC::IfPredPartType::EndIf;
-        throw py::value_error("Unrecognized IfPredPartType value: '" + value + "'");
-    }
-
     std::unique_ptr<AGRC::IfPredPart> makeIfPredPart(std::string src, const py::object &type, AGRC::Z3Context &z3Ctx,
                                                       AGRC::ParseContext *ctx, std::optional<AGRC::Z3Predicate> query, const py::object &id) {
-        return std::make_unique<AGRC::IfPredPart>(std::move(src), fromPyType(type), z3Ctx, ctx, std::move(query), parseId(id));
+        return std::make_unique<AGRC::IfPredPart>(std::move(src), toIfPredPartType(type), z3Ctx, ctx, std::move(query), parseId(id));
     }
 
 }
 
 
 void initCppIfPredPart(pybind11::module_ &m) {
-    std::string coreModuleName = m.attr("__name__").cast<std::string>();
-    std::string parentPackage = coreModuleName;
-    size_t lastDot = parentPackage.rfind('.');
-    if (lastDot != std::string::npos) {
-        parentPackage.erase(lastDot);
-    } else {
-        parentPackage.clear();
-    }
-    ifPredPartTypeModulePath() = parentPackage.empty() ? "constants.IfPredPartType" : (parentPackage + ".constants.IfPredPartType");
-
     // Registered with AGRC::IfTemplatePart as its real Python base (already registered by
     // initCppIfContentPart, called before this one in bindings.cpp) so 'isinstance(part,
     // core.IfTemplatePart)' and inherited attribute lookup (e.g. '.id') work for real, matching
@@ -168,8 +113,8 @@ id: Optional[:class:`int`]
     py::doc(R"doc(:class:`str`: The original string within the `IfTemplate`)doc"))
 
         .def_property("type",
-            [](const AGRC::IfPredPart &self) { return toPyType(self.type); },
-            [](AGRC::IfPredPart &self, const py::object &type) { self.type = fromPyType(type); },
+            [](const AGRC::IfPredPart &self) { return enumMember(self.type); },
+            [](AGRC::IfPredPart &self, const py::object &type) { self.type = toIfPredPartType(type); },
     py::doc(R"doc(:class:`IfPredPartType`: The type of predicate encountered)doc"))
 
         .def_readwrite("query", &AGRC::IfPredPart::query,

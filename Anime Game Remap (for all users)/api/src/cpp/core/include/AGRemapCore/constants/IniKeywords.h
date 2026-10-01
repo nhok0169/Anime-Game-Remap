@@ -25,10 +25,8 @@ namespace AGRemapCore {
      @rst
      Common keywords used in the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     .. note::
-        This holds only the keywords the C++ code actually uses, so it is not a one-to-one copy of
-        the `Python`_ ``IniKeywords`` enum (``constants/IniConsts.py``). Add members as they are
-        needed
+     Bound to `Python`_ as ``IniKeywords``, each member a plain string. Add a member when a caller on
+     either side needs a keyword, rather than spelling the literal out where it is used
      @endrst
      */
     class IniKeywords {

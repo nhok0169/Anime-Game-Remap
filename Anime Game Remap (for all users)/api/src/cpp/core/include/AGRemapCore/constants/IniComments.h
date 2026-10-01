@@ -25,8 +25,6 @@ namespace AGRemapCore {
      Comment blocks this software writes into the ``.ini`` files it generates :raw-html:`<br />`
      :raw-html:`<br />`
 
-     Matches the `Python`_ ``IniComments`` enum (``constants/IniConsts.py``)
-
      .. note::
         Nothing in the library assigns this on its own -- no fixer, no writer. It is the text :cpp:member:`GIMIFixer::copyPreamble` is *meant* to be set to, kept as a
         named constant so a caller opting in does not have to carry the paragraph itself

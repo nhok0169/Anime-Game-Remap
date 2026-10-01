@@ -25,14 +25,13 @@ namespace AGRC = AGRemapCore;
 
 void initCppModTypeId(pybind11::module_ &m) {
     // Registered under the bare 'ModTypeId' name (no 'Cpp' prefix) -- no pure-Python class of this
-    // exact bare name exists to shadow (the pure-Python equivalents are the differently-named
-    // 'ModTypeNames' enum and the deprecated StrEnumOld-based 'ModTypes' class), so nothing to
-    // disambiguate from; see Documentation/CLAUDE.md's naming-pitfall section /
-    // Architecture/CLAUDE.md's 'Cpp' prefix rule.
+    // exact bare name exists to shadow (the pure-Python 'ModTypes' class is differently named), so
+    // nothing to disambiguate from; see Architecture/CLAUDE.md's 'Cpp' prefix rule.
     py::enum_<AGRC::ModTypeId>(m, "ModTypeId", R"doc(
 The names of the different types of mods this fix will fix from or fix to
 
-Has the same keys as the :class:`ModTypeNames` enum
+.. tip::
+    A mod type's name is :meth:`ModTypeIdTools.getName`
     )doc")
         .value("Amber", AGRC::ModTypeId::Amber, R"doc(Amber from GI)doc")
 

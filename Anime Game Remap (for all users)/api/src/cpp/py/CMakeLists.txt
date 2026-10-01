@@ -77,6 +77,8 @@ pybind11_add_module(core
     src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp
     src/model/strategies/iniClassifiers/PyBaseIniClassifier.cpp
     src/model/strategies/iniClassifiers/PyIniClassifier.cpp
+    src/constants/PyConstantEnums.cpp
+    src/constants/PyConstantStrings.cpp
     src/constants/PyGameTypeId.cpp
     src/constants/PyModTypeId.cpp
     src/constants/PyGlobalModTypes.cpp

@@ -20,11 +20,9 @@ from typing import Optional, List, Tuple
 from ..core import IfContentPart
 from ..core import FileDownload
 from ..core import IfTemplate
+from ..core import IniKeywords
 ##### EndCppLocalImports
 
-##### LocalImports
-from ..constants.IniConsts import IniKeywords
-##### EndLocalImports
 
 
 ##### Script
@@ -208,8 +206,8 @@ class BlendDownloadData(DownloadData):
         """
 
         super().addToPart(part, key, val)
-        part.addKVP(IniKeywords.Handling.value, "skip")
-        part.addKVP(IniKeywords.Draw.value, f"{self.vertexCount},0")
+        part.addKVP(IniKeywords.Handling, "skip")
+        part.addKVP(IniKeywords.Draw, f"{self.vertexCount},0")
 
         if (self.downloadRefKVPs):
             part.addKVPs(self.downloadRefKVPs)

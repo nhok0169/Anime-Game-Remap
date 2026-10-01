@@ -714,17 +714,6 @@ CppIniFixBuilderArgs
 
 :raw-html:`<br />`
 
-CppIniNamingTools
-=================
-
-.. attributetable:: FixRaidenBoss2.CppIniNamingTools
-
-.. autoclass:: FixRaidenBoss2.CppIniNamingTools
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 CppIniParseBuilderArgs
 ======================
 
@@ -895,17 +884,6 @@ CppTransparencyAdjustFilter
 
 .. autoclass:: FixRaidenBoss2.CppTransparencyAdjustFilter
     :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CppVersion
-==========
-
-.. attributetable:: FixRaidenBoss2.CppVersion
-
-.. autoclass:: FixRaidenBoss2.CppVersion
     :members:
     :private-members:
 
@@ -2434,6 +2412,17 @@ Version
 
 :raw-html:`<br />`
 
+VersionSet
+==========
+
+.. attributetable:: FixRaidenBoss2.VersionSet
+
+.. autoclass:: FixRaidenBoss2.VersionSet
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 VertexCounts
 ============
 
@@ -2778,22 +2767,6 @@ ColourConsts
 
 :raw-html:`<br />`
 
-ColourRanges
-============
-
-.. autoclass:: FixRaidenBoss2.ColourRanges
-    :members:
-
-:raw-html:`<br />`
-
-Colours
-=======
-
-.. autoclass:: FixRaidenBoss2.Colours
-    :members:
-
-:raw-html:`<br />`
-
 CommandOpts
 ===========
 
@@ -2807,6 +2780,17 @@ DownloadMode
 
 .. autoclass:: FixRaidenBoss2.DownloadMode
     :members:
+
+:raw-html:`<br />`
+
+DownloadModeTools
+=================
+
+.. attributetable:: FixRaidenBoss2.DownloadModeTools
+
+.. autoclass:: FixRaidenBoss2.DownloadModeTools
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 
@@ -2845,26 +2829,10 @@ FilePrefixes
 
 :raw-html:`<br />`
 
-FileSuffixes
-============
-
-.. autoclass:: FixRaidenBoss2.FileSuffixes
-    :members:
-
-:raw-html:`<br />`
-
 FileTypes
 =========
 
 .. autoclass:: FixRaidenBoss2.FileTypes
-    :members:
-
-:raw-html:`<br />`
-
-GameTypeNames
-=============
-
-.. autoclass:: FixRaidenBoss2.GameTypeNames
     :members:
 
 :raw-html:`<br />`
@@ -2887,20 +2855,6 @@ GlobalClassifiers
 
 :raw-html:`<br />`
 
-GlobalCompilerParts
-===================
-
-.. autoclass:: FixRaidenBoss2.GlobalCompilerParts
-
-:raw-html:`<br />`
-
-GlobalIniRemoveBuilders
-=======================
-
-.. autoclass:: FixRaidenBoss2.GlobalIniRemoveBuilders
-
-:raw-html:`<br />`
-
 GlobalPackageManager
 ====================
 
@@ -2916,18 +2870,21 @@ IfPredPartType
 
 :raw-html:`<br />`
 
+IfPredPartTypeTools
+===================
+
+.. attributetable:: FixRaidenBoss2.IfPredPartTypeTools
+
+.. autoclass:: FixRaidenBoss2.IfPredPartTypeTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ImgFormats
 ==========
 
 .. autoclass:: FixRaidenBoss2.ImgFormats
-    :members:
-
-:raw-html:`<br />`
-
-IniBoilerPlate
-==============
-
-.. autoclass:: FixRaidenBoss2.IniBoilerPlate
     :members:
 
 :raw-html:`<br />`
@@ -2952,14 +2909,6 @@ IniKeywords
 ===========
 
 .. autoclass:: FixRaidenBoss2.IniKeywords
-    :members:
-
-:raw-html:`<br />`
-
-ModTypeNames
-============
-
-.. autoclass:: FixRaidenBoss2.ModTypeNames
     :members:
 
 :raw-html:`<br />`
@@ -3349,17 +3298,6 @@ CppHashTools
 .. attributetable:: FixRaidenBoss2.CppHashTools
 
 .. autoclass:: FixRaidenBoss2.CppHashTools
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CppIntTools
-===========
-
-.. attributetable:: FixRaidenBoss2.CppIntTools
-
-.. autoclass:: FixRaidenBoss2.CppIntTools
     :members:
     :private-members:
 
@@ -3882,6 +3820,7 @@ Z3Predicate
 .. _First Set: https://www.geeksforgeeks.org/compiler-design/first-set-in-syntax-analysis/
 .. _Nullable Set: https://cs.stackexchange.com/questions/125274/defining-nullable-symbols-and-the-first-set-of-a-grammar
 .. _Follow Set: https://www.geeksforgeeks.org/compiler-design/follow-set-in-syntax-analysis/
+.. _Simplified Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
 .. _sympy: https://www.sympy.org/en/index.html
 .. _sympy.Symbol: https://docs.sympy.org/latest/modules/core.html#sympy.core.symbol.Symbol
 .. _sympy.Boolean: https://docs.sympy.org/latest/modules/logic.html#sympy.logic.boolalg.Boolean

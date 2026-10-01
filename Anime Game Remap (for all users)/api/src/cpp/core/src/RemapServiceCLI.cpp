@@ -491,7 +491,7 @@ namespace AGRemapCore {
 
         // Load-bearing, not a courtesy: the registry is filled as a side effect of the first
         // classify(), and this banner prints BEFORE any of that has happened -- so on a normal run
-        // every name comes from here. It is the same table (ModTypeNames) the pure-Python side reads.
+        // every name comes from here.
         const std::optional<ModTypeId> id = ModTypeIdTools::getEnum(modTypeId);
         if (id.has_value()) {
             return ModTypeIdTools::getName(*id);

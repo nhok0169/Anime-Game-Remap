@@ -5,6 +5,30 @@
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <incdepgraph>
+      <node id="47">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="53">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="104">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="99">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -995,30 +1019,6 @@
         <childnode refid="108" relation="include">
         </childnode>
       </node>
-      <node id="47">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="53">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="104">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="87">
         <label>Generator.tpp</label>
       </node>
@@ -1452,7 +1452,7 @@
 <codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Ayaka&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="296"><highlight class="normal"></highlight></codeline>
 <codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>note:<sp/>the<sp/>value<sp/>differs<sp/>from<sp/>the<sp/>enumerator&apos;s<sp/>own<sp/>name<sp/>(&quot;AyakaSpringbloom&quot;)<sp/>--</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mirrors<sp/>ModTypeNames.py&apos;s<sp/>AyakaSpringbloom<sp/>=<sp/>&quot;AyakaSpringBloom&quot;<sp/>exactly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>capital-B<sp/>spelling<sp/>is<sp/>the<sp/>name<sp/>this<sp/>mod<sp/>type<sp/>has<sp/>always<sp/>had</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">ModTypeId::AyakaSpringbloom</ref>:</highlight></codeline>
 <codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AyakaSpringBloom&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="301"><highlight class="normal"></highlight></codeline>

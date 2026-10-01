@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -4112,140 +4112,6 @@ class CppIniFixFactory:
     Opaque: there is nothing to read off one. Build it with :func:`makeGIMICharFixer`
         
     """
-class CppIniNamingTools:
-    """
-    
-    The naming conventions a fix follows, as the C++ core implements them
-    
-    .. warning::
-        Not the same as the pure-Python :class:`IniNamingTools`. That one's ``getModSuffixedName`` keeps
-        the first ``len(suffix)`` characters of a name that already ends in the suffix, where it means to
-        strip the suffix off the end -- a confirmed bug, contradicting its own docstring. This class
-        implements the documented behaviour, and it is what every compiled fix actually uses, so a fix
-        written in Python should use this one to match
-    
-    Every method is static.
-        
-    """
-    @staticmethod
-    def getFixedBlendFile(blendFile: str, modName: str = '') -> str:
-        """
-        The name of the fixed ``Blend.buf`` file
-        """
-    @staticmethod
-    def getFixedElementFile(file: str, elementName: str, modName: str = '', fileExt: str | None = None) -> str:
-        """
-        The name of the fixed file for some element file
-        """
-    @staticmethod
-    def getFixedFile(file: str, modName: str = '', fileExt: str | None = None) -> str:
-        """
-        The name of the fixed file for some file
-        """
-    @staticmethod
-    def getFixedPositionFile(positionFile: str, modName: str = '') -> str:
-        """
-        The name of the fixed ``Position.buf`` file
-        """
-    @staticmethod
-    def getFixedTexFile(texFile: str, modName: str = '') -> str:
-        """
-        The name of the fixed texture file
-        """
-    @staticmethod
-    def getModSuffixedName(name: str, suffix: str = '', modName: str = '') -> str:
-        """
-        Appends ``modName + suffix`` to 'name', replacing a trailing 'suffix' it already carries
-        
-        .. note::
-            This is the method the pure-Python :class:`IniNamingTools` gets wrong -- see this class's own
-            warning
-        """
-    @staticmethod
-    def getObjRemapFixName(name: str, modName: str, objName: typing.Any, newObjName: typing.Any) -> str:
-        """
-        The remapped name for a `section`_ whose mod object is being swapped for another
-        """
-    @staticmethod
-    def getRemapBlendName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some ``Blend.buf`` `section`_
-        """
-    @staticmethod
-    def getRemapBlendResourceName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some ``Blend.buf`` resource `section`_
-        """
-    @staticmethod
-    def getRemapDLName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some downloaded resource `section`_
-        """
-    @staticmethod
-    def getRemapDLResourceName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some downloaded resource `section`_
-        """
-    @staticmethod
-    def getRemapElementName(name: str, elementName: str, modName: str = '') -> str:
-        """
-        The remapped name for some element (Blend/Position/Texcoord/IB) `section`_
-        """
-    @staticmethod
-    def getRemapFixName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some fixed `section`_
-        """
-    @staticmethod
-    def getRemapFixResourceName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some fixed resource `section`_
-        """
-    @staticmethod
-    def getRemapIbName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some ``.ib`` `section`_
-        """
-    @staticmethod
-    def getRemapPositionName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some ``Position.buf`` `section`_
-        """
-    @staticmethod
-    def getRemapPositionResourceName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some ``Position.buf`` resource `section`_
-        """
-    @staticmethod
-    def getRemapTexName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some texture `section`_
-        """
-    @staticmethod
-    def getRemapTexResourceName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some texture resource `section`_
-        """
-    @staticmethod
-    def getRemapTexcoordName(name: str, modName: str = '') -> str:
-        """
-        The remapped name for some ``Texcoord.buf`` `section`_
-        """
-    @staticmethod
-    def getResourceName(name: str) -> str:
-        """
-        Retrieves the name of the resource `section`_ for some `section`_ name
-        """
-    @staticmethod
-    def getTextureOverrideRemapFix(component: str, obj: str, modName: str = '') -> str:
-        """
-        The name of the ``TextureOverride`` `section`_ a fix invents for some mod object
-        """
-    @staticmethod
-    def removeResourceName(name: str) -> str:
-        """
-        Removes the resource prefix from some `section`_ name
-        """
 class CppIniParseBuilderArgs:
     """
     
@@ -4272,94 +4138,6 @@ class CppIniRemoveBuilderArgs:
     *has* one -- every mod type from :meth:`GIBuilder.all` does -- can say so
         
     """
-class CppIntTools:
-    """
-    C++ Tools for handling integers
-    """
-    @staticmethod
-    def toBase(num: typing.SupportsInt | typing.SupportsIndex, base: typing.SupportsInt | typing.SupportsIndex) -> tuple[list[int], bool]:
-        """
-                                Converts a base 10 number to an arbitrary base number
-        
-                                Parameters
-                                ----------
-                                num: :class:`int`
-                                    The base 10 number to convert
-        
-                                base: :class:`int`
-                                    The base to convert to
-        
-                                Raises
-                                ------
-                                :class:`TypeError`
-                                    The base is smaller or equal to 1
-        
-                                Returns
-                                -------
-                                Tuple[List[:class:`int`], :class:`bool`]
-                                    Retrieves the following data in the tuple:
-        
-                                    #. The digits in the converted number
-                                    #. Whether the number is negative
-        """
-    @staticmethod
-    def toBase64(num: typing.SupportsInt | typing.SupportsIndex, getDigit: collections.abc.Sequence[str] | None = None, negativeChar: str = '-') -> str:
-        """
-        Converts a base 10 number to a base 64 number
-        
-        Parameters
-        ----------
-        num: :class:`int`
-            The base 10 number to convert
-        
-        getDigit: List[:class:`str`]
-            how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
-        
-            * If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
-            * If this argument is ``None``, then will use the following string for each digit:
-        
-            ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
-        
-            This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        negativeChar: :class:`str`
-            The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``"-"``
-        
-        Returns
-        -------
-        :class:`str`
-            The converted string representation of the arbitrary base 64 number
-        """
-    @staticmethod
-    def toStrBase(num: typing.SupportsInt | typing.SupportsIndex, base: typing.SupportsInt | typing.SupportsIndex, getDigit: collections.abc.Sequence[str], negativeChar: str) -> str:
-        """
-        Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
-        are all characters
-        
-        Parameters
-        ----------
-        num: :class:`int`
-            The base 10 number to convert
-        
-        base: :class:`int`
-            The base to convert to
-        
-        getDigit: List[:class:`str`]
-            The string representations of each digit. Each element is the string representation
-            of the digit at the particular index of the list.
-        
-        negativeChar: :class:`str`
-            The character representation for the negative symbol
-        
-        Returns
-        -------
-        :class:`str`
-            The converted string representation of the arbitrary base number
-        """
 class CppInvertAlpha(CppBasePixelTransform):
     """
     
@@ -4937,7 +4715,7 @@ class CppStrategyOverrides:
             The version of 'fromModName' to override from, or ``None`` for every version --- only the
             *from* version is keyed on, since that is the one a run resolves off the ``.ini`` being fixed.
             Floor-matched, like :meth:`setParser`'s. **Default**: ``None``
-        :type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+        :type version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
         """
     @staticmethod
     def setParser(modName: str, factory: typing.Any, version: typing.Any = None) -> None:
@@ -4956,7 +4734,7 @@ class CppStrategyOverrides:
             The version to override from, or ``None`` for every version --- an override registered here
             applies to that version **and every later one**, until a higher override supersedes it, exactly
             as the built-in version tables resolve. **Default**: ``None``
-        :type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+        :type version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
         """
 class CppTempControl(CppBasePixelTransform):
     """
@@ -5551,158 +5329,6 @@ class CppTrie:
     @handleDuplicate.setter
     def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
         ...
-class CppVersion:
-    """
-    
-    A single `PEP 440`_ version value -- a C++ implementation of Python's `packaging.version.Version`_,
-    matching its parsing/normalization/comparison behaviour exactly
-    
-    :raw-html:`<br />`
-    
-    .. container:: operations
-    
-        **Supported Operations:**
-    
-        .. describe:: x == y
-    
-            Determines whether 'x' and 'y' are the same version
-    
-        .. describe:: x != y
-    
-            Determines whether 'x' and 'y' are different versions
-    
-        .. describe:: x < y, x <= y, x > y, x >= y
-    
-            Compares two versions following `PEP 440`_'s ordering rules
-    
-        .. describe:: hash(x)
-    
-            Retrieves a hash of 'x' itself, so that 'x' can be used as a key in a :class:`dict`/:class:`set`
-    
-        .. describe:: str(x)
-    
-            Equivalent to ``x.toString()``
-        
-    """
-    @staticmethod
-    def parse(raw: str) -> FixRaidenBoss2.core.CppVersion | None:
-        """
-        Parses a raw version string
-        
-        Parameters
-        ----------
-        raw: :class:`str`
-            The raw version string to parse
-        
-        Returns
-        -------
-        Optional[:class:`CppVersion`]
-            The parsed version, or ``None`` if 'raw' does not conform to `PEP 440`_ in any way
-        """
-    def __eq__(self, other: CppVersion) -> bool:
-        """
-        Determines whether 'self' and 'other' are the same version
-        """
-    def __ge__(self, other: CppVersion) -> bool:
-        ...
-    def __gt__(self, other: CppVersion) -> bool:
-        ...
-    def __hash__(self) -> int:
-        """
-        Retrieves a hash of this instance itself, so that it can be used as a key in a dict/set
-        """
-    def __le__(self, other: CppVersion) -> bool:
-        ...
-    def __lt__(self, other: CppVersion) -> bool:
-        ...
-    def __ne__(self, other: CppVersion) -> bool:
-        """
-        Determines whether 'self' and 'other' are different versions
-        """
-    def __repr__(self) -> str:
-        ...
-    def __str__(self) -> str:
-        ...
-    def toString(self) -> str:
-        """
-        Converts the version back into its normalized, round-trippable string form
-        
-        Returns
-        -------
-        :class:`str`
-            The string form of the version
-        """
-    @property
-    def base_version(self) -> str:
-        """
-        :class:`str`: The epoch and release segment only, with no pre/post/dev/local segment
-        """
-    @property
-    def dev(self) -> int | None:
-        """
-        Optional[:class:`int`]: The dev-release number, or ``None`` if there is none
-        """
-    @property
-    def epoch(self) -> int:
-        """
-        :class:`int`: The epoch of the version (``0`` if none was specified)
-        """
-    @property
-    def is_devrelease(self) -> bool:
-        """
-        :class:`bool`: Whether this is a dev-release
-        """
-    @property
-    def is_postrelease(self) -> bool:
-        """
-        :class:`bool`: Whether this is a post-release
-        """
-    @property
-    def is_prerelease(self) -> bool:
-        """
-        :class:`bool`: Whether this is a pre-release (has a pre-release or dev-release segment)
-        """
-    @property
-    def local(self) -> str | None:
-        """
-        Optional[:class:`str`]: The local version segment, dot-joined, or ``None`` if there is none
-        """
-    @property
-    def major(self) -> int:
-        """
-        :class:`int`: The first component of :attr:`release`, or ``0`` if unavailable
-        """
-    @property
-    def micro(self) -> int:
-        """
-        :class:`int`: The third component of :attr:`release`, or ``0`` if unavailable
-        """
-    @property
-    def minor(self) -> int:
-        """
-        :class:`int`: The second component of :attr:`release`, or ``0`` if unavailable
-        """
-    @property
-    def post(self) -> int | None:
-        """
-        Optional[:class:`int`]: The post-release number, or ``None`` if there is none
-        """
-    @property
-    def pre(self) -> tuple[str, int] | None:
-        """
-        Optional[Tuple[:class:`str`, :class:`int`]]: The pre-release segment (normalized letter and number), or ``None`` if there is none
-        """
-    @property
-    def public(self) -> str:
-        """
-        :class:`str`: :meth:`toString` without the local segment
-        """
-    @property
-    def release(self) -> list[int]:
-        """
-        Tuple[:class:`int`, ...]: The numeric components of the release segment, in order, including any
-        trailing zeros (e.g. ``CppVersion.parse("2.0.0").release == (2, 0, 0)``)
-        """
 class DFA(BaseDFA):
     """
     
@@ -6022,6 +5648,93 @@ class DFA(BaseDFA):
     @startId.setter
     def startId(self, arg1: typing.Any) -> None:
         ...
+class DownloadMode:
+    """
+    
+    The download mode of how the software handles file downloads
+    
+    .. tip::
+        A mode's name, as typed on the command line, is :meth:`DownloadModeTools.getName`;
+        :meth:`DownloadModeTools.findByName` goes the other way
+        
+    
+    Members:
+    
+      Disabled : Will not perform any file downloads for any mods
+    
+      Normal : Only perform file downloads at places in a .ini file where a resource is missing
+    
+      Always : Will always perform file downloads for every mod, if possible, using pessimistic assumptions
+    """
+    Always: typing.ClassVar[DownloadMode]  # value = <DownloadMode.Always: 2>
+    Disabled: typing.ClassVar[DownloadMode]  # value = <DownloadMode.Disabled: 0>
+    Normal: typing.ClassVar[DownloadMode]  # value = <DownloadMode.Normal: 1>
+    __members__: typing.ClassVar[dict[str, DownloadMode]]  # value = {'Disabled': <DownloadMode.Disabled: 0>, 'Normal': <DownloadMode.Normal: 1>, 'Always': <DownloadMode.Always: 2>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class DownloadModeTools:
+    """
+    
+    Tools for handling :class:`DownloadMode`
+        
+    """
+    @staticmethod
+    def findByName(name: str) -> FixRaidenBoss2.core.DownloadMode | None:
+        """
+        Finds the :class:`DownloadMode` a string names, ignoring case and surrounding whitespace
+        
+        .. note::
+            An **exact** match on the trimmed, lowercased text: ``"normally"`` names no mode
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The text to look the mode up by
+        
+        Returns
+        -------
+        Optional[:class:`DownloadMode`]
+            The mode 'name' names, if any
+        """
+    @staticmethod
+    def getName(value: DownloadMode) -> str:
+        """
+        Retrieves the name a user types for a :class:`DownloadMode`
+        
+        Parameters
+        ----------
+        value: :class:`DownloadMode`
+            The mode to retrieve the name for
+        
+        Returns
+        -------
+        :class:`str`
+            The name for 'value' (``"disabled"``, ``"normal"`` or ``"always"``)
+        """
 class FileDownload:
     """
     
@@ -6109,6 +5822,26 @@ class FileDownload:
     @url.setter
     def url(self, arg0: str) -> None:
         ...
+class FileExt:
+    """
+    
+    Different file extensions for files
+        
+    """
+    Buf: typing.ClassVar[str] = '.buf'
+    DDS: typing.ClassVar[str] = '.dds'
+    Ini: typing.ClassVar[str] = '.ini'
+    Txt: typing.ClassVar[str] = '.txt'
+class FilePrefixes:
+    """
+    
+    Prefixes this software puts on the files it renames
+        
+    """
+    BackupFilePrefix: typing.ClassVar[str] = 'RemapBKUP'
+    DisabledPrefix: typing.ClassVar[str] = 'disabled'
+    OldBackupFilePrefixV3: typing.ClassVar[str] = 'DISABLED_BossFixBackup_'
+    OldBackupFilePrefixV4_3: typing.ClassVar[str] = 'DISABLED_RemapBackup_'
 class FileStats:
     """
     
@@ -6317,6 +6050,33 @@ class FileStats:
     @visitedAtRemoval.setter
     def visitedAtRemoval(self, arg0: collections.abc.Set[str]) -> None:
         ...
+class FileTypes:
+    """
+    
+    Display names for the different types of files the software encounters :raw-html:`<br />`
+    :raw-html:`<br />`
+    
+    These are **prose**,
+    not matching patterns -- the only thing that reads them is a message being written for a
+    person (:meth:`RemapService.reportSummary` and friends), which is why ``"*.ini file"``
+    carries a ``*`` that no file name ever does. Anything deciding what a file *is* uses
+    :class:`FileExt`/:class:`FilePrefixes`/:class:`FileSuffixes` instead
+        
+    """
+    Blend: typing.ClassVar[str] = 'Blend.buf'
+    Default: typing.ClassVar[str] = 'file'
+    Ini: typing.ClassVar[str] = '*.ini file'
+    Log: typing.ClassVar[str] = 'RemapFixLog.txt'
+    Position: typing.ClassVar[str] = 'Position.buf'
+    RemapBlend: typing.ClassVar[str] = 'RemapBlend.buf'
+    RemapBuf: typing.ClassVar[str] = 'Remap*.buf'
+    RemapDownload: typing.ClassVar[str] = 'RemapDL download'
+    RemapOther: typing.ClassVar[str] = 'Remap file'
+    RemapPosition: typing.ClassVar[str] = 'RemapPosition.buf'
+    RemapTexcoord: typing.ClassVar[str] = 'RemapTexcoord.buf'
+    RemapTexture: typing.ClassVar[str] = 'RemapTex.dds'
+    Texcoord: typing.ClassVar[str] = 'Texcoord.buf'
+    Texture: typing.ClassVar[str] = '*.dds'
 class FilteredTokenizer(BaseTokenizer):
     """
     
@@ -9144,7 +8904,7 @@ class GIMISectionClassifier:
     
         **Default**: ``None``
     
-    version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+    version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
         The version of the .ini file. If ``None``, assumes the latest version :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
@@ -9182,7 +8942,7 @@ class GIMISectionClassifier:
         modType: :class:`ModType`
             The type of mod
         
-        version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
             The version of the .ini file. If ``None``, assumes the latest version :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
@@ -9294,7 +9054,7 @@ class GIMISectionClassifier:
     @property
     def version(self) -> typing.Any:
         """
-        Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]: The version of the .ini file
+        Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]: The version of the .ini file
         """
     @version.setter
     def version(self, arg0: typing.Any) -> None:
@@ -12134,6 +11894,93 @@ class IfPredPart(IfTemplatePart):
     @type.setter
     def type(self, arg1: typing.Any) -> None:
         ...
+class IfPredPartType:
+    """
+    
+    The possible types for an :class:`IfPredPart`
+        
+    
+    Members:
+    
+      If : The part starts with the keyword 'if'
+    
+      Else : The part starts with the keyword 'else'
+    
+      Elif : The part starts with the keyword 'elif', or with 'else if'
+    
+      EndIf : The part starts with the keyword 'endif'
+    """
+    Elif: typing.ClassVar[IfPredPartType]  # value = <IfPredPartType.Elif: 2>
+    Else: typing.ClassVar[IfPredPartType]  # value = <IfPredPartType.Else: 1>
+    EndIf: typing.ClassVar[IfPredPartType]  # value = <IfPredPartType.EndIf: 3>
+    If: typing.ClassVar[IfPredPartType]  # value = <IfPredPartType.If: 0>
+    __members__: typing.ClassVar[dict[str, IfPredPartType]]  # value = {'If': <IfPredPartType.If: 0>, 'Else': <IfPredPartType.Else: 1>, 'Elif': <IfPredPartType.Elif: 2>, 'EndIf': <IfPredPartType.EndIf: 3>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class IfPredPartTypeTools:
+    """
+    
+    Tools for handling :class:`IfPredPartType`
+        
+    """
+    @staticmethod
+    def getName(value: IfPredPartType) -> str:
+        """
+        Retrieves the keyword for an :class:`IfPredPartType`
+        
+        Parameters
+        ----------
+        value: :class:`IfPredPartType`
+            The type to retrieve the keyword for
+        
+        Returns
+        -------
+        :class:`str`
+            The keyword for 'value' (``"if"``, ``"else"``, ``"elif"`` or ``"endif"``)
+        """
+    @staticmethod
+    def getType(rawPredPart: str) -> FixRaidenBoss2.core.IfPredPartType | None:
+        """
+        Retrieves the type for an :class:`IfPredPart` from its raw predicate text
+        
+        .. note::
+            Matches by a case-insensitive *prefix* check, with no word boundary required after the keyword
+            (``"iffy ..."`` still reads as :attr:`IfPredPartType.If`)
+        
+        Parameters
+        ----------
+        rawPredPart: :class:`str`
+            The predicate string for the :class:`IfPredPart`
+        
+        Returns
+        -------
+        Optional[:class:`IfPredPartType`]
+            The type found based off 'rawPredPart'
+        """
 class IfPredTokenizer(FilteredTokenizer):
     """
     
@@ -13027,12 +12874,12 @@ class IniFile:
     
         **Default**: ``None``, meaning :attr:`DownloadMode.Normal`
     
-    fromVersion: Optional[:class:`CppVersion`]
+    fromVersion: Optional[:class:`Version`]
         The version of the mod being fixed :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
     
-    toVersion: Optional[:class:`CppVersion`]
+    toVersion: Optional[:class:`Version`]
         The version of the mod being fixed to :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
@@ -13074,7 +12921,7 @@ class IniFile:
         :class:`bool`
             Whether the line declares a `section`_
         """
-    def __init__(self, file: str | None = None, txt: str = '', gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, ModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
+    def __init__(self, file: str | None = None, txt: str = '', gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, ModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
         ...
     def classify(self) -> None:
         """
@@ -13395,12 +13242,11 @@ class IniFile:
     def defaultModTypeIds(self, arg1: typing.Any) -> None:
         ...
     @property
-    def downloadMode(self) -> str:
+    def downloadMode(self) -> typing.Any:
         """
-        :class:`str`: How the .ini file's referenced downloads are handled
+        :class:`DownloadMode`: How the .ini file's referenced downloads are handled
         
-        Reads back as the :class:`DownloadMode` string value (``"normal"``, ``"disabled"``, ``"always"``);
-        accepts either a :class:`DownloadMode` or its value when set
+        Accepts a :class:`DownloadMode`, or its name (``"normal"``, ``"disabled"``, ``"always"``), when set
         """
     @downloadMode.setter
     def downloadMode(self, arg1: typing.Any) -> None:
@@ -13451,11 +13297,11 @@ class IniFile:
             :attr:`IniFile.file` rather than stored
         """
     @property
-    def fromVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+    def fromVersion(self) -> FixRaidenBoss2.core.Version | None:
         """
-        Optional[:class:`CppVersion`]: The game version the .ini file originates from
+        Optional[:class:`Version`]: The game version the .ini file originates from
         
-        Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set
+        Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when set
         """
     @fromVersion.setter
     def fromVersion(self, arg1: typing.Any) -> None:
@@ -13490,11 +13336,11 @@ class IniFile:
     def logger(self, arg0: BaseLogger) -> None:
         ...
     @property
-    def toVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+    def toVersion(self) -> FixRaidenBoss2.core.Version | None:
         """
-        Optional[:class:`CppVersion`]: The game version to fix the .ini file to
+        Optional[:class:`Version`]: The game version to fix the .ini file to
         
-        Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set
+        Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when set
         """
     @toVersion.setter
     def toVersion(self, arg1: typing.Any) -> None:
@@ -13541,7 +13387,7 @@ class IniFixBuilder:
     @typing.overload
     def __init__(self, factory: typing.Any = None) -> None:
         ...
-    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniFixer:
+    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniFixer:
         """
         Builds the fixer for **one** target mod
         
@@ -13558,12 +13404,12 @@ class IniFixBuilder:
         toModName: :class:`str`
             The name of the mod being fixed **to**
         
-        fromVersion: Optional[:class:`CppVersion`]
+        fromVersion: Optional[:class:`Version`]
             The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
         
-        toVersion: Optional[:class:`CppVersion`]
+        toVersion: Optional[:class:`Version`]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
@@ -13573,7 +13419,7 @@ class IniFixBuilder:
         :class:`CppBaseIniFixer`
             The built fixer -- the very same object a Python factory returned, when one was given
         """
-    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModNames: collections.abc.Set[str] | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> list[tuple[str, CppBaseIniFixer]]:
+    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, filteredToModNames: collections.abc.Set[str] | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> list[tuple[str, CppBaseIniFixer]]:
         """
         Builds one fixer per mod 'fromModName' can be fixed onto
         
@@ -13585,12 +13431,12 @@ class IniFixBuilder:
         fromModName: :class:`str`
             The name of the mod being fixed **from**
         
-        fromVersion: Optional[:class:`CppVersion`]
+        fromVersion: Optional[:class:`Version`]
             The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
         
-        toVersion: Optional[:class:`CppVersion`]
+        toVersion: Optional[:class:`Version`]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
@@ -13860,6 +13706,65 @@ class IniGraphGroup:
     @graphs.setter
     def graphs(self, arg0: dict) -> None:
         ...
+class IniGraphModObjKeywords:
+    """
+    
+    Keywords used as the *component* half of a :class:`IniGraphGroup.ModObj` for graphs that
+    don't belong to a real mod object :raw-html:`<br />` :raw-html:`<br />`
+    
+    A :class:`IniGraphGroup` is keyed by ``(component, mod object)``, which works for the
+    graphs that really are one mod object's ``TextureOverride`` command chain. The group a parser
+    hands back also carries graphs that aren't -- the synthesized download-resource `sections`_ --
+    and those get a reserved component name instead, so they can never collide with a real
+    ``(component, object)`` pair from the ``.ini`` file.
+        
+    """
+    Download: typing.ClassVar[str] = 'download'
+class IniGraphReplaceMode:
+    """
+    
+    Different replacement modes if the :class:`IniSectionGraph` already exists when :class:`BaseResEdit`
+    builds the corresponding graph
+        
+    
+    Members:
+    
+      Ignore : Use the previous existing graph and don't build a new graph
+    
+      Replace : Replaces the existing graph with a newly built graph
+    
+      Combine : Build a new graph and combine the new graph with the existing graph
+    """
+    Combine: typing.ClassVar[IniGraphReplaceMode]  # value = <IniGraphReplaceMode.Combine: 2>
+    Ignore: typing.ClassVar[IniGraphReplaceMode]  # value = <IniGraphReplaceMode.Ignore: 0>
+    Replace: typing.ClassVar[IniGraphReplaceMode]  # value = <IniGraphReplaceMode.Replace: 1>
+    __members__: typing.ClassVar[dict[str, IniGraphReplaceMode]]  # value = {'Ignore': <IniGraphReplaceMode.Ignore: 0>, 'Replace': <IniGraphReplaceMode.Replace: 1>, 'Combine': <IniGraphReplaceMode.Combine: 2>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
 class IniGroupedResource:
     """
     
@@ -13986,6 +13891,193 @@ class IniGroupedResource:
     @resources.setter
     def resources(self, arg0: dict) -> None:
         ...
+class IniKeywords:
+    """
+    
+    Common keywords used in the .ini file :raw-html:`<br />` :raw-html:`<br />`
+    
+    Bound to `Python`_ as ``IniKeywords``, each member a plain string. Add a member when a caller on
+    either side needs a keyword, rather than spelling the literal out where it is used
+        
+    """
+    Array: typing.ClassVar[str] = 'array'
+    Blend: typing.ClassVar[str] = 'Blend'
+    CommandList: typing.ClassVar[str] = 'CommandList'
+    Draw: typing.ClassVar[str] = 'draw'
+    DrawIndexed: typing.ClassVar[str] = 'drawindexed'
+    Filename: typing.ClassVar[str] = 'filename'
+    FilterIndex: typing.ClassVar[str] = 'filter_index'
+    Format: typing.ClassVar[str] = 'format'
+    GIMIDiffuse: typing.ClassVar[str] = 'Resource\\GIMI\\Diffuse'
+    GIMILightMap: typing.ClassVar[str] = 'Resource\\GIMI\\LightMap'
+    GIMINormalMap: typing.ClassVar[str] = 'Resource\\GIMI\\NormalMap'
+    GIMISetTexturesPath: typing.ClassVar[str] = 'CommandList\\GIMI\\SetTextures'
+    Handling: typing.ClassVar[str] = 'handling'
+    Hash: typing.ClassVar[str] = 'hash'
+    HashNotFound: typing.ClassVar[str] = 'HashNotFound'
+    HideOriginalComment: typing.ClassVar[str] = ';RemapFixHideOrig -->'
+    Ib: typing.ClassVar[str] = 'ib'
+    IndexNotFound: typing.ClassVar[str] = 'IndexNotFound'
+    MatchFirstIndex: typing.ClassVar[str] = 'match_first_index'
+    MatchIndexCount: typing.ClassVar[str] = 'match_index_count'
+    MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_type', 'match_priority', 'match_first_index', 'hash', 'match_vertex_count'}
+    MatchPriority: typing.ClassVar[str] = 'match_priority'
+    MatchType: typing.ClassVar[str] = 'match_type'
+    MatchVertexCount: typing.ClassVar[str] = 'match_vertex_count'
+    NNFixPath: typing.ClassVar[str] = 'CommandList\\global\\ORFix\\NNFix'
+    Null: typing.ClassVar[str] = 'null'
+    ORFixPath: typing.ClassVar[str] = 'CommandList\\global\\ORFix\\ORFix'
+    Position: typing.ClassVar[str] = 'Position'
+    PsT69: typing.ClassVar[str] = 'ps-t69'
+    PsT70: typing.ClassVar[str] = 'ps-t70'
+    Ref: typing.ClassVar[str] = 'ref'
+    Remap: typing.ClassVar[str] = 'Remap'
+    RemapDL: typing.ClassVar[str] = 'RemapDL'
+    RemapFix: typing.ClassVar[str] = 'RemapFix'
+    RemapRef: typing.ClassVar[str] = 'RemapRef'
+    RemapTex: typing.ClassVar[str] = 'RemapTex'
+    Resource: typing.ClassVar[str] = 'Resource'
+    Run: typing.ClassVar[str] = 'run'
+    ShaderOverride: typing.ClassVar[str] = 'ShaderOverride'
+    Stride: typing.ClassVar[str] = 'stride'
+    TexFxFolder: typing.ClassVar[str] = 'CommandList\\TexFx'
+    TexFxTransparency0: typing.ClassVar[str] = 'CommandList\\TexFx\\TN.0'
+    TexFxTransparency0Pre5_0: typing.ClassVar[str] = 'CommandList\\TexFx\\T.0'
+    TexFxTransparency1: typing.ClassVar[str] = 'CommandList\\TexFx\\TN.1'
+    TexFxTransparency1Pre5_0: typing.ClassVar[str] = 'CommandList\\TexFx\\T.1'
+    Texcoord: typing.ClassVar[str] = 'Texcoord'
+    TextureOverride: typing.ClassVar[str] = 'TextureOverride'
+    This: typing.ClassVar[str] = 'this'
+    Type: typing.ClassVar[str] = 'type'
+    Vb0: typing.ClassVar[str] = 'vb0'
+    Vb1: typing.ClassVar[str] = 'vb1'
+class IniNamingTools:
+    """
+    
+    The naming conventions a fix follows -- the ones every compiled fix uses
+    
+    Every method is static.
+        
+    """
+    @staticmethod
+    def getFixedBlendFile(blendFile: str, modName: str = '') -> str:
+        """
+        The name of the fixed ``Blend.buf`` file
+        """
+    @staticmethod
+    def getFixedElementFile(file: str, elementName: str, modName: str = '', fileExt: str | None = None) -> str:
+        """
+        The name of the fixed file for some element file
+        """
+    @staticmethod
+    def getFixedFile(file: str, modName: str = '', fileExt: str | None = None) -> str:
+        """
+        The name of the fixed file for some file
+        """
+    @staticmethod
+    def getFixedPositionFile(positionFile: str, modName: str = '') -> str:
+        """
+        The name of the fixed ``Position.buf`` file
+        """
+    @staticmethod
+    def getFixedTexFile(texFile: str, modName: str = '') -> str:
+        """
+        The name of the fixed texture file
+        """
+    @staticmethod
+    def getModSuffixedName(name: str, suffix: str = '', modName: str = '') -> str:
+        """
+        Appends ``modName + suffix`` to 'name', replacing a trailing 'suffix' it already carries
+        
+        .. note::
+            This is the method the pure-Python :class:`IniNamingTools` gets wrong -- see this class's own
+            warning
+        """
+    @staticmethod
+    def getObjRemapFixName(name: str, modName: str, objName: typing.Any, newObjName: typing.Any) -> str:
+        """
+        The remapped name for a `section`_ whose mod object is being swapped for another
+        """
+    @staticmethod
+    def getRemapBlendName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Blend.buf`` `section`_
+        """
+    @staticmethod
+    def getRemapBlendResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Blend.buf`` resource `section`_
+        """
+    @staticmethod
+    def getRemapDLName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some downloaded resource `section`_
+        """
+    @staticmethod
+    def getRemapDLResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some downloaded resource `section`_
+        """
+    @staticmethod
+    def getRemapElementName(name: str, elementName: str, modName: str = '') -> str:
+        """
+        The remapped name for some element (Blend/Position/Texcoord/IB) `section`_
+        """
+    @staticmethod
+    def getRemapFixName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some fixed `section`_
+        """
+    @staticmethod
+    def getRemapFixResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some fixed resource `section`_
+        """
+    @staticmethod
+    def getRemapIbName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``.ib`` `section`_
+        """
+    @staticmethod
+    def getRemapPositionName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Position.buf`` `section`_
+        """
+    @staticmethod
+    def getRemapPositionResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Position.buf`` resource `section`_
+        """
+    @staticmethod
+    def getRemapTexName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some texture `section`_
+        """
+    @staticmethod
+    def getRemapTexResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some texture resource `section`_
+        """
+    @staticmethod
+    def getRemapTexcoordName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Texcoord.buf`` `section`_
+        """
+    @staticmethod
+    def getResourceName(name: str) -> str:
+        """
+        Retrieves the name of the resource `section`_ for some `section`_ name
+        """
+    @staticmethod
+    def getTextureOverrideRemapFix(component: str, obj: str, modName: str = '') -> str:
+        """
+        The name of the ``TextureOverride`` `section`_ a fix invents for some mod object
+        """
+    @staticmethod
+    def removeResourceName(name: str) -> str:
+        """
+        Removes the resource prefix from some `section`_ name
+        """
 class IniParseBuilder:
     """
     
@@ -14025,7 +14117,7 @@ class IniParseBuilder:
     @typing.overload
     def __init__(self, factory: typing.Any = None) -> None:
         ...
-    def build(self, iniFile: IniFile, modName: str, version: FixRaidenBoss2.core.CppVersion | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniParser:
+    def build(self, iniFile: IniFile, modName: str, version: FixRaidenBoss2.core.Version | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniParser:
         """
         Builds the parser for one .ini file
         
@@ -14039,7 +14131,7 @@ class IniParseBuilder:
         
             Ignored entirely by a fixed-factory builder
         
-        version: Optional[:class:`CppVersion`]
+        version: Optional[:class:`Version`]
             The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning the latest listed version
@@ -14148,7 +14240,7 @@ class IniRemoveBuilder:
     @typing.overload
     def __init__(self, factory: typing.Any = None) -> None:
         ...
-    def build(self, iniFile: IniFile, modName: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniRemover:
+    def build(self, iniFile: IniFile, modName: str = '', version: FixRaidenBoss2.core.Version | None = None) -> CppBaseIniRemover:
         """
         Builds the remover for one .ini file
         
@@ -14164,7 +14256,7 @@ class IniRemoveBuilder:
         
             **Default**: ``""``
         
-        version: Optional[:class:`CppVersion`]
+        version: Optional[:class:`Version`]
             The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning the latest listed version
@@ -14645,6 +14737,94 @@ class InnerLayerOutline:
     @reach.setter
     def reach(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
+class IntTools:
+    """
+    Tools for handling integers
+    """
+    @staticmethod
+    def toBase(num: typing.SupportsInt | typing.SupportsIndex, base: typing.SupportsInt | typing.SupportsIndex) -> tuple[list[int], bool]:
+        """
+                                Converts a base 10 number to an arbitrary base number
+        
+                                Parameters
+                                ----------
+                                num: :class:`int`
+                                    The base 10 number to convert
+        
+                                base: :class:`int`
+                                    The base to convert to
+        
+                                Raises
+                                ------
+                                :class:`TypeError`
+                                    The base is smaller or equal to 1
+        
+                                Returns
+                                -------
+                                Tuple[List[:class:`int`], :class:`bool`]
+                                    Retrieves the following data in the tuple:
+        
+                                    #. The digits in the converted number
+                                    #. Whether the number is negative
+        """
+    @staticmethod
+    def toBase64(num: typing.SupportsInt | typing.SupportsIndex, getDigit: collections.abc.Sequence[str] | None = None, negativeChar: str = '-') -> str:
+        """
+        Converts a base 10 number to a base 64 number
+        
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
+        
+        getDigit: List[:class:`str`]
+            how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
+        
+            * If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
+            * If this argument is ``None``, then will use the following string for each digit:
+        
+            ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
+        
+            This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        negativeChar: :class:`str`
+            The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``"-"``
+        
+        Returns
+        -------
+        :class:`str`
+            The converted string representation of the arbitrary base 64 number
+        """
+    @staticmethod
+    def toStrBase(num: typing.SupportsInt | typing.SupportsIndex, base: typing.SupportsInt | typing.SupportsIndex, getDigit: collections.abc.Sequence[str], negativeChar: str) -> str:
+        """
+        Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
+        are all characters
+        
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
+        
+        base: :class:`int`
+            The base to convert to
+        
+        getDigit: List[:class:`str`]
+            The string representations of each digit. Each element is the string representation
+            of the digit at the particular index of the list.
+        
+        negativeChar: :class:`str`
+            The character representation for the negative symbol
+        
+        Returns
+        -------
+        :class:`str`
+            The converted string representation of the arbitrary base number
+        """
 class KeyRemapData:
     """
     
@@ -14977,7 +15157,7 @@ class ModDictAssets:
             The values of every index column that does not refer to a version, in index order (with the
             version column's position skipped)
         
-        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The specific version to query the asset -- the latest available version is used if this is
             ``None`` :raw-html:`<br />` :raw-html:`<br />`
         
@@ -15125,7 +15305,7 @@ class ModMappedAssets:
         asset: Any
             The asset value to search for
         
-        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The version to search from -- see :meth:`hasFrom`
         
             **Default**: ``None``
@@ -15161,7 +15341,7 @@ class ModMappedAssets:
         asset: Any
             The asset to search for
         
-        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The version to search from -- the latest available version is used if this is ``None``
         
             **Default**: ``None``
@@ -15184,7 +15364,7 @@ class ModMappedAssets:
         asset: Any
             The asset to be replaced
         
-        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The version to replace from -- see :meth:`getKey`
         
             **Default**: ``None``
@@ -15194,7 +15374,7 @@ class ModMappedAssets:
         
             **Default**: ``None``
         
-        toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The version to replace to -- the latest available version is used if this is ``None``
         
             **Default**: ``None``
@@ -15223,7 +15403,7 @@ class ModMappedAssets:
         asset: Any
             The asset to be replaced
         
-        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The version to replace from -- see :meth:`getKey`
         
             **Default**: ``None``
@@ -15233,7 +15413,7 @@ class ModMappedAssets:
         
             **Default**: ``None``
         
-        toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+        toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
             The version to replace to -- the latest available version is used if this is ``None``
         
             **Default**: ``None``
@@ -15342,7 +15522,7 @@ class ModType:
         
             **Default**: ``False``
         """
-    def getHashRanges(self, partColours: IfContentPartColouring, version: FixRaidenBoss2.core.CppVersion | None = None, nonVersionVals: typing.Any = None) -> Ranges:
+    def getHashRanges(self, partColours: IfContentPartColouring, version: FixRaidenBoss2.core.Version | None = None, nonVersionVals: typing.Any = None) -> Ranges:
         """
         Retrieves the valid ranges of order indices within an :class:`IfContentPart` whose ``hash`` values
         belong to this mod type
@@ -15352,7 +15532,7 @@ class ModType:
         partColours: :class:`IfContentPartColouring`
             The current states of the :class:`IfContentPart`
         
-        version: Optional[:class:`CppVersion`]
+        version: Optional[:class:`Version`]
             The version the hashes should come from :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning any
@@ -15377,7 +15557,7 @@ class ModType:
         :class:`str`
             The help text
         """
-    def getIndexCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+    def getIndexCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.Version | None = None) -> str | None:
         """
         Retrieves the ``match_index_count`` of one of this mod's draw slots (WuWa)
         
@@ -15396,7 +15576,7 @@ class ModType:
         
             **Default**: ``""``
         
-        version: Optional[:class:`CppVersion`]
+        version: Optional[:class:`Version`]
             The game version wanted :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning the latest
@@ -15416,19 +15596,19 @@ class ModType:
         Set[:class:`str`]
             The names of the mods to fix to
         """
-    def getShapeKeyChecksum(self, type: str = 'shapekeys', component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+    def getShapeKeyChecksum(self, type: str = 'shapekeys', component: str = '', version: FixRaidenBoss2.core.Version | None = None) -> str | None:
         """
         Retrieves the shape-key ``checksum`` of this mod (WuWa) -- see :meth:`getIndexCount`; ``type`` is ``shapekeys`` on every shipped row
         """
-    def getVGCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+    def getVGCount(self, type: str, component: str = '', version: FixRaidenBoss2.core.Version | None = None) -> str | None:
         """
         Retrieves the ``vg_count`` of one of this mod's draw slots (WuWa) -- see :meth:`getIndexCount`
         """
-    def getVGOffset(self, type: str, component: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> str | None:
+    def getVGOffset(self, type: str, component: str = '', version: FixRaidenBoss2.core.Version | None = None) -> str | None:
         """
         Retrieves the ``vg_offset`` of one of this mod's draw slots (WuWa) -- see :meth:`getIndexCount`
         """
-    def getVGRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, fromComp: str | None = None, toComp: str | None = None) -> FixRaidenBoss2.core.VGRemap | None:
+    def getVGRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, fromComp: str | None = None, toComp: str | None = None) -> FixRaidenBoss2.core.VGRemap | None:
         """
         Retrieves the vertex group remap for fixing this mod type onto another
         
@@ -15437,12 +15617,12 @@ class ModType:
         modName: :class:`str`
             The name of the mod being fixed onto
         
-        fromVersion: Optional[:class:`CppVersion`]
+        fromVersion: Optional[:class:`Version`]
             The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning the latest
         
-        toVersion: Optional[:class:`CppVersion`]
+        toVersion: Optional[:class:`Version`]
             The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning the latest
@@ -15464,13 +15644,13 @@ class ModType:
         Optional[:class:`VGRemap`]
             The remap, or ``None`` if the table has no matching row
         """
-    def getVertexCount(self, version: FixRaidenBoss2.core.CppVersion | None = None) -> int | None:
+    def getVertexCount(self, version: FixRaidenBoss2.core.Version | None = None) -> int | None:
         """
         Retrieves the number of vertices for this mod
         
         Parameters
         ----------
-        version: Optional[:class:`CppVersion`]
+        version: Optional[:class:`Version`]
             The game version wanted :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``, meaning the latest
@@ -15642,7 +15822,8 @@ class ModTypeId:
     
     The names of the different types of mods this fix will fix from or fix to
     
-    Has the same keys as the :class:`ModTypeNames` enum
+    .. tip::
+        A mod type's name is :meth:`ModTypeIdTools.getName`
         
     
     Members:
@@ -19189,6 +19370,55 @@ class RegFillMissing(BaseIniGraphEdit):
     @trackKeys.setter
     def trackKeys(self, arg1: bool) -> None:
         ...
+class RegFillMissingMode:
+    """
+    
+    Different modes for handling :class:`IfContentPart`\\s with missing registers
+    
+    .. note::
+        :attr:`BottomCover` is the mode for a draw call. :attr:`FillMissing` fills the FIRST content part
+        of a section that lacks the register, which is the wrong end once something (a
+        :class:`ResGroupCollect` splicing a collected register into an ``if`` block) has split the section
+        
+    
+    Members:
+    
+      FillMissing : Finds every part missing the register and fills that part with it
+    
+      TopdownCover : If any part of the graph misses the register, adds it at the top of each root of the graph
+    
+      BottomCover : Like TopdownCover, but adds the register at the bottom of each root, after everything the root sets up
+    """
+    BottomCover: typing.ClassVar[RegFillMissingMode]  # value = <RegFillMissingMode.BottomCover: 2>
+    FillMissing: typing.ClassVar[RegFillMissingMode]  # value = <RegFillMissingMode.FillMissing: 0>
+    TopdownCover: typing.ClassVar[RegFillMissingMode]  # value = <RegFillMissingMode.TopdownCover: 1>
+    __members__: typing.ClassVar[dict[str, RegFillMissingMode]]  # value = {'FillMissing': <RegFillMissingMode.FillMissing: 0>, 'TopdownCover': <RegFillMissingMode.TopdownCover: 1>, 'BottomCover': <RegFillMissingMode.BottomCover: 2>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
 class RegNewVals(BaseRegEdit):
     """
     
@@ -20513,10 +20743,10 @@ class RemapService:
     handleExceptions: :class:`bool`
         Whether to stop the fix quietly when an exception is caught, rather than raising
     
-    fromVersion: Optional[:class:`CppVersion`]
+    fromVersion: Optional[:class:`Version`]
         The game version the parsed .ini files originate from -- picks the PARSER
     
-    toVersion: Optional[:class:`CppVersion`]
+    toVersion: Optional[:class:`Version`]
         The game version the .ini files are fixed to -- picks the FIXER. This is what ``--version``
         means on the command line
     
@@ -20540,7 +20770,7 @@ class RemapService:
         Where the fix reports progress. ``None`` means nowhere
         
     """
-    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, compressTextures: bool = False, logger: BaseLogger = None) -> None:
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.Version | None = None, toVersion: FixRaidenBoss2.core.Version | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, compressTextures: bool = False, logger: BaseLogger = None) -> None:
         ...
     def clear(self, clearLog: bool = True) -> None:
         """
@@ -20590,12 +20820,11 @@ class RemapService:
     def defaultModTypeIds(self, arg1: typing.Any) -> None:
         ...
     @property
-    def downloadMode(self) -> str:
+    def downloadMode(self) -> typing.Any:
         """
         :class:`DownloadMode`: How file downloads are handled
         
-        Reads back as the :class:`DownloadMode` string value; accepts either a :class:`DownloadMode` or its
-        value when set
+        Accepts a :class:`DownloadMode`, or its name (``"normal"``, ``"disabled"``, ``"always"``), when set
         """
     @downloadMode.setter
     def downloadMode(self, arg1: typing.Any) -> None:
@@ -20627,14 +20856,14 @@ class RemapService:
     def fromModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
         ...
     @property
-    def fromVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+    def fromVersion(self) -> FixRaidenBoss2.core.Version | None:
         """
-        Optional[:class:`CppVersion`]: The game version the parsed .ini files originate from
+        Optional[:class:`Version`]: The game version the parsed .ini files originate from
         
         Picks the parser, and the hashes/indices the mod is read with
         """
     @fromVersion.setter
-    def fromVersion(self, arg0: FixRaidenBoss2.core.CppVersion | None) -> None:
+    def fromVersion(self, arg0: FixRaidenBoss2.core.Version | None) -> None:
         ...
     @property
     def gameTypeIds(self) -> set[int] | None:
@@ -20729,16 +20958,16 @@ class RemapService:
     def toModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
         ...
     @property
-    def toVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+    def toVersion(self) -> FixRaidenBoss2.core.Version | None:
         """
-        Optional[:class:`CppVersion`]: The game version the .ini files are being fixed to
+        Optional[:class:`Version`]: The game version the .ini files are being fixed to
         
         Picks the fixer: the fix table is keyed ``{fromVersion, fromMod, toVersion, toMod}`` and every
         shipped row is keyed from ``1.0``, so this half alone selects it. It is what ``--version`` means
         on the command line
         """
     @toVersion.setter
-    def toVersion(self, arg0: FixRaidenBoss2.core.CppVersion | None) -> None:
+    def toVersion(self, arg0: FixRaidenBoss2.core.Version | None) -> None:
         ...
     @property
     def undoOnly(self) -> bool:
@@ -22725,7 +22954,7 @@ class SideMeshes:
         
     """
     @staticmethod
-    def build(fileTxt: str, hashes: Hashes, srcName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None, types: collections.abc.Sequence[str], targetName: str, toVersion: FixRaidenBoss2.core.CppVersion | None) -> str:
+    def build(fileTxt: str, hashes: Hashes, srcName: str, fromVersion: FixRaidenBoss2.core.Version | None, types: collections.abc.Sequence[str], targetName: str, toVersion: FixRaidenBoss2.core.Version | None) -> str:
         """
         The re-issued sections: each section of ``fileTxt`` whose ``hash`` is one of the SOURCE's side meshes of a type in
         ``types``, its body copied and its ``hash`` replaced by the TARGET's of the same type, renamed with the target's
@@ -22742,7 +22971,7 @@ class SideMeshes:
         srcName: :class:`str`
             The source's mod type name
         
-        fromVersion: Optional[:class:`CppVersion`]
+        fromVersion: Optional[:class:`Version`]
             The version the mod is written for, ``None`` for the latest
         
         types: List[:class:`str`]
@@ -22751,7 +22980,7 @@ class SideMeshes:
         targetName: :class:`str`
             The name the target's side-mesh rows are filed under
         
-        toVersion: Optional[:class:`CppVersion`]
+        toVersion: Optional[:class:`Version`]
             The version the fix is for, ``None`` for the latest
         
         Returns
@@ -24950,6 +25179,322 @@ class VbFile(CppBufFile):
         :class:`BadBufData`
             If the parsed bytes do not divide evenly into vertex lines
         """
+class Version:
+    """
+    
+    A single `PEP 440`_ version value -- a C++ implementation of Python's `packaging.version.Version`_,
+    matching its parsing/normalization/comparison behaviour exactly
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x == y
+    
+            Determines whether 'x' and 'y' are the same version
+    
+        .. describe:: x != y
+    
+            Determines whether 'x' and 'y' are different versions
+    
+        .. describe:: x < y, x <= y, x > y, x >= y
+    
+            Compares two versions following `PEP 440`_'s ordering rules
+    
+        .. describe:: hash(x)
+    
+            Retrieves a hash of 'x' itself, so that 'x' can be used as a key in a :class:`dict`/:class:`set`
+    
+        .. describe:: str(x)
+    
+            Equivalent to ``x.toString()``
+        
+    """
+    @staticmethod
+    def parse(raw: str) -> FixRaidenBoss2.core.Version | None:
+        """
+        Parses a raw version string
+        
+        Parameters
+        ----------
+        raw: :class:`str`
+            The raw version string to parse
+        
+        Returns
+        -------
+        Optional[:class:`Version`]
+            The parsed version, or ``None`` if 'raw' does not conform to `PEP 440`_ in any way
+        """
+    def __eq__(self, other: Version) -> bool:
+        """
+        Determines whether 'self' and 'other' are the same version
+        """
+    def __ge__(self, other: Version) -> bool:
+        ...
+    def __gt__(self, other: Version) -> bool:
+        ...
+    def __hash__(self) -> int:
+        """
+        Retrieves a hash of this instance itself, so that it can be used as a key in a dict/set
+        """
+    def __le__(self, other: Version) -> bool:
+        ...
+    def __lt__(self, other: Version) -> bool:
+        ...
+    def __ne__(self, other: Version) -> bool:
+        """
+        Determines whether 'self' and 'other' are different versions
+        """
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def toString(self) -> str:
+        """
+        Converts the version back into its normalized, round-trippable string form
+        
+        Returns
+        -------
+        :class:`str`
+            The string form of the version
+        """
+    @property
+    def base_version(self) -> str:
+        """
+        :class:`str`: The epoch and release segment only, with no pre/post/dev/local segment
+        """
+    @property
+    def dev(self) -> int | None:
+        """
+        Optional[:class:`int`]: The dev-release number, or ``None`` if there is none
+        """
+    @property
+    def epoch(self) -> int:
+        """
+        :class:`int`: The epoch of the version (``0`` if none was specified)
+        """
+    @property
+    def is_devrelease(self) -> bool:
+        """
+        :class:`bool`: Whether this is a dev-release
+        """
+    @property
+    def is_postrelease(self) -> bool:
+        """
+        :class:`bool`: Whether this is a post-release
+        """
+    @property
+    def is_prerelease(self) -> bool:
+        """
+        :class:`bool`: Whether this is a pre-release (has a pre-release or dev-release segment)
+        """
+    @property
+    def local(self) -> str | None:
+        """
+        Optional[:class:`str`]: The local version segment, dot-joined, or ``None`` if there is none
+        """
+    @property
+    def major(self) -> int:
+        """
+        :class:`int`: The first component of :attr:`release`, or ``0`` if unavailable
+        """
+    @property
+    def micro(self) -> int:
+        """
+        :class:`int`: The third component of :attr:`release`, or ``0`` if unavailable
+        """
+    @property
+    def minor(self) -> int:
+        """
+        :class:`int`: The second component of :attr:`release`, or ``0`` if unavailable
+        """
+    @property
+    def post(self) -> int | None:
+        """
+        Optional[:class:`int`]: The post-release number, or ``None`` if there is none
+        """
+    @property
+    def pre(self) -> tuple[str, int] | None:
+        """
+        Optional[Tuple[:class:`str`, :class:`int`]]: The pre-release segment (normalized letter and number), or ``None`` if there is none
+        """
+    @property
+    def public(self) -> str:
+        """
+        :class:`str`: :meth:`toString` without the local segment
+        """
+    @property
+    def release(self) -> list[int]:
+        """
+        Tuple[:class:`int`, ...]: The numeric components of the release segment, in order, including any
+        trailing zeros (e.g. ``Version.parse("2.0.0").release == (2, 0, 0)``)
+        """
+class VersionSet:
+    """
+    
+    A set of available :class:`Version`\\s, for finding the closest available version to some queried
+    version
+    
+    Wherever a version is taken, a :class:`str`, :class:`int` or :class:`float` naming one is accepted too
+    
+    Parameters
+    ----------
+    versions: Optional[List[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]]
+        The versions available :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def compareVersions(version1: Version, version2: Version) -> int:
+        """
+        Compares two versions
+        
+        Parameters
+        ----------
+        version1: :class:`Version`
+            The first version to compare
+        
+        version2: :class:`Version`
+            The second version to compare
+        
+        Returns
+        -------
+        :class:`int`
+            A negative number if 'version1' is less than 'version2', a positive number if 'version1' is
+            greater than 'version2', and zero if they are equal
+        """
+    @staticmethod
+    def findClosestFromList(versions: collections.abc.Iterable, version: typing.Any) -> FixRaidenBoss2.core.Version | None:
+        """
+        Finds the latest version in an unsorted list of versions that is not greater than 'version'
+        
+        .. note::
+            Unlike :meth:`findClosestFromSortedList`, there is no fallback to the smallest version: if
+            every version in 'versions' is greater than 'version', there is no answer
+        
+        Parameters
+        ----------
+        versions: List[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+            The list of versions to search
+        
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+            The version to be searched :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will assume we want the latest version
+        
+        Returns
+        -------
+        Optional[:class:`Version`]
+            The version found, or ``None`` if there is none
+        """
+    @staticmethod
+    def findClosestFromSortedList(versions: collections.abc.Iterable, version: typing.Any) -> FixRaidenBoss2.core.Version | None:
+        """
+        Finds the closest version available from a sorted list of versions, by the same rule as
+        :meth:`findClosest`
+        
+        Parameters
+        ----------
+        versions: List[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+            The list of versions to search, sorted in ascending order
+        
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+            The version to be searched :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will assume we want the latest version
+        
+        Returns
+        -------
+        Optional[:class:`Version`]
+            The closest version available, or ``None`` if 'versions' is empty
+        """
+    @staticmethod
+    def getVersion(rawVersion: typing.Any) -> FixRaidenBoss2.core.Version | None:
+        """
+        Retrieves the version an argument names
+        
+        Parameters
+        ----------
+        rawVersion: Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]
+            The version to translate
+        
+        Returns
+        -------
+        Optional[:class:`Version`]
+            The corresponding version, or ``None`` if 'rawVersion' names no valid version
+        """
+    def __init__(self, versions: typing.Any = None) -> None:
+        ...
+    def add(self, newVersion: typing.Any) -> None:
+        """
+        Adds a new version
+        
+        .. note::
+            A 'newVersion' that names no valid version is ignored, rather than raising
+        
+        .. warning::
+            Does **not** invalidate the closest-version cache :meth:`findClosest` keeps, so a query cached
+            before this call may still answer with a version that is no longer the closest. Call
+            :meth:`clear` first, or pass ``fromCache = False``, when that matters
+        
+        Parameters
+        ----------
+        newVersion: Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]
+            The new version to add
+        """
+    def clear(self) -> None:
+        """
+        Clears all the version data, including the closest-version cache
+        """
+    def findClosest(self, version: typing.Any = None, fromCache: bool = True) -> FixRaidenBoss2.core.Version | None:
+        """
+        Finds the closest version available: the largest available version that is not greater than
+        'version', or the smallest available version if every one of them is
+        
+        Parameters
+        ----------
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
+            The version to be searched :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        fromCache: :class:`bool`
+            Whether to use (and fill) the cache of earlier answers :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        Raises
+        ------
+        ValueError
+            If 'version' names no valid version
+        
+        Returns
+        -------
+        Optional[:class:`Version`]
+            The closest version available, or ``None`` if there are no versions available
+        """
+    @property
+    def latestVersion(self) -> FixRaidenBoss2.core.Version | None:
+        """
+        Optional[:class:`Version`]: The latest version available, or ``None`` if there is none
+        """
+    @property
+    def versions(self) -> list[Version]:
+        """
+        The available versions
+        
+        :getter: The versions in sorted ascending order, without duplicates
+        :setter: Replaces every version, and clears the closest-version cache
+        :type: List[:class:`Version`]
+        """
+    @versions.setter
+    def versions(self, arg1: collections.abc.Iterable) -> None:
+        ...
 class VertexCounts:
     """
     

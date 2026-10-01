@@ -18,6 +18,8 @@
 
 #include <pybind11/stl.h>
 
+#include "AGRemapCore/constants/FileSuffixes.h"
+
 #include "graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
 #include "../PyStrategyFactory.h"  // resolveStrategyModType
 #include "../../PyIniGraphGroup.h"
@@ -50,14 +52,6 @@ py::module_ pyPackageModule() {
 }
 
 
-std::string remapFixCopySuffix() {
-    static std::string *slot = nullptr;
-    if (slot == nullptr) {
-        slot = new std::string(py::str(pyPackageModule().attr("FileSuffixes").attr("RemapFixCopy").attr("value")).cast<std::string>());
-    }
-
-    return *slot;
-}
 
 
 std::string iniFileEncoding() {
@@ -199,7 +193,7 @@ std::optional<std::string> PyIniFixContext::fixedFilePath(std::size_t groupInd) 
     // the pure-Python original deep-copies once up front and mutates that copy as it walks.
     py::object copied = py::module_::import("copy").attr("deepcopy")(filePath);
     std::string baseName = py::str(filePath.attr("baseName")).cast<std::string>();
-    copied.attr("baseName") = py::str(baseName + remapFixCopySuffix() + std::to_string(groupInd));
+    copied.attr("baseName") = py::str(baseName + AGRC::FileSuffixes::RemapFixCopy + std::to_string(groupInd));
 
     return py::str(copied.attr("path")).cast<std::string>();
 }

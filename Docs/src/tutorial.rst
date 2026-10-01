@@ -15,9 +15,9 @@ Tutorial
 **Choose your pick of which way to run the script:**
 
 
-  a. :ref:`Choice A: Quickstart! 🟢             (for beginners)<Choice A: Quickstart 🟢>`
-  b. :ref:`Choice B: CMD WITHOUT a Script 🟡    (recommended if you run by CMD)<Choice B: Run on CMD Without a Script 🟡>`
-  c. :ref:`Choice C: CMD with a Script 🟡       (the convention that other GIMI scripts follow)<Choice C: Run on CMD With a Script 🟡>`
+  a. :ref:`Choice A: Quickstart! 🟢             (for beginners)<tutorial:Choice A: Quickstart 🟢>`
+  b. :ref:`Choice B: CMD WITHOUT a Script 🟡    (recommended if you run by CMD)<tutorial:Choice B: Run on CMD Without a Script 🟡>`
+  c. :ref:`Choice C: CMD with a Script 🟡       (the convention that other GIMI scripts follow)<tutorial:Choice C: Run on CMD With a Script 🟡>`
   d. :doc:`Choice D: API 🟠                     (for expert coders)<apiSetup>`
 
 

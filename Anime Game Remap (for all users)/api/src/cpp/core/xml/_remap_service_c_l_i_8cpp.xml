@@ -17,6 +17,33 @@
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_version_8h" local="yes">AGRemapCore/model/Version.h</includes>
     <incdepgraph>
+      <node id="120">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="40">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="136">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="101">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="100">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="46">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="135">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="133">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="54">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1351,33 +1378,6 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="120">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="40">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="136">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="101">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="100">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="46">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="135">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="133">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="54">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="74">
         <label>Generator.tpp</label>
       </node>
@@ -2025,7 +2025,7 @@
 <codeline lineno="491"><highlight class="normal"></highlight></codeline>
 <codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load-bearing,<sp/>not<sp/>a<sp/>courtesy:<sp/>the<sp/>registry<sp/>is<sp/>filled<sp/>as<sp/>a<sp/>side<sp/>effect<sp/>of<sp/>the<sp/>first</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>classify(),<sp/>and<sp/>this<sp/>banner<sp/>prints<sp/>BEFORE<sp/>any<sp/>of<sp/>that<sp/>has<sp/>happened<sp/>--<sp/>so<sp/>on<sp/>a<sp/>normal<sp/>run</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>every<sp/>name<sp/>comes<sp/>from<sp/>here.<sp/>It<sp/>is<sp/>the<sp/>same<sp/>table<sp/>(ModTypeNames)<sp/>the<sp/>pure-Python<sp/>side<sp/>reads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>every<sp/>name<sp/>comes<sp/>from<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>ModTypeIdTools::getEnum(modTypeId);</highlight></codeline>
 <codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.has_value())<sp/>{</highlight></codeline>
 <codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModTypeIdTools::getName(*</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>

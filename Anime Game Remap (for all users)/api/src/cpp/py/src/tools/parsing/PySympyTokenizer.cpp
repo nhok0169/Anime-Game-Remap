@@ -24,8 +24,7 @@ namespace AGRC = AGRemapCore;
 void initCppSympyTokenizer(pybind11::module_ &m) {
     // Real Python subclass of FilteredTokenizer -- see PyIfPredTokenizer.cpp's comment, the same
     // reasoning applies here (base already registered, methods inherited for free, no trampoline,
-    // registered under the bare name since the deprecated pure-Python class is 'SympyTokenizerOld',
-    // and GlobalCompilerParts/SympyIfPredGenerator still construct that one deliberately, for now).
+    // registered under the bare name since the pure-Python class it replaced is deleted).
     py::class_<AGRC::SympyTokenizer, AGRC::FilteredTokenizer>(m, "SympyTokenizer", R"doc(
 This class inherits from :class:`FilteredTokenizer`
 

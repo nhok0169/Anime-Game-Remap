@@ -415,7 +415,7 @@ Its one surviving rule was not about malformed sections at all and is a `RegNewV
   returned here." Use this (via `GraphTools`, below) for anything that's a genuine dataflow
   question — "is X guaranteed true at this point, given everything that could have run before/after
   it." Use `CallGraph.exitNodeOf(partId)` to get the right node for "after this part's own call
-  returns" rather than re-deriving `("exit", partId) if part.getVals(IniKeywords.Run.value) else
+  returns" rather than re-deriving `("exit", partId) if part.getVals(IniKeywords.Run) else
   partId` by hand (this exact line was duplicated in three places before being pulled out).
 
 ## `GraphTools` — generic, not `.ini`-specific

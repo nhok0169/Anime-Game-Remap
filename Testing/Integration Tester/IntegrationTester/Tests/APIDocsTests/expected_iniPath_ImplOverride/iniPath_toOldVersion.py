@@ -9,6 +9,6 @@ import FixRaidenBoss2 as FRB
 
 
 iniPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "changeVersionKeqing.ini")
-iniFile = FRB.IniFile(iniPath, fromVersion = FRB.CppVersion.parse("4.0"), toVersion = FRB.CppVersion.parse("4.0"))
+iniFile = FRB.IniFile(iniPath, fromVersion = FRB.Version.parse("4.0"), toVersion = FRB.Version.parse("4.0"))
 iniFile.parse()
 iniFile.fix()

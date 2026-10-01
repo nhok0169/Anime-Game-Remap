@@ -48,8 +48,8 @@ std::string PyIntTools::pyInttoBase64(long long num, const std::optional<std::ve
 
 
 void initCppIntTools(pybind11::module_ &m) {
-        py::class_<PyIntTools>(m, "CppIntTools", 
-        "C++ Tools for handling integers")
+        py::class_<PyIntTools>(m, "IntTools", 
+        "Tools for handling integers")
 
         .def_static("toBase", &PyIntTools::pyInttoBase,
                     py::arg("num"), py::arg("base"),

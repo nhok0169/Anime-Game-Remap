@@ -24,10 +24,8 @@ namespace AGRC = AGRemapCore;
 
 
 void initCppGameTypeId(pybind11::module_ &m) {
-    // Registered under the bare 'GameTypeId' name (no 'Cpp' prefix) -- no pure-Python class of this
-    // exact bare name exists to shadow (the pure-Python equivalent is 'GameTypeNames', a
-    // differently-named Enum in constants/GameTypeNames.py), so nothing to disambiguate from; see
-    // Documentation/CLAUDE.md's naming-pitfall section / Architecture/CLAUDE.md's 'Cpp' prefix rule.
+    // Registered under the bare 'GameTypeId' name (no 'Cpp' prefix) -- no pure-Python class of that
+    // name exists to shadow; see Architecture/CLAUDE.md's 'Cpp' prefix rule.
     py::enum_<AGRC::GameTypeId>(m, "GameTypeId", R"doc(
 The names of the different supported games
     )doc")

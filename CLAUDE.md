@@ -157,6 +157,16 @@ mods** (`Tools/Misc/Prototypes/neuvilletteMelusentSynth.py`), and **run every fi
 the second pass stopped declaring. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
 "NEUVILLETTE <-> NEUVILLETTEMELUSENT".
 
+**THE PYTHON CONSTANTS ARE THE BOUND C++ ONES NOW (2026-10-01).** `IniKeywords`, `FileExt`,
+`FilePrefixes`, `FileTypes` and `IniGraphModObjKeywords` are plain strings (`IniKeywords.Hash` is
+`"hash"` -- there is no `.value`), `DownloadMode` / `RegFillMissingMode` / `IniGraphReplaceMode` /
+`IfPredPartType` are `py::enum_`s, `Version` is one version (formerly `CppVersion`) and
+`VersionSet` the collection the pure-Python `Version` was, and `IntTools` / `IniNamingTools` are
+the bindings formerly prefixed `Cpp`. A prototype written before then needs `.value` dropped and
+those names updated. **Before deleting any pure-Python module, grep the bindings for its name as a
+string**: one deletion broke a merge's copy naming while every test stayed green. See
+[Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "THE PYTHON CONSTANTS ARE THE C++ ONES NOW".
+
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
 looked like ordinary results. The run reported *copied 0 files from existing downloads* on every

@@ -503,8 +503,9 @@ Six things that will cost you an hour each if you learn them the hard way:
 * **Attach a logger or read `RemapService.stats`.** A prototype that raises is caught by the
   per-`.ini` guard and recorded in `stats.ini.skipped` --- and with no logger, printed **nowhere**.
   Every defect found while writing those two scripts was diagnosed through that dict.
-* **`FRB.IniNamingTools` is not the naming the compiled fixes use.** It is the pure-Python class,
-  and its `getModSuffixedName` has a confirmed bug. Use **`FRB.CppIniNamingTools`**.
+* **`FRB.IniNamingTools` is the naming the compiled fixes use** (the C++ class, since 2026-10-01).
+  An older prototype may say `FRB.CppIniNamingTools`: that name is gone, and so is the buggy
+  pure-Python class it was chosen over.
 * **A prototype is not proven by running.** Diff it against something --- the compiled fix if the
   character has one (`--ab`), the old script if it does not.
 * **A `GIMIObjPartFilter` must outlive the callables `filter()` hands out.** They point back at

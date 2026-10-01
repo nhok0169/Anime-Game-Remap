@@ -76,7 +76,7 @@ def _modType(name):
 
 
 def _version(text):
-    return FRB.CppVersion.parse(text)
+    return FRB.Version.parse(text)
 
 
 class StrategyOverridesTest(BaseUnitTest):

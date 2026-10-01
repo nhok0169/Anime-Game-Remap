@@ -46,6 +46,8 @@ void initCppIndexCounts(pybind11::module_ &m);
 void initCppVGOffsets(pybind11::module_ &m);
 void initCppVGCounts(pybind11::module_ &m);
 void initCppShapeKeyChecksums(pybind11::module_ &m);
+void initCppConstantEnums(pybind11::module_ &m);
+void initCppConstantStrings(pybind11::module_ &m);
 void initCppGameTypeId(pybind11::module_ &m);
 void initCppModTypeId(pybind11::module_ &m);
 void initCppModTypeIdData(pybind11::module_ &m);
@@ -203,6 +205,11 @@ PYBIND11_MODULE(core, m) {
     options.enable_user_defined_docstrings();
 
     m.doc() = "C++ internal core of AGRemap";
+
+    // First: the enums are named in other classes' def() signatures, which pybind11 bakes into a
+    // string at def() time -- an enum registered later renders there as a raw C++ name.
+    initCppConstantEnums(m);
+    initCppConstantStrings(m);
 
     initCppListTools(m);
     initCppIntTools(m);
@@ -404,7 +411,7 @@ PYBIND11_MODULE(core, m) {
     initCppRemapIniRemover(m); // must come after initCppBaseIniRemover (registers its base), initCppIfTemplate (the sections it reads) and initCppIniResource (the resources it collects)
     initCppGlobalRemapIniRemover(m); // must come after initCppRemapIniRemover (registers its base)
 
-    // Registered after ModType, BaseIniClassifier, CppVersion, IfTemplate and IniResource:
+    // Registered after ModType, BaseIniClassifier, Version, IfTemplate and IniResource:
     // every one of them appears in one of this class's own def() signatures, and pybind11 bakes
     // those strings at def() time -- see PyIfContentPartColour.cpp's note on what an unregistered
     // type there does to the signature (and to core.pyi).

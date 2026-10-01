@@ -34,7 +34,7 @@ For the rest of this tutorial, we will only be using the following features with
 A. **Mod Objects:** The different objects that make up a mod. We will be switching between different objects to find the location of the desired vertex group.
 B. **Vertex Groups:** The full list of all the vertex groups within a mod.
 C. **Weight Paint Mode:** A viewing mode to visually check out the vertex groups. When this mode is enabled, you will see some sort of heat map for the part of the mod.
-Hotter colours indicate where the selected vertex group is located.
+   Hotter colours indicate where the selected vertex group is located.
 
 :raw-html:`<br />`
 :raw-html:`<br />`

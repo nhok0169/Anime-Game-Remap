@@ -263,7 +263,7 @@ class RemapIniRemoverTest(BaseIniFileTest):
         # original switched on.
         self.create()
 
-        hide = FRB.IniKeywords.HideOriginalComment.value
+        hide = FRB.IniKeywords.HideOriginalComment
         iniTxt = (f"{hide}[TextureOverrideFooBlend]\n"
                   f"{hide}vb1 = ResourceFooBlend\n"
                   "\n"

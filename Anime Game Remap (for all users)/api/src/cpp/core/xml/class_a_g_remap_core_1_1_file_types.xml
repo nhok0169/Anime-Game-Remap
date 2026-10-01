@@ -242,7 +242,7 @@ A file of no recognized kind created by this fix -- the final catch-all of
 Display names for the different types of files the software encounters :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-Has the same members as the `Python`_ ``FileTypes`` enum (``constants/FileTypes.py``). These are **prose**,
+These are **prose**,
 not matching patterns -- the only thing that reads them is a message being written for a
 person (:cpp:func:`RemapService::reportSummary` and friends), which is why ``&quot;*.ini file&quot;``
 carries a ``*`` that no file name ever does. Anything deciding what a file *is* uses

@@ -11,7 +11,7 @@ if os.name == "nt":
 # --- C++ --------
 from .core import CppAhoCorasickDFA
 from .core import CppAlgo
-from .core import CppIntTools
+from .core import IntTools
 from .core import CppListTools
 from .core import GraphTools
 from .core import Ranges
@@ -58,6 +58,17 @@ from .core import SympyParser
 from .core import IfPredParser
 from .core import GameTypeId
 from .core import GameTypeIdTools
+from .core import DownloadMode
+from .core import DownloadModeTools
+from .core import RegFillMissingMode
+from .core import IniGraphReplaceMode
+from .core import IfPredPartType
+from .core import IfPredPartTypeTools
+from .core import IniKeywords
+from .core import IniGraphModObjKeywords
+from .core import FileExt
+from .core import FilePrefixes
+from .core import FileTypes
 from .core import ModTypeId
 from .core import ModTypeIdTools
 from .core import ModTypeIdData
@@ -73,7 +84,8 @@ from .core import IniFile
 from .core import BaseLogger
 from .core import Logger
 from .core import MultiModFixer
-from .core import CppVersion
+from .core import Version
+from .core import VersionSet
 from .core import ModDictAssets
 from .core import ModMappedAssets
 from .core import ModAssets
@@ -151,7 +163,7 @@ from .core import BaseIniPartEdit
 from .core import BaseIniGraphPartEdit
 from .core import BaseRegEdit
 from .core import RegAdd
-from .core import CppIniNamingTools
+from .core import IniNamingTools
 from .core import GIMICharParserConfig
 from .core import GIMICharFixerConfig
 from .core import makeGIMICharParser
@@ -217,30 +229,15 @@ from .constants.BufElementTypes import BufElementTypes
 from .constants.BufFormatNames import BufFormatNames
 from .constants.BufTypeNames import BufDataTypeNames, BufElementNames
 from .constants.ByteSize import ByteSize
-from .constants.Colours import Colours
-from .constants.DownloadMode import DownloadMode
 from .constants.ColourConsts import ColourConsts
-from .constants.Colours import ColourRanges
-from .constants.FileExt import FileExt
-from .constants.FileTypes import FileTypes
 from .constants.FileEncodings import FileEncodings
-from .constants.FilePrefixes import FilePrefixes
-from .constants.FileSuffixes import FileSuffixes
 from .constants.FilePathConsts import FilePathConsts
 from .constants.ImgFormats import ImgFormats
-from .constants.IniConsts import IniKeywords, IniBoilerPlate, IniGraphModObjKeywords
-from .constants.IniGraphReplaceMode import IniGraphReplaceMode
-from .constants.GameTypeNames import GameTypeNames
 from .constants.GameTypes import GameTypes
 from .constants.GlobalClassifiers import GlobalClassifiers
-from .constants.GlobalCompilerParts import GlobalCompilerParts
-from .constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from .constants.GlobalPackageManager import GlobalPackageManager
-from .constants.IfPredPartType import IfPredPartType
 from .constants.BaseModTypeBuilder import BaseModTypeBuilder
-from .constants.ModTypeNames import ModTypeNames
 from .constants.ModTypes import ModTypes, ModTypeBuilder
-from .constants.RegFillMissingMode import RegFillMissingMode
 from .constants.TexConsts import TexMetadataNames
 from .constants.TexEngine import TexEngine
 
@@ -317,9 +314,7 @@ from .model.textures.Colour import Colour
 from .model.textures.ColourRange import ColourRange
 
 from .model.DownloadData import DownloadData, BlendDownloadData
-from .model.IniNamingTools import IniNamingTools
 from .model.Model import Model
-from .model.Version import Version
 
 from .tools.caches.Cache import Cache
 from .tools.caches.LRUCache import LruCache
@@ -350,7 +345,6 @@ from .tools.DictTools import DictTools
 from .tools.FlyweightBuilder import FlyweightBuilder
 from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
-from .tools.IntTools import IntTools
 from .tools.HashTools import HashTools
 from .tools.ListTools import ListTools
 from .tools.PackageManager import PackageManager
@@ -364,8 +358,8 @@ from .remapServiceCLI import RemapServiceCLI
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "CppVersion", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
+__all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "FromOldVal", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "DownloadMode", "DownloadModeTools", "RegFillMissingMode", "IniGraphReplaceMode", "IfPredPartType", "IfPredPartTypeTools", "IniKeywords", "IniGraphModObjKeywords", "FileExt", "FilePrefixes", "FileTypes", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "CppStrategyOverrides", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "Version", "VersionSet", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps", "IndexCounts", "VGOffsets", "VGCounts", "ShapeKeyChecksums",
            "CppBufFile", "BlendFile", "PositionFile", "IbFile", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
@@ -373,7 +367,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
            "BaseIniPartEdit", "BaseIniGraphPartEdit", "BaseRegEdit", "RegAdd", "RegAssetRemap", "RegNewVals", "RegRemap", "RegRemove",
-           "GIMIObjPartFilter", "CppIniNamingTools",
+           "GIMIObjPartFilter", "IniNamingTools",
            "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
            "GIMIComponentParserConfig", "GIMIMergeFixerConfig", "makeGIMIComponentParser", "makeGIMIMergeFixer", "SideMeshes",
            "WWMITextureFacts", "WWMIParserConfig", "WWMIFixerConfig", "makeWWMIParser", "makeWWMIFixer",
@@ -384,7 +378,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
-           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GameTypes", "GIBuilder", "WWMIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine", "RegFillMissingMode", 
+           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "ColourConsts", "FileEncodings", "FilePathConsts", "ImgFormats", "GameTypes", "GIBuilder", "WWMIBuilder", "GlobalClassifiers", "GlobalPackageManager", "BaseModTypeBuilder", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine",
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode", "InvalidGameType",
@@ -405,7 +399,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResourceMixin", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource", "RemapTexAddResource", "RemapTexEditResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
-           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "Model", "Version", "VGRemap",
+           "DownloadData", "BlendDownloadData", "IniGraphGroup", "Model", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",
@@ -413,7 +407,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "Node", "ParseNode",
            "BaseSLR1Parser", "ParseTree",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
-           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
+           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "RemapService", "CppRemapServiceCLI", "RemapServiceCLI",
            "remapMain"]
 

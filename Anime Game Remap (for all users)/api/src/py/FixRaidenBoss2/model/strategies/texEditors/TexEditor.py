@@ -77,11 +77,6 @@ class TexEditor(CppTexEditor):
         Whether to maintain :attr:`TextureFile.img` when :attr:`engine` is
         :attr:`TexEngine.Compressonator`
 
-    compress: :class:`bool`
-        Whether the edited texture is written back compressed -- see :attr:`CppTexEditor.compress`
-
-    mipmaps: :class:`bool`
-        Whether the edited texture is written back with its full mip chain -- see :attr:`CppTexEditor.mipmaps`
     """
 
     def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False,

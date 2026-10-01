@@ -33,7 +33,7 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 5.0.0a1
+# Version: 5.0.0a2
 # Authors: Albert Gold#2696, NK#1321
 # Datetime Compiled: Thursday, September 17, 2026 10:28:21.62 PM UTC
 # Build Hash: 083aa6bf-b9d9-44db-adca-5b22e4e9db42

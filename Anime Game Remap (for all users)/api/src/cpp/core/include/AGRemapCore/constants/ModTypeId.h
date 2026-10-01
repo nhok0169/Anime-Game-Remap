@@ -30,9 +30,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The names of the different types of mods this fix will fix from or fix to :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the keys of the `Python`_ ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+     The names of the different types of mods this fix will fix from or fix to
      @endrst
      */
     enum class ModTypeId {
@@ -568,9 +566,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Retrieves the corresponding name for a :cpp:enum:`ModTypeId` :raw-html:`<br />` :raw-html:`<br />`
-
-             Mirrors the `Python`_ ``ModTypeNames`` enum's values (``constants/ModTypeNames.py``)
+             Retrieves the corresponding name for a :cpp:enum:`ModTypeId`
              @endrst
              *
              * @param value The :cpp:enum:`ModTypeId` to retrieve the name for

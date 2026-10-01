@@ -398,7 +398,7 @@ hashes: :class:`Hashes`
 srcName: :class:`str`
     The source's mod type name
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The version the mod is written for, ``None`` for the latest
 
 types: List[:class:`str`]
@@ -407,7 +407,7 @@ types: List[:class:`str`]
 targetName: :class:`str`
     The name the target's side-mesh rows are filed under
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The version the fix is for, ``None`` for the latest
 
 Returns

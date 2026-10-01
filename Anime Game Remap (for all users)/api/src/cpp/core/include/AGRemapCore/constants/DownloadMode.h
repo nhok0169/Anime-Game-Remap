@@ -26,12 +26,7 @@ namespace AGRemapCore {
      The download mode of how the software handles file downloads :raw-html:`<br />`
      :raw-html:`<br />`
 
-     .. note::
-        The `Python`_-facing ``DownloadMode`` is a separate `Python`_ ``Enum``
-        (``constants/DownloadMode.py``) whose members carry the same three string values. The
-        binding layer maps one onto the other by that value, rather than either side being replaced
-        -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
-        ``IniGraphReplaceMode`` already does for the same reason
+     Bound to `Python`_ as ``DownloadMode``, the only download mode there is on either side
      @endrst
      */
     enum class DownloadMode {

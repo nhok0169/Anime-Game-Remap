@@ -465,17 +465,12 @@ assumptions
 The download mode of how the software handles file downloads :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-.. note::
-   The `Python`_-facing ``DownloadMode`` is a separate `Python`_ ``Enum``
-   (``constants/DownloadMode.py``) whose members carry the same three string values. The
-   binding layer maps one onto the other by that value, rather than either side being replaced
-   -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
-   ``IniGraphReplaceMode`` already does for the same reason
+Bound to `Python`_ as ``DownloadMode``, the only download mode there is on either side
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/DownloadMode.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="37" bodyend="56"/>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="32" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="32" bodyend="51"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" prot="public" static="no" strong="yes">
         <type></type>
@@ -546,14 +541,12 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The possible types for an :cpp:class:`IfPredPart` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-Matches the `Python`_ ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
+The possible types for an :cpp:class:`IfPredPart`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="31" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="31" bodyend="51"/>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="29" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="29" bodyend="49"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236" prot="public" static="no" strong="yes">
         <type></type>
@@ -588,18 +581,12 @@ Matches the `Python`_ ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
         <detaileddescription>
 <para><verbatim>embed:rst 
 Different replacement modes for when the :cpp:class:`IniSectionGraph` already exists when
-:cpp:class:`BaseResEdit` builds the corresponding graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-.. note::
-   The `Python`_-facing ``IniGraphReplaceMode`` is a separate `Python`_ ``Enum``
-   (``constants/IniGraphReplaceMode.py``) whose members carry the same three string values.
-   The binding layer maps one onto the other by that value, rather than either side being
-   replaced -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all
+:cpp:class:`BaseResEdit` builds the corresponding graph
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniGraphReplaceMode.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/IniGraphReplaceMode.h" bodystart="33" bodyend="48"/>
+        <location file="include/AGRemapCore/constants/IniGraphReplaceMode.h" line="27" column="5" bodyfile="include/AGRemapCore/constants/IniGraphReplaceMode.h" bodystart="27" bodyend="42"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" prot="public" static="no" strong="yes">
         <type></type>
@@ -1367,14 +1354,12 @@ WWMI-Assets has neither her nor her skin, so her asset tables (and
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The names of the different types of mods this fix will fix from or fix to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-Mirrors the keys of the `Python`_ ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+The names of the different types of mods this fix will fix from or fix to
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="547"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="545"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1528,19 +1513,11 @@ the textures it depends on
         <detaileddescription>
 <para><verbatim>embed:rst 
 Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-.. note::
-   The `Python`_-facing ``RegFillMissingMode`` is a separate `Python`_ ``Enum``
-   (``constants/RegFillMissingMode.py``) whose members carry the same three string values. The
-   binding layer maps one onto the other by that value, rather than either side being replaced
-   -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
-   ``IniGraphReplaceMode`` already does for the same reason
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/RegFillMissingMode.h" line="34" column="5" bodyfile="include/AGRemapCore/constants/RegFillMissingMode.h" bodystart="34" bodyend="69"/>
+        <location file="include/AGRemapCore/constants/RegFillMissingMode.h" line="26" column="5" bodyfile="include/AGRemapCore/constants/RegFillMissingMode.h" bodystart="26" bodyend="61"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">

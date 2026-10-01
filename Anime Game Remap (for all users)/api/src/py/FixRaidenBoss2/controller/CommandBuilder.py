@@ -17,14 +17,17 @@ import argparse
 from typing import List
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import FileTypes, FileExt
+from ..core import DownloadMode, DownloadModeTools
+##### EndCppLocalImports
+
+
 ##### LocalImports
 from ..tools.TextTools import TextTools
 from .CommandFormatter import CommandFormatter
 from .enums.CommandOpts import CommandOpts
 from .enums.ShortCommandOpts import ShortCommandOpts
-from ..constants.FileTypes import FileTypes
-from ..constants.FileExt import FileExt
-from ..constants.DownloadMode import DownloadMode
 ##### EndLocalImports
 
 
@@ -62,16 +65,16 @@ class CommandBuilder():
         # selection -- the usual case is an old mod fixed with the newest fix, which one option
         # feeding both cannot say.
         self._argParser.add_argument(ShortCommandOpts.FromVersion.value, CommandOpts.FromVersion.value, action='store', type=str, help=f"The game version the mods being fixed were made for. This picks how the mods are read -- which hashes/indices they are looked up by -- where {CommandOpts.Version.value} picks the fix that is written. If this option is not specified, then will read the mods as the latest game version")
-        self._argParser.add_argument(ShortCommandOpts.DeleteBackup.value, CommandOpts.DeleteBackup.value, action='store_true', help=f'deletes backup copies of the original {FileExt.Ini.value} files')
+        self._argParser.add_argument(ShortCommandOpts.DeleteBackup.value, CommandOpts.DeleteBackup.value, action='store_true', help=f'deletes backup copies of the original {FileExt.Ini} files')
         self._argParser.add_argument(ShortCommandOpts.FixOnly.value, CommandOpts.FixOnly.value, action='store_true', help='only fixes the mod without cleaning any previous runs of the script')
         self._argParser.add_argument(ShortCommandOpts.Revert.value, CommandOpts.Revert.value, action='store_true', help='Undo the previous runs of the script')
         self._argParser.add_argument(ShortCommandOpts.HideOriginal.value, CommandOpts.HideOriginal.value, action = 'store_true', help="Show only the mod on the remapped character and do not show the mod on the original character")
-        self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt.value} file. If this option is not specified, then will not log the printed out text.')
-        self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
+        self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt} file. If this option is not specified, then will not log the printed out text.')
+        self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
 
-For {FileTypes.Ini.value} where a mod cannot be identified, usually, you would also need to specify what particular mod the {FileTypes.Ini.value} defaults to using the {CommandOpts.DefaultType.value} option. 
+For {FileTypes.Ini} where a mod cannot be identified, usually, you would also need to specify what particular mod the {FileTypes.Ini} defaults to using the {CommandOpts.DefaultType.value} option. 
 Otherwise, you will be defaulted to fixing 'raiden' mods.""")
-        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod.
+        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini} belongs to some unknown mod.
 
 - If {CommandOpts.ForceType.value} is set to True, this option has not effect                          
 - If the {CommandOpts.All.value} is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
@@ -79,14 +82,14 @@ Otherwise, you will be defaulted to fixing 'raiden' mods.""")
 
 See below for the different names/aliases of the supported types of mods.''')
         
-        self._argParser.add_argument(ShortCommandOpts.ForceType.value, CommandOpts.ForceType.value, action='store', type=str, help=f"""Forcibly assumes the mod type for all {FileTypes.Ini.value} parsed.
+        self._argParser.add_argument(ShortCommandOpts.ForceType.value, CommandOpts.ForceType.value, action='store', type=str, help=f"""Forcibly assumes the mod type for all {FileTypes.Ini} parsed.
 
 This option supersedes the {CommandOpts.Types.value} option and the {CommandOpts.All.value} option.
 
 See below for the different names/aliases of the supported types of mods.""")
 
-        self._argParser.add_argument(ShortCommandOpts.Types.value, CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini.value}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
-By default, if this option is not specified, will parse the {FileTypes.Ini.value}s for all the supported types of mods. 
+        self._argParser.add_argument(ShortCommandOpts.Types.value, CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
+By default, if this option is not specified, will parse the {FileTypes.Ini}s for all the supported types of mods. 
 
 Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,)
 eg. raiden,arlecchino,ayaya
@@ -129,14 +132,14 @@ eg. GI,WuWa
 See below for the different names/aliases of the supported type of games""")
         self._argParser.add_argument(ShortCommandOpts.Compress.value, CommandOpts.Compress.value, action='store_true', help=f"""Whether to compress the textures the fix writes. By default textures are left uncompressed, which is faster but takes up more space. Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space.""")
 
-        allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(mode.value)}", DownloadMode))
+        allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(DownloadModeTools.getName(mode))}", DownloadMode.__members__.values()))
         allDownloadModes = "".join(allDownloadModes)
 
         # 'HardTexDriven' used to be named here and no longer exists on the enum, which made this
         # line raise an AttributeError -- from CommandBuilder's constructor, so the CLI died before
         # parsing a single argument. Kept pointing at whatever RemapServiceCLI actually defaults to
         # rather than at a hard-coded name, so a future default change cannot make the help lie.
-        defaultDownloadModeStr = TextTools.capitalize(DownloadMode.Normal.value)
+        defaultDownloadModeStr = TextTools.capitalize(DownloadModeTools.getName(DownloadMode.Normal))
         self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. Below is a condensed list of all the available download modes. By default, '{defaultDownloadModeStr}' is selected
 For more info on the download modes, please visit the link below:
 https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#download-modes

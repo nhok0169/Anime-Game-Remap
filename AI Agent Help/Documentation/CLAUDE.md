@@ -546,7 +546,7 @@ Traps hit while doing it, each worth a rebuild cycle:
 1. **A `DeferredEnum` subclass must be documented WITHOUT `:members:`.** autodoc reads each enum member's
    `.value`, which for a `DeferredEnum` CONSTRUCTS the object -- under the `.pyi` stand-ins that called a stubbed
    `@overload` and crashed the whole build (`NotImplementedError: You should not call an overloaded
-   function`). `ModTypes`, `GlobalIniRemoveBuilders`, `BufDataTypes` and the rest list their members in an
+   function`). `ModTypes`, `GlobalClassifiers`, `BufDataTypes` and the rest list their members in an
    `Attributes` section of their own docstring instead; `auditApiDocs.py` flags a regression.
 2. **A `` `name`_ `` link target is per PAGE.** `api.rst` and `coreAPI.rst` each define their own at the bottom;
    a docstring that renders on `api.rst` using `` `KVP`_ `` needs `.. _KVP:` in `api.rst`, even though

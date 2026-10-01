@@ -36,11 +36,6 @@ class PackageInstall(Enum):
     Package for an ordered set
     """
 
-    Packaging = "packaging"
-    """
-    Package for handling Python packaging operations
-    """
-
     Pandas = "pandas"
     """
     Package for fast table manipulation
@@ -87,9 +82,6 @@ class PackageModules(Enum):
     OrderedSet: :class:`PackageData`
         Module for `orderedset`_
 
-    Packaging_Version: :class:`PackageData`
-        Module for `packaging.version`_
-
     Pandas: :class:`PackageData`
         Module for `pandas`_
 
@@ -122,7 +114,6 @@ class PackageModules(Enum):
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
-    Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
     Regex = PackageData("regex", PackageInstall.Regex.value)
     Requests = PackageData("requests", PackageInstall.Requests.value)
     Sympy = PackageData("sympy", PackageInstall.Sympy.value)

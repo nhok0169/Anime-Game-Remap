@@ -30,15 +30,6 @@ namespace AGRemapCore {
      hands back also carries graphs that aren't -- the synthesized download-resource `sections`_ --
      and those get a reserved component name instead, so they can never collide with a real
      ``(component, object)`` pair from the ``.ini`` file.
-
-     :raw-html:`<br />`
-
-     .. note::
-        The `Python`_-facing ``IniGraphModObjKeywords`` is a separate `Python`_ ``Enum``
-        (``constants/IniConsts.py``) whose member carries the same string value. The binding layer
-        uses the same literal rather than either side being replaced -- this class exists so
-        `AGRemapCore` stays usable with no `Python`_ at all, matching what
-        :cpp:enum:`IniGraphReplaceMode` already does for the same reason
      @endrst
      */
     class IniGraphModObjKeywords {

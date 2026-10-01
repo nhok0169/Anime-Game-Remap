@@ -20,9 +20,7 @@
 /**
  * @brief
  @rst
- Binds `AGRC::IniNamingTools` as ``CppIniNamingTools`` -- deliberately NOT as ``IniNamingTools``,
- which the still-pure-`Python`_ class of that name already occupies and disagrees with. See the
- warning in the binding itself
+ Binds `AGRC::IniNamingTools` as ``IniNamingTools``
  @endrst
  */
 void initCppIniNamingTools(pybind11::module_ &m);

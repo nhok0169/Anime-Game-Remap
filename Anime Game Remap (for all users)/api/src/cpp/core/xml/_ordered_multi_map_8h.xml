@@ -992,14 +992,24 @@
         <childnode refid="174" relation="include">
         </childnode>
       </node>
-      <node id="392">
+      <node id="391">
+        <label>include/AGRemapCore/data/IniFixData/TexFxLayout.h</label>
+        <link refid="_tex_fx_layout_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="392" relation="include">
+        </childnode>
+      </node>
+      <node id="394">
         <label>include/AGRemapCore/data/IniFixData/TexRegLayout.h</label>
         <link refid="_tex_reg_layout_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="393" relation="include">
+        <childnode refid="395" relation="include">
         </childnode>
       </node>
       <node id="33">
@@ -1819,7 +1829,7 @@
         </childnode>
         <childnode refid="282" relation="include">
         </childnode>
-        <childnode refid="396" relation="include">
+        <childnode refid="398" relation="include">
         </childnode>
       </node>
       <node id="371">
@@ -2539,11 +2549,11 @@
         </childnode>
         <childnode refid="390" relation="include">
         </childnode>
-        <childnode refid="391" relation="include">
+        <childnode refid="393" relation="include">
         </childnode>
-        <childnode refid="394" relation="include">
+        <childnode refid="396" relation="include">
         </childnode>
-        <childnode refid="395" relation="include">
+        <childnode refid="397" relation="include">
         </childnode>
       </node>
       <node id="388">
@@ -2567,6 +2577,8 @@
       <node id="390">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
+        <childnode refid="391" relation="include">
+        </childnode>
         <childnode refid="124" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
@@ -2580,10 +2592,10 @@
         <childnode refid="375" relation="include">
         </childnode>
       </node>
-      <node id="391">
+      <node id="393">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
         <link refid="_reg_remap_8h"/>
-        <childnode refid="392" relation="include">
+        <childnode refid="394" relation="include">
         </childnode>
         <childnode refid="124" relation="include">
         </childnode>
@@ -2596,10 +2608,10 @@
         <childnode refid="375" relation="include">
         </childnode>
       </node>
-      <node id="394">
+      <node id="396">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
         <link refid="_reg_remove_8h"/>
-        <childnode refid="392" relation="include">
+        <childnode refid="394" relation="include">
         </childnode>
         <childnode refid="124" relation="include">
         </childnode>
@@ -2610,7 +2622,7 @@
         <childnode refid="125" relation="include">
         </childnode>
       </node>
-      <node id="395">
+      <node id="397">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h</label>
         <link refid="_reg_restrict_8h"/>
         <childnode refid="12" relation="include">
@@ -3192,7 +3204,11 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="393">
+      <node id="392">
+        <label>src/data/IniFixData/TexFxLayout.cpp</label>
+        <link refid="_tex_fx_layout_8cpp"/>
+      </node>
+      <node id="395">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
       </node>
@@ -3536,7 +3552,7 @@
         <label>src/model/iftemplate/IfContentPartColourInstantiation.cpp</label>
         <link refid="_if_content_part_colour_instantiation_8cpp"/>
       </node>
-      <node id="396">
+      <node id="398">
         <label>src/model/iftemplate/IfContentPartInstantiation.cpp</label>
         <link refid="_if_content_part_instantiation_8cpp"/>
       </node>

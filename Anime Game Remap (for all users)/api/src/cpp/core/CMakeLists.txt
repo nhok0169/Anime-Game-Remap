@@ -60,6 +60,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/RegValChecks.cpp
     src/data/IniFixData/SideMeshes.cpp
     src/data/IniFixData/TexRegLayout.cpp
+    src/data/IniFixData/TexFxLayout.cpp
     src/data/IniParseData/Barbara/BarbaraParser.cpp
     src/data/IniFixData/Barbara/BarbaraFixer.cpp
     src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp

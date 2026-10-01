@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
+#include "AGRemapCore/data/IniFixData/TexFxLayout.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniParseData/GIMIComponentParser.h"
@@ -406,6 +407,7 @@ namespace AGRemapCore {
 
                     // AFTER buildEdits: the adapter it runs is one buildEdits creates.
                     buildTexRegNormalize();
+                    buildTexFxLayout();
 
                     this->graphGroupEdits.clear();
 
@@ -415,6 +417,10 @@ namespace AGRemapCore {
                     // so that everything after this reads one layout -- see texRegsByName.
                     if (texRegNormalize_.has_value()) {
                         this->graphGroupEdits.push_back(&texRegNormalize_.value());
+                    }
+                    // ...and every slot's TexFx calls onto the target's layout, on the same graphs.
+                    if (texFxLayout_.has_value()) {
+                        this->graphGroupEdits.push_back(&texFxLayout_.value());
                     }
 
                     // BEFORE the slot remap, which is the point: these read a MEMBER's own graph,
@@ -1502,6 +1508,48 @@ namespace AGRemapCore {
 
                     if (any) {
                         borrowEdit_ = std::make_unique<ObjGroupEdit>(std::move(iniEdits), false);
+                    }
+                }
+
+                // ---- every slot's TexFx calls onto the TARGET's layout -- see texFxLayoutSwitch ----
+                //
+                // Per slot, on its own graph before the remap, like the bindings below: the layout a slot was drawn in is
+                // the one read off the mod (normalMap_), and a carried member's own `run =` lines arrive unchanged
+                // otherwise. A split half has no graph of its own, and a borrower's section binds nothing.
+                void buildTexFxLayout() {
+                    if (!config_.texFxLayoutSwitch) {
+                        return;
+                    }
+
+                    const bool target = normalTarget();
+                    for (auto& edit : TexFxLayout::switches(target)) {
+                        texFxLayoutAdapters_.push_back(std::make_unique<RegPartEdit<>>(edit.get()));
+                        texFxLayoutEdits_.push_back(std::move(edit));
+                    }
+
+                    std::vector<ObjGroupEdit::IniEdits> iniEdits(1);
+                    for (const auto& component : files_) {
+                        for (const auto& slot : component.second.slots) {
+                            if (slot.second.section.empty() || slot.second.borrowed) {
+                                continue;
+                            }
+                            auto layout = normalMap_.find(key(component.first, slot.first));
+                            if (layout == normalMap_.end() || layout->second == target) {
+                                continue;
+                            }
+
+                            const ModObj objKey(component.first, slot.first);
+                            std::vector<ObjGroupEdit::PartEdit*> edits;
+                            for (const auto& adapter : texFxLayoutAdapters_) {
+                                edits.push_back(adapter.get());
+                            }
+                            iniEdits[0].edits[objKey] = std::move(edits);
+                            iniEdits[0].trackKeys[objKey] = false;
+                        }
+                    }
+
+                    if (!iniEdits[0].edits.empty()) {
+                        texFxLayout_ = ObjGroupEdit(std::move(iniEdits), false);
                     }
                 }
 
@@ -3172,6 +3220,9 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<RegPartEdit<>>> indexAdapters_;
                 ObjGroupEdit indexEdits_;
                 std::optional<ObjGroupEdit> texRegNormalize_;
+                std::optional<ObjGroupEdit> texFxLayout_;
+                std::vector<std::unique_ptr<RegNewVals<>>> texFxLayoutEdits_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> texFxLayoutAdapters_;
 
                 std::unique_ptr<GraphRename<>> renameGraph_;
                 std::unique_ptr<GraphRename<>> renameIbGraph_;

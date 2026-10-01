@@ -182,9 +182,6 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = False, 
     main.mirrorBackedReach = mirrorBackedReach
     # ...and reads her BACK-face UVs (TEXCOORD1): her dress shader is two-sided (Lumine10's starry lining).
     main.mirrorBackUV = True
-    # Her mods' TexFx calls name HER layout (`T.0`); the skin's slots read a normal map, where `.0` barely glows.
-    main.texFxNormalMap = True
-    bang.texFxNormalMap = True
 
     if (innerOutline):
         main.innerOutlineObjs = list(innerOutline)

@@ -870,7 +870,6 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab62936cc39c35b9e9c98fcca5697f0b5" kind="variable"><name>standIns</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab511611368c2e834b9a778be9c94c531" kind="variable"><name>overlapRings</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ab57732e17c092f1bb8509403de678a16" kind="variable"><name>dropTexFx</name></member>
-    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae563e52d4d87d0a6d15e10883d33d4c8" kind="variable"><name>texFxNormalMap</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1ae74ea7c73f7a9013e807f81e3b9ce492" kind="variable"><name>texFxBlend</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a7e3f2b2b4da50d78455aa4fbed594377" kind="variable"><name>mirroredObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1_1_component_1a19769206a6de54ee199134908fb567a5" kind="variable"><name>mirrorOffset</name></member>
@@ -1322,6 +1321,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" kind="variable"><name>layoutFromOwnFixCall</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kind="variable"><name>faceSwapOnlyFromDiffuseReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" kind="variable"><name>fillDrawOnlyWhenUndrawn</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1ac78fb2c7228c5963bff4b5ce1da5f94e" kind="variable"><name>texFxLayoutSwitch</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kind="variable"><name>texRegsByName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kind="variable"><name>copyPreamble</name></member>
   </compound>
@@ -1407,6 +1407,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a2cadd8ab685fb8229ba09e9eb3f0c420" kind="variable"><name>copyPreamble</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ac8a0c2d524e953f008d89f24bc43d757" kind="variable"><name>sideMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad6daf92fd229155e2543a6c0e7c10e2b" kind="variable"><name>texFxGuardUnreached</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aa76d69bab7b9ccc53f72cedf32d85788" kind="variable"><name>texFxLayoutSwitch</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter" kind="class"><name>AGRemapCore::GIMIObjPartFilter</name>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a6e6a12f1ee625755c775ac695c707876" kind="typedef"><name>ModObj</name></member>
@@ -4864,6 +4865,10 @@
     <member refid="class_a_g_remap_core_1_1_tex_editor_replace_1ac06344514a368fcde496ad747c830de8" kind="function"><name>TexEditorReplace</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31" kind="function"><name>buildResModel</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_tex_fx_layout" kind="class"><name>AGRemapCore::TexFxLayout</name>
+    <member refid="class_a_g_remap_core_1_1_tex_fx_layout_1a57881d901fbdd3d33af12ae1f44761f5" kind="function"><name>retarget</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_fx_layout_1aa3a037eb5d90f7512f5a936d0ec77f08" kind="function"><name>switches</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_tex_reg_layout" kind="class"><name>AGRemapCore::TexRegLayout</name>
     <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1a23759a5af886a29cc26eb31546a68c9a" kind="function"><name>TexRegLayout</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1ae7ae3efd467c365d74ba92e5a221a391" kind="function"><name>fixLibraryRoles</name></member>
@@ -5597,6 +5602,8 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d061123222366216110213163302235155103224134323046" kind="namespace"><name>AGRemapCore::@061123222366216110213163302235155103224134323046</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d064162041113047113176213311374147056247322340347" kind="namespace"><name>AGRemapCore::@064162041113047113176213311374147056247322340347</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d074316343015143164266013243277211233155235273071" kind="namespace"><name>AGRemapCore::@074316343015143164266013243277211233155235273071</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d075222215134203315344231262366267274164203204002" kind="namespace"><name>AGRemapCore::@075222215134203315344231262366267274164203204002</name>
@@ -5985,6 +5992,8 @@
   <compound refid="_shenhe_frost_flower_fixer_8h" kind="file"><name>ShenheFrostFlowerFixer.h</name>
   </compound>
   <compound refid="_side_meshes_8h" kind="file"><name>SideMeshes.h</name>
+  </compound>
+  <compound refid="_tex_fx_layout_8h" kind="file"><name>TexFxLayout.h</name>
   </compound>
   <compound refid="_tex_reg_layout_8h" kind="file"><name>TexRegLayout.h</name>
   </compound>
@@ -6755,6 +6764,8 @@
   <compound refid="_shenhe_frost_flower_fixer_8cpp" kind="file"><name>ShenheFrostFlowerFixer.cpp</name>
   </compound>
   <compound refid="_side_meshes_8cpp" kind="file"><name>SideMeshes.cpp</name>
+  </compound>
+  <compound refid="_tex_fx_layout_8cpp" kind="file"><name>TexFxLayout.cpp</name>
   </compound>
   <compound refid="_tex_reg_layout_8cpp" kind="file"><name>TexRegLayout.cpp</name>
   </compound>

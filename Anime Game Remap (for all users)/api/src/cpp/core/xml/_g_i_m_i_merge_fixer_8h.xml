@@ -982,12 +982,14 @@
 <codeline lineno="456" refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ac8a0c2d524e953f008d89f24bc43d757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ac8a0c2d524e953f008d89f24bc43d757" kindref="member">sideMeshes</ref>;</highlight></codeline>
 <codeline lineno="457"><highlight class="normal"></highlight></codeline>
 <codeline lineno="471" refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad6daf92fd229155e2543a6c0e7c10e2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad6daf92fd229155e2543a6c0e7c10e2b" kindref="member">texFxGuardUnreached</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="473"><highlight class="normal"></highlight></codeline>
-<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kindref="member">makeGIMIMergeFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" kindref="compound">GIMIMergeFixerConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="494"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="495"><highlight class="normal"></highlight></codeline>
-<codeline lineno="496"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484" refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aa76d69bab7b9ccc53f72cedf32d85788" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1aa76d69bab7b9ccc53f72cedf32d85788" kindref="member">texFxLayoutSwitch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kindref="member">makeGIMIMergeFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config" kindref="compound">GIMIMergeFixerConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="507"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h"/>
   </compounddef>

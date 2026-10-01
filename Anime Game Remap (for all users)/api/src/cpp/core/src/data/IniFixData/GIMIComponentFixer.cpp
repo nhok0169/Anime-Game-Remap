@@ -12,6 +12,7 @@
 // ##### EndCredits
 
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+#include "AGRemapCore/data/IniFixData/TexFxLayout.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
@@ -1980,27 +1981,15 @@ namespace AGRemapCore {
                         removeTexFxAdapter_ = std::make_unique<RegPartEdit<>>(removeTexFx_.get());
                     }
 
-                    // The mod's TexFx calls onto the normal-map variants -- see Component::texFxNormalMap. One edit per
-                    // sub-command, each rewriting only the calls that name it, case-insensitively as 3DMigoto matches.
-                    if (component_.texFxNormalMap && component_.normalMap) {
-                        const std::vector<std::pair<std::vector<std::string>, std::string>> variants = {
-                            {{"T", "T.0"}, "T.1"}, {{"Transparency", "Transparency.0"}, "Transparency.1"},
-                            {{"TN.0"}, "TN.1"}, {{"TNat.0"}, "TNat.1"}, {{"TransparencyNatlan.0"}, "TransparencyNatlan.1"},
-                            {{"C", "C.0"}, "C.1"}, {{"Component", "Component.0"}, "Component.1"}};
-                        for (const auto& [from, to] : variants) {
-                            std::vector<std::string> names;
-                            for (const std::string& name : from) {
-                                names.push_back(StringTools::toLower(IniKeywords::TexFxFolder + "\\" + name));
+                    // The mod's TexFx calls onto the TARGET's layout variant, per object -- see
+                    // GIMIComponentFixerConfig::texFxLayoutSwitch. Both directions built once; each group takes the one
+                    // its target slot reads, and only when its own source layout differs.
+                    if (config_.texFxLayoutSwitch) {
+                        for (bool normalMap : {false, true}) {
+                            for (auto& edit : TexFxLayout::switches(normalMap)) {
+                                texFxLayoutAdapters_[normalMap].push_back(std::make_unique<RegPartEdit<>>(edit.get()));
+                                texFxLayoutEdits_.push_back(std::move(edit));
                             }
-                            RegNewVals<>::ModTypePredicate matches = [names](const std::string& value, const ModType*) {
-                                const std::string path = StringTools::toLower(std::string(StringTools::strip(value)));
-                                return std::find(names.begin(), names.end(), path) != names.end();
-                            };
-                            auto edit = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
-                                {IniKeywords::Run, RegNewVals<>::NewValSpec(std::make_pair(
-                                    RegNewVals<>::NewVal(IniKeywords::TexFxFolder + "\\" + to), matches))}});
-                            texFxNormalAdapters_.push_back(std::make_unique<RegPartEdit<>>(edit.get()));
-                            texFxNormalEdits_.push_back(std::move(edit));
                         }
                     }
 
@@ -2166,8 +2155,13 @@ namespace AGRemapCore {
                         if (removeTexFxAdapter_ != nullptr) {
                             slotEdits.push_back(removeTexFxAdapter_.get());
                         }
-                        for (const auto& adapter : texFxNormalAdapters_) {
-                            slotEdits.push_back(adapter.get());
+                        if (group < drawn_.size()) {
+                            const ModObjectFiles* objFiles = objectFiles(drawn_[group]);
+                            if (objFiles != nullptr && objFiles->normalMapLayout != component_.normalMap) {
+                                for (const auto& adapter : texFxLayoutAdapters_[component_.normalMap]) {
+                                    slotEdits.push_back(adapter.get());
+                                }
+                            }
                         }
                         if (!keepOwnFixCalls) {
                             slotEdits.push_back(removeFixCallsAdapter_.get());
@@ -2333,8 +2327,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegRemove<>> removeReflectionKeys_;
                 std::unique_ptr<RegRemove<>> removeTexFx_;
-                std::vector<std::unique_ptr<RegNewVals<>>> texFxNormalEdits_;
-                std::vector<std::unique_ptr<RegPartEdit<>>> texFxNormalAdapters_;
+                std::vector<std::unique_ptr<RegNewVals<>>> texFxLayoutEdits_;
+                std::vector<std::unique_ptr<RegPartEdit<>>> texFxLayoutAdapters_[2];
                 std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;

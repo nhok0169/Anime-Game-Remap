@@ -364,6 +364,11 @@ List[:class:`str`]: The hash types of the SOURCE skin's side meshes (its own dra
 ``["ib_face", "ib_headupper"]``) --- a mod's section hiding one is written again on the target's hash of the
 same type. Empty by default
         )doc"))
+        .def_readwrite("texFxLayoutSwitch", &AGRC::GIMIMergeFixerConfig::texFxLayoutSwitch, py::doc(R"doc(
+:class:`bool`: Whether a slot's TexFx calls are moved onto the TARGET's layout variant (``.0`` without a normal
+map, ``.1`` with one at ``ps-t0``) when its source layout differs --- a mod's call names its own character's layout.
+A call already naming the target's layout is kept. ``True`` by default
+        )doc"))
         .def_readwrite("texFxGuardUnreached", &AGRC::GIMIMergeFixerConfig::texFxGuardUnreached, py::doc(R"doc(
 :class:`bool`: Whether a target object NO slot is drawn through gets a section withdrawing a pending `TexFx`_
 request, when the mod calls TexFx --- that object's own outline draw would otherwise serve it over the merged
@@ -508,11 +513,6 @@ for single-layer cloth whose back faces the target's shader does not shade as cl
         .def_readwrite("mirrorBackUV", &AGRC::GIMIComponentFixerConfig::Component::mirrorBackUV, py::doc(R"doc(
 :class:`bool`: Whether the :attr:`mirroredObjs` layer reads the source's back-face UVs (``TEXCOORD1``) where it has them
 --- a two-sided cloth shader textures its back faces that way (Lumine10's starry skirt lining). ``False`` by default
-        )doc"))
-        .def_readwrite("texFxNormalMap", &AGRC::GIMIComponentFixerConfig::Component::texFxNormalMap, py::doc(R"doc(
-:class:`bool`: Whether this component's remapped sections move the mod's TexFx calls onto TexFx's normal-map variants
-(``T.0`` -> ``T.1``, ``TN.0`` -> ``TN.1``, ...) --- a mod's call names its own character's layout, and a ``.0`` call on a
-normal-map slot barely glows. Only for a :attr:`normalMap` component. ``False`` by default
         )doc"))
         .def_readwrite("mirrorBackedReach", &AGRC::GIMIComponentFixerConfig::Component::mirrorBackedReach, py::doc(R"doc(
 :class:`float`: How far behind a :attr:`mirroredObjs` triangle a layer of the mod facing the other way makes its twin
@@ -678,6 +678,11 @@ A binding naming no role stays put. **Default**: ``False``
         .def_readwrite("faceSwapOnlyFromDiffuseReg", &AGRC::GIMIComponentFixerConfig::faceSwapOnlyFromDiffuseReg, py::doc(R"doc(
 :class:`bool`: Whether the face's ``ps-t0`` <-> ``ps-t1`` swap runs only for a mod binding its face
 diffuse at ``ps-t0`` (a pre-6.x mod). **Default**: ``False``
+        )doc"))
+        .def_readwrite("texFxLayoutSwitch", &AGRC::GIMIComponentFixerConfig::texFxLayoutSwitch, py::doc(R"doc(
+:class:`bool`: Whether a remapped part's TexFx calls are moved onto the TARGET's layout variant (``.0`` without a normal
+map, ``.1`` with one at ``ps-t0``) when its source layout differs --- a mod's call names its own character's layout.
+A call already naming the target's layout is kept. ``True`` by default
         )doc"))
         .def_readwrite("fillDrawOnlyWhenUndrawn", &AGRC::GIMIComponentFixerConfig::fillDrawOnlyWhenUndrawn, py::doc(R"doc(
 :class:`bool`: Whether a remapped slot section gets ``drawindexed = auto`` only when the mod's own section

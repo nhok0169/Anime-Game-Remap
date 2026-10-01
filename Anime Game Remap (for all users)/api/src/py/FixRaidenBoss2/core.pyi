@@ -7468,16 +7468,6 @@ class GIMIComponentFixerConfig:
         def texFxBlend(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
-        def texFxNormalMap(self) -> bool:
-            """
-            :class:`bool`: Whether this component's remapped sections move the mod's TexFx calls onto TexFx's normal-map variants
-            (``T.0`` -> ``T.1``, ``TN.0`` -> ``TN.1``, ...) --- a mod's call names its own character's layout, and a ``.0`` call on a
-            normal-map slot barely glows. Only for a :attr:`normalMap` component. ``False`` by default
-            """
-        @texFxNormalMap.setter
-        def texFxNormalMap(self, arg0: bool) -> None:
-            ...
-        @property
         def texcoordStride(self) -> int:
             """
             :class:`int`: The TARGET component's Texcoord stride, or ``0`` to keep the mod's own
@@ -7698,6 +7688,16 @@ class GIMIComponentFixerConfig:
         """
     @targetSkin.setter
     def targetSkin(self, arg0: str) -> None:
+        ...
+    @property
+    def texFxLayoutSwitch(self) -> bool:
+        """
+        :class:`bool`: Whether a remapped part's TexFx calls are moved onto the TARGET's layout variant (``.0`` without a normal
+        map, ``.1`` with one at ``ps-t0``) when its source layout differs --- a mod's call names its own character's layout.
+        A call already naming the target's layout is kept. ``True`` by default
+        """
+    @texFxLayoutSwitch.setter
+    def texFxLayoutSwitch(self, arg0: bool) -> None:
         ...
     @property
     def texRegsByName(self) -> bool:
@@ -8534,6 +8534,16 @@ class GIMIMergeFixerConfig:
         """
     @texFxGuardUnreached.setter
     def texFxGuardUnreached(self, arg0: bool) -> None:
+        ...
+    @property
+    def texFxLayoutSwitch(self) -> bool:
+        """
+        :class:`bool`: Whether a slot's TexFx calls are moved onto the TARGET's layout variant (``.0`` without a normal
+        map, ``.1`` with one at ``ps-t0``) when its source layout differs --- a mod's call names its own character's layout.
+        A call already naming the target's layout is kept. ``True`` by default
+        """
+    @texFxLayoutSwitch.setter
+    def texFxLayoutSwitch(self, arg0: bool) -> None:
         ...
     @property
     def texRegsByName(self) -> bool:

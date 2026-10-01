@@ -469,6 +469,19 @@ namespace AGRemapCore {
          @endrst
          */
         bool texFxGuardUnreached = false;
+
+        /**
+         * @brief
+         @rst
+         Whether a slot's `TexFx`_ calls are moved onto the TARGET's layout variant -- ``.0`` for a slot with
+         no normal map, ``.1`` for one with it at ``ps-t0`` -- when the part's SOURCE layout differs. See
+         :cpp:class:`TexFxLayout`: a mod's call names its own character's layout, and Lumine10's ``T.0`` on
+         LumineHeaven's normal-map slots barely glowed. A call already naming the target's layout is kept, so an
+         author's deliberate choice survives wherever the layout does not change. **Default**: ``true``
+         Decided per SLOT, from the layout read off the mod against :cpp:member:`targetLayout`
+         @endrst
+         */
+        bool texFxLayoutSwitch = true;
     };
 
     /**

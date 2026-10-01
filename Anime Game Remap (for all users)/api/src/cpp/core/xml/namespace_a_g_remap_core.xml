@@ -353,6 +353,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public">AGRemapCore::TexEditorReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_fx_layout" prot="public">AGRemapCore::TexFxLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_reg_layout" prot="public">AGRemapCore::TexRegLayout</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
@@ -1918,7 +1919,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2371" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2371" bodyend="2375" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="777" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2365" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2365" bodyend="2369" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="773" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1952,7 +1953,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3242" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3242" bodyend="3246" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="493" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3293" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3293" bodyend="3297" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="506" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>

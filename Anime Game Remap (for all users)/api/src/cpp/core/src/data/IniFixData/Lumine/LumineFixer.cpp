@@ -147,10 +147,6 @@ namespace AGRemapCore {
             // with nothing along its normal), and the inside of her arms looked the same either way.
             main.innerOutlineObjs = {"body", "dress"};
 
-            // Her mods' TexFx calls name HER layout (no normal map, `T.0`); the skin's slots are normal-map ones, and
-            // there Lumine10's glowing arm guards, gems and boots glowed faintly until moved to `T.1` (2026-09-30).
-            main.texFxNormalMap = true;
-
             // The Bang: one slot, on the normal-map layout with the Head's textures. Her two front bangs and her
             // flower land here.
             GIMIComponentFixerConfig::Component bang{};
@@ -161,7 +157,6 @@ namespace AGRemapCore {
             bang.slotIndices = {"0"};
             bang.negativeIndex = false;
             bang.normalMap = true;
-            bang.texFxNormalMap = true;
             bang.face = false;
             bang.texcoordStride = 12;       // LumineHeavenBangTexcoord.buf: 32880 / 2740
             bang.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};

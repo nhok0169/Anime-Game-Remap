@@ -2649,7 +2649,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1426" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="202" bodyend="204"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1426" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="197" bodyend="199"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacb62b819d70d29e48b8c58a4eca7b99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2664,7 +2664,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1431" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="207" bodyend="209"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1431" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="202" bodyend="204"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af86d6ac0370b4b7111b583be3cc0ad3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2679,7 +2679,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1436" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="212" bodyend="214"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1436" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="207" bodyend="209"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>

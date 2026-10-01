@@ -354,14 +354,24 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="14">
+      <node id="12">
+        <label>include/AGRemapCore/data/IniFixData/TexFxLayout.h</label>
+        <link refid="_tex_fx_layout_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
         <label>include/AGRemapCore/data/IniFixData/TexRegLayout.h</label>
         <link refid="_tex_reg_layout_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -395,11 +405,11 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -423,6 +433,8 @@
       <node id="11">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
@@ -433,13 +445,13 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="15">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
         <link refid="_reg_remap_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -449,13 +461,13 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="18">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
         <link refid="_reg_remove_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -466,7 +478,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="19">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h</label>
         <link refid="_reg_restrict_8h"/>
         <childnode refid="4" relation="include">
@@ -488,7 +500,11 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="15">
+      <node id="13">
+        <label>src/data/IniFixData/TexFxLayout.cpp</label>
+        <link refid="_tex_fx_layout_8cpp"/>
+      </node>
+      <node id="17">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
       </node>
@@ -496,7 +512,7 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="14">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>

@@ -69,6 +69,7 @@
     <innerfile refid="_mod_branches_8h">ModBranches.h</innerfile>
     <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
     <innerfile refid="_side_meshes_8h">SideMeshes.h</innerfile>
+    <innerfile refid="_tex_fx_layout_8h">TexFxLayout.h</innerfile>
     <innerfile refid="_tex_reg_layout_8h">TexRegLayout.h</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8h">WWMIFixer.h</innerfile>
     <briefdescription>

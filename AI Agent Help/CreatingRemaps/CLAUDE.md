@@ -1968,6 +1968,31 @@ face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooF
    To find the next one: `py -3` over `HashData.cpp` for any `tex_face_diffuse` value filed under two names, then
    `Hashes().getKey(value, None, [base, None], False)` -- `None` is this bug.
 
+## A TexFx call follows the TARGET's layout (2026-09-30)
+
+TexFx has one entry point per shader layout: `.0` for a part with no normal map, `.1` for one with it at `ps-t0`
+(`T.0` / `T.1`, `Transparency`, `TN`, `TNat`, `TransparencyNatlan`, `C`, `Component`, `CN`, `CNat`, `ComponentNatlan`;
+the unsuffixed `T`, `Transparency`, `C`, `Component` mean `.0` and the Natlan families mean `.1`, per TexFx's own
+`Main.ini`). A mod's call names ITS character's layout, so a part moved between layouts must move its call: Lumine10's
+`T.0` on LumineHeaven's normal-map slots barely glowed. An audit of the agent-built pairs (the maintainer asked for it)
+found only Lumine -> LumineHeaven switching, and eleven directions missing it -- Yelan, Bennett and Yaoyao both ways,
+LumineHeaven -> Lumine, Charlotte's eyes, CharlotteHurlock's slot C and eyes, CitlaliWhisperofStars' slot D,
+Neuvillette's bangs, NeuvilletteMelusent's eye.
+
+`TexFxLayout` (`data/IniFixData/TexFxLayout.{h,cpp}`, `core/tests/TexFxLayout_test.cpp`) maps a call onto a layout;
+`GIMIComponentFixerConfig::texFxLayoutSwitch` and `GIMIMergeFixerConfig::texFxLayoutSwitch` (both ON by default) apply
+it: the component template per drawn object, from the object's detected source layout against the component's
+`normalMap`; the merge template per source slot, from the layout read off the mod (`normalMap_`) against
+`targetLayout`, on the slot's own graph before the remap. **A call already naming the target's layout is never
+touched**, so an author's deliberate choice (a Citlali mod's `TN.0` on a normal-map body) survives wherever the layout
+does not change. Verified by injecting each source's own variant into every slot section of one real mod per direction
+(`texfxSynth.py` in the session scratchpad: copy, add `run = CommandList\TexFx\T.n` after every `match_first_index`,
+fix, list each remapped section's calls) -- the corpus has TexFx mods for only Citlali, CitlaliWhisper, Neuvillette,
+Yaoyao, Charlotte, CharlotteHurlock and Lumine, and of those only two Yaoyao mods' output moved (their eye, `T.1` ->
+`T.0` on YaoyaoBamboo's plain eye slot). Open: YelanTranquil's Body slot C is a normal-map slot in the FORWARD config
+(`YelanFixer.cpp`) and a plain one in the REVERSE (`YelanTranquilFixer.cpp`); the download folder has no
+`BodyCNormalMap`, which sides with the reverse. The switch follows each config as written.
+
 ## LUMINE <-> LUMINEHEAVEN (2026-09-29): the seventh component pair, compiled both ways
 
 Lumine is one mesh (`head`, `body`, `dress`, all PLAIN; the assets repo files her as `TravelerGirl`, and so do half her
@@ -2036,8 +2061,7 @@ redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lum
    **And the GLOW itself comes from TexFx's normal-map variant** (the maintainer's point): TexFx has one sub-command per
    shader layout, `.0` for a part with no normal map and `.1` for one with it at `ps-t0`, and a mod's call names ITS
    character's layout. Lumine has none, the skin's slots have one, and `T.0` there glowed faintly where `T.1` glows like
-   her own outfit. `Component::texFxNormalMap` (new, off by default) moves `T`/`T.0` -> `T.1`, `TN.0` -> `TN.1` and the
-   other named variants in a normal-map component's remapped sections; the plain Eye slot keeps `.0`. **And her starry
+   her own outfit. That became a rule for EVERY agent-built pair -- see "A TexFx call follows the TARGET's layout". **And her starry
    skirt LINING was not TexFx at all**: her dress shader is TWO-SIDED (`is_front_face`) and textures a back face through
    `TEXCOORD1` -- Lumine10 maps 1101 back faces into a galaxy quadrant of its atlas, and even her vanilla model carries a
    second UV set on 865 vertices. The skin's shader is one-sided, the mirrored layer stands in for those back faces, and

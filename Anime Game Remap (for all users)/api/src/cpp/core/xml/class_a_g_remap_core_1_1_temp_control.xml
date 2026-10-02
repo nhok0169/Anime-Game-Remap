@@ -138,6 +138,59 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="47" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/TempControl.cpp" bodystart="32" bodyend="35"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BasePixelTransform::operator()</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BasePixelTransform::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Calls <ref refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" kindref="member">transform</ref> for this pixel transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="38" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

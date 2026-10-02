@@ -4,8 +4,55 @@
 How to Make Changes to the Project
 ==================================
 
+.. tip::
+    We provide :doc:`AI support <aiSupport>` for automating most of the steps below
 
-1. Clone the Project
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+1. Install the Required Tools
+-----------------------------
+You would need to install the following tools to compile or run the project:
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Name
+     - Description
+   * - `Git`_
+     - To clone the project and its submodules
+   * - `Python`_
+     - | Version 3.9 or newer. Runs the build tools, the tests and the project itself
+       |
+       | Use the same Python for building and for running the project afterwards, since the compiled modules only load in the
+         Python they were built against
+   * - C++ compiler
+     - | A compiler that supports C++23, to compile the C++ core, the Python bindings and the Cython extensions
+       |
+       | **Windows**: `Visual Studio Build Tools`_ with the *Desktop development with C++* workload and the
+         *C++ CMake tools for Windows* component
+       | **Linux**: GCC 13 or newer
+   * - `CMake`_
+     - | Configures and runs the build
+       |
+       | On Windows, the *C++ CMake tools for Windows* component of Visual Studio already includes it
+   * - `Ninja`_
+     - | The build system CMake generates for
+       |
+       | On Windows, the *C++ CMake tools for Windows* component of Visual Studio already includes it
+   * - Python packages
+     - | `pybind11`_ (exactly version 3.0.4), `Cython`_, `NumPy`_ and `pybind11-stubgen`_, used by the build
+       |
+       | Install them with ``pip install -r Tools/APIBuilder/requirements.txt``
+   * - `Doxygen`_
+     - | *Optional*. Version 1.17.0. Only needed when you change documentation in the C++ core or the Python bindings
+         (see the ``-d`` option in step 4)
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+2. Clone the Project
 --------------------
 Fork the `Github repo`_ , then clone your fork **together with its submodules**
 (the C++ libraries the API depends on are git submodules under ``api/extern``):
@@ -21,7 +68,7 @@ Create a new branch for your changes off the ``master`` branch.
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-2. Make your Changes
+3. Make your Changes
 --------------------
 AG Remap has 3 different types of builds:
 
@@ -46,12 +93,11 @@ Within `the API`_, the source code is split into:
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-3. Compile your Changes
+4. Compile your Changes
 -----------------------
 Since the API contains compiled code, you need to build it before you can run or test your changes.
 
-You can do this by running the `API Builder`_. The build requires `CMake`_, `Ninja`_, a C++23 compiler
-(Visual Studio's MSVC on Windows, GCC 13 or newer on Linux) and the Python packages in the API Builder's ``requirements.txt``.
+You can do this by running the `API Builder`_.
 
 .. code-block:: bash
 
@@ -65,8 +111,8 @@ once they are done, so afterwards a plain ``python3 main.py`` is enough. The bui
 .. note::
     On Windows, run the API Builder from a shell where Visual Studio's ``vcvarsall.bat x64`` has already been called.
 
-    Add the ``-d`` option if you changed any documentation in the C++ core or the Python bindings. It requires `Doxygen`_ and
-    regenerates the committed ``core/xml`` and ``core.pyi`` files that the docs are built from.
+    Add the ``-d`` option if you changed any documentation in the C++ core or the Python bindings. It regenerates the
+    committed ``core/xml`` and ``core.pyi`` files that the docs are built from.
 
 :raw-html:`<br />`
 
@@ -78,7 +124,7 @@ https://github.com/nhok0169/Anime-Game-Remap/tree/master/Tools/CIPipeline
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-4. Test your Changes
+5. Test your Changes
 --------------------
 Once you are done making your changes, you would want to test whether your new changes work properly.
 This step involves both running tests and making new test cases.
@@ -105,7 +151,7 @@ https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester
     #. to see whether your module works by itself
     #. your tests are used for future `regression testing`_ against your module
 
-    The unit tests are built using Python's `unittest` library. You can check out `the different unit tests here`_ for 
+    The unit tests are built using Python's `unittest`_ library. You can check out `the different unit tests here`_ for 
     how to make a unit tests within the project
 
 .. note::
@@ -152,7 +198,7 @@ You can check out the `specific integration tests here`_
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-5. Commit your Changes
+6. Commit your Changes
 ----------------------
 When all tests are clear, commmit your changes using ``git``, then push your changes back to your forked Github repo.
 
@@ -166,7 +212,7 @@ We will do a code review on your PR.
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-6. Merge your Changes
+7. Merge your Changes
 ---------------------
 Once your PR is approved, we will merge your changes back to the `AG Remap repo`_
 
@@ -184,6 +230,13 @@ Once your PR is approved, we will merge your changes back to the `AG Remap repo`
 .. _CMake: https://cmake.org/
 .. _Ninja: https://ninja-build.org/
 .. _Doxygen: https://www.doxygen.nl/
+.. _Git: https://git-scm.com/
+.. _Python: https://www.python.org/downloads/
+.. _Visual Studio Build Tools: https://visualstudio.microsoft.com/downloads/
+.. _pybind11: https://pybind11.readthedocs.io/
+.. _Cython: https://cython.org/
+.. _NumPy: https://numpy.org/
+.. _pybind11-stubgen: https://pypi.org/project/pybind11-stubgen/
 .. _Unit tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Unit%20Tester
 .. _Integration tests: https://github.com/nhok0169/Anime-Game-Remap/tree/master/Testing/Integration%20Tester
 .. _unittest: https://docs.python.org/3/library/unittest.html

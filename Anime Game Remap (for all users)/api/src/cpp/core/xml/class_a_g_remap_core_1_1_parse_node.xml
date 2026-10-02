@@ -97,6 +97,38 @@
         </inbodydescription>
         <location file="include/AGRemapCore/tools/nodes/ParseNode.h" line="49" column="22"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Id &amp;</type>
+        <definition>const Id &amp; AGRemapCore::Node&lt; Id &gt;::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::Node::id</qualifiedname>
+        <briefdescription>
+<para>The id of the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="55" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" static="no" mutable="no">
+        <type>Id</type>
+        <definition>Id AGRemapCore::Node&lt; Id &gt;::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>AGRemapCore::Node::id_</qualifiedname>
+        <briefdescription>
+<para>The id of the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="62" column="16" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

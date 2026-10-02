@@ -59,6 +59,23 @@ Neuvillette, NeuvilletteMelusent). Expect the commit to be far bigger than the m
 XML lags whenever anyone edits a header without regenerating, so a merge-time regeneration sweeps up
 all of that drift too.
 
+**When the OTHER side's `core/xml` is itself a fresh full regeneration, splice instead (2026-10-02).**
+Merging a docs-audit `master` (which had just regenerated the whole directory) into `cleanup`, a full
+regeneration on the Windows laptop differed from `master`'s tree in **494 files** -- include-graph
+nodes (`Algo.tpp` and friends) the two machines' Doxygen runs resolve differently, none of them from
+either branch. Taking `master`'s directory whole and splicing in only this branch's compounds
+(`Tools/Misc/Docs/doxygenSplice.py --run <scratch>`, then `--apply` the compounds your headers own)
+gave 30 files, all ours, and the splice updates `index.xml` consistently -- the hazard this section
+guards against is hand-merged HUNKS, which taking one side whole never produces.
+
+**And when the other side RESTRUCTURED `api.rst`, do not resolve its hunks either.** A docs audit that
+reorders and re-sections the page leaves `git merge-file` aligning unrelated entries, so the hunks it
+shows are meaningless. Take their page (`git show :3:Docs/src/api.rst`) and re-apply your branch's
+changes as entry operations -- remove an entry by its title and `=` underline through its closing
+`:raw-html:<br />`, insert one after a named entry -- in a script that asserts each title matched
+once. Then grep the page for every name your branch removed: that audit had documented eight deleted
+classes and both halves of three renames.
+
 **Check the merge commit's own title against what it contains.** This one said
 `Merge pull request #254 from nhok0169/add-yaoyao` and there is no Yaoyao anywhere in the tree; the
 branch name was stale. A union check that comes back zero for a name in the title is a question, not
@@ -132,7 +149,24 @@ enumerated list in `findVertexGroupRemap.rst`, **4 `duplicate object description
 and note they are attributed to the *docstring*, not to `api.rst`), and 2 intersphinx inventory failures
 that are **this machine's TLS-inspecting proxy only** and will not appear on Read the Docs, which should
 therefore report 14. **Re-measured 2026-10-01 on Linux: 16 again**, after `master` had drifted to 20 (four
-`Unknown target name: "blend"` from Breathe, fixed by the docs audit). None from
+`Unknown target name: "blend"` from Breathe, fixed by the docs audit). **And 2 since 2026-10-02 -- only
+the intersphinx pair:** the 14 that stood behind them are fixed, so any other warning is new and yours.
+How each went, so nobody undoes one:
+
+- **`duplicate object description` on `TexEditor.compress` / `mipmaps` (and `TexCreator`'s)**: the
+  class's numpydoc `Attributes` section listed `compress` and `mipmaps`, and `:inherited-members:` also
+  documents them as properties of `CppTexEditor` -- two descriptions of one object. **A Python subclass
+  of a bound class leaves an inherited property OUT of its `Attributes` section**; the property's own
+  docstring is the description.
+- **`Unknown target name: "simplified maximal munch"`**: `BaseTokenizer.simplifiedMaximalMunch`'s
+  docstring renders on `api.rst`, whose link targets did not have it (`coreAPI.rst`'s did). Targets are
+  per page, rule 2 below.
+- **The tutorial's 6 duplicate labels are SUPPRESSED, on purpose** (`suppress_warnings =
+  ["autosectionlabel.tutorial"]` in `conf.py`): each of its three choices walks through its own STEP 1 / 2 / 3,
+  nothing references a STEP heading, and renaming them would change the page. Its 3 undefined labels
+  were real -- the Choice links lacked the `tutorial:` prefix `autosectionlabel_prefix_document` gives
+  every label -- and are fixed, so the suppression hides nothing a reader would follow.
+- **`findVertexGroupRemap.rst:36`**: the line after list item C is indented as item C's continuation. None from
 `api.rst`/`coreAPI.rst`/`index.rst` — beware that the
 `[autosummary] generating autosummary for: ...` line names every `.rst`, so a naive per-file grep
 counts one phantom hit for each of those three. Verify a new `coreAPI.rst` entry by extracting the
@@ -787,6 +821,25 @@ Traps hit while doing it, each worth a rebuild cycle:
   actually resolve to a link" as two separate questions — grep the rendered HTML for
   `class="reference internal"` around the class name to check the latter, since a clean warning
   count alone doesn't confirm it.
+- **EVERY CLASS PAGE LISTS WHAT IT INHERITS NOW, ON BOTH PAGES, BY DEFAULT (2026-10-02).** The
+  maintainer asked for it: `IfPredTokenizer` showed none of the methods it gets from `BaseTokenizer`.
+  Read the two bullets after this one as history -- the per-class choices they weigh are settled.
+  - **Python (`api.rst`)**: `conf.py`'s `autodoc_default_options` sets `inherited-members` for every
+    `.. autoclass::`, so do NOT write `:inherited-members:` on a new entry (the 104 hand-written ones
+    were removed). Its value is a list of base classes whose members are SKIPPED -- `object`, `str`,
+    `dict`, `Enum`, `pybind11_object`, ... -- because a plain `True` would paste every `str` method
+    onto `StrEnum`. A new class that subclasses another builtin needs that builtin added there.
+  - **C++ (`coreAPI.rst`)**: the Doxyfile sets `INLINE_INHERITED_MEMB = YES`, so `core/xml` lists each
+    class's inherited members. Doxygen writes those copies with the PARENT's id, and the whole C++
+    reference is one page, so read raw that gave **886 "Duplicate explicit target name" warnings** (and
+    attribute-table links that jumped to the parent), plus 5 "Duplicate C++ declaration" ones where a
+    template child overrides a member Doxygen copied anyway (`BufReplace::buildResModel`). Breathe
+    therefore reads a PREPARED COPY: `Docs/src/extensions/doxygenInherited.py`, called from `conf.py`,
+    copies `core/xml` to `<tempdir>/AGRemapDocs/coreXml`, gives each inherited member an id under the
+    class it was copied into, and drops one whose signature the class already declares. The build log
+    prints `[doxygenInherited] inherited members renamed: N, dropped ...` (1196 / 16 when it landed).
+    The committed XML stays raw Doxygen output, so the regeneration recipes above are unchanged -- and
+    so `doxygen_xml_dir` / `breathe_projects` point at the temp copy, not at `core/xml`.
 - **A base pybind11 class with real inheritance but no live `api.rst` entry hides its methods from
   the derived class's docs page — even though they work fine at runtime.** `DFA` (`PyDFA.cpp`) has
   genuine pybind11 inheritance from `BaseDFA` (`py::class_<PyDFA, PyBindDFA, BaseDFACls>`), so
@@ -1184,11 +1237,12 @@ Two traps in writing the rows, both of which cost a round here: **`commandOpts.r
 list-tables** (the mod types, the download modes, the game types) whose rows are all
 `* - **Name**`, so an insertion that picks "the last row that sorts before this one" over the whole
 FILE lands the character in the download-mode table -- scope to the mod-type table by its
-`* - Name` / `- Game` / `- Aliases` / `- Description` header first. And the GI Description is not
-free text: it states the regex that character's `ModTypeIdTools::getSectionKeywords` entry produces,
-in the shape its neighbours use (a base character excludes its skin's keyword, the skin matches its
-own), while a WuWa row states the character's `vb0` hash out of `HashData` and says why -- a WWMI
-`.ini` names its sections after the draw slot.
+`* - Name` / `- Game` / `- Aliases` / `- Description` header first. And the Description is not
+free text: it is the character's short description, the bold first line of its entry in the
+`ModTypes` enum's docstring (`constants/ModTypes.py`, e.g. `**Amber Chinese mods**`), copied
+verbatim into all three tables. Add the enum entry first and copy from it, so the four places say the
+same thing. (Until 2026-10-01 the cell stated the classifier's section regex for a GI row and its
+`vb0` hash for a WuWa row; the maintainer replaced both with the short description for production.)
 
 **Generate the rows out of the library and diff them against the tables rather than typing them.**
 `GIBuilder.all()` / `WWMIBuilder.all()` give every type's `name`, `gameTypeId` and `aliases`; a
@@ -1197,11 +1251,8 @@ published for a long time: the tables said **BarabaraSummertime** (a misspelling
 type is `BarbaraSummertime`, so the documented name matched nothing a user could pass to `--types`),
 and `KleeBlossomingStarlight` was missing its `ScarletFlandre` alias. Neither is visible by reading.
 
-Two things about the tables as of 2026-09-20: they carry a **Game** column (`GI` / `WuWa`) right of
-the name, matching the `Game Types` table already under them; and a WuWa row's Description is not a
-regex like every GI row's, because a WWMI `.ini` names its sections after the draw slot
-(`[TextureOverrideComponent0]`) and never after the character --- the classifier matches the
-character's own `vb0` hash instead, so the row says so.
+The tables carry a **Game** column (`GI` / `WuWa`) right of the name, matching the `Game Types`
+table already under them.
 
 **And check `core/xml` when you add a character, not only when you add a framework class.** It had
 not been regenerated since Bennett, so every WuWa class --- including the forward `SanhuaFixer` of
@@ -1211,3 +1262,39 @@ about a minute, rewrites ~1440 files of which ~490 differ in content and ~100 ar
 warnings are worth reading --- it flagged that `GIMIFixer::fixKey`'s doc comment had drifted away
 from its declaration, so the comment (and its two `@param`s) was being published on
 `labelTargetBlock` instead.
+
+
+## WRITING THE `.rst` PAGES AND THE READMES: SIX TRAPS THAT RENDER WRONG WITHOUT A WARNING (2026-10-02)
+
+A production pass over the hand-written pages hit each of these. Most of them build cleanly and are wrong only in
+the HTML, so **look at the rendered page, or grep it**, not the warning count.
+
+1. **`` `text` `` is italics, not code.** A single backtick pair is reST's *interpreted text*; inline code is
+   ``` ``text`` ```. Twenty-one spots across six pages had it the wrong way round (`` `hash` ``, `` `if` ``,
+   `` `-\-types` ``). When converting, drop the `-\-` escape -- inside double backticks nothing is escaped, so
+   ``` ``-\-types`` ``` would SHOW the backslash. And check each hit for a link target first: `` `unittest` `` in
+   `makeChanges.rst` had a `.. _unittest:` target nobody used, so it was meant to be a link (`` `unittest`_ ``).
+2. **A `| ` line block swallows a directive.** Every line of a `list-table` cell starting with `| ` makes the cell
+   ONE line block, which holds inline text only -- a `.. code-block::` inside it is printed as text. A cell can
+   hold ordinary paragraphs and directives: write it without the bars, blank lines between the parts, everything
+   indented under the cell. Keep `| ` for short cells that want hard line breaks.
+3. **A `` `name`_ `` with no `.. _name:` target is an ERROR, and a renamed word silently breaks its link.** Fixing
+   a typo in the link text (`Grammer` -> `Grammar`, `mathmatically` -> `mathematically`) means fixing the target
+   line too, in the same edit.
+4. **Renaming a heading's text can make its underline too short**, which is a warning. A scripted rename should
+   lengthen the `===` / `---` / `***` line under any title it grew.
+5. **An image in a README is loaded from `raw.githubusercontent.com/<owner>/<repo>/refs/heads/<branch>/<path>`.**
+   A `github.com/.../blob/...` URL returns an HTML page, not the image, so it is broken on PyPI and anywhere but
+   GitHub's own renderer; `github.com/.../raw/...` works only through a redirect. In a Sphinx page, point at
+   `./_static/images/...` instead, so Read the Docs serves its own copy.
+6. **A page that links to another page of the docs uses `` :doc:`text <page>` ``**, not a GitHub URL to a README
+   that says the same thing (the AI-support tips used to link GitHub; they link `aiSupport` now).
+
+**The command-option tables are a hand-kept list too, and had fallen behind.** `api/README.md`,
+`apiMirror/README.md` and `commandOpts.rst` each list the CLI's options, written by hand -- and all three were
+missing `-fv/--fromVersion`, which the CLI has had since 2026-09-13. The truth is
+`api/src/py/FixRaidenBoss2/controller/CommandBuilder.py` for the API and
+`Tools/Script/Script/apiRefs/PackageApiRef.getOptions` for the two the released script adds (`--update`,
+`--preRelease`). The tables carry a **Build** column since 2026-10-02: `API, Script` for every API option (the
+script hands every option it does not use itself on to the API), `Script` for the script's own. Diff a table
+against those two files before trusting it, the same way `checkModTypeTables.py` does for the mod types.

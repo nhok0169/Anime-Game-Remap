@@ -22,6 +22,21 @@ Where a caller-supplied collect map keeps its models, keyed by file key
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h" line="72" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h" bodystart="72" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a0899dacf5d640c6457df25ed7dc2610c" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::IniResEditContext&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::Section = </definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::IniResEditContext&lt; std::string, std::string &gt;::Section</qualifiedname>
+        <briefdescription>
+<para>The type of <computeroutput>section</computeroutput>_ a <computeroutput>.ini</computeroutput> file is made of. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="65" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a2a88c4d8b3ec55596c38c72f2f944f22" prot="private" static="no" mutable="no">

@@ -87,6 +87,25 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="116" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" static="no">
+        <type>typename ContentPart::RangeSpec</type>
+        <definition>using AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;::RangeSpec = typename ContentPart::RangeSpec</definition>
+        <argsstring></argsstring>
+        <name>RangeSpec</name>
+        <qualifiedname>AGRemapCore::BaseRegEdit::RangeSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shape :cpp:class:`IfContentPart`&apos;s own range-restricted methods
+(:cpp:func:`IfContentPart::removeKeys`, :cpp:func:`IfContentPart::remapKeys`,
+:cpp:func:`IfContentPart::replaceVals`) take -- see \ref toRangeSpec
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_asset_remap_1a331abbb4e11876402c086293470ad5d8" prot="public" static="no" mutable="no">
@@ -350,6 +369,181 @@ Remaps every register named in \\ref assets onto \\ref toModName&apos;s equivale
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="220" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a7c2bd29af43a74241de5515d23dbf5bf" kindref="member">ContentPart</ref> &amp;</type>
+        <definition>virtual ContentPart &amp; AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(ContentPart &amp;part, const std::string &amp;sectionName, IniFile *ini=nullptr, const ModType *modType=nullptr, const std::string &amp;modName=&quot;&quot;, const OrderRanges *partRanges=nullptr)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseRegEdit::editFromIni</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a7c2bd29af43a74241de5515d23dbf5bf" kindref="member">ContentPart</ref> &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a0a861cb7c173104f29307ff46d96ab82" kindref="member">OrderRanges</ref> *</type>
+          <declname>partRanges</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the registers for the current :cpp:class:`IfContentPart` with state info from
+&apos;ini&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to \ref edit and **ignores &apos;ini&apos;
+   entirely** -- see :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> being edited, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ being edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The associated ``.ini`` file -- a **non-owning, nullable** pointer, where
+``nullptr`` stands in for &quot;no ``.ini`` file is available&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The type of mod to fix -- also a **non-owning, nullable** pointer, for the same
+reason ``ini`` is one: none of this class&apos;s own subclasses read it, so a caller may pass
+``nullptr`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The ranges that indicate the valid order indices to process for &apos;part&apos; -- a
+**non-owning, nullable** pointer, where ``nullptr`` means every order index is valid
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same part that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="121" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" kindref="member">RangeSpec</ref> &gt;</type>
+        <definition>static std::optional&lt; RangeSpec &gt; AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;::toRangeSpec</definition>
+        <argsstring>(const OrderRanges *partRanges)</argsstring>
+        <name>toRangeSpec</name>
+        <qualifiedname>AGRemapCore::BaseRegEdit::toRangeSpec</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a0a861cb7c173104f29307ff46d96ab82" kindref="member">OrderRanges</ref> *</type>
+          <declname>partRanges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Converts the nullable :cpp:class:`Ranges` pointer every ``edit`` takes into the
+``std::optional``-wrapped list :cpp:class:`IfContentPart`&apos;s own range-restricted
+methods expect, with ``nullptr`` becoming ``std::nullopt`` (i.e. no restriction)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ranges to convert, or <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The equivalent range restriction </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="157" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

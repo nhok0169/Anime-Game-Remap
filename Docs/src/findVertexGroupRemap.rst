@@ -4,6 +4,13 @@
 How to Find a Vertex Group Remap
 ================================
 
+.. tip::
+  - We provide now a `script to mathematically find the closest vertex group`_
+  - We provide :doc:`AI support <aiSupport>` for automating most of the steps below
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Requirements
 ------------
 - Blender 3.6 with the `GIMI Blender Plugin`_ installed
@@ -190,6 +197,7 @@ you would now need to find the vertex group remap for ``Shenhe --> ShenheFrostFl
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _GIMI Mona Walkthrough: https://github.com/SilentNightSound/GI-Model-Importer/blob/main/Guides/MonaWalkthrough.md
 .. _Remap Draft Format: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Data/RemapDrafts/README.md
+.. _script to mathematically find the closest vertex group: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Tools/VGRemapFinder/GI/GIVGRemapFinder.ipynb
 .. _Always Taken Branch Predictor: https://en.wikipedia.org/wiki/Branch_predictor#Next_line_prediction
 .. _One Bit Saturating Counter Branch Predictor: https://en.wikipedia.org/wiki/Branch_predictor#One-level_branch_prediction
 .. _Branch Prediction: https://en.wikipedia.org/wiki/Branch_predictor

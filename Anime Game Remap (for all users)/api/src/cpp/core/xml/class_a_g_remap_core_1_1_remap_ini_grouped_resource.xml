@@ -132,6 +132,440 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </inbodydescription>
         <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="155" column="13"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1ad3682833e5e7e59892b1a9a0a0010b7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniGroupedResource::fix</definition>
+        <argsstring>()</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::fix</qualifiedname>
+        <briefdescription>
+<para>Fixes the resource <ndash/> calls <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" kindref="member">fixFunc</ref> if set, otherwise <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" kindref="member">_fix</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="232" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a120f751bdcbc61bb5a4250cf9af4d409" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniGroupedResource::isMissing</definition>
+        <argsstring>(const std::unordered_set&lt; std::string &gt; &amp;collected) const</argsstring>
+        <name>isMissing</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::isMissing</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>collected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Given a subset of names of the collected resources so far, is this grouped resource
+missing some type of resource from the given subset
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The subset of the names of the collected resources so far</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether this grouped resource is missing some resource from the specified subset </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="245" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniGroupedResource::addResource</definition>
+        <argsstring>(const std::string &amp;resType, std::unique_ptr&lt; IniResource &gt; resource)</argsstring>
+        <name>addResource</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::addResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Adds an individual resource to the resource group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resource to add <ndash/> ownership is transferred into this group </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="253" column="18" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a197fd7cd70ea7f09515c735390d78fe4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> * &gt;</type>
+        <definition>std::vector&lt; IniResource * &gt; AGRemapCore::IniGroupedResource::memberResources</definition>
+        <argsstring>() const</argsstring>
+        <name>memberResources</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::memberResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every resource this group holds, **borrowed** -- the group keeps ownership, and
+the pointers live only as long as it does :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``virtual``, and that is the whole reason it exists: the `pybind11`_-facing
+``PyIniGroupedResource`` stores its members in a `Python`_ ``dict`` keyed by whole
+mod objects rather than in #resources, so a caller reading #resources directly
+finds every `Python`_-built group empty. Both of the things core does with a
+group&apos;s members -- crediting the fix to them, and pushing the
+``--compressTextures`` override down into them -- went silently to zero because of
+that. Read them through here, never off #resources
+</verbatim></para>
+<para><simplesect kind="return"><para>Every member resource, in no particular order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="272" column="33" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="58" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcEncounteredError</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a2e25b1fe9926445f6350ac383dc193c3">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a15e9b71614b930c7cc28f9decb170de9">srcEncounteredError</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="56" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcIsFixed</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a29fa2ea4330c20878fbe156c0282ae89">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a736a92ad4203cbb2da34aedb03f2c671">srcIsFixed</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="65" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixEncounteredError</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a4de88e85d271cb088fbd77dc1cbc459f">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a324c28bf61ead4aede8b2ab16864f374">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a12493a0ca8ad236d842b53bf7460f130">fixEncounteredError</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="74" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixIsFixed</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a670f70ea23c0af28d1a15896dd7fa181">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1ae594c18d600de30d20c3d46a3f5b1889">fixIsFixed</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="83" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::fixExists</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>fixExists</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixExists</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9">fixExists</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db">fixExists</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_resource_1a490ee356d15c7c5b896d949d90e91153">fixExists</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a8c7902eb77906d8172c3aa518907bd8b">fixExists</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource already exists on disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource already exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="92" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::hasRequired</definition>
+        <argsstring>() const</argsstring>
+        <name>hasRequired</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::hasRequired</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f">hasRequired</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b">hasRequired</reimplementedby>
+        <briefdescription>
+<para>Determines whether all the necessary data has been collected to fix this resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether all the required data is gathered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="99" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniGroupedResource::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::name</qualifiedname>
+        <briefdescription>
+<para>The name of the group of resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="191" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a94f04ef8bda03cf46992f546bed9cef4" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;IniResource&gt; &gt; AGRemapCore::IniGroupedResource::resources</definition>
+        <argsstring></argsstring>
+        <name>resources</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::resources</qualifiedname>
+        <briefdescription>
+<para>The group of resources, keyed by the type of the resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="196" column="32" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" kindref="member">IniGroupedResource</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(IniGroupedResource&amp;)&gt; AGRemapCore::IniGroupedResource::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::fixFunc</qualifiedname>
+        <briefdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" kindref="member">_fix</ref> if set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="201" column="27" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniGroupedResource::isBuilt</definition>
+        <argsstring></argsstring>
+        <name>isBuilt</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::isBuilt</qualifiedname>
+        <briefdescription>
+<para>Whether the grouped resource is ready to be fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="206" column="18" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a67ed5fe1ecf770d7075014acfbade161" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseLogger&gt; AGRemapCore::IniGroupedResource::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where this grouped resource reports progress and problems, or ``nullptr`` for nowhere
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Its own member rather than an inherited one: unlike every other resource here, this
+class is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is a separate root that merely
+*holds* them. See :cpp:member:`IniResource::logger` for why this is an attribute rather
+than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same obstacle
+
+.. note::
+   Deliberately independent of the loggers on the resources inside #resources. A group
+   and its members are registered separately, and nothing here propagates one to the
+   other
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="225" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniGroupedResource::_fix</definition>
+        <argsstring>()</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::IniGroupedResource::_fix</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a0d11b77152476bbf6f327f4c936bb0a5">_fix</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a379cdbb292000313b31b99161b90cbf0">_fix</reimplementedby>
+        <briefdescription>
+<para>Fixes the resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource_1abf9062268d77338804d50a56eba71eb3" kindref="member">fixFunc</ref> for the real, per-instance behavior</para>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="281" column="26" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

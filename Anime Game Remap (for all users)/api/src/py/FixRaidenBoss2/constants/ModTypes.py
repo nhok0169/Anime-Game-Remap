@@ -76,12 +76,12 @@ class ModTypes(StrEnum, DeferredEnum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(arlecchino).*\]``
 
     Barbara: :class:`ModType`
-        **Barabara mods** :raw-html:`<br />`
+        **Barbara mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]``
 
     BarbaraSummertime: :class:`ModType`
-        **Barabara Summer mods** :raw-html:`<br />`
+        **Barbara Summer mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
 
@@ -136,7 +136,7 @@ class ModTypes(StrEnum, DeferredEnum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(diluc)((?!flamme).)*\]``
 
     DilucFlamme: :class:`ModType`
-        **Diluc Red Dead of the Night mods** :raw-html:`<br />`
+        **Diluc Red Dead of Night mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(dilucflamme).*\]``
 
@@ -156,7 +156,7 @@ class ModTypes(StrEnum, DeferredEnum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]``
 
     GanyuTwilight: :class:`ModType`
-        **Ganyu Latern Rite mods** :raw-html:`<br />`
+        **Ganyu Lantern Rite mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ganyutwilight).*\]``
 
@@ -185,7 +185,7 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]``
 
-    KaeyaSailwind: :class:`ModType`'
+    KaeyaSailwind: :class:`ModType`
         **Kaeya Summertime mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kaeyasailwind).*\]``
@@ -271,7 +271,7 @@ class ModTypes(StrEnum, DeferredEnum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(niloubreeze).*\]``
 
     Ningguang: :class:`ModType`
-        **Ningguang Chinese mods** :raw-html:`<br />`
+        **Ningguang mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]``
 

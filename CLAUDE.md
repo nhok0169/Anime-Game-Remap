@@ -178,6 +178,18 @@ construction. **When a number looks right, check that it is capable of being wro
 these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
+**A DOWNLOAD THAT FAILS AND THEN WORKS ON A RE-RUN WAS THE NAME LOOKUP, AND IT RETRIES FOR ~23s NOW
+(2026-10-02).** Tallied over every earlier session's transcript, the flaky failure was always
+`Could not resolve host: github.com`, and it outlasted the old retry window (3 attempts, 1s + 2s).
+`FileDownload` now makes 6 attempts (waits 1/2/4/8/8s, `maxRetryDelay`). It shares one DNS cache,
+TLS session cache and connection pool across the process (a curl share handle), so a run resolves
+each host about once. It also aborts a transfer stalled for 60s. `DownloadCache::markHostUnreachable` gives
+every other file on a dead host one quick try, so an offline run pays the back-off once.
+**If you touch that sharing, keep the retry's cache bypass**: libcurl caches FAILED lookups too, and a
+retry that read one would fail instantly without asking the resolver. Habit 89 in
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md) has the method; [Testing](AI%20Agent%20Help/Testing/CLAUDE.md)
+has a compile line for `FileDownload_curl_test` that links (its header comment now carries it too).
+
 **HOW FAST IS THIS LIBRARY AGAINST THE OLD PURE-PYTHON SCRIPT? MEASURED, AND EVERY ROW IS A WIN NOW
 (2026-09-20).** Over 22 of the maintainer's own mods, with `--download Disabled` passed to **both**
 (their defaults differ, and without it one side is timed doing network work the other refuses):
@@ -216,7 +228,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty-seven short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty-nine short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -233,6 +245,17 @@ the story goes in `AI Agent Help/` or a plain `//` comment. A new public class o
 `core/xml` (the site renders those, not the sources) and run `Tools/Misc/Docs/auditApiDocs.py --html <build>`.
 See Overview habit 87 and [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE
 FOR A NEW USER", which also has the Linux recipe for regenerating both artifacts (`CASE_SENSE_NAMES = NO`).
+
+**THE REFERENCE PAGES SHOW WHAT A CLASS INHERITS NOW, AND THE HAND-WRITTEN PAGES HAVE SIX QUIET TRAPS (2026-10-02).**
+`conf.py` turns autodoc's `inherited-members` on for every Python class (so never write it per class again), and
+the Doxyfile's `INLINE_INHERITED_MEMB = YES` does the same for C++ -- which Breathe can only render through
+`Docs/src/extensions/doxygenInherited.py`, because Doxygen gives every inherited copy its PARENT's id and the C++
+reference is one page (886 duplicate-anchor warnings read raw). When writing pages: `` `x` `` is italics and
+``` ``x`` ``` is code, a `| ` line block in a table cell swallows a `code-block`, a README image comes from
+`raw.githubusercontent.com` (a `/blob/` URL is not an image), and the command-option tables are a fifth hand-kept
+list that had lost `--fromVersion`. See [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "EVERY CLASS
+PAGE LISTS WHAT IT INHERITS" and "WRITING THE `.rst` PAGES", and [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) for
+running the CIPipeline on Windows and the one `core.pyi` line it rewrites as noise.
 
 **A request for a NEW class may describe one that already exists (habit 53, 2026-09-18).**
 "Build a `GraphCompose` edit" turned out to be `GraphInherit` with one pluggable piece added, and
@@ -1409,8 +1432,9 @@ pairs** -- four characters, neither noticed by reading and neither caught by any
 not closed until it prints `ALL FOUR AGREE WITH THE LIBRARY`. Two traps in adding the rows:
 `commandOpts.rst` holds THREE list-tables whose rows look identical, so an insertion that scans the
 whole file puts the character in the DOWNLOAD-MODE table (scope by the mod-type header first), and a
-row's Description is derived -- the GI regex from `getSectionKeywords`, the WuWa hash from
-`HashData`'s `vb0` row -- rather than written.
+row's Description is the character's short description -- the bold line of its entry in the `ModTypes`
+enum's docstring (`**Amber Chinese mods**`), copied verbatim -- not the classifier's regex or hash
+(the maintainer's choice, 2026-10-01).
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

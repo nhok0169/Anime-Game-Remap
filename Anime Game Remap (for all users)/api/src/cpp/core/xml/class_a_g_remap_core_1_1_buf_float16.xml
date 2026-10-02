@@ -71,6 +71,48 @@ moved UV.
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="202" column="22" bodyfile="include/AGRemapCore/model/buffers/BufFloat.h" bodystart="202" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_data_type_1a77e83df5b196e7fc2a2a4a4400401183" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufDataType::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>AGRemapCore::BufDataType::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="138" column="25" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_data_type_1a48aace9a99d5a848fe447eb4bc4b3592" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BufDataType::isBigEndian_</definition>
+        <argsstring></argsstring>
+        <name>isBigEndian_</name>
+        <qualifiedname>AGRemapCore::BufDataType::isBigEndian_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="139" column="18" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufType::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>AGRemapCore::BufType::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="62" column="25" bodyfile="include/AGRemapCore/model/buffers/BufType.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_float16_1af847d8cdf6c32a4a3e44b6552e613292" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
@@ -234,6 +276,171 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="199" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="265" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a9890141068c4e1cc1fa2513bab1d57d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufDataType::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <qualifiedname>AGRemapCore::BufDataType::getSize</qualifiedname>
+        <briefdescription>
+<para>The byte size for the data type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="61" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a90ef03218363d8271153e95d0eb485e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufDataType::setSize</definition>
+        <argsstring>(std::size_t size)</argsstring>
+        <name>setSize</name>
+        <qualifiedname>AGRemapCore::BufDataType::setSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Sets the byte size for the data type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new byte size</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if &apos;size&apos; is 0 or greater than 8 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="70" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BufDataType::getIsBigEndian</definition>
+        <argsstring>() const</argsstring>
+        <name>getIsBigEndian</name>
+        <qualifiedname>AGRemapCore::BufDataType::getIsBigEndian</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `endianness`_ for the data type
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="78" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufDataType::setIsBigEndian</definition>
+        <argsstring>(bool isBigEndian)</argsstring>
+        <name>setIsBigEndian</name>
+        <qualifiedname>AGRemapCore::BufDataType::setIsBigEndian</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>isBigEndian</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sets the `endianness`_ for the data type
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>isBigEndian</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new endianness (see <ref refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" kindref="member">getIsBigEndian</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="88" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufType::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::BufType::getName</qualifiedname>
+        <briefdescription>
+<para>The name of the type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="52" column="31" bodyfile="src/model/buffers/BufType.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufType::setName</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>setName</name>
+        <qualifiedname>AGRemapCore::BufType::setName</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Sets the name of the type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="59" column="18" bodyfile="src/model/buffers/BufType.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufDataType::validateSize</definition>
+        <argsstring>(std::size_t size)</argsstring>
+        <name>validateSize</name>
+        <qualifiedname>AGRemapCore::BufDataType::validateSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="141" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="21" bodyend="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

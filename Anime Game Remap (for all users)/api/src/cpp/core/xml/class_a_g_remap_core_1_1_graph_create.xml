@@ -297,6 +297,244 @@ class&apos;s own note. ``nullptr`` makes the edit a no-op
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h" line="139" column="25"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>virtual GraphGroups &amp; AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::editFromIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_inherit_1a821135adeb849d731113e1a0e518546c">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1ad4e28d301802e5740252e27d317672e0">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e">editFromIni</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**
+   -- see :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="143" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref> *</type>
+        <definition>static Graph * AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::getGraph</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const GraphId &amp;id, bool errorOnNotFound=true)</argsstring>
+        <name>getGraph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::getGraph</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" kindref="member">GraphId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding graph from a group of graphs :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   ``nullptr`` is the &quot;not found&quot; answer, following
+   :cpp:func:`IniSectionGraph::getSection`&apos;s found-or-``nullptr``-or-throw
+   convention
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which graph to retrieve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to throw when no graph is found. <bold>Default</bold>: <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If no graph is found and &apos;errorOnNotFound&apos; is <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The found graph, or ``nullptr`` if there is none and &apos;errorOnNotFound&apos; is ``false``.
+Non-owning -- the graph stays owned by &apos;graphGroups&apos;
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="185" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::addGraph</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const GraphId &amp;id, Graph *graph)</argsstring>
+        <name>addGraph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::addGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ae02e06de153675ca48df413f77d0b222" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_create_1ac1893d7c87927b058dd1e6993f057a52" kindref="member">GraphId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_create_1ac97f88113919dd51136281ede515e54f" kindref="member">Graph</ref> *</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Adds a graph to the group of graphs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to add the graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The graph to add -- one &apos;graphGroups&apos; already owns, per
+:cpp:class:`IIniGraphGroups`&apos;s ownership contract
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
+&apos;graphGroups&apos;
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

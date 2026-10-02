@@ -66,6 +66,20 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="579" column="17" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPart.h" bodystart="579" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="71" column="20" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
@@ -1817,6 +1831,39 @@ split results.
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="555" column="25"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::id</qualifiedname>
+        <briefdescription>
+<para>Retrieves the id for the part. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="56" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::refreshId</definition>
+        <argsstring>()</argsstring>
+        <name>refreshId</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::refreshId</qualifiedname>
+        <briefdescription>
+<para>Regenerates the id for the part. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The newly generated id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="63" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a2f3869c0aeee881ee7516e1b97a4b4a9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -1832,6 +1879,20 @@ split results.
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="563" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::generateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="69" column="27" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="26" bodyend="30"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">

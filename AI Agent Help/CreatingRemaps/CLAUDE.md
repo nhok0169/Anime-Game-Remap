@@ -367,7 +367,9 @@ implemented** against two things:
      applies `diffuseEdits` / `lightMapEdit` only on a normal-map component -- silently none on a plain one).
    * **Re-fixing in place downloads again, and GitHub fails intermittently** ("Could not resolve host"): run
      `Tools/Misc/Diagnostics/check_dangling.py <mod>` after every re-fix and re-run until it is clean. A head
-     draw bound to a file that never landed makes the whole remap invisible.
+     draw bound to a file that never landed makes the whole remap invisible. (Rarer since 2026-10-02: a
+     download now retries for about 23s, not 3s, and a run shares one DNS cache. A failure is still possible,
+     so keep the check. See Overview habit 89.)
 
 **How.** A read-only subagent given this file, the configs of both directions and the comparable pairs'
 configs, and asked for a numbered COVERED / NOT COVERED checklist, did the first pass of the 2026-09-26
@@ -1936,7 +1938,9 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    (this skin reads normal-map B as a GLITTER mask). No band move: his white mods render right on the skin's legend
    (`CppMaterialBandRemapFilter` is bound to Python now, for the next pair that needs one). A download's first
    request can fail DNS (`Could not resolve host`) three times inside 3 s and leave a slot bald for that run --
-   environmental, but it reads exactly like a fix bug.
+   environmental, but it reads exactly like a fix bug. (Since 2026-10-02 it gets six attempts over about 23 s.
+   The run logs show only that these outages outlast 3 s, not how long they last, so a skip is still possible;
+   Overview habit 89.)
 
 10. **His eyes were WHITE, with no pupils, on the skin -- on every mod, the identity too** (reported on
    Neuvillette3, 2026-09-25). Everything a texture question asks came back clean: the eye region of his head atlas

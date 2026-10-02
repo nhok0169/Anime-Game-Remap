@@ -35,6 +35,20 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="139" column="18" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="139" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufType::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>AGRemapCore::BufType::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="62" column="25" bodyfile="include/AGRemapCore/model/buffers/BufType.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -327,6 +341,50 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="135" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufType::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::BufType::getName</qualifiedname>
+        <briefdescription>
+<para>The name of the type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="52" column="31" bodyfile="src/model/buffers/BufType.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufType::setName</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>setName</name>
+        <qualifiedname>AGRemapCore::BufType::setName</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Sets the name of the type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="59" column="18" bodyfile="src/model/buffers/BufType.cpp" bodystart="26" bodyend="28"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">

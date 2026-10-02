@@ -40,6 +40,695 @@ The initial `adjacency list`_ mapping the indices to fix **from** to the indices
         </inbodydescription>
         <location file="include/AGRemapCore/model/assets/Indices.h" line="60" column="22" bodyfile="src/model/assets/Indices.cpp" bodystart="51" bodyend="55"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::addRepoRows</definition>
+        <argsstring>(std::vector&lt; Row&lt; std::string, std::string &gt; &gt; newRows)</argsstring>
+        <name>addRepoRows</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::addRepoRows</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_row" kindref="compound">Row</ref>&lt; std::string, std::string &gt; &gt;</type>
+          <declname>newRows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds new rows to #getRepo, then rebuilds the reverse index (see the class-level note)
+to reflect them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rows to add <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" kindref="member">ModDictAssets::addRows</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="101" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::addMap</definition>
+        <argsstring>(const std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &amp;assetMap, std::vector&lt; Row&lt; std::string, std::string &gt; &gt; newRows={})</argsstring>
+        <name>addMap</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::addMap</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &amp;</type>
+          <declname>assetMap</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_row" kindref="compound">Row</ref>&lt; std::string, std::string &gt; &gt;</type>
+          <declname>newRows</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Merges new entries into the existing `adjacency list`_ (see #getMap) -- for any
+``fromAsset`` already present, new ``toAsset`` values are appended after the existing
+ones, skipping any that are already present (a set-union that preserves insertion
+order)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>assetMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new adjacency entries to merge in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any new rows needed to support &apos;assetMap&apos; <ndash/> if non-empty, added to <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" kindref="member">getRepo</ref> first (see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" kindref="member">addRepoRows</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="116" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a936849fbb63c5ac026b0f605e9bf4a88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::get</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;nonVersionVals, const std::optional&lt; Version &gt; &amp;version=std::nullopt, bool errorOnNotFound=true) const</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::get</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nonVersionVals</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding asset <ndash/> forwards directly to :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa08492c8ad3c26232cfb85a4340bdfac" kindref="member">ModDictAssets::get</ref></computeroutput> on <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" kindref="member">getRepo</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="122" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a390fe6691c965210ff4b7682b7cd32b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::hasFrom</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;version=std::nullopt, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;nonVersionVals={}) const</argsstring>
+        <name>hasFrom</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::hasFrom</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>nonVersionVals</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether &apos;asset&apos; exists in the assets to map from -- a cheap wrapper over
+\ref getKey (``errorOnNotFound = false``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>asset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The asset to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to search from <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The non-version value filter <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="135" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; std::string &gt; &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getKey</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;fromNonVersionVals, bool errorOnNotFound=true) const</argsstring>
+        <name>getKey</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::getKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>fromNonVersionVals</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the key that produced &apos;asset&apos;, disambiguating between multiple candidates
+(a single asset value can originate from more than one row -- e.g. a texture hash
+shared by several characters at the same version) via &apos;fromNonVersionVals&apos; -- the
+first remaining candidate wins if more than one still matches after filtering
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>asset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The asset value to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The version to search from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``std::nullopt``, the latest version &apos;asset&apos; is available at is used. Otherwise,
+the closest available version is used (the same corrected, inclusive-floor
+resolution as :cpp:class:`ModDictAssets`&apos;s own version search -- an exact match
+returns itself) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+When no candidate at that version passes &apos;fromNonVersionVals&apos;, each OLDER version
+&apos;asset&apos; is available at is tried in turn, newest first. A value two characters share is
+filed under both, often at different versions -- Yaoyao&apos;s face diffuse ``c70ae897`` is
+also YaoyaoBamboo&apos;s, at 6.3 -- and stopping at the newest one made a lookup filtered to
+the older owner find nothing. Only a not-found can change: whatever the first version
+answers, it still answers
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromNonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+A per-position filter over the candidate keys&apos; non-version index values --
+``std::nullopt`` at a position means &quot;match any value there&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+An empty vector means &quot;no filtering at all&quot; (every position wildcarded); otherwise
+this must have exactly #getRepo&apos;s ``getTotalIndices() - 1`` elements
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to throw if no matching key is found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;fromNonVersionVals&apos; is non-empty and doesn&apos;t have exactly <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" kindref="member">getRepo</ref>&apos;s <computeroutput>getTotalIndices() - 1</computeroutput> elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If no matching key is found and &apos;errorOnNotFound&apos; is <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The non-version index values identifying the originating row (the first element is
+always the &quot;name&quot; value -- see the class-level note on index ordering), or
+``std::nullopt`` if none is found and &apos;errorOnNotFound&apos; is ``false`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Only the key is returned, not the version it was found at.
+   \ref replace/\ref replaceAll still resolve the version internally (via a private
+   overload) since they need it; it just isn&apos;t part of this method&apos;s own public return
+   value
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="191" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::replace</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;fromNonVersionVals, const std::optional&lt; Version &gt; &amp;toVersion, const std::string &amp;toAssetName, bool errorOnNotFound=true) const</argsstring>
+        <name>replace</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::replace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>fromNonVersionVals</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>toAssetName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the single corresponding asset to replace &apos;asset&apos; with, for one specific target asset name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>asset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The asset to be replaced </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to replace from <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromNonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The non-version value filter <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to replace to <ndash/> <computeroutput>std::nullopt</computeroutput> for the latest </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toAssetName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The specific name of the asset to map to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to throw if &apos;asset&apos; (or a mapping for it) isn&apos;t found at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This governs only the initial lookup of &apos;asset&apos; itself and of its mapping, and
+   every such failure path respects &apos;errorOnNotFound&apos; uniformly. Once
+   past that point, &quot;toAssetName isn&apos;t actually mapped from asset&apos;s name&quot; or &quot;no data
+   exists for it at the queried version&quot; always just returns ``std::nullopt``,
+   &apos;errorOnNotFound&apos; notwithstanding -- those aren&apos;t failures to find &apos;asset&apos;, they&apos;re
+   just &quot;there is nothing there&quot;
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The replacement asset, or <computeroutput>std::nullopt</computeroutput> if none is found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="217" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::replaceAll</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;fromNonVersionVals, const std::optional&lt; Version &gt; &amp;toVersion, const std::vector&lt; std::string &gt; &amp;toAssetNames={}, bool errorOnNotFound=true) const</argsstring>
+        <name>replaceAll</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::replaceAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>fromNonVersionVals</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>toAssetNames</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves every corresponding asset to replace &apos;asset&apos; with. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>asset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The asset to be replaced </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to replace from <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromNonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The non-version value filter <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to replace to <ndash/> <computeroutput>std::nullopt</computeroutput> for the latest </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toAssetNames</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The specific names of the assets to map to -- an empty vector means &quot;every asset
+name &apos;asset&apos; maps to&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" kindref="member">replace</ref>&apos;s note on this parameter</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The corresponding assets for the fix to replace, keyed by asset name :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Empty if &apos;asset&apos; (or its mapping) isn&apos;t found and &apos;errorOnNotFound&apos; is ``false``, if
+nothing in &apos;toAssetNames&apos; is actually mapped from &apos;asset&apos;, or if none of the mapped
+names have data at the queried version
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="242" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a045ec005d9787d97d8acd5fedb84899f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getFromAssets</definition>
+        <argsstring>() const</argsstring>
+        <name>getFromAssets</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::getFromAssets</qualifiedname>
+        <briefdescription>
+<para>Every asset value that has at least one known originating key <ndash/> i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>every leaf value present in <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" kindref="member">getRepo</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="248" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &amp;</type>
+        <definition>const ModDictAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt; &amp; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getRepo</definition>
+        <argsstring>() const</argsstring>
+        <name>getRepo</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::getRepo</qualifiedname>
+        <briefdescription>
+<para>The underlying asset data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="253" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1af89593939d32cd68d893dae4b22947d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt; &amp; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getMap</definition>
+        <argsstring>() const</argsstring>
+        <name>getMap</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::getMap</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>adjacency list</computeroutput>_ mapping assets to fix from to assets to fix to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="258" column="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1afb387b5ab1d7d05660b4388431e6486b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;std::string&gt; &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::nonVersionIndexNames</definition>
+        <argsstring></argsstring>
+        <name>nonVersionIndexNames</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::nonVersionIndexNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The names of the non-version index columns, in position order :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Purely descriptive: every query method on this class takes its non-version index values
+**positionally**, and none of them consults this. It records what those positions
+*mean*, so a caller holding only the table can say &quot;the second one is ``type``&quot; without
+having to know which subclass built it -- :cpp:class:`Hashes`&apos;s own doc comment already
+names its columns (``version``, ``name``, ``type``) in prose; this is that same
+statement, in a form something can read :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``std::nullopt`` (the default) means the columns are unnamed, which is the right answer
+for any table not backed by named indices :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The binding layer is the main consumer: with names present it accepts a flexible
+   bare-value / list / dict-keyed-by-name argument shape (as the `Python`_
+   ``Hashes``/``Indices`` do), instead of requiring an already-positional list, which
+   is why this member reads as Python-flavoured
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="90" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1abbf8953ecadf9a2e8dfa5a17e7477823" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>ModDictAssets&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::repo_</definition>
+        <argsstring></argsstring>
+        <name>repo_</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::repo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="274" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="275" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; VersionBucket &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;VersionBucket&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Maps an asset value to its version-sorted buckets of originating candidate keys --
+see the class-level note on how (and why) this is built
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="284" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1aeae6b17af7c0b58c046021bb4af2a9dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::rebuildKeys</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildKeys</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::rebuildKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="286" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1ad7398e7c9ca99a32c5abff110facd0c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; std::string &gt; &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::resolveToAssetNames</definition>
+        <argsstring>(const std::string &amp;fromAsset, const std::vector&lt; std::string &gt; &amp;toAssetsFilter) const</argsstring>
+        <name>resolveToAssetNames</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::resolveToAssetNames</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fromAsset</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>toAssetsFilter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="287" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; InternalKeyResult &gt;</type>
+        <definition>std::optional&lt; InternalKeyResult &gt; AGRemapCore::ModMappedAssets&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getKeyInternal</definition>
+        <argsstring>(const std::string &amp;asset, const std::optional&lt; Version &gt; &amp;fromVersion, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;fromNonVersionVals, bool errorOnNotFound) const</argsstring>
+        <name>getKeyInternal</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;::getKeyInternal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>asset</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>fromNonVersionVals</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+        </param>
+        <briefdescription>
+<para>The real implementation behind <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> <ndash/> also used internally by <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" kindref="member">replace</ref> / <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" kindref="member">replaceAll</ref>, which need the resolved version too (to avoid re-resolving it a second time) even though <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> itself doesn&apos;t expose it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="294" column="27"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

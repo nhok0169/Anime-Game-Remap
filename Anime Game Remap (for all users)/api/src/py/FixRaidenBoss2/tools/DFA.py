@@ -224,8 +224,8 @@ class DFA():
         """
         Determines whether some state is an accepting state
 
-        Paramters
-        ---------
+        Parameters
+        ----------
         stateId: `Hashable`_
             The id of the state
 

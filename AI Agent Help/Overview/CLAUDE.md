@@ -968,6 +968,12 @@ each cost a confused cycle:
   correction were all swept into another session's Bennett commit. Before concluding your work is
   uncommitted, `git log --oneline -3 -- <file>`; before concluding someone reverted you, check
   whether it simply landed under a message about something else.
+- **The checked-out BRANCH may change under you, and other sessions commit onto whatever is
+  checked out (2026-10-02).** One session worked on `cleanup`, found two of another session's
+  commits on it (a version bump and a mirror regeneration), and next day found the checkout on
+  `finalize-docs` with someone else's uncommitted edits. Before every commit run `git branch
+  --show-current` and `git status --short`, stage your OWN paths by name (never `git add -A`), and
+  before every push read `git log origin/<branch>..<branch>` -- it lists exactly what the push sends.
 - **The maintainer swaps mod folders between `GIMI/Mods/` and one level up while testing**, so a
   path that resolved an hour ago resolves to nothing now. Resolve a mod by NAME across both
   locations, and fail loudly when it is in neither (see habit 34).
@@ -1570,7 +1576,8 @@ checked the same way: 37 mods fixed with the old build, rebuilt, fixed again, ev
 compared. **Downloads DISABLED is the verdict**: deterministic, and it must be byte-identical except
 where the change is meant to act. **Downloads ON is where a download DECISION shows** -- the coverage
 fix moved three -- but it carries two kinds of noise that read like regressions: on the laptop
-`github.com` fails to resolve on roughly one run in five (`Could not resolve host`), and one failed
+`github.com` fails to resolve on roughly one run in five (`Could not resolve host`; much rarer since
+2026-10-02, when the retry window grew from 3s to about 23s -- habit 89), and one failed
 download aborts the WHOLE resource group it belongs to (every merged buffer of CharlotteHurlock4 came
 out missing); and the merge suffixes each generated file with random letters (`_B8g_E.buf` one run,
 `_B8g.buf` the next). So retry a mod whose stats list a download skip before judging it, compare with
@@ -1716,6 +1723,37 @@ which does not render; and when you change behaviour, re-read the doc block abov
 function also needs its entry on `Docs/src/api.rst` / `coreAPI.rst` -- 164 exports had none, including ones the
 examples call. `Tools/Misc/Docs/auditApiDocs.py --html <build>` checks all three (exports, rendered history and
 dates, dead repo links); see [Documentation](../Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE FOR A NEW USER".
+
+**88. A WHOLE-FILE MERGE CONFLICT MAY BE LINE ENDINGS: RE-MERGE ON NORMALISED STAGES (2026-10-02).** A file
+committed with a lone carriage return is stored raw (CRLF) because git's normalisation refuses it (trap 2 in
+the top-level `CLAUDE.md`); fix the stray `\r` and the next commit stores it as LF. Merge that against a
+branch that edited the CRLF copy and git reports ONE conflict spanning the whole file -- `IniKeywords.h` did,
+over a two-line real difference. Redo the merge yourself: `git show :1:<f>`, `:2:` and `:3:` into scratch
+files, strip `\r` from all three, `git merge-file -p -L OURS -L BASE -L THEIRS ours base theirs`, and write
+the result back with the line endings of `:3:`. Every conflicted header in that merge went from "whole
+file" to one or two real hunks. Do it in a script over `git diff --name-only --diff-filter=U` (skipping
+`core/xml` and `core.pyi`, which are regenerated, not merged), and print the remaining hunks rather than
+opening each file.
+
+**89. "IT FAILS SOMETIMES, THEN WORKS ON A RE-RUN": THE FAILURES ARE ALREADY IN EARLIER SESSIONS'
+TRANSCRIPTS -- TALLY THEM BEFORE GUESSING (2026-10-02).** An intermittent failure cannot be reproduced on
+demand, and the maintainer remembers only that it happened. But every agent session that ran the fix left
+its tool output in `~/.claude/projects/<slug>/<session>.jsonl`, and this repo has hundreds of them. One
+`grep -rhoE` over `--include=*.jsonl` for the failure line (`request failed: [^"\\]{0,160}`), piped
+through `sort | uniq -c`, turned "downloads sometimes fail" into a ranked table in seconds: 156 `404`s
+(genuinely missing files, a different question), then `Could not resolve host: github.com`, then nothing
+else that mattered. A Python script pulling ~700 characters around each hit then showed the shape every
+time: attempt 1 fails, attempt 2 fails, the run gives up -- the retry was firing, and its whole window
+(1s + 2s) was shorter than the outage. **Exclude your own session's file** (its id is in your scratchpad
+path), or the tally counts the tally. The fix itself is in `FileDownload.cpp`'s comments; the lesson that
+outlives it is **a cache shared to cut down on lookups also caches the FAILED ones**. libcurl keeps a
+negative DNS entry for half the cache timeout, so a retry that reads the shared cache fails instantly
+without asking the resolver, and a longer retry window would have bought nothing. A retry has to bypass
+the cache (`CURLOPT_DNS_CACHE_TIMEOUT = 0`). That was established with curl's own trace
+(`curl_global_trace("dns")` plus `CURLOPT_VERBOSE`) in a 30-line program, before any of it went into the
+library: one handle fails, a second on the same share prints `cache entry does not have type=A+AAAA
+addresses` and fails without resolving, and a third with timeout 0 prints `Hostname in DNS cache was stale,
+zapped` and genuinely resolves.
 
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
@@ -2019,7 +2057,17 @@ sections sit on the LisaStudent model. 4.6.4 runs that fix the wrong way round.
     push -u origin <branch>` fixes it for that one command, without changing anyone's config.
   - **The PR:** `gh` is not logged in, and logging in is the maintainer's to do, never yours. Give
     them `https://github.com/nhok0169/Anime-Game-Remap/compare/master...<branch>?expand=1`
-    and the PR description text.
+    and the PR description text. The in-app browser is not signed in to GitHub either (checked
+    2026-10-02), so it cannot open the PR for you.
+  - **`git fetch` / `push` can fail with `Could not resolve host: github.com`** on the laptop, which
+    is the machine's DNS flake (habit 89), not your command. Retry it a few seconds later.
+- **Moving a commit to its own branch for a PR, when your tree has someone else's uncommitted work
+  (2026-10-02).** A `git worktree add` under the scratchpad fails with `Filename too long` -- that
+  path plus the repo's deepest `core/include/AGRemapCore/data/IniFixData/...` paths pass Windows'
+  260-character limit -- and leaves a half-made branch behind (`git worktree prune` cleans it up). Check
+  first whether you need a checkout at all: if `git rev-parse <commit>^` equals `origin/master`, a
+  cherry-pick would reproduce the same commit, and `git branch -f <new> <commit>` plus a push is the
+  whole job. The working tree is never touched.
 - **A session worktree can start from an OLD commit.** On 2026-09-23 one was created at a commit
   from before `Tools/GameView` existed, while the task was about GameView. `git log --oneline -1`
   against `git log --oneline -1 master` tells you. If the worktree is clean, `git merge --ff-only

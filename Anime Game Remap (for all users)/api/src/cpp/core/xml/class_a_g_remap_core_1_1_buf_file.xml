@@ -1051,6 +1051,95 @@ and re-reads from it, so the usual :cpp:func:`read` validation applies
         </inbodydescription>
         <location file="include/AGRemapCore/model/files/BufFile.h" line="467" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="1002" bodyend="1050"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref> &amp;</type>
+        <definition>const BinarySrc &amp; AGRemapCore::BinaryFile::getSrc</definition>
+        <argsstring>() const</argsstring>
+        <name>getSrc</name>
+        <qualifiedname>AGRemapCore::BinaryFile::getSrc</qualifiedname>
+        <briefdescription>
+<para>The source file or bytes for the file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="55" column="29" bodyfile="src/model/files/BinaryFile.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1aa02ddd15f95514374873a5fa2a41cca2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BinaryFile::setSrc</definition>
+        <argsstring>(BinarySrc src)</argsstring>
+        <name>setSrc</name>
+        <qualifiedname>AGRemapCore::BinaryFile::setSrc</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Sets the source file or bytes for the file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new source </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="62" column="18" bodyfile="src/model/files/BinaryFile.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
+        <definition>const ByteVec &amp; AGRemapCore::BinaryFile::getData</definition>
+        <argsstring>() const</argsstring>
+        <name>getData</name>
+        <qualifiedname>AGRemapCore::BinaryFile::getData</qualifiedname>
+        <briefdescription>
+<para>The bytes read in from the source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="67" column="27" bodyfile="src/model/files/BinaryFile.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
+        <definition>BinarySrc AGRemapCore::BinaryFile::src_</definition>
+        <argsstring></argsstring>
+        <name>src_</name>
+        <qualifiedname>AGRemapCore::BinaryFile::src_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="83" column="23" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::BinaryFile::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>AGRemapCore::BinaryFile::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="84" column="21" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

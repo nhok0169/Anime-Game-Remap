@@ -148,6 +148,35 @@ The specific colours to have their transparency adjusted. If this is
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="73" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="40" bodyend="68"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTexFilter::operator()</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BaseTexFilter::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Calls <ref refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" kindref="member">transform</ref> for this filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" line="36" column="18" bodyfile="src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>

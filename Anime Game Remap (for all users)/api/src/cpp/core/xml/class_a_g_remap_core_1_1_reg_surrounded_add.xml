@@ -644,6 +644,141 @@ honouring \ref latest for which valid location within each window is chosen
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="270" column="19"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ad96e7145d27738ef025df5cd7775a764" kindref="member">Graph</ref> &amp;</type>
+        <definition>virtual Graph &amp; AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::editFromIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47">editFromIni</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ad96e7145d27738ef025df5cd7775a764" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ac57299697d7f5b469d0bdc0df1b024fe" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1af4e57ab95ef0b7b7b972b43e01f153c5" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**.
+   Subclasses that
+   actually need the ``.ini`` file&apos;s state override this rather than #edit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="109" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a30780aab64039ec0d3d9f5206962110e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">

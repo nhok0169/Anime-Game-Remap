@@ -139,7 +139,7 @@ different skills in the table below, rated out of 10.
         | the downloads from the source frame dumps.
     * - | Vertex Group Remap Finding
       - | :greenBold:`8.3`
-      - | They already have a `script to mathematically find the closest vertex group`_ which saves a tremendous amount of work. The only part left is that they need to judege using some context
+      - | They already have a `script to mathematically find the closest vertex group`_ which saves a tremendous amount of work. The only part left is that they need to judge using some context
         | of whether to change the mapping of a vertex group to some other vertex group that is not necessarily the closest. With the audit gates in the pipeline, this second part is improved with
         | fewer instances of mesh issues in game. What is usually not covered are small details that are hard to perceive in game.
     * - | Game Control and Viewing

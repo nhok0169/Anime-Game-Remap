@@ -7,32 +7,47 @@ Command Options
 
 Options
 -------
+The **Build** column says which build has the option. The Script accepts every option of the API, since it hands them on to the API.
+
 .. list-table::
-   :widths: 25 75
+   :widths: 25 15 60
    :header-rows: 1
 
    * - Option
+     - Build
      - Description
    * - -h, -\-help   
+     - API, Script
      - show this help message and exit
    * - -s str, -\-src str
-     - | The path to the Raiden mod folder. If this option is not specified, then will
-       | use the current directory as the mod folder.
+     - API, Script
+     - | The starting path to run this fix. If this option is not specified, then will
+       | run the fix from the current directory.
    * - -v str, -\-version str
+     - API, Script
      - | The game version we want the fix to be compatible with. If this option is not specified,
        | then will use the latest game version
+   * - -fv str, -\-fromVersion str
+     - API, Script
+     - The game version the mods being fixed were made for. This picks how the mods are read (which hashes/indices they are looked up by), where ``--version`` picks the fix that is written. If this option is not specified, then will read the mods as the latest game version.
    * - -d, -\-deleteBackup
+     - API, Script
      - deletes backup copies of the original .ini files
    * - -f, -\-fixOnly
+     - API, Script
      - only fixes the mod without cleaning any previous runs of the script
    * - -u, -\-undo
+     - API, Script
      - Undo the previous runs of the script
    * - -ho, -\-hideOriginal
+     - API, Script
      - Show only the mod on the remapped character and do not show the mod on the original character
    * - -l str, -\-log str
+     - API, Script
      - | The folder location to log the printed out text into a seperate .txt file.
        | If this option is not specified, then will not log the printed out text.
    * - -a, -\-all
+     - API, Script
      - | Parses all \*.ini files that the program encounters. 
        | This option supersedes the ``--types`` option.
        |
@@ -42,6 +57,7 @@ Options
        | 
        | Otherwise, you will be defaulted to fixing 'raiden' mods.
    * - -dt str, -\-defaultType str
+     - API, Script
      - | The default mod type to use if the \*.ini file belongs to some unknown mod.
        |
        | - If ``--forceType`` is set to True, this option has not effect 
@@ -50,12 +66,14 @@ Options
        | 
        | See below for the different names/aliases of the supported types of mods.
    * - -ft str, -\-forceType str
+     - API, Script
      - | Forcibly assumes the mod type for all \*.ini file parsed.
        |
        | This option supersedes the ``--types`` option and the ``--all`` option.
        |
        | See below for the different names/aliases of the supported types of mods.
    * - -t str, -\-types str
+     - API, Script
      - | Parses \*.ini files that the program encounters for only specific types of mods.
        | If the ``--all`` option has been specified, this option has no effect.
        | By default, if this option is not specified, 
@@ -67,6 +85,7 @@ Options
        |
        | See below for the different names/aliases of the supported types of mods.
    * - -rt str, -\-remappedTypes str
+     - API, Script
      - | From all the mods to fix, specified by the -\-types option, 
        | will specifically remap those mods to the mods specified by this option.
        |
@@ -95,6 +114,7 @@ Options
        |
        | See below for the different names/aliases of the supported types of mods.
    * - -g str, -\-game str
+     - API, Script
      - | Fixes mods only for the specified games.
        | By default, if this option is not specified, will fix mods for all the supported games.
        |
@@ -104,6 +124,7 @@ Options
        |
        | See :ref:`Game Types <commandOpts:Game Types>` for the different names/aliases of the supported types of games.
    * - -c, -\-compressTextures
+     - API, Script
      - | Whether to compress the textures the fix writes.
        |
        | **By default textures are left uncompressed**, which is what the older pure-Python
@@ -115,14 +136,22 @@ Options
        | texture edits decide for themselves; an edit that deliberately writes an
        | uncompressed texture still does so.
    * - -dl str, -\-download str
+     - API, Script
      - | The download mode to handle file downloads need. The below are the available download modes:
        | 
        | See :ref:`Download Modes <commandOpts:Download Modes>` for details on the available download modes.
        |
        | By default, the download mode used is: **Normal**
    * - -p str, -\-proxy str
+     - API, Script
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
+   * - -up, -\-update
+     - Script
+     - Updates the ``FixRaidenBoss2`` package (the API) to its latest version before running. Without this option, the package is only downloaded when it is not already installed.
+   * - -pre, -\-preRelease
+     - Script
+     - Also considers prereleases of the ``FixRaidenBoss2`` package when downloading it.
 
 :raw-html:`<br />`
 :raw-html:`<br />`

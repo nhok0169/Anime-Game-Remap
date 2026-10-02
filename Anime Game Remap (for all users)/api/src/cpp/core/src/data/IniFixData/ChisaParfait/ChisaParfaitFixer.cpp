@@ -235,7 +235,30 @@ namespace AGRemapCore {
             // ps-t5 must NOT be left to the game -- it is UV-mapped; see hairNormalFilter.
             {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"},
                      {"ps-t5", "hairNormal"}}}},
-            {2, {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}}},
+            // HER FACE MASK IS NOT BOUND, AND THE FACE IS THE ONE SLOT ON THIS PAIR WHERE
+            // LEAVING A UV-MAPPED REGISTER TO THE GAME IS BOTH NECESSARY AND SAFE
+            // (2026-10-02). Safe because the two faces are the SAME MESH -- both draws are
+            // 13494 indices, and her face DIFFUSE lands correctly on Chisa in game -- so
+            // Chisa's own mask is sampled at the UVs it was authored for, which is the one
+            // condition under which an unbound UV-mapped register is not the wrong-UVs bug.
+            //
+            // Necessary because bound it is wrong: hers is `226d9bc4`, BC3, 512x512 and
+            // Chisa's is `6ae8dd10`, BC1, 1024x1024 -- a different FORMAT, so a different
+            // shader underneath -- and rendered channel by channel the two are near
+            // complements over the face (hers R 0 / B ~126, Chisa's R 255 / B 0). On Chisa's
+            // face shader that drew a hard-edged shadow wedge across one cheek and jaw that
+            // ChisaParfait's own model does not have, with everything else about the face --
+            // blush, lashes, eyes -- correct (Images/ChisaParfait/3_7/FaceShadowVsOwnModel.jpg).
+            //
+            // It fired on every mod rather than on one that ships a face mask: ChisaParfait1
+            // ships none, so `fallbackTextures` downloaded HERS and bound that.
+            //
+            // Proved by DELETING this line from the fixed `.ini` and reloading, not by
+            // appending `ps-t0 = null`: a null UNBINDS the slot, so the shader samples zero,
+            // while deleting leaves the game's own -- which is what removing the role here
+            // does, so it is the one that had to be tested. Both clear the wedge; only the
+            // deletion is this change.
+            {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}}},
             {5, {3, {{"ps-t0", "panelNormal"}, {"ps-t1", "panelMask"}, {"ps-t2", "panelDiffuse"}}}},
@@ -283,7 +306,9 @@ namespace AGRemapCore {
         // left them out of BOTH lists on the grounds that ChisaParfait's own hair mask is a
         // structured map, which is the wrong artifact: both the flat test and the alias check run on
         // the MOD's candidate file, not on the download.
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask", "panelMask", "propMask"};
+        // `faceMask` is NOT here: the face slot does not bind a mask at all -- see the
+        // plan above. A role no plan names cannot fall back to anything.
+        config.flatFallsBackToSource = {"upperMask", "lowerMask", "panelMask", "propMask"};
 
 
         // ---- RabbitFX's own texture binding, which would override the fix's ----------------------

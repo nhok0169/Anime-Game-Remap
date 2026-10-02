@@ -3455,6 +3455,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a HUE over the body AND the clothes, every picture right | the material MASK: the mod ships none for that component, so the TARGET's mask is sampled at the mod's UVs | `fallbackTextures` -- the source's own mask, downloaded |
 | a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
 | a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
+| a HARD-EDGED shadow wedge across one cheek and jaw, the rest of the face (blush, lashes, eyes, colour) right | the FACE mask: the two skins' are different FORMATS and near complements, so the source's drives the target's face self-shadow the wrong way | do not bind it at all -- the two faces are the same mesh, so the target's own is already at the right UVs |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
 | a RabbitFX cut-out (a tattoo's background, a see-through panel) drawn solid, though the fix carries `Resource\RabbitFX\FXMap` and `run = CommandList\RabbitFX\Run` | **a shader dump left in `WWMI/ShaderFixes`** (2026-09-22). A `<hash>-ps.txt` there is loaded as that shader's replacement, which skips RabbitFX's ShaderRegex -- so the shader never gets `filter_index = 1718.1`, and `Run` binds the FX map only `if ps == 1718.1`. The dumped text still contains the discard, so reading it proves nothing | move every dump out of `ShaderFixes` once it has been read, and before judging anything in game |
 | a mod's dress / panel drawn through an ACCESSORY slot comes out tinted (Chisa6's sweater: maroon) | the target pass reads a MATERIAL CODE map, and the code the fix feeds it selects the skin's own panel material (ChisaParfait's side-panel pass `87825a9a`: code 0 overlays the diffuse with a pink shade colour) -- and RabbitFX's `SetTextures`, if the mod calls it, swaps a map into that site by the order the SOURCE samples in, not the target's | read the pass's code decode against its `cb4`; `chisaParfaitFix.py`'s `AccessoryCode` and `RabbitFXSetTexturesRegs` |
@@ -3798,6 +3799,52 @@ Worth knowing for the triage: this stain had been there the whole time, undernea
 hair ramp was adding. It only became reportable once the orange was fixed --- habit 35, a symptom
 that appears after a successful fix is usually the second defect becoming visible, not the fix
 misfiring.
+
+### THE FACE MASK IS THE ONE REGISTER THAT MUST NOT BE BOUND AT ALL (2026-10-02)
+
+A `ChisaParfait -> Chisa` remap drew a **hard-edged shadow wedge** across one cheek and jaw that
+ChisaParfait's own model does not have -- everything else about the face (the diffuse, the blush,
+the lashes, the eyes) correct. It was found by putting the mod on Chisa and the SKIN on her own
+character one outfit card apart, on the same screen at the same camera, and looking at the two
+faces side by side; it is invisible in any single screenshot, because the face carries a soft hat
+shadow in that scene either way and only the BOUNDARY differs.
+
+**The cause is the face mask, and the two characters' are not the same kind of map:**
+
+| | Chisa `6ae8dd10` | ChisaParfait `226d9bc4` |
+| --- | --- | --- |
+| format | **BC1**, 1024x1024 | **BC3**, 512x512 |
+| R over the face | **255** (dark only on the lash band) | **0** (white only at the edge) |
+| B over the face | 0 | ~126 |
+
+A different DXGI format is this guide's own tell that the shader underneath is not the same one,
+and rendered channel by channel the two are near complements -- so the skin's mask drives Chisa's
+face self-shadow term the wrong way. The wedge is the SDF-style face shadow, not a cast one.
+
+**The fix is to bind nothing there**, which is the one case where leaving a UV-mapped register to
+the game is safe: the two faces are the **same mesh** -- both draws are 13494 indices, and the
+skin's face DIFFUSE lands correctly on Chisa in game -- so the target's own mask is sampled at the
+UVs it was authored for. `plan[2]` is `{{"ps-t1", "faceDiffuse"}}` and `faceMask` is in no list at
+all; the role then stops being resolved, so its `fallbackTextures` download stops being fetched
+too (6 downloads -> 5).
+
+**It fired on every mod, not on one that ships a face mask.** The test mod ships none, so the
+fallback downloaded the SKIN's own and bound that -- which is why "does this mod ship a face mask"
+is not the axis to sort by here.
+
+**And the probe that decides it is a DELETION, not a `null`.** Appending `ps-t0 = null` to the
+slot's texture list clears the wedge too, and it is a different experiment: a null UNBINDS the
+slot, so the shader samples zero, where removing the role from the plan leaves the GAME's own
+texture bound. Only the second is what the code change does, so only the second proves it. Both
+were run; the deletion is the one the change rests on.
+
+**One measurement attempt is worth recording as a failure.** "Share of face pixels on a strong
+luminance edge" over the face window gave **10.12% / 10.14% / 9.99%** across the three states --
+no discrimination, because the window is mostly hair, lashes and eyes, which carry every strong
+edge there is whatever the shadow does. Painting the counted pixels showed them lying along hair
+strands and never along the shadow boundary. The three-state picture
+(`Images/ChisaParfait/3_7/FaceShadowThreeStates.png`, own model / bound / not bound, same crop) is
+what settles it, and a statistic that cannot fail is habit 34 in its other form.
 
 ### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
 

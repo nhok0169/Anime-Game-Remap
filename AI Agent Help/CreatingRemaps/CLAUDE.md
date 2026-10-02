@@ -2967,6 +2967,88 @@ One structural difference worth starting from: in this direction the TARGET is p
 ChisaParfait, is 264 -- over 256 as well and working -- so "target over 256" is not by itself the
 answer, but the 419-bone case is the one that fails.
 
+### THE WWMI BLEND-REMAP CONTRACT, READ OUT OF WWMI'S OWN SHADERS (2026-10-02)
+
+"Check the bone stride against the game's vertex shader" has no answer, because **WWMI never patches
+the game's vertex shader.** Nothing in `WuWa-Model-Importer.ini` touches bone indexing:
+`[ShaderRegexEnableTextureOverrides]` hooks every vertex shader only to fire `CheckTextureOverride`
+callbacks. The game's shader is stock, and the whole remap happens by swapping the constant buffer
+bound at `vs-cb3` / `vs-cb4` and the blend buffer at `vb4`. So the contract is not in the game's
+disassembly, and frame analysis cannot dump a shader anyway (`analyse_options` has no such option) --
+it is in WWMI's three compute shaders under `Core/WWMI/Shaders/`, which are plain readable HLSL.
+Reading them is minutes; a hunting-mode shader dump is a `d3dx.ini` change and the maintainer's call.
+
+What they say, all of it load-bearing:
+
+* **A bone is 3 x `float4`, 48 bytes**, bone `i` at float4 index `i * 3` (`SkeletonMerger.hlsl`).
+* **The game's per-draw skeleton is `cbuffer Skeleton : register(b8) { float4 Skeleton[768]; }` --
+  256 bones, component-LOCAL and 0-based.** That 256 is where the whole blend-remap machinery comes
+  from: a character past 256 merged bones cannot be addressed by one draw, and an 8-bit blend index
+  could not name it anyway.
+* **`vg_offset` is a MERGE-time parameter only.** `MergedSkeleton[VertexGroupOffset * 3 + vg_id * 3]`
+  -- it says where a component's window sits in the merged array, and it is never added at draw time.
+  A plan that "corrects" `vg_offset` at the draw is aimed at nothing.
+* **`vg_count` means two different things** depending on which shader is being dispatched: for the
+  merger, how many bones of the game's cb to copy; for the remapper, how many LOCAL ids to fill. The
+  same variable, set twice per block, and the second value is the one the remap uses.
+* **Both remap maps are 512 entries PER REMAP ID** (`RemapId * 512`, in both `BlendRemapper.hlsl` and
+  `SkeletonRemapper.hlsl`), so a one-remap mod's map file is 1024 bytes and a three-remap mod's 3072.
+* **`BlendRemapper` writes only the 8 INDEX bytes** of each 16-byte vertex
+  (`RemappedBlend[v * 16 + i] = ReverseMap[FullRangeVG[v * 8 + i]]` for `i < 8`), never the weights --
+  so its output buffer must be seeded by copying the blend buffer, bound `R8_UINT` with no stride for
+  the pass, and handed its stride back with `copy_desc` before `vb4` reads it.
+* **The remap is meant to run ONCE PER FRAME at `[Present]`, from the COMPLETE merged skeleton** --
+  merge per draw into a persistent RW buffer, then `[CommandListUpdateMergedSkeleton]` snapshots it
+  and remaps. WWMI Tools' own output does it that way; the generated fix does merge-then-remap inside
+  every slot's draw, from a skeleton only partly filled at that moment. Not shown to cause a symptom,
+  but it is a divergence from the design and the first thing to align if one appears.
+
+Checked against the generated ChisaParfait -> Chisa fix, **every one of those is satisfied**: 180
+distinct merged ids map to 180 distinct locals with 0 round-trip failures, 0 collisions, and every
+local inside all three ceilings (`vg_count`, the 256-bone cb, the 8-bit index); the forward and
+reverse map files are 1024 bytes each; the formats and the `copy_desc` match `ChisaIdentity`'s
+working ones exactly. **`ChisaIdentity` is the reference to diff against** -- it is a >256-bone Chisa
+mod that works, so its `mod.ini` is what the generated one is supposed to look like.
+
+### A PLACEHOLDER A LATER PASS OVERWRITES IS STILL WHAT RENDERS WHEN THE PASS DOES NOT LAND (2026-10-02)
+
+Which left one thing, and it is in none of those checks. `WWMIFixer` wrote the remapped `Blend.buf`'s
+index bytes as **`mapped & 0xFF`** -- the merged id truncated to the byte the format holds -- on the
+reasoning, written into the comment as "Truncated on purpose", that WWMI's `BlendRemapper` overwrites
+those bytes at run time from the 16-bit ids in `BlendRemapVertexVG.buf`.
+
+The reasoning is true and the value is still wrong, because **`mapped & 0xFF` is correct under no
+circumstances at all.** Chisa's bone 409 truncates to 153 -- not an invalid index that fails loudly,
+a live bone somewhere else on the body. Measured on the generated ChisaParfaitIdentity: **29606 of
+69411 vertices, 42%, named a bone they are not weighted to.** Any frame the compute pass does not land
+draws a scrambled mesh rather than nothing, which is the reported "a lot of polygons surrounding it".
+
+**And it is invisible to every instrument used on this bug for two days.** The maps round-trip, the
+weights are untouched, the positions are the mod's, the dumped `vs-cb4` skeletons skin offline to
+correct character scale -- because the wrong ids are exactly the ones the pass was going to replace,
+so nothing that measures the *inputs* can see them. It is the `vb0` lesson again (a frame dump shows
+the resource the hash TRACKS, not the override): the artifact on disk and the data the GPU consumes
+are different things, and only the first is checkable offline.
+
+The fix is to write **`reverse[mapped]`, the local id** -- precisely what the compute pass computes,
+so it is idempotent with the pass and correct without it. That needs the reverse map, which the
+function used to build *after* writing the blend, so the construction moves ahead of it. After the
+change all 69411 vertices carry the local id and none a truncated one
+(`Tools/Misc/Diagnostics/wwmiBlendPlaceholder.py`).
+
+Scope: only the >256-bone TARGET path writes those map files, so only ChisaParfait -> Chisa goes
+through it. The forward direction's blend goes through `remapFromVertexVG` and is untouched -- worth
+proving rather than asserting, and the proof is that the patched function writes `out.forward` /
+`out.reverse` unconditionally at its end while the forward direction produces neither file. (Its
+`.buf` md5 *does* move across the rebuild, which reads like a regression and is not: that is the
+forward row's hand-corrected hands from `0ea03da1`, and the `.ini` staying byte-identical is the
+corroboration, since a vertex group row change moves blend bytes and nothing else.)
+
+**A general rule out of it:** when a generated artifact is a placeholder for something a later pass
+writes, write the value that pass would write. A placeholder that is wrong on purpose turns "the pass
+did not run" from a blank screen into a plausible-looking wrong picture -- and the days between those
+two diagnoses are the cost.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

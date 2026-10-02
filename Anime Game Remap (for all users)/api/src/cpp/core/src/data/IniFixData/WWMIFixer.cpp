@@ -822,69 +822,6 @@ namespace AGRemapCore {
                 }
             }
 
-            // ---- the blend, with the mapped ids truncated -------------------------------------
-            // Truncated on purpose: Blend.buf holds a byte per id, and the merged index that does not
-            // fit is what BlendRemapVertexVG.buf below carries in full.
-            const BufFile::Filter writeIds =
-                [&mapped, vertices, influences](const BufLineData& line, long long, double index, long long) {
-                    BufLineData out = line;
-                    const auto vertex = static_cast<std::size_t>(index);
-                    const auto found = out.find(BlendFile::BlendIndicesKey);
-                    if (vertex >= vertices || found == out.end()) {
-                        return out;
-                    }
-
-                    for (std::size_t b = 0; b < influences && b < found->second.size(); ++b) {
-                        found->second[b] = static_cast<unsigned long long>(
-                            mapped[vertex * influences + b] & 0xFF);
-                    }
-
-                    return out;
-                };
-
-            try {
-                BufFile blendOut{resource.srcPath, wwmiBlendElements(influences)};
-                if (!blendOut.isValid()) {
-                    return bail(resource, "its Blend.buf could not be rewritten");
-                }
-
-                blendOut.fix(resource.fixedPath, {writeIds});
-            } catch (const std::exception& exception) {
-                return bail(resource, std::string("its Blend.buf could not be rewritten: ") + exception.what());
-            }
-
-            // Through BufFile, so the width and the byte order come from the element declaration
-            // rather than from a `* 2` and a reinterpret_cast -- and so these files are written by
-            // the same code that reads them (`wwmiVertexVGElements`), which is what they are read
-            // back with.
-            const auto write = [&resource](const std::string& path,
-                                           const std::vector<std::uint16_t>& ids, std::size_t perLine) {
-                FileService::makeFolderFor(path);
-                ByteVec bytes;
-                bytes.reserve(ids.size() * 2);
-                for (const std::uint16_t id : ids) {
-                    bytes.push_back(static_cast<std::uint8_t>(id & 0xFF));
-                    bytes.push_back(static_cast<std::uint8_t>((id >> 8) & 0xFF));
-                }
-
-                try {
-                    BufFile out{std::move(bytes), wwmiVertexVGElements(perLine)};
-                    if (!out.isValid()) {
-                        return bail(resource, "could not build " + path);
-                    }
-
-                    out.fix(path);
-                } catch (const std::exception& exception) {
-                    return bail(resource, "could not write " + path + ": " + exception.what());
-                }
-
-                return true;
-            };
-
-            if (!write(out.vertexVG, mapped, influences)) {
-                return bail(resource, "its BlendRemapVertexVG.buf could not be written");
-            }
-
             // ---- the one map, over the ROW's distinct targets ----------------------------------
             // Not over the bones this mod happens to weight: the .ini naming the remap's bone count
             // is written BEFORE this runs, so the two have to derive it from the same thing, and the
@@ -937,6 +874,79 @@ namespace AGRemapCore {
                 forward[local] = merged;
                 reverse[merged] = local;
                 ++local;
+            }
+
+            // ---- the blend, with the LOCAL ids the remap addresses ----------------------------
+            // NOT the mapped id truncated to a byte. Blend.buf holds one byte per id, and WWMI's
+            // BlendRemapper overwrites these bytes at run time with exactly `reverse[mapped]`
+            // (`BlendRemapper.hlsl`: `RemappedBlend[v*16+i] = ReverseMap[FullRangeVG[v*8+i]]`), so
+            // writing that value here is idempotent with the compute pass and correct without it.
+            // A truncated merged id is correct under NEITHER: Chisa's `409 & 0xFF` is 153, a live
+            // bone elsewhere on the body, so any frame the pass does not land draws a scrambled
+            // mesh rather than nothing -- while every buffer a frame dump can show still measures
+            // correct, because the wrong ids are the ones the pass was going to replace.
+            // 42% of ChisaParfaitIdentity's 69411 vertices were affected.
+            const BufFile::Filter writeIds =
+                [&mapped, &reverse, vertices, influences](const BufLineData& line, long long, double index, long long) {
+                    BufLineData out = line;
+                    const auto vertex = static_cast<std::size_t>(index);
+                    const auto found = out.find(BlendFile::BlendIndicesKey);
+                    if (vertex >= vertices || found == out.end()) {
+                        return out;
+                    }
+
+                    for (std::size_t b = 0; b < influences && b < found->second.size(); ++b) {
+                        // A bone the row never names keeps the SOURCE's id here, which the
+                        // reverse map answers 0 for -- the same answer the compute pass gives.
+                        const std::size_t id = mapped[vertex * influences + b];
+                        found->second[b] = static_cast<unsigned long long>(
+                            id < reverse.size() ? reverse[id] : 0);
+                    }
+
+                    return out;
+                };
+
+            try {
+                BufFile blendOut{resource.srcPath, wwmiBlendElements(influences)};
+                if (!blendOut.isValid()) {
+                    return bail(resource, "its Blend.buf could not be rewritten");
+                }
+
+                blendOut.fix(resource.fixedPath, {writeIds});
+            } catch (const std::exception& exception) {
+                return bail(resource, std::string("its Blend.buf could not be rewritten: ") + exception.what());
+            }
+
+            // Through BufFile, so the width and the byte order come from the element declaration
+            // rather than from a `* 2` and a reinterpret_cast -- and so these files are written by
+            // the same code that reads them (`wwmiVertexVGElements`), which is what they are read
+            // back with.
+            const auto write = [&resource](const std::string& path,
+                                           const std::vector<std::uint16_t>& ids, std::size_t perLine) {
+                FileService::makeFolderFor(path);
+                ByteVec bytes;
+                bytes.reserve(ids.size() * 2);
+                for (const std::uint16_t id : ids) {
+                    bytes.push_back(static_cast<std::uint8_t>(id & 0xFF));
+                    bytes.push_back(static_cast<std::uint8_t>((id >> 8) & 0xFF));
+                }
+
+                try {
+                    BufFile out{std::move(bytes), wwmiVertexVGElements(perLine)};
+                    if (!out.isValid()) {
+                        return bail(resource, "could not build " + path);
+                    }
+
+                    out.fix(path);
+                } catch (const std::exception& exception) {
+                    return bail(resource, "could not write " + path + ": " + exception.what());
+                }
+
+                return true;
+            };
+
+            if (!write(out.vertexVG, mapped, influences)) {
+                return bail(resource, "its BlendRemapVertexVG.buf could not be written");
             }
 
             return write(out.forward, forward, 1) && write(out.reverse, reverse, 1);

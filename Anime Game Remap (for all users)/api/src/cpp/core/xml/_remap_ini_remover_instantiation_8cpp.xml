@@ -5,6 +5,15 @@
     <includes refid="_remap_ini_remover_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="11">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -724,15 +733,6 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="70">
         <label>Generator.tpp</label>

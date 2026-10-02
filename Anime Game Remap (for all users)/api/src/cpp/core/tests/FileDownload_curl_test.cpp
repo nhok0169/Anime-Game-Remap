@@ -322,6 +322,30 @@ void testRetries(const std::string& scratchDir) {
         check(!retries[0].reason.empty(), "onRetry(): carries libcurl's own reason for this request");
     }
 
+    check(flaky.lastFailureWasTransient(),
+          "lastFailureWasTransient(): an unreachable host is a hiccup, not an answer");
+
+    // ---- the doubling stops at maxRetryDelay ----
+    retries.clear();
+    FileDownload capped("http://no-such-host.invalid/whatever.dds", "whatever.dds");
+    capped.maxAttempts = 5;
+    capped.retryDelay = std::chrono::milliseconds(20);
+    capped.maxRetryDelay = std::chrono::milliseconds(50);
+    capped.onRetry = [&retries](int attempt, int attempts, const std::string& reason,
+                                 std::chrono::milliseconds wait) {
+        retries.push_back({attempt, attempts, reason, static_cast<long long>(wait.count())});
+    };
+
+    try {
+        capped.download(destFolder.string());
+    } catch (const std::runtime_error&) {
+        // expected
+    }
+
+    check(retries.size() == 4 && retries[0].waitMs == 20 && retries[1].waitMs == 40
+              && retries[2].waitMs == 50 && retries[3].waitMs == 50,
+          "download(): the wait doubles up to maxRetryDelay and then stays there");
+
     // ---- and turning it off means one go ----
     retries.clear();
     FileDownload once("http://no-such-host.invalid/whatever.dds", "whatever.dds");
@@ -359,6 +383,8 @@ void testRetries(const std::string& scratchDir) {
 
     check(threw, "download(): a file that is not there still throws");
     check(retries.empty(), "download(): a PERMANENT failure is not retried, even with attempts left");
+    check(!missing.lastFailureWasTransient(),
+          "lastFailureWasTransient(): a missing file is an answer, not a hiccup");
     check(!std::filesystem::exists(destFolder / "anywhere.txt"),
           "download(): no partial file left behind by any attempt");
 
@@ -386,6 +412,20 @@ void testFailureMemo() {
     cache.remember(url, "C:/somewhere/x.dds");
     check(!cache.hasFailed(url), "remember(): a successful fetch clears the failure");
     check(cache.pathOf(url).has_value(), "remember(): ...and records where it landed");
+
+    // ---- per host: one unreachable server says so for every file on it ----
+    const std::string sibling = "https://example.invalid/sub/other.dds";
+    check(!cache.isHostUnreachable(sibling), "isHostUnreachable(): a host nobody has tried is reachable");
+
+    cache.markHostUnreachable("https://example.invalid/y.dds");
+    check(cache.isHostUnreachable(sibling), "markHostUnreachable(): ...covers every other file on that host");
+    check(!cache.isHostUnreachable("https://github.com/x.dds"),
+          "markHostUnreachable(): ...and says nothing about another host");
+    check(!cache.hasFailed(sibling), "markHostUnreachable(): a host being down is not a url having failed");
+
+    cache.remember(sibling, "C:/somewhere/other.dds");
+    check(!cache.isHostUnreachable("https://example.invalid/y.dds"),
+          "remember(): one success on the host clears it for all of them");
 }
 
 }  // namespace

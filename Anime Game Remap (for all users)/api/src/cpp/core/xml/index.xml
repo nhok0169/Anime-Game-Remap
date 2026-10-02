@@ -978,10 +978,13 @@
   <compound refid="class_a_g_remap_core_1_1_download_cache" kind="class"><name>AGRemapCore::DownloadCache</name>
     <member refid="class_a_g_remap_core_1_1_download_cache_1a23585e04bad793866bc4a0942665f79c" kind="variable"><name>paths_</name></member>
     <member refid="class_a_g_remap_core_1_1_download_cache_1a649e107b164b74fe25bcc31ecaba9532" kind="variable"><name>failed_</name></member>
+    <member refid="class_a_g_remap_core_1_1_download_cache_1a9ed452e90118fcf104fca7064ec712a6" kind="variable"><name>unreachableHosts_</name></member>
     <member refid="class_a_g_remap_core_1_1_download_cache_1a71db892d8a8e2328a3c4d6f9f23ff220" kind="function"><name>pathOf</name></member>
     <member refid="class_a_g_remap_core_1_1_download_cache_1a9c1caed7568fea59b614ff9ed2bc7f71" kind="function"><name>remember</name></member>
     <member refid="class_a_g_remap_core_1_1_download_cache_1a4993a56b97b75cdcbe57b740b6c84752" kind="function"><name>markFailed</name></member>
     <member refid="class_a_g_remap_core_1_1_download_cache_1a9da31704148dd44c9c6990b8f03e52fc" kind="function"><name>hasFailed</name></member>
+    <member refid="class_a_g_remap_core_1_1_download_cache_1afdf9f2db6aca08c5bbd9fdf4661e8d6f" kind="function"><name>markHostUnreachable</name></member>
+    <member refid="class_a_g_remap_core_1_1_download_cache_1af958de07146cdbebc031486f5617ea8f" kind="function"><name>isHostUnreachable</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config" kind="struct"><name>AGRemapCore::DownloadData::DownloadConfig</name>
     <member refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1add845026e22b6055b46fae628fb294ec" kind="variable"><name>filenameKey</name></member>
@@ -1057,13 +1060,16 @@
     <member refid="class_a_g_remap_core_1_1_file_download_1a006c4cc9e5ed188c885c2ec70075df0e" kind="variable"><name>cache</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1aaa47a6fe66479ff76e3e330c8bb7d4e6" kind="variable"><name>maxAttempts</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a2faee36e8fb7fc5aa7e2908d4a8ec66b" kind="variable"><name>retryDelay</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_download_1aff46e9aab78debfe5e831b24f3367033" kind="variable"><name>maxRetryDelay</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a0b8a942744a1bd1e8e09205a4009979a" kind="variable"><name>onRetry</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a0f8d741b6e3b391fae41fb9fb9a626a2" kind="variable"><name>prevPath_</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_download_1aab06e003bf9d503c4365d061c8bb5443" kind="variable"><name>lastFailureTransient_</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a6b874e5b494e6f457dcc139397ceff0d" kind="function"><name>FileDownload</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a7b88857c911d0cabd6a014ad3dbf8347" kind="function"><name>~FileDownload</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a1ff069ea62a7358b41b12a4e42535740" kind="function"><name>download</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1af281e79b0e606198f1bfeaa04bdb2229" kind="function"><name>get</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a02012658002add21812c32b3c0078294" kind="function"><name>cachedPath</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_download_1a822b3127fe3e455e11baecfba4853486" kind="function"><name>lastFailureWasTransient</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_file_ext" kind="class"><name>AGRemapCore::FileExt</name>
     <member refid="class_a_g_remap_core_1_1_file_ext_1ad7423c9071137c034604ff845fd84720" kind="variable"><name>Ini</name></member>

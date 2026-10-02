@@ -8,6 +8,9 @@
     <includes local="no">utility</includes>
     <includes refid="_texture_file_8h" local="yes">AGRemapCore/model/files/TextureFile.h</includes>
     <incdepgraph>
+      <node id="20">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="11">
         <label>AGRemapCore/model/files/TexCache.h</label>
         <link refid="_tex_cache_8h"/>
@@ -283,9 +286,6 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-      </node>
-      <node id="20">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="19">
         <label>array</label>

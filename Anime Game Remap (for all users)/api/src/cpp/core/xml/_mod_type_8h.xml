@@ -38,6 +38,21 @@
     <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
     <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
     <incdepgraph>
+      <node id="45">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="91">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="90">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="51">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="66">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="70">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -909,21 +924,6 @@
         </childnode>
         <childnode refid="72" relation="include">
         </childnode>
-      </node>
-      <node id="45">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="91">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="90">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="51">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="66">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="85">
         <label>Generator.tpp</label>

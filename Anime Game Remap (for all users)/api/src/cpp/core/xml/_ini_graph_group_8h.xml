@@ -22,6 +22,15 @@
     <includedby refid="_ini_file_parse_context_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</includedby>
     <includedby refid="_ini_graph_group_instantiation_8cpp" local="yes">src/model/IniGraphGroupInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="45">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="51">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -541,15 +550,6 @@
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-      </node>
-      <node id="30">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="45">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="66">
         <label>Generator.tpp</label>

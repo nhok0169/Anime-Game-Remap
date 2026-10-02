@@ -46,6 +46,9 @@
     <includedby refid="_transparency_adjust_filter_8cpp" local="yes">src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</includedby>
     <includedby refid="_tex_thumbprint_8cpp" local="yes">src/model/textures/TexThumbprint.cpp</includedby>
     <incdepgraph>
+      <node id="16">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="7">
         <label>AGRemapCore/model/files/TexCache.h</label>
         <link refid="_tex_cache_8h"/>
@@ -125,9 +128,6 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-      </node>
-      <node id="16">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="15">
         <label>array</label>

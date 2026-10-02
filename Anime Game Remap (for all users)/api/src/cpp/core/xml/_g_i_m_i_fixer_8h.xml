@@ -31,6 +31,24 @@
     <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
     <includedby refid="_ini_fix_builder_8cpp" local="yes">src/model/strategies/iniFixers/IniFixBuilder.cpp</includedby>
     <incdepgraph>
+      <node id="33">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="77">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="86">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="76">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="39">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="54">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -752,24 +770,6 @@
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
-      </node>
-      <node id="33">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="77">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="86">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="76">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="39">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="87">
         <label>GIMIFixer.tpp</label>

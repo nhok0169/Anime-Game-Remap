@@ -24,6 +24,18 @@
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_res_reg_collect_instantiation_8cpp" local="yes">src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="74">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="66">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="47">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -759,18 +771,6 @@
         </childnode>
         <childnode refid="81" relation="include">
         </childnode>
-      </node>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="74">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="66">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="70">
         <label>Generator.tpp</label>

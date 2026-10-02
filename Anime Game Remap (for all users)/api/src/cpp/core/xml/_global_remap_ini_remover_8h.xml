@@ -11,6 +11,15 @@
     <includes local="yes">GlobalRemapIniRemover.tpp</includes>
     <includedby refid="_global_ini_remove_builders_8cpp" local="yes">src/constants/GlobalIniRemoveBuilders.cpp</includedby>
     <incdepgraph>
+      <node id="36">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="42">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -740,15 +749,6 @@
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
-      </node>
-      <node id="36">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="42">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="51">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="72">
         <label>Generator.tpp</label>

@@ -12,6 +12,12 @@
     <includes local="yes">OrderedMultiMap.tpp</includes>
     <includedby refid="_ordered_multi_map_adapter_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</includedby>
     <incdepgraph>
+      <node id="23">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="25">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="20">
         <label>AGRemapCore/tools/Algo.h</label>
         <link refid="_algo_8h"/>
@@ -99,12 +105,6 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-      </node>
-      <node id="23">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="25">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="26">
         <label>OrderedMultiMap.tpp</label>

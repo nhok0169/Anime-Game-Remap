@@ -5,6 +5,24 @@
     <includes refid="_g_i_m_i_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="78">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="87">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="77">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -734,24 +752,6 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="78">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="87">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="77">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="88">
         <label>GIMIFixer.tpp</label>

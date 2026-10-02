@@ -37,6 +37,36 @@
     <includes refid="_reg_remove_8h" local="yes">AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</includes>
     <includes refid="_base_ini_parser_8h" local="yes">AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</includes>
     <incdepgraph>
+      <node id="162">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="118">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="133">
+        <label>BaseRegEdit.tpp</label>
+      </node>
+      <node id="186">
+        <label>BlendEdit.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="59">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -2102,36 +2132,6 @@
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
-      </node>
-      <node id="162">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="38">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="80">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="118">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="133">
-        <label>BaseRegEdit.tpp</label>
-      </node>
-      <node id="186">
-        <label>BlendEdit.tpp</label>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="107">
         <label>GIMIFixer.tpp</label>

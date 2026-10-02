@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <stdexcept>
 #include <thread>
 #include <utility>
@@ -72,6 +73,72 @@ namespace AGRemapCore {
             private:
                 CURL* handle_;
         };
+
+        // ONE DNS cache, TLS session cache and connection pool for every download in the process.
+        //
+        // Each download used to get a fresh easy handle and therefore a fresh name lookup -- two
+        // of them, since github.com redirects to raw.githubusercontent.com -- and a fresh TLS
+        // handshake to each. A run fetching a dozen files asked the resolver two dozen times, and
+        // a failed lookup was by far the commonest reason a download did not land ("Could not
+        // resolve host: github.com", gone on a re-run). Shared, a run resolves each host once and
+        // reuses the open connection, so a resolver that is briefly unwell is only asked when it
+        // has to be.
+        //
+        // The locks make it safe under concurrent downloads, which nothing here does today (see
+        // DownloadCache). Never cleaned up, for the same reason as ensureCurlGlobalInit.
+        std::mutex shareLocks[CURL_LOCK_DATA_LAST];
+
+        void lockShare(CURL*, curl_lock_data data, curl_lock_access, void*) {
+            shareLocks[data].lock();
+        }
+
+        void unlockShare(CURL*, curl_lock_data data, void*) {
+            shareLocks[data].unlock();
+        }
+
+        CURLSH* sharedState() {
+            static CURLSH* const share = [] {
+                CURLSH* created = curl_share_init();
+                if (created != nullptr) {
+                    curl_share_setopt(created, CURLSHOPT_LOCKFUNC, lockShare);
+                    curl_share_setopt(created, CURLSHOPT_UNLOCKFUNC, unlockShare);
+                    curl_share_setopt(created, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
+                    curl_share_setopt(created, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
+                    curl_share_setopt(created, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+                }
+                return created;
+            }();
+
+            return share;
+        }
+
+        // How long a SUCCESSFUL lookup stays in the shared cache: a whole run, in practice.
+        // libcurl's default is 60s, which is about the TTL github.com publishes -- so a run that
+        // takes a few minutes would go back to the resolver as often as it did unshared.
+        const long DnsCacheSeconds = 600;
+
+        // A transfer that has received nothing for this long is treated as dead and retried,
+        // rather than left to hang the run: without it a connection the server stops answering
+        // mid-file waits forever, since no total CURLOPT_TIMEOUT is set (see below).
+        const long StallSeconds = 60;
+
+        // The host part of 'url', for DownloadCache's per-host memo. A url curl cannot parse, or
+        // one with no host (file://), stands for itself instead, so it can only ever mark itself.
+        std::string hostOf(const std::string& url) {
+            std::string host;
+            CURLU* parsed = curl_url();
+            if (parsed != nullptr) {
+                char* part = nullptr;
+                if (curl_url_set(parsed, CURLUPART_URL, url.c_str(), 0) == CURLUE_OK
+                        && curl_url_get(parsed, CURLUPART_HOST, &part, 0) == CURLUE_OK && part != nullptr) {
+                    host = part;
+                }
+                curl_free(part);
+                curl_url_cleanup(parsed);
+            }
+
+            return host.empty() ? url : host;
+        }
 
         // How long to wait for a CONNECTION, not for the transfer. Without it libcurl's own
         // default is 300s, which is finite but makes a retry policy a lie: three attempts at an
@@ -191,6 +258,7 @@ namespace AGRemapCore {
         // It came back. Whatever was wrong earlier in the run is over, so a later resource that
         // somehow still needs to fetch this gets its full complement of attempts again.
         failed_.erase(url);
+        unreachableHosts_.erase(hostOf(url));
     }
 
     void DownloadCache::markFailed(const std::string& url) {
@@ -199,6 +267,14 @@ namespace AGRemapCore {
 
     bool DownloadCache::hasFailed(const std::string& url) const {
         return failed_.count(url) != 0;
+    }
+
+    void DownloadCache::markHostUnreachable(const std::string& url) {
+        unreachableHosts_.insert(hostOf(url));
+    }
+
+    bool DownloadCache::isHostUnreachable(const std::string& url) const {
+        return unreachableHosts_.count(hostOf(url)) != 0;
     }
 
     FileDownload::FileDownload(std::string url, std::string filename, bool cache):
@@ -210,8 +286,14 @@ namespace AGRemapCore {
         // freshly truncated file and a fresh handle -- a second attempt appending to whatever a
         // half-finished first one left is exactly the kind of corruption a retry is supposed to
         // avoid.
+        //
+        // 'isRetry' makes the attempt ignore the shared state: a retry follows a failure, and
+        // libcurl caches a FAILED lookup too (for half of DnsCacheSeconds), so a retry that
+        // consulted the cache would fail instantly on the very answer it is meant to re-ask. A
+        // cache timeout of 0 makes every cached entry stale for this handle, and a fresh connect
+        // keeps it off a pooled connection that may be what just broke.
         DownloadAttempt attemptDownload(const std::string& url, const std::string& path,
-                                         const std::optional<std::string>& proxy) {
+                                         const std::optional<std::string>& proxy, bool isRetry) {
             DownloadAttempt attempt;
 
             // strToPath rather than the raw string -- see IniFileFixContext::writeFixedFile.
@@ -240,6 +322,17 @@ namespace AGRemapCore {
             curl_easy_setopt(curl.get(), CURLOPT_NOSIGNAL, 1L);
             curl_easy_setopt(curl.get(), CURLOPT_ERRORBUFFER, errorBuffer);
             curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT, ConnectTimeoutSeconds);
+            curl_easy_setopt(curl.get(), CURLOPT_LOW_SPEED_LIMIT, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_LOW_SPEED_TIME, StallSeconds);
+
+            if (CURLSH* share = sharedState(); share != nullptr) {
+                curl_easy_setopt(curl.get(), CURLOPT_SHARE, share);
+                curl_easy_setopt(curl.get(), CURLOPT_DNS_CACHE_TIMEOUT, isRetry ? 0L : DnsCacheSeconds);
+            }
+
+            if (isRetry) {
+                curl_easy_setopt(curl.get(), CURLOPT_FRESH_CONNECT, 1L);
+            }
 
 #ifndef _WIN32
             if (const std::optional<std::string>& caBundle = systemCABundle(); caBundle.has_value()) {
@@ -286,11 +379,13 @@ namespace AGRemapCore {
         std::string path = FileService::pathToStr((FileService::strToPath(folder) / FileService::strToPath(filename).filename()));
 
         const int attempts = std::max(1, maxAttempts);
+        const std::chrono::milliseconds longestWait = std::max(retryDelay, maxRetryDelay);
         std::chrono::milliseconds wait = retryDelay;
         DownloadAttempt attempt;
+        lastFailureTransient_ = false;
 
         for (int number = 1; number <= attempts; ++number) {
-            attempt = attemptDownload(url, path, proxy);
+            attempt = attemptDownload(url, path, proxy, number > 1);
             if (attempt.ok) {
                 return path;
             }
@@ -305,10 +400,15 @@ namespace AGRemapCore {
             }
 
             std::this_thread::sleep_for(wait);
-            wait *= 2;
+            wait = std::min(wait * 2, longestWait);
         }
 
+        lastFailureTransient_ = attempt.worthRetrying;
         throw std::runtime_error("FileDownload::download: request failed: " + attempt.error);
+    }
+
+    bool FileDownload::lastFailureWasTransient() const {
+        return lastFailureTransient_;
     }
 
     std::optional<std::string> FileDownload::cachedPath(const DownloadCache* sharedCache) const {
@@ -342,6 +442,7 @@ namespace AGRemapCore {
         // to justify diverging from the original's real behavior.
         bool isFirstDownload = !prevPath_.has_value();
         std::optional<std::string> source = cachedPath(sharedCache);
+        lastFailureTransient_ = false;
 
         if (!source.has_value()) {
             prevPath_ = download(folder, proxy);

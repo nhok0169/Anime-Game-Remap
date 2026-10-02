@@ -16,6 +16,15 @@
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>BaseRegEdit.tpp</label>
+      </node>
       <node id="6">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
@@ -353,15 +362,6 @@
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="51">
-        <label>BaseRegEdit.tpp</label>
       </node>
       <node id="48">
         <label>IfContentPart.tpp</label>

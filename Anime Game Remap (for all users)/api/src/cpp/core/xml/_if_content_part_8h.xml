@@ -34,6 +34,12 @@
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_if_content_part_instantiation_8cpp" local="yes">src/model/iftemplate/IfContentPartInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="25">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="31">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
@@ -249,12 +255,6 @@
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-      </node>
-      <node id="25">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="31">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="39">
         <label>IfContentPart.tpp</label>

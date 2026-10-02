@@ -5,6 +5,9 @@
     <includes refid="_hash_tools_8h" local="yes">AGRemapCore/tools/hashing/HashTools.h</includes>
     <includes refid="_int_tools_8h" local="yes">AGRemapCore/tools/IntTools.h</includes>
     <incdepgraph>
+      <node id="12">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/tools/IntTools.h</label>
         <link refid="_int_tools_8h"/>
@@ -70,9 +73,6 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-      </node>
-      <node id="12">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="17">
         <label>algorithm</label>

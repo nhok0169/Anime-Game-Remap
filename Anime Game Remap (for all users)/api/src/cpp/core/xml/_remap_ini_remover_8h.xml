@@ -25,6 +25,15 @@
     <includedby refid="_ini_remove_builder_8cpp" local="yes">src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</includedby>
     <includedby refid="_remap_ini_remover_instantiation_8cpp" local="yes">src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="33">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="39">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="10">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -736,15 +745,6 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-      </node>
-      <node id="33">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="39">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="69">
         <label>Generator.tpp</label>

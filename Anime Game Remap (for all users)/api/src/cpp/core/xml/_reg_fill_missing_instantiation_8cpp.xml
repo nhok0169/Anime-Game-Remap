@@ -5,6 +5,18 @@
     <includes refid="_reg_fill_missing_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="33">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="73">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="39">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="54">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -568,18 +580,6 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="33">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="73">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="39">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="69">
         <label>Generator.tpp</label>

@@ -21,6 +21,18 @@
     <includedby refid="_tex_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</includedby>
     <includedby refid="_res_edit_instantiation_8cpp" local="yes">src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="35">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="75">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="41">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="50">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="56">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -688,18 +700,6 @@
         </childnode>
         <childnode refid="79" relation="include">
         </childnode>
-      </node>
-      <node id="35">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="75">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="41">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="50">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="71">
         <label>Generator.tpp</label>

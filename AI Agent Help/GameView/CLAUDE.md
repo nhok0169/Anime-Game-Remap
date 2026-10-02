@@ -190,6 +190,25 @@ that changes.
   Check the written `.dds` first. If the file is right and the game is not, `close --force` then
   `launch` settles it.
 
+## `dump --options` DOES NOT RESTORE THE SETTING IF THE HELPER TIMES OUT (2026-10-02)
+
+`--options` narrows `analyse_options` for one dump and restores it afterwards -- but the restore is
+part of the normal finish, and on WWMI the finish usually does not happen. The wait ends on the log
+line `Frame analysis saved`, call logging is off here and must stay off, so it falls back to
+settle detection and can run to its 900s timeout. The dump data is complete on disk either way; what
+is lost is the rename to `--label` and **the restore**.
+
+A dump taken this way left `analyse_options = dump_cb dump_vb dump_ib buf txt` in the importer's
+`d3dx.ini`, which would silently have narrowed every later frame dump the maintainer took -- no
+textures, no render targets, and nothing to say so.
+
+**Check `grep analyse_options <importer>/d3dx.ini` after any `dump --options` that did not rename
+its folder.** The original is not something to reconstruct from memory: **XXMI keeps dated backups
+of the whole importer folder under `XXMI-Launcher-Portable-*/Backups/<IMP> <date>/`**, and the
+`d3dx.ini` in there is the reference. Two of them agreeing, plus the live file being short by
+exactly the bytes of the missing tokens, is what makes the restore a fact rather than a guess --
+here `dump_rt dump_tex ` is 17 characters and the file had shrunk by 17 bytes.
+
 ## Two things `mods` and `key` got wrong during a sweep (2026-10-01)
 
 - **`mods <IMP> restore` replays its journal and can over-apply it.** Twice in one session it put a

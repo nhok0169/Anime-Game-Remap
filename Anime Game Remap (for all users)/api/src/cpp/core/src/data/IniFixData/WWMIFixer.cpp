@@ -3312,9 +3312,83 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // The remap, run ONCE PER FRAME from the COMPLETE merged skeleton rather than per draw
+                    // from a partly filled one (2026-10-02).
+                    //
+                    // WWMI's own design: each component's draw merges its window into a persistent RW
+                    // buffer, and `[Present]` snapshots the result and remaps it, so the NEXT frame's draws
+                    // all bind one complete skeleton. Remapping inside each draw instead reads a buffer
+                    // holding only the windows merged so far this frame -- which differs per slot and per
+                    // frame, so the render comes out UNSTABLE rather than wrong: five reloads of one mod,
+                    // same files and same build, gave four different pictures.
+                    //
+                    // Anchored on the frame's first remapped draw rather than on `[Present]`, which is
+                    // equivalent -- nothing but these merge lists writes the RW buffer, so between
+                    // `[Present]` and the first draw it still holds exactly the previous frame's complete
+                    // merge. It also keeps the hook inside the fix's OWN sections: the mod's `[Present]` is
+                    // the host's, and no .ini in the corpus carries two of them, so appending one would bet
+                    // on 3dmigoto merging duplicate sections within a file, which nothing here establishes.
+                    //
+                    // `$state_id` is the host's frame counter, flipped once a frame at `[Present]`.
+                    if (targetPast256_) {
+                        const std::string latch = "$remapped_state";
+                        SectionText remap(z3_, fixName("CommandListRemapMergedSkeleton"));
+                        remap.key("local " + latch)
+                             .open(latch + " != $state_id")
+                             .key(latch, "$state_id");
+                        for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
+                                               std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
+                            remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
+                                            {"cs-t37", fixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"))},
+                                            {"$\\WWMIv1\\blend_remap_id", "0"},
+                                            {VgCountKey, std::to_string(blendRemapBones_)},
+                                            {"cs-t38", std::get<1>(cb)},
+                                            // Seeded from the merged RW, which is declared with a size. An empty
+                                            // resource bound to `cs-u5` has no backing buffer: the dispatch writes
+                                            // nowhere, the `copy` below then finds no source, and binding that null
+                                            // UNBINDS the slot -- invisible rather than wrong.
+                                            {std::get<2>(cb), "copy " + std::get<0>(cb)},
+                                            {"cs-u5", std::get<2>(cb)},
+                                            {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonRemapper"},
+                                            {std::get<3>(cb), "copy " + std::get<2>(cb)}});
+                        }
+
+                        out += remap.close().str();
+                    }
+
+                    // The merge a HIDDEN slot runs. A target slot nothing is remapped onto still
+                    // contributes bones -- Chisa's [391, 419) carries bone 409, which 1185 of the identity
+                    // mod's weighted influence slots name -- and its `...RemapHide` section used to run the
+                    // host's copied `CommandListMergeSkeleton`, which writes the MOD's merged skeleton,
+                    // sized for the source. The bone was then never written into the buffer the remap
+                    // reads, so every vertex on it skinned against a zero matrix and collapsed to the
+                    // origin -- and a triangle with one corner there is a plane across the scene.
+                    //
+                    // Merge only, no bind: the caller sets vg_offset / vg_count and the draw is skipped.
+                    if (targetPast256_) {
+                        SectionText window(z3_, fixName("CommandListMergeWindow"));
+                        window.key("$\\WWMIv1\\custom_mesh_scale", "1.00");
+                        for (const auto& cb : {std::make_pair(std::string("vs-cb4"), mergedRW),
+                                               std::make_pair(std::string("vs-cb3"), extraRW)}) {
+                            window.open(cb.first + " == " + config_.boneDataFilter)
+                                  .keys({{"cs-cb8", IniKeywords::Ref + " " + cb.first},
+                                         {"cs-u6", cb.second},
+                                         {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonMerger"}})
+                                  .close();
+                        }
+
+                        out += window.str();
+                    }
+
                     for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
                         const Slot& s = target_.slots[slot];
                         SectionText mergeList(z3_, mergeListName(static_cast<int>(slot)));
+                        if (targetPast256_) {
+                            // Before the merge, so the frame's first remapped draw remaps from the previous
+                            // frame's COMPLETE merge rather than from this frame's first window.
+                            mergeList.key(IniKeywords::Run, fixName("CommandListRemapMergedSkeleton"));
+                        }
+
                         for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
                                                std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
                             mergeList.open(std::get<0>(cb) + " == " + config_.boneDataFilter)
@@ -3323,33 +3397,18 @@ namespace AGRemapCore {
                                             {"$\\WWMIv1\\custom_mesh_scale", "1.00"},
                                             {"cs-cb8", IniKeywords::Ref + " " + std::get<0>(cb)},
                                             {"cs-u6", std::get<1>(cb)},
-                                            {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonMerger"},
-                                            {std::get<2>(cb), "copy " + std::get<1>(cb)}});
+                                            {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonMerger"}});
 
                             if (targetPast256_) {
-                                mergeList.keys({{"cs-t37", fixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"))},
-                                                {"$\\WWMIv1\\blend_remap_id", "0"},
-                                                {VgCountKey, std::to_string(blendRemapBones_)},
-                                                {"cs-t38", std::get<2>(cb)},
-                                                // Seed the remapper's output before dispatching
-                                                // into it (2026-10-01). It is declared as an empty
-                                                // resource, and an empty resource bound to `cs-u5`
-                                                // has no backing buffer: the dispatch writes
-                                                // nowhere and the `copy` below finds no source --
-                                                // "Copy source was NULL" in 3dmigoto's own log --
-                                                // after which binding that null to vs-cb3/vs-cb4
-                                                // UNBINDS the slot. The remapped draw then has no
-                                                // skeleton at all, which is invisible rather than
-                                                // wrong. Chisa's own mod seeds the same pair from
-                                                // the merged RW, which is declared with a size and
-                                                // has just been written by SkeletonMerger.
-                                                {std::get<3>(cb), "copy " + std::get<1>(cb)},
-                                                {"cs-u5", std::get<3>(cb)},
-                                                {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonRemapper"},
-                                                {std::get<4>(cb), "copy " + std::get<3>(cb)},
-                                                {std::get<0>(cb), std::get<4>(cb)}});
+                                // Bind what the frame's remap produced. The snapshot and the SkeletonRemapper
+                                // dispatch that used to sit here moved into CommandListRemapMergedSkeleton,
+                                // which runs once a frame from the complete merge.
+                                mergeList.key(std::get<0>(cb), std::get<4>(cb));
                             } else {
-                                mergeList.key(std::get<0>(cb), std::get<2>(cb));
+                                // The snapshot the two branches used to share, kept here so a legacy mod writes
+                                // exactly the lines it wrote before.
+                                mergeList.keys({{std::get<2>(cb), "copy " + std::get<1>(cb)},
+                                                {std::get<0>(cb), std::get<2>(cb)}});
                             }
 
                             mergeList.close();
@@ -3487,7 +3546,8 @@ namespace AGRemapCore {
                                 .keys({{state, "$state_id"},
                                        {VgOffsetKey, s.vgOffset},
                                        {VgCountKey, s.vgCount},
-                                       {IniKeywords::Run, fixName("CommandListMergeSkeleton")}})
+                                       {IniKeywords::Run, fixName(targetPast256_ ? "CommandListMergeWindow"
+                                                                                 : "CommandListMergeSkeleton")}})
                                 .close()
                                 .open("ResourceMergedSkeleton !== null")
                                 .key("handling", "skip")

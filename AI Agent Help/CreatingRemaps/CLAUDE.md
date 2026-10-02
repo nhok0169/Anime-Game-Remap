@@ -3049,25 +3049,67 @@ writes, write the value that pass would write. A placeholder that is wrong on pu
 did not run" from a blank screen into a plausible-looking wrong picture -- and the days between those
 two diagnoses are the cost.
 
-**AND THE IN-GAME A/B DID NOT SETTLE IT, BECAUSE THE RENDER IS NOT STABLE ACROSS RELOADS
-(2026-10-02).** ChisaParfaitIdentity loaded and reloaded five times, same files and same build, gave
-**one** frame with a correctly scaled and correctly placed garment and **four** filled with the
-enormous planes -- and a run with the old placeholder deliberately written back looked like the four.
-So the placeholder defect is proved by MEASUREMENT (deterministic, 42% of vertices, a check that
-fails against a reconstruction of the old output and passes against the new) and **not** by the
-picture.
+**AND THE IN-GAME A/B DID NOT SETTLE IT -- BUT NOT FOR THE REASON FIRST WRITTEN HERE
+(2026-10-02).** The first version of this section said the render was *unstable across reloads*: four
+reloads of ChisaParfaitIdentity, same files and same build, gave four different pictures, one of them
+showing a correctly scaled and placed garment. That was wrong, and the control that settles it is the
+one not taken -- **three screenshots with NO reload at all move MORE than the reloads do** (86 against
+48 mean absolute difference over the model region, `Tools/Misc/Diagnostics` style probe). The
+character in the Overview menu is ANIMATED, and stray planes swing with it, so any two frames differ
+enormously whatever was changed in between.
 
-That retrospectively weakens every single-screenshot conclusion about this pair, including some
-recorded above and the "it draws nothing" framing this investigation started from. **Reload three
-times and look at all three before trusting any in-game observation of this remap**, and when a
-change is meant to fix it, make the acceptance test the distribution rather than a frame.
+So there is no race, the one good-looking frame was a pose rather than a lucky outcome, and the
+placeholder defect remains proved by MEASUREMENT (deterministic, 42% of vertices, a check that fails
+against a reconstruction of the old output and passes against the new) and **not** by any picture.
 
-An unstable render is a RACE rather than a wrong value, which points straight at the ordering
-divergence listed in the contract above: the generated fix merges, remaps and binds inside every
-slot's draw, where WWMI's own design merges per draw into a persistent buffer and remaps **once per
-frame at `[Present]`** from the complete result. Aligning that is the next thing to try, and it is
-now the only contract item the generated fix does not satisfy.
+**The rule, which the repo already half carries** (Overview's "A screenshot statistic is only as good
+as its mask"): a screenshot statistic needs a CONTROL as much as it needs a mask. Before attributing
+a difference between two frames to a change, take two frames with the change held constant and
+measure the same thing. In a menu with an idle animation that control is seconds of work and it
+invalidates the whole comparison. For this pair, prefer a still pose -- or compare a measured
+quantity rather than a picture.
 
+### A HIDDEN TARGET SLOT'S BONES STILL HAVE TO REACH THE FIX'S OWN SKELETON (2026-10-02)
+
+A target slot nothing is remapped onto gets a `...RemapHide` section: the skin's own geometry is
+skipped and its bones are still merged. They were merged into the wrong buffer. That section ran the
+host's copied `CommandListMergeSkeleton<fix>`, which writes `ResourceMergedSkeletonRW` -- **the MOD's**
+merged skeleton, sized for the source -- while the blend remap reads the fix's own
+`ResourceMergedSkeletonRW<fix>`.
+
+So every bone in a hidden slot's window stayed zero in the buffer that matters. On
+ChisaParfaitIdentity that is Chisa's `[391, 419)`, carrying bone **409**, which **1185 weighted
+influence slots** name: every one of those vertices skinned against a zero matrix and collapsed to
+the origin, and a triangle with one corner at the origin is a plane straight across the scene.
+
+It also means an earlier "dead bone" repair was aimed at the wrong thing: ten source bones had been
+remapped ONTO 409 precisely because a frame dump showed it live and its neighbours dead -- a dump of
+the fix's own incomplete skeleton, which is the circular-oracle trap again.
+
+The fix emits `CommandListMergeWindow<fix>`, a merge-only list writing the fix's buffers, and points
+the hide sections at it. `Tools/Misc/Diagnostics` territory: the check is to list every window, say
+which section merges it and into whose buffer, and sum the weighted slots riding on windows nobody
+merges -- 1185 before, 0 after.
+
+### THE REMAP RUNS ONCE A FRAME NOW, WHICH IS WWMI'S DESIGN AND NOT A FIX FOR ANY KNOWN SYMPTOM (2026-10-02)
+
+The generated fix merged, remapped and bound inside every slot's draw, so the remap read a merged
+skeleton holding only the windows merged so far that frame. WWMI's own design, and every working
+mod's, is: merge per draw into a persistent RW buffer, and snapshot-plus-remap **once per frame** at
+`[Present]`, so the next frame's draws all bind one complete skeleton.
+
+That is now what the fix emits -- `CommandListRemapMergedSkeleton<fix>`, latched on `$state_id` (the
+host's frame counter) and called from the top of each slot's merge list, which is equivalent to
+`[Present]`: nothing but those merge lists writes the RW buffer, so at the frame's first remapped
+draw it still holds exactly the previous frame's complete merge. Anchoring it there rather than
+appending a `[Present]` keeps the hook in the fix's own sections; **no `.ini` in the corpus carries
+two `[Present]` sections**, so appending one would bet on 3dmigoto merging duplicate sections within
+a file, which nothing here establishes.
+
+**Be clear about what this bought: nothing demonstrated.** It was motivated by an unstable render
+that turned out to be the Overview menu's idle animation (see the correction above), and after it the
+model still draws the planes. It is a correctness alignment with the importer's design, worth having
+and worth not mistaking for a repair.
 
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 

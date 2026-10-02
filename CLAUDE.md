@@ -178,6 +178,18 @@ construction. **When a number looks right, check that it is capable of being wro
 these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
 
+**A DOWNLOAD THAT FAILS AND THEN WORKS ON A RE-RUN WAS THE NAME LOOKUP, AND IT RETRIES FOR ~23s NOW
+(2026-10-02).** Tallied over every earlier session's transcript, the flaky failure was always
+`Could not resolve host: github.com`, and it outlasted the old retry window (3 attempts, 1s + 2s).
+`FileDownload` now makes 6 attempts (waits 1/2/4/8/8s, `maxRetryDelay`). It shares one DNS cache,
+TLS session cache and connection pool across the process (a curl share handle), so a run resolves
+each host about once. It also aborts a transfer stalled for 60s. `DownloadCache::markHostUnreachable` gives
+every other file on a dead host one quick try, so an offline run pays the back-off once.
+**If you touch that sharing, keep the retry's cache bypass**: libcurl caches FAILED lookups too, and a
+retry that read one would fail instantly without asking the resolver. Habit 89 in
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md) has the method; [Testing](AI%20Agent%20Help/Testing/CLAUDE.md)
+has a compile line for `FileDownload_curl_test` that links (its header comment now carries it too).
+
 **HOW FAST IS THIS LIBRARY AGAINST THE OLD PURE-PYTHON SCRIPT? MEASURED, AND EVERY ROW IS A WIN NOW
 (2026-09-20).** Over 22 of the maintainer's own mods, with `--download Disabled` passed to **both**
 (their defaults differ, and without it one side is timed doing network work the other refuses):
@@ -216,7 +228,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty-eight short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty-nine short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

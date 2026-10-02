@@ -50,13 +50,17 @@
 // "reuse an already-installed tree" posture as this doc's own z3 guidance).
 // Compile directly, e.g.:
 //
-//   cl /std:c++latest /EHsc /nologo /I <core>/include /I <curl>/include ^
-//      FileDownload_curl_test.cpp <core>/src/tools/files/FileDownload.cpp ^
-//      /Fe:test.exe /link /LIBPATH:<cbuild>/curl/lib libcurl_imp.lib
+//   cl /std:c++latest /EHsc /nologo /MD /O2 /DNOMINMAX /I <core>/include ^
+//      /I <curl>/include /I <utf8proc> FileDownload_curl_test.cpp ^
+//      <core>/src/tools/files/FileDownload.cpp <core>/src/tools/files/FileService.cpp ^
+//      <core>/src/tools/StringTools.cpp <core>/src/tools/grapheme/GraphemeIterator.cpp ^
+//      <core>/src/tools/grapheme/GraphemeRange.cpp /Fe:test.exe ^
+//      /link /LIBPATH:<cbuild>/curl/lib libcurl_imp.lib <cbuild>/utf8proc/utf8proc.lib
 //
-// libcurl.dll must be copied alongside the built .exe (or on PATH) before
-// running it -- same DLL-next-to-.exe requirement as libz3.dll in the Building
-// doc's own z3 section.
+// libcurl.dll and utf8proc.dll must be copied alongside the built .exe (or on
+// PATH) before running it -- same DLL-next-to-.exe requirement as libz3.dll in
+// the Building doc's own z3 section. NOMINMAX because <curl/curl.h> reaches
+// <windows.h>; see AI Agent Help/Testing/CLAUDE.md.
 // -----------------------------------------------------------------------------
 
 #include "AGRemapCore/tools/files/FileDownload.h"

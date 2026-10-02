@@ -2760,6 +2760,46 @@ Open: WuWa BUFFER downloads (a mod missing a whole component draws nothing there
 fallback above is the only WuWa download so far); the reverse direction; the `disabled/` folder of
 a mod is still fixed (harmlessly); the LOD hashes of the skin.
 
+### CHISAPARFAIT -> CHISA DRAWS NOTHING, AND THE .INI IS NOT WHY (2026-10-01)
+
+The first in-game check of that direction -- the guides had said "the reverse direction is unseen"
+and it is now seen. **The character disappears entirely.** Not wrong textures, not a warped mesh:
+base Chisa renders normally with the mod parked, and with any ChisaParfait mod loaded only her
+weapon is left on screen.
+
+Reproduced on **ChisaParfait1, ChisaParfait2 and ChisaParfaitIdentity** -- the identity mod is the
+cleanest repro, and the one to debug against.
+
+**It is not the .ini, and the log proves it rather than suggesting it.** With `calls = 1` for one
+reload (see Game View's "ASK THE LOG..."), every gate the remapped sections carry comes back true:
+
+```
+[...ComponentNChisaRemapFix] if $mod_enabled: true {
+[...ComponentNChisaRemapFix] if resourcemergedskeleton !== null: true {
+[...ComponentNChisaRemapFix] handling = skip
+[...ComponentNChisaRemapFix] DrawIndexed(N, N, N)          x37230
+```
+
+So the sections match Chisa's `afa1587c`, the mod registers, the merged skeleton exists, the
+original is skipped and **the draws are issued**. The geometry is being drawn and is not visible,
+which puts the defect downstream of everything the fix writes into the `.ini` -- in the skinning:
+the merged skeleton, the blend remap, or the vertex buffers the draw reads.
+
+Everything the static checks can see is clean: 0 dangling references on three of the four mods (the
+fourth's four are its author's own, in a Chinese-named `ButtonUI` overlay the fix never touches), no
+`NotFound`, every texture binding either the mod's own file or a deliberate download, and the
+generated `ChisaRemapBlendRemap{Forward,Reverse}.buf` are structurally sane (512 entries, forward max
+418 which is Chisa's range, 181 nonzero).
+
+**It is not the hand-mapping fix of the same day.** Reverting that edit, rebuilding and re-fixing
+left the character exactly as invisible, which is the A/B worth doing before blaming your own change
+(Overview habit 56).
+
+One structural difference worth starting from: in this direction the TARGET is past 256 bones
+(Chisa, 419), so WWMI's blend remap has to carry the target side. The forward direction's target,
+ChisaParfait, is 264 -- over 256 as well and working -- so "target over 256" is not by itself the
+answer, but the 419-bone case is the one that fails.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

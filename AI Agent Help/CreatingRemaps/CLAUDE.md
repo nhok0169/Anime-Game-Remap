@@ -2795,6 +2795,45 @@ generated `ChisaRemapBlendRemap{Forward,Reverse}.buf` are structurally sane (512
 left the character exactly as invisible, which is the A/B worth doing before blaming your own change
 (Overview habit 56).
 
+**WHAT THE BISECT RULED OUT, AND THE ONE DEFECT IT PROVED (2026-10-01).** Four probes, each one
+line in the fixed `.ini` and no rebuild -- the cheapest instrument available here, and worth reaching
+for before any code:
+
+| probe | result |
+| --- | --- |
+| bind the UN-remapped blend buffer (`vb4`) | still invisible -- **not** the `BlendRemapper` |
+| bind the MERGED skeleton instead of the remapped one (`vs-cb4` / `vs-cb3`) | still invisible -- **not** the `SkeletonRemapper` |
+| revert the same day's hand mapping, rebuild, re-fix | still invisible -- **not** the vertex groups |
+| let WWMI's skeleton MARKER survive (below) | still invisible -- necessary, not sufficient |
+
+**The proved defect: two of the fix's own command lists race for WWMI's skeleton marker, and the
+wrong one wins.** Every remapped section runs `CommandListOverrideSharedResources...` before
+`CommandListMergeSlot<N>...`, and the first of those does
+
+```
+if vs-cb4 == 3381.7777
+	vs-cb4 = ResourceMergedSkeleton        ; the SOURCE's skeleton
+endif
+```
+
+`3381.7777` is WWMI's marker meaning "this constant buffer is still the raw skeleton". Binding a real
+buffer there CONSUMES it, so the fix's own merge, guarded by the same test, can never fire: measured
+in the log, `[...MergeSlot0ChisaRemapFix] if vs-cb4 == 3381.7777` is **false 2565 times and true
+zero times**. Its `SkeletonMerger` and `SkeletonRemapper` never run, `ResourceRemappedSkeleton...` is
+never produced, and the draw skins blend indices in CHISA's space (up to 418) against ChisaParfait's
+264-bone skeleton. That collapses the mesh, which is why the draws issue and nothing is visible.
+
+Removing the premature binding is necessary but did not restore rendering on its own, so at least
+one more layer is in the way -- the next thing to read is what the mod's OWN `[Present]` ->
+`CommandListUpdateMergedSkeleton` does to the same marker each frame, and in what order relative to
+the remapped sections.
+
+**The general lesson is the marker, not Chisa.** WWMI signals state through sentinel VALUES in
+constant-buffer slots, so any generated command list that writes such a slot changes what every
+LATER list sees. Two generated lists guarded by the same sentinel are order-dependent by
+construction, and the one that runs first silently disables the other -- with no error, no warning,
+and a log that shows every gate it does reach coming back true.
+
 One structural difference worth starting from: in this direction the TARGET is past 256 bones
 (Chisa, 419), so WWMI's blend remap has to carry the target side. The forward direction's target,
 ChisaParfait, is 264 -- over 256 as well and working -- so "target over 256" is not by itself the

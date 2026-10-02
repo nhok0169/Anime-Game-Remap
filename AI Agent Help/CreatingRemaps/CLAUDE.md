@@ -3355,6 +3355,47 @@ roles and never for component 4's. `lowerMask` then has no candidate at all -- n
 message, it simply never entered the running -- and downloads. `AGREMAP_WWMI_PICK=1` prints every
 (role, component) choice and is how that was seen.
 
+### THE FLAT-COLOUR BISECT ON CHISAPARFAIT3, AND WHAT IT EXONERATED (2026-10-02)
+
+Four in-game rounds, one register at a time, binding a 4 x 4 flat texture immediately before each
+remapped `drawindexed` so it wins over every texture list that ran before it
+(`Tools/Misc/Diagnostics/wwmiFlatProbe.py`):
+
+| round | bound | result |
+| --- | --- | --- |
+| 1 | `ps-t3`-`ps-t9` magenta | the HAIR turned magenta; **the red body and yellow skirt did not move** |
+| 2 | `ps-t1` flat black | no change -- not the mask, which is where the triage table points |
+| 3 | `ps-t2` flat green | **the whole body, outfit and cap went flat green, and the red glow vanished with it** |
+| 4 | `ps-t0` flat blue | no change -- not the normal map |
+
+So `ps-t2` is the sole driver. Then the decisive substitution: bind ChisaParfaitIdentity's **stock**
+upper atlas there instead of the mod's own file, changing nothing else. **The model rendered
+correctly** -- pink gingham, white skirt, no red, no yellow, no glow.
+
+**That exonerates the fix.** Same register, same role, same pass gate (`if vs == 3381.761`), same
+`ShaderOverridePass` hashes and filter values as the mod that renders right -- diffed and identical --
+and the same DXGI format on both sides (`BC7_UNORM_SRGB` for the diffuses, `BC7_UNORM` for the
+normals). The only thing that differs is the bytes the mod ships, and swapping those alone fixes the
+picture.
+
+What remains unexplained is the mod's own art: its atlases render pale pink and gingham when
+decoded (`3_3.dds` is a nude body atlas, `4_3.dds` the pink lower outfit) and red and yellow in game.
+Its upper diffuse is also the one file in the corpus whose ALPHA is out of range -- 254-255 where
+every other diffuse here, the mod's own lower, panel and face included, is 0-112 -- but the face has
+a normal alpha and renders red too, so that is a loose end rather than the cause.
+
+**The check that is missing is the one the guides already require and that cannot be run here: the
+mod on its OWN character.** Every conclusion above is about a ChisaParfait mod rendered on Chisa.
+Until it is seen on ChisaParfait, "the mod is broken or stylised this way anyway" and "the remap
+cannot carry this mod's art" are not distinguished -- and the first is likelier than a fix defect
+that spares every other mod and every other register.
+
+**The method's own lesson**, which cost four careful hypotheses before it: a flat colour per register
+settles in four rounds what measuring the files argued about for hours. The mask was excluded by
+measurement (100% vs 94% `R = 255`), the diffuse by its mean colour, the roles by a register-for-
+register diff -- all correct, all beside the point, because none of them could say which register the
+symptom actually rode on. Bisect FIRST, measure the survivor.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

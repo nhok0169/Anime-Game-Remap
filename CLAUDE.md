@@ -234,6 +234,17 @@ the story goes in `AI Agent Help/` or a plain `//` comment. A new public class o
 See Overview habit 87 and [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE
 FOR A NEW USER", which also has the Linux recipe for regenerating both artifacts (`CASE_SENSE_NAMES = NO`).
 
+**THE REFERENCE PAGES SHOW WHAT A CLASS INHERITS NOW, AND THE HAND-WRITTEN PAGES HAVE SIX QUIET TRAPS (2026-10-02).**
+`conf.py` turns autodoc's `inherited-members` on for every Python class (so never write it per class again), and
+the Doxyfile's `INLINE_INHERITED_MEMB = YES` does the same for C++ -- which Breathe can only render through
+`Docs/src/extensions/doxygenInherited.py`, because Doxygen gives every inherited copy its PARENT's id and the C++
+reference is one page (886 duplicate-anchor warnings read raw). When writing pages: `` `x` `` is italics and
+``` ``x`` ``` is code, a `| ` line block in a table cell swallows a `code-block`, a README image comes from
+`raw.githubusercontent.com` (a `/blob/` URL is not an image), and the command-option tables are a fifth hand-kept
+list that had lost `--fromVersion`. See [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "EVERY CLASS
+PAGE LISTS WHAT IT INHERITS" and "WRITING THE `.rst` PAGES", and [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) for
+running the CIPipeline on Windows and the one `core.pyi` line it rewrites as noise.
+
 **A request for a NEW class may describe one that already exists (habit 53, 2026-09-18).**
 "Build a `GraphCompose` edit" turned out to be `GraphInherit` with one pluggable piece added, and
 the maintainer, shown that, chose to extend it. Before the first header of any new

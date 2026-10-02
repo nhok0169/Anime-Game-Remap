@@ -195,6 +195,24 @@ with `-d`, **it regenerates the tracked `core/xml` and `core.pyi` on every run**
 [Building](../Building/CLAUDE.md)'s `-d` section for when to keep those; the short answer for a
 tooling change is that you do not.
 
+**Running it on Windows, done end to end on 2026-10-02 (the 12-thread laptop): ~10 minutes, exit 0.** Put the
+whole run in a `.bat` -- `call "<vcvarsall.bat>" x64`, `cd /d <repo>\Tools\CIPipeline`, then
+`<the Python in cbuild/CMakeCache.txt's _Python_EXECUTABLE> main.py` -- and launch it from the **PowerShell** tool
+with `cmd /c "<path>.bat" > <log> 2>&1`, in the background. Locate `vcvarsall.bat` with a `find` rather than
+trusting a path (it was VS 18 **Community** under `Program Files` here). A harmless `'vswhere.exe' is not
+recognized` line comes out of vcvarsall; `where cl cmake ninja doxygen` in the `.bat` is the real check. Then
+**read the artifacts, not the exit code**: the log should show ninja building and `Linking ... core.cpXX-*.pyd`,
+and the `.pyd`'s mtime should be the run's. What a run with no source change leaves behind:
+
+* `core/xml` -- byte-identical to the committed one (hundreds of files LOOK modified; `git diff --ignore-cr-at-eol`
+  says none are), so a real diff there means the XML was stale.
+* the build stamps (`Datetime Ran` / `Run Hash` / `Build Hash`) in `script build/.../AGRemap.py` and
+  `apiMirror/src/AnimeGameRemap/{__init__,__main__}.py` -- the maintainer commits those.
+* **ONE line of `core.pyi` that is noise**: `IniKeywords.MatchKeys` is a set, and the stub generator prints it in
+  whatever order the run hashes it. The maintainer's call is to leave that line out of the commit.
+
+Check `EnvName = "prod"` in the compiled script before committing it.
+
 ## `ModHashFixer`: the first tool aimed at a MOD AUTHOR rather than at us (2026-09-22)
 
 `Tools/ModHashFixer` repairs a WuWa mod whose textures have "broken". WWMI binds textures by hash,

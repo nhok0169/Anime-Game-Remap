@@ -1262,3 +1262,39 @@ about a minute, rewrites ~1440 files of which ~490 differ in content and ~100 ar
 warnings are worth reading --- it flagged that `GIMIFixer::fixKey`'s doc comment had drifted away
 from its declaration, so the comment (and its two `@param`s) was being published on
 `labelTargetBlock` instead.
+
+
+## WRITING THE `.rst` PAGES AND THE READMES: SIX TRAPS THAT RENDER WRONG WITHOUT A WARNING (2026-10-02)
+
+A production pass over the hand-written pages hit each of these. Most of them build cleanly and are wrong only in
+the HTML, so **look at the rendered page, or grep it**, not the warning count.
+
+1. **`` `text` `` is italics, not code.** A single backtick pair is reST's *interpreted text*; inline code is
+   ``` ``text`` ```. Twenty-one spots across six pages had it the wrong way round (`` `hash` ``, `` `if` ``,
+   `` `-\-types` ``). When converting, drop the `-\-` escape -- inside double backticks nothing is escaped, so
+   ``` ``-\-types`` ``` would SHOW the backslash. And check each hit for a link target first: `` `unittest` `` in
+   `makeChanges.rst` had a `.. _unittest:` target nobody used, so it was meant to be a link (`` `unittest`_ ``).
+2. **A `| ` line block swallows a directive.** Every line of a `list-table` cell starting with `| ` makes the cell
+   ONE line block, which holds inline text only -- a `.. code-block::` inside it is printed as text. A cell can
+   hold ordinary paragraphs and directives: write it without the bars, blank lines between the parts, everything
+   indented under the cell. Keep `| ` for short cells that want hard line breaks.
+3. **A `` `name`_ `` with no `.. _name:` target is an ERROR, and a renamed word silently breaks its link.** Fixing
+   a typo in the link text (`Grammer` -> `Grammar`, `mathmatically` -> `mathematically`) means fixing the target
+   line too, in the same edit.
+4. **Renaming a heading's text can make its underline too short**, which is a warning. A scripted rename should
+   lengthen the `===` / `---` / `***` line under any title it grew.
+5. **An image in a README is loaded from `raw.githubusercontent.com/<owner>/<repo>/refs/heads/<branch>/<path>`.**
+   A `github.com/.../blob/...` URL returns an HTML page, not the image, so it is broken on PyPI and anywhere but
+   GitHub's own renderer; `github.com/.../raw/...` works only through a redirect. In a Sphinx page, point at
+   `./_static/images/...` instead, so Read the Docs serves its own copy.
+6. **A page that links to another page of the docs uses `` :doc:`text <page>` ``**, not a GitHub URL to a README
+   that says the same thing (the AI-support tips used to link GitHub; they link `aiSupport` now).
+
+**The command-option tables are a hand-kept list too, and had fallen behind.** `api/README.md`,
+`apiMirror/README.md` and `commandOpts.rst` each list the CLI's options, written by hand -- and all three were
+missing `-fv/--fromVersion`, which the CLI has had since 2026-09-13. The truth is
+`api/src/py/FixRaidenBoss2/controller/CommandBuilder.py` for the API and
+`Tools/Script/Script/apiRefs/PackageApiRef.getOptions` for the two the released script adds (`--update`,
+`--preRelease`). The tables carry a **Build** column since 2026-10-02: `API, Script` for every API option (the
+script hands every option it does not use itself on to the API), `Script` for the script's own. Diff a table
+against those two files before trusting it, the same way `checkModTypeTables.py` does for the mod types.

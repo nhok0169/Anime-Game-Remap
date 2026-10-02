@@ -3863,6 +3863,33 @@ shaders in ChisaParfait's packing. The forward direction's `MaskTranslations` is
 inverse has to be measured (render both skins' masks' channels beside their diffuses, and ask the
 diffuse which value means skin) and then checked in game, so it is its own piece of work.
 
+**AND THE REPACK WAS BUILT, MEASURED AND THROWN AWAY -- THERE IS NOTHING TO REPACK ON THIS PAIR
+(2026-10-02).** Written, compiled, run and checked in game, channel by channel, and the answer is
+that the config's original comment was right for a better reason than it gave:
+
+| channel | Chisa (target) | ChisaParfait (source) | verdict |
+| --- | --- | --- | --- |
+| R | 255 skin / 0 cloth | 255 skin / 0 cloth | the same LEGEND -- nothing to translate |
+| G | 26 on skin, 102 on cloth, constant | a real gloss map, median 0, p90 97 | CONTENT on the source; flattening it to the target's constants is what the forward direction found rendering as metallic skin, pointing the other way |
+| B | 0 over 100.0% of texels | 126 | packing, and rewriting it is **inert** in game |
+| A | 255 over 100.0% of texels | 0 | **rewriting it is HARMFUL**: the choker cords, the straps, the belt and the shoulder flower all turn BLACK |
+
+So the only channel that is packing on both sides AND safe to rewrite is B, and B changes nothing
+visible. The edit was reverted rather than shipped: it rewrites four textures on every mod to buy
+nothing, and it carries a channel that makes the model worse.
+
+**The A result is the one worth keeping.** Chisa's own masks are A = 255 everywhere and her own
+model has no black straps, so "both are constants, therefore both are packing" is not a safe
+inference -- her shader reads A in a way her own art never exercises on a thin accessory. Per
+channel, one reload each, is what separated it: B alone reproduces the shipped look exactly, both
+together blackens the straps (`Images/ChisaParfait/3_7/MaskChannelProbe.png`).
+
+**And the diffuse gate the forward filter uses does not invert either.** Tried as a cure for the
+thigh outline -- promote a non-skin texel to skin where the diffuse under it is flesh-coloured --
+it marks **99.1%** of her upper mask as skin, because her art is pale cream and pink, and in game it
+blackens the same straps. The forward filter restricts that gate to a middle BAND for exactly this
+reason, and her masks are near binary, so there is no band to restrict it to.
+
 **The dark patches are NOT the mask, and are still open.** They survive nulling `ps-t1` and nulling
 `ps-t0` (the normal map) on components 4 and 5, and they vanish under a flat `--paint` of
 ps-t0/1/2 -- so they are on surfaces the fix draws and are driven by `ps-t2`, the diffuse. They are

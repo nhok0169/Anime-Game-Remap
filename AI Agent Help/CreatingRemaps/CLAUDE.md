@@ -3049,6 +3049,26 @@ writes, write the value that pass would write. A placeholder that is wrong on pu
 did not run" from a blank screen into a plausible-looking wrong picture -- and the days between those
 two diagnoses are the cost.
 
+**AND THE IN-GAME A/B DID NOT SETTLE IT, BECAUSE THE RENDER IS NOT STABLE ACROSS RELOADS
+(2026-10-02).** ChisaParfaitIdentity loaded and reloaded five times, same files and same build, gave
+**one** frame with a correctly scaled and correctly placed garment and **four** filled with the
+enormous planes -- and a run with the old placeholder deliberately written back looked like the four.
+So the placeholder defect is proved by MEASUREMENT (deterministic, 42% of vertices, a check that
+fails against a reconstruction of the old output and passes against the new) and **not** by the
+picture.
+
+That retrospectively weakens every single-screenshot conclusion about this pair, including some
+recorded above and the "it draws nothing" framing this investigation started from. **Reload three
+times and look at all three before trusting any in-game observation of this remap**, and when a
+change is meant to fix it, make the acceptance test the distribution rather than a frame.
+
+An unstable render is a RACE rather than a wrong value, which points straight at the ordering
+divergence listed in the contract above: the generated fix merges, remaps and binds inside every
+slot's draw, where WWMI's own design merges per draw into a persistent buffer and remaps **once per
+frame at `[Present]`** from the complete result. Aligning that is the next thing to try, and it is
+now the only contract item the generated fix does not satisfy.
+
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

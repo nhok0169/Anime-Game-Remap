@@ -2866,6 +2866,50 @@ from **false 2565 / true 0** to **true 2685**, and the fix's own `SkeletonMerger
 `SkeletonRemapper` from never running to **4833 times each**. The forward direction's output is
 byte-for-byte unaffected (`targetPast256_` is false there, and its mods carry neither line anyway).
 
+**AND THE DUMP FOUND THE REST OF IT (2026-10-02).** One narrowed frame dump --
+`--options "dump_cb dump_vb dump_ib buf txt"`, taken from the character menu with XXMI's logging
+off, 7406 files and no watchdog kill -- settled in minutes what reasoning had not.
+
+**The remapped draw had no `vs-cb3` and no `vs-cb4` at all.** Every normal character draw in the
+same frame dumped both; ours dumped neither. No skeleton means no valid transform, and that renders
+as NOTHING rather than as something wrong -- which is why four probes aimed at the skinning all came
+back identical.
+
+3dmigoto names the cause in the dump's own `log.txt`:
+
+```
+[mergeslot0chisaremapfix] resourceextraremappedskeletonchisaremapfix = copy resourceextra...
+  Copy source was NULL
+[mergeslot0chisaremapfix] vs-cb3 = resourceextraremappedskeletonchisaremapfix
+  Copy source was NULL
+```
+
+`[Resource...RemappedSkeletonRW]` was declared EMPTY -- no type, format or size -- and bound
+straight to `cs-u5` as the compute shader's UAV. An empty resource has no backing buffer: the
+dispatch writes nowhere, the `copy` after it has no source, and **binding a null resource UNBINDS
+the slot**. Chisa's own identity mod seeds the pair from the merged RW before its dispatch
+(`ResourceRemappedSkeletonRW = copy ResourceMergedSkeletonRW`); the fix now does the same, and the
+merged RW is the right source because it is declared with a size and has just been written by
+SkeletonMerger.
+
+**With that, the model draws.** Not correctly -- it comes in enormous, with the camera inside it --
+but drawing and mis-skinned is a different and far more tractable failure than invisible.
+
+**The next lead, probed and real: the remapper's `vg_count`.** The fix overrides it to a global 186
+(`blendRemapBones_`) for every slot, where Chisa's own mod passes each component's own count
+(128 / 121 / 28). Deleting the override so the slot's own count stands brings at least one slot back
+to roughly the right size -- a recognisable piece of the outfit at normal scale -- while others still
+explode. So the value is substantive and per-slot, and a blanket removal is not the answer either.
+That is where to pick this up.
+
+**Two general lessons from the shape of this hunt.** A resource that is empty rather than wrong
+fails SILENTLY in both directions -- nothing is drawn and nothing is logged as an error, only a
+quiet "Copy source was NULL" inside a frame dump nobody takes by default. And four one-line probes
+that all come back identical are not four dead ends: they were bisecting the SKINNING while the
+defect was that no skeleton reached the draw at all, which no amount of swapping one skeleton for
+another could reveal. When every probe inside a subsystem says "no change", suspect that the
+subsystem is not running.
+
 **The model is still invisible.** So the dead skeleton pipeline was real and is not the whole story;
 at least one more layer sits behind it. What is now known good: the sections match, the mod
 registers, the draws issue, the fix's own skeleton merge and remap run, and the blend buffers are

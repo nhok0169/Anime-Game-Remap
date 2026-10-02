@@ -1,23 +1,26 @@
-r"""Which vertices of the remapped mesh land far from the body, and what are they weighted to?
+r"""Skin a fixed WuWa mod offline against the TARGET's own skeleton, and say where its vertices land.
 
-Everything here is offline and independent of the fix's own output, which is the point: three
-earlier diagnoses were taken from dumps of the fix's own skeleton and so could only confirm
-themselves.
+The point is independence. A frame dump of the FIX's own draws can only confirm whatever the fix
+already did, and three diagnoses of the ChisaParfait -> Chisa remap were taken that way and were
+wrong. This rebuilds the skeleton from a dump of the TARGET CHARACTER instead:
 
-The skeleton is rebuilt from a frame dump of CHISA HERSELF:
+  * each of the target's component draws dumps an index buffer whose .txt sidecar gives
+    `first index` and `index count`, which names the component
+  * that draw's `vs-cb4=...` buffer is that component's bone data, LOCAL and 0-based, 3 x float4 per
+    bone (WWMI's SkeletonMerger.hlsl)
+  * so merged[vgOffset + i] = cb4[i] over every window -> the target's whole merged skeleton
 
-  * each of her component draws dumps an index buffer whose .txt sidecar gives `first index` and
-    `index count`, which names the component
-  * that draw's `vs-cb4=<boneDataHash>` buffer is that component's bone data, LOCAL and 0-based,
-    3 x float4 per bone (SkeletonMerger.hlsl)
-  * so merged[(vgOffset + i)] = cb4[i] for i < vgCount, over all seven windows -> Chisa's 420 bones
-
-Then the fix's own forward map takes that to the 180-bone window the draw addresses
+Then the fix's own forward map takes that to the window the remapped draw addresses
 (SkeletonRemapper.hlsl: remapped[local] = merged[forward[local]]), the mod's Position.buf is skinned
-with the local ids and weights in the remapped Blend.buf, and the result is compared against the
-bulk of the mesh.
+with the local ids and weights in the remapped Blend.buf, and the result is summarised.
 
-  py -3 flyAway.py [--dump <frame analysis folder>]
+A healthy remap puts every vertex in one character-sized cluster. Vertices far outside it stretch
+across the scene; a cluster collapsed to a point is a mod that renders as nothing.
+
+  py -3 wwmiSkinOffline.py --mod <fixed mod folder> --dump <frame analysis of the target>
+                           --target <the target's identity mod folder>
+
+Exits 1 if anything lands outside the body's envelope or the mesh has collapsed.
 """
 import argparse
 import collections
@@ -26,24 +29,36 @@ import os
 import pathlib
 import re
 import struct
+import sys
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dump", default=r"C:\Users\AlexX\Documents\Games\Mods"
-                                       r"\XXMI-Launcher-Portable-v1.8.5\WWMI"
-                                       r"\FrameAnalysis-Chisa-Max-LOD-2026-09-21-080231")
-parser.add_argument("--cb", default="vs-cb4", help="vs-cb4 (primary) or vs-cb3 (the extra skeleton)")
+parser.add_argument("--mod", required=True, help="the FIXED mod folder")
+parser.add_argument("--dump", required=True, help="a frame analysis folder of the TARGET character")
+parser.add_argument("--target", required=True,
+                    help="the target's identity mod folder, for its component windows")
+parser.add_argument("--cb", default="vs-cb4", help="which bone-data slot to read (vs-cb4 / vs-cb3)")
 args = parser.parse_args()
 
-W = pathlib.Path(r"C:\Users\AlexX\Documents\Games\Mods\XXMI-Launcher-Portable-v1.8.5\WWMI")
+mod = pathlib.Path(args.mod)
 dump = pathlib.Path(args.dump)
-assert dump.is_dir(), "NOTHING WAS CHECKED: no dump at %s" % dump
-mod = next(p for p in (W / "Mods" / "ChisaParfaitIdentity", W / "ChisaParfaitIdentity")
-           if (p / "Meshes").is_dir())
-mesh = mod / "Meshes"
+target = pathlib.Path(args.target)
+for p, what in ((mod, "mod"), (dump, "dump"), (target, "target")):
+    if (not p.is_dir()):
+        sys.exit("NOTHING WAS CHECKED: no %s at %s" % (what, p))
 
-# ---- Chisa's windows, from her own identity mod -----------------------------------------------
-ident = (W / "ChisaIdentity" / "mod.ini").read_bytes().decode("utf-8", "replace").replace("\r\n", "\n")
-windows = []                                                # (firstIndex, indexCount, vgOffset, vgCount)
+# ---- the fix's generated set, found by the one file only this path writes ---------------------
+reverses = sorted(mod.rglob("*BlendRemapReverse.buf"))
+if (not reverses):
+    sys.exit("NOTHING WAS CHECKED: no *BlendRemapReverse.buf -- this mod has no blend remap")
+mesh = reverses[0].parent
+stem = reverses[0].name[: -len("RemapReverse.buf")]              # e.g. "ChisaRemapBlend"
+
+# ---- the target's windows, from its identity mod ----------------------------------------------
+inis = sorted(target.rglob("*.ini"))
+if (not inis):
+    sys.exit("NOTHING WAS CHECKED: no .ini under %s" % target)
+ident = inis[0].read_bytes().decode("utf-8", "replace").replace("\r\n", "\n")
+windows = []
 for body in re.findall(r"^\[TextureOverrideComponent\d+\]\n(.*?)(?=\n\[)", ident, re.S | re.M):
     first = re.search(r"match_first_index = (\d+)", body)
     count = re.search(r"match_index_count = (\d+)", body)
@@ -52,14 +67,15 @@ for body in re.findall(r"^\[TextureOverrideComponent\d+\]\n(.*?)(?=\n\[)", ident
     if (first and count and off and cnt):
         windows.append((int(first.group(1)), int(count.group(1)),
                         int(off.group(1)), int(cnt.group(1))))
-assert windows, "NOTHING WAS CHECKED: no component windows in ChisaIdentity's .ini"
+if (not windows):
+    sys.exit("NOTHING WAS CHECKED: no component windows in %s" % inis[0].name)
 bones = max(o + c for _, _, o, c in windows)
-print("Chisa: %d components, %d merged bones\n" % (len(windows), bones))
+print("target: %d components, %d merged bones" % (len(windows), bones))
 
 # ---- the merged skeleton, from the dump -------------------------------------------------------
 byRange = {(f, c): (o, n) for f, c, o, n in windows}
 merged = [None] * bones
-found = {}
+seen = set()
 for txt in glob.glob(os.path.join(str(dump), "*-ib=*.txt")):
     head = open(txt, encoding="utf-8", errors="replace").read(400)
     first = re.search(r"first index: (\d+)", head)
@@ -67,7 +83,7 @@ for txt in glob.glob(os.path.join(str(dump), "*-ib=*.txt")):
     if (not first or not count):
         continue
     key = (int(first.group(1)), int(count.group(1)))
-    if (key not in byRange or key in found):
+    if (key not in byRange or key in seen):
         continue
     drawId = os.path.basename(txt).split("-")[0]
     cbs = glob.glob(os.path.join(str(dump), "%s-%s=*.buf" % (drawId, args.cb)))
@@ -77,95 +93,80 @@ for txt in glob.glob(os.path.join(str(dump), "*-ib=*.txt")):
     rows = [struct.unpack_from("<4f", raw, i * 16) for i in range(len(raw) // 16)]
     off, cnt = byRange[key]
     for i in range(cnt):
-        if (i * 3 + 2) < len(rows):
+        if ((i * 3 + 2) < len(rows)):
             merged[off + i] = (rows[i * 3], rows[i * 3 + 1], rows[i * 3 + 2])
-    found[key] = (drawId, off, cnt)
+    seen.add(key)
 
-print("%-28s %-8s %s" % ("component draw", "window", "bone data"))
-for (f, c), (drawId, off, cnt) in sorted(found.items()):
-    print("  first %-8d count %-8d [%3d, %3d)  draw %s" % (f, c, off, off + cnt, drawId))
-missing = [w for w in windows if (w[0], w[1]) not in found]
-for f, c, off, cnt in missing:
-    print("  first %-8d count %-8d [%3d, %3d)  NOT IN THE DUMP" % (f, c, off, off + cnt))
+absent = [b for b in range(bones) if merged[b] is None]
+print("windows found in the dump: %d of %d; merged bones with no matrix: %d\n"
+      % (len(seen), len(windows), len(absent)))
+if (len(seen) < len(windows)):
+    print("  (a window the dump does not cover is not the fix's fault -- take a dump where the")
+    print("   whole character is on screen before reading anything below)\n")
 
-empty = [b for b in range(bones) if merged[b] is None]
-print("\nmerged bones with no matrix: %d" % len(empty))
-
-# ---- the fix's forward map, and the remapped window --------------------------------------------
-fwdRaw = (mesh / "ChisaRemapBlendRemapForward.buf").read_bytes()
+# ---- the mesh --------------------------------------------------------------------------------
+fwdRaw = (mesh / (stem + "RemapForward.buf")).read_bytes()
 forward = list(struct.unpack("<%dH" % (len(fwdRaw) // 2), fwdRaw))
-revRaw = (mesh / "ChisaRemapBlendRemapReverse.buf").read_bytes()
-reverse = list(struct.unpack("<%dH" % (len(revRaw) // 2), revRaw))
-
 pos = (mesh / "Position.buf").read_bytes()
-blend = (mesh / "ChisaRemapBlend.buf").read_bytes()
-vg = (mesh / "ChisaRemapBlendRemapVertexVG.buf").read_bytes()
+blend = (mesh / (stem + ".buf")).read_bytes()
 verts = len(pos) // 12
-assert len(blend) // 16 == verts, "Blend.buf has %d vertices, Position.buf %d" % (len(blend) // 16, verts)
+if (len(blend) // 16 != verts):
+    sys.exit("NOTHING WAS CHECKED: %s has %d vertices, Position.buf %d"
+             % (stem, len(blend) // 16, verts))
 print("mesh: %d vertices\n" % verts)
 
-
-def skin(v):
-    """The vertex's skinned position, and the local ids that had weight."""
+placed = []
+noInfluence = 0
+for v in range(verts):
     x, y, z = struct.unpack_from("<3f", pos, v * 12)
     out = [0.0, 0.0, 0.0]
-    total = 0
-    used = []
+    live = False
     for k in range(8):
         w = blend[v * 16 + 8 + k]
         if (not w):
             continue
         local = blend[v * 16 + k]
-        total += w
-        used.append(local)
-        m = merged[forward[local]] if forward[local] < bones else None
+        m = merged[forward[local]] if (local < len(forward) and forward[local] < bones) else None
         if (m is None):
-            continue                                   # a bone with no matrix contributes nothing
+            continue
+        live = True
         f = w / 255.0
         for r in range(3):
             out[r] += f * (m[r][0] * x + m[r][1] * y + m[r][2] * z + m[r][3])
-    return out, used, total
+    if (not live):
+        noInfluence += 1
+    placed.append(out)
 
+dists = sorted((p[0] ** 2 + p[1] ** 2 + p[2] ** 2) ** 0.5 for p in placed)
+med = dists[len(dists) // 2]
+print("distance from the origin: median %.2f, 99th %.2f, max %.2f" % (med, dists[int(len(dists) * 0.99)], dists[-1]))
 
-dists = []
-for v in range(verts):
-    p, used, total = skin(v)
-    dists.append((p[0] * p[0] + p[1] * p[1] + p[2] * p[2]) ** 0.5)
+xs = [p[0] for p in placed]
+ys = [p[1] for p in placed]
+zs = [p[2] for p in placed]
+span = max(max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs))
+print("bounding box: %.2f x %.2f x %.2f  (largest span %.2f)"
+      % (max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs), span))
+print("vertices with NO live influence (they sit at the origin): %d  (%.2f%%)\n"
+      % (noInfluence, 100.0 * noInfluence / verts))
 
-ordered = sorted(dists)
-med = ordered[len(ordered) // 2]
-p99 = ordered[int(len(ordered) * 0.99)]
-print("distance from the origin: median %.2f, 99th %.2f, max %.2f" % (med, p99, ordered[-1]))
-
-# The body is the bulk; anything far outside it is what stretches across the scene.
 limit = med * 3.0 + 1.0
-far = [v for v in range(verts) if dists[v] > limit]
-print("vertices past %.1f (3x the median): %d  (%.2f%%)\n"
-      % (limit, len(far), 100.0 * len(far) / verts))
-
-blame = collections.Counter()
-blameBone = collections.Counter()
-for v in far:
-    _, used, _ = skin(v)
-    for local in set(used):
-        blame[local] += 1
-        blameBone[forward[local]] += 1
-
+far = [v for v in range(verts) if (placed[v][0] ** 2 + placed[v][1] ** 2 + placed[v][2] ** 2) ** 0.5 > limit]
+bad = False
 if (far):
-    print("%-8s %-10s %-9s %s" % ("local", "merged", "has matrix", "far vertices on it"))
-    for local, n in blame.most_common(15):
-        m = forward[local]
-        print("  %-6d %-10d %-9s %d" % (local, m, "no" if (m >= bones or merged[m] is None) else "yes", n))
+    bad = True
+    print("FLYING OFF: %d vertices past %.1f (3x the median)" % (len(far), limit))
+    blame = collections.Counter()
+    for v in far:
+        for k in range(8):
+            if (blend[v * 16 + 8 + k]):
+                blame[forward[blend[v * 16 + k]]] += 1
+    for b, n in blame.most_common(10):
+        print("    merged bone %-4d: %d far vertices" % (b, n))
+elif (span < 1.0):
+    bad = True
+    print("COLLAPSED: the whole mesh spans %.3f units -- it would render as nothing" % span)
 else:
-    print("nothing flies off: every vertex lands inside the body's envelope")
+    print("every vertex lands inside one character-sized cluster")
 
-# The other half of the question: bones with no matrix that the mesh actually uses.
-usedBones = collections.Counter()
-for v in range(verts):
-    for k in range(8):
-        if (blend[v * 16 + 8 + k]):
-            usedBones[forward[blend[v * 16 + k]]] += 1
-dead = {b: n for b, n in usedBones.items() if b >= bones or merged[b] is None}
-print("\nbones the mesh is weighted to that have NO matrix in the rebuilt skeleton: %d" % len(dead))
-for b in sorted(dead, key=lambda k: -dead[k])[:10]:
-    print("  merged bone %-4d: %d weighted slots" % (b, dead[b]))
+sys.exit(1 if (bad or noInfluence) else 0)

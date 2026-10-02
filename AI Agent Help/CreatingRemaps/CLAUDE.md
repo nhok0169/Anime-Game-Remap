@@ -3396,6 +3396,43 @@ measurement (100% vs 94% `R = 255`), the diffuse by its mean colour, the roles b
 register diff -- all correct, all beside the point, because none of them could say which register the
 symptom actually rode on. Bisect FIRST, measure the survivor.
 
+### THE "BLACK SECOND ARM" IS THE HAIR, AND THE `vs-cb3` STORY WAS WRONG (2026-10-02)
+
+Reported on ChisaParfait1: a black second arm behind Chisa's arm, seen when she moves. Identified in
+three rounds, and the first reading of it -- that a motion-only fault must be temporal, so wrong
+motion vectors from the second skeleton -- was **wrong**, built on a search of my own screenshots that
+had looked at the WEAPON arm and the background edge. The maintainer's screenshot
+(`Images/ChisaParfait/3_7/ChisaGhost.png`) shows it plainly in a STILL, on the free arm.
+
+The rounds, each one question:
+
+1. **Is it ours at all?** Flat magenta at `ps-t0`/`t1`/`t2` of every remapped draw -- the ghost went
+   magenta with everything else, so it is one of the fix's draws, not Chisa's own unhidden geometry
+   and not a pass the fix never touches.
+2. **Is it mis-skinned?** No. Skinned offline under both merged skeletons, **edge stretch median
+   1.000, p90 1.036, and ONE edge of 146056 past 3x** -- the "bones have real counterparts"
+   signature. (The first attempt compared skinned POSITIONS and was useless: the two dumps are
+   different poses, so a centroid alignment leaves a 4.6-unit median and drowns the signal. Edge
+   length does not care about pose, which is why the guides already recommend it.)
+3. **Which draw, then?** Silencing component 1's `drawindexed` removed the hair **and the dark band
+   together**. It is the HAIR -- a twin tail hanging along the arm, dark, arm-shaped in that pose, and
+   physics-simulated, which is exactly why it is "seen when she moves".
+
+**And the mapping behind it is essentially right**: 42 of ChisaParfait's 44 hair bones (27-70) land on
+Chisa's own hair component (27-140). Two do not -- **46 -> 0** and **62 -> 13**, both onto her
+component 0 -- and `0` is the placeholder value this file already warns about elsewhere, so those two
+rows are the thing to look at first. Two bones of 44 cannot by themselves produce a whole second tail.
+
+**What is NOT established, and is the next step**: whether the tail hangs where it hangs on
+ChisaParfait herself. The guides' own rule covers it -- check against the mod on its OWN character --
+and that check cannot be run from here. A correct remap of a long twin tail onto another long twin
+tail will put dark hair beside the arm; the question is only whether its angle and swing match.
+
+**The method note**: three readings of this were wrong before the right one, and all three were
+instrument failures rather than domain mistakes. A statistic over guessed pixel COORDINATES sampled
+the background and the UID box. A hue classifier over a painted frame conflated yellow with orange
+and was not trusted. What worked every time was turning one draw off and looking.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

@@ -261,8 +261,8 @@ class Trie(Generic[T]):
         #. ids with longer length keywords go before ids with shorter length keywords
         #. keywords of ids are ordered in alphabetical order
 
-        Paramters
-        ---------
+        Parameters
+        ----------
         keywordId1: :class:`int`
             The id for the first keyword
 

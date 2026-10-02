@@ -30,7 +30,7 @@ Choice A: Quickstart 🟢
 STEP 1
 ~~~~~~
 
-Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's ``Mods`` folder.
 
 STEP 2
 ~~~~~~
@@ -94,7 +94,7 @@ Choice C: Run on CMD With a Script 🟡
 STEP 1
 ~~~~~~
 
-Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's ``Mods`` folder.
 
 
 STEP 2

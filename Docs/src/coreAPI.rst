@@ -2059,6 +2059,34 @@ SympyTokenizer
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Predicate Generators
+=====================
+
+:raw-html:`<br />`
+
+IfPredZ3Generator
+------------------
+
+.. cppattributetable:: AGRemapCore::IfPredZ3Generator
+
+.. doxygenclass:: AGRemapCore::IfPredZ3Generator
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Z3IfPredGenerator
+------------------
+
+.. cppattributetable:: AGRemapCore::Z3IfPredGenerator
+
+.. doxygenclass:: AGRemapCore::Z3IfPredGenerator
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Reg Edits
 =========
 

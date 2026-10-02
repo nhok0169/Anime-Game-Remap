@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
-  <compounddef id="class_a_g_remap_core_1_1_graph_part_edit" kind="class" language="C++" prot="public">
+  <compounddef id="class_a_g_remap_core_1_1_graph_part_edit" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::GraphPartEdit</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" prot="public" virt="non-virtual">AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::PartEdit</basecompoundref>
     <includes refid="_graph_group_part_edits_8h" local="no">GraphGroupPartEdits.h</includes>
@@ -356,6 +356,131 @@ Restricts an edit to specific areas of a :cpp:class:`IfContentPart` -- an empty
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="126" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="126" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1ad1ceace82c57b3811b1e8f1c9d501a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_part_edit_1ab3ee80d5f294618b31b1960c2e7ffe5d" kindref="member">Graph</ref> *</type>
+        <definition>virtual Graph * AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::PartEdit::editGraph</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName, const PartFilter *keyFilter, bool trackKeys, const std::optional&lt; KeySet &gt; &amp;keysToTrack)=0</argsstring>
+        <name>editGraph</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::PartEdit::editGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_part_edit_1ab3ee80d5f294618b31b1960c2e7ffe5d" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_part_edit_1af29ae97be957405fe6a86cb1b8b96d83" kindref="member">PartFilter</ref> *</type>
+          <declname>keyFilter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_part_edit_1a8a33eee9da2b6fb95008b8c6bbffa2e5" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+        </param>
+        <briefdescription>
+<para>Applies this edit to a whole graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only called when <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1aaa8b58ff271447547456430446de500d" kindref="member">kind</ref> is <computeroutput>GraphEdit</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file, or <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix, or <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Which areas of a part are valid to edit -- ``nullptr`` for &quot;all of them&quot;
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A **pointer into the caller&apos;s own** filter list, rather than a copy: an
+implementation forwarding this on to a `Python`_ edit has to hand over the
+caller&apos;s original callable, and the only stable way to recover it from a
+``std::function`` is that function&apos;s own address (``pybind11``&apos;s
+``std::function`` caster re-wraps a callable rather than returning the
+original -- see `PyGraphGroupEdit`)
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The enclosing :cpp:class:`GraphGroupEdit`&apos;s own key-tracking flag, handed down
+so a graph edit can honour it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A graph edit does its own graph walking (this class hands it the whole graph
+rather than iterating parts for it, the way it does for a register edit), so it
+has to be told what the group wanted rather than being able to read a colouring
+this class built. An edit with its own setting decides how to combine the two
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The enclosing :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_graph_group_edit" kindref="compound">GraphGroupEdit</ref></computeroutput>&apos;s own key set <ndash/> <computeroutput>std::nullopt</computeroutput> meaning &quot;every key&quot;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The resulting graph. Normally &apos;graph&apos; itself; an edit that genuinely produces a
+*different* graph must return one the enclosing ``graphGroups`` owns
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="203" column="35"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

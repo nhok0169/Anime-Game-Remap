@@ -1409,8 +1409,9 @@ pairs** -- four characters, neither noticed by reading and neither caught by any
 not closed until it prints `ALL FOUR AGREE WITH THE LIBRARY`. Two traps in adding the rows:
 `commandOpts.rst` holds THREE list-tables whose rows look identical, so an insertion that scans the
 whole file puts the character in the DOWNLOAD-MODE table (scope by the mod-type header first), and a
-row's Description is derived -- the GI regex from `getSectionKeywords`, the WuWa hash from
-`HashData`'s `vb0` row -- rather than written.
+row's Description is the character's short description -- the bold line of its entry in the `ModTypes`
+enum's docstring (`**Amber Chinese mods**`), copied verbatim -- not the classifier's regex or hash
+(the maintainer's choice, 2026-10-01).
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

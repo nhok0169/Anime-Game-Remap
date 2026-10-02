@@ -4,6 +4,17 @@
 How to Create a Remap
 ======================
 
+.. tip::
+  We provide :doc:`AI support <aiSupport>` for automating most of the steps below including in game control to check whether mods work for you!
+
+  The only parts that still need manual assisstance are:
+
+  - merging the mod downloads to the `master` branch
+  - Doing a final check of the mods in game to see whether the AI did their job correctly
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 .. attention::
     Due to the project constantly changing, there is a possibility that this page may become outdated.
 
@@ -239,6 +250,7 @@ Then run `checkModTypeTables.py`_ to make sure the tables agree with the library
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _WWMI Assets: https://github.com/SpectrumQT/WWMI-Assets
 .. _AG Remap repo: https://github.com/nhok0169/Anime-Game-Remap
+.. _script to mathematically find the closest vertex group: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Tools/VGRemapFinder/GI/GIVGRemapFinder.ipynb
 .. _Pull Request (PR): https://github.com/nhok0169/Anime-Game-Remap/pulls
 .. _the API: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/README.md
 .. _the API Mirror: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/apiMirror/README.md

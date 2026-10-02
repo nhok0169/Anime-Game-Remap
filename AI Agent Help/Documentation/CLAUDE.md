@@ -787,6 +787,25 @@ Traps hit while doing it, each worth a rebuild cycle:
   actually resolve to a link" as two separate questions — grep the rendered HTML for
   `class="reference internal"` around the class name to check the latter, since a clean warning
   count alone doesn't confirm it.
+- **EVERY CLASS PAGE LISTS WHAT IT INHERITS NOW, ON BOTH PAGES, BY DEFAULT (2026-10-02).** The
+  maintainer asked for it: `IfPredTokenizer` showed none of the methods it gets from `BaseTokenizer`.
+  Read the two bullets after this one as history -- the per-class choices they weigh are settled.
+  - **Python (`api.rst`)**: `conf.py`'s `autodoc_default_options` sets `inherited-members` for every
+    `.. autoclass::`, so do NOT write `:inherited-members:` on a new entry (the 104 hand-written ones
+    were removed). Its value is a list of base classes whose members are SKIPPED -- `object`, `str`,
+    `dict`, `Enum`, `pybind11_object`, ... -- because a plain `True` would paste every `str` method
+    onto `StrEnum`. A new class that subclasses another builtin needs that builtin added there.
+  - **C++ (`coreAPI.rst`)**: the Doxyfile sets `INLINE_INHERITED_MEMB = YES`, so `core/xml` lists each
+    class's inherited members. Doxygen writes those copies with the PARENT's id, and the whole C++
+    reference is one page, so read raw that gave **886 "Duplicate explicit target name" warnings** (and
+    attribute-table links that jumped to the parent), plus 5 "Duplicate C++ declaration" ones where a
+    template child overrides a member Doxygen copied anyway (`BufReplace::buildResModel`). Breathe
+    therefore reads a PREPARED COPY: `Docs/src/extensions/doxygenInherited.py`, called from `conf.py`,
+    copies `core/xml` to `<tempdir>/AGRemapDocs/coreXml`, gives each inherited member an id under the
+    class it was copied into, and drops one whose signature the class already declares. The build log
+    prints `[doxygenInherited] inherited members renamed: N, dropped ...` (1196 / 16 when it landed).
+    The committed XML stays raw Doxygen output, so the regeneration recipes above are unchanged -- and
+    so `doxygen_xml_dir` / `breathe_projects` point at the temp copy, not at `core/xml`.
 - **A base pybind11 class with real inheritance but no live `api.rst` entry hides its methods from
   the derived class's docs page — even though they work fine at runtime.** `DFA` (`PyDFA.cpp`) has
   genuine pybind11 inheritance from `BaseDFA` (`py::class_<PyDFA, PyBindDFA, BaseDFACls>`), so
@@ -1184,11 +1203,12 @@ Two traps in writing the rows, both of which cost a round here: **`commandOpts.r
 list-tables** (the mod types, the download modes, the game types) whose rows are all
 `* - **Name**`, so an insertion that picks "the last row that sorts before this one" over the whole
 FILE lands the character in the download-mode table -- scope to the mod-type table by its
-`* - Name` / `- Game` / `- Aliases` / `- Description` header first. And the GI Description is not
-free text: it states the regex that character's `ModTypeIdTools::getSectionKeywords` entry produces,
-in the shape its neighbours use (a base character excludes its skin's keyword, the skin matches its
-own), while a WuWa row states the character's `vb0` hash out of `HashData` and says why -- a WWMI
-`.ini` names its sections after the draw slot.
+`* - Name` / `- Game` / `- Aliases` / `- Description` header first. And the Description is not
+free text: it is the character's short description, the bold first line of its entry in the
+`ModTypes` enum's docstring (`constants/ModTypes.py`, e.g. `**Amber Chinese mods**`), copied
+verbatim into all three tables. Add the enum entry first and copy from it, so the four places say the
+same thing. (Until 2026-10-01 the cell stated the classifier's section regex for a GI row and its
+`vb0` hash for a WuWa row; the maintainer replaced both with the short description for production.)
 
 **Generate the rows out of the library and diff them against the tables rather than typing them.**
 `GIBuilder.all()` / `WWMIBuilder.all()` give every type's `name`, `gameTypeId` and `aliases`; a
@@ -1197,11 +1217,8 @@ published for a long time: the tables said **BarabaraSummertime** (a misspelling
 type is `BarbaraSummertime`, so the documented name matched nothing a user could pass to `--types`),
 and `KleeBlossomingStarlight` was missing its `ScarletFlandre` alias. Neither is visible by reading.
 
-Two things about the tables as of 2026-09-20: they carry a **Game** column (`GI` / `WuWa`) right of
-the name, matching the `Game Types` table already under them; and a WuWa row's Description is not a
-regex like every GI row's, because a WWMI `.ini` names its sections after the draw slot
-(`[TextureOverrideComponent0]`) and never after the character --- the classifier matches the
-character's own `vb0` hash instead, so the row says so.
+The tables carry a **Game** column (`GI` / `WuWa`) right of the name, matching the `Game Types`
+table already under them.
 
 **And check `core/xml` when you add a character, not only when you add a framework class.** It had
 not been regenerated since Bennett, so every WuWa class --- including the forward `SanhuaFixer` of

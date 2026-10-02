@@ -27,6 +27,11 @@ body {
     overflow-y: auto;
 }
 
+/* Strike through text */
+.strike {
+    text-decoration: line-through;
+}
+
 /* left sidebar on the page*/
 .sidebar-drawer {
     z-index: 52 !important;

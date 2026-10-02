@@ -93,6 +93,7 @@ Getting Started
 - **Examples**: Lot of examples are available `here <https://github.com/nhok0169/Anime-Game-Remap/tree/master/Examples>`_
 - **Command Options**: :doc:`commandOpts`
 - **Remap Grading**: :doc:`remapGrading`
+- **Ini Specifications**: :doc:`parseIni`
 
 .. toctree::
   :caption: Script Fix
@@ -101,6 +102,21 @@ Getting Started
   tutorial
   commandOpts
   remapGrading
+
+:raw-html:`<br />`
+
+Useful Resources and Tools
+--------------------------
+
+- **Ini Specifications**: :doc:`parseIni`
+- **AI Support**: :doc:`aiSupport`
+
+.. toctree::
+  :caption: Resources
+  :hidden:
+
+  parseIni
+  aiSupport
 
 :raw-html:`<br />`
 

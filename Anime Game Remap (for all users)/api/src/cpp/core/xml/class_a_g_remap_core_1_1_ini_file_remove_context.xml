@@ -370,6 +370,41 @@ implementation of this is free to do nothing. An implementation over a `Python`_
         <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="90" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="202" bodyend="207"/>
       </memberdef>
     </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_remove_context_1a30f234dbf2b0b99edfea3096efcfb46b" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::IniRemoveContext&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::Section = </definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::IniRemoveContext&lt; std::string, std::string &gt;::Section</qualifiedname>
+        <briefdescription>
+<para>The type of <computeroutput>section</computeroutput>_ a <computeroutput>.ini</computeroutput> file is made of. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_remove_context_1a7ad19c6c3790253dfb0050663c4ef76e" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::IniRemoveContext&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::Assets = </definition>
+        <argsstring></argsstring>
+        <name>Assets</name>
+        <qualifiedname>AGRemapCore::IniRemoveContext&lt; std::string, std::string &gt;::Assets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The kind of asset table :cpp:member:`ModType::hashes` is, as reached from here -- the
+same shape :cpp:type:`IniParseContext::Assets` uses, for the same reason
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" line="80" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

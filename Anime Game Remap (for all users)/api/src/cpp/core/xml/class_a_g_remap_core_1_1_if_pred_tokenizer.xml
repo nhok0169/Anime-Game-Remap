@@ -35,6 +35,281 @@
         </inbodydescription>
         <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="40" column="22" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="57" bodyend="69"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a879ff09f8637d321d8b421cffc6e295c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; AGRemapCore::FilteredTokenizer::keywordTokenIds</definition>
+        <argsstring>() const</argsstring>
+        <name>keywordTokenIds</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::keywordTokenIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="62" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1af7d82a465619dcdb3d009dd68a665ded" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; AGRemapCore::FilteredTokenizer::filteredTokenIds</definition>
+        <argsstring>() const</argsstring>
+        <name>filteredTokenIds</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::filteredTokenIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ids of the accepting states in the `DFA`_ to not include their corresponding tokens into the tokenized result
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="70" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a15da80197e9fb1f2188c6e949658fbf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTokenizer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::clear</qualifiedname>
+        <briefdescription>
+<para>Clears the <computeroutput>DFA</computeroutput>_ of the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="55" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a25b8dbffaef722c1b5fad11405f56a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTokenizer::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::reset</qualifiedname>
+        <briefdescription>
+<para>Resets the state of the <computeroutput>DFA</computeroutput>_ for the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="60" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aadf3410a9fb4b37025deb6229d9e24cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BaseTokenizer::addStartState</definition>
+        <argsstring>()</argsstring>
+        <name>addStartState</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::addStartState</qualifiedname>
+        <briefdescription>
+<para>Adds the start state representing an empty string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The id of the start state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="67" column="39" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a2fe9b5fe79d758a60850e7a7a7db28d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseTokenizer::addKeyword</definition>
+        <argsstring>(const std::string &amp;keyword)</argsstring>
+        <name>addKeyword</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::addKeyword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Adds a keyword into the <computeroutput>DFA</computeroutput>_ of the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The id of the accepting node in the <computeroutput>DFA</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="76" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="41" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTokenizer::addASCIIRangeTransitions</definition>
+        <argsstring>(const std::string &amp;srcId, char startChar, char endChar, const std::string &amp;destId)</argsstring>
+        <name>addASCIIRangeTransitions</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::addASCIIRangeTransitions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcId</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>startChar</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>endChar</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>destId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a group of transitions from one state to another according to a range of `ASCII`_ characters
+(``startChar``/``endChar`` inclusive)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the source state for the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startChar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting character within the ASCII range to add a transition for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endChar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ending character within the ASCII range to add a transition for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>destId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the destination state for the transition </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="90" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt;</type>
+        <definition>std::vector&lt; Token &gt; AGRemapCore::BaseTokenizer::simplifiedMaximalMunch</definition>
+        <argsstring>(const ParseContext &amp;ctx, bool includeFiltered=false)</argsstring>
+        <name>simplifiedMaximalMunch</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::simplifiedMaximalMunch</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeFiltered</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The context for the source text to be tokenized </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeFiltered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Ignored by this base class -- exists so a subclass like :cpp:class:`FilteredTokenizer`
+can thread its own &quot;include the otherwise-filtered tokens&quot; flag through this same,
+shared loop via :cpp:func:`acceptToken` (which *does* look at it), rather than every
+subclass having to reimplement the whole loop just to pass one extra value along
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AGRemapCore::SyntaxErr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The provided source text cannot be correctly tokenized</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The list of tokens to the source text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="116" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="118" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::string &gt; &amp; AGRemapCore::BaseTokenizer::tokens</definition>
+        <argsstring>() const</argsstring>
+        <name>tokens</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The tokens used for tokenization :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="126" column="38" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BaseTokenizer::startStateId</definition>
+        <argsstring>() const</argsstring>
+        <name>startStateId</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::startStateId</qualifiedname>
+        <briefdescription>
+<para>The id of the starting state of the <computeroutput>DFA</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="131" column="31" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="214" bodyend="216"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_tokenizer_1a5f315fdd6a02074f22b41978f651d1b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -68,6 +343,252 @@
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="44" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="84" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::FilteredTokenizer::setup</definition>
+        <argsstring>() override</argsstring>
+        <name>setup</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::setup</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb10cd11914f9c4b5649e0525223ffaf">setup</reimplements>
+        <briefdescription>
+<para>Performs any necessary setup to the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="76" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="31" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::FilteredTokenizer::acceptToken</definition>
+        <argsstring>(const std::string &amp;token, const std::string &amp;stateId, bool isAccept, std::vector&lt; Token &gt; &amp;result, size_t lineNo, size_t charNo, bool includeFiltered=false) override</argsstring>
+        <name>acceptToken</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::acceptToken</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690">acceptToken</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stateId</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isAccept</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt; &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>lineNo</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>charNo</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeFiltered</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tries to accept ``token`` as a completed token :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and resets the `DFA`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The candidate token text accumulated so far </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the <computeroutput>DFA</computeroutput>_ state currently reached after consuming <computeroutput>token</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether <computeroutput>stateId</computeroutput> is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector to append the accepted :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref></computeroutput> to, if accepted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lineNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line number <computeroutput>token</computeroutput> belongs to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>charNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character number <computeroutput>token</computeroutput> belongs to within its line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeFiltered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ignored by this base class&apos;s own implementation (see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" kindref="member">simplifiedMaximalMunch</ref></computeroutput>)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether <computeroutput>token</computeroutput> was accepted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="78" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="42" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTokenizer::raiseSyntaxErr</definition>
+        <argsstring>(const ParseContext &amp;ctx, const std::string &amp;currentToken, size_t lineNo, size_t charNo)</argsstring>
+        <name>raiseSyntaxErr</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::raiseSyntaxErr</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>currentToken</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>lineNo</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>charNo</declname>
+        </param>
+        <briefdescription>
+<para>Raises a syntax error for some unrecognized text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AGRemapCore::SyntaxErr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Always </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="190" column="19" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="104" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a4675d6012178d1314aeaced3d93d4396" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::FilteredTokenizer::keywordTokenIds_</definition>
+        <argsstring></argsstring>
+        <name>keywordTokenIds_</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::keywordTokenIds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="73" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::FilteredTokenizer::filteredTokenIds_</definition>
+        <argsstring></argsstring>
+        <name>filteredTokenIds_</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::filteredTokenIds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="74" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; AGRemapCore::BaseTokenizer::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The tokens used for tokenization :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="143" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA</ref>&lt; std::string, std::string, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref> &gt;</type>
+        <definition>BaseDFA&lt;std::string, std::string, std::equal_to&lt;std::string&gt;, StringViewHash, std::equal_to&lt;std::string&gt;, StringViewHash&gt; AGRemapCore::BaseTokenizer::dfa</definition>
+        <argsstring></argsstring>
+        <name>dfa</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::dfa</qualifiedname>
+        <briefdescription>
+<para>The internal <computeroutput>DFA</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="148" column="21" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseTokenizer::startStateId_</definition>
+        <argsstring></argsstring>
+        <name>startStateId_</name>
+        <qualifiedname>AGRemapCore::BaseTokenizer::startStateId_</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+<para>The id of the starting state of the <computeroutput>DFA</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="153" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="153" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

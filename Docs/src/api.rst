@@ -69,7 +69,6 @@ BaseBufEditor
 .. attributetable:: FixRaidenBoss2.BaseBufEditor
 
 .. autoclass:: FixRaidenBoss2.BaseBufEditor
-    :inherited-members:
     :members:
     :private-members:
 
@@ -92,7 +91,6 @@ BaseIniFixer
 .. attributetable:: FixRaidenBoss2.BaseIniFixer
 
 .. autoclass:: FixRaidenBoss2.BaseIniFixer
-    :inherited-members:
     :members:
     :private-members:
 
@@ -104,7 +102,6 @@ BaseIniGraphEdit
 .. attributetable:: FixRaidenBoss2.BaseIniGraphEdit
 
 .. autoclass:: FixRaidenBoss2.BaseIniGraphEdit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -116,7 +113,6 @@ BaseIniGraphGroupEdit
 .. attributetable:: FixRaidenBoss2.BaseIniGraphGroupEdit
 
 .. autoclass:: FixRaidenBoss2.BaseIniGraphGroupEdit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -128,7 +124,6 @@ BaseIniGraphPartEdit
 .. attributetable:: FixRaidenBoss2.BaseIniGraphPartEdit
 
 .. autoclass:: FixRaidenBoss2.BaseIniGraphPartEdit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -140,7 +135,6 @@ BaseIniParser
 .. attributetable:: FixRaidenBoss2.BaseIniParser
 
 .. autoclass:: FixRaidenBoss2.BaseIniParser
-    :inherited-members:
     :members:
     :private-members:
 
@@ -185,7 +179,6 @@ BasePixelTransform
 .. attributetable:: FixRaidenBoss2.BasePixelTransform
 
 .. autoclass:: FixRaidenBoss2.BasePixelTransform
-    :inherited-members:
     :members:
     :private-members:
 
@@ -197,7 +190,6 @@ BaseRegEdit
 .. attributetable:: FixRaidenBoss2.BaseRegEdit
 
 .. autoclass:: FixRaidenBoss2.BaseRegEdit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -209,7 +201,6 @@ BaseResEdit
 .. attributetable:: FixRaidenBoss2.BaseResEdit
 
 .. autoclass:: FixRaidenBoss2.BaseResEdit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -221,7 +212,6 @@ BaseTexEditor
 .. attributetable:: FixRaidenBoss2.BaseTexEditor
 
 .. autoclass:: FixRaidenBoss2.BaseTexEditor
-    :inherited-members:
     :members:
     :private-members:
 
@@ -233,7 +223,6 @@ BaseTexFilter
 .. attributetable:: FixRaidenBoss2.BaseTexFilter
 
 .. autoclass:: FixRaidenBoss2.BaseTexFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -267,7 +256,6 @@ BlendFile
 .. attributetable:: FixRaidenBoss2.BlendFile
 
 .. autoclass:: FixRaidenBoss2.BlendFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -279,7 +267,6 @@ BufBaseFloat
 .. attributetable:: FixRaidenBoss2.BufBaseFloat
 
 .. autoclass:: FixRaidenBoss2.BufBaseFloat
-    :inherited-members:
     :members:
     :private-members:
 
@@ -291,7 +278,6 @@ BufBaseInt
 .. attributetable:: FixRaidenBoss2.BufBaseInt
 
 .. autoclass:: FixRaidenBoss2.BufBaseInt
-    :inherited-members:
     :members:
     :private-members:
 
@@ -303,7 +289,6 @@ BufDataType
 .. attributetable:: FixRaidenBoss2.BufDataType
 
 .. autoclass:: FixRaidenBoss2.BufDataType
-    :inherited-members:
     :members:
     :private-members:
 
@@ -315,7 +300,6 @@ BufEditor
 .. attributetable:: FixRaidenBoss2.BufEditor
 
 .. autoclass:: FixRaidenBoss2.BufEditor
-    :inherited-members:
     :members:
     :private-members:
 
@@ -327,7 +311,6 @@ BufElementType
 .. attributetable:: FixRaidenBoss2.BufElementType
 
 .. autoclass:: FixRaidenBoss2.BufElementType
-    :inherited-members:
     :members:
     :private-members:
 
@@ -339,7 +322,6 @@ BufFile
 .. attributetable:: FixRaidenBoss2.BufFile
 
 .. autoclass:: FixRaidenBoss2.BufFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -351,7 +333,6 @@ BufFloat
 .. attributetable:: FixRaidenBoss2.BufFloat
 
 .. autoclass:: FixRaidenBoss2.BufFloat
-    :inherited-members:
     :members:
     :private-members:
 
@@ -363,7 +344,6 @@ BufFloat16
 .. attributetable:: FixRaidenBoss2.BufFloat16
 
 .. autoclass:: FixRaidenBoss2.BufFloat16
-    :inherited-members:
     :members:
     :private-members:
 
@@ -386,7 +366,6 @@ BufSignedInt
 .. attributetable:: FixRaidenBoss2.BufSignedInt
 
 .. autoclass:: FixRaidenBoss2.BufSignedInt
-    :inherited-members:
     :members:
     :private-members:
 
@@ -420,7 +399,6 @@ BufUnorm
 .. attributetable:: FixRaidenBoss2.BufUnorm
 
 .. autoclass:: FixRaidenBoss2.BufUnorm
-    :inherited-members:
     :members:
     :private-members:
 
@@ -432,7 +410,6 @@ BufUnSignedInt
 .. attributetable:: FixRaidenBoss2.BufUnSignedInt
 
 .. autoclass:: FixRaidenBoss2.BufUnSignedInt
-    :inherited-members:
     :members:
     :private-members:
 
@@ -466,7 +443,6 @@ Colour
 .. attributetable:: FixRaidenBoss2.Colour
 
 .. autoclass:: FixRaidenBoss2.Colour
-    :inherited-members:
     :members:
     :private-members:
 
@@ -478,7 +454,6 @@ ColourRange
 .. attributetable:: FixRaidenBoss2.ColourRange
 
 .. autoclass:: FixRaidenBoss2.ColourRange
-    :inherited-members:
     :members:
     :private-members:
 
@@ -490,7 +465,6 @@ ColourReplace
 .. attributetable:: FixRaidenBoss2.ColourReplace
 
 .. autoclass:: FixRaidenBoss2.ColourReplace
-    :inherited-members:
     :members:
     :private-members:
 
@@ -502,7 +476,6 @@ ColourReplaceFilter
 .. attributetable:: FixRaidenBoss2.ColourReplaceFilter
 
 .. autoclass:: FixRaidenBoss2.ColourReplaceFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -514,7 +487,6 @@ CorrectGamma
 .. attributetable:: FixRaidenBoss2.CorrectGamma
 
 .. autoclass:: FixRaidenBoss2.CorrectGamma
-    :inherited-members:
     :members:
     :private-members:
 
@@ -592,7 +564,6 @@ CppBufFile
 .. attributetable:: FixRaidenBoss2.CppBufFile
 
 .. autoclass:: FixRaidenBoss2.CppBufFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -626,7 +597,6 @@ CppColourReplace
 .. attributetable:: FixRaidenBoss2.CppColourReplace
 
 .. autoclass:: FixRaidenBoss2.CppColourReplace
-    :inherited-members:
     :members:
     :private-members:
 
@@ -638,7 +608,6 @@ CppColourReplaceFilter
 .. attributetable:: FixRaidenBoss2.CppColourReplaceFilter
 
 .. autoclass:: FixRaidenBoss2.CppColourReplaceFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -650,7 +619,6 @@ CppCorrectGamma
 .. attributetable:: FixRaidenBoss2.CppCorrectGamma
 
 .. autoclass:: FixRaidenBoss2.CppCorrectGamma
-    :inherited-members:
     :members:
     :private-members:
 
@@ -662,7 +630,6 @@ CppGammaFilter
 .. attributetable:: FixRaidenBoss2.CppGammaFilter
 
 .. autoclass:: FixRaidenBoss2.CppGammaFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -685,7 +652,6 @@ CppHighlightShadow
 .. attributetable:: FixRaidenBoss2.CppHighlightShadow
 
 .. autoclass:: FixRaidenBoss2.CppHighlightShadow
-    :inherited-members:
     :members:
     :private-members:
 
@@ -697,7 +663,6 @@ CppHueAdjust
 .. attributetable:: FixRaidenBoss2.CppHueAdjust
 
 .. autoclass:: FixRaidenBoss2.CppHueAdjust
-    :inherited-members:
     :members:
     :private-members:
 
@@ -742,7 +707,6 @@ CppInvertAlpha
 .. attributetable:: FixRaidenBoss2.CppInvertAlpha
 
 .. autoclass:: FixRaidenBoss2.CppInvertAlpha
-    :inherited-members:
     :members:
     :private-members:
 
@@ -754,7 +718,6 @@ CppInvertAlphaFilter
 .. attributetable:: FixRaidenBoss2.CppInvertAlphaFilter
 
 .. autoclass:: FixRaidenBoss2.CppInvertAlphaFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -766,7 +729,6 @@ CppMaterialBandRemapFilter
 .. attributetable:: FixRaidenBoss2.CppMaterialBandRemapFilter
 
 .. autoclass:: FixRaidenBoss2.CppMaterialBandRemapFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -778,7 +740,6 @@ CppPixelFilter
 .. attributetable:: FixRaidenBoss2.CppPixelFilter
 
 .. autoclass:: FixRaidenBoss2.CppPixelFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -812,7 +773,6 @@ CppTempControl
 .. attributetable:: FixRaidenBoss2.CppTempControl
 
 .. autoclass:: FixRaidenBoss2.CppTempControl
-    :inherited-members:
     :members:
     :private-members:
 
@@ -824,7 +784,6 @@ CppTexCreator
 .. attributetable:: FixRaidenBoss2.CppTexCreator
 
 .. autoclass:: FixRaidenBoss2.CppTexCreator
-    :inherited-members:
     :members:
     :private-members:
 
@@ -836,7 +795,6 @@ CppTexEditor
 .. attributetable:: FixRaidenBoss2.CppTexEditor
 
 .. autoclass:: FixRaidenBoss2.CppTexEditor
-    :inherited-members:
     :members:
     :private-members:
 
@@ -859,7 +817,6 @@ CppTintTransform
 .. attributetable:: FixRaidenBoss2.CppTintTransform
 
 .. autoclass:: FixRaidenBoss2.CppTintTransform
-    :inherited-members:
     :members:
     :private-members:
 
@@ -871,7 +828,6 @@ CppTransparency
 .. attributetable:: FixRaidenBoss2.CppTransparency
 
 .. autoclass:: FixRaidenBoss2.CppTransparency
-    :inherited-members:
     :members:
     :private-members:
 
@@ -883,7 +839,6 @@ CppTransparencyAdjustFilter
 .. attributetable:: FixRaidenBoss2.CppTransparencyAdjustFilter
 
 .. autoclass:: FixRaidenBoss2.CppTransparencyAdjustFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -969,7 +924,6 @@ GammaFilter
 .. attributetable:: FixRaidenBoss2.GammaFilter
 
 .. autoclass:: FixRaidenBoss2.GammaFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1036,7 +990,6 @@ GIMIFixer
 .. attributetable:: FixRaidenBoss2.GIMIFixer
 
 .. autoclass:: FixRaidenBoss2.GIMIFixer
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1070,7 +1023,6 @@ GIMIParser
 .. attributetable:: FixRaidenBoss2.GIMIParser
 
 .. autoclass:: FixRaidenBoss2.GIMIParser
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1082,7 +1034,6 @@ GIMISectionClassifier
 .. attributetable:: FixRaidenBoss2.GIMISectionClassifier
 
 .. autoclass:: FixRaidenBoss2.GIMISectionClassifier
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1105,7 +1056,6 @@ GraphCreate
 .. attributetable:: FixRaidenBoss2.GraphCreate
 
 .. autoclass:: FixRaidenBoss2.GraphCreate
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1117,7 +1067,6 @@ GraphGroupEdit
 .. attributetable:: FixRaidenBoss2.GraphGroupEdit
 
 .. autoclass:: FixRaidenBoss2.GraphGroupEdit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1129,7 +1078,6 @@ GraphGroupRemap
 .. attributetable:: FixRaidenBoss2.GraphGroupRemap
 
 .. autoclass:: FixRaidenBoss2.GraphGroupRemap
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1141,7 +1089,6 @@ GraphGroupRemove
 .. attributetable:: FixRaidenBoss2.GraphGroupRemove
 
 .. autoclass:: FixRaidenBoss2.GraphGroupRemove
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1153,7 +1100,6 @@ GraphInherit
 .. attributetable:: FixRaidenBoss2.GraphInherit
 
 .. autoclass:: FixRaidenBoss2.GraphInherit
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1165,7 +1111,6 @@ GraphRemove
 .. attributetable:: FixRaidenBoss2.GraphRemove
 
 .. autoclass:: FixRaidenBoss2.GraphRemove
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1177,7 +1122,6 @@ GraphRename
 .. attributetable:: FixRaidenBoss2.GraphRename
 
 .. autoclass:: FixRaidenBoss2.GraphRename
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1189,7 +1133,6 @@ Hashes
 .. attributetable:: FixRaidenBoss2.Hashes
 
 .. autoclass:: FixRaidenBoss2.Hashes
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1201,7 +1144,6 @@ HighlightShadow
 .. attributetable:: FixRaidenBoss2.HighlightShadow
 
 .. autoclass:: FixRaidenBoss2.HighlightShadow
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1213,7 +1155,6 @@ HueAdjust
 .. attributetable:: FixRaidenBoss2.HueAdjust
 
 .. autoclass:: FixRaidenBoss2.HueAdjust
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1225,7 +1166,6 @@ IbFile
 .. attributetable:: FixRaidenBoss2.IbFile
 
 .. autoclass:: FixRaidenBoss2.IbFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1292,7 +1232,6 @@ IfPredPart
 .. attributetable:: FixRaidenBoss2.IfPredPart
 
 .. autoclass:: FixRaidenBoss2.IfPredPart
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1315,7 +1254,6 @@ IfTemplate
 .. attributetable:: FixRaidenBoss2.IfTemplate
 
 .. autoclass:: FixRaidenBoss2.IfTemplate
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1327,7 +1265,6 @@ IfTemplateNode
 .. attributetable:: FixRaidenBoss2.IfTemplateNode
 
 .. autoclass:: FixRaidenBoss2.IfTemplateNode
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1350,7 +1287,6 @@ IfTemplateTree
 .. attributetable:: FixRaidenBoss2.IfTemplateTree
 
 .. autoclass:: FixRaidenBoss2.IfTemplateTree
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1373,7 +1309,6 @@ Indices
 .. attributetable:: FixRaidenBoss2.Indices
 
 .. autoclass:: FixRaidenBoss2.Indices
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1385,7 +1320,6 @@ IniClassifier
 .. attributetable:: FixRaidenBoss2.IniClassifier
 
 .. autoclass:: FixRaidenBoss2.IniClassifier
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1441,7 +1375,6 @@ IniFixingContext
 .. attributetable:: FixRaidenBoss2.IniFixingContext
 
 .. autoclass:: FixRaidenBoss2.IniFixingContext
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1574,7 +1507,6 @@ IniSectionGraph
 .. attributetable:: FixRaidenBoss2.IniSectionGraph
 
 .. autoclass:: FixRaidenBoss2.IniSectionGraph
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1619,7 +1551,6 @@ InvertAlpha
 .. attributetable:: FixRaidenBoss2.InvertAlpha
 
 .. autoclass:: FixRaidenBoss2.InvertAlpha
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1631,7 +1562,6 @@ InvertAlphaFilter
 .. attributetable:: FixRaidenBoss2.InvertAlphaFilter
 
 .. autoclass:: FixRaidenBoss2.InvertAlphaFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1692,7 +1622,6 @@ MaterialBandRemapFilter
 .. attributetable:: FixRaidenBoss2.MaterialBandRemapFilter
 
 .. autoclass:: FixRaidenBoss2.MaterialBandRemapFilter
-    :inherited-members:
     :members:
     :private-members:
     :exclude-members: Band
@@ -1716,7 +1645,6 @@ ModDictAssets
 .. attributetable:: FixRaidenBoss2.ModDictAssets
 
 .. autoclass:: FixRaidenBoss2.ModDictAssets
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1739,7 +1667,6 @@ ModMappedAssets
 .. attributetable:: FixRaidenBoss2.ModMappedAssets
 
 .. autoclass:: FixRaidenBoss2.ModMappedAssets
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1814,7 +1741,6 @@ PixelFilter
 .. attributetable:: FixRaidenBoss2.PixelFilter
 
 .. autoclass:: FixRaidenBoss2.PixelFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1826,7 +1752,6 @@ PositionFile
 .. attributetable:: FixRaidenBoss2.PositionFile
 
 .. autoclass:: FixRaidenBoss2.PositionFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1838,7 +1763,6 @@ RegAdd
 .. attributetable:: FixRaidenBoss2.RegAdd
 
 .. autoclass:: FixRaidenBoss2.RegAdd
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1861,7 +1785,6 @@ RegBottomAdd
 .. attributetable:: FixRaidenBoss2.RegBottomAdd
 
 .. autoclass:: FixRaidenBoss2.RegBottomAdd
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1873,7 +1796,6 @@ RegBranchAdd
 .. attributetable:: FixRaidenBoss2.RegBranchAdd
 
 .. autoclass:: FixRaidenBoss2.RegBranchAdd
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1885,7 +1807,6 @@ RegDelimitedAdd
 .. attributetable:: FixRaidenBoss2.RegDelimitedAdd
 
 .. autoclass:: FixRaidenBoss2.RegDelimitedAdd
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1905,7 +1826,6 @@ RegFillMissing
 .. attributetable:: FixRaidenBoss2.RegFillMissing
 
 .. autoclass:: FixRaidenBoss2.RegFillMissing
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1917,7 +1837,6 @@ RegNewVals
 .. attributetable:: FixRaidenBoss2.RegNewVals
 
 .. autoclass:: FixRaidenBoss2.RegNewVals
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1929,7 +1848,6 @@ RegRemap
 .. attributetable:: FixRaidenBoss2.RegRemap
 
 .. autoclass:: FixRaidenBoss2.RegRemap
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1941,7 +1859,6 @@ RegRemove
 .. attributetable:: FixRaidenBoss2.RegRemove
 
 .. autoclass:: FixRaidenBoss2.RegRemove
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1953,7 +1870,6 @@ RegRestrict
 .. attributetable:: FixRaidenBoss2.RegRestrict
 
 .. autoclass:: FixRaidenBoss2.RegRestrict
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1965,7 +1881,6 @@ RegSurroundedAdd
 .. attributetable:: FixRaidenBoss2.RegSurroundedAdd
 
 .. autoclass:: FixRaidenBoss2.RegSurroundedAdd
-    :inherited-members:
     :members:
     :private-members:
 
@@ -1977,7 +1892,6 @@ RemapBlendReplace
 .. attributetable:: FixRaidenBoss2.RemapBlendReplace
 
 .. autoclass:: FixRaidenBoss2.RemapBlendReplace
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2084,7 +1998,6 @@ RemapServiceCLI
 .. attributetable:: FixRaidenBoss2.RemapServiceCLI
 
 .. autoclass:: FixRaidenBoss2.RemapServiceCLI
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2129,7 +2042,6 @@ ResCreate
 .. attributetable:: FixRaidenBoss2.ResCreate
 
 .. autoclass:: FixRaidenBoss2.ResCreate
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2141,7 +2053,6 @@ ResGroupCollect
 .. attributetable:: FixRaidenBoss2.ResGroupCollect
 
 .. autoclass:: FixRaidenBoss2.ResGroupCollect
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2153,7 +2064,6 @@ ResIdentity
 .. attributetable:: FixRaidenBoss2.ResIdentity
 
 .. autoclass:: FixRaidenBoss2.ResIdentity
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2165,7 +2075,6 @@ ResRegCollect
 .. attributetable:: FixRaidenBoss2.ResRegCollect
 
 .. autoclass:: FixRaidenBoss2.ResRegCollect
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2177,7 +2086,6 @@ ResReplace
 .. attributetable:: FixRaidenBoss2.ResReplace
 
 .. autoclass:: FixRaidenBoss2.ResReplace
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2266,7 +2174,6 @@ TempControl
 .. attributetable:: FixRaidenBoss2.TempControl
 
 .. autoclass:: FixRaidenBoss2.TempControl
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2289,7 +2196,6 @@ TexCreate
 .. attributetable:: FixRaidenBoss2.TexCreate
 
 .. autoclass:: FixRaidenBoss2.TexCreate
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2301,7 +2207,6 @@ TexCreator
 .. attributetable:: FixRaidenBoss2.TexCreator
 
 .. autoclass:: FixRaidenBoss2.TexCreator
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2313,7 +2218,6 @@ TexEditor
 .. attributetable:: FixRaidenBoss2.TexEditor
 
 .. autoclass:: FixRaidenBoss2.TexEditor
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2347,7 +2251,6 @@ TextureFile
 .. attributetable:: FixRaidenBoss2.TextureFile
 
 .. autoclass:: FixRaidenBoss2.TextureFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2359,7 +2262,6 @@ TintTransform
 .. attributetable:: FixRaidenBoss2.TintTransform
 
 .. autoclass:: FixRaidenBoss2.TintTransform
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2371,7 +2273,6 @@ Transparency
 .. attributetable:: FixRaidenBoss2.Transparency
 
 .. autoclass:: FixRaidenBoss2.Transparency
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2383,7 +2284,6 @@ TransparencyAdjustFilter
 .. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
 
 .. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
-    :inherited-members:
     :members:
     :private-members:
 
@@ -2395,7 +2295,6 @@ VbFile
 .. attributetable:: FixRaidenBoss2.VbFile
 
 .. autoclass:: FixRaidenBoss2.VbFile
-    :inherited-members:
     :members:
     :private-members:
 
@@ -3625,7 +3524,6 @@ PackageData
 .. attributetable:: FixRaidenBoss2.PackageData
 
 .. autoclass:: FixRaidenBoss2.PackageData
-    :inherited-members:
     :members:
     :private-members:
 
@@ -3637,7 +3535,6 @@ PackageManager
 .. attributetable:: FixRaidenBoss2.PackageManager
 
 .. autoclass:: FixRaidenBoss2.PackageManager
-    :inherited-members:
     :members:
     :private-members:
 
@@ -3704,7 +3601,6 @@ Ranges
 .. attributetable:: FixRaidenBoss2.Ranges
 
 .. autoclass:: FixRaidenBoss2.Ranges
-    :inherited-members:
     :members:
     :private-members:
 

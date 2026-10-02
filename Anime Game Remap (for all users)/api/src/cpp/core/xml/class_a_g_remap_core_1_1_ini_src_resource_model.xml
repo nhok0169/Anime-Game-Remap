@@ -36,6 +36,21 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="68" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="68" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResourceModel::iniFolderPath</definition>
+        <argsstring></argsstring>
+        <name>iniFolderPath</name>
+        <qualifiedname>AGRemapCore::IniResourceModel::iniFolderPath</qualifiedname>
+        <briefdescription>
+<para>The folder path to where the .ini file of the resource is located. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="44" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1ab91055ed7de53ba62bd71b9041cd8665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">

@@ -454,6 +454,21 @@ found within the node at all
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="226" column="23"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const size_t &amp;</type>
+        <definition>const size_t &amp; AGRemapCore::Node&lt; size_t &gt;::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::Node&lt; size_t &gt;::id</qualifiedname>
+        <briefdescription>
+<para>The id of the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="55" column="22"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a8ebe968481ee97fab03af6bd11eddd6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -470,6 +485,23 @@ found within the node at all
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="111" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::Node&lt; size_t &gt;::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>AGRemapCore::Node&lt; size_t &gt;::id_</qualifiedname>
+        <briefdescription>
+<para>The id of the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="62" column="16" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -3310,6 +3310,51 @@ register is clear afterwards rather than that the pairs matched.
 **Not confirmed in game**: the ghost is invisible in stills, so the fix is reasoned from the log and
 the structure. It needs a look in motion.
 
+### CHISAPARFAIT3'S RED BODY IS NOT THE MASK, THE DIFFUSE, OR THE ROLE ASSIGNMENT (2026-10-02)
+
+Four hypotheses excluded by measurement, so the next agent does not spend the same hours:
+
+**It is not a toggle.** The mod has five keyboard toggles. `p` swaps an outfit piece (the top appears);
+the four arrows change nothing visible. The body stays red in every state.
+
+**It is not the mask**, which is where the WuWa triage table points ("a hue over body and clothes is
+the MASK") and where this went first. The fix DOES discard the mod's own upper mask -- its log says so
+outright, `Textures_1.dds is a flat upperMask, which marks no regions; the source's own is used
+instead` -- and that is a real behaviour worth knowing. But it is not the cause here, because the two
+masks say almost the same thing: over a 64 x 64 grid the mod's is **100%** `R = 255` and the download
+is **94%**, and `R = 255` is bare skin in this pair's legend. Swapping them back changes 6% of one
+channel.
+
+**It is not the mod's art.** Mean colour over the diffuses the fix bound: `3_3.dds` (251, 213, 208),
+`4_3.dds` (212, 165, 168) -- flesh and pink, not red and not yellow. The body renders red and the
+skirt yellow from textures that are neither.
+
+**It is not the role assignment.** Compared register for register against ChisaParfaitIdentity, which
+renders CORRECTLY, the kinds match exactly:
+
+| register | identity (works) | ChisaParfait3 |
+| --- | --- | --- |
+| `ps-t0` | `3c4279a9` mean (126, 128, 0) -- a normal map | `3_0.dds` mean (126, 127, 0) -- a normal map |
+| `ps-t1` | `6b7ae743` mean (239, 15, 125) -- a mask | the downloaded mask |
+| `ps-t2` | `4c420ea9` mean (216, 186, 187) -- a diffuse | `3_3.dds` mean (251, 213, 208) -- a diffuse |
+
+So the red is a SHADING result, not a texture: correct art, in the right roles, at the right
+registers, coming out the wrong colour. The identity mod leaves `ps-t3`-`ps-t9` to the game exactly as
+this one does and is fine, so the uncovered ramp registers are not it either on their own.
+
+**What is left, and the method for it** is the one the guides already carry and nothing here replaces:
+bisect with a flat unmistakable colour per register over a few in-game rounds
+(`Tools/Misc/Diagnostics/purpleSlot.py`'s idea). Two earlier Chisa colour faults -- the translucent
+red body and the yellow kimono -- were each found that way and the two strongest prior hypotheses were
+wrong both times. A fifth excluded guess is worth less than one round of that.
+
+**One real defect found on the way**, not the cause and worth fixing on its own terms: the mod binds
+component 4's mask and normal inside its **component 5** section (its toggle system puts several
+components' variants in one section), so the register-role path offers `4_1.dds` for component 5's
+roles and never for component 4's. `lowerMask` then has no candidate at all -- no "flat" or "aliased"
+message, it simply never entered the running -- and downloads. `AGREMAP_WWMI_PICK=1` prints every
+(role, component) choice and is how that was seen.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

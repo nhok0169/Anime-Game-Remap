@@ -154,6 +154,45 @@ different skills in the table below, rated out of 10.
       - | Even with a rich mod fixing library in front of them, the AI rathers reinvent the wheel over problems that are already covered by the library. This has improved with some reminder in the `CLAUDE.md files`_
         | Good thing is that, once one framework has been established in the library for a particular type of fix, the other future agents just use the same framework.
 
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Pricing
+-------
+
+On social media, you may have heard people saying that AI usage is very expensive, costing like tens of thousands of dollars for its token usage. Now one question you may have is how legitimate
+are the words of these people? We decided to put this to the test in this project.
+
+:raw-html:`<br />`
+
+We gave AI some very huge tasks that would probably take a human 1-2 years to do such as:
+
+:raw-html:`<br />`
+
+.. list-table::
+    :widths: 50 50
+    :header-rows: 1
+
+    * - Task
+      - Description
+    * - Migrating the old API's core computation to C++ while only keeping a thin interface (binding) layer in Python for Python API interactions
+      - | You can see the huge scale difference between the `the old API` and the new API with its :doc:`C++ core <coreAPI>` and :doc:`new python layer <api>` 
+    * - Do all the remaps from GI 5.8 (Natlan Summer event)
+      - That is about 8 remaps, which would take a human about 1-2 months to do
+    * - Do 2 WuWa remaps
+      - | A WuWa remap cost more than a GI remap due to the complexity of the model and the ambiguity in what each texture represents. A human would take
+        | about 1 week to do 1 WuWa remap
+
+:raw-html:`<br />`
+
+Over the course of about 3 months, we had AI agents run almost 24/7 with an average of 2-3 agents running simultaneous at a single moment. In that time frame, they are able to complete all the above tasks, a lot faster than what a human can do.
+Due to the sheer scale of work to be done, we used `CLAUDE's max 5x plan`_,  which is about $140/month. We mostly used within the quota of the plan and only added an extra usage of $50 for experimentation.
+
+So in total for our experiment, we used about $470 to do all that work above. Still it is expensive, but nowhere near the prices of what people are saying. That is about the same price of you getting a C4-C5 of a character.
+As much I like to say that is the end of story, there is a caveat. Once you use over the quota of your plan, then that is when the words of what people say online become true. The $50 we used for experimentation
+in extra usage was very quickly all drained away within 1 session of work.
+
 .. _CLAUDE: https://en.wikipedia.org/wiki/Claude_(AI)
 .. _CLAUDE Opus: https://www.anthropic.com/claude/opus
 .. _CLAUDE Fable: https://www.anthropic.com/claude/fable
@@ -167,3 +206,5 @@ different skills in the table below, rated out of 10.
 .. _WWMI Assets: https://github.com/SpectrumQT/WWMI-Assets
 .. _script to mathematically find the closest vertex group: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Tools/VGRemapFinder/GI/GIVGRemapFinder.ipynb
 .. _all The Council Members: https://github.com/nhok0169/Anime-Game-Remap/blob/master/AI%20Agent%20Help/README.md
+.. _the old API: https://anime-game-remap.readthedocs.io/en/v4.6.0/api.html
+.. _CLAUDE's max 5x plan: https://support.claude.com/en/articles/11049741-what-is-the-max-plan

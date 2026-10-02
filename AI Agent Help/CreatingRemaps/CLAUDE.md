@@ -3906,11 +3906,39 @@ NEGATIVE:
 | texture resolution | not involved: its lower-body diffuse, mask and normal are all 2048 |
 
 So they are not any register the plan binds, and not the one unplanned UV-mapped register Chisa's
-lower pass reads. **The leading hypothesis is BACK FACES** -- the patches sit exactly in the gaps
-between the hem's scallops, which is where the inside of the single-layer skirt is visible, and
-Chisa's shader lighting a back face differently from ChisaParfait's is the Neuvillette finding
-arriving on WuWa ("single-layer cloth whose inside the target's shader lights differently"). The GI
-side answers that with `Component::mirroredObjs`, which has no WuWa equivalent. Untested.
+lower pass reads.
+
+**THEY ARE BACK FACES, CONFIRMED BY A PROTOTYPE (2026-10-02).** The Neuvillette finding arriving on
+WuWa -- single-layer cloth whose inside the target's shader lights differently -- and the GI side's
+answer, `Component::mirroredObjs`, has no WuWa equivalent yet.
+
+Two measurements and one in-game test settle it:
+
+* **The mesh is a single sheet.** `Tools/Misc/Diagnostics/wwmiDoubleSided.py` counts triangles that
+  share three positions with opposite winding: **0 of 69411 vertices' worth, in all 8 components**.
+  So the skirt's inside is the back of its only sheet, visible in the gaps between the hem's
+  scallops -- which is exactly where the patches are.
+* **A reversed-winding twin with flipped normals removes them.**
+  `Tools/Misc/Diagnostics/wwmiMirrorProbe.py` writes the component's index window wound the other
+  way and a copy of `Vector.buf` with every normal negated, binds them as a second draw inside the
+  remapped section, and changes nothing else. The scallop gaps come out clean and the rest of the
+  skirt is untouched (`Images/ChisaParfait/3_7/BackFaceTwinFixesThePatches.png`). No rebuild: it is
+  an `.ini` edit, so it is a prototype of the fix rather than a guess about it.
+
+**`cull` cannot be used to test this, and the way that was established is worth copying.** A
+`[CustomShader]` with `cull = front` left the skirt complete, which reads as "the geometry is
+double-sided" -- and is not what happened. Adding `blend = ADD ZERO ZERO` to the same block turned
+the WHOLE skirt black, so the block's render state does reach the draw and `cull` alone is being
+ignored. **When a render-state probe reports no effect, put a second piece of state in the same
+block that you know is visible**; otherwise "no effect" and "not applied" are the same picture.
+
+**What the port needs**, for whoever takes it: a `WWMIFixerConfig` field naming the source
+components to mirror; the mod's `[ResourceVectorBuffer]` filename resolved beside the
+`[ResourceIndexBuffer]` one the fixer already keeps in `indexFile_` (the same `templates` loop);
+two generated buffers (`<Target>RemapMirrorIndex<N>.buf` per component and one
+`<Target>RemapMirrorVector.buf`); and `ib` / `vb1` / `drawindexed` appended AFTER the component's
+own draw in its remapped section. `drawRanges_` already holds each source component's index window.
+The probe is the oracle to A/B the port against.
 
 **Two things the chase established that are worth having anyway.** Chisa's lower-body pass sets
 **TEN** registers (`ps-t0..t9`) where the plan binds three, so enumerating a pass and accounting for

@@ -409,7 +409,10 @@ namespace AGRemapCore {
          A part the target has no counterpart for wants one rigid anchor rather than the finder's
          per-bone nearest -- the Yelan lesson. Two of Chisa's need it:
 
-         * her fox mask and hairpins, a rigid prop whose bones the finder matched one at a time and
+         * the fox mask and hairpins of the KIMONO MOD (Chisa2, Hanabi Night) -- neither Chisa
+           nor her skin has one; these are her component 5 ACCESSORY bones, which her base model
+           uses for a hair ribbon and which mods hang props off. A rigid prop whose bones the
+           finder matched one at a time and
            scattered from her head to her waist, which reads in game as the prop being GONE rather
            than as anything misplaced, because it is smeared through the torso it is buried in
          * her back skirt panel, which flew out behind her on the skin. Its bones are not mapped to

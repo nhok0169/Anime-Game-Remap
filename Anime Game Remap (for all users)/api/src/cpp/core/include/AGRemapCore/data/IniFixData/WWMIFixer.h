@@ -352,6 +352,38 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The SOURCE components drawn a SECOND time, wound the other way with their normals flipped.
+         **Default**: empty -- nothing is mirrored, so no character's output moves
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         For single-layer cloth whose INSIDE the target's shader lights differently from the
+         source's. A skirt is one sheet -- measured, 0 triangles in any of ChisaParfait's 8
+         components share three positions with opposite winding -- so where the gaps between a hem's
+         scallops show its inside, the target's shader is lighting a back face, and on
+         ChisaParfait -> Chisa that drew dark quadrilaterals the skin's own model does not have.
+
+         The twin presents those pixels as a front face with an outward normal: the component's
+         index window wound the other way, over a copy of the mod's own vector buffer with every
+         normal negated. It is the WuWa counterpart of GI's
+         :cpp:member:`GIMIComponentFixerConfig::Component::mirroredObjs`, and unlike that one it
+         adds no vertices -- the twin indexes the same ones.
+
+         .. note::
+            A component the mod draws as more than one RANGE is skipped and said so in the log. One
+            twin after one draw is right only while the component has one draw; a toggled range
+            would have its twin drawn whatever the toggle says
+         @endrst
+         */
+        std::set<int> mirroredComponents;
+
+        /**
+         * @brief The register the mod's vector buffer (its normals) is bound at. **Default**: ``"vb1"``
+         */
+        std::string vectorReg = "vb1";
+
+        /**
+         * @brief
+         @rst
          The mod objects (of :cpp:struct:`WWMIParserConfig`'s hash-only ones) whose sections are
          commented out of the mod's own text and copied nowhere. **Default**: the two shape-key
          overrides -- the maintainer's working hand remap has them off, and the mod's keys are

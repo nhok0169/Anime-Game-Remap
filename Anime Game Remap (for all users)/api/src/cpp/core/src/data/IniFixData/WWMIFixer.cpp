@@ -18,6 +18,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <fstream>
 #include <functional>
 #include <map>
 #include <memory>
@@ -114,6 +115,7 @@ namespace AGRemapCore {
         const std::string IndexBufferResource = "ResourceIndexBuffer";
         const std::string PositionBufferResource = "ResourcePositionBuffer";
         const std::string TexcoordBufferResource = "ResourceTexcoordBuffer";
+        const std::string VectorBufferResource = "ResourceVectorBuffer";
 
 
 
@@ -1187,6 +1189,7 @@ namespace AGRemapCore {
 
                     if (!gaveUp_) {
                         writeZeroStream();
+                        writeMirrorBuffers();
                         addCreatedTextures();
                         addFallbackDownloads();
                         addTexEdits();
@@ -1546,6 +1549,8 @@ namespace AGRemapCore {
                             into = &positionFile_;
                         } else if (StringTools::equalsIgnoreCase(entry.first, TexcoordBufferResource)) {
                             into = &texcoordFile_;
+                        } else if (StringTools::equalsIgnoreCase(entry.first, VectorBufferResource)) {
+                            into = &vectorFile_;
                         }
 
                         if (into == nullptr) {
@@ -2797,6 +2802,29 @@ namespace AGRemapCore {
                             }
                         }
 
+                        // The mirrored twin, AFTER the component's own draw -- an empty
+                        // predicate on `drawindexed` accepts any value, and `latest = false` puts
+                        // the block at the earliest position that follows one. Its own add, because
+                        // everything in `additions` goes BEFORE the draw.
+                        if (mirroredSet().count(component) > 0) {
+                            const long long count = drawRanges_.at(component).front().first;
+                            RegSurroundedAdd<>::Additions twin;
+                            twin.emplace_back(IniKeywords::Ib,
+                                              fixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)));
+                            twin.emplace_back(config_.vectorReg,
+                                              fixName(IniKeywords::Resource + "MirrorVector"));
+                            twin.emplace_back(IniKeywords::DrawIndexed, std::to_string(count) + ", 0, 0");
+
+                            auto add = std::make_unique<RegSurroundedAdd<>>(
+                                std::move(twin),
+                                RegSurroundedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
+                                RegSurroundedAdd<>::RegMap{}, false);
+                            auto adapter = std::make_unique<GraphPartEdit<>>(add.get());
+                            editsOf_[component].push_back(adapter.get());
+                            surroundedAdds_.push_back(std::move(add));
+                            graphAdapters_.push_back(std::move(adapter));
+                        }
+
                         if (!additions.empty()) {
                             // The remap has already renamed the called list by the time this runs,
                             // so the anchor is matched under either name.
@@ -3557,6 +3585,26 @@ namespace AGRemapCore {
                                    .str();
                     }
 
+                    const std::set<int> mirrored = mirroredSet();
+                    if (!mirrored.empty()) {
+                        out += SectionText(z3_, fixName(IniKeywords::Resource + "MirrorVector"))
+                                   .keys({{IniKeywords::Type, "Buffer"},
+                                          {IniKeywords::Format, "DXGI_FORMAT_R8G8B8A8_SNORM"},
+                                          {IniKeywords::Stride, "8"},
+                                          {IniKeywords::Filename, mirrorVectorFile()}})
+                                   .str();
+                    }
+
+                    for (int component : mirrored) {
+                        out += SectionText(z3_, fixName(IniKeywords::Resource + "MirrorIndex"
+                                                        + std::to_string(component)))
+                                   .keys({{IniKeywords::Type, "Buffer"},
+                                          {IniKeywords::Format, "DXGI_FORMAT_R32_UINT"},
+                                          {IniKeywords::Stride, "12"},
+                                          {IniKeywords::Filename, mirrorIndexFile(component)}})
+                                   .str();
+                    }
+
                     for (const std::string& list : textureLists_) {
                         out += list + "\n";
                     }
@@ -3710,6 +3758,51 @@ namespace AGRemapCore {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + ShapeKeyZero + ".buf");
                 }
 
+                std::string mirrorIndexFile(int component) const {
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + "MirrorIndex"
+                                                    + std::to_string(component) + ".buf");
+                }
+
+                std::string mirrorVectorFile() const {
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + "MirrorVector.buf");
+                }
+
+                /**
+                 * @brief
+                 @rst
+                 The components a mirrored twin is actually written for -- :cpp:member:`
+                 WWMIFixerConfig::mirroredComponents` minus the ones this mod cannot carry one for
+                 @endrst
+                 *
+                 * Computed rather than stored: it is read while the edits are built, while the
+                 * files are written and while the ``.ini`` is rendered, and those run in that order
+                 * but through different entry points -- a member set in one of them is a member
+                 * read before it was filled in another.
+                 *
+                 * @return The components
+                 */
+                std::set<int> mirroredSet() const {
+                    std::set<int> out;
+                    if (config_.mirroredComponents.empty() || indexFile_.empty() || vectorFile_.empty()) {
+                        return out;
+                    }
+
+                    for (int component : config_.mirroredComponents) {
+                        if (present_.count(component) == 0) {
+                            continue;
+                        }
+
+                        const auto ranges = drawRanges_.find(component);
+                        if (ranges == drawRanges_.end() || ranges->second.size() != 1) {
+                            continue;
+                        }
+
+                        out.insert(component);
+                    }
+
+                    return out;
+                }
+
                 std::string createdTextureFile(const WWMIFixerConfig::CreatedTexture& created) const {
                     return modFile(textureFolder_,
                                    created.role + toModName_ + IniKeywords::RemapTex + FileExt::DDS);
@@ -3746,6 +3839,104 @@ namespace AGRemapCore {
                     } catch (const std::exception& exception) {
                         throw std::runtime_error("cannot write " + zeroStreamFile() + ": " + exception.what());
                     }
+                }
+
+                // The mirrored twin's two buffers -- see WWMIFixerConfig::mirroredComponents. The
+                // index one per component, holding that component's window wound the other way; the
+                // vector one once, the mod's own normals negated. Both are byte transforms of files
+                // the mod already has, so they go out as bytes rather than through BufFile's element
+                // declarations -- and the write is READ BACK, which is the lesson the zero stream
+                // above carries: a discarded write result is how a run reports editing files it
+                // never wrote.
+                void writeMirrorBuffers() {
+                    const std::set<int> mirrored = mirroredSet();
+                    if (mirrored.empty()) {
+                        if (!config_.mirroredComponents.empty()) {
+                            note("no component could carry a mirrored twin -- a mod needs one draw"
+                                 " range per mirrored component and an [" + IndexBufferResource
+                                 + "] and [" + VectorBufferResource + "] of its own");
+                        }
+
+                        return;
+                    }
+
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    writeMirrorVector(folder);
+                    for (int component : mirrored) {
+                        writeMirrorIndex(folder, component);
+                    }
+                }
+
+                static ByteVec readWhole(const std::string& path, const std::string& what) {
+                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
+                    if (!in) {
+                        throw std::runtime_error("cannot read " + what + " at " + path);
+                    }
+
+                    return ByteVec((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+                }
+
+                static void writeWhole(const std::string& path, const ByteVec& bytes, const std::string& what) {
+                    FileService::makeFolderFor(path);
+                    {
+                        std::ofstream out(FileService::strToPath(path), std::ios::binary);
+                        if (!out) {
+                            throw std::runtime_error("cannot write " + what + " to " + path);
+                        }
+
+                        out.write(reinterpret_cast<const char*>(bytes.data()),
+                                  static_cast<std::streamsize>(bytes.size()));
+                    }
+
+                    if (FileService::fileSize(path) != static_cast<std::uintmax_t>(bytes.size())) {
+                        throw std::runtime_error("wrote " + what + " to " + path + " and it is not there");
+                    }
+                }
+
+                // R8G8B8A8_SNORM, 8 bytes a vertex: the normal in 0..2 and the tangent in 4..7. -128
+                // has no positive counterpart in SNORM, so it clamps rather than wrapping to itself.
+                void writeMirrorVector(const std::string& folder) {
+                    const std::string path = FileService::absPathOfRelPath(mirrorVectorFile(), folder);
+                    ByteVec bytes = readWhole(FileService::absPathOfRelPath(vectorFile_, folder),
+                                              "this mod's vector buffer");
+                    for (std::size_t i = 0; i + 3 < bytes.size(); i += 8) {
+                        for (std::size_t c = 0; c < 3; ++c) {
+                            int v = static_cast<int>(bytes[i + c]);
+                            v = (v > 127) ? v - 256 : v;
+                            v = std::max(-127, std::min(127, -v));
+                            bytes[i + c] = static_cast<std::uint8_t>((v < 0) ? v + 256 : v);
+                        }
+                    }
+
+                    writeWhole(path, bytes, "the mirrored vector buffer");
+                }
+
+                void writeMirrorIndex(const std::string& folder, int component) {
+                    const auto ranges = drawRanges_.find(component);
+                    const long long count = ranges->second.front().first;
+                    const long long first = ranges->second.front().second;
+
+                    const ByteVec source = readWhole(FileService::absPathOfRelPath(indexFile_, folder),
+                                                     "this mod's index buffer");
+                    const std::size_t end = static_cast<std::size_t>(first + count) * 4;
+                    if (end > source.size()) {
+                        throw std::runtime_error("component " + std::to_string(component)
+                                                 + " draws past the end of this mod's index buffer");
+                    }
+
+                    // Swapping two corners of each triangle reverses its winding, which is the whole
+                    // of the twin: the SAME vertices, presented to the rasterizer the other way.
+                    ByteVec out(static_cast<std::size_t>(count) * 4);
+                    for (long long t = 0; t + 2 < count; t += 3) {
+                        const std::size_t from = static_cast<std::size_t>(first + t) * 4;
+                        const std::size_t to = static_cast<std::size_t>(t) * 4;
+                        std::copy(source.begin() + from, source.begin() + from + 4, out.begin() + to);
+                        std::copy(source.begin() + from + 8, source.begin() + from + 12, out.begin() + to + 4);
+                        std::copy(source.begin() + from + 4, source.begin() + from + 8, out.begin() + to + 8);
+                    }
+
+                    writeWhole(FileService::absPathOfRelPath(mirrorIndexFile(component), folder), out,
+                               "the mirrored index buffer");
                 }
 
                 // The edits the fix makes to a role's texture before binding it -- see
@@ -4341,6 +4532,7 @@ namespace AGRemapCore {
                 std::string positionFile_;                            // ...and [ResourcePositionBuffer]
                 std::string blendSourceFile_;                         // ...and [ResourceBlendBuffer]; blendFixedFile() derives the fix's name FROM it
                 std::string texcoordFile_;                            // ...and [ResourceTexcoordBuffer]
+                std::string vectorFile_;                              // ...and [ResourceVectorBuffer]; the normals the mirrored twin negates
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
 
                 // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.

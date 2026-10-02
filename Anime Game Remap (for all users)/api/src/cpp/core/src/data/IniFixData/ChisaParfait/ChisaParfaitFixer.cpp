@@ -344,6 +344,18 @@ namespace AGRemapCore {
         // part UV'd into the next tile relying on the sampler wrapping.
         config.cleanTexcoords = true;
 
+        // ---- the skirt's inside, drawn as a front face -------------------------------------------
+        // Her frilled panel is single-layer cloth -- 0 of its 9392 triangles share three positions
+        // with an opposite-wound twin -- so where the gaps between its hem's scallops show its
+        // inside, CHISA's shader lights a back face, and it drew dark quadrilaterals her own model
+        // does not have. Prototyped as an .ini edit first
+        // (Tools/Misc/Diagnostics/wwmiMirrorProbe.py): the twin clears the gaps and leaves the rest
+        // of the skirt untouched.
+        //
+        // Component 5 alone for now. Her other cloth (3, 4, 7) shows nothing of the kind in game,
+        // and a twin costs a draw and a buffer, so it goes on the component that needs it.
+        config.mirroredComponents = {5};
+
         // ---- the passes that take a slot's art at a DIFFERENT register ---------------------------
         // `slotPasses` above names the pass that SETS each slot's whole register set. Chisa draws
         // every slot more than once, and a pass named in NEITHER table still draws -- with the

@@ -3932,13 +3932,34 @@ the WHOLE skirt black, so the block's render state does reach the draw and `cull
 ignored. **When a render-state probe reports no effect, put a second piece of state in the same
 block that you know is visible**; otherwise "no effect" and "not applied" are the same picture.
 
-**What the port needs**, for whoever takes it: a `WWMIFixerConfig` field naming the source
-components to mirror; the mod's `[ResourceVectorBuffer]` filename resolved beside the
-`[ResourceIndexBuffer]` one the fixer already keeps in `indexFile_` (the same `templates` loop);
-two generated buffers (`<Target>RemapMirrorIndex<N>.buf` per component and one
-`<Target>RemapMirrorVector.buf`); and `ib` / `vb1` / `drawindexed` appended AFTER the component's
-own draw in its remapped section. `drawRanges_` already holds each source component's index window.
-The probe is the oracle to A/B the port against.
+**AND IT IS COMPILED (2026-10-02).** `WWMIFixerConfig::mirroredComponents` names the source
+components drawn a second time; ChisaParfait sets `{5}`, her frilled panel. The fixer resolves the
+mod's `[ResourceVectorBuffer]` beside the `[ResourceIndexBuffer]` it already kept in `indexFile_`,
+writes `<Target>RemapMirrorIndex<N>.buf` (the component's window with two corners of every triangle
+swapped) and one `<Target>RemapMirrorVector.buf` (the mod's own normals negated, SNORM, clamped at
+-127 because -128 has no positive counterpart), declares both, and appends `ib` / `vectorReg` /
+`drawindexed` AFTER the component's own draw. Default empty, so no other character's output moves.
+
+A/B against the prototype: both generated buffers are **byte-identical** to the probe's arithmetic,
+the emitted lines are the same three in the same place, and in game the compiled twin and the
+prototype's are the same picture
+(`Images/ChisaParfait/3_7/BackFaceTwinCompiled.png`, before / prototype / compiled).
+
+Four things the port had to get right, none of them obvious from the prototype:
+
+* **The addition goes after the draw, which is its own edit.** Everything in the component's
+  `additions` is anchored on the shared-resource `run =` and lands BEFORE the draw; the twin is a
+  second `RegSurroundedAdd` whose `beforeRegs` is `{drawindexed, {}}` -- an empty predicate accepts
+  any value -- with `latest = false`, so it lands at the earliest position that follows a draw.
+* **One twin after one draw is right only while the component has one draw.** A component the mod
+  draws as several toggled ranges would have its twin drawn whatever the toggles say, so such a
+  component is skipped and the run says so. `mirroredSet()` is where that is decided.
+* **The set is computed, not stored.** It is read while the edits are built, while the files are
+  written and while the `.ini` is rendered -- three entry points -- and a member filled in one of
+  them is a member read empty in another.
+* **The twin's `vb1` needs no restoring.** Every remapped section runs
+  `CommandListOverrideSharedResources`, which binds `vb0`..`vb4` including `vb1`, so the next
+  component's draw gets the mod's own normals back without the fix saying anything.
 
 **Two things the chase established that are worth having anyway.** Chisa's lower-body pass sets
 **TEN** registers (`ps-t0..t9`) where the plan binds three, so enumerating a pass and accounting for

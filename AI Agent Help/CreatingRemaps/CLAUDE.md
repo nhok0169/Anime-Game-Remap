@@ -2906,22 +2906,30 @@ measured every part of the skinning and found it correct:
   agree**, so `SkeletonRemapper` ran and its output is right
 * the blend indices are correctly local: max 185, exactly 186 distinct
 
-And then the vertex stream list for the draw: `vb1`, `vb2`, `vb3`, `vb4` carry no hash, so they are
-the mod's -- while **`vb0` carries a hash and is 775056 bytes where the mod's `Position.buf` is
-832932**. Dumped `vb0` against both candidates by md5: it is **byte-identical to CHISA's own**
-position buffer. The remapped draw is the mod's index buffer and the mod's blend buffer applied to
-the TARGET's vertices, which is all the explanation an enormous garbage mesh needs.
+**A WRONG TURN WORTH KEEPING, BECAUSE THE EVIDENCE LOOKED SO GOOD.** The draw's stream list shows
+`vb1`-`vb4` with no hash -- the mod's -- while `vb0` is named `vb0=afa1587c`, is 775056 bytes where
+the mod's `Position.buf` is 832932, and is **byte-identical by md5 to CHISA's own** position buffer.
+That reads as proof that `vb0` never took and the draw was running the mod's indices against the
+target's vertices. It was written up as the answer.
 
-`CommandListOverrideSharedResources...` does issue the override -- the log shows
-`vb0 = resourcepositionbuffer` followed by `copying by reference`, exactly as it does for the four
-streams that DO take -- and `[ResourcePositionBuffer]` is properly declared with
-`filename = Meshes/Position.buf`, stride 12. So the assignment runs, names a real buffer, and the
-draw still reads the game's. **`vb0` and `vb5` are the two streams that stay the game's while
-`vb1`-`vb4` take**, which is the shape of the next question.
+**It is not true. `vb0` does take.** Halving every position in the mod's own `Position.buf` visibly
+changed the render; restoring it changed it back. The draw reads the mod's vertices.
 
-Worth noting for method: the first dump showed `vb0=afa1587c` in a filename and it was read past --
-a hash in a dumped stream's NAME is the tell that the stream is the game's, because a mod-supplied
-buffer has no hash to name it by. Four hours of skinning theory sat downstream of that one line.
+What the dump shows is **frame analysis naming a stream by the hash it TRACKS for that slot and
+dumping that original**, not the custom buffer bound over it. A mod-supplied buffer has no tracked
+hash, so it dumps as `vb1` with no `=hash` and with the mod's contents; an overridden slot that the
+game had already given a hash still dumps under the game's name and the GAME's bytes. Both the name
+and the md5 are then consistent with a conclusion that is wrong.
+
+**The rule: a frame dump tells you what 3dmigoto KNOWS about a slot, not what the draw reads.** When
+the question is whether an override reached the draw, change the file and look -- one behavioural
+probe outranks any amount of agreement between a filename, a size and a checksum.
+
+With `vb0` cleared, every input to the draw has now been measured and is correct: positions the
+mod's, blend indices local 0..185, weights summing to exactly 1.00, the skeleton sane and correctly
+local-indexed. Skinning slot 0's vertices offline with the dumped blend and skeleton puts them at
+**median 111.6 against 112.2 before skinning, max 150** -- exact character scale. So the data that
+reaches the draw is right, and the model still renders enormous, which is where this stands.
 
 **The next lead, probed and real: the remapper's `vg_count`.** The fix overrides it to a global 186
 (`blendRemapBones_`) for every slot, where Chisa's own mod passes each component's own count

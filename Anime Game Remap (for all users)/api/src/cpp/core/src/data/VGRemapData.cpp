@@ -1566,6 +1566,22 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa), "",
           "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), ""},
          VGRemap({
+            // HANDS SNAPPED TO THEIR EXACT COUNTERPARTS (2026-10-01): reported from game as
+            //   "Chisa's right hand, the fingers look a bit crooked", and it was measurable. The
+            //   two characters share the SAME hand rig -- every one of the 18 bones of each hand
+            //   has a ChisaParfait counterpart 0.00-0.40 units away, read off both identity mods --
+            //   so a perfect 1:1 mapping was available and the finder's proposal missed 8 of them.
+            //   Six were on her RIGHT hand (-x: her props, component 5, sit there and render on the
+            //   viewer's left with her facing the camera), and four of those COLLIDED: 378 and 385
+            //   both took 158, 387 and 380 both took 160, so 18 source bones landed on 14 targets
+            //   and four pairs of fingers were welded to one bone. 382 alone carries weight 279 and
+            //   was 2.31 units out. The left hand had a harmless straight transposition, 363 and
+            //   365 swapped, which stayed one-to-one and is corrected here too.
+            //
+            //   Both hands are a bijection now, 18 distinct targets for 18 bones, worst residual
+            //   1.88 on the right and 1.09 on the left, and 16 of 18 mirror-consistent. Nothing
+            //   outside the two hands is touched.
+
             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {9, 9},
             {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14}, {15, 15}, {16, 16}, {17, 17}, {18, 18}, {19, 19},
             {20, 20}, {21, 21}, {22, 22}, {23, 23}, {24, 24}, {25, 25}, {26, 26}, {27, 36}, {28, 37}, {29, 35},
@@ -1602,10 +1618,10 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {330, 199}, {331, 203}, {332, 205}, {333, 206}, {334, 210}, {335, 197}, {336, 211}, {337, 178}, {338, 208}, {339, 195},
             {340, 207}, {341, 0}, {342, 0}, {343, 117}, {344, 80}, {345, 0}, {346, 0}, {347, 0}, {348, 0}, {349, 0},
             {350, 0}, {351, 0}, {352, 131}, {353, 132}, {354, 133}, {355, 134}, {356, 135}, {357, 140}, {358, 141}, {359, 142},
-            {360, 143}, {361, 144}, {362, 139}, {363, 136}, {364, 137}, {365, 138}, {366, 0}, {367, 0}, {368, 126}, {369, 0},
-            {370, 0}, {371, 0}, {372, 129}, {373, 0}, {374, 0}, {375, 0}, {376, 0}, {377, 157}, {378, 158}, {379, 159},
-            {380, 160}, {381, 151}, {382, 152}, {383, 149}, {384, 154}, {385, 158}, {386, 159}, {387, 160}, {388, 152}, {389, 153},
-            {390, 155}, {391, 0}, {392, 0}, {393, 0}, {394, 0}, {395, 0}, {396, 0}, {397, 0}, {398, 0}, {399, 0},
+            {360, 143}, {361, 144}, {362, 139}, {363, 138}, {364, 137}, {365, 136}, {366, 0}, {367, 0}, {368, 126}, {369, 0},
+            {370, 0}, {371, 0}, {372, 129}, {373, 0}, {374, 0}, {375, 0}, {376, 0}, {377, 157}, {378, 83}, {379, 161},
+            {380, 160}, {381, 151}, {382, 150}, {383, 149}, {384, 154}, {385, 158}, {386, 159}, {387, 156}, {388, 155}, {389, 153},
+            {390, 152}, {391, 0}, {392, 0}, {393, 0}, {394, 0}, {395, 0}, {396, 0}, {397, 0}, {398, 0}, {399, 0},
             {400, 0}, {401, 0}, {402, 250}, {403, 0}, {404, 0}, {405, 0}, {406, 0}, {407, 0}, {408, 0}, {409, 84},
             {410, 88}, {411, 89}, {412, 90}, {413, 85}, {414, 86}, {415, 87}, {416, 91}, {417, 92}, {418, 93}
          })},

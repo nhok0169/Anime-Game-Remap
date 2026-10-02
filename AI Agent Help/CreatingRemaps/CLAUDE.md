@@ -3890,11 +3890,37 @@ it marks **99.1%** of her upper mask as skin, because her art is pale cream and 
 blackens the same straps. The forward filter restricts that gate to a middle BAND for exactly this
 reason, and her masks are near binary, so there is no band to restrict it to.
 
-**The dark patches are NOT the mask, and are still open.** They survive nulling `ps-t1` and nulling
-`ps-t0` (the normal map) on components 4 and 5, and they vanish under a flat `--paint` of
-ps-t0/1/2 -- so they are on surfaces the fix draws and are driven by `ps-t2`, the diffuse. They are
-also camera-dependent: present with the whole figure in frame, gone when zoomed in. Next step is
-`ps-t2`.
+**THE DARK PATCHES ARE STILL OPEN, AND NOT FOR WANT OF ELIMINATING THINGS (2026-10-02).** Small
+dark grey-olive quadrilaterals in the scalloped gaps of the skirt's hem, on the identity mod, where
+ChisaParfait's own model's hem is clean. One probe per candidate, one reload each, every one of them
+NEGATIVE:
+
+| probed | result |
+| --- | --- |
+| `ps-t0` (normal map) nulled on components 4 and 5 | patches stay |
+| `ps-t1` (mask) nulled on both | patches stay (this is what cleared the thigh OUTLINE) |
+| `ps-t2` (diffuse) flat per component | patches stay -- and this corrects an earlier reading of a flat `--paint` of t0/1/2 as having removed them |
+| `ps-t6` nulled -- Chisa's own `d02cdbaa`, a 1024x1024 near-black code map her lower pass reads and the plan leaves to the game | patches stay |
+| a full MIP CHAIN on the diffuse | **worse** -- more and larger patches |
+| the texcoord fold | not involved: `cleanTexcoords` writes no copy for this mod, `vb2` binds its own `TexCoord.buf` |
+| texture resolution | not involved: its lower-body diffuse, mask and normal are all 2048 |
+
+So they are not any register the plan binds, and not the one unplanned UV-mapped register Chisa's
+lower pass reads. **The leading hypothesis is BACK FACES** -- the patches sit exactly in the gaps
+between the hem's scallops, which is where the inside of the single-layer skirt is visible, and
+Chisa's shader lighting a back face differently from ChisaParfait's is the Neuvillette finding
+arriving on WuWa ("single-layer cloth whose inside the target's shader lights differently"). The GI
+side answers that with `Component::mirroredObjs`, which has no WuWa equivalent. Untested.
+
+**Two things the chase established that are worth having anyway.** Chisa's lower-body pass sets
+**TEN** registers (`ps-t0..t9`) where the plan binds three, so enumerating a pass and accounting for
+every register is still the right first move -- three of the seven unbound ones (`742c5c7b`,
+`7a9915c5`, `30bf03f4`) are the shared globals both characters set and are correctly left alone. And
+**no WWMI mod in this corpus has mip chains at all**: 28 of 28 textures in the identity mod, 28 of 28
+in ChisaParfait1 and 27 of 27 in the download folder declare `mipMapCount 1`, where the game's own
+streamed textures carry a full chain. Any comparison of a mod against the character's own model is
+confounded by that, and generating a chain naively makes things worse rather than better, because an
+atlas without padding bleeds between islands as it is minified.
 
 **The original note on them:** dark, roughly rectangular patches
 on the inner surface of the SKIRT, with a stepped edge where it meets the thigh -- her own model's

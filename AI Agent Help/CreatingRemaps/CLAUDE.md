@@ -2895,6 +2895,34 @@ SkeletonMerger.
 **With that, the model draws.** Not correctly -- it comes in enormous, with the camera inside it --
 but drawing and mis-skinned is a different and far more tractable failure than invisible.
 
+**AND THE ENORMOUS MESH IS `vb0` (2026-10-02).** A second dump, with the skeleton now bound,
+measured every part of the skinning and found it correct:
+
+* the skeleton matrices are SANE -- 512 bones, 25% all-zero, rotation rows of median length 1.000,
+  translations median 25.4, every figure matching a working character draw's
+* the skeleton is correctly LOCAL-indexed. The test needs no external reference: if the remapper
+  ran, `ours[i] == merged[ForwardMap[i]]`, and for any `ForwardMap[i] >= 186` that slot still holds
+  its seeded merged value, so `ours[i] == ours[ForwardMap[i]]` must hold. **108 of 108 witnesses
+  agree**, so `SkeletonRemapper` ran and its output is right
+* the blend indices are correctly local: max 185, exactly 186 distinct
+
+And then the vertex stream list for the draw: `vb1`, `vb2`, `vb3`, `vb4` carry no hash, so they are
+the mod's -- while **`vb0` carries a hash and is 775056 bytes where the mod's `Position.buf` is
+832932**. Dumped `vb0` against both candidates by md5: it is **byte-identical to CHISA's own**
+position buffer. The remapped draw is the mod's index buffer and the mod's blend buffer applied to
+the TARGET's vertices, which is all the explanation an enormous garbage mesh needs.
+
+`CommandListOverrideSharedResources...` does issue the override -- the log shows
+`vb0 = resourcepositionbuffer` followed by `copying by reference`, exactly as it does for the four
+streams that DO take -- and `[ResourcePositionBuffer]` is properly declared with
+`filename = Meshes/Position.buf`, stride 12. So the assignment runs, names a real buffer, and the
+draw still reads the game's. **`vb0` and `vb5` are the two streams that stay the game's while
+`vb1`-`vb4` take**, which is the shape of the next question.
+
+Worth noting for method: the first dump showed `vb0=afa1587c` in a filename and it was read past --
+a hash in a dumped stream's NAME is the tell that the stream is the game's, because a mod-supplied
+buffer has no hash to name it by. Four hours of skinning theory sat downstream of that one line.
+
 **The next lead, probed and real: the remapper's `vg_count`.** The fix overrides it to a global 186
 (`blendRemapBones_`) for every slot, where Chisa's own mod passes each component's own count
 (128 / 121 / 28). Deleting the override so the slot's own count stands brings at least one slot back

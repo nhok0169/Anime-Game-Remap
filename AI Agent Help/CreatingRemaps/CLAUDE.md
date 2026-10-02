@@ -3838,6 +3838,21 @@ slot, so the shader samples zero, where removing the role from the plan leaves t
 texture bound. Only the second is what the code change does, so only the second proves it. Both
 were run; the deletion is the one the change rests on.
 
+**Confirmed on the IDENTITY mod, which is the check this change deserved.** ChisaParfait's own
+model written as a mod and remapped onto Chisa renders as her, head to hem -- hat, hairband, braid,
+choker, bikini, belt, skirt, sash and the arm lacing all in place, back view included -- and its
+face carries the same soft hat shadow as her own model with no wedge
+(`Images/ChisaParfait/3_7/IdentityVsOwnModel.jpg`, `IdentityFaceThreeStates.png`). Reach for the
+identity mod on any change to a slot's bindings: it fixes every structural axis to "the game's own
+answer", so anything that differs is the remap.
+
+**And it showed one thing the bikini mod structurally could not: dark, roughly rectangular patches
+on the inner surface of the SKIRT, with a stepped edge where it meets the thigh** -- her own model's
+hem is smooth there. Not from this change (the skirt is components 4 / 5 and the face slot's plan is
+the only thing that moved), not the U fold (restricted to `U >= 1` since 2026-09-27), and not low
+texture resolution (its lower-body diffuse, mask and normal are all 2048). Open, and only reachable
+on a mod that HAS a skirt -- which of this pair's four is the identity alone.
+
 **One measurement attempt is worth recording as a failure.** "Share of face pixels on a strong
 luminance edge" over the face window gave **10.12% / 10.14% / 9.99%** across the three states --
 no discrimination, because the window is mostly hair, lashes and eyes, which carry every strong

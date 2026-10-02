@@ -3269,6 +3269,47 @@ patch.
 the file it names. That is the prototype's per-slot table, and it remains the instrument for any WuWa
 texture report.
 
+### A GHOST BODY SEEN ONLY IN MOTION IS THE SECOND SKELETON, `vs-cb3` (2026-10-02)
+
+Reported on ChisaParfait1 after the geometry was fixed: "a second body like a shadow, very close to
+the main body, almost like an outline of the body, only seen whenever Chisa moves". Nothing in any
+still shows it -- the silhouette edges are clean at every angle -- and that is the clue, because a
+fault visible only while moving is TEMPORAL.
+
+`vs-cb3` is the second skeleton: the PREVIOUS frame's pose, which the shader turns into motion
+vectors for TAA. The fix merges and binds it exactly as it does `vs-cb4`, each gated on the
+`3381.7777` marker -- and a real WWMI Tools mod's shared-resource list has a THIRD branch that the
+removal pairs did not name:
+
+    if vs-cb4 == marker
+        vs-cb4 = ref ResourceMergedSkeleton          <- {"vs-cb4", "resourcemergedskeleton"}
+        if vs-cb3 == marker
+            vs-cb3 = ref ResourceExtraMergedSkeleton <- {"vs-cb3", "resourceextramergedskeleton"}
+    elif vs-cb3 == marker
+        vs-cb3 = ref ResourceMergedSkeleton          <- cb3 with the NON-extra resource: neither pair
+
+That survivor consumes cb3's marker, so the fix's merge list skips cb3 on those draws and they keep
+the GAME's: **the current pose from our remapped skeleton and the previous pose from the target's
+own.** The motion vectors are then wrong and TAA smears a second body. In 3dmigoto's log, inside the
+fix's own merge list on ChisaParfait1:
+
+```
+if vs-cb3 == 3381.7777: true   8827
+if vs-cb3 == 3381.7777: false  4418     <- a third of the draws
+```
+
+cb4's marker survives on all of them, because the branch that consumed it was already removed -- which
+is why the geometry is right and only the ghost is left. The third pair is added and all three
+branches now come out empty.
+
+**The general shape**: a (register, value prefix) removal is a rule about a text the MOD wrote, and a
+mod generator will write the same intent three ways. Enumerate the branches from a real mod's file,
+not from the one the repo generates -- and when a removal is meant to clear a register, assert the
+register is clear afterwards rather than that the pairs matched.
+
+**Not confirmed in game**: the ghost is invisible in stills, so the fix is reasoned from the log and
+the structure. It needs a look in motion.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

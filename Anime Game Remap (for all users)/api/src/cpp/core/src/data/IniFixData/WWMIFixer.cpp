@@ -2554,6 +2554,21 @@ namespace AGRemapCore {
                         removals.push_back(WWMIFixerConfig::RegRemoval{"CheckTextureOverride", "vs-cb4"});
                         removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb3", "resourceextramergedskeleton"});
                         removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb4", "resourcemergedskeleton"});
+
+                        // AND THE THIRD BRANCH (2026-10-02). A real WWMI Tools mod writes
+                        // `if vs-cb4 == marker / ... / elif vs-cb3 == marker / vs-cb3 = ref
+                        // ResourceMergedSkeleton`, and that last line is named by NEITHER pair
+                        // above -- it is cb3 carrying the NON-extra resource.
+                        //
+                        // `vs-cb3` is the second skeleton: the PREVIOUS frame's pose, which the
+                        // shader turns into motion vectors. The survivor consumes its marker, so
+                        // the fix's merge list skips cb3 on those draws and they keep the game's --
+                        // the current pose from our remapped skeleton and the previous pose from
+                        // the TARGET's own. The motion vectors are then wrong and TAA smears a
+                        // second body, visible only while the character moves and in no still.
+                        // Measured on ChisaParfait1, inside the fix's own merge list:
+                        // `if vs-cb3 == 3381.7777` true 8827, FALSE 4418 -- a third of the draws.
+                        removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb3", "resourcemergedskeleton"});
                     }
 
                     if (!removals.empty()) {

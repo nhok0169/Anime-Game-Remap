@@ -2823,10 +2823,28 @@ zero times**. Its `SkeletonMerger` and `SkeletonRemapper` never run, `ResourceRe
 never produced, and the draw skins blend indices in CHISA's space (up to 418) against ChisaParfait's
 264-bone skeleton. That collapses the mesh, which is why the draws issue and nothing is visible.
 
-Removing the premature binding is necessary but did not restore rendering on its own, so at least
-one more layer is in the way -- the next thing to read is what the mod's OWN `[Present]` ->
-`CommandListUpdateMergedSkeleton` does to the same marker each frame, and in what order relative to
-the remapped sections.
+**There are TWO consumers, and the first one is why removing the binding alone did nothing.**
+`CommandListTriggerResourceOverrides...` runs before everything else in each remapped section and
+does `CheckTextureOverride = vs-cb3` / `= vs-cb4`. `CheckTextureOverride` makes 3dmigoto run
+whatever section matches the buffer currently bound there -- the mod's OWN, SOURCE-space skeleton
+merge -- and that consumes the marker before the binding in (2) is even reached.
+
+Removing BOTH does make the fix's own pipeline run: the guard goes from false 2565 / true 0 to
+**true 2630**, and its `SkeletonMerger` and `SkeletonRemapper` each run 4734 times. The model is
+still invisible, so a further layer remains -- but the generator now has a precise target, because
+the direction that WORKS does not emit either construct:
+
+| in the fix's generated lists | forward (works) | reverse (broken) |
+| --- | --- | --- |
+| `CheckTextureOverride = vs-cb4` | **0** | present |
+| `vs-cb4 = ResourceMergedSkeleton` | 8, and no `vs-cb3`/`vs-cb4` touched in `OverrideSharedResources` at all | present, inside `OverrideSharedResources` |
+| `SkeletonMerger` / `SkeletonRemapper` / `MergeSlot` | 32 | present |
+
+The forward direction leaves the skeleton slots completely alone in its trigger and shared-resource
+lists, so its own merge sees the marker. The reverse direction adds skeleton handling to both, and
+that handling disables the merge it was added to support. **Whatever emits `CheckTextureOverride`
+for `vs-cb3`/`vs-cb4` and the `ResourceMergedSkeleton` binding in the reverse direction is where to
+start.**
 
 **The general lesson is the marker, not Chisa.** WWMI signals state through sentinel VALUES in
 constant-buffer slots, so any generated command list that writes such a slot changes what every

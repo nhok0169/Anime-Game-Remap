@@ -2568,8 +2568,28 @@ namespace AGRemapCore {
                             const std::string prefix = StringTools::toLower(removal.valuePrefix);
                             keys.emplace_back(removal.reg, RegRemove<>::RemoveKeyCheck(
                                 [prefix](long long, const std::string& value) {
-                                    return StringTools::startsWith(
-                                        StringTools::toLower(StringTools::lstrip(value)), prefix);
+                                    // STEP OVER `ref` (2026-10-02). The prefix names the RESOURCE,
+                                    // and a binding may reach it either way: an identity mod built
+                                    // by wwmiIdentityMod.py writes `vs-cb4 = ResourceMergedSkeleton`
+                                    // and WWMI Tools -- which every downloadable mod is built with --
+                                    // writes `vs-cb4 = ref ResourceMergedSkeleton`. Comparing the raw
+                                    // value matched the first and missed the second.
+                                    //
+                                    // On a >256-bone target that is fatal and silent: the surviving
+                                    // line binds the MOD's merged skeleton and consumes the
+                                    // `boneDataFilter` marker, so the fix's own merge list -- guarded
+                                    // by that marker -- never runs and the draw skins target-space
+                                    // blend indices against the source's skeleton. The model is
+                                    // invisible, which is what this function's comment above already
+                                    // predicted. It showed on no identity mod, which is every mod the
+                                    // earlier rounds were tested on.
+                                    std::string text = StringTools::toLower(StringTools::lstrip(value));
+                                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
+                                    if (StringTools::startsWith(text, ref + " ")) {
+                                        text = StringTools::lstrip(text.substr(ref.size()));
+                                    }
+
+                                    return StringTools::startsWith(text, prefix);
                                 }));
                         }
 
@@ -3331,11 +3351,19 @@ namespace AGRemapCore {
                     //
                     // `$state_id` is the host's frame counter, flipped once a frame at `[Present]`.
                     if (targetPast256_) {
-                        const std::string latch = "$remapped_state";
+                        // NO FRAME LATCH (2026-10-02). It was latched on `$state_id`, which the identity mod
+                        // maintains and a real WWMI Tools mod of the current generation does NOT -- it declares
+                        // `global $state_id = 0`, never assigns it, and keeps its own `$merge_status_id`. The
+                        // latch then read 0 != 0 forever: `if $remapped_state != $state_id: false` 118841 times
+                        // and true ZERO in 3dmigoto's log, so the remap never ran, the remapped skeleton was
+                        // never created, and binding that null UNBOUND vs-cb4 -- an invisible model.
+                        //
+                        // Unconditional costs a few dispatches a frame and needs no frame counter, because the
+                        // property that matters never came from the latch: the merged RW buffer is PERSISTENT
+                        // and accumulates, so at any draw it holds every window from this frame or the last, and
+                        // a remap taken at any point reads a COMPLETE skeleton. That is what moving it out of
+                        // the per-draw path was for, and it survives a mod that keeps no frame counter.
                         SectionText remap(z3_, fixName("CommandListRemapMergedSkeleton"));
-                        remap.key("local " + latch)
-                             .open(latch + " != $state_id")
-                             .key(latch, "$state_id");
                         for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
                                                std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
                             remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
@@ -3353,7 +3381,7 @@ namespace AGRemapCore {
                                             {std::get<3>(cb), "copy " + std::get<2>(cb)}});
                         }
 
-                        out += remap.close().str();
+                        out += remap.str();
                     }
 
                     // The merge a HIDDEN slot runs. A target slot nothing is remapped onto still
@@ -3541,15 +3569,24 @@ namespace AGRemapCore {
                         if (legacy_) {
                             hide.keys({{IniKeywords::Run, mergeListName(slot)}, {IniKeywords::Handling, "skip"}});
                         } else {
-                            hide.key("local " + state)
-                                .open(state + " != $state_id")
-                                .keys({{state, "$state_id"},
-                                       {VgOffsetKey, s.vgOffset},
-                                       {VgCountKey, s.vgCount},
-                                       {IniKeywords::Run, fixName(targetPast256_ ? "CommandListMergeWindow"
-                                                                                 : "CommandListMergeSkeleton")}})
-                                .close()
-                                .open("ResourceMergedSkeleton !== null")
+                            if (targetPast256_) {
+                                // Unconditional, for the reason above: these mods keep no `$state_id`, so the
+                                // guard never fires and a hidden slot's window never reaches the fix's skeleton.
+                                // The merge is idempotent, so running it per draw is waste rather than a fault.
+                                hide.keys({{VgOffsetKey, s.vgOffset},
+                                           {VgCountKey, s.vgCount},
+                                           {IniKeywords::Run, fixName("CommandListMergeWindow")}});
+                            } else {
+                                hide.key("local " + state)
+                                    .open(state + " != $state_id")
+                                    .keys({{state, "$state_id"},
+                                           {VgOffsetKey, s.vgOffset},
+                                           {VgCountKey, s.vgCount},
+                                           {IniKeywords::Run, fixName("CommandListMergeSkeleton")}})
+                                    .close();
+                            }
+
+                            hide.open("ResourceMergedSkeleton !== null")
                                 .key("handling", "skip")
                                 .close();
                         }

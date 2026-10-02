@@ -2841,10 +2841,40 @@ the direction that WORKS does not emit either construct:
 | `SkeletonMerger` / `SkeletonRemapper` / `MergeSlot` | 32 | present |
 
 The forward direction leaves the skeleton slots completely alone in its trigger and shared-resource
-lists, so its own merge sees the marker. The reverse direction adds skeleton handling to both, and
-that handling disables the merge it was added to support. **Whatever emits `CheckTextureOverride`
-for `vs-cb3`/`vs-cb4` and the `ResourceMergedSkeleton` binding in the reverse direction is where to
-start.**
+lists, so its own merge sees the marker.
+
+**Neither line is generated -- both are the MOD's own, copied.** `CheckTextureOverride` appears
+nowhere in the C++ core. ChisaParfait's mods carry `CheckTextureOverride = vs-cb3` / `= vs-cb4` in
+their own `CommandListTriggerResourceOverrides` and Chisa's mods do not, which is the whole of the
+direction asymmetry: the fix copies the list verbatim into the remapped sections, where it reaches
+the mod's own source-space skeleton merge.
+
+**FIXED IN THE GENERATOR (2026-10-01), and it is the same idea the surrounding code already had.**
+`WWMIFixer`'s `buildRegRemovals` already drops `run = CommandListMergeSkeleton...` when
+`targetPast256_`, for exactly this reason -- that list writes the TARGET's bone indices into a
+skeleton the mod declares for 256. It just did not drop the other two routes to the same place. It
+now also removes, under the same condition:
+
+```
+CheckTextureOverride = vs-cb3 / vs-cb4
+vs-cb3 = ResourceExtraMergedSkeleton
+vs-cb4 = ResourceMergedSkeleton
+```
+
+Measured before and after, in the shipped build: `[...MergeSlot0...] if vs-cb4 == 3381.7777` goes
+from **false 2565 / true 0** to **true 2685**, and the fix's own `SkeletonMerger` and
+`SkeletonRemapper` from never running to **4833 times each**. The forward direction's output is
+byte-for-byte unaffected (`targetPast256_` is false there, and its mods carry neither line anyway).
+
+**The model is still invisible.** So the dead skeleton pipeline was real and is not the whole story;
+at least one more layer sits behind it. What is now known good: the sections match, the mod
+registers, the draws issue, the fix's own skeleton merge and remap run, and the blend buffers are
+structurally what Chisa's own working identity mod has (`ChisaRemapBlend.buf` saturating at 255 is
+NORMAL for a character past 256 -- her own mod does the same -- because the uint8 indices are
+window-local and `BlendRemapVertexVG.buf` carries the real ones, 189 distinct, max 418). The next
+thing to measure is what the skinning actually produces: a frame dump of one remapped draw would
+show whether the vertices collapse to a point, fly off, or go NaN, and each of those points
+somewhere different.
 
 **The general lesson is the marker, not Chisa.** WWMI signals state through sentinel VALUES in
 constant-buffer slots, so any generated command list that writes such a slot changes what every

@@ -2518,6 +2518,32 @@ namespace AGRemapCore {
                         // remap renames it. A mod whose merge list is named something else keeps it,
                         // which is wasted work rather than a wrong picture.
                         removals.push_back(WWMIFixerConfig::RegRemoval{IniKeywords::Run, "commandlistmergeskeleton"});
+
+                        // AND the two other routes to that same list (2026-10-01), without which
+                        // dropping the `run` above achieves nothing.
+                        //
+                        // `CheckTextureOverride = vs-cb4` makes 3dmigoto run whatever section
+                        // matches the buffer bound there, and on a mod of a character WWMI merges a
+                        // skeleton for, that IS the mod's own merge. So it does the work this block
+                        // exists to prevent -- and, like the explicit binding below it, consumes the
+                        // `boneDataFilter` marker on the way.
+                        //
+                        // That matters because the fix's own `CommandListMergeSlot<N>` is guarded by
+                        // the same marker. With either line present it never runs: measured in
+                        // 3dmigoto's log as `if vs-cb4 == 3381.7777` false 2565 times and true ZERO,
+                        // its SkeletonMerger and SkeletonRemapper never firing, and the model
+                        // invisible in game -- the draws issue, but they skin blend indices in the
+                        // TARGET's space against the SOURCE's skeleton, so the mesh collapses.
+                        // Removing both puts the guard at true 2630 and runs both shaders 4734 times.
+                        //
+                        // Nothing is lost by dropping the mod's own binding: `CommandListMergeSlot<N>`
+                        // binds the remapped skeleton itself, which is the one sized for the target.
+                        // A mod that does not carry these lines -- every Chisa mod, which is why the
+                        // forward direction never hit this -- is unaffected.
+                        removals.push_back(WWMIFixerConfig::RegRemoval{"CheckTextureOverride", "vs-cb3"});
+                        removals.push_back(WWMIFixerConfig::RegRemoval{"CheckTextureOverride", "vs-cb4"});
+                        removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb3", "resourceextramergedskeleton"});
+                        removals.push_back(WWMIFixerConfig::RegRemoval{"vs-cb4", "resourcemergedskeleton"});
                     }
 
                     if (!removals.empty()) {

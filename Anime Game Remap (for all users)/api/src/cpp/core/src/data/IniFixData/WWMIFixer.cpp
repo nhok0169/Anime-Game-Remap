@@ -3321,6 +3321,19 @@ namespace AGRemapCore {
                                                 {"$\\WWMIv1\\blend_remap_id", "0"},
                                                 {VgCountKey, std::to_string(blendRemapBones_)},
                                                 {"cs-t38", std::get<2>(cb)},
+                                                // Seed the remapper's output before dispatching
+                                                // into it (2026-10-01). It is declared as an empty
+                                                // resource, and an empty resource bound to `cs-u5`
+                                                // has no backing buffer: the dispatch writes
+                                                // nowhere and the `copy` below finds no source --
+                                                // "Copy source was NULL" in 3dmigoto's own log --
+                                                // after which binding that null to vs-cb3/vs-cb4
+                                                // UNBINDS the slot. The remapped draw then has no
+                                                // skeleton at all, which is invisible rather than
+                                                // wrong. Chisa's own mod seeds the same pair from
+                                                // the merged RW, which is declared with a size and
+                                                // has just been written by SkeletonMerger.
+                                                {std::get<3>(cb), "copy " + std::get<1>(cb)},
                                                 {"cs-u5", std::get<3>(cb)},
                                                 {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonRemapper"},
                                                 {std::get<4>(cb), "copy " + std::get<3>(cb)},

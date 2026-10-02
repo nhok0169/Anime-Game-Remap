@@ -3961,6 +3961,34 @@ Four things the port had to get right, none of them obvious from the prototype:
   `CommandListOverrideSharedResources`, which binds `vb0`..`vb4` including `vb1`, so the next
   component's draw gets the mod's own normals back without the fix saying anything.
 
+**WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
+wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,
+and a closed solid never shows one: every edge of it is shared by two triangles. Keyed by POSITION
+rather than by vertex index -- a UV or normal seam splits a vertex and would read as a border that
+is not one -- ChisaParfait's eight components come out:
+
+| component | triangles | border edges | |
+| --- | --- | --- | --- |
+| 0 front hair | 4534 | 0.5% | closed |
+| 1 hair | 21408 | 1.9% | closed |
+| 2 face | 4498 | 5.6% | open at the neck, inside never visible |
+| 3 upper body | 29145 | 0.3% | closed |
+| 4 lower body | 23881 | 0.7% | closed |
+| **5 frilled panel** | 9392 | **8.0%** | **the skirt -- the one that showed it** |
+| 6 eyes | 454 | 14.4% | open, and inside the head |
+| 7 right-hip prop | 180 | 28.0% | the hanging SASH -- the only other real candidate |
+
+So the screen leaves exactly one component to look at by eye, and the sash is clean: its curled
+tail shows its inside and renders the same pink as on ChisaParfait's own model. `mirroredComponents`
+stays `{5}`.
+
+**And the diff that was supposed to settle the sash measured the weather.** A whole-figure pixel
+diff between the twin on and off reported **30.27%** of pixels changed -- for a 180-triangle prop --
+because the Overview screen re-frames the model between captures and the background clouds move.
+Painted (`Tools/Misc/Diagnostics/whereDiff.py`), the changed pixels are every edge in the picture,
+the sky included. On that screen, compare CROPS of the part by eye; a diff needs a camera that does
+not drift.
+
 **Two things the chase established that are worth having anyway.** Chisa's lower-body pass sets
 **TEN** registers (`ps-t0..t9`) where the plan binds three, so enumerating a pass and accounting for
 every register is still the right first move -- three of the seven unbound ones (`742c5c7b`,

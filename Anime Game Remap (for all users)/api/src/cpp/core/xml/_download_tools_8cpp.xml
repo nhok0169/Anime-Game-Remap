@@ -9,6 +9,30 @@
     <includes refid="_if_template_8h" local="yes">AGRemapCore/model/iftemplate/IfTemplate.h</includes>
     <includes refid="_file_download_8h" local="yes">AGRemapCore/tools/files/FileDownload.h</includes>
     <incdepgraph>
+      <node id="29">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="110">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="97">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="99">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="107">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="80">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="69">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1080,30 +1104,6 @@
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
-      </node>
-      <node id="29">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="110">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="97">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="99">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="35">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="109">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="107">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="80">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="111">
         <label>GIMIParser.tpp</label>

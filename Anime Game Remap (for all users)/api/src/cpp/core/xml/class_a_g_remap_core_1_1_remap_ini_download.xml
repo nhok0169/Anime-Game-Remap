@@ -358,7 +358,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="248" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="144" bodyend="230"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="248" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="144" bodyend="238"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -432,7 +432,7 @@ once the download/cache-hit completes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="265" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="232" bodyend="248"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="265" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="240" bodyend="256"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">

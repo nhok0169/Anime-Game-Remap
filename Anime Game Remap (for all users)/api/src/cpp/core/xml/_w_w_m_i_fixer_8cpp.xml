@@ -75,6 +75,48 @@
     <includes refid="_text_tools_8h" local="yes">AGRemapCore/tools/TextTools.h</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
+      <node id="132">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
+      </node>
+      <node id="160">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="49">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="131">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="180">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="54">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="193">
+        <label>BaseRegEdit.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="217">
+        <label>BlendEdit.tpp</label>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="147">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -2702,48 +2744,6 @@
         </childnode>
         <childnode refid="115" relation="include">
         </childnode>
-      </node>
-      <node id="132">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
-      </node>
-      <node id="160">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="49">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="131">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="180">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="54">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="193">
-        <label>BaseRegEdit.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="217">
-        <label>BlendEdit.tpp</label>
-      </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="181">
         <label>GIMIFixer.tpp</label>

@@ -22,6 +22,30 @@
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
     <includes refid="_base_ini_remover_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</includes>
     <incdepgraph>
+      <node id="47">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="53">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/constants/GIBuilder.h</label>
         <link refid="_g_i_builder_8h"/>
@@ -1073,30 +1097,6 @@
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
-      </node>
-      <node id="47">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="53">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="87">
         <label>Generator.tpp</label>

@@ -10,6 +10,33 @@
     <includes refid="_ini_file_8h" local="yes">AGRemapCore/model/files/IniFile.h</includes>
     <includes refid="_g_i_m_i_parser_8h" local="yes">AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includes>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="137">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="104">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="118">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="103">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="136">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="134">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="76">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1437,33 +1464,6 @@
         </childnode>
         <childnode refid="114" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="137">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="104">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="118">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="103">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="136">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="134">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="138">
         <label>GIMIParser.tpp</label>

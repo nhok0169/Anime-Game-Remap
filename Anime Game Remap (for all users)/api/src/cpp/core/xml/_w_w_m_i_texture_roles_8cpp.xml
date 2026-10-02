@@ -6,6 +6,15 @@
     <includes local="no">algorithm</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
+      <node id="32">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="37">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -545,15 +554,6 @@
         </childnode>
         <childnode refid="69" relation="include">
         </childnode>
-      </node>
-      <node id="32">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="37">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="67">
         <label>Generator.tpp</label>

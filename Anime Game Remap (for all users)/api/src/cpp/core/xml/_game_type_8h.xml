@@ -10,6 +10,15 @@
     <includedby refid="_game_type_8cpp" local="yes">src/constants/GameType.cpp</includedby>
     <includedby refid="_game_type_id_8cpp" local="yes">src/constants/GameTypeId.cpp</includedby>
     <incdepgraph>
+      <node id="22">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="21">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="18">
+        <label>BiMap.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/constants/GameType.h</label>
         <link refid="_game_type_8h"/>
@@ -105,15 +114,6 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-      </node>
-      <node id="22">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="21">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="18">
-        <label>BiMap.tpp</label>
       </node>
       <node id="13">
         <label>cstdint</label>

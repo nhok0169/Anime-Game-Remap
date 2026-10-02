@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="144" column="25" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="144" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="169" column="25" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="169" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a213340408fb5c9a6220a260cc1da7f2e" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="149" column="25" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="174" column="25" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="174" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a006c4cc9e5ed188c885c2ec70075df0e" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="154" column="18" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="154" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="179" column="18" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1aaa47a6fe66479ff76e3e330c8bb7d4e6" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -55,7 +55,7 @@
         <argsstring></argsstring>
         <name>maxAttempts</name>
         <qualifiedname>AGRemapCore::FileDownload::maxAttempts</qualifiedname>
-        <initializer>= 3</initializer>
+        <initializer>= 6</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -68,11 +68,15 @@ DNS hiccup and the request stands a real chance next time; a ``404`` is an answe
 and asking three times just prints the same thing three times. #download decides
 which is which from the `libcurl`_ result -- and, for an HTTP error, from the status
 code, since ``503`` and ``404`` arrive as the same ``CURLE_HTTP_RETURNED_ERROR``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The default spreads its attempts over about 23 seconds (see #retryDelay), because a
+failed name lookup on a home connection routinely lasts longer than a few seconds
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="169" column="17" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="169" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="198" column="17" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="198" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a2faee36e8fb7fc5aa7e2908d4a8ec66b" prot="public" static="no" mutable="no">
         <type>std::chrono::milliseconds</type>
@@ -85,18 +89,34 @@ code, since ``503`` and ``404`` arrive as the same ``CURLE_HTTP_RETURNED_ERROR``
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-How long to wait before the FIRST retry, DOUBLED for each one after it
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+How long to wait before the FIRST retry, DOUBLED for each one after it, up to
+#maxRetryDelay :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Backing off rather than hammering: whatever was briefly wrong (a resolver that has
 not come back, a rate limit) is more likely to be over after a second than after no
-time at all. With the defaults a file that never comes back costs 1s + 2s of waiting
-on top of its three attempts
+time at all. With the defaults a file that never comes back costs 1s + 2s + 4s + 8s
++ 8s of waiting on top of its six attempts
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="183" column="39" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="183" bodyend="183"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="212" column="39" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1aff46e9aab78debfe5e831b24f3367033" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds AGRemapCore::FileDownload::maxRetryDelay</definition>
+        <argsstring></argsstring>
+        <name>maxRetryDelay</name>
+        <qualifiedname>AGRemapCore::FileDownload::maxRetryDelay</qualifiedname>
+        <initializer>{8000}</initializer>
+        <briefdescription>
+<para>The longest <ref refid="class_a_g_remap_core_1_1_file_download_1a1ff069ea62a7358b41b12a4e42535740" kindref="member">download</ref> waits between two attempts, however many came before. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="217" column="39" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="217" bodyend="217"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1a0b8a942744a1bd1e8e09205a4009979a" prot="public" static="no" mutable="no">
         <type>std::function&lt; void(int attempt, int attempts, const std::string &amp;reason, std::chrono::milliseconds wait)&gt;</type>
@@ -120,7 +140,7 @@ has nowhere to say it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="199" column="2" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="199" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="233" column="2" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="233" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -137,7 +157,23 @@ has nowhere to say it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="256" column="27" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="256" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="303" column="27" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_download_1aab06e003bf9d503c4365d061c8bb5443" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::FileDownload::lastFailureTransient_</definition>
+        <argsstring></argsstring>
+        <name>lastFailureTransient_</name>
+        <qualifiedname>AGRemapCore::FileDownload::lastFailureTransient_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_file_download_1a822b3127fe3e455e11baecfba4853486" kindref="member">lastFailureWasTransient</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="308" column="18" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="308" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -193,7 +229,7 @@ has nowhere to say it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="137" column="22" bodyfile="src/tools/files/FileDownload.cpp" bodystart="204" bodyend="205"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="162" column="22" bodyfile="src/tools/files/FileDownload.cpp" bodystart="280" bodyend="281"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a7b88857c911d0cabd6a014ad3dbf8347" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -207,7 +243,7 @@ has nowhere to say it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="139" column="21"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="164" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a1ff069ea62a7358b41b12a4e42535740" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -262,7 +298,7 @@ Downloads the required file via `libcurl`_ -- see this class&apos;s own doc comm
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="215" column="33" bodyfile="src/tools/files/FileDownload.cpp" bodystart="282" bodyend="312"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="249" column="33" bodyfile="src/tools/files/FileDownload.cpp" bodystart="375" bodyend="408"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1af281e79b0e606198f1bfeaa04bdb2229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::tuple&lt; std::string, bool, bool &gt;</type>
@@ -322,7 +358,7 @@ previous download already exists) by copying the previously-downloaded file inst
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="232" column="24" bodyfile="src/tools/files/FileDownload.cpp" bodystart="333" bodyend="378"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="266" column="24" bodyfile="src/tools/files/FileDownload.cpp" bodystart="433" bodyend="479"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a02012658002add21812c32b3c0078294" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -360,7 +396,29 @@ after it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="249" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="314" bodyend="331"/>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="283" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="414" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_download_1a822b3127fe3e455e11baecfba4853486" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::FileDownload::lastFailureWasTransient</definition>
+        <argsstring>() const</argsstring>
+        <name>lastFailureWasTransient</name>
+        <qualifiedname>AGRemapCore::FileDownload::lastFailureWasTransient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the last #download to throw gave up on a failure worth asking again about
+-- the server could not be reached -- rather than on an answer such as a ``404``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Reset by every #get and #download, so it describes only the most recent request.
+What :cpp:func:`DownloadCache::markHostUnreachable` is decided by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="296" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="410" bodyend="412"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -386,7 +444,7 @@ re-download after a failed copy) is independently testable :raw-html:`&lt;br /&g
    double) can still override it without needing to touch #get&apos;s own caching logic
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/files/FileDownload.h" line="127" column="5" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="127" bodyend="257"/>
+    <location file="include/AGRemapCore/tools/files/FileDownload.h" line="152" column="5" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="152" bodyend="309"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_file_download_1a006c4cc9e5ed188c885c2ec70075df0e" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>cache</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1a02012658002add21812c32b3c0078294" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>cachedPath</name></member>
@@ -394,7 +452,10 @@ re-download after a failed copy) is independently testable :raw-html:`&lt;br /&g
       <member refid="class_a_g_remap_core_1_1_file_download_1a6b874e5b494e6f457dcc139397ceff0d" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>FileDownload</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1a213340408fb5c9a6220a260cc1da7f2e" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>filename</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1af281e79b0e606198f1bfeaa04bdb2229" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1aab06e003bf9d503c4365d061c8bb5443" prot="protected" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>lastFailureTransient_</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1a822b3127fe3e455e11baecfba4853486" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>lastFailureWasTransient</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1aaa47a6fe66479ff76e3e330c8bb7d4e6" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>maxAttempts</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_download_1aff46e9aab78debfe5e831b24f3367033" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>maxRetryDelay</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1a0b8a942744a1bd1e8e09205a4009979a" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>onRetry</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1a0f8d741b6e3b391fae41fb9fb9a626a2" prot="protected" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>prevPath_</name></member>
       <member refid="class_a_g_remap_core_1_1_file_download_1a2faee36e8fb7fc5aa7e2908d4a8ec66b" prot="public" virt="non-virtual"><scope>AGRemapCore::FileDownload</scope><name>retryDelay</name></member>

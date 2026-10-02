@@ -13,6 +13,24 @@
     <includes refid="_logger_8h" local="yes">AGRemapCore/view/Logger.h</includes>
     <includedby refid="_remap_service_c_l_i_8cpp" local="yes">src/RemapServiceCLI.cpp</includedby>
     <incdepgraph>
+      <node id="117">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="37">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="98">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="97">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="43">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="8">
         <label>AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1188,24 +1206,6 @@
         </childnode>
         <childnode refid="75" relation="include">
         </childnode>
-      </node>
-      <node id="117">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="37">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="98">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="97">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="43">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="51">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="71">
         <label>Generator.tpp</label>

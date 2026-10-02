@@ -12,6 +12,15 @@
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <includedby refid="_w_w_m_i_texture_roles_8cpp" local="yes">src/data/WWMITextureRoles.cpp</includedby>
     <incdepgraph>
+      <node id="31">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="45">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="51">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -523,15 +532,6 @@
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-      </node>
-      <node id="31">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="45">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="66">
         <label>Generator.tpp</label>

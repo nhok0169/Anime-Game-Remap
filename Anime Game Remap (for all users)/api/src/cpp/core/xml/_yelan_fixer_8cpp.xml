@@ -15,6 +15,33 @@
     <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
     <includes refid="_material_band_remap_filter_8h" local="yes">AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</includes>
     <incdepgraph>
+      <node id="134">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="106">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="101">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1364,33 +1391,6 @@
         </childnode>
         <childnode refid="135" relation="include">
         </childnode>
-      </node>
-      <node id="134">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="38">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="109">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="80">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="106">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

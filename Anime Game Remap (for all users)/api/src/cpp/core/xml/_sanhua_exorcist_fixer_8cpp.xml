@@ -13,6 +13,30 @@
     <includes refid="_w_w_m_i_fixer_8h" local="yes">AGRemapCore/data/IniFixData/WWMIFixer.h</includes>
     <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
     <incdepgraph>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="119">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="118">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="116">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="83">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -1222,30 +1246,6 @@
         </childnode>
         <childnode refid="125" relation="include">
         </childnode>
-      </node>
-      <node id="38">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="119">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="80">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="118">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="116">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

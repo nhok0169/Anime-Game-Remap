@@ -5,6 +5,9 @@
     <includes refid="_hash64_8h" local="yes">AGRemapCore/tools/hashing/Hash64.h</includes>
     <includes local="no">xxhash.h</includes>
     <incdepgraph>
+      <node id="10">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/tools/hashing/Hash64.h</label>
         <link refid="_hash64_8h"/>
@@ -40,9 +43,6 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-      </node>
-      <node id="10">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="8">
         <label>array</label>

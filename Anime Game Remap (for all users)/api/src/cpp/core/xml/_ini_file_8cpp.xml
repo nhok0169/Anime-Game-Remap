@@ -33,6 +33,33 @@
     <includes refid="_parse_context_8h" local="yes">AGRemapCore/tools/parsing/ParseContext.h</includes>
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <incdepgraph>
+      <node id="36">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="124">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="119">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="99">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="98">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="42">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="123">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="118">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="50">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="15">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1384,33 +1411,6 @@
         </childnode>
         <childnode refid="133" relation="include">
         </childnode>
-      </node>
-      <node id="36">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="124">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="119">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="99">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="98">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="42">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="123">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="118">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="50">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="71">
         <label>Generator.tpp</label>

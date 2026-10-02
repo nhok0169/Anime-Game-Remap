@@ -20,6 +20,21 @@
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <incdepgraph>
+      <node id="73">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
+      </node>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="72">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="60">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="44">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -593,21 +608,6 @@
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
-      </node>
-      <node id="73">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
-      </node>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="72">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="60">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="68">
         <label>Generator.tpp</label>

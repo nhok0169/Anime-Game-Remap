@@ -370,7 +370,26 @@ namespace AGRemapCore {
         // wrong one and writes `ChecksumNotFound`, and the field is pointless while the keys are
         // hidden.
         config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
+
+        // ---- but the ZERO STREAM is still wanted, and that is a different thing (2026-10-02) ----
+        // The two were switched off together and only the hiding deserved it. `hiddenObjs` edits the
+        // MOD'S OWN text, which is why it stays empty; `zeroShapeKeyStream` is an addition to the
+        // REMAPPED sections only, so a ChisaParfait mod on ChisaParfait never sees it.
+        //
+        // And the stream has to be bound, because Chisa's draws READ it whatever the fix does: `vb6`
+        // is the game's live shape-key offsets, stride 24, addressed by vertex id and sized for HER
+        // draw. Measured against a frame dump of Chisa herself, of the vertices the body draw's
+        // range reaches, **4213 index past the end of her 38964-entry buffer** (470 more on another
+        // slot) -- undefined reads, which is what the planes across the scene were -- and ~960 more
+        // take a displacement computed for one of her vertices. Everything else measured correct the
+        // whole time: all 69411 vertices skin to 113-153 units from the origin offline, where no vb6
+        // exists, which is why four earlier rounds found nothing.
+        //
+        // Retargeting does not cover it. It makes WWMI's own shape-key pipeline run against the
+        // target's checksum; it does not rebind the game's `vb6`, which is the buffer the draw reads.
+        // The cost is that a mod's own shape keys do not play on the target, which is the same
+        // trade Sanhua makes and is not a plane across the scene.
+        config.zeroShapeKeyStream = true;
 
         // ---- a flat mask is LEFT TO THE GAME on the hair, as in the forward direction ------------
         // `flatFallsBackToSource` below is about a mask whose REGIONS are missing; this is about the

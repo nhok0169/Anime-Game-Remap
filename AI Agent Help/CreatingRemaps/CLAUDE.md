@@ -3111,6 +3111,58 @@ that turned out to be the Overview menu's idle animation (see the correction abo
 model still draws the planes. It is a correctness alignment with the importer's design, worth having
 and worth not mistaking for a repair.
 
+### CHISAPARFAIT -> CHISA RENDERS: IT WAS `vb6`, THE STREAM NOTHING IN THE FILES CAN SHOW (2026-10-02)
+
+**The planes were the game's live shape-key stream.** Chisa's component 2 and 3 draws read a SIXTH
+vertex stream, `vb6` -- stride 24, first element an `R32G32B32_FLOAT` position offset, addressed by
+vertex id and sized for HER draw's vertex count. The fix bound `vb0` through `vb4` and left `vb6`
+alone, so every remapped vertex took whatever offset Chisa's buffer held at the same index. Measured
+against a frame dump of Chisa herself: of the vertices the body draw's range reaches, **4213 index
+past the end of her 38964-entry buffer** -- undefined reads, which is what stretched across the
+scene -- with 470 more on another slot and ~960 taking a real displacement computed for one of her
+vertices.
+
+**Binding a zero `vb6` on the remapped draws fixes it, and the model renders.** The template already
+had `zeroShapeKeyStream` / `shapeKeyStreamReg` / `shapeKeyStride` for exactly this, built for Sanhua,
+whose arms had the same fault. Chisa's config turned it off together with `hiddenObjs`, and **only
+the hiding deserved it**: hiding the shape-key overrides comments sections out of the MOD'S OWN text,
+so a mod that really uses its keys breaks on ChisaParfait too, while the zero stream is an addition
+to the REMAPPED sections only. Retargeting does not substitute for it -- it makes WWMI's own
+shape-key pipeline run against the target's checksum, and never rebinds the game's `vb6`, which is
+the buffer the draw actually reads.
+
+**Why the forward direction was never exposed**: ChisaParfait's own draws carry no `vb6` at all. The
+asymmetry is the whole reason one direction worked while the other filled the screen, and it is a
+property of the TARGET, so it is the first thing to check for any new WuWa pair -- `ls <dump>/*-vb6=*`
+and see which of the target's draws have one.
+
+#### The method, which is worth more than the finding
+
+Four rounds of real, measured defects were fixed before this one and none of them was the cause: a
+truncated blend placeholder (42% of vertices), a hidden slot's window merged into the wrong skeleton
+(1185 weighted slots), the per-draw remap ordering, ten dead vertex-group targets. Each was genuine.
+None was it.
+
+What finally worked was refusing to fix anything until the question was answered:
+
+1. **Skin the mesh offline, from the TARGET's own frame dump.** Rebuild the merged skeleton from the
+   game's per-component bone data (each component draw's ib `.txt` sidecar gives `first index` and
+   `index count`, which names the window), apply the fix's forward map, skin the mod's positions with
+   the remapped blend. Result: **all 69411 vertices landed 113-153 units from the origin and every
+   bone they used had a matrix.** The data was perfect. That is what said the fault was not in any
+   file -- and it is independent of the fix's own output, unlike the three earlier diagnoses that
+   were taken from dumps of the fix's own skeleton and could only confirm themselves.
+2. **Turn the fix's draws off entirely.** Chisa rendered perfectly, so the planes were the fix's
+   draws and not something else on screen.
+3. **Draw 1/256 of each range.** Clean -- so it was particular triangles, not a global bad skeleton,
+   which is what ruled out everything upstream.
+4. **Diff what the target's draws READ against what the fix BINDS.** `ls <dump>/*-vbN=*` per draw
+   against `grep 'vb[0-9] = '` in the generated `.ini`. One line of output, and the answer was in it.
+
+Step 4 is the cheap one and it should have been step 1. **A remapped draw inherits every stream the
+target's draw reads, not just the ones the fix knows about** -- so enumerate them from a dump before
+reasoning about any of them.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

@@ -59,6 +59,23 @@ Neuvillette, NeuvilletteMelusent). Expect the commit to be far bigger than the m
 XML lags whenever anyone edits a header without regenerating, so a merge-time regeneration sweeps up
 all of that drift too.
 
+**When the OTHER side's `core/xml` is itself a fresh full regeneration, splice instead (2026-10-02).**
+Merging a docs-audit `master` (which had just regenerated the whole directory) into `cleanup`, a full
+regeneration on the Windows laptop differed from `master`'s tree in **494 files** -- include-graph
+nodes (`Algo.tpp` and friends) the two machines' Doxygen runs resolve differently, none of them from
+either branch. Taking `master`'s directory whole and splicing in only this branch's compounds
+(`Tools/Misc/Docs/doxygenSplice.py --run <scratch>`, then `--apply` the compounds your headers own)
+gave 30 files, all ours, and the splice updates `index.xml` consistently -- the hazard this section
+guards against is hand-merged HUNKS, which taking one side whole never produces.
+
+**And when the other side RESTRUCTURED `api.rst`, do not resolve its hunks either.** A docs audit that
+reorders and re-sections the page leaves `git merge-file` aligning unrelated entries, so the hunks it
+shows are meaningless. Take their page (`git show :3:Docs/src/api.rst`) and re-apply your branch's
+changes as entry operations -- remove an entry by its title and `=` underline through its closing
+`:raw-html:<br />`, insert one after a named entry -- in a script that asserts each title matched
+once. Then grep the page for every name your branch removed: that audit had documented eight deleted
+classes and both halves of three renames.
+
 **Check the merge commit's own title against what it contains.** This one said
 `Merge pull request #254 from nhok0169/add-yaoyao` and there is no Yaoyao anywhere in the tree; the
 branch name was stale. A union check that comes back zero for a name in the title is a question, not
@@ -132,7 +149,24 @@ enumerated list in `findVertexGroupRemap.rst`, **4 `duplicate object description
 and note they are attributed to the *docstring*, not to `api.rst`), and 2 intersphinx inventory failures
 that are **this machine's TLS-inspecting proxy only** and will not appear on Read the Docs, which should
 therefore report 14. **Re-measured 2026-10-01 on Linux: 16 again**, after `master` had drifted to 20 (four
-`Unknown target name: "blend"` from Breathe, fixed by the docs audit). None from
+`Unknown target name: "blend"` from Breathe, fixed by the docs audit). **And 2 since 2026-10-02 -- only
+the intersphinx pair:** the 14 that stood behind them are fixed, so any other warning is new and yours.
+How each went, so nobody undoes one:
+
+- **`duplicate object description` on `TexEditor.compress` / `mipmaps` (and `TexCreator`'s)**: the
+  class's numpydoc `Attributes` section listed `compress` and `mipmaps`, and `:inherited-members:` also
+  documents them as properties of `CppTexEditor` -- two descriptions of one object. **A Python subclass
+  of a bound class leaves an inherited property OUT of its `Attributes` section**; the property's own
+  docstring is the description.
+- **`Unknown target name: "simplified maximal munch"`**: `BaseTokenizer.simplifiedMaximalMunch`'s
+  docstring renders on `api.rst`, whose link targets did not have it (`coreAPI.rst`'s did). Targets are
+  per page, rule 2 below.
+- **The tutorial's 6 duplicate labels are SUPPRESSED, on purpose** (`suppress_warnings =
+  ["autosectionlabel.tutorial"]` in `conf.py`): each of its three choices walks through its own STEP 1 / 2 / 3,
+  nothing references a STEP heading, and renaming them would change the page. Its 3 undefined labels
+  were real -- the Choice links lacked the `tutorial:` prefix `autosectionlabel_prefix_document` gives
+  every label -- and are fixed, so the suppression hides nothing a reader would follow.
+- **`findVertexGroupRemap.rst:36`**: the line after list item C is indented as item C's continuation. None from
 `api.rst`/`coreAPI.rst`/`index.rst` — beware that the
 `[autosummary] generating autosummary for: ...` line names every `.rst`, so a naive per-file grep
 counts one phantom hit for each of those three. Verify a new `coreAPI.rst` entry by extracting the

@@ -77,6 +77,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%8B%E2%9C%82%EF%B8%8F%20The%20Bamboo%20Shard%20Trimmer-1-%2384cc16?style=flat-square&labelColor=%23422006)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%8C%F0%9F%AA%A1%20The%20Starlit%20Lining%20Weaver-1-%23fbbf24?style=plastic&labelColor=%231e1b4b)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%91%93%F0%9F%93%96%20The%20Fresh--Eyes%20Reader-1-%2314b8a6?style=flat&labelColor=%237c2d12)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%9E%E2%9C%82%EF%B8%8F%20The%20Python%20Twin%20Pruner-1-%23f472b6?style=for-the-badge&labelColor=%23052e16)
 
 <br>
 

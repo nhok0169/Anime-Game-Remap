@@ -968,6 +968,12 @@ each cost a confused cycle:
   correction were all swept into another session's Bennett commit. Before concluding your work is
   uncommitted, `git log --oneline -3 -- <file>`; before concluding someone reverted you, check
   whether it simply landed under a message about something else.
+- **The checked-out BRANCH may change under you, and other sessions commit onto whatever is
+  checked out (2026-10-02).** One session worked on `cleanup`, found two of another session's
+  commits on it (a version bump and a mirror regeneration), and next day found the checkout on
+  `finalize-docs` with someone else's uncommitted edits. Before every commit run `git branch
+  --show-current` and `git status --short`, stage your OWN paths by name (never `git add -A`), and
+  before every push read `git log origin/<branch>..<branch>` -- it lists exactly what the push sends.
 - **The maintainer swaps mod folders between `GIMI/Mods/` and one level up while testing**, so a
   path that resolved an hour ago resolves to nothing now. Resolve a mod by NAME across both
   locations, and fail loudly when it is in neither (see habit 34).
@@ -1716,6 +1722,17 @@ which does not render; and when you change behaviour, re-read the doc block abov
 function also needs its entry on `Docs/src/api.rst` / `coreAPI.rst` -- 164 exports had none, including ones the
 examples call. `Tools/Misc/Docs/auditApiDocs.py --html <build>` checks all three (exports, rendered history and
 dates, dead repo links); see [Documentation](../Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE FOR A NEW USER".
+
+**88. A WHOLE-FILE MERGE CONFLICT MAY BE LINE ENDINGS: RE-MERGE ON NORMALISED STAGES (2026-10-02).** A file
+committed with a lone carriage return is stored raw (CRLF) because git's normalisation refuses it (trap 2 in
+the top-level `CLAUDE.md`); fix the stray `\r` and the next commit stores it as LF. Merge that against a
+branch that edited the CRLF copy and git reports ONE conflict spanning the whole file -- `IniKeywords.h` did,
+over a two-line real difference. Redo the merge yourself: `git show :1:<f>`, `:2:` and `:3:` into scratch
+files, strip `\r` from all three, `git merge-file -p -L OURS -L BASE -L THEIRS ours base theirs`, and write
+the result back with the line endings of `:3:`. Every conflicted header in that merge went from "whole
+file" to one or two real hunks. Do it in a script over `git diff --name-only --diff-filter=U` (skipping
+`core/xml` and `core.pyi`, which are regenerated, not merged), and print the remaining hunks rather than
+opening each file.
 
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so

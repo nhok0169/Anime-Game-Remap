@@ -3228,6 +3228,47 @@ need `debug = 1` as well, and that pair wrote **3.1 GB for one reload**. Worth i
   a few minutes after the 3.1 GB reload, which is the risk Game View already warns about for frame
   dumps.
 
+### THE FOUR-MOD SURVEY: GEOMETRY IS FIXED, TEXTURES ARE NOT, AND THE IDENTITY MOD COULD NOT HAVE TOLD YOU (2026-10-02)
+
+With the `vb6`, `ref`-prefix and frame-latch fixes in, **all four ChisaParfait mods draw their own
+geometry on Chisa** -- no planes, nothing invisible. The remaining faults are all texture or material,
+and they line up with one number:
+
+| mod | roles the fix DOWNLOADS | in game |
+| --- | --- | --- |
+| ChisaParfaitIdentity | **0** | correct |
+| ChisaParfait1 | 6 (Face diffuse+mask, Hair mask, Prop x3) | one jagged outlined patch on a thigh |
+| ChisaParfait2 | 14 (adds **Upper** diffuse+mask+normal, Panel, Hair) | black fingers on ONE hand, a grey band down the centre of the face |
+| ChisaParfait3 | 7 (**Upper mask**, **Lower mask+normal**, Hair, Face mask) | geometry right, whole body RED, skirt YELLOW |
+
+**The identity mod downloads nothing**, because it ships every one of the character's textures by
+construction. So it exercises **none** of the download-fallback path, and every fault above is
+invisible on it. That is the same lesson as the `$state_id` latch, in a second subsystem on the same
+day: it is not a sample of one, it is a sample of none.
+
+A role the mod ships no file for is bound to the SOURCE's own game texture, downloaded -- which is
+deliberate and documented (`WWMIFixerConfig::fallbackTextures`), because the mod's UVs are the
+source's. What that does NOT account for is the MASK: a downloaded ChisaParfait mask carries
+ChisaParfait's material packing and is being read by CHISA's shader, and "a hue over body and clothes
+is the MASK" is already the first row of the WuWa triage table. ChisaParfait3 downloads both the Upper
+and the Lower mask and is red over its whole body; ChisaParfait1 downloads neither and has one small
+patch.
+
+**Not yet established**, and the next things to check rather than assume:
+
+* whether a downloaded mask is repacked at all. The hair NORMAL is
+  (`ChisaParfaitHairNormalRepackRemapTex.dds` appears in every mod's table), so the machinery runs for
+  one role on one component -- but every `...MaskRemapDL.dds` is bound raw.
+* whether mod 1's face, which is fully downloaded and looks RIGHT, breaks that story. It is the case
+  that does not fit, so it is the one worth reading first.
+* ChisaParfait2 and 3 carry 32 and 16 `[Key]` toggles. None was pressed. A default toggle state is a
+  cheaper explanation than a texture bug and has not been ruled out.
+
+`Tools/Misc/Diagnostics` has no tool for this yet; the table above was built by parsing each
+`CommandList...ComponentNTextures...RemapFix` section's `ps-t` bindings and resolving each resource to
+the file it names. That is the prototype's per-slot table, and it remains the instrument for any WuWa
+texture report.
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

@@ -3846,8 +3846,31 @@ face carries the same soft hat shadow as her own model with no wedge
 identity mod on any change to a slot's bindings: it fixes every structural axis to "the game's own
 answer", so anything that differs is the remap.
 
-**And it showed one thing the bikini mod structurally could not: dark, roughly rectangular patches
-on the inner surface of the SKIRT, with a stepped edge where it meets the thigh** -- her own model's
+**AND THE SAME BUG IS ONE SLOT OVER, ON THE BODY (2026-10-02).** Chasing the second thing the
+identity mod showed -- a thin crenellated outline traced across the bare THIGH, which her own model
+does not have -- ended at `lowerMask`: ChisaParfait's lower-body mask, bound raw on Chisa's
+lower-body shader, exactly as the face mask was. Appending `ps-t1 = null` to the component 4
+texture list and reloading removes the outline completely, on ChisaParfait1 AND on the identity mod
+(`Images/ChisaParfait/3_7/ThighOutlineIsTheMask.png`). The shape is the cut edge of the body mesh
+where it is hidden under clothing on her own model -- a mask-driven outline term is lighting it up.
+
+**The face's answer does NOT transfer here.** Not binding it is safe on the face because the two
+faces are the same mesh; the two BODIES are not (component 4 is IoU 0.35 between them), so leaving
+the register to the game would sample Chisa's own mask at ChisaParfait's UVs -- the wrong-UVs bug.
+The fix this wants is a REPACK, and **this direction has no mask repack at all**: `texEdits` is
+`hairNormalFilter` alone, so `upperMask`, `lowerMask`, `panelMask` and `propMask` all reach Chisa's
+shaders in ChisaParfait's packing. The forward direction's `MaskTranslations` is the model; its
+inverse has to be measured (render both skins' masks' channels beside their diffuses, and ask the
+diffuse which value means skin) and then checked in game, so it is its own piece of work.
+
+**The dark patches are NOT the mask, and are still open.** They survive nulling `ps-t1` and nulling
+`ps-t0` (the normal map) on components 4 and 5, and they vanish under a flat `--paint` of
+ps-t0/1/2 -- so they are on surfaces the fix draws and are driven by `ps-t2`, the diffuse. They are
+also camera-dependent: present with the whole figure in frame, gone when zoomed in. Next step is
+`ps-t2`.
+
+**The original note on them:** dark, roughly rectangular patches
+on the inner surface of the SKIRT, with a stepped edge where it meets the thigh -- her own model's
 hem is smooth there. Not from this change (the skirt is components 4 / 5 and the face slot's plan is
 the only thing that moved), not the U fold (restricted to `U >= 1` since 2026-09-27), and not low
 texture resolution (its lower-body diffuse, mask and normal are all 2048). Open, and only reachable

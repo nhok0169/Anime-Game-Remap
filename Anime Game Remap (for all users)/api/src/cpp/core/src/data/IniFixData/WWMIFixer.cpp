@@ -2001,6 +2001,97 @@ namespace AGRemapCore {
 
                         variantsOf_[entry.first] = bound;
                     }
+
+                    readRegisterVariants();
+                }
+
+                /**
+                 * @brief The same toggle written as a REGISTER binding rather than a `this` section
+                 *
+                 * `[TextureOverrideTexture7]` selecting `7 / 7a / 7b` with `this` is one way to
+                 * write a texture toggle and the loop above reads it. The other way is to bind the
+                 * register directly in the component's own section, once per branch:
+                 *
+                 *     [TextureOverrideComponent3]
+                 *     if $key2 == 1
+                 *         ps-t3 = ResourceTexture3_3
+                 *     else
+                 *         ps-t3 = ResourceTexture3_3_0
+                 *     endif
+                 *
+                 * Both resources reach that slot, so both are variants of whatever role the fix
+                 * resolves there and both need the role's edit. Without this, the edit is built from
+                 * the one the role happened to resolve to and the other branch keeps the mod's raw
+                 * file -- ChisaParfait3's red aura came back the moment the key was pressed.
+                 *
+                 * A register bound to ONE resource is not a group. A register bound to several in a
+                 * MERGED section is: component 5 of that mod puts the panel's, the upper body's and
+                 * the lower body's art through one `ps-t3` on its toggles, and each of the three is
+                 * that slot's diffuse while its branch is live. Which is why the group is per
+                 * (section, register) and not per section -- two registers of one section are two
+                 * different roles, and merging them would run a mask's filter over a diffuse.
+                 */
+                void readRegisterVariants() {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
+                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
+
+                    for (const auto& entry : ini->getIfTemplates()) {
+                        if (entry.second == nullptr
+                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
+                            continue;
+                        }
+
+                        std::map<std::string, std::vector<std::string>> boundOfReg;
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content =
+                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                const std::string key = StringTools::toLower(StringTools::strip(item.key));
+                                if (!StringTools::startsWith(key, prefix)) {
+                                    continue;
+                                }
+
+                                std::string val(StringTools::strip(item.value));
+                                if (StringTools::startsWith(StringTools::toLower(val), ref + " ")) {
+                                    val = std::string(StringTools::lstrip(val.substr(ref.size())));
+                                }
+
+                                if (val.empty() || StringTools::equalsIgnoreCase(val, IniKeywords::Null)) {
+                                    continue;
+                                }
+
+                                std::vector<std::string>& vals = boundOfReg[key];
+                                const auto seen = std::find_if(vals.begin(), vals.end(),
+                                    [&val](const std::string& had) {
+                                        return StringTools::equalsIgnoreCase(had, val);
+                                    });
+
+                                if (seen == vals.end()) {
+                                    vals.push_back(val);
+                                }
+                            }
+                        }
+
+                        for (const auto& [reg, vals] : boundOfReg) {
+                            if (vals.size() < 2) {
+                                continue;
+                            }
+
+                            const std::string label = entry.first + " " + reg;
+                            for (const std::string& val : vals) {
+                                regVariantsOf_[StringTools::toLower(val)] = {label, vals};
+                            }
+                        }
+                    }
                 }
 
                 // WHAT readTextures WORKS OUT, IN THE ORDER IT WORKS IT OUT.
@@ -4566,40 +4657,69 @@ namespace AGRemapCore {
                             //
                             // The resolved variant keeps the name it already had, so no shipped
                             // output moves; the others are indexed after it.
-                            const auto owner = conditionalOwner_.find(StringTools::toLower(*was));
+                            std::size_t n = 1;
+                            std::string groupLabel;
+                            const std::string wasKey = StringTools::toLower(*was);
+
+                            const auto emitVariants =
+                                [&](const std::vector<std::string>& group, const std::string& from) {
+                                    for (const std::string& variant : group) {
+                                        if (StringTools::equalsIgnoreCase(variant, *was)) {
+                                            continue;
+                                        }
+
+                                        // ALREADY CLAIMED BY ANOTHER ROLE'S EDIT. On a merged mesh
+                                        // one register carries several source components' art, so a
+                                        // file can sit in two groups; the first role to claim it
+                                        // keeps it, because a second claim would run that role's
+                                        // filter over it -- a mask repack over a diffuse.
+                                        if (editedResourceOf_.count(StringTools::toLower(variant)) > 0) {
+                                            continue;
+                                        }
+
+                                        const auto file = fileOfResource_.find(StringTools::toLower(variant));
+                                        if (file == fileOfResource_.end()) {
+                                            continue;
+                                        }
+
+                                        ++n;
+                                        const std::string suffix = std::to_string(n);
+                                        const std::string variantRel =
+                                            modFile(textureFolder_,
+                                                    config_.sourceTextures.downloadPrefix
+                                                    + TextTools::capitalize(edit.role) + edit.name + suffix
+                                                    + IniKeywords::RemapTex + FileExt::DDS);
+                                        const std::string variantResource =
+                                            fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
+                                                    + IniKeywords::RemapTex);
+                                        plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
+                                        editedResources_.emplace_back(variantResource, variantRel);
+                                        editedResourceOf_[StringTools::toLower(variant)] = variantResource;
+                                        editedRoleOf_[StringTools::toLower(variant)] = edit.role;
+                                        sourceOfEdited_[StringTools::toLower(variantResource)] = variant;
+
+                                        if (groupLabel.empty()) {
+                                            groupLabel = from;
+                                        }
+                                    }
+                                };
+
+                            const auto owner = conditionalOwner_.find(wasKey);
                             if (owner != conditionalOwner_.end()) {
-                                std::size_t n = 1;
-                                for (const std::string& variant : variantsOf_[owner->second]) {
-                                    if (StringTools::equalsIgnoreCase(variant, *was)) {
-                                        continue;
-                                    }
+                                emitVariants(variantsOf_[owner->second], owner->second);
+                            }
 
-                                    const auto file = fileOfResource_.find(StringTools::toLower(variant));
-                                    if (file == fileOfResource_.end()) {
-                                        continue;
-                                    }
+                            // ...and the same toggle written as a register binding -- see
+                            // readRegisterVariants. Both shapes feed one numbering, so a mod that
+                            // uses both does not get two `...2RemapTex` files.
+                            const auto group = regVariantsOf_.find(wasKey);
+                            if (group != regVariantsOf_.end()) {
+                                emitVariants(group->second.second, group->second.first);
+                            }
 
-                                    ++n;
-                                    const std::string suffix = std::to_string(n);
-                                    const std::string variantRel =
-                                        modFile(textureFolder_,
-                                                config_.sourceTextures.downloadPrefix
-                                                + TextTools::capitalize(edit.role) + edit.name + suffix
-                                                + IniKeywords::RemapTex + FileExt::DDS);
-                                    const std::string variantResource =
-                                        fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
-                                                + IniKeywords::RemapTex);
-                                    plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
-                                    editedResources_.emplace_back(variantResource, variantRel);
-                                    editedResourceOf_[StringTools::toLower(variant)] = variantResource;
-                                    editedRoleOf_[StringTools::toLower(variant)] = edit.role;
-                                    sourceOfEdited_[StringTools::toLower(variantResource)] = variant;
-                                }
-
-                                if (n > 1) {
-                                    ctx_.log(edit.role + ": " + std::to_string(n) + " variants bound by "
-                                             + owner->second + ", each given its own " + edit.name + " edit");
-                                }
+                            if (n > 1) {
+                                ctx_.log(edit.role + ": " + std::to_string(n) + " variants bound by "
+                                         + groupLabel + ", each given its own " + edit.name + " edit");
                             }
                         }
                         editedResources_.emplace_back(resource, fixedRel);
@@ -5150,6 +5270,7 @@ namespace AGRemapCore {
 
                 std::unordered_map<std::string, std::string> conditionalOwner_;      // the mod's resource -> the section that binds it behind a condition
                 std::unordered_map<std::string, std::vector<std::string>> variantsOf_;  // that section -> every resource it binds, in order
+                std::unordered_map<std::string, std::pair<std::string, std::vector<std::string>>> regVariantsOf_;  // ...and the same for a toggle written as a register binding: resource -> (label, the group)
                 std::unordered_map<std::string, std::string> fileOfResource_;         // the mod's resource -> the file it names
                 std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it
                 std::unordered_map<std::string, std::string> editedRoleOf_;           // ...and the ROLE that edit was registered for, since one file may serve several

@@ -3474,11 +3474,35 @@ exists.
   that depends on it** -- `4096**2` BC7 and `2048**2` BGRA are both 16777364 bytes, so size alone
   does not tell them apart.
 
-**And the live lead, which is a second defect either way:** the fix's own component-3 bindings never
-reach component 3's draw. Replacing `3_3.dds` on disk changes nothing on screen, gated or ungated,
-while a frame dump of the slot-3 draw shows `ps-t2` holding **`4_3.dds`** -- the file component 4
-binds. So the body is painted by a neighbouring component's atlas and the role the config resolved
-for component 3 is discarded before the draw. Find out which section writes `ps-t2` last.
+**Then the search moved off the textures entirely, and that is the state it is in.** Four more
+rounds, each one its own probe:
+
+| probe | result |
+| --- | --- |
+| the normal map **deleted** (not nulled), so the register keeps the game's own | still glows |
+| both texture lists' `run =` lines dropped, so the fix binds component 3 **nothing** | still glows |
+| component 5's draws suppressed (it shares the slot) | still glows -- those draws are the SKIRT |
+| only the last of the fifteen `drawindexed` kept, so one draw instead of fifteen | still glows |
+| the vertex COLOUR stream (`vb3`) nulled | still glows |
+
+With all three of its registers gone and one draw left, it still glows. **So it is the draw, not
+anything bound for it** -- and the next session should start on the vertex side (`vb6`, the merge
+slot's skeleton, the blend remap) rather than re-running any texture probe. The buffer strides are
+NOT it: every resource the fix writes for this mod divides exactly, at 90193 vertices both ways.
+
+**One structural fact found on the way, which is the merge working as designed and worth knowing
+anyway:** `TextureOverrideComponent3<Fix>` and `TextureOverrideComponent5<Fix>` carry the **same
+`hash`, the same `match_first_index` and the same `match_index_count`** -- as do components 4 and 7 --
+because each pair merges onto one target slot. They live in different `.ini` files, which is the
+documented merge shape, and in game both run and both draw: suppressing one takes away the body and
+suppressing the other takes away the skirt. A section pair that looks like an accidental duplicate
+here is not one.
+
+**And the lead that is still open, a second defect either way:** the fix's own component-3 bindings
+never reach component 3's draw. Replacing `3_3.dds` on disk changes nothing on screen, gated or
+ungated, while a frame dump of the slot-3 draw shows `ps-t2` holding **`4_3.dds`** -- the file
+component 4 binds. So the body is painted by a neighbouring component's atlas and the role the config
+resolved for component 3 is discarded before the draw. Find out which section writes `ps-t2` last.
 
 <br>
 

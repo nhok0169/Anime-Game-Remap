@@ -243,7 +243,10 @@ namespace AGRemapCore {
         //     `Chisa -> ChisaParfait` already tags them -- and if the two disagreed, whichever file
         //     3dmigoto loaded last would win and the other mod's `if vs == ...` would never match,
         //     its textures silently unbound. Those seven keep the forward direction's values, read
-        //     off a forward-fixed mod's own .ini rather than re-derived from its loop.
+        //     off a forward-fixed mod's own .ini rather than re-derived from its loop. THAT IS WHY
+        //     THREE OF THEM WERE WRONG until 2026-10-03: a transcribed value is a snapshot, and the
+        //     forward derived its own from filterBase/filterStep in map order, so they moved. Both
+        //     directions name every value now.
         //   * the rest take values from 3381.76 up, which no other pair reaches: the forward
         //     direction occupies 3381.710..3381.732 and the Sanhua pair 3381.81-.84 and .91-.96.
         //     `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check -- it reads the fixed .ini
@@ -253,10 +256,15 @@ namespace AGRemapCore {
             {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
             {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
             {"729d10a88623b937", "3381.717"},   // her eyes
-            {"6a6650a9db8983ce", "3381.722"},   // the shared outline-ish pass, slots 0/1/4
-            {"e4a3da6d1d1068b9", "3381.723"},   //   ...and slot 3
+            {"5fd6e5bb6ff81c53", "3381.718"},   // the vertex shader her EYE pass runs on. Undeclared
+                                                //   until 2026-10-03, so it fell through to
+                                                //   filterBase (3381.91) while the forward tagged it
+                                                //   3381.718: with one mod of each installed, one of
+                                                //   the two lost its eye textures outright.
+            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
+            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
             {"255061ec51f15e29", "3381.724"},
-            {"fd12d3374ac7a7dd", "3381.73"},
+            {"fd12d3374ac7a7dd", "3381.732"},
             // this direction's own
             {"7c0b4db32cee62d3", "3381.76"},    // her face
             {"b3c7ad652f7a1c40", "3381.761"},   // her upper body

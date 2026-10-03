@@ -443,6 +443,53 @@ namespace AGRemapCore {
         config.filterBase = 3381.71;
         config.filterStep = 0.001;
 
+        // ---- ...and every one of them NAMED, because the other direction depends on them ---------
+        // A [ShaderOverride] is keyed by shader hash across every loaded `.ini`, and a shader holds
+        // ONE filter index -- so the seven of these that are also ChisaParfait's must carry the same
+        // value in `ChisaParfait -> Chisa`, or whichever file 3dmigoto loaded last wins and the
+        // other mod's `if vs == ...` never matches, its textures silently unbound. With eighteen
+        // Chisa mods and three ChisaParfait ones on the maintainer's disk, one of each installed is
+        // the ordinary case, and no single-direction A/B can see it.
+        //
+        // `filterBase`/`filterStep` alone could not hold that promise: they number the shaders in
+        // MAP-ITERATION order, so adding a pass renumbers every shader after it. The reverse
+        // direction had transcribed seven values off a forward-fixed `.ini` and three had since
+        // drifted -- two of them onto hashes this direction still uses (`0b22e4a80375c4d0` at
+        // 3381.722 and `a5cd08444f0fca2e` at 3381.723), so the reverse's lists could fire on the
+        // wrong shader as well as miss their own.
+        //
+        // These are exactly the values the derivation produced, so naming them moves no output; what
+        // it buys is that they stop moving. `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check.
+        // A shader added here needs a value this pair does not already use -- the forward occupies
+        // 3381.710..3381.734, the reverse 3381.76..3381.768, and the Sanhua pair .81-.84 and .91-.96.
+        config.filterIndices = {
+            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
+            {"75501c2d87600e89", "3381.711"},
+            {"c277738ca4039045", "3381.712"},
+            {"343a49bd31719ade", "3381.713"},
+            {"6dd634933d8f0837", "3381.714"},
+            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
+            {"72f45530b1e1f75a", "3381.716"},
+            {"729d10a88623b937", "3381.717"},   // her eyes
+            {"5fd6e5bb6ff81c53", "3381.718"},   // the eye pass's own vertex shader
+            {"89577c176b52b351", "3381.719"},
+            {"da98d2d08d937357", "3381.72"},
+            {"ee6166816ce9f788", "3381.721"},
+            {"0b22e4a80375c4d0", "3381.722"},
+            {"a5cd08444f0fca2e", "3381.723"},
+            {"255061ec51f15e29", "3381.724"},
+            {"60b893ec7f585976", "3381.725"},
+            {"f906b8aa4c220a6f", "3381.726"},
+            {"af60c434a9393b08", "3381.727"},
+            {"166a83e1c94c5a59", "3381.728"},
+            {"4cf784b1b2c7ca1c", "3381.729"},
+            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
+            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
+            {"fd12d3374ac7a7dd", "3381.732"},
+            {"1479e3f5a626af60", "3381.733"},
+            {"d8d93966d246ed2b", "3381.734"},
+        };
+
         // ---- source component -> target slot and the registers it binds ----
         config.plan = {
             {0, {0, {{"ps-t0", "frontHairMask"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}}},

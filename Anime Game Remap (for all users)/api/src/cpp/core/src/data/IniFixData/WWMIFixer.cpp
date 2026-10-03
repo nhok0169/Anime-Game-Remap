@@ -1599,6 +1599,21 @@ namespace AGRemapCore {
                     return IniNamingTools::getRemapFixName(name, toModName_);
                 }
 
+                /**
+                 * @brief Whether a section is one a PREVIOUS run of this fix wrote
+                 *
+                 * The variant scans read what the MOD binds, and a mod that has been fixed before
+                 * still carries the last run's sections when they are read. Counting those makes
+                 * the fix's output depend on its own previous output: the first run of
+                 * `readRegisterVariants` reported `upperDiffuse: 2 variants bound by
+                 * TextureOverrideComponent3 ps-t3` on a clean mod and `3 variants bound by
+                 * TextureOverrideComponent3<Fix> ps-t2` on the same mod fixed once already, which
+                 * is a different set of edited copies for the same input.
+                 */
+                static bool isFixSection(const std::string& name, const std::string& fixSuffix) {
+                    return !fixSuffix.empty() && StringTools::endsWithIgnoreCase(name, fixSuffix);
+                }
+
                 ModObj slotObj(int component) const {
                     return ModObj("", config_.slotPrefix + std::to_string(component));
                 }
@@ -1931,9 +1946,11 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    const std::string fixSuffix = fixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
                         if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, (IniKeywords::TextureOverride + "Texture"))) {
+                            || !StringTools::startsWith(entry.first, (IniKeywords::TextureOverride + "Texture"))
+                            || isFixSection(entry.first, fixSuffix)) {
                             continue;
                         }
 
@@ -2040,9 +2057,11 @@ namespace AGRemapCore {
                     const std::string prefix = StringTools::toLower(config_.texRegPrefix);
                     const std::string ref = StringTools::toLower(IniKeywords::Ref);
 
+                    const std::string fixSuffix = fixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
                         if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
+                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                            || isFixSection(entry.first, fixSuffix)) {
                             continue;
                         }
 

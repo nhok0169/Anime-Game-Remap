@@ -1644,6 +1644,25 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             //
             //   Mirror pair to mirror pair on purpose. An earlier attempt moved one side only and
             //   the other arm came out visibly crooked at rest.
+            // THE ARM CHAINS ARE UN-COLLAPSED (2026-10-03): both arms bent like noodles, and
+            //   the cause is articulation lost to COLLAPSES, not a physics bone. Six pairs of
+            //   consecutive arm links shared one target each -- 120+123 on 167, 124+125 on 199,
+            //   127+129 on 372 down one arm, and 114+117 on 343, 171+189 on 286, 183+187 on 284
+            //   down the other -- so an elbow had one bone where the mod has two and the limb
+            //   bent as a smooth curve instead of hinging.
+            //
+            //   Every replacement is FREE, 100% body (no hair, no ribbon), and the best geometric
+            //   match of the source's own influence box: 120 -> 166 (IoU 0.62), 183 -> 292 (0.56),
+            //   125 -> 249 (0.56), 114 -> 245 (0.49), 189 -> 303 (0.45), 127 -> 246 (0.30). Four
+            //   of the six are also what the forward row's inverse says. 125 is NOT: the forward
+            //   row sends it to 150, whose box overlaps the source by 0.10, so geometry wins there.
+            //
+            //   TWO EARLIER READINGS OF THIS WERE WRONG and are recorded so they are not retried.
+            //   Sending upper-body bones to the target's hair COMPONENT looked like the defect; it
+            //   is not, because a component label is an argmax and those bones are the BRAIDS,
+            //   whose targets cover the same space on Chisa. Rendering every mod vertex by the
+            //   share of its weight landing on a Chisa physics bone shows the braids red and the
+            //   ARMS GREY -- the arms were never on a cloth solve.
             // HANDS ARE THE INVERSE OF THE FORWARD ROW'S NOW (2026-10-01): the same defect as the
             //   forward direction and worse -- 9 of her right hand's 18 bones off their exact
             //   counterpart, 18 collapsing onto 14 targets, and the two HEAVIEST bones in the hand,
@@ -1666,14 +1685,14 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {80, 344}, {81, 0}, {82, 0}, {83, 378}, {84, 409}, {85, 409}, {86, 74}, {87, 72}, {88, 74}, {89, 409},
             {90, 74}, {91, 409}, {92, 74}, {93, 72}, {94, 0}, {95, 0}, {96, 0}, {97, 0}, {98, 0}, {99, 0},
             {100, 0}, {101, 0}, {102, 0}, {103, 0}, {104, 0}, {105, 0}, {106, 0}, {107, 0}, {108, 0}, {109, 0},
-            {110, 185}, {111, 172}, {112, 175}, {113, 196}, {114, 343}, {115, 344}, {116, 251}, {117, 343}, {118, 255}, {119, 155},
-            {120, 167}, {121, 193}, {122, 316}, {123, 167}, {124, 199}, {125, 199}, {126, 368}, {127, 372}, {128, 261}, {129, 372},
+            {110, 185}, {111, 172}, {112, 175}, {113, 196}, {114, 245}, {115, 344}, {116, 251}, {117, 343}, {118, 255}, {119, 155},
+            {120, 166}, {121, 193}, {122, 316}, {123, 167}, {124, 199}, {125, 249}, {126, 368}, {127, 246}, {128, 261}, {129, 372},
             {130, 256}, {131, 352}, {132, 353}, {133, 354}, {134, 355}, {135, 356}, {136, 365}, {137, 364}, {138, 363}, {139, 362},
             {140, 357}, {141, 358}, {142, 359}, {143, 360}, {144, 361}, {145, 264}, {146, 265}, {147, 263}, {148, 266}, {149, 383},
             {150, 382}, {151, 381}, {152, 390}, {153, 389}, {154, 384}, {155, 388}, {156, 387}, {157, 377}, {158, 385}, {159, 386},
             {160, 380}, {161, 379}, {162, 0}, {163, 289}, {164, 0}, {165, 289}, {166, 0}, {167, 289}, {168, 290}, {169, 306},
             {170, 305}, {171, 286}, {172, 217}, {173, 307}, {174, 308}, {175, 309}, {176, 324}, {177, 329}, {178, 337}, {179, 291},
-            {180, 293}, {181, 294}, {182, 288}, {183, 284}, {184, 296}, {185, 297}, {186, 311}, {187, 284}, {188, 285}, {189, 286},
+            {180, 293}, {181, 294}, {182, 288}, {183, 292}, {184, 296}, {185, 297}, {186, 311}, {187, 284}, {188, 285}, {189, 303},
             {190, 320}, {191, 321}, {192, 317}, {193, 318}, {194, 322}, {195, 339}, {196, 319}, {197, 335}, {198, 328}, {199, 330},
             {200, 326}, {201, 325}, {202, 323}, {203, 331}, {204, 327}, {205, 332}, {206, 333}, {207, 340}, {208, 338}, {209, 315},
             {210, 334}, {211, 336}, {212, 0}, {213, 0}, {214, 0}, {215, 0}, {216, 0}, {217, 0}, {218, 0}, {219, 0},

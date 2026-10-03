@@ -2319,6 +2319,7 @@ namespace AGRemapCore {
                     readTextureFolder(scan);
                     dumpTextureRoles(scan);
                     collectRoleCandidates(scan);
+                    readSiblingRecolours(scan);
                     narrowRoleCandidates(scan);
                     readComponentTagging(scan);
                     applyTextureRoles(scan);
@@ -2499,6 +2500,132 @@ namespace AGRemapCore {
                     }
 
                     rejectedForRole_.emplace(StringTools::toLower(resource->second), role);
+                }
+
+                /**
+                 * @brief
+                 @rst
+                 The other ``.ini`` files of this mod's folder the game loads
+                 @endrst
+                 *
+                 * Not this one, not a ``DISABLED`` one, and not a copy a fix wrote. The same rule
+                 * the GI component parser uses, for the same reason.
+                 *
+                 * @param self This ``.ini``'s own path
+                 * @return Their paths, sorted
+                 */
+                std::vector<std::string> siblingInis(const std::string& self) const {
+                    std::vector<std::string> result;
+                    std::error_code error;
+                    const std::filesystem::path own = FileService::strToPath(self);
+                    for (const auto& entry : std::filesystem::directory_iterator(own.parent_path(), error)) {
+                        if (!entry.is_regular_file(error)
+                            || std::filesystem::equivalent(entry.path(), own, error)) {
+                            continue;
+                        }
+
+                        const std::string name = FileService::pathToStr(entry.path().filename());
+                        const std::string low = StringTools::toLower(name);
+                        if (!StringTools::endsWith(low, ".ini")
+                            || StringTools::startsWith(low, "disabled")
+                            || low.find(StringTools::toLower(IniKeywords::RemapFix)) != std::string::npos) {
+                            continue;
+                        }
+
+                        result.push_back(FileService::pathToStr(entry.path()));
+                    }
+
+                    std::sort(result.begin(), result.end());
+                    return result;
+                }
+
+                /**
+                 * @brief
+                 @rst
+                 A texture-only recolour in a SIBLING ``.ini``, carried over to the target
+                 @endrst
+                 *
+                 * The shape is the mesh in one file and, beside it, sections of the form
+                 *
+                 *     [TextureOverrideFoo]
+                 *     hash = <the GAME texture it replaces>
+                 *     this = ResourceFoo
+                 *
+                 * On the mod's own character the game binds that texture, so the override reaches
+                 * the mesh and the recolour shows. Remapped, the slots take the TARGET's textures
+                 * and those hashes never appear, so without this the character renders vanilla --
+                 * measured on a synthetic built from the identity mod: 27 files declared, 0 bound,
+                 * and 16 of the target's own downloaded in their place.
+                 *
+                 * The role is STATED rather than guessed: the section's `hash` is the game texture
+                 * it replaces and #WWMITextureFacts::roles is already ``hash -> role``. Only a file
+                 * that draws the mesh reads its siblings, and the mod's own candidates are collected
+                 * first, so where both name a file for one role the mod's own ranks ahead.
+                 *
+                 * The file keeps its declaration in the sibling, which this `.ini` cannot name
+                 * across files -- `applyTextureRoles` gives it a resource of the fix's own, named
+                 * with ``RemapRef`` so an undo leaves the mod's texture where it is.
+                 */
+                void readSiblingRecolours(TextureScan& scan) {
+                    const auto& byHash = config_.sourceTextures.roles;
+                    if (present_.empty() || scan.iniPath.empty() || byHash.empty()) {
+                        return;   // this .ini draws no component, so it is not the mesh file
+                    }
+
+                    std::size_t found = 0;
+                    for (const std::string& path : siblingInis(scan.iniPath)) {
+                        IniFile sibling(path);
+                        const ModBranches::Templates& templates = sibling.getIfTemplates();
+                        const std::string folder = sibling.getFolder();
+                        for (const auto& entry : templates) {
+                            if (entry.second == nullptr
+                                || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
+                                continue;
+                            }
+
+                            const std::optional<std::string> hash =
+                                ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                            const std::optional<std::string> ref =
+                                ModBranches::firstVal(*entry.second, IniKeywords::This);
+                            if (!hash.has_value() || !ref.has_value()) {
+                                continue;
+                            }
+
+                            const auto role = byHash.find(StringTools::toLower(std::string(StringTools::strip(*hash))));
+                            if (role == byHash.end()) {
+                                continue;   // not one of this character's textures
+                            }
+
+                            const auto declared = templates.find(std::string(StringTools::strip(*ref)));
+                            if (declared == templates.end() || declared->second == nullptr) {
+                                continue;
+                            }
+
+                            const std::optional<std::string> file =
+                                ModBranches::firstVal(*declared->second, IniKeywords::Filename);
+                            if (!file.has_value() || StringTools::strip(*file).empty()) {
+                                continue;
+                            }
+
+                            const std::string abs = FileService::absPathOfRelPath(
+                                FileService::iniPathToRel(std::string(StringTools::strip(*file))), folder);
+                            std::error_code error;
+                            if (!std::filesystem::is_regular_file(FileService::strToPath(abs), error)) {
+                                continue;   // the sibling names a file that is not there
+                            }
+
+                            scan.byRole[role->second].emplace_back(
+                                abs, "a sibling .ini overrides " + std::string(StringTools::strip(*hash))
+                                     + ", the game texture it replaces");
+                            ++found;
+                        }
+                    }
+
+                    if (found > 0) {
+                        ctx_.log("a sibling .ini recolours " + std::to_string(found)
+                                 + " of the game's textures; carried over to the target, which binds"
+                                 + " its own and would never see those hashes");
+                    }
                 }
 
                 // Three passes that take candidates AWAY: the same file found twice, a mask that is

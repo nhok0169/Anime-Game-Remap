@@ -2249,7 +2249,7 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
 
         import AnimeGameRemap as AGR
 
-        version = AGR.CppVersion.parse("4.0")
+        version = AGR.Version.parse("4.0")
 
         # fromVersion: the version the mod was made for, toVersion: the version to fix the mod to
         iniFile = AGR.IniFile("changeVersionKeqing.ini", fromVersion = version, toVersion = version)
@@ -3830,7 +3830,7 @@ Reference: https://gamebanana.com/posts/12191289
         RegValChecks = AGR.GIMICharFixerConfig.RegValChecks
         TexEdit = AGR.GIMICharFixerConfig.TexEdit
 
-        ORFix = AGR.IniKeywords.ORFixPath.value
+        ORFix = AGR.IniKeywords.ORFixPath
         NNFix = r"CommandList\global\ORFix\NNFix"
         TexFx = r"CommandList\TexFx\TN.0"
 

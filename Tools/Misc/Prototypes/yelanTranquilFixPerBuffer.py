@@ -406,7 +406,7 @@ def writeBytesFunc(getBytes):
 def makeFixer(component: str, args, components: List[str]):
     plan = Plan[component]
     slot, slotObj = plan["slot"], ("", plan["slot"])
-    naming = FRB.CppIniNamingTools
+    naming = FRB.IniNamingTools
 
     def factory(parser, toModName: str, modTypeId: int):
         ini = parser._iniFile

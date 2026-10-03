@@ -189,14 +189,18 @@ namespace AGRemapCore {
 
         // ONE RETRY CYCLE PER URL PER RUN, not one per .ini file. A failed download is not
         // remembered by the cache (there is no file to copy), so without this every .ini file
-        // wanting a dead url repeats the whole back-off -- measured at 3.31s each, which is about
-        // two minutes for a 36-.ini mod, all of it spent re-learning what the first one found out.
+        // wanting a dead url repeats the whole back-off -- measured at 3.31s each with three
+        // attempts, which was about two minutes for a 36-.ini mod, all of it spent re-learning what
+        // the first one found out. The same goes for a HOST that could not be reached at all: an
+        // offline machine learns that from its first file, and every other file on that host gets
+        // one quick try instead of the whole back-off again.
         //
         // The attempts are RESTORED afterwards rather than left at 1: maxAttempts is the caller's
         // setting, and quietly keeping a temporary override would turn one bad url into a
         // permanently retry-less download object.
         const int configuredAttempts = download != nullptr ? download->maxAttempts : 0;
-        if (download != nullptr && downloadCache != nullptr && downloadCache->hasFailed(download->url)) {
+        if (download != nullptr && downloadCache != nullptr
+                && (downloadCache->hasFailed(download->url) || downloadCache->isHostUnreachable(download->url))) {
             download->maxAttempts = 1;
         }
 
@@ -209,6 +213,10 @@ namespace AGRemapCore {
 
                 if (downloadCache != nullptr) {
                     downloadCache->markFailed(download->url);
+
+                    if (download->lastFailureWasTransient()) {
+                        downloadCache->markHostUnreachable(download->url);
+                    }
                 }
             }
 

@@ -23,11 +23,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Creates new :cpp:class:`ModType` objects for GI (Genshin Impact) mods :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the pure-Python ``GIBuilder`` class (``constants/GIBuilder.py``), but builds the
-     lighter, C++-side :cpp:class:`ModType` (id, name, and aliases only) instead of the full
-     pure-Python ``ModType``
+     Creates new :cpp:class:`ModType` objects for GI (Genshin Impact) mods
      @endrst
      */
     class GIBuilder {
@@ -204,6 +200,16 @@ namespace AGRemapCore {
             static ModType lisaStudent();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Lumine
+             */
+            static ModType lumine();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for LumineHeaven
+             */
+            static ModType lumineHeaven();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for Mona
              */
             static ModType mona();
@@ -322,17 +328,12 @@ namespace AGRemapCore {
              Every :cpp:class:`ModType` this builder knows how to make, freshly built on each call
              :raw-html:`<br />` :raw-html:`<br />`
 
-             The counterpart to the pure-Python ``ModTypes.getAll()`` (``constants/ModTypes.py``).
-             Note this is *not* the same set as :cpp:enum:`ModTypeId`'s members: the two boss ids
-             (``RaidenBoss``, ``ArlecchinoBoss``) are only ever remap targets and have no factory
-             :raw-html:`<br />` :raw-html:`<br />`
-
-             Nor is it the same *size* as that counterpart any more: this builds **45** mod types
-             against ``ModTypes.getAll()``'s 43, because ``Yelan`` and ``YelanTranquil`` were added
-             on the C++ side only (measured 2026-09-13)
+             Note this is *not* the same set as :cpp:enum:`ModTypeId`'s GI members: ids that are
+             only ever remap targets (the boss ids ``RaidenBoss`` and ``ArlecchinoBoss``, and the
+             component ids of a multi-component skin) have no factory
              @endrst
              *
-             * @return All 45 GI mod types
+             * @return All the GI mod types
              */
             static std::vector<ModType> all();
     };

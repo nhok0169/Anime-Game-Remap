@@ -77,39 +77,27 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        Divergences from the pure-Python original, all deliberate:
+        Things to know when using or extending this parser:
 
         * **The ``.ini`` file is reached through** :cpp:class:`IniParseContext`, not through
           :cpp:member:`BaseIniParser::iniFile_` -- see that interface's own note on why. The
           inherited ``iniFile_`` stays ``nullptr`` for every real caller
         * **Every** :cpp:type:`ObjTargetFunc` **takes 6 arguments**
-          ``(parser, sectionName, section, disjoint, part, kvps)``, which is exactly what the
-          original *documents*. The original's own by-name default is written with a **7th**
-          ``partInd`` parameter and called with 7 arguments, so any user-supplied function written
-          to the documented 5-plus-self shape raises ``TypeError`` the moment the by-name strategy
-          runs. Reported rather than reproduced
-        * **The by-`KVP`_ strategy passes the real** `section`_ **in the ``section`` slot.** The
-          original passes the :cpp:class:`IfContentPart` there instead (so ``section`` and ``part``
-          are the same object), contradicting its own documented signature. Nothing in the codebase
-          reads that argument, so this is a strictly-better fix rather than an observable change
+          ``(parser, sectionName, section, disjoint, part, kvps)``, for both the by-name and the
+          by-`KVP`_ strategy
+        * **The by-`KVP`_ strategy passes the real** `section`_ **in the ``section`` slot**, and the
+          :cpp:class:`IfContentPart` being classified in the ``part`` slot
         * **#getDownloads returns a typed** :cpp:type:`DownloadNeeds` (a
-          :cpp:class:`DownloadTargets` struct holding *either* parts *or* `sections`_) rather than
-          the original's ``Union[Set[IfContentPart], Set[IfTemplate]]`` -- there is no such union
-          type in C++, and which side is populated is already decided by
-          :cpp:func:`IniParseDownloadData::refToSection`
+          :cpp:class:`DownloadTargets` struct holding *either* parts *or* `sections`_); which side
+          is populated is decided by :cpp:func:`IniParseDownloadData::refToSection`
         * **#removeAddedIfTemplates iterates its own name set** rather than the ``.ini`` file's
-          `section`_ map. The original iterates the map while popping from it, which raises
-          ``RuntimeError: dictionary changed size during iteration`` -- unreachable today only
-          because nothing ever adds to ``_addedIfTemplateNames``, this class included. #parse still
-          adds nothing to #addedIfTemplateNames (faithful), but the method now works if a subclass
-          or fixer does
-        * **The ``textureOverrideClassifier`` cache is a real typed member**, not an entry in the
-          free-form ``tempKwargs`` dict the original stashes it in. ``tempKwargs`` itself survives
-          on the `Python`_ binding as the user-facing scratch space it's documented to be
-        * **#parse returns a real result**, where the pure-Python original returns ``None`` and
-          leaves everything on the parser. It hands back the single :cpp:class:`IniGraphGroup`
+          `section`_ map, so it is safe while `sections`_ are being removed. #parse itself adds
+          nothing to #addedIfTemplateNames, but the method works if a subclass or fixer does
+        * **The ``textureOverrideClassifier`` cache is a real typed member**. ``tempKwargs`` is
+          still available on the `Python`_ binding as a user-facing scratch space
+        * **#parse returns a real result**: the single :cpp:class:`IniGraphGroup`
           :cpp:func:`BaseIniParser::parse` promises -- see #collectParseResult for its exact shape.
-          #commandGraphs / #downloadResourceGraphs still work, and are still the *live* graphs
+          #commandGraphs / #downloadResourceGraphs remain available, and are the *live* graphs
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -123,7 +111,7 @@ namespace AGRemapCore {
      wants :raw-html:`<br />` :raw-html:`<br />`
 
      It is a parameter purely so the `pybind11`_ layer can splice its own subclass (the one holding
-     the ``_iniFile``/``_modsToFix`` `Python`_ state the pure-Python ``BaseIniParser`` had) into the
+     the ``_iniFile``/``_modsToFix`` `Python`_ state the `Python`_ ``BaseIniParser`` exposes) into the
      hierarchy *between* this class and the core base. Without it, ``py::class_<GIMIParser,
      BaseIniParser>`` could not be registered against a `Python`_-state-carrying base at all, since
      `pybind11`_ inheritance needs a single, real C++ inheritance path -- and the alternatives
@@ -199,8 +187,7 @@ namespace AGRemapCore {
              Takes, in order: this parser, the name of the `section`_, the `section`_ itself,
              whether only one result is wanted, the :cpp:class:`IfContentPart` being classified
              (``nullptr`` unless #trackKeys), and that part's `KVP`_ colouring (``nullptr``, same
-             condition). Returns the mod objects the `section`_ belongs to, empty for none --
-             see this class's own note on why this is 6 arguments and not the original's 7
+             condition). Returns the mod objects the `section`_ belongs to, empty for none
              @endrst
              */
             using ObjTargetFunc = std::function<std::vector<ModObj>(GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>&, const std::string&,
@@ -209,9 +196,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Where one register's missing file has to be referenced from -- the typed replacement
-             for the original's ``Union[Set[IfContentPart], Set[IfTemplate]]``, see this class's own
-             note
+             Where one register's missing file has to be referenced from: either a set of parts or
+             a set of `sections`_, see this class's own note
              @endrst
              */
             struct DownloadTargets {
@@ -282,13 +268,13 @@ namespace AGRemapCore {
                  * @brief
                  @rst
                  The draw `KVP`_ (``drawindexed``), which makes a download's coverage test
-                 ORDERED -- empty for the old, unordered test :raw-html:`<br />` :raw-html:`<br />`
+                 ORDERED -- empty for the unordered test :raw-html:`<br />` :raw-html:`<br />`
 
-                 A `section`_-level download is added where the mod does not cover the register, and
-                 "cover" used to mean "binds it ANYWHERE". A mod that DRAWS before it binds is then
-                 taken for covered, and that draw renders with whatever the game had bound -- the
-                 TARGET's own textures once remapped, which on one CitlaliWhisperofStars mod put
-                 Citlali's gloves, boots and hat on the skin (2026-09-22). With this set, a root whose
+                 A `section`_-level download is added where the mod does not cover the register.
+                 Under the unordered test "cover" means "binds it ANYWHERE", so a mod that DRAWS
+                 before it binds is taken for covered, and that draw renders with whatever the game
+                 had bound -- the TARGET's own textures once remapped (for example, Citlali's gloves,
+                 boots and hat drawn on a CitlaliWhisperofStars mod). With this set, a root whose
                  first draw comes before the register is bound counts as uncovered, and the download
                  lands at the top of the `section`_ where the mod's own binding overrides it for the
                  draws that follow
@@ -301,14 +287,14 @@ namespace AGRemapCore {
                  @rst
                  Per mod object, per download register: other registers ANY of which, bound in a
                  `section`_, satisfy that register's download too -- empty for the one-register test
-                 every caller had before :raw-html:`<br />` :raw-html:`<br />`
+                 :raw-html:`<br />` :raw-html:`<br />`
 
                  A download keyed on one register fires whenever THAT register is unbound, and a
                  character's mods need not agree on which register a texture goes to. Neuvillette's
                  head is written in two layouts -- plain (diffuse ``ps-t0``, light map ``ps-t1``) and
                  normal-map (diffuse ``ps-t1``, light map ``ps-t2``) -- so a diffuse download on
-                 ``ps-t0`` fired on every normal-map mod and put the diffuse in the NORMAL MAP slot
-                 (a hair ribbon drawn flat green, 2026-09-24). A section binding any of its object's
+                 ``ps-t0`` would fire on every normal-map mod and put the diffuse in the NORMAL MAP
+                 slot (a hair ribbon drawn flat green). A section binding any of its object's
                  texture registers brings its own set; this says so. Only the section-level
                  (``refToSection``) test reads it -- see :cpp:func:`getDownloads`
                  @endrst
@@ -410,7 +396,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                #parse never adds to this, matching the pure-Python original exactly -- the
+                #parse never adds to this -- the
                 ``Resource...RemapDL`` and ``TextureOverride...RemapFix`` `sections`_ it
                 synthesizes stay in the ``.ini`` file, because the fixers that run after it need
                 them. It is public so a subclass or fixer that *does* want its own additions
@@ -434,9 +420,7 @@ namespace AGRemapCore {
              @rst
              The mod objects to parse, in walk order :raw-html:`<br />` :raw-html:`<br />`
 
-             A ``std::vector`` rather than a set: the pure-Python original is documented as taking
-             a ``Set`` but every real caller hands it an ``OrderedSet``, and that order is
-             load-bearing -- it decides the order the command graphs are built (and so rendered)
+             A ``std::vector`` rather than a set, because the order is load-bearing -- it decides the order the command graphs are built (and so rendered)
              in. Duplicates are dropped on assignment, first occurrence winning
              @endrst
              */
@@ -564,9 +548,8 @@ namespace AGRemapCore {
              @endrst
              * @param fromRoots
              @rst
-             Whether to make sure 'parser''s #globalGraph exists first. Has no other effect --
-             faithful to the pure-Python original, whose own parameter is likewise consulted
-             nowhere else. **Default**: ``true``
+             Whether to make sure 'parser''s #globalGraph exists first. Has no other effect.
+             **Default**: ``true``
              @endrst
              *
              * @return The mod objects the `section`_ was classified into, empty for none
@@ -701,9 +684,8 @@ namespace AGRemapCore {
              Finds the "entry point" `section`_ names of every mod object in #modObjs, into
              #sectionTargets :raw-html:`<br />` :raw-html:`<br />`
 
-             Public rather than protected because the pure-Python original's own
-             ``_getSectionTargets`` is only private by naming convention, and the `Python`_ API
-             keeps exposing it under that name
+             Public rather than protected because the `Python`_ API exposes it as
+             ``_getSectionTargets``
              @endrst
              */
             virtual void getSectionTargets();
@@ -739,11 +721,11 @@ namespace AGRemapCore {
              missing an object outright and a download has to be hung off something (see
              :cpp:func:`addDownloads`). A section built from nothing but the download's register
              is a ``TextureOverride`` with no ``hash``, and a ``TextureOverride`` with no ``hash``
-             matches no draw call -- so the file is fetched, written, referenced, and never used.
-             Reported from in game on a Kirara mod with no face diffuse :raw-html:`<br />`
+             matches no draw call -- so the file is fetched, written, referenced, and never used
+             (for example, a Kirara mod with no face diffuse) :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Left unset the invented section keeps the old behaviour, so a parser that never
+             Left unset, the invented section carries only the download's register, so a parser that never
              invents one need not provide it. :cpp:func:`makeGIMICharParser` supplies it from the
              same maps its classifier uses, which is the point: the assets that let the classifier
              RECOGNISE a section are exactly the ones an invented section has to CARRY
@@ -780,13 +762,6 @@ namespace AGRemapCore {
              graph that asked for it :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The pure-Python original guards per ``(mod object, register)`` resource graph
-                instead, so a shared download is built once per register -- and the second build
-                raises ``ValueError: ... FileDownload: Python instance was disowned``, because
-                ``RemapIniDownload`` takes ownership of the ``FileDownload`` the first one already
-                handed it. That made sharing a download across registers unusable rather than
-                merely wasteful :raw-html:`<br />` :raw-html:`<br />`
-
                 Sharing one ``FileDownload`` object across two *different*
                 :cpp:class:`IniParseDownloadData`\s is still not supported, for the same
                 ownership reason -- give each its own

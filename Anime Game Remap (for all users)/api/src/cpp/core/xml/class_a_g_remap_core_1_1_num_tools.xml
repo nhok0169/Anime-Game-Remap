@@ -68,8 +68,8 @@ separator is always ``.``
 Tools for rendering numbers as text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Separate from :cpp:class:`StringTools`, which promises `grapheme`_ semantics that mean nothing
-for a run of ASCII digits, and from :cpp:class:`TextTools`, which is a partial port of the
-pure-Python ``TextTools`` and should keep matching it
+for a run of ASCII digits, and from :cpp:class:`TextTools`, which holds a subset of the
+`Python`_ ``TextTools`` class&apos;s methods and should keep matching it
 </verbatim> </para>
     </detaileddescription>
     <location file="include/AGRemapCore/tools/NumTools.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/NumTools.h" bodystart="32" bodyend="57"/>

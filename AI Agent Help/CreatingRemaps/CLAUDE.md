@@ -361,7 +361,15 @@ implemented** against two things:
    * cloth the target has no bones for (capes, tails, flaps -- does it tear, fold, swing, clip?), single-layer
      cloth whose inside the target's shader lights differently;
    * the fix run TWICE on one folder (every file still there? nothing counted fixed that was not?), undone,
-     and a non-Latin folder name.
+     and a non-Latin folder name;
+   * a GLOW (diffuse alpha 255) in a colour the target's shader tints, a two-sided part the target draws
+     one-sided, and a texture edit configured on an object a PLAIN component draws (the component template
+     applies `diffuseEdits` / `lightMapEdit` only on a normal-map component -- silently none on a plain one).
+   * **Re-fixing in place downloads again, and GitHub fails intermittently** ("Could not resolve host"): run
+     `Tools/Misc/Diagnostics/check_dangling.py <mod>` after every re-fix and re-run until it is clean. A head
+     draw bound to a file that never landed makes the whole remap invisible. (Rarer since 2026-10-02: a
+     download now retries for about 23s, not 3s, and a run shares one DNS cache. A failure is still possible,
+     so keep the check. See Overview habit 89.)
 
 **How.** A read-only subagent given this file, the configs of both directions and the comparable pairs'
 configs, and asked for a numbered COVERED / NOT COVERED checklist, did the first pass of the 2026-09-26
@@ -414,6 +422,14 @@ surprises you.
 | a **mantle / cape sleeve, a cuff or a loose panel** sticks out or hangs wrong on the target when an arm moves | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 8: find the target's REAL forearm by which bone shares vertices with the hand chain, and audit the rows for left / right asymmetry |
 | **dark shards or wedges in LAYERED hair** (long hair of two-sided sheets, a fringe over a fringe) that turn with the camera, while the same mod's texture and bones check out | "YAOYAO <-> YAOYAOBAMBOO", point 8. It is the outline shell of the INNER faces, drawn in front of the outer ones. Confirm with `if vs != 037730.0` around the draw (shards gone, so it is the outline), locate it with `Tools/Misc/Diagnostics/outlinePaint.py`, then fix with `Component::innerOutlineObjs`. Lowering the outline width does NOT shrink them, and that is the test that rules out "the shell sits too far out" |
 | **white cheeks** on the remap, **and on the BASE outfit too** | "The face diffuse" below (a `ps-t0` <-> `ps-t1` swap). A remap corrects the base as well; the maintainer calls this a GI 6.1 break, not the mod's fault. If the output has **no remapped face section at all**, the swap never ran: see "YAOYAO <-> YAOYAOBAMBOO", point 9 (a face hash two characters share, and the versionless lookup). Check the face in the SHOP PREVIEW at full-resolution crops over several frames, because a single frame can catch a blink |
+| **the face washes out / loses its lashes** after a remap onto (or from) a skin, the eyes themselves right | "LUMINE <-> LUMINEHEAVEN", point 2: the two characters draw DIFFERENT face meshes and a face atlas does not move between them. Compare the face-shader draws' ib hashes in both frame dumps; if they differ, carry no face (`Component::face = false`, the merge's `faceReg = ""`) |
+| **one slot's texture is wrong only on the TARGET of a merge** (dark eyes, a light map colouring a part), the mod right on its own skin | "LUMINE <-> LUMINEHEAVEN", point 5: the mod binds that slot in the GAME's register order and a per-register download doubled a role. Read the fixed `.ini`'s member block for two textures of one role; `GIMIComponentParserConfig::downloadsByName` |
+| a **GLOW looks wrong on the target** -- gold / orange where the source glows blue, or a glowing part DARKER than on the source | "LUMINE <-> LUMINEHEAVEN", point 7. A diffuse alpha of 255 is "glow" on most GI body shaders, and the target's shader may tint every glow its own colour. Paint the glow white on both sides to see the tint, then clear the alpha of the pixels the tint ruins AND bake the lost brightness into their colour, tapered, or bright parts clip to cyan. Then "A FIX LIBRARY DECIDES WHAT A PASS READS" for any TexFx glow, whose variant follows the section's layout |
+| the **inside of a skirt / coat** shows the OUTSIDE's texture, or black, where the source shows a pattern | "LUMINE <-> LUMINEHEAVEN", point 7: the source's shader is two-sided and textures back faces through `TEXCOORD1`. `Component::mirrorBackUV` on the mirrored layer |
+| **grey / brown polygons poking through** a coat or skirt that models its own lining | "LUMINE <-> LUMINEHEAVEN", point 4: mirrored twins landing in front of the lining. `Component::mirrorBackedReach` |
+| **small dark squares / wedges** on layered CLOTHING that change colour with a band edit but never go away | "LUMINE <-> LUMINEHEAVEN", point 11: the outline shells of the under-layer. Zero the vertex colour alpha (the outline width) as the test, then `Component::innerOutlineObjs` |
+| **white cloth goes warm, or hair goes two colours, in the overworld's SHADE** only (the Dressing Room looks fine) | "LUMINE <-> LUMINEHEAVEN", point 10: one skin slot carries cloth and hair, and a draw shades everything as one of them. `GIMIMergeFixerConfig::Slot::splitFrom` splits it by light map band. Test in the overworld's shade (`look DX DY`), never only in the preview |
+| two configs of one pair **disagree about a slot's layout** (normal map or not) | "A TexFx call follows the TARGET's layout", the YelanTranquil slot C paragraph, and [Overview](../Overview/CLAUDE.md)'s habit 86: trace both through ORFix before "fixing" either |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Four things hold whichever row you are on, and each has cost a session:
@@ -489,8 +505,9 @@ Six things that will cost you an hour each if you learn them the hard way:
 * **Attach a logger or read `RemapService.stats`.** A prototype that raises is caught by the
   per-`.ini` guard and recorded in `stats.ini.skipped` --- and with no logger, printed **nowhere**.
   Every defect found while writing those two scripts was diagnosed through that dict.
-* **`FRB.IniNamingTools` is not the naming the compiled fixes use.** It is the pure-Python class,
-  and its `getModSuffixedName` has a confirmed bug. Use **`FRB.CppIniNamingTools`**.
+* **`FRB.IniNamingTools` is the naming the compiled fixes use** (the C++ class, since 2026-10-01).
+  An older prototype may say `FRB.CppIniNamingTools`: that name is gone, and so is the buggy
+  pure-Python class it was chosen over.
 * **A prototype is not proven by running.** Diff it against something --- the compiled fix if the
   character has one (`--ab`), the old script if it does not.
 * **A `GIMIObjPartFilter` must outlive the callables `filter()` hands out.** They point back at
@@ -506,6 +523,10 @@ Six things that will cost you an hour each if you learn them the hard way:
   `resource.fix()` from Python worked. And give each resource a `resType` the stats know
   (`blend` / `position` / `texcoord` / `buf`); the default `resourceRemapBlend` was counted nowhere
   until the same day.
+* **Port a numpy texture filter in `double`, not `float`.** numpy computes in float64. Lumine's
+  tapered glow gain written in C++ `float` moved 40 texels of a 4096 x 4096 diffuse by one, and the
+  A/B flagged it as two texture md5s in three sections. Constants, the taper and the multiply all
+  have to be `double`, and the rounding has to match too (`+ 0.5`, then truncate, like `astype(uint8)`).
 * **Buffers that depend on each other go through `ResGroupCollect`, and a draw call filled
   afterwards wants `RegFillMissingMode.BottomCover`.** A `ResRegCollect` per buffer is the naive
   shape (issue #190): the blend decides which vertices a component keeps, the ib which triangles,
@@ -1917,7 +1938,9 @@ merge-direction mods moved nothing but Bennett5 (point 3).
    (this skin reads normal-map B as a GLITTER mask). No band move: his white mods render right on the skin's legend
    (`CppMaterialBandRemapFilter` is bound to Python now, for the next pair that needs one). A download's first
    request can fail DNS (`Could not resolve host`) three times inside 3 s and leave a slot bald for that run --
-   environmental, but it reads exactly like a fix bug.
+   environmental, but it reads exactly like a fix bug. (Since 2026-10-02 it gets six attempts over about 23 s.
+   The run logs show only that these outages outlast 3 s, not how long they last, so a skip is still possible;
+   Overview habit 89.)
 
 10. **His eyes were WHITE, with no pupils, on the skin -- on every mod, the identity too** (reported on
    Neuvillette3, 2026-09-25). Everything a texture question asks came back clean: the eye region of his head atlas
@@ -2200,6 +2223,200 @@ face diffuse hash (`c70ae897`). Prototypes: `Tools/Misc/Prototypes/yaoyaoBambooF
    the swap, so the face is bound by hand.
    To find the next one: `py -3` over `HashData.cpp` for any `tex_face_diffuse` value filed under two names, then
    `Hashes().getKey(value, None, [base, None], False)` -- `None` is this bug.
+
+## A FIX LIBRARY DECIDES WHAT A PASS READS: LOOK IT UP, DO NOT REASON ABOUT IT (2026-09-30)
+
+ORFix and NNFix do not "fix" a section in general. They read the section's bindings into `ResourceDiffuse` /
+`ResourceLightmap` / `ResourceNormalMap` (`CommandListReference` for ORFix's normal-map layout,
+`CommandListReferenceNoNormal` for NNFix's plain one), then `CommandListFixLogic` writes them back per PASS,
+choosing a branch by the `filter_index` of the vertex / pixel shader being drawn. So "what does the target's
+draw actually read" has a definite answer, in four greps:
+
+1. the pass's 16-hex shader hashes: a frame dump's filenames (`000046-...-vs=d4c01363144d79d6-ps=93dcb43f769ee6da...`);
+2. their `filter_index` in `Core/GIMI/Libraries/ORFix.ini` (`hash = d4c01363144d79d6` -> `filter_index = 037731.1`);
+3. the `CommandListFixLogic` branch that index takes (`037731.1` -> `CommandListLDX`; an outline vs at `037730.0`
+   -> `CommandListFixReflection`; an AA pass at `037738` -> `CommandListDiffuseSlot0`; no match -> `LDX`);
+4. what that branch writes (`LDX`: light map at `ps-t0`, diffuse at `ps-t1`, normal map DROPPED).
+
+A slot's layout in the config can differ from the game's draw and still render identically when every branch
+discards the difference (YelanTranquil slot C, below). **TexFx is a different mechanism, so do not extend this
+reasoning to it**: a `run = CommandList\TexFx\...` draws nothing on its line -- it sets `$use_default_shader`, and
+TexFx's shader serves that request on the next OUTLINE draw (Citlali's "A TexFx call is a REQUEST" note, found with
+a frame dump's `logDraw`). Its two shaders differ only in where they read the diffuse (`OutlineWithDiffuseColor0`
+from `t0`, `...1` from `t1`, in `Mods/TexFx-main/hic_sunt_dracones/`), and which one is right was settled in game,
+not by tracing: see the next section.
+
+## A TexFx call follows the TARGET's layout (2026-09-30)
+
+TexFx has one entry point per shader layout: `.0` for a part with no normal map, `.1` for one with it at `ps-t0`
+(`T.0` / `T.1`, `Transparency`, `TN`, `TNat`, `TransparencyNatlan`, `C`, `Component`, `CN`, `CNat`, `ComponentNatlan`;
+the unsuffixed `T`, `Transparency`, `C`, `Component` mean `.0` and the Natlan families mean `.1`, per TexFx's own
+`Main.ini`). A mod's call names ITS character's layout, so a part moved between layouts must move its call: Lumine10's
+`T.0` on LumineHeaven's normal-map slots barely glowed. An audit of the agent-built pairs (the maintainer asked for it)
+found only Lumine -> LumineHeaven switching, and eleven directions missing it -- Yelan, Bennett and Yaoyao both ways,
+LumineHeaven -> Lumine, Charlotte's eyes, CharlotteHurlock's slot C and eyes, CitlaliWhisperofStars' slot D,
+Neuvillette's bangs, NeuvilletteMelusent's eye.
+
+`TexFxLayout` (`data/IniFixData/TexFxLayout.{h,cpp}`, `core/tests/TexFxLayout_test.cpp`) maps a call onto a layout;
+`GIMIComponentFixerConfig::texFxLayoutSwitch` and `GIMIMergeFixerConfig::texFxLayoutSwitch` (both ON by default) apply
+it: the component template per drawn object, from the object's detected source layout against the component's
+`normalMap`; the merge template per source slot, from the layout read off the mod (`normalMap_`) against
+`targetLayout`, on the slot's own graph before the remap. **A call already naming the target's layout is never
+touched**, so an author's deliberate choice (a Citlali mod's `TN.0` on a normal-map body) survives wherever the layout
+does not change. Verified by injecting each source's own variant into every slot section of one real mod per direction
+(`texfxSynth.py` in the session scratchpad: copy, add `run = CommandList\TexFx\T.n` after every `match_first_index`,
+fix, list each remapped section's calls) -- the corpus has TexFx mods for only Citlali, CitlaliWhisper, Neuvillette,
+Yaoyao, Charlotte, CharlotteHurlock and Lumine, and of those only two Yaoyao mods' output moved (their eye, `T.1` ->
+`T.0` on YaoyaoBamboo's plain eye slot).
+
+**"The target's layout" means the layout the remapped SECTION binds in (with its fix call), not the game's own
+draw.** That is the in-game evidence: Lumine10's call on LumineHeaven's normal-map sections (ORFix) glowed like her
+own outfit only as `.1`. The mechanism is NOT that TexFx draws at its line (an earlier version of this paragraph said
+so, and it is wrong: the call is a request served on the next outline draw, see Citlali's note). How the registers
+stand when that draw serves it -- after the section's bindings and ORFix's outline branch -- has not been traced
+through a frame dump, so if a TexFx part looks wrong on a slot whose config layout differs from the game's draw,
+dump a frame and `logDraw` the outline draw before trusting this rule. The section and the game's draw usually agree
+anyway. YelanTranquil's Body slot C is where they do not (looked at 2026-09-30). Her own draw of it (`ib 611d6168`, first index 67374, the dump
+`FrameAnalysis-YelanTranquil-2026-09-12-060339`, draw 46) runs the two-sided cloth shader `vs d4c01363` / `ps
+93dcb43f`. It binds light map / diffuse / `b0e08915` with NO normal map, which is why the REVERSE config
+(`YelanTranquilFixer.cpp`) reads her mods' slot C as plain. The FORWARD config (`YelanFixer.cpp`) writes it in the
+normal-map layout under ORFix, and that is NOT a bug:
+- ORFix sends every pass of that shader through branches that read only the diffuse and the light map: `LDX` for the
+  draw (`vs d4c01363` is filter `037731.1`), `FixReflection` for the outline, `DiffuseSlot0` for the AA passes. The
+  flat normal map is thrown away, so the two layouts render alike.
+- The section binds the normal-map layout under ORFix, Lumine10's proven case, so the switch picks `T.1` there. No
+  Yelan mod in the corpus calls TexFx, so that is untested in game on this slot.
+- Switching the forward config to plain was built and thrown away: the component template's `buildTexEdits` applies
+  `diffuseEdits` / `lightMapEdit` ONLY on a normal-map component. The plain slot C bound the mod's raw head diffuse and
+  light map, losing the band legend and the alpha-1 head that were confirmed in game.
+- **That gap is real for the next pair**: a plain component whose objects need a texture edit gets none, silently.
+
+## LUMINE <-> LUMINEHEAVEN (2026-09-29): the seventh component pair, compiled both ways
+
+Lumine is one mesh (`head`, `body`, `dress`, all PLAIN; the assets repo files her as `TravelerGirl`, and so do half her
+mods' section names -- both are keywords); LumineHeaven ("As Heaven and Earth Are Made Anew", 6.3) is an unnamed main mesh
+(Head / Body), a `Bang` and an `Eye`, the YaoyaoBamboo shape. **The skin is not in the outfit shop**: its preview is the
+character menu's Dressing Room (`c`, then `r`, then its card), which previews it without owning it -- so there is no
+overworld test of the skin on this account. **No asset repo has the skin**: its download folder and hash rows came from a
+frame dump of that preview (`genshin_3dmigoto_collect.py`, the 6.x role relabel, `giDownloadFolder.py`), and Lumine's own
+folder needed today's dump too -- the repo's dump files still carry her pre-4.3 ib hash, and her body light map had been
+redrawn since (`d298f0bc`, filed at 6.3). Prototypes: `Tools/Misc/Prototypes/lumineHeavenFix.py` and
+`lumineFromHeavenFix.py` (the oracles), synthetic skin mods `lumineHeavenSynth.py`, A/Bs
+`Tools/Misc/Diagnostics/abLumine.py` / `abLumineRev.py`.
+
+1. **Yaoyao's head fix was HALF right for this pair -- test each half.** Her head diffuse is alpha 255 and the skin's head
+   shader reads alpha, so her hair glowed ORANGE until it was set to 1 (as Yaoyao's). But the light map band move Yaoyao
+   needed (her 255 onto the skin's hair band 127) GILDED Lumine's hair next to her own pale cream; left on 255 it matched.
+   The two edits were separated by building four variants (band / alpha on and off) and shooting the same frame of each --
+   a template decision copied from the neighbouring pair is a hypothesis.
+2. **A skin with its OWN face meshes cannot take a mod's face texture.** The two characters draw different face meshes
+   (hers `3049e662` / `92af2d49`, the skin's `15825079` / `82d9b411`) and their face atlases paint the eyes differently
+   (hers open eye-whites, the skin's closed lid-lines). A face section remapped by hash put her atlas on the skin's mesh:
+   lashes gone, the face washed out, while the skin's own face with her eyes (the Eye component) looked like her. So
+   neither direction carries the face (`Component::face = false`; the merge's `faceReg = ""`), and a mod repainting the face
+   keeps the target's face. Compare Neuvillette, where the skin's face texture differs but the meshes are SHARED, and the
+   face does carry. **Check whether the face MESHES are shared (the face-shader draws' ib hashes in both dumps) before
+   carrying a face.** `sideMeshes` still translates a mod hiding the face by hash.
+3. **`SourceLayout::Detect` misreads an older mod's metal map.** Two of her mods are the older GIMI shape: diffuse, light
+   map, then a `MetalMap` / `ShadowRamp` at `ps-t2` / `ps-t3` and no fix call. Detect took the `ps-t2` for a normal-map
+   layout and put the kimono's light map in the diffuse slot (vivid green). She has no normal map on any object and none of
+   her mods binds one, so the forward is `Plain` -- Bennett's reason, and the warning `SourceLayout` already carries.
+4. **Single-layer cloth on her DRESS needs a mirrored inner layer on the skin's Body shader** (Neuvillette's
+   `mirroredObjs`): a coat's lining came out bright blue, the long drapes dark, where on her own outfit they are pale.
+   **But not where the mod models its own lining** (2026-09-30): a twin moved `mirrorOffset` (5 mm) inward from a coat
+   lands IN FRONT of a lining a few millimetres behind it, and showed as flat grey polygons over Lumine2's coat flaps
+   and brown ones on Lumine7's dress. Ray-cast over every Lumine mod's dress, 13-70% of the twins crossed a layer facing
+   the other way within 5 mm (Lumine9: 28176 of 40793). `Component::mirrorBackedReach` (new, 0 = off; Lumine 0.01)
+   gives no twin to a triangle WHOLLY backed like that -- its centroid AND a point near each corner all reach the lining
+   (`InnerLayerOutline::backed`) -- and keeps every other twin SHORT of the lining: each copied vertex moves inward at most
+   half way to the layer behind it (`InnerLayerOutline::behind`, `VGComponentBuffers::mirrorLimits`). The first version
+   dropped a twin when ANY of the four points reached a lining, and the part of the triangle the lining did not cover
+   showed its back face: brown patches inside Lumine7's skirt at the front opening, still there in the maintainer's
+   second check (2026-09-30). **A twin either pokes through a lining or leaves a hole beside it; the answer is neither --
+   keep it, and keep it behind the lining.** Two traps it hit, both general: the FIXER's own split (the one the `.ini`'s vertex count and draw ranges come from) has
+   to read the same geometry as the buffers' writer (`VGComponentSplit::readGeometry`), or the `.ini` kept drawing
+   67224 indices out of a 50763-index buffer; `Tools/Misc/Diagnostics/drawFits.py <folder>` is the check: every explicit `drawindexed`
+   of a remapped section must fit the index buffer it binds (it failed against that build and passes now). Neuvillette keeps 0 (verified
+   output, byte-identical); it may want the same, untested.
+5. **A skin mod may write a slot in the GAME's register order, and a per-register download then doubles a role.**
+   LumineHeaven1's Eye binds only `ps-t1 = ...Diffuse` -- right on the skin's own 6.x eye shader, which reads the diffuse
+   there. The parser saw `ps-t0` empty and downloaded the game's eye diffuse into it, so the Eye member carried TWO textures
+   named a diffuse; the merge's `texRegsByName` rightly believed neither, read by position, and the mod's diffuse became the
+   light map: dark brown eyes on Lumine. `GIMIComponentParserConfig::downloadsByName` (new, off by default): when a slot's
+   own section binds under names that are believed, a role it binds gets no download and a missing role whose register is
+   taken is downloaded onto a free one -- the Eye now carries the mod's diffuse and the GAME's eye light map, amber again.
+   Decided before `Parser::getSectionTargets` applies the downloads, off the slot's own section only (not through `run =`).
+   Three other characters' mods fix byte-identically with it built in.
+6. **Her centre front panel has no centre counterpart** (the skin's front skirt is a left and a right chain); it rides the
+   right chain, flagged for a walking check the account cannot do on this skin.
+7. **A mod's COOL glow is cleared, not carried** (2026-09-30). Lumine10's arm guards, gems and boots are blue on her and
+   came out green / orange on the skin -- with TexFx off on both sides too (the maintainer's test), so not TexFx. Her
+   body diffuse marks those pixels with alpha 255, which the skin's body shader reads as "glow" and multiplies by its own
+   warm gold (a glow painted white: white on her, red-orange on the skin). `diffuseEdits` on body and dress now clear the
+   alpha of a pixel that is bright (max RGB > 60) and bluer than red; the skin then lights it in its own colour: blue.
+   Clearing ALL alpha-255 pixels was wrong -- the skin reads that alpha on dark cloth too, and her black dress went grey.
+   A warm glow keeps its alpha (the tint barely moves it). Only Lumine10 has much of it (1.4M pixels; others 0-14k).
+   **And the GLOW itself comes from TexFx's normal-map variant** (the maintainer's point): TexFx has one sub-command per
+   shader layout, `.0` for a part with no normal map and `.1` for one with it at `ps-t0`, and a mod's call names ITS
+   character's layout. Lumine has none, the skin's slots have one, and `T.0` there glowed faintly where `T.1` glows like
+   her own outfit. That became a rule for EVERY agent-built pair -- see "A TexFx call follows the TARGET's layout". **And her starry
+   skirt LINING was not TexFx at all**: her dress shader is TWO-SIDED (`is_front_face`) and textures a back face through
+   `TEXCOORD1` -- Lumine10 maps 1101 back faces into a galaxy quadrant of its atlas, and even her vanilla model carries a
+   second UV set on 865 vertices. The skin's shader is one-sided, the mirrored layer stands in for those back faces, and
+   it copied the FRONT UVs, so the inside showed the outside's black. `Component::mirrorBackUV` (core
+   `VGSplitGroupConfig::mirrorBackUV`, new, off by default) gives each mirrored copy the source's second UV set wherever
+   it is non-zero. Found by removing TexFx from her OWN outfit: the galaxy stayed.
+   **Then the lining was too DARK** (the maintainer: lighter on her). The galaxy quadrant is dark navy at alpha 255, so on
+   her it GLOWS a light blue, and on the skin it is either cleared (unlit, nearly black) or kept (a faint gold glow --
+   left on with the clear off, the whole lining went gold). What a cleared pixel loses is the glow's brightness, so it
+   is now baked into its colour: x2.2 on a dark texel, tapering to none at max RGB 192, because a bright blue times a
+   flat gain clips to CYAN (her emblem and boots went cyan-white at a flat 2.2). Dark texels are cleared only when
+   DISTINCTLY blue (blue at least 12 over red and green): Lumine1 and Lumine7 hold near-greys at alpha 255 that the plain
+   "bluer than red" test would have caught. Measured on the lining crop, mean blue of its blue pixels: 128 on her, 102
+   before, 136 after; the other mods' cleared pixels are near-white glow (max RGB >= 179), where the taper gives x1.00
+   to x1.12.
+   And a re-fix in place can lose its DOWNLOADS to the intermittent GitHub failure, leaving the head draw bound to
+   nothing and the whole remap invisible: check every `filename =` resolves after a re-fix.
+8. **Mods whose own outfit is broken on the maintainer's old-loader GIMI** -- four shattered by a stale 4.0 ib
+   (`dfb54407`), four drawn green -- render right on the skin, where the remap resolves the old hash and normalises the
+   bindings.
+9. **Every re-run of a fix renames its generated files** (new `_B` / `_C` suffixes) while removing the old ones, for this
+   pair and for Yaoyao alike: the file COUNT and the generated CONTENTS are what the run-twice rule checks, not the names.
+   And an undo returns the author's `.ini` with one trailing newline added -- compare modulo trailing whitespace.
+10. **A skin slot whose atlas holds CLOTH and HAIR belongs on TWO target draws** (2026-09-30, fixed the same day). The skin's main
+   `Head` slot carries the sleeves, neck scarf and bow (light map band 0) beside the back hair (bands 126-128), all on the
+   Head textures. On Lumine's HEAD draw everything shades as hair: in the overworld's shade the white cloth took her
+   hair's warm shadow. Moved to her BODY draw (a member binds its own textures, so the Head set goes with it), the cloth
+   shades as cloth -- and the back hair goes GREY in shade beside the blonde bangs still on her head (LumineHeaven1,
+   the maintainer's second check). Measured in one shaded spot: no band of her head shader shades the cloth neutral
+   (0 / 77 / 128 / 178 / 255 all cream), and the bangs moved to her body go grey too. So the slot has to be split per
+   triangle -- hair to her head, cloth to her body -- by the band under each triangle: over the skin's own head slot
+   4478 of 19047 triangles are hair and only 138 have corners that disagree. **`GIMIMergeFixerConfig::Slot::splitFrom`
+   / `splitBands`** (new): a config slot (`Head#hair`) takes the triangles of another slot of its component whose
+   centroid's light map band is in the ranges, onto its own `to`. It is done where the fixer READS the mod: both halves
+   are written as filtered 32-bit index buffers per branch into a scratch folder, so every count the `.ini` carries is
+   measured off the buffer the merge will read, and a split slot then behaves like a downloaded member (an appended draw
+   with its own bindings; never carried, since its section's draw ranges address the unsplit buffer; never an object's
+   representative -- the first non-split member is rotated to the front). That design avoided threading a virtual member
+   through a dozen `(component, slot)` lookups. Byte-identical on every other merge-template character; the split lands
+   exactly 4478 of 19047; run twice and undo clean on the skin's mods and four synthetic ones (a merged master in both
+   variants, 16-bit, no Eye, recolour); in the overworld's shade the hair is one blonde and the cloth white. The
+   Dressing Room's soft light shows none of this; the overworld's shade does, and `look DX DY` is how to turn the camera
+   there. **Pressing a mod's toggle key in the overworld also presses the GAME's key**: `j` opened the quest journal
+   (one Esc closes it, and the toggle still registered).
+11. **Small dark red squares on a layered jacket were the skin's OUTLINE shells, not shading** (2026-09-30). Lumine1's
+   jacket showed them on the sleeve, the waist and the chest. My first answer -- the skin's warm band-0 shadow, "fixed" by
+   moving her dark cloth onto band 78 -- only darkened them: the maintainer's words, "you made those polygons dark red,
+   almost camouflaging with her coat". Ruled out one variable at a time: the dress draw, the light map bands and RGB,
+   the diffuse (painted flat green, the squares stayed, darker), drawing the body through the skin's HEAD draw instead
+   (the maintainer's Kirara fix; the squares stayed). Then the vertex colour ALPHA -- the outline's width -- zeroed on
+   the whole mesh: every square gone, and her silhouette line with them. So it is the Yaoyao hair lesson on clothes:
+   the skin's outline sits further out than hers, and the shell of an UNDER-layer comes out through the layer over it.
+   `Component::innerOutlineObjs = {"body", "dress"}` (core `InnerLayerOutline`) zeroes the outline of inner triangles
+   only, and the facing-the-axis rule stays ON: without it one red triangle stayed at her chest. The band move is
+   reverted. **A mark that changes COLOUR with a band edit but never goes away is not the band; zero the outline width
+   before theorising about shading** -- and an outline takes its colour from the band, which is why the band edit
+   "worked" enough to hide it.
 
 ## The reverse direction is COMPILED TOO: a multi-component SOURCE onto a classic target (2026-09-14)
 

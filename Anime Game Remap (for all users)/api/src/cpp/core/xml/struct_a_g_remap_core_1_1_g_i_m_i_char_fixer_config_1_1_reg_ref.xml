@@ -148,8 +148,8 @@ RegValChecks::isLightMap}`` means only the ones whose value looks like a lightma
 is how a mod that binds two different things to one slot across its ``$swapvar`` branches
 gets each branch treated correctly :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Implicitly constructible from a string, so every config written before this existed still
-reads (and compiles) exactly as it did
+Implicitly constructible from a string, so a plain register name such as ``&quot;ps-t2&quot;`` can be
+written wherever a ``RegRef`` is expected
 </verbatim> </para>
     </detaileddescription>
     <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="68" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="68" bodyend="99"/>

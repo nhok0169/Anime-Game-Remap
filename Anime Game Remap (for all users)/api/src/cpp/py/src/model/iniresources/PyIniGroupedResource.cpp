@@ -210,8 +210,7 @@ Retrieves every :class:`IniResource` in :attr:`resources`
     built -- is simply not listed
 
 This is how the remap reads a group's members: they are **not** in the C++ class's own map,
-and reading that map instead is why a grouped fix used to be credited to nothing and why
-``--compressTextures`` did not reach a texture inside a group
+so reading that map instead misses them
 
 Returns
 -------

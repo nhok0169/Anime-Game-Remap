@@ -1224,7 +1224,7 @@ def makeParser(sourceType, shapeKeys: bool = False, plannedRoles: Optional[List[
             return [roleObj(r) for r in roles.rolesOfSection.get(sectionName, [])]
         downloads = {}
         for role, src in roles.downloads.items():
-            name = f"{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL.value}"
+            name = f"{role[0].upper()}{role[1:]}{FRB.IniKeywords.RemapDL}"
             data = FRB.DownloadData(name, FRB.FileDownload(roles.downloadUrls[role], f"{SourceName}{name}.dds"))
             downloads[roleObj(role)] = {"this": data}
             _alive.append(data)
@@ -1481,13 +1481,13 @@ class TextureIndex():
         self.defaults: set = set()                               # files some [TextureOverrideTexture] binds FIRST: the mod's default branch
         hashesOfFile: Dict[str, List[str]] = {}
         ddsFiles: List[str] = []
-        remapFix = FRB.IniKeywords.RemapFix.value.lower()
+        remapFix = FRB.IniKeywords.RemapFix.lower()
         for folder, dirs, names in os.walk(root):
             dirs[:] = sorted(d for d in dirs if (not d.upper().startswith("DISABLED")))
             for name in sorted(names):
                 path = os.path.normcase(os.path.abspath(os.path.join(folder, name)))
                 low = name.lower()
-                if (low.endswith(".dds") and FRB.IniKeywords.RemapTex.value.lower() not in low):
+                if (low.endswith(".dds") and FRB.IniKeywords.RemapTex.lower() not in low):
                     ddsFiles.append(path)
                     self.real[path] = os.path.abspath(os.path.join(folder, name))
                 elif (low.endswith(".ini") and not name.upper().startswith("DISABLED") and remapFix not in low):
@@ -2455,7 +2455,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
     plan = Plans[planName]
     source, target = characterFromLibrary(sourceType), characterFromLibrary(targetType)
     vgRemap, forcedRemap = effectiveRemap(sourceType, target, remapOverride, anchor)
-    naming = FRB.CppIniNamingTools
+    naming = FRB.IniNamingTools
 
     def factory(parser, toModName: str, modTypeId: int):
         ini = parser._iniFile
@@ -2520,7 +2520,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
             if (vertexCount <= 0):
                 raise ValueError("no `global $mesh_vertex_count` in [Constants], so the zero shape-key stream cannot be sized")
             blendFile = next((v for k, v in map(keyValue, files.sections.get("ResourceBlendBuffer", [])) if k == "filename"), "Meshes/Blend.buf")
-            zeroFile = os.path.join(os.path.dirname(blendFile.replace("\\", "/")), f"{toModName}{FRB.IniKeywords.Remap.value}{ShapeKeyZero}.buf").replace("\\", "/")
+            zeroFile = os.path.join(os.path.dirname(blendFile.replace("\\", "/")), f"{toModName}{FRB.IniKeywords.Remap}{ShapeKeyZero}.buf").replace("\\", "/")
             os.makedirs(os.path.dirname(os.path.join(ini.folder, zeroFile)) or ini.folder, exist_ok = True)
             with open(os.path.join(ini.folder, zeroFile), "wb") as f:
                 f.write(bytes(vertexCount * ShapeKeyStride))
@@ -2608,7 +2608,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                               f"{int((needs & keep).sum())} left alone on triangles that straddle a tile "
                               f"boundary. Wrap-equivalent, so nothing that already renders can move.")
                 if (bad.any() or folded):
-                    fixedFile = os.path.join(os.path.dirname(texcoordFile.replace(chr(92), "/")), f"{toModName}{FRB.IniKeywords.Remap.value}Texcoord.buf").replace(chr(92), "/")
+                    fixedFile = os.path.join(os.path.dirname(texcoordFile.replace(chr(92), "/")), f"{toModName}{FRB.IniKeywords.Remap}Texcoord.buf").replace(chr(92), "/")
                     halves.tofile(os.path.join(ini.folder, fixedFile))
                     lines = texcoordLines
                     fmt = next((v for k, v in map(keyValue, lines) if k == "format"), "DXGI_FORMAT_R16G16_FLOAT")
@@ -2634,7 +2634,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         #   sized for shapes the body never takes. Asked at 2.8 the same lookup answers Chisa.
         #   This is the same version-bucket rule the GI side hit on index `0`; the pattern at
         #   `version = iniFile.fromVersion if ... else SourceVersion` above is the one to follow.
-        hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound.value),
+        hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, FRB.IniKeywords.HashNotFound),
                                        "$\\WWMIv1\\shapekey_checksum": (modType.shapeKeyChecksums, "ChecksumNotFound")},
                                       toModName, SourceName,
                                       ini.fromVersion if (ini.fromVersion is not None) else SourceVersion,
@@ -2659,7 +2659,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 if (paint and role.lower().endswith("diffuse") and i in PaintColours):
                     name = fixName(f"ResourcePaint{PaintNames[i].capitalize()}")
                     if (name not in painted):
-                        rel = os.path.join(files.textureFolder, f"Paint{PaintNames[i].capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        rel = os.path.join(files.textureFolder, f"Paint{PaintNames[i].capitalize()}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
                         os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                         writeSolidDds(os.path.join(ini.folder, rel), PaintColours[i])
                         appended.append("\n".join([f"[{name}]", f"filename = {rel}", ""]))
@@ -2688,7 +2688,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 stem = "{}{:02X}{:02X}{:02X}{:02X}".format(NeutralName, *colour)
                 resource = fixName(f"Resource{stem}")
                 if (resource not in neutrals):
-                    neutralFile = os.path.join(files.textureFolder, f"{stem}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                    neutralFile = os.path.join(files.textureFolder, f"{stem}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
                     os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                     writeSolidDds(os.path.join(ini.folder, neutralFile), colour)
                     appended.append("\n".join([f"[{resource}]", f"filename = {neutralFile}", ""]))
@@ -2705,7 +2705,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                         continue
                     resource = fixName(f"ResourceProbe{name.capitalize()}")
                     if (resource not in probed):
-                        probeFile = os.path.join(files.textureFolder, f"Probe{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        probeFile = os.path.join(files.textureFolder, f"Probe{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
                         os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                         writeSolidDds(os.path.join(ini.folder, probeFile), colour)
                         appended.append("\n".join([f"[{resource}]", f"filename = {probeFile}", ""]))
@@ -2729,7 +2729,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                 resource = fixName(f"Resource{stem}")
                 if (resource not in neutrals):
                     rel = os.path.join(files.textureFolder,
-                                       f"{stem}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace(chr(92), "/")
+                                       f"{stem}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace(chr(92), "/")
                     os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                     writeSolidDds(os.path.join(ini.folder, rel), colour)
                     appended.append(chr(10).join([f"[{resource}]", f"filename = {rel}", ""]))
@@ -2747,7 +2747,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                         continue
                     resource = fixName(f"ResourceProbe{name.capitalize()}")
                     if (resource not in probed):
-                        probeFile = os.path.join(files.textureFolder, f"Probe{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        probeFile = os.path.join(files.textureFolder, f"Probe{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
                         os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                         writeSolidDds(os.path.join(ini.folder, probeFile), colour)
                         appended.append(chr(10).join([f"[{resource}]", f"filename = {probeFile}", ""]))
@@ -2768,7 +2768,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                     colour, name = PassPaintColours[n % len(PassPaintColours)], PassPaintNames[n % len(PassPaintNames)]
                     resource = fixName(f"ResourcePass{name.capitalize()}")
                     if (resource not in painted):
-                        rel = os.path.join(files.textureFolder, f"Pass{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                        rel = os.path.join(files.textureFolder, f"Pass{name.capitalize()}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
                         os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                         writeSolidDds(os.path.join(ini.folder, rel), colour)
                         appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
@@ -2912,7 +2912,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         for slot, c in enumerate(target["components"]):
             if (slot in drawnSlots):
                 continue
-            name = f"TextureOverride{toModName}{SlotPrefix.capitalize()}{slot}{FRB.IniKeywords.Remap.value}Hide"
+            name = f"TextureOverride{toModName}{SlotPrefix.capitalize()}{slot}{FRB.IniKeywords.Remap}Hide"
             appended.append("\n".join([
                 f"; nothing of the mod is drawn through {toModName}'s {TargetLabels.get(slot, slot)} slot: the skin's own geometry is skipped and its bones still merged",
                 f"[{name}]", f"hash = {target['vb0_hash']}", f"match_first_index = {c['index_offset']}", f"match_index_count = {c['index_count']}",
@@ -2945,7 +2945,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
                         # violet, not white: the hair it shares its textures with is white on some mods
                         resource = fixName("ResourcePaintViolet")
                         if (resource not in painted):
-                            rel = os.path.join(files.textureFolder, f"PaintViolet{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+                            rel = os.path.join(files.textureFolder, f"PaintViolet{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
                             os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
                             writeSolidDds(os.path.join(ini.folder, rel), (128, 0, 255, 255))
                             appended.append("\n".join([f"[{resource}]", f"filename = {rel}", ""]))
@@ -2964,7 +2964,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
         for i, (shader, filterIndex) in enumerate(ShaderFilters.items()):
             appended.append("\n".join([f"[{fixName(f'ShaderOverridePass{i}')}]", f"hash = {shader}", f"filter_index = {filterIndex}", ""]))
         if (any(role == SkinMask for i in files.present if (i in plan) for role in plan[i][1].values())):
-            maskFile = os.path.join(files.textureFolder, f"{SkinMask}{toModName}{FRB.IniKeywords.RemapTex.value}.dds").replace("\\", "/")
+            maskFile = os.path.join(files.textureFolder, f"{SkinMask}{toModName}{FRB.IniKeywords.RemapTex}.dds").replace("\\", "/")
             os.makedirs(os.path.join(ini.folder, files.textureFolder), exist_ok = True)
             writeSolidDds(os.path.join(ini.folder, maskFile), SkinMaskColour)
             appended.append("\n".join([f"[{maskResource}]", f"filename = {maskFile}", ""]))
@@ -3030,7 +3030,7 @@ def makeFixer(sourceType, targetType, remapOverride: Optional[Dict[int, int]] = 
 ShapeKeySections = ["TextureOverrideShapeKeyOffsets", "TextureOverrideShapeKeyScale", "CommandListSetupShapeKeys", "CommandListLoadShapeKeys",
                     "TextureOverrideShapeKeyLoaderCallback", "CommandListMultiplyShapeKeys", "TextureOverrideShapeKeyMultiplierCallback",
                     "CommandListApplyShapeKeys"]
-HideMarker = FRB.IniKeywords.HideOriginalComment.value
+HideMarker = FRB.IniKeywords.HideOriginalComment
 
 
 def hideOriginalSections(iniPath: str, matches) -> int:
@@ -3057,7 +3057,7 @@ def hideOriginalSections(iniPath: str, matches) -> int:
     return hidden
 
 
-SlotSectionPattern = re.compile(rf"^TextureOverride{SlotPrefix}\d+{TargetName}{FRB.IniKeywords.RemapFix.value}$", re.IGNORECASE)
+SlotSectionPattern = re.compile(rf"^TextureOverride{SlotPrefix}\d+{TargetName}{FRB.IniKeywords.RemapFix}$", re.IGNORECASE)
 DrawKeys = {"drawindexed", "vb6"}
 
 
@@ -3129,7 +3129,7 @@ def splitSlotFiles(iniPath: str) -> List[str]:
             out.extend(block)
             k = e
         # named as the API names a merge's copies, so the API's own undo removes them too
-        extra = f"{stem}{FRB.IniKeywords.RemapFix.value}{n}{ext}"
+        extra = f"{stem}{FRB.IniKeywords.RemapFix}{n}{ext}"
         with open(extra, "w", encoding = "utf-8", newline = "") as f:
             f.write(ending.join(out))
         written.append(extra)
@@ -3153,7 +3153,7 @@ def removeSplitFiles(folder: str) -> int:
     removed = 0
     for root, _, names in os.walk(folder):
         for name in names:
-            if (re.search(rf"(?:{TargetName})?{FRB.IniKeywords.RemapFix.value}\d+\.ini$", name, re.IGNORECASE)):
+            if (re.search(rf"(?:{TargetName})?{FRB.IniKeywords.RemapFix}\d+\.ini$", name, re.IGNORECASE)):
                 os.remove(os.path.join(root, name)); removed += 1
     return removed
 

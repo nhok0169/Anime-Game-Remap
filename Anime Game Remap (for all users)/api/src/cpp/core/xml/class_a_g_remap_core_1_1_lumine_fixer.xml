@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lumine_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LumineFixer</compoundname>
+    <includes refid="_lumine_fixer_8h" local="no">LumineFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_fixer_1ae8556c868a2393584a5f027c154256a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LumineFixer::LumineFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LumineFixer</name>
+        <qualifiedname>AGRemapCore::LumineFixer::LumineFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_fixer_1aef20c06ad1a1c44148d280396a1d88cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LumineFixer::main6_3</definition>
+        <argsstring>()</argsstring>
+        <name>main6_3</name>
+        <qualifiedname>AGRemapCore::LumineFixer::main6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto LumineHeaven&apos;s main mesh <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1afa122f306c94e6e0707666830bb360aa" kindref="member">IniFixBuilderFuncs::lumineHeavenMain6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="233" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_fixer_1afc1b6eb61f715436d07dc669da42a64a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LumineFixer::bang6_3</definition>
+        <argsstring>()</argsstring>
+        <name>bang6_3</name>
+        <qualifiedname>AGRemapCore::LumineFixer::bang6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto LumineHeaven&apos;s <computeroutput>Bang</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacb62b819d70d29e48b8c58a4eca7b99" kindref="member">IniFixBuilderFuncs::lumineHeavenBang6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_fixer_1a02b11223c07be2ff37d1a2d9d8c0bd1f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LumineFixer::eye6_3</definition>
+        <argsstring>()</argsstring>
+        <name>eye6_3</name>
+        <qualifiedname>AGRemapCore::LumineFixer::eye6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto LumineHeaven&apos;s <computeroutput>Eye</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af86d6ac0370b4b7111b583be3cc0ad3f" kindref="member">IniFixBuilderFuncs::lumineHeavenEye6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Lumine/LumineFixer.cpp" bodystart="243" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Lumine&apos;s own ``.ini`` fixers -- onto LumineHeaven, a skin of THREE components whose main mesh is unnamed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+LumineHeaven (6.3) is a main mesh (component ``&quot;&quot;``, two draw slots), a ``Bang`` and an ``Eye``, so Lumine is
+fixed by THREE fixers, one per component, built from one :cpp:class:`GIMIComponentFixerConfig` -- see
+:cpp:func:`makeGIMIComponentFixer` for the shape and ``data/IniFixData/Lumine/LumineFixer.cpp`` for her own
+choices. Pair it with :cpp:class:`LumineParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Lumine/LumineFixer.h" bodystart="35" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lumine_fixer_1afc1b6eb61f715436d07dc669da42a64a" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineFixer</scope><name>bang6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_lumine_fixer_1a02b11223c07be2ff37d1a2d9d8c0bd1f" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineFixer</scope><name>eye6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_lumine_fixer_1ae8556c868a2393584a5f027c154256a1" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineFixer</scope><name>LumineFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_lumine_fixer_1aef20c06ad1a1c44148d280396a1d88cf" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineFixer</scope><name>main6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

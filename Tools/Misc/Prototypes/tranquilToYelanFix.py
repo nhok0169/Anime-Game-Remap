@@ -653,7 +653,7 @@ def filesFor(ini, components: List[str], vgRows: Dict[str, dict]) -> ModFiles:
 # ============================================================================== the fixer
 
 def makeFixer(components: List[str], vgRows: Dict[str, dict], skipTextures: bool = False, compress: bool = False):
-    naming = FRB.CppIniNamingTools
+    naming = FRB.IniNamingTools
 
     def factory(parser, toModName: str, modTypeId: int):
         ini = parser._iniFile

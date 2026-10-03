@@ -40,49 +40,34 @@ namespace AGRemapCore {
      @rst
      The overall class for remapping mods :raw-html:`<br />` :raw-html:`<br />`
 
-     This is the **model** half of the pure-Python ``RemapService`` (``remapService.py``), merged
-     with the parts of the pure-Python ``Mod`` (``model/Mod.py``) that walk a mod folder and drive
-     each ``.ini`` file through it. It is deliberately *not* a literal port of either: the
-     pure-Python original mixed its UI conversion in with its model logic, and everything on the UI
-     side of that line -- turning the user's mod-type *names*, version *strings* and download-mode
-     *strings* into real objects, printing the mods that are about to be fixed, deciding where a
-     log file goes -- lives in ``RemapServiceCLI`` instead :raw-html:`<br />` :raw-html:`<br />`
+     This class is the **model** of a remap: it walks a mod folder and drives each ``.ini`` file
+     through the fix. Everything on the UI side -- turning the user's mod-type *names*, version
+     *strings* and download-mode *strings* into real objects, printing the mods that are about to be
+     fixed, deciding where a log file goes -- lives in ``RemapServiceCLI`` instead
+     :raw-html:`<br />` :raw-html:`<br />`
 
-     Concretely, what that split buys each attribute:
+     Concretely, every option here is already a typed value rather than user input:
 
-     * ``types``/``remappedTypes``/``forcedType`` were lists of user-typed mod-type *names* that the
-       constructor resolved by string search (and could fail on, with an ``InvalidModType``). Here
-       they are #fromModTypeIds, #toModTypeIds and #forcedModTypeIds -- sets of
-       :cpp:enum:`ModTypeId` integer values, handed straight to :cpp:class:`IniFile`, which already
-       indexes mod types by that same id. They follow :cpp:class:`IniFile`'s own convention for
-       those sets exactly, so that handing them over is a plain pass-through: ``std::nullopt``
-       means *no filter at all* (every mod type), while a present-but-**empty** set means *accept
-       nothing* -- two genuinely different answers, which a bare ``std::unordered_set`` could not
-       tell apart
-     * ``version`` was a version *string* that the constructor parsed and could reject. Here it is
-       #fromVersion, an already-parsed :cpp:class:`Version`
-     * ``downloadMode`` was a download-mode *string* that the constructor searched for and could
-       reject. Here it is the :cpp:enum:`DownloadMode` enum itself
-     * ``defaultType`` is now #defaultModTypeIds -- a *set* of ids rather than a single
-       user-typed name, and one this class never second-guesses (the original quietly discarded it
-       unless ``readAllInis`` was set, and otherwise defaulted it to Raiden)
-     * ``log`` and ``verbose`` are gone outright -- the first is only ever decided from user input,
+     * #fromModTypeIds, #toModTypeIds and #forcedModTypeIds are sets of :cpp:enum:`ModTypeId`
+       integer values, handed straight to :cpp:class:`IniFile`, which indexes mod types by that same
+       id. They follow :cpp:class:`IniFile`'s own convention for those sets exactly, so that handing
+       them over is a plain pass-through: ``std::nullopt`` means *no filter at all* (every mod
+       type), while a present-but-**empty** set means *accept nothing* -- two genuinely different
+       answers, which a bare ``std::unordered_set`` could not tell apart
+     * #fromVersion is an already-parsed :cpp:class:`Version`
+     * the download mode is the :cpp:enum:`DownloadMode` enum itself
+     * #defaultModTypeIds is a *set* of ids, and one this class never second-guesses
+     * there is no log-file or verbosity option -- the first is only ever decided from user input,
        and the second is a property of the view (see :cpp:member:`BaseLogger::verbose`), not of the
        remap
-     * #gameTypeIds is new, and has no pure-Python counterpart on ``RemapService`` at all --
-       :cpp:class:`IniFile` needs it to narrow which games' mod types a ``.ini`` file may classify
-       as, and only the caller knows which games are being remapped
-     * #logger is new for the same reason the above are typed: the pure-Python original built its
-       own ``Logger`` internally (from the ``log``/``verbose`` arguments it no longer takes), which
-       hard-wired it to the CLI view. Here the view is handed in
+     * #gameTypeIds narrows which games' mod types a ``.ini`` file may classify as -- only the
+       caller knows which games are being remapped
+     * #logger is the view, handed in by the caller
 
      .. note::
-        Because every one of those became a *type* rather than a string, none of them can be
-        invalid any more, so this class has no counterpart to the pure-Python original's
-        ``__errorsBeforeFix`` -- the deferred ``InvalidModType``/``InvalidDownloadMode``/``ValueError``
-        it stashed away in the constructor to re-raise at fix time. Rejecting bad user input is
-        ``RemapServiceCLI``'s job now, and it happens before a :cpp:class:`RemapService` is ever
-        built
+        Because every one of those is a *type* rather than a string, none of them can be invalid,
+        so this class never rejects its arguments at fix time. Rejecting bad user input is
+        ``RemapServiceCLI``'s job, and it happens before a :cpp:class:`RemapService` is ever built
      @endrst
      */
     class RemapService {
@@ -140,9 +125,8 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Unlike the pure-Python original, this does **not** widen #fromModTypeIds or pick a
-                fallback mod type in the constructor. It is stored verbatim and only consulted
-                while walking the mod folder
+                This does **not** widen #fromModTypeIds or pick a fallback mod type in the
+                constructor. It is stored verbatim and only consulted while walking the mod folder
 
              :raw-html:`<br />`
 
@@ -295,9 +279,8 @@ namespace AGRemapCore {
              made :raw-html:`<br />` :raw-html:`<br />`
 
              .. warning::
-                Setting both this and #undoOnly leaves nothing for the fix to do. The pure-Python
-                original raised a ``ConflictingOptions`` for that combination; validating it is
-                ``RemapServiceCLI``'s job now
+                Setting both this and #undoOnly leaves nothing for the fix to do. This class does
+                not reject that combination; validating it is ``RemapServiceCLI``'s job
              @endrst
              */
             bool fixOnly;
@@ -356,8 +339,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                Where the pure-Python ``forcedType`` was a single mod type, this is a set, so a
-                ``.ini`` file can be forced to more than one mod type at once
+                This is a set, so a ``.ini`` file can be forced to more than one mod type at once
              @endrst
              */
             std::optional<std::unordered_set<int>> forcedModTypeIds;
@@ -375,11 +357,8 @@ namespace AGRemapCore {
              and a ``.ini`` file the classifier *did* recognise as a type #fromModTypeIds then
              rejected stays rejected :raw-html:`<br />` :raw-html:`<br />`
 
-             This is what the pure-Python original's ``defaultType`` was for -- except that it was
-             a single mod-type *name* the constructor resolved by string search (and could fail
-             on), and it silently became ``None`` unless ``readAllInis`` was set. Here it is a set
-             of ids the caller states outright, and nothing in this class's constructor overrides
-             it :raw-html:`<br />` :raw-html:`<br />`
+             It is a set of ids the caller states outright, and nothing in this class's
+             constructor overrides it :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 An ordered set (``tsl::ordered_set``), not an ``std::unordered_set``: these land in
@@ -406,8 +385,8 @@ namespace AGRemapCore {
              no value, then the latest version's are used :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                This is **not** the pure-Python API's ``version``. That one is #toVersion; see
-                there for why the two were worth separating
+                This is **not** the CLI's ``--version``. That one is #toVersion; see there for why
+                the two are separate
              @endrst
              */
             std::optional<Version> fromVersion;
@@ -425,19 +404,11 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                **This is the pure-Python API's** ``version``, and the CLI's ``--version``. The
+                This is the CLI's ``--version``. The
                 two halves of the fix table's key are independent -- a mod written for one game
                 version can be fixed onto a target as any other -- so the CLI names them
                 separately: ``--version`` for this one and ``--fromVersion`` for
                 \ref fromVersion.
-
-             .. note::
-                Until 2026-09-13 this did not exist and :cpp:func:`createIni` handed
-                :cpp:class:`IniFile` a hardcoded ``std::nullopt`` here, so ``--version`` selected
-                a PARSER row and could never select a fixer one -- every run got the newest fix
-                whatever version was asked for. Setting BOTH from the one option, which is what
-                replaced it, was no better: it made every A/B at a historical version
-                uninterpretable, since a divergence could be coming from either selection.
              @endrst
              */
             std::optional<Version> toVersion;
@@ -474,10 +445,9 @@ namespace AGRemapCore {
              through a proxy server :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The pure-Python original's ``proxy`` setter pushed the new value into a global
-                package manager. Nothing here does that -- the proxy is handed to each download at
-                the point it happens (see :cpp:func:`RemapIniResource::fix`), so this is a plain
-                attribute
+                The proxy is handed to each download at the point it happens (see
+                :cpp:func:`RemapIniResource::fix`), so this is a plain attribute with no global
+                side effect
              @endrst
              */
             std::optional<std::string> proxy;
@@ -514,11 +484,8 @@ namespace AGRemapCore {
              than being left as a plain 32-bit uncompressed ``.dds`` :raw-html:`<br />`
              :raw-html:`<br />`
 
-             **Default ``false``, ie. uncompressed** -- which is what the pure-Python original
-             always did. Its `Pillow`_ engine has no BCn encoder at all, so every texture it ever
-             wrote was 32-bit uncompressed; making that the default here keeps a run's speed in line
-             with what users are used to, and leaves compression as something asked for
-             :raw-html:`<br />` :raw-html:`<br />`
+             **Default ``false``, ie. uncompressed** -- which keeps a run fast, and leaves
+             compression as something asked for :raw-html:`<br />` :raw-html:`<br />`
 
              A **one-way override**, applied in :cpp:func:`_fixResource` right before a texture
              resource is written, and it only ever overrides compression *off*: left ``false``,
@@ -541,8 +508,7 @@ namespace AGRemapCore {
              @rst
              The view the fix reports its progress to :raw-html:`<br />` :raw-html:`<br />`
 
-             May be ``nullptr``, in which case the fix runs silently -- matching the pure-Python
-             ``Mod``/``Model``, whose ``logger`` was likewise optional :raw-html:`<br />`
+             May be ``nullptr``, in which case the fix runs silently :raw-html:`<br />`
              :raw-html:`<br />`
 
              Held by ``std::shared_ptr`` rather than by reference or by value so that a
@@ -607,8 +573,7 @@ namespace AGRemapCore {
              the object and two walks can never see each other's :raw-html:`<br />`
              :raw-html:`<br />`
 
-             The three sets are exactly the ones the pure-Python original's ``_fix`` kept as
-             locals, under the same names, and they answer three different questions -- a folder
+             The three sets answer three different questions -- a folder
              already **visited** is never processed again, a folder already **visiting** is in the
              queue and must not be queued twice, and a folder already in **gotNeighbours** has
              already had the subtree beneath it enumerated by some earlier folder's recursive scan
@@ -622,10 +587,9 @@ namespace AGRemapCore {
                  :raw-html:`<br />` :raw-html:`<br />`
 
                  Queued at the back (#push) and taken from the front (#fix), so a folder found
-                 first is visited first. **Taking them off the back instead is the bug this shape
-                 exists to avoid**: every batch queued is already in the order it should be
-                 reported in, so a walk popping the back reads each batch backwards -- folders
-                 ``A``, ``B``, ``C`` came out ``C``, ``B``, ``A`` until 2026-09-20
+                 first is visited first. Every batch queued is already in the order it should be
+                 reported in, so taking them off the back instead would read each batch backwards
+                 -- folders ``A``, ``B``, ``C`` would come out ``C``, ``B``, ``A``
                  @endrst
                  */
                 std::deque<std::string> dirs;
@@ -683,8 +647,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              .. note::
-                Unlike the pure-Python original's ``_fix``, this raises nothing for the
-                ``fixOnly``-and-``undoOnly`` combination (its ``ConflictingOptions``) and prints no
+                This raises nothing for the ``fixOnly``-and-``undoOnly`` combination and prints no
                 summary afterwards -- both are ``RemapServiceCLI``'s. This method is only the walk
                 and the model work hanging off it
              @endrst
@@ -696,7 +659,7 @@ namespace AGRemapCore {
              @rst
              Whether the run finished with nothing skipped :raw-html:`<br />` :raw-html:`<br />`
 
-             Exactly the two buckets the pure-Python original checks before its ``ENJOY`` banner: a
+             Checks two buckets: a
              skipped ``.ini`` file, or a resource skipped somewhere inside a mod. A resource skipped
              with no mod folder attributed to it deliberately does not count :raw-html:`<br />`
              :raw-html:`<br />`
@@ -715,8 +678,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Handles a single ``.ini`` file the walk has reached -- the work the pure-Python
-             original split across ``fixMod``/``fixIni`` :raw-html:`<br />` :raw-html:`<br />`
+             Handles a single ``.ini`` file the walk has reached :raw-html:`<br />`
+             :raw-html:`<br />`
 
              In order:
 
@@ -747,11 +710,11 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              The screening is :cpp:class:`RemapIniResourceMixin`'s six questions, asked in the order
-             the pure-Python original's ``Mod.handleFixFiles`` asks them, and each one exists
+             below, and each one exists
              because the answer is already known without doing any work:
 
-             * ``hasRequired`` -- the resource is missing something it cannot be fixed without (the
-               original's missing-``origFullPath`` branch). Recorded as skipped rather than silently
+             * ``hasRequired`` -- the resource is missing something it cannot be fixed without (such
+               as its source file path). Recorded as skipped rather than silently
                dropped
              * ``srcIsFixed`` / ``srcEncounteredError`` -- this fix already dealt with the *source*
                file, successfully or not, on some earlier ``.ini`` file. Several ``.ini`` files can
@@ -790,8 +753,8 @@ namespace AGRemapCore {
              A line only appears when it has something to say: the fixing half is skipped entirely
              under #undoOnly, the removal half under #fixOnly, and within each, a count of zero
              prints nothing rather than "removed 0 files". The two lines that always appear when
-             fixing (``.ini`` files and ``Blend.buf`` files) match the pure-Python original, which
-             prints those unconditionally because a run that found neither is worth saying out loud
+             fixing (``.ini`` files and ``Blend.buf`` files) are printed unconditionally, because a
+             run that found neither is worth saying out loud
              @endrst
              */
             void reportSummary();
@@ -814,8 +777,7 @@ namespace AGRemapCore {
              Queues every folder beneath some folder, so the walk reaches them too
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Enumerates **recursively** -- every descendant folder at any depth, in one pass,
-             exactly as the pure-Python original's ``getFilesAndDirs(recursive = True)`` did. A
+             Enumerates **recursively** -- every descendant folder at any depth, in one pass. A
              folder whose subtree some earlier scan already enumerated
              (:cpp:member:`FolderWalk::gotNeighbours`) is skipped rather than re-walked
              @endrst
@@ -854,10 +816,6 @@ namespace AGRemapCore {
              Builds the :cpp:class:`IniFile` for some ``.ini`` file path, wiring in every one of
              this class's own remap options :raw-html:`<br />` :raw-html:`<br />`
 
-             The counterpart to the pure-Python original's ``createMod`` (and to ``Mod``'s own
-             ``createIniFile``, which is what actually did this wiring) -- collapsed into one step,
-             since there is no ``Mod`` in between any more :raw-html:`<br />` :raw-html:`<br />`
-
              #fromModTypeIds/#forcedModTypeIds/#toModTypeIds are handed over verbatim -- this
              class stores them in :cpp:class:`IniFile`'s own convention precisely so that no
              reinterpretation happens in between :raw-html:`<br />` :raw-html:`<br />`
@@ -876,9 +834,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether a file is a ``RemapFix`` ``.ini`` **copy** this fix generated -- the third
-             bucket of the pure-Python ``Mod::getOptionalFiles``, alongside source ``.ini`` files
-             and backups
+             Whether a file is a ``RemapFix`` ``.ini`` **copy** this fix generated (as opposed to a
+             source ``.ini`` file or a backup)
              @endrst
              *
              * @param file The file path to check
@@ -891,8 +848,8 @@ namespace AGRemapCore {
              * @brief
              @rst
              The path of the ``.ini`` file a ``RemapFix`` copy was generated **from** -- the exact
-             reverse of the naming :cpp:func:`IniFileFixContext::fixedFilePath` does, and a port of
-             ``Mod::getOrigIniPath`` :raw-html:`<br />` :raw-html:`<br />`
+             reverse of the naming :cpp:func:`IniFileFixContext::fixedFilePath` does
+             :raw-html:`<br />` :raw-html:`<br />`
 
              Splits on the **last** occurrence of the suffix, because a mod's own ``.ini`` file is
              free to have it in its name and it is the one this fix appended that has to come off
@@ -926,8 +883,8 @@ namespace AGRemapCore {
              stats bucket its kind names :raw-html:`<br />` :raw-html:`<br />`
 
              Shared by the source file's removal and every ``RemapFix`` copy's
-             (:cpp:func:`_removeRemapCopies`), which is the point: a copy that was undone without
-             its resources being deleted left every file only it named behind. A resource this
+             (:cpp:func:`_removeRemapCopies`), which is the point: a copy undone without its
+             resources being deleted would leave every file only it named behind. A resource this
              run has already FIXED is never deleted -- see the comment in the definition
              @endrst
              *
@@ -945,7 +902,7 @@ namespace AGRemapCore {
              names the file on a ``filename =`` line (see :cpp:func:`_rememberReferences`), whatever
              kind of file it is, or when some stats bucket recorded it as fixed. A file type no bucket
              knows (a mod's own ``.foo``) is protected by the first; the buckets alone were not enough
-             even for the kinds they know, since the two halves name them differently -- a split's
+             even for the kinds they know, since the two halves can name them differently -- a split's
              index buffer is fixed as ``buf`` and removed as ``other`` (see the comment in
              :cpp:func:`_deleteRemovedResources`). Compared after normalising the path lexically and,
              on Windows, by case

@@ -19,7 +19,7 @@
 // partial; constants/FileExt.h, full).
 //
 // Covers, against the pure-Python original's documented/actual behavior
-// (model/IniNamingTools.py, tools/TextTools.py) -- every non-trivial expected
+// (model/IniNamingTools.py, since deleted, and tools/TextTools.py) -- every non-trivial expected
 // value below was cross-checked by actually running the equivalent Python
 // snippet (see the chat transcript), not just read from the docstrings:
 //   * getResourceName / removeResourceName: prefix add/remove, idempotent

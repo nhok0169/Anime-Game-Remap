@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="120" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="120" bodyend="135"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="119" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="119" bodyend="134"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1ae0bb391a59479208eb08c813a9a4435b" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -117,8 +117,8 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The key identifying a graph -- ``(component name, mod object name)``, the direct
-equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
+The key identifying a graph -- ``(component name, mod object name)``, the
+equivalent of a `Python`_ ``Tuple[str, str]``
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>
@@ -196,13 +196,12 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         <detaileddescription>
 <para><verbatim>embed:rst 
 Restricts an edit to specific areas of a :cpp:class:`IfContentPart` -- an empty
-``std::function`` means &quot;the whole part&quot;, the equivalent of the pure-Python original&apos;s
-own ``Ranges.createFull()`` default filter
+``std::function`` means &quot;the whole part&quot;
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="115" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="115" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="114" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="114" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -216,18 +215,12 @@ own ``Ranges.createFull()`` default filter
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The edits to make, one entry per ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-The pure-Python original splits this across four separate parallel lists
-(``edits``/``keyFilters``/``keysToTrack``/``trackKeys``), each allowed to be a
-different length, with anything past the end falling back to a default. Folding them
-into one entry per ``.ini`` file is equivalent -- only ``edits``&apos;s own length ever
-bounded the iteration
+The edits to make, one entry per ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="275" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="275" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="268" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="268" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_group_edit_1a40d3447c88466aa3f46f9098cbd66b67" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -241,13 +234,12 @@ bounded the iteration
         <detaileddescription>
 <para><verbatim>embed:rst 
 Whether \ref trackKeysGlobal applies to every graph, instead of the per-graph
-``trackKeys`` entries in \ref edits. Matches the pure-Python original&apos;s
-``isinstance(self.trackKeys, bool)`` check
+``trackKeys`` entries in \ref edits
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="285" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="285" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="277" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="277" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_group_edit_1a8b94404fa8ef1a605155908b974d9ec4" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -263,7 +255,7 @@ Whether \ref trackKeysGlobal applies to every graph, instead of the per-graph
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="290" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="290" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="282" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="282" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -321,7 +313,7 @@ Whether \ref trackKeysGlobal applies to every graph, instead of the per-graph
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="299" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="291" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
@@ -390,7 +382,7 @@ Whether \ref trackKeysGlobal applies to every graph, instead of the per-graph
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="332" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="324" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
@@ -449,7 +441,26 @@ Edits every graph named in \ref edits, with no ``.ini`` file to draw state from
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="347" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="339" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -572,7 +583,144 @@ Applies &apos;filters&apos; to one graph, grouping consecutive same-kind edits i
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="318" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="310" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> *</type>
+        <definition>static Graph * AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::getGraph</definition>
+        <argsstring>(const GraphGroups &amp;graphGroups, const GraphId &amp;id, bool errorOnNotFound=true)</argsstring>
+        <name>getGraph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::getGraph</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" kindref="compound">GraphId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding graph from a group of graphs :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   ``nullptr`` is the &quot;not found&quot; answer, following
+   :cpp:func:`IniSectionGraph::getSection`&apos;s found-or-``nullptr``-or-throw
+   convention
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which graph to retrieve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to throw when no graph is found. <bold>Default</bold>: <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If no graph is found and &apos;errorOnNotFound&apos; is <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The found graph, or ``nullptr`` if there is none and &apos;errorOnNotFound&apos; is ``false``.
+Non-owning -- the graph stays owned by &apos;graphGroups&apos;
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="185" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::addGraph</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const GraphId &amp;id, Graph *graph)</argsstring>
+        <name>addGraph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::addGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" kindref="compound">GraphId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> *</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Adds a graph to the group of graphs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to add the graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The graph to add -- one &apos;graphGroups&apos; already owns, per
+:cpp:class:`IIniGraphGroups`&apos;s ownership contract
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
+&apos;graphGroups&apos;
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -624,7 +772,7 @@ Applies &apos;filters&apos; to one graph, grouping consecutive same-kind edits i
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="350" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="342" column="26"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -656,7 +804,7 @@ Applies &apos;filters&apos; to one graph, grouping consecutive same-kind edits i
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="355" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="347" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -751,7 +899,7 @@ edit) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="64" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="64" bodyend="356"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="64" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="64" bodyend="348"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_group_edit_1ae0bb391a59479208eb08c813a9a4435b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>Base</name></member>

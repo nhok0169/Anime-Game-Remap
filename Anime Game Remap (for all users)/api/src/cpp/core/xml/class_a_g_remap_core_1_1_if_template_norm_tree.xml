@@ -56,16 +56,195 @@ mutated in place
 <verbatim>embed:rst 
 .. note::
    Each synthetic ``else``&apos;s #IfPredPart::query is built against its own fresh,
-   throwaway :cpp:class:`Z3Context` (not one supplied by the caller) -- matching the
-   pure-Python original exactly (a literal ``Z3Context()`` per synthesized ``else``).
+   throwaway :cpp:class:`Z3Context` (not one supplied by the caller).
    This is safe specifically because a synthetic ``else``&apos;s query is always just the
-   literal ``true``, which never needs to share variable identity with anything else
-   -- see this method&apos;s own implementation comment for the fuller reasoning.
+   literal ``true``, which never needs to share variable identity with anything else.
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="501" column="36"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="496" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a6d7e8956dc8e4b62c053de8b308b86c6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_tree" kindref="compound">IfTemplateTree</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::construct</definition>
+        <argsstring>(const std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; &amp;parts)</argsstring>
+        <name>construct</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::construct</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt; &amp;</type>
+          <declname>parts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs the parse tree, using this class&apos;s own (base) algorithm -- leaf nodes for
+an empty condition (eg. a bare ``if``/``endif`` with nothing between them) are left
+with no #ContentPart at all, unlike :cpp:class:`IfTemplateNonEmptyNodeTree`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The parts within the `IfTemplate`, owned by the caller (typically the owning
+`IfTemplate` itself) -- the returned tree&apos;s nodes hold non-owning references into
+this same vector&apos;s elements, which must outlive the returned tree
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The constructed tree </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="149" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_node" kindref="compound">IfTemplateNode</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::NodeType = IfTemplateNode&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>NodeType</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::NodeType</qualifiedname>
+        <briefdescription>
+<para>The concrete node type this tree is built from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="103" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_tree_1ac343a439e8425cc52bdbb4b0e76efdc4" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;NodeType&gt; &gt; AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::nodePool_</definition>
+        <argsstring></argsstring>
+        <name>nodePool_</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::nodePool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every :cpp:class:`IfTemplateNode` reachable from #root_ is really owned here (a flat
+pool), not by the tree structure itself -- see :cpp:class:`IfTemplateNode`&apos;s own
+top-level note for why. A node is never removed from this pool individually; the
+whole pool is destroyed together when this tree is.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="181" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_tree_1a3e81bddbe6f6684fc6b0d9b10436eca4" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
+        <definition>NodeType* AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::root_</definition>
+        <argsstring></argsstring>
+        <name>root_</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::root_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>The root node, a non-owning pointer into <ref refid="class_a_g_remap_core_1_1_if_template_tree_1ac343a439e8425cc52bdbb4b0e76efdc4" kindref="member">nodePool_</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="186" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1af45607c427b2f5db448eefcccbfe420e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
+        <definition>NodeType * AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::root</definition>
+        <argsstring>() const</argsstring>
+        <name>root</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::root</qualifiedname>
+        <briefdescription>
+<para>The root node in the parse tree, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="125" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::clear</qualifiedname>
+        <briefdescription>
+<para>Clears the tree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="130" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a92071bc40f137dbc376548cd6982b946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
+        <definition>NodeType * AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::makeNode</definition>
+        <argsstring>(IfPredPart *ifPredPart)</argsstring>
+        <name>makeNode</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::makeNode</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_pred_part" kindref="compound">IfPredPart</ref> *</type>
+          <declname>ifPredPart</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Allocates a new node, owned by this tree&apos;s own node pool, and returns a non-owning
+pointer to it -- public (not just for the construction algorithms below) since a
+caller like :cpp:class:`IfTemplate` legitimately needs to grow an already-built tree
+in place (eg. ensuring a root exists)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ifPredPart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate part to associate with the new node, if any </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The newly allocated node </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="164" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1aeccaf7aabf87c5938363e0a553322db5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;::setRoot</definition>
+        <argsstring>(NodeType *node)</argsstring>
+        <name>setRoot</name>
+        <qualifiedname>AGRemapCore::IfTemplateTree::setRoot</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Sets <ref refid="class_a_g_remap_core_1_1_if_template_tree_1a3e81bddbe6f6684fc6b0d9b10436eca4" kindref="member">root_</ref> <ndash/> &apos;node&apos; must already belong to this tree&apos;s own node pool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="169" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -75,8 +254,7 @@ mutated in place
 This class inherits from :cpp:class:`IfTemplateNonEmptyNodeTree`
 
 A variation of :cpp:class:`IfTemplateNonEmptyNodeTree` such that an empty ``else`` clause will
-be added for branches that do not end with a single ``else`` -- the C++ port of
-``IfTemplateTree.py``&apos;s ``IfTemplateNormTree`` class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+be added for branches that do not end with a single ``else`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. tip::
    See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
@@ -301,7 +479,7 @@ with the following parse subtree:
         <link refid="class_a_g_remap_core_1_1_node"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="473" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="473" bodyend="503"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="470" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="470" bodyend="498"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNormTree</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_norm_tree_1a36532aebb381096daa8309ec0faa47bc" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNormTree</scope><name>construct</name></member>

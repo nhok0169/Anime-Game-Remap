@@ -20,11 +20,9 @@ from typing import Optional, List, Tuple
 from ..core import IfContentPart
 from ..core import FileDownload
 from ..core import IfTemplate
+from ..core import IniKeywords
 ##### EndCppLocalImports
 
-##### LocalImports
-from ..constants.IniConsts import IniKeywords
-##### EndLocalImports
 
 
 ##### Script
@@ -42,17 +40,17 @@ class DownloadData():
 
     refToSection: : class:`bool`
         Whether to add the download reference to only the top of some `section`_ or to add the download reference to all
-        the needed :class:`IfContentPart`s of the `section`_ `<br />` :raw-html:`<br />`
+        the needed :class:`IfContentPart`\\ s of the `section`_ :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
 
     downloadRefKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     resourceKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -66,7 +64,7 @@ class DownloadData():
 
     refToSection: : class:`bool`
         Whether to add the download reference to only the top of some `section`_ or to add the download reference to all
-        the needed :class:`IfContentPart`s of the `section`_
+        the needed :class:`IfContentPart`\\ s of the `section`_
 
     downloadRefKVPs: List[Tuple[:class:`str`, :class:`str`]]
         Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart`
@@ -175,12 +173,12 @@ class BlendDownloadData(DownloadData):
                 (# of bytes in the Blend.buf file) / 32 = vertexCount
 
     downloadRefKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add after the download reference of some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     resourceKVPs: Optional[List[Tuple[:class:`str`, :class:`str`]]]
-        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` `<br />` :raw-html:`<br />`
+        Any additional `KVPs`_ to add before the download filepath to some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
@@ -208,8 +206,8 @@ class BlendDownloadData(DownloadData):
         """
 
         super().addToPart(part, key, val)
-        part.addKVP(IniKeywords.Handling.value, "skip")
-        part.addKVP(IniKeywords.Draw.value, f"{self.vertexCount},0")
+        part.addKVP(IniKeywords.Handling, "skip")
+        part.addKVP(IniKeywords.Draw, f"{self.vertexCount},0")
 
         if (self.downloadRefKVPs):
             part.addKVPs(self.downloadRefKVPs)

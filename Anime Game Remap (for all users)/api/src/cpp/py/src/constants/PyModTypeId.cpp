@@ -25,14 +25,13 @@ namespace AGRC = AGRemapCore;
 
 void initCppModTypeId(pybind11::module_ &m) {
     // Registered under the bare 'ModTypeId' name (no 'Cpp' prefix) -- no pure-Python class of this
-    // exact bare name exists to shadow (the pure-Python equivalents are the differently-named
-    // 'ModTypeNames' enum and the deprecated StrEnumOld-based 'ModTypes' class), so nothing to
-    // disambiguate from; see Documentation/CLAUDE.md's naming-pitfall section /
-    // Architecture/CLAUDE.md's 'Cpp' prefix rule.
+    // exact bare name exists to shadow (the pure-Python 'ModTypes' class is differently named), so
+    // nothing to disambiguate from; see Architecture/CLAUDE.md's 'Cpp' prefix rule.
     py::enum_<AGRC::ModTypeId>(m, "ModTypeId", R"doc(
 The names of the different types of mods this fix will fix from or fix to
 
-Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+.. tip::
+    A mod type's name is :meth:`ModTypeIdTools.getName`
     )doc")
         .value("Amber", AGRC::ModTypeId::Amber, R"doc(Amber from GI)doc")
 
@@ -107,6 +106,12 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         .value("Lisa", AGRC::ModTypeId::Lisa, R"doc(Lisa from GI)doc")
 
         .value("LisaStudent", AGRC::ModTypeId::LisaStudent, R"doc(Lisa Sumeru skin from GI)doc")
+
+        .value("Lumine", AGRC::ModTypeId::Lumine, R"doc(Lumine (the female Traveler) from GI)doc")
+        .value("LumineHeaven", AGRC::ModTypeId::LumineHeaven, R"doc(Lumine outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye))doc")
+        .value("LumineHeavenMain", AGRC::ModTypeId::LumineHeavenMain, R"doc(LumineHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("LumineHeavenBang", AGRC::ModTypeId::LumineHeavenBang, R"doc(LumineHeaven's Bang component, as a fix target)doc")
+        .value("LumineHeavenEye", AGRC::ModTypeId::LumineHeavenEye, R"doc(LumineHeaven's Eye component, as a fix target)doc")
 
         .value("Mona", AGRC::ModTypeId::Mona, R"doc(Mona from GI)doc")
 
@@ -286,9 +291,8 @@ tell whether the registry it populated is still the one being read. Deliberately
         .def_static("getHashRemapTargets", &AGRC::ModTypeIdTools::getHashRemapTargets, py::arg("value"), py::doc(R"doc(
 Retrieves the mod types a given mod type's **hashes** can be remapped onto
 
-This is the remap graph itself. It mirrors the ``map`` argument the pure-Python :class:`GIBuilder`
-passes to each mod type's :class:`Hashes`, lifted out of the 43 individual factories into one table
-so a target is named by :class:`ModTypeId` rather than by a bare string
+This is the remap graph itself: one table, naming each target by :class:`ModTypeId` rather than by
+a bare string
 
 .. note::
     Two :class:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1542" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1482" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -44,25 +44,23 @@ Held by ``shared_ptr`` because that is what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1558" column="42" bodyfile="src/data/IniFixBuilderData.cpp" bodystart="684" bodyend="695"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1498" column="42" bodyfile="src/data/IniFixBuilderData.cpp" bodystart="701" bodyend="712"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-The version-keyed table of :cpp:class:`IniFixBuilder` factories -- the C++ counterpart
-to the pure-Python ``IniFixBuilderData`` dictionary (``data/IniFixBuilderData.py``)
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The version-keyed table of :cpp:class:`IniFixBuilder` factories :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
 
-73 rows across 10 game versions (4.0, 4.4, 4.6, 4.8, 5.0, 5.3, 5.4, 5.5, 5.6, 5.7), each mapping a
-``(version, mod name)`` pair to one :cpp:class:`IniFixBuilderFuncs` method
+Each row maps a ``(fromVersion, fromMod, toVersion, toMod)`` key to one
+:cpp:class:`IniFixBuilderFuncs` method
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
    Mod names come from :cpp:func:`ModTypeIdTools::getName` rather than being spelled out as
-   string literals, exactly as the original&apos;s own
-   ``ModTypeIdTools.getName(ModTypeId.Amber)`` keys do -- so a rename in the registry
+   string literals -- so a rename in the registry
    cannot silently desync this table from it
 
 .. note::
@@ -72,7 +70,7 @@ to the pure-Python ``IniFixBuilderData`` dictionary (``data/IniFixBuilderData.py
    once, at 4.0
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1539" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="1539" bodyend="1559"/>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1479" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="1479" bodyend="1499"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderData</scope><name>IniFixBuilderData</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a74456d4ba9053093a3797db72cf4ca73" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderData</scope><name>repo</name></member>

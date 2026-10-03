@@ -73,8 +73,8 @@ least :attr:`identityMin` with while every other stays under :attr:`identityGap`
 :attr:`identifyTexture`; empty skips the step
 
 .. note::
-    Leaving this empty is how the pass silently identified nothing for a whole session -- the
-    thumbprints were being set on the FIXER's config, which no longer reads them
+    The thumbprints are read from here only, not from the fixer's config; leaving this empty makes
+    the pass silently identify nothing
         )doc"))
         .def_readwrite("thumbprintSize", &AGRC::WWMITextureFacts::thumbprintSize,
                         py::doc(":class:`int`: The side of a thumbprint. **Default**: ``16``"))
@@ -220,9 +220,7 @@ IDENTIFIES a mod's textures is :class:`WWMITextureFacts`, on the parser
 role, its register layout per component, its pixel thumbprints, and where its game textures are
 downloaded from.
 
-The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once. The field
-this replaced held only the register layout and was bound nowhere, which left the strongest texture
-identification path unreachable from a prototype
+The same object :attr:`WWMIParserConfig.textures` takes, so a character states these once
         )doc"))
         .def_readwrite("createdTextures", &AGRC::WWMIFixerConfig::createdTextures,
                         py::doc("List[:class:`WWMIFixerConfig.CreatedTexture`]: The textures the fix invents, each bound wherever a binding names its role"))

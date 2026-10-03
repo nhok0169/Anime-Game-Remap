@@ -30,13 +30,11 @@ namespace AGRemapCore {
      * @brief
      @rst
      A class that contains the needed data for each iteration after calling
-     `IniSectionGraph::iterSectsByContentPart` -- the C++ port of ``SectionIterData.py``'s
-     ``SectionIterData`` class :raw-html:`<br />` :raw-html:`<br />`
+     `IniSectionGraph::iterSectsByContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         Owns nothing -- every member is a non-owning reference into data owned elsewhere (the
-        `IniSectionGraph`/`IfTemplate` this iteration data came from), matching every other class
-        in this port's own "who owns what" convention. Simplifies
+        `IniSectionGraph`/`IfTemplate` this iteration data came from). Simplifies
         `IfContentPartColouring`\\<K, V, KeyHash, KeyEqual, ValueHash, ValueEqual\\>'s independent
         ``ValueHash``/``ValueEqual`` template parameters down to reusing ``KeyHash``/``KeyEqual``
         for both -- matching how the `Python`_ binding instantiates it anyway (``PyObjectHash``/
@@ -96,8 +94,7 @@ namespace AGRemapCore {
      * @brief
      @rst
      A class that contains the needed data for each iteration after calling
-     `IniSectionGraph::iterByQuery` -- the C++ port of ``SectionIterData.py``'s
-     ``SectionIterQueryData`` class :raw-html:`<br />` :raw-html:`<br />`
+     `IniSectionGraph::iterByQuery` :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         Owns nothing -- see #SectionIterData's own top-level note, which applies identically here.

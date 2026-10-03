@@ -27,25 +27,8 @@ namespace AGRC = AGRemapCore;
 
 
 void initCppIniNamingTools(pybind11::module_ &m) {
-    // 'CppIniNamingTools', not 'IniNamingTools': the pure-Python IniNamingTools is still exported
-    // under that name, and the two do NOT agree. Its getModSuffixedName returns
-    // `name[:len(suffix)]` where it means `name[:-len(suffix)]`, so a name that ALREADY ends in the
-    // suffix comes back truncated to its first few characters -- getRemapFixName(
-    // "TextureOverrideGanyuTwilightFaceRemapFix", "Ganyu") is "TextureOGanyuRemapFix" there and
-    // "TextureOverrideGanyuTwilightFaceGanyuRemapFix" here. The C++ port implements the documented
-    // behaviour on the maintainer's explicit instruction; see IniNamingTools::getModSuffixedName.
-    //
-    // That difference is invisible until a section name reaches a rename already carrying the
-    // suffix, which is exactly what happens to a section the parser INVENTS for a download.
-    py::class_<AGRC::IniNamingTools> cls(m, "CppIniNamingTools", R"doc(
-The naming conventions a fix follows, as the C++ core implements them
-
-.. warning::
-    Not the same as the pure-Python :class:`IniNamingTools`. That one's ``getModSuffixedName`` keeps
-    the first ``len(suffix)`` characters of a name that already ends in the suffix, where it means to
-    strip the suffix off the end -- a confirmed bug, contradicting its own docstring. This class
-    implements the documented behaviour, and it is what every compiled fix actually uses, so a fix
-    written in Python should use this one to match
+    py::class_<AGRC::IniNamingTools> cls(m, "IniNamingTools", R"doc(
+The naming conventions a fix follows -- the ones every compiled fix uses
 
 Every method is static.
     )doc");

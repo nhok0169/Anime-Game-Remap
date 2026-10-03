@@ -29,6 +29,7 @@
 #include "AGRemapCore/model/iniresources/IniResource.h"
 #include "../iniresources/PyIniGroupedResource.h"
 #include "../PyVersion.h"
+#include "../../constants/PyConstantEnums.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -39,43 +40,6 @@ namespace AGRC = AGRemapCore;
 
 
 namespace {
-
-// DownloadMode is a plain C++ enum here but a StrEnum on the Python side, so it crosses by value
-// rather than by identity -- the same treatment parseGraphReplaceMode gives IniGraphReplaceMode
-// (PyResEdit.cpp). Reading through '.value' rather than comparing members means a caller can pass
-// either the Python enum member or the bare string it carries.
-const char* downloadModeName(AGRC::DownloadMode mode) {
-    switch (mode) {
-        case AGRC::DownloadMode::Disabled: return "disabled";
-        case AGRC::DownloadMode::Always: return "always";
-        default: return "normal";
-    }
-}
-
-
-AGRC::DownloadMode parseDownloadMode(const py::object &mode) {
-    if (mode.is_none()) {
-        return AGRC::DownloadMode::Normal;
-    }
-
-    py::object value = py::hasattr(mode, "value") ? mode.attr("value") : mode;
-    std::string parsed = py::str(value).cast<std::string>();
-
-    if (parsed == "disabled") {
-        return AGRC::DownloadMode::Disabled;
-    }
-
-    if (parsed == "always") {
-        return AGRC::DownloadMode::Always;
-    }
-
-    if (parsed == "normal") {
-        return AGRC::DownloadMode::Normal;
-    }
-
-    throw py::value_error("Unknown download mode: '" + parsed + "'");
-}
-
 
 // getResources()/getFileDownloads() hand out unique_ptrs the .ini file owns. Copying them out is
 // impossible and moving them out would gut the file, so the binding hands Python borrowed pointers
@@ -97,11 +61,11 @@ std::vector<AGRC::IniResource*> borrowAll(std::vector<std::unique_ptr<AGRC::IniR
 
 void initCppIniFile(pybind11::module_ &m) {
     py::class_<AGRC::IniFile>(m, "IniFile", R"doc(
-Class for handling .ini files -- the C++-backed counterpart to the pure-Python :class:`IniFile`
+Class for handling .ini files
 :raw-html:`<br />` :raw-html:`<br />`
 
 .. note::
-    Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
+    Mod types cross this boundary as **ids**, not as :class:`ModType` objects: this
     class resolves a mod type's parse/fix/remove builders through the global registry keyed by
     ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
     :class:`ModType`
@@ -153,12 +117,12 @@ downloadMode: Optional[:class:`DownloadMode`]
 
     **Default**: ``None``, meaning :attr:`DownloadMode.Normal`
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The version of the mod being fixed :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The version of the mod being fixed to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -185,7 +149,7 @@ filteredToModTypeIds: Optional[Set[:class:`int`]]
             return std::make_unique<AGRC::IniFile>(std::move(file), std::move(txt), std::move(gameTypeIds),
                                                    std::move(filteredFromModTypeIds), std::move(forcedFromModTypeIds),
                                                    std::move(overrideModTypes), iniClassifier, std::nullopt,
-                                                   parseDownloadMode(downloadMode), std::move(fromVersion),
+                                                   toDownloadMode(downloadMode), std::move(fromVersion),
                                                    std::move(toVersion), std::move(filteredToModTypeIds));
         }), py::arg("file") = py::none(), py::arg("txt") = "", py::arg("gameTypeIds") = py::none(),
             py::arg("filteredFromModTypeIds") = py::none(), py::arg("forcedFromModTypeIds") = py::none(),
@@ -208,8 +172,8 @@ by its text
 :class:`str`: The folder the .ini file resides in, or ``""`` when it has no path
 
 .. note::
-    This deliberately differs from the pure-Python :attr:`IniFile.folder`, which falls back to the
-    folder the script is run from. Derived from :attr:`IniFile.file` rather than stored
+    This does not fall back to the folder the script is run from. Derived from
+    :attr:`IniFile.file` rather than stored
         )doc"))
 
         .def_property("fileTxt", &AGRC::IniFile::getFileTxt, &AGRC::IniFile::setFileTxt, py::doc(R"doc(
@@ -451,26 +415,23 @@ name: :class:`str`
         // The pure-Python original calls this one 'version'; core splits it in two, since a fix
         // reads from one game version and writes to another.
         // Properties rather than def_readwrite so these accept the same
-        // Union[str, int, float, CppVersion] every other version argument in this API does --
-        // CppVersion itself exposes no constructor, so a plain readwrite would be unsettable
+        // Union[str, int, float, Version] every other version argument in this API does --
+        // Version itself exposes no constructor, so a plain readwrite would be unsettable
         // from Python.
         .def_property("fromVersion",
                       [](const AGRC::IniFile &self) { return self.fromVersion; },
                       [](AGRC::IniFile &self, const py::object &v) { self.fromVersion = parseVersionArg(v); },
-    py::doc(R"doc(Optional[:class:`CppVersion`]: The game version the .ini file originates from
+    py::doc(R"doc(Optional[:class:`Version`]: The game version the .ini file originates from
 
-Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set)doc"))
+Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when set)doc"))
 
         .def_property("toVersion",
                       [](const AGRC::IniFile &self) { return self.toVersion; },
                       [](AGRC::IniFile &self, const py::object &v) { self.toVersion = parseVersionArg(v); },
-    py::doc(R"doc(Optional[:class:`CppVersion`]: The game version to fix the .ini file to
+    py::doc(R"doc(Optional[:class:`Version`]: The game version to fix the .ini file to
 
-Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set)doc"))
+Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`Version` when set)doc"))
 
-        // A property rather than def_readwrite: AGRC::DownloadMode is not a registered pybind
-        // enum (Python's DownloadMode is its own StrEnum), so it crosses as its string value --
-        // the same convention the constructor already uses.
         .def_readwrite("logger", &AGRC::IniFile::logger,
     py::doc(R"doc(Optional[:class:`BaseLogger`]: Where this .ini file reports progress and problems
 
@@ -478,12 +439,11 @@ Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when
 passed: a .ini file is routinely built before the caller has decided where its output should go)doc"))
 
         .def_property("downloadMode",
-                      [](const AGRC::IniFile &self) { return std::string(downloadModeName(self.downloadMode)); },
-                      [](AGRC::IniFile &self, const py::object &mode) { self.downloadMode = parseDownloadMode(mode); },
-    py::doc(R"doc(:class:`str`: How the .ini file's referenced downloads are handled
+                      [](const AGRC::IniFile &self) { return enumMember(self.downloadMode); },
+                      [](AGRC::IniFile &self, const py::object &mode) { self.downloadMode = toDownloadMode(mode); },
+    py::doc(R"doc(:class:`DownloadMode`: How the .ini file's referenced downloads are handled
 
-Reads back as the :class:`DownloadMode` string value (``"normal"``, ``"disabled"``, ``"always"``);
-accepts either a :class:`DownloadMode` or its value when set)doc"))
+Accepts a :class:`DownloadMode`, or its name (``"normal"``, ``"disabled"``, ``"always"``), when set)doc"))
 
         // tsl::ordered_set has no built-in pybind11 type_caster (same story as tsl::ordered_map --
         // see PyIniClassifyStats.cpp) so it crosses by hand. A Python list rather than a set on the
@@ -653,8 +613,7 @@ The parent folder of each resource's source path, across both :meth:`getResource
 an :class:`IniFixResource`
 
 .. note::
-    That second half is a deliberate divergence from the pure-Python original, whose own
-    ``getReferencedFolders()`` only ever looked at a resource's *source* side. The fix **writes**
+    The fixed paths are included, not only each resource's *source* side, because the fix **writes**
     files to a fixed path, so a folder walk built on this method has to be able to reach that
     folder even when no source path points into it
 

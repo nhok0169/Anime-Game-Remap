@@ -27,10 +27,10 @@ namespace AGRemapCore {
      Every :cpp:class:`ModType` the software ships with, and the one place that files them into
      :cpp:class:`ModTypeIdTools`'s global registry :raw-html:`<br />` :raw-html:`<br />`
 
-     The counterpart to the pure-Python ``ModTypes`` enum (``constants/ModTypes.py``), whose
-     ``getAll()`` likewise builds the shipped mod types on demand. Genshin Impact is currently the
-     only game with a builder, so #all is :cpp:func:`GIBuilder::all` today; a second game would be
-     aggregated here rather than at each call site
+     The counterpart to the `Python`_ ``ModTypes`` enum (``constants/ModTypes.py``), whose
+     ``getAll()`` likewise builds the shipped mod types on demand. #all aggregates every game's
+     builder (:cpp:func:`GIBuilder::all`, then :cpp:func:`WWMIBuilder::all`) here rather than at
+     each call site
 
      .. important::
         #registerAll is **not** called automatically by anything in ``AGRemapCore``, and that is
@@ -92,7 +92,7 @@ namespace AGRemapCore {
              The difference from #registerAll is only what happens on a collision: that one
              overwrites, this one yields. This is what the *implicit* population behind
              :cpp:func:`GlobalIniClassifiers::classifier` uses, so that asking for the default
-             classifier can no longer silently replace a :cpp:class:`ModType` the caller had
+             classifier cannot silently replace a :cpp:class:`ModType` the caller had
              already registered under one of the shipped ids -- a caller that registered an id has
              said what it wants for that id, and the default filling in the rest is a different
              statement from the default overruling it

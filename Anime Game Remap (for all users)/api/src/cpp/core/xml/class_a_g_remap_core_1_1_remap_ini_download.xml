@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="211" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="211" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="194" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="194" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" prot="public" static="no" mutable="no">
         <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref> &amp;, <ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref> &amp;)&gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="216" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="216" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="199" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_download_1a5564b71a96e469e0badf1257adc4a4df" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_download_cache" kindref="compound">DownloadCache</ref> *</type>
@@ -49,7 +49,7 @@
 The run&apos;s own record of what has already been fetched, borrowed -- not owned
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Set by whoever drives the fix (:cpp:class:`RemapService` does it in
+Set by whoever drives the fix (:cpp:class:`AGRemapCore::RemapService` does it in
 ``_fixResource``), for the same reason it sets :cpp:member:`IniResource::logger`
 there: a download is built by the PARSER, which has neither. Left ``nullptr`` this
 resource simply cannot share anything with the rest of the run and downloads its own
@@ -58,7 +58,77 @@ copy -- correct, just wasteful. See \ref DownloadCache
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="231" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="231" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="214" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResource::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>AGRemapCore::IniResource::type</qualifiedname>
+        <briefdescription>
+<para>The name for the type of resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="63" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResource::srcPath</definition>
+        <argsstring></argsstring>
+        <name>srcPath</name>
+        <qualifiedname>AGRemapCore::IniResource::srcPath</qualifiedname>
+        <briefdescription>
+<para>The full file path to the resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="68" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseLogger&gt; AGRemapCore::IniResource::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>AGRemapCore::IniResource::logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where this resource reports progress and problems, or ``nullptr`` for nowhere
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Set by whoever registers the resource (see
+:cpp:func:`IniResEditContext::logger`), rather than passed to a ``fix``. It lives here,
+on the base, for two reasons :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* every ``fix`` in this hierarchy is declared per concrete leaf with its own signature
+  (see this class&apos;s own note on why there is no generic one), and each leaf also carries
+  a ``fixFunc`` letting a caller replace that fix wholesale. Threading a view through as
+  a *parameter* would mean either denying it to those custom fixes -- the case where
+  narration matters most -- or reshaping every one of those ``std::function`` typedefs,
+  each of which is pinned by a `pybind11`_ binding
+* a plain :cpp:class:`AGRemapCore::IniResource` is what actually gets registered today, not one of
+  the ``Remap`` subclasses, so a view attached only to those would reach nothing
+
+:raw-html:`&lt;br /&gt;`
+
+A ``shared_ptr``, so a :cpp:class:`AGRemapCore::BaseLogger` subclass defined in `Python`_ stays alive
+for exactly as long as this resource holds it
+
+.. note::
+   :cpp:class:`AGRemapCore::IniGroupedResource` is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is its
+   own root -- so it carries its own copy of this member rather than inheriting one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="99" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="99" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -143,7 +213,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="205" column="13" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="87" bodyend="89"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="188" column="13" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="87" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a2416a9d04223e3061c41c5058dcf826d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -166,7 +236,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="245" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="136" bodyend="142"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="228" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="136" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -198,7 +268,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="247" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="91" bodyend="93"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="230" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="91" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -230,7 +300,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="248" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="95" bodyend="97"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="231" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="95" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -262,7 +332,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="249" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="99" bodyend="101"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="232" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="99" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -294,7 +364,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="250" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="103" bodyend="105"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="233" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="103" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -314,7 +384,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="255" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="107" bodyend="109"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="238" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="107" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a29aed6745543fde48545ffc3cc73e0db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -358,7 +428,7 @@ and get this file&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="265" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="144" bodyend="230"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="248" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="144" bodyend="238"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -432,7 +502,79 @@ once the download/cache-hit completes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="282" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="232" bodyend="248"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="265" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="240" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResource::hasRequired</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasRequired</name>
+        <qualifiedname>AGRemapCore::RemapIniResource::hasRequired</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1">hasRequired</reimplements>
+        <briefdescription>
+<para>Determines whether all the necessary data has been collected to fix this resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether all the required data is gathered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="114" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniResource::IniResource</definition>
+        <argsstring>(std::string type, const std::string &amp;iniFolderPath, const std::string &amp;srcPath)</argsstring>
+        <name>IniResource</name>
+        <qualifiedname>AGRemapCore::RemapIniResource::IniResource</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource (resolved to an absolute path against &apos;iniFolderPath&apos;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="112" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="22" bodyend="23"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -480,30 +622,21 @@ there directly, and records the outcome in &apos;downloadStats&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="300" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="111" bodyend="134"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="283" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="111" bodyend="134"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-This class inherits from :cpp:class:`RemapIniResource`
+This class inherits from :cpp:class:`AGRemapCore::RemapIniResource`
 
-Class for some download resource in a .ini file that&apos;s used by the overall remap process --
-mirrors the pure-Python ``RemapIniDownload`` class (``model/iniresources/RemapIniResource.py``)
+Class for some download resource in a .ini file that&apos;s used by the overall remap process
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The Python original&apos;s own ``remapFix`` took a ``Mod`` purely to build
-   ``downloadHandler``/``cacheHitHandler`` callbacks that called ``mod.print(...)`` -- per the
-   maintainer&apos;s own direction (Mod is being removed from this API entirely), #remapFix instead
-   takes those same handler callbacks directly from its caller. It also actually returns
-   whether a fresh download occurred, unlike the Python original&apos;s own ``_fix``/``remapFix``,
-   which have no ``return`` statement at all and so always implicitly return ``None`` --
-   contradicting their own docstrings (&quot;Whether the resource has been downloaded&quot;/&quot;Whether the
-   resource was fixed&quot;). There&apos;s no concrete example of the &quot;correct&quot; `None` return being relied
-   upon anywhere, so this port implements the documented contract rather than the (almost
-   certainly unintentional) always-`None` gap
+   #remapFix takes its ``downloadHandler``/``cacheHitHandler`` callbacks directly from its
+   caller, and returns whether a fresh download occurred
 </verbatim> </para>
     </detaileddescription>
     <inheritancegraph>
@@ -561,7 +694,7 @@ mirrors the pure-Python ``RemapIniDownload`` class (``model/iniresources/RemapIn
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="188" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="188" bodyend="301"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="171" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="171" bodyend="284"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" prot="protected" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>download</name></member>

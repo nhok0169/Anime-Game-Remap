@@ -67,10 +67,8 @@
 The filter used to indicate the valid order indices to process for some
 :cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
-matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
-convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
-for that original&apos;s ``partFilter = None``. Identical to
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers -- an
+empty ``std::function`` means &quot;no filter&quot;. Identical to
 :cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
 </verbatim>    </para>
         </detaileddescription>
@@ -156,6 +154,24 @@ runs under
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="177" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" bodystart="177" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices a #PartFilter returns -- ``long long`` because
+that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="67" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_branch_add_1af73f032e575a0bf355978e24072f60fa" prot="public" static="no" mutable="no">
@@ -240,8 +256,7 @@ runs under
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched), matching
-the pure-Python original&apos;s ``pass``
+Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -318,6 +333,141 @@ meaning &quot;every key&quot;, matching
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h" line="194" column="19"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>virtual Graph &amp; AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::editFromIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47">editFromIni</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a5cd8936bb37addefe7adc43b2b750d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a033b5215a6a0ee414990031f4442222e" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add_1a26c02624a37816ec358df9401065a4c8" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**.
+   Subclasses that
+   actually need the ``.ini`` file&apos;s state override this rather than #edit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="109" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -370,7 +520,7 @@ branch&apos;s condition is satisfiable with
    content part as atomic, so a part holding both a ``run =`` and a ``drawindexed`` takes the
    call before its own draw and counts every path covered -- leaving the draws inside the
    callee with none. Keeping the branch&apos;s additions in the branch avoids creating that part at
-   all (2026-09-16)
+   all
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>

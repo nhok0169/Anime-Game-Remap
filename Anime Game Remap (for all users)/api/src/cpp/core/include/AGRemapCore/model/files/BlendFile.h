@@ -105,11 +105,7 @@ namespace AGRemapCore {
              The two element names every `blend`_ buffer uses, in both games :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Here rather than in each reader because three files had their own file-local copies of
-             the pair -- this one, ``VGComponentSplit.cpp`` and ``WWMIFixer.cpp`` -- and a spelling
-             repeated per file is a spelling that can be wrong in one of them. One such copy was
-             silently emptied by a patch script and every Sanhua `blend`_ in a corpus was skipped
-             from a clean build (2026-09-29)
+             Kept here so that every reader of a `blend`_ buffer shares one spelling of them
              @endrst
              */
             static inline const std::string BlendWeightKey = "BLENDWEIGHT";

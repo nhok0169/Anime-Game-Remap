@@ -28,7 +28,7 @@ namespace AGRemapCore {
             config.modTypeId = ModTypeId::AyakaSpringbloom;
 
             // "AyakaSpringbloom" here (the download FOLDER) but "AyakaSpringBloom" for her assets --
-            // ModTypeIdTools::getName returns the capital-B spelling, mirroring ModTypeNames.py. The
+            // ModTypeIdTools::getName returns the capital-B spelling, the name it has always had. The
             // two really do differ; see ModTypeId.cpp's own note.
             config.downloadCharFolder = "AyakaSpringbloom";
             config.downloadVersionFolder = "4_0";

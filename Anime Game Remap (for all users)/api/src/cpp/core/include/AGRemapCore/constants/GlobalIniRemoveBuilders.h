@@ -27,33 +27,25 @@ namespace AGRemapCore {
      Global, shared builder used by the software to create the modules that remove fixes from a
      ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``GlobalIniRemoveBuilders`` class
-     (``constants/GlobalIniRemoveBuilders.py``) -- a ``DeferredEnum`` there, lazily building its one
-     ``IniRemoveBuilder(RemapIniRemover)`` the first time it's accessed. #removeBuilder below gets the
-     same lazy, build-once-then-reuse behavior from a C++11 function-local ``static`` (guaranteed
-     thread-safe, exactly-once initialization), exactly as :cpp:class:`GlobalIniClassifiers` does
-     :raw-html:`<br />` :raw-html:`<br />`
+     #removeBuilder below is built lazily, the first time it is accessed, and reused afterwards -- a
+     C++11 function-local ``static`` (guaranteed thread-safe, exactly-once initialization), exactly
+     as :cpp:class:`GlobalIniClassifiers` does :raw-html:`<br />` :raw-html:`<br />`
 
      This is what :cpp:class:`ModType` falls back to when constructed with no remove builder of its
-     own, matching the pure-Python ``ModType``'s own
-     ``iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value`` default :raw-html:`<br />`
-     :raw-html:`<br />`
+     own :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         The *builder* is shared by every :cpp:class:`ModType` that falls back to it, but the
         **removers** are not: :cpp:func:`IniRemoveBuilder::build` constructs a fresh one per call,
-        bound to that caller's ``.ini`` file. The pure-Python original shares one remover instead --
-        see :cpp:class:`IniRemoveBuilder`'s own warning for why that was not mirrored
+        bound to that caller's ``.ini`` file -- see :cpp:class:`IniRemoveBuilder`'s own warning
 
      .. note::
         The builder returned here wraps :cpp:func:`IniRemoveBuilder::defaultFactory`, so it produces
-        a real :cpp:class:`RemapIniRemover` -- the same thing the pure-Python original's
-        ``IniRemoveBuilder(RemapIniRemover)`` produces
+        a real :cpp:class:`RemapIniRemover`
 
      .. note::
         #globalRemoveBuilder is the second one here, and produces the general-use
-        :cpp:class:`GlobalRemapIniRemover` instead. It has no pure-Python counterpart -- that class is new
-        rather than ported
+        :cpp:class:`GlobalRemapIniRemover` instead
      @endrst
      */
     class GlobalIniRemoveBuilders {

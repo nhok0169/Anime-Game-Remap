@@ -97,6 +97,8 @@
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>include/AGRemapCore/model/iniresources/RemapBlendResource.h</label>
@@ -125,13 +127,13 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -173,11 +175,11 @@
         <link refid="_v_g_split_group_resource_8h"/>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -187,7 +189,7 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="52" relation="include">
         </childnode>
       </node>
       <node id="23">
@@ -198,12 +200,12 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="34">
+      <node id="35">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.h</label>
         <link refid="_v_g_split_group_res_builder_8h"/>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
       </node>
       <node id="14">
@@ -238,18 +240,16 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="38">
+      <node id="39">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="39" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
         <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
@@ -261,29 +261,31 @@
         </childnode>
         <childnode refid="48" relation="include">
         </childnode>
-      </node>
-      <node id="37">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
-        <link refid="_ini_parse_download_data_8h"/>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
         <childnode refid="49" relation="include">
         </childnode>
       </node>
-      <node id="39">
+      <node id="38">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
         <label>include/AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
         <childnode refid="41" relation="include">
         </childnode>
         <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -319,6 +321,10 @@
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
       <node id="31">
+        <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
+        <link refid="_lumine_fixer_8cpp"/>
+      </node>
+      <node id="32">
         <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
         <link refid="_neuvillette_fixer_8cpp"/>
       </node>
@@ -330,27 +336,27 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="32">
+      <node id="33">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
       </node>
-      <node id="33">
+      <node id="34">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="40">
+      <node id="41">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="41">
+      <node id="42">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="43">
+      <node id="44">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="44">
+      <node id="45">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
@@ -358,7 +364,7 @@
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="50">
+      <node id="51">
         <label>src/model/iniresources/RemapIniResource.cpp</label>
         <link refid="_remap_ini_resource_8cpp"/>
       </node>
@@ -374,15 +380,15 @@
         <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
         <link refid="_v_g_merge_group_resource_8cpp"/>
       </node>
-      <node id="36">
+      <node id="37">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
-      <node id="51">
+      <node id="52">
         <label>src/model/stats/RemapStats.cpp</label>
         <link refid="_remap_stats_8cpp"/>
       </node>
-      <node id="45">
+      <node id="46">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
@@ -390,27 +396,27 @@
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
         <link refid="_v_g_merge_group_res_builder_8cpp"/>
       </node>
-      <node id="35">
+      <node id="36">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
-      <node id="46">
+      <node id="47">
         <label>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</label>
         <link refid="_g_i_m_i_parser_instantiation_8cpp"/>
       </node>
-      <node id="47">
+      <node id="48">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="48">
+      <node id="49">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="49">
+      <node id="50">
         <label>src/model/strategies/iniParsers/IniParseDownloadDataInstantiation.cpp</label>
         <link refid="_ini_parse_download_data_instantiation_8cpp"/>
       </node>
-      <node id="42">
+      <node id="43">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
@@ -446,34 +452,34 @@
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33" refid="class_a_g_remap_core_1_1_remap_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref><sp/>{</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44" refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" kindref="member">blend</ref>;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54" refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" kindref="member">position</ref>;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64" refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" kindref="member">texcoord</ref>;</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76" refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" kindref="member">buf</ref>;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88" refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" kindref="member">other</ref>;</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101" refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" kindref="member">ini</ref>;</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106" refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" kindref="member">texEdit</ref>;</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111" refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" kindref="member">texAdd</ref>;</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116" refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" kindref="member">download</ref>;</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" kindref="member">clear</ref>();</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resourceType);</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"></highlight></codeline>
-<codeline lineno="148"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="31" refid="class_a_g_remap_core_1_1_remap_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" kindref="member">blend</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" kindref="member">texcoord</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" kindref="member">buf</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" kindref="member">other</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" kindref="member">ini</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" kindref="member">texEdit</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" kindref="member">texAdd</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" kindref="member">download</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resourceType);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/stats/RemapStats.h"/>
   </compounddef>

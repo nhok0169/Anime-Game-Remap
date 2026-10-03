@@ -87,15 +87,13 @@ namespace AGRemapCore {
              production rule :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Deliberately a `tsl::ordered_map`_, not a plain ``std::unordered_map`` -- the
-                pure-Python original's ``self._productions`` is a real Python ``dict``, which
-                iterates in insertion order, and :cpp:func:`constructDFA` (and its
+                Deliberately a `tsl::ordered_map`_, not a plain ``std::unordered_map`` --
+                :cpp:func:`constructDFA` (and its
                 :cpp:func:`addImpliedProductions` helper) iterate over every production while
                 generating fresh ids as they go. An unordered iteration order there means *which*
                 production/state gets discovered (and thus assigned) which generated id becomes a
                 traversal-order accident -- still a behaviorally-correct `DFA`_ either way, but not
-                a reproducible one across runs/implementations the way the pure-Python original's
-                is. Preserving insertion order here removes that specific source of nondeterminism
+                a reproducible one across runs. Preserving insertion order here removes that specific source of nondeterminism
              @endrst
              */
             using Productions = tsl::ordered_map<Id, Production, IdHash, IdEq>;
@@ -155,13 +153,11 @@ namespace AGRemapCore {
              * @param stateIdGenerator
              @rst
              The generator used by #constructDFA to generate fresh ids for the states of the
-             internal `DFA`_ (the pure-Python original's overridable ``_generateStateId``)
-             :raw-html:`<br />` :raw-html:`<br />`
+             internal `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
 
              If ``nullptr``, defaults (lazily, the first time #constructDFA actually needs one) to
              an :cpp:class:`IncIdGenerator` starting at ``Id(1)`` when #Id is an integral type, or a
-             :cpp:class:`UuidIdGenerator` (matching the pure-Python original's own default,
-             ``str(uuid.uuid4())``) when #Id is ``std::string``. Supply one explicitly for any other
+             :cpp:class:`UuidIdGenerator` (ids formatted like ``str(uuid.uuid4())``) when #Id is ``std::string``. Supply one explicitly for any other
              #Id
 
              **Default**: ``nullptr``
@@ -169,8 +165,7 @@ namespace AGRemapCore {
              * @param itemIdGenerator
              @rst
              The generator used by #constructDFA to generate fresh ids for dotted-item occurrences
-             (the pure-Python original's overridable ``_generateProductionId`` -- despite the name,
-             it does *not* generate production rule ids; see #Items) :raw-html:`<br />` :raw-html:`<br />`
+             (it does *not* generate production rule ids; see #Items) :raw-html:`<br />` :raw-html:`<br />`
 
              Same lazy default behavior as 'stateIdGenerator'
 
@@ -179,8 +174,7 @@ namespace AGRemapCore {
              * @param nodeIdGenerator
              @rst
              The generator used by #parse to generate fresh ids for the nodes of the returned
-             #Tree (the pure-Python original's overridable ``_generateParserNodeId``)
-             :raw-html:`<br />` :raw-html:`<br />`
+             #Tree :raw-html:`<br />` :raw-html:`<br />`
 
              Same lazy default behavior as 'stateIdGenerator'
 
@@ -447,9 +441,7 @@ namespace AGRemapCore {
              #constructDFA :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                Unlike #nullable/#first/#follow, #clear does **not** reset this -- matching the
-                pure-Python original's own ``clear``, which never touches ``_reductions`` either.
-                Harmless in practice since #constructDFA always overwrites it wholesale
+                Unlike #nullable/#first/#follow, #clear does **not** reset this. Harmless in practice since #constructDFA always overwrites it wholesale
              @endrst
              */
             const Reductions& reductions() const;
@@ -460,16 +452,9 @@ namespace AGRemapCore {
              Parses a sequence of already-tokenized input tokens :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The pure-Python original also accepts a plain ``str`` directly, tokenizing it by
-                treating each individual character as its own token (via ``str.splitlines(keepends
-                = True)`` for correct per-character line/char numbering). Not ported here: every
-                real call site in this codebase always already has a real ``List[Token]`` in hand
-                (from a tokenizer's own ``simplifiedMaximalMunch``) before calling ``parse``, so the
-                raw-``str`` path is pure convenience with zero real callers -- and faithfully
-                replicating it would mean reimplementing Python's ``str.splitlines(keepends=True)``
-                line-boundary rules (which recognize several characters beyond ``\\n``/``\\r\\n``),
-                not something :cpp:func:`AGRemapCore::StringTools::splitlines` (keepends=False only)
-                already covers. Add it if/when a real caller needs it
+                Takes tokens only, not a raw string: every real call site already has a real
+                ``List[Token]`` in hand (from a tokenizer's own ``simplifiedMaximalMunch``) before
+                calling ``parse``
              @endrst
              *
              * @param tokens The tokenized tokens of the input text
@@ -562,8 +547,7 @@ namespace AGRemapCore {
              @rst
              Computes the `LR(0) closure`_ of a set of dotted items in place -- for every item whose
              symbol-after-the-dot is a non-terminal, adds a fresh dot-at-0 item for every production
-             rule of that non-terminal not already present in 'items' -- the C++ counterpart to the
-             pure-Python original's own ``_addImpliedProductions`` :raw-html:`<br />` :raw-html:`<br />`
+             rule of that non-terminal not already present in 'items' :raw-html:`<br />` :raw-html:`<br />`
              @endrst
              *
              * @param items The dotted items to compute the closure of, grown in place
@@ -573,8 +557,7 @@ namespace AGRemapCore {
              * @param stateId
              @rst
              The id of the state 'items' belongs to, if already known (only true for the very first,
-             starting state -- see the class-level note on ``_addImpliedProductions`` in the pure-Python
-             original for why every other call site leaves this ``std::nullopt`` and updates
+             starting state -- every other call site leaves this ``std::nullopt`` and updates
              'statesByProds' separately, once the state's own final id is actually decided)
              @endrst
              */
@@ -587,8 +570,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Determines whether some state has a reduce action available for a given lookahead
-             token type -- the C++ counterpart to the pure-Python original's own classmethod
-             ``_hasReduction``
+             token type
              @endrst
              *
              * @param currentIsAccept Whether the current state is an accepting state

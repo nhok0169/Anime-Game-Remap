@@ -354,7 +354,7 @@ Collects and remaps the references to the resource
 
 .. note::
     With no .ini file there is nothing to build the resources *for*, so this collects and remaps but
-    builds nothing -- exactly as the pure-Python original did
+    builds nothing
 
 Parameters
 ----------

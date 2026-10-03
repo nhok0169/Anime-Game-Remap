@@ -37,12 +37,12 @@ namespace AGRemapCore {
      ``graphGroupEdits/`` edit operates on, behind an interface :raw-html:`<br />`
      :raw-html:`<br />`
 
-     **Why this interface exists at all.** Every other ported subsystem in this codebase could
-     name its container concretely, because both callers agreed on it. This one can't: a plain C++
+     **Why this interface exists at all.** Elsewhere in this codebase a container can be named
+     concretely, because both callers agree on it. This one can't: a plain C++
      caller's groups are a ``std::vector<IniGraphGroup<K, V>>`` (real C++ values, owned by the
      vector), while the `Python`_-facing groups are a `Python`_ ``list`` of ``IniGraphGroup``
      objects whose ``graphs`` really *is* a `Python`_ ``dict`` (``PyIniGraphGroup`` -- deliberately
-     so, because ``GIMIParser.py`` depends on that dict's *reference* semantics; see
+     so, because `Python`_ callers depend on that dict's *reference* semantics; see
      :cpp:class:`IniGraphGroup`'s own note). Converting one into the other at the binding boundary
      would silently break that aliasing, so instead the algorithms are written against this
      interface and each side supplies its own implementation:

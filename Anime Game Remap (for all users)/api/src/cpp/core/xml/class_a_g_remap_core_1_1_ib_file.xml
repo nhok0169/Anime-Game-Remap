@@ -221,6 +221,745 @@ handed straight in
         </inbodydescription>
         <location file="include/AGRemapCore/model/files/IbFile.h" line="140" column="18" bodyfile="src/model/files/IbFile.cpp" bodystart="84" bodyend="86"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufFile::getFileType</definition>
+        <argsstring>() const</argsstring>
+        <name>getFileType</name>
+        <qualifiedname>AGRemapCore::BufFile::getFileType</qualifiedname>
+        <briefdescription>
+<para>The name for the type of <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="152" column="31" bodyfile="src/model/files/BufFile.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a5f48e74d673d26f075b768f9b170f3c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufFile::setFileType</definition>
+        <argsstring>(std::string fileType)</argsstring>
+        <name>setFileType</name>
+        <qualifiedname>AGRemapCore::BufFile::setFileType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>fileType</declname>
+        </param>
+        <briefdescription>
+<para>Sets the name for the type of <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fileType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new file type name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="159" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; &amp; AGRemapCore::BufFile::getElements</definition>
+        <argsstring>() const</argsstring>
+        <name>getElements</name>
+        <qualifiedname>AGRemapCore::BufFile::getElements</qualifiedname>
+        <briefdescription>
+<para>The sequence of elements within the <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="164" column="31" bodyfile="src/model/files/BufFile.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufFile::setElements</definition>
+        <argsstring>(std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; elements)</argsstring>
+        <name>setElements</name>
+        <qualifiedname>AGRemapCore::BufFile::setElements</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+          <declname>elements</declname>
+        </param>
+        <briefdescription>
+<para>Sets the sequence of elements within the <computeroutput>.buf</computeroutput> file (recomputes <ref refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" kindref="member">getBytesPerLine</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new elements. Ownership of each element is transferred into this file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="172" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="59" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufFile::getBytesPerLine</definition>
+        <argsstring>() const</argsstring>
+        <name>getBytesPerLine</name>
+        <qualifiedname>AGRemapCore::BufFile::getBytesPerLine</qualifiedname>
+        <briefdescription>
+<para>The number of bytes per line in the <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="177" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BufFile::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>AGRemapCore::BufFile::isValid</qualifiedname>
+        <briefdescription>
+<para>Whether the size of <ref refid="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" kindref="member">getData</ref> is divisible by <ref refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" kindref="member">getBytesPerLine</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="182" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="87" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::BufFile::read</definition>
+        <argsstring>() override</argsstring>
+        <name>read</name>
+        <qualifiedname>AGRemapCore::BufFile::read</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_binary_file_1a516ededfe804043f2a93cc35d43d7f53">read</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reads the bytes in the ``.buf`` file
+</verbatim></para>
+<para><simplesect kind="return"><para>The read bytes</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BufFileNotRecognized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <ref refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" kindref="member">getSrc</ref> holds a file path that cannot be read as a valid <computeroutput>.buf</computeroutput> file of this format </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <ref refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" kindref="member">getSrc</ref> holds raw bytes that are not valid for this format </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="196" column="21" bodyfile="src/model/files/BufFile.cpp" bodystart="99" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref></type>
+        <definition>BufLineData AGRemapCore::BufFile::decodeLine</definition>
+        <argsstring>(const ByteVec &amp;src) const</argsstring>
+        <name>decodeLine</name>
+        <qualifiedname>AGRemapCore::BufFile::decodeLine</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Decodes a line (a vertex) within the <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source bytes to decode</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The decoded values for the line, keyed by each element&apos;s key (see <ref refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" kindref="member">getElements</ref>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="205" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="112" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::BufFile::encodeLine</definition>
+        <argsstring>(const BufLineData &amp;src) const</argsstring>
+        <name>encodeLine</name>
+        <qualifiedname>AGRemapCore::BufFile::encodeLine</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Encodes the data about a vertex to their corresponding bytes for the line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The corresponding data for the vertex, keyed by each element&apos;s key (see <ref refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" kindref="member">getElements</ref>)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The encoded bytes for the line </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="214" column="21" bodyfile="src/model/files/BufFile.cpp" bodystart="137" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">FixResult</ref></type>
+        <definition>BufFile::FixResult AGRemapCore::BufFile::fix</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;fixedFile=std::nullopt, const std::vector&lt; Filter &gt; &amp;filters={})</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::BufFile::fix</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>fixedFile</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">Filter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Fixes the <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fixedFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path for the fixed <computeroutput>.buf</computeroutput> file. If this is <computeroutput>std::nullopt</computeroutput>, the fixed bytes are returned directly instead of being written to a file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filters to process each line, applied in order</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If &apos;fixedFile&apos; is <computeroutput>std::nullopt</computeroutput>, the fixed bytes. Otherwise, &apos;fixedFile&apos; itself </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="225" column="23" bodyfile="src/model/files/BufFile.cpp" bodystart="153" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1aaa38226575e9cd1aaeb472c629804357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; AGRemapCore::BufFile::filter</definition>
+        <argsstring>(const Predicate &amp;predicate)</argsstring>
+        <name>filter</name>
+        <qualifiedname>AGRemapCore::BufFile::filter</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" kindref="member">Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Keeps only the lines (vertices) whose decoded data satisfies &apos;predicate&apos;, dropping the
+rest :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Where :cpp:func:`fix` maps every line through its filters and keeps them all, this
+*selects* -- the lines it keeps come through byte for byte :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A kept line&apos;s **original bytes are copied through untouched** rather than being
+   re-encoded from its decoded data, so a lossy data type (a :cpp:class:`BufUnorm`, a
+   :cpp:class:`BufFloat16`) cannot be perturbed by the decode a predicate needs. Only
+   which lines survive is up to the predicate, never their contents
+
+.. note::
+   A ``.buf`` file has no idea which of its lines is which vertex, so dropping lines
+   out of a ``.vb`` invalidates every index in the ``.ib`` that pointed past them. The
+   returned line indices are exactly what remapping those indices needs -- see
+   :cpp:class:`IbFile` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If &apos;predicate&apos; throws, the file is left completely untouched -- nothing is written
+until every line has been decided
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decides whether one line is kept, given that line&apos;s decoded data</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The indices of the lines that were kept, in ascending order. Empty when nothing was kept, and also when the file has no elements to decode by</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the kept bytes do not divide evenly into lines <ndash/> only reachable when this file&apos;s own data was not a whole number of lines to start with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="262" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="189" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" kindref="compound">BufColumnData</ref> &gt;</type>
+        <definition>std::vector&lt; BufFile::BufColumnData &gt; AGRemapCore::BufFile::decodeAll</definition>
+        <argsstring>() const</argsstring>
+        <name>decodeAll</name>
+        <qualifiedname>AGRemapCore::BufFile::decodeAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Decodes the whole file at once, **column by column** rather than line by line -- the
+bulk counterpart to :cpp:func:`decodeLine` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Where :cpp:func:`decodeLine` builds a fresh keyed map per line, this walks the elements
+in declaration order and writes straight into one contiguous, uniformly typed buffer
+per column, so nothing is hashed, allocated or boxed per line. That is what makes it
+the right shape to hand to a columnar consumer (a ``numpy`` array, a dataframe, a
+column store) -- see the ``BufTools`` Python-side tools built on it :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The columns come back in **declaration order** (element by element, then data type
+within each element), not sorted by element key -- a caller wanting some other order
+sorts what it gets back
+</verbatim></para>
+<para><simplesect kind="return"><para>One entry per column, each holding one value per line. Empty when the file has no elements </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="285" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="325" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufFile::merge</definition>
+        <argsstring>(const std::vector&lt; const BufFile * &gt; &amp;bufFiles)</argsstring>
+        <name>merge</name>
+        <qualifiedname>AGRemapCore::BufFile::merge</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const <ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref> * &gt; &amp;</type>
+          <declname>bufFiles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Merges several other ``.buf`` files into this one, line by line :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A GI character&apos;s vertex buffer does not live in one file -- it is split across a
+``Position.buf``, a ``Blend.buf`` and a ``Texcoord.buf``, one line each per vertex.
+This stitches such a set back together: line *i* of the result is line *i* of every
+source, concatenated in the order given, and this file&apos;s #getElements becomes every
+source&apos;s elements in that same order (deep-copied, so the sources stay usable)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The number of lines produced is the **smallest** line count among the sources, so a
+ragged set truncates rather than reading past the end of the shortest file. A null
+source is skipped
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bufFiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.buf</computeroutput> files to merge, in the byte order their elements should appear in a line</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the merged bytes do not divide evenly into lines (only reachable when a source&apos;s own data was not a whole number of lines) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="311" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="394" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7c915ab0ed85cd3e85087a0efe8437f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufFile::append</definition>
+        <argsstring>(const std::vector&lt; const BufFile * &gt; &amp;bufFiles)</argsstring>
+        <name>append</name>
+        <qualifiedname>AGRemapCore::BufFile::append</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const <ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref> * &gt; &amp;</type>
+          <declname>bufFiles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Appends every line of several other ``.buf`` files onto the end of this one
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The **vertical** counterpart to :cpp:func:`merge`: where that one widens a line by
+concatenating a matching line out of each source, this one *lengthens* the file, so
+the result holds this file&apos;s lines followed by each source&apos;s lines in the order given
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Each source&apos;s elements must be a **superset** of this file&apos;s -- for every one of this
+file&apos;s elements, the source must carry an element with the same key (see #getElements)
+and the same :cpp:class:`BufDataType`\\s. The source may carry as many further elements
+as it likes, and in any order; those are simply dropped, and each appended line is
+rebuilt in **this** file&apos;s element order. So a full ``.vb`` can be appended onto a
+``Position.buf`` and contributes only its positions :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Only the data types have to match, not
+   :cpp:func:`BufElementType::getFormatName` -- the format name is 3dmigoto&apos;s label
+   for a layout, and two elements spelling it differently still occupy the same bytes
+
+.. note::
+   A matched element&apos;s bytes are copied straight across rather than decoded and
+   re-encoded, so nothing an appended value goes through can perturb it :raw-html:`&lt;br /&gt;`
+   :raw-html:`&lt;br /&gt;`
+
+Every source is checked against this file **before** any byte is copied, so a source
+that breaks the superset rule leaves this file exactly as it was rather than partly
+appended to. A null source is skipped, and a source is allowed to be this file itself
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bufFiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.buf</computeroutput> files whose lines to append, in the order they should appear after this file&apos;s own lines</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a source is missing one of this file&apos;s elements, or carries it with different data types</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the appended bytes do not divide evenly into lines (only reachable when this file&apos;s own data was not a whole number of lines) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="356" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="534" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7932596085360312bfd789ca6084105a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFile::getDumpStr</definition>
+        <argsstring>(const std::string &amp;prefix=&quot;vb0&quot;) const</argsstring>
+        <name>getDumpStr</name>
+        <qualifiedname>AGRemapCore::BufFile::getDumpStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;vb0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The **data** section of the dump text for this ``.buf`` file -- the text a 3dmigoto
+frame analysis writes, which `Blender`_ can then import :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+One line per element per line (vertex), in the elements&apos; declared order, shaped as
+``prefix[lineInd]+byteOffset elementKey: value, value, ...``, with a blank line between
+lines. Deliberately only the data: a complete dump also needs a header, and that header
+differs by the kind of buffer being dumped :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Every number is formatted exactly the way `Python`_&apos;s ``str`` would format it --
+   shortest round-trip for a `floating point`_ value, and `Python`_&apos;s own choice
+   between fixed and scientific notation. That is not cosmetic: it keeps the output byte
+   identical to what a real frame analysis writes
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The buffer name each entry is prefixed with <ndash/> the vertex buffer slot a real dump was taken from</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The data section of the dump text. Empty when the file has no lines </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="382" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="601" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a73af1870c0837ad41b65100886559056" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFile::getFlatDumpStr</definition>
+        <argsstring>(const std::string &amp;valueSep=&quot; &quot;) const</argsstring>
+        <name>getFlatDumpStr</name>
+        <qualifiedname>AGRemapCore::BufFile::getFlatDumpStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>valueSep</declname>
+          <defval>&quot; &quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The **data** section of the dump text in an *index buffer*&apos;s flat form -- every one of
+a line&apos;s values on one line, separated by &apos;valueSep&apos;, with no element name or byte
+offset :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is what a ``.ib`` file&apos;s dump looks like (``0 1 2`` per triangular face), as
+opposed to the per-element form :cpp:func:`getDumpStr` produces for a vertex buffer
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valueSep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to put between two values on the same line</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The data section of the dump text. Empty when the file has no lines </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="399" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="671" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufFile::readFlatDumpStr</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;valueSep=&quot; &quot;)</argsstring>
+        <name>readFlatDumpStr</name>
+        <qualifiedname>AGRemapCore::BufFile::readFlatDumpStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>valueSep</declname>
+          <defval>&quot; &quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reads *index buffer* dump text back into this file&apos;s bytes -- the inverse of
+:cpp:func:`getFlatDumpStr` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One text line per line of the file, its values separated by &apos;valueSep&apos;. A complete dump
+file works too: a header line is recognised by containing a ``:`` (every line of a
+``.ib`` dump&apos;s header does, and none of its data lines do) and skipped
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dump text to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueSep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What separates two values on the same line</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the encoded bytes do not divide evenly into lines </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="443" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="928" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufFile::encodeAll</definition>
+        <argsstring>(const std::vector&lt; BufColumnData &gt; &amp;columns)</argsstring>
+        <name>encodeAll</name>
+        <qualifiedname>AGRemapCore::BufFile::encodeAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" kindref="compound">BufColumnData</ref> &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Encodes whole columns back into the file&apos;s bytes -- the inverse of
+:cpp:func:`decodeAll`, and the bulk counterpart to :cpp:func:`encodeLine`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The columns are matched to the file&apos;s current #getElements by their
+:cpp:member:`BufColumnData::elementKey`/:cpp:member:`BufColumnData::valueInd`, so their
+order in &apos;columns&apos; does not matter; a column the file has no data type for is ignored,
+and a data type with no matching column encodes as 0. The number of lines produced is
+the longest column&apos;s length :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This sets #getSrc to the newly encoded bytes
+and re-reads from it, so the usual :cpp:func:`read` validation applies
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The columns to encode, as produced by <ref refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" kindref="member">decodeAll</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the encoded bytes do not divide evenly into lines for the file&apos;s current <ref refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" kindref="member">getElements</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="467" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="1002" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref> &amp;</type>
+        <definition>const BinarySrc &amp; AGRemapCore::BinaryFile::getSrc</definition>
+        <argsstring>() const</argsstring>
+        <name>getSrc</name>
+        <qualifiedname>AGRemapCore::BinaryFile::getSrc</qualifiedname>
+        <briefdescription>
+<para>The source file or bytes for the file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="55" column="29" bodyfile="src/model/files/BinaryFile.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1aa02ddd15f95514374873a5fa2a41cca2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BinaryFile::setSrc</definition>
+        <argsstring>(BinarySrc src)</argsstring>
+        <name>setSrc</name>
+        <qualifiedname>AGRemapCore::BinaryFile::setSrc</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Sets the source file or bytes for the file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new source </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="62" column="18" bodyfile="src/model/files/BinaryFile.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
+        <definition>const ByteVec &amp; AGRemapCore::BinaryFile::getData</definition>
+        <argsstring>() const</argsstring>
+        <name>getData</name>
+        <qualifiedname>AGRemapCore::BinaryFile::getData</qualifiedname>
+        <briefdescription>
+<para>The bytes read in from the source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="67" column="27" bodyfile="src/model/files/BinaryFile.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ib_file_1ac15d40fa72b7aa4ca5907b582b032377" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -276,6 +1015,190 @@ anything else, which is what every mod not saying otherwise uses
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/files/IbFile.h" line="143" column="32" bodyfile="src/model/files/IbFile.cpp" bodystart="26" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" prot="public" static="no">
+        <type>std::function&lt; <ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref>(const <ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref> &amp;, long long, double, long long)&gt;</type>
+        <definition>using AGRemapCore::BufFile::Filter = std::function&lt;BufLineData(const BufLineData&amp;, long long, double, long long)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Filter</name>
+        <qualifiedname>AGRemapCore::BufFile::Filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A function used to process the decoded data for one line of a ``.buf`` file, used by
+:cpp:func:`fix` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Takes in, in order:
+
+#. The decoded data for the line
+#. The starting byte index of the line within the file
+#. The line index being processed, as ``i / bytesPerLine`` -- kept as a
+   `floating point`_ value (a `true division`_) rather than truncated to an integer
+#. The size of each line, in bytes
+
+and returns the (possibly modified) decoded data for the line
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="62" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::BufFile::Predicate = std::function&lt;bool(const BufLineData&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Predicate</name>
+        <qualifiedname>AGRemapCore::BufFile::Predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A function deciding whether one line (vertex) of a ``.buf`` file is kept, used by
+:cpp:func:`filter` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Takes in the decoded data for the line -- the same keyed map :cpp:func:`decodeLine`
+produces, and the same thing one row of ``BufTools.toDataFrame``&apos;s dataframe holds --
+and returns whether that line survives
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="75" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" static="no">
+        <type>std::variant&lt; std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
+        <definition>using AGRemapCore::BufFile::FixResult = std::variant&lt;std::string, ByteVec&gt;</definition>
+        <argsstring></argsstring>
+        <name>FixResult</name>
+        <qualifiedname>AGRemapCore::BufFile::FixResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The result of :cpp:func:`fix` -- either the raw bytes for the fixed file (when no
+output file path was given) or the output file path that was written to (echoed back)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="84" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" static="no">
+        <type>std::variant&lt; std::vector&lt; long long &gt;, std::vector&lt; unsigned long long &gt;, std::vector&lt; double &gt; &gt;</type>
+        <definition>using AGRemapCore::BufFile::BufColumn = std::variant&lt;std::vector&lt;long long&gt;, std::vector&lt;unsigned long long&gt;, std::vector&lt;double&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>BufColumn</name>
+        <qualifiedname>AGRemapCore::BufFile::BufColumn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every line&apos;s value for one single :cpp:class:`BufDataType` within one element, laid out
+contiguously -- one entry per line, all of the same type :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Which of the three alternatives a column uses is decided by the
+:cpp:class:`BufDataType` it belongs to, never by the bytes: a signed integer type
+always yields ``long long``, an unsigned one ``unsigned long long`` and a
+`floating point`_ one ``double``, exactly matching the alternative that type&apos;s
+:cpp:func:`BufDataType::decode` returns
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="100" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFile::fileType_</definition>
+        <argsstring></argsstring>
+        <name>fileType_</name>
+        <qualifiedname>AGRemapCore::BufFile::fileType_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="470" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;BufElementType&gt; &gt; AGRemapCore::BufFile::elements_</definition>
+        <argsstring></argsstring>
+        <name>elements_</name>
+        <qualifiedname>AGRemapCore::BufFile::elements_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="471" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::BufFile::elementKeys_</definition>
+        <argsstring></argsstring>
+        <name>elementKeys_</name>
+        <qualifiedname>AGRemapCore::BufFile::elementKeys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="472" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufFile::bytesPerLine_</definition>
+        <argsstring></argsstring>
+        <name>bytesPerLine_</name>
+        <qualifiedname>AGRemapCore::BufFile::bytesPerLine_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="473" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
+        <definition>BinarySrc AGRemapCore::BinaryFile::src_</definition>
+        <argsstring></argsstring>
+        <name>src_</name>
+        <qualifiedname>AGRemapCore::BinaryFile::src_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="83" column="23" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::BinaryFile::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>AGRemapCore::BinaryFile::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="84" column="21" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="84" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

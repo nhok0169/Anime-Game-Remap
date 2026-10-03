@@ -29,49 +29,13 @@
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/view/BaseLogger.h"
 #include "model/PyVersion.h"
+#include "constants/PyConstantEnums.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
 namespace {
-
-// The same value-based crossing PyIniFile does for this enum, and for the same reason: DownloadMode
-// is a plain C++ enum here but a StrEnum on the Python side, so it travels by value rather than by
-// identity. Duplicated rather than shared because the two files are the only users and a shared
-// header for two switch statements would be more indirection than it saves.
-const char* downloadModeName(AGRC::DownloadMode mode) {
-    switch (mode) {
-        case AGRC::DownloadMode::Disabled: return "disabled";
-        case AGRC::DownloadMode::Always: return "always";
-        default: return "normal";
-    }
-}
-
-
-AGRC::DownloadMode parseDownloadMode(const py::object &mode) {
-    if (mode.is_none()) {
-        return AGRC::DownloadMode::Normal;
-    }
-
-    py::object value = py::hasattr(mode, "value") ? mode.attr("value") : mode;
-    std::string parsed = py::str(value).cast<std::string>();
-
-    if (parsed == "disabled") {
-        return AGRC::DownloadMode::Disabled;
-    }
-
-    if (parsed == "always") {
-        return AGRC::DownloadMode::Always;
-    }
-
-    if (parsed == "normal") {
-        return AGRC::DownloadMode::Normal;
-    }
-
-    throw py::value_error("Unknown download mode: '" + parsed + "'");
-}
-
 
 // tsl::ordered_set has no pybind type_caster, and the order is meaningful, so it crosses as a LIST
 // -- the same treatment IniFile::defaultModTypeIds gets. See PyIniFile.cpp.
@@ -139,12 +103,12 @@ defaultModTypeIds: Optional[List[:class:`int`]]
 handleExceptions: :class:`bool`
     Whether to stop the fix quietly when an exception is caught, rather than raising
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The game version the parsed .ini files originate from -- picks the PARSER
 
-toVersion: Optional[:class:`CppVersion`]
-    The game version the .ini files are fixed to -- picks the FIXER. This is the pure-Python
-    API's ``version``
+toVersion: Optional[:class:`Version`]
+    The game version the .ini files are fixed to -- picks the FIXER. This is what ``--version``
+    means on the command line
 
 toModTypeIds: Optional[Set[:class:`int`]]
     The :class:`ModTypeId` values to accept when fixing
@@ -182,7 +146,7 @@ logger: Optional[:class:`BaseLogger`]
                 std::move(fromModTypeIds), std::move(forcedModTypeIds), toOrderedSet(defaultModTypeIds),
                 handleExceptions, std::move(fromVersion), std::move(toVersion),
                 std::move(toModTypeIds), std::move(proxy),
-                parseDownloadMode(downloadMode), std::move(gameTypeIds), compressTextures,
+                toDownloadMode(downloadMode), std::move(gameTypeIds), compressTextures,
                 std::move(logger));
         }), py::arg("path") = py::none(), py::arg("keepBackups") = true, py::arg("fixOnly") = false,
             py::arg("undoOnly") = false, py::arg("hideOrig") = false, py::arg("readAllInis") = false,
@@ -236,16 +200,16 @@ Reads back as a **list**, not a set: the order is the order they land in :meth:`
     py::doc(R"doc(:class:`bool`: Whether to stop the fix quietly when an exception is caught)doc"))
 
         .def_readwrite("fromVersion", &AGRC::RemapService::fromVersion,
-    py::doc(R"doc(Optional[:class:`CppVersion`]: The game version the parsed .ini files originate from
+    py::doc(R"doc(Optional[:class:`Version`]: The game version the parsed .ini files originate from
 
 Picks the parser, and the hashes/indices the mod is read with)doc"))
 
         .def_readwrite("toVersion", &AGRC::RemapService::toVersion,
-    py::doc(R"doc(Optional[:class:`CppVersion`]: The game version the .ini files are being fixed to
+    py::doc(R"doc(Optional[:class:`Version`]: The game version the .ini files are being fixed to
 
 Picks the fixer: the fix table is keyed ``{fromVersion, fromMod, toVersion, toMod}`` and every
-shipped row is keyed from ``1.0``, so this half alone selects it. It is the pure-Python API's
-``version``, and what ``--version`` means on the command line)doc"))
+shipped row is keyed from ``1.0``, so this half alone selects it. It is what ``--version`` means
+on the command line)doc"))
 
         .def_readwrite("toModTypeIds", &AGRC::RemapService::toModTypeIds,
     py::doc(R"doc(Optional[Set[:class:`int`]]: The mod types to accept when fixing)doc"))
@@ -254,12 +218,11 @@ shipped row is keyed from ``1.0``, so this half alone selects it. It is the pure
     py::doc(R"doc(Optional[:class:`str`]: The proxy server used for internet requests)doc"))
 
         .def_property("downloadMode",
-            [](const AGRC::RemapService &self) { return py::str(downloadModeName(self.downloadMode)); },
-            [](AGRC::RemapService &self, const py::object &value) { self.downloadMode = parseDownloadMode(value); },
+            [](const AGRC::RemapService &self) { return enumMember(self.downloadMode); },
+            [](AGRC::RemapService &self, const py::object &value) { self.downloadMode = toDownloadMode(value); },
     py::doc(R"doc(:class:`DownloadMode`: How file downloads are handled
 
-Reads back as the :class:`DownloadMode` string value; accepts either a :class:`DownloadMode` or its
-value when set)doc"))
+Accepts a :class:`DownloadMode`, or its name (``"normal"``, ``"disabled"``, ``"always"``), when set)doc"))
 
         .def_readwrite("gameTypeIds", &AGRC::RemapService::gameTypeIds,
     py::doc(R"doc(Optional[Set[:class:`int`]]: The :class:`GameTypeId` values of the games being remapped

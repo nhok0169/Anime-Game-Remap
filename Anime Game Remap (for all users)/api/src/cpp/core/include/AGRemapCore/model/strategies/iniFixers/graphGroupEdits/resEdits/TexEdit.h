@@ -90,8 +90,7 @@ namespace AGRemapCore {
                 by construction -- there is nothing for a counter to tell apart. Without the
                 memo, a mod whose graph binds the register in several branches asks once per
                 branch and gets ``NormalMap``, ``NormalMap1``, ``NormalMap2``, ``NormalMap3``:
-                four byte-identical 4MB ``.dds`` files where the pure-Python original writes one.
-                Kaeya's four-way ``$swapvar`` mod is where that surfaced (2026-09-12).
+                four byte-identical 4MB ``.dds`` files where one would do.
 
              .. note::
                 The counter still exists and still numbers genuinely different textures apart --
@@ -111,11 +110,9 @@ namespace AGRemapCore {
 
              .. note::
                 When a 'graphId' is given, the id is appended to the **original** 'file', not to the
-                fixed path just computed -- so the fixed name is discarded in that case. That is
-                exactly what the pure-Python original did (``return self.fileAddGraphId(file,
-                graphId = graphId)``, where every sibling passes ``result``), and it is preserved
-                here rather than quietly corrected: it is not one of the bugs this port was asked to
-                fix, and changing it would rename real output files
+                fixed path just computed -- so the fixed name is discarded in that case. Every
+                sibling appends it to the fixed path instead; this one is kept as is because
+                changing it would rename real output files
              @endrst
              *
              * @param file The file path to the original resource

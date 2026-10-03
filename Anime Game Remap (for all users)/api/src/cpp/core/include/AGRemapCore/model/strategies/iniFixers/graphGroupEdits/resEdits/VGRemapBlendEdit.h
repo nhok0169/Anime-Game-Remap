@@ -47,8 +47,8 @@ namespace AGRemapCore {
      **Every fix that touches a** ``Blend.buf`` **wants this one, not the base.** The inherited
      behaviour is not a milder version of the same thing -- it is the bug it looks like in game. The
      boss reads the character's blend weights against its own skeleton, every vertex binds to a bone
-     that means something else on the target rig, and the mesh scatters into loose polygons (see
-     ``AI Agent Help/CreatingRemaps/Images/Raiden/6_1/RaidenBlendBroken.jpg``). A remapped ``.ini``
+     that means something else on the target rig, and the mesh scatters into loose polygons. A
+     remapped ``.ini``
      pointing at an unremapped ``.buf`` is *worse* than emitting nothing, because every observable
      signal -- the section names, the file on disk, the fix's own summary line -- says it worked
 
@@ -155,7 +155,7 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              The resource's ``type`` is this edit's own ``resType``, not the 'resType' argument --
-             faithful to both the pure-Python original and the `pybind11`_ override
+             the same as the `pybind11`_ override
              @endrst
              *
              * @param resType The name for the type of resource. Unused -- see above

@@ -38,6 +38,8 @@
     <innerdir refid="dir_f5200bc037c000bf6e359b4a01719aa6">include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight</innerdir>
     <innerdir refid="dir_d6c8264a764f19a09e6bc94af0dbed8d">include/AGRemapCore/data/IniFixData/Lisa</innerdir>
     <innerdir refid="dir_b821292843f65316d92d3eec2f62ffb6">include/AGRemapCore/data/IniFixData/LisaStudent</innerdir>
+    <innerdir refid="dir_a958b0bc0968f0b7227469b95d56532d">include/AGRemapCore/data/IniFixData/Lumine</innerdir>
+    <innerdir refid="dir_7331e6bdd2535bb68786b1a2c8379a99">include/AGRemapCore/data/IniFixData/LumineHeaven</innerdir>
     <innerdir refid="dir_51831c5eb17d14b6b1e155442fb0ff32">include/AGRemapCore/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_a74f4936aa2782804106f1404d9582bd">include/AGRemapCore/data/IniFixData/MonaCN</innerdir>
     <innerdir refid="dir_4e7d35cbb098e6a9ef732c5812669f47">include/AGRemapCore/data/IniFixData/Neuvillette</innerdir>
@@ -69,6 +71,7 @@
     <innerfile refid="_mod_branches_8h">ModBranches.h</innerfile>
     <innerfile refid="_reg_val_checks_8h">RegValChecks.h</innerfile>
     <innerfile refid="_side_meshes_8h">SideMeshes.h</innerfile>
+    <innerfile refid="_tex_fx_layout_8h">TexFxLayout.h</innerfile>
     <innerfile refid="_tex_reg_layout_8h">TexRegLayout.h</innerfile>
     <innerfile refid="_w_w_m_i_fixer_8h">WWMIFixer.h</innerfile>
     <briefdescription>

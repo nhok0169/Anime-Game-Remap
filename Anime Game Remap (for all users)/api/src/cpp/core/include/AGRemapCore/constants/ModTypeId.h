@@ -30,9 +30,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     The names of the different types of mods this fix will fix from or fix to :raw-html:`<br />` :raw-html:`<br />`
-
-     Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+     The names of the different types of mods this fix will fix from or fix to
      @endrst
      */
     enum class ModTypeId {
@@ -290,6 +288,38 @@ namespace AGRemapCore {
         LisaStudent,
 
         /**
+         * @brief Lumine (the female Traveler) from GI -- the asset repo's ``TravelerGirl``, and what her mods name their sections
+         */
+        Lumine,
+
+        /**
+         * @brief Lumine outfit skin (As Heaven and Earth Are Made Anew) from GI -- THREE skinned components (an unnamed main mesh, Bang, Eye)
+         */
+        LumineHeaven,
+
+        /**
+         * @brief
+         @rst
+         LumineHeaven's MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+         :raw-html:`<br />` :raw-html:`<br />`
+         The :cpp:enumerator:`YaoyaoBambooMain` arrangement: the skin's own dump leaves this component UNNAMED
+         (``LumineHeavenHead.ib``, ``LumineHeavenPosition.buf``), so its component name -- in the vertex-group table
+         and the download file names -- is the empty string, and only this fix-target id carries ``Main``
+         @endrst
+         */
+        LumineHeavenMain,
+
+        /**
+         * @brief LumineHeaven's ``Bang`` component, as a fix target -- see :cpp:enumerator:`LumineHeavenMain`
+         */
+        LumineHeavenBang,
+
+        /**
+         * @brief LumineHeaven's ``Eye`` component, as a fix target -- see :cpp:enumerator:`LumineHeavenMain`
+         */
+        LumineHeavenEye,
+
+        /**
          * @brief Mona from GI
          */
         Mona,
@@ -479,7 +509,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Sanhua from WuWa (Wuthering Waves) -- the first WWMI mod type (2026-09-19) :raw-html:`<br />` :raw-html:`<br />`
+         Sanhua from WuWa (Wuthering Waves), a WWMI mod type :raw-html:`<br />` :raw-html:`<br />`
 
          A WWMI character is drawn as several ``Component N`` slots of ONE vertex buffer sharing ONE
          merged skeleton (each slot's ``vg_map`` in WWMI-Assets' ``Metadata.json`` maps its bones into
@@ -498,13 +528,12 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Chisa from WuWa (Wuthering Waves), the second WWMI pair (2026-09-20) -- see
+         Chisa from WuWa (Wuthering Waves), a WWMI mod type -- see
          :cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`<br />` :raw-html:`<br />`
 
-         WWMI-Assets has neither her nor her skin, so her asset tables come from a frame dump
-         (``Tools/Misc/Prototypes/wwmiExtractDump.py``), which is also what
-         ``Data/Mod Downloads/WuWa/Chisa/2_8`` was built from. She is the first character here whose
-         merged skeleton passes 256 bones (420), so a mod of hers carries WWMI's blend remap
+         WWMI-Assets has neither her nor her skin, so her asset tables (and
+         ``Data/Mod Downloads/WuWa/Chisa/2_8``) come from a frame dump. Her merged skeleton passes
+         256 bones (420), so a mod of hers carries WWMI's blend remap
          @endrst
          */
         Chisa,
@@ -537,9 +566,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Retrieves the corresponding name for a :cpp:enum:`ModTypeId` :raw-html:`<br />` :raw-html:`<br />`
-
-             Mirrors the pure-Python ``ModTypeNames`` enum's values (``constants/ModTypeNames.py``)
+             Retrieves the corresponding name for a :cpp:enum:`ModTypeId`
              @endrst
              *
              * @param value The :cpp:enum:`ModTypeId` to retrieve the name for
@@ -656,10 +683,8 @@ namespace AGRemapCore {
              Starts at ``1`` and is bumped by every :cpp:func:`clear`, so a caller that populates
              the registry can tell whether the registry it populated is still the one being read.
              That is what :cpp:func:`GlobalIniClassifiers::classifier` uses to know it has to
-             re-file the shipped mod types: its own population used to be welded to a one-shot
-             lazy initializer, so a :cpp:func:`clear` afterwards left it naming mod type ids that
-             nothing could resolve, permanently, for the rest of the process :raw-html:`<br />`
-             :raw-html:`<br />`
+             re-file the shipped mod types after a :cpp:func:`clear`, rather than going on naming
+             mod type ids that nothing can resolve :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 Deliberately **not** bumped by :cpp:func:`registerModType` -- this counts
@@ -677,10 +702,9 @@ namespace AGRemapCore {
              The mod types a given mod type's **hashes** can be remapped onto :raw-html:`<br />`
              :raw-html:`<br />`
 
-             This is the remap graph itself -- what the software is for. It mirrors the ``map``
-             argument the pure-Python ``GIBuilder`` passes to each mod type's ``Hashes``
-             (``constants/GIBuilder.py``), lifted out of the 43 individual factories and into one
-             table so a target can be named by :cpp:enum:`ModTypeId` rather than by a bare string
+             This is the remap graph itself -- what the software is for. It is kept in one table,
+             rather than spread over the individual mod type factories, so a target can be named by
+             :cpp:enum:`ModTypeId` rather than by a bare string
 
              .. note::
                 Two :cpp:enum:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- appear only
@@ -747,13 +771,8 @@ namespace AGRemapCore {
              Lowercased, and matched **maximally** (longest wins) by
              :cpp:func:`IniClassifier::readSectionName`. That is what disambiguates an overlapping
              pair without any extra machinery: a `section`_ named ``TextureOverrideAmberCNBody``
-             matches ``ambercn`` rather than ``amber``, because the longer keyword wins
-
-             .. note::
-                The pure-Python ``IniClassifierBuilderOld`` reaches the same result a different
-                way -- one compiled regex per keyword carrying a negative lookahead
-                (``(amber)((?!cn).)*``). Only the keywords carry over; the regexes do not, because
-                maximal matching already encodes what they were disambiguating
+             matches ``ambercn`` rather than ``amber``, because the longer keyword wins, so no
+             negative-lookahead regex (``(amber)((?!cn).)*``) is needed
 
              Most mod types have exactly one keyword. Three carry a second alias-like spelling
              (``CherryHuTao``, ``Raiden``, ``XianglingCheer``), and the two target-only ids have

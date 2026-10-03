@@ -70,16 +70,16 @@
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" kindref="member">RegFillMissingMode</ref><sp/>{</highlight></codeline>
-<codeline lineno="42" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" kindref="member">FillMissing</ref>,</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="52" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" kindref="member">TopdownCover</ref>,</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a34ffd1ec30d863b48aae5ff2d7ee1137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a34ffd1ec30d863b48aae5ff2d7ee1137" kindref="member">BottomCover</ref></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="26" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" kindref="member">RegFillMissingMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" kindref="member">FillMissing</ref>,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" kindref="member">TopdownCover</ref>,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a34ffd1ec30d863b48aae5ff2d7ee1137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a34ffd1ec30d863b48aae5ff2d7ee1137" kindref="member">BottomCover</ref></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/RegFillMissingMode.h"/>
   </compounddef>

@@ -126,8 +126,7 @@ Edits the registers for the current :cpp:class:`IfContentPart` with state info f
 
 .. note::
    The base implementation forwards straight to \ref edit and **ignores &apos;ini&apos;
-   entirely**, exactly as the pure-Python original does -- see
-   :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
+   entirely** -- see :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -165,9 +164,8 @@ The associated ``.ini`` file -- a **non-owning, nullable** pointer, where
 <parameterdescription>
 <para><verbatim>embed:rst 
 The type of mod to fix -- also a **non-owning, nullable** pointer, for the same
-reason ``ini`` is one: none of this class&apos;s own subclasses read it, and the
-`pybind11`_ layer has no C++ :cpp:class:`ModType` to hand over (the `Python`_ API&apos;s
-``ModType`` is still a pure-`Python`_ class of its own) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+reason ``ini`` is one: none of this class&apos;s own subclasses read it, so a caller may pass
+``nullptr`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 **Default**: ``nullptr``
 </verbatim> </para>
@@ -188,8 +186,8 @@ reason ``ini`` is one: none of this class&apos;s own subclasses read it, and the
 <parameterdescription>
 <para><verbatim>embed:rst 
 The ranges that indicate the valid order indices to process for &apos;part&apos; -- a
-**non-owning, nullable** pointer, where ``nullptr`` stands in for the pure-Python
-original&apos;s ``partRanges = None`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+**non-owning, nullable** pointer, where ``nullptr`` means every order index is valid
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 **Default**: ``nullptr``
 </verbatim></para>
@@ -202,7 +200,7 @@ original&apos;s ``partRanges = None`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="123" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="121" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref> &amp;</type>
@@ -244,7 +242,7 @@ original&apos;s ``partRanges = None`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         <detaileddescription>
 <para><verbatim>embed:rst 
 Edits the registers for the current :cpp:class:`IfContentPart`. No-op by default
-(returns &apos;part&apos; untouched), matching the pure-Python original&apos;s ``pass``
+(returns &apos;part&apos; untouched)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -293,7 +291,26 @@ Edits the registers for the current :cpp:class:`IfContentPart`. No-op by default
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="142" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="140" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-static-func">
@@ -330,7 +347,7 @@ methods expect, with ``nullptr`` becoming ``std::nullopt`` (i.e. no restriction)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="159" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="157" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -457,7 +474,7 @@ Base class for a filter that edits some registers within an :cpp:class:`IfConten
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="54" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="54" bodyend="160"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="54" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="54" bodyend="158"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseRegEdit</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseRegEdit</scope><name>ContentPart</name></member>

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="132" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="132" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="130" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="130" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -41,7 +41,7 @@ for the parser: a single hash filter can only name one of them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="146" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="146" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="144" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="144" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a83fe498c7f95f3fc7915a9770fa0d867" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_slot" kindref="compound">Slot</ref> &gt;</type>
@@ -56,7 +56,7 @@ for the parser: a single hash filter can only name one of them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="151" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="149" column="25" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="149" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a9f0c968f73928f58529964da96584dbb" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -72,7 +72,7 @@ for the parser: a single hash filter can only name one of them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="156" column="17" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="156" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="154" column="17" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="154" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a4cf927721f3cd103885114e8897e9576" prot="public" static="no" mutable="no">
         <type>long long</type>
@@ -88,14 +88,13 @@ for the parser: a single hash filter can only name one of them
 The GAME model&apos;s vertex count for this component, for the downloaded blend&apos;s ``draw``
 line. ``0`` leaves the line out :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-In the config rather than :cpp:class:`VertexCounts` because that table&apos;s rows all carry
-an empty component column, and ``VertexCounts_test`` asserts so deliberately -- the day
-a real per-component count is filed there, that tripwire is the thing that says so
+In the config rather than :cpp:class:`VertexCounts` because that table holds no
+per-component counts: all of its rows carry an empty component column
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="169" column="23" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="169" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="166" column="23" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="166" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -103,7 +102,7 @@ a real per-component count is filed there, that tripwire is the thing that says 
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="128" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="128" bodyend="170"/>
+    <location file="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" line="126" column="9" bodyfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" bodystart="126" bodyend="167"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1a5f52bf20bdfc1d051e27558913a513ba" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_parser_config_1_1_component_1abac19b72746490f530acccbe5dfda15f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIComponentParserConfig::Component</scope><name>name</name></member>

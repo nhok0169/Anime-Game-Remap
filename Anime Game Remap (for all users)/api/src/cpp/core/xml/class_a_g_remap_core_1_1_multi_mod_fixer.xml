@@ -302,9 +302,8 @@ fixers: a later child writing the same file path simply overwrites an earlier on
    own fixers, which is the behaviour this method mirrors
 </verbatim></para>
 <para><verbatim>embed:rst 
-Does the actual fixing -- the customization point behind #fix, and the direct
-equivalent of the pure-Python original&apos;s ``_fix``. Returns an empty map by default,
-matching that original&apos;s ``pass``
+Does the actual fixing -- the customization point behind #fix. Returns an empty map
+by default
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>

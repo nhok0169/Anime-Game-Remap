@@ -29,7 +29,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     One source component's files, as a :cpp:class:`VGMergeGroupResource` finds them on disk
+     One source component's files, as a :cpp:class:`AGRemapCore::VGMergeGroupResource` finds them on disk
      @endrst
      */
     struct VGMergeComponentFiles {
@@ -94,7 +94,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     What a :cpp:class:`VGMergeGroupResource` needs beyond its members: every component of the
+     What a :cpp:class:`AGRemapCore::VGMergeGroupResource` needs beyond its members: every component of the
      SOURCE (the merge is joint -- an index buffer's offset is the sum of the vertices before its
      component) and which source objects each target object draws
      @endrst
@@ -123,7 +123,7 @@ namespace AGRemapCore {
 
          The width is carried rather than inferred because it CANNOT be inferred: a 16-bit buffer
          whose byte count divides by 12 reads as 32-bit without complaint, at half the index count
-         and with values past the end of the mesh. See :cpp:class:`IbFile`
+         and with values past the end of the mesh. See :cpp:class:`AGRemapCore::IbFile`
          @endrst
          */
         std::unordered_map<std::string, std::size_t> ibBytesPerIndex;
@@ -146,7 +146,7 @@ namespace AGRemapCore {
 
      The buffers cannot be fixed one at a time: every component's index buffer shifts by the vertices
      of the components before it, so an index buffer written without knowing the others is wrong. So
-     the members are fixed together, from the one :cpp:class:`VGComponentMerge` :raw-html:`<br />`
+     the members are fixed together, from the one :cpp:class:`AGRemapCore::VGComponentMerge` :raw-html:`<br />`
      :raw-html:`<br />`
 
      Members are told apart by :cpp:member:`IniResource::type`, exactly as the split does it:
@@ -169,7 +169,7 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniGroupedResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniGroupedResource`
 
      A group of one mod's buffers, fixed by :cpp:func:`fixVGMergeGroup` -- see there
      @endrst

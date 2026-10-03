@@ -9,14 +9,14 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "FixRaidenBoss2"
-version = "5.0.0a1"
+version = "5.0.0a2"
 authors = [
   {name="NK", email="qqqqaaaapppp0000@gmail.com"},
   {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}
 ]
 description = "A library to help remap the mods installed on a character onto the skins of the character"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

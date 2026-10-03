@@ -25,7 +25,7 @@ namespace AGRemapCore {
      Display names for the different types of files the software encounters :raw-html:`<br />`
      :raw-html:`<br />`
 
-     A port of the pure-Python ``FileTypes`` enum (``constants/FileTypes.py``). These are **prose**,
+     These are **prose**,
      not matching patterns -- the only thing that reads them is a message being written for a
      person (:cpp:func:`RemapService::reportSummary` and friends), which is why ``"*.ini file"``
      carries a ``*`` that no file name ever does. Anything deciding what a file *is* uses

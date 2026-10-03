@@ -157,8 +157,7 @@ assetMap: Dict[Any, List[Any]]
 
 rows: Union[List[Tuple[List[Any], Any]], dict]
     Any new rows needed to support 'assetMap' -- either a flat list or a real nested dict --
-    if non-empty, added to :attr:`repo` first (matches the pure-Python original's ``addMap``,
-    whose own ``assets`` argument is a nested dict in exactly this same shape)
+    if non-empty, added to :attr:`repo` first
 
     **Default**: ``[]``
         )doc"))
@@ -187,7 +186,7 @@ Parameters
 asset: Any
     The asset to search for
 
-version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to search from -- the latest available version is used if this is ``None``
 
     **Default**: ``None``
@@ -220,7 +219,7 @@ Parameters
 asset: Any
     The asset value to search for
 
-fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to search from -- see :meth:`hasFrom`
 
     **Default**: ``None``
@@ -273,7 +272,7 @@ Parameters
 asset: Any
     The asset to be replaced
 
-fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace from -- see :meth:`getKey`
 
     **Default**: ``None``
@@ -283,7 +282,7 @@ fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[str, Any]]]
 
     **Default**: ``None``
 
-toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace to -- the latest available version is used if this is ``None``
 
     **Default**: ``None``
@@ -328,7 +327,7 @@ Parameters
 asset: Any
     The asset to be replaced
 
-fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace from -- see :meth:`getKey`
 
     **Default**: ``None``
@@ -338,7 +337,7 @@ fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[str, Any]]]
 
     **Default**: ``None``
 
-toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`Version`]]
     The version to replace to -- the latest available version is used if this is ``None``
 
     **Default**: ``None``
@@ -364,8 +363,7 @@ Dict[Any, Any]
 
         .def_property_readonly("fromAssets", &CoreModMappedAssets::getFromAssets, py::doc(R"doc(
 List[Any]: Every asset value that has at least one known originating key -- a property (not a
-method), matching the pure-Python original's contract exactly (real callers, e.g. IniFile.py's
-``type.hashes.fromAssets``, access it as one)
+method), e.g. ``type.hashes.fromAssets``
         )doc"))
 
         .def("_convertNonVersionVals", [](const CoreModMappedAssets &self, const py::object &indexVals) -> py::list {
@@ -385,11 +383,11 @@ Normalizes a flexible non-version-values filter into the plain positional
 :attr:`nonVersionIndexNames` names each position :raw-html:`<br />` :raw-html:`<br />`
 
 .. note::
-    Calling this directly is rarely necessary any more -- :meth:`getKey`/:meth:`hasFrom`/
+    Calling this directly is rarely necessary -- :meth:`getKey`/:meth:`hasFrom`/
     :meth:`replace`/:meth:`replaceAll` all already accept the same flexible shape for their own
     non-version-values argument. Kept as public API for callers that want to convert once and
-    reuse the result across several calls (e.g. ``GIMIParser.py``, filtering many hash/index
-    values per parse against the same fixed non-version filter)
+    reuse the result across several calls (e.g. a parser filtering many hash/index values per
+    parse against the same fixed non-version filter)
 
 Parameters
 ----------
@@ -427,13 +425,11 @@ Optional[List[:class:`str`]]: The names of the non-version index columns, in pos
         // involvement needed for either: there's no actual capability here to port, just dead-but-
         // accessed API surface to preserve.
         .def_property_readonly("fixFrom", [](const CoreModMappedAssets &) { return py::set(); }, py::doc(R"doc(
-Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
-populates it anywhere
+Set[Any]: Always empty -- declared but never populated
         )doc"))
 
         .def_property_readonly("fixTo", [](const CoreModMappedAssets &) { return py::set(); }, py::doc(R"doc(
-Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
-populates it anywhere
+Set[Any]: Always empty -- declared but never populated
         )doc"))
 
         .def_property_readonly("repo", [](const CoreModMappedAssets &self) {

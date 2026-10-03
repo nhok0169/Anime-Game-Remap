@@ -71,8 +71,7 @@ Opaque: there is no way to build one from Python yet. It is exposed so that a bu
     py::class_<AGRC::IniRemoveBuilder, py::smart_holder>(m, "IniRemoveBuilder", R"doc(
 A factory that builds the :class:`CppBaseIniRemover` for one .ini file
 
-What :attr:`ModType.iniRemoveBuilder` holds, and what the pure-Python builder of this name was
-replaced by. It comes in two flavours:
+What :attr:`ModType.iniRemoveBuilder` holds. It comes in two flavours:
 
 * **Fixed** -- one factory used for every .ini file, whatever its version
 * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
@@ -152,7 +151,7 @@ modName: :class:`str`
 
     **Default**: ``""``
 
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest listed version

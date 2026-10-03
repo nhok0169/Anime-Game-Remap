@@ -169,8 +169,7 @@ Same defaulting and sharing rules as :attr:`hashes`
 .. warning::
     Unlike :attr:`hashes`/:attr:`indices`/:attr:`vertexCounts`, the default here is the **shared**
     table every mod type uses, not a fresh one -- so mutating a defaulted :attr:`vgRemaps` is
-    visible to every other mod type that also defaulted. That mirrors the pure-Python original's
-    own ``ModDataAssets.VGRemaps.value`` default
+    visible to every other mod type that also defaulted
     )doc"))
 
         .def_readwrite("gameTypeId", &AGRC::ModType::gameTypeId,
@@ -203,13 +202,8 @@ Returns
         )doc"))
 
         .def("getModsToFix", &AGRC::ModType::getModsToFix, py::doc(R"doc(
-Retrieves the names of the mods this mod type can be fixed onto
-
-.. warning::
-    **Deliberately not bug-compatible with the pure-Python** :meth:`ModType.getModsToFix`. That one
-    unions ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never populates
-    anywhere, so it returns an empty set for every mod type, always. This reads the remap targets
-    that actually exist
+Retrieves the names of the mods this mod type can be fixed onto, read from the remap targets
+that exist in its asset tables
 
 Returns
 -------
@@ -222,7 +216,7 @@ Retrieves the number of vertices for this mod
 
 Parameters
 ----------
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The game version wanted :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
@@ -251,7 +245,7 @@ component: :class:`str`
 
     **Default**: ``""``
 
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The game version wanted :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
@@ -281,12 +275,12 @@ Parameters
 modName: :class:`str`
     The name of the mod being fixed onto
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the latest
@@ -342,7 +336,7 @@ Parameters
 partColours: :class:`IfContentPartColouring`
     The current states of the :class:`IfContentPart`
 
-version: Optional[:class:`CppVersion`]
+version: Optional[:class:`Version`]
     The version the hashes should come from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning any
@@ -382,7 +376,7 @@ void initCppModTypeLateBindings(pybind11::module_ &m) {
                      py::arg("fixOnly") = false, py::doc(R"doc(
 Fixes a .ini file, but **only if that file was classified as this mod type** -- a no-op otherwise
 
-Returns nothing, matching the pure-Python original: the fix it produces is written out by
+Returns nothing: the fix it produces is written out by
 :meth:`IniFile.fix` rather than handed back. Call that directly to see it
 
 Parameters

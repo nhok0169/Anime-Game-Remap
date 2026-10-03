@@ -38,14 +38,12 @@ namespace AGRemapCore {
      counterpart of :cpp:class:`IniFileRemoveContext`, and built to the same shape
      :raw-html:`<br />` :raw-html:`<br />`
 
-     A built model goes to exactly one of three places, checked in this order -- the same three the
-     pure-Python original chooses between:
+     A built model goes to exactly one of three places, checked in this order:
 
      #. into #takeCollectedResources' buffer, while a #beginCollectingResources pass is open
-     #. into a caller-supplied :cpp:func:`collected` map, keyed by file key, when one was given --
-        the ``Dict[str, Deque[IniResource]]`` the original's ``ResRegCollect`` collects into
-     #. onto the ``.ini`` file's own :cpp:func:`IniFile::getResources`, otherwise -- the original's
-        ``ini.resources.append(...)``, where the file key goes unused
+     #. into a caller-supplied :cpp:func:`collected` map, keyed by file key, when one was given
+     #. onto the ``.ini`` file's own :cpp:func:`IniFile::getResources`, otherwise -- where the file
+        key goes unused
 
      :raw-html:`<br />`
 
@@ -68,8 +66,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Where a caller-supplied collect map keeps its models -- the C++ spelling of the
-             original's ``Dict[str, Deque[IniResource]]``
+             Where a caller-supplied collect map keeps its models, keyed by file key
              @endrst
              */
             using Collected = std::unordered_map<std::string, std::deque<std::unique_ptr<IniResource>>>;

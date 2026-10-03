@@ -27,14 +27,8 @@ void initCppIfPredTokenizer(pybind11::module_ &m) {
     // FilteredTokenizer/BaseTokenizer method (simplifiedMaximalMunch, addKeyword, tokens, ...)
     // for free through normal Python MRO, nothing to rebind here.
     //
-    // Registered under the bare 'IfPredTokenizer' name (no 'Cpp' prefix) -- the deprecated
-    // bare-named pure-Python class is now 'IfPredTokenizerOld', so nothing shadows this
-    // registration; see Documentation/CLAUDE.md's naming-pitfall section.
-    //
-    // GlobalCompilerParts.IfPredTokenizer / IfPredPart.py's getLogicQuery/getIfPredStr still
-    // construct the pure-Python IfPredTokenizerOld, not this class -- left that way
-    // deliberately, matching this port's own step-by-step precedent (verify a new class
-    // standalone before migrating call sites). Wiring this in is a natural next step.
+    // Registered under the bare 'IfPredTokenizer' name (no 'Cpp' prefix) -- the pure-Python class it
+    // replaced is deleted, so nothing shadows this registration.
     py::class_<AGRC::IfPredTokenizer, AGRC::FilteredTokenizer>(m, "IfPredTokenizer", R"doc(
 This class inherits from :class:`FilteredTokenizer`
 

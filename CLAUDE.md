@@ -120,6 +120,28 @@ the face hash is shared with the skin, and a versionless `ModMappedAssets::getKe
 skin's newer bucket, so the face was never classified. Charlotte had the same gap, now fixed with it
 (habits 81 and 83).
 
+**LUMINE <-> LUMINEHEAVEN IS COMPILED BOTH WAYS (2026-09-29), AND ITS TWO LESSONS ARE ABOUT WHAT NOT TO CARRY.** The skin
+is previewed in the character menu's Dressing Room, not the shop, and no asset repo has it (a frame dump built its
+downloads). The two characters draw DIFFERENT face meshes, so a face atlas cannot move between them: no face is carried
+either way (the lashes vanished when it was). Yaoyao's head fix was half right here: the diffuse alpha (orange hair
+without it) yes, the band move (it gilded her hair) no. Older mods' metal map at `ps-t2` needs `SourceLayout::Plain`. And a
+skin mod written in the game's register order got a doubled role from a per-register download (dark eyes on Lumine):
+`GIMIComponentParserConfig::downloadsByName`, new and off by default. **The maintainer's first check (2026-09-30) found
+two more, both general:** a mirrored inner layer pokes through a coat that models its own lining (grey polygons;
+`Component::mirrorBackedReach` gives a triangle with a layer facing the other way right behind it no twin), and a skin
+slot holding cloth beside hair went to her head draw, which shades everything as hair (white sleeves yellow in shade;
+the slot is SPLIT per triangle by light map band now, hair to her head and cloth to her body:
+`GIMIMergeFixerConfig::Slot::splitFrom`), and small dark red squares on a layered jacket were the skin's wider OUTLINE shells coming through
+it (Yaoyao's `innerOutlineObjs`, on body and dress; a band move had only darkened them). **Then three that reach
+every agent-built pair (2026-09-30/10-01):** a mod's TexFx call names its OWN character's layout (`T.0` plain, `T.1`
+normal map), so both multi-component templates now move it onto the target's (`texFxLayoutSwitch`, on by default --
+eleven directions had been missing it); a two-sided source shader textures back faces through `TEXCOORD1`
+(`Component::mirrorBackUV`); and a glow (diffuse alpha 255) the target tints gold is cleared WITH its brightness baked
+into the colour, tapered so bright blues do not clip to cyan. **Before "fixing" a slot layout two configs disagree
+on, trace both through `ORFix.ini`** (Creating Remaps' "A FIX LIBRARY DECIDES WHAT A PASS READS"): YelanTranquil's
+slot C differs between its two configs and renders identically, and the "fix" lost two verified texture edits. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LUMINE <-> LUMINEHEAVEN".
+
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
 component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);
@@ -135,6 +157,16 @@ mods** (`Tools/Misc/Prototypes/neuvilletteMelusentSynth.py`), and **run every fi
 the second pass stopped declaring. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
 "NEUVILLETTE <-> NEUVILLETTEMELUSENT".
 
+**THE PYTHON CONSTANTS ARE THE BOUND C++ ONES NOW (2026-10-01).** `IniKeywords`, `FileExt`,
+`FilePrefixes`, `FileTypes` and `IniGraphModObjKeywords` are plain strings (`IniKeywords.Hash` is
+`"hash"` -- there is no `.value`), `DownloadMode` / `RegFillMissingMode` / `IniGraphReplaceMode` /
+`IfPredPartType` are `py::enum_`s, `Version` is one version (formerly `CppVersion`) and
+`VersionSet` the collection the pure-Python `Version` was, and `IntTools` / `IniNamingTools` are
+the bindings formerly prefixed `Cpp`. A prototype written before then needs `.value` dropped and
+those names updated. **Before deleting any pure-Python module, grep the bindings for its name as a
+string**: one deletion broke a merge's copy naming while every test stayed green. See
+[Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s "THE PYTHON CONSTANTS ARE THE C++ ONES NOW".
+
 **A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
 (2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
 looked like ordinary results. The run reported *copied 0 files from existing downloads* on every
@@ -145,6 +177,18 @@ so it could not distinguish one file from one file remapped twice --- which a me
 construction. **When a number looks right, check that it is capable of being wrong**; both of
 these were found by counting the log lines rather than reading the summary. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
+
+**A DOWNLOAD THAT FAILS AND THEN WORKS ON A RE-RUN WAS THE NAME LOOKUP, AND IT RETRIES FOR ~23s NOW
+(2026-10-02).** Tallied over every earlier session's transcript, the flaky failure was always
+`Could not resolve host: github.com`, and it outlasted the old retry window (3 attempts, 1s + 2s).
+`FileDownload` now makes 6 attempts (waits 1/2/4/8/8s, `maxRetryDelay`). It shares one DNS cache,
+TLS session cache and connection pool across the process (a curl share handle), so a run resolves
+each host about once. It also aborts a transfer stalled for 60s. `DownloadCache::markHostUnreachable` gives
+every other file on a dead host one quick try, so an offline run pays the back-off once.
+**If you touch that sharing, keep the retry's cache bypass**: libcurl caches FAILED lookups too, and a
+retry that read one would fail instantly without asking the resolver. Habit 89 in
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md) has the method; [Testing](AI%20Agent%20Help/Testing/CLAUDE.md)
+has a compile line for `FileDownload_curl_test` that links (its header comment now carries it too).
 
 **HOW FAST IS THIS LIBRARY AGAINST THE OLD PURE-PYTHON SCRIPT? MEASURED, AND EVERY ROW IS A WIN NOW
 (2026-09-20).** Over 22 of the maintainer's own mods, with `--download Disabled` passed to **both**
@@ -184,12 +228,34 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty-three short habits, none of
+feature or bug request here: the habits that pay" first.** It is eighty-nine short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
 will conclude there is no coverage when there is), when a divergence from the old script is *not*
 a bug, and how to prove a refactor changed nothing.
+
+**EVERY DOC COMMENT AND DOCSTRING IS PUBLISHED, AND THE SITE'S READER IS A NEW API USER (2026-10-01).** Doxygen
+comments in `core/`, pybind11 `R"(...)"` docstrings and Python docstrings all render on the Read the Docs site,
+and an audit that day removed ~1,200 lines of work log from the two reference pages -- dates, "a port of / mirrors
+the pure-Python original", "until 2026-09-17 this ...", per-mod debugging stories -- plus ~90 method docs that had
+gone plain WRONG (real fixes documented as "Stub for ..."). Write a doc comment as the present-tense contract;
+the story goes in `AI Agent Help/` or a plain `//` comment. A new public class or function also needs an entry on
+`Docs/src/api.rst` / `coreAPI.rst` (164 exports had none). After changing comments, regenerate `core.pyi` /
+`core/xml` (the site renders those, not the sources) and run `Tools/Misc/Docs/auditApiDocs.py --html <build>`.
+See Overview habit 87 and [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE
+FOR A NEW USER", which also has the Linux recipe for regenerating both artifacts (`CASE_SENSE_NAMES = NO`).
+
+**THE REFERENCE PAGES SHOW WHAT A CLASS INHERITS NOW, AND THE HAND-WRITTEN PAGES HAVE SIX QUIET TRAPS (2026-10-02).**
+`conf.py` turns autodoc's `inherited-members` on for every Python class (so never write it per class again), and
+the Doxyfile's `INLINE_INHERITED_MEMB = YES` does the same for C++ -- which Breathe can only render through
+`Docs/src/extensions/doxygenInherited.py`, because Doxygen gives every inherited copy its PARENT's id and the C++
+reference is one page (886 duplicate-anchor warnings read raw). When writing pages: `` `x` `` is italics and
+``` ``x`` ``` is code, a `| ` line block in a table cell swallows a `code-block`, a README image comes from
+`raw.githubusercontent.com` (a `/blob/` URL is not an image), and the command-option tables are a fifth hand-kept
+list that had lost `--fromVersion`. See [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "EVERY CLASS
+PAGE LISTS WHAT IT INHERITS" and "WRITING THE `.rst` PAGES", and [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) for
+running the CIPipeline on Windows and the one `core.pyi` line it rewrites as noise.
 
 **A request for a NEW class may describe one that already exists (habit 53, 2026-09-18).**
 "Build a `GraphCompose` edit" turned out to be `GraphInherit` with one pluggable piece added, and
@@ -279,7 +345,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FIFTY-FOUR characters are real now (Yaoyao / YaoyaoBamboo, 2026-09-27; count them with
+**FIFTY-SIX characters are real now (Lumine / LumineHeaven, 2026-09-29; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -448,14 +514,14 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FIFTY-FOUR CHARACTERS (verified end-to-end, and every one of them in
+**THE FIX IS LIVE FOR FIFTY-SIX CHARACTERS (verified end-to-end, and every one of them in
 game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
 Barbara, BarbaraSummertime, Bennett, BennettAdventure, Charlotte, CharlotteHurlock, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
-KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent,
+KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent, Lumine, LumineHeaven,
 Mona, MonaCN, Neuvillette, NeuvilletteMelusent, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
 ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo, Yaoyao, YaoyaoBamboo, Yelan, YelanTranquil**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
@@ -463,7 +529,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-four.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-six.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -1379,8 +1445,9 @@ pairs** -- four characters, neither noticed by reading and neither caught by any
 not closed until it prints `ALL FOUR AGREE WITH THE LIBRARY`. Two traps in adding the rows:
 `commandOpts.rst` holds THREE list-tables whose rows look identical, so an insertion that scans the
 whole file puts the character in the DOWNLOAD-MODE table (scope by the mod-type header first), and a
-row's Description is derived -- the GI regex from `getSectionKeywords`, the WuWa hash from
-`HashData`'s `vb0` row -- rather than written.
+row's Description is the character's short description -- the bold line of its entry in the `ModTypes`
+enum's docstring (`**Amber Chinese mods**`), copied verbatim -- not the classifier's regex or hash
+(the maintainer's choice, 2026-10-01).
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

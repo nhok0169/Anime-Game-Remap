@@ -117,11 +117,10 @@ def makeFixer(parser, toModName, modTypeId):
     # This is what turns the copy into the remapped mod. Without it the copy renders as a verbatim
     # duplicate of the source, and the game sees two sections claiming the same hash.
     #
-    # CppIniNamingTools, not the pure-Python IniNamingTools of the same name -- the latter has a
-    # confirmed bug in getModSuffixedName. Each resource kind has its own convention:
+    # Each resource kind has its own convention:
     # getRemapFixName for an ordinary section, getRemapBlendName for a Blend.buf, getRemapIbName for
     # an .ib, and so on. Using the generic one everywhere produces names no other tool recognises.
-    naming = FRB.CppIniNamingTools
+    naming = FRB.IniNamingTools
     rename = FRB.GraphRename(lambda name: naming.getRemapFixName(name, toModName))
     renameBlend = FRB.GraphRename(lambda name: naming.getRemapBlendName(name, toModName))
     renameIb = FRB.GraphRename(lambda name: naming.getRemapIbName(name, toModName))

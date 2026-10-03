@@ -1254,6 +1254,26 @@ python3 main.py runSuite                      # or produceOutputs / printOutputs
 python3 main.py runSuite ApiDocTests.test_fullFix_modFixed
 ```
 
+**Running it on WINDOWS, for a quick check (2026-10-01).** `main.py` dies on import with
+`ImportError: DLL load failed while importing core: The parameter is incorrect` -- not a broken
+build: the tester puts the API on `sys.path` as a RELATIVE path, and CPython cannot load an
+extension module through one. Import the package from its absolute path first, then hand over:
+
+```python
+import os, runpy, sys
+sys.path.insert(0, r"<repo>\Anime Game Remap (for all users)\api\src\py")
+import FixRaidenBoss2
+os.chdir(r"<repo>\Testing\Integration Tester"); sys.path.insert(0, os.getcwd())
+sys.argv = ["main.py", "runSuite"]; runpy.run_path("main.py", run_name = "__main__")
+```
+
+Against the Linux goldens a Windows run passes all 17 `APIDocsTests` and fails all 7
+`MixedModsTests`, and none of the 7 is content: the summary logs differ in path separators,
+in compiler-specific exception names (`class std::out_of_range` vs `St12out_of_range`) and in the
+order of two entries, and the three Raiden `.ini` files differ only in the ORDER of generated
+sections (the same lines added as removed). Classify before attributing, and restore
+`integrationTestResults.txt` afterwards -- the run rewrites that tracked file.
+
 **Produce and run it on LINUX**, as its README says and as the user asked --- CI is Linux, and a
 golden written on Windows differs in path separators inside logs. From this Windows host that means
 WSL with the Linux `.so` rebuilt first (`Tools/Misc/Linux/linuxBuild.sh`, run through an LF copy:
@@ -1545,6 +1565,28 @@ regression:**
   suite; that list does not cover the C++ suites, so this is the note for them.
 - `FileDownload_curl_test` -- aborts on an uncaught `std::runtime_error`, *"URL rejected: Malformed
   input to a URL function"*. Exit 134 (SIGABRT), not a check failure.
+
+**`FileDownload_curl_test` on Windows, without building all of core (2026-10-02).** The compile line in
+its own header comment does not link any more: `FileService` now reaches `StringTools`, and that reaches
+the grapheme classes and utf8proc. It also needs `/DNOMINMAX`, because `<curl/curl.h>` pulls in
+`<windows.h>`, whose `max` macro breaks the `std::max` that `FileDownload.cpp` has always had. The CMake
+target sets `NOMINMAX`, so only a hand-built line misses it. A line that links, after `vcvarsall.bat x64`:
+
+```
+cl /std:c++latest /EHsc /nologo /MD /O2 /DNOMINMAX /I <core>\include /I <api>\extern\curl\include ^
+   /I <api>\extern\utf8proc <core>\tests\FileDownload_curl_test.cpp ^
+   <core>\src\tools\files\FileDownload.cpp <core>\src\tools\files\FileService.cpp ^
+   <core>\src\tools\StringTools.cpp <core>\src\tools\grapheme\GraphemeIterator.cpp ^
+   <core>\src\tools\grapheme\GraphemeRange.cpp /Fe:test.exe ^
+   /link /LIBPATH:<repo>\cbuild\curl\lib libcurl_imp.lib <repo>\cbuild\utf8proc\utf8proc.lib
+```
+
+Copy `libcurl.dll` and `utf8proc.dll` next to `test.exe`, and pass a scratch folder as its one argument.
+It needs the network for its real HTTPS check, and takes about 20 s, most of it the retry back-off it tests.
+**Run the `.exe` from the PowerShell tool, not from the `.bat` that built it:** from a `.bat` in the
+session scratchpad, `test.exe` reported `9009` ("is not recognized") although it had just been built
+there. Run directly, the same binary passed. `cbuild` is a junction on the laptop, so a plain `find` under
+it sees nothing; use `find -L`.
 
 **And the cheap way to decide whether a failure is yours** without paying for a second build:
 `grep` the failing test file for the names you touched. `IniNamingTools_test.cpp` mentions no

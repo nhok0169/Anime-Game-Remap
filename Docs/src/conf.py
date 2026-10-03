@@ -93,11 +93,25 @@ toc_object_entries = False
 
 autodoc_typehints = "description"
 
+# Every class page also lists what it inherits, so a reader does not have to go up to the parent class
+# to find a method (eg. IfPredTokenizer's methods are all defined on BaseTokenizer). Members that come
+# from Python's own built-in types are left out, or a class like StrEnum (a str and an Enum) would list
+# every method of str.
+autodoc_default_options = {
+    "inherited-members": "object,str,int,float,bool,bytes,dict,list,set,frozenset,tuple,"
+                         "Enum,IntEnum,Flag,IntFlag,Exception,BaseException,ABC,Generic,"
+                         "pybind11_object",
+}
+
 # Force autosectionlabel to prepend the filename to all section headings
 #
 # Note: If you want to reference some heading, do something like this:
 #   :ref:\coreAPI:Tools
 autosectionlabel_prefix_document = True
+
+# The tutorial's choices each walk through their own STEP 1 / 2 / 3, so those headings share labels.
+# Nothing references a STEP heading (a reference goes to the choice's own heading instead)
+suppress_warnings = ["autosectionlabel.tutorial"]
 
 
 # add the edit on github link
@@ -119,8 +133,19 @@ html_css_files = [
     'css/styles.css',
 ]
 
+# breathe reads a prepared copy of the committed Doxygen XML, in which the members each class inherits
+#   (listed because the Doxyfile sets INLINE_INHERITED_MEMB) have ids of their own -- see doxygenInherited
+import tempfile
+import doxygenInherited
+
+doxygenXmlSrc = os.path.abspath('../../Anime Game Remap (for all users)/api/src/cpp/core/xml')
+doxygenXmlDst = os.path.join(tempfile.gettempdir(), "AGRemapDocs", "coreXml")
+doxygenInheritedStats = doxygenInherited.prepare(doxygenXmlSrc, doxygenXmlDst)
+print(f"[doxygenInherited] inherited members renamed: {doxygenInheritedStats['renamed']}, "
+      f"dropped as already overridden: {doxygenInheritedStats['dropped']}")
+
 breathe_projects = {
-    "AGRemapCore": os.path.abspath('../../Anime Game Remap (for all users)/api/src/cpp/core/xml')
+    "AGRemapCore": doxygenXmlDst
 }
 
 breathe_default_project = "AGRemapCore"

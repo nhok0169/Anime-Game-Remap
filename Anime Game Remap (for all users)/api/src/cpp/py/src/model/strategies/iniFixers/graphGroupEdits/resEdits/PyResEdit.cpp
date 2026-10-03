@@ -13,6 +13,8 @@
 
 #include "PyResEdit.h"
 
+#include "../../../../../constants/PyConstantEnums.h"
+
 #include <utility>
 
 #include "../../../../iftemplate/PyIfTemplate.h"
@@ -61,24 +63,7 @@ PyBaseResEditCore::ResEditConfig makeResEditConfig() {
 
 
 AGRC::IniGraphReplaceMode parseGraphReplaceMode(const py::object &mode) {
-    if (mode.is_none()) {
-        return AGRC::IniGraphReplaceMode::Ignore;
-    }
-
-    // Read through '.value' rather than by identity: IniGraphReplaceMode is still a pure-Python
-    // Enum, so there is no C++ member to compare against -- only the string each member carries.
-    py::object value = py::hasattr(mode, "value") ? mode.attr("value") : mode;
-    std::string parsed = py::str(value).cast<std::string>();
-
-    if (parsed == "replace") {
-        return AGRC::IniGraphReplaceMode::Replace;
-    }
-
-    if (parsed == "combine") {
-        return AGRC::IniGraphReplaceMode::Combine;
-    }
-
-    return AGRC::IniGraphReplaceMode::Ignore;
+    return toIniGraphReplaceMode(mode);
 }
 
 

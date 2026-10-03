@@ -43,10 +43,10 @@ namespace AGRemapCore {
 
      :raw-html:`<br />`
 
-     The text it builds is the pure-Python ``IniFile.addFixBoilerPlate``'s, exactly:
-     :cpp:func:`getFixHeader`, then :cpp:func:`getFixCredit`, then a blank line and the fix, then
-     :cpp:func:`getFixFooter` -- so a fix written by a plain C++ caller is byte-for-byte one the
-     `Python`_ side would have written, and the still-pure-Python ``RemapIniRemover`` can find it again
+     The text it builds is :cpp:func:`getFixHeader`, then :cpp:func:`getFixCredit`, then a blank
+     line and the fix, then :cpp:func:`getFixFooter` -- so a fix written by a plain C++ caller is
+     byte-for-byte one the `Python`_ side would have written, and :cpp:class:`RemapIniRemover` can
+     find it again
 
      :raw-html:`<br />`
 
@@ -57,12 +57,9 @@ namespace AGRemapCore {
         handed a switch for it
 
      .. note::
-        One deliberate divergence from the pure-Python original: it caches the heading's title on
-        the ``IniFile`` the first time a header is built and clears it again on every
-        reclassification, so a header built before a ``.ini`` file was classified keeps the
-        pre-classification title afterwards. Here the title is derived from #modTypeName at every
-        call, so it is always current. Within any single #addFixBoilerPlate call the two are
-        identical -- the header and the footer are always built from the same title either way
+        The heading's title is derived from #modTypeName at every call rather than cached, so it
+        is always current. Within any single #addFixBoilerPlate call the header and the footer are
+        always built from the same title
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -119,7 +116,7 @@ namespace AGRemapCore {
 
              .. note::
                 Whatever a subclass returns is used as-is apart from having its newlines and tabs
-                stripped, the way the pure-Python original strips them: this text is written into a
+                stripped: this text is written into a
                 ``;``-comment, and one stray newline in it would silently turn the rest of the
                 credit into ``.ini`` directives
              @endrst
@@ -193,8 +190,7 @@ namespace AGRemapCore {
              :cpp:func:`IniFixContext::fileTxt` :raw-html:`<br />` :raw-html:`<br />`
 
              A `section`_ owns every line from its own ``[Header]`` down to the line before the
-             next one, trailing blank lines included -- the same line ranges the pure-Python
-             ``IniFile.commentSectionOptions`` walks
+             next one, trailing blank lines included
 
              :raw-html:`<br />`
 

@@ -19,11 +19,13 @@ import ntpath
 from typing import Optional, List, Callable, Dict, Union, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import FilePrefixes, FileTypes, FileExt
+##### EndCppLocalImports
+
+
 ##### LocalImports
-from ...constants.FilePrefixes import FilePrefixes
 from ...constants.FilePathConsts import FilePathConsts
-from ...constants.FileTypes import FileTypes
-from ...constants.FileExt import FileExt
 from ...constants.FileEncodings import ReadEncodings
 from ...constants.GenericTypes import TextIoWrapper
 from .FilePath import FilePath
@@ -214,7 +216,7 @@ class FileService():
             The files partitioned for each type of file
 
             * If ``filters`` only contains 1 element and ``optional`` is ``False``, then will return :class:`str`
-            * If ``filters`` contains more than 1 element and ``optional`` is ``False`, then will return List[:class:`str`]
+            * If ``filters`` contains more than 1 element and ``optional`` is ``False``, then will return List[:class:`str`]
             * If ``filters`` only contains 1 element and ``optional`` is ``True``, then will return Optional[:class:`str`]
             * Otherwise, returns List[Optional[:class:`str`]]
         """
@@ -223,7 +225,7 @@ class FileService():
             filters = {}
 
         if (not filters):
-            filters[FileTypes.Default.value] = lambda itemPath: True
+            filters[FileTypes.Default] = lambda itemPath: True
         
         filesPerFileTypes = cls.getFiles(path = path, filters = list(filters.values()), files = files)
         filtersLen = len(filters)
@@ -310,7 +312,7 @@ class FileService():
         return file
 
     @classmethod
-    def disableFile(cls, file: str, filePrefix: str = FilePrefixes.BackupFilePrefix.value) -> str:
+    def disableFile(cls, file: str, filePrefix: str = FilePrefixes.BackupFilePrefix) -> str:
         """
         Marks a file as disabled and changes the file to a .txt file
 
@@ -331,7 +333,7 @@ class FileService():
         """
 
         baseName = os.path.basename(file)
-        baseName = FileService.changeExt(baseName, FileExt.Txt.value)
+        baseName = FileService.changeExt(baseName, FileExt.Txt)
 
         backupFile = os.path.join(os.path.dirname(file), filePrefix + baseName)
         FileService.rename(file, backupFile)

@@ -75,6 +75,11 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%87%F0%9F%93%9C%20The%20Silent%20Gap%20Reader-1-%23f59e0b?style=plastic&labelColor=%23334155)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A5%F0%9F%AA%A1%20The%20Coat%20Tailor-1-%2338bdf8?style=for-the-badge&labelColor=%23172554)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%8B%E2%9C%82%EF%B8%8F%20The%20Bamboo%20Shard%20Trimmer-1-%2384cc16?style=flat-square&labelColor=%23422006)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%8C%F0%9F%AA%A1%20The%20Starlit%20Lining%20Weaver-1-%23fbbf24?style=plastic&labelColor=%231e1b4b)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%91%93%F0%9F%93%96%20The%20Fresh--Eyes%20Reader-1-%2314b8a6?style=flat&labelColor=%237c2d12)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%9E%E2%9C%82%EF%B8%8F%20The%20Python%20Twin%20Pruner-1-%23f472b6?style=for-the-badge&labelColor=%23052e16)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A1%E2%8F%B3%20The%20Patient%20Resolver-1-%2322d3ee?style=flat-square&labelColor=%233b0764)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%AC%F0%9F%93%9C%20The%20Inheritance%20Scribe-1-%23c084fc?style=flat&labelColor=%23134e4a)
 
 <br>
 

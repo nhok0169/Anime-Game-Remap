@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/DownloadMode.h" line="79" column="32" bodyfile="src/constants/DownloadMode.cpp" bodystart="21" bodyend="31"/>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="74" column="32" bodyfile="src/constants/DownloadMode.cpp" bodystart="21" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_mode_tools_1a8dda7dade1c1d534d5497cb264063b4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" kindref="member">DownloadMode</ref> &gt;</type>
@@ -53,9 +53,9 @@ Finds the :cpp:enum:`DownloadMode` a string names, ignoring case and surrounding
 whitespace :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   An **exact** match on the trimmed, lowercased text, where the pure-Python
-   ``DownloadMode.search`` did a maximal-substring `Aho-Corasick`_ match. With three
-   short values that search accepted things like ``&quot;normally&quot;`` and
+   An **exact** match on the trimmed, lowercased text, where the `Python`_
+   ``DownloadMode.search`` does a maximal-substring `Aho-Corasick`_ match. With three
+   short values that search accepts things like ``&quot;normally&quot;`` and
    ``&quot;not disabled&quot;`` -- the latter meaning the opposite of what it was matched to.
    Nothing needs the leniency, and a typo reported as an error beats one silently
    resolved to the wrong mode
@@ -75,7 +75,7 @@ whitespace :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/DownloadMode.h" line="100" column="34" bodyfile="src/constants/DownloadMode.cpp" bodystart="33" bodyend="49"/>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="95" column="34" bodyfile="src/constants/DownloadMode.cpp" bodystart="33" bodyend="49"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -89,7 +89,7 @@ The strings are the `Python`_ ``DownloadMode`` enum&apos;s own values, which are
 line actually accepts. Only :cpp:class:`RemapServiceCLI` needs them -- the model takes the enum
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/DownloadMode.h" line="69" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="69" bodyend="101"/>
+    <location file="include/AGRemapCore/constants/DownloadMode.h" line="64" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="64" bodyend="96"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_download_mode_tools_1a8dda7dade1c1d534d5497cb264063b4e" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadModeTools</scope><name>findByName</name></member>
       <member refid="class_a_g_remap_core_1_1_download_mode_tools_1a0b25678b28fa61201437f12b7eb08383" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadModeTools</scope><name>getName</name></member>

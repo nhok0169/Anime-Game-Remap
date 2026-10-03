@@ -315,11 +315,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Collects and remaps, but builds nothing -- there is no ``.ini`` file to build resources
-             for :raw-html:`<br />` :raw-html:`<br />`
-
-             .. note::
-                Faithful to the pure-Python original, whose own ``_buildResource`` is a no-op when
-                ``ini`` is ``None``
+             for
              @endrst
              *
              * @param graphGroups The group of graphs to edit for each .ini file, modified in place

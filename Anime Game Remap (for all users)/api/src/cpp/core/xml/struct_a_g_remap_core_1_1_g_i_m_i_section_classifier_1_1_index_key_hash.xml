@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="122" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="122" bodyend="126"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="116" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="116" bodyend="120"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -28,7 +28,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="121" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="121" bodyend="127"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="115" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="115" bodyend="121"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash_1abc3c91ecb0008d1038bad5a0b07c88e4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::IndexKeyHash</scope><name>operator()</name></member>
     </listofallmembers>

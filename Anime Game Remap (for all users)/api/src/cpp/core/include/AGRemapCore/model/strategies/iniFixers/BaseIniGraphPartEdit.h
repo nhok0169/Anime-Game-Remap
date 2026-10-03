@@ -25,8 +25,7 @@ namespace AGRemapCore {
      Base class for a filter that edits some part of a caller/callee graph
      (:cpp:class:`IniSectionGraph`) within a ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
-     Adds nothing of its own over :cpp:class:`BaseIniPartEdit` -- exactly like the pure-Python
-     original, this exists purely to mark the graph-editing half of the edit hierarchy apart from
+     Adds nothing of its own over :cpp:class:`BaseIniPartEdit` -- this exists purely to mark the graph-editing half of the edit hierarchy apart from
      the rest (:cpp:class:`BaseIniGraphGroupEdit`, for instance, deliberately derives from
      :cpp:class:`BaseIniPartEdit` directly instead)
      @endrst

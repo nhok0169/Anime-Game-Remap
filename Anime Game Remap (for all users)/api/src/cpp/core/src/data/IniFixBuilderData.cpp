@@ -433,6 +433,17 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Yaoyao),
                   "6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBambooEye)}, IniFixBuilderFuncs::yaoyaoBambooEye6_3()},
 
+                // ===== Lumine @ toVersion 6.3 (2026-09-29) =====
+                // THREE rows, one per target component, the Eye LAST: its fixer owns the hidden components
+                // and the TexFx guards and has to run after the other two. At 6.3 because the skin's hashes
+                // are filed there.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeavenMain)}, IniFixBuilderFuncs::lumineHeavenMain6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeavenBang)}, IniFixBuilderFuncs::lumineHeavenBang6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeavenEye)}, IniFixBuilderFuncs::lumineHeavenEye6_3()},
+
                 // ===== NeuvilletteMelusent @ toVersion 6.3 (2026-09-25) =====
                 // The merge back: ONE row, the skin's components folded onto Neuvillette's one mesh.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent),
@@ -444,6 +455,12 @@ namespace AGRemapCore {
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::YaoyaoBamboo),
                   "6.3", ModTypeIdTools::getName(ModTypeId::Yaoyao)},
                  IniFixBuilderFuncs::yaoyaoBambooToYaoyao6_3()},
+
+                // ===== LumineHeaven @ toVersion 6.3 (2026-09-29) =====
+                // The merge back: ONE row, the skin's components folded onto Lumine's one mesh.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::Lumine)},
+                 IniFixBuilderFuncs::lumineHeavenToLumine6_3()},
 
                 // ===== Keqing @ toVersion 6.1 =====
                 //

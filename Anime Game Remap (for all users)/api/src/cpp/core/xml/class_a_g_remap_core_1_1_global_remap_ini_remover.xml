@@ -91,7 +91,7 @@ An :cpp:type:`IniRemoveBuilder::Factory` that builds one of these over an
 :raw-html:`&lt;br /&gt;`
 
 Only meaningful for the plain ``&lt;std::string, std::string&gt;`` instantiation, since
-:cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile*` can be
+:cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile` pointer can be
 turned into
 </verbatim> </para>
         </detaileddescription>

@@ -73,10 +73,9 @@ It is a prototyping aid. A fix worth keeping belongs in the C++ tables.
     "the newest", taking the highest override registered. An override registered *without* a
     version is the fallback, used only when no versioned one applied.
 
-    Exact matching was tried first and is wrong for what this class is for: a run resolves a mod's
-    version off the .ini file and normally passes no version at all, so an override registered for
-    ``6.1`` --- the literal case "override Raiden 6.1" means --- fired zero times on an ordinary
-    run.
+    A run resolves a mod's version off the .ini file and normally passes no version at all, so
+    under this rule an override registered for ``6.1`` (eg. "override Raiden 6.1") still applies
+    on an ordinary run.
 
 .. warning::
     Not synchronised. Register and clear **around** a run, never during one.
@@ -115,7 +114,7 @@ Registers a parser factory for a mod
     The version to override from, or ``None`` for every version --- an override registered here
     applies to that version **and every later one**, until a higher override supersedes it, exactly
     as the built-in version tables resolve. **Default**: ``None``
-:type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+:type version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
 )doc"))
 
         .def_static("setFixer",
@@ -146,7 +145,7 @@ adds it, so a brand-new remap can be prototyped and not only an existing one rep
     The version of 'fromModName' to override from, or ``None`` for every version --- only the
     *from* version is keyed on, since that is the one a run resolves off the ``.ini`` being fixed.
     Floor-matched, like :meth:`setParser`'s. **Default**: ``None``
-:type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+:type version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
 )doc"))
 
         .def_static("clear", &AGRC::StrategyOverrides::clear, py::doc(R"doc(

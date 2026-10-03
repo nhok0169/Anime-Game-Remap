@@ -48,12 +48,11 @@ class TextureFile(CppTextureFile):
         buffer, never the file itself)
 
     .. note::
-        :attr:`img` (a real `Pillow`_ `PIL.Image`_) is only needed for compatibility with a handful
-        of things in this codebase that still work directly against `Pillow`_ (a few filters, and a
-        couple of per-character custom edits in ``data/IniParseBuilderData.py``). When
+        :attr:`img` (a real `Pillow`_ `PIL.Image`_) is only needed for compatibility with the
+        handful of things that work directly against `Pillow`_ (a few filters). When
         :attr:`engine` is :attr:`TexEngine.Compressonator` and :attr:`readPillowImg` is ``False``
         (the default), :meth:`open`/:meth:`save` skip maintaining :attr:`img` entirely and every
-        ported filter (see ``PyTexFilterCommon.h``) operates directly on the native `Compressonator`_
+        C++ filter operates directly on the native `Compressonator`_
         buffer instead, for real C++ speed with zero `Pillow`_ overhead. Set :attr:`readPillowImg`
         to ``True`` (or use :meth:`read`, which always builds :attr:`img` on demand regardless of
         the flag) whenever something in the filter chain genuinely needs :attr:`img` to be real.
@@ -244,8 +243,8 @@ class TextureFile(CppTextureFile):
                 Only the :attr:`TexEngine.Compressonator` engine can honour this.
                 :attr:`TexEngine.Pillow` writes 32-bit uncompressed either way -- `Pillow`_ has no
                 BCn encoder -- so under that engine ``True`` is silently what ``False`` does here.
-                That is the one real difference between the two engines' output, and why the
-                pure-Python implementation was so much faster than this one
+                That is the one real difference between the two engines' output, and compressing is
+                much slower than writing uncompressed
 
             **Default**: ``True``
         """

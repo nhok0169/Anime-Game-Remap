@@ -54,10 +54,10 @@ namespace AGRemapCore {
          On a **cut** component these are STAND-INS: a kept vertex's weight on another component's
          group goes to the stand-in bone instead of being dropped and renormalised away. Where one
          surface is cut between two components, each side of the seam otherwise keeps only its own
-         half of the weights, and the two copies of every seam point follow different bones --
-         Neuvillette5's cape tore open across the back. They never decide which component takes a
-         triangle; only \ref remap does. Empty (every cut component until 2026-09-25): foreign
-         weight is dropped, as before
+         half of the weights, and the two copies of every seam point follow different bones, tearing
+         the surface open along the seam. They never decide which component takes a
+         triangle; only \ref remap does. Empty: foreign
+         weight is dropped
          @endrst
          */
         std::unordered_map<long long, long long> secondary;
@@ -87,7 +87,7 @@ namespace AGRemapCore {
 
          Where one surface is cut between two components, the two sides of the seam are skinned by
          different bones -- no two components share a bone -- and when the skin poses they pull
-         apart, showing whatever is behind (Neuvillette5's cape, torn across the back). A band of
+         apart, showing whatever is behind (eg. a cape torn across the back). A band of
          overlap is drawn by BOTH components, so a gap narrower than the band is covered by the other
          side's copy. It never changes which component owns a triangle: the band is drawn in
          addition, skinned with this component's bones (and its \ref secondary stand-ins), and a
@@ -104,8 +104,7 @@ namespace AGRemapCore {
 
          Single-layer cloth shows its back faces from inside -- a skirt's inner side -- and whether
          a back face renders as cloth is up to the target's shader: Neuvillette's shades it like the
-         outside, NeuvilletteMelusent's lights it like rim light, flat light blue (Neuvillette2's inner
-         skirt, 2026-09-26). The layer gives each such triangle a front-facing twin seen from the
+         outside, NeuvilletteMelusent's lights it like rim light, flat light blue. The layer gives each such triangle a front-facing twin seen from the
          other side: every corner is copied once (same weights, same source vertex -- flagged in
          :cpp:member:`VGComponentBuffers::mirrored`, so the vertex buffers' writer can turn its normal
          round, see :cpp:func:`VGComponentSplit::mirrorPositionLine`), and each triangle is followed
@@ -120,13 +119,30 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         For a cut component with \ref mirroredIbs: how far behind a mirrored triangle to look for a layer of the
+         mesh facing the other way, in model units -- a triangle so BACKED gets no twin (see
+         :cpp:func:`InnerLayerOutline::backed`) :raw-html:`<br />` :raw-html:`<br />`
+
+         Cloth modelled with its own lining needs no inner layer, and a twin moved inward from it pokes through the
+         lining a few millimetres behind, showing as flat grey polygons over the cloth. Needs the mod's positions, handed over by
+         :cpp:func:`VGComponentSplit::setGeometry`; without them every triangle is mirrored. A triangle only PARTLY
+         over a lining keeps its twin, moved inward no further than half way to the lining
+         (:cpp:member:`VGComponentBuffers::mirrorLimits`). **Default**: ``0``, every triangle of a mirrored buffer
+         gets its twin at the full offset
+         @endrst
+         */
+        float mirrorBackedReach = 0.0f;
+
+        /**
+         * @brief
+         @rst
          For a **cut** component: source groups whose weight is SHARED among several of the component's bones,
          as ``{source group: [(bone, share), ...]}`` -- applied after the remap, over the vertex's final
          weights, the shares summing to 1 :raw-html:`<br />` :raw-html:`<br />`
 
          A cloth part of the source with no counterpart on the target rides ONE bone of it, and either choice
-         can be wrong: Neuvillette3's front coat flap on the skin's pelvis (rigid) went through the leg as it
-         stepped, and on its thigh (following) swung its face round and showed the lining (2026-09-26). Shared
+         can be wrong: a front coat flap on the target's pelvis (rigid) goes through the leg as it
+         steps, and on its thigh (following) swings its face round and shows the lining. Shared
          between the two, a link moves part of the way with each. A vertex left with more than 4 influences
          keeps its 4 largest, renormalised. **Default**: empty
          @endrst
@@ -160,6 +176,7 @@ namespace AGRemapCore {
         std::size_t sentinels = 0;
         std::size_t mirroredVertices = 0;
         std::size_t mirroredTriangles = 0;
+        std::size_t mirrorBacked = 0;
         std::size_t splitVertices = 0;
     };
 
@@ -219,6 +236,17 @@ namespace AGRemapCore {
          */
         std::vector<bool> mirrored;
 
+        /**
+         * @brief
+         @rst
+         Per entry of \ref vertices, for a MIRRORED copy: the most it may move inward, half the distance to the
+         lining facing the other way behind it (:cpp:func:`InnerLayerOutline::backed`'s partial case), or ``-1`` for
+         no limit. Empty when :cpp:member:`VGComponentSpec::mirrorBackedReach` did not apply. A twin kept short of a
+         lining stays hidden behind both surfaces, where one moved the full offset came out in front of it
+         @endrst
+         */
+        std::vector<float> mirrorLimits;
+
         VGComponentSplitStats stats;
     };
 
@@ -231,15 +259,14 @@ namespace AGRemapCore {
      The ``Blend.buf`` decides which component each vertex belongs to, the index buffers decide
      which triangles go where, and every vertex buffer is then filtered to the vertices a component
      keeps -- so the buffers of a mod cannot be split one at a time, which is what makes this a
-     grouped resource's job (see :cpp:class:`VGSplitGroupResource`). The strategies mirror
-     ``Tools/VGRemapFinder``'s ``ComponentSplit.py``, whose output the Yelan -> YelanTranquil pair
-     was confirmed with in game: the negative-index components first draw every triangle all of
+     grouped resource's job (see :cpp:class:`VGSplitGroupResource`). The strategies are those of
+     ``Tools/VGRemapFinder``'s ``ComponentSplit.py``: the negative-index components first draw every triangle all of
      whose corners are live in them, and the cut components share the rest out by majority
      (its ``fill`` mode) :raw-html:`<br />` :raw-html:`<br />`
 
-     Weights are decoded from the file's own 32-bit floats and handled as ``float`` wherever the
-     Python original's ``numpy`` did, so a cut component's renormalised blend comes out byte for
-     byte the same
+     Weights are decoded from the file's own 32-bit floats and handled as ``float`` wherever
+     ``ComponentSplit.py``'s ``numpy`` does, so a cut component's renormalised blend comes out byte for
+     byte the same as that tool's
      @endrst
      */
     class VGComponentSplit {
@@ -264,17 +291,15 @@ namespace AGRemapCore {
              Decodes a ``Blend.buf`` into weights and indices :raw-html:`<br />` :raw-html:`<br />`
 
              .. warning::
-                **FOUR influences a vertex only** (2026-09-30). :cpp:type:`Weights` and
+                **FOUR influences a vertex only**. :cpp:type:`Weights` and
                 :cpp:type:`Indices` are ``std::array<..., 4>`` and this drops columns past the fourth
                 SILENTLY, so an eight-influence `blend`_ -- what a Wuthering Waves character like
                 Chisa carries -- loses half of every vertex without an error.
 
                 :cpp:class:`BlendFile` itself has no such limit: its constructor takes the caller's
                 own elements and :cpp:func:`BlendFile::remapIndices` runs to the shorter of the two.
-                It is this class that is fixed, because its types are. ``WWMIFixer.cpp``'s ``bufRows``
-                is this function generalised over the width, kept local until widening these types
-                can be swept against a GI corpus -- see Architecture's "A BLEND'S INFLUENCE COUNT IS
-                A PARAMETER"
+                The four-influence limit belongs to this class, because its element types have four
+                slots
              @endrst
              *
              * @param blend The `blend`_ to decode
@@ -330,6 +355,33 @@ namespace AGRemapCore {
             const std::vector<VGComponentSpec>& specs() const;
 
             /**
+             * @brief
+             @rst
+             Hands the split the mod's own positions and normals, per source vertex -- what
+             :cpp:member:`VGComponentSpec::mirrorBackedReach` asks about. Without them (or with the wrong count)
+             every triangle of a mirrored buffer is mirrored
+             @endrst
+             */
+            void setGeometry(std::vector<std::array<float, 3>> positions, std::vector<std::array<float, 3>> normals);
+
+            /**
+             * @brief Whether splitting for 'component' asks about the mod's geometry -- see \ref setGeometry
+             */
+            bool needsGeometry(const std::string& component) const;
+
+            /**
+             * @brief
+             @rst
+             \ref setGeometry from the mod's own ``Position.buf`` bytes, one line per source vertex. EVERY split whose
+             output has to agree -- the one an ``.ini`` takes its counts from and the one that writes the buffers --
+             reads it this way
+             @endrst
+             *
+             * @return Whether the buffer had a normal on every line; if not, nothing is set
+             */
+            bool readGeometry(const ByteVec& positionBuffer);
+
+            /**
              * @brief Splits for one component
              *
              * @throw std::invalid_argument If no component has that name
@@ -347,13 +399,15 @@ namespace AGRemapCore {
             std::vector<bool> liveVertices(const VGComponentSpec& spec) const;
             VGComponentBuffers splitNegative(const VGComponentSpec& spec) const;
             VGComponentBuffers splitCut(std::size_t column) const;
-            static void addMirroredLayer(VGComponentBuffers& result, const std::vector<std::size_t>& ibs);
+            void addMirroredLayer(VGComponentBuffers& result, const VGComponentSpec& spec) const;
 
             Weights weights_;
             Indices indices_;
             std::vector<Triangles> ibs_;
             std::vector<VGComponentSpec> specs_;
             std::vector<double> totals_;
+            std::vector<std::array<float, 3>> positions_;
+            std::vector<std::array<float, 3>> normals_;
     };
 }
 

@@ -44,8 +44,7 @@ namespace AGRemapCore {
      The version matters more than it does for a GIMI parser: a reverse lookup with no version
      resolves through the NEWEST bucket holding the value, and ``0`` -- component 0's index -- is
      every GI head's index too, filed at 6.1. That bucket holds no WuWa row, so without
-     :cpp:member:`version` component 0 classified as nothing. The prototype every field here was
-     read off is ``Tools/Misc/Prototypes/sanhuaExorcistFix.py``
+     :cpp:member:`version` component 0 would classify as nothing
      @endrst
      */
     struct WWMIParserConfig {
@@ -89,17 +88,16 @@ namespace AGRemapCore {
          What this character's own textures look like, so the mod's texture files can be sorted into
          ROLES :raw-html:`<br />` :raw-html:`<br />`
 
-         Left empty, the parser builds no index and :cpp:class:`WWMIParseFacts` answers ``nullptr``,
-         which is the behaviour before this existed -- the fixer then builds its own.
+         Left empty, the parser builds no index and :cpp:class:`WWMIParseFacts` answers ``nullptr``;
+         the fixer then builds its own.
 
          .. note::
-            The end state for :cpp:member:`WWMITextureFacts::roles` is that it is EMPTY and
+            The intended end state for :cpp:member:`WWMITextureFacts::roles` is that it is EMPTY and
             :cpp:class:`GIMISectionClassifier` places every texture from the library's own
-            :cpp:class:`Hashes` rows, which is where a character's hashes belong. Of the four WuWa
-            characters only Chisa's are filed; the rest carry 98 pairs filed nowhere else, and 31 of
-            their roles have SEVERAL hashes -- which :cpp:class:`Hashes` can only tell apart by
-            version, so which hash is which generation is a question about evidence rather than a
-            transcription (2026-09-29)
+            :cpp:class:`Hashes` rows, which is where a character's hashes belong. Of the WuWa
+            characters only Chisa's texture hashes are filed there so far; for the others the roles
+            listed here are the only record, and many of their roles have SEVERAL hashes, which
+            :cpp:class:`Hashes` can only tell apart by version
          @endrst
          */
         WWMITextureFacts textures;
@@ -114,7 +112,7 @@ namespace AGRemapCore {
 
      The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser,
      or a config with no :cpp:member:`WWMIParserConfig::textures`), the fixer falls back to building
-     its own index -- the behaviour before this existed :raw-html:`<br />` :raw-html:`<br />`
+     its own index :raw-html:`<br />` :raw-html:`<br />`
 
      The same shape as :cpp:class:`GIMIComponentParseFacts`, for the same reason: deciding what a
      mod's files ARE is the parser's job, and the fixer only needs the answer

@@ -38,6 +38,7 @@
     <includedby refid="_klee_blossoming_starlight_parser_8cpp" local="yes">src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp</includedby>
     <includedby refid="_lisa_parser_8cpp" local="yes">src/data/IniParseData/Lisa/LisaParser.cpp</includedby>
     <includedby refid="_lisa_student_parser_8cpp" local="yes">src/data/IniParseData/LisaStudent/LisaStudentParser.cpp</includedby>
+    <includedby refid="_lumine_parser_8cpp" local="yes">src/data/IniParseData/Lumine/LumineParser.cpp</includedby>
     <includedby refid="_mona_parser_8cpp" local="yes">src/data/IniParseData/Mona/MonaParser.cpp</includedby>
     <includedby refid="_mona_c_n_parser_8cpp" local="yes">src/data/IniParseData/MonaCN/MonaCNParser.cpp</includedby>
     <includedby refid="_neuvillette_parser_8cpp" local="yes">src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp</includedby>
@@ -1294,6 +1295,8 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
@@ -1424,70 +1427,74 @@
         <link refid="_lisa_student_parser_8cpp"/>
       </node>
       <node id="34">
+        <label>src/data/IniParseData/Lumine/LumineParser.cpp</label>
+        <link refid="_lumine_parser_8cpp"/>
+      </node>
+      <node id="35">
         <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="35">
+      <node id="36">
         <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="36">
+      <node id="37">
         <label>src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp</label>
         <link refid="_neuvillette_parser_8cpp"/>
       </node>
-      <node id="37">
+      <node id="38">
         <label>src/data/IniParseData/Nilou/NilouParser.cpp</label>
         <link refid="_nilou_parser_8cpp"/>
       </node>
-      <node id="38">
+      <node id="39">
         <label>src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp</label>
         <link refid="_nilou_breeze_parser_8cpp"/>
       </node>
-      <node id="39">
+      <node id="40">
         <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
-      <node id="40">
+      <node id="41">
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="41">
+      <node id="42">
         <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>
-      <node id="42">
+      <node id="43">
         <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
-      <node id="43">
+      <node id="44">
         <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
         <link refid="_shenhe_parser_8cpp"/>
       </node>
-      <node id="44">
+      <node id="45">
         <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
         <link refid="_shenhe_frost_flower_parser_8cpp"/>
       </node>
-      <node id="45">
+      <node id="46">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
       </node>
-      <node id="46">
+      <node id="47">
         <label>src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp</label>
         <link refid="_xiangling_cheer_parser_8cpp"/>
       </node>
-      <node id="47">
+      <node id="48">
         <label>src/data/IniParseData/Xingqiu/XingqiuParser.cpp</label>
         <link refid="_xingqiu_parser_8cpp"/>
       </node>
-      <node id="48">
+      <node id="49">
         <label>src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp</label>
         <link refid="_xingqiu_bamboo_parser_8cpp"/>
       </node>
-      <node id="49">
+      <node id="50">
         <label>src/data/IniParseData/Yaoyao/YaoyaoParser.cpp</label>
         <link refid="_yaoyao_parser_8cpp"/>
       </node>
-      <node id="50">
+      <node id="51">
         <label>src/data/IniParseData/Yelan/YelanParser.cpp</label>
         <link refid="_yelan_parser_8cpp"/>
       </node>
@@ -1555,22 +1562,22 @@
 <codeline lineno="186"><highlight class="normal"></highlight></codeline>
 <codeline lineno="190" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab0c8df44e6253b48f5b4bc4bc404e063" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ObjDownloadRegs&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ab0c8df44e6253b48f5b4bc4bc404e063" kindref="member">objDownloadRegs</ref>;</highlight></codeline>
 <codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" kindref="member">faceDownloadVersionFolder</ref>;</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"></highlight></codeline>
-<codeline lineno="220" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" kindref="member">faceDownloadPrefix</ref>;</highlight></codeline>
-<codeline lineno="221"><highlight class="normal"></highlight></codeline>
-<codeline lineno="237" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" kindref="member">faceDownload</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="238"><highlight class="normal"></highlight></codeline>
-<codeline lineno="242" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" kindref="member">positionStride</ref><sp/>=<sp/>40;</highlight></codeline>
-<codeline lineno="243"><highlight class="normal"></highlight></codeline>
-<codeline lineno="247" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" kindref="member">blendStride</ref><sp/>=<sp/>32;</highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1ad056881c921d745486a96e205519389b" kindref="member">faceDownloadVersionFolder</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a832770365a55d004dd36167bcafc22be" kindref="member">faceDownloadPrefix</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a3eab1d805761791da3f43369c369dc82" kindref="member">faceDownload</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a4499e0e3038ed4e6ca7ca7518635a671" kindref="member">positionStride</ref><sp/>=<sp/>40;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config_1a210742a15bd061a466663fee1ca17683" kindref="member">blendStride</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
 <codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" kindref="member">makeGIMICharParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"></highlight></codeline>
-<codeline lineno="282"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" kindref="member">makeGIMICharParser</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniParseData/GIMICharParser.h"/>
   </compounddef>

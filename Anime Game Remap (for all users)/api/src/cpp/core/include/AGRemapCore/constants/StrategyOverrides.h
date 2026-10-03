@@ -30,7 +30,7 @@ namespace AGRemapCore {
      A process-wide table of parser/fixer factories that take precedence over the built-in ones
      :raw-html:`<br />` :raw-html:`<br />`
 
-     **What this is for.** Every `IniParser`_/`IniFixer`_ this library ships is compiled into
+     **What this is for.** Every parser/fixer this library ships is compiled into
      `AGRemapCore`, which is what makes a run fast and what makes trying a new idea slow -- a change
      to one character's fix is a C++ rebuild. Registering a factory here overrides the built-in row
      for a mod **at runtime**, so a new parse or fix can be written in `Python`_, run, and thrown

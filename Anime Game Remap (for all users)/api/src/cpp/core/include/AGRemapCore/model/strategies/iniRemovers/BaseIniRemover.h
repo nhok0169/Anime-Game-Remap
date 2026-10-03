@@ -30,17 +30,13 @@ namespace AGRemapCore {
      Base class to remove fixes from a ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        The pure-Python original also carries a ``_readLines`` **decorator**, used to make sure the
-        ``.ini`` file has been read before a method runs. That is not ported: it is a `Python`_
-        decorator mechanism with no C++ equivalent, and the one thing it actually does --
-        "read the file first if it hasn't been read yet" -- is done by
-        :cpp:func:`IniFile::removeFix` before it calls any remover, and by
-        :cpp:func:`IniRemoveContext::readFileLines` for every other caller
+        A remover can assume the ``.ini`` file has been read before it runs:
+        :cpp:func:`IniFile::removeFix` reads it before calling any remover, and
+        :cpp:func:`IniRemoveContext::readFileLines` does so for every other caller
 
      .. note::
-        The pure-Python original exposes its ``.ini`` file as a plain public ``iniFile`` attribute.
-        This follows :cpp:class:`BaseIniParser`'s convention instead (protected member plus
-        #getIniFile/#setIniFile). :cpp:func:`IniRemoveBuilder::build` is what calls #setIniFile,
+        This follows :cpp:class:`BaseIniParser`'s convention for its ``.ini`` file (protected
+        member plus #getIniFile/#setIniFile). :cpp:func:`IniRemoveBuilder::build` is what calls #setIniFile,
         so a remover reached that way arrives already bound
 
      .. note::
@@ -57,9 +53,7 @@ namespace AGRemapCore {
         :cpp:class:`IniRemoveBuilder` (and, through it, :cpp:member:`ModType::iniRemoveBuilder` and
         :cpp:func:`IniFile::removeFix`) deliberately stays pinned to ``BaseIniRemover<>`` rather
         than becoming a template of its own -- the same call the parser family made, and for the
-        same reason: nothing on the `Python`_ side builds removers through it (the `Python`_ API has
-        its own pure-Python ``IniRemoveBuilder``), so the only instantiation it ever needs is the
-        plain-``std::string`` one
+        same reason: the only instantiation it needs is the plain-``std::string`` one
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -133,8 +127,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Removes the fix from the ``.ini`` file. Returns an empty string by default, matching
-             the pure-Python original's ``pass``
+             Removes the fix from the ``.ini`` file. Returns an empty string by default
              @endrst
              *
              * @param parse

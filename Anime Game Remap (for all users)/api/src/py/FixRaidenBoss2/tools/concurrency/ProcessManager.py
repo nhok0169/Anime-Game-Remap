@@ -33,7 +33,7 @@ class ProcessManager(ConcurrentManager[Process]):
         be rooted to a bug in Python itself:
         https://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
 
-    Paramaters
+    Parameters
     ----------
     jobNo: Optional[:class:`int`]
         The number of processes to run at once :raw-html:`<br />` :raw-html:`<br />`

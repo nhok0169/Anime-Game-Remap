@@ -177,6 +177,56 @@ int main() {
         expect(all(off, 0, 8, false), "without facingAxis, facing in is not enough");
     }
 
+    // ---- backed: a layer facing the OTHER way right behind a triangle (VGComponentSpec::mirrorBackedReach) ----
+    {
+        std::vector<Vec3> pos, nrm;
+        Triangles coat, lining, body;
+        quad(pos, nrm, coat, 0.0f, 0.0f, 0.0f, 1.0f, true);          // 0-3, facing +z
+        quad(pos, nrm, lining, 0.0f, 0.0f, -0.004f, 1.0f, false);    // 4-7, 4 mm behind, facing -z
+        quad(pos, nrm, body, 3.0f, 0.0f, -0.004f, 1.0f, true);       // 8-11, under the NEXT panel, facing +z
+        Triangles panel;
+        quad(pos, nrm, panel, 3.0f, 0.0f, 0.0f, 1.0f, true);         // 12-15, over `body`, same way
+
+        const std::vector<const Triangles*> all = {&coat, &lining, &body, &panel};
+        const std::vector<bool> c = InnerLayerOutline::backed(pos, nrm, all, coat, 0.01f);
+        expect(c.size() == 2 && c[0] && c[1], "a coat with its lining 4 mm behind is backed");
+        const std::vector<bool> l = InnerLayerOutline::backed(pos, nrm, all, lining, 0.01f);
+        expect(l[0] && l[1], "and so is the lining, by the coat");
+        const std::vector<bool> p = InnerLayerOutline::backed(pos, nrm, all, panel, 0.01f);
+        expect(!p[0] && !p[1], "a layer facing the SAME way behind (a body under cloth) does not back it");
+        const std::vector<bool> far = InnerLayerOutline::backed(pos, nrm, all, coat, 0.003f);
+        expect(!far[0] && !far[1], "a lining further away than the reach does not back it");
+        const std::vector<bool> none = InnerLayerOutline::backed(pos, nrm, all, coat, 0.0f);
+        expect(!none[0] && !none[1], "a reach of 0 backs nothing");
+        const std::vector<bool> self = InnerLayerOutline::backed(pos, nrm, {&coat}, coat, 0.01f);
+        expect(!self[0] && !self[1], "a triangle does not back itself, nor its neighbour in the same plane");
+    }
+
+    // ---- backed: a lining under only a CORNER of the triangle (the centroid's ray misses it) ----
+    {
+        std::vector<Vec3> pos = {{0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}};
+        std::vector<Vec3> nrm(3, Vec3{0.0f, 0.0f, 1.0f});
+        Triangles target = {{0, 1, 2}};
+        // a small patch facing -z, 4 mm under corner 1 only: it holds the point a tenth of the way from corner 1 to
+        // the centroid, (0.933, 0.033), and not the centroid (0.333, 0.333)
+        Triangles patch;
+        const unsigned long long b = pos.size();
+        pos.push_back({0.8f, -0.1f, -0.004f}); pos.push_back({0.8f, 0.3f, -0.004f}); pos.push_back({1.3f, -0.1f, -0.004f});
+        for (int k = 0; k < 3; ++k) nrm.push_back({0.0f, 0.0f, -1.0f});
+        patch.push_back({b, b + 1, b + 2});     // (p1 - p0) x (p2 - p0) = (0, .4, 0) x (.5, 0, 0) -> -z
+        const std::vector<bool> r = InnerLayerOutline::backed(pos, nrm, {&target, &patch}, target, 0.01f);
+        expect(!r[0], "a lining under one corner does not back the triangle -- the rest of it would show its back face");
+
+        // ...and behind() says how far that corner's twin may move: the patch is 4 mm behind corner 1 only
+        const std::vector<float> d = InnerLayerOutline::behind(pos, nrm, {&target, &patch}, target, 0.01f);
+        expect(d.size() == pos.size(), "behind() answers per vertex");
+        expect(d[1] > 0.0039f && d[1] < 0.0041f, "corner 1 has the lining 4 mm behind it");
+        expect(d[0] < 0.0f && d[2] < 0.0f, "corners 0 and 2 have nothing behind them");
+        expect(d[b] < 0.0f, "a vertex no target triangle uses is not asked");
+        const std::vector<float> none = InnerLayerOutline::behind(pos, nrm, {&target, &patch}, target, 0.003f);
+        expect(none[1] < 0.0f, "a lining further away than the reach is not reported");
+    }
+
     // ---- reading a Position.buf ----
     {
         AGRemapCore::ByteVec buf(40 * 2, 0);

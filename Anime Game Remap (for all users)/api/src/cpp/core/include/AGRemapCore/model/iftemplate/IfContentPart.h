@@ -40,29 +40,24 @@ namespace AGRemapCore {
      @rst
      This class inherits from :cpp:class:`IfTemplatePart`
 
-     The content part of an `IfTemplate` -- the C++ port of ``IfContentPart.py``, holding the
+     The content part of an `IfTemplate`, holding the
      key-value pairs (e.g. a `.ini` section's registers) for one part of the template. :raw-html:`<br />` :raw-html:`<br />`
 
-     Unlike the deprecated Python version (which hardcoded its own list-of-buckets storage),
-     this class owns its data purely through a caller-supplied :cpp:class:`IOrderedMultiMap`
+     This class owns its data purely through a caller-supplied :cpp:class:`IOrderedMultiMap`
      implementation -- callers pick which concrete ordered-multimap backs a given
      :cpp:class:`IfContentPart` (:cpp:class:`OrderedMultiMap`/:cpp:class:`OrderedMultiMapSqrt`
      via :cpp:class:`OrderedMultiMapAdapter`, or any custom implementation of their own,
      including one implemented from `Python`_), and every method on this class is a thin,
      renamed delegation straight to that implementation. There is deliberately no independent
      storage or logic duplicated here: the semantics for every operation are exactly
-     :cpp:class:`BaseOrderedMultiMap`'s documented rules, not the deprecated Python class's old
-     ones -- only the *method names* below intentionally echo ``IfContentPart.py``'s naming
-     (e.g. ``insertAllAt`` -> ``addKVPsByInds``), per that migration's explicit intent. :raw-html:`<br />` :raw-html:`<br />`
+     :cpp:class:`BaseOrderedMultiMap`'s documented rules -- only the *method names* below
+     differ (e.g. ``insertAllAt`` -> ``addKVPsByInds``). :raw-html:`<br />` :raw-html:`<br />`
 
-     Notable deliberate departures from the old Python class, worth knowing if migrating code
-     from it:
+     Notable design points:
 
-     * ``get(key: Union[str, int], default=None)``, which conflated by-key and by-index lookup
-       behind one overloaded signature, is split into the unambiguous
+     * Lookup by key and lookup by index are separate methods --
        :cpp:func:`getVals`/:cpp:func:`getByInd`/:cpp:func:`getByIndWithOccurrence` -- matching
-       how :cpp:class:`IOrderedMultiMap` itself separates these, rather than reintroducing the
-       old ambiguity.
+       how :cpp:class:`IOrderedMultiMap` itself separates these.
      * ``toStr()`` (string formatting for a `.ini` section) is intentionally not provided here:
        it requires ``K``/``V`` to be string-convertible, which isn't true for an arbitrary
        :cpp:class:`IfContentPart`\\<K, V\\> instantiation. It belongs at whichever layer already

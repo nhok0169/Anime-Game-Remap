@@ -22,9 +22,6 @@ void initCppGIBuilder(pybind11::module_ &m) {
     // constants/GIBuilder.py; see PyModType.cpp's binding comment for the same reasoning.
     py::class_<AGRC::GIBuilder>(m, "GIBuilder", R"doc(
 Creates new :class:`ModType` objects for GI (Genshin Impact) mods
-
-Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-side
-:class:`ModType` (id, name, and aliases only) instead of the full pure-Python :class:`ModType`
     )doc")
 
         .def_static("amber", &AGRC::GIBuilder::amber, py::doc(R"doc(Creates the :class:`ModType` for Amber)doc"))
@@ -61,6 +58,8 @@ Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-si
         .def_static("kleeBlossomingStarlight", &AGRC::GIBuilder::kleeBlossomingStarlight, py::doc(R"doc(Creates the :class:`ModType` for KleeBlossomingStarlight)doc"))
         .def_static("lisa", &AGRC::GIBuilder::lisa, py::doc(R"doc(Creates the :class:`ModType` for Lisa)doc"))
         .def_static("lisaStudent", &AGRC::GIBuilder::lisaStudent, py::doc(R"doc(Creates the :class:`ModType` for LisaStudent)doc"))
+        .def_static("lumine", &AGRC::GIBuilder::lumine, py::doc(R"doc(Creates the :class:`ModType` for Lumine)doc"))
+        .def_static("lumineHeaven", &AGRC::GIBuilder::lumineHeaven, py::doc(R"doc(Creates the :class:`ModType` for LumineHeaven, the skin of three components; its component ids are fix targets only and have no factory)doc"))
         .def_static("mona", &AGRC::GIBuilder::mona, py::doc(R"doc(Creates the :class:`ModType` for Mona)doc"))
         .def_static("monaCN", &AGRC::GIBuilder::monaCN, py::doc(R"doc(Creates the :class:`ModType` for MonaCN)doc"))
         .def_static("neuvillette", &AGRC::GIBuilder::neuvillette, py::doc(R"doc(Creates the :class:`ModType` for Neuvillette)doc"))

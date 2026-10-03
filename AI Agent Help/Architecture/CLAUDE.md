@@ -1011,12 +1011,12 @@ possibly-missing key this way; confirm it empirically rather than assuming.
 
 ## Pure-Python "Tools" wrapper classes: two delegation styles, pick based on whether you're adding behavior
 
-`IntTools`/`Algo`/`ListTools`/`DictTools`/`HashTools` are all pure-Python classes made of nothing
+`Algo`/`ListTools`/`DictTools`/`HashTools` are all pure-Python classes made of nothing
 but `@classmethod`s wrapping a `Cpp`-prefixed pybind11 class and/or a `CyXxxTools` instance — but
 they use two different mechanisms, and picking the wrong one for what you're doing adds needless
 code or loses capability silently:
 
-1. **Pure forwarding (the default — `IntTools`, `Algo`, `ListTools`, `DictTools`)**: no
+1. **Pure forwarding (the default — `Algo`, `ListTools`, `DictTools`)**: no
    inheritance at all. Each classmethod just calls through and returns the result —
    `CppXxx.method(...)` directly for a pybind11-backed method, `cls._CyTools.method(...)` (the
    held `CyXxxTools()` instance from the Cython section above) for a Cython-backed one — and a
@@ -2299,7 +2299,7 @@ none of them announced itself as missing --- each surfaced as one more `.ini` fi
 | `RegAssetRemap` | not bound at all. It is how every hash becomes the target's |
 | `GIMIObjPartFilter` | not bound at all. Without its window the `match_first_index` rewrite writes one object's vertex range onto another |
 | `RegDelimitedAdd.pathEndOnlyWhenUndelimited` | the parameter existed on the core class and not on the binding, so a Python fix could not ask for the NNFix/ORFix placement every character uses |
-| `CppIniNamingTools` | see below |
+| `IniNamingTools` (C++) | see below |
 | `PyIniParseContext::addSectionObj` / `addFileDownloadObj` | two more third-case seam gaps --- the `*Obj` variants had no `coreCtx` branch, so a download creating its resource section raised on `ini.sectionIfTemplates` and a download reaching the `.ini` file raised on `ini.fileDownloads` |
 
 **The naming one is the trap worth remembering. `IniNamingTools` in Python is the pure-Python
@@ -2308,9 +2308,9 @@ keeps `name[:len(suffix)]` where it means `name[:-len(suffix)]` --- a confirmed 
 deliberately does not reproduce (see its own comment). The two agree on every name that does
 *not* already end in the suffix, which is almost all of them; they diverge on a section the
 parser **invents** for a download, which by construction already carries `RemapFix`. So exactly
-one section in the whole file came out as `[TextureOGanyuRemapFix]`. The C++ class is now bound
-as **`CppIniNamingTools`** --- deliberately not as `IniNamingTools`, which is taken --- and a fix
-written in Python should use it.
+one section in the whole file came out as `[TextureOGanyuRemapFix]`. The C++ class was bound as
+`CppIniNamingTools` beside it; **since 2026-10-01 the pure-Python class is deleted and the C++ one is
+bound as `IniNamingTools`**, so `FRB.IniNamingTools` is the naming the compiled fixes use.
 
 Two smaller things the exercise turned up, both of the same silent-acceptance kind:
 
@@ -3012,6 +3012,44 @@ The fix, now in place: register the core base too (`CppBaseIniParser`, `CppBaseI
 downcast then returns the *Python* object when there is one and the core base otherwise. Every
 class in such a hierarchy needs `py::smart_holder`, since a holder must stay consistent down a
 chain.
+
+## THE PYTHON CONSTANTS ARE THE C++ ONES NOW, AND A BINDING CAN READ A PYTHON NAME BY STRING (2026-10-01)
+
+The pure-Python copies of core constants are deleted and the core ones are bound in their place
+(`py/src/constants/PyConstantEnums.cpp`, `PyConstantStrings.cpp`):
+
+| Python name | What it is now |
+| --- | --- |
+| `DownloadMode`, `RegFillMissingMode`, `IniGraphReplaceMode`, `IfPredPartType` | `py::enum_` of the core enum. A member's name as typed on the command line is `DownloadModeTools.getName` / `IfPredPartTypeTools.getName` -- there is no `.value` string any more |
+| `IniKeywords`, `FileExt`, `FilePrefixes`, `FileTypes`, `IniGraphModObjKeywords` | the core class, every member a read-only plain string: `IniKeywords.Hash` **is** `"hash"`, so `IniKeywords.Hash.value` raises |
+| `Version` | the single PEP 440 version that used to be `CppVersion` |
+| `VersionSet` | the searchable collection the pure-Python `Version` used to be |
+| `IntTools`, `IniNamingTools` | the bindings formerly named `CppIntTools` / `CppIniNamingTools` |
+
+Two rules for binding code that takes or returns one of the enums:
+
+- **Take** a `py::object` and convert with `toDownloadMode` / `toRegFillMissingMode` /
+  `toIniGraphReplaceMode` / `toIfPredPartType` (`PyConstantEnums.h`): each accepts the bound member
+  or the name it used to carry as a string, so a value read off the command line still works.
+- **Return** with `enumMember(value)` when a caller may compare by identity --
+  `RegFillMissing(...).fillMode is RegFillMissingMode.FillMissing` is pinned by a test. `py::cast`
+  builds a fresh object each time, and `py::type::of<E>()` does not compile for an enum (its caster
+  is not the generic class caster); `enumMember` takes the type from the cast member instead.
+
+`PyConstantStrings.cpp` is generated from the headers' doc comments by
+`Tools/Misc/Docs/genConstantStrings.py` (`--check` says whether it is current): add or document a
+member in the header, then regenerate. **Run that script from a file, never through a heredoc** --
+its first version went through one, the `\1` in a regex replacement came out mangled, and every
+cross-reference in the generated docstrings lost its role and class (``.fix` ``) while compiling and
+importing fine.
+
+**Before deleting a pure-Python module, grep the BINDINGS for its name as a string.** The bindings
+look Python names up at run time -- `pyPackageModule().attr("FileSuffixes")`,
+`py::module_::import(parent + ".constants.IfPredPartType")` -- and a grep of the Python tree finds
+none of them. Deleting `constants/FileSuffixes.py` left `PyGIMIFixer.cpp`'s copy naming reading it,
+and **the whole unit suite stayed green**, because no test reaches a merge's copied `.ini`. Grep
+`api/src/cpp/py/src` for `attr("<Name>")` and for the module path, and read the core constant
+directly when there is one.
 
 ## `# TOREMOVE` in `FixRaidenBoss2/__init__.py` is the authoritative deletion signal
 

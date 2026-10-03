@@ -14,12 +14,10 @@
 
 ##### CppLocalImports
 from .core import CppRemapServiceCLI
+from .core import FileExt, FilePrefixes, FileTypes
 ##### EndCppLocalImports
 
 ##### LocalImports
-from .constants.FileExt import FileExt
-from .constants.FilePrefixes import FilePrefixes
-from .constants.FileTypes import FileTypes
 from .controller.enums.CommandOpts import CommandOpts
 from .exceptions.ConflictingOptions import ConflictingOptions
 ##### EndLocalImports
@@ -39,8 +37,8 @@ class RemapServiceCLI(CppRemapServiceCLI):
     :raw-html:`<br />`
 
     .. note::
-        Argument parsing itself stays outside this class, in ``main.py``, exactly as it did for the
-        pure-Python :class:`RemapService` this replaced. This class takes values, not an ``argv``
+        Argument parsing itself stays outside this class, in ``main.py``. This class takes values,
+        not an ``argv``
     """
 
     def fix(self):
@@ -99,7 +97,7 @@ class RemapServiceCLI(CppRemapServiceCLI):
         logger.openHeading("Tips", sideLen = 10)
 
         if (service.keepBackups):
-            logger.bulletPoint(f'Hate deleting the "{FilePrefixes.BackupFilePrefix.value}" {FileExt.Ini.value}/{FileExt.Txt.value} files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the {CommandOpts.DeleteBackup.value} option')
+            logger.bulletPoint(f'Hate deleting the "{FilePrefixes.BackupFilePrefix}" {FileExt.Ini}/{FileExt.Txt} files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the {CommandOpts.DeleteBackup.value} option')
 
         if (not service.undoOnly):
             logger.bulletPoint(f"Want to undo this script's fix? Run this script again (on CMD) using the {CommandOpts.Revert.value} option")
@@ -108,7 +106,7 @@ class RemapServiceCLI(CppRemapServiceCLI):
             logger.bulletPoint(f"Want the mod to only show on the remapped character and not the original character? Run this script again (on CMD) using the {CommandOpts.HideOriginal.value} options")
 
         if (not service.readAllInis):
-            logger.bulletPoint(f"Were your {FileTypes.Ini.value}s not read? Run this script again (on CMD) using the {CommandOpts.All.value} option")
+            logger.bulletPoint(f"Were your {FileTypes.Ini}s not read? Run this script again (on CMD) using the {CommandOpts.All.value} option")
 
         logger.space()
         logger.log("For more info on command options, run this script (on CMD) using the --help option")

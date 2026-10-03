@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lumine_heaven_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LumineHeavenParser</compoundname>
+    <includes refid="_lumine_heaven_parser_8h" local="no">LumineHeavenParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_heaven_parser_1a9b1eb8136b43c0d82ffd217dac9664cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LumineHeavenParser::LumineHeavenParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LumineHeavenParser</name>
+        <qualifiedname>AGRemapCore::LumineHeavenParser::LumineHeavenParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/LumineHeaven/LumineHeavenParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lumine_heaven_parser_1ae147fbb62ad89a55681408efa83fd871" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::LumineHeavenParser::v6_3</definition>
+        <argsstring>()</argsstring>
+        <name>v6_3</name>
+        <qualifiedname>AGRemapCore::LumineHeavenParser::v6_3</qualifiedname>
+        <briefdescription>
+<para>The parser for a 6.3-era LumineHeaven <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" kindref="member">IniParseBuilderFuncs::lumineHeaven6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/LumineHeaven/LumineHeavenParser.h" line="40" column="45" bodyfile="src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+LumineHeaven&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of THREE components -- an unnamed main mesh, a ``Bang`` and an ``Eye`` -- see
+:cpp:func:`makeGIMIComponentParser`. Pair this with :cpp:class:`LumineHeavenFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/LumineHeaven/LumineHeavenParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/LumineHeaven/LumineHeavenParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lumine_heaven_parser_1a9b1eb8136b43c0d82ffd217dac9664cf" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineHeavenParser</scope><name>LumineHeavenParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_lumine_heaven_parser_1ae147fbb62ad89a55681408efa83fd871" prot="public" virt="non-virtual"><scope>AGRemapCore::LumineHeavenParser</scope><name>v6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

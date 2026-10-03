@@ -80,7 +80,7 @@ namespace AGRemapCore {
              @rst
              Retrieves the corresponding name for a :cpp:enum:`GameTypeId` :raw-html:`<br />` :raw-html:`<br />`
 
-             Mirrors the pure-Python ``GameTypeNames`` enum's values (``constants/GameTypeNames.py``)
+             Matches the values of the `Python`_ ``GameTypeNames`` enum (``constants/GameTypeNames.py``)
              @endrst
              *
              * @param value The :cpp:enum:`GameTypeId` to retrieve the name for

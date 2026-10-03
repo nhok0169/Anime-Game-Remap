@@ -28,15 +28,14 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniResourceModel`
+     This class inherits from :cpp:class:`AGRemapCore::IniResourceModel`
 
      Contains data for a particular resource in the original .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``IniSrcResourceModel`` class
-     (``model/iniresources/IniSrcResourceModel.py``) -- #paths/#fullPaths use ``tsl::ordered_map``
-     rather than ``std::unordered_map`` specifically to preserve the same insertion-order iteration
-     the Python original's plain ``dict`` gives for free, since these keys are the (order-meaningful)
-     :cpp:class:`IfContentPart` indices for some :cpp:class:`IfTemplate`
+     #paths/#fullPaths use ``tsl::ordered_map``
+     rather than ``std::unordered_map`` specifically to preserve insertion-order iteration,
+     since these keys are the (order-meaningful)
+     :cpp:class:`AGRemapCore::IfContentPart` indices for some :cpp:class:`AGRemapCore::IfTemplate`
      @endrst
      */
     class IniSrcResourceModel: public IniResourceModel {
@@ -49,9 +48,9 @@ namespace AGRemapCore {
              * @param paths
              @rst
              The file paths to the resource -- the keys are the indices to the
-             :cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+             :cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
              for some resource, and the values are the file paths within that
-             :cpp:class:`IfContentPart`
+             :cpp:class:`AGRemapCore::IfContentPart`
              @endrst
              */
             IniSrcResourceModel(std::string iniFolderPath, tsl::ordered_map<int, std::vector<std::string>> paths);
@@ -59,7 +58,7 @@ namespace AGRemapCore {
             virtual ~IniSrcResourceModel() = default;
 
             /**
-             * @brief The file paths to the resource, keyed by :cpp:class:`IfContentPart` index (see the constructor)
+             * @brief The file paths to the resource, keyed by :cpp:class:`AGRemapCore::IfContentPart` index (see the constructor)
              */
             tsl::ordered_map<int, std::vector<std::string>> paths;
 
@@ -71,9 +70,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Every ``(path, fullPath)`` pair across every :cpp:class:`IfContentPart` in #paths, in
-             the same order #paths itself iterates -- the C++ counterpart to the pure-Python
-             original's ``__iter__`` (a plain flattened list here rather than a lazy generator,
+             Every ``(path, fullPath)`` pair across every :cpp:class:`AGRemapCore::IfContentPart` in #paths, in
+             the same order #paths itself iterates (a plain flattened list rather than a lazy generator,
              since the whole flattened sequence is small and already fully materialized in #paths/
              #fullPaths anyway)
              @endrst

@@ -24,9 +24,7 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        The pure-Python original also declares ``edit``/``editFromIni`` here, as
-        ``(*args, modType, modName = "", **kwargs) -> Any``. That signature can't be expressed in
-        C++ -- every subclass takes genuinely different arguments and returns a different type
+        There is no common ``edit``/``editFromIni`` declared here: every subclass takes genuinely different arguments and returns a different type
         (:cpp:class:`BaseIniGraphEdit` edits an :cpp:class:`IniSectionGraph`,
         :cpp:class:`BaseRegEdit` edits an :cpp:class:`IfContentPart`,
         :cpp:class:`BaseIniGraphGroupEdit` edits a whole vector of

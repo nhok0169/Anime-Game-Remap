@@ -74,6 +74,10 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="19">
         <label>AGRemapCore/model/Version.h</label>

@@ -56,11 +56,10 @@ void initCppBaseRegEdit(pybind11::module_ &m) {
 Base class for a filter that edits some part of a `.ini` file
 
 .. note::
-    The deleted pure-Python original also declared ``edit``/``editFromIni`` here, as
-    ``(*args, modType, modName = "", **kwargs) -> Any``. That signature has no C++ equivalent --
-    every subclass takes genuinely different arguments and returns a different type -- so each
-    subclass family declares its own **typed** ``edit``/``editFromIni`` pair instead (see
-    :class:`BaseRegEdit`), and only :meth:`clear` (which really is common) lives here
+    This class declares no ``edit``/``editFromIni`` of its own: every subclass takes genuinely
+    different arguments and returns a different type, so each subclass family declares its own
+    **typed** ``edit``/``editFromIni`` pair instead (see :class:`BaseRegEdit`), and only
+    :meth:`clear` (which really is common) lives here
     )doc")
 
         .def(py::init<>())
@@ -76,8 +75,7 @@ This class inherits from :class:`BaseIniPartEdit`
 Base class for a filter that edits some part of a caller/callee graph (:class:`IniSectionGraph`)
 within a `.ini` file
 
-Adds nothing of its own over :class:`BaseIniPartEdit` -- exactly like the pure-Python original,
-this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
+Adds nothing of its own over :class:`BaseIniPartEdit` -- this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
     )doc")
 
         .def(py::init<>());
@@ -109,8 +107,7 @@ Base class for a filter that edits some registers within an :class:`IfContentPar
 Edits the registers for the current :class:`IfContentPart` with state info from 'ini'
 
 .. note::
-    This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
-    original does
+    This forwards straight to :meth:`edit` and ignores 'ini' entirely
 
 Parameters
 ----------

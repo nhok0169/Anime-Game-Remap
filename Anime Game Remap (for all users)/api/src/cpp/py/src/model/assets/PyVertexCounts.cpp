@@ -137,8 +137,7 @@ Constructs a new, fully-populated vertex count lookup table
 :raw-html:`<br />`
 
 .. note::
-    Unlike the pure-Python original there is no 'repo' argument to swap the whole table out with --
-    nothing in this project ever passed one, and :meth:`addRows` already covers extending it
+    There is no 'repo' argument to swap the whole table out with; use :meth:`addRows` to extend it
         )doc"))
 
         .def("get", [](const AGRC::VertexCounts &self, const py::object &nonVersionVals, const py::object &versionVals,

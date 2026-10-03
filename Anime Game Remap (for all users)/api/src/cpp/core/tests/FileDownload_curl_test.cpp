@@ -50,13 +50,17 @@
 // "reuse an already-installed tree" posture as this doc's own z3 guidance).
 // Compile directly, e.g.:
 //
-//   cl /std:c++latest /EHsc /nologo /I <core>/include /I <curl>/include ^
-//      FileDownload_curl_test.cpp <core>/src/tools/files/FileDownload.cpp ^
-//      /Fe:test.exe /link /LIBPATH:<cbuild>/curl/lib libcurl_imp.lib
+//   cl /std:c++latest /EHsc /nologo /MD /O2 /DNOMINMAX /I <core>/include ^
+//      /I <curl>/include /I <utf8proc> FileDownload_curl_test.cpp ^
+//      <core>/src/tools/files/FileDownload.cpp <core>/src/tools/files/FileService.cpp ^
+//      <core>/src/tools/StringTools.cpp <core>/src/tools/grapheme/GraphemeIterator.cpp ^
+//      <core>/src/tools/grapheme/GraphemeRange.cpp /Fe:test.exe ^
+//      /link /LIBPATH:<cbuild>/curl/lib libcurl_imp.lib <cbuild>/utf8proc/utf8proc.lib
 //
-// libcurl.dll must be copied alongside the built .exe (or on PATH) before
-// running it -- same DLL-next-to-.exe requirement as libz3.dll in the Building
-// doc's own z3 section.
+// libcurl.dll and utf8proc.dll must be copied alongside the built .exe (or on
+// PATH) before running it -- same DLL-next-to-.exe requirement as libz3.dll in
+// the Building doc's own z3 section. NOMINMAX because <curl/curl.h> reaches
+// <windows.h>; see AI Agent Help/Testing/CLAUDE.md.
 // -----------------------------------------------------------------------------
 
 #include "AGRemapCore/tools/files/FileDownload.h"
@@ -322,6 +326,30 @@ void testRetries(const std::string& scratchDir) {
         check(!retries[0].reason.empty(), "onRetry(): carries libcurl's own reason for this request");
     }
 
+    check(flaky.lastFailureWasTransient(),
+          "lastFailureWasTransient(): an unreachable host is a hiccup, not an answer");
+
+    // ---- the doubling stops at maxRetryDelay ----
+    retries.clear();
+    FileDownload capped("http://no-such-host.invalid/whatever.dds", "whatever.dds");
+    capped.maxAttempts = 5;
+    capped.retryDelay = std::chrono::milliseconds(20);
+    capped.maxRetryDelay = std::chrono::milliseconds(50);
+    capped.onRetry = [&retries](int attempt, int attempts, const std::string& reason,
+                                 std::chrono::milliseconds wait) {
+        retries.push_back({attempt, attempts, reason, static_cast<long long>(wait.count())});
+    };
+
+    try {
+        capped.download(destFolder.string());
+    } catch (const std::runtime_error&) {
+        // expected
+    }
+
+    check(retries.size() == 4 && retries[0].waitMs == 20 && retries[1].waitMs == 40
+              && retries[2].waitMs == 50 && retries[3].waitMs == 50,
+          "download(): the wait doubles up to maxRetryDelay and then stays there");
+
     // ---- and turning it off means one go ----
     retries.clear();
     FileDownload once("http://no-such-host.invalid/whatever.dds", "whatever.dds");
@@ -359,6 +387,8 @@ void testRetries(const std::string& scratchDir) {
 
     check(threw, "download(): a file that is not there still throws");
     check(retries.empty(), "download(): a PERMANENT failure is not retried, even with attempts left");
+    check(!missing.lastFailureWasTransient(),
+          "lastFailureWasTransient(): a missing file is an answer, not a hiccup");
     check(!std::filesystem::exists(destFolder / "anywhere.txt"),
           "download(): no partial file left behind by any attempt");
 
@@ -386,6 +416,20 @@ void testFailureMemo() {
     cache.remember(url, "C:/somewhere/x.dds");
     check(!cache.hasFailed(url), "remember(): a successful fetch clears the failure");
     check(cache.pathOf(url).has_value(), "remember(): ...and records where it landed");
+
+    // ---- per host: one unreachable server says so for every file on it ----
+    const std::string sibling = "https://example.invalid/sub/other.dds";
+    check(!cache.isHostUnreachable(sibling), "isHostUnreachable(): a host nobody has tried is reachable");
+
+    cache.markHostUnreachable("https://example.invalid/y.dds");
+    check(cache.isHostUnreachable(sibling), "markHostUnreachable(): ...covers every other file on that host");
+    check(!cache.isHostUnreachable("https://github.com/x.dds"),
+          "markHostUnreachable(): ...and says nothing about another host");
+    check(!cache.hasFailed(sibling), "markHostUnreachable(): a host being down is not a url having failed");
+
+    cache.remember(sibling, "C:/somewhere/other.dds");
+    check(!cache.isHostUnreachable("https://example.invalid/y.dds"),
+          "remember(): one success on the host clears it for all of them");
 }
 
 }  // namespace

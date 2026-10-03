@@ -354,14 +354,24 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="14">
+      <node id="12">
+        <label>include/AGRemapCore/data/IniFixData/TexFxLayout.h</label>
+        <link refid="_tex_fx_layout_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
         <label>include/AGRemapCore/data/IniFixData/TexRegLayout.h</label>
         <link refid="_tex_reg_layout_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -395,11 +405,11 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -423,6 +433,8 @@
       <node id="11">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
@@ -433,13 +445,13 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="15">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
         <link refid="_reg_remap_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -451,13 +463,13 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="18">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
         <link refid="_reg_remove_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -470,7 +482,7 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="19">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h</label>
         <link refid="_reg_restrict_8h"/>
         <childnode refid="4" relation="include">
@@ -492,7 +504,11 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="15">
+      <node id="13">
+        <label>src/data/IniFixData/TexFxLayout.cpp</label>
+        <link refid="_tex_fx_layout_8cpp"/>
+      </node>
+      <node id="17">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
       </node>
@@ -500,7 +516,7 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="14">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
@@ -552,22 +568,22 @@
 <codeline lineno="70"><highlight class="normal"></highlight></codeline>
 <codeline lineno="79" refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" kindref="member">RangeSpec</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ContentPart::RangeSpec;</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123" refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" kindref="member">editFromIni</ref>(<ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>ini<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142" refid="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" kindref="member">editFromIni</ref>(<ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/>ini<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">OrderRanges</ref>*<sp/>partRanges<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="144"><highlight class="normal"></highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="146"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159" refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" kindref="member">toRangeSpec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">OrderRanges</ref>*<sp/>partRanges);</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157" refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" kindref="member">toRangeSpec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">OrderRanges</ref>*<sp/>partRanges);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseRegEdit.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="162"><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseRegEdit.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h"/>
   </compounddef>

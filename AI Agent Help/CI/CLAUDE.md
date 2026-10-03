@@ -177,6 +177,19 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     `CURL_CA_BUNDLE` or the first well-known bundle that exists, on every OS but Windows (Schannel).
     **A wheel that builds and imports can still be unable to download anything** --- test a
     download on a DIFFERENT distro from the one it was built on.
+  - **Every CPython, 3.9 - 3.15 (2026-10-01).** `CIBW_BUILD` lists them explicitly
+    (`cp39-*` ... `cp315-*`) rather than taking cibuildwheel's default, so a cibuildwheel bump cannot
+    ship a version nobody built here, and so the free-threaded `cp314t` / `cp315t` stay out: numpy
+    has no free-threaded wheels (each would compile numpy from source) and our modules do not declare
+    themselves free-threading safe. **The floor is numpy's, not ours**: the API requires
+    `numpy>=1.26.4`, which has no 3.8 release, and cibuildwheel 4 cannot build 3.8 anyway -- so
+    `requires-python` is `>=3.9` in both packages, and it is the one thing that must move with this
+    list. The first pre-release shipped `cp312` only under `>=3.8`, and `pip install` on 3.9 said
+    *No matching distribution found for FixRaidenBoss2==5.0.0a1* while listing every older version --
+    a version with no wheel for your python is invisible to pip, not "missing". `CIBW_TEST_COMMAND`
+    imports every wheel in a clean environment of its own python before anything is published. Cost:
+    seven wheels per runner; Linux and macOS reuse the core's compiles through sccache, **Windows
+    compiles the whole core seven times** (no compiler launcher under the Visual Studio generator).
   - **PyPI's trusted publishing refuses a token minted inside a reusable workflow**
     (`invalid-publisher`, 2026-09-18, the AnimeGameRemap upload). Such a token carries two workflow
     names -- `workflow_ref` (the caller) and `job_workflow_ref` (the reusable file) -- and matches no
@@ -264,7 +277,8 @@ Measured and read off `python-publish.yml` on 2026-09-18; the wheel half has nev
     by `mozilla-actions/sccache-action` and switched on with `CMAKE_ARGS=-DAGREMAP_SCCACHE=ON` in
     `CIBW_ENVIRONMENT_*` (scikit-build-core adds `CMAKE_ARGS` to `pyproject.toml`'s own `cmake.args`).
     The C++ core is identical for every python version, so it compiles once per runner and only the
-    bindings compile per version. **With `CIBW_BUILD: "cp312-*"` that is one wheel per runner and saves
+    bindings compile per version. **(Superseded 2026-10-01: `CIBW_BUILD` is CPython 3.9 - 3.15 now -- see
+    "Every CPython" below.)** With `CIBW_BUILD: "cp312-*"` that was one wheel per runner and saved
     nothing yet** --- it is in place for widening. Linux builds in cibuildwheel's container, so the
     action's static musl binary is copied into the project (`.sccache-bin/`) and put on `PATH`;
     `CIBW_BEFORE_BUILD_LINUX` / `_MACOS` print `--show-stats` before each wheel. **Not Windows**:

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="247" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="247" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="274" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="274" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_component_split_1ac0e4ae55a6af2af066027cce029a84f8" prot="public" static="no">
         <type>std::vector&lt; std::array&lt; long long, 4 &gt; &gt;</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="248" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="248" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="275" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="275" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_component_split_1a2a68c79a4ee8bb83b1f8e15cd47847f1" prot="public" static="no">
         <type>std::vector&lt; std::array&lt; unsigned long long, 3 &gt; &gt;</type>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="249" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="249" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="276" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="276" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="352" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="352" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="404" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="404" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_split_1a336e769ece991a3087b56ae2fdd1fb28" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1ac0e4ae55a6af2af066027cce029a84f8" kindref="member">Indices</ref></type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="353" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="353" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="405" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="405" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_split_1a4265f9b88e1ca5808754e1b1012ebc0a" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_v_g_component_split_1a2a68c79a4ee8bb83b1f8e15cd47847f1" kindref="member">Triangles</ref> &gt;</type>
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="354" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="354" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="406" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="406" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_split_1a46b7066cffe375dcf9f52ecb1bea8833" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_component_spec" kindref="compound">VGComponentSpec</ref> &gt;</type>
@@ -103,7 +103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="355" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="355" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="407" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="407" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_split_1a3e08666d5cf9c703b5ad4324096a5673" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -117,7 +117,35 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="356" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="356" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="408" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_split_1a3aa451a23a476bd96ec8ae71640d83aa" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::array&lt; float, 3 &gt; &gt;</type>
+        <definition>std::vector&lt;std::array&lt;float, 3&gt; &gt; AGRemapCore::VGComponentSplit::positions_</definition>
+        <argsstring></argsstring>
+        <name>positions_</name>
+        <qualifiedname>AGRemapCore::VGComponentSplit::positions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="409" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_component_split_1a0540c0504bd9c7c929e63602d02b1d45" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::array&lt; float, 3 &gt; &gt;</type>
+        <definition>std::vector&lt;std::array&lt;float, 3&gt; &gt; AGRemapCore::VGComponentSplit::normals_</definition>
+        <argsstring></argsstring>
+        <name>normals_</name>
+        <qualifiedname>AGRemapCore::VGComponentSplit::normals_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="410" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="410" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -184,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="259" column="13" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="60" bodyend="75"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="286" column="13" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="61" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a5f632c741402cbefd73b0693e88852b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -198,7 +226,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="329" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="189" bodyend="191"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="354" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="190" bodyend="192"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a187d0901ffb710d5c67575290f9c5480" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_v_g_component_spec" kindref="compound">VGComponentSpec</ref> &gt; &amp;</type>
@@ -212,7 +240,79 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="330" column="31" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="194" bodyend="196"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="355" column="31" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a45345a1711a71f484e348fcf8e0bf654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGComponentSplit::setGeometry</definition>
+        <argsstring>(std::vector&lt; std::array&lt; float, 3 &gt; &gt; positions, std::vector&lt; std::array&lt; float, 3 &gt; &gt; normals)</argsstring>
+        <name>setGeometry</name>
+        <qualifiedname>AGRemapCore::VGComponentSplit::setGeometry</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::array&lt; float, 3 &gt; &gt;</type>
+          <declname>positions</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::array&lt; float, 3 &gt; &gt;</type>
+          <declname>normals</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Hands the split the mod&apos;s own positions and normals, per source vertex -- what
+:cpp:member:`VGComponentSpec::mirrorBackedReach` asks about. Without them (or with the wrong count)
+every triangle of a mirrored buffer is mirrored
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="365" column="18" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="401" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1ab2d96f55b32fad3b30257a2155418305" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::VGComponentSplit::needsGeometry</definition>
+        <argsstring>(const std::string &amp;component) const</argsstring>
+        <name>needsGeometry</name>
+        <qualifiedname>AGRemapCore::VGComponentSplit::needsGeometry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+<para>Whether splitting for &apos;component&apos; asks about the mod&apos;s geometry <ndash/> see <ref refid="class_a_g_remap_core_1_1_v_g_component_split_1a45345a1711a71f484e348fcf8e0bf654" kindref="member">setGeometry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="370" column="18" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="407" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1ad5f2bf020d73fdc3a98f84fe085f9b20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::VGComponentSplit::readGeometry</definition>
+        <argsstring>(const ByteVec &amp;positionBuffer)</argsstring>
+        <name>readGeometry</name>
+        <qualifiedname>AGRemapCore::VGComponentSplit::readGeometry</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
+          <declname>positionBuffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+\ref setGeometry from the mod&apos;s own ``Position.buf`` bytes, one line per source vertex. EVERY split whose
+output has to agree -- the one an ``.ini`` takes its counts from and the one that writes the buffers --
+reads it this way
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether the buffer had a normal on every line; if not, nothing is set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="382" column="18" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="417" bodyend="427"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a589bc6290b5efa5636371c003eb59649" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_buffers" kindref="compound">VGComponentBuffers</ref></type>
@@ -241,7 +341,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="337" column="32" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="282" bodyend="295"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="389" column="32" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="283" bodyend="296"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -262,17 +362,15 @@
 Decodes a ``Blend.buf`` into weights and indices :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. warning::
-   **FOUR influences a vertex only** (2026-09-30). :cpp:type:`Weights` and
+   **FOUR influences a vertex only**. :cpp:type:`Weights` and
    :cpp:type:`Indices` are ``std::array&lt;..., 4&gt;`` and this drops columns past the fourth
    SILENTLY, so an eight-influence `blend`_ -- what a Wuthering Waves character like
    Chisa carries -- loses half of every vertex without an error.
 
    :cpp:class:`BlendFile` itself has no such limit: its constructor takes the caller&apos;s
    own elements and :cpp:func:`BlendFile::remapIndices` runs to the shorter of the two.
-   It is this class that is fixed, because its types are. ``WWMIFixer.cpp``&apos;s ``bufRows``
-   is this function generalised over the width, kept local until widening these types
-   can be swept against a GI corpus -- see Architecture&apos;s &quot;A BLEND&apos;S INFLUENCE COUNT IS
-   A PARAMETER&quot;
+   The four-influence limit belongs to this class, because its element types have four
+   slots
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -289,7 +387,7 @@ Decodes a ``Blend.buf`` into weights and indices :raw-html:`&lt;br /&gt;` :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="284" column="30" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="78" bodyend="106"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="309" column="30" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="79" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a467bd29245be5c8441bbba127bfc62a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_v_g_component_split_1a2a68c79a4ee8bb83b1f8e15cd47847f1" kindref="member">Triangles</ref></type>
@@ -308,7 +406,7 @@ Decodes a ``Blend.buf`` into weights and indices :raw-html:`&lt;br /&gt;` :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="289" column="30" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="109" bodyend="132"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="314" column="30" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="110" bodyend="133"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1aa591aa7fb4c0a9fb51cbfb05b513a9b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -331,7 +429,7 @@ Decodes a ``Blend.buf`` into weights and indices :raw-html:`&lt;br /&gt;` :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="294" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="135" bodyend="154"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="319" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="136" bodyend="155"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a44ed6e33b54a99762e8c2bfa2790e133" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -350,7 +448,7 @@ Decodes a ``Blend.buf`` into weights and indices :raw-html:`&lt;br /&gt;` :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="299" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="157" bodyend="166"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="324" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="158" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a1742242ab075e1f7a492b704b8ff80af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -390,7 +488,7 @@ Keeps only the given lines of a fixed-stride buffer, in the order given -- how a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="310" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="169" bodyend="186"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="335" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="170" bodyend="187"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a87b6cf7210a11d17e31d2dfbcde2e0fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -439,7 +537,7 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="327" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="364" bodyend="382"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="352" column="28" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="430" bodyend="448"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -463,7 +561,7 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="345" column="24" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="201" bodyend="245"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="397" column="24" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="202" bodyend="246"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a976c6b3ece8ca3ebbc3a047010b79c64" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -481,7 +579,7 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="346" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="249" bodyend="262"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="398" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="250" bodyend="263"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a40d9d1de6d57dc31bf149965f637dea9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; bool &gt;</type>
@@ -499,7 +597,7 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="347" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="266" bodyend="279"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="399" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="267" bodyend="280"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1acb2803a433f3473065fa8f5ce0b6b944" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_buffers" kindref="compound">VGComponentBuffers</ref></type>
@@ -517,7 +615,7 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="348" column="32" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="385" bodyend="442"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="400" column="32" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="451" bodyend="508"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1add0cc01f605e916543f36ee3d381e575" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_v_g_component_buffers" kindref="compound">VGComponentBuffers</ref></type>
@@ -535,14 +633,12 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="349" column="32" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="445" bodyend="816"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="401" column="32" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="511" bodyend="882"/>
       </memberdef>
-    </sectiondef>
-    <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1ac6385bb49db949c52e84fc2f1459bc39" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_component_split_1a6565d5d61fb4574c590f6fbbcce352e4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void AGRemapCore::VGComponentSplit::addMirroredLayer</definition>
-        <argsstring>(VGComponentBuffers &amp;result, const std::vector&lt; std::size_t &gt; &amp;ibs)</argsstring>
+        <argsstring>(VGComponentBuffers &amp;result, const VGComponentSpec &amp;spec) const</argsstring>
         <name>addMirroredLayer</name>
         <qualifiedname>AGRemapCore::VGComponentSplit::addMirroredLayer</qualifiedname>
         <param>
@@ -550,8 +646,8 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
           <declname>result</declname>
         </param>
         <param>
-          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
-          <declname>ibs</declname>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_v_g_component_spec" kindref="compound">VGComponentSpec</ref> &amp;</type>
+          <declname>spec</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -559,7 +655,7 @@ depth. The tangent is kept. A line shorter than the normal is returned as it is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="350" column="25" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="301" bodyend="361"/>
+        <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="402" column="18" bodyfile="src/model/buffers/VGComponentSplit.cpp" bodystart="302" bodyend="398"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -572,20 +668,19 @@ Splits one mod&apos;s geometry across the components of a target skin :raw-html:
 The ``Blend.buf`` decides which component each vertex belongs to, the index buffers decide
 which triangles go where, and every vertex buffer is then filtered to the vertices a component
 keeps -- so the buffers of a mod cannot be split one at a time, which is what makes this a
-grouped resource&apos;s job (see :cpp:class:`VGSplitGroupResource`). The strategies mirror
-``Tools/VGRemapFinder``&apos;s ``ComponentSplit.py``, whose output the Yelan -&gt; YelanTranquil pair
-was confirmed with in game: the negative-index components first draw every triangle all of
+grouped resource&apos;s job (see :cpp:class:`VGSplitGroupResource`). The strategies are those of
+``Tools/VGRemapFinder``&apos;s ``ComponentSplit.py``: the negative-index components first draw every triangle all of
 whose corners are live in them, and the cut components share the rest out by majority
 (its ``fill`` mode) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Weights are decoded from the file&apos;s own 32-bit floats and handled as ``float`` wherever the
-Python original&apos;s ``numpy`` did, so a cut component&apos;s renormalised blend comes out byte for
-byte the same
+Weights are decoded from the file&apos;s own 32-bit floats and handled as ``float`` wherever
+``ComponentSplit.py``&apos;s ``numpy`` does, so a cut component&apos;s renormalised blend comes out byte for
+byte the same as that tool&apos;s
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="245" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="245" bodyend="357"/>
+    <location file="include/AGRemapCore/model/buffers/VGComponentSplit.h" line="272" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentSplit.h" bodystart="272" bodyend="411"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ac6385bb49db949c52e84fc2f1459bc39" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>addMirroredLayer</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6565d5d61fb4574c590f6fbbcce352e4" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>addMirroredLayer</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1aa591aa7fb4c0a9fb51cbfb05b513a9b9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>encodeBlend</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a44ed6e33b54a99762e8c2bfa2790e133" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>encodeIb</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a976c6b3ece8ca3ebbc3a047010b79c64" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>forwardShares</name></member>
@@ -596,8 +691,13 @@ byte the same
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a40d9d1de6d57dc31bf149965f637dea9" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>liveVertices</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1aac92c34e735ff185c783cb8e3e6a1479" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>membership</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a87b6cf7210a11d17e31d2dfbcde2e0fc" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>mirrorPositionLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ab2d96f55b32fad3b30257a2155418305" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>needsGeometry</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a0540c0504bd9c7c929e63602d02b1d45" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>normals_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a3aa451a23a476bd96ec8ae71640d83aa" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>positions_</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a6743c5bf640d533dae31d1f9b7cd1cf6" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>readBlend</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1ad5f2bf020d73fdc3a98f84fe085f9b20" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>readGeometry</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a467bd29245be5c8441bbba127bfc62a7" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>readIb</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a45345a1711a71f484e348fcf8e0bf654" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>setGeometry</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a187d0901ffb710d5c67575290f9c5480" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>specs</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a46b7066cffe375dcf9f52ecb1bea8833" prot="private" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>specs_</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_component_split_1a589bc6290b5efa5636371c003eb59649" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentSplit</scope><name>split</name></member>

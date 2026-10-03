@@ -37,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="102" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_asset_remap_1a7c2bd29af43a74241de5515d23dbf5bf" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="107" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="107" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="106" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_asset_remap_1a0a861cb7c173104f29307ff46d96ab82" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
@@ -70,7 +70,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="112" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="112" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="111" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_asset_remap_1ad8100ec172bb6582808d95be79e8f2a7" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -85,7 +85,26 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="117" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="117" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" static="no">
+        <type>typename ContentPart::RangeSpec</type>
+        <definition>using AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;::RangeSpec = typename ContentPart::RangeSpec</definition>
+        <argsstring></argsstring>
+        <name>RangeSpec</name>
+        <qualifiedname>AGRemapCore::BaseRegEdit::RangeSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shape :cpp:class:`IfContentPart`&apos;s own range-restricted methods
+(:cpp:func:`IfContentPart::removeKeys`, :cpp:func:`IfContentPart::remapKeys`,
+:cpp:func:`IfContentPart::replaceVals`) take -- see \ref toRangeSpec
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="79" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -102,7 +121,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="152" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="152" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="151" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="151" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_asset_remap_1abd1dd86b95cc88e8ffee6293f6c38e64" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -117,7 +136,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="157" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="157" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="156" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="156" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_asset_remap_1af7b26a719799856ca44c2f39d5fefdb5" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -150,7 +169,7 @@ The name of the mod being fixed **from**, used to constrain the reverse lookup
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="181" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="181" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="180" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_asset_remap_1aa07d38f25ba30480ff6e44d405712470" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -165,7 +184,7 @@ The name of the mod being fixed **from**, used to constrain the reverse lookup
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="186" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="186" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="185" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="185" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_asset_remap_1a3849c1c54164fe894dcf115522c34d37" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -180,7 +199,7 @@ The name of the mod being fixed **from**, used to constrain the reverse lookup
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="191" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="191" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="190" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="190" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -264,7 +283,7 @@ The name of the mod being fixed **from**, used to constrain the reverse lookup
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="202" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="201" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_asset_remap_1aab12eee6b1cabb9227f68a48652e8e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a7c2bd29af43a74241de5515d23dbf5bf" kindref="member">ContentPart</ref> &amp;</type>
@@ -349,7 +368,182 @@ Remaps every register named in \\ref assets onto \\ref toModName&apos;s equivale
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="221" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="220" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a7c2bd29af43a74241de5515d23dbf5bf" kindref="member">ContentPart</ref> &amp;</type>
+        <definition>virtual ContentPart &amp; AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(ContentPart &amp;part, const std::string &amp;sectionName, IniFile *ini=nullptr, const ModType *modType=nullptr, const std::string &amp;modName=&quot;&quot;, const OrderRanges *partRanges=nullptr)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseRegEdit::editFromIni</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a7c2bd29af43a74241de5515d23dbf5bf" kindref="member">ContentPart</ref> &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a0a861cb7c173104f29307ff46d96ab82" kindref="member">OrderRanges</ref> *</type>
+          <declname>partRanges</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the registers for the current :cpp:class:`IfContentPart` with state info from
+&apos;ini&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to \ref edit and **ignores &apos;ini&apos;
+   entirely** -- see :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> being edited, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ being edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The associated ``.ini`` file -- a **non-owning, nullable** pointer, where
+``nullptr`` stands in for &quot;no ``.ini`` file is available&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The type of mod to fix -- also a **non-owning, nullable** pointer, for the same
+reason ``ini`` is one: none of this class&apos;s own subclasses read it, so a caller may pass
+``nullptr`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The ranges that indicate the valid order indices to process for &apos;part&apos; -- a
+**non-owning, nullable** pointer, where ``nullptr`` means every order index is valid
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same part that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="121" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" kindref="member">RangeSpec</ref> &gt;</type>
+        <definition>static std::optional&lt; RangeSpec &gt; AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;::toRangeSpec</definition>
+        <argsstring>(const OrderRanges *partRanges)</argsstring>
+        <name>toRangeSpec</name>
+        <qualifiedname>AGRemapCore::BaseRegEdit::toRangeSpec</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1a0a861cb7c173104f29307ff46d96ab82" kindref="member">OrderRanges</ref> *</type>
+          <declname>partRanges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Converts the nullable :cpp:class:`Ranges` pointer every ``edit`` takes into the
+``std::optional``-wrapped list :cpp:class:`IfContentPart`&apos;s own range-restricted
+methods expect, with ``nullptr`` becoming ``std::nullopt`` (i.e. no restriction)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ranges to convert, or <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The equivalent range restriction </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="157" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -368,11 +562,10 @@ the source&apos;s vertex range means it triggers on the wrong part of the target
 silent -- the ``.ini`` file is perfectly well-formed either way :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-This is the direct equivalent of the pure-Python ``BaseIniFixer._getHashReplacement`` /
-``_getIndexReplacement`` pair, which are the same call
-(``assetRepo.replace(asset, version, toAssets = modName)``) against two different tables --
-which is exactly why this class takes the table per register rather than knowing about hashes
-or indices itself :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Remapping a hash and remapping an index are the same call
+(:cpp:func:`ModMappedAssets::replace`) against two different tables -- which is exactly why
+this class takes the table per register rather than knowing about hashes or indices itself
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. code-block:: cpp
 
@@ -407,8 +600,8 @@ or indices itself :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    given and never infers them
 
 .. note::
-   A value with no mapping is written as its register&apos;s \\ref AssetSpec::notFoundVal (the
-   pure-Python original&apos;s ``HashNotFound``/``IndexNotFound`` sentinels), or left untouched when
+   A value with no mapping is written as its register&apos;s \\ref AssetSpec::notFoundVal (eg.
+   the ``HashNotFound``/``IndexNotFound`` sentinels), or left untouched when
    that is ``std::nullopt``. Leaving it is the quieter option but the more dangerous one: an
    unmapped ``hash`` left alone is indistinguishable from one that was correctly mapped to
    itself, so prefer the sentinel unless a caller genuinely wants a pass-through
@@ -496,7 +689,7 @@ or indices itself :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="96" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="96" bodyend="223"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="95" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="95" bodyend="222"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_asset_remap_1ad8100ec172bb6582808d95be79e8f2a7" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap</scope><name>Assets</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_asset_remap_1a331abbb4e11876402c086293470ad5d8" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap</scope><name>assets</name></member>

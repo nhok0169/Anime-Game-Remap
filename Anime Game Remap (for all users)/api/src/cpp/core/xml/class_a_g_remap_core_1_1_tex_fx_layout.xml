@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_tex_fx_layout" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexFxLayout</compoundname>
+    <includes refid="_tex_fx_layout_8h" local="no">TexFxLayout.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_fx_layout_1a57881d901fbdd3d33af12ae1f44761f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexFxLayout::retarget</definition>
+        <argsstring>(const std::string &amp;value, bool normalMap)</argsstring>
+        <name>retarget</name>
+        <qualifiedname>AGRemapCore::TexFxLayout::retarget</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalMap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The same family&apos;s call for the given layout, or ``std::nullopt`` when ``value`` is not one of TexFx&apos;s
+per-layout sub-commands or already names that layout. Case-insensitive, as 3DMigoto matches a path
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <computeroutput>run =</computeroutput> value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the part is drawn on the normal-map layout </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexFxLayout.h" line="56" column="34" bodyfile="src/data/IniFixData/TexFxLayout.cpp" bodystart="67" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_fx_layout_1aa3a037eb5d90f7512f5a936d0ec77f08" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_new_vals" kindref="compound">RegNewVals</ref>&lt;&gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; RegNewVals&lt;&gt; &gt; &gt; AGRemapCore::TexFxLayout::switches</definition>
+        <argsstring>(bool normalMap)</argsstring>
+        <name>switches</name>
+        <qualifiedname>AGRemapCore::TexFxLayout::switches</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>normalMap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register edits that move every TexFx call in a part onto ``normalMap``&apos;s variant -- one per family,
+each rewriting only the calls :cpp:func:`retarget` would
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexFxLayout.h" line="65" column="32" bodyfile="src/data/IniFixData/TexFxLayout.cpp" bodystart="77" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Which of `TexFx`_&apos;s per-layout sub-commands a remapped part calls :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+TexFx has one entry point per shader layout: ``.0`` for a part with no normal map, ``.1`` for one whose normal map
+sits at ``ps-t0`` (``T.0`` / ``T.1``, ``Transparency.0`` / ``.1``, ``TN.0`` / ``.1``, ``C.0`` / ``.1`` and the
+rest). A mod&apos;s call names its OWN character&apos;s layout, so a remap that moves a part between layouts has to move the
+call too: Lumine10&apos;s glowing parts, ``T.0`` on LumineHeaven&apos;s normal-map slots, glowed faintly until moved to
+``T.1`` (in game, 2026-09-30). The unsuffixed names are TexFx&apos;s own aliases: ``T``, ``Transparency``, ``C`` and
+``Component`` mean ``.0``, the Natlan families ``TN``, ``TNat``, ``TransparencyNatlan``, ``CN``, ``CNat`` and
+``ComponentNatlan`` mean ``.1`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A call already naming the target&apos;s layout is never touched, so a part whose layout does not change keeps
+whatever its author chose
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/TexFxLayout.h" line="44" column="5" bodyfile="include/AGRemapCore/data/IniFixData/TexFxLayout.h" bodystart="44" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_tex_fx_layout_1a57881d901fbdd3d33af12ae1f44761f5" prot="public" virt="non-virtual"><scope>AGRemapCore::TexFxLayout</scope><name>retarget</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_fx_layout_1aa3a037eb5d90f7512f5a936d0ec77f08" prot="public" virt="non-virtual"><scope>AGRemapCore::TexFxLayout</scope><name>switches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

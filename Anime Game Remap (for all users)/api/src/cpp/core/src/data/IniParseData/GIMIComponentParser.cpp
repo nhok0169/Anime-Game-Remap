@@ -29,6 +29,7 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -261,6 +262,9 @@ namespace AGRemapCore {
                 // invented and the fix carries only its own sections -- see hasRemappableContent.
                 void getSectionTargets() override {
                     readTextureOverrides();
+                    if (config_.downloadsByName) {
+                        placeDownloadsByName();
+                    }
                     Parser::getSectionTargets();
 
                     const bool bindsSomething = targetsBindSomething();
@@ -429,6 +433,118 @@ namespace AGRemapCore {
                         }
                     }
                     return false;
+                }
+
+                // A SLOT WRITTEN IN THE GAME'S REGISTER ORDER -- see GIMIComponentParserConfig::downloadsByName.
+                // Runs before the downloads are applied, on the slot's own entry section: its hash is the
+                // component's ib and its match_first_index the slot's.
+                void placeDownloadsByName() {
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr || ctx_.modTypeHashes() == nullptr) {
+                        return;
+                    }
+
+                    const ModBranches::Templates& templates = iniFile->getIfTemplates();
+                    for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                        for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
+                            if (slot.noTextures) {
+                                continue;
+                            }
+
+                            auto objDownloads = this->downloads.find(ModObj(component.name, slot.name));
+                            if (objDownloads == this->downloads.end()) {
+                                continue;
+                            }
+
+                            // role -> the register the slot expects it on
+                            std::vector<std::pair<std::string, std::string>> roleRegs{{"diffuse", slot.diffuseReg}, {"lightmap", slot.lightMapReg}};
+                            if (!slot.normalMapReg.empty()) {
+                                roleRegs.emplace_back("normalmap", slot.normalMapReg);
+                            }
+
+                            for (const auto& entry : templates) {
+                                if (entry.second == nullptr) {
+                                    continue;
+                                }
+
+                                const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                                const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                                if (!hash.has_value() || !index.has_value() || hashKeyOf(*hash, component) != IbHashKey
+                                        || StringTools::strip(*index) != slot.index) {
+                                    continue;
+                                }
+
+                                // register -> role, of every texture the section binds at one of the slot's registers
+                                std::unordered_map<std::string, std::string> boundRoles;
+                                std::set<std::string> roles;
+                                bool believed = true;
+                                for (const auto& [role, reg] : roleRegs) {
+                                    const std::string res(ModBranches::resourceOf(ModBranches::firstVal(*entry.second, reg)));
+                                    if (res.empty()) {
+                                        continue;
+                                    }
+
+                                    const char* named = RegValChecks::isNormalMap(res) ? "normalmap"
+                                                      : RegValChecks::isLightMap(res) ? "lightmap"
+                                                      : RegValChecks::isDiffuse(res) ? "diffuse" : nullptr;
+                                    believed = believed && named != nullptr && roles.insert(named).second;
+                                    if (named != nullptr) {
+                                        boundRoles.emplace(reg, named);
+                                    }
+                                }
+
+                                // nothing bound, a name that says nothing, or two alike: the register reading stands
+                                if (boundRoles.empty() || !believed) {
+                                    break;
+                                }
+
+                                bool gameOrder = false;
+                                for (const auto& [reg, role] : boundRoles) {
+                                    for (const auto& [expectedRole, expectedReg] : roleRegs) {
+                                        gameOrder = gameOrder || (expectedRole == role && expectedReg != reg);
+                                    }
+                                }
+                                if (!gameOrder) {
+                                    break;
+                                }
+
+                                // Decided first, applied after, so a moved download is never read again
+                                // under the role of the register it moved to.
+                                auto& regDownloads = objDownloads.value();
+                                std::vector<std::pair<std::string, DownloadData*>> kept;
+                                std::vector<DownloadData*> homeless;
+                                for (const auto& [role, reg] : roleRegs) {
+                                    auto download = regDownloads.find(reg);
+                                    if (download == regDownloads.end() || roles.count(role) != 0) {
+                                        continue;   // none registered, or the mod brings this role itself under another register
+                                    }
+                                    if (boundRoles.count(reg) != 0) {
+                                        homeless.push_back(download->second);   // its register holds another role's texture
+                                    } else {
+                                        kept.emplace_back(reg, download->second);
+                                    }
+                                }
+
+                                for (const auto& [role, reg] : roleRegs) {
+                                    regDownloads.erase(reg);
+                                }
+                                for (const auto& [reg, data] : kept) {
+                                    regDownloads[reg] = data;
+                                }
+                                auto home = homeless.begin();
+                                for (const auto& [role, reg] : roleRegs) {
+                                    if (home == homeless.end()) {
+                                        break;
+                                    }
+                                    if (boundRoles.count(reg) == 0 && regDownloads.count(reg) == 0) {
+                                        regDownloads[reg] = *home;
+                                        ++home;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 void readTextureOverrides() {

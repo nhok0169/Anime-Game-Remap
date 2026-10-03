@@ -26,12 +26,7 @@ namespace AGRemapCore {
      The download mode of how the software handles file downloads :raw-html:`<br />`
      :raw-html:`<br />`
 
-     .. note::
-        The `Python`_-facing ``DownloadMode`` is a separate, still-pure-Python ``Enum``
-        (``constants/DownloadMode.py``) whose members carry the same three string values. The
-        binding layer maps one onto the other by that value, rather than either side being replaced
-        -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
-        ``IniGraphReplaceMode`` already does for the same reason
+     Bound to `Python`_ as ``DownloadMode``, the only download mode there is on either side
      @endrst
      */
     enum class DownloadMode {
@@ -85,9 +80,9 @@ namespace AGRemapCore {
              whitespace :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                An **exact** match on the trimmed, lowercased text, where the pure-Python
-                ``DownloadMode.search`` did a maximal-substring `Aho-Corasick`_ match. With three
-                short values that search accepted things like ``"normally"`` and
+                An **exact** match on the trimmed, lowercased text, where the `Python`_
+                ``DownloadMode.search`` does a maximal-substring `Aho-Corasick`_ match. With three
+                short values that search accepts things like ``"normally"`` and
                 ``"not disabled"`` -- the latter meaning the opposite of what it was matched to.
                 Nothing needs the leniency, and a typo reported as an error beats one silently
                 resolved to the wrong mode

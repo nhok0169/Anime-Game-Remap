@@ -74,7 +74,7 @@ Only vertices on this side of x = 0: ``1`` for x &gt; 0, ``-1`` for x &lt; 0, ``
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-What a :cpp:class:`VGSplitGroupResource` needs to know beyond its members: which component of
+What a :cpp:class:`AGRemapCore::VGSplitGroupResource` needs to know beyond its members: which component of
 the target it writes, every component of the target (the split is joint -- which triangles a
 cut component gets depends on what the negative-index components keep), and which of the mod&apos;s
 index buffers take part

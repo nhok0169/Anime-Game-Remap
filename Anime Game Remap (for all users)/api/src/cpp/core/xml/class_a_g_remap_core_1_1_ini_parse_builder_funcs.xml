@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="59" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="48" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -30,13 +30,12 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.amber4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **Amber** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="68" column="45" bodyfile="src/data/IniParseData/Amber/AmberParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="45" bodyfile="src/data/IniParseData/Amber/AmberParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -48,13 +47,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.amber4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.amberCN4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **AmberCN** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="77" column="45" bodyfile="src/data/IniParseData/AmberCN/AmberCNParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="64" column="45" bodyfile="src/data/IniParseData/AmberCN/AmberCNParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a502d26b86aafae48ba9ab5b234092755" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -76,7 +74,7 @@ modern ``ps-t0``/``ps-t1``, and it is her SKIN that sits a slot higher. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="90" column="45" bodyfile="src/data/IniParseData/Ayaka/AyakaParser.cpp" bodystart="25" bodyend="41"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="77" column="45" bodyfile="src/data/IniParseData/Ayaka/AyakaParser.cpp" bodystart="25" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7175ead9f596a1062d86a0640f21ee11" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -97,7 +95,7 @@ Her head and body sit a slot higher; only the dress is on the modern layout. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="102" column="45" bodyfile="src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp" bodystart="56" bodyend="63"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="89" column="45" bodyfile="src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp" bodystart="56" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a7226eb0776e2ea2a2672d73f2c5ec7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -118,7 +116,7 @@ Three drawn objects -- head, body and dress -- and her fix moves the shared
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="114" column="45" bodyfile="src/data/IniParseData/Barbara/BarbaraParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="101" column="45" bodyfile="src/data/IniParseData/Barbara/BarbaraParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a06ca7c90da051e5dc2d06e5cb7e3561f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -139,7 +137,7 @@ The same three objects as Barbara; this pair is one-to-one. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="126" column="45" bodyfile="src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="113" column="45" bodyfile="src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a9ed2e127fe638c494b02fea1167370a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -160,7 +158,7 @@ Head and body, stride 12. DilucFlamme adds the dress his coat becomes. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="138" column="45" bodyfile="src/data/IniParseData/Diluc/DilucParser.cpp" bodystart="23" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="125" column="45" bodyfile="src/data/IniParseData/Diluc/DilucParser.cpp" bodystart="23" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a90dd86e40c82ef949659459afe1e8ddd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -181,7 +179,7 @@ Head, body and dress, stride 20 where Diluc&apos;s is 12. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="150" column="45" bodyfile="src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp" bodystart="23" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="137" column="45" bodyfile="src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp" bodystart="23" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a25c723344a4afc25cd6dee4b991b6c4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -202,7 +200,7 @@ from the Diluc pair. See ``data/IniParseData/Fischl/FischlParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="162" column="45" bodyfile="src/data/IniParseData/Fischl/FischlParser.cpp" bodystart="23" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="149" column="45" bodyfile="src/data/IniParseData/Fischl/FischlParser.cpp" bodystart="23" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1acd3eb09da006d479979d7b5e8b5480a5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -223,7 +221,7 @@ Head and body, stride 12. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="174" column="45" bodyfile="src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp" bodystart="23" bodyend="38"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="161" column="45" bodyfile="src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp" bodystart="23" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab42907d4554e611728b738e79c3a0914" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -243,7 +241,7 @@ The standard GIMI character shape. See ``data/IniParseData/Ganyu/GanyuParser.cpp
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="185" column="45" bodyfile="src/data/IniParseData/Ganyu/GanyuParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="172" column="45" bodyfile="src/data/IniParseData/Ganyu/GanyuParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aeebc7e425eb78900d9c78bb796b8c7a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -264,7 +262,7 @@ Draws ``head``/``body``, two fewer than her skin. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="197" column="45" bodyfile="src/data/IniParseData/HuTao/HuTaoParser.cpp" bodystart="23" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="184" column="45" bodyfile="src/data/IniParseData/HuTao/HuTaoParser.cpp" bodystart="23" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0b323b1ec314ac49ae5b05743b29298f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -276,13 +274,12 @@ Draws ``head``/``body``, two fewer than her skin. See
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.jean4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **Jean** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="206" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="192" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab3b6237fbb2821397b3c994628ea2bd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -294,13 +291,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jean4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **JeanCN** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="215" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="200" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab838f53a93fae925bdfca1942e1f5ac7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -312,13 +308,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.jeanSea4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **JeanSea** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="224" column="45" bodyfile="src/data/IniParseData/JeanSea/JeanSeaParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="208" column="45" bodyfile="src/data/IniParseData/JeanSea/JeanSeaParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adb2979e5e4d865d5cb71f4f223824c13" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -340,7 +335,7 @@ Kaeya ``.ini`` declares and that only KaeyaSailwind&apos;s dress split fills. Se
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="237" column="45" bodyfile="src/data/IniParseData/Kaeya/KaeyaParser.cpp" bodystart="23" bodyend="40"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="221" column="45" bodyfile="src/data/IniParseData/Kaeya/KaeyaParser.cpp" bodystart="23" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1acb15558c737cd8dad771eefad08046e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -361,7 +356,7 @@ The same three objects as Kaeya; the asymmetry is all on the fix side. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="249" column="45" bodyfile="src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp" bodystart="23" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="233" column="45" bodyfile="src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp" bodystart="23" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8f3fd51c10e3e4163d5bb85a512170c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -382,7 +377,7 @@ The standard GIMI character shape, drawing ``head``/``body``/``dress``. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="261" column="45" bodyfile="src/data/IniParseData/Keqing/KeqingParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="245" column="45" bodyfile="src/data/IniParseData/Keqing/KeqingParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aadd76e32555037e03f58686fafce1935" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -404,7 +399,7 @@ the remap to and from Keqing a merge in one direction and a split in the other. 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="274" column="45" bodyfile="src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="258" column="45" bodyfile="src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5e75c4373a12ae83a2ef9992f5e448d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -426,7 +421,7 @@ on ``ps-t0`` and sit a slot higher, her dress sits a slot higher with no normal 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="287" column="45" bodyfile="src/data/IniParseData/Kirara/KiraraParser.cpp" bodystart="49" bodyend="61"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="271" column="45" bodyfile="src/data/IniParseData/Kirara/KiraraParser.cpp" bodystart="49" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2ea4776713f06c25dad1f96ce85af54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -447,7 +442,7 @@ Her texcoord stride is 12 where most of this batch is 20. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="299" column="45" bodyfile="src/data/IniParseData/Klee/KleeParser.cpp" bodystart="23" bodyend="41"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="283" column="45" bodyfile="src/data/IniParseData/Klee/KleeParser.cpp" bodystart="23" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a625ba4f2c8f33e671f4e80c7287139ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -468,7 +463,7 @@ She has no Face component in the assets repo, so no face diffuse hash. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="311" column="45" bodyfile="src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp" bodystart="23" bodyend="43"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="295" column="45" bodyfile="src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp" bodystart="23" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a17a9366bd031c0726f56b54a41882463" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -489,7 +484,7 @@ Head, body and dress; the dress is what LisaStudent has nowhere to put. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="323" column="45" bodyfile="src/data/IniParseData/Lisa/LisaParser.cpp" bodystart="23" bodyend="40"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="307" column="45" bodyfile="src/data/IniParseData/Lisa/LisaParser.cpp" bodystart="23" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5e0e8d3c12a797ee525dd5afe57415e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -511,7 +506,7 @@ Head and body only, and her downloads bind the diffuse to ``ps-t1`` because
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="336" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="56" bodyend="64"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="320" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="56" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a965947e4ccfeb3487a53d74c717bf1d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -523,13 +518,12 @@ Head and body only, and her downloads bind the diffuse to ``ps-t1`` because
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.mona4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **Mona** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="345" column="45" bodyfile="src/data/IniParseData/Mona/MonaParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="328" column="45" bodyfile="src/data/IniParseData/Mona/MonaParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1af77157f3eef27fc14605beda38503e27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -541,13 +535,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.mona4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.monaCN4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **MonaCN** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="354" column="45" bodyfile="src/data/IniParseData/MonaCN/MonaCNParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="336" column="45" bodyfile="src/data/IniParseData/MonaCN/MonaCNParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7ece50a08ec244f427dd711faaba9194" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -569,7 +562,7 @@ from ``ps-t1`` and its lightmap from ``ps-t2``, so her downloads say so. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="367" column="45" bodyfile="src/data/IniParseData/Nilou/NilouParser.cpp" bodystart="48" bodyend="62"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="349" column="45" bodyfile="src/data/IniParseData/Nilou/NilouParser.cpp" bodystart="48" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab3c14a4759ca9a1cf2a4fce09ae02f3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -581,13 +574,12 @@ from ``ps-t1`` and its lightmap from ``ps-t2``, so her downloads say so. See
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.ningguang4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **Ningguang** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="376" column="45" bodyfile="src/data/IniParseData/Ningguang/NingguangParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="357" column="45" bodyfile="src/data/IniParseData/Ningguang/NingguangParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a155a078f9f48dedb7e81dee3c9ae4936" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -599,13 +591,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ningguang4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.ningguangOrchid4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **NingguangOrchid** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="385" column="45" bodyfile="src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="365" column="45" bodyfile="src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a93059e5c526ef4a195bbd10609c8515d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -617,13 +608,13 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ningguangOrchid4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.giDefault`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The fallback parse row -- returns :cpp:func:`IniParseBuilder::defaultFactory`, a plain
+GIMI parser with no object awareness, which is genuinely the parser for the rows that use it
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="394" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="32" bodyend="40"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="374" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="32" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2a2c464c3d071c5db498850094459e1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -635,13 +626,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.giDefault`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.rosaria4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **Rosaria** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="403" column="45" bodyfile="src/data/IniParseData/Rosaria/RosariaParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="382" column="45" bodyfile="src/data/IniParseData/Rosaria/RosariaParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aba5d21fbe2290687a020692917d97814" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -653,13 +643,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.rosaria4_0`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.rosariaCN4_0`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 4.0-era **RosariaCN** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="412" column="45" bodyfile="src/data/IniParseData/RosariaCN/RosariaCNParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="390" column="45" bodyfile="src/data/IniParseData/RosariaCN/RosariaCNParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac45679f6579c3c1a2125c3400c02ea79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -680,7 +669,7 @@ The standard GIMI character shape, drawing ``head``/``body``/``dress``. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="424" column="45" bodyfile="src/data/IniParseData/Shenhe/ShenheParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="402" column="45" bodyfile="src/data/IniParseData/Shenhe/ShenheParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5acf8837fe50a8ad50ce63816b491988" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -701,7 +690,7 @@ Draws ``head``/``body``/``dress``, one more than her skin. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="436" column="45" bodyfile="src/data/IniParseData/Xiangling/XianglingParser.cpp" bodystart="23" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="414" column="45" bodyfile="src/data/IniParseData/Xiangling/XianglingParser.cpp" bodystart="23" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a57cbc5fb84578adff9dab12a9515bcee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -721,7 +710,7 @@ Draws ``head``/``body``. See ``data/IniParseData/Xingqiu/XingqiuParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="447" column="45" bodyfile="src/data/IniParseData/Xingqiu/XingqiuParser.cpp" bodystart="23" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="425" column="45" bodyfile="src/data/IniParseData/Xingqiu/XingqiuParser.cpp" bodystart="23" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac812c1ba08f807191021aae223c24084" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -742,7 +731,7 @@ The standard GIMI character shape. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="459" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="437" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a29d6a9fd985eedcc12e74228995af0b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -763,7 +752,7 @@ FOUR drawn objects -- ``head``/``body``/``dress``/``extra`` -- one more than She
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="471" column="45" bodyfile="src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="449" column="45" bodyfile="src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp" bodystart="23" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a59be7b22f1f0563f617eaeaeeecad7df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -784,7 +773,7 @@ Draws ``head``/``body``/``dress``. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="483" column="45" bodyfile="src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp" bodystart="23" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="461" column="45" bodyfile="src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp" bodystart="23" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a45eabec0264b18cd3dbbb59355f07022" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -805,7 +794,7 @@ The same three-layout split her base has. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="495" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="40" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="473" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="40" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8f4a396367361d1871ede8e216738ded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -827,7 +816,7 @@ and lightmap down, so the defaults are already right. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="508" column="45" bodyfile="src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp" bodystart="23" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="486" column="45" bodyfile="src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp" bodystart="23" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a682b003af4ab40d2f2f58ac015af37c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -848,7 +837,7 @@ See ``data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="520" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="23" bodyend="42"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="498" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="23" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad48f0d06423104df2add0e45e3b8c0b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -869,7 +858,7 @@ Draws ``head``/``body`` only. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="532" column="45" bodyfile="src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp" bodystart="23" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="510" column="45" bodyfile="src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp" bodystart="23" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aedc30a01d309a33aa3a28a6e856a425d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -890,7 +879,7 @@ download assets at all**. See ``data/IniParseData/Arlecchino/ArlecchinoParser.cp
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="544" column="45" bodyfile="src/data/IniParseData/Arlecchino/ArlecchinoParser.cpp" bodystart="23" bodyend="46"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="522" column="45" bodyfile="src/data/IniParseData/Arlecchino/ArlecchinoParser.cpp" bodystart="23" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2a366644c291201ad8aed3aea609aa66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -902,13 +891,12 @@ download assets at all**. See ``data/IniParseData/Arlecchino/ArlecchinoParser.cp
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.jean5_5`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 5.5-era **Jean** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="553" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="46" bodyend="48"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="530" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="46" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a733ff7ae38e26c46982dd4b890cc32d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -920,13 +908,12 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jean5_5`` -- returns
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN5_5`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 5.5-era **JeanCN** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="562" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="46" bodyend="48"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="538" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="46" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a09100cb463cc1d53172cc98183fb2762" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -947,7 +934,7 @@ Same downloads as 4.0 -- the version exists because her TEXTURE EDITS changed. S
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="574" column="45" bodyfile="src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp" bodystart="66" bodyend="73"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="550" column="45" bodyfile="src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp" bodystart="66" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a21c6704a0c99820f9d2284d9667c307f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -968,7 +955,7 @@ By 5.7 her head and body have moved down to ``ps-t0``/``ps-t1``, the default. Se
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="586" column="45" bodyfile="src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp" bodystart="76" bodyend="80"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="562" column="45" bodyfile="src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp" bodystart="76" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a44763d34f5898c8b0cab9f3deb794661" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -980,13 +967,12 @@ By 5.7 her head and body have moved down to ``ps-t0``/``ps-t1``, the default. Se
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.ganyuTwilight5_7`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 5.7-era **GanyuTwilight** ``.ini`` file
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="595" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="49" bodyend="51"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="570" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="49" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a74b17e79acb1867c28a6853ba5a9dd1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1007,7 +993,7 @@ not. See ``data/IniParseData/Kirara/KiraraParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="607" column="45" bodyfile="src/data/IniParseData/Kirara/KiraraParser.cpp" bodystart="64" bodyend="73"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="582" column="45" bodyfile="src/data/IniParseData/Kirara/KiraraParser.cpp" bodystart="64" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a408cabf161789f3d16c79287a51b67d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1029,7 +1015,7 @@ The MIRROR of :cpp:func:`kirara5_7`: here the head and body have moved to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="620" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="56" bodyend="65"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="595" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="56" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5eee4b72bf3705fb59ce164a00094b41" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1041,8 +1027,7 @@ The MIRROR of :cpp:func:`kirara5_7`: here the head and body have moved to
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Stub for the pure-Python ``IniParseBuilderFuncs.lisaStudent5_7`` -- returns
-:cpp:func:`IniParseBuilder::defaultFactory`, see this class&apos;s own warning
+The parser for a 5.7-era **LisaStudent** ``.ini`` file
 </verbatim><verbatim>embed:rst 
 LisaStudent&apos;s 5.4 parser -- the same shifted registers as 4.0, but reading her
 re-dumped assets out of their own ``5_4`` folder. See
@@ -1051,7 +1036,7 @@ re-dumped assets out of their own ``5_4`` folder. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="637" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="67" bodyend="77"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="611" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="67" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1afa731ff64faf335aab4d3cf3d179ea74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1065,7 +1050,7 @@ re-dumped assets out of their own ``5_4`` folder. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="639" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="80" bodyend="89"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="613" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="80" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aca6552e16c9d3969446cb18e9116c575" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1086,7 +1071,7 @@ to ``ps-t0``/``ps-t1``, which is the default. See ``data/IniParseData/Nilou/Nilo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="651" column="45" bodyfile="src/data/IniParseData/Nilou/NilouParser.cpp" bodystart="65" bodyend="69"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="625" column="45" bodyfile="src/data/IniParseData/Nilou/NilouParser.cpp" bodystart="65" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a28f7e4e4c8baaff955923a47b7ee747e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1098,8 +1083,7 @@ to ``ps-t0``/``ps-t1``, which is the default. See ``data/IniParseData/Nilou/Nilo
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The pure-Python ``IniParseBuilderFuncs.raiden6_1`` -- **not** a stub, unlike every
-other method here :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The parser for a 6.1-era **Raiden** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Builds a :cpp:class:`GIMIParser` over four mod objects, classified by a single
 :cpp:class:`GIMISectionClassifier` in the two ways it supports:
@@ -1122,7 +1106,7 @@ attributed to several mod objects -- see the constructed parser&apos;s own comme
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="678" column="45" bodyfile="src/data/IniParseData/Raiden/RaidenParser.cpp" bodystart="108" bodyend="142"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="651" column="45" bodyfile="src/data/IniParseData/Raiden/RaidenParser.cpp" bodystart="108" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a974edb415d25e1ea9b4aadd28673f97c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1149,7 +1133,7 @@ Texcoord of stride 12 where Yelan&apos;s is 20. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="700" column="45" bodyfile="src/data/IniParseData/Bennett/BennettParser.cpp" bodystart="25" bodyend="52"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="673" column="45" bodyfile="src/data/IniParseData/Bennett/BennettParser.cpp" bodystart="25" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a708be8ac73083c2a14454469100c9b92" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1171,7 +1155,7 @@ each with its own buffers and its own hashes. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="713" column="45" bodyfile="src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp" bodystart="25" bodyend="81"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="686" column="45" bodyfile="src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp" bodystart="25" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a43e27b4ab63840fd41be6e297828b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1191,7 +1175,7 @@ layout. See ``data/IniParseData/Citlali/CitlaliParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="724" column="45" bodyfile="src/data/IniParseData/Citlali/CitlaliParser.cpp" bodystart="25" bodyend="54"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="697" column="45" bodyfile="src/data/IniParseData/Citlali/CitlaliParser.cpp" bodystart="25" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5afc4d4f76976aaa18ecfe0d80c92b32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1211,7 +1195,7 @@ layout. See ``data/IniParseData/Charlotte/CharlotteParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="735" column="45" bodyfile="src/data/IniParseData/Charlotte/CharlotteParser.cpp" bodystart="25" bodyend="56"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="708" column="45" bodyfile="src/data/IniParseData/Charlotte/CharlotteParser.cpp" bodystart="25" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad2295a98e4a4012930182f549a649b3d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1225,7 +1209,7 @@ layout. See ``data/IniParseData/Charlotte/CharlotteParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="737" column="45" bodyfile="src/data/IniParseData/Yelan/YelanParser.cpp" bodystart="23" bodyend="43"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="710" column="45" bodyfile="src/data/IniParseData/Yelan/YelanParser.cpp" bodystart="23" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1dfbd9c7f560ecc483edf014bfc803d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1234,13 +1218,13 @@ layout. See ``data/IniParseData/Charlotte/CharlotteParser.cpp``
         <name>wwmiStub</name>
         <qualifiedname>AGRemapCore::IniParseBuilderFuncs::wwmiStub</qualifiedname>
         <briefdescription>
-<para>The STUB every WuWa row points at until a WWMI parser exists (2026-09-19) <ndash/> :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a9e03a36078c815d1ca3e2ab49e8b2a38" kindref="member">IniParseBuilder::defaultFactory</ref></computeroutput>. </para>
+<para>The stub a WuWa row without a WWMI parser points at <ndash/> :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a9e03a36078c815d1ca3e2ab49e8b2a38" kindref="member">IniParseBuilder::defaultFactory</ref></computeroutput>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="742" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="42" bodyend="47"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="715" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="42" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac06832891ae4c3e507b130b1ebdf4a3a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1260,7 +1244,7 @@ See ``data/IniParseData/Sanhua/SanhuaParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="753" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="23" bodyend="32"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="726" column="45" bodyfile="src/data/IniParseData/Sanhua/SanhuaParser.cpp" bodystart="23" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a1a5b75132e61479cf3e35918c9e149aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1279,7 +1263,7 @@ override and the two shape-key overrides by their own hashes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="763" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="23" bodyend="29"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="736" column="45" bodyfile="src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp" bodystart="23" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1299,7 +1283,7 @@ own. See ``data/IniParseData/Chisa/ChisaParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="774" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="23" bodyend="33"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="747" column="45" bodyfile="src/data/IniParseData/Chisa/ChisaParser.cpp" bodystart="23" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a91f650c56e6961895d3a45fa7ea0181f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1319,7 +1303,7 @@ are filed at. See ``data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="785" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="23" bodyend="34"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="758" column="45" bodyfile="src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp" bodystart="23" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1340,7 +1324,7 @@ The FIRST parser for a skin of SEVERAL components -- a ``Body`` of three draw sl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="797" column="45" bodyfile="src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp" bodystart="21" bodyend="80"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="770" column="45" bodyfile="src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp" bodystart="21" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1358,7 +1342,7 @@ slots, a Bangs and an Eyes), built by :cpp:func:`makeGIMIComponentParser`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="806" column="45" bodyfile="src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp" bodystart="23" bodyend="75"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="779" column="45" bodyfile="src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp" bodystart="23" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1379,7 +1363,7 @@ A skin of several components, read one component at a time -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="818" column="45" bodyfile="src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp" bodystart="25" bodyend="82"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="791" column="45" bodyfile="src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp" bodystart="25" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2f1f954895b4c9ee16ced050708cac5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1400,7 +1384,7 @@ dress plain, his body on the normal-map layout. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="830" column="45" bodyfile="src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp" bodystart="25" bodyend="57"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="803" column="45" bodyfile="src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp" bodystart="25" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7fdbadcb5f58c43b5d2cd1b9c93403da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1420,7 +1404,7 @@ The standard GIMI character shape, drawing ``head`` / ``body``, both on the plai
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="841" column="45" bodyfile="src/data/IniParseData/Yaoyao/YaoyaoParser.cpp" bodystart="27" bodyend="55"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="814" column="45" bodyfile="src/data/IniParseData/Yaoyao/YaoyaoParser.cpp" bodystart="27" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae5f0679a08dc5a7b76713f6bdcbf9bfb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1440,7 +1424,7 @@ A skin of four components -- an unnamed main mesh, a Coat, a Bang and an Eye. Se
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="852" column="45" bodyfile="src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp" bodystart="25" bodyend="81"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="825" column="45" bodyfile="src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp" bodystart="25" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a824eb509b168813ba0fd3e3ba52a0405" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1460,7 +1444,47 @@ A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="863" column="45" bodyfile="src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp" bodystart="25" bodyend="71"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="836" column="45" bodyfile="src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp" bodystart="25" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lumine4_0</definition>
+        <argsstring>()</argsstring>
+        <name>lumine4_0</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::lumine4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era **Lumine** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress``, all on the plain layout. See
+``data/IniParseData/Lumine/LumineParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="847" column="45" bodyfile="src/data/IniParseData/Lumine/LumineParser.cpp" bodystart="27" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lumineHeaven6_3</definition>
+        <argsstring>()</argsstring>
+        <name>lumineHeaven6_3</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderFuncs::lumineHeaven6_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 6.3-era **LumineHeaven** ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+``data/IniParseData/LumineHeaven/LumineHeavenParser.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="858" column="45" bodyfile="src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp" bodystart="25" bodyend="78"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1468,35 +1492,24 @@ A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
     <detaileddescription>
 <para><verbatim>embed:rst 
 Defines how the :cpp:class:`IniParseBuilder` arguments for some mod are built for a
-particular game version -- the C++ counterpart to the pure-Python ``IniParseBuilderFuncs``
-class (``data/IniParseBuilderData.py``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+particular game version :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-One static method per (mod, version-it-changed-at) pair, named exactly as in the original,
-each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
+One static method per (mod, version-it-changed-at) pair, each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-.. warning::
-   **Every method here is a stub except** \ref raiden6_1: the rest all return
-   :cpp:func:`IniParseBuilder::defaultFactory`. The real pure-Python generators pick between
-   concrete subclasses (``GIMIParser``, ``GIMIObjParser``) and pass per-mod arguments, and
-   ``GIMIObjParser`` has not been ported to C++ yet. The methods exist now so that the
-   *table* is real and version selection genuinely works -- fill them in one at a time as
-   concrete strategies land, without touching :cpp:class:`IniParseBuilderData` or anything
-   downstream :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
-
-   \ref raiden6_1 is the first one filled in, and shows the shape the others take: a factory
-   capturing whatever per-mod data it needs, returning a parser subclass that owns both its
-   :cpp:class:`IniParseContext` and anything else it hands to the parser by borrowed pointer
-
 .. note::
-   The pure-Python original also carries per-mod texture-edit helpers such as ``_ayakaEditDressDiffuse``
-   and ``_ayakaSpringbloomEditLightMap5_6``.
-   Those exist only to build the arguments the real generators pass, so while every method
-   below is a stub they would be dead code -- port them alongside the first generator that
-   actually needs them
+   \ref raiden6_1 shows the shape the methods take: a factory capturing whatever per-mod data
+   it needs, returning a parser subclass that owns both its :cpp:class:`IniParseContext` and
+   anything else it hands to the parser by borrowed pointer :raw-html:`&lt;br /&gt;`
+   :raw-html:`&lt;br /&gt;`
+
+   :cpp:func:`IniParseBuilder::defaultFactory` builds a plain GIMI parser with no object
+   awareness. A method that returns it is either a genuine fallback
+   (:cpp:func:`IniParseBuilderFuncs::giDefault`) or a stub for a mod with no dedicated parser
+   yet (:cpp:func:`IniParseBuilderFuncs::wwmiStub`)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="56" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="56" bodyend="865"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="45" bodyend="860"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0f031e3c3bc6a5784f978725a2f30f90" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>amberCN4_0</name></member>
@@ -1545,6 +1558,8 @@ each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5e0e8d3c12a797ee525dd5afe57415e1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lisaStudent4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5eee4b72bf3705fb59ce164a00094b41" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lisaStudent5_4</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1afa731ff64faf335aab4d3cf3d179ea74" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lisaStudent5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lumine4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>lumineHeaven6_3</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a965947e4ccfeb3487a53d74c717bf1d2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>mona4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1af77157f3eef27fc14605beda38503e27" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>monaCN4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2f1f954895b4c9ee16ced050708cac5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderFuncs</scope><name>neuvillette4_0</name></member>

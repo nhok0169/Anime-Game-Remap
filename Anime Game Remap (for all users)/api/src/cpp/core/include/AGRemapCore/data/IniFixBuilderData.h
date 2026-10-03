@@ -25,31 +25,16 @@ namespace AGRemapCore {
      * @brief
      @rst
      Defines how the :cpp:class:`IniFixBuilder` arguments for some mod are built for a
-     particular game version -- the C++ counterpart to the pure-Python ``IniFixBuilderFuncs``
-     class (``data/IniFixBuilderData.py``) :raw-html:`<br />` :raw-html:`<br />`
+     particular game version :raw-html:`<br />` :raw-html:`<br />`
 
-     One static method per (mod, version-it-changed-at) pair, named exactly as in the original,
-     each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
+     One static method per (mod, version-it-changed-at) pair, each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        **This warning used to say every method here was a stub except** ``raiden6_1``, and
-        that it returned a do-nothing :cpp:class:`BaseIniFixer`. Both halves are long dead:
-        forty-four characters have real fixes at 6.1, the historical 4.0 rows are filled in
-        too, and :cpp:func:`IniFixBuilder::defaultFactory` builds a real ``GIMIFixer``
-        rather than a bare base :raw-html:`<br />` :raw-html:`<br />`
-
-        What remains stubbed is a shrinking list in the 5.x groups. A method that returns
-        ``defaultFactory()`` is USUALLY one of those -- but not always:
-        :cpp:func:`IniFixBuilderFuncs::giDefault` returns it because that is genuinely its
-        fix. Read the method before assuming which
-
-     .. note::
-        The pure-Python original also carries shared constants and predicates such as ``TexFxRemove``,
-        ``ORFixRemove``, ``IbRemapData`` and ``_isNormalMap``.
-        Those exist only to build the arguments the real generators pass, so while every method
-        below is a stub they would be dead code -- port them alongside the first generator that
-        actually needs them
+        :cpp:func:`IniFixBuilder::defaultFactory` builds a real ``GIMIFixer`` with no object
+        awareness. A method that returns it is either a genuine fallback
+        (:cpp:func:`IniFixBuilderFuncs::giDefault`) or a stub for a pair with no dedicated fix
+        yet (:cpp:func:`IniFixBuilderFuncs::wwmiStub`). Read the method before assuming which
      @endrst
      */
     class IniFixBuilderFuncs {
@@ -60,8 +45,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.amber4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Amber onto AmberCN**
              @endrst
              */
             static IniFixBuilder::Factory amber4_0();
@@ -69,8 +53,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.amberCN4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **AmberCN onto Amber**
              @endrst
              */
             static IniFixBuilder::Factory amberCN4_0();
@@ -78,8 +61,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayaka4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Ayaka onto AyakaSpringbloom**
              @endrst
              */
             static IniFixBuilder::Factory ayaka4_0();
@@ -87,8 +69,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **AyakaSpringbloom onto Ayaka**
              @endrst
              */
             static IniFixBuilder::Factory ayakaSpringbloom4_0();
@@ -96,8 +77,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.barbara4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Barbara onto BarbaraSummertime**
              @endrst
              */
             static IniFixBuilder::Factory barbara4_0();
@@ -105,8 +85,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.barbaraSummertime4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **BarbaraSummertime onto Barbara**
              @endrst
              */
             static IniFixBuilder::Factory barbaraSummertime4_0();
@@ -114,8 +93,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.diluc4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Diluc onto DilucFlamme**
              @endrst
              */
             static IniFixBuilder::Factory diluc4_0();
@@ -123,8 +101,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.dilucFlamme4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **DilucFlamme onto Diluc**
              @endrst
              */
             static IniFixBuilder::Factory dilucFlamme4_0();
@@ -132,8 +109,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.fischl4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Fischl onto FischlHighness**
              @endrst
              */
             static IniFixBuilder::Factory fischl4_0();
@@ -141,8 +117,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.fischlHighness4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **FischlHighness onto Fischl**
              @endrst
              */
             static IniFixBuilder::Factory fischlHighness4_0();
@@ -150,8 +125,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ganyu4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Ganyu onto GanyuTwilight**
              @endrst
              */
             static IniFixBuilder::Factory ganyu4_0();
@@ -159,8 +133,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.hutao4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **HuTao onto CherryHuTao**
              @endrst
              */
             static IniFixBuilder::Factory hutao4_0();
@@ -168,8 +141,9 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.jean4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fixes for **Jean** and **JeanCN** mods, one method per (source, target) pair:
+             ``jeanCN4_0ToJeanSea``, ``jeanCN4_0ToJean``, ``jean4_0ToJeanSea`` and
+             ``jean4_0ToJeanCN``
              @endrst
              */
             static IniFixBuilder::Factory jeanCN4_0ToJeanSea();
@@ -180,16 +154,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.jeanCN4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
-             @endrst
-             */
-
-            /**
-             * @brief
-             @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.jeanSea4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **JeanSea onto Jean** and **JeanSea onto JeanCN**
              @endrst
              */
             static IniFixBuilder::Factory jeanSea4_0();
@@ -197,8 +162,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kaeya4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Kaeya onto KaeyaSailwind**
              @endrst
              */
             static IniFixBuilder::Factory kaeya4_0();
@@ -206,8 +170,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kaeyaSailwind4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **KaeyaSailwind onto Kaeya**
              @endrst
              */
             static IniFixBuilder::Factory kaeyaSailwind4_0();
@@ -215,8 +178,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.keqing4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Keqing onto KeqingOpulent**
              @endrst
              */
             static IniFixBuilder::Factory keqing4_0();
@@ -224,8 +186,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.keqingOpulent4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **KeqingOpulent onto Keqing**
              @endrst
              */
             static IniFixBuilder::Factory keqingOpulent4_0();
@@ -233,8 +194,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kirara4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Kirara onto KiraraBoots**
              @endrst
              */
             static IniFixBuilder::Factory kirara4_0();
@@ -242,8 +202,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.klee4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Klee onto KleeBlossomingStarlight**
              @endrst
              */
             static IniFixBuilder::Factory klee4_0();
@@ -251,8 +210,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kleeBlossomingStarlight4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **KleeBlossomingStarlight onto Klee**
              @endrst
              */
             static IniFixBuilder::Factory kleeBlossomingStarlight4_0();
@@ -260,8 +218,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.lisa4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Lisa onto LisaStudent**
              @endrst
              */
             static IniFixBuilder::Factory lisa4_0();
@@ -269,8 +226,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.lisaStudent4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **LisaStudent onto Lisa**
              @endrst
              */
             static IniFixBuilder::Factory lisaStudent4_0();
@@ -278,8 +234,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.mona4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Mona onto MonaCN**
              @endrst
              */
             static IniFixBuilder::Factory mona4_0();
@@ -287,8 +242,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.monaCN4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **MonaCN onto Mona**
              @endrst
              */
             static IniFixBuilder::Factory monaCN4_0();
@@ -296,8 +250,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.nilou4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Nilou onto NilouBreeze**
              @endrst
              */
             static IniFixBuilder::Factory nilou4_0();
@@ -305,8 +258,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ningguang4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Ningguang onto NingguangOrchid**
              @endrst
              */
             static IniFixBuilder::Factory ningguang4_0();
@@ -314,8 +266,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ningguangOrchid4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **NingguangOrchid onto Ningguang**
              @endrst
              */
             static IniFixBuilder::Factory ningguangOrchid4_0();
@@ -323,14 +274,14 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.giDefault`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The fallback fix row -- returns :cpp:func:`IniFixBuilder::defaultFactory`, a plain
+             GIMI fixer with no object awareness, which is genuinely the fix for the rows that use it
              @endrst
              */
             static IniFixBuilder::Factory giDefault();
 
             /**
-             * @brief The STUB every WuWa row points at until a WWMI fixer exists (2026-09-19) -- :cpp:func:`IniFixBuilder::defaultFactory`
+             * @brief The stub a WuWa row without a WWMI fixer points at -- :cpp:func:`IniFixBuilder::defaultFactory`
              */
             static IniFixBuilder::Factory wwmiStub();
 
@@ -384,8 +335,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.rosaria4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Rosaria onto RosariaCN**
              @endrst
              */
             static IniFixBuilder::Factory rosaria4_0();
@@ -393,8 +343,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.rosariaCN4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **RosariaCN onto Rosaria**
              @endrst
              */
             static IniFixBuilder::Factory rosariaCN4_0();
@@ -402,8 +351,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.shenhe4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Shenhe onto ShenheFrostFlower**
              @endrst
              */
             static IniFixBuilder::Factory shenhe4_0();
@@ -425,8 +373,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.xingqiu4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Xingqiu onto XingqiuBamboo**
              @endrst
              */
             static IniFixBuilder::Factory xingqiu4_0();
@@ -434,8 +381,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ganyuTwilight4_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.4 fix remapping **GanyuTwilight onto Ganyu**
              @endrst
              */
             static IniFixBuilder::Factory ganyuTwilight4_4();
@@ -443,8 +389,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.shenheFrostFlower4_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.4 fix remapping **ShenheFrostFlower onto Shenhe**
              @endrst
              */
             static IniFixBuilder::Factory shenheFrostFlower4_4();
@@ -452,8 +397,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.xingqiuBamboo4_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.4 fix remapping **XingqiuBamboo onto Xingqiu**
              @endrst
              */
             static IniFixBuilder::Factory xingqiuBamboo4_4();
@@ -461,8 +405,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kiraraBoots4_8`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.8 fix remapping **KiraraBoots onto Kirara**
              @endrst
              */
             static IniFixBuilder::Factory kiraraBoots4_8();
@@ -470,8 +413,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze4_8`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.8 fix remapping **NilouBreeze onto Nilou**
              @endrst
              */
             static IniFixBuilder::Factory nilouBreeze4_8();
@@ -479,8 +421,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kaeya5_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.0 fix remapping **Kaeya onto KaeyaSailwind**
              @endrst
              */
             static IniFixBuilder::Factory kaeya5_0();
@@ -488,8 +429,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kaeyaSailwind5_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.0 fix remapping **KaeyaSailwind onto Kaeya**
              @endrst
              */
             static IniFixBuilder::Factory kaeyaSailwind5_0();
@@ -497,8 +437,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.cherryHuTao5_3`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.3 fix remapping **CherryHuTao onto HuTao**
              @endrst
              */
             static IniFixBuilder::Factory cherryHuTao5_3();
@@ -506,8 +445,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.xianglingCheer5_3`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.3 fix remapping **XianglingCheer onto Xiangling**
              @endrst
              */
             static IniFixBuilder::Factory xianglingCheer5_3();
@@ -515,8 +453,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.4 fix remapping **Ayaka onto AyakaSpringbloom**
              @endrst
              */
             static IniFixBuilder::Factory ayaka5_4();
@@ -524,8 +461,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.arlecchino5_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.4 fix remapping **Arlecchino onto ArlecchinoBoss**
              @endrst
              */
             static IniFixBuilder::Factory arlecchino5_4();
@@ -533,8 +469,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze5_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.4 fix remapping **NilouBreeze onto Nilou**
              @endrst
              */
             static IniFixBuilder::Factory nilouBreeze5_4();
@@ -542,8 +477,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_4`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.4 fix remapping **Lisa onto LisaStudent**
              @endrst
              */
             static IniFixBuilder::Factory lisa5_4();
@@ -551,8 +485,9 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.jean5_5`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.5 fixes for **Jean** and **JeanCN** mods, one method per (source, target) pair:
+             ``jeanCN5_5ToJeanSea``, ``jeanCN5_5ToJean``, ``jean5_5ToJeanSea`` and
+             ``jean5_5ToJeanCN``
              @endrst
              */
             static IniFixBuilder::Factory jeanCN5_5ToJeanSea();
@@ -563,16 +498,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.jeanCN5_5`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
-             @endrst
-             */
-
-            /**
-             * @brief
-             @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.hutao5_6`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.6 fix remapping **HuTao onto CherryHuTao**
              @endrst
              */
             static IniFixBuilder::Factory hutao5_6();
@@ -580,8 +506,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_6`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.6 fix remapping **Ayaka onto AyakaSpringbloom**
              @endrst
              */
             static IniFixBuilder::Factory ayaka5_6();
@@ -589,8 +514,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_6`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.6 fix remapping **AyakaSpringbloom onto Ayaka**
              @endrst
              */
             static IniFixBuilder::Factory ayakaSpringbloom5_6();
@@ -598,8 +522,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.amber5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Amber onto AmberCN**
              @endrst
              */
             static IniFixBuilder::Factory amber5_7();
@@ -607,8 +530,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.amberCN5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **AmberCN onto Amber**
              @endrst
              */
             static IniFixBuilder::Factory amberCN5_7();
@@ -616,8 +538,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayaka5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Ayaka onto AyakaSpringbloom**
              @endrst
              */
             static IniFixBuilder::Factory ayaka5_7();
@@ -638,8 +559,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **AyakaSpringbloom onto Ayaka**
              @endrst
              */
             static IniFixBuilder::Factory ayakaSpringbloom5_7();
@@ -664,7 +584,7 @@ namespace AGRemapCore {
              The 5.7 fix that remaps an Arlecchino mod onto ArlecchinoBoss -- **not** a stub
              :raw-html:`<br />` :raw-html:`<br />`
 
-             She has no 6.1 row in the pure-Python table, so this one serves 6.1 as well --
+             She has no 6.1 row, so this one serves 6.1 as well --
              the same arrangement :cpp:func:`IniFixBuilderFuncs::nilou5_7` has. See
              :cpp:class:`ArlecchinoFixer`
              @endrst
@@ -674,8 +594,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.barbara5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Barbara onto BarbaraSummertime**
              @endrst
              */
             static IniFixBuilder::Factory barbara5_7();
@@ -683,8 +602,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.barbaraSummertime5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **BarbaraSummertime onto Barbara**
              @endrst
              */
             static IniFixBuilder::Factory barbaraSummertime5_7();
@@ -692,8 +610,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.diluc5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Diluc onto DilucFlamme**
              @endrst
              */
             static IniFixBuilder::Factory diluc5_7();
@@ -701,8 +618,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.dilucFlamme5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **DilucFlamme onto Diluc**
              @endrst
              */
             static IniFixBuilder::Factory dilucFlamme5_7();
@@ -710,8 +626,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.fischl5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Fischl onto FischlHighness**
              @endrst
              */
             static IniFixBuilder::Factory fischl5_7();
@@ -719,8 +634,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.fischlHighness5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **FischlHighness onto Fischl**
              @endrst
              */
             static IniFixBuilder::Factory fischlHighness5_7();
@@ -728,8 +642,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ganyu5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Ganyu onto GanyuTwilight**
              @endrst
              */
             static IniFixBuilder::Factory ganyu5_7();
@@ -737,8 +650,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.ganyuTwilight5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **GanyuTwilight onto Ganyu**
              @endrst
              */
             static IniFixBuilder::Factory ganyuTwilight5_7();
@@ -746,8 +658,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kirara5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Kirara onto KiraraBoots**
              @endrst
              */
             static IniFixBuilder::Factory kirara5_7();
@@ -755,8 +666,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.kiraraBoots5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **KiraraBoots onto Kirara**
              @endrst
              */
             static IniFixBuilder::Factory kiraraBoots5_7();
@@ -792,8 +702,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Lisa onto LisaStudent**
              @endrst
              */
             static IniFixBuilder::Factory lisa5_7();
@@ -816,8 +725,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.nilouBreeze5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **NilouBreeze onto Nilou**
              @endrst
              */
             static IniFixBuilder::Factory nilouBreeze5_7();
@@ -838,8 +746,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.shenheFrostFlower5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **ShenheFrostFlower onto Shenhe**
              @endrst
              */
             static IniFixBuilder::Factory shenheFrostFlower5_7();
@@ -847,8 +754,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.raiden6_1`` -- **not** a stub, unlike every other
-             method here :raw-html:`<br />` :raw-html:`<br />`
+             The 6.1 fix remapping **Raiden onto RaidenBoss** :raw-html:`<br />` :raw-html:`<br />`
 
              Builds a :cpp:class:`GIMIFixer` over the four mod objects
              :cpp:func:`IniParseBuilderFuncs::raiden6_1` classifies, doing three things:
@@ -875,7 +781,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.amber6_1`` -- **not** a stub :raw-html:`<br />`
+             The 6.1 fix remapping **Amber onto AmberCN** :raw-html:`<br />`
              :raw-html:`<br />`
 
              The same skeleton as \ref raiden6_1, differing where remapping onto a **CN skin**
@@ -895,7 +801,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.amberCN6_1`` -- **not** a stub :raw-html:`<br />`
+             The 6.1 fix remapping **AmberCN onto Amber** :raw-html:`<br />`
              :raw-html:`<br />`
 
              AmberCN remapped onto Amber. The standard GIMI character shape -- see
@@ -908,7 +814,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.mona6_1`` -- **not** a stub :raw-html:`<br />`
+             The 6.1 fix remapping **Mona onto MonaCN** :raw-html:`<br />`
              :raw-html:`<br />`
 
              Mona remapped onto MonaCN. The standard GIMI character shape -- see
@@ -1263,7 +1169,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.monaCN6_1`` -- **not** a stub :raw-html:`<br />`
+             The 6.1 fix remapping **MonaCN onto Mona** :raw-html:`<br />`
              :raw-html:`<br />`
 
              MonaCN remapped onto Mona. The standard GIMI character shape -- see
@@ -1276,7 +1182,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.rosaria6_1`` -- **not** a stub :raw-html:`<br />`
+             The 6.1 fix remapping **Rosaria onto RosariaCN** :raw-html:`<br />`
              :raw-html:`<br />`
 
              Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
@@ -1289,7 +1195,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The pure-Python ``IniFixBuilderFuncs.rosariaCN6_1`` -- **not** a stub :raw-html:`<br />`
+             The 6.1 fix remapping **RosariaCN onto Rosaria** :raw-html:`<br />`
              :raw-html:`<br />`
 
              RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
@@ -1436,6 +1342,29 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory yaoyaoBambooEye6_3();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **Lumine onto LumineHeaven's main mesh** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A skin of THREE components whose main mesh is unnamed. One fixer per target component, all
+             three built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Lumine/LumineFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory lumineHeavenMain6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Lumine onto LumineHeaven's Bang** -- see :cpp:func:`lumineHeavenMain6_3`
+             */
+            static IniFixBuilder::Factory lumineHeavenBang6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Lumine onto LumineHeaven's Eye** -- see :cpp:func:`lumineHeavenMain6_3`
+             */
+            static IniFixBuilder::Factory lumineHeavenEye6_3();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**
@@ -1510,23 +1439,34 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory yaoyaoBambooToYaoyao6_3();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **LumineHeaven onto Lumine** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The SEVENTH merge of a skin of several components onto a target of one, and the inverse of
+             :cpp:func:`lumineHeavenMain6_3` and its siblings. See
+             ``data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory lumineHeavenToLumine6_3();
+
     };
 
     /**
      * @brief
      @rst
-     The version-keyed table of :cpp:class:`IniFixBuilder` factories -- the C++ counterpart
-     to the pure-Python ``IniFixBuilderData`` dictionary (``data/IniFixBuilderData.py``)
-     :raw-html:`<br />` :raw-html:`<br />`
+     The version-keyed table of :cpp:class:`IniFixBuilder` factories :raw-html:`<br />`
+     :raw-html:`<br />`
 
-     73 rows across 10 game versions (4.0, 4.4, 4.6, 4.8, 5.0, 5.3, 5.4, 5.5, 5.6, 5.7), each mapping a
-     ``(version, mod name)`` pair to one :cpp:class:`IniFixBuilderFuncs` method
+     Each row maps a ``(fromVersion, fromMod, toVersion, toMod)`` key to one
+     :cpp:class:`IniFixBuilderFuncs` method
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         Mod names come from :cpp:func:`ModTypeIdTools::getName` rather than being spelled out as
-        string literals, exactly as the original's own
-        ``ModTypeIdTools.getName(ModTypeId.Amber)`` keys do -- so a rename in the registry
+        string literals -- so a rename in the registry
         cannot silently desync this table from it
 
      .. note::

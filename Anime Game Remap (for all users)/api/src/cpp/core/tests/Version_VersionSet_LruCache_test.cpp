@@ -33,7 +33,7 @@
 // baked in as plain assertions so this file stays self-contained.
 //
 // Covers, against the pure-Python originals' documented semantics
-// (model/Version.py, tools/caches/LRUCache.py):
+// (model/Version.py, since deleted, and tools/caches/LRUCache.py):
 //   * Version::parse: full PEP 440 grammar (epoch, pre/post/dev, local,
 //     v-prefix, whitespace, case-insensitivity, letter-spelling
 //     normalization) plus rejection of malformed input

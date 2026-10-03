@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="894" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="886" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -44,25 +44,22 @@ Held by ``shared_ptr`` because that is what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="910" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="205" bodyend="215"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="902" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="215" bodyend="225"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-The version-keyed table of :cpp:class:`IniParseBuilder` factories -- the C++ counterpart
-to the pure-Python ``IniParseBuilderData`` dictionary (``data/IniParseBuilderData.py``)
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The version-keyed table of :cpp:class:`IniParseBuilder` factories :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
 
-53 rows across 9 game versions (4.0, 4.4, 4.6, 4.8, 5.3, 5.4, 5.5, 5.6, 5.7), each mapping a
-``(version, mod name)`` pair to one :cpp:class:`IniParseBuilderFuncs` method
+Each row maps a ``(version, mod name)`` pair to one :cpp:class:`IniParseBuilderFuncs` method
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
    Mod names come from :cpp:func:`ModTypeIdTools::getName` rather than being spelled out as
-   string literals, exactly as the original&apos;s own
-   ``ModTypeIdTools.getName(ModTypeId.Amber)`` keys do -- so a rename in the registry
+   string literals -- so a rename in the registry
    cannot silently desync this table from it
 
 .. note::
@@ -72,7 +69,7 @@ to the pure-Python ``IniParseBuilderData`` dictionary (``data/IniParseBuilderDat
    once, at 4.0
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="891" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="891" bodyend="911"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="883" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="883" bodyend="903"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderData</scope><name>IniParseBuilderData</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1a1219c5a152085532d5b891fe6bdb1851" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderData</scope><name>repo</name></member>

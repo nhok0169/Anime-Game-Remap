@@ -15,9 +15,9 @@ Tutorial
 **Choose your pick of which way to run the script:**
 
 
-  a. :ref:`Choice A: Quickstart! 🟢             (for beginners)<Choice A: Quickstart 🟢>`
-  b. :ref:`Choice B: CMD WITHOUT a Script 🟡    (recommended if you run by CMD)<Choice B: Run on CMD Without a Script 🟡>`
-  c. :ref:`Choice C: CMD with a Script 🟡       (the convention that other GIMI scripts follow)<Choice C: Run on CMD With a Script 🟡>`
+  a. :ref:`Choice A: Quickstart! 🟢             (for beginners)<tutorial:Choice A: Quickstart 🟢>`
+  b. :ref:`Choice B: CMD WITHOUT a Script 🟡    (recommended if you run by CMD)<tutorial:Choice B: Run on CMD Without a Script 🟡>`
+  c. :ref:`Choice C: CMD with a Script 🟡       (the convention that other GIMI scripts follow)<tutorial:Choice C: Run on CMD With a Script 🟡>`
   d. :doc:`Choice D: API 🟠                     (for expert coders)<apiSetup>`
 
 
@@ -30,7 +30,7 @@ Choice A: Quickstart 🟢
 STEP 1
 ~~~~~~
 
-Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's ``Mods`` folder.
 
 STEP 2
 ~~~~~~
@@ -94,7 +94,7 @@ Choice C: Run on CMD With a Script 🟡
 STEP 1
 ~~~~~~
 
-Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's ``Mods`` folder.
 
 
 STEP 2

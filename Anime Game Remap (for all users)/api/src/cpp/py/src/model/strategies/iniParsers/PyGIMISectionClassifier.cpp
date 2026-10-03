@@ -258,7 +258,7 @@ indices: Optional[:class:`Indices`]
 
     **Default**: ``None``
 
-version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
     The version of the .ini file. If ``None``, assumes the latest version :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -296,7 +296,7 @@ indexNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:
             py::doc(R"doc(Optional[:class:`Indices`]: The assets for the ``match_first_index`` values)doc"))
 
         .def_readwrite("version", &PyGIMISectionClassifier::versionObj,
-            py::doc(R"doc(Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]: The version of the .ini file)doc"))
+            py::doc(R"doc(Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]: The version of the .ini file)doc"))
 
         .def_readwrite("hashNonVersionVals", &PyGIMISectionClassifier::hashNonVersionValsObj,
             py::doc(R"doc(The filter values used when searching :attr:`hashes`)doc"))
@@ -364,7 +364,7 @@ Parameters
 modType: :class:`ModType`
     The type of mod
 
-version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
     The version of the .ini file. If ``None``, assumes the latest version :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``

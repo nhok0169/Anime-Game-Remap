@@ -155,6 +155,21 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::LisaStudent):
                 return ModTypeId::LisaStudent;
 
+            case static_cast<int>(ModTypeId::Lumine):
+                return ModTypeId::Lumine;
+
+            case static_cast<int>(ModTypeId::LumineHeaven):
+                return ModTypeId::LumineHeaven;
+
+            case static_cast<int>(ModTypeId::LumineHeavenMain):
+                return ModTypeId::LumineHeavenMain;
+
+            case static_cast<int>(ModTypeId::LumineHeavenBang):
+                return ModTypeId::LumineHeavenBang;
+
+            case static_cast<int>(ModTypeId::LumineHeavenEye):
+                return ModTypeId::LumineHeavenEye;
+
             case static_cast<int>(ModTypeId::Mona):
                 return ModTypeId::Mona;
 
@@ -280,7 +295,7 @@ namespace AGRemapCore {
                 return "Ayaka";
 
             // note: the value differs from the enumerator's own name ("AyakaSpringbloom") --
-            // mirrors ModTypeNames.py's AyakaSpringbloom = "AyakaSpringBloom" exactly
+            // the capital-B spelling is the name this mod type has always had
             case ModTypeId::AyakaSpringbloom:
                 return "AyakaSpringBloom";
 
@@ -406,6 +421,21 @@ namespace AGRemapCore {
 
             case ModTypeId::LisaStudent:
                 return "LisaStudent";
+
+            case ModTypeId::Lumine:
+                return "Lumine";
+
+            case ModTypeId::LumineHeaven:
+                return "LumineHeaven";
+
+            case ModTypeId::LumineHeavenMain:
+                return "LumineHeavenMain";
+
+            case ModTypeId::LumineHeavenBang:
+                return "LumineHeavenBang";
+
+            case ModTypeId::LumineHeavenEye:
+                return "LumineHeavenEye";
 
             case ModTypeId::Mona:
                 return "Mona";
@@ -677,6 +707,14 @@ namespace AGRemapCore {
             case ModTypeId::LisaStudent:
                 return {ModTypeId::Lisa};
 
+            // As Yaoyao: the targets are the skin's three COMPONENT ids, not the skin itself.
+            // LumineHeaven remaps back onto plain Lumine, who is one mesh.
+            case ModTypeId::Lumine:
+                return {ModTypeId::LumineHeavenMain, ModTypeId::LumineHeavenBang, ModTypeId::LumineHeavenEye};
+
+            case ModTypeId::LumineHeaven:
+                return {ModTypeId::Lumine};
+
             case ModTypeId::Mona:
                 return {ModTypeId::MonaCN};
 
@@ -784,6 +822,9 @@ namespace AGRemapCore {
 
             case ModTypeId::NeuvilletteMelusent:
                 return {ModTypeId::NeuvilletteMelusentMain, ModTypeId::NeuvilletteMelusentCoat, ModTypeId::NeuvilletteMelusentBang, ModTypeId::NeuvilletteMelusentEye};
+
+            case ModTypeId::LumineHeaven:
+                return {ModTypeId::LumineHeavenMain, ModTypeId::LumineHeavenBang, ModTypeId::LumineHeavenEye};
 
             case ModTypeId::YaoyaoBamboo:
                 return {ModTypeId::YaoyaoBambooMain, ModTypeId::YaoyaoBambooBang, ModTypeId::YaoyaoBambooEye};
@@ -917,6 +958,14 @@ namespace AGRemapCore {
 
             case ModTypeId::LisaStudent:
                 return {"lisastudent"};
+
+            // Her mods name their sections after the asset repo's 'TravelerGirl' as often as after her
+            case ModTypeId::Lumine:
+                return {"lumine", "travelergirl"};
+
+            // The skin's mods in hand (LumineHeaven1-3) name their sections 'LumineSkin...'
+            case ModTypeId::LumineHeaven:
+                return {"lumineheaven", "lumineskin"};
 
             case ModTypeId::Mona:
                 return {"mona"};

@@ -72,8 +72,7 @@ every mod type from :meth:`GIBuilder.all` does -- can say so
     py::class_<AGRC::IniFixBuilder, py::smart_holder>(m, "IniFixBuilder", R"doc(
 A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
 
-What :attr:`ModType.iniFixBuilder` holds, and what the pure-Python builder of this name was
-replaced by. It comes in two flavours:
+What :attr:`ModType.iniFixBuilder` holds. It comes in two flavours:
 
 * **Fixed** -- one factory used for every .ini file, whatever its version
 * **Version-dependent** -- a lookup table consulted on every :meth:`build`
@@ -160,12 +159,12 @@ fromModName: :class:`str`
 toModName: :class:`str`
     The name of the mod being fixed **to**
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -191,12 +190,12 @@ parser: :class:`CppBaseIniParser`
 fromModName: :class:`str`
     The name of the mod being fixed **from**
 
-fromVersion: Optional[:class:`CppVersion`]
+fromVersion: Optional[:class:`Version`]
     The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
-toVersion: Optional[:class:`CppVersion`]
+toVersion: Optional[:class:`Version`]
     The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``

@@ -32,17 +32,14 @@ namespace AGRemapCore {
      pulled off the network once and COPIED everywhere else it is needed
      :raw-html:`<br />` :raw-html:`<br />`
 
-     :cpp:class:`FileDownload` has a cache of its own (``prevPath_``), and in the pure-Python
-     original that was enough: its ``IniParseBuilder`` was a flyweight, so every ``.ini`` file
-     of a given mod type shared ONE parser, one ``DownloadData``, and therefore one
-     ``FileDownload`` object holding one ``_prevPath``. This port builds a parser per
-     :cpp:class:`IniFile` (and the builders were de-flyweighted deliberately), so that
-     per-object cache can never be hit -- a fresh :cpp:class:`FileDownload` reaches every
-     download with an empty ``prevPath_``. Measured on a 36-``.ini`` XingqiuBamboo mod:
-     *downloaded 36 files, copied 0 files from existing downloads*, all 36 the same URL
-     :raw-html:`<br />` :raw-html:`<br />`
+     :cpp:class:`FileDownload` has a cache of its own (``prevPath_``), but it only helps when the
+     same :cpp:class:`FileDownload` object is asked twice. Every :cpp:class:`IniFile` gets a
+     parser of its own, so that per-object cache is never hit across ``.ini`` files -- a fresh
+     :cpp:class:`FileDownload` reaches every download with an empty ``prevPath_``, and a mod of 36
+     ``.ini`` files all needing the same file would download it 36 times :raw-html:`<br />`
+     :raw-html:`<br />`
 
-     So the cache moves to where the question actually belongs. "Have we already fetched this
+     So the cache lives where the question actually belongs. "Have we already fetched this
      URL?" is a property of the RUN, not of a parser strategy -- :cpp:class:`RemapService`
      owns one of these and hands it to each download as it goes, exactly as it hands over the
      logger :raw-html:`<br />` :raw-html:`<br />`
@@ -83,9 +80,8 @@ namespace AGRemapCore {
              and did not come back :raw-html:`<br />` :raw-html:`<br />`
 
              So that the NEXT resource wanting the same file does not repeat the whole retry
-             cycle. Measured: one unresolvable host costs 3.31s with the default three attempts
-             and their backoff, and a 36-``.ini`` mod pointed at a dead url would spend about two
-             minutes of pure waiting to reach the answer it already had
+             cycle. A 36-``.ini`` mod pointed at a dead url would otherwise spend minutes of pure
+             waiting to reach the answer it already had
              @endrst
              *
              * @param url The link that failed
@@ -99,9 +95,35 @@ namespace AGRemapCore {
              */
             bool hasFailed(const std::string& url) const;
 
+            /**
+             * @brief
+             @rst
+             Records that the server 'url' names could not be reached at all, after every retry
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             #markFailed covers the same file being asked for again; this covers every OTHER file
+             on the same host. Without it a machine that is offline pays the full back-off of
+             :cpp:member:`FileDownload::maxAttempts` once per distinct file, where once per run says
+             everything there is to say. Only a failure to reach the server belongs here -- a
+             ``404`` is an answer about one file, not about the host. #remember clears it, so a
+             single success restores every later download's retries
+             @endrst
+             *
+             * @param url Any link on the host that could not be reached
+             */
+            void markHostUnreachable(const std::string& url);
+
+            /**
+             * @brief Whether the host 'url' names has already proved unreachable during this run -- see #markHostUnreachable
+             *
+             * @param url The link to ask about
+             */
+            bool isHostUnreachable(const std::string& url) const;
+
         private:
             std::unordered_map<std::string, std::string> paths_;
             std::unordered_set<std::string> failed_;
+            std::unordered_set<std::string> unreachableHosts_;
     };
 
 
@@ -110,18 +132,16 @@ namespace AGRemapCore {
      @rst
      Class to handle file downloads from some server :raw-html:`<br />` :raw-html:`<br />`
 
-     Mirrors the pure-Python ``FileDownload`` class (``tools/files/FileDownload.py``) --
      :cpp:func:`get`'s caching decision logic (whether to re-download, copy a cached file, or
-     re-download after a failed copy) is fully ported and independently testable :raw-html:`<br />`
+     re-download after a failed copy) is independently testable :raw-html:`<br />`
      :raw-html:`<br />`
 
      .. note::
-        :cpp:func:`download` is backed by `libcurl`_'s easy API (``curl_easy_*``), matching the
-        Python original's use of the `requests`_ package -- entirely confined to
-        ``FileDownload.cpp``, so this public header (and every other public ``AGRemapCore`` header
-        that transitively includes it) stays free of any ``<curl/curl.h>`` dependency, the same
-        "wrap a third-party C library without leaking it into public headers" posture this codebase
-        already takes for `Z3`_ (see the Architecture doc's own section on that). Unlike `Z3`_
+        :cpp:func:`download` is backed by `libcurl`_'s easy API (``curl_easy_*``), entirely
+        confined to ``FileDownload.cpp``, so this public header (and every other public
+        ``AGRemapCore`` header that transitively includes it) stays free of any ``<curl/curl.h>``
+        dependency, the same "wrap a third-party C library without leaking it into public headers"
+        posture this codebase takes for `Z3`_. Unlike `Z3`_
         though, no persistent per-instance state needs wrapping here -- a download is a single,
         self-contained ``curl_easy_init``/``curl_easy_perform``/``curl_easy_cleanup`` sequence local
         to one #download call, so no pimpl is needed at all, just keeping the ``#include`` itself
@@ -169,23 +189,32 @@ namespace AGRemapCore {
              and asking three times just prints the same thing three times. #download decides
              which is which from the `libcurl`_ result -- and, for an HTTP error, from the status
              code, since ``503`` and ``404`` arrive as the same ``CURLE_HTTP_RETURNED_ERROR``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The default spreads its attempts over about 23 seconds (see #retryDelay), because a
+             failed name lookup on a home connection routinely lasts longer than a few seconds
              @endrst
              */
-            int maxAttempts = 3;
+            int maxAttempts = 6;
 
             /**
              * @brief
              @rst
-             How long to wait before the FIRST retry, DOUBLED for each one after it
-             :raw-html:`<br />` :raw-html:`<br />`
+             How long to wait before the FIRST retry, DOUBLED for each one after it, up to
+             #maxRetryDelay :raw-html:`<br />` :raw-html:`<br />`
 
              Backing off rather than hammering: whatever was briefly wrong (a resolver that has
              not come back, a rate limit) is more likely to be over after a second than after no
-             time at all. With the defaults a file that never comes back costs 1s + 2s of waiting
-             on top of its three attempts
+             time at all. With the defaults a file that never comes back costs 1s + 2s + 4s + 8s
+             + 8s of waiting on top of its six attempts
              @endrst
              */
             std::chrono::milliseconds retryDelay{1000};
+
+            /**
+             * @brief The longest #download waits between two attempts, however many came before
+             */
+            std::chrono::milliseconds maxRetryDelay{8000};
 
             /**
              * @brief
@@ -253,12 +282,30 @@ namespace AGRemapCore {
              */
             std::optional<std::string> cachedPath(const DownloadCache* sharedCache = nullptr) const;
 
+            /**
+             * @brief
+             @rst
+             Whether the last #download to throw gave up on a failure worth asking again about
+             -- the server could not be reached -- rather than on an answer such as a ``404``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Reset by every #get and #download, so it describes only the most recent request.
+             What :cpp:func:`DownloadCache::markHostUnreachable` is decided by
+             @endrst
+             */
+            bool lastFailureWasTransient() const;
+
         protected:
 
             /**
              * @brief The previous full path to the downloaded file, if any
              */
             std::optional<std::string> prevPath_;
+
+            /**
+             * @brief See #lastFailureWasTransient
+             */
+            bool lastFailureTransient_ = false;
     };
 }
 

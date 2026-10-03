@@ -108,8 +108,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Restricts an edit to specific areas of a :cpp:class:`IfContentPart` -- an empty
-             ``std::function`` means "the whole part", the equivalent of the pure-Python original's
-             own ``Ranges.createFull()`` default filter
+             ``std::function`` means "the whole part"
              @endrst
              */
             using PartFilter = std::function<OrderRanges(const IterData&, const ModType*, IniFile*)>;
@@ -245,7 +244,7 @@ namespace AGRemapCore {
                  * @brief
                  @rst
                  The `KVP`_ keys to track for each graph. ``std::nullopt`` tracks every key
-                 encountered, matching the pure-Python original's ``None``
+                 encountered
                  @endrst
                  */
                 tsl::ordered_map<ModObj, std::optional<KeySet>, typename IniGraphGroup<K, V, KeyHash, KeyEqual>::ModObjHash> keysToTrack;
@@ -263,13 +262,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The edits to make, one entry per ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
-
-             The pure-Python original splits this across four separate parallel lists
-             (``edits``/``keyFilters``/``keysToTrack``/``trackKeys``), each allowed to be a
-             different length, with anything past the end falling back to a default. Folding them
-             into one entry per ``.ini`` file is equivalent -- only ``edits``'s own length ever
-             bounded the iteration
+             The edits to make, one entry per ``.ini`` file
              @endrst
              */
             std::vector<IniEdits> edits;
@@ -278,8 +271,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Whether \ref trackKeysGlobal applies to every graph, instead of the per-graph
-             ``trackKeys`` entries in \ref edits. Matches the pure-Python original's
-             ``isinstance(self.trackKeys, bool)`` check
+             ``trackKeys`` entries in \ref edits
              @endrst
              */
             bool trackKeysIsGlobal = true;

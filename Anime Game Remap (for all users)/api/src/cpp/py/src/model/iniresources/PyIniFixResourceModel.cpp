@@ -149,8 +149,7 @@ origPaths: Optional[Dict[:class:`int`, List[:class:`str`]]]
 
         .def("items", [](const AGRC::IniFixResourceModel &self) { return entriesToTuples(self.items()); }, py::doc(R"doc(
 Every fixed/orig path combination across every :class:`IfContentPart` and mod type in 'fixedPaths',
-in the same order 'fixedPaths' itself iterates -- the equivalent of iterating directly over the
-pure-Python original (``for fixedPath, fullPath, origPath, origFullPath in x``)
+in the same order 'fixedPaths' itself iterates, as ``(fixedPath, fullPath, origPath, origFullPath)`` tuples
 
 Returns
 -------

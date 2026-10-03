@@ -968,6 +968,12 @@ each cost a confused cycle:
   correction were all swept into another session's Bennett commit. Before concluding your work is
   uncommitted, `git log --oneline -3 -- <file>`; before concluding someone reverted you, check
   whether it simply landed under a message about something else.
+- **The checked-out BRANCH may change under you, and other sessions commit onto whatever is
+  checked out (2026-10-02).** One session worked on `cleanup`, found two of another session's
+  commits on it (a version bump and a mirror regeneration), and next day found the checkout on
+  `finalize-docs` with someone else's uncommitted edits. Before every commit run `git branch
+  --show-current` and `git status --short`, stage your OWN paths by name (never `git add -A`), and
+  before every push read `git log origin/<branch>..<branch>` -- it lists exactly what the push sends.
 - **The maintainer swaps mod folders between `GIMI/Mods/` and one level up while testing**, so a
   path that resolved an hour ago resolves to nothing now. Resolve a mod by NAME across both
   locations, and fail loudly when it is in neither (see habit 34).
@@ -1570,7 +1576,8 @@ checked the same way: 37 mods fixed with the old build, rebuilt, fixed again, ev
 compared. **Downloads DISABLED is the verdict**: deterministic, and it must be byte-identical except
 where the change is meant to act. **Downloads ON is where a download DECISION shows** -- the coverage
 fix moved three -- but it carries two kinds of noise that read like regressions: on the laptop
-`github.com` fails to resolve on roughly one run in five (`Could not resolve host`), and one failed
+`github.com` fails to resolve on roughly one run in five (`Could not resolve host`; much rarer since
+2026-10-02, when the retry window grew from 3s to about 23s -- habit 89), and one failed
 download aborts the WHOLE resource group it belongs to (every merged buffer of CharlotteHurlock4 came
 out missing); and the merge suffixes each generated file with random letters (`_B8g_E.buf` one run,
 `_B8g.buf` the next). So retry a mod whose stats list a download skip before judging it, compare with
@@ -1666,6 +1673,87 @@ Then regenerate it on Linux and regenerate `Docs/src/apiExamples.rst` from it (T
 Tester"). **(3) Look at the one that moved, in game, old build against new**: stage both fixed copies on
 the importer's drive and swap them with `mods only` (GameView's "Proving a shared-code change in game").
 A byte-for-byte diff says WHAT changed; only the game says whether the change is right.
+
+**84. BEFORE A SCREENSHOT BECOMES EVIDENCE, SAY WHICH FOLDER WAS LOADED -- AND CHECK IT (2026-10-01).** A
+"compiled build matches" shot of Lumine10 was nearly reported that was really the PROTOTYPE's scratch copy:
+`mods only <copy> --from <folder>` had put `L10G4` into `Mods/`, the re-fixed `Lumine10` sat one level up, and
+the next helper call (`closeups.py ... "-::x"`, which shoots whatever is loaded) photographed the copy. It
+looked right because the two are A/B-identical, so the shot itself could not tell the difference. After
+every `mods only`, `ls Mods/` and name the folder next to the result. A shot of the wrong folder reads
+exactly like a shot of the right one, which is habit 1 again. Corollary: name scratch copies so a listing
+shows them for what they are (`L10G4`, not `Lumine10b`), delete them when done, and let `mods GIMI
+restore` put the maintainer's set back. Its "could not undo ... already moved by hand?" lines are copies
+you deleted, not damage.
+
+**85. A RULE AIMED AT ONE PART CHANGES EVERY PIXEL IT SELECTS: LOOK AT THE WHOLE MODEL, EVERY ANGLE
+(2026-10-01).** Lumine10's lining was too dark, and a flat x2.2 on the glow pixels made the lining match
+(mean blue 135 against her 128). It also turned her back emblem, arm guards and boots CYAN-WHITE, because a
+bright blue times 2.2 clips in blue and keeps climbing in red and green. The lining crop said "fixed"; only
+the three-angle full-body sheet showed the damage. So for any tuned constant: (1) measure the reported part
+against ground truth -- the mod on its own character, same pose (click the base card then the skin card to
+reset the pose; a drag carries over), same crop, one number -- for each variant; (2) look at a full sheet of
+every variant before keeping one; (3) survey what else the rule selects across every mod of the character
+(`glowSurvey`-style: count the pixels each mod's textures put under the old rule and the new) -- here that
+found near-grey alpha-255 cloth in Lumine1 / Lumine7 that a looser rule would have brightened. Build the
+variants as scratch copies through the prototype's options (`--coolGlowGain` etc.), not by rebuilding.
+
+**86. A DIFFERENCE BETWEEN TWO CONFIGS IS NOT A BUG UNTIL THE RUNTIME TREATS THEM DIFFERENTLY (2026-09-30).**
+YelanTranquil's slot C is a normal-map slot in the forward config and a plain one in the reverse, and a frame
+dump agreed with the reverse. "Fixing" the forward to match was built, and it LOST two edits confirmed in game:
+the component template applies texture edits only to a normal-map component. What settled it was reading what
+the RUNTIME does with each: the shader's 16-hex hash from the dump's filenames, its `filter_index` in
+`Core/GIMI/Libraries/ORFix.ini`, the `CommandListFixLogic` branch that index takes, and which `Resource*` that
+branch writes back. Every pass of that shader discards the normal map, so the two layouts render alike. Before
+making two things consistent, trace both through the code that consumes them; if they come out the same, write
+the finding down and leave the verified one alone. **And check the trace against what is already written**: the
+same session's explanation of TexFx ("it draws at its line") contradicted a frame-dump finding twenty sections up
+in Creating Remaps (a TexFx call is a request served on the next outline draw), shipped in one commit, and was
+caught only while writing this habit. A mechanism you reasoned out is a hypothesis until a dump or the game agrees.
+
+**87. A DOC COMMENT IS PUBLISHED: WRITE IT FOR A NEW API USER, NOT AS A WORK LOG (2026-10-01).** Every Doxygen
+comment in `core/include` (and on a definition in `core/src`), every pybind11 `R"(...)"` docstring and every
+Python docstring renders on <https://anime-game-remap.readthedocs.io>. An audit that day found ~1,200 lines of
+work log on the two reference pages -- dates, "matches / mirrors / is a port of the pure-Python original",
+"until 2026-09-17 this did ...", "found on Kaeya's mod in round 3", internal-guide links -- and ~90 method docs that
+were simply WRONG because they were never revisited after the history they described ("Stub for ... returns
+defaultFactory" on real fixes; "builds a plain `BaseIniParser`" where it builds a `GIMIParser`). A reader of the
+site does not know the library was ever pure Python and cannot open `AI Agent Help/`. So: state what the code does
+NOW, in the present tense; put the story (why, which mod, which date) in `AI Agent Help/` or a plain `//` comment,
+which does not render; and when you change behaviour, re-read the doc block above it. A new public class or
+function also needs its entry on `Docs/src/api.rst` / `coreAPI.rst` -- 164 exports had none, including ones the
+examples call. `Tools/Misc/Docs/auditApiDocs.py --html <build>` checks all three (exports, rendered history and
+dates, dead repo links); see [Documentation](../Documentation/CLAUDE.md)'s "THE REFERENCE PAGES ARE FOR A NEW USER".
+
+**88. A WHOLE-FILE MERGE CONFLICT MAY BE LINE ENDINGS: RE-MERGE ON NORMALISED STAGES (2026-10-02).** A file
+committed with a lone carriage return is stored raw (CRLF) because git's normalisation refuses it (trap 2 in
+the top-level `CLAUDE.md`); fix the stray `\r` and the next commit stores it as LF. Merge that against a
+branch that edited the CRLF copy and git reports ONE conflict spanning the whole file -- `IniKeywords.h` did,
+over a two-line real difference. Redo the merge yourself: `git show :1:<f>`, `:2:` and `:3:` into scratch
+files, strip `\r` from all three, `git merge-file -p -L OURS -L BASE -L THEIRS ours base theirs`, and write
+the result back with the line endings of `:3:`. Every conflicted header in that merge went from "whole
+file" to one or two real hunks. Do it in a script over `git diff --name-only --diff-filter=U` (skipping
+`core/xml` and `core.pyi`, which are regenerated, not merged), and print the remaining hunks rather than
+opening each file.
+
+**89. "IT FAILS SOMETIMES, THEN WORKS ON A RE-RUN": THE FAILURES ARE ALREADY IN EARLIER SESSIONS'
+TRANSCRIPTS -- TALLY THEM BEFORE GUESSING (2026-10-02).** An intermittent failure cannot be reproduced on
+demand, and the maintainer remembers only that it happened. But every agent session that ran the fix left
+its tool output in `~/.claude/projects/<slug>/<session>.jsonl`, and this repo has hundreds of them. One
+`grep -rhoE` over `--include=*.jsonl` for the failure line (`request failed: [^"\\]{0,160}`), piped
+through `sort | uniq -c`, turned "downloads sometimes fail" into a ranked table in seconds: 156 `404`s
+(genuinely missing files, a different question), then `Could not resolve host: github.com`, then nothing
+else that mattered. A Python script pulling ~700 characters around each hit then showed the shape every
+time: attempt 1 fails, attempt 2 fails, the run gives up -- the retry was firing, and its whole window
+(1s + 2s) was shorter than the outage. **Exclude your own session's file** (its id is in your scratchpad
+path), or the tally counts the tally. The fix itself is in `FileDownload.cpp`'s comments; the lesson that
+outlives it is **a cache shared to cut down on lookups also caches the FAILED ones**. libcurl keeps a
+negative DNS entry for half the cache timeout, so a retry that reads the shared cache fails instantly
+without asking the resolver, and a longer retry window would have bought nothing. A retry has to bypass
+the cache (`CURLOPT_DNS_CACHE_TIMEOUT = 0`). That was established with curl's own trace
+(`curl_global_trace("dns")` plus `CURLOPT_VERBOSE`) in a 30-line program, before any of it went into the
+library: one handle fails, a second on the same share prints `cache entry does not have type=A+AAAA
+addresses` and fails without resolving, and a third with timeout 0 prints `Hostname in DNS cache was stale,
+zapped` and genuinely resolves.
 
 **A note that belongs with 66 and 67, since both were instrumentation:** when a count assertion in a
 suite fails, **print the number before believing the message**. Nothing builds `core/tests`, so
@@ -1969,7 +2057,17 @@ sections sit on the LisaStudent model. 4.6.4 runs that fix the wrong way round.
     push -u origin <branch>` fixes it for that one command, without changing anyone's config.
   - **The PR:** `gh` is not logged in, and logging in is the maintainer's to do, never yours. Give
     them `https://github.com/nhok0169/Anime-Game-Remap/compare/master...<branch>?expand=1`
-    and the PR description text.
+    and the PR description text. The in-app browser is not signed in to GitHub either (checked
+    2026-10-02), so it cannot open the PR for you.
+  - **`git fetch` / `push` can fail with `Could not resolve host: github.com`** on the laptop, which
+    is the machine's DNS flake (habit 89), not your command. Retry it a few seconds later.
+- **Moving a commit to its own branch for a PR, when your tree has someone else's uncommitted work
+  (2026-10-02).** A `git worktree add` under the scratchpad fails with `Filename too long` -- that
+  path plus the repo's deepest `core/include/AGRemapCore/data/IniFixData/...` paths pass Windows'
+  260-character limit -- and leaves a half-made branch behind (`git worktree prune` cleans it up). Check
+  first whether you need a checkout at all: if `git rev-parse <commit>^` equals `origin/master`, a
+  cherry-pick would reproduce the same commit, and `git branch -f <new> <commit>` plus a push is the
+  whole job. The working tree is never touched.
 - **A session worktree can start from an OLD commit.** On 2026-09-23 one was created at a commit
   from before `Tools/GameView` existed, while the task was about GameView. `git log --oneline -1`
   against `git log --oneline -1 master` tells you. If the worktree is clean, `git merge --ff-only

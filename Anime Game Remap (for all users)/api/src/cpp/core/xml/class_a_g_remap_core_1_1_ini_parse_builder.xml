@@ -17,16 +17,15 @@
 Builds one parser, already bound to the ``.ini`` file it will read :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
-The C++ stand-in for the pure-Python original&apos;s ``(cls, args, kwargs)`` triple -- see
-this class&apos;s own note on why that collapses into a single callable here. The
-:cpp:class:`IniFile` argument is what the original&apos;s ``Builder.build(iniFile)`` passes
-positionally to the parser&apos;s constructor; it may be ``nullptr``, since
-:cpp:class:`BaseIniParser` allows an unbound parser
+See this class&apos;s own note. The :cpp:class:`IniFile` argument is the file the parser
+will read; it may be ``nullptr``, since :cpp:class:`BaseIniParser` allows an unbound
+parser. The ``std::optional&lt;int&gt;`` argument is the id of the mod type the parser is
+built for -- see #build&apos;s &apos;modTypeId&apos;
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="88" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">Factory</ref> &gt;</type>
@@ -38,26 +37,23 @@ positionally to the parser&apos;s constructor; it may be ``nullptr``, since
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The version-dependent lookup table a #build consults -- the C++ counterpart to the
-pure-Python ``IniParseBuilderArgs`` (``model/assets/IniParseBuilderArgs.py``)
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The version-dependent lookup table a #build consults :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Two index columns, matching that original&apos;s own ``[&quot;version&quot;, &quot;name&quot;]``: the game
+Two index columns, ``[&quot;version&quot;, &quot;name&quot;]``: the game
 version at position ``0``, and the mod&apos;s name at position ``1``. A version resolves by
 inclusive floor-match (see :cpp:func:`ModDictAssets::get`), which is what makes &quot;the
 4.0 row keeps applying until a 5.7 row supersedes it&quot; work :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   :cpp:class:`ModDictAssets` rather than :cpp:class:`ModAssets` (which is what the
-   pure-Python ``IniParseBuilderArgs`` inherits) -- this table has exactly one version
+   :cpp:class:`ModDictAssets` rather than :cpp:class:`ModAssets` -- this table has exactly one version
    column, which is the case :cpp:class:`ModDictAssets`&apos;s own class note calls out as
    belonging in the hash-based table rather than the linear-scanning one
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="110" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="110" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="93" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -73,7 +69,7 @@ inclusive floor-match (see :cpp:func:`ModDictAssets::get`), which is what makes 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="254" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="254" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="227" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="227" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_builder_1a7ab67404f2db9ae55943a8f3c446301c" prot="private" static="no" mutable="no">
         <type>std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" kindref="member">ArgsRepo</ref> &gt;</type>
@@ -87,7 +83,7 @@ inclusive floor-match (see :cpp:func:`ModDictAssets::get`), which is what makes 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="256" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="256" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="229" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="229" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_parse_builder_1aeff38f670fce64a9a0537fc95aff1279" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -102,7 +98,7 @@ inclusive floor-match (see :cpp:func:`ModDictAssets::get`), which is what makes 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="258" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="258" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="231" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="231" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -116,18 +112,16 @@ inclusive floor-match (see :cpp:func:`ModDictAssets::get`), which is what makes 
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The #Factory used when nothing else supplies one -- constructs a plain
-:cpp:class:`BaseIniParser` bound to the given file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The #Factory used when nothing else supplies one -- constructs a default-configured
+:cpp:class:`GIMIParser` reading the given file through its own
+:cpp:class:`IniFileParseContext` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Stands in for the pure-Python original&apos;s ``IniParseBuilder(GIMIParser)`` default. It is
-the *base* class rather than a ``GIMIParser`` simply because no concrete C++ parser has
-been ported yet -- change this one function when one lands, and every fallback path
-picks it up at once
+Every fallback path in this class goes through this one function
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="124" column="28" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="49" bodyend="57"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="105" column="28" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="49" bodyend="57"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -138,13 +132,13 @@ picks it up at once
         <name>IniParseBuilder</name>
         <qualifiedname>AGRemapCore::IniParseBuilder::IniParseBuilder</qualifiedname>
         <briefdescription>
-<para>Constructs a builder that always builds a plain :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref></computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a9e03a36078c815d1ca3e2ab49e8b2a38" kindref="member">defaultFactory</ref>. </para>
+<para>Constructs a builder that always builds a default :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser" kindref="compound">GIMIParser</ref></computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a9e03a36078c815d1ca3e2ab49e8b2a38" kindref="member">defaultFactory</ref>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="130" column="13" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="59" bodyend="59"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="111" column="13" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="59" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a01df6211f4d9ddb27714dbef50ca9080" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -167,9 +161,7 @@ picks it up at once
 <parameterdescription>
 <para><verbatim>embed:rst 
 The factory to build every parser with. If this is empty, #defaultFactory is used
-instead -- mirroring the pure-Python original&apos;s own
-``if (iniParseBuilder is None): iniParseBuilder = IniParseBuilder(GIMIParser)``
-fallback
+instead
 </verbatim> </para>
 </parameterdescription>
 </parameteritem>
@@ -178,7 +170,7 @@ fallback
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="143" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="61" bodyend="67"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="122" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="61" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a3a1b189571fff9123a55ec2ceb9214b1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -209,10 +201,7 @@ The lookup table to resolve a factory from -- see #ArgsRepo :raw-html:`&lt;br /&
 :raw-html:`&lt;br /&gt;`
 
 Held by ``shared_ptr`` because one table is shared by every :cpp:class:`ModType` of a
-game (all 55 GI mod types share a single one, exactly as the pure-Python original&apos;s own
-``IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value)`` calls -- 43 of them, that
-side having no ``Yelan`` -- share a single ``IniParseBuilderArgs`` instance)
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+game (every GI mod type shares a single one) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 If this is ``nullptr``, the builder degrades to the #defaultFactory-only behaviour of
 the default constructor
@@ -229,21 +218,18 @@ What #build does when &apos;builderArgs&apos; holds no row for the mod name it w
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 * ``false`` (the default) -- fall back to #defaultFactory, so one unlisted mod type
-  degrades to a plain parser rather than aborting the run. This matches how the rest
+  degrades to a default parser rather than aborting the run. This matches how the rest
   of this pipeline handles a missing strategy (:cpp:func:`IniFile::parse` skips a mod
-  type with no parser, :cpp:func:`IniFile::fix` skips one with no fixer) rather than
-  the pure-Python original, whose ``ModAssets.get`` defaults to
-  ``errorOnNotFound = True`` and raises
-* ``true`` -- let :cpp:func:`ModDictAssets::get`&apos;s ``std::out_of_range`` propagate,
-  matching the pure-Python original exactly
+  type with no parser, :cpp:func:`IniFile::fix` skips one with no fixer)
+* ``true`` -- let :cpp:func:`ModDictAssets::get`&apos;s ``std::out_of_range`` propagate
 
 :raw-html:`&lt;br /&gt;`
 
 .. note::
    This only covers a mod name with **no row at any version**. A mod name that has a
    row at some older version always resolves (to that older row) for every later
-   version, by :cpp:class:`ModDictAssets`&apos;s floor-match -- the same way the
-   pure-Python table&apos;s 4.0 entries cover every version after 4.0
+   version, by :cpp:class:`ModDictAssets`&apos;s floor-match -- a 4.0 row covers every
+   version after 4.0 until a newer row supersedes it
 
 **Default**: ``false``
 </verbatim> </para>
@@ -254,7 +240,7 @@ What #build does when &apos;builderArgs&apos; holds no row for the mod name it w
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="187" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="69" bodyend="78"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="160" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="69" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a4d2299fcca9ab796fb22998e069f748a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" kindref="member">ArgsRepo</ref> &gt; &amp;</type>
@@ -267,12 +253,12 @@ What #build does when &apos;builderArgs&apos; holds no row for the mod name it w
         <detaileddescription>
 <para><verbatim>embed:rst 
 The lookup table this builder resolves factories from, or ``nullptr`` if it is a
-fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_builderArgs``
+fixed-factory builder
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="196" column="35" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="80" bodyend="82"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="169" column="35" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="80" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1ae97743daafc33cadc1120ac53f332d26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -287,7 +273,7 @@ fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_bu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="202" column="18" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="84" bodyend="86"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="175" column="18" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="84" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a6c54954d98ec779cc54d10dc56c9fa69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref>&lt;&gt; &gt;</type>
@@ -319,9 +305,9 @@ fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_bu
 <para><verbatim>embed:rst 
 Builds the parser for one ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-For a fixed-factory builder, &apos;modName&apos;/&apos;version&apos; are ignored entirely -- matching the
-pure-Python original&apos;s own &quot;this argument has no effect if ``_buildCls`` is not
-``None``&quot; warning. Otherwise the pair is looked up in #getBuilderArgs
+A parser registered for &apos;modName&apos;/&apos;version&apos; through :cpp:class:`StrategyOverrides`
+wins over everything else. Otherwise, for a fixed-factory builder, &apos;modName&apos;/&apos;version&apos;
+are ignored; for a version-dependent one the pair is looked up in #getBuilderArgs
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -390,7 +376,7 @@ This is the id the mod type was **filed under**, which need not equal its own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="246" column="29" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="88" bodyend="121"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="219" column="29" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="88" bodyend="121"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -401,41 +387,28 @@ A factory that builds the :cpp:class:`BaseIniParser` for one ``.ini`` file, opti
 *which* parser (and with which arguments) based on the mod&apos;s name and the game version the
 ``.ini`` file came from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The C++ counterpart to the pure-Python ``IniParseBuilder``
-(``model/strategies/iniParsers/IniParseBuilder.py``), and what
-:cpp:member:`ModType::iniParseBuilder` holds. It comes in the same two flavours the original
-does:
+What :cpp:member:`ModType::iniParseBuilder` holds. It comes in two flavours:
 
-* **Fixed** -- one #Factory used for every ``.ini`` file, whatever its version. The equivalent
-  of the original&apos;s ``IniParseBuilder(GIMIParser)``
+* **Fixed** -- one #Factory used for every ``.ini`` file, whatever its version
 * **Version-dependent** -- an #ArgsRepo looked up by ``(modName, version)`` on every #build,
   so a 5.7-era ``.ini`` file of some mod gets a different parser (or a differently-configured
-  one) than a 4.0-era one. The equivalent of the original&apos;s
-  ``IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value)``
+  one) than a 4.0-era one
 
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The pure-Python original stores a ``(cls, args, kwargs)`` triple and splats it at build
-   time, because Python has no other way to carry &quot;a constructor with some of its arguments
-   already chosen&quot;. C++ does -- a closure -- so the whole triple collapses into the single
-   #Factory callable, with the arguments captured rather than stored alongside a class object.
-   A row the original writes as ``(GIMIObjParser, [{&quot;head&quot;, &quot;body&quot;}], {...})`` is written here
-   as a lambda returning ``std::make_shared&lt;GIMIObjParser&gt;(iniFile, ...)``, and is type-checked
-   at compile time instead of at build time
+   A #Factory is a closure: a &quot;constructor with some of its arguments already chosen&quot;. A row
+   is written as a lambda returning, for example, ``std::make_shared&lt;SomeParser&gt;(iniFile, ...)``,
+   with its arguments captured, and is type-checked at compile time
 
 .. note::
-   There is deliberately no equivalent of the original&apos;s ``@lru_cache(maxsize = 64)`` on
-   ``_getBuilderArgs``. That cache exists to avoid re-running an argument-*generator* function
-   against a linear-scanning lookup table; here the lookup is :cpp:func:`ModDictAssets::get`
-   (a hash lookup plus a binary search) and the #Factory it finds is already built, so there
-   is nothing left to memoize. The observable behaviour still matches: whatever a row&apos;s lambda
-   **captures** is constructed once and shared across every build, exactly as the
-   ``lru_cache``\\d triple&apos;s argument objects are, while the parser itself is freshly
-   constructed per call
+   Whatever a row&apos;s lambda **captures** is constructed once and shared across every build,
+   while the parser itself is freshly constructed per call. Nothing is memoized: the lookup is
+   :cpp:func:`ModDictAssets::get` (a hash lookup plus a binary search) and the #Factory it finds
+   is already built
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="72" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="72" bodyend="259"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="59" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" bodystart="59" bodyend="232"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilder</scope><name>ArgsRepo</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_1a6c54954d98ec779cc54d10dc56c9fa69" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilder</scope><name>build</name></member>

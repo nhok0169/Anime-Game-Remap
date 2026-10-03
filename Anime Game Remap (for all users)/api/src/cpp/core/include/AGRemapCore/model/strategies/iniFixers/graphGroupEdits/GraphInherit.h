@@ -111,8 +111,7 @@ namespace AGRemapCore {
              graph at \ref src are valid to insert the `KVPs`_ :raw-html:`<br />`
              :raw-html:`<br />`
 
-             An empty ``std::function`` stands in for the pure-Python original's
-             ``partFilter = None``, which selects the very front/back of every root `section`_
+             An empty ``std::function`` selects the very front/back of every root `section`_
              instead (see \ref edit)
              @endrst
              */

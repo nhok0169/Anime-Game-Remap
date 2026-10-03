@@ -53,7 +53,7 @@ mod that does not say otherwise.
 
 The width is carried rather than inferred because it CANNOT be inferred: a 16-bit buffer
 whose byte count divides by 12 reads as 32-bit without complaint, at half the index count
-and with values past the end of the mesh. See :cpp:class:`IbFile`
+and with values past the end of the mesh. See :cpp:class:`AGRemapCore::IbFile`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -84,7 +84,7 @@ The TARGET&apos;s texcoord stride, the floor of the merged buffer&apos;s -- see
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-What a :cpp:class:`VGMergeGroupResource` needs beyond its members: every component of the
+What a :cpp:class:`AGRemapCore::VGMergeGroupResource` needs beyond its members: every component of the
 SOURCE (the merge is joint -- an index buffer&apos;s offset is the sum of the vertices before its
 component) and which source objects each target object draws
 </verbatim> </para>

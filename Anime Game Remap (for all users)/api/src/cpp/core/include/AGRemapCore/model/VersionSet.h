@@ -30,10 +30,8 @@ namespace AGRemapCore {
      Class for tracking a set of available :cpp:class:`Version` s and finding the closest
      available version to some queried version :raw-html:`<br />` :raw-html:`<br />`
 
-     This is the C++ counterpart to the pure-Python ``Version`` class (``model/Version.py``) --
-     renamed here since that name is used on the Python side for both "one version value" (this
-     library's :cpp:class:`Version`) and "a searchable collection of them" (this class); splitting
-     the two concepts avoids that overload on the C++ side
+     A collection of versions, where :cpp:class:`Version` is one version value. Both are bound to
+     `Python`_ under these same names
      @endrst
      */
     class VersionSet {
@@ -54,11 +52,11 @@ namespace AGRemapCore {
              deduplicated :raw-html:`<br />` :raw-html:`<br />`
 
              .. warning::
-                 Matching the pure-Python original: this does **not** invalidate the
+                 This does **not** invalidate the
                  closest-version cache used by :cpp:func:`findClosest`. A version added after a
                  query has already been cached for some target can leave that cached result
                  stale (no longer the true closest match) until :cpp:func:`clear` is called. This
-                 is an inherited quirk, not a deliberate design choice -- call :cpp:func:`clear`
+                 is a known quirk, not a deliberate design choice -- call :cpp:func:`clear`
                  first if a caller needs strict re-computation after adding versions
              @endrst
              *
@@ -91,8 +89,7 @@ namespace AGRemapCore {
              If 'version' is ``std::nullopt``, returns the latest available version. Otherwise,
              returns the largest available version :math:`\leq` 'version' -- or, if every
              available version is greater than 'version', the smallest available version
-             (matching the pure-Python original's fallback behaviour rather than returning
-             ``std::nullopt`` in that case)
+             (rather than returning ``std::nullopt`` in that case)
              @endrst
              *
              * @param version The version to search for, or ``std::nullopt`` for the latest version

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
-  <compounddef id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" kind="class" language="C++" prot="public">
+  <compounddef id="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::VGMergeGroupResBuilder</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" prot="public" virt="non-virtual">AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder</basecompoundref>
     <includes refid="_v_g_merge_group_res_builder_8h" local="no">VGMergeGroupResBuilder.h</includes>
@@ -388,6 +388,68 @@ the edit finishes
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.h" line="103" column="31" bodyfile="src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder::addResource</definition>
+        <argsstring>(IniGroupedResource &amp;group, const GraphId &amp;resType, IniResource &amp;resource)=0</argsstring>
+        <name>addResource</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GroupedResBuilder::addResource</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Files one built model into a grouped resource, under the resource type it
+belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Not :cpp:func:`IniGroupedResource::addResource` directly: that keys by a plain
+``std::string`` resource-type name, while a group here is keyed by a whole mod
+object -- and the `Python`_-facing grouped resource stores these somewhere
+entirely different from the C++ one (see ``PyIniGroupedResource``). Both are
+the implementation&apos;s business
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grouped resource to file into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod object for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The built model. Ownership stays wherever it already was </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="246" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -56,11 +56,9 @@ namespace AGRemapCore {
      asking it about a register the mod already has makes it do nothing at all
 
      .. note::
-        This exists because the alternative was measurably worse. Before it, the same placement was
-        reached by filling a register nothing reads, in `BottomCover`, and renaming it afterwards --
-        the trick the pure-Python original plays with its ``tempDrawIndexed``. That works, but it
-        costs one edit per `KVP`_ plus a :cpp:class:`RegRemap` to undo the disguise, and it reads
-        like a workaround because it is one (2026-09-14)
+        The same placement can also be reached by filling a register nothing reads, in
+        `BottomCover`, and renaming it afterwards -- but that costs one edit per `KVP`_ plus a
+        :cpp:class:`RegRemap` to undo the disguise. Prefer this edit
 
      .. note::
         Every root gets the additions, so a graph whose roots overlap gets them once per root by
@@ -149,7 +147,7 @@ namespace AGRemapCore {
              the others. CitlaliWhisperofStars' dress is outlined by the skin with a cloth-specific
              outline shader Citlali does not have, and drawn through Citlali's outline pass its hull
              covered the skirt's lining in black; ``vs != 037730.0`` -- the ``filter_index`` ORFix
-             gives every outline vertex shader -- keeps it to the other passes (2026-09-22). A
+             gives every outline vertex shader -- keeps it to the other passes. A
              condition that does not parse as a :cpp:class:`Z3Predicate` (``vs`` is not a variable)
              is still written; analyses of the graph then treat the block as possibly taken
              @endrst

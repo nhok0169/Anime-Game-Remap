@@ -167,9 +167,7 @@ class RemapServiceCLITest(BaseUnitTest):
         self.assertIsNotNone(cli.service.toVersion)
         self.assertIsNotNone(cli.service.fromVersion)
         self.assertNotEqual(str(cli.service.toVersion), str(cli.service.fromVersion))
-        # The binding hands the mode back as the enum's string VALUE, not as the Python enum
-        #   member -- core has its own DownloadMode enum and the two are mapped by value.
-        self.assertEqual(cli.service.downloadMode, FRB.DownloadMode.Always.value)
+        self.assertEqual(cli.service.downloadMode, FRB.DownloadMode.Always)
 
     def test_unsetDownloadModeIsNormal(self):
         """
@@ -177,7 +175,7 @@ class RemapServiceCLITest(BaseUnitTest):
         so its own unset case raised AttributeError. Normal is the replacement.
         """
 
-        self.assertEqual(self.makeCLI().service.downloadMode, FRB.DownloadMode.Normal.value)
+        self.assertEqual(self.makeCLI().service.downloadMode, FRB.DownloadMode.Normal)
 
     # ------------------------------------------------------------------
     # Conversion failures
@@ -245,7 +243,7 @@ class RemapServiceCLITest(BaseUnitTest):
         cli = self.makeCLI(log = logFolder)
 
         self.assertIsNotNone(cli.log)
-        self.assertEqual(os.path.basename(cli.log), FRB.FileTypes.Log.value,
+        self.assertEqual(os.path.basename(cli.log), FRB.FileTypes.Log,
                          "the file's name is always FileTypes.Log, never the caller's")
         self.assertTrue(cli.logger.logTxt)
 

@@ -26,8 +26,7 @@ void initCppGlobalModTypes(pybind11::module_ &m) {
 Every :class:`ModType` the software ships with, and the one place that files them into
 :class:`ModTypeIdTools`'s global registry
 
-The counterpart to the pure-Python :class:`ModTypes` enum, whose ``getAll()`` likewise builds the
-shipped mod types on demand
+Builds the shipped mod types on demand, as :meth:`ModTypes.getAll` does
 
 .. important::
     :meth:`registerAll` is **not** called automatically by anything in ``AGRemapCore``, and that is
@@ -69,7 +68,7 @@ Files every shipped :class:`ModType` that is **not already registered** into
 
 The difference from :meth:`registerAll` is only what happens on a collision: that one overwrites,
 this one yields. This is what the implicit population behind :meth:`GlobalIniClassifiers.classifier`
-uses, so that classifying a .ini file can no longer silently replace a :class:`ModType` you
+uses, so that classifying a .ini file never silently replaces a :class:`ModType` you
 registered under one of the shipped ids
         )doc"));
 }

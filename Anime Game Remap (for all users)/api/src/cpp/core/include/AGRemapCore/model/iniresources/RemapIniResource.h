@@ -32,19 +32,14 @@ namespace AGRemapCore {
      Interface for a resource in a .ini file that's used by the overall remap process :raw-html:`<br />`
      :raw-html:`<br />`
 
-     Mirrors the pure-Python ``RemapIniResourceMixin`` class
-     (``model/iniresources/RemapIniResource.py``) -- every method here defaults to ``false`` (matches
-     the Python original's own methods, which are all a bare ``pass`` -- an implicit ``None``, ie.
-     falsy -- rather than raising ``NotImplementedError``), so a concrete class only needs to
+     Every method here defaults to ``false`` (rather than raising
+     ``NotImplementedError``), so a concrete class only needs to
      override whichever of these actually apply to it :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        The Python original's own ``RemapIniFixResource.fixExists`` overrides this interface's
-        ``fixExists(self, stats)`` with a **different** signature (``fixExists(self)``, no ``stats``
-        parameter) -- a real mismatch only possible because Python doesn't enforce override
-        signatures. #fixExists here keeps the one uniform ``stats``-taking signature the interface
-        declares (also matching how ``RemapIniResource.fixExists`` actually *uses* ``stats``);
-        :cpp:class:`RemapIniFixResource`'s own override just doesn't reference the parameter
+        #fixExists has one uniform ``stats``-taking signature across every implementation
+        (:cpp:func:`RemapIniResource::fixExists` actually *uses* ``stats``);
+        :cpp:class:`AGRemapCore::RemapIniFixResource`'s own override just doesn't reference the parameter
      @endrst
      */
     class RemapIniResourceMixin {
@@ -107,10 +102,9 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniResource` and :cpp:class:`RemapIniResourceMixin`
+     This class inherits from :cpp:class:`AGRemapCore::IniResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
-     Base class for some resource in a .ini file that's used by the overall remap process --
-     mirrors the pure-Python ``RemapIniResource`` class (``model/iniresources/RemapIniResource.py``)
+     Base class for some resource in a .ini file that's used by the overall remap process
      @endrst
      */
     class RemapIniResource: public IniResource, public RemapIniResourceMixin {
@@ -128,10 +122,9 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniFixResource` and :cpp:class:`RemapIniResourceMixin`
+     This class inherits from :cpp:class:`AGRemapCore::IniFixResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
-     Base class for some resource to fix in a .ini file that's used by the overall remap process --
-     mirrors the pure-Python ``RemapIniFixResource`` class (``model/iniresources/RemapIniResource.py``)
+     Base class for some resource to fix in a .ini file that's used by the overall remap process
      @endrst
      */
     class RemapIniFixResource: public IniFixResource, public RemapIniResourceMixin {
@@ -151,11 +144,10 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`IniGroupedResource` and :cpp:class:`RemapIniResourceMixin`
+     This class inherits from :cpp:class:`AGRemapCore::IniGroupedResource` and :cpp:class:`AGRemapCore::RemapIniResourceMixin`
 
      Base class for a group of resources to fix in a .ini file that's used by the overall remap
-     process -- mirrors the pure-Python ``RemapIniGroupedResource`` class
-     (``model/iniresources/RemapIniResource.py``)
+     process
      @endrst
      */
     class RemapIniGroupedResource: public IniGroupedResource, public RemapIniResourceMixin {
@@ -166,23 +158,14 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     This class inherits from :cpp:class:`RemapIniResource`
+     This class inherits from :cpp:class:`AGRemapCore::RemapIniResource`
 
-     Class for some download resource in a .ini file that's used by the overall remap process --
-     mirrors the pure-Python ``RemapIniDownload`` class (``model/iniresources/RemapIniResource.py``)
+     Class for some download resource in a .ini file that's used by the overall remap process
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        The Python original's own ``remapFix`` took a ``Mod`` purely to build
-        ``downloadHandler``/``cacheHitHandler`` callbacks that called ``mod.print(...)`` -- per the
-        maintainer's own direction (Mod is being removed from this API entirely), #remapFix instead
-        takes those same handler callbacks directly from its caller. It also actually returns
-        whether a fresh download occurred, unlike the Python original's own ``_fix``/``remapFix``,
-        which have no ``return`` statement at all and so always implicitly return ``None`` --
-        contradicting their own docstrings ("Whether the resource has been downloaded"/"Whether the
-        resource was fixed"). There's no concrete example of the "correct" `None` return being relied
-        upon anywhere, so this port implements the documented contract rather than the (almost
-        certainly unintentional) always-`None` gap
+        #remapFix takes its ``downloadHandler``/``cacheHitHandler`` callbacks directly from its
+        caller, and returns whether a fresh download occurred
      @endrst
      */
     class RemapIniDownload: public RemapIniResource {
@@ -221,7 +204,7 @@ namespace AGRemapCore {
              The run's own record of what has already been fetched, borrowed -- not owned
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Set by whoever drives the fix (:cpp:class:`RemapService` does it in
+             Set by whoever drives the fix (:cpp:class:`AGRemapCore::RemapService` does it in
              ``_fixResource``), for the same reason it sets :cpp:member:`IniResource::logger`
              there: a download is built by the PARSER, which has neither. Left ``nullptr`` this
              resource simply cannot share anything with the rest of the run and downloads its own

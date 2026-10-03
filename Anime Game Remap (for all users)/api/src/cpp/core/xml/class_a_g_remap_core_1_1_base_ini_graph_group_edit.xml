@@ -74,8 +74,8 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The key identifying a graph -- ``(component name, mod object name)``, the direct
-equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
+The key identifying a graph -- ``(component name, mod object name)``, the
+equivalent of a `Python`_ ``Tuple[str, str]``
 </verbatim>    </para>
         </detaileddescription>
         <inbodydescription>
@@ -120,9 +120,8 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**,
-   exactly as the pure-Python original does -- see
-   :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**
+   -- see :cpp:func:`BaseIniGraphEdit::editFromIni`&apos;s own note
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -137,7 +136,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
 <parametername>ini</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The associated original .ini file. <bold>Nullable</bold> <ndash/> see this subsystem&apos;s own note on still-pure-Python collaborators </para>
+<para>The associated original .ini file. <bold>Nullable</bold> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -145,7 +144,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
 <parametername>modType</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The type of mod to fix. <bold>Nullable</bold>, same reason </para>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -163,7 +162,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="146" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="143" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
@@ -199,7 +198,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         <detaileddescription>
 <para><verbatim>embed:rst 
 Edits a group of caller/callee graphs. No-op by default (returns &apos;graphGroups&apos;
-untouched), matching the pure-Python original&apos;s ``pass``
+untouched)
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -232,7 +231,26 @@ untouched), matching the pure-Python original&apos;s ``pass``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="162" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="159" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -263,11 +281,9 @@ Retrieves the corresponding graph from a group of graphs :raw-html:`&lt;br /&gt;
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The pure-Python original also takes a ``default`` argument to return when nothing is
-   found and ``errorOnNotFound`` is ``False``. That has no typed C++ equivalent, and
-   isn&apos;t needed: ``nullptr`` already *is* the &quot;not found&quot; answer. This otherwise matches
-   :cpp:func:`IniSectionGraph::getSection`&apos;s existing
-   found-or-``nullptr``-or-throw convention exactly
+   ``nullptr`` is the &quot;not found&quot; answer, following
+   :cpp:func:`IniSectionGraph::getSection`&apos;s found-or-``nullptr``-or-throw
+   convention
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -312,7 +328,7 @@ Non-owning -- the graph stays owned by &apos;graphGroups&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="190" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="185" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -366,14 +382,14 @@ The graph to add -- one &apos;graphGroups&apos; already owns, per
 </parameterlist>
 <simplesect kind="return"><para><verbatim>embed:rst 
 Whether the graph was added -- ``false`` if ``id.iniIndex`` is out of range for
-&apos;graphGroups&apos;, matching the pure-Python original
+&apos;graphGroups&apos;
 </verbatim> </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="209" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="204" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -384,7 +400,7 @@ Base class for a filter that edits a group of caller/callee graphs across many `
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
-:cpp:class:`BaseIniGraphPartEdit` -- matching the pure-Python original, since this edits whole
+:cpp:class:`BaseIniGraphPartEdit`, since this edits whole
 *groups* of graphs rather than one part within a single graph :raw-html:`&lt;br /&gt;`
 :raw-html:`&lt;br /&gt;`
 
@@ -507,7 +523,7 @@ Note that this derives from :cpp:class:`BaseIniPartEdit` **directly**, not from
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="55" bodyend="210"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="55" bodyend="205"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit</scope><name>clear</name></member>

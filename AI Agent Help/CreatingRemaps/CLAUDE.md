@@ -3947,19 +3947,44 @@ prototype's are the same picture
 
 Four things the port had to get right, none of them obvious from the prototype:
 
-* **The addition goes after the draw, which is its own edit.** Everything in the component's
-  `additions` is anchored on the shared-resource `run =` and lands BEFORE the draw; the twin is a
-  second `RegSurroundedAdd` whose `beforeRegs` is `{drawindexed, {}}` -- an empty predicate accepts
-  any value -- with `latest = false`, so it lands at the earliest position that follows a draw.
-* **One twin after one draw is right only while the component has one draw.** A component the mod
-  draws as several toggled ranges would have its twin drawn whatever the toggles say, so such a
-  component is skipped and the run says so. `mirroredSet()` is where that is decided.
+* **The twin goes after EVERY draw, in that draw's own part, and once per path is not enough.**
+  The first cut placed it with a `RegSurroundedAdd` anchored on `drawindexed`, which adds once per
+  path, and guarded it to components with a single draw range. ChisaParfait2's skirt is **five**
+  draws, each inside its own `if $VariableXXXX == 1` -- so the mod that most obviously shows the
+  defect got no twin, and a twin at the end of the section would have been drawn whatever the
+  toggles say. `MirrorTwin`, a file-local `BaseRegEdit`, walks the part's draws through
+  `getValsWithInds` and splices after each one; it inserts BACKWARDS, so an insertion does not move
+  the index of a draw not yet reached. Each twin draw is `count, first - base, 0`, where `base` is
+  the first index of the span the component's draws cover -- measured, ChisaParfait2's five tile
+  that span exactly: 0, 7188, 20388, 22152, 28080 over 28176 indices.
+* **And it restores `ib` and the vector register after itself.** The next toggle's draw would
+  otherwise read the mirrored buffers. The names to restore to are the mod's own
+  (`ResourceIndexBuffer`, `ResourceVectorBuffer`) -- what `CommandListOverrideSharedResources` binds,
+  and what the graph remap does not rename.
 * **The set is computed, not stored.** It is read while the edits are built, while the files are
   written and while the `.ini` is rendered -- three entry points -- and a member filled in one of
   them is a member read empty in another.
 * **The twin's `vb1` needs no restoring.** Every remapped section runs
   `CommandListOverrideSharedResources`, which binds `vb0`..`vb4` including `vb1`, so the next
   component's draw gets the mod's own normals back without the fix saying anything.
+
+**EVERY SKIRTED MOD OF HERS NEEDS IT, AND TWO OF THEM ARE TOGGLED (2026-10-02).** The identity, the
+swimsuit (ChisaParfait2) and the kimono (ChisaParfait3) all draw component 5 and all showed the dark
+gaps; ChisaParfait1 is a bikini whose own section says `Draw skipped: No matching custom components
+found`, so it has no skirt and correctly gets no twin. Checked in game after: the gaps are clean on
+the identity and on ChisaParfait2, and the rest of each skirt is untouched.
+
+**AND THE RED BODY ON ChisaParfait3 IS NOT WHAT THIS FILE PREVIOUSLY SAID (2026-10-02).** It was
+written up as "the fault is the mod's own bytes" after a bisect to `ps-t2`. Its three body diffuses
+are **pale**: `3_3.dds` means (252, 213, 207), `4_3.dds` (212, 162, 167), `5_3.dds` (194, 148, 154).
+Nothing about the art is red, so the red comes from the pipeline. Nor is it the MASK, which was the
+next suspect because that mod ships none and takes ChisaParfait's own as a download: nulling `ps-t1`
+on components 3, 4 and 5 changes the picture not at all. What it looks like, at a zoom where the
+parts separate, is channel-isolated -- the top and sleeves flat RED, the skirt flat YELLOW, while
+the hat, the bikini, the belt and the sash are correct -- which is this file's own signature for a
+texture EDIT that ran on a file that is not the role it was assigned. Open; the next step is which
+file the one edit this direction has (`hairNormal`, which keeps G and zeroes R, B and A) actually
+read.
 
 **WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
 wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,

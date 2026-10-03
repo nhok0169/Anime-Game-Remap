@@ -412,6 +412,86 @@ namespace AGRemapCore {
         }
 
 
+        /**
+         * @brief
+         @rst
+         Puts a back-face twin after EVERY ``drawindexed`` of a part -- see
+         :cpp:member:`WWMIFixerConfig::mirroredComponents`
+         @endrst
+         *
+         * Once per path is not enough: ChisaParfait2 draws its skirt as five ranges, each inside its
+         * own ``if $Variable... == 1``, and a twin at the end of the section would be drawn whatever
+         * the toggles say. Beside the draw it mirrors, it is drawn exactly when that draw is.
+         *
+         * `ib` and the vector register are restored after each twin, so the next toggle's draw is
+         * not left reading the mirrored buffers -- the mod's own names, which the shared-resource
+         * list binds and which the graph remap does not rename.
+         */
+        class MirrorTwin : public BaseRegEdit<> {
+            public:
+                MirrorTwin(std::string mirrorIndex, std::string mirrorVector, std::string ownIndex,
+                           std::string ownVector, std::string vectorReg, long long base)
+                    : mirrorIndex_(std::move(mirrorIndex)), mirrorVector_(std::move(mirrorVector)),
+                      ownIndex_(std::move(ownIndex)), ownVector_(std::move(ownVector)),
+                      vectorReg_(std::move(vectorReg)), base_(base) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+
+                    const auto ranges = toRangeSpec(partRanges);
+                    const std::vector<std::pair<long long, std::string>> draws =
+                        part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
+
+                    // BACKWARDS, so an insertion does not move the index of one not yet reached
+                    for (auto entry = draws.rbegin(); entry != draws.rend(); ++entry) {
+                        const std::optional<std::string> twin = twinDraw(entry->second);
+                        if (!twin.has_value()) {
+                            continue;                     // `auto`, or a range this cannot read
+                        }
+
+                        long long at = entry->first + 1;
+                        part.addKVPAt(at++, IniKeywords::Ib, mirrorIndex_);
+                        part.addKVPAt(at++, vectorReg_, mirrorVector_);
+                        part.addKVPAt(at++, IniKeywords::DrawIndexed, *twin);
+                        part.addKVPAt(at++, IniKeywords::Ib, ownIndex_);
+                        part.addKVPAt(at++, vectorReg_, ownVector_);
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::string mirrorIndex_;
+                std::string mirrorVector_;
+                std::string ownIndex_;
+                std::string ownVector_;
+                std::string vectorReg_;
+                long long base_;
+
+                // `count, first, 0` -> the same count at `first - base`, which is where that triangle
+                // sits in the mirrored copy of the component's span
+                std::optional<std::string> twinDraw(const std::string& value) const {
+                    const std::size_t comma = value.find(',');
+                    const std::size_t second = value.find(',', comma + 1);
+                    if (comma == std::string::npos || second == std::string::npos) {
+                        return std::nullopt;
+                    }
+
+                    try {
+                        const long long count = std::stoll(std::string(StringTools::strip(value.substr(0, comma))));
+                        const long long first = std::stoll(
+                            std::string(StringTools::strip(value.substr(comma + 1, second - comma - 1))));
+                        return std::to_string(count) + ", " + std::to_string(first - base_) + ", 0";
+                    } catch (const std::exception&) {
+                        return std::nullopt;
+                    }
+                }
+        };
+
+
         std::vector<std::unique_ptr<BufElementType>> wwmiVertexVGElements(std::size_t influences) {
             std::vector<std::unique_ptr<BufElementType>> elements;
             elements.push_back(BufElementType::repeated(
@@ -1451,13 +1531,19 @@ namespace AGRemapCore {
                                 continue;
                             }
 
+                            std::size_t partIndex = 0;
                             for (const auto& part : tpl->second->parts()) {
+                                ++partIndex;
                                 const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                                 if (content == nullptr) {
                                     continue;
                                 }
 
                                 for (const std::string& draw : content->getVals(IniKeywords::DrawIndexed)) {
+                                    // WHICH part, for the back-face twin: all of a component's draws
+                                    // in one part means all of them under one condition, which is
+                                    // what makes a single block of twins at the end of it right.
+                                    drawParts_[entry.first].insert(partIndex);
                                     const std::size_t comma = draw.find(',');
                                     const std::size_t second = draw.find(',', comma + 1);
                                     if (comma == std::string::npos || second == std::string::npos) {
@@ -2807,22 +2893,15 @@ namespace AGRemapCore {
                         // the block at the earliest position that follows one. Its own add, because
                         // everything in `additions` goes BEFORE the draw.
                         if (mirroredSet().count(component) > 0) {
-                            const long long count = drawRanges_.at(component).front().first;
-                            RegSurroundedAdd<>::Additions twin;
-                            twin.emplace_back(IniKeywords::Ib,
-                                              fixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)));
-                            twin.emplace_back(config_.vectorReg,
-                                              fixName(IniKeywords::Resource + "MirrorVector"));
-                            twin.emplace_back(IniKeywords::DrawIndexed, std::to_string(count) + ", 0, 0");
-
-                            auto add = std::make_unique<RegSurroundedAdd<>>(
-                                std::move(twin),
-                                RegSurroundedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
-                                RegSurroundedAdd<>::RegMap{}, false);
-                            auto adapter = std::make_unique<GraphPartEdit<>>(add.get());
+                            auto twin = std::make_unique<MirrorTwin>(
+                                fixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)),
+                                fixName(IniKeywords::Resource + "MirrorVector"),
+                                IndexBufferResource, VectorBufferResource, config_.vectorReg,
+                                mirrorSpan(component).first);
+                            auto adapter = std::make_unique<RegPartEdit<>>(twin.get());
                             editsOf_[component].push_back(adapter.get());
-                            surroundedAdds_.push_back(std::move(add));
-                            graphAdapters_.push_back(std::move(adapter));
+                            twinEdits_.push_back(std::move(twin));
+                            regAdapters_.push_back(std::move(adapter));
                         }
 
                         if (!additions.empty()) {
@@ -3793,7 +3872,7 @@ namespace AGRemapCore {
                         }
 
                         const auto ranges = drawRanges_.find(component);
-                        if (ranges == drawRanges_.end() || ranges->second.size() != 1) {
+                        if (ranges == drawRanges_.end() || ranges->second.empty()) {
                             continue;
                         }
 
@@ -3911,10 +3990,25 @@ namespace AGRemapCore {
                     writeWhole(path, bytes, "the mirrored vector buffer");
                 }
 
+                // The span a component's draws cover, as (first index, index count). Several
+                // ranges are one object split into pieces, so the twin buffer is their whole span
+                // and each twin draw indexes into it at `its first - the span's first`.
+                std::pair<long long, long long> mirrorSpan(int component) const {
+                    const auto& ranges = drawRanges_.at(component);
+                    long long low = ranges.front().second;
+                    long long high = ranges.front().second + ranges.front().first;
+                    for (const auto& range : ranges) {
+                        low = std::min(low, range.second);
+                        high = std::max(high, range.second + range.first);
+                    }
+
+                    return {low, high - low};
+                }
+
                 void writeMirrorIndex(const std::string& folder, int component) {
-                    const auto ranges = drawRanges_.find(component);
-                    const long long count = ranges->second.front().first;
-                    const long long first = ranges->second.front().second;
+                    const auto span = mirrorSpan(component);
+                    const long long first = span.first;
+                    const long long count = span.second;
 
                     const ByteVec source = readWhole(FileService::absPathOfRelPath(indexFile_, folder),
                                                      "this mod's index buffer");
@@ -4534,6 +4628,7 @@ namespace AGRemapCore {
                 std::string texcoordFile_;                            // ...and [ResourceTexcoordBuffer]
                 std::string vectorFile_;                              // ...and [ResourceVectorBuffer]; the normals the mirrored twin negates
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
+                std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
 
                 // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.
                 // Read off the vertex group row's largest target id, which is a property of the
@@ -4561,6 +4656,7 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<GraphPartEdit<>>> graphAdapters_;
                 std::vector<std::unique_ptr<RegNewVals<>>> newVals_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> regAdapters_;
+                std::vector<std::unique_ptr<MirrorTwin>> twinEdits_;   // owned beside the adapters that wrap them
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;

@@ -3433,6 +3433,55 @@ instrument failures rather than domain mistakes. A statistic over guessed pixel 
 the background and the UID box. A hue classifier over a painted frame conflated yellow with orange
 and was not trusted. What worked every time was turning one draw off and looking.
 
+### THE GHOST BODY WAS THE PREVIOUS-POSE SKELETON, AND THE IDENTITY MOD IS WHAT NAMED IT (2026-10-03)
+
+**`vs-cb4` is the pose a draw is skinned with; `vs-cb3` is the PREVIOUS frame's, which the shader
+turns into motion vectors.** The WuWa merge list replaced each only inside
+`if <reg> == boneDataFilter`, and the game does not set that marker on cb3 for every pass. Measured
+in a frame dump of a remapped mod, **five draws -- one for EVERY main body slot** -- came out with
+cb4 ours and cb3 still holding the TARGET's own skeleton. The shader then reprojects our pose from
+hers, which is a large bogus motion, and TAA smears a second body across the whole character.
+
+Reported as *"a double ghost body"* on three mods: thin dark strokes down the arms and across the
+belly and thighs, and a darkened patch on one skirt. `WWMIFixerConfig::bindPrevPoseAlways` (default
+on) binds the remapped previous pose outside the guard as well. Evidence: **20 draws skinned with
+our pose and 0 reprojected from the target's**, against 5 mismatched before; in game the skirt hem's
+doubled outline is gone and so are the arm and belly strokes.
+
+**THE MAINTAINER'S OWN SANITY TEST IS WHAT CRACKED IT, AFTER A DAY OF PROBES DID NOT.** Three
+sentences did more than every measurement before them:
+
+> the ghost even appears when I remap the identity, so even a sanity test fails. I checked the
+> identity mod of the original character and they don't have the ghost, so it is an issue with the
+> remap.
+
+The identity mod is the target skin's own model, so a defect that survives it is a defect of the
+REMAP, and every hypothesis about a mod's content -- its mask, its shape keys, its garment
+geometry, its vertex groups -- is dead on arrival. **Run the identity mod on the FIRST report of a
+defect seen on several mods**, not after exhausting the mods; its whole purpose is to separate the
+pipeline from the content, and it is listed in this file's own test-mod table for exactly that.
+
+**The check is one pass over a dump and belongs in the acceptance set.** For every draw of the
+character, read `vs-cb3` and `vs-cb4` out of the dumped FILE NAMES -- a resource the fix bound has
+no hash in its name -- and require that a draw with cb4 ours does not have the target's cb3:
+
+```
+000014  vs-cb3 = OURS       vs-cb4 = OURS       <- right
+000039  vs-cb3 = 4785ce09   vs-cb4 = OURS       <- the ghost: our pose, her previous pose
+```
+
+**And what the ghost was NOT, each closed by its own probe, in the order they cost time:** an
+uncovered target slot (all seven tile the index buffer), the back-face twin (neither affected mod
+has one), the vertex COLOUR stream, the cleaned texcoord copy, the zero shape-key stream (required
+-- dropping it explodes the model), the vertex group rows (no unmapped groups; p99 edge jump 0.86
+over 161005 edges, max 2.98, all at the shoulders), the shape keys (ChisaParfait1's sit entirely at
+z 110..150, nothing below), and the material mask -- which DOES remove the thigh line when nulled
+and is a separate, real finding: see the mask repack below. Two draws of the target's own slot 5
+survive every `handling = skip` written six ways and are still open; they are behind the body
+(`y -19.7 .. -3.9`) and not the reported strokes.
+
+<br>
+
 ### A GHOST BODY ON EVERY MOD OF A PAIR, AND HOW TO ATTRIBUTE A DRAW (2026-10-02, OPEN)
 
 Reported on all three ChisaParfait mods at once: *"a double ghost body"* -- thin dark strokes

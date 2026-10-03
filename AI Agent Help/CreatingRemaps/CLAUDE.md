@@ -3433,6 +3433,65 @@ instrument failures rather than domain mistakes. A statistic over guessed pixel 
 the background and the UID box. A hue classifier over a painted frame conflated yellow with orange
 and was not trusted. What worked every time was turning one draw off and looking.
 
+### A GHOST BODY ON EVERY MOD OF A PAIR, AND HOW TO ATTRIBUTE A DRAW (2026-10-02, OPEN)
+
+Reported on all three ChisaParfait mods at once: *"a double ghost body"* -- thin dark strokes
+tracing a body that is not the one being drawn, over the arms, the belly and the thighs, plus a
+darkened patch on ChisaParfait2's skirt (`Images/ChisaParfait/3_7/ChisaGhost.png`, `ChisaGhost2.png`).
+It survived a whole session in which the same mods were called clean, because **at the zoom a
+full-body screenshot gives, the strokes read as ordinary cel-shading outlines.** Crop to one limb at
+native resolution before judging a remap: the thigh crop is where it is unmistakable.
+
+**What is established, each by a measurement rather than an argument:**
+
+* **`handling = skip` works, and the whole character is drawn by the fix.** Commenting out the
+  fix's own `drawindexed` lines leaves the character **completely invisible** -- only the weapon
+  renders. Nothing of the target's own body survives the skip.
+* **The fix's draw ranges are disjoint and cover the mod exactly once**: 0 -> 252300 over seven
+  sections, no overlap, so there is no double draw of the mod's own geometry.
+* **Two draws of the TARGET's own geometry survive anyway.** In a frame dump with the mod
+  installed, 21 of the 23 character draws carry no ib hash and no blend hash -- those are the fix's,
+  drawing buffers it bound. The other two (`000071`, `000075`) carry **the game's own ib
+  (`aa4a0e72`) and blend (`51d3eb39`)**, at `first 278394, count 7602` -- which is exactly the
+  window the fix's own `[TextureOverride<Target>Component5RemapHide]` names. That section does not
+  suppress them, **and neither does an unconditional `handling = skip` written ahead of every guard
+  in it**, so the section is not matching those draws at all. Open: why.
+
+**THE TECHNIQUE IS WORTH MORE THAN THE FINDING -- attribute a draw by the hashes in its dumped FILE
+NAMES, not by the log.** Frame analysis writes one file per bound resource per draw,
+`<draw>-<slot>=<hash>-vs=...-ps=....txt`, and a resource the fix bound has **no hash in the name**
+at all. So "whose draw is this" is one listing:
+
+```
+000014  ib=(no hash)  vb4=(no hash)   first 63894   count 108702     <- the fix's
+000071  ib=aa4a0e72   vb4=(no hash)   first 278394  count 7602       <- the GAME's
+```
+
+**And `log.txt` cannot answer it.** In this configuration it names **no section at all** (`grep -c
+"3DMigoto \["` is 0), so a `drawindexed` the fix injects is not logged and an injected draw's
+absence from the log is not evidence. That retires an earlier reading in this file -- *"the log
+settles it: the draws never fire"* -- for the second time, and the first correction (that those
+numbers came off commented-out `;RemapFixHideOrig` lines) was only half of why it was wrong.
+
+**Four other readings that were wrong, each of which looked settled:**
+
+1. **"An uncovered target slot."** Every one of the target's seven slots is accounted for -- six
+   remapped and one hidden -- and the windows tile her index buffer exactly
+   (`0 / 13566 / 50400 / 63894 / 172596 / 278394 / 285996`, summing to 287358). Derive that sum
+   before suspecting a gap.
+2. **"The back-face twin."** Neither mod showing the defect has one (`grep -c ResourceMirrorIndex`
+   is 0 on both); only the identity mod does.
+3. **"The second skeleton, so TAA smears the previous pose."** The fix binds BOTH
+   (`vs-cb4 = ResourceRemappedSkeleton`, `vs-cb3 = ResourceExtraRemappedSkeleton`) in every
+   `CommandListMergeSlot<N>`.
+4. **"Paint everything the fix draws and see what stays unpainted."** It all comes back magenta,
+   including the ghost strokes -- and that proves nothing, because **a `ps-t` binding persists until
+   something rebinds it**, and the two unskipped draws happen AFTER the fix's twenty-one, so they
+   inherit the fix's magenta. A paint test can only attribute a draw that precedes the painted
+   bindings or rebinds its own.
+
+<br>
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look

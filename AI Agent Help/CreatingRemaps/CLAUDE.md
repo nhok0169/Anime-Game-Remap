@@ -4007,11 +4007,25 @@ HAT white, the bikini cream and the belt pale -- so that register really is feed
 colour, which on Chisa's upper pass is supposed to be the NORMAL map -- while the red top and the
 yellow skirt do not move. Every register the plan binds on that pass has now been probed.
 
-Open. The dump is kept for whoever takes it. What is left to try: the two registers Chisa's upper
-pass sets that the plan does NOT bind (`ps-t3`, her sheen matcap, and `ps-t4`, the subsurface ramp),
-and the possibility that the red is not a surface at all -- the scene's own sky blooms red around
-the character in that shot and is blue-grey with no mod loaded, which a red character would do by
-itself but which has not been ruled out as the cause rather than the effect.
+**The two UNBOUND registers are not it either.** Flat magenta on `ps-t3` and `ps-t4` together --
+every register Chisa's upper pass sets that the plan leaves to the game -- turns the hat white and
+the bikini cream, exactly as `ps-t0` does, and the red top and yellow skirt do not move. Every
+register of that pass has now been probed, bound and unbound alike.
+
+**And the thing that DOES move them says where to look next.** `wwmiPaintComponents.py`, which
+inserts a flat colour immediately before each `drawindexed` INSIDE the remapped section rather than
+into the texture command list, turns the top yellow -- its component's colour -- and the skirt pale
+(`Images/ChisaParfait/3_7/RedBodyTakesThePaint.png`). So the top's colour does come from
+`ps-t0`/`ps-t1`/`ps-t2` after all, and the fix's own list is not what is supplying them by the time
+those draws run.
+
+That is a contradiction worth stating plainly rather than resolving by guesswork: the section DOES
+`run =` its texture list (checked -- component 3 runs both its lists and then makes 15 draws, each
+inside its own `if $key_NN`), the list's gate is `vs == 3381.761` and the fix's own
+`[ShaderOverridePass2ChisaRemapFix]` sets that index on `b3c7ad652f7a1c40`, which the dump confirms
+is the vertex shader of that draw. Open at exactly that point: something between the list and the
+draws is undoing it, or the list is not running for this mod's draws for a reason none of the above
+covers. The dump (`FrameAnalysis-ChisaParfait3Remap-2026-10-02-204847`) is kept.
 
 **WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
 wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,

@@ -135,6 +135,11 @@ namespace AGRemapCore {
         // patterns, which is what lets `BufFile::fix` -- it re-encodes every line, touched or not --
         // own this buffer. See `core/tests/BufFloat16_Rounding_test.cpp`.
         const std::string ShapeKeyZero = "ShapeKeyZero";
+
+        // Marks everything belonging to the SOURCE's own game texture for a role the mod also
+        // serves -- the download, its edits and the list that binds them. See
+        // `WWMIFixer::planGameTexEdits`.
+        const std::string GameSuffix = "Game";
         const std::string ChecksumNotFound = "ChecksumNotFound";
 
         // How a file's name may say what type of texture it is, when nothing else does.
@@ -1446,6 +1451,7 @@ namespace AGRemapCore {
 
                     readTextures();
                     planTexEdits();
+                    planGameTexEdits();
                     buildEdits();
                     buildAppended();
 
@@ -1791,6 +1797,100 @@ namespace AGRemapCore {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    // TWO BINDING GENERATIONS IN ONE SECTION (2026-10-03). A section may DRAW
+                    // before it binds any texture register of its own. Those draws render with
+                    // whatever was bound when the game's own draw was matched -- the SOURCE
+                    // character's atlas -- and only the draws after the mod's own `ps-t` lines use
+                    // the mod's art. ChisaParfait3 writes its whole accessory set that way: 14
+                    // toggled draws for the hat, the chest bandages, the bows and the sleeves, then
+                    // `ps-t0..ps-t3` and one big draw for the custom body.
+                    //
+                    // The fix hung one list off the shared-resource override and gave every draw
+                    // the mod's art, so the hat and the bandages sampled her body atlas, which is
+                    // featureless where their UV islands sit -- they rendered as flat skin.
+                    //
+                    // Recorded per component, and ONLY when the section binds after drawing. The
+                    // two commoner shapes are already right and must not move: a section that binds
+                    // nothing leaves every draw to `fallbackTextures`, and one that binds before it
+                    // draws is what the single list at the top was written for. Across 544 component
+                    // sections of this repo's WuWa corpus, 508 bind nothing, 33 bind first and 3
+                    // are this shape.
+                    // ...AND ONLY WHEN THE MOD DOES NOT REPLACE THE GAME'S TEXTURES BY HASH.
+                    // `CheckTextureOverride = ps-tN` fires a `TextureOverride` section keyed on the
+                    // hash of whatever is bound there, and that section's `this =` swaps in the
+                    // mod's own file -- so a mod declaring those gets its art on every draw whether
+                    // its section binds the register or not, and the single list at the top is
+                    // right for it.
+                    //
+                    // This is what separates the two mods that look identical from their sections
+                    // alone. Every Sanhua mod declares them (20 to 72 each, Sanhua2's split
+                    // component 5 included) and so do 22 of the 25 Chisa mods; ChisaParfait3
+                    // declares NONE, which is why its hat and chest bandages were the game's art
+                    // and its custom body was not.
+                    bool replacesByHash = false;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr
+                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                            || StringTools::startsWith(entry.first,
+                                                       IniKeywords::TextureOverride + config_.slotPrefix)) {
+                            continue;
+                        }
+
+                        bool hasHash = false;
+                        bool hasThis = false;
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            hasHash = hasHash || content->count(IniKeywords::Hash) > 0;
+                            hasThis = hasThis || content->count(IniKeywords::This) > 0;
+                        }
+
+                        if (hasHash && hasThis) {
+                            replacesByHash = true;
+                            break;
+                        }
+                    }
+
+                    for (const auto& entry : present_) {
+                        if (replacesByHash) {
+                            break;
+                        }
+
+                        bool drew = false;
+                        std::vector<std::string> late;
+                        for (const std::string& section : entry.second) {
+                            auto tpl = templates.find(section);
+                            if (tpl == templates.end() || tpl->second == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& part : tpl->second->parts()) {
+                                const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+
+                                for (const auto& item : content->items()) {
+                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
+                                    if (key == StringTools::toLower(IniKeywords::DrawIndexed)) {
+                                        drew = true;
+                                    } else if (drew && StringTools::startsWith(key, StringTools::toLower(config_.texRegPrefix))) {
+                                        if (std::find(late.begin(), late.end(), key) == late.end()) {
+                                            late.push_back(key);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!late.empty()) {
+                            lateBindRegs_[entry.first] = late;
                         }
                     }
 
@@ -3237,6 +3337,39 @@ namespace AGRemapCore {
                             additions.emplace_back(IniKeywords::Run, cmdList);
                         }
 
+                        // GENERATION 0: THE DRAWS THIS SECTION MAKES BEFORE IT BINDS ANYTHING
+                        // (2026-10-03). They rendered with the SOURCE's own game textures, so that
+                        // is what they are given -- see lateBindRegs_ and planGameTexEdits. Emitted
+                        // AFTER the list above so it wins for those draws, and the list above is
+                        // re-run below at the point the mod's own bindings start.
+                        const auto late = lateBindRegs_.find(component);
+                        if (late != lateBindRegs_.end() && !gameResourceOfRole_.empty()) {
+                            std::vector<Kvp> gameBindings;
+                            for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                                if (binding.role == IniKeywords::Null) {
+                                    continue;
+                                }
+
+                                const auto at = gameResourceOfRole_.find(binding.role);
+                                if (at != gameResourceOfRole_.end()) {
+                                    gameBindings.push_back(bindLine(binding.role, binding.reg, at->second));
+                                }
+                            }
+
+                            if (!gameBindings.empty()) {
+                                const std::string gameList =
+                                    fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
+                                            + std::to_string(component) + GameSuffix + "Textures");
+                                textureLists_.push_back(
+                                    SectionText(z3_, gameList)
+                                        .open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
+                                        .keys(gameBindings)
+                                        .close()
+                                        .str());
+                                additions.emplace_back(IniKeywords::Run, gameList);
+                            }
+                        }
+
                         // A slot's OTHER passes bind the same art at DIFFERENT registers, so each
                         // gets its own guarded list beside the plan's -- see
                         // WWMIFixerConfig::extraPassRegs.
@@ -3449,6 +3582,13 @@ namespace AGRemapCore {
                             regAdapters_.push_back(std::move(adapter));
                         }
 
+                        // AND GENERATION 1 NEEDS NOTHING ADDED. The mod's own `ps-t` lines, re-keyed
+                        // by role below, are that generation -- and a register they do NOT rebind
+                        // keeps what generation 0 left, which is the source's own game texture and
+                        // exactly what the unfixed mod rendered with there. Re-running the list
+                        // above at that point was written first and is wrong twice over: the carried
+                        // lines overwrite it immediately, and where they do not, it would replace a
+                        // game texture the mod deliberately kept with the mod's art.
                         if (!additions.empty()) {
                             // The remap has already renamed the called list by the time this runs,
                             // so the anchor is matched under either name.
@@ -4218,6 +4358,14 @@ namespace AGRemapCore {
                                    .str();
                     }
 
+                    // ...and the same for a role the mod DOES serve, downloaded for the draws that
+                    // happen before its section binds anything -- see lateBindRegs_.
+                    for (const auto& entry : gameFallbacks_) {
+                        out += SectionText(z3_, entry.second.resource)
+                                   .key(IniKeywords::Filename, entry.second.relPath)
+                                   .str();
+                    }
+
                     if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
                         out += SectionText(z3_, fixName(IniKeywords::Resource + ShapeKeyZero))
                                    .keys({{IniKeywords::Type, "Buffer"},
@@ -4755,6 +4903,120 @@ namespace AGRemapCore {
                     }
                 }
 
+                /**
+                 * @brief
+                 @rst
+                 The source's OWN game texture for every role a split section's pre-binding draws
+                 need, with that role's edits run on it
+                 @endrst
+                 *
+                 * A component section that draws before it binds anything has two binding
+                 * generations in it (see #lateBindRegs_). The first renders with the textures the
+                 * game had bound when it matched the draw -- the source character's -- so after the
+                 * remap those draws must be given the source's own art, downloaded, and not the
+                 * mod's.
+                 *
+                 * A role the mod has no file for is already exactly that: ``fallbackTextures``
+                 * downloaded it and every edit of the role ran on it, so the two generations agree
+                 * and nothing is added. Only a role the mod DOES serve needs a second file.
+                 */
+                void planGameTexEdits() {
+                    if (lateBindRegs_.empty() || gaveUp_
+                            || config_.sourceTextures.downloadCharFolder.empty()) {
+                        return;
+                    }
+
+                    const WWMITextureFacts& source = config_.sourceTextures;
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+
+                    std::set<std::string> roles;
+                    for (const auto& entry : lateBindRegs_) {
+                        auto planned = config_.plan.find(entry.first);
+                        if (planned == config_.plan.end()) {
+                            continue;
+                        }
+
+                        for (const WWMIFixerConfig::Binding& binding : planned->second.bindings) {
+                            if (binding.role != IniKeywords::Null) {
+                                roles.insert(binding.role);
+                            }
+                        }
+                    }
+
+                    std::vector<std::string> downloaded;
+                    for (const std::string& role : roles) {
+                        if (leftToGame_.count(role) > 0) {
+                            continue;   // deliberately not bound at all: the game's own is right
+                        }
+
+                        if (fileOfRole_.count(role) == 0) {
+                            // already the source's game texture, edits and all
+                            const std::string* resolved = sharedResourceFor(role);
+                            if (resolved != nullptr) {
+                                gameResourceOfRole_[role] = *resolved;
+                            }
+
+                            continue;
+                        }
+
+                        auto hash = source.fallbackTextures.find(role);
+                        if (hash == source.fallbackTextures.end()) {
+                            note("the draws " + config_.slotPrefix + " sections make before binding "
+                                 "anything need " + source_.name + "'s own " + role
+                                 + ", and fallbackTextures has no hash for it -- those draws keep "
+                                 "the target's texture at the mod's UVs");
+                            continue;
+                        }
+
+                        const std::string kind = TextTools::capitalize(role) + GameSuffix;
+                        const std::string fileName =
+                            DownloadTools::fixedFileName(source.downloadPrefix, kind, FileExt::DDS);
+                        const std::string resource =
+                            IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL;
+                        const std::string relPath = modFile(textureFolder_, fileName);
+                        gameFallbacks_[role] = Fallback{
+                            DownloadTools::downloadFolder() + "/"
+                                + DownloadTools::urlPath(source.downloadGameFolder, source.downloadCharFolder,
+                                                         source.downloadVersionFolder, source.downloadPrefix,
+                                                         "Texture" + hash->second, FileExt::DDS),
+                            fileName, relPath, resource};
+                        gameResourceOfRole_[role] = resource;
+                        downloaded.push_back(role);
+
+                        // ...and the role's own edits, on this file too. The target's shader reads
+                        // it the same way whichever generation bound it, so a mask still needs its
+                        // repack and a diffuse its alpha clamp.
+                        for (const WWMIFixerConfig::TexEdit& edit : config_.texEdits) {
+                            if (edit.role != role || !edit.makeFilter) {
+                                continue;
+                            }
+
+                            const std::string editedRel =
+                                modFile(textureFolder_,
+                                        source.downloadPrefix + TextTools::capitalize(role) + edit.name
+                                        + GameSuffix + IniKeywords::RemapTex + FileExt::DDS);
+                            const std::string editedResource =
+                                fixName(IniKeywords::Resource + TextTools::capitalize(role) + edit.name
+                                        + GameSuffix + IniKeywords::RemapTex);
+                            plannedEdits_.push_back(PlannedEdit{
+                                &edit, FileService::absPathOfRelPath(relPath, folder), editedRel});
+                            editedResources_.emplace_back(editedResource, editedRel);
+                            gameResourceOfRole_[role] = editedResource;
+                        }
+                    }
+
+                    if (!downloaded.empty()) {
+                        std::string names;
+                        for (const std::string& role : downloaded) {
+                            names += (names.empty() ? "" : ", ") + role;
+                        }
+
+                        ctx_.log(std::to_string(lateBindRegs_.size()) + " component section(s) draw "
+                                 "before binding a texture register, so those draws take "
+                                 + source_.name + "'s own " + names + " rather than the mod's");
+                    }
+                }
+
                 void addTexEdits() {
                     if (plannedEdits_.empty()) {
                         return;
@@ -5183,7 +5445,12 @@ namespace AGRemapCore {
 
                 void addFallbackDownloads() {
                     IniFile* ini = ctx_.getIniFile();
-                    for (const auto& entry : fallbacks_) {
+                    std::map<std::string, Fallback> every = fallbacks_;
+                    for (const auto& entry : gameFallbacks_) {
+                        every[entry.first + GameSuffix] = entry.second;
+                    }
+
+                    for (const auto& entry : every) {
                         const std::string path = FileService::absPathOfRelPath(entry.second.relPath, ini->getFolder());
                         if (listsSrcPath(ini->getFileDownloads(), path)) {
                             continue;
@@ -5222,6 +5489,9 @@ namespace AGRemapCore {
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;
                 std::map<std::string, Fallback> fallbacks_;           // role -> the source's game texture, for a planned role the mod has no file for
+                std::map<std::string, Fallback> gameFallbacks_;      // ...and the same download for a role the mod DOES serve, for the pre-binding draws of a split section
+                std::map<std::string, std::string> gameResourceOfRole_;  // role -> what a pre-binding draw binds: the source's own game texture, edited
+                std::map<int, std::vector<std::string>> lateBindRegs_;   // source component -> the registers its own section binds AFTER it has already drawn
                 std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
                 std::vector<std::string> textureLists_;
                 std::unordered_map<std::string, std::string> passFilters_;

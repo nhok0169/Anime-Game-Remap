@@ -3586,6 +3586,95 @@ on a Sanhua mod -- and wrong where it is a register the slot's own plan uses.
 
 <br>
 
+### TWO BINDING GENERATIONS IN ONE SECTION, AND THE FIX GAVE BOTH OF THEM THE MOD'S ART (2026-10-03)
+
+The maintainer: *"the hat texture is not rendering"*, and then *"the texture of the bandages on
+Chisa's breast are not rendering / wrong texture"*. Both are ChisaParfait3, both are component 3,
+and neither is a texture problem in the sense the words suggest -- **the fix bound the wrong atlas
+to them**, and it did so for a reason that is a property of the SECTION rather than of the texture.
+
+A WWMI component section may **draw before it binds anything**:
+
+```
+[TextureOverrideComponent3]
+    run = CommandListOverrideSharedResources
+    if $key_4 == 1
+        drawindexed = 6009, 122481, 0      ; the hat
+    endif
+    if $key_1 == 1
+        drawindexed = 1500, 105372, 0      ; the chest bandages
+    endif
+    ... eleven more toggled accessories ...
+    ps-t0 = ResourceTexture3_0             ; GENERATION 1 STARTS HERE
+    ps-t1 = ResourceTexture3_1
+    ps-t2 = ResourceTexture3_2
+    ps-t3 = ResourceTexture3_3
+    drawindexed = 140979, 142263, 0        ; the custom body, on the MOD's art
+```
+
+Everything above the `ps-t` lines renders with **whatever the game had bound when it matched the
+draw** -- the SOURCE character's own atlas. The author wrote it that way on purpose: those parts are
+the game's art, and only the custom body is repainted. After a remap the register holds the
+**TARGET's** texture at the source's UVs, so the fix has to bind the source's own, downloaded.
+
+It was binding one list at the top of the section instead, which gave every draw the mod's body
+atlas. The hat's UV island sits on a pale, near-featureless part of that atlas, so the hat rendered
+as flat skin -- "not rendering". The bandages likewise. Component 4 had the same shape and six of
+its seven draws, the skirt and the boots among them, were wrong the same way.
+
+**The thing that decides which shape a mod is, is not in the section at all.** `CheckTextureOverride
+= ps-tN` fires a `TextureOverride` keyed on the hash of whatever is bound at that register, and that
+section's `this =` swaps in the mod's file -- so a mod declaring those gets its own art on every
+draw whether its section binds the register or not. Measured over this repo's WuWa corpus: every
+Sanhua mod declares between 20 and 72 of them, 22 of the 25 Chisa mods do, and **ChisaParfait3
+declares none**. That is the whole difference between the mod that broke and the mods that did not,
+and reading the component sections alone cannot see it. `WWMIFixer` now gates on it.
+
+Of 544 component sections in the corpus, **508 bind nothing** (every draw on the game's art, which
+`fallbackTextures` already handled), **33 bind before they draw** (every draw on the mod's art,
+which the list at the top was written for), and **3 are this shape**. Two of the three are
+ChisaParfait3; the third is Sanhua2's component 5, which declares 44 hash overrides and so is
+correctly left alone.
+
+**A generation the mod does not rebind keeps what generation 0 left, and that is right.** The first
+version of this fix re-ran the mod-art list at the point generation 1 begins, and that is wrong
+twice over: the carried `ps-t` lines overwrite it immediately, and where they do not, it would
+replace a game texture the mod deliberately kept. Component 4 binds only `ps-t3`; its normal and its
+mask are meant to stay the game's.
+
+**The check for this is structural, because the pixel check does not work.** The obvious test --
+sample the bound texture at the draw's UV island and call a low standard deviation "blank" -- was
+written first, run against the broken build, and **passed it**: a texture edit is written
+uncompressed and the gamma round trip moves every pixel (mean |diff| **26 of 255** on this mod's
+body atlas), so the same island measured through two different edits is not comparable, and the hat
+scored 0.86 against the right atlas's 0.95. `Tools/Misc/Diagnostics/wwmiDrawArt.py` asks the
+structural question instead -- which generation each draw belongs to, and whether a generation-0
+draw was left on a file the fix derived from the mod rather than from the download. Against the
+build this was found on it reports **21 such draws**; after the fix, none.
+
+**AND THE SAME DEFECT HAS A SECOND SHAPE THAT IS NOT FIXED YET.** A section that binds *nothing*
+leaves every draw to the game too -- and `fallbackTextures` only covers a role the mod has no file
+for, so a mod that ships a repainted file for a role it never binds still gets it. ChisaParfait2 is
+exactly that: zero texture overrides by hash, zero `ps-t` lines in any component section, and **37
+draws** the game textured that the fix gives the mod's art. It is left alone here because this
+change was validated on the split shape only and ChisaParfait2 is confirmed in game as it stands --
+24 of its 51 textures are the game's own pixel for pixel, which is probably why. Measure before
+changing it.
+
+<br>
+
+### AND THE CARRIED LINES CAN CLOBBER A FALLBACK THE FIX JUST CHOSE
+
+Found while reading the above and **not yet fixed**. ChisaParfait3's `3_1.dds` is a single colour --
+one distinct RGBA over 2048x2048 -- so `flatFallsBackToSource` rejects it and the fix downloads and
+repacks ChisaParfait's own upper mask. Then the mod's own carried `ps-t1 = ResourceTexture3_1`
+rebinds the flat file over it for the main body draw, because a resource the scan REJECTED resolves
+to no role and `CarriedTexRegs` leaves a line it has no opinion about alone. The rule it is
+following is right (`ps-t17 = ResourceClothFX` must survive); the gap is that a rejected file is not
+the same as an unknown one, and should be dropped rather than kept.
+
+<br>
+
 ### AND AN EDIT IS WRITTEN UNCOMPRESSED AND UNFLAGGED, SO A COLOUR EDIT KEEPS ITS GAMMA
 
 `maskRepackFilter` and `hairNormalFilter` both open with `tex.setGamma(std::nullopt)` because they

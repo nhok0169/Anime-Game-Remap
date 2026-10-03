@@ -3557,11 +3557,25 @@ endif
   role's edit has already claimed is left to that role, so one file in two groups is not edited
   twice.
 
-**The check that does not need the game, and would have caught both rounds:** resolve every `ps-t`
-binding the fix writes to its file and print the file's alpha ceiling. Anything above the target's
-band on a diffuse register is a glow waiting for a toggle. On this mod it now prints two raw
-bindings at `ps-t2` -- and they are harmless only because each is overwritten by a clamped binding
-before the next draw.
+**The check that does not need the game, and would have caught both rounds:**
+`Tools/Misc/Diagnostics/wwmiBindingAlpha.py` resolves every `ps-t` binding the fix writes to its
+file and prints the file's alpha ceiling. Anything above the target's band on the diffuse register
+and still live at a draw is a glow waiting for a toggle; `--strict` exits 1 on one.
+
+**Its first version passed against the very bug it was written for**, which is habit 34 arriving on
+schedule. It took the LAST write to a register in a section as the one a draw sees -- and the raw
+file sat in `if $key2 == 1` with the clamped copy in the `else`, so the later line looked like it
+overwrote the earlier when the two are alternatives and only ever one of them runs. A later write
+kills an earlier one only if its branch PATH is a prefix of the earlier's; a sibling branch kills
+nothing, and a write nested deeper is itself conditional and kills nothing either. With that rule
+it fails on the broken `.ini` and passes on the fixed one, which is the pair of runs that makes it
+worth keeping.
+
+**And the band is PER CHARACTER.** Chisa's own body diffuses top out at 119 and ChisaParfait's at
+134, but **Sanhua's own textures carry alpha 255 with a mode of 255** -- 14 of her 18 large ones sit
+above Chisa's band. Run with Chisa's defaults against a Sanhua mod and it reports four defects that
+do not exist. Measure the ceiling from the target's own download folder first, and set `--reg` to
+the register the TARGET reads its diffuse at, which is not the one the source binds it at.
 
 **Which is the next thing to look at.** Those two are ChisaParfait's DETAIL map, a role the fix
 deliberately drops; `CarriedTexRegs` leaves an unknown role alone, and on Chisa `ps-t2` is the

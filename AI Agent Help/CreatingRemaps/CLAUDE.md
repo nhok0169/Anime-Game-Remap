@@ -3433,6 +3433,55 @@ instrument failures rather than domain mistakes. A statistic over guessed pixel 
 the background and the UID box. A hue classifier over a painted frame conflated yellow with orange
 and was not trusted. What worked every time was turning one draw off and looking.
 
+### A RED GLOW ON ONE MOD: NINE PROBES, AND TWO OF THEM LIED (2026-10-03, OPEN)
+
+ChisaParfait3 renders with a bright red aura around the whole character -- in game, and in a frame
+dump as a body silhouette written **flat saturated red** into `o0` where the same draw of a clean mod
+writes black. The other three mods of the pair are clean. **It is not fixed. What follows is the
+eliminated set, so the next session does not re-run any of it.**
+
+**What is established.** Suppressing the fifteen `drawindexed` lines of
+`TextureOverrideComponent3<Fix>` removes the glow completely -- and removes the body with it, so that
+draw both paints the upper body and produces the aura. Nothing narrower than the whole draw has moved
+it.
+
+**Eliminated, each by its own probe:**
+
+| probe | result |
+| --- | --- |
+| the material mask, **deleted** so the register keeps the game's | still glows |
+| a flat mask coded as CLOTH (`R = 0`), the gloss and packing kept | still glows |
+| the normal map unbound | still glows |
+| the diffuse's alpha clamped from 255 to **102**, the band both characters' own body diffuses sit in | still glows |
+| the diffuse at **half** brightness | still glows |
+| the atlas's saturated-red band (`U` 0.85..1.0) painted **green** | still glows, and **no green anywhere on the body** |
+| `3_3.dds` and `3_3_0.dds` **replaced on disk** by flat magenta | still glows, and the body does not change colour |
+| the pass gate (`if vs == <slot 3's pass>`) removed from the texture list | still glows, still no magenta |
+| the mod's own UI `.ini` disabled | still glows |
+
+**Two earlier probes had said the opposite, and both were wrong.** They are the reason this section
+exists.
+
+* **`ps-t2 = null` removed the glow** -- and a null UNBINDS, so the shader samples zero and the body
+  goes black. Every albedo-modulated term disappears with it. That is not a bisect, it is turning the
+  lights off, and it sent the search after the diffuse's contents for hours. The guide already says
+  to **delete** a binding rather than null it when the question is "what is this register for"; the
+  same rule applies when the question is "is this register the cause".
+* **A flat magenta at `ps-t2` removed the glow** -- written with `TextureFile.saveAs` from a 2048
+  source, which produced an **uncompressed BGRA** `.dds` the game does not load. An unloadable probe
+  is a null with extra steps. Re-made as a real `BC7` copy of the texture it replaced, it glows like
+  everything else. **Check a probe texture's `DXGI` format and byte count before believing a result
+  that depends on it** -- `4096**2` BC7 and `2048**2` BGRA are both 16777364 bytes, so size alone
+  does not tell them apart.
+
+**And the live lead, which is a second defect either way:** the fix's own component-3 bindings never
+reach component 3's draw. Replacing `3_3.dds` on disk changes nothing on screen, gated or ungated,
+while a frame dump of the slot-3 draw shows `ps-t2` holding **`4_3.dds`** -- the file component 4
+binds. So the body is painted by a neighbouring component's atlas and the role the config resolved
+for component 3 is discarded before the draw. Find out which section writes `ps-t2` last.
+
+<br>
+
 ### THE GHOST BODY WAS THE PREVIOUS-POSE SKELETON, AND THE IDENTITY MOD IS WHAT NAMED IT (2026-10-03)
 
 **`vs-cb4` is the pose a draw is skinned with; `vs-cb3` is the PREVIOUS frame's, which the shader

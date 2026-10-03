@@ -31,6 +31,11 @@ namespace AGRemapCore {
     namespace {
         // ---- the hair's ps-t5, repacked into CHISA's layout --------------------------------------
         //
+        // Chisa's own body masks carry these two over every texel of both body slots; the skin's
+        // carry 126 and 0. Measured on 3f0e6f21 and 9a92af7f -- see maskRepackFilter.
+        constexpr std::uint8_t TargetMaskB = 0;
+        constexpr std::uint8_t TargetMaskA = 255;
+
         // The inverse of ChisaFixer's hairNormalFilter, and not a copy of it: the two characters
         // pack this map DIFFERENTLY, so the constants are different and had to be measured on
         // Chisa's own art rather than carried across.
@@ -69,6 +74,39 @@ namespace AGRemapCore {
         // UV-MAPPED map, the geometry drawn through the slot is the mod's, and the other character's
         // art lands at UVs it was never authored for -- reported twice on the forward direction as
         // magenta blotches on the strands.
+        /**
+         * @brief The body material mask, repacked from the skin's channel layout into Chisa's
+         *
+         * The inverse of nothing -- the forward direction's maskFilter translates a LEGEND, because
+         * Chisa's R carries a flesh band (128..230) that has to be resolved against the diffuse.
+         * This way round there is no band to resolve: the skin spells bare skin 255 and cloth 0, and
+         * so does Chisa, so R passes through. What does NOT pass through is the packing of the other
+         * two channels, measured on the two characters' own lower-body masks:
+         *
+         *     Chisa's 3f0e6f21      B = 0   over 100%      A = 255 over 100%
+         *     the skin's 9a92af7f   B = 126 over 80.5%     A = 0   over 91.7%
+         *
+         * Bound raw, that drew a scalloped boundary across the thigh on every mod of hers -- the
+         * ghost body reported on 2026-10-02. Nulling the mask clears it and so does binding this.
+         *
+         * G is kept: it is how shiny the surface is, which is the author's to choose. (The forward
+         * direction replaces it, for the opposite reason -- Chisa's own G is a CONSTANT, so there is
+         * nothing in it to preserve.)
+         */
+        TexEditor::Filter maskRepackFilter() {
+            return [](TextureFile& tex) {
+                tex.setGamma(std::nullopt);          // these bytes are data, not colour
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                    px[i + 2] = TargetMaskB;
+                    px[i + 3] = TargetMaskA;
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+
+
         TexEditor::Filter hairNormalFilter() {
             return [](TextureFile& tex) {
                 tex.setGamma(std::nullopt);          // these bytes are data, not colour
@@ -454,6 +492,23 @@ namespace AGRemapCore {
         config.texEdits = {
             {"hairNormal", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
                  return hairNormalFilter();
+             }},
+
+            // Every mask bound on a BODY slot -- the four roles flatFallsBackToSource names, which
+            // is the same set for the same reason: they are the ones Chisa's body shaders read.
+            // The hair masks are left to the game (flatLeftToGame) and the face mask is not bound
+            // at all, so neither needs repacking.
+            {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+            {"lowerMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+            {"panelMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+            {"propMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
              }},
         };
 

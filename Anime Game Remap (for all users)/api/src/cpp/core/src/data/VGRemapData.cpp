@@ -1628,6 +1628,22 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "",
           "2.8", ModTypeIdTools::getName(ModTypeId::Chisa), ""},
          VGRemap({
+            // THE TWO SHOULDER BONES ARE ANCHORED TO HER BODY NOW (2026-10-03): both arms
+            //   swung like noodles, and these two are why. ChisaParfait's 32 and 44 are weighted
+            //   59%/41% and 61%/39% by her HAIR and her UPPER BODY -- one bone driving both --
+            //   while Chisa's 48 and 57, which they used to take, are weighted 100% by her hair.
+            //   So about 40% of each bone's influence, the shoulder and upper arm, rode her hair
+            //   simulation. Symmetric, which is why BOTH arms did it.
+            //
+            //   224 and 223 are a mirror pair, both free, both 100% upper body. The overlap with
+            //   the source's own influence box is only 0.16 and 0.13 -- Chisa has no body bone
+            //   covering z 130..139 at the shoulder at all, that region of her is hair -- so this
+            //   is the Yelan remedy: a part the target has no counterpart for takes ONE rigid
+            //   anchor. The cost is that the hair share of those two bones stops swinging; a
+            //   rigid shoulder is worth far more than an arm riding a cloth solve.
+            //
+            //   Mirror pair to mirror pair on purpose. An earlier attempt moved one side only and
+            //   the other arm came out visibly crooked at rest.
             // HANDS ARE THE INVERSE OF THE FORWARD ROW'S NOW (2026-10-01): the same defect as the
             //   forward direction and worse -- 9 of her right hand's 18 bones off their exact
             //   counterpart, 18 collapsing onto 14 targets, and the two HEAVIEST bones in the hand,
@@ -1642,8 +1658,8 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {9, 9},
             {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14}, {15, 15}, {16, 16}, {17, 17}, {18, 18}, {19, 19},
             {20, 20}, {21, 21}, {22, 22}, {23, 23}, {24, 24}, {25, 25}, {26, 26}, {27, 77}, {28, 78}, {29, 79},
-            {30, 80}, {31, 46}, {32, 48}, {33, 49}, {34, 53}, {35, 52}, {36, 51}, {37, 47}, {38, 46}, {39, 110},
-            {40, 109}, {41, 108}, {42, 107}, {43, 106}, {44, 57}, {45, 58}, {46, 0}, {47, 50}, {48, 128}, {49, 127},
+            {30, 80}, {31, 46}, {32, 224}, {33, 49}, {34, 53}, {35, 52}, {36, 51}, {37, 47}, {38, 46}, {39, 110},
+            {40, 109}, {41, 108}, {42, 107}, {43, 106}, {44, 223}, {45, 58}, {46, 0}, {47, 50}, {48, 128}, {49, 127},
             {50, 91}, {51, 89}, {52, 37}, {53, 126}, {54, 124}, {55, 125}, {56, 45}, {57, 136}, {58, 137}, {59, 138},
             {60, 139}, {61, 140}, {62, 13}, {63, 88}, {64, 87}, {65, 90}, {66, 60}, {67, 59}, {68, 56}, {69, 55},
             {70, 54}, {71, 0}, {72, 152}, {73, 187}, {74, 179}, {75, 154}, {76, 177}, {77, 163}, {78, 253}, {79, 254},

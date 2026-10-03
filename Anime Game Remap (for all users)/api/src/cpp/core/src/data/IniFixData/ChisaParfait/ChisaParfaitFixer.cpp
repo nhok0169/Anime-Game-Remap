@@ -392,7 +392,18 @@ namespace AGRemapCore {
         //
         // Component 5 alone for now. Her other cloth (3, 4, 7) shows nothing of the kind in game,
         // and a twin costs a draw and a buffer, so it goes on the component that needs it.
-        config.mirroredComponents = {5};
+        // NO BACK-FACE TWIN (2026-10-03). It was added on 2026-10-02 against "dark patches on the
+        // skirt", which were the TAA smear of the previous-pose skeleton -- see
+        // WWMIFixerConfig::bindPrevPoseAlways -- and survived the twin because the twin was never
+        // what caused them. What the twin DID cause is a second, coincident copy of the skirt: it
+        // carries no position offset, so it z-fights the surface it mirrors and its turned-round
+        // normals shade the losing pixels dark. The maintainer found it by deleting one line from
+        // the fixed `.ini`, `drawindexed = 28176, 0, 0` in the slot-5 section, which is the twin's
+        // own draw into the mirrored buffer.
+        //
+        // The machinery stays (`mirroredComponents`, MirrorTwin, the mirrored buffers): GI's
+        // Neuvillette needs exactly this for single-layer cloth, and if a WuWa pair ever does, it
+        // wants the `mirrorOffset` that side already learned it needs.
 
         // ---- the passes that take a slot's art at a DIFFERENT register ---------------------------
         // `slotPasses` above names the pass that SETS each slot's whole register set. Chisa draws

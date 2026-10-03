@@ -3979,12 +3979,32 @@ written up as "the fault is the mod's own bytes" after a bisect to `ps-t2`. Its 
 are **pale**: `3_3.dds` means (252, 213, 207), `4_3.dds` (212, 162, 167), `5_3.dds` (194, 148, 154).
 Nothing about the art is red, so the red comes from the pipeline. Nor is it the MASK, which was the
 next suspect because that mod ships none and takes ChisaParfait's own as a download: nulling `ps-t1`
-on components 3, 4 and 5 changes the picture not at all. What it looks like, at a zoom where the
-parts separate, is channel-isolated -- the top and sleeves flat RED, the skirt flat YELLOW, while
-the hat, the bikini, the belt and the sash are correct -- which is this file's own signature for a
-texture EDIT that ran on a file that is not the role it was assigned. Open; the next step is which
-file the one edit this direction has (`hairNormal`, which keeps G and zeroes R, B and A) actually
-read.
+on components 3, 4 and 5 changes the picture not at all. What it looks like, at a zoom where the parts
+separate, is channel-isolated -- the top and sleeves flat RED, the skirt flat YELLOW, while the hat,
+the bikini, the belt, the sash and the garter are correct.
+
+**Six things it is NOT, each by a probe rather than an argument:**
+
+* **the mod's art** -- its three body diffuses are pale, (252, 213, 207), (212, 162, 167) and
+  (194, 148, 154);
+* **the mask** -- nulling `ps-t1` on components 3, 4 and 5 changes the picture not at all, which on
+  another mod visibly moves the thigh outline, so the probe works;
+* **the fix's texture lists not running** -- a flat MAGENTA on their `ps-t2` turns the bikini, the
+  belt, the sash, the garter and the hat trim magenta, so the lists run and the mod does draw
+  through the fix, while the red top and the yellow skirt are untouched;
+* **the extra-pass lists** -- the same magenta on the `...TexturesPass0` lists likewise;
+* **Chisa's own geometry showing through** -- with every Chisa mod parked, her own outfit is a dark
+  school uniform with a red neckerchief, nothing like a red top and a yellow skirt;
+* **a pass the config does not name** -- a frame dump taken WITH the mod installed
+  (`FrameAnalysis-ChisaParfait3Remap-2026-10-02-204847`, 194 draws) says every pass that draws the
+  UPPER or LOWER body is already named: `c9cdf1b99fb01750`, `3bbc20374cc3d229`,
+  `f8c96a270bf847dd` and `50f2ed8061f3d351` (that last one in `passVertexShaders`, with a comment
+  saying it sets nothing and inherits). The passes the config names nowhere draw the front hair,
+  the face and the panel/prop -- not the top and not the skirt.
+
+Open. The dump is kept for whoever takes it; the untried lead is which register of
+`c9cdf1b99fb01750` the top's colour actually comes from, since the plan's `ps-t2` demonstrably is
+not it on this mod.
 
 **WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
 wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,

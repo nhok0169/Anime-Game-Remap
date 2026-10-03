@@ -34,9 +34,11 @@
 #   py -3 wwmiDrawArt.py "<fixed mod folder>" --fix ChisaRemapFix --strict
 #
 # The names it matches (`RemapDL`, `RemapTex`) are the fix's OWN boilerplate, not a third party's --
-# which is the one condition under which a keyword test over names is safe here.
+# which is the one condition under which a keyword test over names is safe here. That is the safe
+# kind of keyword test and it is STILL WRONG often enough to need the list below: read a hit as a
+# place to look, never as a defect.
 #
-# TWO THINGS IT GETS WRONG, BOTH MEASURED RATHER THAN GUESSED AT:
+# THREE THINGS IT GETS WRONG, ALL MEASURED RATHER THAN GUESSED AT:
 #
 #   * `--reg` defaults to `ps-t2`, which is CHISA's diffuse register. Run it on the other direction
 #     without changing that and it reads whatever sits at `ps-t2` there -- on Chisa17 that is the
@@ -44,13 +46,22 @@
 #     Set `--reg` to the register the TARGET of the run reads its diffuse at.
 #   * a texture the fix CREATES (a flat neutral stood in for a role the source lacks) carries
 #     neither mark and reads as the mod's art.
+#   * AN EDIT DERIVED FROM A DOWNLOAD CARRIES NEITHER MARK EITHER, so a correctly bound download
+#     reads as the mod's art (2026-10-03). This is what made it report "37 draws left on the mod's
+#     art" for ChisaParfait2, which a later audit measured properly: of that mod's 51 textures, 24
+#     are the game's own pixel for pixel and all 24 undeclared, 3 differ from vanilla and all 3 are
+#     declared and correctly resolved, and ZERO are undeclared-and-different. Nothing was wrong.
+#     Count what is at stake before believing a number this prints.
 #
 # What it gets right, on the corpus it was written against: 21 draws on ChisaParfait3 before the fix
-# and 1 after, 0 on all 11 Sanhua mods and on 7 of the 9 Chisa ones, both before and after. The
-# remaining one is ChisaParfait2, which declares no texture override by hash AND binds nothing in
-# its sections -- 37 draws the game textured and the fix gives the mod's art. That is the same
-# defect in its other shape and is NOT fixed yet: this change covers only a section that binds after
-# it has already drawn.
+# and 1 after, 0 on all 11 Sanhua mods and on 7 of the 9 Chisa ones, both before and after. The one
+# remaining draw is ChisaParfait3's component 7, on a texture that is itself vanilla, so the two
+# answers agree.
+#
+# The "binds nothing at all" shape -- a section with no `ps-t` of its own, in a mod declaring no
+# texture override by hash -- is deliberately NOT fixed: measured, it is benign, because such a mod
+# binds the game's textures on its own character too and the fallback download reproduces them. See
+# the guide section below.
 #
 # Written 2026-10-03. See `AI Agent Help/CreatingRemaps/CLAUDE.md`, "TWO BINDING GENERATIONS IN ONE
 # SECTION".

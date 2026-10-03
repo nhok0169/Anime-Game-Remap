@@ -3869,26 +3869,144 @@ structural question instead -- which generation each draw belongs to, and whethe
 draw was left on a file the fix derived from the mod rather than from the download. Against the
 build this was found on it reports **21 such draws**; after the fix, none.
 
-**AND THE SAME DEFECT HAS A SECOND SHAPE THAT IS NOT FIXED YET.** A section that binds *nothing*
-leaves every draw to the game too -- and `fallbackTextures` only covers a role the mod has no file
-for, so a mod that ships a repainted file for a role it never binds still gets it. ChisaParfait2 is
-exactly that: zero texture overrides by hash, zero `ps-t` lines in any component section, and **37
-draws** the game textured that the fix gives the mod's art. It is left alone here because this
-change was validated on the split shape only and ChisaParfait2 is confirmed in game as it stands --
-24 of its 51 textures are the game's own pixel for pixel, which is probably why. Measure before
-changing it.
+**AND THE SAME DEFECT HAS A SECOND SHAPE, WHICH WAS MEASURED AND IS BENIGN (2026-10-03).** A section
+that binds *nothing* leaves every draw to the game too, and `fallbackTextures` only covers a role the
+mod has no file for -- so in principle a mod shipping a repainted file for a role it never binds
+still gets it. ChisaParfait2 is that shape: zero texture overrides by hash, zero `ps-t` lines in any
+component section. The audit counted what is actually at stake instead of fixing it: of its **51**
+textures, **24 are the game's own pixel for pixel and all 24 are undeclared; 3 differ from vanilla
+and all 3 are DECLARED and correctly resolved to the mod's own files; ZERO are
+undeclared-and-different**. Falling back to the downloaded game texture reproduces exactly what the
+game binds on her, so nothing is lost. Left alone deliberately.
+
+**And the "37 draws" that number came from was my own tool over-reporting.**
+`wwmiDrawArt.py` decides "this is the source's art" from the fix's own file NAMES (`RemapDL`,
+`Game...RemapTex`), and an edit derived from a download carries neither -- so it counts a correctly
+bound download as a defect. The genuine case in that corpus is ChisaParfait3's component 7: **one**
+draw, on a texture that is itself vanilla. A naming test over the fix's own boilerplate is the safe
+kind, and it was still wrong; the header now says so.
 
 <br>
 
-### AND THE CARRIED LINES CAN CLOBBER A FALLBACK THE FIX JUST CHOSE
+### A CARRIED LINE PUT BACK A FILE THE SCAN HAD REFUSED (2026-10-03)
 
-Found while reading the above and **not yet fixed**. ChisaParfait3's `3_1.dds` is a single colour --
-one distinct RGBA over 2048x2048 -- so `flatFallsBackToSource` rejects it and the fix downloads and
-repacks ChisaParfait's own upper mask. Then the mod's own carried `ps-t1 = ResourceTexture3_1`
-rebinds the flat file over it for the main body draw, because a resource the scan REJECTED resolves
-to no role and `CarriedTexRegs` leaves a line it has no opinion about alone. The rule it is
-following is right (`ps-t17 = ResourceClothFX` must survive); the gap is that a rejected file is not
-the same as an unknown one, and should be dropped rather than kept.
+ChisaParfait3's `3_1.dds` is a single colour -- one distinct RGBA over 2048x2048 -- so
+`flatFallsBackToSource` refuses it and the fix downloads and repacks ChisaParfait's own upper mask.
+Then the mod's own carried `ps-t1 = ResourceTexture3_1` re-bound the flat file over it, **after the
+fix's list and OUTSIDE the `if vs == ...` guard that list sits behind**, so unconditionally, at the
+140979-index draw that is the mod's whole custom body -- whose shader reads `R = 255` as bare skin.
+
+The cause is that a refused file resolves to NO role, and `CarriedTexRegs` deliberately leaves alone
+a line it has no opinion about. That rule is right -- `ps-t17 = ResourceClothFX` must survive -- and
+the gap is that **a file the fix looked at and refused for this very role is not the same as an
+unknown one**.
+
+`reject()` now records `(resource, the role it was refused for)` at both rejection sites, `roleOf`
+consults it so the line resolves to a role instead of being skipped, and `editedOf` re-points it at
+whatever the role did resolve to. Where nothing stands in at all (`flatLeftToGame`) it answers
+EMPTY and the line is dropped rather than replaced, which leaves the game's own texture bound --
+what the mod renders with on its own character, and strictly better than binding a file the fix
+refused. Nothing returned empty before, so that branch is inert for every other caller.
+
+Over the 22-mod corpus this moves **one file, by one line**.
+
+<br>
+
+### THE TWO DIRECTIONS OF A PAIR MUST AGREE ABOUT EVERY SHADER THEY BOTH TAG (2026-10-03)
+
+The worst defect the audit found, because no single-direction test can see it and it needs two mods
+to appear. A `[ShaderOverride]` is keyed by shader hash **across every loaded `.ini`**, and a shader
+holds ONE filter index. Seven of Chisa's vertex shaders are also ChisaParfait's, so a user with one
+mod of each installed -- the ordinary case, with eighteen Chisa mods against three ChisaParfait ones
+-- has two files claiming the same shader. Whichever 3dmigoto loaded last wins, and the other mod's
+`if vs == ...` never matches: its textures are silently unbound.
+
+`ChisaParfaitFixer.cpp` already knew this and pinned its table. It was still wrong, because it had
+**transcribed** the shared values off a forward-fixed `.ini` while `ChisaFixer.cpp` DERIVES its own
+from `filterBase`/`filterStep` in map-iteration order -- so adding a pass to the forward renumbered
+everything after it and the transcription went stale:
+
+| shader | the reverse declared | the forward actually emits |
+| --- | --- | --- |
+| `6a6650a9db8983ce` | 3381.722 | **3381.73** |
+| `e4a3da6d1d1068b9` | 3381.723 | **3381.731** |
+| `fd12d3374ac7a7dd` | 3381.73 | **3381.732** |
+| `5fd6e5bb6ff81c53` | *not declared at all* -> `filterBase` 3381.91 | **3381.718** |
+
+Two of the wrong values are live hashes of the forward's own table, so the reverse's lists could
+also fire on the **wrong** shader, not merely miss their own. `5fd6e5bb6ff81c53` is the vertex
+shader ChisaParfait's eye pass runs on.
+
+**A transcribed value is a snapshot; name them on both sides.** The forward now declares every value
+it already emits -- so nothing of its output moves and they stop drifting -- and the reverse's four
+are corrected. `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check, and the honest form of it
+reads the fixed `.ini` of every installed mod of BOTH directions and reports any shader carrying two
+values: 3 conflicts before, 0 after, over all 29 shaders the pair tags.
+
+The ranges in use, for a pair that needs new ones: the Chisa forward occupies 3381.710..3381.734,
+the reverse 3381.76..3381.768, and the Sanhua pair .81-.84 and .91-.96. **`filterBase` is a trap for
+the unwary** -- its default is 3381.91, which is also Sanhua's hair shader, so a shader left out of
+`filterIndices` lands in another pair's range.
+
+<br>
+
+### A RECOLOUR IN A SIBLING `.ini` WAS THROWN AWAY (2026-10-03)
+
+One of the commonest GameBanana shapes, and `makeWWMIFixer` discarded it entirely. The mod is its
+mesh in one `.ini` and, beside it, another holding nothing but
+
+```
+[TextureOverrideFoo]
+hash = <the GAME texture it replaces>
+this = ResourceFoo
+```
+
+On the mod's own character the game binds that texture, so the override reaches the mesh and the
+recolour shows. Remapped, the slots take the TARGET's textures and those hashes never appear, so the
+character rendered **vanilla**. Measured on a synthetic built from the identity mod: 27 files
+declared, **0 bound**, and 16 of the target's own downloaded in their place.
+
+The GI component template has read its siblings for this since NeuvilletteMelusent1's `tex.ini`;
+the WuWa one did not. `readSiblingRecolours` adds the sibling's files as role candidates, and three
+things make it safe: the role is **stated rather than guessed** (the section's `hash` is the game
+texture it replaces, and `WWMITextureFacts::roles` is already `hash -> role`); only an `.ini` that
+draws a component reads its siblings; and the mod's own candidates are collected first, so where
+both name a file for one role the mod's own still ranks ahead. The file keeps its declaration in the
+sibling, which this `.ini` cannot name across files, so the existing `declared_` path gives it a
+resource of the fix's own named with `RemapRef` -- which an undo leaves alone.
+
+**It found the same defect in a Sanhua mod.** Sanhua2 ships three mesh variants as sibling `.ini`
+files and only `mod.ini` declares the face mask `46177147` and the iris diffuse `3cd03f60`; in game
+its hash override reaches the copies' draws too, and remapped it stopped. The copies now bind the
+same two files `mod.ini` binds, and `mod.ini` itself does not move. **Before accepting that, check
+no sibling names a DIFFERENT file for the same hash** -- several variants in one folder is also the
+shape where reading siblings would be cross-contamination.
+
+<br>
+
+### WHAT THE TWO-DIRECTION AUDIT ITSELF TAUGHT (2026-10-03)
+
+The maintainer asked for one read-only audit per direction, run in parallel, each working the AUDIT
+GATE above. Worth repeating, and worth knowing about:
+
+* **Run one per DIRECTION, not one per pair.** All three defects above were found by BOTH audits
+  independently, which is what made them worth acting on before any in-game round. A defect only one
+  audit sees is a hypothesis; a defect both see from different configs is a fact.
+* **Give them the open items you already know about**, so they quantify rather than rediscover --
+  and be ready for the answer to be "that one is benign", which is what happened to the 37 draws.
+* **Tell them not to rebuild and not to drive the game.** Two agents sharing one `cbuild`, one
+  installed `.pyd` and one running game will clobber each other and the maintainer's own script.
+  Read-only on the repo, each with its own scratch directory.
+* **EVERY mod under `WWMI/` is the maintainer's already-FIXED copy**; the authored `.ini` is the
+  `RemapBKUP<stem>.txt` beside it. An audit that measures those folders as they sit is measuring
+  second-run behaviour. One audit's first survey grepped twenty mods for a fix marker, got zero, and
+  concluded "all pristine" -- a counter that could only be zero.
+* **A brief can be wrong, and the agent should say so.** Mine named
+  `Tools/Misc/Prototypes/chisaParfaitFix.py` as the oracle for `ChisaParfait -> Chisa`. Its line 125
+  is `SourceName, TargetName = "Chisa", "ChisaParfait"` -- it is the FORWARD prototype. There is no
+  prototype for the reverse direction, pipeline steps 9/9a were skipped, and **`abWWMI.py` on that
+  direction runs the compiled fix in both arms and can only ever report "identical"**. Any
+  confidence resting on that A/B was unfounded.
 
 <br>
 

@@ -4002,9 +4002,16 @@ the bikini, the belt, the sash and the garter are correct.
   saying it sets nothing and inherits). The passes the config names nowhere draw the front hair,
   the face and the panel/prop -- not the top and not the skirt.
 
-Open. The dump is kept for whoever takes it; the untried lead is which register of
-`c9cdf1b99fb01750` the top's colour actually comes from, since the plan's `ps-t2` demonstrably is
-not it on this mod.
+**And `ps-t0` is not it either, though it is not nothing.** The same flat magenta there turns the
+HAT white, the bikini cream and the belt pale -- so that register really is feeding those surfaces'
+colour, which on Chisa's upper pass is supposed to be the NORMAL map -- while the red top and the
+yellow skirt do not move. Every register the plan binds on that pass has now been probed.
+
+Open. The dump is kept for whoever takes it. What is left to try: the two registers Chisa's upper
+pass sets that the plan does NOT bind (`ps-t3`, her sheen matcap, and `ps-t4`, the subsurface ramp),
+and the possibility that the red is not a surface at all -- the scene's own sky blooms red around
+the character in that shot and is blue-grey with no mod loaded, which a red character would do by
+itself but which has not been ruled out as the cause rather than the effect.
 
 **WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
 wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,

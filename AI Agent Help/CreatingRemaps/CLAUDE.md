@@ -3473,6 +3473,45 @@ absence from the log is not evidence. That retires an earlier reading in this fi
 settles it: the draws never fire"* -- for the second time, and the first correction (that those
 numbers came off commented-out `;RemapFixHideOrig` lines) was only half of why it was wrong.
 
+**THE TWO DRAWS ARE UNREACHABLE BY `handling = skip`, which is the open question.** Six ways of
+writing it were tried, each confirmed by its own dump, and every one leaves them exactly as they
+were -- while the other 21 draws stay correctly overridden throughout:
+
+| what was tried on the hide section | result |
+| --- | --- |
+| as shipped (`hash` + window, skip inside both guards) | both draws survive |
+| `handling = skip` written ahead of every guard | both survive |
+| the duplicate copy of the section deleted from the generated `.ini` | both survive |
+| the window filters removed, so it matches the hash alone | both survive, **and nothing else changes** |
+| a second section keyed on the INDEX buffer's hash, windowed | both survive |
+| `match_priority = 1` | both survive |
+
+The fourth row is the informative one: a section matching `hash = <the target's vb0>` with an
+unconditional skip and no window suppresses **nothing**, although the same hash with a window is
+what every working section uses. So at those two draws the target's vertex buffer is not what
+3dmigoto is matching on, and the fix has no handle on them at all. They write to the main
+1708 x 964 render targets, so they are not a shadow or depth pass.
+
+**AND THE FIX'S CLEANUP LIST IS ASYMMETRIC WITH ITS OVERRIDE LIST, which is a real defect whether
+or not it is this one.** `CommandListOverrideSharedResources<Fix>` binds **six** buffers:
+
+```ini
+ib = ResourceIndexBuffer     vb0 = ResourcePositionBuffer   vb1 = ResourceVectorBuffer
+vb2 = ResourceTexcoordBuffer vb3 = ResourceColorBuffer      vb4 = Resource<Target>RemapBlendBuffer
+```
+
+and `CommandListCleanupSharedResources<Fix>` restores exactly one of them -- `vb0 = ref
+ResourceBypassVB0`. So from the first remapped section onward, the MOD's index buffer stays bound
+for the rest of the frame, and any later draw of the character the fix does not match inherits it.
+That is what draw `000028` is: the target's own slot-5 draw call, at `first 278394, count 7602`,
+reading a buffer that ends at **252300** -- entirely out of range.
+
+WWMI's own cleanup list is the same single line, and on the mod's OWN character that is harmless,
+because there every draw of that character is matched by the mod's own sections. **A remap breaks
+that assumption: the target has slots the source does not cover.** Restoring `ib` and `vb1`..`vb4`
+the way `vb0` is restored is the shape of the fix; nulling them instead is NOT (tried: the ghost
+stays and other draws lose bindings they needed).
+
 **Four other readings that were wrong, each of which looked settled:**
 
 1. **"An uncovered target slot."** Every one of the target's seven slots is accounted for -- six

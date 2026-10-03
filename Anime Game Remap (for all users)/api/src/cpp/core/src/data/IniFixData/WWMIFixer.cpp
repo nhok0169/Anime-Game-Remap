@@ -3951,6 +3951,24 @@ namespace AGRemapCore {
                             mergeList.close();
                         }
 
+                        // AND THE PREVIOUS POSE AGAIN, OUTSIDE THE GUARD (2026-10-03).
+                        //
+                        // The game does not set `boneDataFilter` on cb3 for every pass. Measured in a
+                        // frame dump of a remapped mod: five draws -- one for EVERY main body slot --
+                        // had cb4 replaced and cb3 still holding the TARGET's own skeleton, so the
+                        // shader reprojected our pose from hers. The motion is nonsense and TAA smears
+                        // a second body across the character: the "double ghost body" reported on every
+                        // mod of the pair AND on the identity mod, which is the target skin's own model
+                        // and so proves the fault is the remap rather than any mod's content.
+                        //
+                        // Binding the remapped PREVIOUS pose rather than the current one keeps genuine
+                        // motion vectors; both clear the smear in game, and this one does not flatten
+                        // the character's motion blur to zero. On a pass that does carry the marker the
+                        // guarded block above has already bound the same resource, so this is a no-op.
+                        if (config_.bindPrevPoseAlways) {
+                            mergeList.key("vs-cb3", targetPast256_ ? extraRemapped : extra);
+                        }
+
                         out += mergeList.str();
                     }
 

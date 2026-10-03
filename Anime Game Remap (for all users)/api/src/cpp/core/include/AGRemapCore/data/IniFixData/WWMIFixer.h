@@ -737,6 +737,24 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton
+         carries ``boneDataFilter`` -- see :cpp:member:`boneDataFilter`. **Default**: ``true``
+         @endrst
+         *
+         * `vs-cb4` is the pose a draw is skinned with and `vs-cb3` is the previous frame's,
+         * which the shader turns into motion vectors. The game does not mark cb3 on every
+         * pass, so a guarded replacement leaves some draws skinned with OUR pose and
+         * reprojected from the TARGET's -- a large bogus motion, which TAA smears into a
+         * second body over the whole character.
+         *
+         * Defaulted ON because the alternative is never right. It moves the output of every
+         * WuWa pair, so a pair confirmed in game before 2026-10-03 wants another look.
+         */
+        bool bindPrevPoseAlways = true;
+
+        /**
+         * @brief
+         @rst
          The command list every slot section runs to bind the mod's buffers; the texture command
          list and the zero stream are added right after it. **Default**:
          ``"CommandListOverrideSharedResources"``

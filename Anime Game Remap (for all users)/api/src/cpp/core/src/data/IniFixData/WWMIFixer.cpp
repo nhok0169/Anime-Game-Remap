@@ -511,6 +511,117 @@ namespace AGRemapCore {
          * where two of them land on one register.
          */
         /**
+         * @brief
+         @rst
+         Makes the fix's cleanup list the inverse of its override list -- see
+         :cpp:member:`WWMIFixerConfig::cleanupResourcesList`
+         @endrst
+         *
+         * In the OVERRIDE list, each register is captured into a bypass resource immediately before
+         * the line that rebinds it; in the CLEANUP list, each is bound back from that resource. The
+         * pattern is WWMI's own for `vb0` (`ResourceBypassVB0 = ref vb0`, then
+         * `vb0 = ref ResourceBypassVB0`), applied to the rest of what the list binds.
+         *
+         * It matters only on a remap. On the mod's own character every draw of that character is
+         * matched by one of the mod's sections, so a buffer left bound is rebound before anything
+         * reads it; a remapped mod is drawn on a target with slots it does not cover, and the first
+         * such draw inherits the MOD's buffers at the TARGET's index range.
+         *
+         * Idempotent per part: a capture or a restore that is already there is not written again,
+         * so a list of several branches gets one of each per branch and a repeated visit adds
+         * nothing.
+         */
+        class BypassRestore : public BaseRegEdit<> {
+            public:
+                /** @brief register -> the resource its previous binding is parked in */
+                using Bypasses = std::vector<std::pair<std::string, std::string>>;
+
+                BypassRestore(std::vector<std::string> overrideNames, std::vector<std::string> cleanupNames,
+                              Bypasses bypasses, std::string restoreList)
+                    : overrideNames_(std::move(overrideNames)), cleanupNames_(std::move(cleanupNames)),
+                      bypasses_(std::move(bypasses)), restoreList_(std::move(restoreList)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    if (names(overrideNames_, sectionName)) {
+                        capture(part);
+                    } else if (names(cleanupNames_, sectionName)) {
+                        restore(part);
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::vector<std::string> overrideNames_;
+                std::vector<std::string> cleanupNames_;
+                Bypasses bypasses_;
+                std::string restoreList_;
+
+                static bool names(const std::vector<std::string>& of, const std::string& name) {
+                    for (const std::string& one : of) {
+                        if (StringTools::equalsIgnoreCase(one, name)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                // `<bypass> = ref <reg>` just before the FIRST line that rebinds <reg>. BACKWARDS, so
+                // an insertion does not move the position of one not yet reached.
+                void capture(ContentPart& part) {
+                    std::vector<std::pair<long long, std::string>> at;
+                    for (const auto& [reg, bypass] : bypasses_) {
+                        const std::vector<std::pair<long long, std::string>> binds =
+                            part.getValsWithInds(reg, true, std::nullopt);
+                        if (binds.empty() || has(part, bypass, IniKeywords::Ref + " " + reg)) {
+                            continue;
+                        }
+
+                        at.emplace_back(binds.front().first, bypass + "\x01" + reg);
+                    }
+
+                    std::sort(at.begin(), at.end(),
+                              [](const auto& a, const auto& b) { return a.first > b.first; });
+                    for (const auto& [index, both] : at) {
+                        const std::size_t cut = both.find('\x01');
+                        part.addKVPAt(index, both.substr(0, cut),
+                                      IniKeywords::Ref + " " + both.substr(cut + 1));
+                    }
+                }
+
+                // A `run =` into the fix's own restore list, appended so it runs after whatever the
+                // list already does.
+                //
+                // NOT the `<reg> = ref <bypass>` lines themselves: written here they are part of the
+                // remapped graph, and the blend collect rewrites every line whose key is its
+                // register -- which turned the blend's restore into a second binding of the fix's
+                // own buffer. The capture half is safe where it is, because its key is a RESOURCE
+                // name and no collect looks at those.
+                void restore(ContentPart& part) {
+                    if (!has(part, IniKeywords::Run, restoreList_)) {
+                        part.addKVP(IniKeywords::Run, restoreList_);
+                    }
+                }
+
+                static bool has(const ContentPart& part, const std::string& key, const std::string& value) {
+                    for (const std::string& val : part.getVals(key, true, std::nullopt)) {
+                        if (StringTools::equalsIgnoreCase(StringTools::strip(val), value)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+        };
+
+
+        /**
          * @brief What a config's role name says the texture IS, with the part it belongs to stripped
          *
          * `upperDiffuse`, `lowerDiffuse` and `panelDiffuse` all have the kind `Diffuse`. The names
@@ -2692,6 +2803,7 @@ namespace AGRemapCore {
                     // In this order because each reads what the one before it set: the removals
                     // need the blend width, the groups decide which slots are drawn, and everything
                     // after that is per drawn slot.
+                    buildBypasses();
                     buildRegRemovals();
                     buildGroups();
                     buildSlotValues();
@@ -2699,6 +2811,73 @@ namespace AGRemapCore {
                     buildSlotRemap();
                     buildPerGroupEdits();
                     buildBlendCollects(source, from, to);
+                }
+
+                /** @brief The fix's own list that puts the captured bindings back -- see BypassRestore */
+                std::string restoreListName() {
+                    return fixName(IniKeywords::CommandList + "RestoreSharedResources");
+                }
+
+                // Which of the mod's own shared-resource bindings the fix has to put back, and the
+                // resource each is parked in. Read off the mod's OWN two lists rather than
+                // configured: whatever the override binds and the cleanup does not already restore.
+                void buildBypasses() {
+                    bypasses_.clear();
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = ini->getIfTemplates();
+                    const auto overrideList = templates.find(config_.sharedResourcesList);
+                    const auto cleanupList = templates.find(config_.cleanupResourcesList);
+                    if (overrideList == templates.end() || cleanupList == templates.end()
+                            || overrideList->second == nullptr || cleanupList->second == nullptr) {
+                        return;            // a legacy mod with no such pair: nothing to be symmetric with
+                    }
+
+                    std::vector<std::string> bound = buffersBoundBy(*overrideList->second);
+                    const std::vector<std::string> already = buffersBoundBy(*cleanupList->second);
+                    for (const std::string& reg : bound) {
+                        if (std::find(already.begin(), already.end(), reg) != already.end()) {
+                            continue;      // `vb0`, which WWMI's own pair already handles
+                        }
+
+                        bypasses_.emplace_back(reg, fixName(IniKeywords::Resource + "Bypass"
+                                                            + IniNamingTools::getRegTag(reg)));
+                    }
+                }
+
+                /**
+                 * @brief The MESH buffer registers a command list assigns to
+                 *
+                 * `ib` and `vb<n>` only. A `Resource... = ref vb0` capture line is an assignment to a
+                 * RESOURCE and is not one of these, which is what keeps the pair's own bookkeeping out
+                 * of the answer.
+                 */
+                static std::vector<std::string> buffersBoundBy(const IfTemplate<std::string, std::string>& list) {
+                    std::vector<std::string> regs;
+                    for (const std::unique_ptr<IfTemplatePart>& part : list.parts()) {
+                        const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
+                        if (content == nullptr) {
+                            continue;
+                        }
+
+                        for (const auto& item : content->items()) {
+                            const std::string key = StringTools::toLower(StringTools::strip(item.key));
+                            bool buffer = (key == IniKeywords::Ib);
+                            if (!buffer && key.size() > 2 && key.compare(0, 2, "vb") == 0) {
+                                buffer = std::all_of(key.begin() + 2, key.end(),
+                                                     [](unsigned char c) { return std::isdigit(c) != 0; });
+                            }
+
+                            if (buffer) {
+                                ListTools::pushDistinct(regs, key);
+                            }
+                        }
+                    }
+
+                    return regs;
                 }
 
                 // Lines a remapped section drops -- see WWMIFixerConfig::removedRegs for why each
@@ -2986,6 +3165,23 @@ namespace AGRemapCore {
                                 additions.emplace_back(IniKeywords::Run, extraList);
                                 ++n;
                             }
+                        }
+
+                        // THE CLEANUP LIST IS MADE THE INVERSE OF THE OVERRIDE LIST (2026-10-02).
+                        // Hung on every component because both lists are reached through the
+                        // component's own graph; the edit is idempotent, so being visited once per
+                        // component writes one capture and one restore.
+                        if (!bypasses_.empty()) {
+                            auto bypass = std::make_unique<BypassRestore>(
+                                std::vector<std::string>{config_.sharedResourcesList,
+                                                         fixName(config_.sharedResourcesList)},
+                                std::vector<std::string>{config_.cleanupResourcesList,
+                                                         fixName(config_.cleanupResourcesList)},
+                                bypasses_, restoreListName());
+                            auto adapter = std::make_unique<RegPartEdit<>>(bypass.get());
+                            editsOf_[component].push_back(adapter.get());
+                            bypassEdits_.push_back(std::move(bypass));
+                            regAdapters_.push_back(std::move(adapter));
                         }
 
                         // THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (2026-10-02). Before the
@@ -3853,6 +4049,22 @@ namespace AGRemapCore {
                                           {IniKeywords::Stride, std::to_string(config_.shapeKeyStride)},
                                           {IniKeywords::Filename, zeroStreamFile()}})
                                    .str();
+                    }
+
+                    // An empty section, like the mod's own [ResourceBypassVB0]: it is a handle for
+                    // `= ref <reg>` to park a binding in, never a file.
+                    for (const auto& [reg, bypass] : bypasses_) {
+                        (void)reg;
+                        out += SectionText(z3_, bypass).str();
+                    }
+
+                    if (!bypasses_.empty()) {
+                        SectionText restore(z3_, restoreListName());
+                        for (const auto& [reg, bypass] : bypasses_) {
+                            restore.key(reg, IniKeywords::Ref + " " + bypass);
+                        }
+
+                        out += restore.str();
                     }
 
                     const std::set<int> mirrored = mirroredSet();
@@ -4849,6 +5061,8 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<RegPartEdit<>>> regAdapters_;
                 std::vector<std::unique_ptr<MirrorTwin>> twinEdits_;   // owned beside the adapters that wrap them
                 std::vector<std::unique_ptr<CarriedTexRegs>> carriedEdits_;   // ...and the same for the carried-register edits
+                std::vector<std::unique_ptr<BypassRestore>> bypassEdits_;     // ...and for the cleanup-list edits
+                BypassRestore::Bypasses bypasses_;                            // register -> the resource its binding is parked in
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;

@@ -745,6 +745,20 @@ namespace AGRemapCore {
         std::string sharedResourcesList = "CommandListOverrideSharedResources";
 
         /**
+         * @brief
+         @rst
+         The command list every slot section runs after its draw to put the game's own buffers
+         back -- see :cpp:member:`sharedResourcesList`. **Default**:
+         ``"CommandListCleanupSharedResources"``
+         @endrst
+         *
+         * WWMI's own pair captures `vb0` and restores only that; the fix extends both so every
+         * buffer the override list binds is put back, because a REMAP has draws of the target
+         * that no section of it matches, and those inherit whatever is still bound.
+         */
+        std::string cleanupResourcesList = "CommandListCleanupSharedResources";
+
+        /**
          * @brief The mod object prefix of a draw slot. **Default**: ``"component"``
          */
         std::string slotPrefix = "component";

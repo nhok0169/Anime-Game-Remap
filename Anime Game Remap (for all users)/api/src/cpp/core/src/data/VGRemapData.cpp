@@ -1628,6 +1628,21 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "",
           "2.8", ModTypeIdTools::getName(ModTypeId::Chisa), ""},
          VGRemap({
+            // THE SHOULDER CLUSTER IS THE FORWARD ROW'S INVERSE NOW (2026-10-03): the arms
+            //   swung like noodles in game, and nine of these bones were on bones of Chisa's
+            //   PHYSICS components -- 86, 87, 88, 90, 92, 93 onto her HAIR (72 and 74, four of
+            //   them collapsing onto 74), and 85, 89, 91 collapsing with 84 onto 409.
+            //
+            //   Riding a cloth simulation is invisible to a distance check (every one of these
+            //   lands within 2.5 units) and to a symmetry check (the mapping stayed symmetric),
+            //   which is the Chisa lesson arriving from the other direction -- see VGRemaps'
+            //   invariant 5 and "A COLLAPSE IS WORSE THAN A DISTANCE".
+            //
+            //   The forward row maps the same two bone sets and was reviewed and confirmed in
+            //   game, so its inverse is the answer here, and it agrees to 0.2-0.8 units with the
+            //   nearest NON-physics bone `vgSymmetry.py --hair` proposes independently. Six more
+            //   entries elsewhere disagreed with that inverse and all but one also collapsed; they
+            //   are corrected the same way.
             // HANDS ARE THE INVERSE OF THE FORWARD ROW'S NOW (2026-10-01): the same defect as the
             //   forward direction and worse -- 9 of her right hand's 18 bones off their exact
             //   counterpart, 18 collapsing onto 14 targets, and the two HEAVIEST bones in the hand,
@@ -1647,17 +1662,17 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {50, 91}, {51, 89}, {52, 37}, {53, 126}, {54, 124}, {55, 125}, {56, 45}, {57, 136}, {58, 137}, {59, 138},
             {60, 139}, {61, 140}, {62, 13}, {63, 88}, {64, 87}, {65, 90}, {66, 60}, {67, 59}, {68, 56}, {69, 55},
             {70, 54}, {71, 0}, {72, 152}, {73, 187}, {74, 179}, {75, 154}, {76, 177}, {77, 163}, {78, 253}, {79, 254},
-            {80, 344}, {81, 0}, {82, 0}, {83, 378}, {84, 409}, {85, 409}, {86, 74}, {87, 72}, {88, 74}, {89, 409},
-            {90, 74}, {91, 409}, {92, 74}, {93, 72}, {94, 0}, {95, 0}, {96, 0}, {97, 0}, {98, 0}, {99, 0},
+            {80, 344}, {81, 0}, {82, 0}, {83, 378}, {84, 409}, {85, 413}, {86, 414}, {87, 415}, {88, 410}, {89, 411},
+            {90, 412}, {91, 416}, {92, 417}, {93, 418}, {94, 0}, {95, 0}, {96, 0}, {97, 0}, {98, 0}, {99, 0},
             {100, 0}, {101, 0}, {102, 0}, {103, 0}, {104, 0}, {105, 0}, {106, 0}, {107, 0}, {108, 0}, {109, 0},
-            {110, 185}, {111, 172}, {112, 175}, {113, 196}, {114, 343}, {115, 344}, {116, 251}, {117, 343}, {118, 255}, {119, 155},
-            {120, 167}, {121, 193}, {122, 316}, {123, 167}, {124, 199}, {125, 199}, {126, 368}, {127, 372}, {128, 261}, {129, 372},
+            {110, 185}, {111, 174}, {112, 175}, {113, 196}, {114, 343}, {115, 242}, {116, 251}, {117, 343}, {118, 255}, {119, 155},
+            {120, 166}, {121, 193}, {122, 316}, {123, 167}, {124, 199}, {125, 150}, {126, 368}, {127, 246}, {128, 261}, {129, 372},
             {130, 256}, {131, 352}, {132, 353}, {133, 354}, {134, 355}, {135, 356}, {136, 365}, {137, 364}, {138, 363}, {139, 362},
             {140, 357}, {141, 358}, {142, 359}, {143, 360}, {144, 361}, {145, 264}, {146, 265}, {147, 263}, {148, 266}, {149, 383},
             {150, 382}, {151, 381}, {152, 390}, {153, 389}, {154, 384}, {155, 388}, {156, 387}, {157, 377}, {158, 385}, {159, 386},
             {160, 380}, {161, 379}, {162, 0}, {163, 289}, {164, 0}, {165, 289}, {166, 0}, {167, 289}, {168, 290}, {169, 306},
             {170, 305}, {171, 286}, {172, 217}, {173, 307}, {174, 308}, {175, 309}, {176, 324}, {177, 329}, {178, 337}, {179, 291},
-            {180, 293}, {181, 294}, {182, 288}, {183, 284}, {184, 296}, {185, 297}, {186, 311}, {187, 284}, {188, 285}, {189, 286},
+            {180, 293}, {181, 294}, {182, 288}, {183, 292}, {184, 296}, {185, 297}, {186, 311}, {187, 284}, {188, 285}, {189, 286},
             {190, 320}, {191, 321}, {192, 317}, {193, 318}, {194, 322}, {195, 339}, {196, 319}, {197, 335}, {198, 328}, {199, 330},
             {200, 326}, {201, 325}, {202, 323}, {203, 331}, {204, 327}, {205, 332}, {206, 333}, {207, 340}, {208, 338}, {209, 315},
             {210, 334}, {211, 336}, {212, 0}, {213, 0}, {214, 0}, {215, 0}, {216, 0}, {217, 0}, {218, 0}, {219, 0},

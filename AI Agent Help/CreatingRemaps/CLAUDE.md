@@ -3510,6 +3510,13 @@ alone and re-keying it are the same thing. The fix keeps the pre-edit names
 (`preEditResourceOfSlotRole_`) and indexes them alongside the current ones. **A role whose register
 moves between the skins is the case to check whenever you add a `texEdit`.**
 
+**Shared code, so it was A/B'd against the other pair**: 11 Sanhua and SanhuaExorcist mods re-fixed
+and compared file by file, **598 of 598 byte-identical**. One of them read as two changed `.ini`
+files at first and was not -- it was the only mod of the eleven still LOADED, so its previous fix
+had come from a different build. Building the pre-change code and re-fixing just that mod settled
+it at zero. **A mod the maintainer has installed is not a controlled input**; park it, or re-fix it
+with both builds before believing its diff.
+
 ### AND AN EDIT IS WRITTEN UNCOMPRESSED AND UNFLAGGED, SO A COLOUR EDIT KEEPS ITS GAMMA
 
 `maskRepackFilter` and `hairNormalFilter` both open with `tex.setGamma(std::nullopt)` because they

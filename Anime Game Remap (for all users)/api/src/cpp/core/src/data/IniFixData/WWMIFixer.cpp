@@ -492,6 +492,98 @@ namespace AGRemapCore {
         };
 
 
+        /**
+         * @brief
+         @rst
+         Re-keys the lines the MOD itself writes to bind a texture inside a component section, from
+         the source's register layout to the target's -- see :cpp:member:`WWMIFixerConfig::plan`
+         @endrst
+         *
+         * A mod may bind its textures per DRAW rather than once per section, to give different
+         * parts different art. Those lines are copied into the remapped section and land after the
+         * fix's own `run = CommandList<Char>Component<N>Textures`, so they win -- in the source's
+         * order, which is a role rotation on the target's shader.
+         *
+         * The role is asked of the RESOURCE, which the texture scan has already decided, and the
+         * register is the one the target reads for that role. A resource whose role is unknown is
+         * DROPPED rather than guessed: the fix's list has already bound every role the target's
+         * draw reads, so dropping leaves a correct binding standing, while keeping one leaves a
+         * texture of unknown meaning at a register the target reads for something else.
+         */
+        /**
+         * @brief What a config's role name says the texture IS, with the part it belongs to stripped
+         *
+         * `upperDiffuse`, `lowerDiffuse` and `panelDiffuse` all have the kind `Diffuse`. The names
+         * are the config's own, so the convention is this repo's -- see CarriedTexRegs.
+         */
+        std::string roleKind(const std::string& role) {
+            for (std::size_t i = 0; i < role.size(); ++i) {
+                if (std::isupper(static_cast<unsigned char>(role[i])) != 0) {
+                    return role.substr(i);
+                }
+            }
+
+            return "";
+        }
+
+
+        class CarriedTexRegs : public BaseRegEdit<> {
+            public:
+                /** @brief resource (lowered) -> the role it plays, if the scan knows one */
+                using RoleOf = std::function<std::optional<std::string>(const std::string&)>;
+
+                /** @brief role -> the register the TARGET's draw reads it at */
+                using RegOf = std::function<std::optional<std::string>(const std::string&)>;
+
+                /** @brief resource + role -> the fix's edited copy of it, where one was written */
+                using EditedOf = std::function<std::string(const std::string&, const std::string&)>;
+
+                CarriedTexRegs(std::string regPrefix, RoleOf roleOf, RegOf regOf, EditedOf editedOf)
+                    : regPrefix_(StringTools::toLower(regPrefix)), roleOf_(std::move(roleOf)),
+                      regOf_(std::move(regOf)), editedOf_(std::move(editedOf)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    // BACKWARDS, so a removal does not move the position of one not yet reached
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (!StringTools::startsWith(StringTools::toLower(item->key), regPrefix_)) {
+                            continue;
+                        }
+
+                        // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
+                        std::string value(StringTools::strip(item->value));
+                        const std::string ref = StringTools::toLower(IniKeywords::Ref);
+                        if (StringTools::startsWith(StringTools::toLower(value), ref + " ")) {
+                            value = std::string(StringTools::lstrip(value.substr(ref.size())));
+                        }
+
+                        const std::optional<std::string> role = roleOf_(StringTools::toLower(value));
+                        const std::optional<std::string> reg = role.has_value() ? regOf_(*role) : std::nullopt;
+
+                        const auto at = static_cast<size_t>(item->orderIndex);
+                        part.removeKVPAt(at);
+                        if (reg.has_value()) {
+                            part.addKVPAt(static_cast<long long>(at), *reg, editedOf_(value, *role));
+                        }
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::string regPrefix_;
+                RoleOf roleOf_;
+                RegOf regOf_;
+                EditedOf editedOf_;
+        };
+
+
         std::vector<std::unique_ptr<BufElementType>> wwmiVertexVGElements(std::size_t influences) {
             std::vector<std::unique_ptr<BufElementType>> elements;
             elements.push_back(BufElementType::repeated(
@@ -2888,6 +2980,97 @@ namespace AGRemapCore {
                             }
                         }
 
+                        // THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (2026-10-02). Before the
+                        // twin because it reads what the mod wrote and the twin only adds draws.
+                        //
+                        // `regOfRole` is this component's own plan row, so the registers are the
+                        // ones the fix's list for this component already uses -- the carried lines
+                        // end up speaking the same layout as the list they sit after, which is the
+                        // whole point. `roleOf` prefers a role this component serves and falls back
+                        // to any, because one file may serve several components.
+                        {
+                            std::map<std::string, std::string> regOfRole;
+                            for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                                if (binding.role != IniKeywords::Null) {
+                                    regOfRole.emplace(binding.role, binding.reg);
+                                }
+                            }
+
+                            std::map<std::string, std::string> roleOfResource;
+                            for (const auto& [key, resource] : resourceOfSlotRole_) {
+                                const std::string name = StringTools::toLower(resource);
+                                if (key.second == component || roleOfResource.count(name) == 0) {
+                                    roleOfResource[name] = key.first;
+                                }
+                            }
+
+                            auto roleOf = [roleOfResource](const std::string& resource)
+                                    -> std::optional<std::string> {
+                                const auto found = roleOfResource.find(resource);
+                                if (found == roleOfResource.end()) {
+                                    return std::nullopt;
+                                }
+
+                                return found->second;
+                            };
+
+                            // ...and the same row by KIND, for a carried binding whose role belongs
+                            // to another component. `ResourceTexture4_3` is a `lowerDiffuse` and
+                            // this row names `panelDiffuse`; both are the config's OWN names, so
+                            // their shared tail is a convention this repo controls rather than a
+                            // guess about the mod. Only where the tail is unambiguous in the row --
+                            // `irisDiffuse` and `eyeDiffuse` share one, at different registers.
+                            std::map<std::string, std::string> regOfKind;
+                            std::set<std::string> ambiguous;
+                            for (const auto& [role, reg] : regOfRole) {
+                                const std::string kind = roleKind(role);
+                                const auto seen = regOfKind.find(kind);
+                                if (seen != regOfKind.end() && seen->second != reg) {
+                                    ambiguous.insert(kind);
+                                } else {
+                                    regOfKind.emplace(kind, reg);
+                                }
+                            }
+
+                            auto regOf = [regOfRole, regOfKind, ambiguous](const std::string& role)
+                                    -> std::optional<std::string> {
+                                const auto found = regOfRole.find(role);
+                                if (found != regOfRole.end()) {
+                                    return found->second;
+                                }
+
+                                const std::string kind = roleKind(role);
+                                const auto byKind = regOfKind.find(kind);
+                                if (kind.empty() || ambiguous.count(kind) > 0 || byKind == regOfKind.end()) {
+                                    return std::nullopt;
+                                }
+
+                                return byKind->second;
+                            };
+
+                            // Same rule as bindLine's `toEdited`: swap in the fix's edited copy, but
+                            // only for the role that edit was registered for, since one file may
+                            // serve several
+                            auto editedOf = [this](const std::string& resource, const std::string& role) {
+                                const std::string bound = StringTools::toLower(resource);
+                                const auto swap = editedResourceOf_.find(bound);
+                                const auto owns = editedRoleOf_.find(bound);
+                                if (swap != editedResourceOf_.end() && owns != editedRoleOf_.end()
+                                        && owns->second == role) {
+                                    return swap->second;
+                                }
+
+                                return resource;
+                            };
+
+                            auto carried = std::make_unique<CarriedTexRegs>(
+                                config_.texRegPrefix, roleOf, regOf, editedOf);
+                            auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
+                            editsOf_[component].push_back(adapter.get());
+                            carriedEdits_.push_back(std::move(carried));
+                            regAdapters_.push_back(std::move(adapter));
+                        }
+
                         // The mirrored twin, AFTER the component's own draw -- an empty
                         // predicate on `drawindexed` accepts any value, and `latest = false` puts
                         // the block at the earliest position that follows one. Its own add, because
@@ -4657,6 +4840,7 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<RegNewVals<>>> newVals_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> regAdapters_;
                 std::vector<std::unique_ptr<MirrorTwin>> twinEdits_;   // owned beside the adapters that wrap them
+                std::vector<std::unique_ptr<CarriedTexRegs>> carriedEdits_;   // ...and the same for the carried-register edits
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
                 std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;

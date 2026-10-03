@@ -4019,26 +4019,51 @@ into the texture command list, turns the top yellow -- its component's colour --
 `ps-t0`/`ps-t1`/`ps-t2` after all, and the fix's own list is not what is supplying them by the time
 those draws run.
 
-**AND THE LOG SETTLES IT: THE DRAWS NEVER FIRE, SO IT WAS NEVER A TEXTURE PROBLEM.** Grepping the
-dump's `log.txt` for each of component 3's fifteen `StartIndexLocation`s -- 91344, 96474, 103332,
-104352, 105372, 106872, 107187 and the rest -- returns **0 for every one**, while the whole-slot
-draws at 63894 and 172596 appear **3 times each** (the passes the fix does not inject into). Every
-one of those fifteen sits inside an `if $key_NN == 1` that is false at draw time, so our section
-draws nothing of the upper body and what is on screen is the mod's buffers rendered by the other
-passes with the game's textures.
+**AND IT WAS THE MOD'S OWN `ps-t` LINES, CARRIED INTO THE REMAPPED SECTION AND LANDING AFTER THE
+FIX'S TEXTURE LIST (2026-10-02). FIXED.** A mod may bind its textures **per draw** rather than once
+per section, to give different parts different art. The fixer copies the section's content and then
+adds `run = CommandList<Char>Component<N>Textures` through `RegSurroundedAdd`, which anchors BEFORE
+the draw -- so the mod's own `ps-t0..ps-t3` groups sit after the list and override every binding the
+fix made, in the SOURCE's register layout. ChisaParfait3 carries three such groups; its slot 5 set
+is `(t0, t1, t2, t3) = (5_0, 5_1_1, 5_2, 5_3)` where the scan has `5_2` as the panel NORMAL and
+`5_3` as its DIFFUSE, so the target read a normal map where it reads the diffuse. Flat red top, flat
+yellow skirt.
 
-That is why no register probe moved it, and it retires the earlier bisect that concluded "`ps-t2`,
-so the fault is the mod's own bytes": the probe that appeared to isolate `ps-t2` was reading a
-surface our draws never produced. **A texture probe on a part your own draws do not draw will answer
-confidently and mean nothing** -- check the log for the draw's `StartIndexLocation` BEFORE
-bisecting registers, which costs one grep on a dump you already have.
+**The same file was its own control the whole time.** Its lower-body section (`Component7`) carries
+no such lines, so the fix's list stands there -- and the belt, sash, garter and hat that section
+draws were correct in game through every round, beside an upper body that was not. One `grep -c
+"^\s*ps-t"` per remapped section says which sections are affected, and over the whole corpus it is
+**13 lines in that one mod and ZERO in the other 40 fixed `.ini` files**, which is also the blast
+radius of the fix (measured: three other mods' outputs byte-identical across the change).
 
-What is NOT yet known is whether the toggles are false by the mod's own design -- it drives every
-part from a button UI (`Out UI.ini` writes `$\cx_Mod054\key_11 = $value_11`), so a fresh install may
-simply start with them off -- or whether the fix breaks them. The one fix-side suspicion that was
-checked and NOT supported: the generated copy re-declares the mod's `global $key_11 = 1` (both
-`mod-...ini` and `mod-...RemapFix1.ini` carry it), and neither log carries a duplicate-variable
-complaint. The dump (`FrameAnalysis-ChisaParfait3Remap-2026-10-02-204847`) is kept.
+`WWMIFixer`'s `CarriedTexRegs` re-keys each such line by ROLE -- the role of the RESOURCE, which the
+texture scan has already decided -- to the register the target reads for it, applying the fix's
+edited copy where one was written. Slot 5's group comes out as exactly the fix's own list. A role
+belonging to another component falls back to its KIND (`lowerDiffuse` -> `Diffuse` -> this row's
+`panelDiffuse` register), which is legitimate only because the role NAMES are the config's own, and
+only where the kind is unambiguous in the row -- `irisDiffuse` at `ps-t1` and `eyeDiffuse` at `ps-t4`
+share one. A resource whose role is unknown is **dropped**, not guessed: the list has already bound
+every role the target's draw reads, so dropping leaves a correct binding standing while keeping one
+leaves a texture of unknown meaning at a register the target reads for something else.
+
+**TWO WRONG TURNS ON THE WAY, BOTH WORTH MORE THAN THE FINDING.**
+
+*Grepping the dump's `log.txt` for the draws that "never fire"* returned 0 for all fifteen of
+component 3's `StartIndexLocation`s -- 91344, 96474, 103332 and the rest -- and that was written up
+here as settling it. Those numbers came out of the FIXED `.ini`, off the lines reading
+`;RemapFixHideOrig -->        drawindexed = 5130, 91344, 0`. They are the originals the fix **hid**,
+and a commented-out draw can never appear in a log. The fix's real draws are at the mod's own
+offsets (364689, 340005, 332817, ...) and fire exactly as they should. **A number you grepped out of
+generated output may be from a line that output exists to disable** -- read the whole line, not the
+match.
+
+*Forcing the toggles* (rewriting every `if $key...` inside the fix's sections to `if 1`) did add
+geometry, which read as "so the toggles WERE the problem". It was a second mod variant being drawn,
+in the same wrong colours. The experiment that actually decided it was the magenta probe: a flat
+magenta on the fix's texture lists turned the hat, bikini trim, belt, sash and garter magenta and
+left the red top and yellow skirt untouched -- **the lists run, and something later in the same
+section beats them**. That narrowed it to one screenful of the generated `.ini`, which named the
+cause outright. The dump (`FrameAnalysis-ChisaParfait3Remap-2026-10-02-204847`) is kept.
 
 **WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
 wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,

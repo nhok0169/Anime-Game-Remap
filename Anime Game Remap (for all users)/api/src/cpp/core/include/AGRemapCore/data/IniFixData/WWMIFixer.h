@@ -377,6 +377,19 @@ namespace AGRemapCore {
         std::set<int> mirroredComponents;
 
         /**
+         * @brief
+         @rst
+         The register family a mod binds its textures with, which a remapped section's CARRIED
+         bindings are re-keyed within -- see :cpp:member:`plan`
+         @endrst
+         *
+         * A mod that binds per draw rather than once per section writes these lines inside the
+         * component section, in ITS OWN layout, and they land after the fix's texture list and
+         * override it. Matched by prefix, case-insensitively.
+         */
+        std::string texRegPrefix = "ps-t";
+
+        /**
          * @brief The register the mod's vector buffer (its normals) is bound at. **Default**: ``"vb1"``
          */
         std::string vectorReg = "vb1";

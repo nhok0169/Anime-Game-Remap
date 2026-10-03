@@ -3473,6 +3473,34 @@ absence from the log is not evidence. That retires an earlier reading in this fi
 settles it: the draws never fire"* -- for the second time, and the first correction (that those
 numbers came off commented-out `;RemapFixHideOrig` lines) was only half of why it was wrong.
 
+**AND THOSE TWO DRAWS ARE NOT THE GHOST -- IT IS ONE OF THE FIX'S OWN (2026-10-03).** Two separate
+measurements say so, and both are cheap enough to make first next time:
+
+* **Where the target's slot is on its body.** Its vertices, read straight out of the download
+  folder's `Index.buf` + `Position.buf`, span `y -19.7 .. -3.9` -- entirely BEHIND the body -- from
+  hip to head. The reported strokes are on the front of the thighs. The whole slot table takes one
+  pass over those two files, and it also proves the seven windows tile the buffer exactly.
+* **Bisecting the fix's own draws.** Commenting out the `drawindexed` of the two sections that draw
+  the lower body takes the strokes away with them; dropping only the small one (540 indices) leaves
+  them. So the ghost is drawn by the section carrying the mod's own lower body, **inside one draw of
+  our own geometry** -- a crease or seam within one mesh, not a second body.
+
+**Five more candidates closed, each by its own probe:** the vertex COLOUR stream (`vb3 = null`:
+unchanged), the cleaned texcoord copy (this mod binds none, so the UV fold cannot be it), the two
+unreachable draws above, the back-face twin, and the zero shape-key stream -- which is **required**:
+dropping `vb6 = Resource<Target>ShapeKeyZero` explodes the model into stretched triangles, which is
+the documented `vb6` bug arriving from the other side.
+
+**What is left, and it is the strongest of the three:** the mod ships real shape-key data
+(ChisaParfait2: **37598** shape-key vertices, a 451 KB vertex-offset buffer) and the fix replaces it
+with zeros, so the body never morphs -- the Chisa13 mechanism ("a mod's body shape may be a shape
+key, and its clothing sized for shapes the body never takes") in the REVERSE direction. The forward
+prototype defaults to `--shapeKeys retarget`; the compiled fixer has only `zeroShapeKeyStream`, and
+this direction has no prototype to A/B a retarget against. The other two are the vertex-group rows,
+which for this pair are the finder's proposal and **unreviewed** (a crease along a group boundary
+looks exactly like this, and would appear on every mod, which matches the report), and the
+possibility that the mod's own geometry simply has a coincident garment there.
+
 **THE TWO DRAWS ARE UNREACHABLE BY `handling = skip`, which is the open question.** Six ways of
 writing it were tried, each confirmed by its own dump, and every one leaves them exactly as they
 were -- while the other 21 draws stay correctly overridden throughout:

@@ -3210,22 +3210,60 @@ namespace AGRemapCore {
                                 }
                             }
 
+                            // BOTH maps: what each slot role resolves to now, and what it
+                            // resolved to before a texture edit rewrote it. A role with an edit
+                            // keeps only the fix's own copy in `resourceOfSlotRole_`, so without
+                            // the second pass a carried line naming the MOD's file resolves to no
+                            // role and is left on the register the SOURCE used -- which is only
+                            // harmless while the two skins read that role at the same register.
+                            // The diffuse is `ps-t3` on ChisaParfait and `ps-t2` on Chisa, so the
+                            // first diffuse edit put the body's art on the wrong register and left
+                            // a file the mod does not ship on the right one: a flat red body, and
+                            // the skirt drawn with the downloaded game atlas.
                             std::map<std::string, std::string> roleOfResource;
-                            for (const auto& [key, resource] : resourceOfSlotRole_) {
-                                const std::string name = StringTools::toLower(resource);
-                                if (key.second == component || roleOfResource.count(name) == 0) {
-                                    roleOfResource[name] = key.first;
-                                }
-                            }
+                            auto indexSlotRoles =
+                                [&roleOfResource, component]
+                                (const std::map<std::pair<std::string, int>, std::string>& from) {
+                                    for (const auto& [key, resource] : from) {
+                                        const std::string name = StringTools::toLower(resource);
+                                        if (key.second == component || roleOfResource.count(name) == 0) {
+                                            roleOfResource[name] = key.first;
+                                        }
+                                    }
+                                };
 
-                            auto roleOf = [roleOfResource](const std::string& resource)
+                            indexSlotRoles(preEditResourceOfSlotRole_);
+                            indexSlotRoles(resourceOfSlotRole_);
+
+                            auto roleOf = [this, roleOfResource](const std::string& resource)
                                     -> std::optional<std::string> {
                                 const auto found = roleOfResource.find(resource);
-                                if (found == roleOfResource.end()) {
-                                    return std::nullopt;
+                                if (found != roleOfResource.end()) {
+                                    return found->second;
                                 }
 
-                                return found->second;
+                                // ...AND THE NAME AN EDIT REPLACED (2026-10-03). Registering a
+                                // `texEdit` for a role rewrites `resourceOfSlotRole_` to the EDITED
+                                // resource, so the map above stops naming the MOD's own one and a
+                                // carried line binding it resolves to no role at all -- which leaves
+                                // it on the register the SOURCE used.
+                                //
+                                // That was invisible while every edited role happened to sit at the
+                                // same register on both skins, which is true of all four masks. It
+                                // is not true of the diffuse: ChisaParfait binds it at `ps-t3` and
+                                // Chisa reads it at `ps-t2`, so the first diffuse edit put the
+                                // body's own art on `ps-t3` and left `ps-t2` holding a file the mod
+                                // does not ship. In game the whole body rendered flat red.
+                                //
+                                // `editedRoleOf_` is keyed by the mod's own name, and by every
+                                // variant of it, which is exactly what is wanted here. `editedOf`
+                                // below still swaps the edited copy in once the role is known.
+                                const auto edited = editedRoleOf_.find(resource);
+                                if (edited != editedRoleOf_.end()) {
+                                    return edited->second;
+                                }
+
+                                return std::nullopt;
                             };
 
                             // ...and the same row by KIND, for a carried binding whose role belongs
@@ -4568,6 +4606,10 @@ namespace AGRemapCore {
                         resourceOfRole_[edit.role] = resource;
                         for (auto& entry : resourceOfSlotRole_) {
                             if (entry.first.first == edit.role) {
+                                // What the MOD called it, kept before this is overwritten -- the
+                                // carried-register re-key reads resource -> role and has to know
+                                // the mod's own names, not the fix's copies. See roleOf.
+                                preEditResourceOfSlotRole_.emplace(entry.first, entry.second);
                                 entry.second = resource;
                             }
                         }
@@ -5035,6 +5077,7 @@ namespace AGRemapCore {
                 std::string textureFolder_;
                 std::map<std::string, std::string> resourceOfRole_;   // role -> resource, for what every component shares (a created texture, a download)
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
+                std::map<std::pair<std::string, int>, std::string> preEditResourceOfSlotRole_;  // ...as it read before a texture edit rewrote it, for the carried re-key
                 std::vector<std::string> remapNames_;   // the mod names a fix of this .ini could have named its sections after
                 std::vector<std::pair<std::string, std::string>> declared_;   // (file, path relative to the .ini) for a file no resource of the .ini names
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it

@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <algorithm>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -35,6 +36,14 @@ namespace AGRemapCore {
         // carry 126 and 0. Measured on 3f0e6f21 and 9a92af7f -- see maskRepackFilter.
         constexpr std::uint8_t TargetMaskB = 0;
         constexpr std::uint8_t TargetMaskA = 255;
+
+        // ---- the ceiling a body DIFFUSE's alpha may reach on Chisa -------------------------------
+        //
+        // Measured over every body diffuse either character ships: Chisa's own reach 112, 114 and
+        // 119 with a mode of 102, and ChisaParfait's reach 112, 113, 113, 125 and 134. Not one of
+        // the ten goes near 255, because on this shader the diffuse's alpha is not opacity -- it is
+        // a scalar the body pass reads. See diffuseAlphaClampFilter.
+        constexpr std::uint8_t TargetDiffuseAlphaMax = 119;
 
         // The inverse of ChisaFixer's hairNormalFilter, and not a copy of it: the two characters
         // pack this map DIFFERENTLY, so the constants are different and had to be measured on
@@ -100,6 +109,51 @@ namespace AGRemapCore {
                 for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
                     px[i + 2] = TargetMaskB;
                     px[i + 3] = TargetMaskA;
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+
+
+        /**
+         * @brief A body diffuse's alpha clamped into the band Chisa's own diffuses occupy
+         *
+         * **The red aura reported on ChisaParfait3 (2026-10-03).** The whole character bloomed red,
+         * on that mod alone out of four. The diffuse's alpha is a scalar Chisa's body pass reads,
+         * not opacity: every body diffuse either character ships sits at a mode of 102 with a
+         * ceiling of 134, and that mod's carries **255 over 100%** of the texture -- its author
+         * saved it fully opaque, which here reads as "that term at full" and blows the surface out
+         * far enough to bloom.
+         *
+         * It is the diffuse and nothing else: with only `ps-t1` bound the mod is clean and with only
+         * `ps-t2` bound it glows, and the glow does not depend on the diffuse's CONTENT -- a flat
+         * magenta written over it glows exactly the same, at 4096 and at 2048. The deciding A/B is
+         * the same file written twice through the same encoder, alpha 102 against alpha 255: clean,
+         * then glowing.
+         *
+         * A clamp rather than a replacement, because the band is real data on the mods that carry
+         * it -- the other three sit at 102 over 82-92% with zeros elsewhere. Measured on all four
+         * after this landed, the written copies reach 109, 112, 112 and 119: only the offending
+         * one moved, and the clamp changed no alpha already inside the band. (A copy is still
+         * WRITTEN and re-encoded for every mod, as every `texEdit` here is -- the mask repack above
+         * does the same. The claim is about the values, not about the bytes on disk.)
+         *
+         * RGB is untouched. The mod's colours were never the problem.
+         */
+        TexEditor::Filter diffuseAlphaClampFilter() {
+            return [](TextureFile& tex) {
+                // THE GAMMA STAYS ON, unlike maskRepackFilter and hairNormalFilter above. Those
+                // two edit DATA and turn it off so the bytes pass through; this one edits a
+                // COLOUR texture, and an edit is written out UNCOMPRESSED and without the source's
+                // sRGB flag -- so the game samples it linearly, and `save`'s gamma is exactly the
+                // compensation that keeps it looking like the file it replaced. Turned off here,
+                // the written copy is byte-identical in RGB to the source and the character renders
+                // visibly washed out: paler skin, and the red bikini pink. Measured in game both
+                // ways on 2026-10-03.
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 3; i < px.size(); i += 4) {
+                    px[i] = std::min(px[i], TargetDiffuseAlphaMax);
                 }
 
                 tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
@@ -540,6 +594,24 @@ namespace AGRemapCore {
              }},
             {"propMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
                  return maskRepackFilter();
+             }},
+
+            // And every DIFFUSE bound on a body slot, for the same reason and over the same four
+            // roles: the alpha is a scalar Chisa's body pass reads, and a mod saved fully opaque
+            // drives it to full. See diffuseAlphaClampFilter. The hair and face diffuses are left
+            // alone -- their passes are a different register layout and nothing has been measured
+            // there, which is the honest reason rather than a claim that they are safe.
+            {"upperDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
+             }},
+            {"lowerDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
+             }},
+            {"panelDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
+             }},
+            {"propDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
              }},
         };
 

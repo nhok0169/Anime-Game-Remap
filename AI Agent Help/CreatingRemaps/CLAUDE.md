@@ -4031,20 +4031,36 @@ yellow skirt.
 
 **The same file was its own control the whole time.** Its lower-body section (`Component7`) carries
 no such lines, so the fix's list stands there -- and the belt, sash, garter and hat that section
-draws were correct in game through every round, beside an upper body that was not. One `grep -c
-"^\s*ps-t"` per remapped section says which sections are affected, and over the whole corpus it is
-**13 lines in that one mod and ZERO in the other 40 fixed `.ini` files**, which is also the blast
-radius of the fix (measured: three other mods' outputs byte-identical across the change).
+draws were correct in game through every round, beside an upper body that was not.
 
 `WWMIFixer`'s `CarriedTexRegs` re-keys each such line by ROLE -- the role of the RESOURCE, which the
 texture scan has already decided -- to the register the target reads for it, applying the fix's
-edited copy where one was written. Slot 5's group comes out as exactly the fix's own list. A role
-belonging to another component falls back to its KIND (`lowerDiffuse` -> `Diffuse` -> this row's
-`panelDiffuse` register), which is legitimate only because the role NAMES are the config's own, and
-only where the kind is unambiguous in the row -- `irisDiffuse` at `ps-t1` and `eyeDiffuse` at `ps-t4`
-share one. A resource whose role is unknown is **dropped**, not guessed: the list has already bound
-every role the target's draw reads, so dropping leaves a correct binding standing while keeping one
-leaves a texture of unknown meaning at a register the target reads for something else.
+edited copy where one was written, and inserting it at the position the old line held. Slot 5's
+group comes out binding exactly what the fix's own list binds. A role belonging to another component
+falls back to its KIND (`lowerDiffuse` -> `Diffuse` -> this row's `panelDiffuse` register), which is
+legitimate only because the role NAMES are the config's own, and only where the kind is unambiguous
+in the row -- `irisDiffuse` at `ps-t1` and `eyeDiffuse` at `ps-t4` share one.
+
+**A LINE WHOSE ROLE IS UNKNOWN IS LEFT WHERE IT IS, AND THE FIRST CUT DROPPING IT WAS A REGRESSION
+ON THREE OTHER MODS.** The reasoning for dropping sounded airtight -- the fix's list has already
+bound every role the target's draw reads, so a leftover can only be a texture of unknown meaning at
+a register the target reads for something else. It took `ps-t17 = ResourceClothFX` out of
+Sanhua2's frost mod and `ps-t17 = ResourceUpper_FX` out of Sanhua5, which are **not registers any
+plan row names**: the target's shader reads them independently of this fix, and no list was ever
+going to put them back. Keeping them costs nothing, because the re-key is in PLACE and a mod writes
+its group in its own layout order -- on slot 5 the unknown `5_0` sits at `ps-t0` BEFORE the re-keyed
+`5_2` arrives there, so the right one still wins, and the generated `.ini` shows both lines.
+
+**And the measurement that licensed the drop was itself wrong, which is the lesson worth keeping.**
+The corpus count said "13 carried lines in that one mod and ZERO in the other 40 fixed `.ini`
+files". It was an `awk '/^\[TextureOverride.*ChisaRemapFix\]/,/^\[[^T]/'` range piped to `grep -c`
+-- a range that ENDS at the first section whose name does not start with `T`, and a pattern that
+only matches the Chisa direction, so it never looked at a `SanhuaExorcistRemapFix` section at all.
+It did not report an error; it reported a zero (**habit 34** again, in the shape the guide warns
+about: a check that cannot say "nothing was checked"). What found the three regressions was the
+blunt instrument instead -- snapshot every `*RemapFix*.ini` in the corpus, re-fix all 24 mod folders,
+`filecmp` the lot. **49 of 52 identical now**, the three that move being archived `_before<X>Fix`
+copies whose `.ini` were last written by a much older build (proved by re-fixing each twice: stable).
 
 **TWO WRONG TURNS ON THE WAY, BOTH WORTH MORE THAN THE FINDING.**
 

@@ -505,10 +505,10 @@ namespace AGRemapCore {
          * order, which is a role rotation on the target's shader.
          *
          * The role is asked of the RESOURCE, which the texture scan has already decided, and the
-         * register is the one the target reads for that role. A resource whose role is unknown is
-         * DROPPED rather than guessed: the fix's list has already bound every role the target's
-         * draw reads, so dropping leaves a correct binding standing, while keeping one leaves a
-         * texture of unknown meaning at a register the target reads for something else.
+         * register is the one the target reads for that role. A line whose role is unknown is left
+         * exactly where it is: this fix has no opinion about a register no plan row names, and the
+         * re-keyed lines are inserted in place, so the author's own ordering still decides who wins
+         * where two of them land on one register.
          */
         /**
          * @brief What a config's role name says the texture IS, with the part it belongs to stripped
@@ -566,11 +566,19 @@ namespace AGRemapCore {
                         const std::optional<std::string> role = roleOf_(StringTools::toLower(value));
                         const std::optional<std::string> reg = role.has_value() ? regOf_(*role) : std::nullopt;
 
+                        // LEFT ALONE rather than dropped. A role the scan does not know is a
+                        // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is
+                        // one, and the first cut of this edit took it out of two Sanhua mods.
+                        if (!reg.has_value()) {
+                            continue;
+                        }
+
+                        // In place, so the mod's own ordering decides who wins where two lines land
+                        // on one register: the unknown `5_0` at `ps-t0` precedes the re-keyed `5_2`
+                        // that arrives there, which is the layout order the author wrote.
                         const auto at = static_cast<size_t>(item->orderIndex);
                         part.removeKVPAt(at);
-                        if (reg.has_value()) {
-                            part.addKVPAt(static_cast<long long>(at), *reg, editedOf_(value, *role));
-                        }
+                        part.addKVPAt(static_cast<long long>(at), *reg, editedOf_(value, *role));
                     }
 
                     return part;

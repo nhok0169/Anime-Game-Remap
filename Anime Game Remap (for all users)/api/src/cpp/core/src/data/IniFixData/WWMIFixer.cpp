@@ -692,9 +692,19 @@ namespace AGRemapCore {
                         // In place, so the mod's own ordering decides who wins where two lines land
                         // on one register: the unknown `5_0` at `ps-t0` precedes the re-keyed `5_2`
                         // that arrives there, which is the layout order the author wrote.
+                        //
+                        // An EMPTY answer means the fix refused this file for this role and has
+                        // nothing to stand in: the line goes and nothing replaces it, so the game's
+                        // own texture stays bound. Nothing returned empty before 2026-10-03, so this
+                        // branch is inert for every caller that does not use it.
+                        const std::string replacement = editedOf_(value, *role);
                         const auto at = static_cast<size_t>(item->orderIndex);
                         part.removeKVPAt(at);
-                        part.addKVPAt(static_cast<long long>(at), *reg, editedOf_(value, *role));
+                        if (replacement.empty()) {
+                            continue;
+                        }
+
+                        part.addKVPAt(static_cast<long long>(at), *reg, replacement);
                     }
 
                     return part;
@@ -2464,6 +2474,33 @@ namespace AGRemapCore {
 
                 }
 
+                /**
+                 * @brief
+                 @rst
+                 Remembers that the scan REFUSED one of the mod's files for a role
+                 @endrst
+                 *
+                 * Dropping a candidate is only half of it: the mod's own `ps-t` line still names the
+                 * file, and a line whose resource resolves to no role is deliberately left alone --
+                 * which put the refused file back, after the fix's list and outside its `if vs ==`
+                 * guard, so unconditionally. ChisaParfait3's `3_1.dds` is a constant
+                 * ``(255, 18, 123, 255)``; refused as a flat upperMask, the source's own was
+                 * downloaded and repacked, and then the carried line re-bound the flat one across
+                 * the mod's whole custom body -- whose shader reads R = 255 as bare skin.
+                 *
+                 * @param scan The running scan, for its file -> resource index
+                 * @param file The mod's file that was refused
+                 * @param role The role it was refused FOR -- it may still serve another
+                 */
+                void reject(const TextureScan& scan, const std::string& file, const std::string& role) {
+                    const auto resource = scan.resourceOfFile.find(file);
+                    if (resource == scan.resourceOfFile.end()) {
+                        return;
+                    }
+
+                    rejectedForRole_.emplace(StringTools::toLower(resource->second), role);
+                }
+
                 // Three passes that take candidates AWAY: the same file found twice, a mask that is
                 // really the slot's normal map, and a file left to the game.
                 void narrowRoleCandidates(TextureScan& scan) {
@@ -2526,6 +2563,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
+                            reject(scan, candidate.first, entry.first);
                             ctx_.log(FileService::getRelPath(candidate.first, scan.iniFolder)
                                      + " is bound for another role of its own slot too, so it is not"
                                      + " the mod's " + entry.first + "; "
@@ -2558,6 +2596,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
+                            reject(scan, candidate.first, entry.first);
                             ctx_.log(FileService::getRelPath(candidate.first, scan.iniFolder)
                                      + " is a flat " + entry.first + ", which marks no regions; "
                                      + (toGame ? "left to the game" : "the source's own is used instead"));
@@ -3506,6 +3545,15 @@ namespace AGRemapCore {
                                     return edited->second;
                                 }
 
+                                // ...AND A FILE THE SCAN REFUSED FOR A ROLE (2026-10-03). It is not
+                                // in `resourceOfSlotRole_` precisely BECAUSE it was dropped, so it
+                                // resolved to no role and the line was left alone -- putting the
+                                // refused file back. See `reject`.
+                                const auto refused = rejectedForRole_.find(resource);
+                                if (refused != rejectedForRole_.end()) {
+                                    return refused->second;
+                                }
+
                                 return std::nullopt;
                             };
 
@@ -3546,13 +3594,26 @@ namespace AGRemapCore {
                             // Same rule as bindLine's `toEdited`: swap in the fix's edited copy, but
                             // only for the role that edit was registered for, since one file may
                             // serve several
-                            auto editedOf = [this](const std::string& resource, const std::string& role) {
+                            auto editedOf = [this, component](const std::string& resource, const std::string& role) {
                                 const std::string bound = StringTools::toLower(resource);
                                 const auto swap = editedResourceOf_.find(bound);
                                 const auto owns = editedRoleOf_.find(bound);
                                 if (swap != editedResourceOf_.end() && owns != editedRoleOf_.end()
                                         && owns->second == role) {
                                     return swap->second;
+                                }
+
+                                // A FILE REFUSED FOR THIS ROLE DOES NOT GO BACK. The role resolved
+                                // to something else -- the source's own, downloaded and edited -- so
+                                // the carried line follows it. Where nothing stands in
+                                // (`flatLeftToGame`), an EMPTY answer asks for the line to be
+                                // dropped instead, which leaves the game's own texture bound: that
+                                // is what the mod did on its own character, and binding the refused
+                                // file is strictly worse than binding nothing.
+                                const auto refused = rejectedForRole_.find(bound);
+                                if (refused != rejectedForRole_.end() && refused->second == role) {
+                                    const std::string* resolved = resourceFor(role, component);
+                                    return resolved != nullptr ? *resolved : std::string();
                                 }
 
                                 return resource;
@@ -5493,6 +5554,7 @@ namespace AGRemapCore {
                 std::map<std::string, std::string> gameResourceOfRole_;  // role -> what a pre-binding draw binds: the source's own game texture, edited
                 std::map<int, std::vector<std::string>> lateBindRegs_;   // source component -> the registers its own section binds AFTER it has already drawn
                 std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
+                std::map<std::string, std::string> rejectedForRole_;  // resource -> the role the scan REFUSED it for, so a carried line cannot put it back
                 std::vector<std::string> textureLists_;
                 std::unordered_map<std::string, std::string> passFilters_;
 

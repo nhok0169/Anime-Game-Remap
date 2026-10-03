@@ -3433,76 +3433,98 @@ instrument failures rather than domain mistakes. A statistic over guessed pixel 
 the background and the UID box. A hue classifier over a painted frame conflated yellow with orange
 and was not trusted. What worked every time was turning one draw off and looking.
 
-### A RED GLOW ON ONE MOD: NINE PROBES, AND TWO OF THEM LIED (2026-10-03, OPEN)
+### A BODY DIFFUSE'S ALPHA IS A SCALAR THE SHADER READS, AND A MOD SAVED OPAQUE BLOOMS (2026-10-03)
 
-ChisaParfait3 renders with a bright red aura around the whole character -- in game, and in a frame
-dump as a body silhouette written **flat saturated red** into `o0` where the same draw of a clean mod
-writes black. The other three mods of the pair are clean. **It is not fixed. What follows is the
-eliminated set, so the next session does not re-run any of it.**
+ChisaParfait3 rendered with a bright red aura around the whole character -- one mod out of four.
+**It is the diffuse's alpha.** On Chisa's body pass that channel is not opacity: every body diffuse
+either character actually ships sits at a mode of **102** with a ceiling of **134** (Chisa's own
+reach 112, 114, 119; the skin's 112, 113, 113, 125, 134). That mod's carries **255 over 100% of the
+texture** -- its author saved it fully opaque -- which reads as that term at full and blows the
+surface out far enough to bloom. `ChisaParfaitFixer`'s `diffuseAlphaClampFilter` clamps the four
+body diffuse roles into the target's band, which is a no-op for a texture already inside it.
 
-**What is established.** Suppressing the fifteen `drawindexed` lines of
-`TextureOverrideComponent3<Fix>` removes the glow completely -- and removes the body with it, so that
-draw both paints the upper body and produces the aura. Nothing narrower than the whole draw has moved
-it.
+**The deciding measurement is one file written twice through the same encoder**, same RGB, same
+format, alpha 102 against alpha 255: clean, then glowing. Everything before that had a confound in
+it, so make this A/B the first thing you reach for, not the last.
 
-**Eliminated, each by its own probe:**
+**How it was narrowed, in the order that worked:**
 
-| probe | result |
-| --- | --- |
-| the material mask, **deleted** so the register keeps the game's | still glows |
-| a flat mask coded as CLOTH (`R = 0`), the gloss and packing kept | still glows |
-| the normal map unbound | still glows |
-| the diffuse's alpha clamped from 255 to **102**, the band both characters' own body diffuses sit in | still glows |
-| the diffuse at **half** brightness | still glows |
-| the atlas's saturated-red band (`U` 0.85..1.0) painted **green** | still glows, and **no green anywhere on the body** |
-| `3_3.dds` and `3_3_0.dds` **replaced on disk** by flat magenta | still glows, and the body does not change colour |
-| the pass gate (`if vs == <slot 3's pass>`) removed from the texture list | still glows, still no magenta |
-| the mod's own UI `.ini` disabled | still glows |
+1. Remove **every** texture line from the section (both lists' `run =` and the carried `ps-t`) so
+   the draw takes the game's own art -- **no glow**. That is what said it was a texture at all;
+   removing them one at a time never did, because each removal left the others and `ps-t2` alone is
+   enough.
+2. Put exactly one back. `ps-t1` only: **clean**. `ps-t2` only: **glows**. One round each, and it
+   named the register.
+3. Vary that texture's content. Flat magenta glows the same, at 4096 and at 2048, with and without
+   the pass gate -- so not the content, not the size. Alpha was the one property left.
 
-**Two earlier probes had said the opposite, and both were wrong.** They are the reason this section
-exists.
+**Two probe bugs are why this took a night, and both are the kind that report success.**
 
-* **`ps-t2 = null` removed the glow** -- and a null UNBINDS, so the shader samples zero and the body
-  goes black. Every albedo-modulated term disappears with it. That is not a bisect, it is turning the
-  lights off, and it sent the search after the diffuse's contents for hours. The guide already says
-  to **delete** a binding rather than null it when the question is "what is this register for"; the
-  same rule applies when the question is "is this register the cause".
-* **A flat magenta at `ps-t2` removed the glow** -- written with `TextureFile.saveAs` from a 2048
-  source, which produced an **uncompressed BGRA** `.dds` the game does not load. An unloadable probe
-  is a null with extra steps. Re-made as a real `BC7` copy of the texture it replaced, it glows like
-  everything else. **Check a probe texture's `DXGI` format and byte count before believing a result
-  that depends on it** -- `4096**2` BC7 and `2048**2` BGRA are both 16777364 bytes, so size alone
-  does not tell them apart.
+* **`setPixels` + `saveAs` does not write the edited pixels.** `saveAs` re-encodes from `src`, so a
+  `.dds` -> `.dds` probe is a byte copy of the original however the pixels were changed. Six probes
+  -- an alpha clamp, a half-brightness copy, a painted UV band, two flat colours and a resize --
+  were all no-ops that looked like results, and one of them ("the painted band does not appear on
+  the body") was read as evidence. **Use `save(img)`**, and read the file back and assert the
+  channel actually moved before believing anything the probe says.
+* **`ps-t<n> = null` is not "remove this binding".** A null UNBINDS, so the shader samples zero and
+  the body goes black -- every albedo-modulated term disappears with it, which reads exactly like
+  having found the cause. Delete the line instead, so the register keeps the game's own. This file
+  already said that for "what is this register for"; it holds just as hard for "is this register the
+  cause".
 
-**Then the search moved off the textures entirely, and that is the state it is in.** Four more
-rounds, each one its own probe:
+**And `getPixels()` is destructive** -- the second call on the same `TextureFile` returns an empty
+buffer. Read it once into a variable.
 
-| probe | result |
-| --- | --- |
-| the normal map **deleted** (not nulled), so the register keeps the game's own | still glows |
-| both texture lists' `run =` lines dropped, so the fix binds component 3 **nothing** | still glows |
-| component 5's draws suppressed (it shares the slot) | still glows -- those draws are the SKIRT |
-| only the last of the fifteen `drawindexed` kept, so one draw instead of fifteen | still glows |
-| the vertex COLOUR stream (`vb3`) nulled | still glows |
+**What it was NOT**, each closed by its own round, so none of it needs re-running: the material mask
+(deleted, and bound as flat cloth), the normal map (deleted), the diffuse's brightness, the atlas's
+saturated-red `U` band, the carried `ps-t` lines, the pass gate, the extra pass, the fifteen toggled
+draws (one draw glows as readily as fifteen), the vertex colour stream, the buffer strides (every
+resource the fix writes for this mod divides exactly, at 90193 vertices), and the mod's own UI
+`.ini`.
 
-With all three of its registers gone and one draw left, it still glows. **So it is the draw, not
-anything bound for it** -- and the next session should start on the vertex side (`vb6`, the merge
-slot's skeleton, the blend remap) rather than re-running any texture probe. The buffer strides are
-NOT it: every resource the fix writes for this mod divides exactly, at 90193 vertices both ways.
+**One structural fact found on the way, which is the merge working as designed:**
+`TextureOverrideComponent3<Fix>` and `TextureOverrideComponent5<Fix>` carry the same `hash`, the
+same `match_first_index` and the same `match_index_count` -- as do 4 and 7 -- because each pair
+merges onto one target slot, and they live in different `.ini` files. Both run and both draw:
+suppressing one takes away the body, the other the skirt. A pair that reads like an accidental
+duplicate here is not one.
 
-**One structural fact found on the way, which is the merge working as designed and worth knowing
-anyway:** `TextureOverrideComponent3<Fix>` and `TextureOverrideComponent5<Fix>` carry the **same
-`hash`, the same `match_first_index` and the same `match_index_count`** -- as do components 4 and 7 --
-because each pair merges onto one target slot. They live in different `.ini` files, which is the
-documented merge shape, and in game both run and both draw: suppressing one takes away the body and
-suppressing the other takes away the skirt. A section pair that looks like an accidental duplicate
-here is not one.
+<br>
 
-**And the lead that is still open, a second defect either way:** the fix's own component-3 bindings
-never reach component 3's draw. Replacing `3_3.dds` on disk changes nothing on screen, gated or
-ungated, while a frame dump of the slot-3 draw shows `ps-t2` holding **`4_3.dds`** -- the file
-component 4 binds. So the body is painted by a neighbouring component's atlas and the role the config
-resolved for component 3 is discarded before the draw. Find out which section writes `ps-t2` last.
+### REGISTERING A TEXTURE EDIT HID THAT ROLE'S FILE FROM THE CARRIED-REGISTER RE-KEY (2026-10-03)
+
+The alpha clamp above is the first `texEdit` this pair has on a role whose register DIFFERS between
+the two skins, and it broke the mod on sight: the body came back flat red and the skirt drew with
+the downloaded game atlas. The clamp was innocent.
+
+`addTexEdits` rewrites every `resourceOfSlotRole_` entry of the edited role to the fix's own copy
+("every binding of the role follows the edited file"), and `CarriedTexRegs` builds its resource ->
+role index from that same map. So a carried line naming the MOD's own file resolved to no role, and
+an unknown role is **left alone** -- on the register the SOURCE used. ChisaParfait binds her body
+diffuse at `ps-t3` and Chisa reads it at `ps-t2`, so the mod's art landed on `ps-t3` while `ps-t2`
+kept `ResourceTexture3_2`, a file that mod does not even ship.
+
+**It had been latent since `CarriedTexRegs` landed**, invisible only because every edited role until
+now -- all four masks -- happens to sit at the same register on both skins, where leaving the line
+alone and re-keying it are the same thing. The fix keeps the pre-edit names
+(`preEditResourceOfSlotRole_`) and indexes them alongside the current ones. **A role whose register
+moves between the skins is the case to check whenever you add a `texEdit`.**
+
+### AND AN EDIT IS WRITTEN UNCOMPRESSED AND UNFLAGGED, SO A COLOUR EDIT KEEPS ITS GAMMA
+
+`maskRepackFilter` and `hairNormalFilter` both open with `tex.setGamma(std::nullopt)` because they
+edit DATA, and copying that line into a diffuse edit is the obvious-looking mistake: it makes the
+written copy byte-identical in RGB to the source, which sounds like exactly what an alpha-only edit
+wants, and the character renders visibly **washed out** -- paler skin, the red bikini pink.
+
+The reason is that an edit is saved as a plain uncompressed `.dds` (4096x4096 comes out at 67 MB)
+and does **not** carry the source's `BC7_UNORM_SRGB` flag, so the game samples it linearly. `save`'s
+gamma is the compensation that keeps it looking like the file it replaced. So: **gamma off for a
+mask or a normal map, gamma on for anything the shader reads as colour** -- and confirm it in game
+rather than from the channel values, which read "correct" exactly when the render is wrong.
+
+An identity round trip through `save(img)` with the gamma on turns `(27, 28, 30)` into `(2, 2, 2)`,
+which looks alarming in isolation and is the intended compensation.
 
 <br>
 

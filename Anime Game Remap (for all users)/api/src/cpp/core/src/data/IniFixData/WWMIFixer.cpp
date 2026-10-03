@@ -3149,6 +3149,16 @@ namespace AGRemapCore {
                                     }
                                 }
 
+                                // THE DRAW, SUPPRESSED ON THIS PASS (2026-10-03) -- see
+                                // WWMIFixerConfig::extraPassNoDraw. Inside the list, which is
+                                // already gated on the pass, so it reaches that pass alone.
+                                const auto noDraw = config_.extraPassNoDraw.find(planned.slot);
+                                const bool suppress = noDraw != config_.extraPassNoDraw.end()
+                                                      && noDraw->second.count(pass) > 0;
+                                if (suppress) {
+                                    extraBindings.emplace_back(IniKeywords::Ib, IniKeywords::Null);
+                                }
+
                                 if (extraBindings.empty()) {
                                     ++n;
                                     continue;

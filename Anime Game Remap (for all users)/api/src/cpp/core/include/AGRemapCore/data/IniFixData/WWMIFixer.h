@@ -506,6 +506,24 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, std::map<std::string, std::vector<Binding>>> extraPassRegs;
+
+        /**
+         * @brief
+         @rst
+         Target slot -> the passes of :cpp:member:`extraPassRegs` its draw must NOT be re-issued on
+         @endrst
+         *
+         * A remapped section matches by hash and index window, which name no pass, so it runs on
+         * EVERY pass that draws its slot and re-issues `drawindexed` on each. That is right where
+         * the target really draws the slot on that pass, and wrong where the pass belongs to the
+         * SOURCE's shader set: the second write is the same geometry under a different vertex
+         * shader, offset from the first, which reads in game as a ghost limb.
+         *
+         * Suppressed with `ib = null` inside the pass's own gated list, so it reaches that pass and
+         * nothing else, and the textures stay bound for a slot that does draw there. Empty by
+         * default, so no earlier pair's output moves.
+         */
+        std::map<int, std::set<std::string>> extraPassNoDraw;
         /**
          * @brief
          @rst

@@ -442,6 +442,26 @@ namespace AGRemapCore {
                                       {"ps-t0", "propDiffuse", 7}}}}},
         };
 
+        // ---- and the BODY slots do not DRAW on that pass -----------------------------------------
+        // Chisa draws her slot 3 on `42721e1d` / `21176cf6` / `50f2ed80` and her slot 4 likewise --
+        // `f8c96a270bf847dd` is in neither, so it is the SKIN's pass, not hers. A remapped section
+        // matches by hash and window, which name no pass, so it ran on that one too and wrote the
+        // body into the G-buffer a second time under a different vertex shader (`e4a3da6d1d1068b9`
+        // against the real `b3c7ad652f7a1c40`, with a `vs-cb6` the real pass does not read). Same
+        // geometry, same blend, both skeletons ours -- and offset, which is the ghost limb reported
+        // on every mod of this pair and on the identity.
+        //
+        // The maintainer found the paint before the draw: a flat blue on this list's `ps-t0` came
+        // out as a blue ghost around the arms, and with the list not run the ghost merely went
+        // BLACK rather than away, which is what says the geometry is drawn regardless.
+        //
+        // The two HAIR slots keep their draw: gating 3 and 4 alone is clean in game, and 0 and 1
+        // really are drawn on that pass.
+        config.extraPassNoDraw = {
+            {3, {"f8c96a270bf847dd"}},
+            {4, {"f8c96a270bf847dd"}},
+        };
+
         // ---- the shape keys are RETARGETED, not hidden -------------------------------------------
         // The same two lines the forward direction sets, for the same reason, and the 2026-09-28
         // audit found them missing here: the template's DEFAULTS hide the two shape-key overrides

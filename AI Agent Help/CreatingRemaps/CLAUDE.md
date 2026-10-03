@@ -3517,6 +3517,61 @@ had come from a different build. Building the pre-change code and re-fixing just
 it at zero. **A mod the maintainer has installed is not a controlled input**; park it, or re-fix it
 with both builds before believing its diff.
 
+### A TEXTURE TOGGLE HAS TWO SHAPES, AND ONLY ONE OF THEM WAS BEING READ (2026-10-03)
+
+The alpha clamp above was verified in game and then the maintainer pressed the **down key** and the
+red aura came straight back. `VK_DOWN` cycles `$key2`, and `$key2` is what picks between the upper
+body's two diffuse variants -- so the clamp had been built from whichever one the role resolved to
+while the other branch kept the mod's raw file.
+
+**`readConditionalBindings` only knew the `this` shape.** A toggle mod usually writes
+
+```
+[TextureOverrideTexture7]
+if $hair == 0
+    this = ResourceTexture7
+else
+    this = ResourceTexture7a
+endif
+```
+
+and that is what it reads. ChisaParfait3 writes the same toggle as a **register binding inside the
+component's own section**, which the scan never looked at:
+
+```
+[TextureOverrideComponent3]
+if $key2 == 1
+    ps-t3 = ResourceTexture3_3
+else
+    ps-t3 = ResourceTexture3_3_0
+endif
+```
+
+`readRegisterVariants` reads it now. Two rules in it are worth keeping:
+
+* **Group per (section, register), never per section.** Two registers of one section are two
+  different roles, and merging them would run a mask's filter over a diffuse.
+* **A register bound to several resources in a MERGED section is still one group.** Component 5 of
+  that mod puts the panel's, the upper body's and the lower body's art through one `ps-t3` on its
+  toggles, and each of the three is that slot's diffuse while its branch is live. A file another
+  role's edit has already claimed is left to that role, so one file in two groups is not edited
+  twice.
+
+**The check that does not need the game, and would have caught both rounds:** resolve every `ps-t`
+binding the fix writes to its file and print the file's alpha ceiling. Anything above the target's
+band on a diffuse register is a glow waiting for a toggle. On this mod it now prints two raw
+bindings at `ps-t2` -- and they are harmless only because each is overwritten by a clamped binding
+before the next draw.
+
+**Which is the next thing to look at.** Those two are ChisaParfait's DETAIL map, a role the fix
+deliberately drops; `CarriedTexRegs` leaves an unknown role alone, and on Chisa `ps-t2` is the
+**diffuse**. This author happens to write detail before diffuse, so the diffuse always lands last.
+A mod that writes them the other way round would put a detail map on the diffuse register. Leaving
+an unknown role alone is right where the register collides with nothing -- `ps-t17 = ResourceClothFX`
+on a Sanhua mod -- and wrong where it is a register the slot's own plan uses.
+
+<br>
+
 ### AND AN EDIT IS WRITTEN UNCOMPRESSED AND UNFLAGGED, SO A COLOUR EDIT KEEPS ITS GAMMA
 
 `maskRepackFilter` and `hairNormalFilter` both open with `tex.setGamma(std::nullopt)` because they

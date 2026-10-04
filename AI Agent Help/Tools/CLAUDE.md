@@ -188,7 +188,7 @@ pipeline writes what gets committed, and the ScriptBuilder on its own is what yo
 working *on* the script. Running the ScriptBuilder directly therefore leaves a non-shippable script
 in a tracked folder; check `EnvName` in the compiled script before committing it.
 
-### Changing the script: the loop, and four things it will not tell you (2026-10-04)
+### Changing the script: the loop, and seven things it will not tell you (2026-10-04)
 
 A script request is usually small, and the whole loop is ten minutes once you know it:
 
@@ -197,9 +197,12 @@ A script request is usually small, and the whole loop is ten minutes once you kn
    `python` is the Microsoft Store alias and prints "Python was not found" -- use `py -3`.
 3. Run the compiled `script build/src/FixRaidenBoss2/AGRemap.py`, not `Tools/Script/main.py`: the
    latter is always the `dev` path and cannot show a `prod` behaviour. For "the API is not
-   installed", use a scratch venv (`py -3.13 -m venv <scratchpad>/venv`) -- none of the dev Pythons
+   installed", use a scratch venv (`py -3.X -m venv <scratchpad>/venv`) -- none of the dev Pythons
    here have `FixRaidenBoss2` installed, and none should get it. For "the API IS installed", put
-   `PYTHONPATH=<repo>/api/src/py` in front of `py -3.13` rather than downloading from pypi. **Never
+   `PYTHONPATH=<repo>/api/src/py` in front of `py -3.X` rather than downloading from pypi. **`3.X`
+   must be the Python the API's `.pyd` was built for** -- read it off `ls api/src/py/FixRaidenBoss2/*.pyd`
+   (`core.cp39-...` on the laptop, where `py -3.13` does not exist and fails with "No suitable
+   Python runtime found"), not off this line. **Never
    run a `prod` script without `-h` in a venv lacking the API unless you mean it**: it pip-installs.
 4. `git diff --stat` the compiled script: the three build stamps always change; anything else should
    be exactly your source change, and `EnvName = "prod"`.
@@ -215,6 +218,24 @@ What the code will not tell you:
 * **The pre-parser's leftover arguments are thrown away.** The API's `CommandBuilder.parse()` reads
   `sys.argv` itself, so the script's pre-parser may recognise any flag (it notes `-h/--help`) without
   hiding it from the API -- and conversely, filtering `remainingArgs` changes nothing the API sees.
+* **`--help` with the API installed goes through `load()` -> `prepare()`** before the API prints
+  its help, so anything `prepare` downloads or updates also runs on a plain `-h`. The 2026-10-04
+  default-update change did exactly that until `-h` was tested with the API on `PYTHONPATH` and a
+  wall of pip output came back; `prepare` now skips the update when `args.help` is set. Test `-h`
+  in BOTH states after touching `prepare`.
+* **Test the download decision without the network: load the COMPILED script with
+  `importlib.util.spec_from_file_location`, replace its `pip.main` with a recorder, and call
+  `PackageApiRef.prepare` on a hand-made `argparse.Namespace`** (stub `isInstalled`, or
+  `importlib.util.find_spec` + `importlib.metadata.version` for the version gate) -- a table of
+  (installed, version, flags) -> pip calls in seconds. A real pip run from an agent shell fails
+  anyway (`CERTIFICATE_VERIFY_FAILED`), and `pip.main` failing does NOT raise: the script falls
+  through to whatever is importable, so a "clean" run says nothing about whether it updated.
+* **Renaming one of the script's own options touches seven hand-kept places**, none generated:
+  the two enums (`CommandOpts` / `ShortCommandOpts`), `PackageApiRef`, the option tables in
+  `api/README.md`, `apiMirror/README.md` and `Docs/src/commandOpts.rst`, the env tables in the
+  `Script`, `ScriptBuilder` and `CIPipeline` READMEs, and this guide plus Documentation's line
+  naming them. Grep the repo for the old long AND short form (`-up\b`) before calling it done,
+  then recompile the `prod` script -- it is tracked and carries the old strings until you do.
 * **The script cannot import anything from the API to build its own output** -- the point of a
   pre-API path is that the API may not exist. Strings the two share (the help description, the docs
   URL in `constants/Links.py`) are duplicated on purpose.

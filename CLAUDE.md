@@ -1341,7 +1341,9 @@ moved to `src/py/` during the C++ migration, none of which anything reported.
 **Read [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) before touching anything under `Tools/`, and run
 the tool before you change it.**
 **A `prod` script's `--help` no longer downloads the API (2026-10-04)**: with the package not
-installed it prints only the script's own options. A change to the script is tested from the
+installed it prints only the script's own options. **Every other run UPDATES the API by default**
+(`--disableUpdate/-dup` opts out; the old opt-in `--update/-up` is gone), and an installed API at
+or below `4.6.4` -- the old pure-Python library -- counts as not installed. A change to the script is tested from the
 COMPILED `AGRemap.py` (`ScriptBuilder --env prod`) in a scratch venv, never from `Tools/Script/main.py`,
 which is always the `dev` path -- Tools' "Changing the script: the loop" has the ten-minute recipe.
 

@@ -154,7 +154,12 @@ script gets the API* belongs in `Tools/Script`.
 - **`prod`** --- downloaded from pypi at runtime, the same shape as the API's own `PackageManager`.
   This build also gains `--disableUpdate/-dup` and `--preRelease/-pre`. **It updates the API on
   every run by default (2026-10-04)** -- users asked for that over the old opt-in `--update/-up`,
-  which was there to avoid a download per run; `--disableUpdate` is the opt-out.
+  which was there to avoid a download per run; `--disableUpdate` is the opt-out. **An installed
+  version at or below `4.6.4` (the last pure-Python release) counts as NOT installed**
+  (`PackageApiRef.isInstalled`), so it is upgraded even under `--disableUpdate`. The check uses
+  `find_spec` + `importlib.metadata`, never an import -- importing the old version would leave it
+  in `sys.modules` and the run would use it after pip upgraded the package. An API with no pip
+  metadata (`PYTHONPATH=<repo>/api/src/py`) counts as installed.
 
 Four things about that design are load-bearing and easy to undo by accident:
 

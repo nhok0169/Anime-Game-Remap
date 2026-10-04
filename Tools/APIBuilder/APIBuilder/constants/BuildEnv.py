@@ -12,8 +12,10 @@ class BuildEnv(StrEnum):
     Core = "core"
 
 
+# CmakeBuildEnv: the value of the API's BUILD_MODE CMake option for each environment
+#   (see the BUILD_MODE checks in the api's CMakeLists.txt)
 CmakeBuildEnv = {
     BuildEnv.Dev: "python_dev",
     BuildEnv.CIBuildWheel: "cibuildwheel",
-    BuildEnv.Core: ""
+    BuildEnv.Core: "core_sdk"
 }

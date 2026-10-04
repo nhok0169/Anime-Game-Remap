@@ -2,7 +2,7 @@ import sys
 import os
 import re
 
-from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APITopPreInstallFolderPath, APITopPreBuildFolderPath, PathToProject, PreBuildFolder, PreInstallFolder, BuildFolder, RemoveAllFolder, BuildLocationEnvVar
+from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopCoreSDKFolderPath, APITopBuildFolderPath, APITopPreInstallFolderPath, APITopPreBuildFolderPath, PathToProject, PreBuildFolder, PreInstallFolder, BuildFolder, RemoveAllFolder, BuildLocationEnvVar
 from .constants.CommandOpts import CommandOpts, ShortCommandOpts
 from .constants.BuildEnv import BuildEnv
 
@@ -61,7 +61,7 @@ A build folder that is a symbolic link or a directory junction has its contents 
 
 Only the text between the '{CreditsStartKeyWord}' and the '{CreditsEndKeyWord}' comments of a source file gets updated. Source files without those comments are left alone.
 """)
-        self._argParser.add_argument(ShortCommandOpts.InstallFolder.value, CommandOpts.InstallFolder.value, action='store', type=str, help=f"The folder location of where to store the installed binaries. By default, the folder is set to {APIPyFolderPath}")
+        self._argParser.add_argument(ShortCommandOpts.InstallFolder.value, CommandOpts.InstallFolder.value, action='store', type=str, help=f"The folder location of where to store the installed binaries. By default, the folder is set to {APIPyFolderPath}, or to {APITopCoreSDKFolderPath} when the {CommandOpts.Env} argument is set to {BuildEnv.Core}")
         self._argParser.add_argument(ShortCommandOpts.MakePreBuild.value, CommandOpts.MakePreBuild.value, action='store_true', help=f"Whether to generate the required files needed to prebuild the external libraries")
         self._argParser.add_argument(ShortCommandOpts.MakePreInstall.value, CommandOpts.MakePreInstall.value, action='store_true', help=f"Whether to install the external libraries")
         self._argParser.add_argument(ShortCommandOpts.PrebuildSuffix.value, CommandOpts.PrebuildSuffix.value, action="store", type= str, help=f"""The suffix name to add to the prebuild folder path. By default, the prebuild folder is specified at: {APITopPreBuildFolderPath}. 
@@ -93,7 +93,7 @@ Note that CMake records its build folder's path, so moving an existing build fol
     def _parseInstallFolder(self):
         installFolder = self._args.installFolder
         if (installFolder is None):
-            self._args.installFolder = APIPyFolderPath
+            self._args.installFolder = APITopCoreSDKFolderPath if (self._args.env == BuildEnv.Core) else APIPyFolderPath
 
     def _isValidSuffixName(self, suffixName: str):
         return not bool(self.SuffixParseRegex.search(suffixName))

@@ -136,6 +136,7 @@ dmypy.json
 cbuild*/
 cebuild*/
 cext*/
+csdk*/
 
 .cursor
 

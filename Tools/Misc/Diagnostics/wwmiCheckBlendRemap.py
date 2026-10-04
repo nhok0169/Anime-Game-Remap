@@ -63,7 +63,22 @@ def findIni(folder):
 
 
 def readComponents(iniPath):
-    """[(section name, index offset, index count, the remap resource it selects or None)]
+    """[(section name, [(index offset, index count)], the remap resource it selects or None)]
+
+    The ranges are the section's own `drawindexed` lines, NOT `match_first_index` /
+    `match_index_count`. Those two identify the GAME's draw call -- which component 3DMigoto is
+    about to draw -- so they are identical in every mod of a character and address the GAME's index
+    buffer, not the mod's. Slicing the mod's buffer with them reads an arbitrary set of vertices
+    (2026-10-04): the game's windows end at 287358 indices, `Chisa1` has 328074 and draws its
+    component 3 at offset 217983, `Chisa13` has 845550 and draws it at 153387 and 254379.
+
+    **`ChisaIdentity` passed throughout and could not have failed** -- the identity mod IS the
+    game's model, so the game's windows happen to address its own buffer, and its single
+    `drawindexed = 108702, 63894, 0` is the match window exactly. One more check that the usual
+    input cannot test.
+
+    A component may carry SEVERAL draws (an author splitting it into toggled parts), and every
+    toggle state has to be right, so all of them are taken. A commented-out draw is not one.
 
     Keyed by the section's full NAME, not by the component number in it: a FIXED mod carries both
     its own `[TextureOverrideComponent3]` and the fix's `[TextureOverrideComponent3<Target>RemapFix]`,
@@ -75,13 +90,19 @@ def readComponents(iniPath):
     for block in re.finditer(r'\[([^\]]*TextureOverrideComponent\d+[^\]]*)\](.*?)(?=\n\[|\Z)',
                              text, re.S):
         name, body = block.group(1), block.group(2)
-        first = re.search(r'^\s*match_first_index\s*=\s*(\d+)', body, re.M)
-        count = re.search(r'^\s*match_index_count\s*=\s*(\d+)', body, re.M)
+        # `drawindexed = <count>, <first>, 0` -- count FIRST. `auto` and anything non-numeric is
+        # skipped rather than guessed at.
+        draws = [(int(first), int(count)) for count, first in
+                 re.findall(r'^[^;\n]*?\bdrawindexed\s*=\s*(\d+)\s*,\s*(\d+)\s*,',
+                            body, re.M)]
         # which remap the section selects, if any
         override = re.search(r'ResourceBlendBufferOverride\s*=\s*ref\s+(\S+)', body, re.I)
-        if (first and count):
-            out.append((name, int(first.group(1)), int(count.group(1)),
-                        override.group(1) if (override) else None))
+        # A section with NO active draw is kept when it selects a remap: its slot is its POSITION
+        # among the selecting sections, so dropping it would shift every slot after it -- and a
+        # component whose only draw the author commented out is worth saying out loud rather than
+        # omitting. One with neither a draw nor a resource is not a component.
+        if (draws or override):
+            out.append((name, draws, override.group(1) if (override) else None))
     return out
 
 
@@ -277,16 +298,16 @@ def check(folder, names, wanted = None):
     # Which remap a section uses is the ORDER its ResourceRemappedBlendBufferComponent<n> appears in
     # CommandListInitializeBlendRemaps, which is the order the sections do -- so take them in file
     # order and read the remap slot off the resource name's own number where the file gives one.
-    remapped = [(name, first, count, res) for name, first, count, res in comps if (res)]
+    remapped = [(name, draws, res) for name, draws, res in comps if (res)]
     if (wanted is not None):
         # Named explicitly: the .ini does not select the remaps yet, so the set cannot be read off
         # it. Matched by the component NUMBER in the section's name, which is how a WWMI mod names
         # its slots.
         byNumber = {}
-        for name, first, count, res in comps:
+        for name, draws, res in comps:
             hit = re.search(r'TextureOverrideComponent(\d+)', name)
             if (hit and int(hit.group(1)) not in byNumber):
-                byNumber[int(hit.group(1))] = (name, first, count, res)
+                byNumber[int(hit.group(1))] = (name, draws, res)
         remapped = [byNumber[c] for c in wanted if (c in byNumber)]
         missing = [c for c in wanted if (c not in byNumber)]
         if (missing):
@@ -296,14 +317,20 @@ def check(folder, names, wanted = None):
         ok = False
         print(f"      FAIL: the three remap buffers are written and NO component section selects a "
               f"ResourceBlendBufferOverride -- every component reads the truncated ids")
-    for slot, (name, first, count, res) in enumerate(remapped):
+    for slot, (name, draws, res) in enumerate(remapped):
         if (slot >= remapCount):
             ok = False
             print(f"      FAIL: [{name}] selects remap {slot}, past the {remapCount} "
                   f"the buffers hold")
             continue
         comp = name
-        verts = np.unique(index[first: first + count])
+        if (not draws):
+            print(f"      [{name}] selects remap {slot} but makes no active draw "
+                  f"(commented out?) -- NOT CHECKED")
+            continue
+
+        # the union over every draw the section makes -- each toggle state has to be right
+        verts = np.unique(np.concatenate([index[f: f + c] for f, c in draws]))
         verts = verts[verts < vertices]
         used = ids[verts]
         live = weights[verts] > 0

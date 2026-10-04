@@ -5992,6 +5992,35 @@ of partial agreement that reads like corruption). It accepts either now, names w
 for the local form checks the coverage condition rather than taking it on trust. The fix that the
 old message invited -- rewriting the blend as truncated ids -- would have been wrong.
 
+### A COMPONENT'S `match_*` WINDOW IS THE GAME'S, AND ITS `drawindexed` IS THE MOD'S (2026-10-04)
+
+The same tool's per-component branch failed `Chisa1` and `Chisa13` while passing `ChisaIdentity`,
+and the cause is a distinction worth holding on to for any WWMI mod:
+
+| line | addresses | identical across mods of a character? |
+| --- | --- | --- |
+| `match_first_index` / `match_index_count` | the **GAME's** index buffer -- which draw call 3DMigoto is matching | **yes** |
+| `drawindexed = <count>, <first>, 0` | the **MOD's** own index buffer | no |
+
+So slicing a mod's `Index.buf` with its `match_*` window reads an arbitrary set of vertices. The
+game's component windows run to 287358 indices; `Chisa1` has 328074 and draws its component 3 at
+offset **217983**, `Chisa13` has 845550 and draws it at **153387** and **254379**. All three
+declare `match_first_index = 63894`.
+
+**And `ChisaIdentity` could not have caught it**, for the same reason it could not catch the carried
+overrides: the identity mod IS the game's model, so the game's windows happen to address its own
+buffer, and its single `drawindexed = 108702, 63894, 0` is the match window exactly. Two separate
+checks were blind in one session because the input they were exercised on is the one input where
+the distinction collapses. **When a check reads a mod's buffers, run it on a real mod before
+believing it.**
+
+Two details that follow, both of which the fixed tool now handles: a component may carry **several**
+draws, because an author splits it into toggled parts (`if $part_0 == 0`), and every toggle state
+has to be right -- so take the union, not the first. And a draw the author **commented out** is not
+a draw: `Chisa1`'s component 5 has only `;drawindexed = 7602, 319110, 0`, so it draws nothing, which
+is reported rather than silently dropped -- a remap slot is the section's POSITION among those
+selecting a resource, so omitting one shifts every slot after it.
+
 The skeleton buffers have to be big enough too. A mod declares `array = 768` (256 bones x 3 rows),
 sized for its OWN character; `WWMIFixerConfig::mergedSkeletonSlots` is what the fix declares instead,
 and ChisaParfait -> Chisa sets it to `1536`. **The fix supplies its own skeleton sections at that

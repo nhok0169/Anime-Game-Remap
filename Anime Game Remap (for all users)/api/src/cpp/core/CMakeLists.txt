@@ -757,17 +757,91 @@ write_basic_package_version_file(
 # INSTALL (SDK only)
 # -----------------------------------
 
+# agremap_collect_link_targets(target outVar): every library target 'target' links, directly or
+#   through another library, that is BUILT by this project -- an imported target (z3::libz3) is left
+#   out, since a consumer finds that one itself. Aliases are resolved to the target they name, and
+#   $<LINK_ONLY:...> (how a static library carries its PRIVATE dependencies) is unwrapped.
+function(agremap_collect_link_targets target outVar)
+    set(found ${${outVar}})
+    get_target_property(links ${target} LINK_LIBRARIES)
+    get_target_property(interfaceLinks ${target} INTERFACE_LINK_LIBRARIES)
+
+    foreach(link IN LISTS links interfaceLinks)
+        string(REGEX REPLACE "^\\$<LINK_ONLY:(.*)>$" "\\1" link "${link}")
+        if (link MATCHES "\\$<" OR NOT TARGET "${link}")
+            continue()
+        endif()
+
+        get_target_property(aliased "${link}" ALIASED_TARGET)
+        if (aliased)
+            set(link "${aliased}")
+        endif()
+
+        get_target_property(imported "${link}" IMPORTED)
+        get_target_property(linkType "${link}" TYPE)
+        if (imported OR linkType STREQUAL "INTERFACE_LIBRARY" OR "${link}" IN_LIST found)
+            continue()
+        endif()
+
+        list(APPEND found "${link}")
+        agremap_collect_link_targets("${link}" found)
+    endforeach()
+
+    set(${outVar} ${found} PARENT_SCOPE)
+endfunction()
+
 if(BUILD_CPP_SDK)
 
-    # Library
-    install(TARGETS AGRemapCore
+    # Library, and the vendored libraries it is built with. A STATIC AGRemapCore carries even its
+    #   PRIVATE dependencies in its link interface (a program linking it needs them too), so CMake
+    #   exports it only alongside them -- and they are all built here with their own install rules
+    #   switched off (UTF8PROC_INSTALL, CURL_DISABLE_INSTALL). Which ones there are differs by
+    #   platform (Compressonator's SIMD libraries on x86 Windows, its no-SIMD stand-in elsewhere),
+    #   so the list is collected rather than written out.
+    set(AGREMAP_SDK_LINK_TARGETS "")
+    agremap_collect_link_targets(AGRemapCore AGREMAP_SDK_LINK_TARGETS)
+    message(STATUS "AGRemapCore SDK: also installing ${AGREMAP_SDK_LINK_TARGETS}")
+
+    # Those vendored libraries publish their include directories as plain source-tree paths
+    #   (CMP_Core's cmp_core/source, for one), which CMake refuses to put in an installed package. A
+    #   program using the SDK links them but never includes them, so their raw paths are wrapped as
+    #   BUILD_INTERFACE: the build sees exactly what it did before, and the package leaves them out.
+    foreach(dependency IN LISTS AGREMAP_SDK_LINK_TARGETS)
+        get_target_property(includeDirs ${dependency} INTERFACE_INCLUDE_DIRECTORIES)
+        if (NOT includeDirs)
+            continue()
+        endif()
+
+        set(buildOnlyIncludeDirs "")
+        foreach(includeDir IN LISTS includeDirs)
+            if (includeDir MATCHES "\\$<")
+                list(APPEND buildOnlyIncludeDirs "${includeDir}")
+            else()
+                list(APPEND buildOnlyIncludeDirs "$<BUILD_INTERFACE:${includeDir}>")
+            endif()
+        endforeach()
+        set_target_properties(${dependency} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${buildOnlyIncludeDirs}")
+    endforeach()
+
+    install(TARGETS AGRemapCore ${AGREMAP_SDK_LINK_TARGETS}
         EXPORT AGRemapCoreTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
     # Headers
     install(DIRECTORY include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+
+    # The third-party headers the public headers include: tsl/ordered_map.h / ordered_set.h, and
+    #   compressonator.h (TextureFile.h). Both come from vendored submodules, which the build reaches
+    #   through BUILD_INTERFACE-only include paths, so the SDK carries its own copies of them.
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/../../../extern/ordered-map/include/tsl
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+    install(FILES ${PROJECT_SOURCE_DIR}/../../../extern/Compressonator/cmp_compressonatorlib/compressonator.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 

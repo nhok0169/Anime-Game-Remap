@@ -226,6 +226,22 @@ Four stages, in order:
 *not* get it: its environments are a different set (`dev`/`core`/`cibuildwheel`), and the production
 wheels come from cibuildwheel in the publish workflow rather than from the `APIBuilder`.
 
+**The `APIBuilder`'s `--env` reaches CMake since 2026-10-04, and before that it did NOTHING.** It was parsed,
+validated and stored, and no step read it -- every environment ran the same build, while its help promised
+a core-only build. `CmakeBuildEnv` (`constants/BuildEnv.py`) now maps it onto the API's `BUILD_MODE` cache
+option: `dev` -> `python_dev`, `cibuildwheel` -> `cibuildwheel`, `core` -> `core_sdk` (the CMake comment
+says `coresdk`; the code compares `core_sdk`). Passing it exposed that **`core_sdk` had never configured**:
+a STATIC `AGRemapCore` carries even its `PRIVATE` dependencies in its link interface, so CMake exports it
+only alongside them, and every one of them is vendored with its own install switched off. The core's
+`CMakeLists.txt` now collects them by walking the link graph (`agremap_collect_link_targets` -- the set is
+per platform: Compressonator's SSE / AVX / AVX512 libraries on Windows, the no-SIMD stand-in elsewhere),
+installs and exports them with the library, wraps their raw source-tree include paths as `BUILD_INTERFACE`
+(CMake rejects those in a package), and ships `tsl/` and `compressonator.h`, which the public headers
+include. `-e core` installs to `csdk` at the repo root, leaves the Python package's `.pyd` files alone (it
+used to run `cleanInstalls()` on them first) and ignores `-d`. **The acceptance test is an OUTSIDE project**
+-- `find_package(AGRemapCore)` against `csdk` + `cext/z3`, compile, link, run -- not a clean configure: the
+configure passed one round before the install was usable. The README's "Environments" section has the recipe.
+
 **Stage 1 changes what a pipeline run costs.** It compiles C++ and Cython, so it needs `cmake`,
 `ninja` and `doxygen` on `PATH` and, on Windows, the MSVC environment already initialized in the
 same shell --- the pipeline now fails at stage 1 where it used to run anywhere. And because it runs

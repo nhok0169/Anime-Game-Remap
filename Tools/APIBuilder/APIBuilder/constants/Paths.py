@@ -48,5 +48,10 @@ APITopPreBuildFolderPath = os.path.join(PathToProject, PreBuildFolder)
 PreInstallFolder = "cext"
 APITopPreInstallFolderPath = os.path.join(PathToProject, PreInstallFolder)
 
+# where the 'core' environment installs the C++ SDK (library, headers and CMake package) by default --
+#   never the API's Python package, whose compiled modules a core build does not replace
+CoreSDKFolder = "csdk"
+APITopCoreSDKFolderPath = os.path.join(PathToProject, CoreSDKFolder)
+
 XMLFolder = "xml"
 APICoreXMLFolderPath = os.path.join(APICoreFolderPath, XMLFolder)

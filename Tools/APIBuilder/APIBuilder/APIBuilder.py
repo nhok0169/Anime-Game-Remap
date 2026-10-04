@@ -9,7 +9,7 @@ from typing import List, Optional
 from types import SimpleNamespace
 
 from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath, BuildFolder, PathToProject, RemoveAllFolder, PreBuildFolder, PreInstallFolder, APITopPreBuildFolderPath, APIExternFolderPath, APITopPreInstallFolderPath, APISrcFolderPaths, CMakeArgsEnvVar
-from .constants.BuildEnv import BuildEnv
+from .constants.BuildEnv import BuildEnv, CmakeBuildEnv
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.credits.CreditsUpdater import CreditsUpdater
@@ -215,7 +215,10 @@ class APIBuilder():
         if (extraArgs):
             print(f"Adding CMake options from {CMakeArgsEnvVar}: {' '.join(extraArgs)}")
 
-        subprocess.run(["cmake", "-G", "Ninja", "-B", self._buildFolder, "-DCMAKE_BUILD_TYPE=Release", f"-DCMAKE_PREFIX_PATH={self._extInstallFolders.z3}", *extraArgs], check=True)
+        # BUILD_MODE goes before the extra arguments, so a BUILD_MODE passed through AGREMAP_CMAKE_ARGS still wins
+        buildMode = CmakeBuildEnv[self.env]
+        print(f"Building the API for the '{self.env}' environment (BUILD_MODE={buildMode})")
+        subprocess.run(["cmake", "-G", "Ninja", "-B", self._buildFolder, "-DCMAKE_BUILD_TYPE=Release", f"-DBUILD_MODE={buildMode}", f"-DCMAKE_PREFIX_PATH={self._extInstallFolders.z3}", *extraArgs], check=True)
         subprocess.run(["cmake", "--build", self._buildFolder, "--parallel"], check=True)
         subprocess.run(["cmake", "--install", self._buildFolder,  "--prefix", f'{self.installPath}'], check=True)
 

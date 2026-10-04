@@ -38,7 +38,7 @@ What environment to build the script for, which decides how the compiled script 
 | Env | How the script reaches the API | Options the script gains |
 | --- | --- | --- |
 | `dev` *(default)* | a path on this machine, relative to the compiled script, the way the tools in this repo reach each other | none |
-| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs, the same shape as the API's own `PackageManager` | `--update/-up`, `--preRelease/-pre` |
+| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs, the same shape as the API's own `PackageManager` | `--disableUpdate/-dup`, `--preRelease/-pre` |
 
 ```bash
 python3 main.py --env prod
@@ -48,8 +48,9 @@ python3 main.py --env prod
 
 The script's own options for a `prod` build:
 
-* **`--update/-up`** -- explicitly update the API's package before running. Without it, the package
-  is only downloaded when it is not already installed.
+* **`--disableUpdate/-dup`** -- skip updating the API's package before running. By default the package
+  is updated to its latest version on every run; with this option, it is only downloaded when it is
+  not already installed.
 * **`--preRelease/-pre`** -- also consider prereleases of the package when downloading it.
 
 <br>

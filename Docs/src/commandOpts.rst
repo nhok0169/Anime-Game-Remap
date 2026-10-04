@@ -146,9 +146,9 @@ The **Build** column says which build has the option. The Script accepts every o
      - API, Script
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
-   * - -up, -\-update
+   * - -dup, -\-disableUpdate
      - Script
-     - Updates the ``FixRaidenBoss2`` package (the API) to its latest version before running. Without this option, the package is only downloaded when it is not already installed.
+     - Skips updating the ``FixRaidenBoss2`` package (the API) to its latest version before running. With this option, the package is only downloaded when it is not already installed.
    * - -pre, -\-preRelease
      - Script
      - Also considers prereleases of the ``FixRaidenBoss2`` package when downloading it.

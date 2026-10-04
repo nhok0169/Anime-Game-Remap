@@ -18,7 +18,7 @@ Decided when the script is compiled, by the [ScriptBuilder](../ScriptBuilder)'s 
 | Env | How | Extra options |
 | --- | --- | --- |
 | `dev` | a path on this machine, relative to the script | none |
-| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) at runtime | `--update/-up`, `--preRelease/-pre` |
+| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) at runtime | `--disableUpdate/-dup`, `--preRelease/-pre` |
 
 <br>
 
@@ -41,5 +41,6 @@ python3 main.py --help
 
 > [!NOTE]
 > A `prod` build does not download the API just to print its help. When the API is not installed,
-> `--help` shows only the script's own options (`--update/-up`, `--preRelease/-pre`) and says how to
-> see the rest: `--update --help` downloads the API and then prints every option.
+> `--help` shows only the script's own options (`--disableUpdate/-dup`, `--preRelease/-pre`) and
+> points to the docs for the rest. Any run without `--help` downloads the API, and by default also
+> updates it to its latest version (`--disableUpdate` skips that when it is already installed).

@@ -152,7 +152,14 @@ script gets the API* belongs in `Tools/Script`.
 - **`dev`** --- a path relative to the compiled script, worked out at build time and written with
   `/` rather than `os.sep` so a script compiled on one OS still finds the API on another.
 - **`prod`** --- downloaded from pypi at runtime, the same shape as the API's own `PackageManager`.
-  This build also gains `--update/-up` and `--preRelease/-pre`.
+  This build also gains `--disableUpdate/-dup` and `--preRelease/-pre`. **It updates the API on
+  every run by default (2026-10-04)** -- users asked for that over the old opt-in `--update/-up`,
+  which was there to avoid a download per run; `--disableUpdate` is the opt-out. **An installed
+  version at or below `4.6.4` (the last pure-Python release) counts as NOT installed**
+  (`PackageApiRef.isInstalled`), so it is upgraded even under `--disableUpdate`. The check uses
+  `find_spec` + `importlib.metadata`, never an import -- importing the old version would leave it
+  in `sys.modules` and the run would use it after pip upgraded the package. An API with no pip
+  metadata (`PYTHONPATH=<repo>/api/src/py`) counts as installed.
 
 Four things about that design are load-bearing and easy to undo by accident:
 
@@ -167,8 +174,8 @@ Four things about that design are load-bearing and easy to undo by accident:
    anything is filled in, because `ScriptBuilder` imports the package to work out the order to write
    it out in. A placeholder that is not itself parseable stops the script being built at all.
 4. **`--help` does not fetch the API (2026-10-04).** The pre-parser also notes `-h/--help`, and when
-   the API reference's `canShowFullHelp` says no -- a `prod` build whose package is not installed,
-   and no `--update` -- `remapMain` prints `CommandBuilder.printHelp`'s page of the script's own
+   the API reference's `canShowFullHelp` says no -- a `prod` build whose package is not installed
+   -- `remapMain` prints `CommandBuilder.printHelp`'s page of the script's own
    options, with the reference's `getHelpNote` underneath, and returns. Before this, asking for help
    on a fresh machine pip-installed the whole API first. Test it in a scratch `venv`: the dev Pythons
    here have no `FixRaidenBoss2` installed, and `PYTHONPATH=<repo>/api/src/py` stands in for an

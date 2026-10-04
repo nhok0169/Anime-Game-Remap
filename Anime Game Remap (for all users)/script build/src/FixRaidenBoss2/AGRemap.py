@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, October 04, 2026 07:20:40.874 AM UTC
-# Run Hash: c9f2bf6a-ba7b-4317-9245-9fb0e7d5acbc
+# Datetime Ran: Sunday, October 04, 2026 10:32:14.184 PM UTC
+# Run Hash: a59244f9-4750-4146-a38d-d256b3ecbc90
 # 
 # *******************************
 # ================
@@ -35,14 +35,14 @@
 #
 # Version: 5.0.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, October 04, 2026 07:20:40.874 AM UTC
-# Build Hash: 2591b4bc-13ae-4356-8969-c1b9acd83bc9
+# Datetime Compiled: Sunday, October 04, 2026 10:32:14.184 PM UTC
+# Build Hash: 5faf498a-7a6a-4338-9fde-f685c1d7c341
 #
 # *********************************
 #
 
 
-import os, importlib, sys, pip._internal as pip, argparse
+import os, importlib, importlib.metadata, importlib.util, re, pip._internal as pip, sys, argparse
 
 from typing import Optional, Any, List, Callable, Dict, Tuple
 from enum import Enum
@@ -125,8 +125,8 @@ class CommandOption():
 
     .. note::
         This script has to know some of its options *before* the API exists to parse them -- whether
-        to update the API's package is the option that decides whether the package gets downloaded at
-        all. So each option is registered twice: once into a throwaway parser that reads it early,
+        to skip updating the API's package is the option that decides whether the package gets
+        downloaded at all. So each option is registered twice: once into a throwaway parser that reads it early,
         and once into the API's own command, so that it still shows up in ``--help`` next to every
         API option instead of being rejected as unrecognised.
 
@@ -265,7 +265,7 @@ class CommandOpts(Enum):
     The options this script adds on top of the API's own
     """
 
-    Update = "--update"
+    DisableUpdate = "--disableUpdate"
     PreRelease = "--preRelease"
     Help = "--help"
 
@@ -275,13 +275,18 @@ class ShortCommandOpts(Enum):
     The short forms of the options this script adds on top of the API's own
     """
 
-    Update = "-up"
+    DisableUpdate = "-dup"
     PreRelease = "-pre"
     Help = "-h"
 
 
 # DocsCommandOptsUrl: The page in the docs listing every command line option
 DocsCommandOptsUrl = "https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html"
+
+
+# the last release of the API that was the old pure-Python library; an installed version at or below
+#   this one is treated as not installed
+LastPurePythonApiVersion = (4, 6, 4)
 
 
 class PackageApiRef(BaseApiRef):
@@ -301,9 +306,9 @@ class PackageApiRef(BaseApiRef):
 
     def getOptions(self) -> List[CommandOption]:
         return [
-            CommandOption((ShortCommandOpts.Update.value, CommandOpts.Update.value),
+            CommandOption((ShortCommandOpts.DisableUpdate.value, CommandOpts.DisableUpdate.value),
                           {"action": "store_true",
-                           "help": f"Updates '{self.package}' to its latest version before running. Without this option, the package is only downloaded when it is not already installed."}),
+                           "help": f"Skips updating '{self.package}' to its latest version before running. With this option, the package is only downloaded when it is not already installed."}),
 
             CommandOption((ShortCommandOpts.PreRelease.value, CommandOpts.PreRelease.value),
                           {"action": "store_true",
@@ -332,9 +337,37 @@ class PackageApiRef(BaseApiRef):
 
         return result + [self.package]
 
+    def getInstalledVersion(self) -> Optional[Tuple[int, ...]]:
+        """
+        The version of the API installed by `pip`_
+
+        Returns
+        -------
+        Optional[Tuple[:class:`int`, ...]]
+            The numeric parts of the version (eg. ``(4, 6, 4)``), or ``None`` if the API was not
+            installed by `pip`_ (eg. it is only reachable through ``PYTHONPATH``) or its version
+            cannot be read
+        """
+
+        try:
+            version = importlib.metadata.version(self.package)
+        except importlib.metadata.PackageNotFoundError:
+            return None
+
+        match = re.match(r"\d+(\.\d+)*", version)
+        if (match is None):
+            return None
+
+        return tuple(int(part) for part in match.group(0).split("."))
+
     def isInstalled(self) -> bool:
         """
-        Whether the API can already be imported
+        Whether a usable version of the API can already be imported
+
+        :raw-html:`<br />`
+
+        Versions up to and including ``4.6.4`` are the old pure-Python library, which this script
+        cannot run, so they count as not installed
 
         Returns
         -------
@@ -342,35 +375,35 @@ class PackageApiRef(BaseApiRef):
             Whether the API is available
         """
 
-        try:
-            importlib.import_module(self.package)
-        except ModuleNotFoundError:
+        # find_spec rather than an import: importing an old version here would leave it cached in
+        #   sys.modules, and the script would keep running it after pip has upgraded the package
+        if (importlib.util.find_spec(self.package) is None):
             return False
 
-        return True
+        version = self.getInstalledVersion()
+        return version is None or version > LastPurePythonApiVersion
 
     def canShowFullHelp(self, args: Any) -> bool:
-        # an explicit --update is a request to download, so the API is fetched and its full help shown
-        return getattr(args, "update", False) or self.isInstalled()
+        # printing help never downloads or updates the API, so the full help needs it already installed
+        return self.isInstalled()
 
     def getHelpNote(self) -> str:
         return f"""NOTE:
-'{self.package}', the library that does the remapping, is not installed on this computer yet,
-so only this script's own options are shown above.
+'{self.package}', the library that does the remapping, is not installed on this computer yet
+(or only an old version that this script cannot run is), so only this script's own options are
+shown above. It is downloaded the first time you run this script without {CommandOpts.Help.value}.
 
-To download '{self.package}' and see every option, run:
-python {os.path.basename(sys.argv[0])} {CommandOpts.Update.value} {CommandOpts.Help.value}
-
-The full list of options is also at:
+The full list of options is at:
 {DocsCommandOptsUrl}"""
 
     def prepare(self, args: Any):
-        update = getattr(args, "update", False)
+        # printing help is not a remap session, so it does not update an installed API either
+        skipUpdate = getattr(args, "disableUpdate", False) or getattr(args, "help", False)
 
-        if (not update and self.isInstalled()):
+        if (skipUpdate and self.isInstalled()):
             return
 
-        print(f"Downloading the latest version of '{self.package}'...")
+        print(f"Getting the latest version of '{self.package}' (pass {CommandOpts.DisableUpdate.value} to skip this)...")
         pip.main(self.getInstallOptions(args))
 
         # a package installed during this run is not on any import path that was cached before it

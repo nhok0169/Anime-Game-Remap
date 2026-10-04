@@ -22,7 +22,7 @@ class ShortCommandOpts(Enum):
     The short forms of the options this script adds on top of the API's own
     """
 
-    Update = "-up"
+    DisableUpdate = "-dup"
     PreRelease = "-pre"
     Help = "-h"
 ##### EndScript

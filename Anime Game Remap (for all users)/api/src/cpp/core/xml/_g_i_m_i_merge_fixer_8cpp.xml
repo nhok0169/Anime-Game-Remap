@@ -109,6 +109,9 @@
       <node id="216">
         <label>BufEdit.tpp</label>
       </node>
+      <node id="54">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="157">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -2794,9 +2797,6 @@
         </childnode>
         <childnode refid="235" relation="include">
         </childnode>
-      </node>
-      <node id="54">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="182">
         <label>GIMIFixer.tpp</label>

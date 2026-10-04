@@ -41,6 +41,9 @@
       <node id="133">
         <label>BiMap.tpp</label>
       </node>
+      <node id="54">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1374,9 +1377,6 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-      </node>
-      <node id="54">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

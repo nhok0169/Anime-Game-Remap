@@ -4011,11 +4011,50 @@ IS a shape key, so removing the morph is its own kind of wrong. Two other hand p
 and substituting a mod-sized buffer with `this =`) produce that same collapse and prove nothing
 either.
 
+**AND A DUMP'S REBOUND SLOTS ARE NOT EVIDENCE ABOUT WHAT THE FIX BOUND.** This is the trap that
+made the rest of the round go in circles, and it is general. For draw 000028, measured by md5
+against the files on disk:
+
+| slot | what the dump holds |
+| --- | --- |
+| `vb0` | ChisaParfait's 3.7 download `Position.buf`, byte for byte -- **not** the mod's |
+| `ib` | ChisaParfait's download `Index.buf`, byte for byte -- **not** the fix's merged one |
+| `vb4` | the game's SIZE (69411 x 16) with content matching no file on disk |
+| `vb6` | the mod's size (108129 x 24), zero before WWMI's loader and written after |
+
+The fix's own section demonstrably fires on that draw -- the log shows
+`Component3ChisaParfaitRemapFix`, its texture lists, and `overridesharedresources...` binding
+`vb4 = resourcechisaparfaitremapblendbuffer` -- and then its cleanup and restore lists put the
+game's buffers back. So a slot the fix REBINDS reads back as the game's resource, while one written
+in place by a compute pass (`vb6`, the UAVs) shows the written content. **Reading "the draw used
+ChisaParfait's geometry" out of that dump is wrong**, and it is an easy mistake because the numbers
+are exact.
+
+What this means in practice: use a dump for what a pass WROTE and for which sections fired, not for
+which resource a draw was given. For the latter, read the fixed `.ini` and the log's own
+`overridesharedresources` lines.
+
 **An earlier revision of this section said the buffer was target-sized at 69271 entries and that 14
 of the 19 Chisa mods overran it.** That was wrong: 69271 came from a DIFFERENT draw's layout
 descriptor (000017's `vb6`), read as though it described draw 000028's buffer, and the whole
 mod-size table was built on it. A dump names a file per draw for a reason -- take the number from
 the draw you are actually looking at.
+
+Still open, and the leads that are left after this round:
+
+* the forward direction writes only `ChisaParfaitRemapBlend.buf`, while the reverse writes
+  `ChisaRemapBlend.buf` AND `ChisaRemapBlendRemapVertexVG.buf` plus its two remap tables. Chisa is
+  past 256 bones, so a mod of hers carries `BlendRemapVertexVG.buf` (uint16 ids up to 418) and the
+  guides' own rule is that remapping `Blend.buf` is a no-op for such a character. The asymmetry is
+  real; what it does NOT explain is why `ChisaIdentity`, which has the same buffers and the same
+  maximum bone id, renders correctly.
+* the documented 8-bit fallback ("every bone past 255 will land on bone 0") does NOT fire here --
+  checked, the run logs no such note -- because it is guarded on `targetPast256_`, which is false in
+  this direction since ChisaParfait's skeleton stops at 250.
+
+Whatever the cause is, it has to account for the identity mod being fine. Four candidate causes have
+now been ruled out by measurement, and each time the thing that settled it was a number, not an
+argument.
 
 **Zeroing the stream is NOT the fix, measured.** `zeroShapeKeyStream` is `false` here on purpose --
 this direction RETARGETS the keys instead, so WWMI's own pipeline is meant to refill `vb6` for the

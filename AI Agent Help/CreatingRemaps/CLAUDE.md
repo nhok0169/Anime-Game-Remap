@@ -3984,6 +3984,64 @@ shape where reading siblings would be cross-contamination.
 
 <br>
 
+### CHISA -> CHISAPARFAIT DEFORMS THE UPPER BODY OF ALMOST EVERY REAL MOD, AND IT IS `vb6` (2026-10-03, OPEN)
+
+Found in the in-game round after the three audit fixes, and **not fixed**. `Chisa1` remapped onto
+ChisaParfait has its torso stretched and folded while the head, hair and weapon are correct.
+`ChisaIdentity` through the same fix is perfect, which is what made it findable.
+
+**The frame says it outright.** 3DMigoto only opens `d3d11_log.txt` at startup, so turning
+`[Logging] calls = 1` on does nothing until the game restarts -- but a FRAME DUMP needs no restart
+and carries the same answer. Of the character's ten remapped draws, exactly one binds `vb6`:
+
+```
+000028-vb6=57bb099f ... -layout=...-stride=24-count=69271
+```
+
+That is the component-3 draw, the upper body -- the only part that is wrong. `57bb099f` is
+ChisaParfait's own shape-key offsets buffer, and **69271 entries** is the TARGET's size.
+`Chisa1`'s mesh has **74835** vertices, so 5564 of them index past the end of the stream the draw
+reads. `ChisaIdentity` has 64588 and fits, which is the whole of why it renders.
+
+**It is not a corner case.** Measured over the Chisa mods on disk, against that 69271:
+
+| | |
+| --- | --- |
+| mods whose vertex count EXCEEDS it | **14 of 19** (Chisa9 at 346264 is the worst, Chisa5 at 69410 the narrowest) |
+| mods that fit | the two identity mods, Chisa7, Chisa11, Chisa8 |
+
+So the upper body is wrong for most real mods of this character, and the identity mod -- the usual
+first check -- is one of the few that cannot show it. (`Chisa1` also declares
+`$mesh_vertex_count = 108129` against a `Position.buf` of 74835, so the exact threshold wants
+confirming; the ORDER of that table is reliable, the cut-off less so.)
+
+**Zeroing the stream is NOT the fix, measured.** `zeroShapeKeyStream` is `false` here on purpose --
+this direction RETARGETS the keys instead, so WWMI's own pipeline is meant to refill `vb6` for the
+mod's mesh, and the config's comment says zeroing "BREAKS a mod that really uses its keys". Binding
+a correctly sized zero-filled buffer by hand removes the deformation and **collapses the body into
+thin spikes**, so the mod really does depend on its own keys. The fix has to make `vb6` carry the
+MOD's shape-key output at the MOD's size; the retarget's setup list does run (it is in the log as
+`setupshapekeyschisaparfaitremapfix`), and the buffer the draw gets is still the target's.
+
+**Ruled out on the way, each by measurement, so nobody re-chases them:**
+
+* *The shape-key retarget being misconfigured.* The hashes ARE rewritten (`e9b69bed` -> `57bb099f`,
+  `a01e7b59` -> `9c738856`), and `shapekey_checksum = 2610` is correct left alone because the two
+  characters share it.
+* *The three `Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref` lines.*
+  Identical in both mods -- 18 each, 9 each inside remapped sections.
+* *`mergedSkeletonSlots`.* Both mods weight the same maximum bone id (418), so it cannot separate
+  them.
+
+**And two counts of mine were wrong first**, which is the method note. I reported "16 surviving
+override lines in Chisa1 against 0 in the identity" and nearly filed it as the cause: the 16 were
+the `= null` lines the fix writes to CLEAR those overrides, counted by a pattern that did not
+separate `= ref` from `= null`. The shell loop that produced the comparison also shattered on the
+spaces in `Chisa - Taihou red bunnygirl` and reported a tidy zero for the other half. Count the
+thing that is harmful, not the thing whose name matches, and do path work in Python.
+
+<br>
+
 ### WHAT THE TWO-DIRECTION AUDIT ITSELF TAUGHT (2026-10-03)
 
 The maintainer asked for one read-only audit per direction, run in parallel, each working the AUDIT

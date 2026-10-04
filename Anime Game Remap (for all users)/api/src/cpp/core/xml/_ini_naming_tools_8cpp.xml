@@ -15,24 +15,24 @@
     <includes refid="_text_tools_8h" local="yes">AGRemapCore/tools/TextTools.h</includes>
     <includes refid="_grapheme_range_8h" local="yes">AGRemapCore/tools/grapheme/GraphemeRange.h</includes>
     <incdepgraph>
-      <node id="10">
+      <node id="12">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="13">
         <label>AGRemapCore/constants/FilePrefixes.h</label>
         <link refid="_file_prefixes_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="10">
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -43,6 +43,10 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="14">
@@ -112,11 +116,11 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
@@ -140,7 +144,7 @@
       <node id="15">
         <label>string_view</label>
       </node>
-      <node id="13">
+      <node id="11">
         <label>unordered_set</label>
       </node>
       <node id="7">
@@ -522,7 +526,57 @@
 <codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>newName<sp/>=<sp/>name.substr(0,<sp/>matchStart)<sp/>+<sp/>newObjNameStr<sp/>+<sp/>name.substr(matchStart<sp/>+<sp/>matchLen);</highlight></codeline>
 <codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1a1666a2fea3b23fd9152b183f35d989ea" kindref="member">getRemapFixName</ref>(newName,<sp/>capModName);</highlight></codeline>
 <codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="367"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1a5f8e707eafe85670f1204fbec0505c99" kindref="member">IniNamingTools::looksRemapped</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>modNames,</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>remapKeyword)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(remapKeyword.empty()<sp/>||<sp/>sectionName.find(remapKeyword)<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>names<sp/>to<sp/>go<sp/>on<sp/>--<sp/>a<sp/>hand-built<sp/>caller,<sp/>or<sp/>a<sp/>context<sp/>that<sp/>does<sp/>not<sp/>know<sp/>its<sp/>mod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>types<sp/>--<sp/>the<sp/>old<sp/>rule:<sp/>the<sp/>keyword<sp/>anywhere.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(modNames.empty())<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Otherwise<sp/>the<sp/>name<sp/>has<sp/>to<sp/>be<sp/>shaped<sp/>the<sp/>way<sp/>this<sp/>software<sp/>names<sp/>a<sp/>fix:<sp/>&apos;&lt;modName&gt;Remap&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(getRemapName).<sp/>The<sp/>keyword<sp/>ALONE<sp/>is<sp/>not<sp/>enough,<sp/>and<sp/>the<sp/>difference<sp/>is<sp/>not<sp/>academic:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WWMI&apos;s<sp/>own<sp/>blend<sp/>remap<sp/>declares<sp/>ResourceBlendRemapVertexVGBuffer<sp/>/<sp/>...ForwardBuffer<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...ReverseBuffer,<sp/>which<sp/>the<sp/>old<sp/>rule<sp/>made<sp/>candidates<sp/>--<sp/>one<sp/>target<sp/>reaching<sp/>them<sp/>took<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>whole<sp/>blend-remap<sp/>web<sp/>with<sp/>it<sp/>and<sp/>deleted<sp/>three<sp/>.buf<sp/>files<sp/>of<sp/>a<sp/>mod<sp/>that<sp/>had<sp/>never<sp/>been</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fixed,<sp/>every<sp/>fix<sp/>undoing<sp/>first<sp/>(Chisa,<sp/>2026-09-20).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>:<sp/>modNames)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!modName.empty()<sp/>&amp;&amp;<sp/>sectionName.find(modName<sp/>+<sp/>remapKeyword)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...or<sp/>named<sp/>for<sp/>ANOTHER<sp/>mod,<sp/>by<sp/>the<sp/>kind<sp/>this<sp/>software<sp/>appends<sp/>after<sp/>the<sp/>keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(&lt;mod&gt;RemapBlend<sp/>/<sp/>Position<sp/>/<sp/>Texcoord<sp/>/<sp/>IB,<sp/>&lt;name&gt;&lt;mod&gt;RemapFix<sp/>/<sp/>Tex<sp/>/<sp/>DL<sp/>/<sp/>Ref,<sp/>and<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IBRemapHide<sp/>a<sp/>component<sp/>template<sp/>writes).<sp/>The<sp/>mod-name<sp/>test<sp/>alone<sp/>stopped<sp/>the<sp/>last<sp/>remover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sweeping<sp/>a<sp/>leftover<sp/>of<sp/>a<sp/>different<sp/>mod<sp/>type<sp/>--<sp/>`[TextureOverrideFooRemapBlend]`,<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IniFile.removeFix<sp/>has<sp/>always<sp/>removed<sp/>(test_iniFileRemoveFix_ignoresModType)<sp/>--<sp/>while</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WWMI&apos;s<sp/>own<sp/>names<sp/>stay<sp/>out:<sp/>the<sp/>keyword<sp/>there<sp/>is<sp/>followed<sp/>by<sp/>VertexVG<sp/>/<sp/>Forward<sp/>/<sp/>Reverse<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MergedSkeleton<sp/>/<sp/>&quot;ped&quot;<sp/>/<sp/>&quot;s&quot;,<sp/>or<sp/>ends<sp/>the<sp/>name,<sp/>and<sp/>none<sp/>of<sp/>those<sp/>is<sp/>a<sp/>kind.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>Kinds<sp/>=<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a72d6d458d05a470b21af76242aae7a80" kindref="member">IniKeywords::Texcoord</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ab970667eecf7baf8dfeb4f4d6df01f5b" kindref="member">IniKeywords::Position</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" kindref="member">IniKeywords::Blend</ref>,<sp/></highlight><highlight class="stringliteral">&quot;IB&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Fix&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Tex&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DL&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ref&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Hide&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>at<sp/>=<sp/>sectionName.find(remapKeyword);<sp/>at<sp/>!=<sp/>std::string::npos;<sp/>at<sp/>=<sp/>sectionName.find(remapKeyword,<sp/>at<sp/>+<sp/>1))<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>kindAt<sp/>=<sp/>at<sp/>+<sp/>remapKeyword.size();</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kind<sp/>:<sp/>Kinds)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sectionName.compare(kindAt,<sp/>kind.size(),<sp/>kind)<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>kind<sp/>must<sp/>END<sp/>there:<sp/>&quot;RemapTex&quot;<sp/>is<sp/>a<sp/>kind,<sp/>&quot;RemapTexture&quot;<sp/>is<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>after<sp/>=<sp/>kindAt<sp/>+<sp/>kind.size();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(after<sp/>&gt;=<sp/>sectionName.size()<sp/>||<sp/>sectionName[after]<sp/>&lt;<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal"><sp/>||<sp/>sectionName[after]<sp/>&gt;<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/IniNamingTools.cpp"/>
   </compounddef>

@@ -392,47 +392,103 @@ namespace AGRemapCore {
     }
 
 
-    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_5() {
+    IniFixBuilder::Factory IniFixBuilderFuncs::chisaParfait3_7() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChisaParfait;
-        config.version = "3.5";
+        // 3.7, not her release 3.5: that update moved her vb0 (e611d493 -> 95ecef77) and nothing
+        // else of hers, so a fix built at 3.5 writes a hash the game no longer binds. Every other
+        // lookup here resolves from the 3.5 bucket by the inclusive floor -- see HashData's note.
+        config.version = "3.7";
         config.sourceVersion = "2.8";          // hers, and not her skin's -- see the field's note
 
 
         // ---- the passes the TARGET draws each slot on, off her frame dumps ----
         config.slotPasses = {
-            {"c0ad88a930c4d853", "71f60c461ae3f166"},    // front hair
-            {"71f60c461ae3f166"},    // hair
-            {"2060326dcea397fb"},    // face
-            {"3311e8a58d8c5d20"},    // upper body
-            {"a99f09b6f36e94af"},    // lower body
-            {"3df800c350681ec9"},    // the skin's own (nothing maps onto it)
-            {"da00ec8f7c73d5e3"},    // eyes
+            {"f863af7e80af9aed", "f863af7e80af9aed"},    // front hair
+            {"f863af7e80af9aed"},    // hair
+            {"6e25bfc4ac027787"},    // face
+            {"3f2e3788f5cb485a"},    // upper body
+            {"01e5bb58c3054b73"},    // lower body
+            {"0fbe7ebba08cd1b0"},    // the skin's own (nothing maps onto it)
+            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
+            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
+            // rest -- and it is the second that renders. Naming only the first gated the eye's
+            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
+            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
+            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
+            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},    // eyes
         };
 
         // ---- every pass gated through its VERTEX shaders: see passVertexShaders ----
         config.passVertexShaders = {
-            {"c0ad88a930c4d853", {"d83a54772fc666f9"}},
-            {"71f60c461ae3f166", {"d83a54772fc666f9"}},
-            {"2060326dcea397fb", {"683e019f389b2624", "c277738ca4039045"}},
-            {"3311e8a58d8c5d20", {"d24888b5b268a084"}},
-            {"a99f09b6f36e94af", {"22195a190e37d3cf"}},
-            {"3df800c350681ec9", {"bbabe18b97a63509"}},
-            {"87825a9a29529f9b", {"6594231b96dfca5f"}},
-            {"ced9a47fb6ad4d16", {"6594231b96dfca5f"}},
-            {"da00ec8f7c73d5e3", {"72f45530b1e1f75a", "a6e9eb6303b1b631"}},
+            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
+            {"f863af7e80af9aed", {"3e7bb648e306c671"}},
+            {"6e25bfc4ac027787", {"75501c2d87600e89", "c277738ca4039045"}},
+            {"3f2e3788f5cb485a", {"343a49bd31719ade"}},
+            {"01e5bb58c3054b73", {"6dd634933d8f0837"}},
+            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
+            {"5e31423fa8ddfcec", {"d8d93966d246ed2b"}},
+            {"ced9a47fb6ad4d16", {"d8d93966d246ed2b"}},
+            {"275e4ce82ebf0976", {"72f45530b1e1f75a", "729d10a88623b937"}},
             {"259b766b59f72419", {"fd12d3374ac7a7dd", "1479e3f5a626af60"}},
-            {"21176cf68a65ab7a", {"0ccd030bff8b515c", "5d60ebdc89fe3833"}},
-            {"32414b557630d98d", {"ba4eee7b53cf726e", "60b893ec7f585976", "f906b8aa4c220a6f", "3edca9a0f68c8b15", "59585b690c6e1f01", "4cf784b1b2c7ca1c"}},
+            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
+            {"32414b557630d98d", {"255061ec51f15e29", "60b893ec7f585976", "f906b8aa4c220a6f", "af60c434a9393b08", "166a83e1c94c5a59", "4cf784b1b2c7ca1c"}},
             {"ca134b7ad59cdf8c", {"0b22e4a80375c4d0", "a5cd08444f0fca2e"}},
             {"a7bdec26cf254853", {"ee6166816ce9f788"}},
             {"21a483170781cfeb", {"da98d2d08d937357"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"320a753b019eff67", {"ac592389c85c3e38", "aef4fc536fbff1e7"}},
-            {"92ca4bd985fe6887", {"676fdbd61b302294", "89577c176b52b351"}},
+            {"021a95efb2428e47", {"ac592389c85c3e38", "98b6b0d294299cd6"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "89577c176b52b351"}},
         };
         config.filterBase = 3381.71;
         config.filterStep = 0.001;
+
+        // ---- ...and every one of them NAMED, because the other direction depends on them ---------
+        // A [ShaderOverride] is keyed by shader hash across every loaded `.ini`, and a shader holds
+        // ONE filter index -- so the seven of these that are also ChisaParfait's must carry the same
+        // value in `ChisaParfait -> Chisa`, or whichever file 3dmigoto loaded last wins and the
+        // other mod's `if vs == ...` never matches, its textures silently unbound. With eighteen
+        // Chisa mods and three ChisaParfait ones on the maintainer's disk, one of each installed is
+        // the ordinary case, and no single-direction A/B can see it.
+        //
+        // `filterBase`/`filterStep` alone could not hold that promise: they number the shaders in
+        // MAP-ITERATION order, so adding a pass renumbers every shader after it. The reverse
+        // direction had transcribed seven values off a forward-fixed `.ini` and three had since
+        // drifted -- two of them onto hashes this direction still uses (`0b22e4a80375c4d0` at
+        // 3381.722 and `a5cd08444f0fca2e` at 3381.723), so the reverse's lists could fire on the
+        // wrong shader as well as miss their own.
+        //
+        // These are exactly the values the derivation produced, so naming them moves no output; what
+        // it buys is that they stop moving. `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check.
+        // A shader added here needs a value this pair does not already use -- the forward occupies
+        // 3381.710..3381.734, the reverse 3381.76..3381.768, and the Sanhua pair .81-.84 and .91-.96.
+        config.filterIndices = {
+            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
+            {"75501c2d87600e89", "3381.711"},
+            {"c277738ca4039045", "3381.712"},
+            {"343a49bd31719ade", "3381.713"},
+            {"6dd634933d8f0837", "3381.714"},
+            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
+            {"72f45530b1e1f75a", "3381.716"},
+            {"729d10a88623b937", "3381.717"},   // her eyes
+            {"5fd6e5bb6ff81c53", "3381.718"},   // the eye pass's own vertex shader
+            {"89577c176b52b351", "3381.719"},
+            {"da98d2d08d937357", "3381.72"},
+            {"ee6166816ce9f788", "3381.721"},
+            {"0b22e4a80375c4d0", "3381.722"},
+            {"a5cd08444f0fca2e", "3381.723"},
+            {"255061ec51f15e29", "3381.724"},
+            {"60b893ec7f585976", "3381.725"},
+            {"f906b8aa4c220a6f", "3381.726"},
+            {"af60c434a9393b08", "3381.727"},
+            {"166a83e1c94c5a59", "3381.728"},
+            {"4cf784b1b2c7ca1c", "3381.729"},
+            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
+            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
+            {"fd12d3374ac7a7dd", "3381.732"},
+            {"1479e3f5a626af60", "3381.733"},
+            {"d8d93966d246ed2b", "3381.734"},
+        };
 
         // ---- source component -> target slot and the registers it binds ----
         config.plan = {
@@ -445,30 +501,34 @@ namespace AGRemapCore {
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t3", "upperDiffuse"}, {"ps-t8", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}, {"ps-t4", "DetailZero00000000"}, {"ps-t10", "DetailZero00000000"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t3", "lowerDiffuse"}, {"ps-t5", "bodySheen"}, {"ps-t2", "DetailZero000000FF"}}}},
             {5, {5, {{"ps-t0", "accessoryDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t3", "accessorySheen"}, {"ps-t5", "frontHairNormal"}}}},
-            {6, {6, {{"ps-t1", "irisDiffuse"}}}},
+            // ps-t4 as well as ps-t1: the eye draw sets six registers and two of them are the
+            // character's own -- the 512 greyscale structure map at ps-t1 and the 2048 COLOURED iris
+            // at ps-t4. Naming only ps-t1 left the skin's own eye rendering on every remap, and a
+            // mod whose eye TOGGLE swaps the coloured one (Chisa6's heart eyes) had nothing to swap.
+            {6, {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}}}},
         };
 
         // ---- a slot's OTHER passes bind the same art at different registers ----
         config.extraPassRegs = {
             {0, {
-                {"21176cf68a65ab7a", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
                 {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {1, {
-                {"21176cf68a65ab7a", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
                 {"32414b557630d98d", {{"ps-t0", "hairDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {2, {
                 {"259b766b59f72419", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {3, {
-                {"21176cf68a65ab7a", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {4, {
-                {"21176cf68a65ab7a", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
+                {"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse"}, {"ps-t1", "frontHairDiffuse"}, {"ps-t5", "frontHairNormal"}}},
             }},
             {5, {
-                {"87825a9a29529f9b", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
+                {"5e31423fa8ddfcec", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
                 {"ced9a47fb6ad4d16", {{"ps-t0", "Flat050000FF"}, {"ps-t1", "FlatDE5A7E00"}, {"ps-t2", "accessoryNormal"}, {"ps-t3", "accessoryDiffuse"}}},
             }},
         };
@@ -612,7 +672,7 @@ namespace AGRemapCore {
     }
 
 
-    IniFixBuilder::Factory ChisaFixer::parfait3_5() {
-        return IniFixBuilderFuncs::chisaParfait3_5();
+    IniFixBuilder::Factory ChisaFixer::parfait3_7() {
+        return IniFixBuilderFuncs::chisaParfait3_7();
     }
 }

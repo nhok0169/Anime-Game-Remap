@@ -71,7 +71,7 @@ Rows are ``({version, name, type}, hash)`` -- the exact ``(indexVals, value)`` s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashData.cpp" line="56" column="19" bodyfile="src/data/HashData.cpp" bodystart="56" bodyend="1771" declfile="include/AGRemapCore/data/HashData.h" declline="46" declcolumn="27"/>
+        <location file="src/data/HashData.cpp" line="56" column="19" bodyfile="src/data/HashData.cpp" bodystart="56" bodyend="1794" declfile="include/AGRemapCore/data/HashData.h" declline="46" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a3317564d38bd694ce4c148659cb87521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref></type>
@@ -428,7 +428,7 @@ index columns, of which **two** (``fromVersion`` at position 0 and ``toVersion``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="1726" declfile="include/AGRemapCore/data/VGRemapData.h" declline="69" declcolumn="27"/>
+        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="1788" declfile="include/AGRemapCore/data/VGRemapData.h" declline="69" declcolumn="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

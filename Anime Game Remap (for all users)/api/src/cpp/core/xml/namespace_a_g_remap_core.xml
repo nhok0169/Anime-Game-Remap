@@ -1827,7 +1827,7 @@ files are; the fixer reads them until it stops needing to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Chisa/ChisaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Chisa/ChisaTextures.cpp" bodystart="20" bodyend="111" declfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Chisa/ChisaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Chisa/ChisaTextures.cpp" bodystart="20" bodyend="117" declfile="include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a70652c43e2725b050dc97264ae17feac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -1868,7 +1868,7 @@ mod&apos;s files are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" bodystart="20" bodyend="93" declfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp" bodystart="20" bodyend="96" declfile="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a8a3cdb2fee3b17d4f9d01c5af5dda7bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2135,7 +2135,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="4188" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="4188" bodyend="4192" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="727" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="5576" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5576" bodyend="5580" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="825" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2251,7 +2251,7 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/WWMIParser.cpp" line="364" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="364" bodyend="375" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="143" declcolumn="30"/>
+        <location file="src/data/IniParseData/WWMIParser.cpp" line="371" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="371" bodyend="382" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="143" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af345bf406bf262670fdd608726f76ee4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>long long</type>

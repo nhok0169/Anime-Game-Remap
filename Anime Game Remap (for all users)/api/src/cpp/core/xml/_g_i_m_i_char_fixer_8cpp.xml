@@ -64,9 +64,6 @@
       <node id="186">
         <label>BlendEdit.tpp</label>
       </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="59">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -177,6 +174,10 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
         </childnode>
       </node>
       <node id="22">
@@ -2132,6 +2133,9 @@
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="107">
         <label>GIMIFixer.tpp</label>

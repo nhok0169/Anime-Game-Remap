@@ -271,6 +271,12 @@ What the order is for:
   otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
   output that changes run to run, not as an error.
 
+- **Every testing step (6, 8, 10, 12) opens with THE PRE-FLIGHT below, not with the game.**
+  The structural checks cost seconds and answer much of what a round would; an in-game round is
+  the most expensive unit of work here, and a fix that fails a pre-flight check makes the round
+  worthless. Chisa <-> ChisaParfait took two weeks against about a day for a GI pair, and the
+  difference was how much each round was made to answer.
+
 - **DO THE FIRST THING RIGHT (the maintainer's rule, 2026-09-27).** A mistake in an early step costs
   exponentially more to fix later: every later step builds on it, is tested against it and has to be redone
   around it. On Neuvillette -> NeuvilletteMelusent the vertex group rows (step 2) put his coat links on the
@@ -327,6 +333,55 @@ at it IN MOTION -- a timed series of shots through the idle animation, not one f
 hide a clip or a fold that the next frame shows.
 
 <br>
+
+## THE PRE-FLIGHT: what to run over EVERY mod before asking for an in-game round (2026-10-04)
+
+**Chisa <-> ChisaParfait took two weeks. Five GI pairs were finished in that time, and a GI pair now
+takes about a day.** The difference is not the domain -- it is how much was learned per in-game
+round. An in-game round is the most expensive unit of work in this repo: it needs the game up, a mod
+swapped in, a reload, a capture, and often the maintainer. A structural check over the fixed `.ini`
+costs **seconds** and answers a large share of the same questions. Most of the rounds that pair
+spent were on faults that a check below names without the game running at all.
+
+So: before asking for a round, run all of these. Each one is cheap, each has caught a real defect,
+and a failure in any of them makes the round worthless anyway.
+
+| # | Run | Catches | A pass reads |
+| --- | --- | --- | --- |
+| 1 | `checkModTypeTables.py` | the four doc tables drifting from the library | `ALL FOUR AGREE WITH THE LIBRARY` |
+| 2 | `check_dangling.py <mod>` | a `filename =` naming a file that is not there -- **one dangling reference out of 105 made a mod render nothing but its weapon** | every reference resolves |
+| 3 | `check_sections.py <mod>` | a register or `run =` naming a section nobody defines (a silent no-op) | 0 undefined |
+| 4 | `editedButUnbound.py <mod>` | a texture the fix WROTE that no drawing section binds, while the summary says `editted 4 *.dds files` | 0 orphan, 0 unbound |
+| 5 | `wwmiCarriedOverrides.py <mod>` | WuWa: a remapped section keeping the three lines that UNDO the remap | 0 carried, and not `VACUOUS` |
+| 6 | `wwmiCheckBlendRemap.py <mod>` (and again with `--blend <Target>RemapBlend.buf` and friends for the fix's own) | WuWa: a blend remap present but wrong | every component round-trips |
+| 7 | `fixCallPaths.py` / `unfixedDraws.py` / `bareFixCalls.py` | GI: `NNFix`/`ORFix` called twice on one path (an involution undoing itself), or not at all | 0 violations |
+| 8 | `grep -ri "NotFound" <mod>` | any reverse lookup that failed -- `HashNotFound`, `ChecksumNotFound` | no hits |
+| 9 | `wwmiFixTwiceSweep.py` / fix the folder a second time | a pass that stops declaring a resource on re-run, and a download that did not land | the second run's output matches the first |
+| 10 | `folderProbe.py <mod>` | the fix inventing folders the mod does not have | no new directories |
+
+Then the two rules that decide whether any of it means anything:
+
+**RUN THEM ON EVERY MOD, AND NEVER LET THE IDENTITY MOD BE THE ANSWER.** The identity mod is the
+cheapest input and the one that cannot fail most of these, because it is the game's own model
+rebuilt as a mod. On 2026-10-02 to 10-04 it hid *three separate things*: a regression that collapsed
+every real Chisa mod's body for two days (it carries no blend-remap line of its own, so it had none
+to carry across); a check reading the GAME's index window over the MOD's buffer (its buffer IS the
+game's, so the two windows coincide); and, earlier, the texture faults of "THE FOUR-MOD SURVEY"
+below. It is the right FIRST mod and never the last one. `AI Agent Help/GameView/CLAUDE.md`'s
+`mods <IMP> only <mod> --from <folder>` loop swaps the whole set through in one pass.
+
+**A CHECK THAT FAILS IS A HYPOTHESIS UNTIL YOU HAVE REPRODUCED IT BY HAND** (Overview habit 90).
+Three of the tools in the table above reported correct output as broken in one session. Before
+changing the fix because a check went red, reproduce the claim on one artifact and run the check on
+an input known to be good -- an author-written mod, or the previous build's output. The repair a
+false FAIL invites is a change to working code, and it is indistinguishable from real work until
+something in game gets worse.
+
+**And carry several questions into each round you do spend.** A round that answers one yes/no is a
+round wasted: capture the mod from several angles, with its toggles moved (`key --vk`), against the
+mod on its own character, and note everything odd rather than only the thing you went in for. Most
+of the faults the maintainer reported on this pair were already visible in an agent's own earlier
+screenshots.
 
 ## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
 
@@ -2977,6 +3032,1331 @@ Open: WuWa BUFFER downloads (a mod missing a whole component draws nothing there
 fallback above is the only WuWa download so far); the reverse direction; the `disabled/` folder of
 a mod is still fixed (harmlessly); the LOD hashes of the skin.
 
+### CHISAPARFAIT -> CHISA DRAWS NOTHING, AND THE .INI IS NOT WHY (2026-10-01)
+
+The first in-game check of that direction -- the guides had said "the reverse direction is unseen"
+and it is now seen. **The character disappears entirely.** Not wrong textures, not a warped mesh:
+base Chisa renders normally with the mod parked, and with any ChisaParfait mod loaded only her
+weapon is left on screen.
+
+Reproduced on **ChisaParfait1, ChisaParfait2 and ChisaParfaitIdentity** -- the identity mod is the
+cleanest repro, and the one to debug against.
+
+**It is not the .ini, and the log proves it rather than suggesting it.** With `calls = 1` for one
+reload (see Game View's "ASK THE LOG..."), every gate the remapped sections carry comes back true:
+
+```
+[...ComponentNChisaRemapFix] if $mod_enabled: true {
+[...ComponentNChisaRemapFix] if resourcemergedskeleton !== null: true {
+[...ComponentNChisaRemapFix] handling = skip
+[...ComponentNChisaRemapFix] DrawIndexed(N, N, N)          x37230
+```
+
+So the sections match Chisa's `afa1587c`, the mod registers, the merged skeleton exists, the
+original is skipped and **the draws are issued**. The geometry is being drawn and is not visible,
+which puts the defect downstream of everything the fix writes into the `.ini` -- in the skinning:
+the merged skeleton, the blend remap, or the vertex buffers the draw reads.
+
+Everything the static checks can see is clean: 0 dangling references on three of the four mods (the
+fourth's four are its author's own, in a Chinese-named `ButtonUI` overlay the fix never touches), no
+`NotFound`, every texture binding either the mod's own file or a deliberate download, and the
+generated `ChisaRemapBlendRemap{Forward,Reverse}.buf` are structurally sane (512 entries, forward max
+418 which is Chisa's range, 181 nonzero).
+
+**It is not the hand-mapping fix of the same day.** Reverting that edit, rebuilding and re-fixing
+left the character exactly as invisible, which is the A/B worth doing before blaming your own change
+(Overview habit 56).
+
+**WHAT THE BISECT RULED OUT, AND THE ONE DEFECT IT PROVED (2026-10-01).** Four probes, each one
+line in the fixed `.ini` and no rebuild -- the cheapest instrument available here, and worth reaching
+for before any code:
+
+| probe | result |
+| --- | --- |
+| bind the UN-remapped blend buffer (`vb4`) | still invisible -- **not** the `BlendRemapper` |
+| bind the MERGED skeleton instead of the remapped one (`vs-cb4` / `vs-cb3`) | still invisible -- **not** the `SkeletonRemapper` |
+| revert the same day's hand mapping, rebuild, re-fix | still invisible -- **not** the vertex groups |
+| let WWMI's skeleton MARKER survive (below) | still invisible -- necessary, not sufficient |
+
+**The proved defect: two of the fix's own command lists race for WWMI's skeleton marker, and the
+wrong one wins.** Every remapped section runs `CommandListOverrideSharedResources...` before
+`CommandListMergeSlot<N>...`, and the first of those does
+
+```
+if vs-cb4 == 3381.7777
+	vs-cb4 = ResourceMergedSkeleton        ; the SOURCE's skeleton
+endif
+```
+
+`3381.7777` is WWMI's marker meaning "this constant buffer is still the raw skeleton". Binding a real
+buffer there CONSUMES it, so the fix's own merge, guarded by the same test, can never fire: measured
+in the log, `[...MergeSlot0ChisaRemapFix] if vs-cb4 == 3381.7777` is **false 2565 times and true
+zero times**. Its `SkeletonMerger` and `SkeletonRemapper` never run, `ResourceRemappedSkeleton...` is
+never produced, and the draw skins blend indices in CHISA's space (up to 418) against ChisaParfait's
+264-bone skeleton. That collapses the mesh, which is why the draws issue and nothing is visible.
+
+**There are TWO consumers, and the first one is why removing the binding alone did nothing.**
+`CommandListTriggerResourceOverrides...` runs before everything else in each remapped section and
+does `CheckTextureOverride = vs-cb3` / `= vs-cb4`. `CheckTextureOverride` makes 3dmigoto run
+whatever section matches the buffer currently bound there -- the mod's OWN, SOURCE-space skeleton
+merge -- and that consumes the marker before the binding in (2) is even reached.
+
+Removing BOTH does make the fix's own pipeline run: the guard goes from false 2565 / true 0 to
+**true 2630**, and its `SkeletonMerger` and `SkeletonRemapper` each run 4734 times. The model is
+still invisible, so a further layer remains -- but the generator now has a precise target, because
+the direction that WORKS does not emit either construct:
+
+| in the fix's generated lists | forward (works) | reverse (broken) |
+| --- | --- | --- |
+| `CheckTextureOverride = vs-cb4` | **0** | present |
+| `vs-cb4 = ResourceMergedSkeleton` | 8, and no `vs-cb3`/`vs-cb4` touched in `OverrideSharedResources` at all | present, inside `OverrideSharedResources` |
+| `SkeletonMerger` / `SkeletonRemapper` / `MergeSlot` | 32 | present |
+
+The forward direction leaves the skeleton slots completely alone in its trigger and shared-resource
+lists, so its own merge sees the marker.
+
+**Neither line is generated -- both are the MOD's own, copied.** `CheckTextureOverride` appears
+nowhere in the C++ core. ChisaParfait's mods carry `CheckTextureOverride = vs-cb3` / `= vs-cb4` in
+their own `CommandListTriggerResourceOverrides` and Chisa's mods do not, which is the whole of the
+direction asymmetry: the fix copies the list verbatim into the remapped sections, where it reaches
+the mod's own source-space skeleton merge.
+
+**FIXED IN THE GENERATOR (2026-10-01), and it is the same idea the surrounding code already had.**
+`WWMIFixer`'s `buildRegRemovals` already drops `run = CommandListMergeSkeleton...` when
+`targetPast256_`, for exactly this reason -- that list writes the TARGET's bone indices into a
+skeleton the mod declares for 256. It just did not drop the other two routes to the same place. It
+now also removes, under the same condition:
+
+```
+CheckTextureOverride = vs-cb3 / vs-cb4
+vs-cb3 = ResourceExtraMergedSkeleton
+vs-cb4 = ResourceMergedSkeleton
+```
+
+Measured before and after, in the shipped build: `[...MergeSlot0...] if vs-cb4 == 3381.7777` goes
+from **false 2565 / true 0** to **true 2685**, and the fix's own `SkeletonMerger` and
+`SkeletonRemapper` from never running to **4833 times each**. The forward direction's output is
+byte-for-byte unaffected (`targetPast256_` is false there, and its mods carry neither line anyway).
+
+**AND THE DUMP FOUND THE REST OF IT (2026-10-02).** One narrowed frame dump --
+`--options "dump_cb dump_vb dump_ib buf txt"`, taken from the character menu with XXMI's logging
+off, 7406 files and no watchdog kill -- settled in minutes what reasoning had not.
+
+**The remapped draw had no `vs-cb3` and no `vs-cb4` at all.** Every normal character draw in the
+same frame dumped both; ours dumped neither. No skeleton means no valid transform, and that renders
+as NOTHING rather than as something wrong -- which is why four probes aimed at the skinning all came
+back identical.
+
+3dmigoto names the cause in the dump's own `log.txt`:
+
+```
+[mergeslot0chisaremapfix] resourceextraremappedskeletonchisaremapfix = copy resourceextra...
+  Copy source was NULL
+[mergeslot0chisaremapfix] vs-cb3 = resourceextraremappedskeletonchisaremapfix
+  Copy source was NULL
+```
+
+`[Resource...RemappedSkeletonRW]` was declared EMPTY -- no type, format or size -- and bound
+straight to `cs-u5` as the compute shader's UAV. An empty resource has no backing buffer: the
+dispatch writes nowhere, the `copy` after it has no source, and **binding a null resource UNBINDS
+the slot**. Chisa's own identity mod seeds the pair from the merged RW before its dispatch
+(`ResourceRemappedSkeletonRW = copy ResourceMergedSkeletonRW`); the fix now does the same, and the
+merged RW is the right source because it is declared with a size and has just been written by
+SkeletonMerger.
+
+**With that, the model draws.** Not correctly -- it comes in enormous, with the camera inside it --
+but drawing and mis-skinned is a different and far more tractable failure than invisible.
+
+**AND THE ENORMOUS MESH IS `vb0` (2026-10-02).** A second dump, with the skeleton now bound,
+measured every part of the skinning and found it correct:
+
+* the skeleton matrices are SANE -- 512 bones, 25% all-zero, rotation rows of median length 1.000,
+  translations median 25.4, every figure matching a working character draw's
+* the skeleton is correctly LOCAL-indexed. The test needs no external reference: if the remapper
+  ran, `ours[i] == merged[ForwardMap[i]]`, and for any `ForwardMap[i] >= 186` that slot still holds
+  its seeded merged value, so `ours[i] == ours[ForwardMap[i]]` must hold. **108 of 108 witnesses
+  agree**, so `SkeletonRemapper` ran and its output is right
+* the blend indices are correctly local: max 185, exactly 186 distinct
+
+**A WRONG TURN WORTH KEEPING, BECAUSE THE EVIDENCE LOOKED SO GOOD.** The draw's stream list shows
+`vb1`-`vb4` with no hash -- the mod's -- while `vb0` is named `vb0=afa1587c`, is 775056 bytes where
+the mod's `Position.buf` is 832932, and is **byte-identical by md5 to CHISA's own** position buffer.
+That reads as proof that `vb0` never took and the draw was running the mod's indices against the
+target's vertices. It was written up as the answer.
+
+**It is not true. `vb0` does take.** Halving every position in the mod's own `Position.buf` visibly
+changed the render; restoring it changed it back. The draw reads the mod's vertices.
+
+What the dump shows is **frame analysis naming a stream by the hash it TRACKS for that slot and
+dumping that original**, not the custom buffer bound over it. A mod-supplied buffer has no tracked
+hash, so it dumps as `vb1` with no `=hash` and with the mod's contents; an overridden slot that the
+game had already given a hash still dumps under the game's name and the GAME's bytes. Both the name
+and the md5 are then consistent with a conclusion that is wrong.
+
+**The rule: a frame dump tells you what 3dmigoto KNOWS about a slot, not what the draw reads.** When
+the question is whether an override reached the draw, change the file and look -- one behavioural
+probe outranks any amount of agreement between a filename, a size and a checksum.
+
+With `vb0` cleared, every input to the draw has now been measured and is correct: positions the
+mod's, blend indices local 0..185, weights summing to exactly 1.00, the skeleton sane and correctly
+local-indexed. Skinning slot 0's vertices offline with the dumped blend and skeleton puts them at
+**median 111.6 against 112.2 before skinning, max 150** -- exact character scale. So the data that
+reaches the draw is right, and the model still renders enormous, which is where this stands.
+
+**The next lead, probed and real: the remapper's `vg_count`.** The fix overrides it to a global 186
+(`blendRemapBones_`) for every slot, where Chisa's own mod passes each component's own count
+(128 / 121 / 28). Deleting the override so the slot's own count stands brings at least one slot back
+to roughly the right size -- a recognisable piece of the outfit at normal scale -- while others still
+explode. So the value is substantive and per-slot, and a blanket removal is not the answer either.
+That is where to pick this up.
+
+**Two general lessons from the shape of this hunt.** A resource that is empty rather than wrong
+fails SILENTLY in both directions -- nothing is drawn and nothing is logged as an error, only a
+quiet "Copy source was NULL" inside a frame dump nobody takes by default. And four one-line probes
+that all come back identical are not four dead ends: they were bisecting the SKINNING while the
+defect was that no skeleton reached the draw at all, which no amount of swapping one skeleton for
+another could reveal. When every probe inside a subsystem says "no change", suspect that the
+subsystem is not running.
+
+**The model is still invisible.** So the dead skeleton pipeline was real and is not the whole story;
+at least one more layer sits behind it. What is now known good: the sections match, the mod
+registers, the draws issue, the fix's own skeleton merge and remap run, and the blend buffers are
+structurally what Chisa's own working identity mod has (`ChisaRemapBlend.buf` saturating at 255 is
+NORMAL for a character past 256 -- her own mod does the same -- because the uint8 indices are
+window-local and `BlendRemapVertexVG.buf` carries the real ones, 189 distinct, max 418). The next
+thing to measure is what the skinning actually produces: a frame dump of one remapped draw would
+show whether the vertices collapse to a point, fly off, or go NaN, and each of those points
+somewhere different.
+
+**The general lesson is the marker, not Chisa.** WWMI signals state through sentinel VALUES in
+constant-buffer slots, so any generated command list that writes such a slot changes what every
+LATER list sees. Two generated lists guarded by the same sentinel are order-dependent by
+construction, and the one that runs first silently disables the other -- with no error, no warning,
+and a log that shows every gate it does reach coming back true.
+
+One structural difference worth starting from: in this direction the TARGET is past 256 bones
+(Chisa, 419), so WWMI's blend remap has to carry the target side. The forward direction's target,
+ChisaParfait, is 264 -- over 256 as well and working -- so "target over 256" is not by itself the
+answer, but the 419-bone case is the one that fails.
+
+### THE WWMI BLEND-REMAP CONTRACT, READ OUT OF WWMI'S OWN SHADERS (2026-10-02)
+
+"Check the bone stride against the game's vertex shader" has no answer, because **WWMI never patches
+the game's vertex shader.** Nothing in `WuWa-Model-Importer.ini` touches bone indexing:
+`[ShaderRegexEnableTextureOverrides]` hooks every vertex shader only to fire `CheckTextureOverride`
+callbacks. The game's shader is stock, and the whole remap happens by swapping the constant buffer
+bound at `vs-cb3` / `vs-cb4` and the blend buffer at `vb4`. So the contract is not in the game's
+disassembly, and frame analysis cannot dump a shader anyway (`analyse_options` has no such option) --
+it is in WWMI's three compute shaders under `Core/WWMI/Shaders/`, which are plain readable HLSL.
+Reading them is minutes; a hunting-mode shader dump is a `d3dx.ini` change and the maintainer's call.
+
+What they say, all of it load-bearing:
+
+* **A bone is 3 x `float4`, 48 bytes**, bone `i` at float4 index `i * 3` (`SkeletonMerger.hlsl`).
+* **The game's per-draw skeleton is `cbuffer Skeleton : register(b8) { float4 Skeleton[768]; }` --
+  256 bones, component-LOCAL and 0-based.** That 256 is where the whole blend-remap machinery comes
+  from: a character past 256 merged bones cannot be addressed by one draw, and an 8-bit blend index
+  could not name it anyway.
+* **`vg_offset` is a MERGE-time parameter only.** `MergedSkeleton[VertexGroupOffset * 3 + vg_id * 3]`
+  -- it says where a component's window sits in the merged array, and it is never added at draw time.
+  A plan that "corrects" `vg_offset` at the draw is aimed at nothing.
+* **`vg_count` means two different things** depending on which shader is being dispatched: for the
+  merger, how many bones of the game's cb to copy; for the remapper, how many LOCAL ids to fill. The
+  same variable, set twice per block, and the second value is the one the remap uses.
+* **Both remap maps are 512 entries PER REMAP ID** (`RemapId * 512`, in both `BlendRemapper.hlsl` and
+  `SkeletonRemapper.hlsl`), so a one-remap mod's map file is 1024 bytes and a three-remap mod's 3072.
+* **`BlendRemapper` writes only the 8 INDEX bytes** of each 16-byte vertex
+  (`RemappedBlend[v * 16 + i] = ReverseMap[FullRangeVG[v * 8 + i]]` for `i < 8`), never the weights --
+  so its output buffer must be seeded by copying the blend buffer, bound `R8_UINT` with no stride for
+  the pass, and handed its stride back with `copy_desc` before `vb4` reads it.
+* **The remap is meant to run ONCE PER FRAME at `[Present]`, from the COMPLETE merged skeleton** --
+  merge per draw into a persistent RW buffer, then `[CommandListUpdateMergedSkeleton]` snapshots it
+  and remaps. WWMI Tools' own output does it that way; the generated fix does merge-then-remap inside
+  every slot's draw, from a skeleton only partly filled at that moment. Not shown to cause a symptom,
+  but it is a divergence from the design and the first thing to align if one appears.
+
+Checked against the generated ChisaParfait -> Chisa fix, **every one of those is satisfied**: 180
+distinct merged ids map to 180 distinct locals with 0 round-trip failures, 0 collisions, and every
+local inside all three ceilings (`vg_count`, the 256-bone cb, the 8-bit index); the forward and
+reverse map files are 1024 bytes each; the formats and the `copy_desc` match `ChisaIdentity`'s
+working ones exactly. **`ChisaIdentity` is the reference to diff against** -- it is a >256-bone Chisa
+mod that works, so its `mod.ini` is what the generated one is supposed to look like.
+
+### A PLACEHOLDER A LATER PASS OVERWRITES IS STILL WHAT RENDERS WHEN THE PASS DOES NOT LAND (2026-10-02)
+
+Which left one thing, and it is in none of those checks. `WWMIFixer` wrote the remapped `Blend.buf`'s
+index bytes as **`mapped & 0xFF`** -- the merged id truncated to the byte the format holds -- on the
+reasoning, written into the comment as "Truncated on purpose", that WWMI's `BlendRemapper` overwrites
+those bytes at run time from the 16-bit ids in `BlendRemapVertexVG.buf`.
+
+The reasoning is true and the value is still wrong, because **`mapped & 0xFF` is correct under no
+circumstances at all.** Chisa's bone 409 truncates to 153 -- not an invalid index that fails loudly,
+a live bone somewhere else on the body. Measured on the generated ChisaParfaitIdentity: **29606 of
+69411 vertices, 42%, named a bone they are not weighted to.** Any frame the compute pass does not land
+draws a scrambled mesh rather than nothing, which is the reported "a lot of polygons surrounding it".
+
+**And it is invisible to every instrument used on this bug for two days.** The maps round-trip, the
+weights are untouched, the positions are the mod's, the dumped `vs-cb4` skeletons skin offline to
+correct character scale -- because the wrong ids are exactly the ones the pass was going to replace,
+so nothing that measures the *inputs* can see them. It is the `vb0` lesson again (a frame dump shows
+the resource the hash TRACKS, not the override): the artifact on disk and the data the GPU consumes
+are different things, and only the first is checkable offline.
+
+The fix is to write **`reverse[mapped]`, the local id** -- precisely what the compute pass computes,
+so it is idempotent with the pass and correct without it. That needs the reverse map, which the
+function used to build *after* writing the blend, so the construction moves ahead of it. After the
+change all 69411 vertices carry the local id and none a truncated one
+(`Tools/Misc/Diagnostics/wwmiBlendPlaceholder.py`).
+
+Scope: only the >256-bone TARGET path writes those map files, so only ChisaParfait -> Chisa goes
+through it. The forward direction's blend goes through `remapFromVertexVG` and is untouched -- worth
+proving rather than asserting, and the proof is that the patched function writes `out.forward` /
+`out.reverse` unconditionally at its end while the forward direction produces neither file. (Its
+`.buf` md5 *does* move across the rebuild, which reads like a regression and is not: that is the
+forward row's hand-corrected hands from `0ea03da1`, and the `.ini` staying byte-identical is the
+corroboration, since a vertex group row change moves blend bytes and nothing else.)
+
+**A general rule out of it:** when a generated artifact is a placeholder for something a later pass
+writes, write the value that pass would write. A placeholder that is wrong on purpose turns "the pass
+did not run" from a blank screen into a plausible-looking wrong picture -- and the days between those
+two diagnoses are the cost.
+
+**AND THE IN-GAME A/B DID NOT SETTLE IT -- BUT NOT FOR THE REASON FIRST WRITTEN HERE
+(2026-10-02).** The first version of this section said the render was *unstable across reloads*: four
+reloads of ChisaParfaitIdentity, same files and same build, gave four different pictures, one of them
+showing a correctly scaled and placed garment. That was wrong, and the control that settles it is the
+one not taken -- **three screenshots with NO reload at all move MORE than the reloads do** (86 against
+48 mean absolute difference over the model region, `Tools/Misc/Diagnostics` style probe). The
+character in the Overview menu is ANIMATED, and stray planes swing with it, so any two frames differ
+enormously whatever was changed in between.
+
+So there is no race, the one good-looking frame was a pose rather than a lucky outcome, and the
+placeholder defect remains proved by MEASUREMENT (deterministic, 42% of vertices, a check that fails
+against a reconstruction of the old output and passes against the new) and **not** by any picture.
+
+**The rule, which the repo already half carries** (Overview's "A screenshot statistic is only as good
+as its mask"): a screenshot statistic needs a CONTROL as much as it needs a mask. Before attributing
+a difference between two frames to a change, take two frames with the change held constant and
+measure the same thing. In a menu with an idle animation that control is seconds of work and it
+invalidates the whole comparison. For this pair, prefer a still pose -- or compare a measured
+quantity rather than a picture.
+
+### A HIDDEN TARGET SLOT'S BONES STILL HAVE TO REACH THE FIX'S OWN SKELETON (2026-10-02)
+
+A target slot nothing is remapped onto gets a `...RemapHide` section: the skin's own geometry is
+skipped and its bones are still merged. They were merged into the wrong buffer. That section ran the
+host's copied `CommandListMergeSkeleton<fix>`, which writes `ResourceMergedSkeletonRW` -- **the MOD's**
+merged skeleton, sized for the source -- while the blend remap reads the fix's own
+`ResourceMergedSkeletonRW<fix>`.
+
+So every bone in a hidden slot's window stayed zero in the buffer that matters. On
+ChisaParfaitIdentity that is Chisa's `[391, 419)`, carrying bone **409**, which **1185 weighted
+influence slots** name: every one of those vertices skinned against a zero matrix and collapsed to
+the origin, and a triangle with one corner at the origin is a plane straight across the scene.
+
+It also means an earlier "dead bone" repair was aimed at the wrong thing: ten source bones had been
+remapped ONTO 409 precisely because a frame dump showed it live and its neighbours dead -- a dump of
+the fix's own incomplete skeleton, which is the circular-oracle trap again.
+
+The fix emits `CommandListMergeWindow<fix>`, a merge-only list writing the fix's buffers, and points
+the hide sections at it. `Tools/Misc/Diagnostics` territory: the check is to list every window, say
+which section merges it and into whose buffer, and sum the weighted slots riding on windows nobody
+merges -- 1185 before, 0 after.
+
+### THE REMAP RUNS ONCE A FRAME NOW, WHICH IS WWMI'S DESIGN AND NOT A FIX FOR ANY KNOWN SYMPTOM (2026-10-02)
+
+The generated fix merged, remapped and bound inside every slot's draw, so the remap read a merged
+skeleton holding only the windows merged so far that frame. WWMI's own design, and every working
+mod's, is: merge per draw into a persistent RW buffer, and snapshot-plus-remap **once per frame** at
+`[Present]`, so the next frame's draws all bind one complete skeleton.
+
+That is now what the fix emits -- `CommandListRemapMergedSkeleton<fix>`, latched on `$state_id` (the
+host's frame counter) and called from the top of each slot's merge list, which is equivalent to
+`[Present]`: nothing but those merge lists writes the RW buffer, so at the frame's first remapped
+draw it still holds exactly the previous frame's complete merge. Anchoring it there rather than
+appending a `[Present]` keeps the hook in the fix's own sections; **no `.ini` in the corpus carries
+two `[Present]` sections**, so appending one would bet on 3dmigoto merging duplicate sections within
+a file, which nothing here establishes.
+
+**Be clear about what this bought: nothing demonstrated.** It was motivated by an unstable render
+that turned out to be the Overview menu's idle animation (see the correction above), and after it the
+model still draws the planes. It is a correctness alignment with the importer's design, worth having
+and worth not mistaking for a repair.
+
+### CHISAPARFAIT -> CHISA RENDERS: IT WAS `vb6`, THE STREAM NOTHING IN THE FILES CAN SHOW (2026-10-02)
+
+**The planes were the game's live shape-key stream.** Chisa's component 2 and 3 draws read a SIXTH
+vertex stream, `vb6` -- stride 24, first element an `R32G32B32_FLOAT` position offset, addressed by
+vertex id and sized for HER draw's vertex count. The fix bound `vb0` through `vb4` and left `vb6`
+alone, so every remapped vertex took whatever offset Chisa's buffer held at the same index. Measured
+against a frame dump of Chisa herself: of the vertices the body draw's range reaches, **4213 index
+past the end of her 38964-entry buffer** -- undefined reads, which is what stretched across the
+scene -- with 470 more on another slot and ~960 taking a real displacement computed for one of her
+vertices.
+
+**Binding a zero `vb6` on the remapped draws fixes it, and the model renders.** The template already
+had `zeroShapeKeyStream` / `shapeKeyStreamReg` / `shapeKeyStride` for exactly this, built for Sanhua,
+whose arms had the same fault. Chisa's config turned it off together with `hiddenObjs`, and **only
+the hiding deserved it**: hiding the shape-key overrides comments sections out of the MOD'S OWN text,
+so a mod that really uses its keys breaks on ChisaParfait too, while the zero stream is an addition
+to the REMAPPED sections only. Retargeting does not substitute for it -- it makes WWMI's own
+shape-key pipeline run against the target's checksum, and never rebinds the game's `vb6`, which is
+the buffer the draw actually reads.
+
+**Why the forward direction was never exposed**: ChisaParfait's own draws carry no `vb6` at all. The
+asymmetry is the whole reason one direction worked while the other filled the screen, and it is a
+property of the TARGET, so it is the first thing to check for any new WuWa pair -- `ls <dump>/*-vb6=*`
+and see which of the target's draws have one.
+
+#### The method, which is worth more than the finding
+
+Four rounds of real, measured defects were fixed before this one and none of them was the cause: a
+truncated blend placeholder (42% of vertices), a hidden slot's window merged into the wrong skeleton
+(1185 weighted slots), the per-draw remap ordering, ten dead vertex-group targets. Each was genuine.
+None was it.
+
+What finally worked was refusing to fix anything until the question was answered:
+
+1. **Skin the mesh offline, from the TARGET's own frame dump.** Rebuild the merged skeleton from the
+   game's per-component bone data (each component draw's ib `.txt` sidecar gives `first index` and
+   `index count`, which names the window), apply the fix's forward map, skin the mod's positions with
+   the remapped blend. Result: **all 69411 vertices landed 113-153 units from the origin and every
+   bone they used had a matrix.** The data was perfect. That is what said the fault was not in any
+   file -- and it is independent of the fix's own output, unlike the three earlier diagnoses that
+   were taken from dumps of the fix's own skeleton and could only confirm themselves.
+2. **Turn the fix's draws off entirely.** Chisa rendered perfectly, so the planes were the fix's
+   draws and not something else on screen.
+3. **Draw 1/256 of each range.** Clean -- so it was particular triangles, not a global bad skeleton,
+   which is what ruled out everything upstream.
+4. **Diff what the target's draws READ against what the fix BINDS.** `ls <dump>/*-vbN=*` per draw
+   against `grep 'vb[0-9] = '` in the generated `.ini`. One line of output, and the answer was in it.
+
+Step 4 is the cheap one and it should have been step 1. **A remapped draw inherits every stream the
+target's draw reads, not just the ones the fix knows about** -- so enumerate them from a dump before
+reasoning about any of them.
+
+### A REAL MOD WAS INVISIBLE WHILE THE IDENTITY MOD RENDERED, AND BOTH CAUSES WERE THE SAME MISTAKE (2026-10-02)
+
+With the `vb6` fix in, ChisaParfaitIdentity rendered and **ChisaParfait1 -- a real downloaded mod --
+was still invisible, only the weapon left on screen**. Two separate defects, and both are the fix
+reading a real WWMI Tools mod as if it were an identity mod.
+
+**1. A removal matched by value prefix missed `ref`.** `removedRegs` names the resource a binding
+must not keep. An identity mod built by `wwmiIdentityMod.py` writes
+`vs-cb4 = ResourceMergedSkeleton`; WWMI Tools -- which every downloadable mod is built with -- writes
+`vs-cb4 = ref ResourceMergedSkeleton`. The check lowercased and lstripped the value and compared it to
+the prefix, so it matched the first and missed the second. The surviving line binds the MOD's merged
+skeleton and consumes the `3381.7777` marker, so the fix's own merge never runs. The check steps over
+`ref` now. (A real mod's block has a third branch the pairs still do not cover --
+`elif vs-cb3 == marker` / `vs-cb3 = ref ResourceMergedSkeleton` -- which no (register, prefix) pair
+names, so it survives. Removing it by hand changed nothing in game, so it is noted rather than
+chased.)
+
+**2. THE FRAME LATCH, which was mine, from the ordering change earlier the same day.** The
+once-a-frame remap latched on `$state_id`, the mod's frame counter. The identity mod maintains it. A
+real WWMI Tools mod of the current generation declares `global $state_id = 0`, **never assigns it**,
+and keeps its own `$merge_status_id` instead -- so the latch read `0 != 0` forever. 3dmigoto's own log,
+with `[Logging] calls = 1` and `debug = 1` for one reload:
+
+```
+if $remapped_state != $state_id: false      x 118841
+                           true:            ZERO
+```
+
+The remap never ran, `ResourceRemappedSkeleton` was never created, and **binding a null UNBINDS the
+slot**, so the draw had no skeleton at all -- invisible rather than wrong, which is the same null-bind
+trap recorded above for `cs-u5`.
+
+It runs unconditionally now, and needs no frame counter, because the property that mattered never came
+from the latch: the merged RW buffer is PERSISTENT and accumulates, so at any draw it holds every
+window from this frame or the last, and a remap taken at any point reads a COMPLETE skeleton. The
+hide sections carried the same `$state_id` guard and failed the same way -- a hidden slot's window
+never reached the fix's skeleton -- so on the >256-bone path that is unconditional too.
+
+**The rule: a mod's own bookkeeping is not the fix's to depend on.** `$state_id`, `$merge_status_id`
+and whatever the next WWMI generation uses are the MOD's, and they differ between an identity mod and
+a real one. A fix may read the marker the IMPORTER sets and the resources it declares; anything the
+mod maintains for itself can be absent, stale, or renamed.
+
+**And the corollary that cost the most here: the identity mod is not a sample of one, it is a sample
+of none.** It is generated by this repo, so it agrees with the fix's assumptions by construction.
+Every defect in this round was invisible on it and obvious on the first real mod. Fix on the identity
+mod; CONFIRM on a downloaded one, before believing any of it.
+
+#### Reading the log, which is how both were settled
+
+`[Logging] calls = 1` alone gives API calls and no command-list tracing -- the `if ... : true {` lines
+need `debug = 1` as well, and that pair wrote **3.1 GB for one reload**. Worth it, and worth these:
+
+* **Read before restoring.** The first attempt restored `d3dx.ini` and truncated the log in the same
+  command as the reload, destroying the trace that had just been collected.
+* **The log lowercases a `run` target**, so `grep MergeSlot` finds nothing while
+  `grep -i mergeslot` finds 22075 hits, and section names appear namespaced by path
+  (`[commandlist\mods\<mod>\...\mod.ini\mergeslot3chisaremapfix]`) -- a literal
+  `TextureOverrideComponent3ChisaRemapFix` matches nothing.
+* **Truncating a file the game holds open does not free it.** The handle keeps its offset, so the
+  size comes back. It took ending the game to clear 23 GB.
+* **And it can kill the game**: Unreal's watchdog ended this session with "Application Hang Detected"
+  a few minutes after the 3.1 GB reload, which is the risk Game View already warns about for frame
+  dumps.
+
+### THE FOUR-MOD SURVEY: GEOMETRY IS FIXED, TEXTURES ARE NOT, AND THE IDENTITY MOD COULD NOT HAVE TOLD YOU (2026-10-02)
+
+With the `vb6`, `ref`-prefix and frame-latch fixes in, **all four ChisaParfait mods draw their own
+geometry on Chisa** -- no planes, nothing invisible. The remaining faults are all texture or material,
+and they line up with one number:
+
+| mod | roles the fix DOWNLOADS | in game |
+| --- | --- | --- |
+| ChisaParfaitIdentity | **0** | correct |
+| ChisaParfait1 | 6 (Face diffuse+mask, Hair mask, Prop x3) | one jagged outlined patch on a thigh |
+| ChisaParfait2 | 14 (adds **Upper** diffuse+mask+normal, Panel, Hair) | black fingers on ONE hand, a grey band down the centre of the face |
+| ChisaParfait3 | 7 (**Upper mask**, **Lower mask+normal**, Hair, Face mask) | geometry right, whole body RED, skirt YELLOW |
+
+**The identity mod downloads nothing**, because it ships every one of the character's textures by
+construction. So it exercises **none** of the download-fallback path, and every fault above is
+invisible on it. That is the same lesson as the `$state_id` latch, in a second subsystem on the same
+day: it is not a sample of one, it is a sample of none.
+
+A role the mod ships no file for is bound to the SOURCE's own game texture, downloaded -- which is
+deliberate and documented (`WWMIFixerConfig::fallbackTextures`), because the mod's UVs are the
+source's. What that does NOT account for is the MASK: a downloaded ChisaParfait mask carries
+ChisaParfait's material packing and is being read by CHISA's shader, and "a hue over body and clothes
+is the MASK" is already the first row of the WuWa triage table. ChisaParfait3 downloads both the Upper
+and the Lower mask and is red over its whole body; ChisaParfait1 downloads neither and has one small
+patch.
+
+**Not yet established**, and the next things to check rather than assume:
+
+* whether a downloaded mask is repacked at all. The hair NORMAL is
+  (`ChisaParfaitHairNormalRepackRemapTex.dds` appears in every mod's table), so the machinery runs for
+  one role on one component -- but every `...MaskRemapDL.dds` is bound raw.
+* whether mod 1's face, which is fully downloaded and looks RIGHT, breaks that story. It is the case
+  that does not fit, so it is the one worth reading first.
+* ChisaParfait2 and 3 carry 32 and 16 `[Key]` toggles. None was pressed. A default toggle state is a
+  cheaper explanation than a texture bug and has not been ruled out.
+
+`Tools/Misc/Diagnostics` has no tool for this yet; the table above was built by parsing each
+`CommandList...ComponentNTextures...RemapFix` section's `ps-t` bindings and resolving each resource to
+the file it names. That is the prototype's per-slot table, and it remains the instrument for any WuWa
+texture report.
+
+### A GHOST BODY SEEN ONLY IN MOTION IS THE SECOND SKELETON, `vs-cb3` (2026-10-02)
+
+Reported on ChisaParfait1 after the geometry was fixed: "a second body like a shadow, very close to
+the main body, almost like an outline of the body, only seen whenever Chisa moves". Nothing in any
+still shows it -- the silhouette edges are clean at every angle -- and that is the clue, because a
+fault visible only while moving is TEMPORAL.
+
+`vs-cb3` is the second skeleton: the PREVIOUS frame's pose, which the shader turns into motion
+vectors for TAA. The fix merges and binds it exactly as it does `vs-cb4`, each gated on the
+`3381.7777` marker -- and a real WWMI Tools mod's shared-resource list has a THIRD branch that the
+removal pairs did not name:
+
+    if vs-cb4 == marker
+        vs-cb4 = ref ResourceMergedSkeleton          <- {"vs-cb4", "resourcemergedskeleton"}
+        if vs-cb3 == marker
+            vs-cb3 = ref ResourceExtraMergedSkeleton <- {"vs-cb3", "resourceextramergedskeleton"}
+    elif vs-cb3 == marker
+        vs-cb3 = ref ResourceMergedSkeleton          <- cb3 with the NON-extra resource: neither pair
+
+That survivor consumes cb3's marker, so the fix's merge list skips cb3 on those draws and they keep
+the GAME's: **the current pose from our remapped skeleton and the previous pose from the target's
+own.** The motion vectors are then wrong and TAA smears a second body. In 3dmigoto's log, inside the
+fix's own merge list on ChisaParfait1:
+
+```
+if vs-cb3 == 3381.7777: true   8827
+if vs-cb3 == 3381.7777: false  4418     <- a third of the draws
+```
+
+cb4's marker survives on all of them, because the branch that consumed it was already removed -- which
+is why the geometry is right and only the ghost is left. The third pair is added and all three
+branches now come out empty.
+
+**The general shape**: a (register, value prefix) removal is a rule about a text the MOD wrote, and a
+mod generator will write the same intent three ways. Enumerate the branches from a real mod's file,
+not from the one the repo generates -- and when a removal is meant to clear a register, assert the
+register is clear afterwards rather than that the pairs matched.
+
+**Not confirmed in game**: the ghost is invisible in stills, so the fix is reasoned from the log and
+the structure. It needs a look in motion.
+
+### CHISAPARFAIT3'S RED BODY IS NOT THE MASK, THE DIFFUSE, OR THE ROLE ASSIGNMENT (2026-10-02)
+
+Four hypotheses excluded by measurement, so the next agent does not spend the same hours:
+
+**It is not a toggle.** The mod has five keyboard toggles. `p` swaps an outfit piece (the top appears);
+the four arrows change nothing visible. The body stays red in every state.
+
+**It is not the mask**, which is where the WuWa triage table points ("a hue over body and clothes is
+the MASK") and where this went first. The fix DOES discard the mod's own upper mask -- its log says so
+outright, `Textures_1.dds is a flat upperMask, which marks no regions; the source's own is used
+instead` -- and that is a real behaviour worth knowing. But it is not the cause here, because the two
+masks say almost the same thing: over a 64 x 64 grid the mod's is **100%** `R = 255` and the download
+is **94%**, and `R = 255` is bare skin in this pair's legend. Swapping them back changes 6% of one
+channel.
+
+**It is not the mod's art.** Mean colour over the diffuses the fix bound: `3_3.dds` (251, 213, 208),
+`4_3.dds` (212, 165, 168) -- flesh and pink, not red and not yellow. The body renders red and the
+skirt yellow from textures that are neither.
+
+**It is not the role assignment.** Compared register for register against ChisaParfaitIdentity, which
+renders CORRECTLY, the kinds match exactly:
+
+| register | identity (works) | ChisaParfait3 |
+| --- | --- | --- |
+| `ps-t0` | `3c4279a9` mean (126, 128, 0) -- a normal map | `3_0.dds` mean (126, 127, 0) -- a normal map |
+| `ps-t1` | `6b7ae743` mean (239, 15, 125) -- a mask | the downloaded mask |
+| `ps-t2` | `4c420ea9` mean (216, 186, 187) -- a diffuse | `3_3.dds` mean (251, 213, 208) -- a diffuse |
+
+So the red is a SHADING result, not a texture: correct art, in the right roles, at the right
+registers, coming out the wrong colour. The identity mod leaves `ps-t3`-`ps-t9` to the game exactly as
+this one does and is fine, so the uncovered ramp registers are not it either on their own.
+
+**What is left, and the method for it** is the one the guides already carry and nothing here replaces:
+bisect with a flat unmistakable colour per register over a few in-game rounds
+(`Tools/Misc/Diagnostics/purpleSlot.py`'s idea). Two earlier Chisa colour faults -- the translucent
+red body and the yellow kimono -- were each found that way and the two strongest prior hypotheses were
+wrong both times. A fifth excluded guess is worth less than one round of that.
+
+**One real defect found on the way**, not the cause and worth fixing on its own terms: the mod binds
+component 4's mask and normal inside its **component 5** section (its toggle system puts several
+components' variants in one section), so the register-role path offers `4_1.dds` for component 5's
+roles and never for component 4's. `lowerMask` then has no candidate at all -- no "flat" or "aliased"
+message, it simply never entered the running -- and downloads. `AGREMAP_WWMI_PICK=1` prints every
+(role, component) choice and is how that was seen.
+
+### THE FLAT-COLOUR BISECT ON CHISAPARFAIT3, AND WHAT IT EXONERATED (2026-10-02)
+
+Four in-game rounds, one register at a time, binding a 4 x 4 flat texture immediately before each
+remapped `drawindexed` so it wins over every texture list that ran before it
+(`Tools/Misc/Diagnostics/wwmiFlatProbe.py`):
+
+| round | bound | result |
+| --- | --- | --- |
+| 1 | `ps-t3`-`ps-t9` magenta | the HAIR turned magenta; **the red body and yellow skirt did not move** |
+| 2 | `ps-t1` flat black | no change -- not the mask, which is where the triage table points |
+| 3 | `ps-t2` flat green | **the whole body, outfit and cap went flat green, and the red glow vanished with it** |
+| 4 | `ps-t0` flat blue | no change -- not the normal map |
+
+So `ps-t2` is the sole driver. Then the decisive substitution: bind ChisaParfaitIdentity's **stock**
+upper atlas there instead of the mod's own file, changing nothing else. **The model rendered
+correctly** -- pink gingham, white skirt, no red, no yellow, no glow.
+
+**That exonerates the fix.** Same register, same role, same pass gate (`if vs == 3381.761`), same
+`ShaderOverridePass` hashes and filter values as the mod that renders right -- diffed and identical --
+and the same DXGI format on both sides (`BC7_UNORM_SRGB` for the diffuses, `BC7_UNORM` for the
+normals). The only thing that differs is the bytes the mod ships, and swapping those alone fixes the
+picture.
+
+What remains unexplained is the mod's own art: its atlases render pale pink and gingham when
+decoded (`3_3.dds` is a nude body atlas, `4_3.dds` the pink lower outfit) and red and yellow in game.
+Its upper diffuse is also the one file in the corpus whose ALPHA is out of range -- 254-255 where
+every other diffuse here, the mod's own lower, panel and face included, is 0-112 -- but the face has
+a normal alpha and renders red too, so that is a loose end rather than the cause.
+
+**The check that is missing is the one the guides already require and that cannot be run here: the
+mod on its OWN character.** Every conclusion above is about a ChisaParfait mod rendered on Chisa.
+Until it is seen on ChisaParfait, "the mod is broken or stylised this way anyway" and "the remap
+cannot carry this mod's art" are not distinguished -- and the first is likelier than a fix defect
+that spares every other mod and every other register.
+
+**The method's own lesson**, which cost four careful hypotheses before it: a flat colour per register
+settles in four rounds what measuring the files argued about for hours. The mask was excluded by
+measurement (100% vs 94% `R = 255`), the diffuse by its mean colour, the roles by a register-for-
+register diff -- all correct, all beside the point, because none of them could say which register the
+symptom actually rode on. Bisect FIRST, measure the survivor.
+
+### THE "BLACK SECOND ARM" IS THE HAIR, AND THE `vs-cb3` STORY WAS WRONG (2026-10-02)
+
+Reported on ChisaParfait1: a black second arm behind Chisa's arm, seen when she moves. Identified in
+three rounds, and the first reading of it -- that a motion-only fault must be temporal, so wrong
+motion vectors from the second skeleton -- was **wrong**, built on a search of my own screenshots that
+had looked at the WEAPON arm and the background edge. The maintainer's screenshot
+(`Images/ChisaParfait/3_7/ChisaGhost.png`) shows it plainly in a STILL, on the free arm.
+
+The rounds, each one question:
+
+1. **Is it ours at all?** Flat magenta at `ps-t0`/`t1`/`t2` of every remapped draw -- the ghost went
+   magenta with everything else, so it is one of the fix's draws, not Chisa's own unhidden geometry
+   and not a pass the fix never touches.
+2. **Is it mis-skinned?** No. Skinned offline under both merged skeletons, **edge stretch median
+   1.000, p90 1.036, and ONE edge of 146056 past 3x** -- the "bones have real counterparts"
+   signature. (The first attempt compared skinned POSITIONS and was useless: the two dumps are
+   different poses, so a centroid alignment leaves a 4.6-unit median and drowns the signal. Edge
+   length does not care about pose, which is why the guides already recommend it.)
+3. **Which draw, then?** Silencing component 1's `drawindexed` removed the hair **and the dark band
+   together**. It is the HAIR -- a twin tail hanging along the arm, dark, arm-shaped in that pose, and
+   physics-simulated, which is exactly why it is "seen when she moves".
+
+**And the mapping behind it is essentially right**: 42 of ChisaParfait's 44 hair bones (27-70) land on
+Chisa's own hair component (27-140). Two do not -- **46 -> 0** and **62 -> 13**, both onto her
+component 0 -- and `0` is the placeholder value this file already warns about elsewhere, so those two
+rows are the thing to look at first. Two bones of 44 cannot by themselves produce a whole second tail.
+
+**What is NOT established, and is the next step**: whether the tail hangs where it hangs on
+ChisaParfait herself. The guides' own rule covers it -- check against the mod on its OWN character --
+and that check cannot be run from here. A correct remap of a long twin tail onto another long twin
+tail will put dark hair beside the arm; the question is only whether its angle and swing match.
+
+**The method note**: three readings of this were wrong before the right one, and all three were
+instrument failures rather than domain mistakes. A statistic over guessed pixel COORDINATES sampled
+the background and the UID box. A hue classifier over a painted frame conflated yellow with orange
+and was not trusted. What worked every time was turning one draw off and looking.
+
+### A BODY DIFFUSE'S ALPHA IS A SCALAR THE SHADER READS, AND A MOD SAVED OPAQUE BLOOMS (2026-10-03)
+
+ChisaParfait3 rendered with a bright red aura around the whole character -- one mod out of four.
+**It is the diffuse's alpha.** On Chisa's body pass that channel is not opacity: every body diffuse
+either character actually ships sits at a mode of **102** with a ceiling of **134** (Chisa's own
+reach 112, 114, 119; the skin's 112, 113, 113, 125, 134). That mod's carries **255 over 100% of the
+texture** -- its author saved it fully opaque -- which reads as that term at full and blows the
+surface out far enough to bloom. `ChisaParfaitFixer`'s `diffuseAlphaClampFilter` clamps the four
+body diffuse roles into the target's band, which is a no-op for a texture already inside it.
+
+**The deciding measurement is one file written twice through the same encoder**, same RGB, same
+format, alpha 102 against alpha 255: clean, then glowing. Everything before that had a confound in
+it, so make this A/B the first thing you reach for, not the last.
+
+**How it was narrowed, in the order that worked:**
+
+1. Remove **every** texture line from the section (both lists' `run =` and the carried `ps-t`) so
+   the draw takes the game's own art -- **no glow**. That is what said it was a texture at all;
+   removing them one at a time never did, because each removal left the others and `ps-t2` alone is
+   enough.
+2. Put exactly one back. `ps-t1` only: **clean**. `ps-t2` only: **glows**. One round each, and it
+   named the register.
+3. Vary that texture's content. Flat magenta glows the same, at 4096 and at 2048, with and without
+   the pass gate -- so not the content, not the size. Alpha was the one property left.
+
+**Two probe bugs are why this took a night, and both are the kind that report success.**
+
+* **`setPixels` + `saveAs` does not write the edited pixels.** `saveAs` re-encodes from `src`, so a
+  `.dds` -> `.dds` probe is a byte copy of the original however the pixels were changed. Six probes
+  -- an alpha clamp, a half-brightness copy, a painted UV band, two flat colours and a resize --
+  were all no-ops that looked like results, and one of them ("the painted band does not appear on
+  the body") was read as evidence. **Use `save(img)`**, and read the file back and assert the
+  channel actually moved before believing anything the probe says.
+* **`ps-t<n> = null` is not "remove this binding".** A null UNBINDS, so the shader samples zero and
+  the body goes black -- every albedo-modulated term disappears with it, which reads exactly like
+  having found the cause. Delete the line instead, so the register keeps the game's own. This file
+  already said that for "what is this register for"; it holds just as hard for "is this register the
+  cause".
+
+**And `getPixels()` is destructive** -- the second call on the same `TextureFile` returns an empty
+buffer. Read it once into a variable.
+
+**What it was NOT**, each closed by its own round, so none of it needs re-running: the material mask
+(deleted, and bound as flat cloth), the normal map (deleted), the diffuse's brightness, the atlas's
+saturated-red `U` band, the carried `ps-t` lines, the pass gate, the extra pass, the fifteen toggled
+draws (one draw glows as readily as fifteen), the vertex colour stream, the buffer strides (every
+resource the fix writes for this mod divides exactly, at 90193 vertices), and the mod's own UI
+`.ini`.
+
+**One structural fact found on the way, which is the merge working as designed:**
+`TextureOverrideComponent3<Fix>` and `TextureOverrideComponent5<Fix>` carry the same `hash`, the
+same `match_first_index` and the same `match_index_count` -- as do 4 and 7 -- because each pair
+merges onto one target slot, and they live in different `.ini` files. Both run and both draw:
+suppressing one takes away the body, the other the skirt. A pair that reads like an accidental
+duplicate here is not one.
+
+<br>
+
+### REGISTERING A TEXTURE EDIT HID THAT ROLE'S FILE FROM THE CARRIED-REGISTER RE-KEY (2026-10-03)
+
+The alpha clamp above is the first `texEdit` this pair has on a role whose register DIFFERS between
+the two skins, and it broke the mod on sight: the body came back flat red and the skirt drew with
+the downloaded game atlas. The clamp was innocent.
+
+`addTexEdits` rewrites every `resourceOfSlotRole_` entry of the edited role to the fix's own copy
+("every binding of the role follows the edited file"), and `CarriedTexRegs` builds its resource ->
+role index from that same map. So a carried line naming the MOD's own file resolved to no role, and
+an unknown role is **left alone** -- on the register the SOURCE used. ChisaParfait binds her body
+diffuse at `ps-t3` and Chisa reads it at `ps-t2`, so the mod's art landed on `ps-t3` while `ps-t2`
+kept `ResourceTexture3_2`, a file that mod does not even ship.
+
+**It had been latent since `CarriedTexRegs` landed**, invisible only because every edited role until
+now -- all four masks -- happens to sit at the same register on both skins, where leaving the line
+alone and re-keying it are the same thing. The fix keeps the pre-edit names
+(`preEditResourceOfSlotRole_`) and indexes them alongside the current ones. **A role whose register
+moves between the skins is the case to check whenever you add a `texEdit`.**
+
+**Shared code, so it was A/B'd against the other pair**: 11 Sanhua and SanhuaExorcist mods re-fixed
+and compared file by file, **598 of 598 byte-identical**. One of them read as two changed `.ini`
+files at first and was not -- it was the only mod of the eleven still LOADED, so its previous fix
+had come from a different build. Building the pre-change code and re-fixing just that mod settled
+it at zero. **A mod the maintainer has installed is not a controlled input**; park it, or re-fix it
+with both builds before believing its diff.
+
+### A TEXTURE TOGGLE HAS TWO SHAPES, AND ONLY ONE OF THEM WAS BEING READ (2026-10-03)
+
+The alpha clamp above was verified in game and then the maintainer pressed the **down key** and the
+red aura came straight back. `VK_DOWN` cycles `$key2`, and `$key2` is what picks between the upper
+body's two diffuse variants -- so the clamp had been built from whichever one the role resolved to
+while the other branch kept the mod's raw file.
+
+**`readConditionalBindings` only knew the `this` shape.** A toggle mod usually writes
+
+```
+[TextureOverrideTexture7]
+if $hair == 0
+    this = ResourceTexture7
+else
+    this = ResourceTexture7a
+endif
+```
+
+and that is what it reads. ChisaParfait3 writes the same toggle as a **register binding inside the
+component's own section**, which the scan never looked at:
+
+```
+[TextureOverrideComponent3]
+if $key2 == 1
+    ps-t3 = ResourceTexture3_3
+else
+    ps-t3 = ResourceTexture3_3_0
+endif
+```
+
+`readRegisterVariants` reads it now. Two rules in it are worth keeping:
+
+* **Group per (section, register), never per section.** Two registers of one section are two
+  different roles, and merging them would run a mask's filter over a diffuse.
+* **A register bound to several resources in a MERGED section is still one group.** Component 5 of
+  that mod puts the panel's, the upper body's and the lower body's art through one `ps-t3` on its
+  toggles, and each of the three is that slot's diffuse while its branch is live. A file another
+  role's edit has already claimed is left to that role, so one file in two groups is not edited
+  twice.
+
+**The check that does not need the game, and would have caught both rounds:**
+`Tools/Misc/Diagnostics/wwmiBindingAlpha.py` resolves every `ps-t` binding the fix writes to its
+file and prints the file's alpha ceiling. Anything above the target's band on the diffuse register
+and still live at a draw is a glow waiting for a toggle; `--strict` exits 1 on one.
+
+**Its first version passed against the very bug it was written for**, which is habit 34 arriving on
+schedule. It took the LAST write to a register in a section as the one a draw sees -- and the raw
+file sat in `if $key2 == 1` with the clamped copy in the `else`, so the later line looked like it
+overwrote the earlier when the two are alternatives and only ever one of them runs. A later write
+kills an earlier one only if its branch PATH is a prefix of the earlier's; a sibling branch kills
+nothing, and a write nested deeper is itself conditional and kills nothing either. With that rule
+it fails on the broken `.ini` and passes on the fixed one, which is the pair of runs that makes it
+worth keeping.
+
+**And the band is PER CHARACTER.** Chisa's own body diffuses top out at 119 and ChisaParfait's at
+134, but **Sanhua's own textures carry alpha 255 with a mode of 255** -- 14 of her 18 large ones sit
+above Chisa's band. Run with Chisa's defaults against a Sanhua mod and it reports four defects that
+do not exist. Measure the ceiling from the target's own download folder first, and set `--reg` to
+the register the TARGET reads its diffuse at, which is not the one the source binds it at.
+
+**Which is the next thing to look at.** Those two are ChisaParfait's DETAIL map, a role the fix
+deliberately drops; `CarriedTexRegs` leaves an unknown role alone, and on Chisa `ps-t2` is the
+**diffuse**. This author happens to write detail before diffuse, so the diffuse always lands last.
+A mod that writes them the other way round would put a detail map on the diffuse register. Leaving
+an unknown role alone is right where the register collides with nothing -- `ps-t17 = ResourceClothFX`
+on a Sanhua mod -- and wrong where it is a register the slot's own plan uses.
+
+<br>
+
+### TWO BINDING GENERATIONS IN ONE SECTION, AND THE FIX GAVE BOTH OF THEM THE MOD'S ART (2026-10-03)
+
+The maintainer: *"the hat texture is not rendering"*, and then *"the texture of the bandages on
+Chisa's breast are not rendering / wrong texture"*. Both are ChisaParfait3, both are component 3,
+and neither is a texture problem in the sense the words suggest -- **the fix bound the wrong atlas
+to them**, and it did so for a reason that is a property of the SECTION rather than of the texture.
+
+A WWMI component section may **draw before it binds anything**:
+
+```
+[TextureOverrideComponent3]
+    run = CommandListOverrideSharedResources
+    if $key_4 == 1
+        drawindexed = 6009, 122481, 0      ; the hat
+    endif
+    if $key_1 == 1
+        drawindexed = 1500, 105372, 0      ; the chest bandages
+    endif
+    ... eleven more toggled accessories ...
+    ps-t0 = ResourceTexture3_0             ; GENERATION 1 STARTS HERE
+    ps-t1 = ResourceTexture3_1
+    ps-t2 = ResourceTexture3_2
+    ps-t3 = ResourceTexture3_3
+    drawindexed = 140979, 142263, 0        ; the custom body, on the MOD's art
+```
+
+Everything above the `ps-t` lines renders with **whatever the game had bound when it matched the
+draw** -- the SOURCE character's own atlas. The author wrote it that way on purpose: those parts are
+the game's art, and only the custom body is repainted. After a remap the register holds the
+**TARGET's** texture at the source's UVs, so the fix has to bind the source's own, downloaded.
+
+It was binding one list at the top of the section instead, which gave every draw the mod's body
+atlas. The hat's UV island sits on a pale, near-featureless part of that atlas, so the hat rendered
+as flat skin -- "not rendering". The bandages likewise. Component 4 had the same shape and six of
+its seven draws, the skirt and the boots among them, were wrong the same way.
+
+**The thing that decides which shape a mod is, is not in the section at all.** `CheckTextureOverride
+= ps-tN` fires a `TextureOverride` keyed on the hash of whatever is bound at that register, and that
+section's `this =` swaps in the mod's file -- so a mod declaring those gets its own art on every
+draw whether its section binds the register or not. Measured over this repo's WuWa corpus: every
+Sanhua mod declares between 20 and 72 of them, 22 of the 25 Chisa mods do, and **ChisaParfait3
+declares none**. That is the whole difference between the mod that broke and the mods that did not,
+and reading the component sections alone cannot see it. `WWMIFixer` now gates on it.
+
+Of 544 component sections in the corpus, **508 bind nothing** (every draw on the game's art, which
+`fallbackTextures` already handled), **33 bind before they draw** (every draw on the mod's art,
+which the list at the top was written for), and **3 are this shape**. Two of the three are
+ChisaParfait3; the third is Sanhua2's component 5, which declares 44 hash overrides and so is
+correctly left alone.
+
+**A generation the mod does not rebind keeps what generation 0 left, and that is right.** The first
+version of this fix re-ran the mod-art list at the point generation 1 begins, and that is wrong
+twice over: the carried `ps-t` lines overwrite it immediately, and where they do not, it would
+replace a game texture the mod deliberately kept. Component 4 binds only `ps-t3`; its normal and its
+mask are meant to stay the game's.
+
+**The check for this is structural, because the pixel check does not work.** The obvious test --
+sample the bound texture at the draw's UV island and call a low standard deviation "blank" -- was
+written first, run against the broken build, and **passed it**: a texture edit is written
+uncompressed and the gamma round trip moves every pixel (mean |diff| **26 of 255** on this mod's
+body atlas), so the same island measured through two different edits is not comparable, and the hat
+scored 0.86 against the right atlas's 0.95. `Tools/Misc/Diagnostics/wwmiDrawArt.py` asks the
+structural question instead -- which generation each draw belongs to, and whether a generation-0
+draw was left on a file the fix derived from the mod rather than from the download. Against the
+build this was found on it reports **21 such draws**; after the fix, none.
+
+**AND THE SAME DEFECT HAS A SECOND SHAPE, WHICH WAS MEASURED AND IS BENIGN (2026-10-03).** A section
+that binds *nothing* leaves every draw to the game too, and `fallbackTextures` only covers a role the
+mod has no file for -- so in principle a mod shipping a repainted file for a role it never binds
+still gets it. ChisaParfait2 is that shape: zero texture overrides by hash, zero `ps-t` lines in any
+component section. The audit counted what is actually at stake instead of fixing it: of its **51**
+textures, **24 are the game's own pixel for pixel and all 24 are undeclared; 3 differ from vanilla
+and all 3 are DECLARED and correctly resolved to the mod's own files; ZERO are
+undeclared-and-different**. Falling back to the downloaded game texture reproduces exactly what the
+game binds on her, so nothing is lost. Left alone deliberately.
+
+**And the "37 draws" that number came from was my own tool over-reporting.**
+`wwmiDrawArt.py` decides "this is the source's art" from the fix's own file NAMES (`RemapDL`,
+`Game...RemapTex`), and an edit derived from a download carries neither -- so it counts a correctly
+bound download as a defect. The genuine case in that corpus is ChisaParfait3's component 7: **one**
+draw, on a texture that is itself vanilla. A naming test over the fix's own boilerplate is the safe
+kind, and it was still wrong; the header now says so.
+
+<br>
+
+### A CARRIED LINE PUT BACK A FILE THE SCAN HAD REFUSED (2026-10-03)
+
+ChisaParfait3's `3_1.dds` is a single colour -- one distinct RGBA over 2048x2048 -- so
+`flatFallsBackToSource` refuses it and the fix downloads and repacks ChisaParfait's own upper mask.
+Then the mod's own carried `ps-t1 = ResourceTexture3_1` re-bound the flat file over it, **after the
+fix's list and OUTSIDE the `if vs == ...` guard that list sits behind**, so unconditionally, at the
+140979-index draw that is the mod's whole custom body -- whose shader reads `R = 255` as bare skin.
+
+The cause is that a refused file resolves to NO role, and `CarriedTexRegs` deliberately leaves alone
+a line it has no opinion about. That rule is right -- `ps-t17 = ResourceClothFX` must survive -- and
+the gap is that **a file the fix looked at and refused for this very role is not the same as an
+unknown one**.
+
+`reject()` now records `(resource, the role it was refused for)` at both rejection sites, `roleOf`
+consults it so the line resolves to a role instead of being skipped, and `editedOf` re-points it at
+whatever the role did resolve to. Where nothing stands in at all (`flatLeftToGame`) it answers
+EMPTY and the line is dropped rather than replaced, which leaves the game's own texture bound --
+what the mod renders with on its own character, and strictly better than binding a file the fix
+refused. Nothing returned empty before, so that branch is inert for every other caller.
+
+Over the 22-mod corpus this moves **one file, by one line**.
+
+<br>
+
+### THE TWO DIRECTIONS OF A PAIR MUST AGREE ABOUT EVERY SHADER THEY BOTH TAG (2026-10-03)
+
+The worst defect the audit found, because no single-direction test can see it and it needs two mods
+to appear. A `[ShaderOverride]` is keyed by shader hash **across every loaded `.ini`**, and a shader
+holds ONE filter index. Seven of Chisa's vertex shaders are also ChisaParfait's, so a user with one
+mod of each installed -- the ordinary case, with eighteen Chisa mods against three ChisaParfait ones
+-- has two files claiming the same shader. Whichever 3dmigoto loaded last wins, and the other mod's
+`if vs == ...` never matches: its textures are silently unbound.
+
+`ChisaParfaitFixer.cpp` already knew this and pinned its table. It was still wrong, because it had
+**transcribed** the shared values off a forward-fixed `.ini` while `ChisaFixer.cpp` DERIVES its own
+from `filterBase`/`filterStep` in map-iteration order -- so adding a pass to the forward renumbered
+everything after it and the transcription went stale:
+
+| shader | the reverse declared | the forward actually emits |
+| --- | --- | --- |
+| `6a6650a9db8983ce` | 3381.722 | **3381.73** |
+| `e4a3da6d1d1068b9` | 3381.723 | **3381.731** |
+| `fd12d3374ac7a7dd` | 3381.73 | **3381.732** |
+| `5fd6e5bb6ff81c53` | *not declared at all* -> `filterBase` 3381.91 | **3381.718** |
+
+Two of the wrong values are live hashes of the forward's own table, so the reverse's lists could
+also fire on the **wrong** shader, not merely miss their own. `5fd6e5bb6ff81c53` is the vertex
+shader ChisaParfait's eye pass runs on.
+
+**A transcribed value is a snapshot; name them on both sides.** The forward now declares every value
+it already emits -- so nothing of its output moves and they stop drifting -- and the reverse's four
+are corrected. `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check, and the honest form of it
+reads the fixed `.ini` of every installed mod of BOTH directions and reports any shader carrying two
+values: 3 conflicts before, 0 after, over all 29 shaders the pair tags.
+
+The ranges in use, for a pair that needs new ones: the Chisa forward occupies 3381.710..3381.734,
+the reverse 3381.76..3381.768, and the Sanhua pair .81-.84 and .91-.96. **`filterBase` is a trap for
+the unwary** -- its default is 3381.91, which is also Sanhua's hair shader, so a shader left out of
+`filterIndices` lands in another pair's range.
+
+<br>
+
+### A RECOLOUR IN A SIBLING `.ini` WAS THROWN AWAY (2026-10-03)
+
+One of the commonest GameBanana shapes, and `makeWWMIFixer` discarded it entirely. The mod is its
+mesh in one `.ini` and, beside it, another holding nothing but
+
+```
+[TextureOverrideFoo]
+hash = <the GAME texture it replaces>
+this = ResourceFoo
+```
+
+On the mod's own character the game binds that texture, so the override reaches the mesh and the
+recolour shows. Remapped, the slots take the TARGET's textures and those hashes never appear, so the
+character rendered **vanilla**. Measured on a synthetic built from the identity mod: 27 files
+declared, **0 bound**, and 16 of the target's own downloaded in their place.
+
+The GI component template has read its siblings for this since NeuvilletteMelusent1's `tex.ini`;
+the WuWa one did not. `readSiblingRecolours` adds the sibling's files as role candidates, and three
+things make it safe: the role is **stated rather than guessed** (the section's `hash` is the game
+texture it replaces, and `WWMITextureFacts::roles` is already `hash -> role`); only an `.ini` that
+draws a component reads its siblings; and the mod's own candidates are collected first, so where
+both name a file for one role the mod's own still ranks ahead. The file keeps its declaration in the
+sibling, which this `.ini` cannot name across files, so the existing `declared_` path gives it a
+resource of the fix's own named with `RemapRef` -- which an undo leaves alone.
+
+**It found the same defect in a Sanhua mod.** Sanhua2 ships three mesh variants as sibling `.ini`
+files and only `mod.ini` declares the face mask `46177147` and the iris diffuse `3cd03f60`; in game
+its hash override reaches the copies' draws too, and remapped it stopped. The copies now bind the
+same two files `mod.ini` binds, and `mod.ini` itself does not move. **Before accepting that, check
+no sibling names a DIFFERENT file for the same hash** -- several variants in one folder is also the
+shape where reading siblings would be cross-contamination.
+
+<br>
+
+### CHISA -> CHISAPARFAIT DEFORMS A REAL MOD'S UPPER BODY, AND IT IS NOT `vb6` (2026-10-03, OPEN)
+
+Found in the in-game round after the three audit fixes, and **not fixed**. `Chisa1` remapped onto
+ChisaParfait has its torso stretched and folded while the head, hair and weapon are correct.
+`ChisaIdentity` through the same fix is perfect, which is what made it findable.
+
+**The frame is how to look, and `vb6` is what it rules OUT.** 3DMigoto only opens `d3d11_log.txt`
+at startup, so turning `[Logging] calls = 1` on does nothing until the game restarts -- but a FRAME
+DUMP needs no restart. Of the character's ten remapped draws exactly one binds `vb6`, and it is the
+component-3 upper body, the only part that is wrong -- which looks like a lead and is not:
+
+* the buffer is **2595096 bytes = 108129 x 24**, exactly the mod's own declared
+  `$mesh_vertex_count`. It is NOT sized for the target; `override_vertex_count` on the retargeted
+  override is doing its job.
+* WWMI's loader runs with the MOD's data -- `$shapekey_vertex_count = 46503`, the mod's own vertex
+  id and offset buffers, `Dispatch(1, 1454, 1)` = ceil(46503/32).
+* and it WRITES: the buffer is all zero before the loader (draw 000001) and has **5001 non-zero
+  entries spanning ids 23822..74834** after it (draw 000003), where 74834 is the mod's last vertex.
+  The draw reads that same buffer.
+
+So the shape-key stream is correctly sized, correctly filled, and covers the mod's whole vertex
+range. **The deformation is not the shape keys.** Zeroing the stream by hand changes the symptom --
+the body collapses into thin spikes instead of stretching -- only because a Chisa mod's body shape
+IS a shape key, so removing the morph is its own kind of wrong. Two other hand probes (`vb6 = null`,
+and substituting a mod-sized buffer with `this =`) produce that same collapse and prove nothing
+either.
+
+**AND A DUMP'S REBOUND SLOTS ARE NOT EVIDENCE ABOUT WHAT THE FIX BOUND.** This is the trap that
+made the rest of the round go in circles, and it is general. For draw 000028, measured by md5
+against the files on disk:
+
+| slot | what the dump holds |
+| --- | --- |
+| `vb0` | ChisaParfait's 3.7 download `Position.buf`, byte for byte -- **not** the mod's |
+| `ib` | ChisaParfait's download `Index.buf`, byte for byte -- **not** the fix's merged one |
+| `vb4` | the game's SIZE (69411 x 16) with content matching no file on disk |
+| `vb6` | the mod's size (108129 x 24), zero before WWMI's loader and written after |
+
+The fix's own section demonstrably fires on that draw -- the log shows
+`Component3ChisaParfaitRemapFix`, its texture lists, and `overridesharedresources...` binding
+`vb4 = resourcechisaparfaitremapblendbuffer` -- and then its cleanup and restore lists put the
+game's buffers back. So a slot the fix REBINDS reads back as the game's resource, while one written
+in place by a compute pass (`vb6`, the UAVs) shows the written content. **Reading "the draw used
+ChisaParfait's geometry" out of that dump is wrong**, and it is an easy mistake because the numbers
+are exact.
+
+What this means in practice: use a dump for what a pass WROTE and for which sections fired, not for
+which resource a draw was given. For the latter, read the fixed `.ini` and the log's own
+`overridesharedresources` lines.
+
+**An earlier revision of this section said the buffer was target-sized at 69271 entries and that 14
+of the 19 Chisa mods overran it.** That was wrong: 69271 came from a DIFFERENT draw's layout
+descriptor (000017's `vb6`), read as though it described draw 000028's buffer, and the whole
+mod-size table was built on it. A dump names a file per draw for a reason -- take the number from
+the draw you are actually looking at.
+
+Still open, and the leads that are left after this round:
+
+* the forward direction writes only `ChisaParfaitRemapBlend.buf`, while the reverse writes
+  `ChisaRemapBlend.buf` AND `ChisaRemapBlendRemapVertexVG.buf` plus its two remap tables. Chisa is
+  past 256 bones, so a mod of hers carries `BlendRemapVertexVG.buf` (uint16 ids up to 418) and the
+  guides' own rule is that remapping `Blend.buf` is a no-op for such a character. The asymmetry is
+  real; what it does NOT explain is why `ChisaIdentity`, which has the same buffers and the same
+  maximum bone id, renders correctly.
+* the documented 8-bit fallback ("every bone past 255 will land on bone 0") does NOT fire here --
+  checked, the run logs no such note -- because it is guarded on `targetPast256_`, which is false in
+  this direction since ChisaParfait's skeleton stops at 250.
+
+Whatever the cause is, it has to account for the identity mod being fine. Four candidate causes have
+now been ruled out by measurement, and each time the thing that settled it was a number, not an
+argument.
+
+**Zeroing the stream is NOT the fix, measured.** `zeroShapeKeyStream` is `false` here on purpose --
+this direction RETARGETS the keys instead, so WWMI's own pipeline is meant to refill `vb6` for the
+mod's mesh, and the config's comment says zeroing "BREAKS a mod that really uses its keys". Binding
+a correctly sized zero-filled buffer by hand removes the deformation and **collapses the body into
+thin spikes**, so the mod really does depend on its own keys. The fix has to make `vb6` carry the
+MOD's shape-key output at the MOD's size; the retarget's setup list does run (it is in the log as
+`setupshapekeyschisaparfaitremapfix`), and the buffer the draw gets is still the target's.
+
+**Ruled out on the way, each by measurement, so nobody re-chases them:**
+
+* *The shape-key retarget being misconfigured.* The hashes ARE rewritten (`e9b69bed` -> `57bb099f`,
+  `a01e7b59` -> `9c738856`), and `shapekey_checksum = 2610` is correct left alone because the two
+  characters share it.
+* *The three `Resource{BlendBuffer,MergedSkeleton,ExtraMergedSkeleton}Override = ref` lines.*
+  Identical in both mods -- 18 each, 9 each inside remapped sections.
+* *`mergedSkeletonSlots`.* Both mods weight the same maximum bone id (418), so it cannot separate
+  them.
+
+**And two counts of mine were wrong first**, which is the method note. I reported "16 surviving
+override lines in Chisa1 against 0 in the identity" and nearly filed it as the cause: the 16 were
+the `= null` lines the fix writes to CLEAR those overrides, counted by a pattern that did not
+separate `= ref` from `= null`. The shell loop that produced the comparison also shattered on the
+spaces in `Chisa - Taihou red bunnygirl` and reported a tidy zero for the other half. Count the
+thing that is harmful, not the thing whose name matches, and do path work in Python.
+
+<br>
+
+### WHAT THE TWO-DIRECTION AUDIT ITSELF TAUGHT (2026-10-03)
+
+The maintainer asked for one read-only audit per direction, run in parallel, each working the AUDIT
+GATE above. Worth repeating, and worth knowing about:
+
+* **Run one per DIRECTION, not one per pair.** All three defects above were found by BOTH audits
+  independently, which is what made them worth acting on before any in-game round. A defect only one
+  audit sees is a hypothesis; a defect both see from different configs is a fact.
+* **Give them the open items you already know about**, so they quantify rather than rediscover --
+  and be ready for the answer to be "that one is benign", which is what happened to the 37 draws.
+* **Tell them not to rebuild and not to drive the game.** Two agents sharing one `cbuild`, one
+  installed `.pyd` and one running game will clobber each other and the maintainer's own script.
+  Read-only on the repo, each with its own scratch directory.
+* **EVERY mod under `WWMI/` is the maintainer's already-FIXED copy**; the authored `.ini` is the
+  `RemapBKUP<stem>.txt` beside it. An audit that measures those folders as they sit is measuring
+  second-run behaviour. One audit's first survey grepped twenty mods for a fix marker, got zero, and
+  concluded "all pristine" -- a counter that could only be zero.
+* **A brief can be wrong, and the agent should say so.** Mine named
+  `Tools/Misc/Prototypes/chisaParfaitFix.py` as the oracle for `ChisaParfait -> Chisa`. Its line 125
+  is `SourceName, TargetName = "Chisa", "ChisaParfait"` -- it is the FORWARD prototype. There is no
+  prototype for the reverse direction, pipeline steps 9/9a were skipped, and **`abWWMI.py` on that
+  direction runs the compiled fix in both arms and can only ever report "identical"**. Any
+  confidence resting on that A/B was unfounded.
+
+<br>
+
+### AND AN EDIT IS WRITTEN UNCOMPRESSED AND UNFLAGGED, SO A COLOUR EDIT KEEPS ITS GAMMA
+
+`maskRepackFilter` and `hairNormalFilter` both open with `tex.setGamma(std::nullopt)` because they
+edit DATA, and copying that line into a diffuse edit is the obvious-looking mistake: it makes the
+written copy byte-identical in RGB to the source, which sounds like exactly what an alpha-only edit
+wants, and the character renders visibly **washed out** -- paler skin, the red bikini pink.
+
+The reason is that an edit is saved as a plain uncompressed `.dds` (4096x4096 comes out at 67 MB)
+and does **not** carry the source's `BC7_UNORM_SRGB` flag, so the game samples it linearly. `save`'s
+gamma is the compensation that keeps it looking like the file it replaced. So: **gamma off for a
+mask or a normal map, gamma on for anything the shader reads as colour** -- and confirm it in game
+rather than from the channel values, which read "correct" exactly when the render is wrong.
+
+An identity round trip through `save(img)` with the gamma on turns `(27, 28, 30)` into `(2, 2, 2)`,
+which looks alarming in isolation and is the intended compensation.
+
+<br>
+
+### THE GHOST BODY WAS THE PREVIOUS-POSE SKELETON, AND THE IDENTITY MOD IS WHAT NAMED IT (2026-10-03)
+
+**`vs-cb4` is the pose a draw is skinned with; `vs-cb3` is the PREVIOUS frame's, which the shader
+turns into motion vectors.** The WuWa merge list replaced each only inside
+`if <reg> == boneDataFilter`, and the game does not set that marker on cb3 for every pass. Measured
+in a frame dump of a remapped mod, **five draws -- one for EVERY main body slot** -- came out with
+cb4 ours and cb3 still holding the TARGET's own skeleton. The shader then reprojects our pose from
+hers, which is a large bogus motion, and TAA smears a second body across the whole character.
+
+Reported as *"a double ghost body"* on three mods: thin dark strokes down the arms and across the
+belly and thighs, and a darkened patch on one skirt. `WWMIFixerConfig::bindPrevPoseAlways` (default
+on) binds the remapped previous pose outside the guard as well. Evidence: **20 draws skinned with
+our pose and 0 reprojected from the target's**, against 5 mismatched before; in game the skirt hem's
+doubled outline is gone and so are the arm and belly strokes.
+
+**THE MAINTAINER'S OWN SANITY TEST IS WHAT CRACKED IT, AFTER A DAY OF PROBES DID NOT.** Three
+sentences did more than every measurement before them:
+
+> the ghost even appears when I remap the identity, so even a sanity test fails. I checked the
+> identity mod of the original character and they don't have the ghost, so it is an issue with the
+> remap.
+
+The identity mod is the target skin's own model, so a defect that survives it is a defect of the
+REMAP, and every hypothesis about a mod's content -- its mask, its shape keys, its garment
+geometry, its vertex groups -- is dead on arrival. **Run the identity mod on the FIRST report of a
+defect seen on several mods**, not after exhausting the mods; its whole purpose is to separate the
+pipeline from the content, and it is listed in this file's own test-mod table for exactly that.
+
+**The check is one pass over a dump and belongs in the acceptance set.** For every draw of the
+character, read `vs-cb3` and `vs-cb4` out of the dumped FILE NAMES -- a resource the fix bound has
+no hash in its name -- and require that a draw with cb4 ours does not have the target's cb3:
+
+```
+000014  vs-cb3 = OURS       vs-cb4 = OURS       <- right
+000039  vs-cb3 = 4785ce09   vs-cb4 = OURS       <- the ghost: our pose, her previous pose
+```
+
+**And what the ghost was NOT, each closed by its own probe, in the order they cost time:** an
+uncovered target slot (all seven tile the index buffer), the back-face twin (neither affected mod
+has one), the vertex COLOUR stream, the cleaned texcoord copy, the zero shape-key stream (required
+-- dropping it explodes the model), the vertex group rows (no unmapped groups; p99 edge jump 0.86
+over 161005 edges, max 2.98, all at the shoulders), the shape keys (ChisaParfait1's sit entirely at
+z 110..150, nothing below), and the material mask -- which DOES remove the thigh line when nulled
+and is a separate, real finding: see the mask repack below. Two draws of the target's own slot 5
+survive every `handling = skip` written six ways and are still open; they are behind the body
+(`y -19.7 .. -3.9`) and not the reported strokes.
+
+<br>
+
+### A GHOST BODY ON EVERY MOD OF A PAIR, AND HOW TO ATTRIBUTE A DRAW (2026-10-02, OPEN)
+
+Reported on all three ChisaParfait mods at once: *"a double ghost body"* -- thin dark strokes
+tracing a body that is not the one being drawn, over the arms, the belly and the thighs, plus a
+darkened patch on ChisaParfait2's skirt (`Images/ChisaParfait/3_7/ChisaGhost.png`, `ChisaGhost2.png`).
+It survived a whole session in which the same mods were called clean, because **at the zoom a
+full-body screenshot gives, the strokes read as ordinary cel-shading outlines.** Crop to one limb at
+native resolution before judging a remap: the thigh crop is where it is unmistakable.
+
+**What is established, each by a measurement rather than an argument:**
+
+* **`handling = skip` works, and the whole character is drawn by the fix.** Commenting out the
+  fix's own `drawindexed` lines leaves the character **completely invisible** -- only the weapon
+  renders. Nothing of the target's own body survives the skip.
+* **The fix's draw ranges are disjoint and cover the mod exactly once**: 0 -> 252300 over seven
+  sections, no overlap, so there is no double draw of the mod's own geometry.
+* **Two draws of the TARGET's own geometry survive anyway.** In a frame dump with the mod
+  installed, 21 of the 23 character draws carry no ib hash and no blend hash -- those are the fix's,
+  drawing buffers it bound. The other two (`000071`, `000075`) carry **the game's own ib
+  (`aa4a0e72`) and blend (`51d3eb39`)**, at `first 278394, count 7602` -- which is exactly the
+  window the fix's own `[TextureOverride<Target>Component5RemapHide]` names. That section does not
+  suppress them, **and neither does an unconditional `handling = skip` written ahead of every guard
+  in it**, so the section is not matching those draws at all. Open: why.
+
+**THE TECHNIQUE IS WORTH MORE THAN THE FINDING -- attribute a draw by the hashes in its dumped FILE
+NAMES, not by the log.** Frame analysis writes one file per bound resource per draw,
+`<draw>-<slot>=<hash>-vs=...-ps=....txt`, and a resource the fix bound has **no hash in the name**
+at all. So "whose draw is this" is one listing:
+
+```
+000014  ib=(no hash)  vb4=(no hash)   first 63894   count 108702     <- the fix's
+000071  ib=aa4a0e72   vb4=(no hash)   first 278394  count 7602       <- the GAME's
+```
+
+**And `log.txt` cannot answer it.** In this configuration it names **no section at all** (`grep -c
+"3DMigoto \["` is 0), so a `drawindexed` the fix injects is not logged and an injected draw's
+absence from the log is not evidence. That retires an earlier reading in this file -- *"the log
+settles it: the draws never fire"* -- for the second time, and the first correction (that those
+numbers came off commented-out `;RemapFixHideOrig` lines) was only half of why it was wrong.
+
+**AND THOSE TWO DRAWS ARE NOT THE GHOST -- IT IS ONE OF THE FIX'S OWN (2026-10-03).** Two separate
+measurements say so, and both are cheap enough to make first next time:
+
+* **Where the target's slot is on its body.** Its vertices, read straight out of the download
+  folder's `Index.buf` + `Position.buf`, span `y -19.7 .. -3.9` -- entirely BEHIND the body -- from
+  hip to head. The reported strokes are on the front of the thighs. The whole slot table takes one
+  pass over those two files, and it also proves the seven windows tile the buffer exactly.
+* **Bisecting the fix's own draws.** Commenting out the `drawindexed` of the two sections that draw
+  the lower body takes the strokes away with them; dropping only the small one (540 indices) leaves
+  them. So the ghost is drawn by the section carrying the mod's own lower body, **inside one draw of
+  our own geometry** -- a crease or seam within one mesh, not a second body.
+
+**Five more candidates closed, each by its own probe:** the vertex COLOUR stream (`vb3 = null`:
+unchanged), the cleaned texcoord copy (this mod binds none, so the UV fold cannot be it), the two
+unreachable draws above, the back-face twin, and the zero shape-key stream -- which is **required**:
+dropping `vb6 = Resource<Target>ShapeKeyZero` explodes the model into stretched triangles, which is
+the documented `vb6` bug arriving from the other side.
+
+**What is left, and it is the strongest of the three:** the mod ships real shape-key data
+(ChisaParfait2: **37598** shape-key vertices, a 451 KB vertex-offset buffer) and the fix replaces it
+with zeros, so the body never morphs -- the Chisa13 mechanism ("a mod's body shape may be a shape
+key, and its clothing sized for shapes the body never takes") in the REVERSE direction. The forward
+prototype defaults to `--shapeKeys retarget`; the compiled fixer has only `zeroShapeKeyStream`, and
+this direction has no prototype to A/B a retarget against. The other two are the vertex-group rows,
+which for this pair are the finder's proposal and **unreviewed** (a crease along a group boundary
+looks exactly like this, and would appear on every mod, which matches the report), and the
+possibility that the mod's own geometry simply has a coincident garment there.
+
+**THE TWO DRAWS ARE UNREACHABLE BY `handling = skip`, which is the open question.** Six ways of
+writing it were tried, each confirmed by its own dump, and every one leaves them exactly as they
+were -- while the other 21 draws stay correctly overridden throughout:
+
+| what was tried on the hide section | result |
+| --- | --- |
+| as shipped (`hash` + window, skip inside both guards) | both draws survive |
+| `handling = skip` written ahead of every guard | both survive |
+| the duplicate copy of the section deleted from the generated `.ini` | both survive |
+| the window filters removed, so it matches the hash alone | both survive, **and nothing else changes** |
+| a second section keyed on the INDEX buffer's hash, windowed | both survive |
+| `match_priority = 1` | both survive |
+
+The fourth row is the informative one: a section matching `hash = <the target's vb0>` with an
+unconditional skip and no window suppresses **nothing**, although the same hash with a window is
+what every working section uses. So at those two draws the target's vertex buffer is not what
+3dmigoto is matching on, and the fix has no handle on them at all. They write to the main
+1708 x 964 render targets, so they are not a shadow or depth pass.
+
+**AND THE FIX'S CLEANUP LIST IS ASYMMETRIC WITH ITS OVERRIDE LIST, which is a real defect whether
+or not it is this one.** `CommandListOverrideSharedResources<Fix>` binds **six** buffers:
+
+```ini
+ib = ResourceIndexBuffer     vb0 = ResourcePositionBuffer   vb1 = ResourceVectorBuffer
+vb2 = ResourceTexcoordBuffer vb3 = ResourceColorBuffer      vb4 = Resource<Target>RemapBlendBuffer
+```
+
+and `CommandListCleanupSharedResources<Fix>` restores exactly one of them -- `vb0 = ref
+ResourceBypassVB0`. So from the first remapped section onward, the MOD's index buffer stays bound
+for the rest of the frame, and any later draw of the character the fix does not match inherits it.
+That is what draw `000028` is: the target's own slot-5 draw call, at `first 278394, count 7602`,
+reading a buffer that ends at **252300** -- entirely out of range.
+
+WWMI's own cleanup list is the same single line, and on the mod's OWN character that is harmless,
+because there every draw of that character is matched by the mod's own sections. **A remap breaks
+that assumption: the target has slots the source does not cover.** Restoring `ib` and `vb1`..`vb4`
+the way `vb0` is restored is the shape of the fix; nulling them instead is NOT (tried: the ghost
+stays and other draws lose bindings they needed).
+
+**Four other readings that were wrong, each of which looked settled:**
+
+1. **"An uncovered target slot."** Every one of the target's seven slots is accounted for -- six
+   remapped and one hidden -- and the windows tile her index buffer exactly
+   (`0 / 13566 / 50400 / 63894 / 172596 / 278394 / 285996`, summing to 287358). Derive that sum
+   before suspecting a gap.
+2. **"The back-face twin."** Neither mod showing the defect has one (`grep -c ResourceMirrorIndex`
+   is 0 on both); only the identity mod does.
+3. **"The second skeleton, so TAA smears the previous pose."** The fix binds BOTH
+   (`vs-cb4 = ResourceRemappedSkeleton`, `vs-cb3 = ResourceExtraRemappedSkeleton`) in every
+   `CommandListMergeSlot<N>`.
+4. **"Paint everything the fix draws and see what stays unpainted."** It all comes back magenta,
+   including the ghost strokes -- and that proves nothing, because **a `ps-t` binding persists until
+   something rebinds it**, and the two unskipped draws happen AFTER the fix's twenty-one, so they
+   inherit the fix's magenta. A paint test can only attribute a draw that precedes the painted
+   bindings or rebinds its own.
+
+<br>
+
 ### WuWa triage: what the in-game symptom says (2026-09-19)
 
 Every in-game report on the compiled WuWa path so far, what it turned out to be, and where to look
@@ -2999,6 +4379,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a HUE over the body AND the clothes, every picture right | the material MASK: the mod ships none for that component, so the TARGET's mask is sampled at the mod's UVs | `fallbackTextures` -- the source's own mask, downloaded |
 | a translucent RED over the clothes AND the skin, the pictures showing through | the material mask the mod DOES ship, in the SOURCE's packing: the target's shader reads it as bare skin | repack it -- ask the diffuse which value means skin on each side |
 | a translucent hue that SURVIVES a correct mask, over the parts one shader has an extra input for | a register the TARGET's pass reads and the source's does not: the skin's own map stays bound and its codes land at the mod's UVs | bind a flat neutral there; bisect which register rather than guessing |
+| a HARD-EDGED shadow wedge across one cheek and jaw, the rest of the face (blush, lashes, eyes, colour) right | the FACE mask: the two skins' are different FORMATS and near complements, so the source's drives the target's face self-shadow the wrong way | do not bind it at all -- the two faces are the same mesh, so the target's own is already at the right UVs |
 | eyes wrong on one mod only | the eye pass reads the iris at `ps-t2`, mask at `ps-t1`; or two hashes on one role | the plan's eye bindings; the duplicate-role WARNING |
 | a RabbitFX cut-out (a tattoo's background, a see-through panel) drawn solid, though the fix carries `Resource\RabbitFX\FXMap` and `run = CommandList\RabbitFX\Run` | **a shader dump left in `WWMI/ShaderFixes`** (2026-09-22). A `<hash>-ps.txt` there is loaded as that shader's replacement, which skips RabbitFX's ShaderRegex -- so the shader never gets `filter_index = 1718.1`, and `Run` binds the FX map only `if ps == 1718.1`. The dumped text still contains the discard, so reading it proves nothing | move every dump out of `ShaderFixes` once it has been read, and before judging anything in game |
 | a mod's dress / panel drawn through an ACCESSORY slot comes out tinted (Chisa6's sweater: maroon) | the target pass reads a MATERIAL CODE map, and the code the fix feeds it selects the skin's own panel material (ChisaParfait's side-panel pass `87825a9a`: code 0 overlays the diffuse with a pink shade colour) -- and RabbitFX's `SetTextures`, if the mod calls it, swaps a map into that site by the order the SOURCE samples in, not the target's | read the pass's code decode against its `cb4`; `chisaParfaitFix.py`'s `AccessoryCode` and `RabbitFXSetTexturesRegs` |
@@ -3015,6 +4396,9 @@ first. Read the report's WORDS against the left column before opening any code (
 | a texture EDIT looks ignored -- the file is written, referenced and still not what renders -- on some mods only | its role is DOWNLOADED on those mods, and the download declared the edit's own resource section name | grep the fixed `.ini` for a `[Resource...]` name declared twice |
 | one part is a FLAT primary colour -- green, red -- rather than merely wrong | a texture EDIT ran on a file that is not the role it was assigned: an edit that keeps one channel turns a diffuse into that channel | the run's `also has the role` warning, then whether the losing file's NAME carries the hash |
 | ONE mod of a character shades a part harshly or blotchily while its siblings are fine | that mod aliases RabbitFX's Lightmap and Normalmap onto one resource, so the MASK role resolved to a normal map and the shader reads slope as material codes | count the `MaskPst` command lists per mod -- the odd one out is the bug |
+| a mod's TOGGLES do nothing on the remapped character, while the mod itself draws correctly | the mod keeps its `[Key...]` sections in a COMPANION `.ini` whose `TextureOverride`s match the SOURCE's hashes and which declares no mesh of its own. Those sections never fire on the target, so the `$object_detected` their `condition` reads stays 0 and every toggle is inert. The fix writes no remapped sections for such a file -- with `--all` it processes it and still writes none | grep the companion file for `RemapFix`; this is the GI merge template's "watcher file" case, which the WWMI template does not yet have |
+| a remapped mod renders as a MIXTURE of two outfits, and re-fixing does not change it | two fixes are drawing at once: a prototype's generated copies (`<stem><Target>RemapFix<N>.ini`) left beside the compiled fix's (`<stem>RemapFix<N>.ini`). An undo only removes the names it would itself write, so the prototype's survive every later run -- and 3dmigoto loads EVERY `.ini` in a mod folder. The stale ones carry the shader hashes of whatever game version they were written for | `find <mods> -name "*RemapFix*.ini"` and compare dates; rename the strays `DISABLED...` |
+| a RabbitFX effect (a glow, a hue, a cut-out, a censor) is GONE after a game update, with the mod and the fix both unchanged | RabbitFX chooses its shaders with a bytecode REGEX, not hashes, so an update that rewrites a shader family silently drops every effect riding on it -- and the families fail INDEPENDENTLY, so "RabbitFX still works" is not an answer about the part in front of you. Nothing in a remap can restore it | 3dmigoto's own log, which names each regex and what it matched: Game View's "ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING" |
 | a REGULAR CHECKERBOARD of the surrounding colour punched through one painted region, on the remap and not on the same mod's own character | the texcoord fold sent that island's edge BLEED (U just below 0) to the far side of the atlas | count the mod's vertices with `-1 < U < 0` per component |
 | a part wears the SOURCE CHARACTER's own art where the mod has its own print | that component names its texture in its OWN section (`ps-tN =`, or `Resource\RabbitFX\Diffuse`), and the fix took a vanilla fallback -- or the mod's hash overrides are dead on this game version | `--paint` for WHICH component, then read that component's section; `declaredBindings()` |
 | the remap shows the MOD's art (pink hair, a white shirt) where the maintainer's base screenshot shows the source character's own | the base is the broken one: every one of the mod's texture hashes is from an older game version, so on the source the mod's geometry draws with the GAME's textures, while the remap binds by register and shows what the author painted | grep a frame dump of today's game for each `TextureOverrideTexture` hash; then the mod's own preview image |
@@ -3339,6 +4723,340 @@ Worth knowing for the triage: this stain had been there the whole time, undernea
 hair ramp was adding. It only became reportable once the orange was fixed --- habit 35, a symptom
 that appears after a successful fix is usually the second defect becoming visible, not the fix
 misfiring.
+
+### THE FACE MASK IS THE ONE REGISTER THAT MUST NOT BE BOUND AT ALL (2026-10-02)
+
+A `ChisaParfait -> Chisa` remap drew a **hard-edged shadow wedge** across one cheek and jaw that
+ChisaParfait's own model does not have -- everything else about the face (the diffuse, the blush,
+the lashes, the eyes) correct. It was found by putting the mod on Chisa and the SKIN on her own
+character one outfit card apart, on the same screen at the same camera, and looking at the two
+faces side by side; it is invisible in any single screenshot, because the face carries a soft hat
+shadow in that scene either way and only the BOUNDARY differs.
+
+**The cause is the face mask, and the two characters' are not the same kind of map:**
+
+| | Chisa `6ae8dd10` | ChisaParfait `226d9bc4` |
+| --- | --- | --- |
+| format | **BC1**, 1024x1024 | **BC3**, 512x512 |
+| R over the face | **255** (dark only on the lash band) | **0** (white only at the edge) |
+| B over the face | 0 | ~126 |
+
+A different DXGI format is this guide's own tell that the shader underneath is not the same one,
+and rendered channel by channel the two are near complements -- so the skin's mask drives Chisa's
+face self-shadow term the wrong way. The wedge is the SDF-style face shadow, not a cast one.
+
+**The fix is to bind nothing there**, which is the one case where leaving a UV-mapped register to
+the game is safe: the two faces are the **same mesh** -- both draws are 13494 indices, and the
+skin's face DIFFUSE lands correctly on Chisa in game -- so the target's own mask is sampled at the
+UVs it was authored for. `plan[2]` is `{{"ps-t1", "faceDiffuse"}}` and `faceMask` is in no list at
+all; the role then stops being resolved, so its `fallbackTextures` download stops being fetched
+too (6 downloads -> 5).
+
+**It fired on every mod, not on one that ships a face mask.** The test mod ships none, so the
+fallback downloaded the SKIN's own and bound that -- which is why "does this mod ship a face mask"
+is not the axis to sort by here.
+
+**And the probe that decides it is a DELETION, not a `null`.** Appending `ps-t0 = null` to the
+slot's texture list clears the wedge too, and it is a different experiment: a null UNBINDS the
+slot, so the shader samples zero, where removing the role from the plan leaves the GAME's own
+texture bound. Only the second is what the code change does, so only the second proves it. Both
+were run; the deletion is the one the change rests on.
+
+**Confirmed on the IDENTITY mod, which is the check this change deserved.** ChisaParfait's own
+model written as a mod and remapped onto Chisa renders as her, head to hem -- hat, hairband, braid,
+choker, bikini, belt, skirt, sash and the arm lacing all in place, back view included -- and its
+face carries the same soft hat shadow as her own model with no wedge
+(`Images/ChisaParfait/3_7/IdentityVsOwnModel.jpg`, `IdentityFaceThreeStates.png`). Reach for the
+identity mod on any change to a slot's bindings: it fixes every structural axis to "the game's own
+answer", so anything that differs is the remap.
+
+**AND THE SAME BUG IS ONE SLOT OVER, ON THE BODY (2026-10-02).** Chasing the second thing the
+identity mod showed -- a thin crenellated outline traced across the bare THIGH, which her own model
+does not have -- ended at `lowerMask`: ChisaParfait's lower-body mask, bound raw on Chisa's
+lower-body shader, exactly as the face mask was. Appending `ps-t1 = null` to the component 4
+texture list and reloading removes the outline completely, on ChisaParfait1 AND on the identity mod
+(`Images/ChisaParfait/3_7/ThighOutlineIsTheMask.png`). The shape is the cut edge of the body mesh
+where it is hidden under clothing on her own model -- a mask-driven outline term is lighting it up.
+
+**The face's answer does NOT transfer here.** Not binding it is safe on the face because the two
+faces are the same mesh; the two BODIES are not (component 4 is IoU 0.35 between them), so leaving
+the register to the game would sample Chisa's own mask at ChisaParfait's UVs -- the wrong-UVs bug.
+The fix this wants is a REPACK, and **this direction has no mask repack at all**: `texEdits` is
+`hairNormalFilter` alone, so `upperMask`, `lowerMask`, `panelMask` and `propMask` all reach Chisa's
+shaders in ChisaParfait's packing. The forward direction's `MaskTranslations` is the model; its
+inverse has to be measured (render both skins' masks' channels beside their diffuses, and ask the
+diffuse which value means skin) and then checked in game, so it is its own piece of work.
+
+**AND THE REPACK WAS BUILT, MEASURED AND THROWN AWAY -- THERE IS NOTHING TO REPACK ON THIS PAIR
+(2026-10-02).** Written, compiled, run and checked in game, channel by channel, and the answer is
+that the config's original comment was right for a better reason than it gave:
+
+| channel | Chisa (target) | ChisaParfait (source) | verdict |
+| --- | --- | --- | --- |
+| R | 255 skin / 0 cloth | 255 skin / 0 cloth | the same LEGEND -- nothing to translate |
+| G | 26 on skin, 102 on cloth, constant | a real gloss map, median 0, p90 97 | CONTENT on the source; flattening it to the target's constants is what the forward direction found rendering as metallic skin, pointing the other way |
+| B | 0 over 100.0% of texels | 126 | packing, and rewriting it is **inert** in game |
+| A | 255 over 100.0% of texels | 0 | **rewriting it is HARMFUL**: the choker cords, the straps, the belt and the shoulder flower all turn BLACK |
+
+So the only channel that is packing on both sides AND safe to rewrite is B, and B changes nothing
+visible. The edit was reverted rather than shipped: it rewrites four textures on every mod to buy
+nothing, and it carries a channel that makes the model worse.
+
+**The A result is the one worth keeping.** Chisa's own masks are A = 255 everywhere and her own
+model has no black straps, so "both are constants, therefore both are packing" is not a safe
+inference -- her shader reads A in a way her own art never exercises on a thin accessory. Per
+channel, one reload each, is what separated it: B alone reproduces the shipped look exactly, both
+together blackens the straps (`Images/ChisaParfait/3_7/MaskChannelProbe.png`).
+
+**And the diffuse gate the forward filter uses does not invert either.** Tried as a cure for the
+thigh outline -- promote a non-skin texel to skin where the diffuse under it is flesh-coloured --
+it marks **99.1%** of her upper mask as skin, because her art is pale cream and pink, and in game it
+blackens the same straps. The forward filter restricts that gate to a middle BAND for exactly this
+reason, and her masks are near binary, so there is no band to restrict it to.
+
+**THE DARK PATCHES ARE STILL OPEN, AND NOT FOR WANT OF ELIMINATING THINGS (2026-10-02).** Small
+dark grey-olive quadrilaterals in the scalloped gaps of the skirt's hem, on the identity mod, where
+ChisaParfait's own model's hem is clean. One probe per candidate, one reload each, every one of them
+NEGATIVE:
+
+| probed | result |
+| --- | --- |
+| `ps-t0` (normal map) nulled on components 4 and 5 | patches stay |
+| `ps-t1` (mask) nulled on both | patches stay (this is what cleared the thigh OUTLINE) |
+| `ps-t2` (diffuse) flat per component | patches stay -- and this corrects an earlier reading of a flat `--paint` of t0/1/2 as having removed them |
+| `ps-t6` nulled -- Chisa's own `d02cdbaa`, a 1024x1024 near-black code map her lower pass reads and the plan leaves to the game | patches stay |
+| a full MIP CHAIN on the diffuse | **worse** -- more and larger patches |
+| the texcoord fold | not involved: `cleanTexcoords` writes no copy for this mod, `vb2` binds its own `TexCoord.buf` |
+| texture resolution | not involved: its lower-body diffuse, mask and normal are all 2048 |
+
+So they are not any register the plan binds, and not the one unplanned UV-mapped register Chisa's
+lower pass reads.
+
+**THEY ARE BACK FACES, CONFIRMED BY A PROTOTYPE (2026-10-02).** The Neuvillette finding arriving on
+WuWa -- single-layer cloth whose inside the target's shader lights differently -- and the GI side's
+answer, `Component::mirroredObjs`, has no WuWa equivalent yet.
+
+Two measurements and one in-game test settle it:
+
+* **The mesh is a single sheet.** `Tools/Misc/Diagnostics/wwmiDoubleSided.py` counts triangles that
+  share three positions with opposite winding: **0 of 69411 vertices' worth, in all 8 components**.
+  So the skirt's inside is the back of its only sheet, visible in the gaps between the hem's
+  scallops -- which is exactly where the patches are.
+* **A reversed-winding twin with flipped normals removes them.**
+  `Tools/Misc/Diagnostics/wwmiMirrorProbe.py` writes the component's index window wound the other
+  way and a copy of `Vector.buf` with every normal negated, binds them as a second draw inside the
+  remapped section, and changes nothing else. The scallop gaps come out clean and the rest of the
+  skirt is untouched (`Images/ChisaParfait/3_7/BackFaceTwinFixesThePatches.png`). No rebuild: it is
+  an `.ini` edit, so it is a prototype of the fix rather than a guess about it.
+
+**`cull` cannot be used to test this, and the way that was established is worth copying.** A
+`[CustomShader]` with `cull = front` left the skirt complete, which reads as "the geometry is
+double-sided" -- and is not what happened. Adding `blend = ADD ZERO ZERO` to the same block turned
+the WHOLE skirt black, so the block's render state does reach the draw and `cull` alone is being
+ignored. **When a render-state probe reports no effect, put a second piece of state in the same
+block that you know is visible**; otherwise "no effect" and "not applied" are the same picture.
+
+**AND IT IS COMPILED (2026-10-02).** `WWMIFixerConfig::mirroredComponents` names the source
+components drawn a second time; ChisaParfait sets `{5}`, her frilled panel. The fixer resolves the
+mod's `[ResourceVectorBuffer]` beside the `[ResourceIndexBuffer]` it already kept in `indexFile_`,
+writes `<Target>RemapMirrorIndex<N>.buf` (the component's window with two corners of every triangle
+swapped) and one `<Target>RemapMirrorVector.buf` (the mod's own normals negated, SNORM, clamped at
+-127 because -128 has no positive counterpart), declares both, and appends `ib` / `vectorReg` /
+`drawindexed` AFTER the component's own draw. Default empty, so no other character's output moves.
+
+A/B against the prototype: both generated buffers are **byte-identical** to the probe's arithmetic,
+the emitted lines are the same three in the same place, and in game the compiled twin and the
+prototype's are the same picture
+(`Images/ChisaParfait/3_7/BackFaceTwinCompiled.png`, before / prototype / compiled).
+
+Four things the port had to get right, none of them obvious from the prototype:
+
+* **The twin goes after EVERY draw, in that draw's own part, and once per path is not enough.**
+  The first cut placed it with a `RegSurroundedAdd` anchored on `drawindexed`, which adds once per
+  path, and guarded it to components with a single draw range. ChisaParfait2's skirt is **five**
+  draws, each inside its own `if $VariableXXXX == 1` -- so the mod that most obviously shows the
+  defect got no twin, and a twin at the end of the section would have been drawn whatever the
+  toggles say. `MirrorTwin`, a file-local `BaseRegEdit`, walks the part's draws through
+  `getValsWithInds` and splices after each one; it inserts BACKWARDS, so an insertion does not move
+  the index of a draw not yet reached. Each twin draw is `count, first - base, 0`, where `base` is
+  the first index of the span the component's draws cover -- measured, ChisaParfait2's five tile
+  that span exactly: 0, 7188, 20388, 22152, 28080 over 28176 indices.
+* **And it restores `ib` and the vector register after itself.** The next toggle's draw would
+  otherwise read the mirrored buffers. The names to restore to are the mod's own
+  (`ResourceIndexBuffer`, `ResourceVectorBuffer`) -- what `CommandListOverrideSharedResources` binds,
+  and what the graph remap does not rename.
+* **The set is computed, not stored.** It is read while the edits are built, while the files are
+  written and while the `.ini` is rendered -- three entry points -- and a member filled in one of
+  them is a member read empty in another.
+* **The twin's `vb1` needs no restoring.** Every remapped section runs
+  `CommandListOverrideSharedResources`, which binds `vb0`..`vb4` including `vb1`, so the next
+  component's draw gets the mod's own normals back without the fix saying anything.
+
+**EVERY SKIRTED MOD OF HERS NEEDS IT, AND TWO OF THEM ARE TOGGLED (2026-10-02).** The identity, the
+swimsuit (ChisaParfait2) and the kimono (ChisaParfait3) all draw component 5 and all showed the dark
+gaps; ChisaParfait1 is a bikini whose own section says `Draw skipped: No matching custom components
+found`, so it has no skirt and correctly gets no twin. Checked in game after: the gaps are clean on
+the identity and on ChisaParfait2, and the rest of each skirt is untouched.
+
+**AND THE RED BODY ON ChisaParfait3 IS NOT WHAT THIS FILE PREVIOUSLY SAID (2026-10-02).** It was
+written up as "the fault is the mod's own bytes" after a bisect to `ps-t2`. Its three body diffuses
+are **pale**: `3_3.dds` means (252, 213, 207), `4_3.dds` (212, 162, 167), `5_3.dds` (194, 148, 154).
+Nothing about the art is red, so the red comes from the pipeline. Nor is it the MASK, which was the
+next suspect because that mod ships none and takes ChisaParfait's own as a download: nulling `ps-t1`
+on components 3, 4 and 5 changes the picture not at all. What it looks like, at a zoom where the parts
+separate, is channel-isolated -- the top and sleeves flat RED, the skirt flat YELLOW, while the hat,
+the bikini, the belt, the sash and the garter are correct.
+
+**Six things it is NOT, each by a probe rather than an argument:**
+
+* **the mod's art** -- its three body diffuses are pale, (252, 213, 207), (212, 162, 167) and
+  (194, 148, 154);
+* **the mask** -- nulling `ps-t1` on components 3, 4 and 5 changes the picture not at all, which on
+  another mod visibly moves the thigh outline, so the probe works;
+* **the fix's texture lists not running** -- a flat MAGENTA on their `ps-t2` turns the bikini, the
+  belt, the sash, the garter and the hat trim magenta, so the lists run and the mod does draw
+  through the fix, while the red top and the yellow skirt are untouched;
+* **the extra-pass lists** -- the same magenta on the `...TexturesPass0` lists likewise;
+* **Chisa's own geometry showing through** -- with every Chisa mod parked, her own outfit is a dark
+  school uniform with a red neckerchief, nothing like a red top and a yellow skirt;
+* **a pass the config does not name** -- a frame dump taken WITH the mod installed
+  (`FrameAnalysis-ChisaParfait3Remap-2026-10-02-204847`, 194 draws) says every pass that draws the
+  UPPER or LOWER body is already named: `c9cdf1b99fb01750`, `3bbc20374cc3d229`,
+  `f8c96a270bf847dd` and `50f2ed8061f3d351` (that last one in `passVertexShaders`, with a comment
+  saying it sets nothing and inherits). The passes the config names nowhere draw the front hair,
+  the face and the panel/prop -- not the top and not the skirt.
+
+**And `ps-t0` is not it either, though it is not nothing.** The same flat magenta there turns the
+HAT white, the bikini cream and the belt pale -- so that register really is feeding those surfaces'
+colour, which on Chisa's upper pass is supposed to be the NORMAL map -- while the red top and the
+yellow skirt do not move. Every register the plan binds on that pass has now been probed.
+
+**The two UNBOUND registers are not it either.** Flat magenta on `ps-t3` and `ps-t4` together --
+every register Chisa's upper pass sets that the plan leaves to the game -- turns the hat white and
+the bikini cream, exactly as `ps-t0` does, and the red top and yellow skirt do not move. Every
+register of that pass has now been probed, bound and unbound alike.
+
+**And the thing that DOES move them says where to look next.** `wwmiPaintComponents.py`, which
+inserts a flat colour immediately before each `drawindexed` INSIDE the remapped section rather than
+into the texture command list, turns the top yellow -- its component's colour -- and the skirt pale
+(`Images/ChisaParfait/3_7/RedBodyTakesThePaint.png`). So the top's colour does come from
+`ps-t0`/`ps-t1`/`ps-t2` after all, and the fix's own list is not what is supplying them by the time
+those draws run.
+
+**AND IT WAS THE MOD'S OWN `ps-t` LINES, CARRIED INTO THE REMAPPED SECTION AND LANDING AFTER THE
+FIX'S TEXTURE LIST (2026-10-02). FIXED.** A mod may bind its textures **per draw** rather than once
+per section, to give different parts different art. The fixer copies the section's content and then
+adds `run = CommandList<Char>Component<N>Textures` through `RegSurroundedAdd`, which anchors BEFORE
+the draw -- so the mod's own `ps-t0..ps-t3` groups sit after the list and override every binding the
+fix made, in the SOURCE's register layout. ChisaParfait3 carries three such groups; its slot 5 set
+is `(t0, t1, t2, t3) = (5_0, 5_1_1, 5_2, 5_3)` where the scan has `5_2` as the panel NORMAL and
+`5_3` as its DIFFUSE, so the target read a normal map where it reads the diffuse. Flat red top, flat
+yellow skirt.
+
+**The same file was its own control the whole time.** Its lower-body section (`Component7`) carries
+no such lines, so the fix's list stands there -- and the belt, sash, garter and hat that section
+draws were correct in game through every round, beside an upper body that was not.
+
+`WWMIFixer`'s `CarriedTexRegs` re-keys each such line by ROLE -- the role of the RESOURCE, which the
+texture scan has already decided -- to the register the target reads for it, applying the fix's
+edited copy where one was written, and inserting it at the position the old line held. Slot 5's
+group comes out binding exactly what the fix's own list binds. A role belonging to another component
+falls back to its KIND (`lowerDiffuse` -> `Diffuse` -> this row's `panelDiffuse` register), which is
+legitimate only because the role NAMES are the config's own, and only where the kind is unambiguous
+in the row -- `irisDiffuse` at `ps-t1` and `eyeDiffuse` at `ps-t4` share one.
+
+**A LINE WHOSE ROLE IS UNKNOWN IS LEFT WHERE IT IS, AND THE FIRST CUT DROPPING IT WAS A REGRESSION
+ON THREE OTHER MODS.** The reasoning for dropping sounded airtight -- the fix's list has already
+bound every role the target's draw reads, so a leftover can only be a texture of unknown meaning at
+a register the target reads for something else. It took `ps-t17 = ResourceClothFX` out of
+Sanhua2's frost mod and `ps-t17 = ResourceUpper_FX` out of Sanhua5, which are **not registers any
+plan row names**: the target's shader reads them independently of this fix, and no list was ever
+going to put them back. Keeping them costs nothing, because the re-key is in PLACE and a mod writes
+its group in its own layout order -- on slot 5 the unknown `5_0` sits at `ps-t0` BEFORE the re-keyed
+`5_2` arrives there, so the right one still wins, and the generated `.ini` shows both lines.
+
+**And the measurement that licensed the drop was itself wrong, which is the lesson worth keeping.**
+The corpus count said "13 carried lines in that one mod and ZERO in the other 40 fixed `.ini`
+files". It was an `awk '/^\[TextureOverride.*ChisaRemapFix\]/,/^\[[^T]/'` range piped to `grep -c`
+-- a range that ENDS at the first section whose name does not start with `T`, and a pattern that
+only matches the Chisa direction, so it never looked at a `SanhuaExorcistRemapFix` section at all.
+It did not report an error; it reported a zero (**habit 34** again, in the shape the guide warns
+about: a check that cannot say "nothing was checked"). What found the three regressions was the
+blunt instrument instead -- snapshot every `*RemapFix*.ini` in the corpus, re-fix all 24 mod folders,
+`filecmp` the lot. **49 of 52 identical now**, the three that move being archived `_before<X>Fix`
+copies whose `.ini` were last written by a much older build (proved by re-fixing each twice: stable).
+
+**TWO WRONG TURNS ON THE WAY, BOTH WORTH MORE THAN THE FINDING.**
+
+*Grepping the dump's `log.txt` for the draws that "never fire"* returned 0 for all fifteen of
+component 3's `StartIndexLocation`s -- 91344, 96474, 103332 and the rest -- and that was written up
+here as settling it. Those numbers came out of the FIXED `.ini`, off the lines reading
+`;RemapFixHideOrig -->        drawindexed = 5130, 91344, 0`. They are the originals the fix **hid**,
+and a commented-out draw can never appear in a log. The fix's real draws are at the mod's own
+offsets (364689, 340005, 332817, ...) and fire exactly as they should. **A number you grepped out of
+generated output may be from a line that output exists to disable** -- read the whole line, not the
+match.
+
+*Forcing the toggles* (rewriting every `if $key...` inside the fix's sections to `if 1`) did add
+geometry, which read as "so the toggles WERE the problem". It was a second mod variant being drawn,
+in the same wrong colours. The experiment that actually decided it was the magenta probe: a flat
+magenta on the fix's texture lists turned the hat, bikini trim, belt, sash and garter magenta and
+left the red top and yellow skirt untouched -- **the lists run, and something later in the same
+section beats them**. That narrowed it to one screenful of the generated `.ini`, which named the
+cause outright. The dump (`FrameAnalysis-ChisaParfait3Remap-2026-10-02-204847`) is kept.
+
+**WHICH components it belongs on is a geometry question, and `Tools/Misc/Diagnostics/
+wwmiOpenSheets.py` answers it without the game.** A twin only matters where the INSIDE can be seen,
+and a closed solid never shows one: every edge of it is shared by two triangles. Keyed by POSITION
+rather than by vertex index -- a UV or normal seam splits a vertex and would read as a border that
+is not one -- ChisaParfait's eight components come out:
+
+| component | triangles | border edges | |
+| --- | --- | --- | --- |
+| 0 front hair | 4534 | 0.5% | closed |
+| 1 hair | 21408 | 1.9% | closed |
+| 2 face | 4498 | 5.6% | open at the neck, inside never visible |
+| 3 upper body | 29145 | 0.3% | closed |
+| 4 lower body | 23881 | 0.7% | closed |
+| **5 frilled panel** | 9392 | **8.0%** | **the skirt -- the one that showed it** |
+| 6 eyes | 454 | 14.4% | open, and inside the head |
+| 7 right-hip prop | 180 | 28.0% | the hanging SASH -- the only other real candidate |
+
+So the screen leaves exactly one component to look at by eye, and the sash is clean: its curled
+tail shows its inside and renders the same pink as on ChisaParfait's own model. `mirroredComponents`
+stays `{5}`.
+
+**And the diff that was supposed to settle the sash measured the weather.** A whole-figure pixel
+diff between the twin on and off reported **30.27%** of pixels changed -- for a 180-triangle prop --
+because the Overview screen re-frames the model between captures and the background clouds move.
+Painted (`Tools/Misc/Diagnostics/whereDiff.py`), the changed pixels are every edge in the picture,
+the sky included. On that screen, compare CROPS of the part by eye; a diff needs a camera that does
+not drift.
+
+**Two things the chase established that are worth having anyway.** Chisa's lower-body pass sets
+**TEN** registers (`ps-t0..t9`) where the plan binds three, so enumerating a pass and accounting for
+every register is still the right first move -- three of the seven unbound ones (`742c5c7b`,
+`7a9915c5`, `30bf03f4`) are the shared globals both characters set and are correctly left alone. And
+**no WWMI mod in this corpus has mip chains at all**: 28 of 28 textures in the identity mod, 28 of 28
+in ChisaParfait1 and 27 of 27 in the download folder declare `mipMapCount 1`, where the game's own
+streamed textures carry a full chain. Any comparison of a mod against the character's own model is
+confounded by that, and generating a chain naively makes things worse rather than better, because an
+atlas without padding bleeds between islands as it is minified.
+
+**The original note on them:** dark, roughly rectangular patches
+on the inner surface of the SKIRT, with a stepped edge where it meets the thigh -- her own model's
+hem is smooth there. Not from this change (the skirt is components 4 / 5 and the face slot's plan is
+the only thing that moved), not the U fold (restricted to `U >= 1` since 2026-09-27), and not low
+texture resolution (its lower-body diffuse, mask and normal are all 2048). Open, and only reachable
+on a mod that HAS a skirt -- which of this pair's four is the identity alone.
+
+**One measurement attempt is worth recording as a failure.** "Share of face pixels on a strong
+luminance edge" over the face window gave **10.12% / 10.14% / 9.99%** across the three states --
+no discrimination, because the window is mostly hair, lashes and eyes, which carry every strong
+edge there is whatever the shadow does. Painting the counted pixels showed them lying along hair
+strands and never along the shadow boundary. The three-state picture
+(`Images/ChisaParfait/3_7/FaceShadowThreeStates.png`, own model / bound / not bound, same crop) is
+what settles it, and a statistic that cannot fail is habit 34 in its other form.
 
 ### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
 
@@ -4243,14 +5961,32 @@ constructor accepts a bare list or set as well, and the fixer then reads that as
 the whole `.ini` with `dictionary update sequence element #0 has length 27` -- the length of the
 first register NAME -- as its only explanation.
 
-The check, which **fails against the build that shipped the bug** and passes after (Overview habit 34):
+The check, which **fails against the build that shipped the bug** and passes after (Overview habit 34),
+is `Tools/Misc/Diagnostics/wwmiCarriedOverrides.py <fixed folder>...`. Its quick form is
 
 ```bash
 grep -n "Override = ref Resource" <mod>/mod.ini
 ```
 
-Count it per SECTION, not per file: three of seven sections carried it, and a file-level "contains
-it" reads the same before and after a fix that only got one of them.
+but count it per SECTION, not per file: three of seven sections carried it, and a file-level
+"contains it" reads the same before and after a fix that only got one of them. The script does that,
+and three more things the grep cannot:
+
+* **`= null` is the correct output, not a survivor.** The fix clears these lines by writing `null`,
+  so a correct run has three of them per mod. Counting them reported *16 surviving override lines*
+  over output that was entirely right.
+* **the fix's own `if ResourceBlendBufferOverride === null` is a CONDITION.** Any pattern loose
+  enough to catch `Override\s*=` reads its `==` as a value and fires on nearly every mod -- which
+  reported 18 of 19 mods regressed when the real number was 4. The script matches the key exactly,
+  after splitting on the first `=`, so the condition's key is `if ResourceBlendBufferOverride` and
+  never collides.
+* **a mod that binds no blend remap of its own answers nothing**, and says so rather than passing.
+
+**Run it on every mod of the character, not on the identity mod.** The identity mod is the one mod
+whose own sections carry no such line, so it has none to carry across and renders perfectly while
+every real mod is broken -- which is how the regression of 2026-10-02 (`0682a3dc`, stepping over a
+leading `ref` in a `removedRegs` prefix) survived its whole life. Re-checked afterwards, **4 of 19
+real Chisa mods were still sitting on it**, decided purely by when each had last been fixed.
 
 ### ...AND REMAPPING **ONTO** ONE MEANS THE FIX HAS TO WRITE THAT PAIR ITSELF (2026-09-28)
 
@@ -4268,9 +6004,77 @@ So the fix writes all three buffers, beside its own blend:
 | `<mod>RemapBlendRemapForward.buf` | 512 `uint16`, local -> merged (`SkeletonRemapper` gathers through it) |
 | `<mod>RemapBlendRemapReverse.buf` | 512 `uint16`, merged -> local (`BlendRemapper` rewrites the blend through it) |
 
-and the remapped section binds the same three `Resource*Override` lines the forward direction strips
--- pointed at the fix's own, which is what makes stripping the MOD's correct rather than merely
-convenient.
+**It does NOT bind them through the three `Resource*Override` lines the forward direction strips.**
+An earlier revision of this section said it did; there is not one of those lines in any fixed
+ChisaParfait mod (measured 2026-10-04). The fix wires the remapper itself, in a command list every
+remapped section `run =`s:
+
+```
+[CommandListBlendRemapChisaRemapFix]
+local $blendRemapReady
+if !$blendRemapReady
+    $\WWMIv1\custom_vertex_count = $mesh_vertex_count
+    $\WWMIv1\weights_per_vertex_count = 8
+    $\WWMIv1\blend_remap_id = 0
+    cs-t34 = ref ResourceBlendRemapReverseBufferChisaRemapFix
+    cs-t35 = ref ResourceBlendRemapVertexVGBufferChisaRemapFix
+    ResourceRemappedBlendBufferRWChisaRemapFix = copy ResourceBlendNoStrideChisaRemapFix
+    cs-u4 = ref ResourceRemappedBlendBufferRWChisaRemapFix
+    run = CustomShader\WWMIv1\BlendRemapper
+    ...
+    $blendRemapReady = 1
+endif
+vb4 = ResourceRemappedBlendBufferChisaRemapFix
+```
+
+One remap over the whole mesh, built once per frame behind the `$blendRemapReady` guard. So the two
+directions are not mirror images in their output either: the forward one REMOVES lines a mod wrote,
+and this one ADDS a command list and calls it, leaving `Resource*Override` out of the picture
+entirely.
+
+**And the blend it writes holds LOCAL ids, not truncated merged ones.** WWMI Tools writes
+`Blend.buf` as the merged id truncated to 8 bits; this fix writes `reverse[trueId]` -- the local id,
+which is precisely what `BlendRemapper` recomputes into the private buffer, so the shader's write is
+idempotent over it. Both forms are legal and the game cannot tell them apart *here*, but they are
+not interchangeable in general: the truncated form is what a component with NO remap reads, so it is
+safe unconditionally, while the local form is safe only while **every** remapped draw goes through
+the remapper. All of them do, in every fixed ChisaParfait mod -- 8 of 8 drawing sections reach it.
+
+`Tools/Misc/Diagnostics/wwmiCheckBlendRemap.py` used to assert the truncated form alone and so
+**failed all four mods of a direction that is correct and confirmed in game** (100.0% of weighted
+slots are the local id; 2.5-11.3% coincidentally match the truncated one as well, which is the kind
+of partial agreement that reads like corruption). It accepts either now, names which it found, and
+for the local form checks the coverage condition rather than taking it on trust. The fix that the
+old message invited -- rewriting the blend as truncated ids -- would have been wrong.
+
+### A COMPONENT'S `match_*` WINDOW IS THE GAME'S, AND ITS `drawindexed` IS THE MOD'S (2026-10-04)
+
+The same tool's per-component branch failed `Chisa1` and `Chisa13` while passing `ChisaIdentity`,
+and the cause is a distinction worth holding on to for any WWMI mod:
+
+| line | addresses | identical across mods of a character? |
+| --- | --- | --- |
+| `match_first_index` / `match_index_count` | the **GAME's** index buffer -- which draw call 3DMigoto is matching | **yes** |
+| `drawindexed = <count>, <first>, 0` | the **MOD's** own index buffer | no |
+
+So slicing a mod's `Index.buf` with its `match_*` window reads an arbitrary set of vertices. The
+game's component windows run to 287358 indices; `Chisa1` has 328074 and draws its component 3 at
+offset **217983**, `Chisa13` has 845550 and draws it at **153387** and **254379**. All three
+declare `match_first_index = 63894`.
+
+**And `ChisaIdentity` could not have caught it**, for the same reason it could not catch the carried
+overrides: the identity mod IS the game's model, so the game's windows happen to address its own
+buffer, and its single `drawindexed = 108702, 63894, 0` is the match window exactly. Two separate
+checks were blind in one session because the input they were exercised on is the one input where
+the distinction collapses. **When a check reads a mod's buffers, run it on a real mod before
+believing it.**
+
+Two details that follow, both of which the fixed tool now handles: a component may carry **several**
+draws, because an author splits it into toggled parts (`if $part_0 == 0`), and every toggle state
+has to be right -- so take the union, not the first. And a draw the author **commented out** is not
+a draw: `Chisa1`'s component 5 has only `;drawindexed = 7602, 319110, 0`, so it draws nothing, which
+is reported rather than silently dropped -- a remap slot is the section's POSITION among those
+selecting a resource, so omitting one shifts every slot after it.
 
 The skeleton buffers have to be big enough too. A mod declares `array = 768` (256 bones x 3 rows),
 sized for its OWN character; `WWMIFixerConfig::mergedSkeletonSlots` is what the fix declares instead,
@@ -5697,6 +7501,101 @@ pure-Python `nhok0169` and a data-only change had to be committed on both branch
 `development` was merged into it and it was renamed `master`, an asset change goes to `development` like
 anything else --- but it is not live for users until the next merge to `master`, so a remap that needs a
 NEW download is not usable from a release until then.
+
+<br>
+
+### A GAME UPDATE REHASHES THE SHADERS TOO, AND THAT IS WHERE A WUWA FIX LIVES (3.7, 2026-10-01)
+
+Every WuWa fix binds the mod's textures through the TARGET's shaders:
+`[ShaderOverridePassN] hash = <vertex shader>` sets a `filter_index`, and each texture command list
+is `if vs == <that index>`. WuWa 3.7 rehashed the shaders along with ChisaParfait's vertex buffer,
+and of the hashes in the four configs **2 of 46, 2 of 30, 0 of 6 and 0 of 7** still existed. So `vs`
+never took a filter_index, every texture list was skipped, and each remapped mod drew the mod's
+GEOMETRY with the TARGET's own art -- Chisa's school uniform in ChisaParfait's pink, with the vertex
+groups perfect throughout. **It reads as a texture bug and it is a shader bug.**
+
+**Do not re-derive the configs to repair this.** Which pass of a slot sets which register, which role
+sits where, which passes bind only globals -- none of that moves when the hashes do, and redoing it
+by hand is how the kimono came back yellow. Substitute the hashes, and pair the passes with
+`Tools/Misc/Diagnostics/` + the scratch tools this used:
+
+| key | what happened |
+| --- | --- |
+| every `ps-t` the draw has bound | 8 of 30 unmatched -- the columns include registers the draw INHERITED, and the old dumps are of the overworld while a 3.7 overworld dump kills the game |
+| the component's draw ORDER | 1 conflict, and 4 draws whose `ps-t0` is a different texture before and after |
+| the character's own textures | 9 refused -- shared ramps and sheens are "its own" too |
+| **what the draw SETS, as ROLES** | **this one.** `wwmiPassLayout` says which registers a draw set rather than inherited, and a role is a property of the character, not of the scene |
+
+Validate the derivation the way habit 34 asks: **run it on the OLD dump and require it to reproduce
+the config already in the tree.** It did -- same slots, same passes, same role layouts -- and the old
+and new tables then came out structurally identical for every character, so the pairing is exact.
+For a pair whose download folder came from WWMI-Assets (Sanhua's), a texture hash names no role at
+all, and the SIZES of the textures a pass sets are the version-proof key instead.
+
+Two cross-checks that cost nothing and are worth taking: a shader several characters draw with must
+come out the same in two unrelated derivations (`21176cf68a65ab7a -> f8c96a270bf847dd` and the face
+pass `374a4f8fc9a5ea6a -> ed1c0f8b2ba08ac4` did), and a MERGE substitutes cleanly while a SPLIT
+cannot -- 3.7 merged ChisaParfait's front-hair and hair shaders into one and split Chisa's into two,
+and the split needs the second slot corrected by hand because one old hash has to become two.
+
+### AND A MOD MADE BEFORE THE UPDATE IS DEAD WHATEVER THE FIX DOES (2026-10-01)
+
+`ChisaParfait -> Chisa` drew **nothing at all** after the shader repair -- no body, just the weapon.
+It is not a remap bug. A WWMI mod registers itself in `[Present]`:
+
+    if $object_detected
+        if $mod_enabled ... else ... run = CommandListRegisterMod   <- sets $mod_enabled = 1
+
+and `$object_detected` is set by the mod's OWN `[TextureOverrideComponentN]` sections, which carry
+the hash its author exported with. ChisaParfait's `vb0` moved at 3.7, so those sections match
+nothing, the mod never registers, `$mod_enabled` stays 0 -- and every remapped section the fix wrote
+begins `if $mod_enabled`. **The remap inherits the mod's own staleness.**
+
+Proved in one step rather than argued: with the mod loaded, the character's own outfit renders
+VANILLA. The mod is dead on its own character first.
+
+So a "renders nothing" report on a direction whose SOURCE was rehashed is a question about the mod,
+not the fix, and the first thing to do is equip the source's own outfit and look. The three
+ChisaParfait mods that exist are all 3.5-era, which is why that direction cannot be checked in game
+until one is re-exported -- or until the fix updates the mod's own sections to the source's current
+hash, which is what the maintainer's `25fix` / `wwmi_fix_23` tools do and is a decision rather than a
+bug.
+
+<br>
+
+### A MOD THAT ARRIVES ALREADY FIXED IS A DIFFERENT INPUT, AND IT IS THE ONE THE MAINTAINER HAS (2026-09-30)
+
+A fix undoes first, and the undo removes **every section a previous fix named**. So anything the
+parser reports out of an already-fixed `.ini` may be about to disappear, and a fixer that reuses it
+writes a reference to something the same run deletes.
+
+That is not hypothetical. `wwmiSweep.py`'s reference check over the two corpora found **65
+registers bound to sections nothing declares** -- `ps-tN = Resource<Role><Target>RemapRef`, in two
+mods, and the two are exactly the ones whose folders arrive already fixed (`Chisa9`, `Sanhua3`).
+In game that register keeps whatever was last bound to it, so the part renders with another part's
+art and the log says nothing. **Every mod in the maintainer's live folders is in that state**, which
+is why a corpus of freshly-downloaded mods will never show it.
+
+The rule: **the fixer may not REUSE a previous fix's section name, and must not drop the FILE
+either.** A `RemapRef` section exists precisely to point at one of the MOD'S OWN textures, so the
+first version of this fix -- which filtered those sections out in the PARSER -- lost the texture
+with the section, and every role so served fell back to downloading the GAME's over the mod's art.
+The corpus said so at once: the mod came back with zero declarations and zero references, which is
+the shape of textures quietly becoming downloads. The test belongs where the file can fall through
+to a fresh declaration, in `WWMIFixer`'s `assignRole`.
+
+`IniNamingTools::looksRemapped(name, modNames)` is that test, and it is the **undo's own**, moved out
+of `RemapIniRemover` so both can ask it -- the two cannot disagree about what is about to be removed.
+A bare `Remap` anywhere in the name is deliberately NOT the test; see the 2026-09-20 note on WWMI's
+blend remap.
+
+**And fixing it exposed a second one: the texture folder was being voted on by BUFFERS.**
+`readTextureFolder` counted every resource the `.ini` declares, a mod's `Meshes/*.buf` included, and
+was only ever right because an already-fixed mod's previous `RemapDL` / `RemapTex` sections were
+being counted as the mod's own -- many of them, all textures, outvoting the buffers by accident.
+The moment those stopped counting, five mods wrote every texture they own into `Meshes/`. Two of
+them (`Chisa2`, `ChisaParfait2`) had been doing it all along. **A vote has to be taken among the
+things the question is about.**
 
 <br>
 

@@ -80,6 +80,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%9E%E2%9C%82%EF%B8%8F%20The%20Python%20Twin%20Pruner-1-%23f472b6?style=for-the-badge&labelColor=%23052e16)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A1%E2%8F%B3%20The%20Patient%20Resolver-1-%2322d3ee?style=flat-square&labelColor=%233b0764)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%AC%F0%9F%93%9C%20The%20Inheritance%20Scribe-1-%23c084fc?style=flat&labelColor=%23134e4a)
+- ![Static Badge](https://img.shields.io/badge/%E2%9A%96%EF%B8%8F%F0%9F%94%AC%20The%20Instrument%20Calibrator-1-%2306b6d4?style=for-the-badge&labelColor=%23164e63)
 
 <br>
 

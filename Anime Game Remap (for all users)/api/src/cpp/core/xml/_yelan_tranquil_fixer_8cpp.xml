@@ -39,9 +39,6 @@
       <node id="106">
         <label>BiMap.tpp</label>
       </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="101">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1197,6 +1194,9 @@
         </childnode>
         <childnode refid="113" relation="include">
         </childnode>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>Generator.tpp</label>

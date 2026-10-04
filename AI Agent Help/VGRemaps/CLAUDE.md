@@ -720,6 +720,48 @@ conversation and not an archaeology dig.
 
 <br>
 
+## A COLLAPSE IS WORSE THAN A DISTANCE, AND THE HAND IS WHERE IT HIDES (2026-10-01)
+
+"Chisa's right hand, the fingers look a bit crooked" was reported from game, and it was a real
+defect that every distance-based check would have passed.
+
+**Two skins of one character often share the SAME hand rig.** Read both identity mods' per-bone
+centroids and Chisa's 18 hand bones each have a ChisaParfait counterpart **0.00-0.40 units away** --
+several agree to the second decimal. So a perfect 1:1 mapping existed and the finder's proposal
+missed 8 of them, because on a hand every bone's nearest neighbour is another finger: proximity and
+identity are different questions, and the gap between them is about one finger's width.
+
+**The number to check is not the distance, it is whether the hand is still a BIJECTION.** Her right
+hand's six misses included four COLLISIONS -- 378 and 385 both took 158, 387 and 380 both took 160 --
+so 18 source bones landed on 14 targets and four pairs of fingers were welded to a single bone.
+Welded fingers cannot move independently, which is exactly what "crooked" looks like. Her left hand
+had a straight transposition (363 and 365 swapped) that stayed one-to-one, and it looked fine in
+game. **Same magnitude of error, completely different symptom** -- so count distinct targets per
+part, not just the mean placement error, and do it for any part whose bones are a chain or a fan.
+
+The fix is mechanical once stated: snap every bone of the part to its exact counterpart, then assert
+the part maps one-to-one. Worst residual went 2.31 -> 1.88 on the right hand, and the splayed,
+fanned fingers became a normal relaxed curl in game.
+
+**Reading the two skeletons is where the traps are**, and both bit on the way:
+
+- a character past 256 bones keeps her merged ids in `BlendRemapVertexVG.buf` (8 x uint16 a vertex);
+  her `Blend.buf` indices SATURATE at 255 and are useless. Chisa's max there is 255 against a real
+  418.
+- the other character may store **merged ids directly** in `Blend.buf` even though her `.ini`
+  declares a `vg_offset` per component. Adding the offset "because WWMI works that way" put 35% of
+  her weight above her own bone count. The invariant that catches it in one run: for several
+  components the max index with non-zero weight equals `vg_offset + vg_count - 1` exactly, which
+  only happens if the ids are already merged.
+- `weights_per_vertex_count` is **8** here, not 4: `Blend.buf` is 16 bytes a vertex, the first 8 the
+  indices and the last 8 the weights. Verify rather than assume -- the weight half is the one that
+  sums to 255.
+
+To tell WHICH hand is which, do not reason about handedness conventions. Find the character's facing
+from the toes (lower than the ankles, and forward), then locate an asymmetric accessory -- Chisa's
+component 5, her props, is a head ornament -- and read which side it renders on in game with the
+character facing the camera. Two independent signals, no convention needed.
+
 ## WuWa: Sanhua <-> SanhuaExorcist, the first draft outside GI (2026-09-18)
 
 The maintainer had a hand-made `Sanhua -> SanhuaExorcist` sheet from a year before, incomplete, and

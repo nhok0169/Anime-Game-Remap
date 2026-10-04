@@ -1762,6 +1762,46 @@ the session's own. And write the probe with the Write tool --- a `\n` inside a B
 as a REAL newline and splits the string literal you are adding it to, which turns a one-line probe
 into a compile error in the file you were trying to measure (root trap 2, in a new costume).
 
+**90. A DIAGNOSTIC'S FAILURE IS A HYPOTHESIS, NOT A FINDING --- INCLUDING ONE YOU DID NOT WRITE
+(2026-10-04).** Habit 34 covers a check you are writing: run it against the BROKEN build before you
+trust it on the fixed one. This is the other half, and it costs more because the output looks
+authoritative: **before acting on an EXISTING check's failure, reproduce its claim by hand on one
+artifact, and run it on an input you know is good.** In one session three of this repo's own checks
+reported correct output as broken. `wwmiCheckBlendRemap.py` asserted the WWMI Tools blend convention
+(`Blend.buf == BlendRemapVertexVG.buf & 0xFF`) and so failed all four mods of a direction that is
+correct and confirmed in game; its per-component branch sliced the MOD's index buffer with the
+GAME's `match_first_index` window and failed two more; and a survey written that morning counted
+`= null` (the fix CLEARING a line) and `===` (a condition, not an assignment) as defects, reporting
+18 of 19 mods regressed where the real number was 4. **Each false FAIL invites a repair to working
+code** --- the first would have had the blend rewritten into a form that disagrees with the shader
+that reads it. The cheap discriminator is a known-good input: an author-written mod passes the
+truncation rule, which is what showed the rule was one convention rather than a law.
+
+**91. TEST WITH THE BINARY YOU JUST BUILT (2026-10-03).** `WWMI/Mods/FixRaidenBoss7.py` defaults
+`AG_REMAP_REPO` to the maintainer's MAIN checkout, and the work is usually in a worktree under
+`.claude/worktrees/`. Building the worktree and then testing through the launcher tests the OLD
+binary, silently and with no error anywhere. It produced a confident wrong finding --- "Chisa1 has
+never worked in this direction and needs its own investigation" --- which went into a commit message
+and was corrected by the maintainer, who simply remembered otherwise. Either set `AG_REMAP_REPO`, or
+fix through the worktree's own API (`sys.path.insert` on its `api/src/py`, `os.add_dll_directory` on
+its `FixRaidenBoss2`, then `RemapService(path = ..., ...).fix()`). When the work is done,
+fast-forward the main checkout's branch and rebuild it --- and verify the install by **md5 of the
+two `.pyd` files**, never by mtime, since a copy can carry the source's timestamp
+([[restore-from-backup-mtime-trap]] is the same trap from the other side).
+
+**92. WHEN YOU WIDEN OR NARROW A MATCHER, ENUMERATE WHAT ITS EXISTING CALLERS PASS IT (2026-10-02).**
+`0682a3dc` made a `removedRegs` value prefix step over a leading `ref `, which is right for every
+config whose prefix names the RESOURCE --- and silently stopped matching the one whose prefix IS the
+word `ref`. For two days every real Chisa mod's body collapsed under an intact head: no suite covers
+it, nothing logged anything, and the identity mod is the one mod with no such line of its own to
+carry, so the usual check passed throughout. A matcher's callers are grep-able in seconds
+(`grep -rn removedRegs "core/src/data"` prints every prefix any character passes), and the corpus
+A/B --- fix every mod of every affected character into scratch copies before and after the change
+and diff --- is what turns a shared-code edit from an act of faith into a measurement. It is also
+what found this one, in a single run, once someone thought to look. **The generalisation: a change
+that is obviously right for the case in front of you is a change to a SHARED rule, and its other
+callers are data you can read rather than guess at.**
+
 <br>
 
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
@@ -2638,6 +2678,25 @@ of them cheap:
   desaturated) and the skin (bright, warm) are in every shot and no remap round touches them, so
   report the part as a ratio to each; a number that moves while both controls move with it is the
   scene, not the fix.
+
+<br>
+
+## A REFERENCE THAT RESOLVES TO NOTHING IS THE CHEAPEST BUG THIS REPO HAS (2026-09-30)
+
+`wwmiSweep.py` ends with a pass that asks, per folder, whether every `Resource` a section binds is
+declared and every `filename =` exists. It costs seconds over a whole corpus and it has now found
+two separate classes of defect that no A/B could:
+
+- a mod-manager-packaged WuWa mod rendering **nothing but its weapon**, from *one* dangling
+  `filename =` out of 105 (2026-09-25);
+- **65 registers bound to sections the same run deleted** (2026-09-30) -- the fix reusing a previous
+  fix's `RemapRef` section name on the two corpus mods that arrive already fixed.
+
+Neither is visible to a byte comparison, because both builds produce the same wrong bytes. **Read
+the count, and read it as a number that can be wrong**: 284 unresolved references sounds like noise
+until you ask how many are the fix's own names rather than the mods'. Here 65 were, 179 were a test
+fixture's deliberate quirk, and the remainder were mods pointing at files they do not ship -- three
+populations in one total, and only the first is yours. Split it before concluding anything.
 
 <br>
 

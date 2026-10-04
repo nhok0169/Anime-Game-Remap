@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <algorithm>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -31,6 +32,19 @@ namespace AGRemapCore {
     namespace {
         // ---- the hair's ps-t5, repacked into CHISA's layout --------------------------------------
         //
+        // Chisa's own body masks carry these two over every texel of both body slots; the skin's
+        // carry 126 and 0. Measured on 3f0e6f21 and 9a92af7f -- see maskRepackFilter.
+        constexpr std::uint8_t TargetMaskB = 0;
+        constexpr std::uint8_t TargetMaskA = 255;
+
+        // ---- the ceiling a body DIFFUSE's alpha may reach on Chisa -------------------------------
+        //
+        // Measured over every body diffuse either character ships: Chisa's own reach 112, 114 and
+        // 119 with a mode of 102, and ChisaParfait's reach 112, 113, 113, 125 and 134. Not one of
+        // the ten goes near 255, because on this shader the diffuse's alpha is not opacity -- it is
+        // a scalar the body pass reads. See diffuseAlphaClampFilter.
+        constexpr std::uint8_t TargetDiffuseAlphaMax = 119;
+
         // The inverse of ChisaFixer's hairNormalFilter, and not a copy of it: the two characters
         // pack this map DIFFERENTLY, so the constants are different and had to be measured on
         // Chisa's own art rather than carried across.
@@ -69,6 +83,84 @@ namespace AGRemapCore {
         // UV-MAPPED map, the geometry drawn through the slot is the mod's, and the other character's
         // art lands at UVs it was never authored for -- reported twice on the forward direction as
         // magenta blotches on the strands.
+        /**
+         * @brief The body material mask, repacked from the skin's channel layout into Chisa's
+         *
+         * The inverse of nothing -- the forward direction's maskFilter translates a LEGEND, because
+         * Chisa's R carries a flesh band (128..230) that has to be resolved against the diffuse.
+         * This way round there is no band to resolve: the skin spells bare skin 255 and cloth 0, and
+         * so does Chisa, so R passes through. What does NOT pass through is the packing of the other
+         * two channels, measured on the two characters' own lower-body masks:
+         *
+         *     Chisa's 3f0e6f21      B = 0   over 100%      A = 255 over 100%
+         *     the skin's 9a92af7f   B = 126 over 80.5%     A = 0   over 91.7%
+         *
+         * Bound raw, that drew a scalloped boundary across the thigh on every mod of hers -- the
+         * ghost body reported on 2026-10-02. Nulling the mask clears it and so does binding this.
+         *
+         * G is kept: it is how shiny the surface is, which is the author's to choose. (The forward
+         * direction replaces it, for the opposite reason -- Chisa's own G is a CONSTANT, so there is
+         * nothing in it to preserve.)
+         */
+        TexEditor::Filter maskRepackFilter() {
+            return [](TextureFile& tex) {
+                tex.setGamma(std::nullopt);          // these bytes are data, not colour
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                    px[i + 2] = TargetMaskB;
+                    px[i + 3] = TargetMaskA;
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+
+
+        /**
+         * @brief A body diffuse's alpha clamped into the band Chisa's own diffuses occupy
+         *
+         * **The red aura reported on ChisaParfait3 (2026-10-03).** The whole character bloomed red,
+         * on that mod alone out of four. The diffuse's alpha is a scalar Chisa's body pass reads,
+         * not opacity: every body diffuse either character ships sits at a mode of 102 with a
+         * ceiling of 134, and that mod's carries **255 over 100%** of the texture -- its author
+         * saved it fully opaque, which here reads as "that term at full" and blows the surface out
+         * far enough to bloom.
+         *
+         * It is the diffuse and nothing else: with only `ps-t1` bound the mod is clean and with only
+         * `ps-t2` bound it glows, and the glow does not depend on the diffuse's CONTENT -- a flat
+         * magenta written over it glows exactly the same, at 4096 and at 2048. The deciding A/B is
+         * the same file written twice through the same encoder, alpha 102 against alpha 255: clean,
+         * then glowing.
+         *
+         * A clamp rather than a replacement, because the band is real data on the mods that carry
+         * it -- the other three sit at 102 over 82-92% with zeros elsewhere. Measured on all four
+         * after this landed, the written copies reach 109, 112, 112 and 119: only the offending
+         * one moved, and the clamp changed no alpha already inside the band. (A copy is still
+         * WRITTEN and re-encoded for every mod, as every `texEdit` here is -- the mask repack above
+         * does the same. The claim is about the values, not about the bytes on disk.)
+         *
+         * RGB is untouched. The mod's colours were never the problem.
+         */
+        TexEditor::Filter diffuseAlphaClampFilter() {
+            return [](TextureFile& tex) {
+                // THE GAMMA STAYS ON, unlike maskRepackFilter and hairNormalFilter above. Those
+                // two edit DATA and turn it off so the bytes pass through; this one edits a
+                // COLOUR texture, and an edit is written out UNCOMPRESSED and without the source's
+                // sRGB flag -- so the game samples it linearly, and `save`'s gamma is exactly the
+                // compensation that keeps it looking like the file it replaced. Turned off here,
+                // the written copy is byte-identical in RGB to the source and the character renders
+                // visibly washed out: paler skin, and the red bikini pink. Measured in game both
+                // ways on 2026-10-03.
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 3; i < px.size(); i += 4) {
+                    px[i] = std::min(px[i], TargetDiffuseAlphaMax);
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+
+
         TexEditor::Filter hairNormalFilter() {
             return [](TextureFile& tex) {
                 tex.setGamma(std::nullopt);          // these bytes are data, not colour
@@ -100,13 +192,23 @@ namespace AGRemapCore {
         // Slot 0 has two: 86560277 sets her bangs' set, and b455d737 -- the HAIR shader -- draws the
         // bangs as well as the hair, each with its own textures.
         config.slotPasses = {
-            {"86560277b8531781", "b455d737821784cd"},   // 0: front hair / bangs
-            {"b455d737821784cd"},                       // 1: hair
-            {"374a4f8fc9a5ea6a"},                       // 2: face
-            {"42721e1d0c282918"},                       // 3: upper body
-            {"6ea8898edc27d7aa"},                       // 4: lower body
-            {"3df800c350681ec9"},                       // 5: her ribbon and props (nothing maps here)
-            {"da00ec8f7c73d5e3"},                       // 6: eyes
+            {"13a86b87d383a40f", "5eb19d847b81ed33"},   // 0: front hair / bangs
+            // 3.7 SPLIT the shader that used to draw both: old b455d737821784cd was slot 0's second
+            // pass AND slot 1's only one, and the two are different shaders now. Slot 1's is the one
+            // slot 0 draws FIRST with -- see the dumps' pass tables, which agree on the role layout
+            // (ps-t0 mask, ps-t1 diffuse, ps-t2 ramp, ps-t5 normal) before and after.
+            {"13a86b87d383a40f"},                       // 1: hair
+            {"ed1c0f8b2ba08ac4"},                       // 2: face
+            {"c9cdf1b99fb01750"},                       // 3: upper body
+            {"3bbc20374cc3d229"},                       // 4: lower body
+            {"0fbe7ebba08cd1b0"},                       // 5: her ribbon and props (nothing maps here)
+            // TWO passes, and the one on screen is the SECOND. `275e4ce82ebf0976` sets the eye
+            // slot's whole register set and `e04f4df80ee6b0ab` sets only ps-t1 and inherits the
+            // rest -- and it is the second that renders. Naming only the first gated the eye's
+            // texture list on a `vs` the visible draw never has, so the fix bound the eyes for a
+            // draw nobody sees and a mod's eye toggle did nothing (2026-10-01). Proved with a flat
+            // magenta: 0 magenta pixels gated, 686 ungated, 631 gated with this pass added.
+            {"275e4ce82ebf0976", "e04f4df80ee6b0ab"},   // 6: eyes
         };
 
         // ---- every pass gated through its VERTEX shaders -----------------------------------------
@@ -115,19 +217,20 @@ namespace AGRemapCore {
         // loaded .ini -- so tagging a pixel shader switches RabbitFX off for every mod drawn with it,
         // globally. Read off her own dump's draw table, which pairs each ps with its vs.
         config.passVertexShaders = {
-            {"86560277b8531781", {"d83a54772fc666f9"}},
-            {"b455d737821784cd", {"d83a54772fc666f9"}},
-            {"374a4f8fc9a5ea6a", {"e35973101a6ba4fe"}},
-            {"42721e1d0c282918", {"5a674a73c6741bd7"}},
-            {"6ea8898edc27d7aa", {"6e4d16a7da96fde0"}},
-            {"3df800c350681ec9", {"bbabe18b97a63509"}},
-            {"da00ec8f7c73d5e3", {"a6e9eb6303b1b631"}},
+            {"13a86b87d383a40f", {"3e7bb648e306c671"}},
+            {"5eb19d847b81ed33", {"3e7bb648e306c671"}},
+            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3"}},
+            {"c9cdf1b99fb01750", {"b3c7ad652f7a1c40"}},
+            {"3bbc20374cc3d229", {"9cf0b7666af23697"}},
+            {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
+            {"275e4ce82ebf0976", {"729d10a88623b937"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
-            {"21176cf68a65ab7a", {"0ccd030bff8b515c", "5d60ebdc89fe3833"}},
-            {"32414b557630d98d", {"ba4eee7b53cf726e"}},
+            {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
+            {"32414b557630d98d", {"255061ec51f15e29"}},
             {"320a753b019eff67", {"aef4fc536fbff1e7"}},
             {"259b766b59f72419", {"fd12d3374ac7a7dd"}},
-            {"50f2ed8061f3d351", {"503033bc07782274", "84e073e202127beb", "a208489c9b30ad3d"}},
+            {"50f2ed8061f3d351", {"49d13f65f2b7838a", "84e073e202127beb", "91256be56071db94"}},
             {"92ca4bd985fe6887", {"676fdbd61b302294"}},
         };
 
@@ -140,29 +243,37 @@ namespace AGRemapCore {
         //     `Chisa -> ChisaParfait` already tags them -- and if the two disagreed, whichever file
         //     3dmigoto loaded last would win and the other mod's `if vs == ...` would never match,
         //     its textures silently unbound. Those seven keep the forward direction's values, read
-        //     off a forward-fixed mod's own .ini rather than re-derived from its loop.
+        //     off a forward-fixed mod's own .ini rather than re-derived from its loop. THAT IS WHY
+        //     THREE OF THEM WERE WRONG until 2026-10-03: a transcribed value is a snapshot, and the
+        //     forward derived its own from filterBase/filterStep in map order, so they moved. Both
+        //     directions name every value now.
         //   * the rest take values from 3381.76 up, which no other pair reaches: the forward
         //     direction occupies 3381.710..3381.732 and the Sanhua pair 3381.81-.84 and .91-.96.
         //     `Tools/Misc/Diagnostics/wwmiShaderTags.py` is the check -- it reads the fixed .ini
         //     files of every installed mod and reports any shader carrying two values.
         config.filterIndices = {
             // shared with Chisa -> ChisaParfait; these values are ITS
-            {"d83a54772fc666f9", "3381.71"},    // her bangs and hair
-            {"bbabe18b97a63509", "3381.715"},   // her ribbon / prop slot
-            {"a6e9eb6303b1b631", "3381.717"},   // her eyes
-            {"0ccd030bff8b515c", "3381.722"},   // the shared outline-ish pass, slots 0/1/4
-            {"5d60ebdc89fe3833", "3381.723"},   //   ...and slot 3
-            {"ba4eee7b53cf726e", "3381.724"},
-            {"fd12d3374ac7a7dd", "3381.73"},
+            {"3e7bb648e306c671", "3381.71"},    // her bangs and hair
+            {"641c11c9ee112caf", "3381.715"},   // her ribbon / prop slot
+            {"729d10a88623b937", "3381.717"},   // her eyes
+            {"5fd6e5bb6ff81c53", "3381.718"},   // the vertex shader her EYE pass runs on. Undeclared
+                                                //   until 2026-10-03, so it fell through to
+                                                //   filterBase (3381.91) while the forward tagged it
+                                                //   3381.718: with one mod of each installed, one of
+                                                //   the two lost its eye textures outright.
+            {"6a6650a9db8983ce", "3381.73"},    // the shared extra-art pass, slots 0/1/3/4
+            {"e4a3da6d1d1068b9", "3381.731"},   //   ...and its partner
+            {"255061ec51f15e29", "3381.724"},
+            {"fd12d3374ac7a7dd", "3381.732"},
             // this direction's own
-            {"e35973101a6ba4fe", "3381.76"},    // her face
-            {"5a674a73c6741bd7", "3381.761"},   // her upper body
-            {"6e4d16a7da96fde0", "3381.762"},   // her lower body
+            {"7c0b4db32cee62d3", "3381.76"},    // her face
+            {"b3c7ad652f7a1c40", "3381.761"},   // her upper body
+            {"9cf0b7666af23697", "3381.762"},   // her lower body
             {"5102d7edd774359e", "3381.763"},
             {"aef4fc536fbff1e7", "3381.764"},
-            {"503033bc07782274", "3381.765"},
+            {"49d13f65f2b7838a", "3381.765"},
             {"84e073e202127beb", "3381.766"},
-            {"a208489c9b30ad3d", "3381.767"},
+            {"91256be56071db94", "3381.767"},
             {"676fdbd61b302294", "3381.768"},
         };
 
@@ -224,11 +335,36 @@ namespace AGRemapCore {
             // ps-t5 must NOT be left to the game -- it is UV-mapped; see hairNormalFilter.
             {1, {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"},
                      {"ps-t5", "hairNormal"}}}},
-            {2, {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}}}},
+            // HER FACE MASK IS NOT BOUND, AND THE FACE IS THE ONE SLOT ON THIS PAIR WHERE
+            // LEAVING A UV-MAPPED REGISTER TO THE GAME IS BOTH NECESSARY AND SAFE
+            // (2026-10-02). Safe because the two faces are the SAME MESH -- both draws are
+            // 13494 indices, and her face DIFFUSE lands correctly on Chisa in game -- so
+            // Chisa's own mask is sampled at the UVs it was authored for, which is the one
+            // condition under which an unbound UV-mapped register is not the wrong-UVs bug.
+            //
+            // Necessary because bound it is wrong: hers is `226d9bc4`, BC3, 512x512 and
+            // Chisa's is `6ae8dd10`, BC1, 1024x1024 -- a different FORMAT, so a different
+            // shader underneath -- and rendered channel by channel the two are near
+            // complements over the face (hers R 0 / B ~126, Chisa's R 255 / B 0). On Chisa's
+            // face shader that drew a hard-edged shadow wedge across one cheek and jaw that
+            // ChisaParfait's own model does not have, with everything else about the face --
+            // blush, lashes, eyes -- correct (Images/ChisaParfait/3_7/FaceShadowVsOwnModel.jpg).
+            //
+            // It fired on every mod rather than on one that ships a face mask: ChisaParfait1
+            // ships none, so `fallbackTextures` downloaded HERS and bound that.
+            //
+            // Proved by DELETING this line from the fixed `.ini` and reloading, not by
+            // appending `ps-t0 = null`: a null UNBINDS the slot, so the shader samples zero,
+            // while deleting leaves the game's own -- which is what removing the role here
+            // does, so it is the one that had to be tested. Both clear the wedge; only the
+            // deletion is this change.
+            {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}}},
             {5, {3, {{"ps-t0", "panelNormal"}, {"ps-t1", "panelMask"}, {"ps-t2", "panelDiffuse"}}}},
-            {6, {6, {{"ps-t1", "irisDiffuse"}}}},
+            // ps-t4 as well: the eye draw sets the 512 greyscale structure map at ps-t1 and the
+            // 2048 COLOURED iris at ps-t4, and only the first had a role until 2026-10-01
+            {6, {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}}}},
             {7, {4, {{"ps-t0", "propNormal"}, {"ps-t1", "propMask"}, {"ps-t2", "propDiffuse"}}}},
         };
 
@@ -270,7 +406,9 @@ namespace AGRemapCore {
         // left them out of BOTH lists on the grounds that ChisaParfait's own hair mask is a
         // structured map, which is the wrong artifact: both the flat test and the alias check run on
         // the MOD's candidate file, not on the download.
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask", "panelMask", "propMask"};
+        // `faceMask` is NOT here: the face slot does not bind a mask at all -- see the
+        // plan above. A role no plan names cannot fall back to anything.
+        config.flatFallsBackToSource = {"upperMask", "lowerMask", "panelMask", "propMask"};
 
 
         // ---- RabbitFX's own texture binding, which would override the fix's ----------------------
@@ -306,6 +444,29 @@ namespace AGRemapCore {
         // part UV'd into the next tile relying on the sampler wrapping.
         config.cleanTexcoords = true;
 
+        // ---- the skirt's inside, drawn as a front face -------------------------------------------
+        // Her frilled panel is single-layer cloth -- 0 of its 9392 triangles share three positions
+        // with an opposite-wound twin -- so where the gaps between its hem's scallops show its
+        // inside, CHISA's shader lights a back face, and it drew dark quadrilaterals her own model
+        // does not have. Prototyped as an .ini edit first
+        // (Tools/Misc/Diagnostics/wwmiMirrorProbe.py): the twin clears the gaps and leaves the rest
+        // of the skirt untouched.
+        //
+        // Component 5 alone for now. Her other cloth (3, 4, 7) shows nothing of the kind in game,
+        // and a twin costs a draw and a buffer, so it goes on the component that needs it.
+        // NO BACK-FACE TWIN (2026-10-03). It was added on 2026-10-02 against "dark patches on the
+        // skirt", which were the TAA smear of the previous-pose skeleton -- see
+        // WWMIFixerConfig::bindPrevPoseAlways -- and survived the twin because the twin was never
+        // what caused them. What the twin DID cause is a second, coincident copy of the skirt: it
+        // carries no position offset, so it z-fights the surface it mirrors and its turned-round
+        // normals shade the losing pixels dark. The maintainer found it by deleting one line from
+        // the fixed `.ini`, `drawindexed = 28176, 0, 0` in the slot-5 section, which is the twin's
+        // own draw into the mirrored buffer.
+        //
+        // The machinery stays (`mirroredComponents`, MirrorTwin, the mirrored buffers): GI's
+        // Neuvillette needs exactly this for single-layer cloth, and if a WuWa pair ever does, it
+        // wants the `mirrorOffset` that side already learned it needs.
+
         // ---- the passes that take a slot's art at a DIFFERENT register ---------------------------
         // `slotPasses` above names the pass that SETS each slot's whole register set. Chisa draws
         // every slot more than once, and a pass named in NEITHER table still draws -- with the
@@ -335,12 +496,32 @@ namespace AGRemapCore {
         // file for each. Without it both bindings land in one list and the second wins for the
         // source it does not belong to.
         config.extraPassRegs = {
-            {0, {{"21176cf68a65ab7a", {{"ps-t0", "frontHairDiffuse"}}}}},
-            {1, {{"21176cf68a65ab7a", {{"ps-t0", "hairDiffuse"}}}}},
-            {3, {{"21176cf68a65ab7a", {{"ps-t0", "upperDiffuse", 3},
+            {0, {{"f8c96a270bf847dd", {{"ps-t0", "frontHairDiffuse"}}}}},
+            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
+            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3},
                                       {"ps-t0", "panelDiffuse", 5}}}}},
-            {4, {{"21176cf68a65ab7a", {{"ps-t0", "lowerDiffuse", 4},
+            {4, {{"f8c96a270bf847dd", {{"ps-t0", "lowerDiffuse", 4},
                                       {"ps-t0", "propDiffuse", 7}}}}},
+        };
+
+        // ---- and the BODY slots do not DRAW on that pass -----------------------------------------
+        // Chisa draws her slot 3 on `42721e1d` / `21176cf6` / `50f2ed80` and her slot 4 likewise --
+        // `f8c96a270bf847dd` is in neither, so it is the SKIN's pass, not hers. A remapped section
+        // matches by hash and window, which name no pass, so it ran on that one too and wrote the
+        // body into the G-buffer a second time under a different vertex shader (`e4a3da6d1d1068b9`
+        // against the real `b3c7ad652f7a1c40`, with a `vs-cb6` the real pass does not read). Same
+        // geometry, same blend, both skeletons ours -- and offset, which is the ghost limb reported
+        // on every mod of this pair and on the identity.
+        //
+        // The maintainer found the paint before the draw: a flat blue on this list's `ps-t0` came
+        // out as a blue ghost around the arms, and with the list not run the ghost merely went
+        // BLACK rather than away, which is what says the geometry is drawn regardless.
+        //
+        // The two HAIR slots keep their draw: gating 3 and 4 alone is clean in game, and 0 and 1
+        // really are drawn on that pass.
+        config.extraPassNoDraw = {
+            {3, {"f8c96a270bf847dd"}},
+            {4, {"f8c96a270bf847dd"}},
         };
 
         // ---- the shape keys are RETARGETED, not hidden -------------------------------------------
@@ -357,7 +538,26 @@ namespace AGRemapCore {
         // wrong one and writes `ChecksumNotFound`, and the field is pointless while the keys are
         // hidden.
         config.hiddenObjs = {};
-        config.zeroShapeKeyStream = false;
+
+        // ---- but the ZERO STREAM is still wanted, and that is a different thing (2026-10-02) ----
+        // The two were switched off together and only the hiding deserved it. `hiddenObjs` edits the
+        // MOD'S OWN text, which is why it stays empty; `zeroShapeKeyStream` is an addition to the
+        // REMAPPED sections only, so a ChisaParfait mod on ChisaParfait never sees it.
+        //
+        // And the stream has to be bound, because Chisa's draws READ it whatever the fix does: `vb6`
+        // is the game's live shape-key offsets, stride 24, addressed by vertex id and sized for HER
+        // draw. Measured against a frame dump of Chisa herself, of the vertices the body draw's
+        // range reaches, **4213 index past the end of her 38964-entry buffer** (470 more on another
+        // slot) -- undefined reads, which is what the planes across the scene were -- and ~960 more
+        // take a displacement computed for one of her vertices. Everything else measured correct the
+        // whole time: all 69411 vertices skin to 113-153 units from the origin offline, where no vb6
+        // exists, which is why four earlier rounds found nothing.
+        //
+        // Retargeting does not cover it. It makes WWMI's own shape-key pipeline run against the
+        // target's checksum; it does not rebind the game's `vb6`, which is the buffer the draw reads.
+        // The cost is that a mod's own shape keys do not play on the target, which is the same
+        // trade Sanhua makes and is not a plane across the scene.
+        config.zeroShapeKeyStream = true;
 
         // ---- a flat mask is LEFT TO THE GAME on the hair, as in the forward direction ------------
         // `flatFallsBackToSource` below is about a mask whose REGIONS are missing; this is about the
@@ -385,6 +585,41 @@ namespace AGRemapCore {
         config.texEdits = {
             {"hairNormal", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
                  return hairNormalFilter();
+             }},
+
+            // Every mask bound on a BODY slot -- the four roles flatFallsBackToSource names, which
+            // is the same set for the same reason: they are the ones Chisa's body shaders read.
+            // The hair masks are left to the game (flatLeftToGame) and the face mask is not bound
+            // at all, so neither needs repacking.
+            {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+            {"lowerMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+            {"panelMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+            {"propMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) {
+                 return maskRepackFilter();
+             }},
+
+            // And every DIFFUSE bound on a body slot, for the same reason and over the same four
+            // roles: the alpha is a scalar Chisa's body pass reads, and a mod saved fully opaque
+            // drives it to full. See diffuseAlphaClampFilter. The hair and face diffuses are left
+            // alone -- their passes are a different register layout and nothing has been measured
+            // there, which is the honest reason rather than a claim that they are safe.
+            {"upperDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
+             }},
+            {"lowerDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
+             }},
+            {"panelDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
+             }},
+            {"propDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
+                 return diffuseAlphaClampFilter();
              }},
         };
 

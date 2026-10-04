@@ -17,6 +17,9 @@
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
+
+#include "AGRemapCore/constants/IniKeywords.h"
 
 
 namespace AGRemapCore {
@@ -414,6 +417,41 @@ namespace AGRemapCore {
             static std::string getObjRemapFixName(const std::string& name, const std::string& modName,
                                                    const std::pair<std::string, std::string>& objName,
                                                    const std::pair<std::string, std::string>& newObjName);
+
+            /**
+             * @brief
+             @rst
+             Whether 'sectionName' is one a PREVIOUS run of the fix wrote -- the shape
+             :cpp:func:`getRemapName` and the names built on it produce
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Two callers need the same answer. :cpp:class:`RemapIniRemover` asks it to decide what an
+             undo takes outside the fix's own boilerplate. A PARSER asks it because the undo runs
+             before the fix: a resource section a previous fix declared is about to be removed, so it
+             is not one of the mod's own, and a fix that binds its name writes a reference to a
+             section that will not be there. That is what left 86 dangling ``ps-t`` bindings across
+             two already-fixed mods, each pointing at a ``Resource<Role><Target>RemapRef`` the same
+             run deleted (2026-09-30)
+
+             .. note::
+                A bare ``Remap`` ANYWHERE in the name is not the test, and the difference is not
+                academic: WWMI's own blend remap declares ``ResourceBlendRemapVertexVGBuffer`` and
+                two more on a mod that has never been fixed
+             @endrst
+             *
+             * @param sectionName The section name to test
+             * @param modNames
+             @rst
+             The mod names a fix of this file could have been written for -- its own and the ones it
+             remaps onto. EMPTY falls back to the old rule, 'remapKeyword' anywhere in the name,
+             which is what a hand-built caller with no registry to ask gets
+             @endrst
+             * @param remapKeyword The keyword a fix's names are built around. **Default**: ``Remap``
+             *
+             * @return Whether a fix of this file could have written 'sectionName'
+             */
+            static bool looksRemapped(const std::string& sectionName, const std::vector<std::string>& modNames,
+                                      const std::string& remapKeyword = IniKeywords::Remap);
     };
 }
 

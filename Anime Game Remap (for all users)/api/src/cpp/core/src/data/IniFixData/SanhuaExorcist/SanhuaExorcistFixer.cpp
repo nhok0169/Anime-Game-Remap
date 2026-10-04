@@ -47,26 +47,26 @@ namespace AGRemapCore {
             // her (wwmiDrawTable.py). Her bangs slot has two of its own, and her bodice and skirt slots
             // share the body shader. Confirmed unchanged on the 2026-09-20 max-LOD dump.
             config.slotPasses = {
-                {"a512f04f32f6aa26", "f6bc3927337f5b8c"},   // 0: bangs
-                {"69e3d3219c979981"},                       // 1: hair
-                {"374a4f8fc9a5ea6a"},                       // 2: face
-                {"7a0ab7c3ffbea13c"},                       // 3: arm skin
-                {"96356f03a963d1d2"},                       // 4: bodice, hat, ribbons, boots
-                {"96356f03a963d1d2"},                       // 5: skirt
-                {"056f9f3c356ff96e"},                       // 6: eyes
+                {"74e23b489034f592", "40142ef956eaa957"},   // 0: bangs
+                {"0f1752e476c3804d"},                       // 1: hair
+                {"ed1c0f8b2ba08ac4"},                       // 2: face
+                {"d6fb3cbb72191bac"},                       // 3: arm skin
+                {"32070cff7dedccca"},                       // 4: bodice, hat, ribbons, boots
+                {"32070cff7dedccca"},                       // 5: skirt
+                {"0512a7e61d6bd01d"},                       // 6: eyes
             };
 
             // The shaders Sanhua's own direction already tags keep ITS values (a [ShaderOverride] is
             // keyed by shader hash across every loaded .ini, so a mod fixed each way, both installed,
             // must agree); the shaders only this direction tags take values that direction never uses.
             config.filterIndices = {
-                {"69e3d3219c979981", "3381.91"},   // the hair shader, which both directions tag
-                {"374a4f8fc9a5ea6a", "3381.93"},   // the face shader
-                {"056f9f3c356ff96e", "3381.96"},   // the eye shader
-                {"a512f04f32f6aa26", "3381.81"},   // Sanhua's own bangs shaders and body shader: only
-                {"f6bc3927337f5b8c", "3381.82"},   //   this direction tags these, so they take values
-                {"7a0ab7c3ffbea13c", "3381.83"},   //   the forward direction's numbering never reaches
-                {"96356f03a963d1d2", "3381.84"},
+                {"0f1752e476c3804d", "3381.91"},   // the hair shader, which both directions tag
+                {"ed1c0f8b2ba08ac4", "3381.93"},   // the face shader
+                {"0512a7e61d6bd01d", "3381.96"},   // the eye shader
+                {"74e23b489034f592", "3381.81"},   // Sanhua's own bangs shaders and body shader: only
+                {"40142ef956eaa957", "3381.82"},   //   this direction tags these, so they take values
+                {"d6fb3cbb72191bac", "3381.83"},   //   the forward direction's numbering never reaches
+                {"32070cff7dedccca", "3381.84"},
             };
 
             // Source component -> target slot, and the registers each pass reads. Shader families decide

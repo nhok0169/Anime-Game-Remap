@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
@@ -192,6 +193,12 @@ namespace AGRemapCore {
                     const std::string folder = ini->getFolder();
                     const std::string iniPath = ini->getFile().value_or(std::string());
 
+                    // NOTE: a section a PREVIOUS fix declared is reported here like any other, and
+                    // deliberately. `[Resource<Role><Target>RemapRef]` names one of the MOD'S own
+                    // textures, so dropping it here drops the texture: the role then has no file and
+                    // falls back to downloading the GAME's, over the mod's own art. What must not
+                    // happen is the FIXER reusing that section's NAME, since the undo deletes the
+                    // section -- see WWMIFixer's assignRole, which declares a fresh one instead.
                     // resource -> the file it names
                     std::unordered_map<std::string, std::string> fileOf;
                     for (const auto& entry : templates) {

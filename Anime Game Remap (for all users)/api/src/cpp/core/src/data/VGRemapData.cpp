@@ -1647,6 +1647,22 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Chisa), "",
           "3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), ""},
          VGRemap({
+            // HANDS SNAPPED TO THEIR EXACT COUNTERPARTS (2026-10-01): reported from game as
+            //   "Chisa's right hand, the fingers look a bit crooked", and it was measurable. The
+            //   two characters share the SAME hand rig -- every one of the 18 bones of each hand
+            //   has a ChisaParfait counterpart 0.00-0.40 units away, read off both identity mods --
+            //   so a perfect 1:1 mapping was available and the finder's proposal missed 8 of them.
+            //   Six were on her RIGHT hand (-x: her props, component 5, sit there and render on the
+            //   viewer's left with her facing the camera), and four of those COLLIDED: 378 and 385
+            //   both took 158, 387 and 380 both took 160, so 18 source bones landed on 14 targets
+            //   and four pairs of fingers were welded to one bone. 382 alone carries weight 279 and
+            //   was 2.31 units out. The left hand had a harmless straight transposition, 363 and
+            //   365 swapped, which stayed one-to-one and is corrected here too.
+            //
+            //   Both hands are a bijection now, 18 distinct targets for 18 bones, worst residual
+            //   1.88 on the right and 1.09 on the left, and 16 of 18 mirror-consistent. Nothing
+            //   outside the two hands is touched.
+
             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {9, 9},
             {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14}, {15, 15}, {16, 16}, {17, 17}, {18, 18}, {19, 19},
             {20, 20}, {21, 21}, {22, 22}, {23, 23}, {24, 24}, {25, 25}, {26, 26}, {27, 36}, {28, 37}, {29, 35},
@@ -1683,35 +1699,81 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {330, 199}, {331, 203}, {332, 205}, {333, 206}, {334, 210}, {335, 197}, {336, 211}, {337, 178}, {338, 208}, {339, 195},
             {340, 207}, {341, 0}, {342, 0}, {343, 117}, {344, 80}, {345, 0}, {346, 0}, {347, 0}, {348, 0}, {349, 0},
             {350, 0}, {351, 0}, {352, 131}, {353, 132}, {354, 133}, {355, 134}, {356, 135}, {357, 140}, {358, 141}, {359, 142},
-            {360, 143}, {361, 144}, {362, 139}, {363, 136}, {364, 137}, {365, 138}, {366, 0}, {367, 0}, {368, 126}, {369, 0},
-            {370, 0}, {371, 0}, {372, 129}, {373, 0}, {374, 0}, {375, 0}, {376, 0}, {377, 157}, {378, 158}, {379, 159},
-            {380, 160}, {381, 151}, {382, 152}, {383, 149}, {384, 154}, {385, 158}, {386, 159}, {387, 160}, {388, 152}, {389, 153},
-            {390, 155}, {391, 0}, {392, 0}, {393, 0}, {394, 0}, {395, 0}, {396, 0}, {397, 0}, {398, 0}, {399, 0},
+            {360, 143}, {361, 144}, {362, 139}, {363, 138}, {364, 137}, {365, 136}, {366, 0}, {367, 0}, {368, 126}, {369, 0},
+            {370, 0}, {371, 0}, {372, 129}, {373, 0}, {374, 0}, {375, 0}, {376, 0}, {377, 157}, {378, 83}, {379, 161},
+            {380, 160}, {381, 151}, {382, 150}, {383, 149}, {384, 154}, {385, 158}, {386, 159}, {387, 156}, {388, 155}, {389, 153},
+            {390, 152}, {391, 0}, {392, 0}, {393, 0}, {394, 0}, {395, 0}, {396, 0}, {397, 0}, {398, 0}, {399, 0},
             {400, 0}, {401, 0}, {402, 250}, {403, 0}, {404, 0}, {405, 0}, {406, 0}, {407, 0}, {408, 0}, {409, 84},
             {410, 88}, {411, 89}, {412, 90}, {413, 85}, {414, 86}, {415, 87}, {416, 91}, {417, 92}, {418, 93}
          })},
         {{"1.0", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "",
           "2.8", ModTypeIdTools::getName(ModTypeId::Chisa), ""},
          VGRemap({
+            // THE TWO SHOULDER BONES ARE ANCHORED TO HER BODY NOW (2026-10-03): both arms
+            //   swung like noodles, and these two are why. ChisaParfait's 32 and 44 are weighted
+            //   59%/41% and 61%/39% by her HAIR and her UPPER BODY -- one bone driving both --
+            //   while Chisa's 48 and 57, which they used to take, are weighted 100% by her hair.
+            //   So about 40% of each bone's influence, the shoulder and upper arm, rode her hair
+            //   simulation. Symmetric, which is why BOTH arms did it.
+            //
+            //   224 and 223 are a mirror pair, both free, both 100% upper body. The overlap with
+            //   the source's own influence box is only 0.16 and 0.13 -- Chisa has no body bone
+            //   covering z 130..139 at the shoulder at all, that region of her is hair -- so this
+            //   is the Yelan remedy: a part the target has no counterpart for takes ONE rigid
+            //   anchor. The cost is that the hair share of those two bones stops swinging; a
+            //   rigid shoulder is worth far more than an arm riding a cloth solve.
+            //
+            //   Mirror pair to mirror pair on purpose. An earlier attempt moved one side only and
+            //   the other arm came out visibly crooked at rest.
+            // THE ARM CHAINS ARE UN-COLLAPSED (2026-10-03): both arms bent like noodles, and
+            //   the cause is articulation lost to COLLAPSES, not a physics bone. Six pairs of
+            //   consecutive arm links shared one target each -- 120+123 on 167, 124+125 on 199,
+            //   127+129 on 372 down one arm, and 114+117 on 343, 171+189 on 286, 183+187 on 284
+            //   down the other -- so an elbow had one bone where the mod has two and the limb
+            //   bent as a smooth curve instead of hinging.
+            //
+            //   Every replacement is FREE, 100% body (no hair, no ribbon), and the best geometric
+            //   match of the source's own influence box: 120 -> 166 (IoU 0.62), 183 -> 292 (0.56),
+            //   125 -> 249 (0.56), 114 -> 245 (0.49), 189 -> 303 (0.45), 127 -> 246 (0.30). Four
+            //   of the six are also what the forward row's inverse says. 125 is NOT: the forward
+            //   row sends it to 150, whose box overlaps the source by 0.10, so geometry wins there.
+            //
+            //   TWO EARLIER READINGS OF THIS WERE WRONG and are recorded so they are not retried.
+            //   Sending upper-body bones to the target's hair COMPONENT looked like the defect; it
+            //   is not, because a component label is an argmax and those bones are the BRAIDS,
+            //   whose targets cover the same space on Chisa. Rendering every mod vertex by the
+            //   share of its weight landing on a Chisa physics bone shows the braids red and the
+            //   ARMS GREY -- the arms were never on a cloth solve.
+            // HANDS ARE THE INVERSE OF THE FORWARD ROW'S NOW (2026-10-01): the same defect as the
+            //   forward direction and worse -- 9 of her right hand's 18 bones off their exact
+            //   counterpart, 18 collapsing onto 14 targets, and the two HEAVIEST bones in the hand,
+            //   147 (weight 948) and 145 (455), both taking 264.
+            //
+            //   Nearest-neighbour does not fix this one: 145 and 147 share a nearest Chisa bone, so
+            //   a greedy pass collides as well. The forward row's hands are a bijection between the
+            //   same two 18-bone sets, so the reverse is its INVERSE -- collision-free by
+            //   construction and guaranteed consistent with the direction that was checked in game.
+            //   See VGRemaps' "A COLLAPSE IS WORSE THAN A DISTANCE".
+
             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}, {9, 9},
             {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14}, {15, 15}, {16, 16}, {17, 17}, {18, 18}, {19, 19},
             {20, 20}, {21, 21}, {22, 22}, {23, 23}, {24, 24}, {25, 25}, {26, 26}, {27, 77}, {28, 78}, {29, 79},
-            {30, 80}, {31, 46}, {32, 48}, {33, 49}, {34, 53}, {35, 52}, {36, 51}, {37, 47}, {38, 46}, {39, 110},
-            {40, 109}, {41, 108}, {42, 107}, {43, 106}, {44, 57}, {45, 58}, {46, 0}, {47, 50}, {48, 128}, {49, 127},
+            {30, 80}, {31, 46}, {32, 224}, {33, 49}, {34, 53}, {35, 52}, {36, 51}, {37, 47}, {38, 46}, {39, 110},
+            {40, 109}, {41, 108}, {42, 107}, {43, 106}, {44, 223}, {45, 58}, {46, 0}, {47, 50}, {48, 128}, {49, 127},
             {50, 91}, {51, 89}, {52, 37}, {53, 126}, {54, 124}, {55, 125}, {56, 45}, {57, 136}, {58, 137}, {59, 138},
             {60, 139}, {61, 140}, {62, 13}, {63, 88}, {64, 87}, {65, 90}, {66, 60}, {67, 59}, {68, 56}, {69, 55},
             {70, 54}, {71, 0}, {72, 152}, {73, 187}, {74, 179}, {75, 154}, {76, 177}, {77, 163}, {78, 253}, {79, 254},
-            {80, 344}, {81, 0}, {82, 0}, {83, 378}, {84, 411}, {85, 413}, {86, 414}, {87, 415}, {88, 410}, {89, 411},
-            {90, 412}, {91, 416}, {92, 417}, {93, 418}, {94, 0}, {95, 0}, {96, 0}, {97, 0}, {98, 0}, {99, 0},
+            {80, 344}, {81, 0}, {82, 0}, {83, 378}, {84, 409}, {85, 409}, {86, 74}, {87, 72}, {88, 74}, {89, 409},
+            {90, 74}, {91, 409}, {92, 74}, {93, 72}, {94, 0}, {95, 0}, {96, 0}, {97, 0}, {98, 0}, {99, 0},
             {100, 0}, {101, 0}, {102, 0}, {103, 0}, {104, 0}, {105, 0}, {106, 0}, {107, 0}, {108, 0}, {109, 0},
-            {110, 185}, {111, 172}, {112, 175}, {113, 196}, {114, 343}, {115, 344}, {116, 251}, {117, 343}, {118, 255}, {119, 155},
-            {120, 167}, {121, 193}, {122, 316}, {123, 167}, {124, 199}, {125, 199}, {126, 368}, {127, 372}, {128, 261}, {129, 372},
-            {130, 256}, {131, 352}, {132, 353}, {133, 354}, {134, 355}, {135, 356}, {136, 363}, {137, 364}, {138, 365}, {139, 362},
-            {140, 357}, {141, 358}, {142, 359}, {143, 360}, {144, 361}, {145, 264}, {146, 265}, {147, 264}, {148, 266}, {149, 383},
-            {150, 384}, {151, 386}, {152, 388}, {153, 389}, {154, 384}, {155, 386}, {156, 387}, {157, 377}, {158, 378}, {159, 379},
-            {160, 380}, {161, 381}, {162, 0}, {163, 289}, {164, 0}, {165, 289}, {166, 0}, {167, 289}, {168, 290}, {169, 306},
+            {110, 185}, {111, 172}, {112, 175}, {113, 196}, {114, 245}, {115, 344}, {116, 251}, {117, 343}, {118, 255}, {119, 155},
+            {120, 166}, {121, 193}, {122, 316}, {123, 167}, {124, 199}, {125, 249}, {126, 368}, {127, 246}, {128, 261}, {129, 372},
+            {130, 256}, {131, 352}, {132, 353}, {133, 354}, {134, 355}, {135, 356}, {136, 365}, {137, 364}, {138, 363}, {139, 362},
+            {140, 357}, {141, 358}, {142, 359}, {143, 360}, {144, 361}, {145, 264}, {146, 265}, {147, 263}, {148, 266}, {149, 383},
+            {150, 382}, {151, 381}, {152, 390}, {153, 389}, {154, 384}, {155, 388}, {156, 387}, {157, 377}, {158, 385}, {159, 386},
+            {160, 380}, {161, 379}, {162, 0}, {163, 289}, {164, 0}, {165, 289}, {166, 0}, {167, 289}, {168, 290}, {169, 306},
             {170, 305}, {171, 286}, {172, 217}, {173, 307}, {174, 308}, {175, 309}, {176, 324}, {177, 329}, {178, 337}, {179, 291},
-            {180, 293}, {181, 294}, {182, 288}, {183, 284}, {184, 296}, {185, 297}, {186, 311}, {187, 284}, {188, 285}, {189, 286},
+            {180, 293}, {181, 294}, {182, 288}, {183, 292}, {184, 296}, {185, 297}, {186, 311}, {187, 284}, {188, 285}, {189, 303},
             {190, 320}, {191, 321}, {192, 317}, {193, 318}, {194, 322}, {195, 339}, {196, 319}, {197, 335}, {198, 328}, {199, 330},
             {200, 326}, {201, 325}, {202, 323}, {203, 331}, {204, 327}, {205, 332}, {206, 333}, {207, 340}, {208, 338}, {209, 315},
             {210, 334}, {211, 336}, {212, 0}, {213, 0}, {214, 0}, {215, 0}, {216, 0}, {217, 0}, {218, 0}, {219, 0},

@@ -1003,7 +1003,7 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_chisa_fixer" kind="class"><name>AGRemapCore::ChisaFixer</name>
     <member refid="class_a_g_remap_core_1_1_chisa_fixer_1ac32afffbb67e667c8570f7420a72c2a0" kind="function"><name>ChisaFixer</name></member>
-    <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a13fccb7d093308a6f98a211563090aa2" kind="function"><name>parfait3_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_chisa_fixer_1a868dc9778d75e011e08b78378bb4614a" kind="function"><name>parfait3_7</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_chisa_parfait_fixer" kind="class"><name>AGRemapCore::ChisaParfaitFixer</name>
     <member refid="class_a_g_remap_core_1_1_chisa_parfait_fixer_1a328dc59a34656b9e52efce89ff936002" kind="function"><name>ChisaParfaitFixer</name></member>
@@ -2873,7 +2873,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad71c8d270d0c43342b7e152524242765" kind="function"><name>wwmiStub</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af51b14728644097cddbdb3ce79898db2" kind="function"><name>sanhuaExorcist2_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" kind="function"><name>sanhua2_5</name></member>
-    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7da83e1206c315786556a69bc77c2685" kind="function"><name>chisaParfait3_5</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaa6b31d53e03aa1ef898b453a8bf872c" kind="function"><name>chisaParfait3_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" kind="function"><name>chisa2_8</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" kind="function"><name>rosaria4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a62d47ce9fcabbec4612623328d3656ac" kind="function"><name>rosariaCN4_0</name></member>
@@ -3177,6 +3177,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a3fc1b7f115ed6ff06bc2c9f9f48eac2a" kind="function"><name>isDisabled</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a7144695ad50e5ae3758e2baadc8e0478" kind="function"><name>getRegTag</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a24e1210ce2efc8bca4cf88459482c3ef" kind="function"><name>getObjRemapFixName</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a5f8e707eafe85670f1204fbec0505c99" kind="function"><name>looksRemapped</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_builder" kind="class"><name>AGRemapCore::IniParseBuilder</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kind="typedef"><name>Factory</name></member>
@@ -6604,11 +6605,15 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4ef719aa694142f97f1f1311889edc53" kind="variable"><name>zeroShapeKeyStream</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4c0cbfa2281a9c72305762fde40ce5f0" kind="variable"><name>shapeKeyStreamReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af78fbf4f792428e35486ea76a572ef51" kind="variable"><name>shapeKeyStride</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae893384db1f5b71adc62a47fe7206c0b" kind="variable"><name>mirroredComponents</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a762366cfadbf6d77567a914c5286c422" kind="variable"><name>texRegPrefix</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae219afb4be19abce45a39a9482e22139" kind="variable"><name>vectorReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab0b3c94cd32d5d67a1c4917aaa72cedf" kind="variable"><name>hiddenObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a108aff0effe591a3f937343a506eb8c7" kind="variable"><name>blendReg</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a15a8db419ea3d39e06057602683db97a" kind="variable"><name>removedRegs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a5d28206db77e4a6cdbf9cd3f80b02f63" kind="variable"><name>anchorChains</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0452ac46471de1c18b6a5b97abe062e9" kind="variable"><name>extraPassRegs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a5a66d22b5fbabd20309833430eeb077b" kind="variable"><name>extraPassNoDraw</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af951f1675d051aa563dbee67220240f5" kind="variable"><name>passVertexShaders</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" kind="variable"><name>sourceTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kind="variable"><name>sharedMeshes</name></member>
@@ -6618,7 +6623,9 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afebf851a66702b21f8ae5565660b4842" kind="variable"><name>sourceVgMaps</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a758f2bfc3ee3abb1ba148ae6a7c3af1c" kind="variable"><name>mergedSkeletonSlots</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a94ddfc5f78f130299e3d44719cf0e76d" kind="variable"><name>boneDataFilter</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a218bdf8da9a3f36e39f2cf24c07d6f52" kind="variable"><name>bindPrevPoseAlways</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aaf8a9b191d52f166a43769f463dcd2d1" kind="variable"><name>sharedResourcesList</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac3568a3d33275a379c64c149daef2061" kind="variable"><name>cleanupResourcesList</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abe6af6d31e4c2a78b4c4924470c86b91" kind="variable"><name>slotPrefix</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afde91c6aa83f59b0dfb96a924e43ce81" kind="variable"><name>sourceLabels</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" kind="variable"><name>targetLabels</name></member>

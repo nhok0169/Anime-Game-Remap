@@ -349,6 +349,51 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The SOURCE components drawn a SECOND time, wound the other way with their normals flipped.
+         **Default**: empty -- nothing is mirrored, so no character's output moves
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         For single-layer cloth whose INSIDE the target's shader lights differently from the
+         source's. A skirt is one sheet -- measured, 0 triangles in any of ChisaParfait's 8
+         components share three positions with opposite winding -- so where the gaps between a hem's
+         scallops show its inside, the target's shader is lighting a back face, and on
+         ChisaParfait -> Chisa that drew dark quadrilaterals the skin's own model does not have.
+
+         The twin presents those pixels as a front face with an outward normal: the component's
+         index window wound the other way, over a copy of the mod's own vector buffer with every
+         normal negated. It is the WuWa counterpart of GI's
+         :cpp:member:`GIMIComponentFixerConfig::Component::mirroredObjs`, and unlike that one it
+         adds no vertices -- the twin indexes the same ones.
+
+         .. note::
+            A component the mod draws as more than one RANGE is skipped and said so in the log. One
+            twin after one draw is right only while the component has one draw; a toggled range
+            would have its twin drawn whatever the toggle says
+         @endrst
+         */
+        std::set<int> mirroredComponents;
+
+        /**
+         * @brief
+         @rst
+         The register family a mod binds its textures with, which a remapped section's CARRIED
+         bindings are re-keyed within -- see :cpp:member:`plan`
+         @endrst
+         *
+         * A mod that binds per draw rather than once per section writes these lines inside the
+         * component section, in ITS OWN layout, and they land after the fix's texture list and
+         * override it. Matched by prefix, case-insensitively.
+         */
+        std::string texRegPrefix = "ps-t";
+
+        /**
+         * @brief The register the mod's vector buffer (its normals) is bound at. **Default**: ``"vb1"``
+         */
+        std::string vectorReg = "vb1";
+
+        /**
+         * @brief
+         @rst
          The mod objects (of :cpp:struct:`WWMIParserConfig`'s hash-only ones) whose sections are
          commented out of the mod's own text and copied nowhere. **Default**: the two shape-key
          overrides, since the mod's keys are sized for the source's shape-key vertex count, not the
@@ -406,8 +451,11 @@ namespace AGRemapCore {
          A part the target has no counterpart for wants one rigid anchor rather than the finder's
          per-bone nearest. Two of Chisa's need it:
 
-         * her fox mask and hairpins, a rigid prop whose bones the finder matched one at a time and
-           scattered from her head to her waist, which looks like the prop being GONE rather
+         * the fox mask and hairpins of the KIMONO MOD (Chisa2, Hanabi Night) -- neither Chisa
+           nor her skin has one; these are her component 5 ACCESSORY bones, which her base model
+           uses for a hair ribbon and which mods hang props off. A rigid prop whose bones the
+           finder matched one at a time and scattered from her head to her waist, which reads in
+           game as the prop being GONE rather
            than as anything misplaced, because it is smeared through the torso it is buried in
          * her back skirt panel, which flew out behind her on the skin. Its bones are not mapped to
            the wrong PLACE -- they land 0.8 to 6.1 units from where they live on her, and the panel
@@ -455,6 +503,24 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, std::map<std::string, std::vector<Binding>>> extraPassRegs;
+
+        /**
+         * @brief
+         @rst
+         Target slot -> the passes of :cpp:member:`extraPassRegs` its draw must NOT be re-issued on
+         @endrst
+         *
+         * A remapped section matches by hash and index window, which name no pass, so it runs on
+         * EVERY pass that draws its slot and re-issues `drawindexed` on each. That is right where
+         * the target really draws the slot on that pass, and wrong where the pass belongs to the
+         * SOURCE's shader set: the second write is the same geometry under a different vertex
+         * shader, offset from the first, which reads in game as a ghost limb.
+         *
+         * Suppressed with `ib = null` inside the pass's own gated list, so it reaches that pass and
+         * nothing else, and the textures stay bound for a slot that does draw there. Empty by
+         * default, so no earlier pair's output moves.
+         */
+        std::map<int, std::set<std::string>> extraPassNoDraw;
         /**
          * @brief
          @rst
@@ -685,12 +751,44 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton
+         carries ``boneDataFilter`` -- see :cpp:member:`boneDataFilter`. **Default**: ``true``
+         @endrst
+         *
+         * `vs-cb4` is the pose a draw is skinned with and `vs-cb3` is the previous frame's,
+         * which the shader turns into motion vectors. The game does not mark cb3 on every
+         * pass, so a guarded replacement leaves some draws skinned with OUR pose and
+         * reprojected from the TARGET's -- a large bogus motion, which TAA smears into a
+         * second body over the whole character.
+         *
+         * Defaulted ON because the alternative is never right. It moves the output of every
+         * WuWa pair, so a pair confirmed in game before 2026-10-03 wants another look.
+         */
+        bool bindPrevPoseAlways = true;
+
+        /**
+         * @brief
+         @rst
          The command list every slot section runs to bind the mod's buffers; the texture command
          list and the zero stream are added right after it. **Default**:
          ``"CommandListOverrideSharedResources"``
          @endrst
          */
         std::string sharedResourcesList = "CommandListOverrideSharedResources";
+
+        /**
+         * @brief
+         @rst
+         The command list every slot section runs after its draw to put the game's own buffers
+         back -- see :cpp:member:`sharedResourcesList`. **Default**:
+         ``"CommandListCleanupSharedResources"``
+         @endrst
+         *
+         * WWMI's own pair captures `vb0` and restores only that; the fix extends both so every
+         * buffer the override list binds is put back, because a REMAP has draws of the target
+         * that no section of it matches, and those inherit whatever is still bound.
+         */
+        std::string cleanupResourcesList = "CommandListCleanupSharedResources";
 
         /**
          * @brief The mod object prefix of a draw slot. **Default**: ``"component"``

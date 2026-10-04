@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="573" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="573" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="639" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="639" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a6f6e568b0ed7288b4b806f82d225dbe9" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -35,7 +35,7 @@ two names, or the second overwrites the first
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="581" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="581" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="647" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="647" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a3b8fc80014bbcd9e018d5111c610b4ad" prot="public" static="no" mutable="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref>(const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context" kindref="compound">TexEditContext</ref> &amp;)&gt;</type>
@@ -55,7 +55,7 @@ a mod that remeshes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="591" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="591" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="657" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="657" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a238a56ac6ef2dc530fbf3c04c197c1ef" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -74,7 +74,7 @@ a mask is CODES and BCn would move them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="599" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="599" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="665" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="665" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -82,7 +82,7 @@ a mask is CODES and BCn would move them
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="569" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="569" bodyend="600"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="635" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="635" bodyend="666"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a238a56ac6ef2dc530fbf3c04c197c1ef" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEdit</scope><name>compress</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a3b8fc80014bbcd9e018d5111c610b4ad" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::TexEdit</scope><name>makeFilter</name></member>

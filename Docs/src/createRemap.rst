@@ -1,16 +1,12 @@
 .. role:: raw-html(raw)
     :format: html
 
-How to Create a Remap
-======================
+How to Manually Create a Remap
+==============================
 
 .. tip::
   We provide :doc:`AI support <aiSupport>` for automating most of the steps below including in game control to check whether mods work for you!
-
-  The only parts that still need manual assisstance are:
-
-  - merging the mod downloads to the `master` branch
-  - Doing a final check of the mods in game to see whether the AI did their job correctly
+  You can check out how to use AI to create the remap for you :doc:`over here <aiCreateRemap>`
 
 :raw-html:`<br />`
 :raw-html:`<br />`

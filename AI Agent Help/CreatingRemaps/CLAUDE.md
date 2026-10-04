@@ -5906,14 +5906,32 @@ constructor accepts a bare list or set as well, and the fixer then reads that as
 the whole `.ini` with `dictionary update sequence element #0 has length 27` -- the length of the
 first register NAME -- as its only explanation.
 
-The check, which **fails against the build that shipped the bug** and passes after (Overview habit 34):
+The check, which **fails against the build that shipped the bug** and passes after (Overview habit 34),
+is `Tools/Misc/Diagnostics/wwmiCarriedOverrides.py <fixed folder>...`. Its quick form is
 
 ```bash
 grep -n "Override = ref Resource" <mod>/mod.ini
 ```
 
-Count it per SECTION, not per file: three of seven sections carried it, and a file-level "contains
-it" reads the same before and after a fix that only got one of them.
+but count it per SECTION, not per file: three of seven sections carried it, and a file-level
+"contains it" reads the same before and after a fix that only got one of them. The script does that,
+and three more things the grep cannot:
+
+* **`= null` is the correct output, not a survivor.** The fix clears these lines by writing `null`,
+  so a correct run has three of them per mod. Counting them reported *16 surviving override lines*
+  over output that was entirely right.
+* **the fix's own `if ResourceBlendBufferOverride === null` is a CONDITION.** Any pattern loose
+  enough to catch `Override\s*=` reads its `==` as a value and fires on nearly every mod -- which
+  reported 18 of 19 mods regressed when the real number was 4. The script matches the key exactly,
+  after splitting on the first `=`, so the condition's key is `if ResourceBlendBufferOverride` and
+  never collides.
+* **a mod that binds no blend remap of its own answers nothing**, and says so rather than passing.
+
+**Run it on every mod of the character, not on the identity mod.** The identity mod is the one mod
+whose own sections carry no such line, so it has none to carry across and renders perfectly while
+every real mod is broken -- which is how the regression of 2026-10-02 (`0682a3dc`, stepping over a
+leading `ref` in a `removedRegs` prefix) survived its whole life. Re-checked afterwards, **4 of 19
+real Chisa mods were still sitting on it**, decided purely by when each had last been fixed.
 
 ### ...AND REMAPPING **ONTO** ONE MEANS THE FIX HAS TO WRITE THAT PAIR ITSELF (2026-09-28)
 

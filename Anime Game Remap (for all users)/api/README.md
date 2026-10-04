@@ -442,7 +442,7 @@ The **Build** column says which build has the option. The Script accepts every o
 | -c, --compressTextures | API, Script | Whether to compress the textures the fix writes. <br> <br> **By default, textures are left uncompressed**, which is what the older pure-Python versions always did. <br> <br> Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space. <br> <br> This option only **permits** compression. Specifying it lets each mod type's own texture edits decide for themselves; an edit that deliberately writes an uncompressed texture still does so. |
 | -dl str, --download str | API, Script | The download mode to handle file downloads need. By default, **Normal** Download mode is used. Please visit [DownloadModes](#download-modes) for details on the available download modes |
 | -p str, --proxy str | API, Script | The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy |
-| -up, --update | Script | Updates the FixRaidenBoss2 package (the API) to its latest version before running. Without this option, the package is only downloaded when it is not already installed. |
+| -dup, --disableUpdate | Script | Skips updating the FixRaidenBoss2 package (the API) to its latest version before running. With this option, the package is only downloaded when it is not already installed. |
 | -pre, --preRelease | Script | Also considers prereleases of the FixRaidenBoss2 package when downloading it. |
 
 <br>

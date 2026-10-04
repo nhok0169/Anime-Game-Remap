@@ -22,7 +22,7 @@ class CommandOpts(Enum):
     The options this script adds on top of the API's own
     """
 
-    Update = "--update"
+    DisableUpdate = "--disableUpdate"
     PreRelease = "--preRelease"
     Help = "--help"
 ##### EndScript

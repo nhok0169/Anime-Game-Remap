@@ -42,7 +42,7 @@ since that is the stage the environment reaches:
 
 | Env | How the compiled script reaches the API | Options the script gains |
 | --- | --- | --- |
-| `prod` *(default)* | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs | `--update/-up`, `--preRelease/-pre` |
+| `prod` *(default)* | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs | `--disableUpdate/-dup`, `--preRelease/-pre` |
 | `dev` | a path on this machine, relative to the compiled script | none |
 
 ```bash

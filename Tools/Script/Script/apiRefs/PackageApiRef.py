@@ -13,8 +13,6 @@
 
 ##### ExtImports
 import importlib
-import os
-import sys
 import pip._internal as pip
 from typing import Any, List, Optional
 ##### EndExtImports
@@ -46,9 +44,9 @@ class PackageApiRef(BaseApiRef):
 
     def getOptions(self) -> List[CommandOption]:
         return [
-            CommandOption((ShortCommandOpts.Update.value, CommandOpts.Update.value),
+            CommandOption((ShortCommandOpts.DisableUpdate.value, CommandOpts.DisableUpdate.value),
                           {"action": "store_true",
-                           "help": f"Updates '{self.package}' to its latest version before running. Without this option, the package is only downloaded when it is not already installed."}),
+                           "help": f"Skips updating '{self.package}' to its latest version before running. With this option, the package is only downloaded when it is not already installed."}),
 
             CommandOption((ShortCommandOpts.PreRelease.value, CommandOpts.PreRelease.value),
                           {"action": "store_true",
@@ -95,27 +93,26 @@ class PackageApiRef(BaseApiRef):
         return True
 
     def canShowFullHelp(self, args: Any) -> bool:
-        # an explicit --update is a request to download, so the API is fetched and its full help shown
-        return getattr(args, "update", False) or self.isInstalled()
+        # printing help never downloads or updates the API, so the full help needs it already installed
+        return self.isInstalled()
 
     def getHelpNote(self) -> str:
         return f"""NOTE:
 '{self.package}', the library that does the remapping, is not installed on this computer yet,
-so only this script's own options are shown above.
+so only this script's own options are shown above. It is downloaded the first time you run
+this script without {CommandOpts.Help.value}.
 
-To download '{self.package}' and see every option, run:
-python {os.path.basename(sys.argv[0])} {CommandOpts.Update.value} {CommandOpts.Help.value}
-
-The full list of options is also at:
+The full list of options is at:
 {DocsCommandOptsUrl}"""
 
     def prepare(self, args: Any):
-        update = getattr(args, "update", False)
+        # printing help is not a remap session, so it does not update an installed API either
+        skipUpdate = getattr(args, "disableUpdate", False) or getattr(args, "help", False)
 
-        if (not update and self.isInstalled()):
+        if (skipUpdate and self.isInstalled()):
             return
 
-        print(f"Downloading the latest version of '{self.package}'...")
+        print(f"Getting the latest version of '{self.package}' (pass {CommandOpts.DisableUpdate.value} to skip this)...")
         pip.main(self.getInstallOptions(args))
 
         # a package installed during this run is not on any import path that was cached before it

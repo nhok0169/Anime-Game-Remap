@@ -1294,7 +1294,7 @@ the HTML, so **look at the rendered page, or grep it**, not the warning count.
 `apiMirror/README.md` and `commandOpts.rst` each list the CLI's options, written by hand -- and all three were
 missing `-fv/--fromVersion`, which the CLI has had since 2026-09-13. The truth is
 `api/src/py/FixRaidenBoss2/controller/CommandBuilder.py` for the API and
-`Tools/Script/Script/apiRefs/PackageApiRef.getOptions` for the two the released script adds (`--update`,
+`Tools/Script/Script/apiRefs/PackageApiRef.getOptions` for the two the released script adds (`--disableUpdate`,
 `--preRelease`). The tables carry a **Build** column since 2026-10-02: `API, Script` for every API option (the
 script hands every option it does not use itself on to the API), `Script` for the script's own. Diff a table
 against those two files before trusting it, the same way `checkModTypeTables.py` does for the mod types.

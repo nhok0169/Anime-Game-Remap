@@ -25,8 +25,8 @@ class CommandOption():
 
     .. note::
         This script has to know some of its options *before* the API exists to parse them -- whether
-        to update the API's package is the option that decides whether the package gets downloaded at
-        all. So each option is registered twice: once into a throwaway parser that reads it early,
+        to skip updating the API's package is the option that decides whether the package gets
+        downloaded at all. So each option is registered twice: once into a throwaway parser that reads it early,
         and once into the API's own command, so that it still shows up in ``--help`` next to every
         API option instead of being rejected as unrecognised.
 

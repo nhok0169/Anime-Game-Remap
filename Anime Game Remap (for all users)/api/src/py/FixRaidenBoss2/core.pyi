@@ -13920,7 +13920,7 @@ class IniKeywords:
     IndexNotFound: typing.ClassVar[str] = 'IndexNotFound'
     MatchFirstIndex: typing.ClassVar[str] = 'match_first_index'
     MatchIndexCount: typing.ClassVar[str] = 'match_index_count'
-    MatchKeys: typing.ClassVar[set] = {'hash', 'match_first_index', 'match_vertex_count', 'match_index_count', 'match_type', 'match_priority'}
+    MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_first_index', 'match_type', 'match_priority', 'hash', 'match_vertex_count'}
     MatchPriority: typing.ClassVar[str] = 'match_priority'
     MatchType: typing.ClassVar[str] = 'match_type'
     MatchVertexCount: typing.ClassVar[str] = 'match_vertex_count'

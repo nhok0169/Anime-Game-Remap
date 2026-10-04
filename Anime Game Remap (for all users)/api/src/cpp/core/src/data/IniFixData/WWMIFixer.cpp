@@ -3344,13 +3344,34 @@ namespace AGRemapCore {
                                     // invisible, which is what this function's comment above already
                                     // predicted. It showed on no identity mod, which is every mod the
                                     // earlier rounds were tested on.
-                                    std::string text = StringTools::toLower(StringTools::lstrip(value));
+                                    // EITHER FORM, because the two conventions are both in use and
+                                    // stepping over `ref` unconditionally broke the second
+                                    // (2026-10-03). A prefix may name the RESOURCE -- the case
+                                    // above -- or it may be the word `ref` itself, which is how
+                                    // ChisaFixer.cpp says "drop this binding however it reaches its
+                                    // resource":
+                                    //
+                                    //     {"ResourceBlendBufferOverride", "ref"}
+                                    //
+                                    // Stripping first made that stop matching, so those three lines
+                                    // survived into the REMAPPED sections -- the three a source past
+                                    // 256 bones carries that UNDO the remap, feeding the draw the
+                                    // source's own merged index against the target's skeleton. Real
+                                    // Chisa mods' bodies collapsed under an intact head; the identity
+                                    // mod did not show it, because it is the one mod whose own
+                                    // sections carry no such line.
+                                    const std::string lowered = StringTools::toLower(StringTools::lstrip(value));
                                     const std::string ref = StringTools::toLower(IniKeywords::Ref);
-                                    if (StringTools::startsWith(text, ref + " ")) {
-                                        text = StringTools::lstrip(text.substr(ref.size()));
+                                    if (StringTools::startsWith(lowered, prefix)) {
+                                        return true;
                                     }
 
-                                    return StringTools::startsWith(text, prefix);
+                                    if (!StringTools::startsWith(lowered, ref + " ")) {
+                                        return false;
+                                    }
+
+                                    return StringTools::startsWith(
+                                        StringTools::lstrip(lowered.substr(ref.size())), prefix);
                                 }));
                         }
 

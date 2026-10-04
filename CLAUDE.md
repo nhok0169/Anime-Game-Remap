@@ -228,7 +228,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is eighty-nine short habits, none of
+feature or bug request here: the habits that pay" first.** It is ninety-two short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -1139,6 +1139,23 @@ the part in front of you.** Two traps: with `debug = 1` the log writes **1.7 GB 
 and the game holds its handle open so it can only be truncated, not deleted. See
 [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s "ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS
 PATCHING".
+
+**A REMAP IS TESTED BEFORE THE GAME IS OPENED, AND CHISA <-> CHISAPARFAIT IS WHY (2026-10-04).**
+That pair took **two weeks**; five GI pairs landed in the same window, and a GI pair now takes
+about a day. The domain was not the difference --- how much each in-game round was made to
+answer was. An in-game round needs the game up, a mod swapped, a reload, a capture and often the
+maintainer; a structural check over the fixed `.ini` costs seconds and names a large share of the
+same faults. [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE PRE-FLIGHT"**
+is the ten commands to run over EVERY mod first, with what each one has actually caught --- a
+dangling `filename =` that made a mod render nothing but its weapon, a texture written and bound
+by nothing while the summary said `editted 4 *.dds files`, a remapped section keeping the three
+lines that undo the remap. Two rules go with it. **The identity mod is the cheapest input and
+the one that cannot fail most of them** --- it is the game's own model rebuilt as a mod, and in
+three days it hid a regression that collapsed every real Chisa mod, a check reading the wrong
+index window, and a round of texture faults; it is the right FIRST mod and never the last.
+**And a check that fails is a hypothesis until you reproduce it by hand** (Overview habit 90):
+three of this repo's own diagnostics reported correct output as broken in one session, and the
+repair each false FAIL invites is a change to working code.
 
 **FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
 2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own

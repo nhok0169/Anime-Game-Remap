@@ -271,6 +271,12 @@ What the order is for:
   otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
   output that changes run to run, not as an error.
 
+- **Every testing step (6, 8, 10, 12) opens with THE PRE-FLIGHT below, not with the game.**
+  The structural checks cost seconds and answer much of what a round would; an in-game round is
+  the most expensive unit of work here, and a fix that fails a pre-flight check makes the round
+  worthless. Chisa <-> ChisaParfait took two weeks against about a day for a GI pair, and the
+  difference was how much each round was made to answer.
+
 - **DO THE FIRST THING RIGHT (the maintainer's rule, 2026-09-27).** A mistake in an early step costs
   exponentially more to fix later: every later step builds on it, is tested against it and has to be redone
   around it. On Neuvillette -> NeuvilletteMelusent the vertex group rows (step 2) put his coat links on the
@@ -327,6 +333,55 @@ at it IN MOTION -- a timed series of shots through the idle animation, not one f
 hide a clip or a fold that the next frame shows.
 
 <br>
+
+## THE PRE-FLIGHT: what to run over EVERY mod before asking for an in-game round (2026-10-04)
+
+**Chisa <-> ChisaParfait took two weeks. Five GI pairs were finished in that time, and a GI pair now
+takes about a day.** The difference is not the domain -- it is how much was learned per in-game
+round. An in-game round is the most expensive unit of work in this repo: it needs the game up, a mod
+swapped in, a reload, a capture, and often the maintainer. A structural check over the fixed `.ini`
+costs **seconds** and answers a large share of the same questions. Most of the rounds that pair
+spent were on faults that a check below names without the game running at all.
+
+So: before asking for a round, run all of these. Each one is cheap, each has caught a real defect,
+and a failure in any of them makes the round worthless anyway.
+
+| # | Run | Catches | A pass reads |
+| --- | --- | --- | --- |
+| 1 | `checkModTypeTables.py` | the four doc tables drifting from the library | `ALL FOUR AGREE WITH THE LIBRARY` |
+| 2 | `check_dangling.py <mod>` | a `filename =` naming a file that is not there -- **one dangling reference out of 105 made a mod render nothing but its weapon** | every reference resolves |
+| 3 | `check_sections.py <mod>` | a register or `run =` naming a section nobody defines (a silent no-op) | 0 undefined |
+| 4 | `editedButUnbound.py <mod>` | a texture the fix WROTE that no drawing section binds, while the summary says `editted 4 *.dds files` | 0 orphan, 0 unbound |
+| 5 | `wwmiCarriedOverrides.py <mod>` | WuWa: a remapped section keeping the three lines that UNDO the remap | 0 carried, and not `VACUOUS` |
+| 6 | `wwmiCheckBlendRemap.py <mod>` (and again with `--blend <Target>RemapBlend.buf` and friends for the fix's own) | WuWa: a blend remap present but wrong | every component round-trips |
+| 7 | `fixCallPaths.py` / `unfixedDraws.py` / `bareFixCalls.py` | GI: `NNFix`/`ORFix` called twice on one path (an involution undoing itself), or not at all | 0 violations |
+| 8 | `grep -ri "NotFound" <mod>` | any reverse lookup that failed -- `HashNotFound`, `ChecksumNotFound` | no hits |
+| 9 | `wwmiFixTwiceSweep.py` / fix the folder a second time | a pass that stops declaring a resource on re-run, and a download that did not land | the second run's output matches the first |
+| 10 | `folderProbe.py <mod>` | the fix inventing folders the mod does not have | no new directories |
+
+Then the two rules that decide whether any of it means anything:
+
+**RUN THEM ON EVERY MOD, AND NEVER LET THE IDENTITY MOD BE THE ANSWER.** The identity mod is the
+cheapest input and the one that cannot fail most of these, because it is the game's own model
+rebuilt as a mod. On 2026-10-02 to 10-04 it hid *three separate things*: a regression that collapsed
+every real Chisa mod's body for two days (it carries no blend-remap line of its own, so it had none
+to carry across); a check reading the GAME's index window over the MOD's buffer (its buffer IS the
+game's, so the two windows coincide); and, earlier, the texture faults of "THE FOUR-MOD SURVEY"
+below. It is the right FIRST mod and never the last one. `AI Agent Help/GameView/CLAUDE.md`'s
+`mods <IMP> only <mod> --from <folder>` loop swaps the whole set through in one pass.
+
+**A CHECK THAT FAILS IS A HYPOTHESIS UNTIL YOU HAVE REPRODUCED IT BY HAND** (Overview habit 90).
+Three of the tools in the table above reported correct output as broken in one session. Before
+changing the fix because a check went red, reproduce the claim on one artifact and run the check on
+an input known to be good -- an author-written mod, or the previous build's output. The repair a
+false FAIL invites is a change to working code, and it is indistinguishable from real work until
+something in game gets worse.
+
+**And carry several questions into each round you do spend.** A round that answers one yes/no is a
+round wasted: capture the mod from several angles, with its toggles moved (`key --vk`), against the
+mod on its own character, and note everything odd rather than only the thing you went in for. Most
+of the faults the maintainer reported on this pair were already visible in an agent's own earlier
+screenshots.
 
 ## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
 

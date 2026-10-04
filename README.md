@@ -29,10 +29,16 @@ The ***Official*** library to help remap the mods installed on a character onto 
 ## Contributors
 |   |   |
 |---|---|
-| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Lead Maintainer)* | [![](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](https://discord.com/users/367087171154214914) |
+| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Lead Maintainer)* | [![@albertgold](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](https://discord.com/users/367087171154214914) |
 | **[NK](https://github.com/nhok0169)** *(Original Author)* | [![@nhok0169](https://img.shields.io/badge/%40nhok0169-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/277117247523389450) |
 | [![The Council](https://raw.githubusercontent.com/nhok0169/Anime-Game-Remap/refs/heads/master/Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeMini.svg)](https://github.com/nhok0169/Anime-Game-Remap/blob/master/AI%20Agent%20Help/README.md) *(Maintainer Team)* | [![The Council Badge](https://raw.githubusercontent.com/nhok0169/Anime-Game-Remap/refs/heads/master/Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg)](https://github.com/nhok0169/Anime-Game-Remap/blob/master/AI%20Agent%20Help/README.md) |
 
 
 ## How To Run:
 Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/blob/master/Anime%20Game%20Remap%20(for%20all%20users)/api/README.md) for more info.
+
+<br>
+<br>
+
+## 🎉Version 5.0 is Out! - WuWa remaps 🎉
+- See [the latest release](https://github.com/nhok0169/Anime-Game-Remap/releases/tag/v5.0.0) for more details on the huge change.

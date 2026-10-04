@@ -2135,7 +2135,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="5576" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5576" bodyend="5580" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="825" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="5786" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5786" bodyend="5790" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="825" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

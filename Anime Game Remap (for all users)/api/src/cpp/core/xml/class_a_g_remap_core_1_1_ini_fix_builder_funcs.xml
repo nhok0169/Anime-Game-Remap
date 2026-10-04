@@ -635,7 +635,7 @@ nothing. The fixer itself is unchanged
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="323" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="395" bodyend="625"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="323" column="43" bodyfile="src/data/IniFixData/Chisa/ChisaFixer.cpp" bodystart="395" bodyend="672"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -654,7 +654,7 @@ See ``data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="333" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="180" bodyend="640"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="333" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="180" bodyend="648"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>

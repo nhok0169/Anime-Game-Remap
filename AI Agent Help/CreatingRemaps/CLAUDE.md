@@ -3984,36 +3984,38 @@ shape where reading siblings would be cross-contamination.
 
 <br>
 
-### CHISA -> CHISAPARFAIT DEFORMS THE UPPER BODY OF ALMOST EVERY REAL MOD, AND IT IS `vb6` (2026-10-03, OPEN)
+### CHISA -> CHISAPARFAIT DEFORMS A REAL MOD'S UPPER BODY, AND IT IS NOT `vb6` (2026-10-03, OPEN)
 
 Found in the in-game round after the three audit fixes, and **not fixed**. `Chisa1` remapped onto
 ChisaParfait has its torso stretched and folded while the head, hair and weapon are correct.
 `ChisaIdentity` through the same fix is perfect, which is what made it findable.
 
-**The frame says it outright.** 3DMigoto only opens `d3d11_log.txt` at startup, so turning
-`[Logging] calls = 1` on does nothing until the game restarts -- but a FRAME DUMP needs no restart
-and carries the same answer. Of the character's ten remapped draws, exactly one binds `vb6`:
+**The frame is how to look, and `vb6` is what it rules OUT.** 3DMigoto only opens `d3d11_log.txt`
+at startup, so turning `[Logging] calls = 1` on does nothing until the game restarts -- but a FRAME
+DUMP needs no restart. Of the character's ten remapped draws exactly one binds `vb6`, and it is the
+component-3 upper body, the only part that is wrong -- which looks like a lead and is not:
 
-```
-000028-vb6=57bb099f ... -layout=...-stride=24-count=69271
-```
+* the buffer is **2595096 bytes = 108129 x 24**, exactly the mod's own declared
+  `$mesh_vertex_count`. It is NOT sized for the target; `override_vertex_count` on the retargeted
+  override is doing its job.
+* WWMI's loader runs with the MOD's data -- `$shapekey_vertex_count = 46503`, the mod's own vertex
+  id and offset buffers, `Dispatch(1, 1454, 1)` = ceil(46503/32).
+* and it WRITES: the buffer is all zero before the loader (draw 000001) and has **5001 non-zero
+  entries spanning ids 23822..74834** after it (draw 000003), where 74834 is the mod's last vertex.
+  The draw reads that same buffer.
 
-That is the component-3 draw, the upper body -- the only part that is wrong. `57bb099f` is
-ChisaParfait's own shape-key offsets buffer, and **69271 entries** is the TARGET's size.
-`Chisa1`'s mesh has **74835** vertices, so 5564 of them index past the end of the stream the draw
-reads. `ChisaIdentity` has 64588 and fits, which is the whole of why it renders.
+So the shape-key stream is correctly sized, correctly filled, and covers the mod's whole vertex
+range. **The deformation is not the shape keys.** Zeroing the stream by hand changes the symptom --
+the body collapses into thin spikes instead of stretching -- only because a Chisa mod's body shape
+IS a shape key, so removing the morph is its own kind of wrong. Two other hand probes (`vb6 = null`,
+and substituting a mod-sized buffer with `this =`) produce that same collapse and prove nothing
+either.
 
-**It is not a corner case.** Measured over the Chisa mods on disk, against that 69271:
-
-| | |
-| --- | --- |
-| mods whose vertex count EXCEEDS it | **14 of 19** (Chisa9 at 346264 is the worst, Chisa5 at 69410 the narrowest) |
-| mods that fit | the two identity mods, Chisa7, Chisa11, Chisa8 |
-
-So the upper body is wrong for most real mods of this character, and the identity mod -- the usual
-first check -- is one of the few that cannot show it. (`Chisa1` also declares
-`$mesh_vertex_count = 108129` against a `Position.buf` of 74835, so the exact threshold wants
-confirming; the ORDER of that table is reliable, the cut-off less so.)
+**An earlier revision of this section said the buffer was target-sized at 69271 entries and that 14
+of the 19 Chisa mods overran it.** That was wrong: 69271 came from a DIFFERENT draw's layout
+descriptor (000017's `vb6`), read as though it described draw 000028's buffer, and the whole
+mod-size table was built on it. A dump names a file per draw for a reason -- take the number from
+the draw you are actually looking at.
 
 **Zeroing the stream is NOT the fix, measured.** `zeroShapeKeyStream` is `false` here on purpose --
 this direction RETARGETS the keys instead, so WWMI's own pipeline is meant to refill `vb6` for the

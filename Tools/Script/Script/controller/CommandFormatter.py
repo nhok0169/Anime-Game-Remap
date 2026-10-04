@@ -12,17 +12,15 @@
 ##### EndCredits
 
 ##### ExtImports
-from enum import Enum
+import argparse
 ##### EndExtImports
 
 
 ##### Script
-class ShortCommandOpts(Enum):
+class CommandFormatter(argparse.MetavarTypeHelpFormatter, argparse.RawTextHelpFormatter):
     """
-    The short forms of the options this script adds on top of the API's own
+    The layout of this script's help page, the same as the API's
     """
 
-    Update = "-up"
-    PreRelease = "-pre"
-    Help = "-h"
+    pass
 ##### EndScript

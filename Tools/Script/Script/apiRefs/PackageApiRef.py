@@ -13,6 +13,8 @@
 
 ##### ExtImports
 import importlib
+import os
+import sys
 import pip._internal as pip
 from typing import Any, List, Optional
 ##### EndExtImports
@@ -21,6 +23,7 @@ from typing import Any, List, Optional
 from ..controller.CommandOption import CommandOption
 from ..controller.enums.CommandOpts import CommandOpts
 from ..controller.enums.ShortCommandOpts import ShortCommandOpts
+from ..constants.Links import DocsCommandOptsUrl
 from .BaseApiRef import BaseApiRef
 ##### EndLocalImports
 
@@ -90,6 +93,21 @@ class PackageApiRef(BaseApiRef):
             return False
 
         return True
+
+    def canShowFullHelp(self, args: Any) -> bool:
+        # an explicit --update is a request to download, so the API is fetched and its full help shown
+        return getattr(args, "update", False) or self.isInstalled()
+
+    def getHelpNote(self) -> str:
+        return f"""NOTE:
+'{self.package}', the library that does the remapping, is not installed on this computer yet,
+so only this script's own options are shown above.
+
+To download '{self.package}' and see every option, run:
+python {os.path.basename(sys.argv[0])} {CommandOpts.Update.value} {CommandOpts.Help.value}
+
+The full list of options is also at:
+{DocsCommandOptsUrl}"""
 
     def prepare(self, args: Any):
         update = getattr(args, "update", False)

@@ -11,18 +11,8 @@
 
 ##### EndCredits
 
-##### ExtImports
-from enum import Enum
-##### EndExtImports
-
 
 ##### Script
-class ShortCommandOpts(Enum):
-    """
-    The short forms of the options this script adds on top of the API's own
-    """
-
-    Update = "-up"
-    PreRelease = "-pre"
-    Help = "-h"
+# DocsCommandOptsUrl: The page in the docs listing every command line option
+DocsCommandOptsUrl = "https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html"
 ##### EndScript

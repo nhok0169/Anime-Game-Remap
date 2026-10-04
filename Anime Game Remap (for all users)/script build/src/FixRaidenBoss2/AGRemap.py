@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, October 04, 2026 06:59:56.415 AM UTC
-# Run Hash: 4bcf9ce3-1bc7-41b0-b41e-cd4609d7a26d
+# Datetime Ran: Sunday, October 04, 2026 07:20:40.874 AM UTC
+# Run Hash: c9f2bf6a-ba7b-4317-9245-9fb0e7d5acbc
 # 
 # *******************************
 # ================
@@ -35,14 +35,14 @@
 #
 # Version: 5.0.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, October 04, 2026 06:59:56.415 AM UTC
-# Build Hash: 4622d5d9-7e88-418a-af34-e2590861dbc7
+# Datetime Compiled: Sunday, October 04, 2026 07:20:40.874 AM UTC
+# Build Hash: 2591b4bc-13ae-4356-8969-c1b9acd83bc9
 #
 # *********************************
 #
 
 
-import os, importlib, pip._internal as pip, sys, argparse
+import os, importlib, sys, pip._internal as pip, argparse
 
 from typing import Optional, Any, List, Callable, Dict, Tuple
 from enum import Enum
@@ -194,6 +194,41 @@ class BaseApiRef():
 
         return []
 
+    def canShowFullHelp(self, args: Any) -> bool:
+        """
+        Whether the API's own ``--help`` page, listing every option, can be shown for this run
+
+        :raw-html:`<br />`
+
+        When it cannot, the script shows a page of only its own options instead, rather than
+        fetching the whole API just to print help
+
+        Parameters
+        ----------
+        args: `Namespace`_
+            This script's own options, already read
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the API's help page can be shown
+        """
+
+        return True
+
+    def getHelpNote(self) -> str:
+        """
+        The note shown at the bottom of the script's own help page, when the API's help page cannot
+        be shown
+
+        Returns
+        -------
+        :class:`str`
+            The note
+        """
+
+        return f"'{self.package}', the library that does the remapping, is not available, so only this script's own options are shown above."
+
     def prepare(self, args: Any):
         """
         Makes the API importable
@@ -232,6 +267,7 @@ class CommandOpts(Enum):
 
     Update = "--update"
     PreRelease = "--preRelease"
+    Help = "--help"
 
 
 class ShortCommandOpts(Enum):
@@ -241,6 +277,11 @@ class ShortCommandOpts(Enum):
 
     Update = "-up"
     PreRelease = "-pre"
+    Help = "-h"
+
+
+# DocsCommandOptsUrl: The page in the docs listing every command line option
+DocsCommandOptsUrl = "https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html"
 
 
 class PackageApiRef(BaseApiRef):
@@ -307,6 +348,21 @@ class PackageApiRef(BaseApiRef):
             return False
 
         return True
+
+    def canShowFullHelp(self, args: Any) -> bool:
+        # an explicit --update is a request to download, so the API is fetched and its full help shown
+        return getattr(args, "update", False) or self.isInstalled()
+
+    def getHelpNote(self) -> str:
+        return f"""NOTE:
+'{self.package}', the library that does the remapping, is not installed on this computer yet,
+so only this script's own options are shown above.
+
+To download '{self.package}' and see every option, run:
+python {os.path.basename(sys.argv[0])} {CommandOpts.Update.value} {CommandOpts.Help.value}
+
+The full list of options is also at:
+{DocsCommandOptsUrl}"""
 
     def prepare(self, args: Any):
         update = getattr(args, "update", False)
@@ -395,6 +451,14 @@ class ApiRefBuilder():
         return PathApiRef(ApiPackage)
 
 
+class CommandFormatter(argparse.MetavarTypeHelpFormatter, argparse.RawTextHelpFormatter):
+    """
+    The layout of this script's help page, the same as the API's
+    """
+
+    pass
+
+
 class CommandBuilder():
     """
     Handles the options this script adds on top of the API's own
@@ -405,6 +469,11 @@ class CommandBuilder():
         The options to add :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+    """
+
+    Description = "Ports mods from characters onto their skin counterparts"
+    """
+    The description at the top of the help page, the same as the API's
     """
 
     def __init__(self, options: Optional[List[CommandOption]] = None):
@@ -437,7 +506,33 @@ class CommandBuilder():
         for option in self.options:
             option.add(parser.add_argument)
 
+        # only noted here, never acted on: whether help is shown from the API's page or from
+        #   this script's own is decided once it is known whether the API is there
+        parser.add_argument(ShortCommandOpts.Help.value, CommandOpts.Help.value, action = "store_true")
+
         return parser.parse_known_args(argv)
+
+    def printHelp(self, note: Optional[str] = None):
+        """
+        Prints a help page of only this script's own options
+
+        :raw-html:`<br />`
+
+        For when the API, which owns every other option, is not there to print its own
+
+        Parameters
+        ----------
+        note: Optional[:class:`str`]
+            Text to show below the options :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        parser = argparse.ArgumentParser(description = self.Description, epilog = note, formatter_class = CommandFormatter)
+        for option in self.options:
+            option.add(parser.add_argument)
+
+        parser.print_help()
 
     def addTo(self, command: Any):
         """
@@ -484,6 +579,12 @@ def remapMain(apiRef: Optional[BaseApiRef] = None):
     #   whether the API gets downloaded at all. They are handed to the API's command afterwards so
     #   that they still appear in its --help rather than being rejected there as unrecognised.
     args, remainingArgs = command.preParse()
+
+    # the API is not fetched just to print its help: when it is not there, the help page only has
+    #   this script's own options, and says how to see the rest
+    if (args.help and not apiRef.canShowFullHelp(args)):
+        command.printHelp(note = apiRef.getHelpNote())
+        return
 
     api = apiRef.load(args)
     api.remapMain(commandSetup = command.addTo)

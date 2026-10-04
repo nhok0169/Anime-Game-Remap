@@ -55,6 +55,12 @@ def remapMain(apiRef: Optional[BaseApiRef] = None):
     #   that they still appear in its --help rather than being rejected there as unrecognised.
     args, remainingArgs = command.preParse()
 
+    # the API is not fetched just to print its help: when it is not there, the help page only has
+    #   this script's own options, and says how to see the rest
+    if (args.help and not apiRef.canShowFullHelp(args)):
+        command.printHelp(note = apiRef.getHelpNote())
+        return
+
     api = apiRef.load(args)
     api.remapMain(commandSetup = command.addTo)
 

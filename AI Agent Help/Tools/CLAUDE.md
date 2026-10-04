@@ -154,7 +154,7 @@ script gets the API* belongs in `Tools/Script`.
 - **`prod`** --- downloaded from pypi at runtime, the same shape as the API's own `PackageManager`.
   This build also gains `--update/-up` and `--preRelease/-pre`.
 
-Three things about that design are load-bearing and easy to undo by accident:
+Four things about that design are load-bearing and easy to undo by accident:
 
 1. **The prod options are registered twice, deliberately.** The script must read them *before the
    API exists* --- one of them decides whether the API is downloaded at all --- so they go into a
@@ -166,6 +166,13 @@ Three things about that design are load-bearing and easy to undo by accident:
 3. **Every placeholder in `BuildData.py` is a string.** That module has to be valid python *before*
    anything is filled in, because `ScriptBuilder` imports the package to work out the order to write
    it out in. A placeholder that is not itself parseable stops the script being built at all.
+4. **`--help` does not fetch the API (2026-10-04).** The pre-parser also notes `-h/--help`, and when
+   the API reference's `canShowFullHelp` says no -- a `prod` build whose package is not installed,
+   and no `--update` -- `remapMain` prints `CommandBuilder.printHelp`'s page of the script's own
+   options, with the reference's `getHelpNote` underneath, and returns. Before this, asking for help
+   on a fresh machine pip-installed the whole API first. Test it in a scratch `venv`: the dev Pythons
+   here have no `FixRaidenBoss2` installed, and `PYTHONPATH=<repo>/api/src/py` stands in for an
+   installed one without a download.
 
 **`script build/` is the end-user deliverable, so what is committed there must be a `prod` build.**
 A `dev` build looks for `../../../api/src/py` on the user's machine, which exists on nobody else's.
@@ -173,6 +180,37 @@ This is why **the `CIPipeline` defaults to `prod` while the `ScriptBuilder` defa
 pipeline writes what gets committed, and the ScriptBuilder on its own is what you reach for while
 working *on* the script. Running the ScriptBuilder directly therefore leaves a non-shippable script
 in a tracked folder; check `EnvName` in the compiled script before committing it.
+
+### Changing the script: the loop, and four things it will not tell you (2026-10-04)
+
+A script request is usually small, and the whole loop is ten minutes once you know it:
+
+1. Edit `Tools/Script/Script/...` (CRLF files; the `Edit` tool keeps them CRLF).
+2. Compile a SHIPPABLE build: `cd Tools/ScriptBuilder && py -3 main.py --env prod`. In the Bash tool
+   `python` is the Microsoft Store alias and prints "Python was not found" -- use `py -3`.
+3. Run the compiled `script build/src/FixRaidenBoss2/AGRemap.py`, not `Tools/Script/main.py`: the
+   latter is always the `dev` path and cannot show a `prod` behaviour. For "the API is not
+   installed", use a scratch venv (`py -3.13 -m venv <scratchpad>/venv`) -- none of the dev Pythons
+   here have `FixRaidenBoss2` installed, and none should get it. For "the API IS installed", put
+   `PYTHONPATH=<repo>/api/src/py` in front of `py -3.13` rather than downloading from pypi. **Never
+   run a `prod` script without `-h` in a venv lacking the API unless you mean it**: it pip-installs.
+4. `git diff --stat` the compiled script: the three build stamps always change; anything else should
+   be exactly your source change, and `EnvName = "prod"`.
+
+What the code will not tell you:
+
+* **The ScriptBuilder compiles only modules IMPORTED from `Script/main.py`** (it scans `sys.modules`
+  after importing it). A new file that nothing imports is silently left out of the compiled script.
+  Every file also needs the `##### Credits` / `ExtImports` / `LocalImports` / `Script` sections
+  (copy the header of a sibling), and every module's names end up in ONE namespace in the flat file.
+* **The compiled package's `__init__.py` exports are copied from `Tools/Script/Script/__init__.py`**,
+  a hand-kept list. An internal helper (`CommandFormatter`) need not be added; a public class must.
+* **The pre-parser's leftover arguments are thrown away.** The API's `CommandBuilder.parse()` reads
+  `sys.argv` itself, so the script's pre-parser may recognise any flag (it notes `-h/--help`) without
+  hiding it from the API -- and conversely, filtering `remainingArgs` changes nothing the API sees.
+* **The script cannot import anything from the API to build its own output** -- the point of a
+  pre-API path is that the API may not exist. Strings the two share (the help description, the docs
+  URL in `constants/Links.py`) are duplicated on purpose.
 
 ## The CIPipeline
 

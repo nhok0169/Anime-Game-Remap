@@ -19,9 +19,13 @@ It is also the first stage of the [CI Pipeline](https://github.com/nhok0169/Anim
 | [Doxygen](https://www.doxygen.nl/) 1.17.0 | Only for the `-d` option |
 | The API's git submodules | `git submodule update --init --recursive` |
 
+<br>
+
 ```bash
 pip install -r requirements.txt
 ```
+
+<br>
 
 > [!IMPORTANT]
 > On Windows, run the API Builder from a shell where Visual Studio's `vcvarsall.bat x64` has already been called.
@@ -35,6 +39,8 @@ pip install -r requirements.txt
 
 ## How To Run
 On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), enter
+
+<br>
 
 ```bash
 python3 main.py -pb -pi
@@ -81,9 +87,12 @@ The `cebuild`, `cext` and `cbuild` folders are created at the root of the repo, 
 | `-p str`, `--prebuildRemove str` | Removes a prebuild folder before building. See [Removing folders](#removing-folders) |
 | `-pir str`, `--preinstallRemove str` | Removes a preinstall folder before building. See [Removing folders](#removing-folders) |
 
+<br>
+
 > [!NOTE]
 > A suffix name cannot contain whitespace or slashes.
 
+<br>
 <br>
 
 ### Environments
@@ -94,12 +103,16 @@ The `cebuild`, `cext` and `cbuild` folders are created at the root of the repo, 
 | `cibuildwheel` | `cibuildwheel` | The whole API for a release wheel. Link-time optimization is on, and the modules link against `Python::Module` |
 | `core` | `core_sdk` | Only the C++ core, as an SDK for other C++ projects: the library and the libraries it is built with, its headers, and a CMake package (`find_package(AGRemapCore)`). The pybind11 bindings and the Cython extensions are not built. It installs to `csdk` at the root of the repo by default, leaves the Python package's compiled modules alone, and ignores `-d` |
 
+<br>
+
 > [!NOTE]
 > CMake remembers some settings from the first time a build folder is configured (link-time optimization among them),
 > so give each environment its own build folder: eg. `python3 main.py -e cibuildwheel -bs Wheel`.
 
 To use the SDK from your own CMake project, point `CMAKE_PREFIX_PATH` at both the SDK and the Z3 install the
 API Builder made (the SDK finds Z3 rather than carrying it):
+
+<br>
 
 ```cmake
 # cmake -DCMAKE_PREFIX_PATH="<repo>/csdk;<repo>/cext/z3" ...
@@ -109,6 +122,7 @@ target_link_libraries(yourTarget PRIVATE AGRemapCore::AGRemapCore)
 
 At run time, the DLLs in `csdk/bin` and `cext/z3/bin` need to be next to your program or on `PATH`.
 
+<br>
 <br>
 
 ### Removing folders
@@ -121,14 +135,19 @@ At run time, the DLLs in `csdk/bin` and `cext/z3/bin` need to be next to your pr
 | `someName/` | The folder with that suffix (eg. `cbuildsomeName`) |
 | `*` | Every folder of that kind |
 
+<br>
+
 ```bash
 python3 main.py -b /
 ```
+
+<br>
 
 > [!NOTE]
 > A build folder that is a symbolic link or a directory junction has its contents deleted and the link itself kept,
 > so the build tree stays wherever the link points.
 
+<br>
 <br>
 
 ### Extra CMake options

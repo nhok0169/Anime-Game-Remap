@@ -36,3 +36,10 @@ Every option of the API's own CLI works here, since they are the API's:
 ```bash
 python3 main.py --help
 ```
+
+<br>
+
+> [!NOTE]
+> A `prod` build does not download the API just to print its help. When the API is not installed,
+> `--help` shows only the script's own options (`--update/-up`, `--preRelease/-pre`) and says how to
+> see the rest: `--update --help` downloads the API and then prints every option.

@@ -60,6 +60,41 @@ class BaseApiRef():
 
         return []
 
+    def canShowFullHelp(self, args: Any) -> bool:
+        """
+        Whether the API's own ``--help`` page, listing every option, can be shown for this run
+
+        :raw-html:`<br />`
+
+        When it cannot, the script shows a page of only its own options instead, rather than
+        fetching the whole API just to print help
+
+        Parameters
+        ----------
+        args: `Namespace`_
+            This script's own options, already read
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the API's help page can be shown
+        """
+
+        return True
+
+    def getHelpNote(self) -> str:
+        """
+        The note shown at the bottom of the script's own help page, when the API's help page cannot
+        be shown
+
+        Returns
+        -------
+        :class:`str`
+            The note
+        """
+
+        return f"'{self.package}', the library that does the remapping, is not available, so only this script's own options are shown above."
+
     def prepare(self, args: Any):
         """
         Makes the API importable

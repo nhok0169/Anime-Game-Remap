@@ -24,4 +24,5 @@ class CommandOpts(Enum):
 
     Update = "--update"
     PreRelease = "--preRelease"
+    Help = "--help"
 ##### EndScript

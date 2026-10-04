@@ -81,6 +81,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A1%E2%8F%B3%20The%20Patient%20Resolver-1-%2322d3ee?style=flat-square&labelColor=%233b0764)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%AC%F0%9F%93%9C%20The%20Inheritance%20Scribe-1-%23c084fc?style=flat&labelColor=%23134e4a)
 - ![Static Badge](https://img.shields.io/badge/%E2%9A%96%EF%B8%8F%F0%9F%94%AC%20The%20Instrument%20Calibrator-1-%2306b6d4?style=for-the-badge&labelColor=%23164e63)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%9A%AA%F0%9F%93%9C%20The%20Doorstep%20Guide-1-%23fbbf24?style=plastic&labelColor=%231e3a8a)
 
 <br>
 

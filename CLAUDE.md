@@ -1340,6 +1340,10 @@ the `ScriptBuilder` topologically compiles *that*. The same session found `Scrip
 moved to `src/py/` during the C++ migration, none of which anything reported.
 **Read [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) before touching anything under `Tools/`, and run
 the tool before you change it.**
+**A `prod` script's `--help` no longer downloads the API (2026-10-04)**: with the package not
+installed it prints only the script's own options. A change to the script is tested from the
+COMPILED `AGRemap.py` (`ScriptBuilder --env prod`) in a scratch venv, never from `Tools/Script/main.py`,
+which is always the `dev` path -- Tools' "Changing the script: the loop" has the ten-minute recipe.
 
 **THE PUBLISHED DOCS COMPILE NOTHING, SO TWO TRACKED ARTIFACTS *ARE* THE SITE (2026-09-17).** Read the
 Docs installs `Docs/requirements.txt` and runs Sphinx --- no submodules, no CMake, no Doxygen and no pip

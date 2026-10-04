@@ -82,6 +82,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%AC%F0%9F%93%9C%20The%20Inheritance%20Scribe-1-%23c084fc?style=flat&labelColor=%23134e4a)
 - ![Static Badge](https://img.shields.io/badge/%E2%9A%96%EF%B8%8F%F0%9F%94%AC%20The%20Instrument%20Calibrator-1-%2306b6d4?style=for-the-badge&labelColor=%23164e63)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%9A%AA%F0%9F%93%9C%20The%20Doorstep%20Guide-1-%23fbbf24?style=plastic&labelColor=%231e3a8a)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%94%84%F0%9F%8E%9A%EF%B8%8F%20The%20Default%20Flipper-1-%2334d399?style=flat-square&labelColor=%237c2d12)
 
 <br>
 

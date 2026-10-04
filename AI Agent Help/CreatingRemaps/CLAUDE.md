@@ -5949,9 +5949,48 @@ So the fix writes all three buffers, beside its own blend:
 | `<mod>RemapBlendRemapForward.buf` | 512 `uint16`, local -> merged (`SkeletonRemapper` gathers through it) |
 | `<mod>RemapBlendRemapReverse.buf` | 512 `uint16`, merged -> local (`BlendRemapper` rewrites the blend through it) |
 
-and the remapped section binds the same three `Resource*Override` lines the forward direction strips
--- pointed at the fix's own, which is what makes stripping the MOD's correct rather than merely
-convenient.
+**It does NOT bind them through the three `Resource*Override` lines the forward direction strips.**
+An earlier revision of this section said it did; there is not one of those lines in any fixed
+ChisaParfait mod (measured 2026-10-04). The fix wires the remapper itself, in a command list every
+remapped section `run =`s:
+
+```
+[CommandListBlendRemapChisaRemapFix]
+local $blendRemapReady
+if !$blendRemapReady
+    $\WWMIv1\custom_vertex_count = $mesh_vertex_count
+    $\WWMIv1\weights_per_vertex_count = 8
+    $\WWMIv1\blend_remap_id = 0
+    cs-t34 = ref ResourceBlendRemapReverseBufferChisaRemapFix
+    cs-t35 = ref ResourceBlendRemapVertexVGBufferChisaRemapFix
+    ResourceRemappedBlendBufferRWChisaRemapFix = copy ResourceBlendNoStrideChisaRemapFix
+    cs-u4 = ref ResourceRemappedBlendBufferRWChisaRemapFix
+    run = CustomShader\WWMIv1\BlendRemapper
+    ...
+    $blendRemapReady = 1
+endif
+vb4 = ResourceRemappedBlendBufferChisaRemapFix
+```
+
+One remap over the whole mesh, built once per frame behind the `$blendRemapReady` guard. So the two
+directions are not mirror images in their output either: the forward one REMOVES lines a mod wrote,
+and this one ADDS a command list and calls it, leaving `Resource*Override` out of the picture
+entirely.
+
+**And the blend it writes holds LOCAL ids, not truncated merged ones.** WWMI Tools writes
+`Blend.buf` as the merged id truncated to 8 bits; this fix writes `reverse[trueId]` -- the local id,
+which is precisely what `BlendRemapper` recomputes into the private buffer, so the shader's write is
+idempotent over it. Both forms are legal and the game cannot tell them apart *here*, but they are
+not interchangeable in general: the truncated form is what a component with NO remap reads, so it is
+safe unconditionally, while the local form is safe only while **every** remapped draw goes through
+the remapper. All of them do, in every fixed ChisaParfait mod -- 8 of 8 drawing sections reach it.
+
+`Tools/Misc/Diagnostics/wwmiCheckBlendRemap.py` used to assert the truncated form alone and so
+**failed all four mods of a direction that is correct and confirmed in game** (100.0% of weighted
+slots are the local id; 2.5-11.3% coincidentally match the truncated one as well, which is the kind
+of partial agreement that reads like corruption). It accepts either now, names which it found, and
+for the local form checks the coverage condition rather than taking it on trust. The fix that the
+old message invited -- rewriting the blend as truncated ids -- would have been wrong.
 
 The skeleton buffers have to be big enough too. A mod declares `array = 768` (256 bones x 3 rows),
 sized for its OWN character; `WWMIFixerConfig::mergedSkeletonSlots` is what the fix declares instead,

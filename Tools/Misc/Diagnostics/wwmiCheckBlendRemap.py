@@ -33,6 +33,7 @@
 #
 
 import argparse
+import glob
 import os
 import re
 import sys
@@ -82,6 +83,53 @@ def readComponents(iniPath):
             out.append((name, int(first.group(1)), int(count.group(1)),
                         override.group(1) if (override) else None))
     return out
+
+
+def drawsBypassingRemap(folder):
+    """([remapped sections that draw], [those that never reach BlendRemapper]).
+
+    Only meaningful for a blend written as LOCAL ids: such a blend is what `BlendRemapper` would
+    write, so a draw that goes through it is served correctly, and a draw that reads the written
+    buffer DIRECTLY indexes the merged skeleton with a local id -- a wrong bone, silently.
+
+    Pools every .ini of the mod, because a `run =` crosses files: the fix splits the extra sections
+    of a draw window into `<stem>RemapFix<n>.ini` beside the mod's own.
+    """
+    sections = {}
+    for path in glob.glob(os.path.join(folder, "**", "*.ini"), recursive = True):
+        base = os.path.basename(path)
+        if (base.lower().startswith("disabled") or "BKUP" in base):
+            continue
+
+        current = None
+        for line in open(path, "r", encoding = "utf-8", errors = "replace"):
+            line = line.rstrip("\r\n")
+            head = re.match(r'^\s*\[([^\]]+)\]\s*$', line)
+            if (head):
+                current = head.group(1)
+                sections.setdefault(current, [])
+                continue
+
+            if (current is not None and not line.lstrip().startswith(";")):
+                sections[current].append(line)
+
+    def reaches(name, seen):
+        if (name in seen):
+            return False
+        seen.add(name)
+
+        for line in sections.get(name, []):
+            if (re.search(r'run\s*=\s*CustomShader\\WWMIv1\\BlendRemapper', line, re.I)):
+                return True
+            called = re.match(r'^\s*run\s*=\s*(.+?)\s*$', line, re.I)
+            if (called and reaches(called.group(1), seen)):
+                return True
+        return False
+
+    drawing = [n for n, lines in sections.items()
+               if ("remapfix" in n.lower()
+                   and any(re.match(r'^\s*drawindexed\s*=', l, re.I) for l in lines))]
+    return drawing, [n for n in drawing if (not reaches(n, set()))]
 
 
 def check(folder, names, wanted = None):
@@ -145,14 +193,56 @@ def check(folder, names, wanted = None):
           f"{remapCount} remap(s), {len(comps)} component section(s)")
 
     ok = True
-    # Blend.buf must hold the merged ids TRUNCATED -- that is what a component with no remap reads
-    bad = int(((truncated != (ids & 0xFF)) & (weights > 0)).sum())
-    if (bad):
-        ok = False
-        print(f"      FAIL: {bad} weighted slots where {names['blend']} is not "
-              f"{names['vertexVg']} & 0xFF")
-    else:
+    # TWO legal forms, and asserting only the first failed every fix-written remap (2026-10-04).
+    #
+    #   * the TRUNCATED merged id (`ids & 0xFF`) -- the WWMI Tools convention, and what a component
+    #     with NO remap reads, so it is safe unconditionally.
+    #   * the LOCAL id (`reverse[trueId]`) -- what `BlendRemapper` recomputes into the private
+    #     buffer, so its write is idempotent over it. A fix that owns one remap over the whole mesh
+    #     writes this. Safe only while every remapped draw goes THROUGH the remapper, since one
+    #     reading the written buffer directly would index the merged skeleton with a local id.
+    #
+    # Neither is "the" right answer; a blend matching neither is the bug.
+    live = weights > 0
+    total = int(live.sum())
+    asTruncated = int(((truncated == (ids & 0xFF)) & live).sum())
+
+    asLocal = -1
+    if (remapCount == 1 and total):
+        r = reverse.astype(np.int64)
+        safe = ids.copy()
+        safe[safe >= RemapSize] = 0            # out of range is caught separately, below
+        asLocal = int(((truncated == r[safe]) & live).sum())
+
+    if (total == 0):
+        print(f"      NOTHING WAS CHECKED -- no weighted slot in {names['blend']}")
+        return None
+
+    if (asTruncated == total):
         print(f"      ok: every weighted slot of {names['blend']} is its 16-bit id truncated")
+    elif (asLocal == total):
+        drawing, bypassing = drawsBypassingRemap(folder)
+        if (bypassing):
+            ok = False
+            print(f"      FAIL: {names['blend']} holds LOCAL ids, but {len(bypassing)} of "
+                  f"{len(drawing)} remapped section(s) that draw never reach BlendRemapper, so "
+                  f"they index the merged skeleton with a local id: "
+                  f"{', '.join(bypassing[:3])}"
+                  f"{' ...' if (len(bypassing) > 3) else ''}")
+        elif (not drawing):
+            print(f"      ok: every weighted slot of {names['blend']} is its LOCAL id "
+                  f"(reverse[id]) -- but no remapped section draws in this folder, so whether "
+                  f"they all reach BlendRemapper was NOT checked")
+        else:
+            print(f"      ok: every weighted slot of {names['blend']} is its LOCAL id "
+                  f"(reverse[id]), and all {len(drawing)} remapped section(s) that draw reach "
+                  f"BlendRemapper, which writes the same value")
+    else:
+        ok = False
+        best = max(asTruncated, asLocal)
+        print(f"      FAIL: {total - best} of {total} weighted slots of {names['blend']} are "
+              f"NEITHER the truncated merged id ({asTruncated} match) nor the local id "
+              f"reverse[id] ({asLocal if (asLocal >= 0) else 'n/a, several remaps'} match)")
 
     # ONE remap covering the whole mesh is the simpler and stronger case: every weighted slot of
     # every vertex has to round-trip through it, with no component windows involved at all. A fix

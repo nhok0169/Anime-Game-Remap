@@ -38,7 +38,7 @@ What environment to build the script for, which decides how the compiled script 
 | Env | How the script reaches the API | Options the script gains |
 | --- | --- | --- |
 | `dev` *(default)* | a path on this machine, relative to the compiled script, the way the tools in this repo reach each other | none |
-| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs, the same shape as the API's own `PackageManager` | `--disableUpdate/-dup`, `--preRelease/-pre` |
+| `prod` | the API's mirror, [AnimeGameRemap](https://pypi.org/project/AnimeGameRemap/), downloaded from pypi when the script runs (it pulls in `FixRaidenBoss2` as its dependency), the same shape as the API's own `PackageManager` | `--disableUpdate/-dup`, `--preRelease/-pre` |
 
 ```bash
 python3 main.py --env prod

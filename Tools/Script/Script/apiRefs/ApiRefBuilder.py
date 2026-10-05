@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### LocalImports
-from ..constants.BuildData import ApiPackage, EnvName
+from ..constants.BuildData import ApiMirrorPackage, ApiPackage, EnvName
 from ..constants.BuildEnvs import BuildEnv
 from .BaseApiRef import BaseApiRef
 from .PackageApiRef import PackageApiRef
@@ -38,7 +38,7 @@ class ApiRefBuilder():
         """
 
         if (BuildEnv.match(EnvName) == BuildEnv.Prod):
-            return PackageApiRef(ApiPackage)
+            return PackageApiRef(ApiMirrorPackage)
 
         return PathApiRef(ApiPackage)
 ##### EndScript

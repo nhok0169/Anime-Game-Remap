@@ -152,6 +152,13 @@ script gets the API* belongs in `Tools/Script`.
 - **`dev`** --- a path relative to the compiled script, worked out at build time and written with
   `/` rather than `os.sep` so a script compiled on one OS still finds the API on another.
 - **`prod`** --- downloaded from pypi at runtime, the same shape as the API's own `PackageManager`.
+  **It installs and imports the MIRROR, `AnimeGameRemap`, not `FixRaidenBoss2` (2026-10-05, the
+  maintainer's call)**: the mirror re-exports the API and pins `FixRaidenBoss2==<its own version>`,
+  so pip brings the API along and an upgrade of one moves both. `BuildData.ApiMirrorPackage`
+  (`{{API Mirror Package}}`, filled from `APIMirrorStats.name`) is the prod name; `ApiPackage` stays
+  `FixRaidenBoss2` for `dev`, which imports the repo's `api/src/py` directly -- the mirror's
+  `__init__` is regenerated only by the pipeline, so routing dev through it would test a stale
+  export list. The two packages share version numbers on pypi, so the 4.6.4 rule below holds for both.
   This build also gains `--disableUpdate/-dup` and `--preRelease/-pre`. **It updates the API on
   every run by default (2026-10-04)** -- users asked for that over the old opt-in `--update/-up`,
   which was there to avoid a download per run; `--disableUpdate` is the opt-out. **An installed
@@ -177,9 +184,8 @@ Four things about that design are load-bearing and easy to undo by accident:
    the API reference's `canShowFullHelp` says no -- a `prod` build whose package is not installed
    -- `remapMain` prints `CommandBuilder.printHelp`'s page of the script's own
    options, with the reference's `getHelpNote` underneath, and returns. Before this, asking for help
-   on a fresh machine pip-installed the whole API first. Test it in a scratch `venv`: the dev Pythons
-   here have no `FixRaidenBoss2` installed, and `PYTHONPATH=<repo>/api/src/py` stands in for an
-   installed one without a download.
+   on a fresh machine pip-installed the whole API first. Test it in a scratch `venv`; for an
+   installed one without a download, see step 3 of the loop below.
 
 **`script build/` is the end-user deliverable, so what is committed there must be a `prod` build.**
 A `dev` build looks for `../../../api/src/py` on the user's machine, which exists on nobody else's.
@@ -197,9 +203,11 @@ A script request is usually small, and the whole loop is ten minutes once you kn
    `python` is the Microsoft Store alias and prints "Python was not found" -- use `py -3`.
 3. Run the compiled `script build/src/FixRaidenBoss2/AGRemap.py`, not `Tools/Script/main.py`: the
    latter is always the `dev` path and cannot show a `prod` behaviour. For "the API is not
-   installed", use a scratch venv (`py -3.X -m venv <scratchpad>/venv`) -- none of the dev Pythons
-   here have `FixRaidenBoss2` installed, and none should get it. For "the API IS installed", put
-   `PYTHONPATH=<repo>/api/src/py` in front of `py -3.X` rather than downloading from pypi. **`3.X`
+   installed", use a scratch venv (`py -3.X -m venv <scratchpad>/venv`) -- do NOT trust a dev Python
+   to lack it: on 2026-10-05 the Xeon's `py -3` had `AnimeGameRemap` 5.0.0 installed from pypi (a
+   free test of the real installed path; `pip show AnimeGameRemap` first). For "the API IS installed"
+   without a download, a prod build needs BOTH folders, since it imports the mirror:
+   `PYTHONPATH="<repo>/apiMirror/src;<repo>/api/src/py"` (`;` on Windows) in front of `py -3.X`. **`3.X`
    must be the Python the API's `.pyd` was built for** -- read it off `ls api/src/py/FixRaidenBoss2/*.pyd`
    (`core.cp39-...` on the laptop, where `py -3.13` does not exist and fails with "No suitable
    Python runtime found"), not off this line. **Never

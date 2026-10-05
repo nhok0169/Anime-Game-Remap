@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d375020030050013243377107376205003230063246136126" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@375020030050013243377107376205003230063246136126</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/Ayaka/AyakaFixer.cpp" line="29" column="5"/>
+  </compounddef>
+</doxygen>

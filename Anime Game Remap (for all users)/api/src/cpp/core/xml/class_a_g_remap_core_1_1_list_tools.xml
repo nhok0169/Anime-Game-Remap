@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_list_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ListTools</compoundname>
+    <includes refid="_list_tools_8h" local="no">ListTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_tools_1ac7cb9bc4a98992a45737f681fd5fed73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::ptrdiff_t &gt;</type>
+        <definition>std::vector&lt; std::ptrdiff_t &gt; AGRemapCore::ListTools::getIndsAfterRemove</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;removedInds, size_t lstLen)</argsstring>
+        <name>getIndsAfterRemove</name>
+        <qualifiedname>AGRemapCore::ListTools::getIndsAfterRemove</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>removedInds</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>lstLen</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the index shifts in some data structure, after the list got elements removed by indices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>removedInds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices to elements that got removed from the list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lstLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The length of the original list, before its elements got removed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list containing how much each index is shifted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ListTools.h" line="38" column="32" bodyfile="src/tools/ListTools.cpp" bodystart="18" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_list_tools_1af376118b080c696f469d5138d08e1458" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool AGRemapCore::ListTools::pushDistinct</definition>
+        <argsstring>(std::vector&lt; T &gt; &amp;lst, const T &amp;value)</argsstring>
+        <name>pushDistinct</name>
+        <qualifiedname>AGRemapCore::ListTools::pushDistinct</qualifiedname>
+        <param>
+          <type>std::vector&lt; T &gt; &amp;</type>
+          <declname>lst</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Appends &apos;value&apos; to &apos;lst&apos; unless it is already in it, keeping the order things were first
+seen in :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The order-preserving dedupe that ten sites in ``core`` wrote out by hand as
+``if (std::find(v.begin(), v.end(), x) == v.end()) v.push_back(x);`` -- a linear scan
+per insert, which is right for the short lists this is used on (a mod&apos;s objects, a
+character&apos;s roles, a section&apos;s predecessors) and wrong for long ones
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to append to, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to append if it is not already present</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the value was appended </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/ListTools.h" line="58" column="25" bodyfile="include/AGRemapCore/tools/ListTools.h" bodystart="58" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for handling with Lists. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/ListTools.h" line="26" column="5" bodyfile="include/AGRemapCore/tools/ListTools.h" bodystart="26" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_list_tools_1ac7cb9bc4a98992a45737f681fd5fed73" prot="public" virt="non-virtual"><scope>AGRemapCore::ListTools</scope><name>getIndsAfterRemove</name></member>
+      <member refid="class_a_g_remap_core_1_1_list_tools_1af376118b080c696f469d5138d08e1458" prot="public" virt="non-virtual"><scope>AGRemapCore::ListTools</scope><name>pushDistinct</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

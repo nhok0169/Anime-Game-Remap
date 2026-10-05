@@ -4,6 +4,13 @@
 How to Find a Vertex Group Remap
 ================================
 
+.. tip::
+  - We provide now a `script to mathematically find the closest vertex group`_
+  - We provide :doc:`AI support <aiSupport>` for automating most of the steps below
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Requirements
 ------------
 - Blender 3.6 with the `GIMI Blender Plugin`_ installed
@@ -34,7 +41,7 @@ For the rest of this tutorial, we will only be using the following features with
 A. **Mod Objects:** The different objects that make up a mod. We will be switching between different objects to find the location of the desired vertex group.
 B. **Vertex Groups:** The full list of all the vertex groups within a mod.
 C. **Weight Paint Mode:** A viewing mode to visually check out the vertex groups. When this mode is enabled, you will see some sort of heat map for the part of the mod.
-Hotter colours indicate where the selected vertex group is located.
+   Hotter colours indicate where the selected vertex group is located.
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -189,7 +196,8 @@ you would now need to find the vertex group remap for ``Shenhe --> ShenheFrostFl
 .. _GIMI Blender Plugin: https://github.com/SilentNightSound/GI-Model-Importer/?tab=readme-ov-file#installation-instructions-3dmigoto-blender-plugin
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _GIMI Mona Walkthrough: https://github.com/SilentNightSound/GI-Model-Importer/blob/main/Guides/MonaWalkthrough.md
-.. _Remap Draft Format: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Data/RemapDrafts/README.md
+.. _Remap Draft Format: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Data/RemapDrafts/README.md
+.. _script to mathematically find the closest vertex group: https://github.com/nhok0169/Anime-Game-Remap/blob/master/Tools/VGRemapFinder/GI/GIVGRemapFinder.ipynb
 .. _Always Taken Branch Predictor: https://en.wikipedia.org/wiki/Branch_predictor#Next_line_prediction
 .. _One Bit Saturating Counter Branch Predictor: https://en.wikipedia.org/wiki/Branch_predictor#One-level_branch_prediction
 .. _Branch Prediction: https://en.wikipedia.org/wiki/Branch_predictor

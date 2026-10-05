@@ -6,7 +6,7 @@ from typing import Set
 from ..constants.Paths import APIPath
 
 sys.path.insert(1, APIPath)
-import src.FixRaidenBoss2 as FRB
+import FixRaidenBoss2 as FRB
 
 
 # FileTools: Tools for file manipulation for the tester
@@ -15,10 +15,10 @@ class TestFileTools():
     IntegrationTestOutputsFileName = 'integrationTestOutputs.txt'
     FileEncoding = "utf-8"
 
-    BinaryFiles = re.compile("\.(buf)$")
-    TexFiles = re.compile("\.(dds)$")
-    FilesToNotPrintContentPattern = re.compile("\.(buf|py)$")
-    LogFiles = re.compile("RemapFixLog\.txt$")
+    BinaryFiles = re.compile("\\.(buf|ib)$")
+    TexFiles = re.compile("\\.(dds)$")
+    FilesToNotPrintContentPattern = re.compile("\\.(buf|ib|dds|py)$")
+    LogFiles = re.compile("RemapFixLog\\.txt$")
 
     # readTestResults(): Reads the integration test results
     @classmethod

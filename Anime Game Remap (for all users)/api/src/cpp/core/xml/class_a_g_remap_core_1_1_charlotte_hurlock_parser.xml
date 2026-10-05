@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_charlotte_hurlock_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CharlotteHurlockParser</compoundname>
+    <includes refid="_charlotte_hurlock_parser_8h" local="no">CharlotteHurlockParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_hurlock_parser_1adb58653a9c756fcf10a94280a5489aae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CharlotteHurlockParser::CharlotteHurlockParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CharlotteHurlockParser</name>
+        <qualifiedname>AGRemapCore::CharlotteHurlockParser::CharlotteHurlockParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_hurlock_parser_1ad197da7d9de9774fff445f03ae09a975" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::CharlotteHurlockParser::v6_7</definition>
+        <argsstring>()</argsstring>
+        <name>v6_7</name>
+        <qualifiedname>AGRemapCore::CharlotteHurlockParser::v6_7</qualifiedname>
+        <briefdescription>
+<para>The parser for a 6.7 CharlotteHurlock mod <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a13308c49b1f5b66c810a0e984d25ed49" kindref="member">IniParseBuilderFuncs::charlotteHurlock6_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.h" line="40" column="45" bodyfile="src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+CharlotteHurlock&apos;s own parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A skin of FOUR components (Body, Bangs, Eyes, Camera), read one component at a time -- see
+:cpp:func:`makeGIMIComponentParser`. The Camera is an accessory rather than part of her, so it
+is not configured and nothing of it is read. Pair this with :cpp:class:`CharlotteHurlockFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser_1adb58653a9c756fcf10a94280a5489aae" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteHurlockParser</scope><name>CharlotteHurlockParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser_1ad197da7d9de9774fff445f03ae09a975" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteHurlockParser</scope><name>v6_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

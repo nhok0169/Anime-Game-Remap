@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7f84deb5e2bd66c228fb7ce5b7c32fa6" kind="dir">
+    <compoundname>src/data/IniParseData/Raiden</compoundname>
+    <innerfile refid="_raiden_parser_8cpp">RaidenParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/Raiden/"/>
+  </compounddef>
+</doxygen>

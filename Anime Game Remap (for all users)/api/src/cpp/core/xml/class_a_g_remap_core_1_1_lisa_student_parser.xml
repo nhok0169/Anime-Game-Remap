@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lisa_student_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LisaStudentParser</compoundname>
+    <includes refid="_lisa_student_parser_8h" local="no">LisaStudentParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_student_parser_1ae46cedb72a923da1a52bd870150835ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LisaStudentParser::LisaStudentParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LisaStudentParser</name>
+        <qualifiedname>AGRemapCore::LisaStudentParser::LisaStudentParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_student_parser_1a6ebb2b71d60b8d6671db60548b46da47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::LisaStudentParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::LisaStudentParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era LisaStudent ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::lisaStudent4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="44" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_student_parser_1a176844c4d324f5656164536d4537fd04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::LisaStudentParser::v5_4</definition>
+        <argsstring>()</argsstring>
+        <name>v5_4</name>
+        <qualifiedname>AGRemapCore::LisaStudentParser::v5_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 5.4-era LisaStudent ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::lisaStudent5_4` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="53" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_student_parser_1a2a969dc47e2e159d8fef20f9d9656ad0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::LisaStudentParser::v5_7</definition>
+        <argsstring>()</argsstring>
+        <name>v5_7</name>
+        <qualifiedname>AGRemapCore::LisaStudentParser::v5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 5.7-era LisaStudent ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::lisaStudent5_7` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="62" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+LisaStudent&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`LisaStudentFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" bodystart="32" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lisa_student_parser_1ae46cedb72a923da1a52bd870150835ef" prot="public" virt="non-virtual"><scope>AGRemapCore::LisaStudentParser</scope><name>LisaStudentParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_lisa_student_parser_1a6ebb2b71d60b8d6671db60548b46da47" prot="public" virt="non-virtual"><scope>AGRemapCore::LisaStudentParser</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_lisa_student_parser_1a176844c4d324f5656164536d4537fd04" prot="public" virt="non-virtual"><scope>AGRemapCore::LisaStudentParser</scope><name>v5_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_lisa_student_parser_1a2a969dc47e2e159d8fef20f9d9656ad0" prot="public" virt="non-virtual"><scope>AGRemapCore::LisaStudentParser</scope><name>v5_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

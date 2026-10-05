@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_bennett_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BennettFixer</compoundname>
+    <includes refid="_bennett_fixer_8h" local="no">BennettFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_fixer_1a2d124a2fb0d7d76bd268b82f258d8136" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BennettFixer::BennettFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>BennettFixer</name>
+        <qualifiedname>AGRemapCore::BennettFixer::BennettFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Bennett/BennettFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_fixer_1a5e2c5e3f796b6bcd5d6e02a0cec64ce9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::BennettFixer::body6_1</definition>
+        <argsstring>()</argsstring>
+        <name>body6_1</name>
+        <qualifiedname>AGRemapCore::BennettFixer::body6_1</qualifiedname>
+        <briefdescription>
+<para>The fixer onto BennettAdventure&apos;s <computeroutput>Body</computeroutput> component <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae8c888df890e0536514fac7bdbaa0926" kindref="member">IniFixBuilderFuncs::bennettAdventureBody6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Bennett/BennettFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Bennett/BennettFixer.cpp" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_fixer_1a5dbe241d6842ab56e1a9a119b3f68329" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::BennettFixer::eye6_1</definition>
+        <argsstring>()</argsstring>
+        <name>eye6_1</name>
+        <qualifiedname>AGRemapCore::BennettFixer::eye6_1</qualifiedname>
+        <briefdescription>
+<para>The fixer onto BennettAdventure&apos;s <computeroutput>Eye</computeroutput> component <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a22c13f14a5950b5c1d605129617b7024" kindref="member">IniFixBuilderFuncs::bennettAdventureEye6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Bennett/BennettFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Bennett/BennettFixer.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Bennett&apos;s own ``.ini`` fixers -- the second remap onto a skin of SEVERAL COMPONENTS
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+BennettAdventure (5.7) is a ``Body``, a ``Bang`` and an ``Eye``, so Bennett is fixed by THREE
+fixers, one per component, built from one :cpp:class:`GIMIComponentFixerConfig` -- see
+:cpp:func:`makeGIMIComponentFixer` for the shape and
+``data/IniFixData/Bennett/BennettFixer.cpp`` for Bennett&apos;s own choices. Pair it with
+:cpp:class:`BennettParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Bennett/BennettFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Bennett/BennettFixer.h" bodystart="35" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_bennett_fixer_1a2d124a2fb0d7d76bd268b82f258d8136" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettFixer</scope><name>BennettFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_bennett_fixer_1a5e2c5e3f796b6bcd5d6e02a0cec64ce9" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettFixer</scope><name>body6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_bennett_fixer_1a5dbe241d6842ab56e1a9a119b3f68329" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettFixer</scope><name>eye6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

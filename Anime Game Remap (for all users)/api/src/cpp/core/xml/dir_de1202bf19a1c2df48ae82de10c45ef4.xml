@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_de1202bf19a1c2df48ae82de10c45ef4" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Kirara</compoundname>
+    <innerfile refid="_kirara_parser_8h">KiraraParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Kirara/"/>
+  </compounddef>
+</doxygen>

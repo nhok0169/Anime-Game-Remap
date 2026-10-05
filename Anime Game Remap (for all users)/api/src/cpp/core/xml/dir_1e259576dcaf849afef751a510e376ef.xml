@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1e259576dcaf849afef751a510e376ef" kind="dir">
+    <compoundname>src/data/IniParseData/Bennett</compoundname>
+    <innerfile refid="_bennett_parser_8cpp">BennettParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/Bennett/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yaoyao_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YaoyaoFixer</compoundname>
+    <includes refid="_yaoyao_fixer_8h" local="no">YaoyaoFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_fixer_1a405b806141d62d426a58d45ef313720e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YaoyaoFixer::YaoyaoFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YaoyaoFixer</name>
+        <qualifiedname>AGRemapCore::YaoyaoFixer::YaoyaoFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_fixer_1a512065756c97e556a151314551ed01b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YaoyaoFixer::main6_3</definition>
+        <argsstring>()</argsstring>
+        <name>main6_3</name>
+        <qualifiedname>AGRemapCore::YaoyaoFixer::main6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto YaoyaoBamboo&apos;s main mesh <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a3513e54244248e53b33139d8dc890737" kindref="member">IniFixBuilderFuncs::yaoyaoBambooMain6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_fixer_1a86eceb5301349b951eea162b7845757e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YaoyaoFixer::bang6_3</definition>
+        <argsstring>()</argsstring>
+        <name>bang6_3</name>
+        <qualifiedname>AGRemapCore::YaoyaoFixer::bang6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto YaoyaoBamboo&apos;s <computeroutput>Bang</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab0617580779efe3c30b4872976b8008b" kindref="member">IniFixBuilderFuncs::yaoyaoBambooBang6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_fixer_1a1983a7fd41e78741f6bd8c53a6da3f45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YaoyaoFixer::eye6_3</definition>
+        <argsstring>()</argsstring>
+        <name>eye6_3</name>
+        <qualifiedname>AGRemapCore::YaoyaoFixer::eye6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto YaoyaoBamboo&apos;s <computeroutput>Eye</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9e85cfcd5a11837b50c3828d61b03149" kindref="member">IniFixBuilderFuncs::yaoyaoBambooEye6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp" bodystart="186" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Yaoyao&apos;s own ``.ini`` fixers -- onto YaoyaoBamboo, a skin of THREE components whose main mesh is unnamed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+YaoyaoBamboo (6.3) is a main mesh (component ``&quot;&quot;``, two draw slots), a ``Bang`` and an ``Eye``, so Yaoyao is
+fixed by THREE fixers, one per component, built from one :cpp:class:`GIMIComponentFixerConfig` -- see
+:cpp:func:`makeGIMIComponentFixer` for the shape and ``data/IniFixData/Yaoyao/YaoyaoFixer.cpp`` for her own
+choices. Pair it with :cpp:class:`YaoyaoParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Yaoyao/YaoyaoFixer.h" bodystart="35" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a86eceb5301349b951eea162b7845757e" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoFixer</scope><name>bang6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a1983a7fd41e78741f6bd8c53a6da3f45" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoFixer</scope><name>eye6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a512065756c97e556a151314551ed01b7" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoFixer</scope><name>main6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_fixer_1a405b806141d62d426a58d45ef313720e" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoFixer</scope><name>YaoyaoFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

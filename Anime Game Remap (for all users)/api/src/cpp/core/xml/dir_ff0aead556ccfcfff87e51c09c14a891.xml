@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ff0aead556ccfcfff87e51c09c14a891" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/BarbaraSummertime</compoundname>
+    <innerfile refid="_barbara_summertime_parser_8h">BarbaraSummertimeParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/BarbaraSummertime/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_tex_reg_layout" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexRegLayout</compoundname>
+    <includes refid="_tex_reg_layout_8h" local="no">TexRegLayout.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles" prot="public">AGRemapCore::TexRegLayout::Roles</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_reg_layout_1a23759a5af886a29cc26eb31546a68c9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::TexRegLayout::TexRegLayout</definition>
+        <argsstring>()=delete</argsstring>
+        <name>TexRegLayout</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::TexRegLayout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="53" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_reg_layout_1ae7ae3efd467c365d74ba92e5a221a391" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles" kindref="compound">Roles</ref></type>
+        <definition>TexRegLayout::Roles AGRemapCore::TexRegLayout::fixLibraryRoles</definition>
+        <argsstring>(bool normalMap)</argsstring>
+        <name>fixLibraryRoles</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::fixLibraryRoles</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>normalMap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``ps-t`` registers a GI character&apos;s shader reads its textures out of, as
+``ORFix`` (with a normal map) or ``NNFix`` (without) expects them
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>normalMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the layout carries a normal map <ndash/> <computeroutput>ORFix</computeroutput>&apos;s, rather than <computeroutput>NNFix</computeroutput>&apos;s </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="88" column="26" bodyfile="src/data/IniFixData/TexRegLayout.cpp" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_reg_layout_1a72213e058da3675acdb4d83a3a01e8b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_reg_remap" kindref="compound">RegRemap</ref>&lt;&gt;<ref refid="_if_content_part_8h_1a9f9d8e868501c348021935697e8afe16" kindref="member">::KeyRemapValue</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, RegRemap&lt;&gt;::KeyRemapValue &gt; &gt; AGRemapCore::TexRegLayout::byName</definition>
+        <argsstring>(const Roles &amp;roles, const std::vector&lt; std::string &gt; &amp;fromRegs)</argsstring>
+        <name>byName</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::byName</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_tex_reg_layout_1_1_roles" kindref="compound">Roles</ref> &amp;</type>
+          <declname>roles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fromRegs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:class:`RegRemap` rules that send every occurence of &apos;fromRegs&apos; to the register
+&apos;roles&apos; gives its NAME&apos;s role, leaving a value that names none exactly where it is
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The checks are made mutually exclusive rather than taken raw: a
+:cpp:class:`RegRemap` sends a `KVP`_ to EVERY destination whose check passes, and a
+fix&apos;s own generated names can compose two roles (a diffuse edited as a light map is
+``&lt;obj&gt;Diffuse&lt;target&gt;LightMapRemapTex``), which would otherwise land on two registers.
+Precedence: normal map, then light map, then diffuse
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which register each role belongs on <ndash/> see <ref refid="class_a_g_remap_core_1_1_tex_reg_layout_1ae7ae3efd467c365d74ba92e5a221a391" kindref="member">fixLibraryRoles</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromRegs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The registers a mod may have bound, all of which are considered </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="107" column="33" bodyfile="src/data/IniFixData/TexRegLayout.cpp" bodystart="51" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_reg_layout_1a88d299593fa37974a30eabc6bf819565" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_remove" kindref="compound">RegRemove</ref>&lt;&gt;<ref refid="_if_content_part_8h_1abe734236c41b844c230d9d9509a8b120" kindref="member">::RemoveKeyCheck</ref> &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::optional&lt; RegRemove&lt;&gt;::RemoveKeyCheck &gt; &gt; &gt; AGRemapCore::TexRegLayout::removeNormalMap</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;fromRegs)</argsstring>
+        <name>removeNormalMap</name>
+        <qualifiedname>AGRemapCore::TexRegLayout::removeNormalMap</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fromRegs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:class:`RegRemove` keys that drop a NORMAL MAP wherever it is bound -- for a
+target layout that has no slot for one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+By name rather than by position, for the same reason as \\ref byName: a mod written in
+the game&apos;s own order does not keep its normal map at ``ps-t0``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fromRegs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The registers a mod may have bound </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="122" column="33" bodyfile="src/data/IniFixData/TexRegLayout.cpp" bodystart="90" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the register edits that put each bound texture on the register its **name** says
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``NNFix`` and ``ORFix`` do not re-slot a REGISTER, they read a ROLE out of a fixed one
+(``CommandListReference``: the normal map from ``ps-t0``, the diffuse from ``ps-t1``, the light
+map from ``ps-t2``), so a `section`_ handed to one has to have its textures there. **A mod
+dumped straight from the game does not**: the game&apos;s own draw of a GI 6.x character binds the
+light map, normal map and diffuse in that order, and a CitlaliWhisperofStars mod is written
+exactly that way while Citlali&apos;s own mods are written in ``ORFix``&apos;s order. Carried across
+unchanged and handed to ``ORFix``, every role comes out of the wrong slot -- a wrong-textured
+model whose every downloaded slot looks right (2026-09-22) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Which texture is which comes from the resource NAME, through :cpp:class:`RegValChecks` --
+whose header records why the pixels are deliberately not consulted. A binding naming no role
+is left where it is, so a mod already written in the fix&apos;s layout is untouched and this
+subsumes a positional shift rather than running beside it
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/TexRegLayout.h" line="50" column="5" bodyfile="include/AGRemapCore/data/IniFixData/TexRegLayout.h" bodystart="50" bodyend="124"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1a72213e058da3675acdb4d83a3a01e8b6" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout</scope><name>byName</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1ae7ae3efd467c365d74ba92e5a221a391" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout</scope><name>fixLibraryRoles</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1a88d299593fa37974a30eabc6bf819565" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout</scope><name>removeNormalMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_reg_layout_1a23759a5af886a29cc26eb31546a68c9a" prot="public" virt="non-virtual"><scope>AGRemapCore::TexRegLayout</scope><name>TexRegLayout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

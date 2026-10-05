@@ -1,0 +1,245 @@
+#ifndef AGRemapPyBind_PyGIMIFixer_H
+#define AGRemapPyBind_PyGIMIFixer_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <cstddef>
+#include <memory>
+#include <optional>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include <pybind11/pybind11.h>
+
+#include "PyBaseIniFixer.h"
+#include "graphGroupEdits/PyIniGraphGroups.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
+#include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixContext.h"
+#include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
+
+
+namespace py = pybind11;
+namespace AGRC = AGRemapCore;
+
+
+/**
+ * @brief
+ @rst
+ The `Python`_-backed :cpp:class:`AGRemapCore::IniFixContext` -- the still-pure-Python ``IniFile``
+ a fixer is fixing :raw-html:`<br />` :raw-html:`<br />`
+
+ The fixing counterpart of ``PyIniParseContext``. Every method here forwards through genuine
+ `Python`_ attribute lookup rather than reimplementing what ``IniFile`` does -- which matters
+ beyond faithfulness for the two that touch the filesystem: this project's test harness patches
+ ``builtins.open`` and ``os.path`` at the `Python`_ level, so a ``std::filesystem`` call here would
+ silently bypass every one of those mocks
+
+ :raw-html:`<br />`
+
+ .. note::
+    ``addFixBoilerPlate`` and ``hideOriginalSections`` are the two methods here that do **not**
+    forward to `Python`_. This class's base is :cpp:class:`AGRemapCore::RemapIniFixContext` rather
+    than :cpp:class:`AGRemapCore::IniFixContext` itself, and those two inherited C++
+    implementations are the ones that run -- the boilerplate a fix is wrapped in, and the
+    commenting-out of the mod it replaces, belong to `AGRemapCore` now rather than to the `Python`_
+    ``IniFile``. Both produce what the `Python`_ original did, to the byte: #modTypeName feeds the
+    first, and the second reaches the ``.ini`` file only through #fileTxt/#setFileTxt, which do
+    still forward
+
+    :raw-html:`<br />`
+
+    ``IniFile.addFixBoilerPlate``/``IniFile.hideOriginalSections`` themselves stay -- the
+    still-pure-Python ``MultiModFixer`` and the deprecated ``GIMIObj*Fixer``\s call them directly
+    -- but an ``IniFile`` subclass that overrides either no longer changes what a
+    :cpp:class:`GIMIFixer` writes. Nothing fills the ``.ini`` file's own ``_remappedSectionNames``
+    any more either: which `sections`_ to hide is
+    :cpp:func:`AGRemapCore::GIMIFixer::touchedSectionNames`'s answer, handed straight to the context
+ @endrst
+ */
+class PyIniFixContext: public AGRC::RemapIniFixContext<std::string, std::string> {
+    public:
+        using Base = AGRC::RemapIniFixContext<std::string, std::string>;
+        using GraphGroups = Base::GraphGroups;
+
+        /**
+         * @brief Constructs a context over one Python ``IniFile``
+         *
+         * @param ini The Python ``IniFile``, or ``None``
+         * @param modTypeId The id of the mod type this fixer was built for, if it was built for one
+         */
+        explicit PyIniFixContext(py::object ini = py::none(), std::optional<int> modTypeId = std::nullopt);
+
+        /**
+         * @brief The Python ``IniFile``, or ``None``
+         */
+        py::object ini;
+
+        /**
+         * @brief
+         @rst
+         Set when :cpp:member:`ini` is a bound :cpp:class:`AGRemapCore::IniFile`, in which case the
+         accessors delegate to it rather than reading attributes off a pure-Python ``IniFile`` that
+         no longer exists -- see :cpp:member:`PyIniParseContext::coreCtx`
+         @endrst
+         */
+        std::unique_ptr<AGRC::IniFileFixContext> coreCtx;
+
+        /**
+         * @brief
+         @rst
+         The id of the mod type this fixer was built for, if it was built for one :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Picked up off the fixer's own parser (``parser.modTypeId``) rather than passed separately
+         -- a fixer is always built from the parser for the same mod type, and it already reads its
+         ``.ini`` file off that parser the same way. See ``resolveStrategyModType``
+         @endrst
+         */
+        std::optional<int> modTypeId;
+
+        /**
+         * @brief
+         @rst
+         Rebuilds :cpp:member:`coreCtx` from the current :cpp:member:`ini` and
+         :cpp:member:`modTypeId` :raw-html:`<br />` :raw-html:`<br />`
+
+         Unlike ``PyIniParseContext``, whose ``.ini`` file is handed to its constructor, a
+         ``PyGIMIFixer`` builds its context with ``None`` and then assigns these two members
+         directly from ``refresh()`` (its ``.ini`` file comes off its parser, which the caller may
+         reassign). Deciding in the constructor alone therefore left ``coreCtx`` permanently null
+         and every delegation below dead, which is how a `Python`_-built fixer running against a
+         core ``IniFile`` came to die on ``ini.filePath``. Call this whenever either member changes
+         @endrst
+         */
+        void syncCoreCtx();
+
+        bool hasIni() const override;
+        std::optional<std::string> modTypeName() const override;
+        std::vector<std::string> modsToFix() const override;
+        std::optional<std::string> fixedFilePath(std::size_t groupInd) const override;
+        bool fixedFileExists() const override;
+        std::string fileTxt() const override;
+        void setFileTxt(std::string txt) override;
+        void disableIni() override;
+        void log(const std::string &message) override;
+        void writeFixedFile(const std::string &path, const std::string &content) override;
+        void setIsFixed(bool isFixed) override;
+        std::unique_ptr<GraphGroups> makeGraphGroups() override;
+
+        /**
+         * @brief The Python ``ModType`` the .ini file was classified as, or ``None``
+         */
+        py::object modType() const;
+};
+
+
+/**
+ * @brief The core :cpp:class:`AGRemapCore::GIMIFixer` specialization this binds
+ */
+using PyGIMIFixerCore = AGRC::GIMIFixer<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniFixer>;
+
+
+/**
+ * @brief
+ @rst
+ The `pybind11`_-facing ``GIMIFixer`` :raw-html:`<br />` :raw-html:`<br />`
+
+ Keeps the caller's own `Python`_ objects for ``graphGroupEdits``/``modsToFix``/``prevFixer`` and
+ re-derives the core members from them at the start of every operation (see #refresh) -- the same
+ identity/in-place-mutation contract every other ported class here keeps, and a hard requirement:
+ this fixer's own test suite constructs it and then assigns ``graphGroupEdits`` afterwards
+
+ :raw-html:`<br />`
+
+ .. note::
+    #getFix overrides the core's own and ignores the :cpp:type:`ParseData` it is handed, sourcing
+    the graphs from ``self._parser`` instead. That is not a shortcut: the `Python`_ ``fix``
+    signature has no parse-data parameter (see :cpp:func:`PyBaseIniFixer::fixToPy`), so a
+    `Python`_ fixer has nowhere else to get them from -- and its parser already knows how to
+    collect them, in exactly the shape the core would have been handed
+ @endrst
+ */
+class PyGIMIFixer: public PyGIMIFixerCore {
+    public:
+        using Core = PyGIMIFixerCore;
+        using ModObj = Core::ModObj;
+
+        /**
+         * @brief Constructs a new fixer
+         *
+         * @param parser The Python ``GIMIParser`` to retrieve data for the fix
+         * @param graphGroupEdits The edits to apply to the parsed graphs, or ``None``
+         * @param modsToFix The mods to fix to, or ``None`` to ask the .ini file
+         * @param prevFixer A fixer whose already-edited groups this one continues from, or ``None``
+         */
+        PyGIMIFixer(py::object parser, py::object graphGroupEdits, py::object modsToFix, py::object prevFixer);
+
+        /**
+         * @brief The .ini file being fixed
+         */
+        PyIniFixContext ctxImpl;
+
+        /**
+         * @brief The exact Python object given for ``graphGroupEdits``
+         */
+        py::object graphGroupEditsObj;
+
+        /**
+         * @brief The exact Python object given for ``modsToFix``
+         */
+        py::object modsToFixObj;
+
+        /**
+         * @brief The exact Python object given for ``prevFixer``
+         */
+        py::object prevFixerObj;
+
+        /**
+         * @brief Re-derives every core member from the Python objects above -- see this class's own note
+         */
+        void refresh();
+
+        /**
+         * @brief The ``List[IniGraphGroup]`` this fixer's groups live in -- empty until a fix has run
+         */
+        py::object graphGroupsToPy() const;
+
+        /**
+         * @brief Replaces this fixer's groups with 'groups'
+         *
+         * @param groups A ``List[IniGraphGroup]``
+         */
+        void setGraphGroupsFromPy(py::object groups);
+
+        /**
+         * @brief #getFix, with the result converted to what the pure-Python original returned
+         *
+         * @param onlyEditObjGraphs Whether to stop after editing -- returns ``None`` in that case
+         *
+         * @return A ``Dict[Union[str, int], IniGraphGroup]``, or ``None``
+         */
+        py::object getFixToPy(bool onlyEditObjGraphs);
+
+        FixTargets getFix(ParseData &parseData, bool onlyEditObjGraphs) override;
+        void applyGraphGroupEdits(const std::string &modName) override;
+        py::object fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AGRC::IniFixingContext fixingCtx) override;
+};
+
+
+void initCppGIMIFixer(pybind11::module_ &m);
+
+#endif

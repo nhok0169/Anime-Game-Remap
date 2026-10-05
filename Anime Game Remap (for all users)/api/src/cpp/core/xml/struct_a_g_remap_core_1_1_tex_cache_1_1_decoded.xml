@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexCache::Decoded</compoundname>
+    <includes refid="_tex_cache_8h" local="no">TexCache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1aafe381fe183fd0755582583c83caa3a1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>std::vector&lt;std::uint8_t&gt; AGRemapCore::TexCache::Decoded::pixels</definition>
+        <argsstring></argsstring>
+        <name>pixels</name>
+        <qualifiedname>AGRemapCore::TexCache::Decoded::pixels</qualifiedname>
+        <briefdescription>
+<para>The flat, uncompressed RGBA8 pixels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="88" column="29" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1af9afe9b12c944df6bbabc27eb3ef1215" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::TexCache::Decoded::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>AGRemapCore::TexCache::Decoded::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The width, in pixels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="91" column="21" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1ae08acc71f48369e266dfe8c856b34317" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::TexCache::Decoded::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>AGRemapCore::TexCache::Decoded::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The height, in pixels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="94" column="21" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1afb02c4187c37129aa52c5c4c60f1ea58" prot="public" static="no" mutable="no">
+        <type>CMP_FORMAT</type>
+        <definition>CMP_FORMAT AGRemapCore::TexCache::Decoded::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>AGRemapCore::TexCache::Decoded::format</qualifiedname>
+        <initializer>= CMP_FORMAT_Unknown</initializer>
+        <briefdescription>
+<para>The format the file was originally stored in, which a save re-encodes to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="97" column="28" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1a6c39ed803510f12ccdb2241c5442fcca" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; AGRemapCore::TexCache::Decoded::gamma</definition>
+        <argsstring></argsstring>
+        <name>gamma</name>
+        <qualifiedname>AGRemapCore::TexCache::Decoded::gamma</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The gamma :cpp:func:`TextureFile::open` took from the source&apos;s sRGB header bit,
+if it set one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Part of the decoded state and **not** an optional extra: :cpp:func:`TextureFile::save`
+runs a :cpp:class:`GammaFilter` when this is set, so a cache hit that restored the
+pixels but not this would hand the next texture the PREVIOUS one&apos;s gamma
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/TexCache.h" line="110" column="31" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One decoded texture, exactly the state #open leaves a :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref></computeroutput> in. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/TexCache.h" line="86" column="13" bodyfile="include/AGRemapCore/model/files/TexCache.h" bodystart="86" bodyend="111"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1afb02c4187c37129aa52c5c4c60f1ea58" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Decoded</scope><name>format</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1a6c39ed803510f12ccdb2241c5442fcca" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Decoded</scope><name>gamma</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1ae08acc71f48369e266dfe8c856b34317" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Decoded</scope><name>height</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1aafe381fe183fd0755582583c83caa3a1" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Decoded</scope><name>pixels</name></member>
+      <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_decoded_1af9afe9b12c944df6bbabc27eb3ef1215" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCache::Decoded</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

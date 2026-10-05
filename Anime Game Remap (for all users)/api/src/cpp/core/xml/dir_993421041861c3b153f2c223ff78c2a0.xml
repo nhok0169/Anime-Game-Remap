@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_993421041861c3b153f2c223ff78c2a0" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/iniClassifiers</compoundname>
+    <innerfile refid="_base_ini_classifier_8h">BaseIniClassifier.h</innerfile>
+    <innerfile refid="_ini_classifier_8h">IniClassifier.h</innerfile>
+    <innerfile refid="_ini_classify_stats_8h">IniClassifyStats.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniClassifiers/"/>
+  </compounddef>
+</doxygen>

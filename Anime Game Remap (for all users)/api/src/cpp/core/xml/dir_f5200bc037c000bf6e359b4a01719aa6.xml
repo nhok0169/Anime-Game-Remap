@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f5200bc037c000bf6e359b4a01719aa6" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight</compoundname>
+    <innerfile refid="_klee_blossoming_starlight_fixer_8h">KleeBlossomingStarlightFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/KleeBlossomingStarlight/"/>
+  </compounddef>
+</doxygen>

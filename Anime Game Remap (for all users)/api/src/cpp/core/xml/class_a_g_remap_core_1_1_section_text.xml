@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_section_text" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SectionText</compoundname>
+    <includes refid="_ini_section_text_8h" local="no">IniSectionText.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a6855c6964f9e007e4d618a5a36b23db9" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+        <definition>Z3Context&amp; AGRemapCore::SectionText::z3_</definition>
+        <argsstring></argsstring>
+        <name>z3_</name>
+        <qualifiedname>AGRemapCore::SectionText::z3_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="100" column="23" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1aab22d11ff20d76ef4fd2a07a1ec0d6a4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SectionText::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>AGRemapCore::SectionText::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="101" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a937276f76e7b599a1a057c745bd2ca42" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SectionText::prefix_</definition>
+        <argsstring></argsstring>
+        <name>prefix_</name>
+        <qualifiedname>AGRemapCore::SectionText::prefix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="102" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a00473beaf8094bb0e7fedb2c3f97ad6e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IfTemplatePart&gt; &gt; AGRemapCore::SectionText::parts_</definition>
+        <argsstring></argsstring>
+        <name>parts_</name>
+        <qualifiedname>AGRemapCore::SectionText::parts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="103" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a3c80e1a0a8a71e2457fe086481cadac1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::SectionText::depth_</definition>
+        <argsstring></argsstring>
+        <name>depth_</name>
+        <qualifiedname>AGRemapCore::SectionText::depth_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="104" column="17" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SectionText::SectionText</definition>
+        <argsstring>(Z3Context &amp;z3Ctx, std::string name)</argsstring>
+        <name>SectionText</name>
+        <qualifiedname>AGRemapCore::SectionText::SectionText</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3Ctx</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="49" column="13" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1a5bd46d537f7b3cc3c4d5750de9692f59" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
+        <definition>SectionText &amp; AGRemapCore::SectionText::keys</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;kvps)</argsstring>
+        <name>keys</name>
+        <qualifiedname>AGRemapCore::SectionText::keys</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>kvps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="53" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1af14c732fd51b447a2df1a3f4f1564cc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
+        <definition>SectionText &amp; AGRemapCore::SectionText::key</definition>
+        <argsstring>(const std::string &amp;k, const std::string &amp;v=&quot;&quot;)</argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::SectionText::key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>v</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="58" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1a3744a7480755e3a0b9bdc5695f46dce8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
+        <definition>SectionText &amp; AGRemapCore::SectionText::open</definition>
+        <argsstring>(const std::string &amp;predicate)</argsstring>
+        <name>open</name>
+        <qualifiedname>AGRemapCore::SectionText::open</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="62" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1aa8ba71c613d14b8a5133f74230e70c50" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
+        <definition>SectionText &amp; AGRemapCore::SectionText::prefix</definition>
+        <argsstring>(std::string text)</argsstring>
+        <name>prefix</name>
+        <qualifiedname>AGRemapCore::SectionText::prefix</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="70" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1ad59ad608e8aa0dd9e4e3ffe9314e5f8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
+        <definition>SectionText &amp; AGRemapCore::SectionText::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>AGRemapCore::SectionText::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="75" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="75" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1afc60841656a5fabaf4922f57a0275210" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SectionText::str</definition>
+        <argsstring>()</argsstring>
+        <name>str</name>
+        <qualifiedname>AGRemapCore::SectionText::str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="85" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="85" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One ``.ini`` `section`_ a strategy writes itself, BUILT rather than concatenated
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:class:`IfTemplate` is a `section`_, :cpp:class:`IfContentPart` a run of ``key = value``
+lines, :cpp:class:`IfPredPart` an ``if`` / ``endif``, and :cpp:func:`renderIfTemplate` turns the
+three back into text -- including the ``[name]`` header and the indentation. A caller that
+assembles all of that as strings writes the same structure twice: once as the model every other
+part of a fix is edited through, and once as text of its own :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+``WWMIFixer.cpp`` held this class, and twenty section headers&apos; worth of string assembly before
+it (2026-09-29). Two callers still build a `section`_ by hand and are candidates for it --
+``GIMIComponentFixer.cpp``&apos;s translucency block and ``SideMeshes.cpp`` -- but converting either
+moves GI output, since the renderer indents with a TAB where hand-written text usually has
+nothing, so each needs a GI corpus sweep of its own rather than a tidy-up
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::SectionText</label>
+        <link refid="class_a_g_remap_core_1_1_section_text"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>z3_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/IniSectionText.h" line="47" column="5" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="47" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_section_text_1ad59ad608e8aa0dd9e4e3ffe9314e5f8c" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>close</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a3c80e1a0a8a71e2457fe086481cadac1" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>depth_</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1af14c732fd51b447a2df1a3f4f1564cc3" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>key</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a5bd46d537f7b3cc3c4d5750de9692f59" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>keys</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1aab22d11ff20d76ef4fd2a07a1ec0d6a4" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a3744a7480755e3a0b9bdc5695f46dce8" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>open</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a00473beaf8094bb0e7fedb2c3f97ad6e" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>parts_</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1aa8ba71c613d14b8a5133f74230e70c50" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>prefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a937276f76e7b599a1a057c745bd2ca42" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>prefix_</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>SectionText</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1afc60841656a5fabaf4922f57a0275210" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>str</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a6855c6964f9e007e4d618a5a36b23db9" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>z3_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

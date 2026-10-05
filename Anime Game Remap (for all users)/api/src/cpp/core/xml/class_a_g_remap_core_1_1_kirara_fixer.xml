@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_kirara_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KiraraFixer</compoundname>
+    <includes refid="_kirara_fixer_8h" local="no">KiraraFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kirara_fixer_1ad016a966ede3eb5057f7922330852d6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KiraraFixer::KiraraFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KiraraFixer</name>
+        <qualifiedname>AGRemapCore::KiraraFixer::KiraraFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Kirara/KiraraFixer.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kirara_fixer_1a60a5527814f76e5c259b0ab7f2c79083" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::KiraraFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::KiraraFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for remapping a Kirara mod onto KiraraBoots -- what
+:cpp:func:`IniFixBuilderFuncs::kirara6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Kirara/KiraraFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Kirara/KiraraFixer.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Kirara&apos;s own ``.ini`` fixers, one per game version the remap needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KiraraParser`. Kirara and KiraraBoots are a base/skin pair and remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Kirara/KiraraFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Kirara/KiraraFixer.h" bodystart="31" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_kirara_fixer_1ad016a966ede3eb5057f7922330852d6a" prot="public" virt="non-virtual"><scope>AGRemapCore::KiraraFixer</scope><name>KiraraFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_kirara_fixer_1a60a5527814f76e5c259b0ab7f2c79083" prot="public" virt="non-virtual"><scope>AGRemapCore::KiraraFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

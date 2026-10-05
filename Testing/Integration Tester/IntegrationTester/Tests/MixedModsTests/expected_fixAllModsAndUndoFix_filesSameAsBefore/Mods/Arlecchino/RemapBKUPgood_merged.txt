@@ -10,6 +10,7 @@ $creditinfo = 0
 
 
 [TextureOverrideArlecchinoBlend]
+hash = e211de60
 run = CommandListArlecchinoBlend
 
 [CommandListArlecchinoBlend]
@@ -33,37 +34,3 @@ filename = Arlecchino1/Blend.buf
 type = Buffer
 stride = 32
 filename = Arlecchino2/Blend.buf
-
-
-; --------------- Arlecchino Remap ---------------
-; Arlecchino remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Arlecchino mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-; ***** ArlecchinoBoss *****
-[TextureOverrideArlecchinoArlecchinoBossRemapBlend]
-run = CommandListArlecchinoArlecchinoBossRemapBlend
-
-[CommandListArlecchinoArlecchinoBossRemapBlend]
-if $swapvar == 0
-	vb1 = ResourceArlecchinoArlecchinoBossRemapBlend.0
-	handling = skip
-	draw = 21916,0
-else if $swapvar == 1
-	vb1 = ResourceArlecchinoArlecchinoBossRemapBlend.1
-	handling = skip
-	draw = 21916,0
-endif
-
-[ResourceArlecchinoArlecchinoBossRemapBlend.0]
-type = Buffer
-stride = 32
-filename = Arlecchino1/ArlecchinoBossRemapBlend.buf
-
-[ResourceArlecchinoArlecchinoBossRemapBlend.1]
-type = Buffer
-stride = 32
-filename = Arlecchino2/ArlecchinoBossRemapBlend.buf
-
-; **************************
-
-; ------------------------------------------------

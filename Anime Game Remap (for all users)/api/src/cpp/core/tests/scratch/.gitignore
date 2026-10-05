@@ -1,0 +1,11 @@
+# Scratch output of the standalone tests in core/tests -- none of it belongs in the repo.
+#
+# FileDownload_curl_test.cpp defaults its scratch directory to "." (its main() takes it as argv[1]),
+# so running the .exe from wherever you happen to be leaves dl/, dl-other/, dl-broken-other/,
+# curl_test_source.txt and a family of curl_test_* folders THERE. That is how they ended up loose in
+# api/src/cpp on 2026-09-14. Run it from this folder, or pass this folder as argv[1].
+#
+# Nothing here is ignored by any other rule, so without this file `git add -A` would commit it --
+# and the repo's own CLAUDE.md warns never to run that in this tree anyway.
+*
+!.gitignore

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_bennett_adventure_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BennettAdventureParser</compoundname>
+    <includes refid="_bennett_adventure_parser_8h" local="no">BennettAdventureParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_adventure_parser_1aaad696a39d6836fde758e080e6470a20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BennettAdventureParser::BennettAdventureParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>BennettAdventureParser</name>
+        <qualifiedname>AGRemapCore::BennettAdventureParser::BennettAdventureParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/BennettAdventure/BennettAdventureParser.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_adventure_parser_1a9d4f3c162afcf9ecf1e9cdac5077e3ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::BennettAdventureParser::v5_7</definition>
+        <argsstring>()</argsstring>
+        <name>v5_7</name>
+        <qualifiedname>AGRemapCore::BennettAdventureParser::v5_7</qualifiedname>
+        <briefdescription>
+<para>The parser for a 5.7-era BennettAdventure <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a708be8ac73083c2a14454469100c9b92" kindref="member">IniParseBuilderFuncs::bennettAdventure5_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/BennettAdventure/BennettAdventureParser.h" line="41" column="45" bodyfile="src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+BennettAdventure&apos;s own ``.ini`` parsers -- the second skin of SEVERAL COMPONENTS
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``Body`` (draw slots ``A`` and ``B``), a ``Bang`` and an ``Eye``, each with its own buffers
+and its own vertex-group index space -- the YelanTranquil shape. See
+:cpp:func:`makeGIMIComponentParser`. Pair this with :cpp:class:`BennettAdventureFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/BennettAdventure/BennettAdventureParser.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniParseData/BennettAdventure/BennettAdventureParser.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_bennett_adventure_parser_1aaad696a39d6836fde758e080e6470a20" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettAdventureParser</scope><name>BennettAdventureParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_bennett_adventure_parser_1a9d4f3c162afcf9ecf1e9cdac5077e3ec" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettAdventureParser</scope><name>v5_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

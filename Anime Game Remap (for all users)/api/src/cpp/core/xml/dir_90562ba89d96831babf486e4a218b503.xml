@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_90562ba89d96831babf486e4a218b503" kind="dir">
+    <compoundname>src/data/IniParseData/HuTao</compoundname>
+    <innerfile refid="_hu_tao_parser_8cpp">HuTaoParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/HuTao/"/>
+  </compounddef>
+</doxygen>

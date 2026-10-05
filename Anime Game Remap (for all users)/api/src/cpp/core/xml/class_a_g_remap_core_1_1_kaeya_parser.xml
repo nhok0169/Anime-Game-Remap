@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_kaeya_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KaeyaParser</compoundname>
+    <includes refid="_kaeya_parser_8h" local="no">KaeyaParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kaeya_parser_1a8aad8e1441222640692962bc32b6b7af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KaeyaParser::KaeyaParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KaeyaParser</name>
+        <qualifiedname>AGRemapCore::KaeyaParser::KaeyaParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Kaeya/KaeyaParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kaeya_parser_1ac9a635d63cd3a7a52e60489a4e845317" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KaeyaParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::KaeyaParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Kaeya ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::kaeya4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Kaeya/KaeyaParser.h" line="44" column="45" bodyfile="src/data/IniParseData/Kaeya/KaeyaParser.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Kaeya&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KaeyaFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Kaeya/KaeyaParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Kaeya/KaeyaParser.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_kaeya_parser_1a8aad8e1441222640692962bc32b6b7af" prot="public" virt="non-virtual"><scope>AGRemapCore::KaeyaParser</scope><name>KaeyaParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_kaeya_parser_1ac9a635d63cd3a7a52e60489a4e845317" prot="public" virt="non-virtual"><scope>AGRemapCore::KaeyaParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

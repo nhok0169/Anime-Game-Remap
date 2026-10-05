@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_605b4137314663323ca47a3cc7379050" kind="dir">
+    <compoundname>src/data/IniFixData/MonaCN</compoundname>
+    <innerfile refid="_mona_c_n_fixer_8cpp">MonaCNFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/MonaCN/"/>
+  </compounddef>
+</doxygen>

@@ -7,57 +7,75 @@ Command Options
 
 Options
 -------
+The **Build** column says which build has the option. The Script accepts every option of the API, since it hands them on to the API.
+
 .. list-table::
-   :widths: 25 75
+   :widths: 25 15 60
    :header-rows: 1
 
    * - Option
+     - Build
      - Description
    * - -h, -\-help   
+     - API, Script
      - show this help message and exit
    * - -s str, -\-src str
-     - | The path to the Raiden mod folder. If this option is not specified, then will
-       | use the current directory as the mod folder.
+     - API, Script
+     - | The starting path to run this fix. If this option is not specified, then will
+       | run the fix from the current directory.
    * - -v str, -\-version str
+     - API, Script
      - | The game version we want the fix to be compatible with. If this option is not specified,
        | then will use the latest game version
+   * - -fv str, -\-fromVersion str
+     - API, Script
+     - The game version the mods being fixed were made for. This picks how the mods are read (which hashes/indices they are looked up by), where ``--version`` picks the fix that is written. If this option is not specified, then will read the mods as the latest game version.
    * - -d, -\-deleteBackup
+     - API, Script
      - deletes backup copies of the original .ini files
    * - -f, -\-fixOnly
+     - API, Script
      - only fixes the mod without cleaning any previous runs of the script
    * - -u, -\-undo
+     - API, Script
      - Undo the previous runs of the script
    * - -ho, -\-hideOriginal
+     - API, Script
      - Show only the mod on the remapped character and do not show the mod on the original character
    * - -l str, -\-log str
+     - API, Script
      - | The folder location to log the printed out text into a seperate .txt file.
        | If this option is not specified, then will not log the printed out text.
    * - -a, -\-all
+     - API, Script
      - | Parses all \*.ini files that the program encounters. 
-       | This option supersedes the `-\-types` option.
+       | This option supersedes the ``--types`` option.
        |
        | For \*.ini file where a mod cannot be identified, 
        | usually, you would also need to specify what particular mod 
-       | the \*.ini file defaults to using the `-\-defaultType` option.
+       | the \*.ini file defaults to using the ``--defaultType`` option.
        | 
        | Otherwise, you will be defaulted to fixing 'raiden' mods.
    * - -dt str, -\-defaultType str
+     - API, Script
      - | The default mod type to use if the \*.ini file belongs to some unknown mod.
        |
-       | - If `-\-forceType` is set to True, this option has not effect 
-       | - If the `-\-all` is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
+       | - If ``--forceType`` is set to True, this option has not effect 
+       | - If the ``--all`` is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
        | - Otherwise, this option has not effect and any unknown mods will be skipped
        | 
        | See below for the different names/aliases of the supported types of mods.
    * - -ft str, -\-forceType str
+     - API, Script
      - | Forcibly assumes the mod type for all \*.ini file parsed.
        |
-       | This option supersedes the `-\-types` option and the `-\-all` option.
+       | This option supersedes the ``--types`` option and the ``--all`` option.
        |
        | See below for the different names/aliases of the supported types of mods.
    * - -t str, -\-types str
+     - API, Script
      - | Parses \*.ini files that the program encounters for only specific types of mods.
-       | If the `-\-all` option has been specified, this option has no effect.
+       | If the ``--all`` option has been specified, this option has no effect.
        | By default, if this option is not specified, 
        | will parse the \*.ini files for all the supported types of mods.
        |
@@ -67,6 +85,7 @@ Options
        |
        | See below for the different names/aliases of the supported types of mods.
    * - -rt str, -\-remappedTypes str
+     - API, Script
      - | From all the mods to fix, specified by the -\-types option, 
        | will specifically remap those mods to the mods specified by this option.
        |
@@ -94,15 +113,45 @@ Options
        | *eg. raiden,arlecchino,ayaya*
        |
        | See below for the different names/aliases of the supported types of mods.
+   * - -g str, -\-game str
+     - API, Script
+     - | Fixes mods only for the specified games.
+       | By default, if this option is not specified, will fix mods for all the supported games.
+       |
+       | Please specify the types of games using the game type's name or alias,
+       | then seperate each name/alias with a comma(,)
+       | *eg. GI,WuWa*
+       |
+       | See :ref:`Game Types <commandOpts:Game Types>` for the different names/aliases of the supported types of games.
+   * - -c, -\-compressTextures
+     - API, Script
+     - | Whether to compress the textures the fix writes.
+       |
+       | **By default textures are left uncompressed**, which is what the older pure-Python
+       | versions always did. Pick your poison: do you want the fix to run faster, but your
+       | textures take up more space, OR your fix to run slower, but textures take minimal
+       | space.
+       |
+       | This option only *permits* compression. Specifying it lets each mod type's own
+       | texture edits decide for themselves; an edit that deliberately writes an
+       | uncompressed texture still does so.
    * - -dl str, -\-download str
+     - API, Script
      - | The download mode to handle file downloads need. The below are the available download modes:
        | 
-       | See :ref:`Download Modes` for details on the available download modes.
+       | See :ref:`Download Modes <commandOpts:Download Modes>` for details on the available download modes.
        |
-       | By default, the download mode used is: **HardTexDriven**
+       | By default, the download mode used is: **Normal**
    * - -p str, -\-proxy str
+     - API, Script
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
+   * - -dup, -\-disableUpdate
+     - Script
+     - Skips updating the ``FixRaidenBoss2`` package (the API) to its latest version before running. With this option, the package is only downloaded when it is not already installed.
+   * - -pre, -\-preRelease
+     - Script
+     - Also considers prereleases of the ``FixRaidenBoss2`` package when downloading it.
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -114,34 +163,38 @@ Below are the supported types of mods
 
 :raw-html:`<br />`
 
-.. note::
-    Before the regex checks below are parsed, the text is first normalized to
-    be all lowercase
-
 .. list-table::
-   :widths: 25 25 50
+   :widths: 20 10 25 45
    :header-rows: 1
 
    * - Name
+     - Game
      - Aliases
      - Description
    * - **Amber**
+     - GI
      - | ColleisBestie, 
        | BaronBunny
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(amber)((?!cn).)*\]``
+     - Amber mods
    * - **AmberCN**
+     - GI
      - | ColleisBestieCN, 
        | BaronBunnyCN
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(ambercn).*\]``
+     - Amber Chinese mods
+   * - **Arlecchino**
+     - GI
+     - | Father, Knave,
+       | Perrie, Peruere,
+       | Harlequin
+     - Arlecchino mods
    * - **Ayaka**
+     - GI
      - | Ayaya, 
        | NewArchonOfEternity, 
        | Yandere
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(ayaka)((?!(springbloom)).)*\]``
+     - Ayaka mods
    * - **AyakaSpringBloom**
+     - GI
      - | AyakaMusketeer, 
        | AyayaFontaine, 
        | AyayaMusketeer, 
@@ -151,25 +204,45 @@ Below are the supported types of mods
        | NewArchonOfEternityFontaine, 
        | NewFontaineArchonOfEternity, 
        | YandereFontaine
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(ayakaspringbloom).*\]``
-   * - **Arlecchino**
-     - | Father, Knave,
-       | Perrie, Peruere,
-       | Harlequin
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(arlecchino).*\]``
+     - Ayaka Fontaine mods
    * - **Barbara**
+     - GI
      - | Idol, Healer
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]``
+     - Barbara mods
    * - **BarbaraSummertime**
+     - GI
      - | IdolSummertime,
        | HealerSummertime,
        | BarbaraBikini
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
+     - Barbara Summer mods
+   * - **Bennett**
+     - GI
+     - | Benny
+     - Bennett mods
+   * - **BennettAdventure**
+     - GI
+     - | AdventureBennett,
+       | AdventureBenny,
+       | BennettNatlan,
+       | BennettSummer,
+       | BennyAdventure,
+       | BennyNatlan,
+       | BennySummer,
+       | NatlanBennett,
+       | NatlanBenny,
+       | SummerBennett,
+       | SummerBenny
+     - Bennett Summertime Adventure mods
+   * - **Charlotte**
+     - GI
+     - 
+     - Charlotte mods
+   * - **CharlotteHurlock**
+     - GI
+     - HurlockCharlotte
+     - Charlotte Hurlock mods
    * - **CherryHuTao**
+     - GI
      - | 77thDirectoroftheWangshengFuneralParlorCherry, 
        | 77thDirectoroftheWangshengFuneralParlorLanternRite, 
        | Cherry77thDirectoroftheWangshengFuneralParlor, 
@@ -183,21 +256,37 @@ Below are the supported types of mods
        | QiqiKidnapperCherry, 
        | QiqiKidnapperLanternRite, 
        | SnowLadenHutao
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(cherryhutao|hutaocherry).*\]``
+     - Hu Tao Lantern Rite mods
+   * - **Chisa**
+     - WuWa
+     - 
+     - Chisa mods
+   * - **ChisaParfait**
+     - WuWa
+     - ChisaSkin1, ParfaitChisa
+     - Chisa Parfait skin mods
+   * - **Citlali**
+     - GI
+     - 
+     - Citlali mods
+   * - **CitlaliWhisperofStars**
+     - GI
+     - CitlaliStars, CitlaliWhisper, StarsCitlali, WhisperCitlali, WhisperofStarsCitlali
+     - Citlali Whisper of Stars mods
    * - **Diluc**
+     - GI
      - | AngelShareOwner, 
        | DarkNightBlaze, 
        | DawnWineryMaster, 
        | KaeyasBrother
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(diluc)((?!flamme).)*\]``
+     - Diluc mods
    * - **DilucFlamme**
+     - GI
      - | DarkNightHero, 
        | RedDeadOfTheNight
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(dilucflamme).*\]``
+     - Diluc Red Dead of Night mods
    * - **Fischl**
+     - GI
      - | FischlvonLuftschlossNarfidort, 
        | 8thGraderSyndrome, Amy, 
        | Chunibyo, 
@@ -207,9 +296,9 @@ Below are the supported types of mods
        | PrincessofCondemnation, 
        | PrinzessinderVerurteilung, 
        | TheCondemedPrincess
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(fischl)((?!highness).)*\]``
+     - Fischl mods
    * - **FischlHighness**
+     - GI
      - | ImmernachtreichPrincess, 
        | OzsPrincess, 
        | PrincessAmy, 
@@ -219,60 +308,60 @@ Below are the supported types of mods
        | PrinzessinFischlvonLuftschlossNarfidort, 
        | PrinzessinderImmernachtreich, 
        | RealPrinzessinderVerurteilung
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(fischlhighness).*\]``
+     - Fischl Summer mods
    * - **Ganyu**
+     - GI
      - | Cocogoat
-     - | check if the .ini file contains a section matching the regex,
-       | ^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]
+     - Ganyu mods
    * - **GanyuTwilight**
+     - GI
      - | GanyuLanternRite,
        | LanternRiteGanyu,
        | CocogoatTwilight,
        | CocogoatLanternRite,
        | LanternRiteCocogoat
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(ganyutwilight).*\]``
+     - Ganyu Lantern Rite mods
    * - **HuTao**
+     - GI
      - | 77thDirectoroftheWangshengFuneralParlor, 
        | QiqiKidnapper
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride((?!cherry).)*(hutao)((?!cherry).)*\]``
+     - Hu Tao mods
    * - **Jean**
+     - GI
      - | KleesBabySitter, 
        | ActingGrandMaster
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]``
+     - Jean mods
    * - **JeanCN**
+     - GI
      - | KleesBabySitterCN, 
        | ActingGrandMasterCN
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]``
+     - Jean Chinese mods
    * - **JeanSea**
+     - GI
      - | ActingGrandMasterSea,
        | KleesBabySitterSea
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
+     - Jean Summertime mods
    * - **Kaeya**
+     - GI
      - | DilucsBrother, CavalryCaptain
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]``
+     - Kaeya mods
    * - **KaeyaSailwind**
+     - GI
      - | DilucsBrotherSailwind, 
        | CavalryCaptainSailwind, 
        | TheftKaeya, TheftDilucsBrother, 
        | TheftCavalryCaptain, 
        | KaeyaTheft, DilucsBrotherTheft, 
        | CavalryCaptainTheft
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(kaeyasailwind).*\]``
+     - Kaeya Summertime mods
    * - **Keqing**
+     - GI
      - | Kequeen,
        | ZhongliSimp
        | MoraxSimp
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]``
+     - Keqing mods
    * - **KeqingOpulent**
+     - GI
      - | LanternRiteKeqing,
        | KeqingLaternRite,
        | CuterKequeen,
@@ -286,57 +375,74 @@ Below are the supported types of mods
        | MoraxSimpLaternRite,
        | LaternRiteZhongliSimp,
        | LaternRiteMoraxSimp
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(keqingopulent).*\]``
+     - Keqing Lantern Rite mods
    * - **Kirara**
+     - GI
      - | CatBox, KonomiyaExpress, 
        | Nekomata
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]``
+     - Kirara mods
    * - **KiraraBoots**
+     - GI
      - | CatBoxWithBoots, 
        | KonomiyaExpressInBoots, 
        | NekomataInBoots, 
        | PussInBoots
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(kiraraboots).*\]``
+     - Kirara in Boots mods
    * - **Klee**
+     - GI
      - | DestroyerofWorlds, 
        | DodocoBuddy, 
        | SparkKnight
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
+     - Klee mods
    * - **KleeBlossomingStarlight**
+     - GI
      - | DodocoLittleWitchBuddy, 
        | FlandreScarlet, 
        | MagicDestroyerofWorlds, 
-       | RedVelvetMage
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
+       | RedVelvetMage, 
+       | ScarletFlandre
+     - Klee Summertime mods
    * - **Lisa**
+     - GI
      - | CutieLibrarian
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]``
+     - Lisa mods
    * - **LisaStudent**
+     - GI
      - | LisaSumeru, 
        | SumeruLisa, 
        | AkademiyaLisa, 
        | LisaAkademiya
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
+     - Lisa Sumeru mods
+   * - **Lumine**
+     - GI
+     - | FemaleTraveler, Hotaru, TravelerFemale, TravelerGirl
+     - Lumine mods
+   * - **LumineHeaven**
+     - GI
+     - | AsHeavenAndEarthAreMadeAnewLumine, HeavenLumine, LumineAsHeavenAndEarthAreMadeAnew, LumineSkin, TravelerGirlHeaven
+     - Lumine As Heaven and Earth Are Made Anew mods
    * - **Mona**
+     - GI
      - | BigHat, NoMora
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]``
+     - Mona mods
    * - **MonaCN**
+     - GI
      - | NoMoraCN, BigHatCN
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(monacn).*\]``
+     - Mona Chinese mods
+   * - **Neuvillette**
+     - GI
+     - | ChiefJustice, HydroDragon, HydroSovereign, Iudex, Neuv
+     - Neuvillette mods
+   * - **NeuvilletteMelusent**
+     - GI
+     - | MelusentGiftNeuvillette, MelusentNeuv, MelusentNeuvillette, NeuvMelusent, NeuvilletteMelusentGift
+     - Neuvillette Melusent Gift mods
    * - **Nilou**
+     - GI
      - | BloomGirl, Dancer, Morgiana
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]``
+     - Nilou mods
    * - **NilouBreeze**
+     - GI
      - | BloomGirlBreeze, 
        | BloomGirlFairy, 
        | DancerBreeze, 
@@ -349,14 +455,14 @@ Below are the supported types of mods
        | MorgianaBreeze, 
        | MorgianaFairy, 
        | NilouFairy
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(niloubreeze).*\]``
+     - Nilou Forest Fairy mods
    * - **Ningguang**
+     - GI
      - | GeoMommy,
        | SugarMommy
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]``
+     - Ningguang mods
    * - **NingguangOrchid**
+     - GI
      - | NingguangLanternRite,
        | LanternRiteNingguang,
        | GeoMommyOrchid,
@@ -365,29 +471,44 @@ Below are the supported types of mods
        | SugarMommyLanternRite,
        | LaternRiteGeoMommy,
        | LanternRiteSugarMommy
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(ningguangorchid).*\]``
+     - Ningguang Lantern Rite mods
    * - **Raiden**
+     - GI
      - | Ei, CrydenShogun, SmolEi, 
        | RaidenEi, Shogun, Shotgun, 
        | RaidenShotgun,
        | Cryden, RaidenShogun
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(raiden|shogun).*\]``
+     - Raiden mods
    * - **Rosaria**
+     - GI
      - | GothGirl
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(rosaria)((?!(cn)).)*\]``
+     - Rosaria mods
    * - **RosariaCN**
+     - GI
      - | GothGirlCN
-     - |  check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(rosariacn).*\]``
+     - Rosaria Chinese mods
+   * - **Sanhua**
+     - WuWa
+     - | JinhsiBodyguard
+     - Sanhua mods
+   * - **SanhuaExorcist**
+     - WuWa
+     - | ExorcistJinhsiBodyguard, 
+       | ExorcistSanhua, 
+       | JinhsiBodyguardExorcist, 
+       | JinhsiBodyguardMoonChasing, 
+       | MoonChasingJinhsiBodyguard, 
+       | MoonChasingSanhua, 
+       | SanhuaMoonChasing, 
+       | SanhuaSkin1
+     - Sanhua Moon Chasing skin mods
    * - **Shenhe**
+     - GI
      - | YelansBestie,
        | RedRopes
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]``
+     - Shenhe mods
    * - **ShenheFrostFlower**
+     - GI
      - | ShenheLanternRite,
        | LanternRiteShenhe,
        | YelansBestieFrostFlower,
@@ -396,16 +517,16 @@ Below are the supported types of mods
        | RedRopesFrostFlower,
        | RedRopesLanternRite,
        | LanternRiteRedRopes
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(shenhefrostflower).*\]``
+     - Shenhe Lantern Rite mods
    * - **Xiangling**
+     - GI
      - | CookingFanatic,
        | HeadChefoftheWanminRestaurant,
        | ChefMaosDaughter,
        | GuobasBuddy
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(xiangling)((?!cheer|newyear).)*\]``
+     - Xiangling mods
    * - **XianglingCheer**
+     - GI
      - | XianglingLanternRite,
        | LanternRiteXiangling,
        | CookingFanaticLanternRite,
@@ -416,15 +537,15 @@ Below are the supported types of mods
        | LanternRiteHeadChefoftheWanminRestaurant,
        | LanternRiteChefMaosDaughter,
        | LanternRiteGuobasBuddy
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(xiangling(cheer|newyear)).*\]``
+     - Xiangling Lantern Rite mods
    * - **Xingqiu**
+     - GI
      - | Bookworm, ChongyunsBestie, 
        | GuhuaGeek, 
        | SecondSonofTheFeiyunCommerceGuild
-     - | check if the .ini file contains a section matching the regex,
-       | ``^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]``
+     - Xingqiu mods
    * - **XingqiuBamboo**
+     - GI
      - | BookwormBamboo, 
        | BookwormLanternRite, 
        | ChongyunsBestieBamboo, 
@@ -439,8 +560,63 @@ Below are the supported types of mods
        | SecondSonofTheFeiyunCommerceGuildBamboo, 
        | SecondSonofTheFeiyunCommerceGuildLanternRite, 
        | XingqiuLanternRite
-     - | check if the .ini file contains a section matching the regex, 
-       | ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
+     - Xingqiu Lantern Rite mods
+   * - **Yaoyao**
+     - GI
+     - | BubuPharmacyApprentice,
+       | YaoYao,
+       | YueguisMaster
+     - Yaoyao mods
+   * - **YaoyaoBamboo**
+     - GI
+     - | BambooYaoyao,
+       | LanternRiteYaoyao,
+       | RainlitBambooReverieYaoyao,
+       | RainlitYaoyao,
+       | YaoyaoLanternRite,
+       | YaoyaoRainlit,
+       | YaoyaoRainlitBambooReverie
+     - Yaoyao Rainlit Bamboo Reverie mods
+   * - **Yelan**
+     - GI
+     - | ShenhesBestie,
+       | TsaritsaJacketStealer
+     - Yelan mods
+   * - **YelanTranquil**
+     - GI
+     - | YelanTranquilBanquet,
+       | TranquilBanquetYelan,
+       | YelanSummer,
+       | SummerYelan,
+       | ShenhesSummerBestie,
+       | TsaritsaJacketStealerButDoesntNeedItSinceItIsSummer
+     - Yelan Tranquil Banquet mods
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Game Types
+----------
+
+Below are the supported types of games
+
+:raw-html:`<br />`
+
+.. note::
+    The names/aliases for the game types are not case sensitive
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Name
+     - Aliases
+   * - **GI**
+     - | Genshin,
+       | GenshinImpact
+   * - **WuWa**
+     - | WutheringWaves
 
 
 :raw-html:`<br />`
@@ -459,37 +635,12 @@ Below are the differents download modes supported by the software.
      - Description
    * - **Disabled**
      - Will not perform any file downloads for any mods
+   * - **Normal**
+     - | Only perform file downloads at places in a .ini file where a resource is missing
+       |
+       | This is the default when the option is not specified
    * - **Always**
-     - Will always perform file downloads for every mod
-   * - **AlwaysTex**
-     - Only download textures or .ib files
-   * - **AlwaysBuf**
-     - Only download .buf files, if possible
-   * - **Tex**
-     - Only download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-   * - **Buf**
-     - Only download .buf files if there is a specified branch in the .vb `sections`_ that does not reference the files
-   * - **HardTexDriven**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources
-   * - **HardTexDrivenAll**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources
-   * - **SoftTexDriven**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources
-   * - **SoftTexDrivenAll**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources
-
+     - Will always perform file downloads for every mod, if possible, using pessimistic assumptions
 
 .. _section: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _sections: https://en.wikipedia.org/wiki/INI_file#Sections

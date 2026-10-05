@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_vertex_counts" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VertexCounts</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_mod_dict_assets" prot="public" virt="non-virtual">AGRemapCore::ModDictAssets&lt; std::string, int &gt;</basecompoundref>
+    <includes refid="_vertex_counts_8h" local="no">VertexCounts.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vertex_counts_1a2f905a39394ed475806c9f9cd9c2cc59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VertexCounts::VertexCounts</definition>
+        <argsstring>()</argsstring>
+        <name>VertexCounts</name>
+        <qualifiedname>AGRemapCore::VertexCounts::VertexCounts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new, fully-populated vertex count lookup table :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   There is no ``repo`` argument to swap the whole table out with --
+   :cpp:func:`ModDictAssets::addRows` covers extending it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="72" column="13" bodyfile="src/model/assets/VertexCounts.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::addRows</definition>
+        <argsstring>(std::vector&lt; Row&lt; std::string, int &gt; &gt; newRows)</argsstring>
+        <name>addRows</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::addRows</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_row" kindref="compound">Row</ref>&lt; std::string, int &gt; &gt;</type>
+          <declname>newRows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds new rows to the table, overwriting the value of any row whose full key (every
+non-version index value, plus its parsed version) already exists :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rows to add</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If any row&apos;s <ref refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kindref="member">Row::indexVals</ref> size doesn&apos;t match the table&apos;s <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" kindref="member">getTotalIndices</ref>, or if a row&apos;s version index value fails to parse (see <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" kindref="member">VersionParser</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="108" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1aa08492c8ad3c26232cfb85a4340bdfac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt; int &gt; AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::get</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;nonVersionVals, const std::optional&lt; Version &gt; &amp;version=std::nullopt, bool errorOnNotFound=true) const</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::get</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nonVersionVals</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding asset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values of every index column that does not refer to a version, in index order (with the version column&apos;s position skipped) <ndash/> must have exactly <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" kindref="member">getTotalIndices</ref> <computeroutput>- 1</computeroutput> elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The specific version to query the asset :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If this value is ``std::nullopt``, the latest available version for the matching
+non-version values is used. Otherwise, the closest available version is used -- see
+the class-level note on this being the corrected, inclusive-floor version resolution
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to throw if no matching asset is found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;nonVersionVals&apos; does not have exactly <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" kindref="member">getTotalIndices</ref> <computeroutput>- 1</computeroutput> elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If no matching asset is found and &apos;errorOnNotFound&apos; is <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found asset, or <computeroutput>std::nullopt</computeroutput> if none is found and &apos;errorOnNotFound&apos; is <computeroutput>false</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="134" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getTotalIndices</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalIndices</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::getTotalIndices</qualifiedname>
+        <briefdescription>
+<para>The total number of index columns (including the version index). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="139" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1a6df0e840a5a0578cd77eedfc28cf20c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::getVersionIndexPos</definition>
+        <argsstring>() const</argsstring>
+        <name>getVersionIndexPos</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::getVersionIndexPos</qualifiedname>
+        <briefdescription>
+<para>The position (0-based) of the version index within a row&apos;s <ref refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kindref="member">Row::indexVals</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="144" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1a1d1df820a6d411d221d806cf787d25d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::size</qualifiedname>
+        <briefdescription>
+<para>The total number of rows currently in the table, across every non-version index group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="150" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1a73b325b0d73d24b0bcd11593a654fd97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::forEachEntry</definition>
+        <argsstring>(Visitor &amp;&amp;visitor) const</argsstring>
+        <name>forEachEntry</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::forEachEntry</qualifiedname>
+        <param>
+          <type>Visitor &amp;&amp;</type>
+          <declname>visitor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Visits every row currently in the table -- the mechanism :cpp:class:`ModMappedAssets`
+uses to build its reverse (value -&gt; key) index directly from this table&apos;s already-flat
+data (see :cpp:class:`ModMappedAssets`&apos;s class-level note for why that matters)
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Visitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A callable of shape <computeroutput>void(const std::vector&lt;K&gt;&amp; nonVersionVals, const <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>&amp; version, const T&amp; value)</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>visitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called once per row, in unspecified order (rows are stored in an unordered map internally <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" kindref="member">getTotalIndices</ref>&apos;s sibling accessors for what is and isn&apos;t order-preserving) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="168" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;(const std::string &amp;)&gt;</type>
+        <definition>using AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::VersionParser = </definition>
+        <argsstring></argsstring>
+        <name>VersionParser</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::VersionParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A function that parses an index value into a :cpp:class:`Version`, used only for the
+raw value found at #getVersionIndexPos in each :cpp:class:`Row` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Returning ``std::nullopt`` signals that a specific value could not be parsed as a
+version -- \ref addRows treats that as malformed input and throws
+``std::invalid_argument`` rather than silently dropping or corrupting a group&apos;s sort
+order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="78" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1a1d622ef1e79f3ff75754040c510ed4e7" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::totalIndices_</definition>
+        <argsstring></argsstring>
+        <name>totalIndices_</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::totalIndices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="184" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1a135b1d57e2d9a27c301db57b1dac8b09" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::versionIndexPos_</definition>
+        <argsstring></argsstring>
+        <name>versionIndexPos_</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::versionIndexPos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="185" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1ae2d3c9a25cd070f92d98f953fbb44838" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" kindref="member">VersionParser</ref></type>
+        <definition>VersionParser AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::parseVersion_</definition>
+        <argsstring></argsstring>
+        <name>parseVersion_</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::parseVersion_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="186" column="27" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1adda2c6d4dbac4491ccedefa76be4ebc5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::vector&lt; std::string &gt;, std::vector&lt; VersionedEntry &gt;, KeyVecHash, KeyVecEqual &gt;</type>
+        <definition>std::unordered_map&lt;std::vector&lt;std::string&gt;, std::vector&lt;VersionedEntry&gt;, KeyVecHash, KeyVecEqual&gt; AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::groups_</definition>
+        <argsstring></argsstring>
+        <name>groups_</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::groups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Maps a row&apos;s non-version index values to that group&apos;s entries, each sorted ascending
+by :cpp:class:`Version` -- the flat, dict-free representation described in the
+class-level note
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="196" column="32" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1af9700cf4807db87f8d47afe67932cc20" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ModDictAssets&lt; std::string, int, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt; &gt;::extractNonVersionVals</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;indexVals) const</argsstring>
+        <name>extractNonVersionVals</name>
+        <qualifiedname>AGRemapCore::ModDictAssets&lt; std::string, int &gt;::extractNonVersionVals</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>indexVals</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="198" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex counts related to a mod -- a :cpp:class:`ModDictAssets` pre-populated with this
+project&apos;s real vertex count data :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Like :cpp:class:`Hashes` and :cpp:class:`Indices`, a default-constructed ``VertexCounts`` is
+already fully populated, which is what lets :cpp:member:`ModType::vertexCounts` fall back to one
+and still be useful :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Two differences from its :cpp:class:`Hashes`/:cpp:class:`Indices` siblings:
+
+   #. It derives from :cpp:class:`ModDictAssets`, **not** :cpp:class:`ModMappedAssets`, so
+      there is no fix-from/fix-to adjacency list here and therefore no ``getMap``/``hasFrom``.
+      A vertex count is looked *up*, never remapped
+   #. Its value type is ``int`` rather than ``std::string``
+
+.. note::
+   Three index columns: ``version`` (the version index, at position 0), ``name`` and
+   ``component``. So :cpp:func:`ModDictAssets::get` takes exactly two non-version values --
+   the mod&apos;s name and the component -- in that order :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   ``component`` is ``&quot;&quot;`` for every row the software currently ships (see
+   :cpp:func:`Data::getVertexCountDataRows`), so a caller wanting a mod&apos;s overall count passes
+   an empty string for it. It is a real key value, not a &quot;missing&quot; marker -- the same
+   convention :cpp:class:`Indices` uses for its own ``component`` column
+
+.. note::
+   :cpp:class:`ModDictAssets` rather than :cpp:class:`ModAssets`: this table has exactly one
+   version column, which is the case :cpp:class:`ModAssets`&apos;s own class note calls out as
+   belonging in the hash-based table rather than the linear-scanning one
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::ModDictAssets&lt; std::string, int &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_dict_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VertexCounts</label>
+        <link refid="class_a_g_remap_core_1_1_vertex_counts"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::ModDictAssets&lt; std::string, int &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_dict_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VertexCounts</label>
+        <link refid="class_a_g_remap_core_1_1_vertex_counts"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="58" column="5" bodyfile="include/AGRemapCore/model/assets/VertexCounts.h" bodystart="58" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>addRows</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1af9700cf4807db87f8d47afe67932cc20" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>extractNonVersionVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a73b325b0d73d24b0bcd11593a654fd97" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>forEachEntry</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa08492c8ad3c26232cfb85a4340bdfac" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>getTotalIndices</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a6df0e840a5a0578cd77eedfc28cf20c2" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>getVersionIndexPos</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1adda2c6d4dbac4491ccedefa76be4ebc5" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>groups_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a26db622309b3343b00a4f505c7f71e09" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>ModDictAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ae2d3c9a25cd070f92d98f953fbb44838" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>parseVersion_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a1d1df820a6d411d221d806cf787d25d7" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a1d622ef1e79f3ff75754040c510ed4e7" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>totalIndices_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a135b1d57e2d9a27c301db57b1dac8b09" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>versionIndexPos_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>VersionParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_vertex_counts_1a2f905a39394ed475806c9f9cd9c2cc59" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>VertexCounts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_044e003d26bf8dfd38538b32f7cce1d9" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/KeqingOpulent</compoundname>
+    <innerfile refid="_keqing_opulent_fixer_8h">KeqingOpulentFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/KeqingOpulent/"/>
+  </compounddef>
+</doxygen>

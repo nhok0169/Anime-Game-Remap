@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yelan_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YelanParser</compoundname>
+    <includes refid="_yelan_parser_8h" local="no">YelanParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_parser_1ad732984453fdc50b72c272f6e3b44cfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YelanParser::YelanParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YelanParser</name>
+        <qualifiedname>AGRemapCore::YelanParser::YelanParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_parser_1a527735bf350a383fcabf3806679325c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::YelanParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::YelanParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a 4.0-era Yelan <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad2295a98e4a4012930182f549a649b3d" kindref="member">IniParseBuilderFuncs::yelan4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h" line="40" column="45" bodyfile="src/data/IniParseData/Yelan/YelanParser.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Yelan&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` / ``extra``.
+Pair this with :cpp:class:`YelanFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yelan_parser_1a527735bf350a383fcabf3806679325c4" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanParser</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_yelan_parser_1ad732984453fdc50b72c272f6e3b44cfb" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanParser</scope><name>YelanParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

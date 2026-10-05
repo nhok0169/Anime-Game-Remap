@@ -1,0 +1,123 @@
+#ifndef AGRemapPyBind_PyTexEdit_H
+#define AGRemapPyBind_PyTexEdit_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <string>
+
+#include <pybind11/pybind11.h>
+
+#include "PyResEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h"
+
+
+namespace py = pybind11;
+namespace AGRC = AGRemapCore;
+
+
+/**
+ * @brief
+ @rst
+ The `pybind11`_-facing ``TexCreate`` -- builds a real :class:`RemapTexAddResource` per created
+ texture, and the brand-new `section`_ that references it :raw-html:`<br />` :raw-html:`<br />`
+
+ Both live here rather than in the core class: the resource carries the caller's own `Python`_
+ :class:`TexCreator`, and the `section`_ has to be a `Python`_-owned :class:`IfTemplate` (see
+ :cpp:class:`AGRemapCore::TexCreate`'s own note)
+ @endrst
+ */
+class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<std::string, std::string>> {
+    public:
+
+        /**
+         * @brief The exact Python :class:`TexCreator` given -- the editor for the texture file
+         */
+        py::object texCreator;
+
+        /**
+         * @brief
+         @rst
+         A custom `Python`_ function for creating the texture, or ``None``. Kept as the exact object
+         given, for the same identity reason ``PyRemapBlendReplace::fixFunc`` is
+         @endrst
+         */
+        py::object fixFunc;
+
+        /**
+         * @brief Constructs a new texture-creating resource edit
+         *
+         * @param resModObj The Python tuple id of the mod object holding the resource's graph
+         * @param texName The name for the type of texture
+         * @param texCreator The Python :class:`TexCreator` for the texture file
+         * @param resType The name of the type of resource
+         * @param fixFunc A custom Python function for creating the texture, or ``None``
+         */
+        PyTexCreate(py::object resModObj, std::string texName, py::object texCreator, std::string resType, py::object fixFunc);
+
+        py::object pySelf() const override;
+        void buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
+                            const std::string &modName, const std::string &fileKey, Context &ctx) override;
+};
+
+
+/**
+ * @brief
+ @rst
+ The `pybind11`_-facing ``TexReplace`` -- builds a real :class:`RemapTexEditResource` per edited
+ texture :raw-html:`<br />` :raw-html:`<br />`
+
+ Lives here rather than in the core class for the same reason :cpp:class:`PyTexCreate` does: the
+ resource carries the caller's own `Python`_ :class:`TexEditor`
+ @endrst
+ */
+class PyTexReplace: public PyResEditMixin<AGRC::TexReplace<std::string, std::string>> {
+    public:
+
+        /**
+         * @brief The exact Python :class:`TexEditor` given -- the editor for the texture file
+         */
+        py::object texEditor;
+
+        /**
+         * @brief
+         @rst
+         A custom `Python`_ function for editing the texture, or ``None``. Kept as the exact object
+         given, for the same identity reason ``PyRemapBlendReplace::fixFunc`` is
+         @endrst
+         */
+        py::object fixFunc;
+
+        /**
+         * @brief Constructs a new texture-editing resource edit
+         *
+         * @param resModObj The Python tuple id of the mod object holding the resource's graph
+         * @param texEditor The Python :class:`TexEditor` for the texture file
+         * @param resType The name of the type of resource
+         * @param fixFunc A custom Python function for editing the texture, or ``None``
+         * @param resSubType The name of the subtype of the resource, or ``None``
+         */
+        PyTexReplace(py::object resModObj, py::object texEditor, std::string resType, py::object fixFunc,
+                      const py::object &resSubType);
+
+        py::object pySelf() const override;
+        void buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
+                            const std::string &modName, const std::string &fileKey, Context &ctx) override;
+};
+
+
+void initCppTexCreate(pybind11::module_ &m);
+
+void initCppTexReplace(pybind11::module_ &m);
+
+#endif

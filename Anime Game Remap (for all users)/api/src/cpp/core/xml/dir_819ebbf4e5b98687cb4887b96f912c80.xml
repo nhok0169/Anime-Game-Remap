@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_819ebbf4e5b98687cb4887b96f912c80" kind="dir">
+    <compoundname>src/model/strategies/iniClassifiers</compoundname>
+    <innerfile refid="_base_ini_classifier_8cpp">BaseIniClassifier.cpp</innerfile>
+    <innerfile refid="_ini_classifier_8cpp">IniClassifier.cpp</innerfile>
+    <innerfile refid="_ini_classify_stats_8cpp">IniClassifyStats.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/iniClassifiers/"/>
+  </compounddef>
+</doxygen>

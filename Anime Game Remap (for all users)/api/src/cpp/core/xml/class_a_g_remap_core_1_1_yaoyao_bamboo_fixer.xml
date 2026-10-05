@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YaoyaoBambooFixer</compoundname>
+    <includes refid="_yaoyao_bamboo_fixer_8h" local="no">YaoyaoBambooFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer_1ace72893ebbeae540b344c8e4b8039f5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YaoyaoBambooFixer::YaoyaoBambooFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YaoyaoBambooFixer</name>
+        <qualifiedname>AGRemapCore::YaoyaoBambooFixer::YaoyaoBambooFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer_1a7372729651ed5e99e57e48450e52145a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::YaoyaoBambooFixer::toYaoyao6_3</definition>
+        <argsstring>()</argsstring>
+        <name>toYaoyao6_3</name>
+        <qualifiedname>AGRemapCore::YaoyaoBambooFixer::toYaoyao6_3</qualifiedname>
+        <briefdescription>
+<para>The fix onto Yaoyao <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a36cbe56a14f88d017d25f021a02ed763" kindref="member">IniFixBuilderFuncs::yaoyaoBambooToYaoyao6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.h" line="42" column="43" bodyfile="src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+YaoyaoBamboo&apos;s own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The SIXTH remap of a skin of SEVERAL components onto a target of ONE, and the inverse of
+:cpp:class:`YaoyaoFixer`&apos;s direction. See :cpp:func:`makeGIMIMergeFixer`. Pair this with
+:cpp:class:`YaoyaoBambooParser`. Two template options came out of it -- a diffuse edit per target object
+(``GIMIMergeFixerConfig::diffuseEdits``) and a face copied only when it has to move
+(``GIMIMergeFixerConfig::faceOnlyWhenMoved``) -- and two merged-master fixes in shared code
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.h" bodystart="34" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer_1a7372729651ed5e99e57e48450e52145a" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoBambooFixer</scope><name>toYaoyao6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_yaoyao_bamboo_fixer_1ace72893ebbeae540b344c8e4b8039f5c" prot="public" virt="non-virtual"><scope>AGRemapCore::YaoyaoBambooFixer</scope><name>YaoyaoBambooFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

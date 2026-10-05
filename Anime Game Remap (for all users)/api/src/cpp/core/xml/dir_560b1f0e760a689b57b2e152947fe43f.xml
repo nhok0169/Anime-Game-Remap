@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_560b1f0e760a689b57b2e152947fe43f" kind="dir">
+    <compoundname>src/data/IniFixData/GanyuTwilight</compoundname>
+    <innerfile refid="_ganyu_twilight_fixer_8cpp">GanyuTwilightFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/GanyuTwilight/"/>
+  </compounddef>
+</doxygen>

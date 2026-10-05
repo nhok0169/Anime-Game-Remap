@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_barbara_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BarbaraParser</compoundname>
+    <includes refid="_barbara_parser_8h" local="no">BarbaraParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_barbara_parser_1a1d06c71705e0f17c108b17c6b3d1b3dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BarbaraParser::BarbaraParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>BarbaraParser</name>
+        <qualifiedname>AGRemapCore::BarbaraParser::BarbaraParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Barbara/BarbaraParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_barbara_parser_1ae6eaf566e4a5b3dda12cff05a36a8aa7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::BarbaraParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::BarbaraParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Barbara ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::barbara4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Barbara/BarbaraParser.h" line="44" column="45" bodyfile="src/data/IniParseData/Barbara/BarbaraParser.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Barbara&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`BarbaraFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Barbara/BarbaraParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Barbara/BarbaraParser.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_barbara_parser_1a1d06c71705e0f17c108b17c6b3d1b3dd" prot="public" virt="non-virtual"><scope>AGRemapCore::BarbaraParser</scope><name>BarbaraParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_barbara_parser_1ae6eaf566e4a5b3dda12cff05a36a8aa7" prot="public" virt="non-virtual"><scope>AGRemapCore::BarbaraParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

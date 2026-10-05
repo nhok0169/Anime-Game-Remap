@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_fischl_highness_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FischlHighnessParser</compoundname>
+    <includes refid="_fischl_highness_parser_8h" local="no">FischlHighnessParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_highness_parser_1a70681844ce72ad95f69b82b5d2bdc111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::FischlHighnessParser::FischlHighnessParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>FischlHighnessParser</name>
+        <qualifiedname>AGRemapCore::FischlHighnessParser::FischlHighnessParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/FischlHighness/FischlHighnessParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_highness_parser_1a26d76bcc69d9c4ef5ad3055f565fd3b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::FischlHighnessParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::FischlHighnessParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era FischlHighness ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::fischlHighness4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/FischlHighness/FischlHighnessParser.h" line="44" column="45" bodyfile="src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+FischlHighness&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`FischlHighnessFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/FischlHighness/FischlHighnessParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/FischlHighness/FischlHighnessParser.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_fischl_highness_parser_1a70681844ce72ad95f69b82b5d2bdc111" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlHighnessParser</scope><name>FischlHighnessParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_fischl_highness_parser_1a26d76bcc69d9c4ef5ad3055f565fd3b9" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlHighnessParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

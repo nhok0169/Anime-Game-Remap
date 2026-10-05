@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1e1c49fce4d89d2f9190fdfed557bbc3" kind="dir">
+    <compoundname>src/tools/z3</compoundname>
+    <innerfile refid="_z3_context_8cpp">Z3Context.cpp</innerfile>
+    <innerfile refid="_z3_internal_8h">Z3Internal.h</innerfile>
+    <innerfile refid="_z3_predicate_8cpp">Z3Predicate.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/z3/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,906 @@
+#ifndef AGRemapCore_IniParseBuilderData_H
+#define AGRemapCore_IniParseBuilderData_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <memory>
+
+#include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
+
+
+namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     Defines how the :cpp:class:`IniParseBuilder` arguments for some mod are built for a
+     particular game version :raw-html:`<br />` :raw-html:`<br />`
+
+     One static method per (mod, version-it-changed-at) pair, each returning the :cpp:type:`IniParseBuilder::Factory` for that pair
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        \ref raiden6_1 shows the shape the methods take: a factory capturing whatever per-mod data
+        it needs, returning a parser subclass that owns both its :cpp:class:`IniParseContext` and
+        anything else it hands to the parser by borrowed pointer :raw-html:`<br />`
+        :raw-html:`<br />`
+
+        :cpp:func:`IniParseBuilder::defaultFactory` builds a plain GIMI parser with no object
+        awareness. A method that returns it is either a genuine fallback
+        (:cpp:func:`IniParseBuilderFuncs::giDefault`) or a stub for a mod with no dedicated parser
+        yet (:cpp:func:`IniParseBuilderFuncs::wwmiStub`)
+     @endrst
+     */
+    class IniParseBuilderFuncs {
+        public:
+
+            IniParseBuilderFuncs() = delete;
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Amber** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory amber4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **AmberCN** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory amberCN4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Ayaka** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Alone in her batch she needs no register overrides: her own downloads are already on the
+             modern ``ps-t0``/``ps-t1``, and it is her SKIN that sits a slot higher. See
+             ``data/IniParseData/Ayaka/AyakaParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory ayaka4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **AyakaSpringbloom** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Her head and body sit a slot higher; only the dress is on the modern layout. See
+             ``data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory ayakaSpringbloom4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Barbara** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Three drawn objects -- head, body and dress -- and her fix moves the shared
+             ``drawindexed``. See ``data/IniParseData/Barbara/BarbaraParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory barbara4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **BarbaraSummertime** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same three objects as Barbara; this pair is one-to-one. See
+             ``data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory barbaraSummertime4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Diluc** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head and body, stride 12. DilucFlamme adds the dress his coat becomes. See
+             ``data/IniParseData/Diluc/DilucParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory diluc4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **DilucFlamme** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress, stride 20 where Diluc's is 12. See
+             ``data/IniParseData/DilucFlamme/DilucFlammeParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory dilucFlamme4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Fischl** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress -- she is the one WITH the dress, the opposite way round
+             from the Diluc pair. See ``data/IniParseData/Fischl/FischlParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory fischl4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **FischlHighness** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head and body, stride 12. See
+             ``data/IniParseData/FischlHighness/FischlHighnessParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory fischlHighness4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Ganyu** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape. See ``data/IniParseData/Ganyu/GanyuParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory ganyu4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **HuTao** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Draws ``head``/``body``, two fewer than her skin. See
+             ``data/IniParseData/HuTao/HuTaoParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory hutao4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Jean** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory jean4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **JeanCN** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory jeanCN4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **JeanSea** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory jeanSea4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Kaeya** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Three drawn objects and FOUR indices: IndexData gives him an ``extra`` that no
+             Kaeya ``.ini`` declares and that only KaeyaSailwind's dress split fills. See
+             ``data/IniParseData/Kaeya/KaeyaParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kaeya4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **KaeyaSailwind** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same three objects as Kaeya; the asymmetry is all on the fix side. See
+             ``data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kaeyaSailwind4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Keqing** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head``/``body``/``dress``. See
+             ``data/IniParseData/Keqing/KeqingParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory keqing4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **KeqingOpulent** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Draws ``head``/``body`` only -- her Lantern Rite outfit is one mesh, which is what makes
+             the remap to and from Keqing a merge in one direction and a split in the other. See
+             ``data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory keqingOpulent4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Kirara** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             THREE different download layouts in one character: her head and body carry a normal map
+             on ``ps-t0`` and sit a slot higher, her dress sits a slot higher with no normal map. See
+             ``data/IniParseData/Kirara/KiraraParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kirara4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Klee** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Her texcoord stride is 12 where most of this batch is 20. See
+             ``data/IniParseData/Klee/KleeParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory klee4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **KleeBlossomingStarlight** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             She has no Face component in the assets repo, so no face diffuse hash. See
+             ``data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kleeBlossomingStarlight4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Lisa** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress; the dress is what LisaStudent has nowhere to put. See
+             ``data/IniParseData/Lisa/LisaParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lisa4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **LisaStudent** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head and body only, and her downloads bind the diffuse to ``ps-t1`` because
+             ``ps-t0`` is her normal map. See
+             ``data/IniParseData/LisaStudent/LisaStudentParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lisaStudent4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Mona** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory mona4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **MonaCN** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory monaCN4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Nilou** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI shape, with one thing spelled out: a 4.0-era shader reads its diffuse
+             from ``ps-t1`` and its lightmap from ``ps-t2``, so her downloads say so. See
+             ``data/IniParseData/Nilou/NilouParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory nilou4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Ningguang** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory ningguang4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **NingguangOrchid** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory ningguangOrchid4_0();
+
+            /**
+             * @brief
+             @rst
+             The fallback parse row -- returns :cpp:func:`IniParseBuilder::defaultFactory`, a plain
+             GIMI parser with no object awareness, which is genuinely the parser for the rows that use it
+             @endrst
+             */
+            static IniParseBuilder::Factory giDefault();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Rosaria** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory rosaria4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **RosariaCN** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory rosariaCN4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Shenhe** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head``/``body``/``dress``. See
+             ``data/IniParseData/Shenhe/ShenheParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory shenhe4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Xiangling** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Draws ``head``/``body``/``dress``, one more than her skin. See
+             ``data/IniParseData/Xiangling/XianglingParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory xiangling4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Xingqiu** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Draws ``head``/``body``. See ``data/IniParseData/Xingqiu/XingqiuParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory xingqiu4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.4-era **GanyuTwilight** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape. See
+             ``data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory ganyuTwilight4_4();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.4-era **ShenheFrostFlower** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             FOUR drawn objects -- ``head``/``body``/``dress``/``extra`` -- one more than Shenhe. See
+             ``data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory shenheFrostFlower4_4();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.4-era **XingqiuBamboo** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Draws ``head``/``body``/``dress``. See
+             ``data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory xingqiuBamboo4_4();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.8-era **KiraraBoots** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same three-layout split her base has. See
+             ``data/IniParseData/KiraraBoots/KiraraBootsParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kiraraBoots4_8();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.8-era **NilouBreeze** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI shape with nothing added: the skin shipped after GI moved the diffuse
+             and lightmap down, so the defaults are already right. See
+             ``data/IniParseData/NilouBreeze/NilouBreezeParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory nilouBreeze4_8();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.3-era **CherryHuTao** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             FOUR drawn objects, and a texcoord stride of 28 that nothing else in the table uses.
+             See ``data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory cherryHutao5_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.3-era **XianglingCheer** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Draws ``head``/``body`` only. See
+             ``data/IniParseData/XianglingCheer/XianglingCheerParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory xianglingCheer5_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.4-era **Arlecchino** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Head, body and dress at stride 20, and the only character in the table with **no
+             download assets at all**. See ``data/IniParseData/Arlecchino/ArlecchinoParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory arlecchino5_4();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.5-era **Jean** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory jean5_5();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.5-era **JeanCN** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory jeanCN5_5();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.6-era **AyakaSpringbloom** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Same downloads as 4.0 -- the version exists because her TEXTURE EDITS changed. See
+             ``data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory ayakaSpringbloom5_6();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era **AyakaSpringbloom** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             By 5.7 her head and body have moved down to ``ps-t0``/``ps-t1``, the default. See
+             ``data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory ayakaSpringbloom5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era **GanyuTwilight** ``.ini`` file
+             @endrst
+             */
+            static IniParseBuilder::Factory ganyuTwilight5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era **Kirara** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Her body and dress have moved to the modern ``ps-t0``/``ps-t1`` by 5.7; her HEAD has
+             not. See ``data/IniParseData/Kirara/KiraraParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kirara5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era **KiraraBoots** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The MIRROR of :cpp:func:`kirara5_7`: here the head and body have moved to
+             ``ps-t0``/``ps-t1`` and the DRESS is the one left behind. See
+             ``data/IniParseData/KiraraBoots/KiraraBootsParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory kiraraBoots5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era **LisaStudent** ``.ini`` file
+             @endrst
+             */
+            /**
+             * @brief
+             @rst
+             LisaStudent's 5.4 parser -- the same shifted registers as 4.0, but reading her
+             re-dumped assets out of their own ``5_4`` folder. See
+             :cpp:func:`LisaStudentParser::v5_4`
+             @endrst
+             */
+            static IniParseBuilder::Factory lisaStudent5_4();
+
+            static IniParseBuilder::Factory lisaStudent5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era **Nilou** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Identical to :cpp:func:`nilou4_0` except that GI has moved the diffuse and lightmap down
+             to ``ps-t0``/``ps-t1``, which is the default. See ``data/IniParseData/Nilou/NilouParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory nilou5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.1-era **Raiden** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             Builds a :cpp:class:`GIMIParser` over four mod objects, classified by a single
+             :cpp:class:`GIMISectionClassifier` in the two ways it supports:
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             * ``("", "head")``/``("", "body")``/``("", "dress")`` are attributed only when a
+               part's ``hash`` resolves to Raiden's ``ib`` **and** a ``match_first_index``
+               following it resolves to that object's own :cpp:class:`Indices` row. All three
+               share the one ``ib``, so the hash alone cannot tell them apart -- which is why they
+               are in the classifier's ``indexKeyToModObj`` rather than its ``hashKeyOnlyToModObj``
+             * ``("", "blend")`` is the ``Blend.buf`` the fix remaps, and its ``blend_vb`` hash
+               names it outright -- so it *is* in ``hashKeyOnlyToModObj``, with no index involved
+
+             :raw-html:`<br />`
+
+             The parser is also built with ``disjointModObjs`` **false**, so one `section`_ may be
+             attributed to several mod objects -- see the constructed parser's own comment for the
+             3dmigoto grammar bug behind that
+             @endrst
+             */
+            static IniParseBuilder::Factory raiden6_1();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Yelan** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` / ``extra``.
+             See ``data/IniParseData/Yelan/YelanParser.cpp``
+             @endrst
+             */
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Bennett** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` -- two objects, and a
+             Texcoord of stride 12 where Yelan's is 20. See
+             ``data/IniParseData/Bennett/BennettParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory bennett4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era BennettAdventure ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The SECOND parser for a skin of SEVERAL components, after
+             :cpp:func:`yelanTranquil5_7` -- a ``Body`` of two draw slots, a ``Bang`` and an ``Eye``,
+             each with its own buffers and its own hashes. See
+             ``data/IniParseData/BennettAdventure/BennettAdventureParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory bennettAdventure5_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.3-era **Citlali** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` on the normal-map texture
+             layout. See ``data/IniParseData/Citlali/CitlaliParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory citlali5_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a **Charlotte** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` on the normal-map texture
+             layout. See ``data/IniParseData/Charlotte/CharlotteParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory charlotte4_0();
+
+            static IniParseBuilder::Factory yelan4_0();
+
+            /**
+             * @brief The stub a WuWa row without a WWMI parser points at -- :cpp:func:`IniParseBuilder::defaultFactory`
+             */
+            static IniParseBuilder::Factory wwmiStub();
+
+            /**
+             * @brief
+             @rst
+             The 2.5 parser for **Sanhua** -- the first Wuthering Waves character, and the first row
+             built by :cpp:func:`makeWWMIParser`: seven draw slots on her ``vb0`` hash plus their
+             ``match_first_index``, the bone-data and shape-key overrides by a hash of their own.
+             See ``data/IniParseData/Sanhua/SanhuaParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory sanhua2_5();
+
+            /**
+             * @brief
+             @rst
+             The parser for a **SanhuaExorcist** mod at game version ``2.5``, built by
+             :cpp:func:`makeWWMIParser` -- her six draw slots on her ``vb0`` hash, the bone-data
+             override and the two shape-key overrides by their own hashes
+             @endrst
+             */
+            static IniParseBuilder::Factory sanhuaExorcist2_5();
+
+            /**
+             * @brief
+             @rst
+             The 2.8 parser for **Chisa** -- the second Wuthering Waves character, built by
+             :cpp:func:`makeWWMIParser`: seven draw slots on her ``vb0`` hash plus their
+             ``match_first_index``, the bone-data and shape-key overrides by a hash of their
+             own. See ``data/IniParseData/Chisa/ChisaParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory chisa2_8();
+
+            /**
+             * @brief
+             @rst
+             The 3.5 parser for **ChisaParfait**, built by :cpp:func:`makeWWMIParser`: EIGHT draw
+             slots on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key
+             overrides by a hash of their own. The version is the SKIN's, which is the one her assets
+             are filed at. See ``data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory chisaParfait3_5();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 5.7-era YelanTranquil ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The FIRST parser for a skin of SEVERAL components -- a ``Body`` of three draw slots, a
+             ``Bang`` and an ``Eye``, each with its own buffers and its own hashes. See
+             ``data/IniParseData/YelanTranquil/YelanTranquilParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory yelanTranquil5_7();
+
+            /**
+             * @brief
+             @rst
+             CitlaliWhisperofStars' 6.7 parser -- a skin of THREE components (a Body of four draw
+             slots, a Bangs and an Eyes), built by :cpp:func:`makeGIMIComponentParser`
+             @endrst
+             */
+            static IniParseBuilder::Factory citlaliWhisperofStars6_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a **CharlotteHurlock** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of several components, read one component at a time -- see
+             :cpp:func:`makeGIMIComponentParser` and
+             ``data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory charlotteHurlock6_7();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Neuvillette** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress`` -- his head and
+             dress plain, his body on the normal-map layout. See
+             ``data/IniParseData/Neuvillette/NeuvilletteParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory neuvillette4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Yaoyao** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body``, both on the plain layout. See
+             ``data/IniParseData/Yaoyao/YaoyaoParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory yaoyao4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **NeuvilletteMelusent** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of four components -- an unnamed main mesh, a Coat, a Bang and an Eye. See
+             ``data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory neuvilletteMelusent6_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **YaoyaoBamboo** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+             ``data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory yaoyaoBamboo6_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 4.0-era **Lumine** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body`` / ``dress``, all on the plain layout. See
+             ``data/IniParseData/Lumine/LumineParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lumine4_0();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **LumineHeaven** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+             ``data/IniParseData/LumineHeaven/LumineHeavenParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lumineHeaven6_3();
+
+    };
+
+    /**
+     * @brief
+     @rst
+     The version-keyed table of :cpp:class:`IniParseBuilder` factories :raw-html:`<br />`
+     :raw-html:`<br />`
+
+     Each row maps a ``(version, mod name)`` pair to one :cpp:class:`IniParseBuilderFuncs` method
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        Mod names come from :cpp:func:`ModTypeIdTools::getName` rather than being spelled out as
+        string literals -- so a rename in the registry
+        cannot silently desync this table from it
+
+     .. note::
+        A mod only needs a row at the version its parser *changed*.  
+        :cpp:func:`ModDictAssets::get`'s inclusive floor-match means that row keeps applying to
+        every later version until a newer one supersedes it, which is why most mods appear only
+        once, at 4.0
+     @endrst
+     */
+    class IniParseBuilderData {
+        public:
+
+            IniParseBuilderData() = delete;
+
+            /**
+             * @brief
+             @rst
+             The shared table, lazily built on first access and reused afterwards -- the same
+             lazy, build-once pattern as :cpp:func:`GlobalIniClassifiers::classifier`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Held by ``shared_ptr`` because that is what
+             :cpp:func:`IniParseBuilder::IniParseBuilder` takes -- every
+             :cpp:class:`ModType` of the game shares this one table
+             @endrst
+             *
+             * @return The shared args table
+             */
+            static const std::shared_ptr<const IniParseBuilder::ArgsRepo>& repo();
+    };
+}
+
+#endif

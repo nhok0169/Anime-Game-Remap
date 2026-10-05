@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_download_cache" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DownloadCache</compoundname>
+    <includes refid="_file_download_8h" local="no">FileDownload.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_cache_1a23585e04bad793866bc4a0942665f79c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; AGRemapCore::DownloadCache::paths_</definition>
+        <argsstring></argsstring>
+        <name>paths_</name>
+        <qualifiedname>AGRemapCore::DownloadCache::paths_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="124" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_cache_1a649e107b164b74fe25bcc31ecaba9532" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::DownloadCache::failed_</definition>
+        <argsstring></argsstring>
+        <name>failed_</name>
+        <qualifiedname>AGRemapCore::DownloadCache::failed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="125" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_cache_1a9ed452e90118fcf104fca7064ec712a6" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::DownloadCache::unreachableHosts_</definition>
+        <argsstring></argsstring>
+        <name>unreachableHosts_</name>
+        <qualifiedname>AGRemapCore::DownloadCache::unreachableHosts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="126" column="32" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a71db892d8a8e2328a3c4d6f9f23ff220" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::DownloadCache::pathOf</definition>
+        <argsstring>(const std::string &amp;url) const</argsstring>
+        <name>pathOf</name>
+        <qualifiedname>AGRemapCore::DownloadCache::pathOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Where &apos;url&apos; was last fetched to, if it has been fetched at all. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link the file was downloaded from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="66" column="27" bodyfile="src/tools/files/FileDownload.cpp" bodystart="246" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a9c1caed7568fea59b614ff9ed2bc7f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::DownloadCache::remember</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;path)</argsstring>
+        <name>remember</name>
+        <qualifiedname>AGRemapCore::DownloadCache::remember</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Records that &apos;url&apos; now sits at &apos;path&apos; <ndash/> and that it is no longer failing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link the file was downloaded from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full path the file was downloaded to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="74" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="255" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a4993a56b97b75cdcbe57b740b6c84752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::DownloadCache::markFailed</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>markFailed</name>
+        <qualifiedname>AGRemapCore::DownloadCache::markFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Records that &apos;url&apos; has already been asked for, as many times as it was going to be,
+and did not come back :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+So that the NEXT resource wanting the same file does not repeat the whole retry
+cycle. A 36-``.ini`` mod pointed at a dead url would otherwise spend minutes of pure
+waiting to reach the answer it already had
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link that failed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="89" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1a9da31704148dd44c9c6990b8f03e52fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::DownloadCache::hasFailed</definition>
+        <argsstring>(const std::string &amp;url) const</argsstring>
+        <name>hasFailed</name>
+        <qualifiedname>AGRemapCore::DownloadCache::hasFailed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;url&apos; has already used up its attempts during this run <ndash/> see <ref refid="class_a_g_remap_core_1_1_download_cache_1a4993a56b97b75cdcbe57b740b6c84752" kindref="member">markFailed</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to ask about </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="96" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="268" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1afdf9f2db6aca08c5bbd9fdf4661e8d6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::DownloadCache::markHostUnreachable</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>markHostUnreachable</name>
+        <qualifiedname>AGRemapCore::DownloadCache::markHostUnreachable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Records that the server &apos;url&apos; names could not be reached at all, after every retry
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+#markFailed covers the same file being asked for again; this covers every OTHER file
+on the same host. Without it a machine that is offline pays the full back-off of
+:cpp:member:`FileDownload::maxAttempts` once per distinct file, where once per run says
+everything there is to say. Only a failure to reach the server belongs here -- a
+``404`` is an answer about one file, not about the host. #remember clears it, so a
+single success restores every later download&apos;s retries
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any link on the host that could not be reached </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="114" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_cache_1af958de07146cdbebc031486f5617ea8f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::DownloadCache::isHostUnreachable</definition>
+        <argsstring>(const std::string &amp;url) const</argsstring>
+        <name>isHostUnreachable</name>
+        <qualifiedname>AGRemapCore::DownloadCache::isHostUnreachable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Whether the host &apos;url&apos; names has already proved unreachable during this run <ndash/> see <ref refid="class_a_g_remap_core_1_1_download_cache_1afdf9f2db6aca08c5bbd9fdf4661e8d6f" kindref="member">markHostUnreachable</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to ask about </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileDownload.h" line="121" column="18" bodyfile="src/tools/files/FileDownload.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What has already been fetched during one remap, keyed by URL -- so the same file is
+pulled off the network once and COPIED everywhere else it is needed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:class:`FileDownload` has a cache of its own (``prevPath_``), but it only helps when the
+same :cpp:class:`FileDownload` object is asked twice. Every :cpp:class:`IniFile` gets a
+parser of its own, so that per-object cache is never hit across ``.ini`` files -- a fresh
+:cpp:class:`FileDownload` reaches every download with an empty ``prevPath_``, and a mod of 36
+``.ini`` files all needing the same file would download it 36 times :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+So the cache lives where the question actually belongs. &quot;Have we already fetched this
+URL?&quot; is a property of the RUN, not of a parser strategy -- :cpp:class:`RemapService`
+owns one of these and hands it to each download as it goes, exactly as it hands over the
+logger :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Not synchronized, and deliberately so -- one lives per :cpp:class:`RemapService`, which
+   walks its folders sequentially. Sharing one across threads needs a lock added here
+   first :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Nothing here checks that a remembered file is still ON DISK. It does not need to:
+   :cpp:func:`FileDownload::get` copies from it and falls back to a real download if that
+   copy fails, so a remembered path that has since been deleted costs one wasted
+   ``copy_file`` and self-heals
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/files/FileDownload.h" line="58" column="5" bodyfile="include/AGRemapCore/tools/files/FileDownload.h" bodystart="58" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a649e107b164b74fe25bcc31ecaba9532" prot="private" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>failed_</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a9da31704148dd44c9c6990b8f03e52fc" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>hasFailed</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1af958de07146cdbebc031486f5617ea8f" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>isHostUnreachable</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a4993a56b97b75cdcbe57b740b6c84752" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>markFailed</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1afdf9f2db6aca08c5bbd9fdf4661e8d6f" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>markHostUnreachable</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a71db892d8a8e2328a3c4d6f9f23ff220" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>pathOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a23585e04bad793866bc4a0942665f79c" prot="private" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>paths_</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a9c1caed7568fea59b614ff9ed2bc7f71" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>remember</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_cache_1a9ed452e90118fcf104fca7064ec712a6" prot="private" virt="non-virtual"><scope>AGRemapCore::DownloadCache</scope><name>unreachableHosts_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

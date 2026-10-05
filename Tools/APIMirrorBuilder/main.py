@@ -1,7 +1,7 @@
 import sys
 import copy
 
-from APIMirrorBuilder.constants.Paths import APIFullPath, MirrorFullPath, UtilitiesPath
+from APIMirrorBuilder.constants.Paths import APIFullPath, MirrorFullPath, APIPath, MirrorPath, UtilitiesPath
 from APIMirrorBuilder.APIMirrorBuilder import APIMirrorBuilder
 
 sys.path.insert(1, UtilitiesPath)
@@ -14,5 +14,6 @@ from Utils.constants.toolStats import APIStats, APIMirrorStats
 if __name__ == "__main__":
     rootModule = ModulePathTools.join(ModulePath, ScriptPartNames.MainFile.value)
 
-    apiMirrorBuilder = APIMirrorBuilder(APIFullPath, MirrorFullPath, rootModule, copy.deepcopy(APIStats), copy.deepcopy(APIMirrorStats))
+    apiMirrorBuilder = APIMirrorBuilder(APIFullPath, MirrorFullPath, rootModule, copy.deepcopy(APIStats), copy.deepcopy(APIMirrorStats),
+                                        apiProjectFolder = APIPath, mirrorProjectFolder = MirrorPath)
     apiMirrorBuilder.build()

@@ -1,0 +1,3 @@
+# The tool needs nothing but AGRemap's API, which carries the hash history it reads.
+#   Install it from pypi, or point sys.path at a checkout's `api/src/py` (see the notebook's Option B).
+AnimeGameRemap

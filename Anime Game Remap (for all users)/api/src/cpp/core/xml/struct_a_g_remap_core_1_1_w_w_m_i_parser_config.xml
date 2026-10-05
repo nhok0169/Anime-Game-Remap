@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIParserConfig</compoundname>
+    <includes refid="_w_w_m_i_parser_8h" local="no">WWMIParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::version</qualifiedname>
+        <initializer>= &quot;2.5&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game version the library files the character&apos;s rows under, used when the ``.ini``
+carries no ``fromVersion`` of its own. **Default**: ``&quot;2.5&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="58" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::slotHashType</definition>
+        <argsstring></argsstring>
+        <name>slotHashType</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::slotHashType</qualifiedname>
+        <initializer>= &quot;vb0&quot;</initializer>
+        <briefdescription>
+<para>The hash type every draw slot section matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"vb0"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="63" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIParserConfig::slotPrefix</definition>
+        <argsstring></argsstring>
+        <name>slotPrefix</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::slotPrefix</qualifiedname>
+        <initializer>= &quot;component&quot;</initializer>
+        <briefdescription>
+<para>The <computeroutput>type</computeroutput> the library files a draw slot&apos;s index rows under, followed by the slot number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>"component"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="68" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMIParserConfig::hashOnlyObjs</definition>
+        <argsstring></argsstring>
+        <name>hashOnlyObjs</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::hashOnlyObjs</qualifiedname>
+        <initializer>                     = {
+{&quot;cb4&quot;, &quot;boneData&quot;}, {&quot;shapekey_offsets&quot;, &quot;shapekeyOffsets&quot;}, {&quot;shapekey_scale&quot;, &quot;shapekeyScale&quot;}}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The sections identified by a hash alone, as ``(hash type in HashData, mod object name)``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+**Default**: the bone-data override (``cb4`` -&gt; ``boneData``) and the two shape-key
+overrides (``shapekey_offsets`` -&gt; ``shapekeyOffsets``, ``shapekey_scale`` -&gt;
+``shapekeyScale``). The shape-key ones are classified so the fixer can decide what to do
+with them -- hide them, as the shipped fix does, or retarget them -- rather than because
+the fix copies them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="82" column="21" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="82" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::WWMIParserConfig::textures</definition>
+        <argsstring></argsstring>
+        <name>textures</name>
+        <qualifiedname>AGRemapCore::WWMIParserConfig::textures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What this character&apos;s own textures look like, so the mod&apos;s texture files can be sorted into
+ROLES :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Left empty, the parser builds no index and :cpp:class:`WWMIParseFacts` answers ``nullptr``;
+the fixer then builds its own.
+
+.. note::
+   The intended end state for :cpp:member:`WWMITextureFacts::roles` is that it is EMPTY and
+   :cpp:class:`GIMISectionClassifier` places every texture from the library&apos;s own
+   :cpp:class:`Hashes` rows, which is where a character&apos;s hashes belong. Of the WuWa
+   characters only Chisa&apos;s texture hashes are filed there so far; for the others the roles
+   listed here are the only record, and many of their roles have SEVERAL hashes, which
+   :cpp:class:`Hashes` can only tell apart by version
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="103" column="26" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What :cpp:func:`makeWWMIParser` needs to read a mod of one Wuthering Waves character -- the
+parser counterpart of :cpp:struct:`WWMIFixerConfig` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A WWMI mod is ONE mesh drawn in several ranges: every ``[TextureOverrideComponentN]`` matches
+the character&apos;s ``vb0`` hash and one draw slot&apos;s ``match_first_index``, and the buffers, the
+bone data and the shape keys are matched by hashes of their own. Nothing is named after the
+character, so a section is classified by hash and index alone -- the same
+:cpp:class:`GIMISectionClassifier` a GIMI parser uses, over the rows :cpp:class:`WWMIBuilder`
+files the character under. Every draw slot the library knows for the character (its
+:cpp:class:`Indices` rows typed ``component0``, ``component1``, ...) becomes the mod object
+``(&quot;&quot;, &quot;componentN&quot;)``, and each entry of :cpp:member:`hashOnlyObjs` becomes ``(&quot;&quot;, &lt;obj&gt;)``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The version matters more than it does for a GIMI parser: a reverse lookup with no version
+resolves through the NEWEST bucket holding the value, and ``0`` -- component 0&apos;s index -- is
+every GI head&apos;s index too, filed at 6.1. That bucket holds no WuWa row, so without
+:cpp:member:`version` component 0 would classify as nothing
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::WWMIParserConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>textures</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::WWMITextureFacts</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="50" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="50" bodyend="104"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>hashOnlyObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>slotHashType</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>slotPrefix</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>textures</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIParserConfig</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

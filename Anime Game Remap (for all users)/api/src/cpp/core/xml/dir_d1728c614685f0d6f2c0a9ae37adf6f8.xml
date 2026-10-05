@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d1728c614685f0d6f2c0a9ae37adf6f8" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Diluc</compoundname>
+    <innerfile refid="_diluc_fixer_8h">DilucFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Diluc/"/>
+  </compounddef>
+</doxygen>

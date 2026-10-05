@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_xingqiu_bamboo_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::XingqiuBambooFixer</compoundname>
+    <includes refid="_xingqiu_bamboo_fixer_8h" local="no">XingqiuBambooFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_bamboo_fixer_1ae17ed4f2747c8e101cbf4d37bbdcfb02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::XingqiuBambooFixer::XingqiuBambooFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>XingqiuBambooFixer</name>
+        <qualifiedname>AGRemapCore::XingqiuBambooFixer::XingqiuBambooFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_bamboo_fixer_1af23463e50b60926800a0d63b719e41ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::XingqiuBambooFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::XingqiuBambooFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era XingqiuBamboo ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::xingqiuBamboo6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.h" line="46" column="43" bodyfile="src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+XingqiuBamboo&apos;s own ``.ini`` fixers, one per game version he needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`XingqiuBambooParser`, and read it next to :cpp:class:`XingqiuFixer`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The MERGE back onto Xingqiu, whose ``head`` takes both the skin&apos;s head and its dress
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.h" bodystart="34" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_bamboo_fixer_1af23463e50b60926800a0d63b719e41ee" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuBambooFixer</scope><name>v6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_bamboo_fixer_1ae17ed4f2747c8e101cbf4d37bbdcfb02" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuBambooFixer</scope><name>XingqiuBambooFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

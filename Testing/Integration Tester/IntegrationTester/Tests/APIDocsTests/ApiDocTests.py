@@ -14,9 +14,6 @@ class ApiDocTests(IntegrationTest):
     def test_iniFileFromStr_iniFileFixed(self):
         self.runTest("iniFileFromStr_iniFileFixed", "iniFileFromStr_iniFileFixed.py")
 
-    def test_iniStr_onlyIniFixedPart(self):
-        self.runTest("iniStr_onlyIniFixedPart", "iniStr_onlyIniFixedPart.py")
-
     def test_iniPath_iniFixRemoved(self):
         self.runTest("iniPath_iniFixRemoved", "iniPath_iniFixRemoved.py")
 

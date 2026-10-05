@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_388e0ddb9c255b728adc41c96405b5b5" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits</compoundname>
+    <innerfile refid="_blend_edit_8h">BlendEdit.h</innerfile>
+    <innerfile refid="_buf_edit_8h">BufEdit.h</innerfile>
+    <innerfile refid="_position_edit_8h">PositionEdit.h</innerfile>
+    <innerfile refid="_res_edit_8h">ResEdit.h</innerfile>
+    <innerfile refid="_tex_creator_edit_8h">TexCreatorEdit.h</innerfile>
+    <innerfile refid="_tex_edit_8h">TexEdit.h</innerfile>
+    <innerfile refid="_tex_editor_edit_8h">TexEditorEdit.h</innerfile>
+    <innerfile refid="_v_g_remap_blend_edit_8h">VGRemapBlendEdit.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/"/>
+  </compounddef>
+</doxygen>

@@ -1,19 +1,19 @@
 import sys
 from functools import reduce
 import unittest.mock as mock
-from .baseTrieTest import BaseTrieTest
+from .baseTrieTest import BasePyTrieTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
-class TrieTest(BaseTrieTest):
+class TrieTest(BasePyTrieTest):
 
     # ============= __getitem__ ======================
 
-    @mock.patch("src.FixRaidenBoss2.Trie.get")
+    @mock.patch("src.py.FixRaidenBoss2.Trie.get")
     def test_getItemFromTrie_calledTrieGet(self, m_get):
         tests = [["shappy"],
                  ["s"],
@@ -33,7 +33,7 @@ class TrieTest(BaseTrieTest):
     # ================================================
     # ============= __setitem__ ======================
 
-    @mock.patch("src.FixRaidenBoss2.Trie.add")
+    @mock.patch("src.py.FixRaidenBoss2.Trie.add")
     def test_setItemForTrie_referencedTrieAdd(self, m_add):
         data = [["boooo", 0, 5, True],
                 ["", [], 0, True],
@@ -78,7 +78,7 @@ class TrieTest(BaseTrieTest):
     # ================================================
     # ================ clear =========================
 
-    @mock.patch("src.FixRaidenBoss2.Trie.clearCache")
+    @mock.patch("src.py.FixRaidenBoss2.Trie.clearCache")
     def test_trieWithData_trieDataCleared(self, m_clearCache):
         self._trie.clear()
 
@@ -207,7 +207,7 @@ class TrieTest(BaseTrieTest):
     # ================================================
     # ================== add =========================
 
-    @mock.patch("src.FixRaidenBoss2.Trie._addKeyword")
+    @mock.patch("src.py.FixRaidenBoss2.Trie._addKeyword")
     def test_differentKVPs_referencedTrieAddKeyword(self, m_addKeyword):
         data = [["boooo", 0, 5, True],
                 ["", [], 0, True],

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_63c0eac684a079921f348167fc1005bf" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Citlali</compoundname>
+    <innerfile refid="_citlali_parser_8h">CitlaliParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Citlali/"/>
+  </compounddef>
+</doxygen>

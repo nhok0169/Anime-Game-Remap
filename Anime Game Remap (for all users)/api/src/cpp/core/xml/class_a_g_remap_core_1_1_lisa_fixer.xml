@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lisa_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LisaFixer</compoundname>
+    <includes refid="_lisa_fixer_8h" local="no">LisaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_fixer_1ae42f3fb51840e2be5185cca1425a30ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LisaFixer::LisaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LisaFixer</name>
+        <qualifiedname>AGRemapCore::LisaFixer::LisaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lisa/LisaFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_fixer_1a709ecc68a87b4aaab46cb65ded7809f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LisaFixer::v6_1ToLisaStudent</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToLisaStudent</name>
+        <qualifiedname>AGRemapCore::LisaFixer::v6_1ToLisaStudent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix that remaps a Lisa mod onto LisaStudent at 6.1 -- what
+:cpp:func:`IniFixBuilderFuncs::lisa6_1ToLisaStudent` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lisa/LisaFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/Lisa/LisaFixer.cpp" bodystart="237" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Lisa&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`LisaParser`: the mod objects this fixer remaps are the ones
+that parser classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Lisa/LisaFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Lisa/LisaFixer.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lisa_fixer_1ae42f3fb51840e2be5185cca1425a30ae" prot="public" virt="non-virtual"><scope>AGRemapCore::LisaFixer</scope><name>LisaFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_lisa_fixer_1a709ecc68a87b4aaab46cb65ded7809f6" prot="public" virt="non-virtual"><scope>AGRemapCore::LisaFixer</scope><name>v6_1ToLisaStudent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

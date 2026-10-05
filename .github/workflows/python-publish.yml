@@ -8,6 +8,18 @@
 
 name: Upload FixRaidenBoss2 Package
 
+# The release flow, in order:
+#
+#   1. build the API
+#   2. run both testers against that build, at the same time
+#   3. once both pass, build the wheels and publish FixRaidenBoss2
+#   4. only if that publish succeeded, publish AnimeGameRemap
+#
+# Step 4 is last for a reason: the mirror pins 'FixRaidenBoss2==<version>', so publishing it before
+# the API would ship a package whose only dependency does not exist yet.
+#
+# A manual run does all four, exactly as a release does.
+
 on:
   release:
     types: [published]
@@ -17,55 +29,284 @@ permissions:
   contents: read
 
 jobs:
-  run-unit-tests:
-    uses: './.github/workflows/unit-test-workflow.yml'
 
-  run-integration-tests:
-    uses: './.github/workflows/integration-test-workflow.yml'
+# -------------------------------------------------
+# 1 + 2. Build once, then both testers in parallel
+# -------------------------------------------------
+  build-and-test:
+    name: Build and Test
+    uses: './.github/workflows/test-workflow.yml'
 
-  build:
-    name: Build distribution
-    runs-on: ubuntu-latest
-    needs: [run-unit-tests, run-integration-tests]
+
+# -------------------------------------------------
+# 3. Build wheels (cibuildwheel)
+#
+# Every operating system cibuildwheel can target from GitHub Actions. Linux and Windows each cover
+# more than one architecture from a single runner; macOS needs a runner per architecture, because a
+# macOS runner only builds for its own.
+#
+#   ubuntu-latest      manylinux, x86_64
+#   ubuntu-24.04-arm   manylinux, aarch64
+#   windows-latest     AMD64
+#   macos-15-intel     x86_64   -- an Intel runner. 'macos-13' was, until GitHub removed that image
+#                                  entirely; a job asking for it never gets a runner
+#   macos-latest       arm64    -- Apple Silicon
+#
+# note: no musllinux wheels, for now (CIBW_SKIP below). cibuildwheel builds each Linux platform in its
+#   own container from a copy of the project, and the z3 in that copy is the one the wheel-externs
+#   action built in the MANYLINUX image -- a musllinux wheel would link a glibc z3. To ship musllinux,
+#   build a second z3 in the musllinux image into its own cebuild/cext folders and point the musllinux
+#   CMAKE_PREFIX_PATH at them.
+# -------------------------------------------------
+  build-wheels:
+    name: Build wheels (${{ matrix.os }})
+    needs: build-and-test
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - windows-latest
+          - macos-15-intel
+          - macos-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    # z3 is a submodule, and 'find_package(Z3 CONFIG REQUIRED)' does not build it -- it has to be
+    #   present and installed before a wheel can be built at all
+    - name: Checkout, submodules and all
+      uses: actions/checkout@v4
       with:
-        python-version: "3.x"
-    - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        build
-        --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-      working-directory: './Anime Game Remap (for all users)/api'
-    - name: Store the distribution packages
+        submodules: recursive
+
+
+    # -------------------------------------------------
+    # Python setup (needed for cibuildwheel)
+    # -------------------------------------------------
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+
+    # the version is pinned in ONE file, which the wheel-externs action reads too: the manylinux image
+    #   it builds z3 in is the one this exact cibuildwheel uses
+    - name: Install cibuildwheel
+      run: python -m pip install -r .github/cibuildwheel-requirements.txt
+
+
+    # -------------------------------------------------
+    # z3, restored from the cache or built
+    #
+    # The ONE definition of this build lives in .github/actions/wheel-externs, shared with
+    # warm-caches.yml, which saves it on master on every merge. A release runs on its tag and can
+    # restore master's caches but not another tag's -- so without that, every release built z3 on
+    # every runner. Each runner gets its own 'cebuild<os>' / 'cext<os>', per the '[folder][OS]'
+    # convention.
+    # -------------------------------------------------
+    - name: The wheels' z3
+      uses: ./.github/actions/wheel-externs
+      with:
+        os: ${{ matrix.os }}
+        macos-deployment-target: "14.0"
+
+
+    # -------------------------------------------------
+    # sccache, for the Linux and macOS wheels
+    #
+    # Each runner builds one wheel per python version, and the C++ core -- most of the compile, and
+    # identical for every version -- would otherwise be recompiled for each one. Through sccache it
+    # compiles once per runner; only the bindings, which include Python's headers, compile per version.
+    # Its LOCAL disk cache, not GitHub's: the reuse is within one runner's run, and a release could not
+    # read another release's entries anyway (tag-scoped). With the seven pythons in CIBW_BUILD, every
+    # wheel after a runner's first should find the core's compiles in it.
+    #
+    # NOT Windows: scikit-build-core builds there with the Visual Studio generator, which ignores a
+    # compiler launcher, and AGREMAP_SCCACHE would still turn the precompiled headers off.
+    # -------------------------------------------------
+    - name: Set up sccache
+      if: runner.os != 'Windows'
+      uses: mozilla-actions/sccache-action@v0.0.11
+
+    # Linux wheels build inside cibuildwheel's container, from its COPY of the project -- so the
+    #   binary goes into the project, and CIBW_ENVIRONMENT_LINUX puts it on PATH. The action's Linux
+    #   build is a static musl one, which runs in the manylinux image as it is
+    # cibuildwheel parses CIBW_ENVIRONMENT like a shell and drops every backslash, quoted or not, so
+    #   '${{ github.workspace }}' ('D:\a\...') cannot go into CIBW_ENVIRONMENT_WINDOWS: it reached
+    #   CMake as 'D:aAnime-Game-Remap...' and z3 was never found. The same path with forward slashes,
+    #   which CMake takes on Windows too
+    - name: The Windows z3 prefix, with forward slashes
+      if: runner.os == 'Windows'
+      shell: bash
+      run: echo "AGREMAP_Z3_PREFIX=${GITHUB_WORKSPACE//\\//}/cext${{ matrix.os }}/z3" >> "$GITHUB_ENV"
+
+    - name: Put sccache where the Linux container can see it
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        mkdir -p .sccache-bin
+        cp "$SCCACHE_PATH" .sccache-bin/sccache
+        chmod +x .sccache-bin/sccache
+
+
+    # -------------------------------------------------
+    # Run cibuildwheel
+    #
+    # z3 is already in the workspace by now, for every platform: on Linux the wheel-externs action
+    # built it inside the same manylinux image cibuildwheel uses, with the workspace mounted at
+    # /project -- which is where cibuildwheel puts its COPY of the project, so the paths z3 recorded at
+    # install time still hold. Nothing is built in CIBW_BEFORE_ALL any more, and nothing has to be copied
+    # back out of the container.
+    # -------------------------------------------------
+    - name: Build wheels
+      env:
+        # every CPython the pinned cibuildwheel (4.2.1) builds: 3.9 - 3.15. Listed rather than left to
+        #   cibuildwheel's default, so a cibuildwheel bump cannot start shipping a version nobody has
+        #   built here yet -- add the new one to this list (and check numpy has wheels for it first).
+        #   Kept in step with 'requires-python' in api/pyproject.toml (and apiMirror's).
+        #
+        # NOT the free-threaded builds (cp314t, cp315t), which cibuildwheel's default would add:
+        #   numpy, which the Cython modules build against, ships no free-threaded wheels, so each would
+        #   compile numpy from source -- and neither the pybind11 module nor the Cython ones declare
+        #   themselves free-threading safe, so importing them re-enables the GIL anyway.
+        #   'skip = "pp*"' in api/pyproject.toml keeps PyPy out.
+        CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-* cp315-*"
+
+        # import each wheel in a clean environment of its own python (numpy included, from PyPI) before
+        #   anything is published: a wheel that builds but cannot load -- a missing DLL, a wrong ABI, a
+        #   stdlib module a newer python removed -- fails HERE rather than on a user's machine.
+        CIBW_TEST_COMMAND: >-
+          python -c "import sys, FixRaidenBoss2; print('FixRaidenBoss2 imports on', sys.version)"
+
+        # see the note at the top of this job: musllinux would link the manylinux z3
+        CIBW_SKIP: "*-musllinux_*"
+
+        # 64-bit only, because z3 is: the wheel-externs action builds one z3 per runner, for the
+        #   runner's own architecture. Only Windows changes -- its 'auto' also builds a 32-bit (win32)
+        #   wheel, which then cannot find any z3 at all. Linux and macOS 'auto' are 64-bit already
+        CIBW_ARCHS: auto64
+
+        # the image z3 was built in by the wheel-externs action -- named here so cibuildwheel's default
+        #   cannot move under it (the digest itself comes from the pinned cibuildwheel's own list)
+        CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+        CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
+
+        # where the build then finds z3. CMake reads CMAKE_PREFIX_PATH out of the environment, so
+        #   this is the whole of what scikit-build-core needs to be told. Never '${{ github.workspace }}'
+        #   on Windows -- see 'The Windows z3 prefix' above; checkWorkflowWiring.py flags it.
+        #   CMAKE_ARGS is added to api/pyproject.toml's own cmake.args by scikit-build-core, and
+        #   AGREMAP_SCCACHE makes the API's CMake compile everything through sccache (see above)
+        #   The three OPENSSL_* point the vendored curl at EPEL's OpenSSL 3 (see CIBW_BEFORE_ALL_LINUX
+        #   below), which sits beside the image's own 1.1.1 under an 'openssl3' subfolder that
+        #   FindOpenSSL would never look in
+        CIBW_ENVIRONMENT_LINUX: >-
+          CMAKE_PREFIX_PATH=/project/cext${{ matrix.os }}/z3
+          PATH="/project/.sccache-bin:$PATH"
+          CMAKE_ARGS="-DAGREMAP_SCCACHE=ON -DOPENSSL_INCLUDE_DIR=/usr/include/openssl3 -DOPENSSL_SSL_LIBRARY=/usr/lib64/openssl3/libssl.so -DOPENSSL_CRYPTO_LIBRARY=/usr/lib64/openssl3/libcrypto.so"
+        # the same macOS the wheel-externs action built z3 for, or delocate refuses the library. The
+        #   OPENSSL_* point curl at the static OpenSSL that action built for that macOS too, rather
+        #   than the runner's Homebrew one (built for the runner's own macOS, and refused likewise)
+        CIBW_ENVIRONMENT_MACOS: >-
+          CMAKE_PREFIX_PATH=${{ github.workspace }}/cext${{ matrix.os }}/z3
+          MACOSX_DEPLOYMENT_TARGET=14.0
+          CMAKE_ARGS="-DAGREMAP_SCCACHE=ON -DOPENSSL_ROOT_DIR=${{ github.workspace }}/cextssl${{ matrix.os }} -DOPENSSL_USE_STATIC_LIBS=ON"
+        CIBW_ENVIRONMENT_WINDOWS: CMAKE_PREFIX_PATH="$AGREMAP_Z3_PREFIX"
+
+        # before each wheel, how sccache has done so far -- from the second python version on, the core's
+        #   compiles should be hits. Linux and macOS only (api/pyproject.toml's Windows before-build is
+        #   left alone)
+        CIBW_BEFORE_BUILD_LINUX: sccache --show-stats
+
+        # the vendored curl needs OpenSSL 3's headers (its vtls/openssl.c: '#error "OpenSSL 3.0.0 or
+        #   later required"'), and the manylinux_2_28 image is AlmaLinux 8, whose own openssl-devel is
+        #   1.1.1. EPEL 8's openssl3-devel installs 3.x BESIDE it (headers under
+        #   /usr/include/openssl3, link names under /usr/lib64/openssl3, the libssl.so.3 /
+        #   libcrypto.so.3 themselves in /usr/lib64) -- CIBW_ENVIRONMENT_LINUX points curl at it.
+        #   Staying on 2_28 rather than moving to manylinux_2_34 (AlmaLinux 9, OpenSSL 3 built in)
+        #   keeps Debian 10-11, Ubuntu 18.10-21.04 and RHEL 8 installable.
+        #   auditwheel then copies libssl/libcrypto into the wheel -- they are not on the manylinux
+        #   allow-list -- and FileDownload finds the user's CA bundle at run time, because the path
+        #   curl records here is AlmaLinux's. Once per container
+        CIBW_BEFORE_ALL_LINUX: dnf install -y epel-release && dnf install -y openssl3-devel
+        CIBW_BEFORE_BUILD_MACOS: sccache --show-stats
+
+      # the PACKAGE is the API folder, which holds pyproject.toml; with no argument cibuildwheel looks
+      #   in the repo root and finds none. It is still run FROM the root, because on Linux what it
+      #   copies into the container as /project is the current directory, not the package -- and the
+      #   z3 at /project/cext<os> and sccache at /project/.sccache-bin are at the root. '--output-dir'
+      #   is relative to the current directory, so the wheels still land in ./wheelhouse
+      run: python -m cibuildwheel "Anime Game Remap (for all users)/api" --output-dir wheelhouse
+
+
+    # -------------------------------------------------
+    # Upload wheels
+    # -------------------------------------------------
+    - name: Store wheels
       uses: actions/upload-artifact@v4
       with:
-        name: python-package-distributions
-        path: 'Anime Game Remap (for all users)/api/dist/'
+        name: wheels-${{ matrix.os }}
+        path: wheelhouse/*
+        if-no-files-found: error
 
+
+# -------------------------------------------------
+# 3. Publish FixRaidenBoss2 to PyPI
+# -------------------------------------------------
   publish-to-pypi:
-    name: >-
-      Publish FixRaidenBoss2 Package to PyPI
-    needs:
-    - build
+    name: Publish FixRaidenBoss2 Package to PyPI
+    needs: build-wheels
     runs-on: ubuntu-latest
+
     environment:
       name: pypi
-      url: https://pypi.org/p/FixRaidenBoss2  # Replace <package-name> with your PyPI project name
+      url: https://pypi.org/p/FixRaidenBoss2
+
+    permissions:
+      id-token: write
+
+    steps:
+    - name: Download wheels
+      uses: actions/download-artifact@v4
+      with:
+        pattern: wheels-*
+        path: dist/
+        merge-multiple: true
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+
+
+# -------------------------------------------------
+# 4. ...and only then the mirror, which pins the version just published
+# -------------------------------------------------
+  build-mirror:
+    name: Build AnimeGameRemap
+    needs: publish-to-pypi
+    uses: './.github/workflows/mirror-build-workflow.yml'
+
+  # a plain job, NOT inside the reusable workflow: see mirror-build-workflow.yml's note. This file is
+  #   registered on PyPI as a trusted publisher of AnimeGameRemap, with the 'pypi' environment
+  publish-mirror:
+    name: Publish AnimeGameRemap Package to PyPI
+    needs: build-mirror
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/AnimeGameRemap
+
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
 
     steps:
-    - name: Download all the dists
+    - name: Download the mirror's distribution
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        name: mirror-package-distributions
         path: dist/
+
     - name: Publish distribution to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1

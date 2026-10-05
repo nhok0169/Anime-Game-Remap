@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0a36d3ecbf0cd46ee9361e568ded3f38" kind="dir">
+    <compoundname>src/data/IniFixData/KiraraBoots</compoundname>
+    <innerfile refid="_kirara_boots_fixer_8cpp">KiraraBootsFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/KiraraBoots/"/>
+  </compounddef>
+</doxygen>

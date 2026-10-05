@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_fischl_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FischlFixer</compoundname>
+    <includes refid="_fischl_fixer_8h" local="no">FischlFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_fixer_1a4abace8b796f832b77adfb9bffcb600f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::FischlFixer::FischlFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>FischlFixer</name>
+        <qualifiedname>AGRemapCore::FischlFixer::FischlFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Fischl/FischlFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_fixer_1ad591c3a5a5392319bde16fd28969c409" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>static IniFixBuilder::Factory AGRemapCore::FischlFixer::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::FischlFixer::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix -- what :cpp:func:`IniFixBuilderFuncs::fischl4_0` returns,
+and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Fischl/FischlFixer.h" line="44" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_fischl_fixer_1a87fdd6ac9d8fb15552430f810b9cb4c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::FischlFixer::v6_1ToFischlHighness</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToFischlHighness</name>
+        <qualifiedname>AGRemapCore::FischlFixer::v6_1ToFischlHighness</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix that remaps a Fischl mod onto FischlHighness at 6.1 -- what
+:cpp:func:`IniFixBuilderFuncs::fischl6_1ToFischlHighness` returns, and documented
+there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Fischl/FischlFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Fischl/FischlFixer.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Fischl&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`FischlParser`: the mod objects this fixer remaps are the ones
+that parser classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Fischl/FischlFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Fischl/FischlFixer.h" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_fischl_fixer_1a4abace8b796f832b77adfb9bffcb600f" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlFixer</scope><name>FischlFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_fischl_fixer_1ad591c3a5a5392319bde16fd28969c409" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlFixer</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_fischl_fixer_1a87fdd6ac9d8fb15552430f810b9cb4c5" prot="public" virt="non-virtual"><scope>AGRemapCore::FischlFixer</scope><name>v6_1ToFischlHighness</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

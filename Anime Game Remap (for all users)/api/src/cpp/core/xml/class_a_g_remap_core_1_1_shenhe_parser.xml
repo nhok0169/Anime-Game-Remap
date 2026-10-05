@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_shenhe_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ShenheParser</compoundname>
+    <includes refid="_shenhe_parser_8h" local="no">ShenheParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shenhe_parser_1afbecfdece36a63ae357f94fd8d5271a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ShenheParser::ShenheParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ShenheParser</name>
+        <qualifiedname>AGRemapCore::ShenheParser::ShenheParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Shenhe/ShenheParser.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shenhe_parser_1ad384cd0ccfb8e20a25bd55c4a522e7d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::ShenheParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::ShenheParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Shenhe ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::shenhe4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Shenhe/ShenheParser.h" line="47" column="45" bodyfile="src/data/IniParseData/Shenhe/ShenheParser.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Shenhe&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`ShenheFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Shenhe and ShenheFrostFlower are a base/skin pair and remap onto each other. The
+skin draws a fourth object (``extra``) that Shenhe does not have
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Shenhe/ShenheParser.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Shenhe/ShenheParser.h" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_shenhe_parser_1afbecfdece36a63ae357f94fd8d5271a4" prot="public" virt="non-virtual"><scope>AGRemapCore::ShenheParser</scope><name>ShenheParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_shenhe_parser_1ad384cd0ccfb8e20a25bd55c4a522e7d2" prot="public" virt="non-virtual"><scope>AGRemapCore::ShenheParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

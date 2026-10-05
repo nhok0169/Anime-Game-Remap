@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_scan_section" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniScanSection</compoundname>
+    <includes refid="_ini_scan_8h" local="no">IniScan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_scan_section_1ae2c1f8cbf26f537c37053e0c9162decf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniScanSection::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::IniScanSection::name</qualifiedname>
+        <briefdescription>
+<para>The section&apos;s name, without its brackets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="36" column="21" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_scan_section_1ade0fc5344ce2fe9089ddecca8339431e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::IniScanSection::kvps</definition>
+        <argsstring></argsstring>
+        <name>kvps</name>
+        <qualifiedname>AGRemapCore::IniScanSection::kvps</qualifiedname>
+        <briefdescription>
+<para>The section&apos;s <computeroutput>key = value</computeroutput> pairs, both sides stripped, in the order they appear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="41" column="21" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One `section`_ as :cpp:class:`IniScan` read it: a name, and its `KVPs`_ in file order
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/IniScan.h" line="31" column="5" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="31" bodyend="42"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_scan_section_1ade0fc5344ce2fe9089ddecca8339431e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScanSection</scope><name>kvps</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_scan_section_1ae2c1f8cbf26f537c37053e0c9162decf" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScanSection</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

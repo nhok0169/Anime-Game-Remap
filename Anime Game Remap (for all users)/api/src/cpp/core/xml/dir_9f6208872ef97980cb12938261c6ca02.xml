@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9f6208872ef97980cb12938261c6ca02" kind="dir">
+    <compoundname>src/model/strategies/texEditors/pixelTransforms</compoundname>
+    <innerfile refid="_base_pixel_transform_8cpp">BasePixelTransform.cpp</innerfile>
+    <innerfile refid="_colour_replace_8cpp">ColourReplace.cpp</innerfile>
+    <innerfile refid="_correct_gamma_8cpp">CorrectGamma.cpp</innerfile>
+    <innerfile refid="_highlight_shadow_8cpp">HighlightShadow.cpp</innerfile>
+    <innerfile refid="_invert_alpha_8cpp">InvertAlpha.cpp</innerfile>
+    <innerfile refid="_temp_control_8cpp">TempControl.cpp</innerfile>
+    <innerfile refid="_tint_transform_8cpp">TintTransform.cpp</innerfile>
+    <innerfile refid="_transparency_8cpp">Transparency.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/texEditors/pixelTransforms/"/>
+  </compounddef>
+</doxygen>

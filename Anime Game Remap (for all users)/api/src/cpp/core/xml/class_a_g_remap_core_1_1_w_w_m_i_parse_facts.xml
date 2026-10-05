@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_w_w_m_i_parse_facts" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::WWMIParseFacts</compoundname>
+    <includes refid="_w_w_m_i_parser_8h" local="no">WWMIParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_parse_facts_1a24c008c7ef5ba8cc40896c9eeec5709a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::WWMIParseFacts::~WWMIParseFacts</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WWMIParseFacts</name>
+        <qualifiedname>AGRemapCore::WWMIParseFacts::~WWMIParseFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="123" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_parse_facts_1adb23dd627d2822604a655d1d1f78ae2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles" kindref="compound">WWMITextureRoles</ref> *</type>
+        <definition>virtual const WWMITextureRoles * AGRemapCore::WWMIParseFacts::textureRoles</definition>
+        <argsstring>() const =0</argsstring>
+        <name>textureRoles</name>
+        <qualifiedname>AGRemapCore::WWMIParseFacts::textureRoles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every texture the ``.ini`` names with the role it plays, or ``nullptr`` when the parser
+was given no :cpp:member:`WWMIParserConfig::textures` to sort them by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="132" column="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a parser from :cpp:func:`makeWWMIParser` learned about a ``.ini`` file that its fixer needs
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser,
+or a config with no :cpp:member:`WWMIParserConfig::textures`), the fixer falls back to building
+its own index :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same shape as :cpp:class:`GIMIComponentParseFacts`, for the same reason: deciding what a
+mod&apos;s files ARE is the parser&apos;s job, and the fixer only needs the answer
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/WWMIParser.h" line="121" column="5" bodyfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" bodystart="121" bodyend="133"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_parse_facts_1adb23dd627d2822604a655d1d1f78ae2a" prot="public" virt="pure-virtual"><scope>AGRemapCore::WWMIParseFacts</scope><name>textureRoles</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_parse_facts_1a24c008c7ef5ba8cc40896c9eeec5709a" prot="public" virt="virtual"><scope>AGRemapCore::WWMIParseFacts</scope><name>~WWMIParseFacts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

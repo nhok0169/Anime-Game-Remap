@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_neuvillette_melusent_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NeuvilletteMelusentFixer</compoundname>
+    <includes refid="_neuvillette_melusent_fixer_8h" local="no">NeuvilletteMelusentFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_melusent_fixer_1a827ce820e8ea86d450fedb74349f39d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NeuvilletteMelusentFixer::NeuvilletteMelusentFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NeuvilletteMelusentFixer</name>
+        <qualifiedname>AGRemapCore::NeuvilletteMelusentFixer::NeuvilletteMelusentFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_melusent_fixer_1a50f314de9e3d3e40b9a8638ace5f51ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NeuvilletteMelusentFixer::toNeuvillette6_3</definition>
+        <argsstring>()</argsstring>
+        <name>toNeuvillette6_3</name>
+        <qualifiedname>AGRemapCore::NeuvilletteMelusentFixer::toNeuvillette6_3</qualifiedname>
+        <briefdescription>
+<para>The fix onto Neuvillette <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kindref="member">IniFixBuilderFuncs::neuvilletteMelusentToNeuvillette6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.h" line="41" column="43" bodyfile="src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+NeuvilletteMelusent&apos;s own fixers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The FIFTH remap of a skin of SEVERAL components onto a target of ONE, and the inverse of
+:cpp:class:`NeuvilletteFixer`&apos;s direction. See :cpp:func:`makeGIMIMergeFixer`. Pair this with
+:cpp:class:`NeuvilletteMelusentParser`. Three template options came out of it: a component with a mod type
+name of its own (the unnamed main mesh), the target&apos;s texcoord stride, and a 16-bit mod&apos;s index counts
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_fixer_1a827ce820e8ea86d450fedb74349f39d4" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteMelusentFixer</scope><name>NeuvilletteMelusentFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_melusent_fixer_1a50f314de9e3d3e40b9a8638ace5f51ea" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteMelusentFixer</scope><name>toNeuvillette6_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

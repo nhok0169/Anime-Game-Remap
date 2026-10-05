@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_da0ba03a89fa1cd5fc2ade012dd47132" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Lisa</compoundname>
+    <innerfile refid="_lisa_parser_8h">LisaParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Lisa/"/>
+  </compounddef>
+</doxygen>

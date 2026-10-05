@@ -1,0 +1,53 @@
+##### Credits
+
+# ===== Anime Game Remap (AG Remap) =====
+# Authors: Albert Gold#2696, NK#1321
+#
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+# Special Thanks:
+#   nguen#2011 (for support)
+#   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+#   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+##### EndCredits
+
+##### CppLocalImports
+from .....core import CppColourReplaceFilter
+##### EndCppLocalImports
+
+
+##### Script
+class ColourReplaceFilter(CppColourReplaceFilter):
+    """
+    This class inherits from :class:`CppColourReplaceFilter`
+
+    Replaces specific colours in the image
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`CppBaseTexFilter.transform` for the filter, ``x``
+
+    Parameters
+    ----------
+    replaceColour: :class:`Colour`
+        The colour to fill in
+
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
+        The colours to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    replaceAlpha: :class:`bool`
+        Whether to also replace the alpha channel of the original colour :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+    pass
+##### EndScript

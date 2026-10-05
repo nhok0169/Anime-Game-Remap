@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_xiangling_cheer_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::XianglingCheerFixer</compoundname>
+    <includes refid="_xiangling_cheer_fixer_8h" local="no">XianglingCheerFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xiangling_cheer_fixer_1a65024cf946ba6274dcf6f759bddca6ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::XianglingCheerFixer::XianglingCheerFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>XianglingCheerFixer</name>
+        <qualifiedname>AGRemapCore::XianglingCheerFixer::XianglingCheerFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/XianglingCheer/XianglingCheerFixer.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xiangling_cheer_fixer_1a7d7031e288e97c45dfe431d16f1e1b37" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::XianglingCheerFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::XianglingCheerFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era XianglingCheer ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::xianglingCheer6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/XianglingCheer/XianglingCheerFixer.h" line="46" column="43" bodyfile="src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+XianglingCheer&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`XianglingCheerParser`, and read it next to :cpp:class:`XianglingFixer`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The SPLIT back onto Xiangling, and the direction that **loses a normal map**
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/XianglingCheer/XianglingCheerFixer.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniFixData/XianglingCheer/XianglingCheerFixer.h" bodystart="34" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer_1a7d7031e288e97c45dfe431d16f1e1b37" prot="public" virt="non-virtual"><scope>AGRemapCore::XianglingCheerFixer</scope><name>v6_1</name></member>
+      <member refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer_1a65024cf946ba6274dcf6f759bddca6ae" prot="public" virt="non-virtual"><scope>AGRemapCore::XianglingCheerFixer</scope><name>XianglingCheerFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -16,7 +16,7 @@ body:
       options:
         - label: I provided the hashes and indices for the character
           required: false
-        - label: I have provided the vertex group remaps for the character in an Excel file based on the format specified [here](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/RemapDrafts)
+        - label: I have provided the vertex group remaps for the character in an Excel file based on the format specified [here](https://github.com/nhok0169/Anime-Game-Remap/tree/master/Data/RemapDrafts)
           required: false
   - type: textarea
     id: description

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7ac17031a85c6838d8ac0b2a7aa8ecf4" kind="dir">
+    <compoundname>src/data/IniParseData/Ayaka</compoundname>
+    <innerfile refid="_ayaka_parser_8cpp">AyakaParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/Ayaka/"/>
+  </compounddef>
+</doxygen>

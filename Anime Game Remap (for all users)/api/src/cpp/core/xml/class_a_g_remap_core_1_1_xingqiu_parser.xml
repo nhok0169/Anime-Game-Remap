@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_xingqiu_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::XingqiuParser</compoundname>
+    <includes refid="_xingqiu_parser_8h" local="no">XingqiuParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_parser_1add734140a89ee4a9bf489c06a9fb26c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::XingqiuParser::XingqiuParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>XingqiuParser</name>
+        <qualifiedname>AGRemapCore::XingqiuParser::XingqiuParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_parser_1a0ae751ad24097649b001ab8546061152" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::XingqiuParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::XingqiuParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Xingqiu ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::xingqiu4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h" line="47" column="45" bodyfile="src/data/IniParseData/Xingqiu/XingqiuParser.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Xingqiu&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`XingqiuFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Xingqiu and XingqiuBamboo are a base/skin pair and remap onto each other. The skin
+draws a third object, so this direction is a split and the other a merge
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_parser_1a0ae751ad24097649b001ab8546061152" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuParser</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_parser_1add734140a89ee4a9bf489c06a9fb26c7" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuParser</scope><name>XingqiuParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

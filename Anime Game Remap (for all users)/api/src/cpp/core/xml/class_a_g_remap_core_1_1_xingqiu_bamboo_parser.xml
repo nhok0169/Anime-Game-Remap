@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_xingqiu_bamboo_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::XingqiuBambooParser</compoundname>
+    <includes refid="_xingqiu_bamboo_parser_8h" local="no">XingqiuBambooParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_bamboo_parser_1a88667f4cbe511a0b6d6ce899340c1abf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::XingqiuBambooParser::XingqiuBambooParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>XingqiuBambooParser</name>
+        <qualifiedname>AGRemapCore::XingqiuBambooParser::XingqiuBambooParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_xingqiu_bamboo_parser_1a607d4f2f1e1af24bfcf414fe1415dfb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::XingqiuBambooParser::v4_4</definition>
+        <argsstring>()</argsstring>
+        <name>v4_4</name>
+        <qualifiedname>AGRemapCore::XingqiuBambooParser::v4_4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.4-era XingqiuBamboo ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::xingqiuBamboo4_4` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h" line="47" column="45" bodyfile="src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+XingqiuBamboo&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`XingqiuBambooFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Draws a ``dress`` Xingqiu has no geometry for, so remapping back onto him is a
+MERGE -- see :cpp:class:`XingqiuBambooFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_bamboo_parser_1a607d4f2f1e1af24bfcf414fe1415dfb2" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuBambooParser</scope><name>v4_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_xingqiu_bamboo_parser_1a88667f4cbe511a0b6d6ce899340c1abf" prot="public" virt="non-virtual"><scope>AGRemapCore::XingqiuBambooParser</scope><name>XingqiuBambooParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

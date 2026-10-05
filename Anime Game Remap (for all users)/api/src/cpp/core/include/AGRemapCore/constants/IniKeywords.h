@@ -1,0 +1,485 @@
+#ifndef AGRemapCore_IniKeywords_H
+#define AGRemapCore_IniKeywords_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <string>
+#include <unordered_set>
+
+
+namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     Common keywords used in the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+     Bound to `Python`_ as ``IniKeywords``, each member a plain string. Add a member when a caller on
+     either side needs a keyword, rather than spelling the literal out where it is used
+     @endrst
+     */
+    class IniKeywords {
+        public:
+
+            /**
+             * @brief The starting prefix used for any `sections`_ that reference some file
+             */
+            static inline const std::string Resource = "Resource";
+
+            /**
+             * @brief The starting prefix used for some `section`_ that overrides the resource of a mod
+             */
+            static inline const std::string TextureOverride = "TextureOverride";
+
+            /**
+             * @brief
+             @rst
+             The `section`_ prefix of a ``3dmigoto`` command list -- a `section`_ that is run by name
+             rather than matched against a draw
+             @endrst
+             */
+            static inline const std::string CommandList = "CommandList";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key that overrides the resource the `section`_ itself matched
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texture-only recolour is written with it -- ``hash`` names one of the game's textures
+             and ``this`` names what to draw in its place -- so a `section`_ carrying it binds no
+             register of its own
+             @endrst
+             */
+            static inline const std::string This = "this";
+
+            /**
+             * @brief The starting prefix used for some `section`_ that overrides a mod's shader
+             */
+            static inline const std::string ShaderOverride = "ShaderOverride";
+
+            /**
+             * @brief The substring used to indicate a `section`_ is edited by this software
+             */
+            static inline const std::string Remap = "Remap";
+
+            /**
+             * @brief
+             @rst
+             The substring that usually occurs in the name of a `section`_ to indicate that the
+             `section`_ will call some ``*.Blend.buf`` file
+             @endrst
+             */
+            static inline const std::string Blend = "Blend";
+
+            /**
+             * @brief
+             @rst
+             The substring that usually occurs in the name of a `section`_ to indicate that the
+             `section`_ will call some ``*.Position.buf`` file
+             @endrst
+             */
+            static inline const std::string Position = "Position";
+
+            /**
+             * @brief
+             @rst
+             The substring that usually occurs in the name of a `section`_ to indicate that the
+             `section`_ will call some ``*.Texcoord.buf`` file
+             @endrst
+             */
+            static inline const std::string Texcoord = "Texcoord";
+
+            /**
+             * @brief The substring used to indicate that the `section`_ was created by this program
+             */
+            static inline const std::string RemapFix = Remap + "Fix";
+
+            /**
+             * @brief
+             @rst
+             The substring used to indicate that the `section`_ contains some edited/created texture
+             ``*.RemapTex.dds`` file
+             @endrst
+             */
+            static inline const std::string RemapTex = Remap + "Tex";
+
+            /**
+             * @brief The substring used to indicate that the `section`_ contains some downloaded file from the internet
+             */
+            static inline const std::string RemapDL = Remap + "DL";
+
+            /**
+             * @brief
+             @rst
+             The substring used to indicate that a resource `section`_ INSIDE a fix's block names a
+             file the fix did **not** write -- one of the mod's own, referenced by the fix
+             :raw-html:`<br />` :raw-html:`<br />`
+             An undo takes every section of the fix's block out and deletes every file those
+             sections name, which is right for a ``RemapBlend`` / ``RemapTex`` / ``RemapDL`` file the
+             fix produced and destroys the mod for a texture the fix merely bound (the WWMI fixer
+             binds a mod's textures by register, and a file no resource of the mod's own ``.ini``
+             names has to be declared somewhere). A section carrying this keyword is removed with
+             the block and its file is left alone -- see :cpp:func:`RemapIniRemover::collectRemovedResources`
+             @endrst
+             */
+            static inline const std::string RemapRef = Remap + "Ref";
+
+            /**
+             * @brief The `KVP`_ key used to reference/call another `section`_
+             */
+            static inline const std::string Run = "run";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding a `section`_'s model hash -- what
+             :cpp:class:`GIMISectionClassifier` looks a mod object up by
+             @endrst
+             */
+            static inline const std::string Hash = "hash";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding the first index of the model a `section`_ draws -- the second
+             half of what :cpp:class:`GIMISectionClassifier` looks a mod object up by, for the mod
+             objects a ``hash`` alone cannot tell apart
+             @endrst
+             */
+            static inline const std::string MatchFirstIndex = "match_first_index";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding how many indices of the model a `section`_ draws
+             @endrst
+             */
+            static inline const std::string MatchIndexCount = "match_index_count";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding how many vertices the model a `section`_ draws has
+             @endrst
+             */
+            static inline const std::string MatchVertexCount = "match_vertex_count";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key breaking the tie when several `sections`_ match one draw
+             @endrst
+             */
+            static inline const std::string MatchPriority = "match_priority";
+
+            /**
+             * @brief The ``filter_index`` `KVP`_ key -- the value a shader's own draw writes into
+             *      ``IniConstants``, which a remapped `section`_ matches on to tell one pass from another
+             */
+            static inline const std::string FilterIndex = "filter_index";
+
+            /**
+             * @brief The ``array`` `KVP`_ key -- how many elements a buffer resource holds
+             */
+            static inline const std::string Array = "array";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding which kind of draw call a `section`_ matches
+             @endrst
+             */
+            static inline const std::string MatchType = "match_type";
+
+            /**
+             * @brief
+             @rst
+             Every `KVP`_ key by which a `section`_ selects the draw it overrides
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             These are what make a ``TextureOverride`` fire, so they are meaningful only where
+             3dmigoto is matching. A ``CommandList`` is *called*, never matched, so a fix that
+             copies a section's body into one drops these on the way -- carried across they say
+             nothing, and a stale ``hash`` in particular reads as a second claim on a draw the
+             fix has already remapped
+             @endrst
+             */
+            static inline const std::unordered_set<std::string> MatchKeys = {
+                Hash, MatchPriority, MatchFirstIndex, MatchIndexCount, MatchType, MatchVertexCount};
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key naming the file a resource `section`_ points at :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                Classes that edit `KVPs`_ generically take this as a ``K``-typed customization point
+                instead (eg. :cpp:type:`BaseResEdit::ResEditConfig`'s ``filenameKey``), since ``K``
+                is not ``std::string`` in the `pybind11`_ layer. This constant is for the
+                plain-``std::string`` callers, and for keeping the one spelling in one place
+             @endrst
+             */
+            static inline const std::string Filename = "filename";
+
+            /**
+             * @brief
+             @rst
+             The prefix a register binding uses to name a resource `section`_ rather than a value --
+             ``ps-t0 = ref ResourceFoo``. Strip it with
+             :cpp:func:`IniNamingTools::removeRefPrefix` rather than by hand: it was written out at
+             seven sites across three files, one of them carrying the literal's LENGTH as a bare 4
+             @endrst
+             */
+            static inline const std::string Ref = "ref";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s kind, eg. ``type = Buffer``
+             @endrst
+             */
+            static inline const std::string Type = "type";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s bytes per element, eg. ``stride = 40``
+             @endrst
+             */
+            static inline const std::string Stride = "stride";
+
+            /**
+             * @brief
+             @rst
+             A resource `section`_'s element format, eg. ``format = R32_UINT``
+             @endrst
+             */
+            static inline const std::string Format = "format";
+
+            /**
+             * @brief
+             @rst
+             The value a `KVP`_ carries to mean "nothing at all" -- a ``filename =`` naming this is
+             a placeholder, not a real resource
+             @endrst
+             */
+            static inline const std::string Null = "null";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key naming a `section`_'s index buffer -- also the last index column of the
+             :cpp:class:`Hashes` row holding that buffer's hash
+             @endrst
+             */
+            static inline const std::string Ib = "ib";
+
+            /**
+             * @brief The `KVP`_ key naming a `section`_'s position vertex buffer
+             */
+            static inline const std::string Vb0 = "vb0";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key naming a `section`_'s blend **or** texcoord vertex buffer -- which of
+             the two it is depends on the `section`_, not on the key
+             @endrst
+             */
+            static inline const std::string Vb1 = "vb1";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key controlling how a draw call is handled -- ``skip`` is the only value
+             this software writes, alongside \ref Draw, after a downloaded ``Blend.buf``
+             @endrst
+             */
+            static inline const std::string Handling = "handling";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key issuing a non-indexed draw, written as ``<vertex count>,0`` -- the pair
+             \ref Handling completes after a downloaded ``Blend.buf``
+             @endrst
+             */
+            static inline const std::string Draw = "draw";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key that actually draws a model. What a texture fix has to be issued in
+             front of -- see :cpp:class:`RegDelimitedAdd`
+             @endrst
+             */
+            static inline const std::string DrawIndexed = "drawindexed";
+
+            /**
+             * @brief
+             @rst
+             The sub-command call to `ORFix`_ (Outline Reflection Fix) :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             One of the two fixes shipped by an external ``3dmigoto`` library that work around
+             textures the game breaks each version. A ``run =`` naming this is a call into that
+             library, not into the mod's own `sections`_
+             @endrst
+             */
+            static inline const std::string ORFixPath = "CommandList\\global\\ORFix\\ORFix";
+
+            /**
+             * @brief
+             @rst
+             The sub-command call to ``NNFix`` (No Normal Fix) -- the other half of the same
+             external library as \ref ORFixPath :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                It lives under the library's ``ORFix`` folder, **not** an ``NNFix`` one. That
+                asymmetry is the library's, not a typo here
+             @endrst
+             */
+            static inline const std::string NNFixPath = "CommandList\\global\\ORFix\\NNFix";
+
+            /**
+             * @brief
+             @rst
+             GIMI's own texture helper, ``CommandList\GIMI\SetTextures`` -- ORFix reading
+             :cpp:member:`GIMINormalMap` / :cpp:member:`GIMIDiffuse` / :cpp:member:`GIMILightMap`
+             instead of ``ps-t0`` / ``ps-t1`` / ``ps-t2``. A mod's use of it is rewritten into the
+             traditional API as it is read -- see :cpp:class:`GIMIApiNormalizer`
+             @endrst
+             */
+            static inline const std::string GIMISetTexturesPath = "CommandList\\GIMI\\SetTextures";
+
+            /**
+             * @brief The normal map key of GIMI's texture API -- read as ``ps-t0``, see \ref GIMISetTexturesPath
+             */
+            static inline const std::string GIMINormalMap = "Resource\\GIMI\\NormalMap";
+
+            /**
+             * @brief The diffuse key of GIMI's texture API -- read as ``ps-t1``, see \ref GIMISetTexturesPath
+             */
+            static inline const std::string GIMIDiffuse = "Resource\\GIMI\\Diffuse";
+
+            /**
+             * @brief The light map key of GIMI's texture API -- read as ``ps-t2``, see \ref GIMISetTexturesPath
+             */
+            static inline const std::string GIMILightMap = "Resource\\GIMI\\LightMap";
+
+            /**
+             * @brief
+             @rst
+             The folder holding the `TexFx`_ external library's sub-commands :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A third addon alongside ORFix and NNFix, and the one that gives textures capabilities
+             the importer does not have on its own -- most visibly making parts of a model look
+             transparent. What each channel of an input texture means is documented on its own
+             GitHub rather than here :raw-html:`<br />` :raw-html:`<br />`
+
+             It owns **two dedicated registers**, ``ps-t69`` and ``ps-t70``, which is why a fix that
+             shifts a character's registers around leaves those two alone
+             @endrst
+             */
+            static inline const std::string TexFxFolder = "CommandList\\TexFx";
+
+            /**
+             * @brief
+             @rst
+             The first of `TexFx`_'s two dedicated registers :raw-html:`<br />` :raw-html:`<br />`
+
+             A modder opts into TexFx by binding these, which is what makes the library optional
+             where NNFix and ORFix are mandatory -- so a fix issues a TexFx sub-command only where
+             one of them is actually bound, never simply because the character's row names one
+             @endrst
+             */
+            static inline const std::string PsT69 = "ps-t69";
+
+            /**
+             * @brief The second of `TexFx`_'s two dedicated registers -- see \ref PsT69
+             */
+            static inline const std::string PsT70 = "ps-t70";
+
+            /**
+             * @brief
+             @rst
+             `TexFx`_'s transparency sub-command for a diffuse living on ``ps-t0``, GI 5.0 and later
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The call names the register the diffuse is on, so which of these two a fix issues
+             follows from where its register shift left the diffuse -- not from the character
+             @endrst
+             */
+            static inline const std::string TexFxTransparency0 = TexFxFolder + "\\TN.0";
+
+            /**
+             * @brief
+             @rst
+             `TexFx`_'s transparency sub-command for a diffuse living on ``ps-t1`` -- see
+             \ref TexFxTransparency0
+             @endrst
+             */
+            static inline const std::string TexFxTransparency1 = TexFxFolder + "\\TN.1";
+
+            /**
+             * @brief
+             @rst
+             The PRE-5.0 spelling of \ref TexFxTransparency0 -- ``T.0`` rather than ``TN.0``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same sub-command, which `TexFx`_ itself renamed at 5.0. A fix transcribed from a
+             4.x row has to issue THIS one: the two are not interchangeable, and issuing the 5.0
+             name names a sub-command that library does not have -- which surfaces as an effect
+             that quietly does nothing rather than as an error
+             @endrst
+             */
+            static inline const std::string TexFxTransparency0Pre5_0 = TexFxFolder + "\\T.0";
+
+            /**
+             * @brief
+             @rst
+             The PRE-5.0 spelling of \ref TexFxTransparency1 -- see \ref TexFxTransparency0Pre5_0
+             @endrst
+             */
+            static inline const std::string TexFxTransparency1Pre5_0 = TexFxFolder + "\\T.1";
+
+            /**
+             * @brief
+             @rst
+             Written in place of a ``hash`` that has no mapping onto the mod being fixed to --
+             see :cpp:class:`RegAssetRemap`
+             @endrst
+             */
+            static inline const std::string HashNotFound = "HashNotFound";
+
+            /**
+             * @brief
+             @rst
+             Written in place of a ``match_first_index`` that has no mapping onto the mod being
+             fixed to -- the index counterpart of :cpp:member:`HashNotFound`
+             @endrst
+             */
+            static inline const std::string IndexNotFound = "IndexNotFound";
+
+            /**
+             * @brief The comment marker used to hide (comment out) a previously-fixed original `section`_
+             */
+            static inline const std::string HideOriginalComment = ";RemapFixHideOrig -->";
+    };
+}
+
+#endif

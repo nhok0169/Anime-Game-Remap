@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_arlecchino_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ArlecchinoFixer</compoundname>
+    <includes refid="_arlecchino_fixer_8h" local="no">ArlecchinoFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_arlecchino_fixer_1a8fb1f5df61cd328ff2dcd5dbd022eb71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ArlecchinoFixer::ArlecchinoFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ArlecchinoFixer</name>
+        <qualifiedname>AGRemapCore::ArlecchinoFixer::ArlecchinoFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Arlecchino/ArlecchinoFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_arlecchino_fixer_1a468369c2327a77cded98a93c3a34ec96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ArlecchinoFixer::v5_7</definition>
+        <argsstring>()</argsstring>
+        <name>v5_7</name>
+        <qualifiedname>AGRemapCore::ArlecchinoFixer::v5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fix that remaps an Arlecchino mod onto ArlecchinoBoss at 5.7 -- what
+:cpp:func:`IniFixBuilderFuncs::arlecchino5_7` returns, and documented there
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+There is no 6.1 row for her in the pure-Python table, so this one serves 6.1 too --
+the same arrangement :cpp:func:`IniFixBuilderFuncs::nilou5_7` has
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Arlecchino/ArlecchinoFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Arlecchino&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`ArlecchinoParser`: the mod objects this fixer remaps are the
+ones that parser classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Arlecchino/ArlecchinoFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Arlecchino/ArlecchinoFixer.h" bodystart="32" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_arlecchino_fixer_1a8fb1f5df61cd328ff2dcd5dbd022eb71" prot="public" virt="non-virtual"><scope>AGRemapCore::ArlecchinoFixer</scope><name>ArlecchinoFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_arlecchino_fixer_1a468369c2327a77cded98a93c3a34ec96" prot="public" virt="non-virtual"><scope>AGRemapCore::ArlecchinoFixer</scope><name>v5_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

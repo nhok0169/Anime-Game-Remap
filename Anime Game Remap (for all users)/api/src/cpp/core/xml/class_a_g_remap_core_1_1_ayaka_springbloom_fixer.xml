@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ayaka_springbloom_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::AyakaSpringbloomFixer</compoundname>
+    <includes refid="_ayaka_springbloom_fixer_8h" local="no">AyakaSpringbloomFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ayaka_springbloom_fixer_1a9a3a254de2ddd2fc4d59d5f17ceed88c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::AyakaSpringbloomFixer::AyakaSpringbloomFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>AyakaSpringbloomFixer</name>
+        <qualifiedname>AGRemapCore::AyakaSpringbloomFixer::AyakaSpringbloomFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ayaka_springbloom_fixer_1a7ffc955994849ba36b6f54645995fca0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::AyakaSpringbloomFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::AyakaSpringbloomFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for remapping an AyakaSpringbloom mod onto Ayaka -- what
+:cpp:func:`IniFixBuilderFuncs::ayakaSpringbloom6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp" bodystart="318" bodyend="320"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+AyakaSpringbloom&apos;s own ``.ini`` fixers, one per game version the remap needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`AyakaSpringbloomParser`. AyakaSpringbloom is Ayaka&apos;s Springbloom
+Missive skin, and the two remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ayaka_springbloom_fixer_1a9a3a254de2ddd2fc4d59d5f17ceed88c" prot="public" virt="non-virtual"><scope>AGRemapCore::AyakaSpringbloomFixer</scope><name>AyakaSpringbloomFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ayaka_springbloom_fixer_1a7ffc955994849ba36b6f54645995fca0" prot="public" virt="non-virtual"><scope>AGRemapCore::AyakaSpringbloomFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

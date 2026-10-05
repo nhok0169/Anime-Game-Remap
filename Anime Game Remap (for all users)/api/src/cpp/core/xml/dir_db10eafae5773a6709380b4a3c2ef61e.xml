@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_db10eafae5773a6709380b4a3c2ef61e" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Keqing</compoundname>
+    <innerfile refid="_keqing_parser_8h">KeqingParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Keqing/"/>
+  </compounddef>
+</doxygen>

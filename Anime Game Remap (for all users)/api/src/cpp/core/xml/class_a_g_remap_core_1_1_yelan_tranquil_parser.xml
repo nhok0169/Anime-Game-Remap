@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_yelan_tranquil_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::YelanTranquilParser</compoundname>
+    <includes refid="_yelan_tranquil_parser_8h" local="no">YelanTranquilParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_tranquil_parser_1a4b421aa321d7b8f7095d8514d598875d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::YelanTranquilParser::YelanTranquilParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>YelanTranquilParser</name>
+        <qualifiedname>AGRemapCore::YelanTranquilParser::YelanTranquilParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_yelan_tranquil_parser_1a027cceffc2a9e22b1be357e0803ed6e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::YelanTranquilParser::v5_7</definition>
+        <argsstring>()</argsstring>
+        <name>v5_7</name>
+        <qualifiedname>AGRemapCore::YelanTranquilParser::v5_7</qualifiedname>
+        <briefdescription>
+<para>The parser for a 5.7-era YelanTranquil <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kindref="member">IniParseBuilderFuncs::yelanTranquil5_7</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h" line="40" column="45" bodyfile="src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+YelanTranquil&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The FIRST parser for a skin of several components -- a ``Body`` drawing three slots, a ``Bang``
+and an ``Eye``, each with its own buffers and its own hashes. See
+:cpp:func:`makeGIMIComponentParser`. Pair this with :cpp:class:`YelanTranquilFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h" bodystart="32" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_yelan_tranquil_parser_1a027cceffc2a9e22b1be357e0803ed6e5" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanTranquilParser</scope><name>v5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_yelan_tranquil_parser_1a4b421aa321d7b8f7095d8514d598875d" prot="public" virt="non-virtual"><scope>AGRemapCore::YelanTranquilParser</scope><name>YelanTranquilParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

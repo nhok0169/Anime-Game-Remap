@@ -1,4 +1,5 @@
 [TextureOverrideAyakaBlend]
+hash = 3d534190
 vb1 = ResourceAyakaBlend
 handling = skip
 draw = 21916,0

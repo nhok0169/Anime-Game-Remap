@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_014da131f24c46cd92baed22e944d3e0" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Ningguang</compoundname>
+    <innerfile refid="_ningguang_fixer_8h">NingguangFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Ningguang/"/>
+  </compounddef>
+</doxygen>

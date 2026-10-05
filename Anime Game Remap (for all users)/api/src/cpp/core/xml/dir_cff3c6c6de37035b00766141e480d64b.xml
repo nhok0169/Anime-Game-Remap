@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cff3c6c6de37035b00766141e480d64b" kind="dir">
+    <compoundname>include/AGRemapCore/tools/nodes</compoundname>
+    <innerfile refid="_node_8h">Node.h</innerfile>
+    <innerfile refid="_parse_node_8h">ParseNode.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/nodes/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_neuvillette_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NeuvilletteFixer</compoundname>
+    <includes refid="_neuvillette_fixer_8h" local="no">NeuvilletteFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1a827ea9f320cbacf824cdf604ab236266" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NeuvilletteFixer::NeuvilletteFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NeuvilletteFixer</name>
+        <qualifiedname>AGRemapCore::NeuvilletteFixer::NeuvilletteFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="39" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1ad60db74532499c1f228b2258e1c68eb6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NeuvilletteFixer::main6_3</definition>
+        <argsstring>()</argsstring>
+        <name>main6_3</name>
+        <qualifiedname>AGRemapCore::NeuvilletteFixer::main6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto NeuvilletteMelusent&apos;s main mesh <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac6c5cf5e8d757181a1a5dadc236afd21" kindref="member">IniFixBuilderFuncs::neuvilletteMelusentMain6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1aef80d280add5366c852af22f791b4a6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NeuvilletteFixer::coat6_3</definition>
+        <argsstring>()</argsstring>
+        <name>coat6_3</name>
+        <qualifiedname>AGRemapCore::NeuvilletteFixer::coat6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto NeuvilletteMelusent&apos;s <computeroutput>Coat</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab366c3d766f0f581fdb6b53a65140083" kindref="member">IniFixBuilderFuncs::neuvilletteMelusentCoat6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1af3991bf2a2c0ccbcd11d431d6aafe345" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NeuvilletteFixer::bang6_3</definition>
+        <argsstring>()</argsstring>
+        <name>bang6_3</name>
+        <qualifiedname>AGRemapCore::NeuvilletteFixer::bang6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto NeuvilletteMelusent&apos;s <computeroutput>Bang</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aeb45e9a555a93d90ec9fe2b1c735f4b7" kindref="member">IniFixBuilderFuncs::neuvilletteMelusentBang6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="54" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_neuvillette_fixer_1a7f673642ca79e47d30f3b0b281b23484" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NeuvilletteFixer::eye6_3</definition>
+        <argsstring>()</argsstring>
+        <name>eye6_3</name>
+        <qualifiedname>AGRemapCore::NeuvilletteFixer::eye6_3</qualifiedname>
+        <briefdescription>
+<para>The fixer onto NeuvilletteMelusent&apos;s <computeroutput>Eye</computeroutput> <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9d8d7211eeda7f23045e3aa2a1b85847" kindref="member">IniFixBuilderFuncs::neuvilletteMelusentEye6_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Neuvillette&apos;s own ``.ini`` fixers -- onto NeuvilletteMelusent, a skin of FOUR components whose main
+mesh is unnamed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+NeuvilletteMelusent (6.3) is a main mesh (component ``&quot;&quot;``, three draw slots), a ``Coat``, a ``Bang``
+and an ``Eye``, so Neuvillette is fixed by FOUR fixers, one per component, built from one
+:cpp:class:`GIMIComponentFixerConfig` -- see :cpp:func:`makeGIMIComponentFixer` for the shape and
+``data/IniFixData/Neuvillette/NeuvilletteFixer.cpp`` for his own choices. Pair it with
+:cpp:class:`NeuvilletteParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Neuvillette/NeuvilletteFixer.h" bodystart="36" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1af3991bf2a2c0ccbcd11d431d6aafe345" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteFixer</scope><name>bang6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1aef80d280add5366c852af22f791b4a6a" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteFixer</scope><name>coat6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1a7f673642ca79e47d30f3b0b281b23484" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteFixer</scope><name>eye6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1ad60db74532499c1f228b2258e1c68eb6" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteFixer</scope><name>main6_3</name></member>
+      <member refid="class_a_g_remap_core_1_1_neuvillette_fixer_1a827ea9f320cbacf824cdf604ab236266" prot="public" virt="non-virtual"><scope>AGRemapCore::NeuvilletteFixer</scope><name>NeuvilletteFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

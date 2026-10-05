@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_branch_val" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::BranchVal</compoundname>
+    <includes refid="_mod_branches_8h" local="no">ModBranches.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_branch_val_1a44ec46e37014c3ab7a3ee0688d37d045" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BranchVal::val</definition>
+        <argsstring></argsstring>
+        <name>val</name>
+        <qualifiedname>AGRemapCore::BranchVal::val</qualifiedname>
+        <briefdescription>
+<para>The value <ndash/> a register&apos;s raw value, or whatever a caller resolved it to (eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>a file path) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="49" column="21" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_branch_val_1a0687844f64d969f8039b77d7c910d542" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::BranchVal::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AGRemapCore::BranchVal::query</qualifiedname>
+        <briefdescription>
+<para>The condition the value is taken under, or <computeroutput>std::nullopt</computeroutput> for no condition at all. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="54" column="23" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One value a register takes in a mod, with the condition it is taken under
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The condition is the whole reason this is not a plain string: which branch of one component&apos;s
+``CommandList`` goes with which branch of another&apos;s is decided by whether the two conditions can
+hold at the same time, so a value that arrives without its condition cannot be paired at all
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="45" bodyend="55"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_branch_val_1a0687844f64d969f8039b77d7c910d542" prot="public" virt="non-virtual"><scope>AGRemapCore::BranchVal</scope><name>query</name></member>
+      <member refid="struct_a_g_remap_core_1_1_branch_val_1a44ec46e37014c3ab7a3ee0688d37d045" prot="public" virt="non-virtual"><scope>AGRemapCore::BranchVal</scope><name>val</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

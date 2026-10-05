@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_charlotte_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CharlotteParser</compoundname>
+    <includes refid="_charlotte_parser_8h" local="no">CharlotteParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_parser_1af076b94e326b0e947e9db5030c6b5812" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CharlotteParser::CharlotteParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CharlotteParser</name>
+        <qualifiedname>AGRemapCore::CharlotteParser::CharlotteParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Charlotte/CharlotteParser.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_charlotte_parser_1a6e541b8b9b6bd6c10ad0c3cdd0b6c4c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::CharlotteParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::CharlotteParser::v4_0</qualifiedname>
+        <briefdescription>
+<para>The parser for a Charlotte <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5afc4d4f76976aaa18ecfe0d80c92b32" kindref="member">IniParseBuilderFuncs::charlotte4_0</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Charlotte/CharlotteParser.h" line="39" column="45" bodyfile="src/data/IniParseData/Charlotte/CharlotteParser.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Charlotte&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` with the normal-map texture
+layout on both. Pair this with :cpp:class:`CharlotteFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Charlotte/CharlotteParser.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Charlotte/CharlotteParser.h" bodystart="31" bodyend="40"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_charlotte_parser_1af076b94e326b0e947e9db5030c6b5812" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteParser</scope><name>CharlotteParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_charlotte_parser_1a6e541b8b9b6bd6c10ad0c3cdd0b6c4c0" prot="public" virt="non-virtual"><scope>AGRemapCore::CharlotteParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

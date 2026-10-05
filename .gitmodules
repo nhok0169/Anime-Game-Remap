@@ -1,0 +1,18 @@
+[submodule "z3"]
+    path = Anime Game Remap (for all users)/api/extern/z3
+    url = https://github.com/Z3Prover/z3.git
+[submodule "Anime Game Remap (for all users)/api/extern/utf8proc"]
+	path = Anime Game Remap (for all users)/api/extern/utf8proc
+	url = https://github.com/JuliaStrings/utf8proc
+[submodule "Anime Game Remap (for all users)/api/extern/ordered-map"]
+	path = Anime Game Remap (for all users)/api/extern/ordered-map
+	url = https://github.com/Tessil/ordered-map.git
+[submodule "Anime Game Remap (for all users)/api/extern/xxHash"]
+	path = Anime Game Remap (for all users)/api/extern/xxHash
+	url = https://github.com/Cyan4973/xxHash.git
+[submodule "Anime Game Remap (for all users)/api/extern/Compressonator"]
+	path = Anime Game Remap (for all users)/api/extern/Compressonator
+	url = https://github.com/GPUOpen-Tools/compressonator.git
+[submodule "Anime Game Remap (for all users)/api/extern/curl"]
+	path = Anime Game Remap (for all users)/api/extern/curl
+	url = https://github.com/curl/curl.git

@@ -1,0 +1,85 @@
+#ifndef AGRemapCore_IniSrcResourceModel_H
+#define AGRemapCore_IniSrcResourceModel_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <string>
+#include <utility>
+#include <vector>
+
+#include <tsl/ordered_map.h>
+
+#include "AGRemapCore/model/iniresources/IniResourceModel.h"
+
+
+namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     This class inherits from :cpp:class:`AGRemapCore::IniResourceModel`
+
+     Contains data for a particular resource in the original .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+     #paths/#fullPaths use ``tsl::ordered_map``
+     rather than ``std::unordered_map`` specifically to preserve insertion-order iteration,
+     since these keys are the (order-meaningful)
+     :cpp:class:`AGRemapCore::IfContentPart` indices for some :cpp:class:`AGRemapCore::IfTemplate`
+     @endrst
+     */
+    class IniSrcResourceModel: public IniResourceModel {
+        public:
+
+            /**
+             * @brief Constructs new data for a resource in the original .ini file
+             *
+             * @param iniFolderPath The folder path to where the .ini file of the resource is located
+             * @param paths
+             @rst
+             The file paths to the resource -- the keys are the indices to the
+             :cpp:class:`AGRemapCore::IfContentPart` that the resource file appears in the :cpp:class:`AGRemapCore::IfTemplate`
+             for some resource, and the values are the file paths within that
+             :cpp:class:`AGRemapCore::IfContentPart`
+             @endrst
+             */
+            IniSrcResourceModel(std::string iniFolderPath, tsl::ordered_map<int, std::vector<std::string>> paths);
+
+            virtual ~IniSrcResourceModel() = default;
+
+            /**
+             * @brief The file paths to the resource, keyed by :cpp:class:`AGRemapCore::IfContentPart` index (see the constructor)
+             */
+            tsl::ordered_map<int, std::vector<std::string>> paths;
+
+            /**
+             * @brief The absolute paths to the resource, keyed the same way as #paths
+             */
+            tsl::ordered_map<int, std::vector<std::string>> fullPaths;
+
+            /**
+             * @brief
+             @rst
+             Every ``(path, fullPath)`` pair across every :cpp:class:`AGRemapCore::IfContentPart` in #paths, in
+             the same order #paths itself iterates (a plain flattened list rather than a lazy generator,
+             since the whole flattened sequence is small and already fully materialized in #paths/
+             #fullPaths anyway)
+             @endrst
+             *
+             * @return The flattened ``(path, fullPath)`` pairs
+             */
+            std::vector<std::pair<std::string, std::string>> items() const;
+    };
+}
+
+#endif

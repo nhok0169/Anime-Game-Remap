@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGComponentMerge::Component</compoundname>
+    <includes refid="_v_g_component_merge_8h" local="no">VGComponentMerge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a283d8f5c7e17bd6f15233db1a8276bb5" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kindref="compound">VGMergeComponentSpec</ref></type>
+        <definition>VGMergeComponentSpec AGRemapCore::VGComponentMerge::Component::spec</definition>
+        <argsstring></argsstring>
+        <name>spec</name>
+        <qualifiedname>AGRemapCore::VGComponentMerge::Component::spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="128" column="38" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a23d010ca6921aef0972b40e1a8f65891" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1a54ab623f03b0ceed9990137bce0c5243" kindref="member">Weights</ref></type>
+        <definition>Weights AGRemapCore::VGComponentMerge::Component::weights</definition>
+        <argsstring></argsstring>
+        <name>weights</name>
+        <qualifiedname>AGRemapCore::VGComponentMerge::Component::weights</qualifiedname>
+        <briefdescription>
+<para>Per vertex, its 4 blend weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="133" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1afb5ef79f77d166774e85b07338d70d5c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_v_g_component_merge_1ad9c4e907fbac81fe2cd156f7aa9b2b01" kindref="member">Indices</ref></type>
+        <definition>Indices AGRemapCore::VGComponentMerge::Component::indices</definition>
+        <argsstring></argsstring>
+        <name>indices</name>
+        <qualifiedname>AGRemapCore::VGComponentMerge::Component::indices</qualifiedname>
+        <briefdescription>
+<para>Per vertex, its 4 vertex group indices, in THIS component&apos;s numbering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="138" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4d33008435a9ae7f759602d432789736" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::VGComponentMerge::Component::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>AGRemapCore::VGComponentMerge::Component::position</qualifiedname>
+        <briefdescription>
+<para>The whole <computeroutput>Position.buf</computeroutput>, copied through unchanged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="143" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4ebeb50bd63233a15bedd7dd62a995e3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::VGComponentMerge::Component::texcoord</definition>
+        <argsstring></argsstring>
+        <name>texcoord</name>
+        <qualifiedname>AGRemapCore::VGComponentMerge::Component::texcoord</qualifiedname>
+        <briefdescription>
+<para>The whole <computeroutput>Texcoord.buf</computeroutput>, padded up to the widest component&apos;s stride. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="148" column="25" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One source component&apos;s decoded blend and its raw vertex buffers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::VGComponentMerge::Component</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::VGMergeComponentSpec</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>remap</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::VGRemap</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remap"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="127" column="13" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="127" bodyend="149"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1afb5ef79f77d166774e85b07338d70d5c" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge::Component</scope><name>indices</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4d33008435a9ae7f759602d432789736" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge::Component</scope><name>position</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a283d8f5c7e17bd6f15233db1a8276bb5" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge::Component</scope><name>spec</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a4ebeb50bd63233a15bedd7dd62a995e3" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge::Component</scope><name>texcoord</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a23d010ca6921aef0972b40e1a8f65891" prot="public" virt="non-virtual"><scope>AGRemapCore::VGComponentMerge::Component</scope><name>weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

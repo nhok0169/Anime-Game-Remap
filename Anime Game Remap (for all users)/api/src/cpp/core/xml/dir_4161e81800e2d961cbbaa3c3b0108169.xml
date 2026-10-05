@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4161e81800e2d961cbbaa3c3b0108169" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/YelanTranquil</compoundname>
+    <innerfile refid="_yelan_tranquil_fixer_8h">YelanTranquilFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/YelanTranquil/"/>
+  </compounddef>
+</doxygen>

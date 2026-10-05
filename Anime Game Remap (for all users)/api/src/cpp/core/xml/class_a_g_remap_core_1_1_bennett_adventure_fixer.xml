@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_bennett_adventure_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BennettAdventureFixer</compoundname>
+    <includes refid="_bennett_adventure_fixer_8h" local="no">BennettAdventureFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_adventure_fixer_1a408bf24ff4ca14bc5f5fe803b5d212de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BennettAdventureFixer::BennettAdventureFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>BennettAdventureFixer</name>
+        <qualifiedname>AGRemapCore::BennettAdventureFixer::BennettAdventureFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/BennettAdventure/BennettAdventureFixer.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bennett_adventure_fixer_1a981230a080be60eb7f37cc8707af75ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::BennettAdventureFixer::toBennett6_1</definition>
+        <argsstring>()</argsstring>
+        <name>toBennett6_1</name>
+        <qualifiedname>AGRemapCore::BennettAdventureFixer::toBennett6_1</qualifiedname>
+        <briefdescription>
+<para>The fixer remapping BennettAdventure onto Bennett <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a66f87ab2a1f3a6f2cc9e3bcf093d7ee3" kindref="member">IniFixBuilderFuncs::bennettAdventureToBennett6_1</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/BennettAdventure/BennettAdventureFixer.h" line="41" column="43" bodyfile="src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+BennettAdventure&apos;s own ``.ini`` fixer -- a skin of SEVERAL components merged onto a target of
+one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The inverse of :cpp:class:`BennettFixer`, and the second character pair to need
+:cpp:func:`makeGIMIMergeFixer` after YelanTranquil. Always ONE ``.ini`` group out. Pair it with
+:cpp:class:`BennettAdventureParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/BennettAdventure/BennettAdventureFixer.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniFixData/BennettAdventure/BennettAdventureFixer.h" bodystart="33" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_bennett_adventure_fixer_1a408bf24ff4ca14bc5f5fe803b5d212de" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettAdventureFixer</scope><name>BennettAdventureFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_bennett_adventure_fixer_1a981230a080be60eb7f37cc8707af75ef" prot="public" virt="non-virtual"><scope>AGRemapCore::BennettAdventureFixer</scope><name>toBennett6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

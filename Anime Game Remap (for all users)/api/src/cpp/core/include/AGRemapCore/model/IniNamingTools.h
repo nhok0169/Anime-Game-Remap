@@ -1,0 +1,458 @@
+#ifndef AGRemapCore_IniNamingTools_H
+#define AGRemapCore_IniNamingTools_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "AGRemapCore/constants/IniKeywords.h"
+
+
+namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     Utilities for some common naming conventions for .ini files
+     @endrst
+     */
+    class IniNamingTools {
+        public:
+
+            /**
+             * @brief
+             @rst
+             Makes the name of a `section`_ to be used for the resource `sections`_ of a .ini file
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Examples: ``"CuteLittleEi"`` -> ``"ResourceCuteLittleEi"``;
+             ``"ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"`` (unchanged)
+             @endrst
+             *
+             * @param name The name of the `section`_
+             *
+             * @return The name of the `section`_ as a resource in a .ini file
+             */
+            static std::string getResourceName(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             Removes the 'Resource' prefix from a section's name :raw-html:`<br />` :raw-html:`<br />`
+
+             Examples: ``"ResourceCuteLittleEi"`` -> ``"CuteLittleEi"``;
+             ``"LittleMissGanyu"`` -> ``"LittleMissGanyu"`` (unchanged)
+             @endrst
+             *
+             * @param name The name of the `section`_
+             *
+             * @return The name of the `section`_ with the 'Resource' prefix removed
+             */
+            static std::string removeResourceName(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             Removes the ``ref`` prefix a register binding may name a resource `section`_ with, and
+             strips the result :raw-html:`<br />` :raw-html:`<br />`
+
+             Examples: ``"ref ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"``;
+             ``"ResourceCuteLittleEi"`` -> ``"ResourceCuteLittleEi"`` (unchanged)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A texture register is bound by reference either way and every reader in the library
+             looks the value up as a `section`_ name, so the two spellings mean the same thing. The
+             prefix is matched without regard to case, as ``3dmigoto`` reads it
+             @endrst
+             *
+             * @param value The value of the register binding
+             *
+             * @return The `section`_ name it refers to
+             */
+            static std::string removeRefPrefix(const std::string& value);
+
+            /**
+             * @brief
+             @rst
+             Whether a register binding names its resource `section`_ with the ``ref`` prefix
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The companion of \ref removeRefPrefix, for a caller that has to tell the two spellings
+             APART rather than read through them -- a mod that binds one register both ways means
+             two different things by it
+             @endrst
+             *
+             * @param value The value of the register binding
+             *
+             * @return Whether it carries the prefix
+             */
+            static bool hasRefPrefix(const std::string& value);
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the keyword from 'elementName' to identify that the
+             `section`_ is created by this fix -- replaces the LAST occurrence of 'elementName'
+             within 'name' with ``{modName}Remap{elementName}``, or appends it if 'elementName'
+             isn't found :raw-html:`<br />` :raw-html:`<br />`
+
+             Example: ``getRemapElementName("EiTriesToUseBlenderAndFails", "Blend", "Raiden")`` ->
+             ``"EiTriesToUseRaidenRemapBlenderAndFails"``
+             @endrst
+             *
+             * @param name The name of the `section`_
+             * @param elementName The name of the target element
+             * @param modName The name of the mod to fix
+             *
+             * @return The name of the `section`_ with the keyword of 'elementName', prefixed by the
+             *      word 'Remap', added
+             */
+            static std::string getRemapElementName(const std::string& name, const std::string& elementName, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the keyword 'RemapBlend' to identify that the
+             `section`_ is created by this fix -- see #getRemapElementName for the general behavior
+             @endrst
+             */
+            static std::string getRemapBlendName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the keyword 'RemapPosition' to identify that the
+             `section`_ is created by this fix -- see #getRemapElementName for the general behavior
+             @endrst
+             */
+            static std::string getRemapPositionName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the keyword 'RemapTexcoord' to identify that the
+             `section`_ is created by this fix -- see #getRemapElementName for the general behavior
+             @endrst
+             */
+            static std::string getRemapTexcoordName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the keyword 'RemapIb' to identify that the `section`_
+             is created by this fix -- see #getRemapElementName for the general behavior
+             @endrst
+             */
+            static std::string getRemapIbName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the suffix of 'modName' followed by 'suffix'
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             * If 'name' already ends with ``{modName}{suffix}``, returns 'name' unchanged
+             * Else if 'name' ends with just 'suffix' (no 'modName'), replaces that trailing
+               'suffix' with ``{modName}{suffix}``
+             * Otherwise, appends ``{modName}{suffix}`` to the end of 'name'
+             @endrst
+             *
+             * @param name The name of the `section`_
+             * @param suffix The name of the suffix to put at the end of the `section`_
+             * @param modName The name of the mod to fix
+             *
+             * @return The name of the `section`_ with the added suffix keyword
+             */
+            static std::string getModSuffixedName(const std::string& name, const std::string& suffix = "", const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the suffix 'RemapFix' to identify that the `section`_
+             is created by this fix :raw-html:`<br />` :raw-html:`<br />`
+
+             Examples: ``getRemapFixName("EiIsDoneWithRemapFix", "Raiden")`` ->
+             ``"EiIsDoneWithRaidenRemapFix"``; ``getRemapFixName("EiIsHappy", "Raiden")`` ->
+             ``"EiIsHappyRaidenRemapFix"``
+             @endrst
+             *
+             * @param name The name of the `section`_
+             * @param modName The name of the mod to fix
+             *
+             * @return The name of the `section`_ with the added 'RemapFix' keyword
+             */
+            static std::string getRemapFixName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the keyword 'RemapTex' to identify that the `section`_
+             is created by this fix -- see #getRemapFixName for examples of the same shape
+             @endrst
+             */
+            static std::string getRemapTexName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to have the suffix 'RemapDL' to identify that the `section`_
+             is created by this fix -- see #getRemapFixName for examples of the same shape
+             @endrst
+             */
+            static std::string getRemapDLName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to be a new non-blend resource created by this fix -- see
+             #getResourceName and #getRemapFixName for more info
+             @endrst
+             */
+            static std::string getRemapFixResourceName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to be a texture resource created by this fix -- see
+             #getResourceName and #getRemapTexName for more info
+             @endrst
+             */
+            static std::string getRemapTexResourceName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Where a name's trailing ``.<digits>`` variant suffix starts, or ``std::string::npos``
+             for a name without one :raw-html:`<br />` :raw-html:`<br />`
+
+             A merged mod numbers its per-branch resources ``.0``, ``.1``, ``.2``. That number
+             belongs at the END of a fixed name rather than in the middle of it -- see
+             #getRemapTexName
+             @endrst
+             *
+             * @param name The name to examine
+             */
+            static std::size_t variantSuffixStart(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to be a downloaded-file resource created by this fix -- see
+             #getResourceName and #getRemapDLName for more info
+             @endrst
+             */
+            static std::string getRemapDLResourceName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to be a new blend resource that this fix will create -- see
+             #getResourceName and #getRemapBlendName for more info
+             @endrst
+             */
+            static std::string getRemapBlendResourceName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Changes a `section`_ name to be a new position resource that this fix will create --
+             see #getResourceName and #getRemapPositionName for more info
+             @endrst
+             */
+            static std::string getRemapPositionResourceName(const std::string& name, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Retrieves the file path for a fixed element, using `pathlib`_-style folder resolution
+             (a bare filename with no directory component resolves to folder ``"."``, so the result
+             always has a folder prefix -- contrast with #getFixedElementFile) :raw-html:`<br />`
+             :raw-html:`<br />`
+             @endrst
+             *
+             * @param file The file path to the original file
+             * @param modName The name of the mod to fix to
+             * @param fileExt The file extension for the file path of the fixed element. If this is
+             *      ``std::nullopt``, uses the file extension already present in 'file'
+             *
+             * @return The file path of the fixed file of the element
+             */
+            static std::string getFixedFile(const std::string& file, const std::string& modName = "", std::optional<std::string> fileExt = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             Retrieves the file path for a fixed element :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Unlike #getFixedFile, a bare filename with no directory component returns with no
+                folder prefix at all
+             @endrst
+             *
+             * @param file The file path to the original file
+             * @param elementName The name of the element to fix
+             * @param modName The name of the mod to fix to
+             * @param fileExt The file extension for the file path of the fixed element. If this is
+             *      ``std::nullopt``, uses the file extension already present in 'file'
+             *
+             * @return The file path of the fixed file of the element
+             */
+            static std::string getFixedElementFile(const std::string& file, const std::string& elementName, const std::string& modName = "", std::optional<std::string> fileExt = std::nullopt);
+
+            /**
+             * @brief Retrieves the file path for the fixed RemapBlend.buf file
+             *
+             * @param blendFile The file path to the original Blend.buf file
+             * @param modName The name of the mod to fix to
+             *
+             * @return The file path of the fixed RemapBlend.buf file
+             */
+            static std::string getFixedBlendFile(const std::string& blendFile, const std::string& modName = "");
+
+            /**
+             * @brief Retrieves the file path for the fixed RemapPosition.buf file
+             *
+             * @param positionFile The file path to the original Position.buf file
+             * @param modName The name of the mod to fix to
+             *
+             * @return The file path of the fixed RemapPosition.buf file
+             */
+            static std::string getFixedPositionFile(const std::string& positionFile, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Retrieves the file path for the fixed RemapTex.dds file :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                A bare filename with no directory component returns with no folder prefix at
+                all (the same no-prefix behavior as #getFixedElementFile)
+             @endrst
+             *
+             * @param texFile The file path to the original .dds file
+             * @param modName The name of the mod to fix to
+             *
+             * @return The file path of the fixed RemapTex.dds file
+             */
+            static std::string getFixedTexFile(const std::string& texFile, const std::string& modName = "");
+
+            /**
+             * @brief Retrieves the name to some generic ``TextureOverride`` `section`_ this software has made
+             *
+             * @param component The name of the component
+             * @param obj The name of the object
+             * @param modName The name of the mod
+             *
+             * @return The name for the `section`_
+             */
+            static std::string getTextureOverrideRemapFix(const std::string& component, const std::string& obj, const std::string& modName = "");
+
+            /**
+             * @brief
+             @rst
+             Retrieves the new name of the `section`_ for a new mod object :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
+             (each part capitalized, see :cpp:func:`AGRemapCore::TextTools::capitalize`) within 'name' and replaces it with
+             ``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
+             to #getRemapFixName with 'modName' extended by the new object's name instead
+             @endrst
+             *
+             * @param name The name of the `section`_
+             * @param modName The name of the mod to be fixed
+             * @param objName The (component, object) name pair for the original mod object for the `section`_
+             * @param newObjName The (component, object) name pair for the new mod object for the `section`_
+             *
+             * @return The new name for the `section`_
+             */
+            /**
+             * @brief
+             @rst
+             Whether 'name' names something a modder has turned OFF -- see
+             :cpp:member:`FilePrefixes::DisabledPrefix` :raw-html:`<br />` :raw-html:`<br />`
+
+             Case-insensitive, and only a PREFIX test: this answers "did someone disable this", not
+             "is this a backup of ours", which :cpp:member:`FilePrefixes::BackupFilePrefix` and the
+             two historical prefixes beside it answer
+             @endrst
+             *
+             * @param name The file, folder or section name to test
+             *
+             * @return Whether 'name' is prefixed as disabled
+             */
+            static bool isDisabled(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             A register as it is spelled inside a `section`_ NAME: ``ps-t0`` -> ``Pst0``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A section name cannot carry the register's own punctuation and read as one word, so the
+             separators come out and the result is capitalized to join onto whatever precedes it
+             @endrst
+             *
+             * @param reg The register to spell
+             *
+             * @return The register as a name fragment
+             */
+            static std::string getRegTag(const std::string& reg);
+
+            static std::string getObjRemapFixName(const std::string& name, const std::string& modName,
+                                                   const std::pair<std::string, std::string>& objName,
+                                                   const std::pair<std::string, std::string>& newObjName);
+
+            /**
+             * @brief
+             @rst
+             Whether 'sectionName' is one a PREVIOUS run of the fix wrote -- the shape
+             :cpp:func:`getRemapName` and the names built on it produce
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Two callers need the same answer. :cpp:class:`RemapIniRemover` asks it to decide what an
+             undo takes outside the fix's own boilerplate. A PARSER asks it because the undo runs
+             before the fix: a resource section a previous fix declared is about to be removed, so it
+             is not one of the mod's own, and a fix that binds its name writes a reference to a
+             section that will not be there. That is what left 86 dangling ``ps-t`` bindings across
+             two already-fixed mods, each pointing at a ``Resource<Role><Target>RemapRef`` the same
+             run deleted (2026-09-30)
+
+             .. note::
+                A bare ``Remap`` ANYWHERE in the name is not the test, and the difference is not
+                academic: WWMI's own blend remap declares ``ResourceBlendRemapVertexVGBuffer`` and
+                two more on a mod that has never been fixed
+             @endrst
+             *
+             * @param sectionName The section name to test
+             * @param modNames
+             @rst
+             The mod names a fix of this file could have been written for -- its own and the ones it
+             remaps onto. EMPTY falls back to the old rule, 'remapKeyword' anywhere in the name,
+             which is what a hand-built caller with no registry to ask gets
+             @endrst
+             * @param remapKeyword The keyword a fix's names are built around. **Default**: ``Remap``
+             *
+             * @return Whether a fix of this file could have written 'sectionName'
+             */
+            static bool looksRemapped(const std::string& sectionName, const std::vector<std::string>& modNames,
+                                      const std::string& remapKeyword = IniKeywords::Remap);
+    };
+}
+
+#endif

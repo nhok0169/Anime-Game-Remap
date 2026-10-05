@@ -1,0 +1,46 @@
+name: Build the Mirror
+
+# Builds the mirror's distribution (AnimeGameRemap) and stores it as the 'mirror-package-distributions'
+# artifact, for the CALLER to publish.
+#
+# note: it does NOT publish, on purpose. PyPI's trusted publishing does not support reusable
+#   workflows: a token minted inside one names two workflows (workflow_ref = the caller,
+#   job_workflow_ref = this file), and PyPI refused exactly that with 'invalid-publisher'
+#   (2026-09-18) when this file still held the upload. So the upload is a plain job in each caller --
+#   python-publish.yml and mirror-publish.yml -- and EACH of those two files has to be registered on
+#   PyPI as a trusted publisher for AnimeGameRemap, with the 'pypi' environment.
+#
+# note: no build of the API and no tests here -- whoever calls this has already done them. The
+#   release flow calls it only AFTER FixRaidenBoss2 has published: the mirror pins
+#   'FixRaidenBoss2==<version>', so publishing it first would ship a package whose only dependency
+#   does not exist yet.
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build distribution
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+    - name: Build a binary wheel and a source tarball
+      run: python3 -m build
+      working-directory: './Anime Game Remap (for all users)/apiMirror'
+    - name: Store the distribution packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: mirror-package-distributions
+        path: 'Anime Game Remap (for all users)/apiMirror/dist/'
+        if-no-files-found: error

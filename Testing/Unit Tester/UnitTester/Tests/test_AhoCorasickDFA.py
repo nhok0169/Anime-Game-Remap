@@ -1,15 +1,16 @@
 import sys
 from functools import reduce
 import unittest.mock as mock
-from .baseTrieTest import BaseTrieTest
+from .baseUnitTest import BaseUnitTest
+from .baseTrieTest import BasePyTrieTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
-class AhoCorasickDFATest(BaseTrieTest):
+class AhoCorasickDFATest(BasePyTrieTest):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -17,13 +18,12 @@ class AhoCorasickDFATest(BaseTrieTest):
         cls._trie = FRB.AhoCorasickDFA(cls._trieData)
 
     def setUp(self):
-        super().setUp()
-        self._trie = FRB.AhoCorasickDFA(self._trieData)
-
+        super(BaseUnitTest, self).setUp()
+        self._setupMockFuncs()
 
     # ============= __getitem__ ======================
 
-    @mock.patch("src.FixRaidenBoss2.AhoCorasickDFA.getMaximal")
+    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.getMaximal")
     def test_getItemFromAhoDFA_calledAhoDFAGet(self, m_get):
         tests = [["shappy"],
                  ["s"],
@@ -43,7 +43,7 @@ class AhoCorasickDFATest(BaseTrieTest):
     # ================================================
     # ============= __setitem__ ======================
 
-    @mock.patch("src.FixRaidenBoss2.AhoCorasickDFA.add")
+    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.add")
     def test_setItemForAhoDFA_referencedAhoDFAAdd(self, m_add):
         data = [["boooo", 0],
                 ["", []],
@@ -67,7 +67,7 @@ class AhoCorasickDFATest(BaseTrieTest):
     # ================================================
     # ============= __contains__ =====================
 
-    @mock.patch("src.FixRaidenBoss2.AhoCorasickDFA.getMaximal")
+    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.getMaximal")
     def test_getItemFromAhoDFA_calledAhoDFAGet(self, m_get):
         tests = [["dfd df shappy rr", True],
                  ["s", True],
@@ -89,7 +89,7 @@ class AhoCorasickDFATest(BaseTrieTest):
     # ================================================
     # ================ clear =========================
 
-    @mock.patch("src.FixRaidenBoss2.AhoCorasickDFA.clearCache")
+    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.clearCache")
     def test_AhoDFAWithData_AhoDFADataCleared(self, m_clearCache):
         self._trie.clear()
 
@@ -490,324 +490,347 @@ class AhoCorasickDFATest(BaseTrieTest):
             self.compareDict(result, expected)
 
     # ================================================
+    # =========== maximalStartsWith ==================
+
+    def test_differentSearchStr_firstMaximalPrefixFound(self):
+        tests = [[{}, "", None],
+                [{}, "abcde", None],
+                [{"": 1}, "abcde", ""],
+                [{"this": 1}, "this is not a singleton structure", "this"],
+                [{"abc": 1, "ab": 2, "abd": 3, "cfg": 4, "": 5}, "abcabdtyabcfgabcfg", "abc"],
+                [self._trieData, "shappay", "s"],
+                [self._trieData, "shappyer", "shappyer"],
+                [self._trieData, "eat an applse a day will not keep the doctor away", None],
+                [self._trieData, "pear and banana", None]]
+
+        for test in tests:
+            data = test[0]
+            txt = test[1]
+            expectedKeyword = test[2]
+
+            self._trie.build(data)
+            resultKeyword = self._trie.maximalStartsWith(txt)
+
+            self.assertEqual(resultKeyword, expectedKeyword)
+
+    # ================================================
+
+    # def test_modIni_compareAhoCorasickAndManyRegex(self):
+    #     import re
+    #     from timeit import default_timer as timer
+
+    #     search = """
+    #         ; HuTaoCherry
+
+    #         ; Constants -------------------------
+
+    #         ; Overrides -------------------------
+
+    #         [TextureOverrideHuTaoCherryPosition]
+    #         hash = a78db232
+    #         vb0 = ResourceHuTaoCherryPosition
+
+    #         [TextureOverrideHuTaoCherryBlend]
+    #         hash = 6e718139
+    #         vb1 = ResourceHuTaoCherryBlend
+    #         handling = skip
+    #         draw = 69708,0 
+
+    #         [TextureOverrideHuTaoCherryTexcoord]
+    #         hash = 4b14b10e
+    #         vb1 = ResourceHuTaoCherryTexcoord
+
+    #         [TextureOverrideHuTaoCherryVertexLimitRaise]
+    #         hash = 6715905e
+    #         ; override_vertex_count = 28708
+    #         ; override_byte_stride = 100
+
+    #         [TextureOverrideHuTaoCherryIB]
+    #         hash = 92fce51e
+    #         handling = skip
+    #         drawindexed = auto
+
+    #         [TextureOverrideHuTaoCherryHead]
+    #         hash = 92fce51e
+    #         match_first_index = 0
+    #         ib = ResourceHuTaoCherryHeadIB
+    #         ps-t0 = ResourceHuTaoCherryHeadNormalMap
+    #         ps-t1 = ResourceHuTaoCherryHeadDiffuse
+    #         ps-t2 = ResourceHuTaoCherryHeadLightMap
+    #         run = CommandList\global\ORFix\ORFix
+    #         [TextureOverrideHuTaoCherryBody]
+    #         hash = 92fce51e
+    #         match_first_index = 43968
+    #         ib = ResourceHuTaoCherryBodyIB
+    #         ps-t0 = ResourceHuTaoCherryBodyDiffuse
+    #         ps-t1 = ResourceHuTaoCherryBodyLightMap
+
+    #         [TextureOverrideHuTaoCherryDress]
+    #         hash = 92fce51e
+    #         match_first_index = 77301
+    #         ib = ResourceHuTaoCherryDressIB
+    #         ps-t0 = ResourceHuTaoCherryDressNormalMap
+    #         ps-t1 = ResourceHuTaoCherryDressDiffuse
+    #         ps-t2 = ResourceHuTaoCherryDressLightMap
+    #         run = CommandList\global\ORFix\ORFix
+    #         [TextureOverrideHuTaoCherryExtra]
+    #         hash = 92fce51e
+    #         match_first_index = 86808
+    #         ib = ResourceHuTaoCherryExtraIB
+    #         ps-t0 = ResourceHuTaoCherryExtraDiffuse
+
+    #         ; CommandList -----------------------
+
+    #         ; Resources -------------------------
+
+    #         [ResourceHuTaoCherryPosition]
+    #         type = Buffer
+    #         stride = 40
+    #         filename = HuTaoCherryPosition.buf
+
+    #         [ResourceHuTaoCherryBlend]
+    #         type = Buffer
+    #         stride = 32
+    #         filename = HuTaoCherryBlend.buf
+
+    #         [ResourceHuTaoCherryTexcoord]
+    #         type = Buffer
+    #         stride = 28
+    #         filename = HuTaoCherryTexcoord.buf
+
+    #         [ResourceHuTaoCherryHeadIB]
+    #         type = Buffer
+    #         format = DXGI_FORMAT_R32_UINT
+    #         filename = HuTaoCherryHead.ib
+
+    #         [ResourceHuTaoCherryBodyIB]
+    #         type = Buffer
+    #         format = DXGI_FORMAT_R32_UINT
+    #         filename = HuTaoCherryBody.ib
+
+    #         [ResourceHuTaoCherryDressIB]
+    #         type = Buffer
+    #         format = DXGI_FORMAT_R32_UINT
+    #         filename = HuTaoCherryDress.ib
+
+    #         [ResourceHuTaoCherryExtraIB]
+    #         type = Buffer
+    #         format = DXGI_FORMAT_R32_UINT
+    #         filename = HuTaoCherryExtra.ib
+
+    #         [ResourceHuTaoCherryHeadNormalMap]
+    #         filename = HuTaoCherryHeadNormalMap.dds
+
+    #         [ResourceHuTaoCherryHeadDiffuse]
+    #         filename = HuTaoCherryHeadDiffuse.dds
+
+    #         [ResourceHuTaoCherryHeadLightMap]
+    #         filename = HuTaoCherryHeadLightMap.dds
+
+    #         [ResourceHuTaoCherryBodyDiffuse]
+    #         filename = HuTaoCherryBodyDiffuse.dds
+
+    #         [ResourceHuTaoCherryBodyLightMap]
+    #         filename = HuTaoCherryBodyLightMap.dds
+
+    #         [ResourceHuTaoCherryDressNormalMap]
+    #         filename = HuTaoCherryDressNormalMap.dds
+
+    #         [ResourceHuTaoCherryDressDiffuse]
+    #         filename = HuTaoCherryDressDiffuse.dds
+
+    #         [ResourceHuTaoCherryDressLightMap]
+    #         filename = HuTaoCherryDressLightMap.dds
+
+    #         [ResourceHuTaoCherryExtraDiffuse]
+    #         filename = HuTaoCherryExtraDiffuse.dds
 
 
-    def test_modIni_compareAhoCorasickAndManyRegex(self):
-        import re
-        from timeit import default_timer as timer
-
-        search = """
-            ; HuTaoCherry
-
-            ; Constants -------------------------
-
-            ; Overrides -------------------------
-
-            [TextureOverrideHuTaoCherryPosition]
-            hash = a78db232
-            vb0 = ResourceHuTaoCherryPosition
-
-            [TextureOverrideHuTaoCherryBlend]
-            hash = 6e718139
-            vb1 = ResourceHuTaoCherryBlend
-            handling = skip
-            draw = 69708,0 
-
-            [TextureOverrideHuTaoCherryTexcoord]
-            hash = 4b14b10e
-            vb1 = ResourceHuTaoCherryTexcoord
-
-            [TextureOverrideHuTaoCherryVertexLimitRaise]
-            hash = 6715905e
-            ; override_vertex_count = 28708
-            ; override_byte_stride = 100
-
-            [TextureOverrideHuTaoCherryIB]
-            hash = 92fce51e
-            handling = skip
-            drawindexed = auto
-
-            [TextureOverrideHuTaoCherryHead]
-            hash = 92fce51e
-            match_first_index = 0
-            ib = ResourceHuTaoCherryHeadIB
-            ps-t0 = ResourceHuTaoCherryHeadNormalMap
-            ps-t1 = ResourceHuTaoCherryHeadDiffuse
-            ps-t2 = ResourceHuTaoCherryHeadLightMap
-            run = CommandList\global\ORFix\ORFix
-            [TextureOverrideHuTaoCherryBody]
-            hash = 92fce51e
-            match_first_index = 43968
-            ib = ResourceHuTaoCherryBodyIB
-            ps-t0 = ResourceHuTaoCherryBodyDiffuse
-            ps-t1 = ResourceHuTaoCherryBodyLightMap
-
-            [TextureOverrideHuTaoCherryDress]
-            hash = 92fce51e
-            match_first_index = 77301
-            ib = ResourceHuTaoCherryDressIB
-            ps-t0 = ResourceHuTaoCherryDressNormalMap
-            ps-t1 = ResourceHuTaoCherryDressDiffuse
-            ps-t2 = ResourceHuTaoCherryDressLightMap
-            run = CommandList\global\ORFix\ORFix
-            [TextureOverrideHuTaoCherryExtra]
-            hash = 92fce51e
-            match_first_index = 86808
-            ib = ResourceHuTaoCherryExtraIB
-            ps-t0 = ResourceHuTaoCherryExtraDiffuse
-
-            ; CommandList -----------------------
-
-            ; Resources -------------------------
-
-            [ResourceHuTaoCherryPosition]
-            type = Buffer
-            stride = 40
-            filename = HuTaoCherryPosition.buf
-
-            [ResourceHuTaoCherryBlend]
-            type = Buffer
-            stride = 32
-            filename = HuTaoCherryBlend.buf
-
-            [ResourceHuTaoCherryTexcoord]
-            type = Buffer
-            stride = 28
-            filename = HuTaoCherryTexcoord.buf
-
-            [ResourceHuTaoCherryHeadIB]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = HuTaoCherryHead.ib
-
-            [ResourceHuTaoCherryBodyIB]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = HuTaoCherryBody.ib
-
-            [ResourceHuTaoCherryDressIB]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = HuTaoCherryDress.ib
-
-            [ResourceHuTaoCherryExtraIB]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = HuTaoCherryExtra.ib
-
-            [ResourceHuTaoCherryHeadNormalMap]
-            filename = HuTaoCherryHeadNormalMap.dds
-
-            [ResourceHuTaoCherryHeadDiffuse]
-            filename = HuTaoCherryHeadDiffuse.dds
-
-            [ResourceHuTaoCherryHeadLightMap]
-            filename = HuTaoCherryHeadLightMap.dds
-
-            [ResourceHuTaoCherryBodyDiffuse]
-            filename = HuTaoCherryBodyDiffuse.dds
-
-            [ResourceHuTaoCherryBodyLightMap]
-            filename = HuTaoCherryBodyLightMap.dds
-
-            [ResourceHuTaoCherryDressNormalMap]
-            filename = HuTaoCherryDressNormalMap.dds
-
-            [ResourceHuTaoCherryDressDiffuse]
-            filename = HuTaoCherryDressDiffuse.dds
-
-            [ResourceHuTaoCherryDressLightMap]
-            filename = HuTaoCherryDressLightMap.dds
-
-            [ResourceHuTaoCherryExtraDiffuse]
-            filename = HuTaoCherryExtraDiffuse.dds
+    #         [ResourceHuTaoCherryBodyDiffuseRemap]
+    #         filename = HuTaoCherryBodyDiffuseRemap.dds
 
 
-            [ResourceHuTaoCherryBodyDiffuseRemap]
-            filename = HuTaoCherryBodyDiffuseRemap.dds
+    #         ; --------------- CherryHuTao Remap ---------------
+    #         ; CherryHuTao remapped by Albert Gold#2696 and NK#1321. If you used it to remap your CherryHuTao mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+    #         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+    #         ; ***** HuTao *****
+    #         [TextureOverrideHuTaoCherryHuTaoRemapBlend]
+    #         hash = 153dba3f
+    #         vb1 = ResourceHuTaoCherryHuTaoRemapBlend
+    #         handling = skip
+    #         draw = 69708,0
 
 
-            ; --------------- CherryHuTao Remap ---------------
-            ; CherryHuTao remapped by Albert Gold#2696 and NK#1321. If you used it to remap your CherryHuTao mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+    #         [TextureOverrideHuTaoCherryPositionHuTaoRemapFix]
+    #         hash = dd16576c
+    #         vb0 = ResourceHuTaoCherryPosition
 
-            ; ***** HuTao *****
-            [TextureOverrideHuTaoCherryHuTaoRemapBlend]
-            hash = 153dba3f
-            vb1 = ResourceHuTaoCherryHuTaoRemapBlend
-            handling = skip
-            draw = 69708,0
+    #         [TextureOverrideHuTaoCherryTexcoordHuTaoRemapFix]
+    #         hash = 51afdfcf
+    #         vb1 = ResourceHuTaoCherryTexcoord
 
+    #         [TextureOverrideHuTaoCherryVertexLimitRaiseHuTaoRemapFix]
+    #         hash = e9d17db6
 
-            [TextureOverrideHuTaoCherryPositionHuTaoRemapFix]
-            hash = dd16576c
-            vb0 = ResourceHuTaoCherryPosition
+    #         [TextureOverrideHuTaoCherryIBHuTaoRemapFix]
+    #         hash = 3de1efe2
+    #         handling = skip
+    #         drawindexed = auto
 
-            [TextureOverrideHuTaoCherryTexcoordHuTaoRemapFix]
-            hash = 51afdfcf
-            vb1 = ResourceHuTaoCherryTexcoord
+    #         [TextureOverrideHuTaoCherryHeadHuTaoRemapFix]
+    #         hash = 3de1efe2
+    #         match_first_index = 0
+    #         ib = ResourceHuTaoCherryHeadIB
+    #         ps-t0 = ResourceHuTaoCherryHeadDiffuse
+    #         ps-t1 = ResourceHuTaoCherryHeadLightMap
+    #         run = CommandList\global\ORFix\ORFix
 
-            [TextureOverrideHuTaoCherryVertexLimitRaiseHuTaoRemapFix]
-            hash = e9d17db6
-
-            [TextureOverrideHuTaoCherryIBHuTaoRemapFix]
-            hash = 3de1efe2
-            handling = skip
-            drawindexed = auto
-
-            [TextureOverrideHuTaoCherryHeadHuTaoRemapFix]
-            hash = 3de1efe2
-            match_first_index = 0
-            ib = ResourceHuTaoCherryHeadIB
-            ps-t0 = ResourceHuTaoCherryHeadDiffuse
-            ps-t1 = ResourceHuTaoCherryHeadLightMap
-            run = CommandList\global\ORFix\ORFix
-
-            [TextureOverrideHuTaoCherryBodyHuTaoRemapFix]
-            hash = 3de1efe2
-            match_first_index = 16509
-            ib = ResourceHuTaoCherryBodyIB
-            ps-t0 = ResourceCherryHuTaoBodyTransparentBodyDiffuseHuTaoRemapTex0
-            ps-t1 = ResourceHuTaoCherryBodyLightMap
+    #         [TextureOverrideHuTaoCherryBodyHuTaoRemapFix]
+    #         hash = 3de1efe2
+    #         match_first_index = 16509
+    #         ib = ResourceHuTaoCherryBodyIB
+    #         ps-t0 = ResourceCherryHuTaoBodyTransparentBodyDiffuseHuTaoRemapTex0
+    #         ps-t1 = ResourceHuTaoCherryBodyLightMap
 
 
-            [ResourceHuTaoCherryHuTaoRemapBlend]
-            type = Buffer
-            stride = 32
-            filename = HuTaoCherryHuTaoRemapBlend.buf
+    #         [ResourceHuTaoCherryHuTaoRemapBlend]
+    #         type = Buffer
+    #         stride = 32
+    #         filename = HuTaoCherryHuTaoRemapBlend.buf
 
-            [ResourceCherryHuTaoBodyTransparentBodyDiffuseHuTaoRemapTex0]
-            filename = HuTaoCherryBodyDiffuseHuTaoRemapTex0.dds
+    #         [ResourceCherryHuTaoBodyTransparentBodyDiffuseHuTaoRemapTex0]
+    #         filename = HuTaoCherryBodyDiffuseHuTaoRemapTex0.dds
 
-            ; *****************
+    #         ; *****************
 
-            ; -------------------------------------------------
-        """
+    #         ; -------------------------------------------------
+    #     """
 
-        search = FRB.TextTools.getTextLines(search)
+    #     search = FRB.TextTools.getTextLines(search)
 
         
-        regexes = [
-            re.compile("TextureOverrideJean"),
-            re.compile("TextureOverrideJeanSea"),
-            re.compile("TextureOverrideJeanCN"),
-            re.compile("TextureOverrideAmber"),
-            re.compile("TextureOverrideAmberCN"),
-            re.compile("TextureOverrideRosaria"),
-            re.compile("TextureOverrideRosariaCN"),
-            re.compile("TextureOverrideMona"),
-            re.compile("TextureOverrideMonaCN"),
-            re.compile("TextureOverrideRaiden"),
-            re.compile("TextureOverrideArlecchino"),
-            re.compile("TextureOverrideGanyu"),
-            re.compile("TextureOverrideGanyuOrchid"),
-            re.compile("TextureOverrideShenhe"),
-            re.compile("TextureOverrideShenheFrostFlower"),
-            re.compile("TextureOverrideHuTao"),
-            re.compile("TextureOverrideHuTaoCherry"),
-            re.compile("TextureOverrideCherryHuTao"),
-            re.compile("TextureOverrideKirara"),
-            re.compile("TextureOverrideKiraraBoots"),
-            re.compile("TextureOverrideDiluc"),
-            re.compile("TextureOverrideDilucFlamme"),
-            re.compile("TextureOverrideFischl"),
-            re.compile("TextureOverrideFischlHighness"),
-            re.compile("TextureOverrideNingguang"),
-            re.compile("TextureOverrideNingguangOrchid"),
-            re.compile("TextureOverrideKeqing"),
-            re.compile("TextureOverrideKeqingOpulent"),
-            re.compile("TextureOverrideKlee"),
-            re.compile("TextureOverrideKleeBlossomingStarlight"),
-            re.compile("TextureOverrideNilou"),
-            re.compile("TextureOverrideNilouBreeze"),
-            re.compile("TextureOverrideXingqiu"),
-            re.compile("TextureOverrideXingqiuBamboo"),
-        ]
+    #     regexes = [
+    #         re.compile("TextureOverrideJean"),
+    #         re.compile("TextureOverrideJeanSea"),
+    #         re.compile("TextureOverrideJeanCN"),
+    #         re.compile("TextureOverrideAmber"),
+    #         re.compile("TextureOverrideAmberCN"),
+    #         re.compile("TextureOverrideRosaria"),
+    #         re.compile("TextureOverrideRosariaCN"),
+    #         re.compile("TextureOverrideMona"),
+    #         re.compile("TextureOverrideMonaCN"),
+    #         re.compile("TextureOverrideRaiden"),
+    #         re.compile("TextureOverrideArlecchino"),
+    #         re.compile("TextureOverrideGanyu"),
+    #         re.compile("TextureOverrideGanyuOrchid"),
+    #         re.compile("TextureOverrideShenhe"),
+    #         re.compile("TextureOverrideShenheFrostFlower"),
+    #         re.compile("TextureOverrideHuTao"),
+    #         re.compile("TextureOverrideHuTaoCherry"),
+    #         re.compile("TextureOverrideCherryHuTao"),
+    #         re.compile("TextureOverrideKirara"),
+    #         re.compile("TextureOverrideKiraraBoots"),
+    #         re.compile("TextureOverrideDiluc"),
+    #         re.compile("TextureOverrideDilucFlamme"),
+    #         re.compile("TextureOverrideFischl"),
+    #         re.compile("TextureOverrideFischlHighness"),
+    #         re.compile("TextureOverrideNingguang"),
+    #         re.compile("TextureOverrideNingguangOrchid"),
+    #         re.compile("TextureOverrideKeqing"),
+    #         re.compile("TextureOverrideKeqingOpulent"),
+    #         re.compile("TextureOverrideKlee"),
+    #         re.compile("TextureOverrideKleeBlossomingStarlight"),
+    #         re.compile("TextureOverrideNilou"),
+    #         re.compile("TextureOverrideNilouBreeze"),
+    #         re.compile("TextureOverrideXingqiu"),
+    #         re.compile("TextureOverrideXingqiuBamboo"),
+    #     ]
 
 
-        dfa = FRB.AhoCorasickDFA({
-            "TextureOverrideJean": 0,
-            "TextureOverrideJeanSea": 0,
-            "TextureOverrideJeanCN": 0,
-            "TextureOverrideAmber": 0,
-            "TextureOverrideAmberCN": 0,
-            "TextureOverrideRosaria": 0,
-            "TextureOverrideRosariaCN": 0,
-            "TextureOverrideMona": 0,
-            "TextureOverrideMonaCN": 0,
-            "TextureOverrideRaiden": 0,
-            "TextureOverrideArlecchino": 0,
-            "TextureOverrideGanyu": 0,
-            "TextureOverrideGanyuTwilight": 0,
-            "TextureOverrideShenhe": 0,
-            "TextureOverrideShenheFrostFlower": 0,
-            "TextureOverrideHuTao": 0,
-            "TextureOverrideHuTaoCherry": 0,
-            "TextureOverrideCherryHuTao": 0,
-            "TextureOverrideKirara": 0,
-            "TextureOverrideKiraraBoots": 0,
-            "TextureOverrideDiluc": 0,
-            "TextureOverrideDilucFlamme": 0,
-            "TextureOverrideFischl": 0,
-            "TextureOverrideFischlHighness": 0,
-            "TextureOverrideNingguang": 0,
-            "TextureOverrideNingguangOrchid": 0,
-            "TextureOverrideKeqing": 0,
-            "TextureOverrideKeqingOpulent": 0,
-            "TextureOverrideKlee": 0,
-            "TextureOverrideKleeBlossomingStarlight": 0,
-            "TextureOverrideNilou": 0,
-            "TextureOverrideNilouBreeze": 0,
-            "TextureOverrideXingqiu": 0,
-            "TextureOverrideXingqiuBamboo": 0
-        })
+    #     dfa = FRB.AhoCorasickDFA({
+    #         "TextureOverrideJean": 0,
+    #         "TextureOverrideJeanSea": 0,
+    #         "TextureOverrideJeanCN": 0,
+    #         "TextureOverrideAmber": 0,
+    #         "TextureOverrideAmberCN": 0,
+    #         "TextureOverrideRosaria": 0,
+    #         "TextureOverrideRosariaCN": 0,
+    #         "TextureOverrideMona": 0,
+    #         "TextureOverrideMonaCN": 0,
+    #         "TextureOverrideRaiden": 0,
+    #         "TextureOverrideArlecchino": 0,
+    #         "TextureOverrideGanyu": 0,
+    #         "TextureOverrideGanyuTwilight": 0,
+    #         "TextureOverrideShenhe": 0,
+    #         "TextureOverrideShenheFrostFlower": 0,
+    #         "TextureOverrideHuTao": 0,
+    #         "TextureOverrideHuTaoCherry": 0,
+    #         "TextureOverrideCherryHuTao": 0,
+    #         "TextureOverrideKirara": 0,
+    #         "TextureOverrideKiraraBoots": 0,
+    #         "TextureOverrideDiluc": 0,
+    #         "TextureOverrideDilucFlamme": 0,
+    #         "TextureOverrideFischl": 0,
+    #         "TextureOverrideFischlHighness": 0,
+    #         "TextureOverrideNingguang": 0,
+    #         "TextureOverrideNingguangOrchid": 0,
+    #         "TextureOverrideKeqing": 0,
+    #         "TextureOverrideKeqingOpulent": 0,
+    #         "TextureOverrideKlee": 0,
+    #         "TextureOverrideKleeBlossomingStarlight": 0,
+    #         "TextureOverrideNilou": 0,
+    #         "TextureOverrideNilouBreeze": 0,
+    #         "TextureOverrideXingqiu": 0,
+    #         "TextureOverrideXingqiuBamboo": 0
+    #     })
 
-        # regexes = [
-        #     re.compile("^((?!Remap).)*Blend$"),
-        #     re.compile("^Position((?!RemapFix).)*$")
-        # ]
+    #     # regexes = [
+    #     #     re.compile("^((?!Remap).)*Blend$"),
+    #     #     re.compile("^Position((?!RemapFix).)*$")
+    #     # ]
 
-        # dfa = FRB.AhoCorasickDFA({
-        #     "Blend": 0,
-        #     "Position": 0,
-        #     "RemapBlend": -1,
-        #     "RemapFix": -1
-        # })
+    #     # dfa = FRB.AhoCorasickDFA({
+    #     #     "Blend": 0,
+    #     #     "Position": 0,
+    #     #     "RemapBlend": -1,
+    #     #     "RemapFix": -1
+    #     # })
 
-        def tempRegex(line):
-            for reg in regexes:
-                if (re.search(reg, line)):
-                    return True
+    #     def tempRegex(line):
+    #         for reg in regexes:
+    #             if (re.search(reg, line)):
+    #                 return True
                 
-            return False
+    #         return False
 
 
-        def tempFunc(line):
-            keyword, _ = dfa.findMaximal(line)
-            return keyword is not None
+    #     def tempFunc(line):
+    #         keyword, _ = dfa.findMaximal(line)
+    #         return keyword is not None
         
-        start = timer()
-        for line in search:
-            regResult = tempRegex(line)
-            if (regResult):
-                break
-        end = timer()
-        regTime = end - start
+    #     start = timer()
+    #     for line in search:
+    #         regResult = tempRegex(line)
+    #         if (regResult):
+    #             break
+    #     end = timer()
+    #     regTime = end - start
 
-        start = timer()
-        for line in search:
-            dfaResult = tempFunc(line)
-            if (dfaResult):
-                break
-        end = timer()
-        dfaTime = end - start
+    #     start = timer()
+    #     for line in search:
+    #         dfaResult = tempFunc(line)
+    #         if (dfaResult):
+    #             break
+    #     end = timer()
+    #     dfaTime = end - start
 
-        # print(f"REGEX RESULT: {bool(regResult)}")
-        # print(f"DFA RESULT: {bool(dfaResult)}")
+    #     # print(f"REGEX RESULT: {bool(regResult)}")
+    #     # print(f"DFA RESULT: {bool(dfaResult)}")
         
 
-        # print(f"REGEX TIME: {regTime}")
-        # print(f"DFA TIME: {dfaTime}")
+    #     # print(f"REGEX TIME: {regTime}")
+    #     # print(f"DFA TIME: {dfaTime}")
 
-        # print(f"\nDFA IS WINNER: {dfaTime <= regTime}")
-        # print(f"EFFICIENCY: {regTime / dfaTime}")
+    #     # print(f"\nDFA IS WINNER: {dfaTime <= regTime}")
+    #     # print(f"EFFICIENCY: {regTime / dfaTime}")

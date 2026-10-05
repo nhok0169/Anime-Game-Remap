@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGMergeComponentSpec</compoundname>
+    <includes refid="_v_g_component_merge_8h" local="no">VGComponentMerge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VGMergeComponentSpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentSpec::name</qualifiedname>
+        <briefdescription>
+<para>The component&apos;s name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="37" column="21" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1ac01354111812774e6ea940409f712afe" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref></type>
+        <definition>VGRemap AGRemapCore::VGMergeComponentSpec::remap</definition>
+        <argsstring></argsstring>
+        <name>remap</name>
+        <qualifiedname>AGRemapCore::VGMergeComponentSpec::remap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+This component&apos;s vertex group (source index) to the target&apos;s bone. Each component has a
+row of its OWN (``(&quot;YelanTranquil&quot;, &quot;Bang&quot;) -&gt; (&quot;Yelan&quot;, &quot;&quot;)``), which is the whole reason
+the components cannot be remapped together
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="47" column="17" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One SOURCE component of a skin made of several -- YelanTranquil&apos;s ``Body``, ``Bang`` or
+``Eye`` -- and how its own vertex groups reach the target&apos;s bones
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::VGMergeComponentSpec</label>
+        <link refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>remap</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::VGRemap</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remap"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/VGComponentMerge.h" line="33" column="5" bodyfile="include/AGRemapCore/model/buffers/VGComponentMerge.h" bodystart="33" bodyend="48"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentSpec</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1ac01354111812774e6ea940409f712afe" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeComponentSpec</scope><name>remap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

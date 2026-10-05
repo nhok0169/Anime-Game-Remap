@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_citlali_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CitlaliParser</compoundname>
+    <includes refid="_citlali_parser_8h" local="no">CitlaliParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_parser_1aed783dcb97a0208affdd3492e2b1c5f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CitlaliParser::CitlaliParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>CitlaliParser</name>
+        <qualifiedname>AGRemapCore::CitlaliParser::CitlaliParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Citlali/CitlaliParser.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_parser_1a1057104334a722a6b7d5d25970ebec72" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::CitlaliParser::v5_3</definition>
+        <argsstring>()</argsstring>
+        <name>v5_3</name>
+        <qualifiedname>AGRemapCore::CitlaliParser::v5_3</qualifiedname>
+        <briefdescription>
+<para>The parser for a 5.3-era Citlali <computeroutput>.ini</computeroutput> file <ndash/> what :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a43e27b4ab63840fd41be6e297828b5" kindref="member">IniParseBuilderFuncs::citlali5_3</ref></computeroutput> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Citlali/CitlaliParser.h" line="39" column="45" bodyfile="src/data/IniParseData/Citlali/CitlaliParser.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Citlali&apos;s own ``.ini`` parsers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape, drawing ``head`` / ``body`` with the normal-map texture
+layout on both. Pair this with :cpp:class:`CitlaliFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Citlali/CitlaliParser.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Citlali/CitlaliParser.h" bodystart="31" bodyend="40"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_citlali_parser_1aed783dcb97a0208affdd3492e2b1c5f6" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliParser</scope><name>CitlaliParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_citlali_parser_1a1057104334a722a6b7d5d25970ebec72" prot="public" virt="non-virtual"><scope>AGRemapCore::CitlaliParser</scope><name>v5_3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

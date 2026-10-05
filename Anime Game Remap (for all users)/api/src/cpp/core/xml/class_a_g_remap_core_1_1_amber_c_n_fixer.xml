@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_amber_c_n_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::AmberCNFixer</compoundname>
+    <includes refid="_amber_c_n_fixer_8h" local="no">AmberCNFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_amber_c_n_fixer_1ad2808e85f849eb28056d69a5a0a3dfad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::AmberCNFixer::AmberCNFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>AmberCNFixer</name>
+        <qualifiedname>AGRemapCore::AmberCNFixer::AmberCNFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_amber_c_n_fixer_1a7e6c8c2eecbed1c9703b0acbaf935401" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::AmberCNFixer::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::AmberCNFixer::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix that remaps a AmberCN mod onto Amber -- what
+:cpp:func:`IniFixBuilderFuncs::amberCN4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_amber_c_n_fixer_1a425d61fbc7fa85125711d8896715c6b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::AmberCNFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::AmberCNFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era AmberCN ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::amberCN6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h" line="52" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+AmberCN&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`AmberCNParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h" bodystart="31" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_amber_c_n_fixer_1ad2808e85f849eb28056d69a5a0a3dfad" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberCNFixer</scope><name>AmberCNFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_amber_c_n_fixer_1a7e6c8c2eecbed1c9703b0acbaf935401" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberCNFixer</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_amber_c_n_fixer_1a425d61fbc7fa85125711d8896715c6b2" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberCNFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

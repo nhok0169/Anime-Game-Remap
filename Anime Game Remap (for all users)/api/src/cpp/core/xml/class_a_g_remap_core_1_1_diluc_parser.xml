@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_diluc_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DilucParser</compoundname>
+    <includes refid="_diluc_parser_8h" local="no">DilucParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_diluc_parser_1a9b19ce56e6c7ec9129b60befcc92e9ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::DilucParser::DilucParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>DilucParser</name>
+        <qualifiedname>AGRemapCore::DilucParser::DilucParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Diluc/DilucParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_diluc_parser_1ad9781d200000738f67cb2d1a06bcbfbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::DilucParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::DilucParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Diluc ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::diluc4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Diluc/DilucParser.h" line="44" column="45" bodyfile="src/data/IniParseData/Diluc/DilucParser.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Diluc&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`DilucFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Diluc/DilucParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Diluc/DilucParser.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_diluc_parser_1a9b19ce56e6c7ec9129b60befcc92e9ba" prot="public" virt="non-virtual"><scope>AGRemapCore::DilucParser</scope><name>DilucParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_diluc_parser_1ad9781d200000738f67cb2d1a06bcbfbd" prot="public" virt="non-virtual"><scope>AGRemapCore::DilucParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

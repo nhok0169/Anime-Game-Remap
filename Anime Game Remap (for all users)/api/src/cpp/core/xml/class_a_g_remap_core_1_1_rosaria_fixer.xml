@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_rosaria_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RosariaFixer</compoundname>
+    <includes refid="_rosaria_fixer_8h" local="no">RosariaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rosaria_fixer_1a23f5ca831494e858e1fe868b82eb8403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RosariaFixer::RosariaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>RosariaFixer</name>
+        <qualifiedname>AGRemapCore::RosariaFixer::RosariaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rosaria_fixer_1adacc2e03ed99d51ec67ad888732c7588" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::RosariaFixer::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::RosariaFixer::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 4.0 fix that remaps a Rosaria mod onto RosariaCN -- what
+:cpp:func:`IniFixBuilderFuncs::rosaria4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rosaria_fixer_1aa08b25243ca45f6aaba79da9f46a2085" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::RosariaFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::RosariaFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Rosaria ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::rosaria6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h" line="52" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Rosaria&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`RosariaParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h" bodystart="31" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_rosaria_fixer_1a23f5ca831494e858e1fe868b82eb8403" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaFixer</scope><name>RosariaFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_rosaria_fixer_1adacc2e03ed99d51ec67ad888732c7588" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaFixer</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_rosaria_fixer_1aa08b25243ca45f6aaba79da9f46a2085" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_55689a2f74de097d7544f31808fe514d" kind="dir">
+    <compoundname>src/data/IniFixData/BarbaraSummertime</compoundname>
+    <innerfile refid="_barbara_summertime_fixer_8cpp">BarbaraSummertimeFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/BarbaraSummertime/"/>
+  </compounddef>
+</doxygen>

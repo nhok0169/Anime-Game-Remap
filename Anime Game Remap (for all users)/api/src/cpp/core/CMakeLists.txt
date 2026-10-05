@@ -1,0 +1,862 @@
+cmake_minimum_required(VERSION 3.21)
+project(AGRemapCore VERSION 1.0.0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 23)
+
+# -----------------------------------
+# Options
+# -----------------------------------
+
+option(BUILD_CPP_SDK "Install C++ SDK (headers + cmake config)" ON)
+
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
+# -----------------------------------
+# Library
+# -----------------------------------
+
+add_library(AGRemapCore STATIC
+    src/tools/IntTools.cpp
+    src/tools/ListTools.cpp
+    src/constants/DownloadMode.cpp
+    src/constants/GameTypeId.cpp
+    src/constants/ModTypeId.cpp
+    src/constants/GameType.cpp
+    src/constants/IfPredPartType.cpp
+    src/constants/GIBuilder.cpp
+    src/constants/WWMIBuilder.cpp
+    src/constants/GlobalIniRemoveBuilders.cpp
+    src/constants/StrategyOverrides.cpp
+    src/data/HashData.cpp
+    src/data/IndexData.cpp
+    src/data/HashToModObjData.cpp
+    src/data/VertexCountData.cpp
+    src/data/IndexCountData.cpp
+    src/data/VGOffsetData.cpp
+    src/data/VGCountData.cpp
+    src/data/ShapeKeyChecksumData.cpp
+    src/data/VGRemapData.cpp
+    src/data/WWMITextureRoles.cpp
+    src/data/ModDataAssets.cpp
+    src/data/IniParseBuilderData.cpp
+    src/data/IniFixBuilderData.cpp
+    src/data/IniRemoveBuilderData.cpp
+    src/data/IniParseData/Raiden/RaidenParser.cpp
+    src/data/IniParseData/Amber/AmberParser.cpp
+    src/data/IniFixData/AmberCN/AmberCNFixer.cpp
+    src/data/IniFixData/GIMICharFixer.cpp
+    src/data/IniFixData/MonaCN/MonaCNFixer.cpp
+    src/data/IniFixData/Mona/MonaFixer.cpp
+    src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp
+    src/data/IniFixData/Rosaria/RosariaFixer.cpp
+    src/data/IniParseData/AmberCN/AmberCNParser.cpp
+    src/data/IniParseData/GIMICharParser.cpp
+    src/data/IniParseData/MonaCN/MonaCNParser.cpp
+    src/data/IniParseData/Mona/MonaParser.cpp
+    src/data/IniParseData/RosariaCN/RosariaCNParser.cpp
+    src/data/IniParseData/Rosaria/RosariaParser.cpp
+    src/data/IniFixData/Jean/JeanFixer.cpp
+    src/data/IniFixData/JeanCN/JeanCNFixer.cpp
+    src/data/IniFixData/DarkDiffuse.cpp
+    src/data/IniFixData/RegValChecks.cpp
+    src/data/IniFixData/SideMeshes.cpp
+    src/data/IniFixData/TexRegLayout.cpp
+    src/data/IniFixData/TexFxLayout.cpp
+    src/data/IniParseData/Barbara/BarbaraParser.cpp
+    src/data/IniFixData/Barbara/BarbaraFixer.cpp
+    src/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.cpp
+    src/data/IniFixData/BarbaraSummertime/BarbaraSummertimeFixer.cpp
+    src/data/IniParseData/Klee/KleeParser.cpp
+    src/data/IniFixData/Klee/KleeFixer.cpp
+    src/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.cpp
+    src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp
+    src/data/IniParseData/Lisa/LisaParser.cpp
+    src/data/IniFixData/Lisa/LisaFixer.cpp
+    src/data/IniParseData/LisaStudent/LisaStudentParser.cpp
+    src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp
+    src/data/IniParseData/Diluc/DilucParser.cpp
+    src/data/IniFixData/Diluc/DilucFixer.cpp
+    src/data/IniParseData/DilucFlamme/DilucFlammeParser.cpp
+    src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp
+    src/data/IniParseData/Fischl/FischlParser.cpp
+    src/data/IniFixData/Fischl/FischlFixer.cpp
+    src/data/IniParseData/FischlHighness/FischlHighnessParser.cpp
+    src/data/IniFixData/FischlHighness/FischlHighnessFixer.cpp
+    src/data/IniParseData/Kaeya/KaeyaParser.cpp
+    src/data/IniFixData/Kaeya/KaeyaFixer.cpp
+    src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp
+    src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp
+    src/data/IniParseData/Arlecchino/ArlecchinoParser.cpp
+    src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp
+    src/data/IniFixData/Nilou/NilouFixer.cpp
+    src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp
+    src/data/IniParseData/Nilou/NilouParser.cpp
+    src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp
+    src/data/IniFixData/Kirara/KiraraFixer.cpp
+    src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp
+    src/data/IniParseData/Kirara/KiraraParser.cpp
+    src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp
+    src/data/IniFixData/Ayaka/AyakaFixer.cpp
+    src/data/IniParseData/Ayaka/AyakaParser.cpp
+    src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp
+    src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp
+    src/data/IniFixData/JeanSea/JeanSeaFixer.cpp
+    src/data/IniFixData/Ganyu/GanyuFixer.cpp
+    src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp
+    src/data/IniParseData/Ganyu/GanyuParser.cpp
+    src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp
+    src/data/IniFixData/Ningguang/NingguangFixer.cpp
+    src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp
+    src/data/IniParseData/Ningguang/NingguangParser.cpp
+    src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp
+    src/data/IniFixData/JeanShading.cpp
+    src/data/IniParseData/JeanSea/JeanSeaParser.cpp
+    src/data/IniParseData/Jean/JeanParser.cpp
+    src/data/IniParseData/JeanCN/JeanCNParser.cpp
+    src/data/IniFixData/Keqing/KeqingFixer.cpp
+    src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp
+    src/data/IniParseData/Keqing/KeqingParser.cpp
+    src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
+    src/data/IniFixData/GIMIComponentFixer.cpp
+    src/data/IniFixData/WWMIFixer.cpp
+    src/data/IniFixData/Chisa/ChisaFixer.cpp
+    src/data/IniFixData/Chisa/ChisaTextures.cpp
+    src/data/IniFixData/Chisa/ChisaThumbprints.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp
+    src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp
+    src/data/IniFixData/Sanhua/SanhuaFixer.cpp
+    src/data/IniFixData/Sanhua/SanhuaTextures.cpp
+    src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp
+    src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp
+    src/data/IniFixData/SanhuaExorcist/SanhuaExorcistThumbprints.cpp
+    src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
+    src/data/IniParseData/WWMIParser.cpp
+    src/data/IniParseData/Chisa/ChisaParser.cpp
+    src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
+    src/data/IniParseData/Sanhua/SanhuaParser.cpp
+    src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp
+    src/data/IniFixData/ModBranches.cpp
+    src/data/IniFixData/Yelan/YelanFixer.cpp
+    src/data/IniFixData/GIMIMergeFixer.cpp
+    src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp
+    src/data/IniParseData/Yelan/YelanParser.cpp
+    src/data/IniParseData/GIMIComponentParser.cpp
+    src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp
+    src/data/IniParseData/Bennett/BennettParser.cpp
+    src/data/IniFixData/Bennett/BennettFixer.cpp
+    src/data/IniParseData/BennettAdventure/BennettAdventureParser.cpp
+    src/data/IniFixData/BennettAdventure/BennettAdventureFixer.cpp
+    src/data/IniParseData/Citlali/CitlaliParser.cpp
+    src/data/IniFixData/Citlali/CitlaliFixer.cpp
+    src/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.cpp
+    src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp
+    src/data/IniParseData/Charlotte/CharlotteParser.cpp
+    src/data/IniFixData/Charlotte/CharlotteFixer.cpp
+    src/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.cpp
+    src/data/IniFixData/CharlotteHurlock/CharlotteHurlockFixer.cpp
+    src/data/IniParseData/Neuvillette/NeuvilletteParser.cpp
+    src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp
+    src/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.cpp
+    src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp
+    src/data/IniParseData/Yaoyao/YaoyaoParser.cpp
+    src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp
+    src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp
+    src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp
+    src/data/IniParseData/Lumine/LumineParser.cpp
+    src/data/IniFixData/Lumine/LumineFixer.cpp
+    src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp
+    src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp
+    src/data/IniFixData/Shenhe/ShenheFixer.cpp
+    src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp
+    src/data/IniParseData/Shenhe/ShenheParser.cpp
+    src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp
+    src/model/iniresources/RemapPositionResource.cpp
+    src/model/iniresources/VGSplitGroupResource.cpp
+    src/model/iniresources/VGMergeGroupResource.cpp
+    src/data/IniFixData/Xiangling/XianglingFixer.cpp
+    src/data/IniParseData/Xiangling/XianglingParser.cpp
+    src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp
+    src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp
+    src/data/IniFixData/HuTao/HuTaoFixer.cpp
+    src/data/IniParseData/HuTao/HuTaoParser.cpp
+    src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp
+    src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp
+    src/data/IniFixData/Xingqiu/XingqiuFixer.cpp
+    src/data/IniParseData/Xingqiu/XingqiuParser.cpp
+    src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp
+    src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp
+    src/data/IniFixData/Raiden/RaidenFixer.cpp
+    src/data/IniFixData/Amber/AmberFixer.cpp
+    src/constants/GlobalIniClassifiers.cpp
+    src/constants/GlobalModTypes.cpp
+    src/model/Version.cpp
+    src/model/VersionSet.cpp
+    src/tools/Heading.cpp
+    src/view/BaseLogger.cpp
+    src/view/Logger.cpp
+    src/tools/StringHash.cpp
+    src/tools/StringTools.cpp
+    src/tools/DownloadTools.cpp
+    src/tools/TextTools.cpp
+    src/tools/NumTools.cpp
+    src/tools/grapheme/GraphemeIterator.cpp
+    src/tools/grapheme/GraphemeRange.cpp
+    src/tools/parsing/Token.cpp
+    src/tools/parsing/ParseContext.cpp
+    src/tools/parsing/SyntaxErr.cpp
+    src/tools/parsing/BaseTokenizer.cpp
+    src/tools/parsing/FilteredTokenizer.cpp
+    src/tools/parsing/IfPredTokenizer.cpp
+    src/tools/parsing/SympyTokenizer.cpp
+    src/tools/hashing/HashInt.cpp
+    src/tools/hashing/Hash128.cpp
+    src/tools/hashing/Hash64.cpp
+    src/tools/hashing/HashTools.cpp
+    src/tools/idGenerator/UuidIdGenerator.cpp
+    src/model/iftemplate/IfTemplatePart.cpp
+    src/model/iftemplate/IfTemplateRender.cpp
+    src/model/iftemplate/SympyParser.cpp
+    src/model/iftemplate/IfPredParser.cpp
+    src/model/iftemplate/IfPredZ3Generator.cpp
+    src/model/iftemplate/Z3IfPredGenerator.cpp
+    src/model/iftemplate/IfPredPart.cpp
+    src/tools/z3/Z3Context.cpp
+    src/tools/z3/Z3Predicate.cpp
+    src/model/strategies/ModTypeIdData.cpp
+    src/model/assets/Hashes.cpp
+    src/model/assets/Indices.cpp
+    src/model/assets/VertexCounts.cpp
+    src/model/assets/VGRemaps.cpp
+    src/model/assets/IndexCounts.cpp
+    src/model/assets/VGOffsets.cpp
+    src/model/assets/VGCounts.cpp
+    src/model/assets/ShapeKeyChecksums.cpp
+    src/model/strategies/ModType.cpp
+    src/model/strategies/iniClassifiers/IniClassifyStats.cpp
+    src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
+    src/model/strategies/iniClassifiers/IniClassifier.cpp
+    src/model/buffers/BufType.cpp
+    src/model/buffers/BufDataType.cpp
+    src/model/buffers/BufInt.cpp
+    src/model/buffers/BufFloat.cpp
+    src/model/buffers/BufUnorm.cpp
+    src/model/buffers/BufElementType.cpp
+    src/model/buffers/VGComponentSplit.cpp
+    src/model/buffers/InnerLayerOutline.cpp
+    src/model/buffers/VGComponentMerge.cpp
+    src/model/files/BufFileErrors.cpp
+    src/model/files/BinaryFile.cpp
+    src/model/files/BufFile.cpp
+    src/model/files/GIMIApiNormalizer.cpp
+    src/model/VGRemap.cpp
+    src/model/files/BlendFile.cpp
+    src/model/files/PositionFile.cpp
+    src/model/files/IbFile.cpp
+    src/model/files/VbFile.cpp
+    src/model/strategies/bufEditors/BaseBufEditor.cpp
+    src/model/strategies/bufEditors/BufEditor.cpp
+    src/model/strategies/iniParsers/IniParseBuilder.cpp
+    src/model/strategies/iniFixers/IniFixBuilder.cpp
+    src/model/strategies/iniFixers/IniFileFixContext.cpp
+    src/model/strategies/iniParsers/IniFileParseContext.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/ResGroupCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp
+    src/model/strategies/iniRemovers/IniFileRemoveContext.cpp
+    src/model/strategies/iniRemovers/IniRemoveBuilder.cpp
+    src/model/strategies/iniFixers/BaseIniPartEdit.cpp
+    src/model/files/IniFile.cpp
+    src/model/IniNamingTools.cpp
+    src/model/IniSectionGraphInstantiation.cpp
+    src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp
+    src/model/strategies/iniFixers/GIMIFixerInstantiation.cpp
+    src/model/strategies/iniParsers/GIMIParserInstantiation.cpp
+    src/model/strategies/iniParsers/IniParseDownloadDataInstantiation.cpp
+    src/model/strategies/iniParsers/GIMISectionClassifierInstantiation.cpp
+    src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/RegFillMissingInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/RegDelimitedAddInstantiation.cpp
+    src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroupsInstantiation.cpp
+    src/model/strategies/iniFixers/BaseIniFixerInstantiation.cpp
+    src/model/strategies/iniParsers/BaseIniParserInstantiation.cpp
+    src/model/IniGraphGroupInstantiation.cpp
+    src/model/SectionIterDataInstantiation.cpp
+    src/model/CallGraphInstantiation.cpp
+    src/model/iftemplate/IfContentPartColourInstantiation.cpp
+    src/model/iftemplate/IfTemplateTreeInstantiation.cpp
+    src/model/iftemplate/IfTemplateNodeInstantiation.cpp
+    src/model/iftemplate/IfTemplateInstantiation.cpp
+    src/model/iftemplate/IfContentPartInstantiation.cpp
+    src/model/textures/Colour.cpp
+    src/model/textures/ColourRange.cpp
+    src/model/textures/TexThumbprint.cpp
+    src/model/files/TexCache.cpp
+    src/model/files/TextureFile.cpp
+    src/model/files/IniScan.cpp
+    src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp
+    src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp
+    src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp
+    src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp
+    src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp
+    src/model/strategies/texEditors/pixelTransforms/TempControl.cpp
+    src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp
+    src/model/strategies/texEditors/pixelTransforms/Transparency.cpp
+    src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp
+    src/model/strategies/texEditors/texFilters/GammaFilter.cpp
+    src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp
+    src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp
+    src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp
+    src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp
+    src/model/strategies/texEditors/texFilters/HueAdjust.cpp
+    src/model/strategies/texEditors/texFilters/PixelFilter.cpp
+    src/model/strategies/texEditors/BaseTexEditor.cpp
+    src/model/strategies/texEditors/TexEditor.cpp
+    src/model/strategies/texEditors/TexCreator.cpp
+    src/tools/files/FileService.cpp
+    src/tools/files/FileDownload.cpp
+    src/model/stats/FileStats.cpp
+    src/model/stats/CachedFileStats.cpp
+    src/model/stats/RemapStats.cpp
+    src/model/iniresources/IniSrcResourceModel.cpp
+    src/model/iniresources/IniFixResourceModel.cpp
+    src/model/iniresources/IniTexModel.cpp
+    src/model/iniresources/IniDownloadModel.cpp
+    src/model/iniresources/IniResource.cpp
+    src/model/iniresources/RemapIniResource.cpp
+    src/model/iniresources/RemapBlendResource.cpp
+    src/model/iniresources/RemapTexResource.cpp
+    src/RemapService.cpp
+    src/RemapServiceCLI.cpp
+    src/RemapServiceCLIErrors.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
+)
+
+add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)
+
+# -----------------------------------
+# Build speed
+# -----------------------------------
+
+# Unity ("jumbo") build for AGRemapCore: compile the sources in batches, one translation unit per
+#   batch, so the ~300 headers under core/include are parsed once per batch instead of once per
+#   .cpp. It is wired up and it works -- but it is OFF by default, because on the dev machine it
+#   measured as a net LOSS. All four combinations, timed end to end (see the LTO note in
+#   py/CMakeLists.txt for the other axis; every row already has VGRemapData.cpp at /Od):
+#
+#                              change one .cpp     change one common header
+#     no unity, no LTO              8.6s                    129.5s
+#     no unity, LTO                57.5s                    119.5s
+#     unity,    no LTO             25.5s                    123.6s
+#     unity,    LTO                75.2s                    111.4s
+#
+#   Unity buys about 6s on a header change and costs about 17s on a single-file change, which is
+#   the far more common edit. The reason is that this machine has 24 hardware threads and the
+#   library only has ~150 translation units, so it was never short of parallelism to begin with:
+#   batching 16 files into one TU mostly converts work that was running in parallel into work
+#   that runs serially, and makes ninja rebuild all 16 when you touch one of them.
+#
+# That trade can invert, so the switch is left in place rather than deleted: on a machine with
+#   few cores, or for a genuine from-scratch build where total CPU work matters more than the
+#   critical path, turn it on with -DAGREMAP_UNITY_BUILD=ON.
+#
+# Two things had to be fixed before a batch would compile at all, and both will bite again:
+#
+#   1. NOMINMAX below. Something in the batch reaches <windows.h> transitively (via
+#      compressonator.h or curl), and its min/max macros then wreck any file compiled after it
+#      in the same TU: tsl/ordered_hash.h's `std::min(hi, std::max(lo, v))` fails with
+#      "C2589: '(': illegal token on right side of '::'", which reads like a corrupt header
+#      rather than a macro collision. ColourRange.cpp's `min(min), max(max)` member-init list is
+#      the other obvious casualty. Nothing in core/ wants those macros (verified by grep), so
+#      this is applied unconditionally -- it is a strict improvement, and it trims preprocessing
+#      whether or not the unity build is on.
+#
+#   2. AGREMAP_UNITY_EXCLUDE below. Files sharing an anonymous-namespace helper name with another
+#      file become redefinition errors once folded together.
+#
+# If a newly added .cpp breaks a batch, exclude that one file rather than turning this off:
+#   set_source_files_properties(<file> PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+option(AGREMAP_UNITY_BUILD "Compile AGRemapCore's sources in unity (jumbo) batches" OFF)
+
+if(WIN32)
+    target_compile_definitions(AGRemapCore PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
+
+# These 17 each define at least one anonymous-namespace name that another file also defines --
+#   BlendHashKey, IbHashKey, ModObj and prototypeRepo in four files each, buildRows in three,
+#   and 15 more in two. They keep their own translation unit; everything else batches. Renaming
+#   those helpers (internal linkage, so a purely local edit with no ABI or behavioural
+#   consequence) would let these fold in too.
+#
+# Derived by brace-counting every `namespace { ... }` body in core/src at any nesting depth --
+#   note that nearly all of them sit inside `namespace AGRemapCore { ... }`, so a scan that only
+#   looks for anonymous namespaces at file scope reports zero clashes and is wrong.
+set(AGREMAP_UNITY_EXCLUDE
+    "src/data/IniFixBuilderData.cpp"
+    "src/data/IniParseBuilderData.cpp"
+    "src/data/IniRemoveBuilderData.cpp"
+    "src/data/IniFixData/GIMICharFixer.cpp"
+    "src/data/IniFixData/Raiden/RaidenFixer.cpp"
+    "src/data/IniParseData/GIMICharParser.cpp"
+    "src/data/IniParseData/Raiden/RaidenParser.cpp"
+    "src/model/assets/Hashes.cpp"
+    "src/model/assets/Indices.cpp"
+    "src/model/assets/VGRemaps.cpp"
+    "src/model/assets/VertexCounts.cpp"
+    "src/model/assets/IndexCounts.cpp"
+    "src/model/assets/VGOffsets.cpp"
+    "src/model/assets/VGCounts.cpp"
+    "src/model/assets/ShapeKeyChecksums.cpp"
+    "src/model/buffers/BufFloat.cpp"
+    "src/model/buffers/BufUnorm.cpp"
+    "src/model/iftemplate/IfPredParser.cpp"
+    "src/model/iftemplate/SympyParser.cpp"
+    "src/tools/parsing/IfPredTokenizer.cpp"
+    "src/tools/parsing/SympyTokenizer.cpp"
+)
+
+# Vendored third-party C, not ours to reason about -- keep it out of the batches too.
+set_source_files_properties(
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
+    PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+)
+
+if(AGREMAP_UNITY_BUILD)
+    set_target_properties(AGRemapCore PROPERTIES
+        UNITY_BUILD ON
+        UNITY_BUILD_MODE BATCH
+        UNITY_BUILD_BATCH_SIZE 16
+    )
+
+    set_source_files_properties(
+        ${AGREMAP_UNITY_EXCLUDE}
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+    )
+endif()
+
+# VGRemapData.cpp is a single function holding one static initializer: 52 VGRemap rows built out
+#   of 5,229 nested {a, b} pair initializers. MSVC's optimizer is superlinear in the size of that
+#   one expression -- measured 38.6s at /O2 and 37.7s at /O1 against 5.5s at /Od standalone, and
+#   ~80s inside the parallel build, where it single-handedly gated AGRemapCore.lib and so sat on
+#   the critical path of every core header change (dropping it took that cycle from 137.9s to
+#   119.5s). There is nothing worth optimizing here: the file builds a lookup table once at
+#   startup and is never hot. /O1 is not enough, it needs /Od. HashData.cpp has a similar shape
+#   but is NOT affected (9.4s vs 9.0s), so this is scoped to the one file rather than to data/.
+#
+# SKIP_UNITY_BUILD_INCLUSION is required, not optional, whenever the unity build is on: a file's
+#   per-source COMPILE_OPTIONS do not survive being folded into a batch, so without it the /Od
+#   below would silently do nothing and this file would be back to costing 80s inside someone
+#   else's batch.
+set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+
+if(MSVC)
+    # This appends, giving "/O2 /Ob2 ... /Od" -- CMake can only add to a source's flags, never
+    #   remove an inherited one, and MSVC takes the last /O switch. Verified on MSVC 14.50 that
+    #   the flag really lands and really takes effect (VGRemapData.cpp.obj went from 80.4s to
+    #   14.2s in the parallel build); this toolset emits no D9025 override warning for the pair.
+    set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES COMPILE_OPTIONS "/Od")
+else()
+    set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES COMPILE_OPTIONS "-O0")
+endif()
+
+# Precompiled header. Deliberately third-party and standard-library headers ONLY: nothing from
+#   core/include goes in here. A PCH is rebuilt, and every consumer of it recompiled, whenever
+#   any header inside it changes -- so putting this library's own headers in would turn a
+#   one-header edit into a guaranteed full-target rebuild, which is precisely the case this is
+#   meant to make cheaper.
+#
+# The list is the top of `grep -rho "#include <...>" src include | sort | uniq -c | sort -rn`,
+#   cut where the counts stop being interesting. <filesystem> and <variant> are next but are
+#   heavy relative to how many files want them.
+option(AGREMAP_PCH "Precompiled header for the pybind11 module" ON)
+option(AGREMAP_PCH_LIB "Precompiled header for AGRemapCore itself" ON)
+
+if(AGREMAP_PCH_LIB AND NOT AGREMAP_SCCACHE)
+    target_precompile_headers(AGRemapCore PRIVATE
+        <string>
+        <string_view>
+        <utility>
+        <vector>
+        <optional>
+        <memory>
+        <functional>
+        <unordered_map>
+        <unordered_set>
+        <set>
+        <algorithm>
+        <stdexcept>
+        <cstddef>
+        <cstdint>
+        # Added 2026-09-17: each of these reaches 165-245 of the project's translation units.
+        #   <filesystem> and <chrono> are deliberately NOT here -- heavy, and only 34 TUs want them.
+        <variant>
+        <deque>
+        <map>
+        <list>
+        <queue>
+        <tuple>
+        <type_traits>
+        <limits>
+        <cmath>
+        <exception>
+        <coroutine>
+        <tsl/ordered_map.h>
+        <tsl/ordered_set.h>
+    )
+
+    # xxhash.c is C; a C++ PCH cannot apply to it, and CMake would otherwise try.
+    set_source_files_properties(
+        ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
+        PROPERTIES SKIP_PRECOMPILE_HEADERS ON
+    )
+
+    # VGRemapData.cpp compiles at /Od (above) while the PCH is built at /O2. MSVC will not reject
+    #   that outright -- it just stops being able to use the PCH, and the file pays for the whole
+    #   force-included header set on its own. Measured: 14.2s with the file excluded here against
+    #   144.2s with it included, i.e. worse than it was before /Od was ever applied, and enough
+    #   on its own to make the PCH look like a regression (a header change went 132.6s -> 150.5s
+    #   until this line was added). Any future source given per-file COMPILE_OPTIONS needs the
+    #   same treatment.
+    set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+endif()
+
+
+
+# -----------------------------------
+# UTF8Proc
+# -----------------------------------
+
+set(UTF8PROC_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
+set(UTF8PROC_INSTALL OFF CACHE BOOL "" FORCE)
+
+set(UTF8PROC_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../extern/utf8proc)
+set(UTF8PROC_BIN ${CMAKE_BINARY_DIR}/utf8proc)
+
+add_subdirectory(${UTF8PROC_SRC} ${UTF8PROC_BIN})
+
+# -----------------------------------
+# Compressonator
+# -----------------------------------
+
+set(COMPRESSONATOR_SRC
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/Compressonator
+)
+
+# Compressonator's child CMakeLists expect these platform variables.
+if(WIN32)
+    set(CMP_HOST_WINDOWS ON)
+elseif(UNIX)
+    set(CMP_HOST_LINUX ON)
+endif()
+
+# Disable optional components that would pull in additional dependencies.
+set(OPTION_BUILD_ASTC OFF)
+set(OPTION_BUILD_BROTLIG OFF)
+set(OPTION_CMP_GTC OFF)
+set(OPTION_CMP_APC OFF)
+
+message(STATUS "BEFORE Compressonator:")
+message(STATUS "  PROJECT_SOURCE_DIR=${PROJECT_SOURCE_DIR}")
+message(STATUS "  CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Compressonator's child CMakeLists use PROJECT_SOURCE_DIR
+# assuming it points to the Compressonator source root.
+set(AGREMAP_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+set(PROJECT_SOURCE_DIR ${COMPRESSONATOR_SRC})
+
+if(MSVC)
+    add_compile_options(/Zc:strictStrings-)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    # Two repairs to the vendored submodule (whose changes this repo can't commit), both by force-
+    #   including cmake/CompressonatorPrelude.h ahead of every source added below -- its comment has
+    #   the detail:
+    #
+    #   1. Compressonator's applications/_plugins/common headers (cmp_fileio.h, utilfuncs.h) refer to
+    #      uintmax_t/uint16_t without including <cstdint>. MSVC pulls those in transitively, GCC 13+
+    #      does not, so on Linux they fail with "'uintmax_t' does not name a type" / "'uint16_t' was
+    #      not declared in this scope" -- plus a cascading, misleading "redefinition of 'float
+    #      HalfToFloat'" that is really just the same unparsed declaration seen twice.
+    #   2. cmp_core's common_def.h does '#define __local const', which breaks every libc++ header
+    #      included after it ("expected unqualified-id" at '_Traits::__local(...)') -- the macOS
+    #      wheels, from the Xcode 26 SDK on. The prelude reads those headers first.
+    #
+    # ONE -include, and it has to stay one: CMake de-duplicates compile options, so a second
+    #   'add_compile_options(-include other.h)' silently loses its '-include' and passes the bare
+    #   header path to the compiler as another input. Add to the prelude instead.
+    add_compile_options(-include "${CMAKE_CURRENT_LIST_DIR}/cmake/CompressonatorPrelude.h")
+endif()
+
+add_subdirectory(
+    ${COMPRESSONATOR_SRC}/cmp_core
+    ${CMAKE_BINARY_DIR}/Compressonator/cmp_core
+    EXCLUDE_FROM_ALL
+)
+
+# On Linux and macOS, CMP_Core links cmake/CompressonatorNoSIMD.cpp INSTEAD of cmp_core's three x86
+#   SIMD libraries (CMP_Core_SSE / _AVX / _AVX512) -- its comment has the detail. Those are x86-only
+#   (<immintrin.h>, and -march=nehalem/haswell/knl, which an ARM compiler rejects), so the aarch64 and
+#   arm64 wheels cannot build them at all, and CMP_Core cannot simply drop them: its BC1 dispatch names
+#   all three. The stand-ins are the portable scalar kernel under the same three names.
+#
+#   All of Unix rather than only ARM, because on Unix the SIMD kernels were never doing anything
+#   useful: cmp_math's CPU detection is skipped outright on Linux (every extension reads as absent,
+#   so the scalar kernel always ran), and on macOS it reads the flags from UNINITIALISED memory
+#   (GetCPUID is empty off Windows), which on an Intel Mac could pick AVX-512 on a CPU without it.
+#   Measured on x86 Linux: the same BC1 bytes with and without this, and the same result from a
+#   direct sse_bc1ComputeBestEndpoints call (real SSE vs the stand-in).
+#
+#   The SIMD targets were added EXCLUDE_FROM_ALL, so with nothing linking them they are not built.
+#   Windows is untouched: its detection is a real __cpuidex.
+if(UNIX)
+    add_library(AGRemapCMPCoreNoSIMD STATIC ${CMAKE_CURRENT_LIST_DIR}/cmake/CompressonatorNoSIMD.cpp)
+    target_include_directories(AGRemapCMPCoreNoSIMD PRIVATE $<TARGET_PROPERTY:CMP_Core,INCLUDE_DIRECTORIES>)
+    target_compile_definitions(AGRemapCMPCoreNoSIMD PRIVATE $<TARGET_PROPERTY:CMP_Core,COMPILE_DEFINITIONS>)
+    set_property(TARGET CMP_Core PROPERTY LINK_LIBRARIES AGRemapCMPCoreNoSIMD)
+    set_property(TARGET CMP_Core PROPERTY INTERFACE_LINK_LIBRARIES "$<LINK_ONLY:AGRemapCMPCoreNoSIMD>")
+endif()
+
+add_subdirectory(
+    ${COMPRESSONATOR_SRC}/cmp_framework
+    ${CMAKE_BINARY_DIR}/Compressonator/cmp_framework
+    EXCLUDE_FROM_ALL
+)
+
+add_subdirectory(
+    ${COMPRESSONATOR_SRC}/cmp_compressonatorlib
+    ${CMAKE_BINARY_DIR}/Compressonator/cmp_compressonatorlib
+    EXCLUDE_FROM_ALL
+)
+
+# Restore our project's PROJECT_SOURCE_DIR.
+set(PROJECT_SOURCE_DIR ${AGREMAP_PROJECT_SOURCE_DIR})
+
+
+# -----------------------------------
+# libcurl
+# -----------------------------------
+
+set(BUILD_CURL_EXE OFF CACHE BOOL "" FORCE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+set(BUILD_LIBCURL_DOCS OFF CACHE BOOL "" FORCE)
+set(BUILD_MISC_DOCS OFF CACHE BOOL "" FORCE)
+
+set(CURL_USE_LIBPSL OFF CACHE BOOL "" FORCE)
+
+# Only what FileDownload needs: HTTPS through the one TLS library (plus zlib, which is the system's on
+#   every platform). Left to itself, curl's CMake links every optional library it can FIND -- on a
+#   macOS runner that was Homebrew's libssh2, libidn2, brotli, zstd and nghttp2 (and their own
+#   libunistring and libintl), each built for the RUNNER's macOS, which delocate then refused to put
+#   in a wheel for an older one (2026-09-18). Off explicitly, so what the library links does not
+#   depend on what the build machine happens to have installed.
+set(CURL_USE_LIBSSH2 OFF CACHE BOOL "" FORCE)
+set(USE_LIBIDN2 OFF CACHE BOOL "" FORCE)
+set(USE_NGHTTP2 OFF CACHE BOOL "" FORCE)
+set(CURL_BROTLI OFF CACHE STRING "" FORCE)
+set(CURL_ZSTD OFF CACHE STRING "" FORCE)
+set(CURL_DISABLE_LDAP ON CACHE BOOL "" FORCE)
+set(CURL_DISABLE_INSTALL ON CACHE BOOL "" FORCE)
+
+if(WIN32)
+    set(CURL_USE_SCHANNEL ON CACHE BOOL "" FORCE)
+endif()
+
+set(CURL_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../extern/curl)
+set(CURL_BIN ${CMAKE_BINARY_DIR}/curl)
+
+add_subdirectory(
+    ${CURL_SRC}
+    ${CURL_BIN}
+    EXCLUDE_FROM_ALL
+)
+
+# -----------------------------------
+# Link Libraries
+# -----------------------------------
+
+target_include_directories(AGRemapCore
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        # BaseOrderedMultiMap.h (a public AGRemapCore header) includes tsl/ordered_map.h and
+        # tsl/ordered_set.h directly, so any consumer building against AGRemapCore -- not just
+        # AGRemapCore's own .cpp files -- needs this on its include path too. PUBLIC (not
+        # PRIVATE) so it actually propagates; BUILD_INTERFACE-only since this vendored path
+        # isn't itself installed as part of the SDK.
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../../../extern/ordered-map/include>
+        # TextureFile.h (a public AGRemapCore header) includes compressonator.h directly (it's a
+        # lightweight, plain-C-enum-and-struct header, unlike z3++.h -- see Z3Internal.h's own
+        # comment for why *that* one stays PRIVATE behind a pimpl instead), so any consumer
+        # building against AGRemapCore needs this on its include path too. Same PUBLIC +
+        # BUILD_INTERFACE-only treatment as ordered-map's include dir above, for the same reason.
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../../../extern/Compressonator/cmp_compressonatorlib>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash
+        # Lets any AGRemapCore .cpp (eg. IfPredZ3Generator.cpp) reach the private,
+        # never-installed "tools/z3/Z3Internal.h" (the one place z3::context::Impl/
+        # z3::expr::Impl are actually defined in terms of z3++.h) via a
+        # public-header-shaped path, without that path living under include/ where it'd
+        # ship as part of the public SDK.
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        # TextureFile.cpp decodes BC7 itself, block by block, with Compressonator's block-level
+        # codec library (cmp_core.h's DecompressBlockBC7) instead of the framework's whole-texture
+        # CMP_ConvertMipTexture -- 11.9x faster over the corpus and byte-identical. PRIVATE: this
+        # header is reached by exactly one .cpp and is not part of the public SDK, unlike
+        # compressonator.h which TextureFile.h itself includes.
+        ${CMAKE_CURRENT_LIST_DIR}/../../../extern/Compressonator/cmp_core/source
+)
+
+target_link_libraries(AGRemapCore
+    PRIVATE
+        z3::libz3
+        utf8proc
+        CMP_Compressonator
+        CMP_Framework
+        # Named rather than left to come in behind CMP_Framework: TextureFile.cpp calls
+        # DecompressBlockBC7 directly, so this is a dependency of ours now and not only a
+        # transitive one.
+        CMP_Core
+        CURL::libcurl
+)
+
+set_target_properties(AGRemapCore PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+)
+
+# -----------------------------------
+# Export + Config setup (required for find_package)
+# -----------------------------------
+
+set(CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/AGRemapCore)
+
+# Generate AGRemapCoreConfig.cmake
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/AGRemapCoreConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/AGRemapCoreConfig.cmake
+    INSTALL_DESTINATION ${CONFIG_INSTALL_DIR}
+)
+
+# Optional version file
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/AGRemapCoreConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+# -----------------------------------
+# INSTALL (SDK only)
+# -----------------------------------
+
+# agremap_collect_link_targets(target outVar): every library target 'target' links, directly or
+#   through another library, that is BUILT by this project -- an imported target (z3::libz3) is left
+#   out, since a consumer finds that one itself. Aliases are resolved to the target they name, and
+#   $<LINK_ONLY:...> (how a static library carries its PRIVATE dependencies) is unwrapped.
+function(agremap_collect_link_targets target outVar)
+    set(found ${${outVar}})
+    get_target_property(links ${target} LINK_LIBRARIES)
+    get_target_property(interfaceLinks ${target} INTERFACE_LINK_LIBRARIES)
+
+    foreach(link IN LISTS links interfaceLinks)
+        string(REGEX REPLACE "^\\$<LINK_ONLY:(.*)>$" "\\1" link "${link}")
+        if (link MATCHES "\\$<" OR NOT TARGET "${link}")
+            continue()
+        endif()
+
+        get_target_property(aliased "${link}" ALIASED_TARGET)
+        if (aliased)
+            set(link "${aliased}")
+        endif()
+
+        get_target_property(imported "${link}" IMPORTED)
+        get_target_property(linkType "${link}" TYPE)
+        if (imported OR linkType STREQUAL "INTERFACE_LIBRARY" OR "${link}" IN_LIST found)
+            continue()
+        endif()
+
+        list(APPEND found "${link}")
+        agremap_collect_link_targets("${link}" found)
+    endforeach()
+
+    set(${outVar} ${found} PARENT_SCOPE)
+endfunction()
+
+if(BUILD_CPP_SDK)
+
+    # Library, and the vendored libraries it is built with. A STATIC AGRemapCore carries even its
+    #   PRIVATE dependencies in its link interface (a program linking it needs them too), so CMake
+    #   exports it only alongside them -- and they are all built here with their own install rules
+    #   switched off (UTF8PROC_INSTALL, CURL_DISABLE_INSTALL). Which ones there are differs by
+    #   platform (Compressonator's SIMD libraries on x86 Windows, its no-SIMD stand-in elsewhere),
+    #   so the list is collected rather than written out.
+    set(AGREMAP_SDK_LINK_TARGETS "")
+    agremap_collect_link_targets(AGRemapCore AGREMAP_SDK_LINK_TARGETS)
+    message(STATUS "AGRemapCore SDK: also installing ${AGREMAP_SDK_LINK_TARGETS}")
+
+    # Those vendored libraries publish their include directories as plain source-tree paths
+    #   (CMP_Core's cmp_core/source, for one), which CMake refuses to put in an installed package. A
+    #   program using the SDK links them but never includes them, so their raw paths are wrapped as
+    #   BUILD_INTERFACE: the build sees exactly what it did before, and the package leaves them out.
+    foreach(dependency IN LISTS AGREMAP_SDK_LINK_TARGETS)
+        get_target_property(includeDirs ${dependency} INTERFACE_INCLUDE_DIRECTORIES)
+        if (NOT includeDirs)
+            continue()
+        endif()
+
+        set(buildOnlyIncludeDirs "")
+        foreach(includeDir IN LISTS includeDirs)
+            if (includeDir MATCHES "\\$<")
+                list(APPEND buildOnlyIncludeDirs "${includeDir}")
+            else()
+                list(APPEND buildOnlyIncludeDirs "$<BUILD_INTERFACE:${includeDir}>")
+            endif()
+        endforeach()
+        set_target_properties(${dependency} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${buildOnlyIncludeDirs}")
+    endforeach()
+
+    install(TARGETS AGRemapCore ${AGREMAP_SDK_LINK_TARGETS}
+        EXPORT AGRemapCoreTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+
+    # Headers
+    install(DIRECTORY include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+
+    # The third-party headers the public headers include: tsl/ordered_map.h / ordered_set.h, and
+    #   compressonator.h (TextureFile.h). Both come from vendored submodules, which the build reaches
+    #   through BUILD_INTERFACE-only include paths, so the SDK carries its own copies of them.
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/../../../extern/ordered-map/include/tsl
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+    install(FILES ${PROJECT_SOURCE_DIR}/../../../extern/Compressonator/cmp_compressonatorlib/compressonator.h
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+
+    # Export targets
+    install(EXPORT AGRemapCoreTargets
+        FILE AGRemapCoreTargets.cmake
+        NAMESPACE AGRemapCore::
+        DESTINATION ${CONFIG_INSTALL_DIR}
+    )
+
+    # Config + version files
+    install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/AGRemapCoreConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/AGRemapCoreConfigVersion.cmake
+        DESTINATION ${CONFIG_INSTALL_DIR}
+    )
+
+endif()

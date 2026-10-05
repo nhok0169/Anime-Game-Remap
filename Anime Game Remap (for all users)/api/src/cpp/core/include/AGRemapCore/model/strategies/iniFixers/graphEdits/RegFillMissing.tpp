@@ -1,0 +1,478 @@
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#ifndef AGRemapCore_RegFillMissing_TPP
+#define AGRemapCore_RegFillMissing_TPP
+
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+
+#include "AGRemapCore/constants/DownloadMode.h"
+#include "AGRemapCore/constants/IfPredPartType.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
+#include "AGRemapCore/tools/StringTools.h"
+#include "AGRemapCore/model/files/IniFile.h"
+
+
+namespace AGRemapCore {
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    RegFillMissing<K, V, KeyHash, KeyEqual>::RegFillMissing(K reg, FillMissingFunc fillMissing,
+                                                             RegFillMissingMode fillMode, bool dependOnDownload,
+                                                             bool trackKeys, std::optional<KeySet> keysToTrack):
+        reg(std::move(reg)), fillMissing(std::move(fillMissing)), fillMode(fillMode), dependOnDownload(dependOnDownload),
+        trackKeys(trackKeys), keysToTrack(std::move(keysToTrack)) {}
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::FillMissingFunc RegFillMissing<K, V, KeyHash, KeyEqual>::makeFillMissing(
+            K reg, V value, bool toFront) {
+        return [reg = std::move(reg), value = std::move(value), toFront](ContentPart& part) {
+            if (toFront) {
+                part.addKVPToFront(reg, value);
+            } else {
+                part.addKVP(reg, value);
+            }
+        };
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::FillMissingFunc RegFillMissing<K, V, KeyHash, KeyEqual>::makeFillMissing(
+            std::vector<std::pair<K, V>> kvps, bool toFront) {
+        return [kvps = std::move(kvps), toFront](ContentPart& part) {
+            if (toFront) {
+                part.addKVPsToFront(kvps);
+            } else {
+                part.addKVPs(kvps);
+            }
+        };
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool RegFillMissing<K, V, KeyHash, KeyEqual>::effectiveTrackKeys(bool callerTrackKeys) const {
+        return trackKeys || callerTrackKeys;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    const std::optional<typename RegFillMissing<K, V, KeyHash, KeyEqual>::KeySet>&
+    RegFillMissing<K, V, KeyHash, KeyEqual>::effectiveKeysToTrack(const std::optional<KeySet>& callerKeysToTrack) const {
+        return keysToTrack.has_value() ? keysToTrack : callerKeysToTrack;
+    }
+
+    // A NAMESPACE-MERGED MOD GUARDS A WHOLE SECTION WITH ONE `if` (2026-09-24):
+    //
+    //     [TextureOverrideHutaoBody]
+    //     hash = 3de1efe2
+    //     match_priority = 1
+    //     if $\HuTao\Master\swapvar==1
+    //         match_first_index = 16509
+    //         ib = ...  ps-t0 = ...  ps-t1 = ...
+    //     endif
+    //
+    // Every branch lacks a draw, so getKeyMissingParts bubbles the fill up to the section's
+    // root part -- which here holds nothing but matching settings, and sits BEFORE the guard.
+    // The draw then ran ahead of its own bindings and on every variant, not just its own.
+    // For exactly this shape -- a root part of matching settings only, then one `if ... endif`
+    // with no else and nothing after -- the fill goes to the end of the guarded branch, where
+    // the old script put it. Any other part comes back unchanged.
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::ContentPart*
+    RegFillMissing<K, V, KeyHash, KeyEqual>::guardedBranchEnd(Section* section, ContentPart* part) {
+        if (section == nullptr || part == nullptr) {
+            return part;
+        }
+
+        static const std::unordered_set<std::string> MatchingKeys = {"hash", "match_first_index", "match_priority"};
+
+        const auto& parts = section->parts();
+        if (parts.empty() || parts.front().get() != part) {
+            return part;
+        }
+        for (const K& key : part->getKeys()) {
+            if (MatchingKeys.count(StringTools::toLower(key)) == 0) {
+                return part;
+            }
+        }
+
+        // parts: [root] [if] ...branch... [endif], with nothing at depth 0 after the endif and no
+        // else / elif at depth 1.
+        if (parts.size() < 3) {
+            return part;
+        }
+        const auto* open = dynamic_cast<const IfPredPart*>(parts[1].get());
+        const auto* close = dynamic_cast<const IfPredPart*>(parts.back().get());
+        if (open == nullptr || close == nullptr || open->type != IfPredPartType::If || close->type != IfPredPartType::EndIf) {
+            return part;
+        }
+
+        ContentPart* branchEnd = nullptr;
+        int depth = 0;
+        for (std::size_t i = 2; i + 1 < parts.size(); ++i) {
+            if (const auto* pred = dynamic_cast<const IfPredPart*>(parts[i].get())) {
+                if (pred->type == IfPredPartType::If) {
+                    ++depth;
+                } else if (pred->type == IfPredPartType::EndIf) {
+                    if (depth == 0) {
+                        return part;     // the guard closed early: something follows it at depth 0
+                    }
+                    --depth;
+                } else if (depth == 0) {
+                    return part;         // an else / elif of the guard itself
+                }
+                branchEnd = nullptr;     // a nested block's end is not the branch's end
+                continue;
+            }
+            if (depth == 0) {
+                branchEnd = dynamic_cast<ContentPart*>(parts[i].get());
+            }
+        }
+
+        return (branchEnd != nullptr) ? branchEnd : part;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::fillMissingGraph(
+            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection) {
+        if (!fillMissing) {
+            return graph;
+        }
+
+        // Targets only. getKeyMissingParts also reports the sections whose verdict a parent
+        // superseded by bubbling the fill up to itself, and filling those too gives one placement
+        // per section instead of one per graph.
+        std::unordered_map<std::string, std::set<ContentPart*>> parts = graph.targetsGetKeyMissingParts(reg);
+
+        // The same part can be reachable from more than one section, and getKeyMissingParts reports
+        // it under each -- fill it exactly once, matching the pure-Python original's own
+        // 'partVisited' set.
+        std::unordered_set<ContentPart*> missing;
+        for (const auto& entry : parts) {
+            Section* section = graph.getSection(entry.first);
+            for (ContentPart* part : entry.second) {
+                if (part != nullptr) {
+                    missing.insert(guardedBranchEnd(section, part));
+                }
+            }
+        }
+
+        if (missing.empty()) {
+            return graph;
+        }
+
+        // Nothing to gate on -- fill straight from the missing set, with no graph walk at all. This
+        // is the pre-selection behaviour, preserved exactly (including its unordered fill order).
+        if (!selection.partFilter && !selection.trackKeys) {
+            for (ContentPart* part : missing) {
+                fillMissing(*part);
+            }
+
+            return graph;
+        }
+
+        // getKeyMissingParts and iterByContentPart both walk outwards from roots_, so the parts
+        // reachable here are exactly the ones 'missing' can hold -- no missing part is silently
+        // skipped just because the walk never reaches it.
+        std::unordered_set<ContentPart*> filled;
+        auto walk = graph.iterByContentPart(1, selection.trackKeys, selection.keysToTrack);
+
+        while (walk.next()) {
+            IterData& iterData = walk.value();
+            ContentPart* part = iterData.part;
+
+            if (part == nullptr || missing.count(part) == 0 || filled.count(part) != 0) {
+                continue;
+            }
+
+            if (selection.partFilter) {
+                OrderRanges accepted = selection.partFilter(iterData, selection.modType, selection.ini);
+
+                // An empty Ranges means "skip this part" -- the same convention GraphGroupEdit
+                // already applies to its own register edits. A non-empty result's actual ranges are
+                // not consulted; see PartSelection::partFilter's own note.
+                if (accepted.isEmpty()) {
+                    continue;
+                }
+            }
+
+            fillMissing(*part);
+            filled.insert(part);
+
+            // Reflect the fill in the running colouring, so a later part's filter sees the KVP this
+            // one just gained -- mirrors GraphGroupEdit's own post-edit updateColouring call.
+            if (iterData.colouring != nullptr) {
+                iterData.colouring->updateColouring(*part, selection.keysToTrack, false);
+            }
+        }
+
+        return graph;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addCover(
+            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
+            const std::unordered_set<std::string>* skipRoots) {
+        if (!fillMissing) {
+            return graph;
+        }
+
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+
+        bool needCover = false;
+        for (const auto& entry : covered) {
+            if (!entry.second) {
+                needCover = true;
+                break;
+            }
+        }
+
+        if (!needCover) {
+            return graph;
+        }
+
+        // Nothing to gate on -- cover every root, the pre-selection behaviour preserved exactly.
+        if (!selection.partFilter && skipRoots == nullptr) {
+            for (Section* section : graph.getRootSections()) {
+                if (section == nullptr) {
+                    continue;
+                }
+
+                ContentPart* topPart = section->addTopContentPart();
+                if (topPart != nullptr) {
+                    fillMissing(*topPart);
+                }
+            }
+
+            return graph;
+        }
+
+        for (const std::string& rootName : graph.roots()) {
+            Section* section = graph.getSection(rootName);
+            if (section == nullptr || (skipRoots != nullptr && skipRoots->count(rootName) != 0)) {
+                continue;
+            }
+
+            // The root's own first IfContentPart -- the one addTopContentPart would reuse, or
+            // insert before. It is what the filter gets to discriminate on; see addCover's own note
+            // on why the colouring here is necessarily empty.
+            ContentPart* firstPart = nullptr;
+            for (const auto& part : section->parts()) {
+                firstPart = dynamic_cast<ContentPart*>(part.get());
+                if (firstPart != nullptr) {
+                    break;
+                }
+            }
+
+            // A section with no IfContentPart at all has nothing to discriminate on, so it is
+            // accepted rather than silently dropped.
+            if (firstPart != nullptr && selection.partFilter) {
+                Colouring colouring;
+                IterData iterData(rootName, section, firstPart, 1, selection.trackKeys ? &colouring : nullptr);
+
+                OrderRanges accepted = selection.partFilter(iterData, selection.modType, selection.ini);
+                if (accepted.isEmpty()) {
+                    continue;
+                }
+            }
+
+            ContentPart* topPart = section->addTopContentPart();
+            if (topPart != nullptr) {
+                fillMissing(*topPart);
+            }
+        }
+
+        return graph;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unordered_set<std::string> RegFillMissing<K, V, KeyHash, KeyEqual>::rootsWithReg(
+            const Graph& graph, const K& reg, const PartSelection& selection) {
+        std::unordered_set<std::string> result;
+        const auto& neighbours = graph.neighbours();
+
+        for (const std::string& root : graph.roots()) {
+            std::unordered_set<std::string> seen{root};
+            std::vector<std::string> stack{root};
+            bool found = false;
+
+            while (!stack.empty() && !found) {
+                const std::string name = std::move(stack.back());
+                stack.pop_back();
+
+                Section* section = graph.getSection(name, false);
+                if (section != nullptr) {
+                    for (const auto& part : section->parts()) {
+                        auto* contentPart = dynamic_cast<ContentPart*>(part.get());
+                        if (contentPart == nullptr || !contentPart->containsKey(reg)) {
+                            continue;
+                        }
+
+                        // Only a part the caller's filter accepts counts: a `run =` list shared by
+                        // several objects holds the others' draws too.
+                        if (selection.partFilter) {
+                            Colouring colouring;
+                            IterData iterData(name, section, contentPart, 1, selection.trackKeys ? &colouring : nullptr);
+                            if (selection.partFilter(iterData, selection.modType, selection.ini).isEmpty()) {
+                                continue;
+                            }
+                        }
+
+                        found = true;
+                        break;
+                    }
+                }
+
+                auto next = neighbours.find(name);
+                if (next == neighbours.end()) {
+                    continue;
+                }
+                for (const std::string& child : next->second) {
+                    if (seen.insert(child).second) {
+                        stack.push_back(child);
+                    }
+                }
+            }
+
+            if (found) {
+                result.insert(root);
+            }
+        }
+
+        return result;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::addBottomCover(
+            Graph& graph, const K& reg, const FillMissingFunc& fillMissing, const PartSelection& selection,
+            const std::unordered_set<std::string>* skipRoots) {
+        if (!fillMissing) {
+            return graph;
+        }
+
+        std::unordered_map<std::string, bool> covered = graph.rootsAreFullyCovered(reg);
+
+        bool needCover = false;
+        for (const auto& entry : covered) {
+            if (!entry.second) {
+                needCover = true;
+                break;
+            }
+        }
+
+        if (!needCover) {
+            return graph;
+        }
+
+        for (const std::string& rootName : graph.roots()) {
+            Section* section = graph.getSection(rootName);
+            if (section == nullptr || (skipRoots != nullptr && skipRoots->count(rootName) != 0)) {
+                continue;
+            }
+
+            if (selection.partFilter) {
+                // The root's own last IfContentPart -- the one addBottomContentPart would reuse, or
+                // insert after -- is what the filter gets to discriminate on; see addCover.
+                ContentPart* lastPart = nullptr;
+                for (const auto& part : section->parts()) {
+                    auto* contentPart = dynamic_cast<ContentPart*>(part.get());
+                    if (contentPart != nullptr) {
+                        lastPart = contentPart;
+                    }
+                }
+
+                if (lastPart != nullptr) {
+                    Colouring colouring;
+                    IterData iterData(rootName, section, lastPart, 1, selection.trackKeys ? &colouring : nullptr);
+
+                    OrderRanges accepted = selection.partFilter(iterData, selection.modType, selection.ini);
+                    if (accepted.isEmpty()) {
+                        continue;
+                    }
+                }
+            }
+
+            ContentPart* bottomPart = section->addBottomContentPart();
+            if (bottomPart != nullptr) {
+                fillMissing(*bottomPart);
+            }
+        }
+
+        return graph;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::editFromIni(
+            Graph& graph, IniFile* ini, const ModType* modType, const std::string& modName, const PartFilter& partFilter,
+            bool trackKeys, const std::optional<KeySet>& keysToTrack) {
+        if (!dependOnDownload) {
+            return edit(graph, modType, modName, partFilter, trackKeys, keysToTrack);
+        }
+
+        // See this method's doc comment -- no .ini file to read a mode off is treated as Normal,
+        // the mode that adds no download-specific behaviour of its own.
+        DownloadMode downloadMode = (ini != nullptr) ? ini->downloadMode : DownloadMode::Normal;
+
+        if (downloadMode == DownloadMode::Disabled) {
+            return graph;
+        }
+
+        if (downloadMode == DownloadMode::Always) {
+            graph.normalize();
+        }
+
+        return editImpl(graph, ini, modType, modName, partFilter, trackKeys, keysToTrack);
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::edit(
+            Graph& graph, const ModType* modType, const std::string& modName, const PartFilter& partFilter,
+            bool trackKeys, const std::optional<KeySet>& keysToTrack) {
+        // No .ini file to hand a filter -- see editImpl's own note on why that argument exists.
+        return editImpl(graph, nullptr, modType, modName, partFilter, trackKeys, keysToTrack);
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::Graph& RegFillMissing<K, V, KeyHash, KeyEqual>::editImpl(
+            Graph& graph, IniFile* ini, const ModType* modType, const std::string& modName, const PartFilter& partFilter,
+            bool callerTrackKeys, const std::optional<KeySet>& callerKeysToTrack) {
+        (void)modName;
+
+        PartSelection selection;
+        selection.partFilter = partFilter;
+        selection.modType = modType;
+        selection.ini = ini;
+
+        // This edit's own settings are combined with the caller's rather than replacing them -- see
+        // effectiveTrackKeys/effectiveKeysToTrack.
+        selection.trackKeys = effectiveTrackKeys(callerTrackKeys);
+        selection.keysToTrack = effectiveKeysToTrack(callerKeysToTrack);
+
+        // A cover asked to fill only the roots whose paths never have the register -- see onlyWhenAbsent.
+        std::unordered_set<std::string> skipRoots;
+        if (onlyWhenAbsent && fillMode != RegFillMissingMode::FillMissing) {
+            skipRoots = rootsWithReg(graph, reg, selection);
+        }
+        const std::unordered_set<std::string>* skip = skipRoots.empty() ? nullptr : &skipRoots;
+
+        if (fillMode == RegFillMissingMode::TopdownCover) {
+            addCover(graph, reg, fillMissing, selection, skip);
+        } else if (fillMode == RegFillMissingMode::BottomCover) {
+            addBottomCover(graph, reg, fillMissing, selection, skip);
+        } else if (fillMode == RegFillMissingMode::FillMissing) {
+            fillMissingGraph(graph, reg, fillMissing, selection);
+        }
+
+        return graph;
+    }
+}
+
+#endif

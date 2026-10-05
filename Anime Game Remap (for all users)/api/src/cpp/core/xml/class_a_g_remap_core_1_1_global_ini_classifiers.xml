@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_global_ini_classifiers" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GlobalIniClassifiers</compoundname>
+    <includes refid="_global_ini_classifiers_8h" local="no">GlobalIniClassifiers.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_classifiers_1aede4d6e2c894d69404cd871692cdd17b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GlobalIniClassifiers::GlobalIniClassifiers</definition>
+        <argsstring>()=delete</argsstring>
+        <name>GlobalIniClassifiers</name>
+        <qualifiedname>AGRemapCore::GlobalIniClassifiers::GlobalIniClassifiers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="77" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_classifiers_1a0e369ef6f6d6f237879a653a908c8b0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_classifier" kindref="compound">IniClassifier</ref> &amp;</type>
+        <definition>IniClassifier &amp; AGRemapCore::GlobalIniClassifiers::classifier</definition>
+        <argsstring>()</argsstring>
+        <name>classifier</name>
+        <qualifiedname>AGRemapCore::GlobalIniClassifiers::classifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared default :cpp:class:`IniClassifier` used to identify whether a .ini file
+belongs to some mod, lazily constructed on first access and reused for every later call
+</verbatim></para>
+<para><simplesect kind="return"><para>A reference to the shared default classifier </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="88" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="210" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Global, shared classifier module used by the software to help identify what mod a .ini file
+belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+#classifier is built lazily the first time it is accessed, so the (potentially expensive)
+construction only ever happens once, and only if something actually needs it -- a C++11
+function-local ``static`` (guaranteed thread-safe, exactly-once initialization)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   #classifier arrives **fully populated** with every shipped mod type: its lazy initializer
+   walks :cpp:func:`GlobalModTypes::all` and registers each one. A GI mod type is registered
+   via :cpp:func:`IniClassifier::addGIModType` with its `section`_-name keywords
+   (:cpp:func:`ModTypeIdTools::getSectionKeywords`) and the hashes that identify it -- its
+   ``ib``, ``draw_vb``, ``position_vb``, ``blend_vb`` and ``texcoord_vb`` hashes from every
+   game version (and, for a skin of several components, its components&apos; too). A WuWa mod type
+   is registered via :cpp:func:`IniClassifier::addWuWaModType` with its ``vb0`` hashes alone.
+   Texture hashes are never registered, since they are shared between characters, and a hash
+   claimed by more than one mod type is registered for neither :raw-html:`&lt;br /&gt;`
+   :raw-html:`&lt;br /&gt;`
+
+   A caller wanting an empty classifier constructs an :cpp:class:`IniClassifier`
+   directly instead of going through this class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Asking for it also files the shipped mod types into :cpp:class:`ModTypeIdTools`&apos;s registry
+   (via :cpp:func:`GlobalModTypes::registerMissing`), because the two are halves of one
+   default: a classifier finds mod type *ids*, and :cpp:class:`IniFile` then asks
+   :cpp:class:`ModTypeIdTools` to turn each one back into a :cpp:class:`ModType`. Filling only
+   one leaves :cpp:func:`IniFile::classify` naming an id it cannot resolve :raw-html:`&lt;br /&gt;`
+   :raw-html:`&lt;br /&gt;`
+
+   Two things about *that* half specifically, neither of which is part of the one-shot lazy
+   initializer:
+
+   * it is re-done whenever :cpp:func:`ModTypeIdTools::clear` has emptied the registry since
+     the last look (tracked by :cpp:func:`ModTypeIdTools::generation`), so a ``clear()``
+     after the first use does not leave this classifier naming ids nothing can resolve --
+     which would have every ``.ini`` file come back ``isMod == true`` with no mod types at all
+   * it uses :cpp:func:`GlobalModTypes::registerMissing`, not
+     :cpp:func:`GlobalModTypes::registerAll`, so a :cpp:class:`ModType` the caller registered
+     for itself under one of the shipped ids is left alone rather than silently replaced the
+     first time anything classifies
+
+   :raw-html:`&lt;br /&gt;`
+
+   That does **not** make registration implicit in general -- see
+   :cpp:func:`GlobalModTypes::registerAll`&apos;s own note. A caller that injects its own
+   classifier never comes through here and keeps full control of the registry
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="74" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="74" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1a0e369ef6f6d6f237879a653a908c8b0b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>classifier</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1aede4d6e2c894d69404cd871692cdd17b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>GlobalIniClassifiers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

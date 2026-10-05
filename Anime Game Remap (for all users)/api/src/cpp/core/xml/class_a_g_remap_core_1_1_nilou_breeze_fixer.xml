@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_nilou_breeze_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NilouBreezeFixer</compoundname>
+    <includes refid="_nilou_breeze_fixer_8h" local="no">NilouBreezeFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_nilou_breeze_fixer_1afde16d990e36e952ebf62e766b47ef07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NilouBreezeFixer::NilouBreezeFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NilouBreezeFixer</name>
+        <qualifiedname>AGRemapCore::NilouBreezeFixer::NilouBreezeFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NilouBreeze/NilouBreezeFixer.h" line="34" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_nilou_breeze_fixer_1a155f68b910367e0610cd17da95f99a79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NilouBreezeFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::NilouBreezeFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for remapping a NilouBreeze mod onto Nilou -- what
+:cpp:func:`IniFixBuilderFuncs::nilouBreeze6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NilouBreeze/NilouBreezeFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp" bodystart="167" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+NilouBreeze&apos;s own ``.ini`` fixers, one per game version the remap needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`NilouBreezeParser`. NilouBreeze is Nilou&apos;s summer skin, and the two remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/NilouBreeze/NilouBreezeFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NilouBreeze/NilouBreezeFixer.h" bodystart="31" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_nilou_breeze_fixer_1afde16d990e36e952ebf62e766b47ef07" prot="public" virt="non-virtual"><scope>AGRemapCore::NilouBreezeFixer</scope><name>NilouBreezeFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_nilou_breeze_fixer_1a155f68b910367e0610cd17da95f99a79" prot="public" virt="non-virtual"><scope>AGRemapCore::NilouBreezeFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

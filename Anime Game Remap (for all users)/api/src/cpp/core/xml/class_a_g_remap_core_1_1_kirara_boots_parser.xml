@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_kirara_boots_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KiraraBootsParser</compoundname>
+    <includes refid="_kirara_boots_parser_8h" local="no">KiraraBootsParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kirara_boots_parser_1ad653fc9a3c02ff2d7d121da22aa0fbc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KiraraBootsParser::KiraraBootsParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KiraraBootsParser</name>
+        <qualifiedname>AGRemapCore::KiraraBootsParser::KiraraBootsParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kirara_boots_parser_1a1e3f3395a26ba5eb59e39bb382755837" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KiraraBootsParser::v4_8</definition>
+        <argsstring>()</argsstring>
+        <name>v4_8</name>
+        <qualifiedname>AGRemapCore::KiraraBootsParser::v4_8</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.8-era KiraraBoots ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::kiraraBoots4_8` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="46" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_kirara_boots_parser_1ab91bef0010f102d712fd85341b5ce05d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KiraraBootsParser::v5_7</definition>
+        <argsstring>()</argsstring>
+        <name>v5_7</name>
+        <qualifiedname>AGRemapCore::KiraraBootsParser::v5_7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 5.7-era KiraraBoots ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::kiraraBoots5_7` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="55" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+KiraraBoots&apos; own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KiraraBootsFixer`; the two agree on the mod object names by hand,
+and neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+KiraraBoots is Kirara&apos;s summer skin, and the two remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" bodystart="34" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_kirara_boots_parser_1ad653fc9a3c02ff2d7d121da22aa0fbc7" prot="public" virt="non-virtual"><scope>AGRemapCore::KiraraBootsParser</scope><name>KiraraBootsParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_kirara_boots_parser_1a1e3f3395a26ba5eb59e39bb382755837" prot="public" virt="non-virtual"><scope>AGRemapCore::KiraraBootsParser</scope><name>v4_8</name></member>
+      <member refid="class_a_g_remap_core_1_1_kirara_boots_parser_1ab91bef0010f102d712fd85341b5ce05d" prot="public" virt="non-virtual"><scope>AGRemapCore::KiraraBootsParser</scope><name>v5_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

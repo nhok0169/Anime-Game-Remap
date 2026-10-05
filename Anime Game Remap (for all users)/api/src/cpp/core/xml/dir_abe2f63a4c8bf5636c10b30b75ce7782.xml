@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_abe2f63a4c8bf5636c10b30b75ce7782" kind="dir">
+    <compoundname>src/data/IniParseData/XingqiuBamboo</compoundname>
+    <innerfile refid="_xingqiu_bamboo_parser_8cpp">XingqiuBambooParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/XingqiuBamboo/"/>
+  </compounddef>
+</doxygen>

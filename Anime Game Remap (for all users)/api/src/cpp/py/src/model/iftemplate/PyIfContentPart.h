@@ -1,0 +1,76 @@
+#ifndef AGRemapPyBind_PyIfContentPart_H
+#define AGRemapPyBind_PyIfContentPart_H
+
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
+#include <memory>
+
+#include <pybind11/pybind11.h>
+#include <pybind11/functional.h>
+#include <pybind11/stl.h>
+
+#include "../../tools/orderedMultiMap/PyIOrderedMultiMap.h"  // reuses PyIOrderedMultiMap/PyBindIOrderedMultiMap
+                                                                // and the parseRanges/parseKeyRemap/
+                                                                // parseReplaceVals/parseInsertAllAtItems/
+                                                                // parseOrderMap dict-parsing helpers
+#include "AGRemapCore/model/iftemplate/IfContentPart.h"
+
+
+namespace py = pybind11;
+namespace AGRC = AGRemapCore;
+
+
+/**
+ * @brief
+ @rst
+ The `pybind11`_-facing name for `AGRC::IfContentPart`\\<py::object, py::object\\>. A plain
+ alias, not a subclass -- :cpp:class:`AGRC::IfContentPart` has no virtual methods of its own
+ (every operation is a thin, renamed delegation to its held :cpp:class:`AGRC::IOrderedMultiMap`,
+ which is where the actual polymorphism/`Python`_-subclassing story already lives -- see
+ `PyIOrderedMultiMap.h`), so there's nothing to adapt at the C++ level. The ``dict``-based
+ `Python`_ conveniences below (``addKVPsByInds``/``remapKeys``/``replaceVals``/``removeKeys``/
+ ``ranges``) reuse the exact parsing helpers `PyIOrderedMultiMap`'s own binding declares, so a
+ `CppOrderedMultiMap`/`CppOrderedMultiMapSqrt`-style ``dict`` works identically here. :raw-html:`<br />` :raw-html:`<br />`
+
+ .. warning::
+    The constructor takes ``content`` by ownership (matching the C++ side's
+    ``std::unique_ptr<IOrderedMultiMap<K, V>>``) -- once a bound :class:`IOrderedMultiMap`
+    instance (e.g. the result of ``someMap.asInterface()``) is passed into
+    :class:`IfContentPart`'s constructor, that original Python object no longer owns any
+    underlying data and should not be used again. This mirrors real move-only ownership
+    transfer, not a Python-specific quirk.
+ @endrst
+ */
+using PyIfContentPart = AGRC::IfContentPart<std::string, std::string>;
+
+
+/**
+ * @brief Converts a Python 'keys' dict into removeKeys()'s vector-based parameter shape
+ *
+ @rst
+ Shared here (rather than kept file-local) for the same reason `PyIOrderedMultiMap`'s own
+ ``parseRanges``/``parseKeyRemap``/``parseReplaceVals`` are -- `PyRegRemove` takes the exact
+ same ``dict`` shape and reuses this verbatim
+ @endrst
+ *
+ * @param keys The Python dict to convert, mapping each key to an optional check predicate (or None)
+ *
+ * @return The equivalent vector of (key, optional check) pairs, in dict iteration order
+ */
+std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys);
+
+
+void initCppIfContentPart(pybind11::module_ &m);
+
+#endif

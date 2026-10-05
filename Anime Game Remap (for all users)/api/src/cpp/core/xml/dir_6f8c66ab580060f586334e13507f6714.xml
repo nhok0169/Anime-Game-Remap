@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6f8c66ab580060f586334e13507f6714" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Yelan</compoundname>
+    <innerfile refid="_yelan_parser_8h">YelanParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Yelan/"/>
+  </compounddef>
+</doxygen>

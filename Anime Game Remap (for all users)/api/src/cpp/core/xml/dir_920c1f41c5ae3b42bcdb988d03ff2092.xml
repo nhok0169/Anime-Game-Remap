@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_920c1f41c5ae3b42bcdb988d03ff2092" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Barbara</compoundname>
+    <innerfile refid="_barbara_fixer_8h">BarbaraFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Barbara/"/>
+  </compounddef>
+</doxygen>

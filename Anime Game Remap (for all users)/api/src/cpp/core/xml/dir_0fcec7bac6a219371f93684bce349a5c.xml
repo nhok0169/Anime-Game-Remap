@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_0fcec7bac6a219371f93684bce349a5c" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/FischlHighness</compoundname>
+    <innerfile refid="_fischl_highness_parser_8h">FischlHighnessParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/FischlHighness/"/>
+  </compounddef>
+</doxygen>

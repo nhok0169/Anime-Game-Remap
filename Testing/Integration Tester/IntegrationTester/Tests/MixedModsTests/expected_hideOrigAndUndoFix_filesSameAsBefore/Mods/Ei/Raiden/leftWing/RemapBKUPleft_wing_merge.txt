@@ -17,47 +17,48 @@ $part = 0,1,2
 $creditinfo = 0
 
 
-;RemapFixHideOrig -->[TextureOverrideRaidenShogunBlend]
-;RemapFixHideOrig -->if $control == 0
-;RemapFixHideOrig -->    run = ListenParts
-;RemapFixHideOrig -->    run = ControlPart
-;RemapFixHideOrig -->else if $control == 1
-;RemapFixHideOrig -->    run = ControlPart
-;RemapFixHideOrig -->    run = ListenParts
-;RemapFixHideOrig -->endif
-;RemapFixHideOrig -->
-;RemapFixHideOrig -->[ControlPart]
-;RemapFixHideOrig -->if $part == 0
-;RemapFixHideOrig -->    run = GetOwnPart
-;RemapFixHideOrig -->else if $part == 1
-;RemapFixHideOrig -->    vb1 = RightWingController
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->else if $part == 2
-;RemapFixHideOrig -->    vb1 = BodyController
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->endif
-;RemapFixHideOrig -->
-;RemapFixHideOrig -->[ListenParts]
-;RemapFixHideOrig -->if $part == 0
-;RemapFixHideOrig -->    run = GetOwnPart
-;RemapFixHideOrig -->else if $part == 1
-;RemapFixHideOrig -->    vb1 = RightWing
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->else if $part == 2
-;RemapFixHideOrig -->    vb1 = Body
-;RemapFixHideOrig -->    handling = skip
-;RemapFixHideOrig -->    draw = 21916,0
-;RemapFixHideOrig -->endif
-;RemapFixHideOrig -->
-;RemapFixHideOrig -->[GetOwnPart]
-;RemapFixHideOrig -->vb1 = LeftWing
-;RemapFixHideOrig -->handling = skip
-;RemapFixHideOrig -->draw = 21916,0
-;RemapFixHideOrig -->
-;RemapFixHideOrig -->
+[TextureOverrideRaidenShogunBlend]
+hash = 1a495487
+if $control == 0
+    run = ListenParts
+    run = ControlPart
+else if $control == 1
+    run = ControlPart
+    run = ListenParts
+endif
+
+[ControlPart]
+if $part == 0
+    run = GetOwnPart
+else if $part == 1
+    vb1 = RightWingController
+    handling = skip
+    draw = 21916,0
+else if $part == 2
+    vb1 = BodyController
+    handling = skip
+    draw = 21916,0
+endif
+
+[ListenParts]
+if $part == 0
+    run = GetOwnPart
+else if $part == 1
+    vb1 = RightWing
+    handling = skip
+    draw = 21916,0
+else if $part == 2
+    vb1 = Body
+    handling = skip
+    draw = 21916,0
+endif
+
+[GetOwnPart]
+vb1 = LeftWing
+handling = skip
+draw = 21916,0
+
+
 [LeftWing]
 type = Buffer
 stride = 32
@@ -82,78 +83,3 @@ filename = ../rightWing/controllers/rightWingController.buf
 type = Buffer
 stride = 32
 filename = ../Body/controllers/heartPumpController.buf
-
-
-; --------------- Raiden Remap ---------------
-; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-; ***** RaidenBoss *****
-[TextureOverrideRaidenShogunRaidenBossRemapBlend]
-if $control == 0
-	run = ListenPartsRaidenBossRemapBlend
-	run = ControlPartRaidenBossRemapBlend
-else if $control == 1
-	run = ControlPartRaidenBossRemapBlend
-	run = ListenPartsRaidenBossRemapBlend
-endif
-
-[ListenPartsRaidenBossRemapBlend]
-if $part == 0
-	run = GetOwnPartRaidenBossRemapBlend
-else if $part == 1
-	vb1 = ResourceRightWingRaidenBossRemapBlend
-	handling = skip
-	draw = 21916,0
-else if $part == 2
-	vb1 = ResourceBodyRaidenBossRemapBlend
-	handling = skip
-	draw = 21916,0
-endif
-
-[GetOwnPartRaidenBossRemapBlend]
-vb1 = ResourceLeftWingRaidenBossRemapBlend
-handling = skip
-draw = 21916,0
-
-[ControlPartRaidenBossRemapBlend]
-if $part == 0
-	run = GetOwnPartRaidenBossRemapBlend
-else if $part == 1
-	vb1 = ResourceRightWingControllerRaidenBossRemapBlend
-	handling = skip
-	draw = 21916,0
-else if $part == 2
-	vb1 = ResourceBodyControllerRaidenBossRemapBlend
-	handling = skip
-	draw = 21916,0
-endif
-
-[ResourceBodyRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = ../Body/listeners/heartListenerRaidenBossRemapBlend.buf
-
-[ResourceBodyControllerRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = ../Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
-
-[ResourceLeftWingRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = LeftWingEntityRaidenBossRemapBlend.buf
-
-[ResourceRightWingRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = ../rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
-
-[ResourceRightWingControllerRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = ../rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
-
-; **********************
-
-; --------------------------------------------

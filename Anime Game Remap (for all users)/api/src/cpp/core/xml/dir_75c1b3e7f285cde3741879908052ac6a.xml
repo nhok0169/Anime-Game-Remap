@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_75c1b3e7f285cde3741879908052ac6a" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/JeanCN</compoundname>
+    <innerfile refid="_jean_c_n_fixer_8h">JeanCNFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/JeanCN/"/>
+  </compounddef>
+</doxygen>

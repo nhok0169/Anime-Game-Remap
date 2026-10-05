@@ -5,7 +5,7 @@ from IntegrationTester.src.constants.ConfigKeys import ConfigKeys
 from IntegrationTester.src.Config import Config
 
 sys.path.insert(1, Config[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import FixRaidenBoss2 as FRB
 
 
 shortWackyRaidenIniTxt = r"""
@@ -34,6 +34,7 @@ $swapvarn = 0,1
 ; The bottom part is what the fix actually cares about
 
 [TextureOverrideRaidenShogunBlend]
+hash = 1a495487
 run = CommandListRaidenShogunBlend
 handling = skip
 draw = 21916,0
@@ -80,10 +81,14 @@ filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 """
 
 
-iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt, modTypes = FRB.ModTypes.getAll())
+iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt)
 iniFile.parse()
 fixedResult = iniFile.fix()
 
-iniPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CuteLittleRaiden.ini")
-with open(iniPath, "w", encoding = "utf-8") as f:
-    f.write(fixedResult)
+# a fix may write more than one .ini file (eg. a merge), so there is one text per file
+for i, fixedTxt in enumerate(fixedResult.values()):
+    iniName = "CuteLittleRaiden.ini" if (i == 0) else f"CuteLittleRaidenRemapFix{i}.ini"
+    iniPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), iniName)
+    with open(iniPath, "w", encoding = "utf-8") as f:
+        f.write(fixedTxt)
+

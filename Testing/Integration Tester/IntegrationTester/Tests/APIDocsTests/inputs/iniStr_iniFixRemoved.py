@@ -5,7 +5,7 @@ from IntegrationTester.src.constants.ConfigKeys import ConfigKeys
 from IntegrationTester.src.Config import Config
 
 sys.path.insert(1, Config[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import FixRaidenBoss2 as FRB
 
 
 showWackyRaidenIniTxtWithFix = r"""
@@ -34,6 +34,7 @@ $swapvarn = 0,1
 ; The bottom part is what the fix actually cares about
 
 [TextureOverrideRaidenShogunBlend]
+hash = 1a495487
 run = CommandListRaidenShogunBlend
 handling = skip
 draw = 21916,0
@@ -156,7 +157,7 @@ filename = Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.
 ; -------------------------------------------------
 """
 
-iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = FRB.ModTypes.getAll())
+iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix)
 fixCode = iniFile.removeFix(keepBackups = False)
 
 iniPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "IniWithFixRemoved.ini")

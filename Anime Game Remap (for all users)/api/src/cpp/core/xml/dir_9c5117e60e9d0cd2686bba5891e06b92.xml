@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9c5117e60e9d0cd2686bba5891e06b92" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/BennettAdventure</compoundname>
+    <innerfile refid="_bennett_adventure_fixer_8h">BennettAdventureFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/BennettAdventure/"/>
+  </compounddef>
+</doxygen>

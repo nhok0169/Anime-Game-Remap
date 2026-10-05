@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3f835771507c37f35e4e56db703868a1" kind="dir">
+    <compoundname>src/tools/files</compoundname>
+    <innerfile refid="_file_download_8cpp">FileDownload.cpp</innerfile>
+    <innerfile refid="_file_service_8cpp">FileService.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/files/"/>
+  </compounddef>
+</doxygen>

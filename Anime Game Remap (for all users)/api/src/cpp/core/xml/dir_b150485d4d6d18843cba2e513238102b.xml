@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b150485d4d6d18843cba2e513238102b" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/KaeyaSailwind</compoundname>
+    <innerfile refid="_kaeya_sailwind_fixer_8h">KaeyaSailwindFixer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/KaeyaSailwind/"/>
+  </compounddef>
+</doxygen>

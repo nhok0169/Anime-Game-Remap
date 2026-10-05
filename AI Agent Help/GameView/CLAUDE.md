@@ -114,6 +114,13 @@ py -3 main.py mods GIMI restore                                  # at the end: e
 - `scan`'s hint is the commonest first word of a mod's `TextureOverride` sections, and it is only
   a guess, because authors name sections after the base character while building on a skin. The fix
   run's own classification decides which mods are the character's.
+- **`restore` replays the WHOLE journal, including moves from earlier sessions** (2026-10-04). It is
+  not "undo what I did": `mods-journal-GIMI.json` persists, so a restore at the end of your work can
+  LOAD a mod somebody parked days ago. One run came back with 33 mods loaded where the session had
+  started at 32, the extra being a `Yaoyao5Tri` nobody had touched that day. **Record the loaded set
+  before you start** (`mods <IMP> list`) and diff against it afterwards rather than trusting the
+  restore, and park anything it resurrected. A folder you deleted by hand is reported as
+  `could not undo ... (already moved by hand?)`, which is harmless.
 - Moves are renames only. A mod folder on another drive than the importer is refused, because a
   cross-drive move is a copy plus a delete of the maintainer's original.
 - The fix edits the mod IN PLACE (backups and `-u` undo are the API's), the maintainer's own way.

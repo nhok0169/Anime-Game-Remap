@@ -340,62 +340,77 @@ Neither question is about the PART. A statistic over whatever geometry happens t
 the SKIN's anatomy, not the source part's job: a hair lock hanging over a chest is surrounded by chest, and is
 still hair.
 
-### A PART CUT ACROSS TWO COMPONENTS CANNOT BE FIXED FROM EITHER SIDE (2026-10-05)
+### THREE FAULTS STACKED ON ONE BRAID, AND EACH FIX EXPOSED THE NEXT (2026-10-05)
 
-**Three user reports, five attempts, and every one of them was aimed at the wrong half of a braid.**
 Citlali's two long front locks are four-link chains -- `23 -> 24 -> 25 -> 26` and the mirror
-`29 -> 30 -> 31 -> 32` -- hanging from the temple to the chest. The rows sent the **top two links to
-the skin's Bangs component** and the **bottom two to its Body**, so one braid was skinned in two
-index spaces by two unrelated bones. Everything the user reported follows from that and from nothing
-else:
+`29 -> 30 -> 31 -> 32` -- hanging from the temple to the chest. Five user reports came out of them,
+and reading the sequence is worth more than any one of the fixes.
 
-* *"the hair is clipped to the arms and is not free flowing"* -- the bottom two links, which are most
-  of the braid, rode a bone of the BODY. No bone of the Body animates at that place, so the braid
-  could not move out of the arm's way the way it does on Citlali, where it rides her hair physics.
-* *"the braid is dislocated from her hair"* -- a `pushAway` added to clear the arm could only move
-  the half that lives in the component it is configured on, so the braid broke at the seam and the
-  lower half stood visibly forward of the hair it grows out of.
-* and the three different Body bones tried for the lower half -- the torso `56`, the clavicle, the
-  front dress chain `70-73` -- **render identically**, which is what sent four attempts in a circle.
+**FAULT 1: the chain was CUT ACROSS TWO COMPONENTS.** The rows sent the top two links to the skin's
+Bangs and the bottom two to its Body: one braid, two index spaces, two unrelated bones. Both of the
+first two reports follow from it. *"Clipped to the arms and not free flowing"* -- the bottom two
+links are most of the braid's mass and rode a bone of the BODY, where nothing animates. *"Dislocated
+from her hair"* -- a `VGPushAway` added to clear the arm can only move the half that lives in the
+component it is configured on, so the braid broke at the seam and its lower half stood forward of
+the hair it grows out of. **ONE part belongs on ONE component's bones.** It is the Neuvillette
+lesson -- his capes ripped along a component seam for exactly this reason -- and a hair lock tears
+the same way. All four links now go to the skin's own front lock, `Bangs 3 -> 5 -> 7`.
 
-**THE RULE IS ALREADY WRITTEN DOWN AND IT IS THE ONE THAT WAS BROKEN: one part belongs on ONE
-component's bones.** It is the Neuvillette lesson -- his capes ripped along a component seam for
-exactly this reason -- and a hair lock tears the same way. The fix is one line of
-`VGRemapData.cpp`: all four links go to the skin's own front lock, `Bangs 3 -> 5 -> 7` (mirror
-`4 -> 6 -> 8`), and the Body row loses them.
+**FAULT 2: then it was damped, and the damping was a fix that made things worse.**
+`GIMIComponentFixerConfig::Component::splitGroups` shared each lower link's weight with the Bangs'
+head bone, on this argument: bone 7 pivots at y 1.279 and the skin's own lock ends at 1.241, a
+3.8 cm lever, while Citlali's braid runs on to 1.037, 24 cm below it, so the same few degrees of
+hair sim move her tip about six times as far. **The arithmetic is right and the conclusion is
+wrong.** If a bone rotates by theta, a 24 cm lock's tip travels 24.theta where a 4 cm lock's travels
+4.theta -- a longer lock swinging further at the tip is what hair does, not a defect to correct. The
+user's next words were *"stationary, solid with her head"*, which is what 65-80% of the weight on a
+head bone looks like. **Before damping a part, ask what it would look like UNDAMPED on the real
+rig** -- the amplitude ratio that justified it was never evidence of anything being wrong.
 
-**AND THE OBJECTION TO THAT CHAIN IS AMPLITUDE, WHICH IS ANSWERED WHERE IT ARISES RATHER THAN BY
-PICKING ANOTHER BONE.** Bone 7 pivots at y 1.279 and the skin's own lock ends at 1.241 -- a 3.8 cm
-lever -- while Citlali's braid runs on to 1.037, 24 cm below it, so the same few degrees of hair sim
-move her tip about six times as far; continuing the chain bare was tried in an earlier round and threw
-the braid into the arm, which is what sent the row to a Body bone in the first place.
-`GIMIComponentFixerConfig::Component::splitGroups` shares each lower link's weight with the Bangs'
-own head bone in the ratio of the skin's lever to that link's (0.35 for group 25 at y 1.171, 0.20 for
-group 26 at y 1.095). **A long part on a short chain is a weighting problem, not a bone-choice
-problem** -- and `splitGroups` existed for it the whole time, documented for a coat flap.
+**FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
+is whole.** It runs down the front of the shoulder and the skin's deltoid is drawn through it, so it
+goes **4 cm forward and 1 cm outward**. Three things about that number worth copying:
 
-**WHAT MADE THIS TAKE THREE REPORTS: a measurement that was true and a conclusion that was not.**
-The four Body carriers really are pixel-identical, because a bone's skinning matrix is the identity
-at the character's own rest pose -- but "the carrier does not matter" does not follow from it, and
-that is what the previous revision of this section said. It matters for everything the rest pose
-cannot show: whether the part MOVES, and with what. **Judge a carrier on an idle series, never on a
-pose-matched still** -- a pose-matched comparison is built to cancel exactly the difference being
-looked for.
+* **Measured at 1 cm steps in game, not derived.** 2.5 cm still lost one braid in the shoulder;
+  5.5 cm starts to look pushed; 4 cm clears in every frame of the idle without standing proud.
+* **Symmetric on purpose.** The idle is NOT mirror-symmetric -- one shoulder leads, and that is the
+  side whose braid clipped first. `VGPushAway`'s `side` field makes a per-side value easy to write
+  and it would be tuned to one pose; the pose that leads with the other shoulder would need the
+  mirror of it.
+* **The taper is the engine's own.** `VGPushAway` weighs each vertex by its share of the groups it
+  names, so listing all four links gives 0.29 at the scalp (y 1.40) rising to 1.00 by y 1.20: the
+  braid bends away from the head instead of detaching from it. A hand-rolled height cutoff is worse
+  and was what the live prototype used.
 
-Two cheap methods that did work, and one trap:
+**AND THE MEASUREMENT THAT SENT FOUR ROUNDS IN A CIRCLE WAS TRUE.** The Body carriers tried for the
+lower half -- the torso `56`, the clavicle `9/33`, the shoulder cloth `57/58`, the dress chain
+`70-73` -- are **pixel-identical** when rebound live and reloaded, because the matrix the game
+uploads per bone is `pose * bindInverse`, the IDENTITY at the character's own rest pose. "So the
+carrier does not matter" does not follow from it, and shipping that reasoning cost a round: the
+carrier decides whether the part MOVES, which is the half a still cannot show. **Judge a carrier on
+an idle SERIES, never on a pose-matched still** -- that comparison is built to cancel exactly the
+difference being looked for.
 
-* **Displace and reload.** Shove the vertices you suspect a long way (``+-0.3`` in x is unmistakable)
-  and reload; if nothing moves, they were innocent, and if the part appears somewhere absurd you have
-  found which draw owns it. It is the ``purpleSlot.py`` idea applied to geometry.
-* **Iterate on the mod's own fixed ``*Remap*.buf`` and press F10** -- about 20 seconds against minutes
-  for edit / rebuild / re-fix. Rewriting blend indices and weights in place tries any carrier or any
-  weighting without a build. The compiled fix is then A/B'd against the hand version, and **expect a
-  small legitimate difference**: the split renormalises the weights of groups that went to another
+Four methods that did work, and one trap:
+
+* **Ask for the base shot.** The same mod on its own character, side by side, settled in one picture
+  what four rounds of argument could not -- and for a character the maintainer does not own, the
+  outfit shop's default card renders it (`Dawnseer` is Citlali's).
+* **Displace and reload.** Shove the vertices you suspect a long way (``+-0.3`` in x is
+  unmistakable); if nothing moves, they were innocent, and if the part appears somewhere absurd you
+  have found which draw owns it.
+* **Iterate on the mod's own fixed ``*Remap*.buf`` and press F10** -- about 20 seconds against
+  minutes for edit / rebuild / re-fix. Rewriting blend indices, weights or positions in place tries
+  any carrier, damping or push with no build. A/B the compiled fix against it afterwards, and expect
+  a small legitimate difference: the split renormalises the weights of groups that went to another
   component, so a share read from the SPLIT blend exceeds the share the fix reads from the SOURCE.
+* **Reach for the shared field before inventing a number.** `splitGroups` and `pushAway` both
+  already existed, documented for a coat flap; the work here was choosing between them, not building
+  anything.
 * **The trap: "I cannot see the part" is usually the camera.** The braid is invisible from the front
-  and from most of a 360 sweep in the outfit preview, because the loose hair hangs over it -- which
-  was read once as "the change made the braid vanish" and cost a round. Confirm a part is really gone
-  by displacing it, not by not finding it.
+  and from most of a 360 sweep in the outfit preview, because the loose hair hangs over it -- read
+  once as "the change made the braid vanish", which cost a round. Confirm a part is gone by
+  displacing it, not by not finding it.
 
 ### THE LEVER, AND WHY IT WAS NEVER THE QUESTION HERE (2026-10-04, corrected 2026-10-05)
 

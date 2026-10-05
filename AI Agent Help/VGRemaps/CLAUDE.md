@@ -543,41 +543,42 @@ workbook keeps the tool's `About` sheet until the rows are checked in game. The 
 `Face` / `Mouth` / `Eyebrows` meshes are not in any row: a 6.7 frame dump shows base Citlali drawing
 the same meshes by the same hashes, so they are nobody's to remap.
 
-### And one of those overrides was the wrong QUESTION: the part was cut in half (2026-10-04, settled 2026-10-05)
+### And the row was only ever one of three faults stacked on one braid (2026-10-04, settled 2026-10-05)
 
 Citlali's two long front locks are four-link chains -- `23 -> 24 -> 25 -> 26` and the mirror
-`29 -> 30 -> 31 -> 32` -- and the rows **sent the top two links to the skin's Bangs component and the
-bottom two to its Body**. One braid, two index spaces, two unrelated bones. Three user reports came out
-of that single fault: the braid could not flow (its lower two links, most of its mass, rode a Body bone
-and no Body bone animates there), and when a `VGPushAway` was added to clear the arm it moved only the
-half configured on that component, so the braid broke at the seam -- *"the braid is dislocated from her
-hair"*.
+`29 -> 30 -> 31 -> 32`. Five user reports came out of them and only the first was about this table.
 
-**Four different Body bones were tried for the lower half and they render IDENTICALLY**, which is why
-the search went in a circle for two days: a bone's skinning matrix is the identity at the character's
-own rest pose, so a remapped mod renders at the SOURCE's coordinates whatever it is bound to. That is a
-true measurement and it supports exactly one conclusion -- **a still frame cannot tell you anything
-about a carrier.** It does not mean the carrier is irrelevant; it decides whether the part moves, which
-is the half of the report a still frame is blind to. **Judge a carrier on an idle SERIES.**
+**The row's fault was that it CUT the chain across two components**: the top two links went to the
+skin's Bangs and the bottom two to its Body, so one braid was skinned in two index spaces by two
+unrelated bones. That alone produced two reports -- the braid could not flow (its lower links, most
+of its mass, rode a Body bone where nothing animates) and a `VGPushAway` added to clear the arm moved
+only the half configured on that component, so it broke at the seam. All four links now go to the
+skin's own front lock, `Bangs 3 -> 5 -> 7` (mirror `4 -> 6 -> 8`): **one part, one component's
+bones**, the rule Neuvillette's torn capes already wrote down.
 
-The row now sends all four links to the skin's own front lock, `Bangs 3 -> 5 -> 7` (mirror
-`4 -> 6 -> 8`), so the lock is whole in ONE component on real hair bones -- the rule Neuvillette's torn
-capes already wrote down. The objection to that chain is amplitude, not identity: bone 7 pivots at
-y 1.279 and the skin's own lock ends at 1.241, a 3.8 cm lever, while Citlali's braid runs to 1.037,
-24 cm below it, so the skin's hair sim would move her tip six times too far. That is answered in the
-FIXER, by `GIMIComponentFixerConfig::Component::splitGroups` sharing each lower link's weight with the
-Bangs' head bone in the ratio of the levers -- **a long part on a short chain is a weighting problem,
-not a bone-choice problem.**
+**The other two faults were in the FIXER, not here**, and knowing that is what stops the next round
+of row-tweaking: a `splitGroups` damping that made the braid rigid with the head (the lever ratio
+that justified it was real and the conclusion was wrong -- a longer lock swinging further at the tip
+is what hair does), and a residual clip through the shoulder that a 4 cm `pushAway` clears now that
+the braid is whole. See Creating Remaps' "THREE FAULTS STACKED ON ONE BRAID".
+
+**Four different Body carriers were tried for the lower half and they render IDENTICALLY**, which is
+why the search went in a circle for two days: a bone's skinning matrix is the identity at the
+character's own rest pose, so a remapped mod renders at the SOURCE's coordinates whatever it is bound
+to. That is a true measurement supporting exactly one conclusion -- **a still frame cannot tell you
+anything about a carrier.** It does not mean the carrier is irrelevant; it decides whether the part
+moves, which is the half a still is blind to. **Judge a carrier on an idle SERIES.**
 
 Rank a counterpart-less part's candidates by **lever first, in all three axes** (the dress chain that
-shipped for a while scored well on height and sits 10 cm away in DEPTH, which nobody measured), then by
-whether the carrier moves the same WAY, and only then by material. But first ask which KIND of fault you
-have: a part that does not move is a carrier question, a part that breaks or stands off from what it
-grows out of is a COMPONENT question, and a part that overlaps a limb while standing still is
-`pushAway` or `splitGroups`. Only the first is answered by choosing a different bone. And note the
-second thing the earlier row did: it collapsed the LEFT and RIGHT locks onto one centre-line bone, so
-the two sides could not move independently in principle -- **a many-to-one that crosses the mirror line
-is worth flagging on its own**, whatever the distances say.
+shipped for a while scored well on height and sits 10 cm away in DEPTH, which nobody measured), then
+by whether the carrier moves the same WAY, and only then by material. But first ask which KIND of
+fault you have: a part that does not move is a carrier question, a part that breaks or stands off
+from what it grows out of is a COMPONENT question, a part that is rigid where it should swing is a
+WEIGHTING question, and a part that overlaps a limb while standing still is `pushAway`. Only the
+first is answered by choosing a different bone. And note the second thing the earlier row did: it
+collapsed the LEFT and RIGHT locks onto one centre-line bone, so the two sides could not move
+independently in principle -- **a many-to-one that crosses the mirror line is worth flagging on its
+own**, whatever the distances say.
 
 <br>
 

@@ -20,6 +20,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
@@ -117,31 +118,42 @@ namespace AGRemapCore {
 
             // ---- the two long front braids ----
             //
-            // THE CHAIN USED TO BE CUT IN HALF ACROSS TWO COMPONENTS, AND THAT WAS THE WHOLE BUG.
+            // THE CHAIN USED TO BE CUT IN HALF ACROSS TWO COMPONENTS, AND THAT WAS THE FIRST BUG.
             // Each braid is a four-link chain of Citlali's (23 -> 24 -> 25 -> 26, mirror
             // 29 -> 30 -> 31 -> 32) hanging from the temple to the chest. Its top two links went to
             // the Bangs' own front-hair chain and its bottom two to a bone of the Body, so one braid
             // was skinned in two index spaces by two unrelated bones. A user reported both halves of
             // that in one sentence: "the braid is stationary sticking to her body instead of flowing
-            // naturally like hair", and "the braid is dislocated from her hair" -- the bottom half
-            // rode a bone that does not move, and a `pushAway` put here to clear the arm displaced
-            // only that half, so the braid visibly broke at the seam. It is the same fault as
-            // Neuvillette's capes ripping along a component boundary, and the same rule applies:
-            // ONE part belongs on ONE component's bones. VGRemapData.cpp sends all four links to
-            // the skin's own front lock, Bangs 3 -> 5 -> 7 (mirror 4 -> 6 -> 8).
+            // naturally like hair", and "dislocated from her hair" -- the bottom half rode a bone
+            // that does not move, and a `pushAway` put on the Body displaced only that half, so the
+            // braid visibly broke at the seam. It is the same fault as Neuvillette's capes ripping
+            // along a component boundary: ONE part belongs on ONE component's bones. VGRemapData.cpp
+            // sends all four links to the skin's own front lock, Bangs 3 -> 5 -> 7 (mirror 4 -> 6 -> 8).
             //
-            // AND THE AMPLITUDE IS DAMPED HERE RATHER THAN BY PICKING A DIFFERENT BONE, which is
-            // what three earlier attempts did and none of them fixed anything. Bone 7 pivots at
-            // y 1.279 and the skin's own lock ends at 1.241 -- a 3.8 cm lever -- while Citlali's
-            // braid runs on to 1.037, 24 cm below it, so the same few degrees of hair sim move her
-            // tip about six times as far, which is why continuing the chain bare threw it into the
-            // arm when that was tried. splitGroups shares each lower link's weight with the Bangs'
-            // own head bone, in the ratio of the skin's lever to that link's: 3.8 / 10.8 cm for
-            // group 25 (centroid y 1.171) and 3.8 / 18.4 cm for group 26 (y 1.095). The braid swings
-            // with the hair and hangs from the head, as it does on Citlali -- it simply swings the
-            // distance the skin's rig was built to move rather than six times it.
-            bangs.splitGroups = {{25, {{7, 0.35}, {0, 0.65}}}, {26, {{7, 0.20}, {0, 0.80}}},
-                                 {31, {{8, 0.35}, {0, 0.65}}}, {32, {{8, 0.20}, {0, 0.80}}}};
+            // AND THE BRAID IS NOT DAMPED, WHICH WAS THE SECOND BUG. A `splitGroups` shared each
+            // lower link's weight with the Bangs' head bone, on the argument that bone 7's lever is
+            // 3.8 cm while Citlali's braid hangs 24 cm below it, so the skin's hair sim would move
+            // her tip "six times too far". That arithmetic is right and the conclusion is wrong: a
+            // longer lock swinging further at the tip is what hair does. Damped, the braid read as
+            // "stationary, solid with her head" -- the user's words -- because 65-80% of its weight
+            // was on the head. It carries the hair bones' full weight now and swings with them.
+            //
+            // WHAT REMAINS IS A GENUINE CLIP, and a push is the right tool for it now that the braid
+            // is whole: whatever this moves, it moves all of. The braid runs down the front of the
+            // shoulder and the skin's deltoid is drawn through it, so it goes 4 cm FORWARD and 1 cm
+            // outward -- `from` is 15 cm behind and slightly inboard of each braid, which is what
+            // makes the direction (0.24, 0.97) in xz. Measured in game at 1 cm steps: at 2.5 cm one
+            // braid still disappeared into the shoulder, at 4 cm both clear in every frame of the
+            // idle and neither stands proud of the body, and at 5.5 cm it starts to look pushed.
+            // The taper is the engine's own: VGPushAway weighs each vertex by its share of the four
+            // listed groups, which runs 0.29 at the scalp (y 1.40) to 1.00 by y 1.20, so the braid
+            // bends away from the head rather than detaching from it.
+            //
+            // Symmetric on purpose. The idle is NOT mirror-symmetric -- one shoulder leads, and that
+            // is the side whose braid clipped first -- so a per-side value would be tuned to one
+            // pose and wrong in the pose that leads with the other shoulder.
+            bangs.pushAway = {VGPushAway{{23, 24, 25, 26}, {-0.042f, 1.130f, -0.116f}, 0.0412f, -1},
+                              VGPushAway{{29, 30, 31, 32}, {+0.042f, 1.130f, -0.116f}, 0.0412f, 1}};
 
             config.components = {body, bangs, eyes};
 

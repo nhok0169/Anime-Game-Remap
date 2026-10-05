@@ -1405,36 +1405,43 @@ strips any a mod carried -- this one's face arrives through GIMI's newer API, an
 `GIMIApiNormalizer` faithfully turns its `SetTextures` into the traditional call, which is right
 everywhere except the one object the fix binds by hand.
 
-**FOUR USER-REPORTED CITLALI BUGS, AND THE HAIR ONE TOOK FIVE ATTEMPTS BECAUSE EVERY ATTEMPT AIMED AT
-HALF A BRAID (2026-10-04/05).** Her two long front locks are four-link chains (`23 -> 24 -> 25 -> 26`
-and the mirror) hanging from the temple to the chest, and the rows **cut each chain across two
-components** -- the top two links to the skin's Bangs, the bottom two to its Body. Every symptom
-reported follows from that one fault. *"Clipped to the arms and not free flowing"*: the bottom two
-links are most of the braid and rode a bone of the BODY, and no Body bone animates there, so the braid
-could not move out of the arm's way as it does on Citlali, where it rides her hair physics. *"Still
-clipping, and the ponytails are dislocated from her hair"*: a `VGPushAway` added to clear the arm can
-only move the half that lives in the component it is configured on, so the braid broke at the seam and
-its lower half stood visibly forward of the hair it grows out of. **The rule that was broken is one
-this file already carried**: ONE part belongs on ONE component's bones -- the Neuvillette lesson, where
-his capes ripped along a component seam. All four links now go to the skin's own front lock,
-`Bangs 3 -> 5 -> 7`, and the amplitude objection to that chain (bone 7's lever is 3.8 cm, Citlali's
-braid hangs 24 cm below it, so the skin's hair sim moves her tip six times too far) is answered by
-`GIMIComponentFixerConfig::Component::splitGroups` sharing each lower link's weight with the Bangs'
-head bone -- **a long part on a short chain is a weighting problem, not a bone-choice problem.**
-**What made this cost three reports is a measurement that was true and a conclusion that was not.**
+**FIVE USER-REPORTED CITLALI BUGS ON ONE BRAID, AND EACH FIX EXPOSED THE NEXT (2026-10-04/05).**
+Her two long front locks are four-link chains (`23 -> 24 -> 25 -> 26` and the mirror) hanging from
+the temple to the chest, and three separate faults were stacked on them.
+**(1) The chain was CUT ACROSS TWO COMPONENTS** -- top two links to the skin's Bangs, bottom two to
+its Body -- so one braid was skinned in two index spaces by two unrelated bones. *"Clipped to the
+arms and not free flowing"*: the bottom two links are most of the braid and rode a Body bone, and no
+Body bone animates there. *"Dislocated from her hair"*: a `VGPushAway` added to clear the arm can
+only move the half that lives in the component it is configured on, so the braid broke at the seam.
+**ONE part belongs on ONE component's bones** -- the Neuvillette lesson, where his capes ripped along
+a component seam. All four links now go to the skin's own front lock, `Bangs 3 -> 5 -> 7`.
+**(2) Then it was DAMPED, and that was a fix of mine that made it worse.** `splitGroups` shared each
+lower link's weight with the Bangs' head bone, on the argument that bone 7's lever is 3.8 cm while
+the braid hangs 24 cm below it, so the skin's hair sim would move her tip "six times too far". The
+arithmetic is right and the conclusion is wrong -- **a longer lock swinging further at the tip is
+what hair does** -- and the user's next words were "stationary, solid with her head", which is
+exactly what 65-80% of the weight on the head bone looks like. It carries the hair bones' full
+weight now and swings.
+**(3) What remained was a genuine clip, and a push is the right tool once the braid is whole**: 4 cm
+forward and 1 cm outward, which is what takes it off the shoulder the skin's deltoid is drawn
+through. Measured at 1 cm steps in game -- 2.5 cm still lost one braid in the shoulder, 5.5 cm looks
+pushed -- and kept SYMMETRIC on purpose, because the idle is not mirror-symmetric (one shoulder
+leads, and that is the side that clipped first), so a per-side value is tuned to one pose. The taper
+is the engine's own: `VGPushAway` weighs each vertex by its share of the four listed groups, 0.29 at
+the scalp to 1.00 by y 1.20, so the braid bends away from the head rather than detaching from it.
+**What made this cost five reports is a measurement that was true and a conclusion that was not.**
 The three Body bones tried for the lower half -- the torso `56`, the clavicle, the front dress chain
 `70-73` -- really do render identically, because a bone's skinning matrix is the IDENTITY at the
-character's own rest pose. "So the carrier does not matter" does NOT follow, and shipping that
-reasoning cost a round: the carrier decides everything the rest pose cannot show, which is whether the
-part MOVES. **Judge a carrier on an idle SERIES, never on a pose-matched still** -- a pose-matched
-comparison is built to cancel exactly the difference being looked for. Two methods that did work:
-**displace the geometry you suspect a long way and reload** (if nothing moves, it was innocent), and
-**iterate on the mod's own fixed `*Remap*.buf` and press F10** -- a ~20 second loop against minutes per
-rebuild, which tries any carrier or weighting without building; A/B the compiled fix against it
-afterwards, expecting a small legitimate difference where the split renormalised the weights. And one
-trap that cost a round of its own: **"the part vanished" was the camera** -- the braid is invisible
-from the front and from most of a 360 sweep because the loose hair hangs over it. Confirm a part is
-gone by displacing it, not by failing to find it. *Her feet sank into the ground in the
+character's own rest pose. "So the carrier does not matter" does NOT follow: the carrier decides
+whether the part MOVES, which is the half a still frame cannot show. **Judge a carrier on an idle
+SERIES, never on a pose-matched still** -- a pose-matched comparison is built to cancel exactly the
+difference being looked for. Three methods that did work: **displace the geometry you suspect a long
+way and reload** (if nothing moves, it was innocent); **iterate on the mod's own fixed `*Remap*.buf`
+and press F10**, a ~20 second loop that tries any carrier, weighting or push without a rebuild; and
+**ask the user for the base shot** -- the same mod on its own character settled in one picture what
+four rounds of argument could not. One trap that cost a round of its own: **"the part vanished" was
+the camera** -- the braid is invisible from the front and from most of a 360 sweep because the loose
+hair hangs over it, so confirm a part is gone by displacing it, not by failing to find it. *Her feet sank into the ground in the
 overworld*: **two skins of one character can stand on different GROUND PLANES** -- a mod renders at
 the SOURCE's coordinates while the game plants the character by the TARGET's, and Citlali's sole sits
 0.045 below the skin's, so every mod of the pair stood 4.5 cm low. It is DIRECTIONAL and the mirror

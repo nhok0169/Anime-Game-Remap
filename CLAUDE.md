@@ -1411,7 +1411,17 @@ is its TORSO bone. The row was a deliberate override -- the finder proposed the 
 overruled it because the chest owns most of the skin's vertices at that height -- and **both
 candidates came from questions about the SKIN's anatomy** (what is nearest, what owns the vertices
 here) rather than about what the source part IS and must DO. A hair lock must swing; only a hair bone
-swings -- **and the obvious repair, continuing onto the skin's own front lock, was WORSE**: the skin's
+swings -- **and none of that was the reported fault.** The part clipping the arms is her two front
+BRAIDS, which pass it with **6.8 mm** to spare in her own bind pose, and the skin holds its arms a
+little differently, so the arm is drawn THROUGH them: an INTERSECTION, which no bone can fix, and
+which is why three different carriers looked identical. `VGPushAway` (already on the split template,
+already used by Neuvillette for the coat flaps his thigh went through) pushes them 2 cm FORWARD --
+forward, not outward, because a push away from the midline drives a part hanging beside the chest
+further INTO the arm. **Before changing a bone, displace the geometry you suspect a long way and
+reload: if the symptom survives, it was innocent.** That two-minute test would have saved three
+rebuilds and two wrong entries in these files. A clip at rest is `pushAway` or `splitGroups`; only a
+swing or a fold is a bone. The lever reasoning below is still right about MOTION, and still what the
+shipped row uses: **the obvious repair, continuing onto the skin's own front lock, was WORSE**: the skin's
 lock stops 19 cm above where Citlali's ends, so the tip hung that far below its pivot and a few degrees
 of hair sim threw it into the arm, which clears the hair by only 6.8 mm. **Rank a counterpart-less
 part's candidates by the LEVER -- the distance from the part to the pivot -- then by whether the

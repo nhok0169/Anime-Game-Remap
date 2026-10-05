@@ -338,7 +338,36 @@ Neither question is about the PART. A statistic over whatever geometry happens t
 the SKIN's anatomy, not the source part's job: a hair lock hanging over a chest is surrounded by chest, and is
 still hair.
 
+### A CLIP IS NOT A BONE PROBLEM, AND THREE BONE CHANGES PROVED IT (2026-10-05)
+
+**The report was "the hair clips through her arms", and the answer was none of the three bones tried.**
+Citlali's two front BRAIDS pass the upper arm with **6.8 mm** to spare in her own bind pose -- the
+closest of her 2073 hair vertices to the nearest of her 4405 arm vertices -- and the skin holds its
+arms a little differently, so the arm is drawn THROUGH them. In the before shot the braid appears at
+the shoulder, bare arm skin covers its middle, and it comes out below with its clasp stranded
+(`Images/Citlali/CitlaliWhisperBraidClipAB.png`).
+
+**An intersection is a question of WHERE the vertices are, not of which bone moves them**, so the
+chest bone, the skin's own front hair chain and its front dress chain all looked identical. The fix
+is `GIMIComponentFixerConfig::Component::pushAway` (:cpp:class:`VGPushAway`), which exists for exactly
+this -- "for cloth that clips a limb the target moves differently" -- and which Neuvillette already
+uses for the coat flaps his stepping thigh went through. Two entries, one a side, 2 cm FORWARD:
+forward rather than outward, because a push away from the midline drives a part that hangs beside the
+chest further INTO the arm.
+
+**THE METHOD IS THE LESSON. Before changing a bone, prove WHICH geometry is at fault** -- displace the
+vertices you think are guilty a long way (`+z 0.4` is unmistakable) and reload. If the symptom is still
+there, they were innocent. That test took two minutes and would have saved three rebuilds, two in-game
+rounds and two wrong entries in this file; it is the `purpleSlot.py` idea applied to geometry instead
+of textures. And once you know the part, ask whether it OVERLAPS or merely MOVES wrongly: a clip at
+rest is `pushAway` or `splitGroups`, and only a swing or a fold is a bone.
+
 ### THE LEVER IS WHAT TO MINIMISE, AND "hair onto hair" IS ONLY A HEURISTIC FOR IT (2026-10-04)
+
+.. note::
+   Read the section ABOVE first. The lever reasoning below is sound for how a part MOVES, and it is
+   what the shipped row still uses, but it did not fix this report -- the clip was positional. Both
+   sections describe the same four source groups.
 
 **The obvious repair was tried next and was WORSE.** Citlali's lock is `23 -> 24 -> 25 -> 26` and the skin's own
 front lock is `Bangs 3 -> 5 -> 7`, so the chain was continued onto it and clamped at its end -- real hair bones,

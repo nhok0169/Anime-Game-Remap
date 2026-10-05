@@ -20,6 +20,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
@@ -114,6 +115,26 @@ namespace AGRemapCore {
             GIMIComponentFixerConfig::Component eyes = bangs;
             eyes.name = "Eyes";
             eyes.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes);
+
+            // ---- the front braids clear the arm ----
+            //
+            // HER BRAIDS CLIP THROUGH THE SKIN'S ARMS, AND NO BONE FIXES THAT. Citlali's two front
+            // braids (groups 25/26 and 31/32) pass the upper arm with 6.8 mm to spare in her own
+            // bind pose -- the closest of her 2073 hair vertices to the nearest of her 4405 arm
+            // vertices -- and the skin holds its arms slightly differently, so the arm is drawn
+            // THROUGH them: the braid appears at the shoulder, the bare arm covers its middle, and
+            // it comes out below with its clasp. Three different carriers were tried first (the
+            // chest bone, the skin's own front hair chain, its front dress chain) and all three
+            // looked identical, because an intersection is a question of WHERE the vertices are
+            // and not of which bone moves them.
+            //
+            // So they are pushed 2 cm FORWARD, out of the arm's depth, which is what VGPushAway is
+            // for. `from` sits directly behind each braid at its own x, so the direction is +z and
+            // the braids keep their width and their place on her chest; one entry a side, gated by
+            // `side`, because a push away from the midline would drive them further INTO the arm.
+            // Set after the copies above, so the Bangs and the Eyes do not take it.
+            body.pushAway = {VGPushAway{{25, 26}, {-0.078f, 1.130f, -0.250f}, 0.020f, -1},
+                             VGPushAway{{31, 32}, {+0.078f, 1.130f, -0.250f}, 0.020f, 1}};
 
             config.components = {body, bangs, eyes};
 

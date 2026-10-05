@@ -1422,25 +1422,36 @@ arithmetic is right and the conclusion is wrong -- **a longer lock swinging furt
 what hair does** -- and the user's next words were "stationary, solid with her head", which is
 exactly what 65-80% of the weight on the head bone looks like. It carries the hair bones' full
 weight now and swings.
-**(3) What remained was a genuine clip, and a push is the right tool once the braid is whole**: 4 cm
-forward and 1 cm outward, which is what takes it off the shoulder the skin's deltoid is drawn
-through. Measured at 1 cm steps in game -- 2.5 cm still lost one braid in the shoulder, 5.5 cm looks
-pushed -- and kept SYMMETRIC on purpose, because the idle is not mirror-symmetric (one shoulder
-leads, and that is the side that clipped first), so a per-side value is tuned to one pose. The taper
-is the engine's own: `VGPushAway` weighs each vertex by its share of the four listed groups, 0.29 at
-the scalp to 1.00 by y 1.20, so the braid bends away from the head rather than detaching from it.
+**(3) What remained was a genuine clip, and a push is the right tool once the braid is whole**:
+6.5 cm forward and 1 cm outward, which is what takes it off the shoulder the skin's deltoid is drawn
+through. Measured at 1 cm steps against the mod shown on Citlali herself -- 2.5 cm and 4 cm each
+still lost one braid in the shoulder -- and **SYMMETRIC although only one side ever clipped**: the
+MOD's two braids are mirror-exact (their mean z agrees to 0.0000 in every height band below y 1.30),
+so the lean belongs to the skin's standing idle and not to anything in the mod, and a per-side value
+would be tuned to the one animation it was measured in. The taper is the engine's own: `VGPushAway`
+weighs each vertex by its share of the four listed groups, 0.29 at the scalp to 1.00 by y 1.20, so
+the braid bends away from the head rather than detaching from it.
+**AND ONE THING THIS CANNOT FIX, recorded so the next report is not chased**: when she BENDS, both
+braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs off a
+chain parented to the HEAD; bending rotates the torso forward about the hips while the braid stays
+with the head, and the chest sweeps into it. No static displacement follows a pose -- the offset a
+bend needs is not the offset standing needs -- and the Bangs component has no body bone to share
+weight with even if that were wanted. On Citlali the same motion is absorbed by her own hair sim.
 **What made this cost five reports is a measurement that was true and a conclusion that was not.**
 The three Body bones tried for the lower half -- the torso `56`, the clavicle, the front dress chain
 `70-73` -- really do render identically, because a bone's skinning matrix is the IDENTITY at the
 character's own rest pose. "So the carrier does not matter" does NOT follow: the carrier decides
 whether the part MOVES, which is the half a still frame cannot show. **Judge a carrier on an idle
 SERIES, never on a pose-matched still** -- a pose-matched comparison is built to cancel exactly the
-difference being looked for. Three methods that did work: **displace the geometry you suspect a long
+difference being looked for. Four methods that did work: **displace the geometry you suspect a long
 way and reload** (if nothing moves, it was innocent); **iterate on the mod's own fixed `*Remap*.buf`
-and press F10**, a ~20 second loop that tries any carrier, weighting or push without a rebuild; and
+and press F10**, a ~20 second loop that tries any carrier, weighting or push without a rebuild;
 **ask the user for the base shot** -- the same mod on its own character settled in one picture what
-four rounds of argument could not. One trap that cost a round of its own: **"the part vanished" was
-the camera** -- the braid is invisible from the front and from most of a 360 sweep because the loose
+four rounds of argument could not; and **FLAG an axis rather than deriving it** -- "model +x is the
+viewer's right" was worked out from a cross product, is WRONG for this preview, and sent one round
+of pushing at the wrong braid; shoving only the `x > 0` vertices 30 cm sideways and reloading
+answered it in two minutes. One trap that cost a round of its own: **"the part vanished" was the
+camera** -- the braid is invisible from the front and from most of a 360 sweep because the loose
 hair hangs over it, so confirm a part is gone by displacing it, not by failing to find it. *Her feet sank into the ground in the
 overworld*: **two skins of one character can stand on different GROUND PLANES** -- a mod renders at
 the SOURCE's coordinates while the game plants the character by the TARGET's, and Citlali's sole sits

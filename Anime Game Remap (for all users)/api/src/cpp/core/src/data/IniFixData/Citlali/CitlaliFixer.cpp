@@ -140,20 +140,34 @@ namespace AGRemapCore {
             //
             // WHAT REMAINS IS A GENUINE CLIP, and a push is the right tool for it now that the braid
             // is whole: whatever this moves, it moves all of. The braid runs down the front of the
-            // shoulder and the skin's deltoid is drawn through it, so it goes 4 cm FORWARD and 1 cm
-            // outward -- `from` is 15 cm behind and slightly inboard of each braid, which is what
-            // makes the direction (0.24, 0.97) in xz. Measured in game at 1 cm steps: at 2.5 cm one
-            // braid still disappeared into the shoulder, at 4 cm both clear in every frame of the
-            // idle and neither stands proud of the body, and at 5.5 cm it starts to look pushed.
+            // shoulder and the skin's deltoid is drawn through it, so it goes 6.5 cm FORWARD and
+            // 1 cm outward -- `from` is 15 cm behind and slightly inboard of each braid, which is
+            // what makes the direction (0.15, 0.99) in xz. Measured in game at 1 cm steps, against
+            // the mod shown on Citlali herself: 2.5 cm and 4 cm both still lost one braid in the
+            // shoulder, 6.5 cm clears both in every frame of the idle and reads as lying against
+            // the body rather than standing off it from any angle.
+            //
+            // SYMMETRIC, ALTHOUGH ONLY ONE SIDE EVER CLIPPED. The skin's standing idle is not
+            // mirror-symmetric -- one arm leads, and its braid is the one that went into the
+            // shoulder at 2.5 and at 4 -- but the MOD's two braids are mirror-exact (their mean z
+            // agrees to 0.0000 in every height band below y 1.30, measured), so the lean belongs to
+            // the target's rig and not to anything here. A per-side value would therefore be tuned
+            // to the one animation it was measured in; the larger symmetric value costs the other
+            // braid 2.5 cm of forward travel it does not need, and that is invisible.
+            //
             // The taper is the engine's own: VGPushAway weighs each vertex by its share of the four
             // listed groups, which runs 0.29 at the scalp (y 1.40) to 1.00 by y 1.20, so the braid
             // bends away from the head rather than detaching from it.
             //
-            // Symmetric on purpose. The idle is NOT mirror-symmetric -- one shoulder leads, and that
-            // is the side whose braid clipped first -- so a per-side value would be tuned to one
-            // pose and wrong in the pose that leads with the other shoulder.
-            bangs.pushAway = {VGPushAway{{23, 24, 25, 26}, {-0.042f, 1.130f, -0.116f}, 0.0412f, -1},
-                              VGPushAway{{29, 30, 31, 32}, {+0.042f, 1.130f, -0.116f}, 0.0412f, 1}};
+            // WHAT THIS CANNOT FIX, and it is worth knowing before the next report: when she BENDS,
+            // both braids pass through her chest. The skin has no hair bone below y 1.24, so the
+            // whole braid hangs off a chain parented to the HEAD; bending rotates the torso forward
+            // about the hips while the braid stays with the head, and the chest sweeps into it. No
+            // static displacement can follow that -- the offset a bend needs is not the offset
+            // standing needs -- and the Bangs component has no body bone to share weight with even
+            // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
+            bangs.pushAway = {VGPushAway{{23, 24, 25, 26}, {-0.0552f, 1.130f, -0.1183f}, 0.0658f, -1},
+                              VGPushAway{{29, 30, 31, 32}, {+0.0552f, 1.130f, -0.1183f}, 0.0658f, 1}};
 
             config.components = {body, bangs, eyes};
 

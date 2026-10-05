@@ -369,18 +369,31 @@ rig** -- the amplitude ratio that justified it was never evidence of anything be
 
 **FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
 is whole.** It runs down the front of the shoulder and the skin's deltoid is drawn through it, so it
-goes **4 cm forward and 1 cm outward**. Three things about that number worth copying:
+goes **6.5 cm forward and 1 cm outward**. Three things about that number worth copying:
 
-* **Measured at 1 cm steps in game, not derived.** 2.5 cm still lost one braid in the shoulder;
-  5.5 cm starts to look pushed; 4 cm clears in every frame of the idle without standing proud.
-* **Symmetric on purpose.** The idle is NOT mirror-symmetric -- one shoulder leads, and that is the
-  side whose braid clipped first. `VGPushAway`'s `side` field makes a per-side value easy to write
-  and it would be tuned to one pose; the pose that leads with the other shoulder would need the
-  mirror of it.
+* **Measured at 1 cm steps in game, not derived**, and against the mod shown on Citlali herself.
+  2.5 cm and 4 cm each still lost one braid in the shoulder; 6.5 cm clears both in every frame of
+  the idle and reads as lying against the body from any angle.
+* **Symmetric, although only one side ever clipped.** The skin's standing idle is not
+  mirror-symmetric -- one arm leads, and its braid is the one that went in at 2.5 and again at 4 --
+  but the MOD's two braids are mirror-exact: their mean z agrees to **0.0000** in every height band
+  below y 1.30. The lean belongs to the TARGET's rig, so a per-side value (which `VGPushAway`'s
+  `side` field makes easy to write) would be tuned to the one animation it was measured in. The
+  larger symmetric value costs the other braid 2.5 cm of travel it does not need, and that is
+  invisible.
 * **The taper is the engine's own.** `VGPushAway` weighs each vertex by its share of the groups it
   names, so listing all four links gives 0.29 at the scalp (y 1.40) rising to 1.00 by y 1.20: the
   braid bends away from the head instead of detaching from it. A hand-rolled height cutoff is worse
   and was what the live prototype used.
+
+**AND ONE THING A PUSH CANNOT FIX, written down so the next report is not chased.** When she BENDS,
+both braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs
+off a chain parented to the HEAD: bending rotates the torso forward about the hips while the braid
+stays with the head, and the chest sweeps into it. A static displacement cannot follow a pose -- the
+offset a bend needs is not the offset standing needs -- and the Bangs component has no body bone to
+share weight with even if sharing were wanted. On Citlali the same motion is absorbed by her own hair
+sim. **When a target rig simply lacks a bone where the source part hangs, say so and stop**; the
+alternative is a value that fixes one pose and breaks another.
 
 **AND THE MEASUREMENT THAT SENT FOUR ROUNDS IN A CIRCLE WAS TRUE.** The Body carriers tried for the
 lower half -- the torso `56`, the clavicle `9/33`, the shoulder cloth `57/58`, the dress chain

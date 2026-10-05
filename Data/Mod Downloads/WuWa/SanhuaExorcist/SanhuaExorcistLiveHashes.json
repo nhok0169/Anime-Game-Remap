@@ -1,0 +1,20 @@
+{
+  "_": "SanhuaExorcist's textures: the hash WWMI-Assets / the download folder files them under (2.5) -> the hash the game binds with its texture quality (LOD bias) on Ultra High. 3DMigoto rehashes a streamed texture as its mips load, so on that setting a mod's override on the left-hand hash never fires and the game's texture is drawn under the mod's UVs. The inverse of the 2026-09-20 entries of SanhuaExorcistHashLineage.json, every one visible in the 2026-10-05 character-menu dump at WuWa 3.7 (FrameAnalysis-Sanhua37Vanilla, which shows her) re-confirmed; 8383cbbf -> a506a70d is shared with Sanhua. Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live.",
+  "f8d5c991": "af3ba241",
+  "63c807fe": "0442ed26",
+  "4478285f": "38074c14",
+  "11171f1c": "10980f87",
+  "9febd992": "77a480f9",
+  "46177147": "bf16c0c7",
+  "c98e83cd": "280300b0",
+  "72739d6e": "773ed913",
+  "e0c15187": "bc4f430b",
+  "52f35e6d": "2dad4dfe",
+  "221b8ad6": "83b34054",
+  "8e5306a9": "dfd02e32",
+  "1dcc0f1d": "5764478b",
+  "c88cc1fc": "d0524bfb",
+  "1d50aa4a": "0e35129c",
+  "c74af063": "4670cac5",
+  "8383cbbf": "a506a70d"
+}

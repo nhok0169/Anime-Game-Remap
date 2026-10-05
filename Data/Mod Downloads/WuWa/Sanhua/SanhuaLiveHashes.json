@@ -1,0 +1,23 @@
+{
+  "_": "Sanhua's textures: the hash WWMI-Assets / the download folder files them under (2.5) -> the hash the game binds with its texture quality (LOD bias) on Ultra High. 3DMigoto rehashes a streamed texture as its mips load, so on that setting a mod's override on the left-hand hash never fires and the game's texture is drawn under the mod's UVs. Measured off frame dumps: 2026-09-20 (max LOD) and 2026-10-05 at WuWa 3.7 (FrameAnalysis-Sanhua37Base, the character menu, every pair visible there re-confirmed; bf702e2d and 693b1360 are bound by passes that frame does not draw). Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live: each override it keeps or updates gets a twin on the other hash, so the mod works on either setting.",
+  "ae6e9014": "b0828323",
+  "1c0c8b91": "332a6aac",
+  "68ca7071": "07f0a2ea",
+  "cef6494f": "466478e4",
+  "46177147": "bf16c0c7",
+  "881c236d": "d2765954",
+  "e39835c7": "7aee2f16",
+  "fde0f298": "fa792b59",
+  "1035197c": "091a8707",
+  "efb25eb3": "8141e933",
+  "89ba19a1": "02746d45",
+  "abda232b": "fcecfdcb",
+  "f3b217ab": "01ef7c05",
+  "f0713dc7": "0b5be4da",
+  "c689a8ee": "1cd3181e",
+  "1dcc0f1d": "5764478b",
+  "c88cc1fc": "d0524bfb",
+  "bf702e2d": "568d001e",
+  "693b1360": "c620cc3a",
+  "8383cbbf": "a506a70d"
+}

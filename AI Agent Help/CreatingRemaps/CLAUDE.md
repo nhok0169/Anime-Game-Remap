@@ -485,9 +485,11 @@ surprises you.
 | **small dark squares / wedges** on layered CLOTHING that change colour with a band edit but never go away | "LUMINE <-> LUMINEHEAVEN", point 11: the outline shells of the under-layer. Zero the vertex colour alpha (the outline width) as the test, then `Component::innerOutlineObjs` |
 | **white cloth goes warm, or hair goes two colours, in the overworld's SHADE** only (the Dressing Room looks fine) | "LUMINE <-> LUMINEHEAVEN", point 10: one skin slot carries cloth and hair, and a draw shades everything as one of them. `GIMIMergeFixerConfig::Slot::splitFrom` splits it by light map band. Test in the overworld's shade (`look DX DY`), never only in the preview |
 | two configs of one pair **disagree about a slot's layout** (normal map or not) | "A TexFx call follows the TARGET's layout", the YelanTranquil slot C paragraph, and [Overview](../Overview/CLAUDE.md)'s habit 86: trace both through ORFix before "fixing" either |
+| the mod **looks wrong on its OWN character**, not only on the remap (WuWa: the game's textures at the mod's UVs, gold smears, a washed-out top) | NOT a remap bug. "THE MOD LOOKS WRONG ON ITS OWN CHARACTER WAS THE LIVE TEXTURE HASHES": dump the BASE outfit in the character menu (check the dump's `vb0` is the right character, since the selected outfit card decides which one draws), compare the hashes it binds with the mod's `[TextureOverrideTextureN]` hashes, then `wwmiTextureFix.py --live` (undo the remap first, fix again after). Prove it with a before/after on a mod whose VISIBLE parts use the changed overrides |
+| on the remap, **some parts render in the GAME's textures** while the mod's own `.ini` binds no textures for them, and another `.ini` of the mod does (a namespaced or RabbitFX file, often one folder up, matching the same `vb0` + `match_first_index`) | "THE MOD LOOKS WRONG ON ITS OWN CHARACTER", its last paragraph: `WWMIFixer::readSameDrawInis` reads those, but only the registers `WWMITextureFacts::registerRoles` names. A new character needs its RabbitFX names there. The tell is `<Source><Role>RemapDL.dds` files beside the mod: each is a role the fix found no file for |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
-Four things hold whichever row you are on, and each has cost a session:
+Five things hold whichever row you are on, and each has cost a session:
 
 * **The report's own words are the first instrument.** A hue over body and clothes is a mask; one
   part in another's texture is a role with no file; a wrong shape is a vertex group. [Overview](../Overview/CLAUDE.md)'s
@@ -502,6 +504,10 @@ Four things hold whichever row you are on, and each has cost a session:
   NAMES, not their bodies.
 * **The maintainer moves mod folders between `Mods/` and its parent between turns.** A mod you
   cannot find is one directory up, not missing.
+* **A "still broken" report after a fix you verified: diff the live folder against your verified
+  output before reopening code** ([Overview](../Overview/CLAUDE.md)'s habit 93). The maintainer's
+  `Mods` holds the released `AGRemap-*.py` beside `FixRaidenBoss7.py`, and the release fixes with
+  the pip-installed API. Output byte-identical to the OLD build means the wrong script ran.
 
 <br>
 
@@ -6643,10 +6649,19 @@ fill them, with where each comes from:
    dump; the eye pass has its own layout.
 3. **The roles by hash** (`roles`) for the CURRENT hashes off the dump AND every older hash the
    community maps and `Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json` know -- mods carry
-   whatever version their author exported from.
+   whatever version their author exported from. **And the LIVE ones** (2026-10-05): the hashes the
+   game binds with texture quality on Ultra High, which differ from the asset repo's. Read them off a
+   frame dump of the character menu, put them in `roles` too, and write
+   `<Name>LiveHashes.json` (asset -> live) for `wwmiTextureFix.py --live`. File the OLDER generations
+   in `HashData` (ChisaParfait's and Sanhua's shape: older only, never current or live, which would
+   make them remappable).
 4. **The thumbprints** (`textureThumbprints`, `Tools/Misc/Diagnostics/wwmiTextureThumbs.py` over the
-   download folder) for files no hash names; the `Component<N>_<Type>` convention (`typeRoles`) after
-   them.
+   download folder) for files no hash names, and **`registerRoles`** for files a mod binds by
+   register or by RabbitFX name (`Resource\RabbitFX\Diffuse` / `Lightmap` / `Normalmap`; Lightmap
+   is the mask on both characters so far). `typeRoles` (`Component<N>_<Type>.dds`) **no longer
+   assigns a role** since 2026-09-29: a mod whose only evidence was the file NAME lost those
+   textures to game downloads (Sanhua3's hair, 2026-10-05). It only says which component a role
+   belongs to.
 5. **The created textures** (`createdTextures`: the skin mask code measured off the TARGET's mask,
    `(255, 77, 0)` for the Exorcist -- measure it, the legends differ per skin).
 6. **The fallbacks** (`fallbackTextures` + `downloadCharFolder` / `downloadVersionFolder` /
@@ -7560,6 +7575,49 @@ ChisaParfait mods that exist are all 3.5-era, which is why that direction cannot
 until one is re-exported -- or until the fix updates the mod's own sections to the source's current
 hash, which is what the maintainer's `25fix` / `wwmi_fix_23` tools do and is a decision rather than a
 bug.
+
+<br>
+
+### "THE MOD LOOKS WRONG ON ITS OWN CHARACTER" WAS THE LIVE TEXTURE HASHES, AND A DUMP SAYS SO IN MINUTES (2026-10-05)
+
+Every Sanhua mod rendered the GAME's textures at the mod's UVs on Sanhua herself at WuWa 3.7: gold
+smears on a skirt, a washed-out blouse. A WWMI-Tools mod binds its textures through
+`[TextureOverrideTextureN] hash = <game texture>` sections that `CheckTextureOverride` fires, so a
+hash the game no longer binds is a texture that silently never arrives. Four mods carried pre-2.5
+hashes and two had been moved to WWMI-Assets' 2.5 hashes by `wwmiTextureFix.py` in September, and
+**all six were wrong**: with texture quality on Ultra High the game binds the "live" hashes, the ones
+3DMigoto computes after a texture's mips have streamed in (`b0828323` where the asset repo says
+`ae6e9014`). They had been measured on 2026-09-20 and filed only as `live -> asset` entries in the
+lineage table, which a tool moving mods TO the asset hashes cannot use.
+
+`Data/Mod Downloads/WuWa/Sanhua/SanhuaLiveHashes.json` is the `asset -> live` table, re-confirmed
+off a character-menu dump of the base outfit (`FrameAnalysis-Sanhua37Base-2026-10-05-012744`), and
+`wwmiTextureFix.py --live <it>` adds a `[<section>Live]` twin to each override, so a mod works at
+either texture setting. The live hashes went into `SanhuaTextures.cpp`'s role table too: without
+that, the remap fix would no longer recognise an updated mod's textures. The order for a mod that is
+already remapped is undo, then the tool, then the fix again. All eight Sanhua mods came out with
+remapped bindings and blends identical to before.
+SanhuaExorcist's five mods had the same fault and got the same treatment
+(`SanhuaExorcistLiveHashes.json`; her live hashes were already in her role table). In game, qiming
+went from pale hair and smeared pink arms to its own art. One of them, `SanhuaExorcist3`, looked the same
+before and after, because none of the parts on screen used the overrides that changed. **A single
+before/after that matches proves nothing; pick a mod whose visible parts are bound by the overrides
+the tool moved.** Both characters' OLDER generations are filed in `HashData` now, ChisaParfait's
+shape: older hashes only, never the current or live ones, which would make them remappable. Over the
+13 mods' pristine copies the remap output did not move, because the configs' role tables already
+held every one of them.
+**Check the dump's `vb0` before reading it**: the first attempt was taken with the outfit menu
+showing the SKIN's card and caught SanhuaExorcist (`b101dcf3`), so none of Sanhua's hashes were in it.
+
+And the RabbitFX cloak mod (`Sanhua3`) found the second half the same day. Its mesh `.ini` binds
+no textures. A namespaced `SanhuaCloak.ini` one folder up overrides the SAME draws (source `vb0`
+hash plus `match_first_index`) and hands its bangs, hair and bodice art to RabbitFX by name. The
+parser has only read the `.ini`'s own files since 2026-09-29, so those roles fell back to
+downloading Sanhua's GAME textures. `WWMIFixer::readSameDrawInis` now reads loaded `.ini` files beside
+the mesh's and up to two folders above it, takes only sections on one of this file's own draws, and
+only the registers `WWMITextureFacts::registerRoles` names. Sanhua's facts gained the RabbitFX
+names (her `Lightmap` is the mask; component 6 is left out, its "Diffuse" is the ramp). Only Sanhua3
+moved among the eight Sanhua mods.
 
 <br>
 

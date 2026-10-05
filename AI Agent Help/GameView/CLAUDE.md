@@ -122,6 +122,14 @@ py -3 main.py mods GIMI restore                                  # at the end: e
 - **`restore` returns to the state when the journal STARTED**, which can include a test copy you
   loaded before an earlier restore. List `Mods` after restoring and park anything of yours that is
   still there.
+- **And the journal outlives sessions** (2026-10-05): one `restore` after two moves of mine replayed
+  ~90 moves from earlier sessions (every Chisa folder, Lynae5, ...). It came out right only because
+  they netted to zero. When you moved only a few folders, undo them with explicit `park` / `load`
+  and compare `ls Mods` against the listing you took at the start.
+- **A before/after of a mod's OLD state** is one `load --from`: keep the pristine copy in scratch,
+  `park` the updated one, `load <name> --from <scratch>`, `compare`, and `park` it again (it goes back
+  to scratch). That pair is what showed the Sanhua hash restoration worked, and that one of the mods
+  looked the same either way and so proved nothing.
 
 ### Proving a shared-code change in game: the old build against the new (2026-09-29)
 
@@ -372,7 +380,7 @@ whether the account owns the character**:
 | want | how |
 | --- | --- |
 | does the account own this character? | `esc` (game menu) -> **Gallery** -> **Crossing Stars**, and check whether the character is unlocked |
-| an OWNED character, base or skin | overworld -> `key c` (character menu, verified; the first frame after it is a black fade, so `wait 5`). The roster is down the right. The shirt button at the bottom right opens **Resonator Outfits** (verified): the outfit cards are on the left, **Wear Outfit** equips one, and the eye icon hides the UI. Same switch-back rule as Genshin |
+| an OWNED character, base or skin | overworld -> `key c` (character menu, verified; the first frame after it is a black fade, so `wait 5`). The roster is down the right. The shirt button at the bottom right opens **Resonator Outfits** (verified): the outfit cards are on the left, **Wear Outfit** equips one, and the eye icon hides the UI. **The SELECTED card is the model drawn**, worn or not: a dump taken with the skin's card selected caught SanhuaExorcist when base Sanhua was wanted (2026-10-05), so click the card you need and check the dump's `vb0`. Same switch-back rule as Genshin |
 | an UNOWNED character's base look | Gallery -> Crossing Stars -> the character |
 | an UNOWNED character's skin | `esc` -> **Shop** -> **Outfit Store**. **View only**: the rules below apply in full |
 

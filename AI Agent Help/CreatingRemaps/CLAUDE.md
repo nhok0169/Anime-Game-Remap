@@ -447,6 +447,42 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
+## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-4
+
+Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the
+registration (Lynae filed at 3.6 with the `vb0` most of her mods carry, `0c33d628`, plus a 3.7 row for the live
+`7e400733`; LynaePeppermint at 3.7). Identity mods: `WWMI/LynaeIdentity`, `WWMI/LynaePeppermintIdentity`. What
+these steps taught:
+
+* **9 of 14 Lynae mods were exported before 3.7 moved her `vb0`**; every index window, `cb4` and shape-key hash
+  of theirs equals the 3.7 dump's, so only `vb0` needs a second row (the ChisaParfait arrangement). Count the
+  `vb0`s across the mods on hand before filing a version (`Tools`-less: grep `hash =` in the component sections).
+* **A downloaded "Lynae" mod may be built on the skin**: `lynae_klukai_v11` carries LynaePeppermint's `vb0` and
+  windows, and is `LynaePeppermint4` now. Classify downloads by hash, not by archive name.
+* **The extractor aborted on Lynae herself** (`components CB4 hash mismatch`): one component is also drawn in a
+  pass binding the scene's `vs-cb4`. `wwmiExtractDump.py --only <vb0>` drops those draws; see the downloads README.
+* **The LynaePeppermint identity mod matches the game. The Lynae one matches EXCEPT two glassy props of component
+  6 -- OPEN.** The ID card on her belt renders opaque white (clear plastic in the game), the chest pin renders as
+  a dark ring (silver in the game), and the headphone ear cups show a flat white dial when front-facing (an
+  iridescent disc in the game). A near-vanilla author mod (`Lynae11`) renders all three like the game. Eliminated,
+  each by a test: texture bytes (identical to every dump copy), mip chains (every texture re-written with its
+  full chain: no change), COLOR1 (the author mod's values swapped in: no change; `vb2` is byte-identical across
+  two dumps, so it is not animated), every other vertex attribute (equal to the author mod's within rounding,
+  vertices matched by position + UV), the merged bone of each prop (exact matrix matches in the dump; the author
+  mod is numbered two lower only because its source data was), and the `vg` windows (identical). The ear cup alone
+  comes back when the identity's override of `cecc13eb` (component 6's `ps-t0`) is switched off, so the GAME's
+  `cecc13eb` differs from the dumped one in something a dump does not record; the card and pin stay wrong with
+  every texture override off. A remap's fallback download of `cecc13eb` would carry the ear-cup half of this.
+* **A before/after of a REFLECTIVE part from one frame lies.** The ear cup's look depends on the idle pose's angle
+  to the camera, and one turned frame read as "mip chains fix it" -- a conclusion the next series overturned. Take a
+  timed series (six shots, two seconds apart, tiled) of the game (`screenshot --original`) and of the mod, and compare
+  frames of the same pose.
+* **Another session can rebuild the shared `.pyd` under you**: between two turns the installed module went back to
+  a `master` build without Lynae (`WWMIBuilder.lynae` missing), and the package stopped importing. Check the `.pyd`'s
+  mtime against your last build before trusting a run.
+
+<br>
+
 ## START HERE: which kind of remap request is this (2026-09-20)
 
 This file is long and its sections were written in the order they were learned, not in the order

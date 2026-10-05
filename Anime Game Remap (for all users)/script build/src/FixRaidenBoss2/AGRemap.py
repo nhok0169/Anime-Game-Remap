@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, October 04, 2026 10:32:14.184 PM UTC
-# Run Hash: a59244f9-4750-4146-a38d-d256b3ecbc90
+# Datetime Ran: Monday, October 05, 2026 03:38:01.252 PM UTC
+# Run Hash: 40f1ac7e-62b3-4e14-85b5-3843b511332d
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 5.0.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, October 04, 2026 10:32:14.184 PM UTC
-# Build Hash: 5faf498a-7a6a-4338-9fde-f685c1d7c341
+# Datetime Compiled: Monday, October 05, 2026 03:38:01.252 PM UTC
+# Build Hash: b6990f31-da4c-4921-a999-e0a7dbaade7b
 #
 # *********************************
 #
@@ -74,8 +74,14 @@ EnvName = "prod"
 #   API on another. Only a 'dev' build uses this.
 ApiRelPath = "../../../api/src/py"
 
-# ApiPackage: The API, both as a module to import and as an installation name on pypi
+# ApiPackage: The API as a module to import, from the API's source folder. Only a 'dev' build uses this.
 ApiPackage = "FixRaidenBoss2"
+
+# ApiMirrorPackage: The API's mirror, both as a module to import and as an installation name on pypi
+#
+# note: the mirror re-exports the whole API and pins the API's package at its own version, so
+#   installing the mirror also installs the API. Only a 'prod' build uses this.
+ApiMirrorPackage = "AnimeGameRemap"
 
 
 class BuildEnv(Enum):
@@ -479,7 +485,7 @@ class ApiRefBuilder():
         """
 
         if (BuildEnv.match(EnvName) == BuildEnv.Prod):
-            return PackageApiRef(ApiPackage)
+            return PackageApiRef(ApiMirrorPackage)
 
         return PathApiRef(ApiPackage)
 

@@ -2320,6 +2320,7 @@ namespace AGRemapCore {
                     dumpTextureRoles(scan);
                     collectRoleCandidates(scan);
                     readSiblingRecolours(scan);
+                    readSameDrawInis(scan);
                     narrowRoleCandidates(scan);
                     readComponentTagging(scan);
                     applyTextureRoles(scan);
@@ -2515,10 +2516,16 @@ namespace AGRemapCore {
                  * @return Their paths, sorted
                  */
                 std::vector<std::string> siblingInis(const std::string& self) const {
+                    const std::filesystem::path own = FileService::strToPath(self);
+                    return loadedInisIn(own.parent_path(), own);
+                }
+
+                // The .ini files directly in `dir` the game loads, other than `own` -- see siblingInis
+                std::vector<std::string> loadedInisIn(const std::filesystem::path& dir,
+                                                      const std::filesystem::path& own) const {
                     std::vector<std::string> result;
                     std::error_code error;
-                    const std::filesystem::path own = FileService::strToPath(self);
-                    for (const auto& entry : std::filesystem::directory_iterator(own.parent_path(), error)) {
+                    for (const auto& entry : std::filesystem::directory_iterator(dir, error)) {
                         if (!entry.is_regular_file(error)
                             || std::filesystem::equivalent(entry.path(), own, error)) {
                             continue;
@@ -2626,6 +2633,174 @@ namespace AGRemapCore {
                                  + " of the game's textures; carried over to the target, which binds"
                                  + " its own and would never see those hashes");
                     }
+                }
+
+                /**
+                 * @brief
+                 @rst
+                 Textures ANOTHER ``.ini`` of the mod binds on one of this file's draws, as candidates
+                 @endrst
+                 *
+                 * A mod may split one draw over two files: the mesh's ``.ini`` draws, and a second,
+                 * often namespaced, ``.ini`` overrides the SAME draw -- the same source ``vb0`` hash
+                 * and ``match_first_index`` -- to bind its textures. On the mod's own character both
+                 * fire. Remapped, the second never does (the target's hash is not its), so without
+                 * this the textures it binds are invisible to the fix and every role it serves is
+                 * downloaded from the GAME over the mod's art. The RabbitFX cloak mod draws from
+                 * ``LOD0/mod.ini`` and binds its bangs, hair and bodice through RabbitFX from
+                 * ``SanhuaCloak.ini`` one folder up: its hair rendered in Sanhua's own textures.
+                 *
+                 * Only a section on one of this file's own draws is read, and only the registers
+                 * WWMITextureFacts::registerRoles names for that component, so this is the mod
+                 * stating a role rather than a guess from a file name. Looked for beside this
+                 * ``.ini`` and in the two folders above it, the files the game loads only.
+                 *
+                 * @param scan The running scan
+                 */
+                void readSameDrawInis(TextureScan& scan) {
+                    const auto& layouts = config_.sourceTextures.registerRoles;
+                    if (present_.empty() || scan.iniPath.empty() || layouts.empty()) {
+                        return;
+                    }
+
+                    const std::filesystem::path own = FileService::strToPath(scan.iniPath);
+                    std::vector<std::string> inis;
+                    std::filesystem::path dir = own.parent_path();
+                    for (int depth = 0; depth < 3 && !dir.empty(); ++depth) {
+                        for (const std::string& path : loadedInisIn(dir, own)) {
+                            inis.push_back(path);
+                        }
+
+                        const std::filesystem::path parent = dir.parent_path();
+                        if (parent == dir) {
+                            break;
+                        }
+                        dir = parent;
+                    }
+
+                    std::size_t found = 0;
+                    for (const std::string& path : inis) {
+                        IniFile other(path);
+                        const ModBranches::Templates& templates = other.getIfTemplates();
+                        const std::string folder = other.getFolder();
+
+                        // section name, lower-cased -> section: `run =` names a section in any case
+                        std::unordered_map<std::string, const ModBranches::Template*> byName;
+                        for (const auto& entry : templates) {
+                            if (entry.second != nullptr) {
+                                byName.emplace(StringTools::toLower(entry.first), entry.second.get());
+                            }
+                        }
+
+                        for (const auto& entry : templates) {
+                            if (entry.second == nullptr) {
+                                continue;
+                            }
+
+                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                            const std::optional<std::string> index =
+                                ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                            if (!hash.has_value() || !index.has_value()
+                                    || !isSourceVb0(StringTools::toLower(std::string(StringTools::strip(*hash))))) {
+                                continue;
+                            }
+
+                            const std::string first(StringTools::strip(*index));
+                            for (std::size_t i = 0; i < source_.slots.size(); ++i) {
+                                const int component = static_cast<int>(i);
+                                if (std::string(StringTools::strip(source_.slots[i].indexOffset)) != first
+                                        || present_.count(component) == 0) {
+                                    continue;
+                                }
+
+                                const auto layout = layouts.find(component);
+                                if (layout == layouts.end()) {
+                                    continue;
+                                }
+
+                                for (const auto& [reg, role] : layout->second) {
+                                    for (const std::string& bound : looseValsThroughRun(byName, entry.first, reg)) {
+                                        const std::string name = IniNamingTools::removeRefPrefix(bound);
+                                        const auto declared = byName.find(StringTools::toLower(name));
+                                        if (declared == byName.end()) {
+                                            continue;
+                                        }
+
+                                        const std::optional<std::string> file =
+                                            ModBranches::firstVal(*declared->second, IniKeywords::Filename);
+                                        if (!file.has_value() || StringTools::strip(*file).empty()) {
+                                            continue;
+                                        }
+
+                                        const std::string abs = FileService::absPathOfRelPath(
+                                            FileService::iniPathToRel(std::string(StringTools::strip(*file))), folder);
+                                        std::error_code error;
+                                        if (!std::filesystem::is_regular_file(FileService::strToPath(abs), error)) {
+                                            continue;
+                                        }
+
+                                        scan.byRole[role].emplace_back(
+                                            abs, "the " + reg + " " + FileService::pathToStr(
+                                                     FileService::strToPath(path).filename())
+                                                 + " binds on the same draw");
+                                        scan.regRolesOfFile[abs][component].insert(role);
+                                        ++found;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (found > 0) {
+                        ctx_.log("another .ini of the mod binds " + std::to_string(found)
+                                 + " textures on this file's draws; carried over to the target, where"
+                                 + " that .ini's overrides never fire");
+                    }
+                }
+
+                // Every value of `key` (matched as ModBranches::looseKey does) in `root` and in every
+                // section of the same file it reaches through `run =`
+                static std::vector<std::string> looseValsThroughRun(
+                        const std::unordered_map<std::string, const ModBranches::Template*>& byName,
+                        const std::string& root, const std::string& key) {
+                    using Template = ModBranches::Template;
+                    const std::string want = ModBranches::looseKey(key);
+                    const std::string run = StringTools::toLower(IniKeywords::Run);
+                    std::vector<std::string> out;
+                    std::vector<std::string> todo{StringTools::toLower(root)};
+                    std::unordered_set<std::string> seen;
+                    while (!todo.empty()) {
+                        const std::string name = todo.back();
+                        todo.pop_back();
+                        if (!seen.insert(name).second) {
+                            continue;
+                        }
+
+                        const auto section = byName.find(name);
+                        if (section == byName.end()) {
+                            continue;       // another file's or a library's command list
+                        }
+
+                        for (const auto& part : section->second->parts()) {
+                            const auto* content = dynamic_cast<const Template::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const std::string& candidate : content->getKeys()) {
+                                const std::string loose = ModBranches::looseKey(candidate);
+                                for (const std::string& val : content->getVals(candidate)) {
+                                    if (loose == want) {
+                                        out.emplace_back(StringTools::strip(val));
+                                    } else if (loose == run) {
+                                        todo.push_back(StringTools::toLower(std::string(StringTools::strip(val))));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    return out;
                 }
 
                 // Three passes that take candidates AWAY: the same file found twice, a mask that is

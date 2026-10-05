@@ -1651,6 +1651,50 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "shapekey_offsets"}, "d709b169"},
         {{"2.5", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "shapekey_scale"}, "c0bf5479"},
 
+        // SANHUA'S AND SANHUAEXORCIST'S OLDER TEXTURE GENERATIONS (2026-10-05), the same shape as
+        //   ChisaParfait's below and for the same reason: a mod carries whatever hash its author
+        //   dumped, `WWMIFixerConfig::roles` is one generation, and a role that resolves to nothing
+        //   downloads the GAME's texture over the mod's art. Their current (2.5 asset) and live
+        //   (Ultra High, re-measured at 3.7) hashes are deliberately NOT here -- they resolve through
+        //   `config.roles`, and filing them here would also make them remappable.
+        //
+        //   Hash-level evidence only: each pair correlates 1.00 with the current texture of that
+        //   role (Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json). Left out: `3cd03f60`, the
+        //   iris BOTH characters bind (it stays in both configs), and the four lineage hashes whose
+        //   role no table measures (28708ab8, d78ad0f5, 43dc9bdf and the shared-pass textures).
+        //
+        //   The version key is documentation; the fixer's lookup is versionless. Sanhua's are
+        //   PLACEHOLDERS inside her life (no source dates them): 2.0 is the generation four of the
+        //   maintainer's mods were exported with, 1.0 the one older skirt diffuse a fifth carries
+        //   (`b222ae08`, which the lineage chains to 2.0's `2c0c2728`). SanhuaExorcist's are dated by
+        //   WWMI-Assets' own history ("2.2" / "2.4" diff commits).
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "skirtDiffuse"}, "b222ae08"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "bangsDiffuse"}, "48616ac9"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "bangsMask"}, "345368c9"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "bodiceDiffuse"}, "ebeeda8c"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "bodiceMask"}, "5efe7892"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "bodiceNormal"}, "0521977a"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "faceDiffuse"}, "aa70ef15"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "hairDiffuse"}, "98b9635b"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "hairNormal"}, "2584190a"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "skinDiffuse"}, "4b6d52b9"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "skinNormal"}, "03d9850b"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "skirtDiffuse"}, "2c0c2728"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "skirtMask"}, "11b9cadd"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "skirtNormal"}, "16695017"},
+        {{"2.0", ModTypeIdTools::getName(ModTypeId::Sanhua), "t5Ramp"}, "1bdd0987"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "bangsDiffuse"}, "31a5f36a"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "bangsMask"}, "d153e37f"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "faceDiffuse"}, "464256d1"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "hairDiffuse"}, "9522bbc7"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "hairNormal"}, "a0cf932f"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "lowerDiffuse"}, "fd078186"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "lowerNormal"}, "d96aa9b8"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "t5Ramp"}, "f22348f0"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "torsoDiffuse"}, "168462a9"},
+        {{"2.2", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "torsoNormal"}, "d5a089c8"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::SanhuaExorcist), "torsoNormal"}, "6a10c291"},
+
 
         // ===== WuWa: Chisa and ChisaParfait (2026-09-20) =====
         // The same four types, but read from the FRAME DUMPS the download folders were built from

@@ -1802,6 +1802,34 @@ what found this one, in a single run, once someone thought to look. **The genera
 that is obviously right for the case in front of you is a change to a SHARED rule, and its other
 callers are data you can read rather than guess at.**
 
+**93. "STILL BROKEN" AFTER A VERIFIED FIX: DIFF THE LIVE FOLDER AGAINST YOUR VERIFIED OUTPUT FIRST
+(2026-10-05).** The maintainer's `WWMI/Mods` holds TWO fix entry points. `FixRaidenBoss7.py` runs the
+repo's dev build; `AGRemap-5-0-0.py` is the released script, which fixes with the pip-installed
+`AnimeGameRemap` (`py -3 -m pip show AnimeGameRemap`) and has none of the session's work. Sanhua3 was
+fixed, then moved into `Mods` and re-fixed with the release script, and came back as "the hair is
+still messed up". The tell took one command: the live `.ini` was **byte-identical to the OLD build's
+output** for that mod, which no run of the new build can produce. Keep a scratch copy of every output
+you verified, and before reopening any code on a "still broken" report, `diff -rq` the live folder
+against it. A difference means something re-fixed it, so find out which script ran (habit 64), not
+what is wrong with your fix. Then ask the maintainer to use `FixRaidenBoss7.py` until a release ships.
+
+**94. A/B TWO BUILDS IN ONE SESSION WITHOUT TOUCHING THE INSTALL, AND A/B BY BINDING, NOT BY TEXT
+(2026-10-05).** A shared-code change needs every affected character's mods fixed by the old build
+and the new (habit 92). Swapping `.pyd` files back and forth to get that is how a test ends up
+running the wrong binary (habit 91). Copy `api/src/py/FixRaidenBoss2` into a scratch
+`<dir>/Anime Game Remap (for all users)/api/src/py/`, put the old `core.*.pyd` in it, and run the
+launcher with `AG_REMAP_REPO=<dir>`. Print `FixRaidenBoss2.core.__file__` and its md5 once, so you
+know which copy loads. Then compare with `Tools/Misc/Diagnostics/abFixBindings.py`, which resolves
+every remapped register to the md5 of the file it binds. A textual diff of two fixed `.ini` files is
+mostly download names and section order. Three habits make the zero mean something:
+- **Snapshot before you build.** Fix pristine copies with the current build into `before/`, so the
+  comparison is against the build you started from (habit 56).
+- **Prove the check can fail.** Run it over a pair you KNOW differs before trusting a `0 differ`.
+  Today's first loop compared `md5sum "after/$f"` over paths whose spaces had been turned into `?`:
+  both sides were empty and "equal", a vacuous pass.
+- **Pick an input that exercises the change.** A hash-table edit is tested on the mods that CARRY the
+  hashes, the pristine ones and not the updated ones.
+
 <br>
 
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)

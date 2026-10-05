@@ -148,10 +148,10 @@ The **Build** column says which build has the option. The Script accepts every o
        | The software will make all internet network requests through this proxy
    * - -dup, -\-disableUpdate
      - Script
-     - Skips updating the ``FixRaidenBoss2`` package (the API) to its latest version before running. With this option, the package is only downloaded when it is not already installed.
+     - Skips updating the ``AnimeGameRemap`` package (the API's mirror, which brings the API with it) to its latest version before running. With this option, the package is only downloaded when it is not already installed.
    * - -pre, -\-preRelease
      - Script
-     - Also considers prereleases of the ``FixRaidenBoss2`` package when downloading it.
+     - Also considers prereleases of the ``AnimeGameRemap`` package when downloading it.
 
 :raw-html:`<br />`
 :raw-html:`<br />`

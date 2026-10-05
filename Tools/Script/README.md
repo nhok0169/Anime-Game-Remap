@@ -18,7 +18,7 @@ Decided when the script is compiled, by the [ScriptBuilder](../ScriptBuilder)'s 
 | Env | How | Extra options |
 | --- | --- | --- |
 | `dev` | a path on this machine, relative to the script | none |
-| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) at runtime | `--disableUpdate/-dup`, `--preRelease/-pre` |
+| `prod` | the API's mirror, [AnimeGameRemap](https://pypi.org/project/AnimeGameRemap/), downloaded from pypi at runtime (it pulls in the API, `FixRaidenBoss2`, as its dependency) | `--disableUpdate/-dup`, `--preRelease/-pre` |
 
 <br>
 

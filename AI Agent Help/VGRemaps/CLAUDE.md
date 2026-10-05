@@ -543,30 +543,39 @@ workbook keeps the tool's `About` sheet until the rows are checked in game. The 
 `Face` / `Mouth` / `Eyebrows` meshes are not in any row: a 6.7 frame dump shows base Citlali drawing
 the same meshes by the same hashes, so they are nobody's to remap.
 
-### And one of those overrides was wrong, reported by a user (2026-10-04)
+### And one of those overrides looked wrong, reported by a user -- but the row was never the fault (2026-10-04, settled 2026-10-05)
 
 The front hair locks -- Citlali `25`/`26` and `31`/`32`, the lower half of each lock, 1112 vertices a
 side -- were overruled off the shoulder (right: an arm would swing the lock with it) and onto `Body:56`,
-the skin's TORSO bone, on the "vertices answer" rule above. In game the locks could not move at all and
-hung rigid through the arms: *"the hair is clipped to CitlaliWhisper's arms and is not free flowing."*
+the skin's TORSO bone, on the "vertices answer" rule above. In game the locks hung through the arms:
+*"the hair is clipped to CitlaliWhisper's arms and is not free flowing."*
 
-**The diagnosis was right and the remedy was worse than the problem**, so the lesson is not "review
-harder". Both candidates came from questions about the skin's anatomy -- *which bone is nearest*, *which
-bone owns the vertices here* -- and neither asks what the SOURCE part is or what it must do.
+**Four carriers were tried over two days and they render IDENTICALLY, which is provable rather than
+bad luck.** The skinning matrix the game uploads is `pose * bindInverse`, the identity at the
+character's own rest pose, so a remapped mod renders at the SOURCE's coordinates whatever bone it is
+bound to. Rebinding the braids live -- the chest bone `56`, the clavicle `9/33`, the shoulder cloth
+`57/58`, the dress chain `70-73` -- and reloading between each gives four pixel-matched pictures.
+**A part that is wrong AT REST cannot be fixed by a vertex group row, and no amount of reviewing one
+will say otherwise.** The real difference is that Citlali's braids ride her own hair-PHYSICS bones,
+which swing them clear of the arm, and the skin has no bone that animates at that place; the fix is
+`GIMIComponentFixerConfig::Component::pushAway`, a static stand-in for that animation. See Creating
+Remaps' "A CLIP IS NOT A BONE PROBLEM".
 
-**Then the obvious repair was tried and was worse still, which is where the real rule is.** Continuing the
-chain onto the skin's own front lock (`Bangs 3 -> 5 -> 7`, clamped at its end) put the lock on genuine hair
-bones and in ONE component -- and threw it further into the arm, because the skin's lock stops at y 1.241
-while Citlali's runs to 1.037, leaving the tip **19 cm below its pivot**. Measured, the hair clears the arm
-by **6.8 mm** at the bind pose, so a centimetre of swing buries it. The shipped row is now the skin's
-front-hanging DRESS chain `Body 70 -> 72` (mirror `71 -> 73`), whose links sit at 1.189 and 1.095 against
-the lock's 1.171 and 1.095: **pivots at the part's own height, so the lever is nearly zero**, hanging down
-the front of the chest as the lock does. Cloth driving hair is right here -- a chest-length tie and a
-chest-length hair lock move alike, which is the question that matters. Confirmed in game.
+**The motion reasoning below is still the right way to CHOOSE a row -- it just did not fix this.**
+Continuing the chain onto the skin's own front lock (`Bangs 3 -> 5 -> 7`, clamped at its end) would put
+the lock on genuine hair bones and in ONE component, and it is still a bad row: the skin's lock stops at
+y 1.241 while Citlali's runs to 1.037, leaving the tip **19 cm below its pivot**, and the hair clears the
+arm by only **6.8 mm** at the bind pose, so a centimetre of swing would bury it. The shipped row is the
+skin's front-hanging DRESS chain `Body 70 -> 72` (mirror `71 -> 73`), whose links sit at y 1.189 and 1.095
+against the lock's 1.171 and 1.095 -- pivots at the part's own height. **Its DEPTH was not checked and is
+poor**: those links sit at z 0.126 and 0.152 against the braid's 0.03, a 10 cm lever in the one axis
+nobody looked at. It costs nothing here only because that bone does not animate, and it is kept because
+it remains the best answer to the motion question.
 
-Rank a counterpart-less part's candidates by **lever first** (height and depth of the pivot), then by
-whether the carrier moves the same WAY, and only then by material. See Creating Remaps' "THE LEVER IS WHAT
-TO MINIMISE". And note the second thing the shipped row did: it collapsed the LEFT and RIGHT locks onto the
+Rank a counterpart-less part's candidates by **lever first, in all three axes**, then by whether the
+carrier moves the same WAY, and only then by material -- and first of all ask whether the part is wrong
+at rest, in which case none of it applies. See Creating Remaps' "THE LEVER, AND WHY IT DID NOT MATTER
+HERE". And note the second thing the shipped row did: it collapsed the LEFT and RIGHT locks onto the
 same centre-line bone, so the two sides could not move independently in principle -- **a many-to-one that
 crosses the mirror line is worth flagging on its own**, whatever the distances say.
 

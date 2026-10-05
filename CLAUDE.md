@@ -1405,31 +1405,32 @@ strips any a mod carried -- this one's face arrives through GIMI's newer API, an
 `GIMIApiNormalizer` faithfully turns its `SetTextures` into the traditional call, which is right
 everywhere except the one object the fix binds by hand.
 
-**TWO USER-REPORTED CITLALI BUGS, AND NEITHER WAS WHERE ITS SYMPTOM POINTED (2026-10-04).** *Her
-hair clipped to the arms and did not flow*: the long front locks were on the skin's `Body:56`, which
-is its TORSO bone. The row was a deliberate override -- the finder proposed the shoulder, a reviewer
-overruled it because the chest owns most of the skin's vertices at that height -- and **both
-candidates came from questions about the SKIN's anatomy** (what is nearest, what owns the vertices
-here) rather than about what the source part IS and must DO. A hair lock must swing; only a hair bone
-swings -- **and none of that was the reported fault.** The part clipping the arms is her two front
-BRAIDS, which pass it with **6.8 mm** to spare in her own bind pose, and the skin holds its arms a
-little differently, so the arm is drawn THROUGH them: an INTERSECTION, which no bone can fix, and
-which is why three different carriers looked identical. `VGPushAway` (already on the split template,
-already used by Neuvillette for the coat flaps his thigh went through) pushes them 2 cm FORWARD --
-forward, not outward, because a push away from the midline drives a part hanging beside the chest
-further INTO the arm. **Before changing a bone, displace the geometry you suspect a long way and
-reload: if the symptom survives, it was innocent.** That two-minute test would have saved three
-rebuilds and two wrong entries in these files. A clip at rest is `pushAway` or `splitGroups`; only a
-swing or a fold is a bone. The lever reasoning below is still right about MOTION, and still what the
-shipped row uses: **the obvious repair, continuing onto the skin's own front lock, was WORSE**: the skin's
-lock stops 19 cm above where Citlali's ends, so the tip hung that far below its pivot and a few degrees
-of hair sim threw it into the arm, which clears the hair by only 6.8 mm. **Rank a counterpart-less
-part's candidates by the LEVER -- the distance from the part to the pivot -- then by whether the
-carrier moves the same WAY, and only then by material.** The shipped row is now the skin's
-front-hanging DRESS chain, whose links sit at the lock's own heights, so it barely translates at all;
-cloth driving hair is right when a chest-length tie and a chest-length lock move alike. The draft's
-rule "a part longer than the other skin's takes the vertices answer" is right for a SKIRT overhanging
-onto legs and wrong for hair overhanging onto a chest, and is corrected in place. *Her feet sank into the ground in the
+**THREE USER-REPORTED CITLALI BUGS, AND THE HAIR ONE TOOK FIVE ATTEMPTS BECAUSE THE QUESTION WAS
+UNFALSIFIABLE (2026-10-04/05).** *Her hair clipped to the arms and did not flow*: the long front locks
+were on the skin's `Body:56`, its TORSO bone, and the first four attempts all moved them to a
+different bone -- the finder's shoulder, the skin's own front hair chain, its front dress chain.
+**Every one of them renders identically, and that is provable rather than a coincidence.** The matrix
+the game uploads per bone is `pose * bindInverse`, the IDENTITY at the character's own rest pose, so a
+remapped mod renders at the SOURCE's coordinates whatever it is bound to; rebinding the braids live to
+four carriers and reloading gives four pixel-matched pictures. What differs between the two characters
+is which bones ANIMATE: on Citlali the braids ride her hair-physics bones, which swing them clear of
+the arm, and the skin has no bone that animates there, so they sit in the groove between arm and chest
+and the arm sweeps through them. **A clip at rest is `pushAway` or `splitGroups`; only a swing or a
+fold is a bone** -- and before changing a bone, displace the geometry you suspect a long way and
+reload: if the symptom survives, it was innocent. *The hair then clipped her chest and the ponytails
+looked detached*: `VGPushAway`'s DIRECTION is the whole of it, and 2 cm straight FORWARD (`from`
+directly behind each braid) takes the braid off the arm and lays it on the BUST. `from` on the MIDLINE
+and behind pushes mostly forward and partly OUTWARD, into the gap beside the arm; 3 cm matches her own
+model and 4.5 cm puts it over the arm band. **What finally made this measurable instead of a matter of
+taste is the audit rule nobody had run: put the mod on its OWN character and photograph it side by
+side** -- copy the folder, restore its `RemapBKUP...txt`, delete the `*Remap*` files, and for a
+character the maintainer does not own, use the outfit shop's default card (`Dawnseer` is Citlali's).
+Her braids hang OUTBOARD, clear of both arm and chest. Also: **iterate on the mod's own fixed
+`*Remap*.buf` and press F10** -- a ~20 second loop against minutes per rebuild -- then A/B the compiled
+fix against the hand version, expecting a small legitimate difference where the split renormalised the
+weights (544 of 1188 vertices, up to 9 mm). Four lessons in these files were wrong and are corrected in
+place; the LEVER reasoning is kept, marked as being about MOTION only, and no longer credited with
+fixing anything. *Her feet sank into the ground in the
 overworld*: **two skins of one character can stand on different GROUND PLANES** -- a mod renders at
 the SOURCE's coordinates while the game plants the character by the TARGET's, and Citlali's sole sits
 0.045 below the skin's, so every mod of the pair stood 4.5 cm low. It is DIRECTIONAL and the mirror

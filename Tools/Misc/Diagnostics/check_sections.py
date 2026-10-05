@@ -38,6 +38,11 @@ REFERENCE = re.compile(r"^\s*[\w\-]+\s*=\s*(Resource[\w.]*)\s*$", re.IGNORECASE)
 # to define.
 RUN = re.compile(r"^\s*run\s*=\s*(?:ref\s+)?(\S+)\s*$", re.IGNORECASE)
 
+# 3dmigoto defines these itself -- no .ini declares them, and a mod that calls one is correct.
+# Reported as missing on a real Citlali mod (2026-10-05), in the author's own file as well as the
+# fix's copy of it, which is exactly the false FAIL that invites a change to working code.
+BUILT_IN_PREFIX = "builtincommandlist"
+
 
 def iniFiles(folder):
     for root, _dirs, files in os.walk(folder):
@@ -74,7 +79,8 @@ def scan(folder):
             call = RUN.match(line)
             if call is not None:
                 target = call.group(1)
-                if "\\" in target or "/" in target:
+                if ("\\" in target or "/" in target
+                        or target.lower().startswith(BUILT_IN_PREFIX)):
                     external.append(target)
                 else:
                     referenced.append((folderKey, path, target))
@@ -88,7 +94,7 @@ def scan(folder):
 
     print("%s: %d reference(s) checked (registers and `run =`), %d undefined%s"
           % ("FAIL" if missing else "OK", len(referenced), len(missing),
-             ", %d external/namespaced left alone" % len(set(external)) if external else ""))
+             ", %d external / namespaced / 3dmigoto built-in left alone" % len(set(external)) if external else ""))
     return 1 if missing else 0
 
 

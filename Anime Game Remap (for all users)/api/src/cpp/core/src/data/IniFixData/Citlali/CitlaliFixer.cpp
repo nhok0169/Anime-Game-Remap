@@ -123,18 +123,31 @@ namespace AGRemapCore {
             // bind pose -- the closest of her 2073 hair vertices to the nearest of her 4405 arm
             // vertices -- and the skin holds its arms slightly differently, so the arm is drawn
             // THROUGH them: the braid appears at the shoulder, the bare arm covers its middle, and
-            // it comes out below with its clasp. Three different carriers were tried first (the
-            // chest bone, the skin's own front hair chain, its front dress chain) and all three
-            // looked identical, because an intersection is a question of WHERE the vertices are
-            // and not of which bone moves them.
+            // it comes out below with its clasp.
             //
-            // So they are pushed 2 cm FORWARD, out of the arm's depth, which is what VGPushAway is
-            // for. `from` sits directly behind each braid at its own x, so the direction is +z and
-            // the braids keep their width and their place on her chest; one entry a side, gated by
-            // `side`, because a push away from the midline would drive them further INTO the arm.
+            // WHICH BONE CARRIES THEM MAKES NO DIFFERENCE AT ALL, and four carriers were tried
+            // before that was measured (2026-10-05). The skinning matrix of every bone is the
+            // IDENTITY at the character's own rest pose, so a remapped mod renders at the source's
+            // coordinates whatever it is bound to -- the chest bone, the shoulder, the clavicle and
+            // the front dress chain are pixel-indistinguishable here. What moves Citlali's braids
+            // out of the way on her OWN model is her hair bones' ANIMATION, and the skin has no
+            // bone at that place that animates. So the braids stay at the bind position, which is
+            // the narrow groove between the arm and the chest, and the arm is drawn through them.
+            //
+            // The push is the static substitute for that animation, and its DIRECTION is the whole
+            // of it. Measured against the mod fixed onto nothing and shown on Citlali herself (the
+            // shop's Dawnseer card -- see Images/Citlali/CitlaliWhisperBraidAgainstCitlali.png),
+            // her braids hang OUTBOARD, beside the arm, clear of both it and the chest. A push
+            // straight forward -- `from` directly behind each braid, which shipped on 2026-10-04 --
+            // takes them off the arm and lays them on the BUST instead, which is what the user
+            // reported next. `from` on the MIDLINE and behind gives a direction that is mostly
+            // forward and partly outward, into the gap beside the arm where her own hair hangs.
+            // 3 cm is where the braid matches hers; 4.5 cm puts it over the arm band.
+            //
+            // Both entries are the same point: `side` is what makes it outward rather than across.
             // Set after the copies above, so the Bangs and the Eyes do not take it.
-            body.pushAway = {VGPushAway{{25, 26}, {-0.078f, 1.130f, -0.250f}, 0.020f, -1},
-                             VGPushAway{{31, 32}, {+0.078f, 1.130f, -0.250f}, 0.020f, 1}};
+            body.pushAway = {VGPushAway{{25, 26}, {0.0f, 1.130f, -0.100f}, 0.030f, -1},
+                             VGPushAway{{31, 32}, {0.0f, 1.130f, -0.100f}, 0.030f, 1}};
 
             config.components = {body, bangs, eyes};
 

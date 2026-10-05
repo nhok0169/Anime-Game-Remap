@@ -601,6 +601,11 @@ def cmdHelper(args, ctx):
     if args.action == "serve":
         helper.serve(args.port)
     elif args.action == "start":
+        # Before the UAC prompt, not after a failed capture an hour later -- see pillowWarning.
+        warning = helper.pillowWarning()
+        if warning:
+            print(warning)
+            return 1
         reply = helper.start()
         if reply:
             print("helper running: pid {}, elevated={}".format(reply["pid"], reply["elevated"]))

@@ -72,7 +72,13 @@ colours** -- then "did it switch" is a colour, not a statistic.
    look for a way around the prompt. A registered highest-privilege task was proposed for that and
    refused as unrequested persistence.
    **The helper runs under whichever Python started it, and screenshots need Pillow in THAT one**
-   (2026-09-29). A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
+   (2026-09-29; it happened AGAIN on 2026-10-04 and cost another round trip, so `helper start` now
+   REFUSES an interpreter without Pillow and names the fix. If a capture fails with a bare
+   `ModuleNotFoundError: No module named 'PIL'` anyway, the helper predates that check: `helper stop`
+   then `py -3.9 main.py helper start`. The `helper.json` beside `config.json` in the scratch folder
+   -- `status` prints its path -- records which Python a RUNNING helper is on, which is the one
+   question `helper status` does not answer.)
+   A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
    failed every capture. Ask for it to be restarted under the Python that has Pillow (`py -3`, 3.9
    there; habit 77 says to check with `py -0`), rather than installing packages into another one.
 3. **Is hunting on?** `status` shows `hunting` per importer. `show_original` (F9, which `compare`

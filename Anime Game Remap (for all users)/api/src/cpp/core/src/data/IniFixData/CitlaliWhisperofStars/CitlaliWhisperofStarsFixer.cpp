@@ -11,6 +11,7 @@
 
 #include "AGRemapCore/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.h"
 
+#include <array>
 #include <string>
 #include <utility>
 #include <vector>
@@ -69,6 +70,18 @@ namespace AGRemapCore {
             // panel covered the lining in black and showed as a dark edge by the hair: the identity
             // mod's dump had that draw write 4890 pixels outside the silhouette and turn 7141
             // inside it near-black, and gating exactly these two cleared both in game.
+            // ---- the ground plane, the reverse of Citlali's forward offset ----
+            //
+            // Citlali's sole sits at y = -0.0629 and CitlaliWhisperofStars' at -0.0178, so a mod of
+            // the SKIN carried onto Citlali keeps the skin's height and FLOATS 4.5 cm above the
+            // ground -- the mirror of the forward direction's feet sinking into it
+            // (GIMIComponentFixerConfig's Citlali config has the measurement). Confirmed on two of
+            // the maintainer's own skin mods: both wrote a remapped Position.buf still bottoming
+            // out at -0.0178 (2026-10-04).
+            //
+            // Every component takes it, or the merged model shears apart at its seams.
+            const std::array<float, 3> GroundOffset{0.0f, -0.0450f, 0.0f};
+
             GIMIMergeFixerConfig::Component body{};
             body.name = "Body";
             body.slots = {{"A", "0", "body", true, "", 60888, true},
@@ -79,6 +92,7 @@ namespace AGRemapCore {
             // The GAME model's vertex count, for a mod that does not carry the component at all --
             // download Blend.buf bytes / 32.
             body.vertexCount = 37631;
+            body.positionOffset = GroundOffset;
 
             // No textures of their own: the game draws both with the Body slot A set (they share
             // its hashes), so a mod may leave these sections with an ib and nothing else.
@@ -86,11 +100,13 @@ namespace AGRemapCore {
             bangs.name = "Bangs";
             bangs.slots = {{"A", "0", "body", true, "Body;A", 11328, true}};
             bangs.vertexCount = 3210;
+            bangs.positionOffset = GroundOffset;
 
             GIMIMergeFixerConfig::Component eyes{};
             eyes.name = "Eyes";
             eyes.slots = {{"A", "0", "body", true, "Body;A", 864, true}};
             eyes.vertexCount = 255;
+            eyes.positionOffset = GroundOffset;
 
             config.components = {std::move(body), std::move(bangs), std::move(eyes)};
             config.targetObjs = {"head", "body"};

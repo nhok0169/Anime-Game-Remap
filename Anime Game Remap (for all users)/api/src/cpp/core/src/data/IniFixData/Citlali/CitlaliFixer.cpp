@@ -79,6 +79,22 @@ namespace AGRemapCore {
             body.texcoordStride = 20;
             body.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
 
+            // ---- the ground plane ----
+            //
+            // THE TWO MODELS STAND ON DIFFERENT HEIGHTS. A mod's vertices are Citlali's, and the
+            // skinning is the identity at rest, so a remapped mod renders at CITLALI's coordinates
+            // while the game plants the character by the SKIN's -- and Citlali's sole sits 0.045
+            // lower than CitlaliWhisperofStars'. Measured off the two download folders: both models'
+            // lowest 400 vertices are the soles, dominated by the matching toe and foot groups
+            // (Citlali 109/113/133/137 -> the skin's 25/29/49/53), and each sole is a flat plane --
+            // 50 vertices inside 3 mm at y = -0.0629 for Citlali and y = -0.0178 for the skin.
+            // Unshifted, the whole remapped model sits 4.5 cm low and her feet sink into the ground
+            // in the overworld (reported 2026-10-04).
+            //
+            // Set on `body` BEFORE the two copies below, so all three components move together --
+            // shifting one of them alone shears the model apart at its seams.
+            body.positionOffset = {0.0f, 0.0450f, 0.0f};
+
             GIMIComponentFixerConfig::Component bangs = body;
             bangs.name = "Bangs";
             bangs.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBangs);

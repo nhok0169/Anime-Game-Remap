@@ -326,11 +326,83 @@ NEUVILLETTEMELUSENT" in Creating Remaps):
 * **the part may not ride the chain you think**: Neuvillette3's clipping flap rides his TAIL chain, not the
   front-panel chain the first fix went on -- tally which groups carry the part in EACH mod before tuning it;
 * and before this pair, **hair is simulated**: Chisa's jacket shoulders on ChisaParfait's hair bones swung
-  "like jello".
+  "like jello";
+* **and the converse, which cost a user report (Citlali -> CitlaliWhisperofStars, 2026-10-04): never take a
+  HAIR part OFF hair.** Citlali's long front locks (groups 25/26 and 31/32, 1112 vertices a side) were put on
+  the skin's `Body:56`, her TORSO bone -- so the locks could not swing at all, and hung rigid through the arms.
+
+**"Which bone drives the SKIN here" is a THIRD wrong answer, as wrong as "which bone is nearest".** Both were
+tried on that lock and both failed: `Tools/VGRemapFinder` proposed the shoulder (nearest), the draft's reviewer
+overrode it to the chest because the chest owns most of the skin's vertices at that height ("vertices mode
+52%"), and the chest is what shipped. Neither question is about the PART. A statistic over whatever geometry
+happens to surround a point describes the SKIN's anatomy, not the source part's job: a hair lock hanging over a
+chest is surrounded by chest, and is still hair.
+
+**When the source part is LONGER than its target counterpart, continue the chain and CLAMP at its end.** The
+skin's own front lock is `Bangs 3 -> 5 -> 7` and stops at y 1.241; Citlali's is `23 -> 24 -> 25 -> 26` and runs
+on to 1.037, so the lower half has no counterpart at all. `25` and `26` both take `Bangs:7` (`31`/`32` its
+mirror `8`). The end of the chain swings the overhang about a pivot above it -- a wide arc, which is a cosmetic
+compromise -- where the torso bone gave it no motion whatever, which is a defect. Accept the lever; do not fall
+back to a bone that cannot move. A bonus of staying on the chain: the lock lands in ONE component instead of
+being cut in half across two, as the Body/Bangs split had it.
+
 Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
-keep a garment on one component; never put a non-hair part on hair; and check left against right. Then look
+keep a garment on one component; never put a non-hair part on hair, nor a hair part on anything else; and check
+left against right -- the Citlali lock also collapsed its LEFT and RIGHT chains onto one centre-line bone, so
+the two sides could not move independently even in principle. Then look
 at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
 hide a clip or a fold that the next frame shows.
+
+<br>
+
+## TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES (2026-10-04)
+
+**Reported as "her feet clip into the ground in the overworld", and it is neither the vertex groups nor the
+animation.** A mod's vertices are the SOURCE's, the skinning is the identity at the bind pose, so a remapped
+mod renders at the SOURCE's coordinates -- while the game plants the character by the TARGET's. If the two
+models' soles sit at different heights in model space, the whole remapped model is off by the difference, in
+every pose, for every mod of that pair. Citlali's sole is at y `-0.0629` and CitlaliWhisperofStars' at
+`-0.0178`, so every Citlali mod on the skin stood **4.5 cm low**.
+
+**It is DIRECTIONAL, and fixing one direction implies the mirror.** The same 4.5 cm makes a mod of the skin
+carried back onto Citlali **float**. Neither had been noticed, because a model hovering a few centimetres
+reads as normal unless something on the ground gives it away. Measure it once and set both.
+
+**Measure it, in about a minute, from the two download folders** -- no game and no mod needed:
+
+```bash
+py -3 Tools/Misc/Diagnostics/boneCentroids.py "Data/Mod Downloads/GI/<Source>/<ver>"              # prints "y <min>..<max>"
+py -3 Tools/Misc/Diagnostics/boneCentroids.py "Data/Mod Downloads/GI/<Target>/<ver>" --component Body
+```
+
+The offset is `targetSoleY - sourceSoleY`. Two things make it a measurement rather than a guess:
+
+* **Check WHAT the lowest vertices are before differencing them.** Sort by y, take the lowest few hundred, and
+  print which vertex group dominates them: both of Citlali's and the skin's came back as the matching toe and
+  foot groups (`109/113/133/137` against the skin's `25/29/49/53`), which is what makes the two numbers
+  comparable. A long skirt, a cape hem or a trailing ribbon can hang below the sole and would silently make the
+  difference mean nothing.
+* **Check the sole is a PLANE.** Both of these hold 50+ vertices inside 3 mm of the minimum, so the minimum is
+  the contact surface and not one stray vertex. Where it is not flat, the measurement needs a different idea.
+
+**The library already expresses it, in both templates -- do not build anything.** It is
+`GIMIComponentFixerConfig::Component::positionOffset` for a split and `GIMIMergeFixerConfig::Component::positionOffset`
+for a merge, both added for NeuvilletteMelusent's EYES and both documented in terms of eyes, which is why two
+later sessions did not find them (habit 53: the class you want may already exist under another character's
+problem). Rules for using them this way:
+
+* **Set it on EVERY component, with the same value**, or the model shears apart at its seams. Where one config
+  builds its components by copying (`Component bangs = body;`), set it before the copies and say so in a comment.
+* **Leave `offsetOnlyWithGameFace` false.** That flag exists for the eye case, where the offset is about lining
+  up with whichever face is drawn. A ground plane is about the ground and always applies.
+* **The merge applies it to downloaded geometry too**, which is what you want: a component the mod lacks is
+  fetched from the SKIN's downloads and still has to land on the target's ground. Verified -- the 255 downloaded
+  Eyes vertices inside the merged buffer came out shifted with the rest.
+
+**The acceptance check is one line and needs no game**: the fixed mod's remapped `Position.buf` must now
+bottom out at the TARGET's sole, not the source's. It went `-0.0629 -> -0.0179` forward (target `-0.0178`) and
+`-0.0178 -> -0.0628` back (target `-0.0629`), with min and max both moving by exactly the offset, which is what
+proves the translation uniform.
 
 <br>
 
@@ -358,6 +430,7 @@ and a failure in any of them makes the round worthless anyway.
 | 8 | `grep -ri "NotFound" <mod>` | any reverse lookup that failed -- `HashNotFound`, `ChecksumNotFound` | no hits |
 | 9 | `wwmiFixTwiceSweep.py` / fix the folder a second time | a pass that stops declaring a resource on re-run, and a download that did not land | the second run's output matches the first |
 | 10 | `folderProbe.py <mod>` | the fix inventing folders the mod does not have | no new directories |
+| 11 | the remapped `Position.buf`'s min y | the pair standing on different ground planes -- feet sunk into the ground, or a model floating above it | it bottoms out at the TARGET's sole, not the source's (see "TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES") |
 
 Then the two rules that decide whether any of it means anything:
 

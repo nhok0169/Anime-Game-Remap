@@ -649,7 +649,7 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction.
 
-> **Current baseline --- Windows, 2026-09-29: 2386 tests, 0 failures, 0 errors, 0 expected
+> **Current baseline --- Windows, 2026-10-04: 2422 tests, 0 failures, 0 errors, 0 expected
 > failures** (`cd "Testing/Unit Tester" && py -3 main.py`, ~45s). It was **2288** on 2026-09-17 and
 > that figure was still written here on the 29th: the 98 arrived with other work and nobody re-read
 > it. **Run it and read the number** rather than trusting this line --- the counts in `core/tests`

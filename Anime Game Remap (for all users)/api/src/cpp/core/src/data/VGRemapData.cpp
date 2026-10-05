@@ -1078,13 +1078,26 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // answers disagreed reviewed by bone position (the reasons are in the draft's Comments). The
         // union of the three rows covers each of Citlali's 142 groups exactly once.
         //
-        // PROPOSED, NOT YET CONFIRMED IN GAME.
+        // HER FRONT HAIR LOCKS GO ON THE SKIN'S OWN FRONT LOCK, NOT ON THE CHEST (2026-10-04). The
+        // draft sent 25/26 and 31/32 -- the lower half of each long front lock, 1112 vertices a side
+        // -- to Body:56, reasoning from which bone drives the SKIN at that height (Comments: "the
+        // chest drives that skin (vertices mode 52%)"). Body:56 is the torso bone, 2715 of the
+        // skin's own vertices deep: the lock could not swing, and in game it hung rigid and clipped
+        // through the arms. Which bone a part BELONGS to is not which bone is nearest it, nor what
+        // happens to own the skin there -- see VGRemaps' invariant 5 and the Chisa jacket-on-hair
+        // precedent. Citlali's lock is 23 -> 24 -> 25 -> 26 and the skin's is Bangs 3 -> 5 -> 7, so
+        // the chain continues onto it and CLAMPS at its end: the skin's lock stops at y 1.241 and
+        // Citlali's runs on to 1.037, so 25 and 26 both take Bangs:7 (31 and 32 its mirror Bangs:8).
+        // Hair onto hair -- it swings, and the whole lock now draws in ONE component instead of
+        // being cut in half across two.
+        //
+        // The rest is PROPOSED, NOT YET CONFIRMED IN GAME.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Body"},
          VGRemap({
             {0, 106}, {1, 0}, {2, 1}, {3, 104}, {4, 105}, {7, 106}, {8, 107}, {9, 108}, {10, 108}, {11, 112},
-            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115}, {25, 56},
-            {26, 56}, {31, 56}, {32, 56}, {35, 7}, {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
+            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115}, {35, 7},
+            {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
             {42, 75}, {43, 2}, {44, 76}, {45, 76}, {46, 79}, {47, 85}, {48, 85}, {49, 127}, {50, 128}, {51, 129},
             {52, 96}, {53, 98}, {54, 100}, {55, 102}, {56, 121}, {57, 97}, {58, 99}, {59, 101}, {60, 103}, {61, 122},
             {62, 88}, {63, 90}, {64, 28}, {65, 8}, {66, 8}, {67, 77}, {68, 80}, {69, 86}, {70, 32}, {71, 32},
@@ -1100,7 +1113,8 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Bangs"},
          VGRemap({
-            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {27, 5}, {28, 7}, {29, 4}, {30, 6}, {33, 6}, {34, 8}
+            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {25, 7}, {26, 7}, {27, 5}, {28, 7}, {29, 4}, {30, 6},
+            {31, 8}, {32, 8}, {33, 6}, {34, 8}
          })},
 
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",

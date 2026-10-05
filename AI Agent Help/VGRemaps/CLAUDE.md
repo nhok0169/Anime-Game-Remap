@@ -529,8 +529,12 @@ was transcribed, and that is the method worth reusing:
   (Citlali's centre back strand onto the skin's `Body:126`, a waist bow), hair onto an arm (front
   hair locks onto the shoulder), cloth onto hair (the skin's back bow onto Citlali's twin tails),
   a skirt hem onto a small ornament bone. Those were most of the overrides.
-* **A part longer than the other skin's takes the vertices answer**: base Citlali's skirt panels
-  hang to the calves, past the skin's skirt, and the skin there is driven by the thigh and calf.
+* **A part longer than the other skin's takes the vertices answer -- ONLY where the part it overhangs
+  into is what should carry it.** Base Citlali's skirt panels hang to the calves, past the skin's skirt,
+  and the skin there is driven by the thigh and calf: a skirt hangs off legs, so the legs are right.
+  **The same rule applied to HAIR shipped a bug** (2026-10-04, below): her front hair locks hang past the
+  skin's locks and over its chest, the vertices answer is therefore the chest, and a chest bone cannot
+  swing. Ask what the overhang should be ATTACHED to, not what it hangs in front of.
 * **Keep left and right one decision**, and keep a chain on ONE target chain: a centre strand
   aligned onto two twin tails zigzagged 108, 109, 110 until reassigned to the left tail by height.
 
@@ -538,6 +542,23 @@ Every override is in the draft's Comments column as `Reviewed: <reason>. Tool pr
 workbook keeps the tool's `About` sheet until the rows are checked in game. The skin's unskinned
 `Face` / `Mouth` / `Eyebrows` meshes are not in any row: a 6.7 frame dump shows base Citlali drawing
 the same meshes by the same hashes, so they are nobody's to remap.
+
+### And one of those overrides was wrong, reported by a user (2026-10-04)
+
+The front hair locks -- Citlali `25`/`26` and `31`/`32`, the lower half of each lock, 1112 vertices a
+side -- were overruled off the shoulder (right: an arm would swing the lock with it) and onto `Body:56`,
+the skin's TORSO bone, on the "vertices answer" rule above. In game the locks could not move at all and
+hung rigid through the arms: *"the hair is clipped to CitlaliWhisper's arms and is not free flowing."*
+
+**The diagnosis was right and the remedy was worse than the problem**, so the lesson is not "review
+harder". It is that both candidates came from questions about the skin's anatomy -- *which bone is
+nearest*, *which bone owns the vertices here* -- and neither asks what the SOURCE part is or what it must
+do. A hair lock must swing; only a hair bone swings. The row now continues the chain onto the skin's own
+front lock and clamps at its end (`25`, `26` -> `Bangs:7`; `31`, `32` -> `Bangs:8`), which also puts the
+whole lock in ONE component instead of cutting it across Bangs and Body. See Creating Remaps' vertex group
+behaviour audit for the general form, and note the second thing the shipped row did: it collapsed the LEFT
+and RIGHT locks onto the same centre-line bone, so the two sides could not move independently in principle
+-- **a many-to-one that crosses the mirror line is worth flagging on its own**, whatever the distances say.
 
 <br>
 

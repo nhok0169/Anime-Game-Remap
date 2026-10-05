@@ -537,7 +537,7 @@ Two consequences, both the opposite of what this file used to say:
   anything --- the list grows, and this paragraph will go stale the same way the last one did.
 
 **THE UNIT TESTER IS GREEN ON BOTH OPERATING SYSTEMS NOW, AND "THE BASELINE HAS 7 ERRORS" IS DEAD
-ADVICE (2026-09-17).** Windows: **2386 tests, 0 failures, 0 errors** (re-measured 2026-09-29; it
+ADVICE (2026-09-17).** Windows: **2422 tests, 0 failures, 0 errors** (re-measured 2026-10-04; it
 was 2288 when this line was written, so run the suite rather than trusting the number). Linux: the
 same suite, and
 **0 failures too since 2026-09-18** --- the 11 it used to report were called "test-side assumptions",
@@ -1404,6 +1404,29 @@ pixels are deliberately not consulted. **And a FACE draw takes no fix library ca
 strips any a mod carried -- this one's face arrives through GIMI's newer API, and
 `GIMIApiNormalizer` faithfully turns its `SetTextures` into the traditional call, which is right
 everywhere except the one object the fix binds by hand.
+
+**TWO USER-REPORTED CITLALI BUGS, AND NEITHER WAS WHERE ITS SYMPTOM POINTED (2026-10-04).** *Her
+hair clipped to the arms and did not flow*: the long front locks were on the skin's `Body:56`, which
+is its TORSO bone. The row was a deliberate override -- the finder proposed the shoulder, a reviewer
+overruled it because the chest owns most of the skin's vertices at that height -- and **both
+candidates came from questions about the SKIN's anatomy** (what is nearest, what owns the vertices
+here) rather than about what the source part IS and must DO. A hair lock must swing; only a hair bone
+swings. It now continues onto the skin's own front lock and clamps at its end, which also puts the
+lock in ONE component instead of cutting it across two. The draft's rule "a part longer than the
+other skin's takes the vertices answer" is right for a SKIRT overhanging onto legs and wrong for hair
+overhanging onto a chest, and is corrected in place. *Her feet sank into the ground in the
+overworld*: **two skins of one character can stand on different GROUND PLANES** -- a mod renders at
+the SOURCE's coordinates while the game plants the character by the TARGET's, and Citlali's sole sits
+0.045 below the skin's, so every mod of the pair stood 4.5 cm low. It is DIRECTIONAL and the mirror
+was there too, unreported: a skin mod carried back onto Citlali FLOATS by the same 4.5 cm. Both
+directions are fixed, and **neither needed new machinery** -- `positionOffset` already exists on both
+multi-component templates, documented in terms of NeuvilletteMelusent's EYES, which is why two later
+sessions did not find it (habit 53). Both bugs were proved from the shipped output before anything
+was changed, and the acceptance check needs no game: the remapped `Position.buf` must bottom out at
+the TARGET's sole. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "TWO SKINS OF
+ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES" (with the one-minute measurement, and the two
+checks that make it a measurement rather than a guess) and
+[Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md)'s Citlali section.
 
 **AND `RegDelimitedAddMode::PerBindingGeneration` IS THE RULE THE ENUM'S OWN DOCS HAVE DESCRIBED
 SINCE 2026-09-14.** `PerPath` assumes an addition is invalidated only by its delimiter; the fix

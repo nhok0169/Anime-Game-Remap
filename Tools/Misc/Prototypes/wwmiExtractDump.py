@@ -9,6 +9,11 @@
 #
 #   py -3.11 wwmiExtractDump.py <FrameAnalysis folder> <output folder>
 #   py -3.11 wwmiExtractDump.py <FrameAnalysis folder> <output folder> --addon "<path to WWMI-Tools>"
+#   py -3.11 wwmiExtractDump.py <FrameAnalysis folder> <output folder> --only 7e400733
+#
+# --only extracts just the named vb0 objects (the addon otherwise aborts on the first object anywhere
+# in the frame that fails its checks) and drops any of their draws binding a minority 'vs-cb4' -- see
+# callsToDrop.
 #
 # It does not reimplement anything: it runs WWMI Tools' own "Extract Objects From Dump" (the Blender
 # addon's extract_frame_data package, which is what WWMI-Assets is made with) outside Blender. That
@@ -53,13 +58,13 @@ def stubBlender():
     sys.modules.setdefault("mathutils", types.ModuleType("mathutils"))
 
 
-def importAddon(addonPath: str):
+def importAddon(addonPath: str, droppedCalls = frozenset()):
     """the addon as a package, without executing its top-level __init__.py"""
     package = types.ModuleType(PackageName)
     package.__path__ = [addonPath]
     sys.modules[PackageName] = package
     extractor = importlib.import_module(f"{PackageName}.extract_frame_data.extract_frame_data")
-    skipSubCalls(importlib.import_module(f"{PackageName}.migoto_io.dump_parser.dump_parser"))
+    skipSubCalls(importlib.import_module(f"{PackageName}.migoto_io.dump_parser.dump_parser"), droppedCalls)
     return extractor
 
 
@@ -70,7 +75,7 @@ def importAddon(addonPath: str):
 CallFilePattern = re.compile(r"^\d{6}-")
 
 
-def skipSubCalls(dumpParser):
+def skipSubCalls(dumpParser, droppedCalls = frozenset()):
     class FilteredOs:
         def __getattr__(self, name):
             return getattr(os, name)
@@ -81,9 +86,54 @@ def skipSubCalls(dumpParser):
             skipped = [name for name in names if (not CallFilePattern.match(name)) and os.path.isfile(os.path.join(path, name)) and not name.endswith("txt")]
             if (skipped):
                 print(f"skipping {len(skipped)} file(s) that are not a call's own dump (e.g. '{skipped[0]}')")
+            dropped = [name for name in names if name[:6] in droppedCalls and CallFilePattern.match(name)]
+            if (dropped):
+                print(f"dropping {len(dropped)} file(s) of {len(droppedCalls)} excluded call(s)")
+            skipped = set(skipped).union(dropped)
             return [name for name in names if name not in skipped]
 
     dumpParser.os = FilteredOs()
+
+
+# '<call>-vb0=<hash>...' and '<call>-vs-cb4=<hash>...': which object a draw call draws, and which
+#   skeleton constant buffer it binds
+DrawFilePattern = re.compile(r"^(?P<call>\d{6})-vb0=(?P<hash>[0-9a-f]{8})")
+Cb4FilePattern = re.compile(r"^(?P<call>\d{6})-vs-cb4=(?P<hash>[0-9a-f]{8})")
+
+
+def callsToDrop(dumpFolder: str, only):
+    """The draw calls to hide from the addon so that ONLY the named vb0 objects are extracted, and each
+    of them from the draws that bind its majority skeleton buffer.
+
+    The addon walks every vb0 object in the dump and raises on the first that does not verify, so an
+    unrelated object can abort the character's extraction. And it keeps ONE draw per component, then
+    requires all of an object's components to agree on 'vs-cb4': Lynae at WuWa 3.7 draws one component
+    (indices 301470+) twice in a pass that binds a different cb4 (4785ce09, shared with the scene) and
+    four more times with her own (f02baf77), and the addon picked one of the two -- 'components CB4
+    hash mismatch for object 7e400733'. Calls without a vb0 (the shape-key compute passes) are kept."""
+    drawOf, cb4Of = {}, {}
+    for name in os.listdir(dumpFolder):
+        match = DrawFilePattern.match(name)
+        if (match is not None):
+            drawOf[match.group("call")] = match.group("hash")
+        match = Cb4FilePattern.match(name)
+        if (match is not None):
+            cb4Of[match.group("call")] = match.group("hash")
+
+    dropped = {call for call, vb0 in drawOf.items() if vb0 not in only}
+    for vb0 in only:
+        calls = sorted(call for call, h in drawOf.items() if h == vb0)
+        if (not calls):
+            raise SystemExit(f"no draw call in the dump binds vb0={vb0}")
+        counts = {}
+        for call in calls:
+            counts[cb4Of.get(call)] = counts.get(cb4Of.get(call), 0) + 1
+        majority = max(counts, key = counts.get)
+        minority = [call for call in calls if cb4Of.get(call) != majority]
+        print(f"vb0={vb0}: {len(calls)} draw calls, skeleton cb4={majority} on {counts[majority]}" +
+              (f"; dropping {len(minority)} that bind another cb4: " + ", ".join(f"{c} (cb4={cb4Of.get(c)})" for c in minority) if minority else ""))
+        dropped.update(minority)
+    return frozenset(dropped)
 
 
 # 3DMigoto sometimes writes a draw's texture with NO hash in the file name
@@ -133,13 +183,18 @@ def main():
     parser.add_argument("--addon", default = DefaultAddon, help = f"the WWMI-Tools addon folder (default: {DefaultAddon})")
     parser.add_argument("--minTextureKB", type = int, default = 256, help = "skip textures smaller than this (the addon's default, 256); 0 keeps all")
     parser.add_argument("--keepJpg", action = "store_true", help = "keep .jpg textures (the addon skips them by default)")
+    parser.add_argument("--only", help = "comma-separated vb0 hashes: extract only these objects, each from the draws that bind its majority skeleton buffer (vs-cb4)")
     args = parser.parse_args()
 
     if (not os.path.isfile(os.path.join(args.addon, "extract_frame_data", "extract_frame_data.py"))):
         raise SystemExit(f"no WWMI-Tools addon at '{args.addon}' (pass --addon)")
 
+    droppedCalls = frozenset()
+    if (args.only):
+        droppedCalls = callsToDrop(args.dump, {h.strip().lower() for h in args.only.split(",") if h.strip()})
+
     stubBlender()
-    extractor = importAddon(args.addon)
+    extractor = importAddon(args.addon, droppedCalls)
 
     cfg = types.SimpleNamespace(
         frame_dump_folder = str(Path(args.dump).resolve()),

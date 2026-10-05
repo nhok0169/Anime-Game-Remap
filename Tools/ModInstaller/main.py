@@ -7,8 +7,8 @@ per archive -- ``<Name>1``, ``<Name>2``, ...
 Read README.md before using it. In short:
 
 - ``.zip`` is read with Python's ``zipfile``; ``.rar`` with WinRAR's ``UnRAR.exe`` / ``Rar.exe``
-  when installed; ``.7z`` / ``.tar*`` (and ``.rar`` without WinRAR) go through ``tar`` -- Windows 10+
-  ships bsdtar, which reads all of them.
+  when installed, else 7-Zip's ``7z.exe``; ``.7z`` / ``.tar*`` (and ``.rar`` without either) go
+  through ``tar`` -- Windows 10+ ships bsdtar, which reads most of them.
 - Numbering never reuses an index: it continues after the highest ``<Name><i>`` already present in
   the mods folder, in its parent (where parked mods live), and under any ``--check`` folder, counting
   ``DISABLED<Name><i>`` too.
@@ -163,10 +163,34 @@ def findWinRar():
     return None
 
 
+def findSevenZip():
+    """7-Zip reads every .rar bsdtar rejects with "empty or unreadable filename" (three Lynae mods)."""
+    for exe in [shutil.which("7z")] + [
+            os.path.join(os.environ.get(v, ""), "7-Zip", "7z.exe")
+            for v in ("ProgramFiles", "ProgramFiles(x86)", "ProgramW6432")]:
+        if exe and os.path.isfile(exe):
+            return exe
+    return None
+
+
+def extractSevenZip(sevenZip: str, archive: str, outDir: str):
+    # x: keep paths; -y: yes to all; -p: empty password, so an encrypted archive fails instead of prompting
+    result = subprocess.run([sevenZip, "x", "-y", "-p", "-bso0", "-bsp0", os.path.abspath(archive),
+                             "-o" + os.path.abspath(outDir)],
+                            capture_output=True, text=True, errors="replace")
+    if result.returncode != 0:
+        raise InstallError(f"7-Zip failed ({result.returncode}, password protected or damaged?): "
+                           f"{(result.stderr or result.stdout).strip()}")
+
+
 def extractRar(archive: str, outDir: str):
     winRar = findWinRar()
     if winRar is None:
-        extractTar(archive, outDir)
+        sevenZip = findSevenZip()
+        if sevenZip is not None:
+            extractSevenZip(sevenZip, archive, outDir)
+        else:
+            extractTar(archive, outDir)
         return
     # x: keep paths; -y: yes to all; -o+: overwrite; -p-: never prompt for a password; -idq: quiet
     result = subprocess.run([winRar, "x", "-y", "-o+", "-p-", "-idq", os.path.abspath(archive),

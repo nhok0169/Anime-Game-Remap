@@ -468,6 +468,7 @@ Each fact below was measured on the GIMI log on 2026-09-23, and each one broke a
 | a command "worked" and nothing happened in game | the input did not reach an elevated game. Check that `status` says `helper: running`; the helper route is automatic when it is |
 | `could not bring ... to the foreground` | a UAC prompt or another elevated window is on top, or the game is minimised. `screenshot --screen` shows the desktop |
 | `no frame dump started` | hunting off (`status`), a menu of the OS on top, or F8 pressed during a reload. The tool waits the reload out and re-presses twice, so the first two are the usual cause |
+| `no frame dump started` on every try, hunting toggled both ways, `--vk` too, while `c` / `esc` work | **the game is running WITHOUT 3DMigoto** (2026-10-04: WuWa started outside XXMI). The tell: a loaded mod of the on-screen character does not apply (Chisa wore a game outfit with her sweater mod in `Mods`, and wore the mod after a relaunch). `close`, then `launch WWMI`; the account was still logged in, so it went straight to "Tap to land" |
 | `reload` warns the log never said `Reloading d3dx.ini` | the key did not arrive (focus), or the importer logs nothing |
 | a black screenshot | exclusive fullscreen, HDR, or a loading screen. Try `--method print`, or set the game to borderless |
 | clicks land in the wrong place | the view is from before a resolution change, or the click was in `client` space with `view` numbers. Take a fresh screenshot |

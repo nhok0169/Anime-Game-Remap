@@ -397,17 +397,25 @@ def iniText(name: str, author: str, metadata: dict, components, vertexCount: int
     L += ["[CommandListTriggerResourceOverrides]"] + [f"CheckTextureOverride = ps-t{i}" for i in range(8)] + ["CheckTextureOverride = vs-cb3", "CheckTextureOverride = vs-cb4", ""]
     L += ["[CommandListOverrideSharedResources]", "ResourceBypassVB0 = ref vb0", "ib = ResourceIndexBuffer", "vb0 = ResourcePositionBuffer", "vb1 = ResourceVectorBuffer",
           "vb2 = ResourceTexcoordBuffer", "vb3 = ResourceColorBuffer"]
+    # The skeleton binding in WWMI Tools 1.7.3's form: vs-cb4 marked -> the MAIN skeleton there and the
+    #   EXTRA (the previous frame's pose, for motion vectors) in vs-cb3; ELSE vs-cb3 marked -> the MAIN
+    #   skeleton in vs-cb3. Some characters have passes that carry their skeleton in vs-cb3 alone
+    #   (Lynae, 2026-10-05: 11 draws of her dump, her early depth passes; LynaePeppermint has none),
+    #   and the 1.3.x form this script used to write bound the PREVIOUS pose there. Those passes then
+    #   wrote depth for a slightly different pose from the later passes' depth-equal tests, and every
+    #   thin layered part dropped out: her ID card drew opaque white, her chest pin a dark ring and her
+    #   ear cups a white dial, while every buffer and texture was byte-identical to the game's.
+    def bindSkeleton(suffix, ref, indent):
+        r = "ref " if ref else ""
+        return [f"{indent}if vs-cb4 == 3381.7777", f"{indent}    vs-cb4 = {r}ResourceMergedSkeleton{suffix}",
+                f"{indent}    if vs-cb3 == 3381.7777", f"{indent}        vs-cb3 = {r}ResourceExtraMergedSkeleton{suffix}", f"{indent}    endif",
+                f"{indent}elif vs-cb3 == 3381.7777", f"{indent}    vs-cb3 = {r}ResourceMergedSkeleton{suffix}", f"{indent}endif"]
+
     if (not remaps):
-        L += ["vb4 = ResourceBlendBuffer", "if vs-cb3 == 3381.7777", "    vs-cb3 = ResourceExtraMergedSkeleton", "endif",
-              "if vs-cb4 == 3381.7777", "    vs-cb4 = ResourceMergedSkeleton", "endif", ""]
+        L += ["vb4 = ResourceBlendBuffer"] + bindSkeleton("", False, "") + [""]
     else:
-        # the 1.3.x form; WWMI Tools 1.7.3 nests the vs-cb3 check inside the vs-cb4 one (with an elif
-        #   binding vs-cb3 to the MAIN skeleton), for the plain branch too -- this script keeps the form
-        #   of its template, which renders on WWMI 1.00
-        L += ["if ResourceBlendBufferOverride === null", "    vb4 = ResourceBlendBuffer", "    if vs-cb3 == 3381.7777", "        vs-cb3 = ref ResourceExtraMergedSkeleton", "    endif",
-              "    if vs-cb4 == 3381.7777", "        vs-cb4 = ref ResourceMergedSkeleton", "    endif", "else", "    vb4 = ref ResourceBlendBufferOverride",
-              "    if vs-cb3 == 3381.7777", "        vs-cb3 = ref ResourceExtraMergedSkeletonOverride", "    endif", "    if vs-cb4 == 3381.7777",
-              "        vs-cb4 = ref ResourceMergedSkeletonOverride", "    endif", "endif", ""]
+        L += ["if ResourceBlendBufferOverride === null", "    vb4 = ResourceBlendBuffer"] + bindSkeleton("", True, "    ") + [
+              "else", "    vb4 = ref ResourceBlendBufferOverride"] + bindSkeleton("Override", True, "    ") + ["endif", ""]
     L += ["[CommandListCleanupSharedResources]", "vb0 = ref ResourceBypassVB0"] + (
           ["if ResourceBlendBufferOverride !== null", "    ResourceBlendBufferOverride = null", "    ResourceMergedSkeletonOverride = null",
            "    ResourceExtraMergedSkeletonOverride = null", "endif"] if remaps else []) + [""]

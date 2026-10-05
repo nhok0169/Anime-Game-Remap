@@ -461,18 +461,29 @@ these steps taught:
   windows, and is `LynaePeppermint4` now. Classify downloads by hash, not by archive name.
 * **The extractor aborted on Lynae herself** (`components CB4 hash mismatch`): one component is also drawn in a
   pass binding the scene's `vs-cb4`. `wwmiExtractDump.py --only <vb0>` drops those draws; see the downloads README.
-* **The LynaePeppermint identity mod matches the game. The Lynae one matches EXCEPT two glassy props of component
-  6 -- OPEN.** The ID card on her belt renders opaque white (clear plastic in the game), the chest pin renders as
-  a dark ring (silver in the game), and the headphone ear cups show a flat white dial when front-facing (an
-  iridescent disc in the game). A near-vanilla author mod (`Lynae11`) renders all three like the game. Eliminated,
-  each by a test: texture bytes (identical to every dump copy), mip chains (every texture re-written with its
-  full chain: no change), COLOR1 (the author mod's values swapped in: no change; `vb2` is byte-identical across
-  two dumps, so it is not animated), every other vertex attribute (equal to the author mod's within rounding,
-  vertices matched by position + UV), the merged bone of each prop (exact matrix matches in the dump; the author
-  mod is numbered two lower only because its source data was), and the `vg` windows (identical). The ear cup alone
-  comes back when the identity's override of `cecc13eb` (component 6's `ps-t0`) is switched off, so the GAME's
-  `cecc13eb` differs from the dumped one in something a dump does not record; the card and pin stay wrong with
-  every texture override off. A remap's fallback download of `cecc13eb` would carry the ear-cup half of this.
+* **The Lynae identity mod drew three glassy props wrong, and the cause was the SKELETON BINDING, not the props
+  (found 2026-10-05).** The ID card on her belt drew opaque white (clear plastic in the game), the chest pin a dark
+  ring (silver), the headphone ear cups a flat white dial (an iridescent disc); LynaePeppermint's identity mod and a
+  near-vanilla author mod (`Lynae11`) were right. Eliminated first, each by a test: texture bytes, mip chains,
+  COLOR1, every other vertex attribute, the props' merged bones, the `vg` windows, shape keys, `vb6`. What found it:
+  (1) the dump pair (vanilla vs identity) showed component 6's six passes, of which a special-material layer
+  (`b35f6bd4`) lost the pin and most of the card in the modded frame with HOLES in the lining around them -- a
+  depth-test failure, not a shading one; (2) a per-pass probe (`ShaderOverride` + `filter_index` on each pass's
+  pixel shader, the section stepping aside with `&& ps != N`) broke the props whichever PAIR of passes the mod drew
+  while the game drew the rest -- so the mod's draws land at a different depth from the game's; (3) diffing the
+  identity `.ini` against `Lynae11`'s found the only relevant difference in `CommandListOverrideSharedResources`.
+  `wwmiIdentityMod.py` wrote WWMI Tools 1.3.x's binding (`if vs-cb3 marked -> ExtraMergedSkeleton; if vs-cb4 marked
+  -> MergedSkeleton`), and WWMI Tools 1.7.3 writes `if vs-cb4 marked -> main in cb4, extra in cb3; ELIF vs-cb3 marked
+  -> MAIN in cb3`. **Lynae has draws whose skeleton is in `vs-cb3` ALONE** (11 in her dump, her early depth passes;
+  LynaePeppermint has none, which is the whole asymmetry), and the old form bound the EXTRA skeleton -- the previous
+  frame's pose -- there. Those passes wrote depth for last frame's pose, the later passes' equal-depth tests failed
+  on every thin layered part, and those parts dropped out. The builder writes the 1.7.3 form now and both identity
+  mods are regenerated (only that block changed); the Lynae one is confirmed in game. Count a character's
+  cb3-only draws in a dump with
+  `ls <dump> | grep -E '^[0-9]{6}-vs-cb[34]=<cb hash>'` grouped by draw. **For step 9 (LynaePeppermint -> Lynae):
+  `WWMIFixer`'s `CommandListMergeSlot<N>` has the same two independent `if`s** -- on a cb3-only draw it merges the
+  current pose into the EXTRA buffer and binds the extra, so expect this exact symptom on the reverse fix until the
+  merge list gains the `elif` (no compiled pair has hit it; check its target's dump for cb3-only draws first).
 * **A before/after of a REFLECTIVE part from one frame lies.** The ear cup's look depends on the idle pose's angle
   to the camera, and one turned frame read as "mip chains fix it" -- a conclusion the next series overturned. Take a
   timed series (six shots, two seconds apart, tiled) of the game (`screenshot --original`) and of the mod, and compare

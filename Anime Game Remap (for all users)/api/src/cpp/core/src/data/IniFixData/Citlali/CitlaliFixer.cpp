@@ -95,6 +95,16 @@ namespace AGRemapCore {
             // shifting one of them alone shears the model apart at its seams.
             body.positionOffset = {0.0f, 0.0450f, 0.0f};
 
+            // AND IT FADES OUT BY THE FACE, which is the half this did not have on its first run
+            // (2026-10-04). This mod carries NO face mesh -- only a face DIFFUSE bound by hash -- so
+            // the GAME draws the skin's face, at the skin's fixed height. Lifting every vertex put
+            // the feet right and left the face 4.5 cm below the head it belongs to, which the user
+            // reported straight back. Full lift at Citlali's sole, none at or above y 1.400, which
+            // is just over her eye groups at 1.384: the head stays where the game's face is and the
+            // 4.5 cm is taken up through the body, which is where the two models differ anyway (the
+            // skin's foot and knee groups sit 2-6 cm higher than hers, her head group 1 cm lower).
+            body.positionOffsetFade = {-0.0629f, 1.400f};
+
             GIMIComponentFixerConfig::Component bangs = body;
             bangs.name = "Bangs";
             bangs.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBangs);

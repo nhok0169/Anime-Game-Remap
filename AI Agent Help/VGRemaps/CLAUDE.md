@@ -551,14 +551,24 @@ the skin's TORSO bone, on the "vertices answer" rule above. In game the locks co
 hung rigid through the arms: *"the hair is clipped to CitlaliWhisper's arms and is not free flowing."*
 
 **The diagnosis was right and the remedy was worse than the problem**, so the lesson is not "review
-harder". It is that both candidates came from questions about the skin's anatomy -- *which bone is
-nearest*, *which bone owns the vertices here* -- and neither asks what the SOURCE part is or what it must
-do. A hair lock must swing; only a hair bone swings. The row now continues the chain onto the skin's own
-front lock and clamps at its end (`25`, `26` -> `Bangs:7`; `31`, `32` -> `Bangs:8`), which also puts the
-whole lock in ONE component instead of cutting it across Bangs and Body. See Creating Remaps' vertex group
-behaviour audit for the general form, and note the second thing the shipped row did: it collapsed the LEFT
-and RIGHT locks onto the same centre-line bone, so the two sides could not move independently in principle
--- **a many-to-one that crosses the mirror line is worth flagging on its own**, whatever the distances say.
+harder". Both candidates came from questions about the skin's anatomy -- *which bone is nearest*, *which
+bone owns the vertices here* -- and neither asks what the SOURCE part is or what it must do.
+
+**Then the obvious repair was tried and was worse still, which is where the real rule is.** Continuing the
+chain onto the skin's own front lock (`Bangs 3 -> 5 -> 7`, clamped at its end) put the lock on genuine hair
+bones and in ONE component -- and threw it further into the arm, because the skin's lock stops at y 1.241
+while Citlali's runs to 1.037, leaving the tip **19 cm below its pivot**. Measured, the hair clears the arm
+by **6.8 mm** at the bind pose, so a centimetre of swing buries it. The shipped row is now the skin's
+front-hanging DRESS chain `Body 70 -> 72` (mirror `71 -> 73`), whose links sit at 1.189 and 1.095 against
+the lock's 1.171 and 1.095: **pivots at the part's own height, so the lever is nearly zero**, hanging down
+the front of the chest as the lock does. Cloth driving hair is right here -- a chest-length tie and a
+chest-length hair lock move alike, which is the question that matters. Confirmed in game.
+
+Rank a counterpart-less part's candidates by **lever first** (height and depth of the pivot), then by
+whether the carrier moves the same WAY, and only then by material. See Creating Remaps' "THE LEVER IS WHAT
+TO MINIMISE". And note the second thing the shipped row did: it collapsed the LEFT and RIGHT locks onto the
+same centre-line bone, so the two sides could not move independently in principle -- **a many-to-one that
+crosses the mirror line is worth flagging on its own**, whatever the distances say.
 
 <br>
 

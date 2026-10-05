@@ -331,24 +331,39 @@ NEUVILLETTEMELUSENT" in Creating Remaps):
   HAIR part OFF hair.** Citlali's long front locks (groups 25/26 and 31/32, 1112 vertices a side) were put on
   the skin's `Body:56`, her TORSO bone -- so the locks could not swing at all, and hung rigid through the arms.
 
-**"Which bone drives the SKIN here" is a THIRD wrong answer, as wrong as "which bone is nearest".** Both were
-tried on that lock and both failed: `Tools/VGRemapFinder` proposed the shoulder (nearest), the draft's reviewer
-overrode it to the chest because the chest owns most of the skin's vertices at that height ("vertices mode
-52%"), and the chest is what shipped. Neither question is about the PART. A statistic over whatever geometry
-happens to surround a point describes the SKIN's anatomy, not the source part's job: a hair lock hanging over a
-chest is surrounded by chest, and is still hair.
+**"Which bone drives the SKIN here" is a THIRD wrong answer, as wrong as "which bone is nearest".**
+`Tools/VGRemapFinder` proposed the shoulder (nearest), the draft's reviewer overrode it to the chest because
+the chest owns most of the skin's vertices at that height ("vertices mode 52%"), and the chest is what shipped.
+Neither question is about the PART. A statistic over whatever geometry happens to surround a point describes
+the SKIN's anatomy, not the source part's job: a hair lock hanging over a chest is surrounded by chest, and is
+still hair.
 
-**When the source part is LONGER than its target counterpart, continue the chain and CLAMP at its end.** The
-skin's own front lock is `Bangs 3 -> 5 -> 7` and stops at y 1.241; Citlali's is `23 -> 24 -> 25 -> 26` and runs
-on to 1.037, so the lower half has no counterpart at all. `25` and `26` both take `Bangs:7` (`31`/`32` its
-mirror `8`). The end of the chain swings the overhang about a pivot above it -- a wide arc, which is a cosmetic
-compromise -- where the torso bone gave it no motion whatever, which is a defect. Accept the lever; do not fall
-back to a bone that cannot move. A bonus of staying on the chain: the lock lands in ONE component instead of
-being cut in half across two, as the Body/Bangs split had it.
+### THE LEVER IS WHAT TO MINIMISE, AND "hair onto hair" IS ONLY A HEURISTIC FOR IT (2026-10-04)
+
+**The obvious repair was tried next and was WORSE.** Citlali's lock is `23 -> 24 -> 25 -> 26` and the skin's own
+front lock is `Bangs 3 -> 5 -> 7`, so the chain was continued onto it and clamped at its end -- real hair bones,
+hair onto hair, and the lock in ONE component instead of cut across two. In game the strand was thrown further
+INTO the arm, and the user reported it unfixed. **The skin's lock stops at y 1.241 and Citlali's runs to 1.037,
+so the tip hung 19 cm below its pivot**: a few degrees of hair sim is centimetres of sideways travel at that
+radius, and the measured clearance between hair and arm is **6.8 mm** (the closest of 2073 hair vertices to the
+nearest of 4405 arm vertices, in the mod's own bind pose). Anything that moves the lock by a centimetre buries
+it in the arm.
+
+**So rank candidates by the DISTANCE FROM THE PART TO THE PIVOT, not by what the bone is called.** The answer
+here is the skin's front-hanging DRESS chain `Body 70 -> 72` (mirror `71 -> 73`): its links sit at y 1.189 and
+1.095 against the lock's 1.171 and 1.095, so the pivots are at the part's own height and it barely translates
+at all, and it hangs down the front of the chest exactly as the lock does. Cloth driving hair is fine -- a
+chest-length tie and a chest-length hair lock MOVE alike, which is the only question the behaviour audit
+actually asks. Confirmed in game: the locks hang full and continuous instead of pinched and cut by the arm.
+
+**The general rule, which the three attempts triangulate:** a part with no counterpart needs a bone that is
+(1) at the part's own height and depth, so the lever is short, (2) attached to something that moves the same
+WAY (front-hanging to front-hanging), and only then (3) of the same material if there is a choice. Ranking
+those the other way round -- material first -- is what produced both failures.
 
 Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
-keep a garment on one component; never put a non-hair part on hair, nor a hair part on anything else; and check
-left against right -- the Citlali lock also collapsed its LEFT and RIGHT chains onto one centre-line bone, so
+keep a garment on one component; never put a non-hair part on hair -- but see the lever section below before
+reading the converse as a rule; and check left against right -- the Citlali lock also collapsed its LEFT and RIGHT chains onto one centre-line bone, so
 the two sides could not move independently even in principle. Then look
 at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
 hide a clip or a fold that the next frame shows.

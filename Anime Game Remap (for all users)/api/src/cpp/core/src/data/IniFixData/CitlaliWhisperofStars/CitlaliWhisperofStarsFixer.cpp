@@ -82,6 +82,12 @@ namespace AGRemapCore {
             // Every component takes it, or the merged model shears apart at its seams.
             const std::array<float, 3> GroundOffset{0.0f, -0.0450f, 0.0f};
 
+            // And it FADES OUT BY THE FACE, the mirror of the forward direction's: Citlali's face is
+            // the one the GAME draws here, so the mod's head must stay level with it while its soles
+            // drop to her lower ground. Full at the skin's sole, none at or above y 1.400 -- just
+            // over its eyes at 1.380. See GIMIMergeFixerConfig::Component::positionOffsetFade.
+            const std::array<float, 2> GroundFade{-0.0178f, 1.400f};
+
             GIMIMergeFixerConfig::Component body{};
             body.name = "Body";
             body.slots = {{"A", "0", "body", true, "", 60888, true},
@@ -93,6 +99,7 @@ namespace AGRemapCore {
             // download Blend.buf bytes / 32.
             body.vertexCount = 37631;
             body.positionOffset = GroundOffset;
+            body.positionOffsetFade = GroundFade;
 
             // No textures of their own: the game draws both with the Body slot A set (they share
             // its hashes), so a mod may leave these sections with an ib and nothing else.
@@ -101,12 +108,14 @@ namespace AGRemapCore {
             bangs.slots = {{"A", "0", "body", true, "Body;A", 11328, true}};
             bangs.vertexCount = 3210;
             bangs.positionOffset = GroundOffset;
+            bangs.positionOffsetFade = GroundFade;
 
             GIMIMergeFixerConfig::Component eyes{};
             eyes.name = "Eyes";
             eyes.slots = {{"A", "0", "body", true, "Body;A", 864, true}};
             eyes.vertexCount = 255;
             eyes.positionOffset = GroundOffset;
+            eyes.positionOffsetFade = GroundFade;
 
             config.components = {std::move(body), std::move(bangs), std::move(eyes)};
             config.targetObjs = {"head", "body"};

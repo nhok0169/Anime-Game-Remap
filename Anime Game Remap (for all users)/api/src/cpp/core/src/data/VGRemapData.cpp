@@ -1078,26 +1078,33 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // answers disagreed reviewed by bone position (the reasons are in the draft's Comments). The
         // union of the three rows covers each of Citlali's 142 groups exactly once.
         //
-        // HER FRONT HAIR LOCKS GO ON THE SKIN'S OWN FRONT LOCK, NOT ON THE CHEST (2026-10-04). The
-        // draft sent 25/26 and 31/32 -- the lower half of each long front lock, 1112 vertices a side
-        // -- to Body:56, reasoning from which bone drives the SKIN at that height (Comments: "the
-        // chest drives that skin (vertices mode 52%)"). Body:56 is the torso bone, 2715 of the
-        // skin's own vertices deep: the lock could not swing, and in game it hung rigid and clipped
-        // through the arms. Which bone a part BELONGS to is not which bone is nearest it, nor what
-        // happens to own the skin there -- see VGRemaps' invariant 5 and the Chisa jacket-on-hair
-        // precedent. Citlali's lock is 23 -> 24 -> 25 -> 26 and the skin's is Bangs 3 -> 5 -> 7, so
-        // the chain continues onto it and CLAMPS at its end: the skin's lock stops at y 1.241 and
-        // Citlali's runs on to 1.037, so 25 and 26 both take Bangs:7 (31 and 32 its mirror Bangs:8).
-        // Hair onto hair -- it swings, and the whole lock now draws in ONE component instead of
-        // being cut in half across two.
+        // HER FRONT HAIR LOCKS GO ON THE SKIN'S FRONT CHAIN, AT THEIR OWN HEIGHT (2026-10-04, after
+        // two wrong answers). 25/26 and 31/32 are the lower half of each long front lock, 1112
+        // vertices a side, and the skin has no hair bone anywhere near where they hang.
+        //
+        // What was tried, and why each failed. The draft sent them to Body:56 -- the TORSO bone,
+        // 2715 of the skin's own vertices deep -- reasoning from which bone drives the SKIN at that
+        // height ("the chest drives that skin (vertices mode 52%)"); the lock could not swing and a
+        // user reported it clipping through the arms. Continuing the chain onto the skin's own front
+        // lock (Bangs 3 -> 5 -> 7) put it on real hair bones, and was WORSE in the way that matters:
+        // the skin's lock stops at y 1.241 while Citlali's runs on to 1.037, so the tip hung 19 cm
+        // below its pivot and a few degrees of hair sim threw it sideways into the arm. The lock
+        // clears the arm by 6.8 mm at the bind pose, so a centimetre of swing is all it takes.
+        //
+        // THE LEVER IS THE THING TO MINIMISE, not the bone's label. Body 70 -> 72 (and the mirror
+        // 71 -> 73) is a front-hanging chain of the skin's DRESS whose links sit at 1.189 and 1.095,
+        // against the lock's 1.171 and 1.095: pivots at the part's own height, so it barely
+        // translates at all, and it hangs in front of the chest exactly as the lock does. A
+        // chest-length tie and a chest-length hair lock move alike, which is the question the
+        // behaviour audit asks -- "hair onto hair" is a heuristic for that, not the rule itself.
         //
         // The rest is PROPOSED, NOT YET CONFIRMED IN GAME.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Body"},
          VGRemap({
             {0, 106}, {1, 0}, {2, 1}, {3, 104}, {4, 105}, {7, 106}, {8, 107}, {9, 108}, {10, 108}, {11, 112},
-            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115}, {35, 7},
-            {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
+            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115}, {25, 70},
+            {26, 72}, {31, 71}, {32, 73}, {35, 7}, {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
             {42, 75}, {43, 2}, {44, 76}, {45, 76}, {46, 79}, {47, 85}, {48, 85}, {49, 127}, {50, 128}, {51, 129},
             {52, 96}, {53, 98}, {54, 100}, {55, 102}, {56, 121}, {57, 97}, {58, 99}, {59, 101}, {60, 103}, {61, 122},
             {62, 88}, {63, 90}, {64, 28}, {65, 8}, {66, 8}, {67, 77}, {68, 80}, {69, 86}, {70, 32}, {71, 32},
@@ -1113,8 +1120,7 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Bangs"},
          VGRemap({
-            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {25, 7}, {26, 7}, {27, 5}, {28, 7}, {29, 4}, {30, 6},
-            {31, 8}, {32, 8}, {33, 6}, {34, 8}
+            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {27, 5}, {28, 7}, {29, 4}, {30, 6}, {33, 6}, {34, 8}
          })},
 
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",

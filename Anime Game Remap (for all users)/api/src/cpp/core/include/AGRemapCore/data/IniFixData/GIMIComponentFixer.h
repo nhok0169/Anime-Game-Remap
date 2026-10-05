@@ -415,6 +415,35 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The ``y`` range over which :cpp:member:`positionOffset` FADES to nothing -- full at or
+             below ``[0]``, none at or above ``[1]``, linear between. ``{0, 0}`` (the default) is no
+             fade at all: every vertex takes the whole offset :raw-html:`<br />` :raw-html:`<br />`
+
+             **A character and a skin of different HEIGHT cannot be matched by a rigid translation.**
+             Lifting a mod so its soles meet the target's ground also lifts its head -- and the GAME
+             draws the FACE, at its own fixed place, for any mod that does not carry a face mesh of its
+             own. Citlali's sole sits 4.5 cm below CitlaliWhisperofStars' and her head only 1 cm above:
+             lift the whole model and the feet come right while the face is left 4.5 cm below the head
+             it belongs to, which is what a user reported (2026-10-04) :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Fading the lift out by the height of the face anchors the head where the game's face is and
+             takes the difference up through the body, which is where two models of one character
+             actually differ -- the skin's foot and knee groups sit 2 to 6 cm higher than Citlali's while
+             her head group sits 1 cm lower. Set ``[0]`` to the source's sole and ``[1]`` just above its
+             eyes
+
+             .. note::
+                This is a DEFORMATION, not a translation, so it is only right where the two models
+                genuinely differ in height. Where they differ by an ORIGIN instead -- Xiangling and
+                XianglingCheer, 0.78 units apart -- the whole model must move and the fade must stay off
+             @endrst
+             */
+            std::array<float, 2> positionOffsetFade = {0.0f, 0.0f};
+
+            /**
+             * @brief
+             @rst
              Whether :cpp:member:`positionOffset` applies only while the mod draws with the GAME's face
              :raw-html:`<br />` :raw-html:`<br />`
 

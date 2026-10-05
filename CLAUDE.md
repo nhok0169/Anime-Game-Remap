@@ -1411,17 +1411,28 @@ is its TORSO bone. The row was a deliberate override -- the finder proposed the 
 overruled it because the chest owns most of the skin's vertices at that height -- and **both
 candidates came from questions about the SKIN's anatomy** (what is nearest, what owns the vertices
 here) rather than about what the source part IS and must DO. A hair lock must swing; only a hair bone
-swings. It now continues onto the skin's own front lock and clamps at its end, which also puts the
-lock in ONE component instead of cutting it across two. The draft's rule "a part longer than the
-other skin's takes the vertices answer" is right for a SKIRT overhanging onto legs and wrong for hair
-overhanging onto a chest, and is corrected in place. *Her feet sank into the ground in the
+swings -- **and the obvious repair, continuing onto the skin's own front lock, was WORSE**: the skin's
+lock stops 19 cm above where Citlali's ends, so the tip hung that far below its pivot and a few degrees
+of hair sim threw it into the arm, which clears the hair by only 6.8 mm. **Rank a counterpart-less
+part's candidates by the LEVER -- the distance from the part to the pivot -- then by whether the
+carrier moves the same WAY, and only then by material.** The shipped row is now the skin's
+front-hanging DRESS chain, whose links sit at the lock's own heights, so it barely translates at all;
+cloth driving hair is right when a chest-length tie and a chest-length lock move alike. The draft's
+rule "a part longer than the other skin's takes the vertices answer" is right for a SKIRT overhanging
+onto legs and wrong for hair overhanging onto a chest, and is corrected in place. *Her feet sank into the ground in the
 overworld*: **two skins of one character can stand on different GROUND PLANES** -- a mod renders at
 the SOURCE's coordinates while the game plants the character by the TARGET's, and Citlali's sole sits
 0.045 below the skin's, so every mod of the pair stood 4.5 cm low. It is DIRECTIONAL and the mirror
 was there too, unreported: a skin mod carried back onto Citlali FLOATS by the same 4.5 cm. Both
-directions are fixed, and **neither needed new machinery** -- `positionOffset` already exists on both
-multi-component templates, documented in terms of NeuvilletteMelusent's EYES, which is why two later
-sessions did not find it (habit 53). Both bugs were proved from the shipped output before anything
+directions are fixed. `positionOffset` already existed on both multi-component templates, documented in
+terms of NeuvilletteMelusent's EYES, which is why two later sessions did not find it (habit 53) -- but a
+UNIFORM lift is only half of it, and shipping that half broke the FACE. A mod that carries no face mesh
+gets the GAME's, drawn at the TARGET's fixed height, so lifting every vertex put the feet right and left
+the face 4.5 cm below the head. **A character and a skin of different HEIGHT cannot be matched by a rigid
+translation at all**: the new `positionOffsetFade` takes the lift to nothing by the height of the face, so
+the head stays where the game's face is and the difference is taken up through the body -- which is where
+the two models actually differ (the skin's foot and knee groups sit 2-6 cm higher, its head group 1 cm
+lower). Both bugs were proved from the shipped output before anything
 was changed, and the acceptance check needs no game: the remapped `Position.buf` must bottom out at
 the TARGET's sole. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "TWO SKINS OF
 ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES" (with the one-minute measurement, and the two

@@ -95,5 +95,27 @@ reports 44 identical, 0 differ. Both new folders were then verified against the 
 the slots their draws bound (Lynae `vb1=086b1dc5`, `vb2=5b48efca`, `vb3=483b3ebd`; LynaePeppermint
 `vb1=41d28b52`, `vb2=25beb1d7`, `vb3=cfc48cd0`), 0 unexplained.
 
+**Fourteen textures were added on 2026-10-05**, because the addon keeps only the textures it can read
+out of the dump and 3DMigoto's default `jps_dds` writes an uncompressed texture as a lossy `.jpg`
+preview. Every one of them is a texture a draw of the character SETS, and the fix needs it as a
+fallback download: the clothing passes' `ps-t2` detail / id maps (`R8_UNORM`, a small integer code per
+texel -- a `.jpg` moves the codes), the hair passes' ramps, the face pass's own maps. Taken from two
+more character-menu dumps with `analyse_options = dump_tex dds` (`FrameAnalysis-LynaeTexDDS-2026-10-05-160356`,
+`FrameAnalysis-LynaePeppermintTexDDS-2026-10-05-160859`, about 14 GB each), each file a byte copy of
+the dump's `.dds` like the 53 before it (`179ec8b9` checked identical across the two dumps):
+
+| character | added | what |
+| --- | --- | --- |
+| `Lynae` | `c5784ddf`, `950acc22`, `6d5f71f9`, `c49bec43` | `ps-t2` detail maps of components 3, 4, 5, 6 (`R8_UNORM`) |
+| | `694d3d7f`, `d7c56e9e` | the hair pass's `ps-t2` and `ps-t4` ramps |
+| | `e28662e9` | the face pass's `ps-t0` mask |
+| `LynaePeppermint` | `7003edde`, `0fa3ab67`, `15f5a1c4` | `ps-t2` detail maps of slots 3, 4, 5 (`R8_UNORM`) |
+| | `a1fa0024` | slot 6's detail map, which its shader reads at `ps-t3` |
+| | `5a750238`, `4644dbe8` | the hair pass's `ps-t2` and `ps-t4` ramps |
+| | `bf5c5233` | the face pass's `ps-t1` map (`R8_UNORM`) |
+
+The `R8_UNORM` ones are legacy 8-bit luminance `.dds` files, which `TextureFile` cannot decode yet
+(`hasImage` stays false). A fix only fetches and binds them, so nothing here needs the decode.
+
 Not yet wired into a parser: `DownloadTools::urlPath` composes `GI/<char>/<version>/...` and needs
 a game folder before a WuWa fixer can fetch these (2026-09-19).

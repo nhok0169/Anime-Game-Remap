@@ -491,6 +491,53 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
+## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-4
+
+Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the
+registration (Lynae filed at 3.6 with the `vb0` most of her mods carry, `0c33d628`, plus a 3.7 row for the live
+`7e400733`; LynaePeppermint at 3.7). Identity mods: `WWMI/LynaeIdentity`, `WWMI/LynaePeppermintIdentity`. What
+these steps taught:
+
+* **9 of 14 Lynae mods were exported before 3.7 moved her `vb0`**; every index window, `cb4` and shape-key hash
+  of theirs equals the 3.7 dump's, so only `vb0` needs a second row (the ChisaParfait arrangement). Count the
+  `vb0`s across the mods on hand before filing a version (`Tools`-less: grep `hash =` in the component sections).
+* **A downloaded "Lynae" mod may be built on the skin**: `lynae_klukai_v11` carries LynaePeppermint's `vb0` and
+  windows, and is `LynaePeppermint4` now. Classify downloads by hash, not by archive name.
+* **The extractor aborted on Lynae herself** (`components CB4 hash mismatch`): one component is also drawn in a
+  pass binding the scene's `vs-cb4`. `wwmiExtractDump.py --only <vb0>` drops those draws; see the downloads README.
+* **The Lynae identity mod drew three glassy props wrong, and the cause was the SKELETON BINDING, not the props
+  (found 2026-10-05).** The ID card on her belt drew opaque white (clear plastic in the game), the chest pin a dark
+  ring (silver), the headphone ear cups a flat white dial (an iridescent disc); LynaePeppermint's identity mod and a
+  near-vanilla author mod (`Lynae11`) were right. Eliminated first, each by a test: texture bytes, mip chains,
+  COLOR1, every other vertex attribute, the props' merged bones, the `vg` windows, shape keys, `vb6`. What found it:
+  (1) the dump pair (vanilla vs identity) showed component 6's six passes, of which a special-material layer
+  (`b35f6bd4`) lost the pin and most of the card in the modded frame with HOLES in the lining around them -- a
+  depth-test failure, not a shading one; (2) a per-pass probe (`ShaderOverride` + `filter_index` on each pass's
+  pixel shader, the section stepping aside with `&& ps != N`) broke the props whichever PAIR of passes the mod drew
+  while the game drew the rest -- so the mod's draws land at a different depth from the game's; (3) diffing the
+  identity `.ini` against `Lynae11`'s found the only relevant difference in `CommandListOverrideSharedResources`.
+  `wwmiIdentityMod.py` wrote WWMI Tools 1.3.x's binding (`if vs-cb3 marked -> ExtraMergedSkeleton; if vs-cb4 marked
+  -> MergedSkeleton`), and WWMI Tools 1.7.3 writes `if vs-cb4 marked -> main in cb4, extra in cb3; ELIF vs-cb3 marked
+  -> MAIN in cb3`. **Lynae has draws whose skeleton is in `vs-cb3` ALONE** (11 in her dump, her early depth passes;
+  LynaePeppermint has none, which is the whole asymmetry), and the old form bound the EXTRA skeleton -- the previous
+  frame's pose -- there. Those passes wrote depth for last frame's pose, the later passes' equal-depth tests failed
+  on every thin layered part, and those parts dropped out. The builder writes the 1.7.3 form now and both identity
+  mods are regenerated (only that block changed); the Lynae one is confirmed in game. Count a character's
+  cb3-only draws in a dump with
+  `ls <dump> | grep -E '^[0-9]{6}-vs-cb[34]=<cb hash>'` grouped by draw. **For step 9 (LynaePeppermint -> Lynae):
+  `WWMIFixer`'s `CommandListMergeSlot<N>` has the same two independent `if`s** -- on a cb3-only draw it merges the
+  current pose into the EXTRA buffer and binds the extra, so expect this exact symptom on the reverse fix until the
+  merge list gains the `elif` (no compiled pair has hit it; check its target's dump for cb3-only draws first).
+* **A before/after of a REFLECTIVE part from one frame lies.** The ear cup's look depends on the idle pose's angle
+  to the camera, and one turned frame read as "mip chains fix it" -- a conclusion the next series overturned. Take a
+  timed series (six shots, two seconds apart, tiled) of the game (`screenshot --original`) and of the mod, and compare
+  frames of the same pose.
+* **Another session can rebuild the shared `.pyd` under you**: between two turns the installed module went back to
+  a `master` build without Lynae (`WWMIBuilder.lynae` missing), and the package stopped importing. Check the `.pyd`'s
+  mtime against your last build before trusting a run.
+
+<br>
+
 ## START HERE: which kind of remap request is this (2026-09-20)
 
 This file is long and its sections were written in the order they were learned, not in the order

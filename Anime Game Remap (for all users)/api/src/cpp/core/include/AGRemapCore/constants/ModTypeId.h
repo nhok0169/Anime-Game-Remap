@@ -541,7 +541,25 @@ namespace AGRemapCore {
         /**
          * @brief Chisa's Parfait skin from WuWa -- see :cpp:enumerator:`Chisa`
          */
-        ChisaParfait
+        ChisaParfait,
+
+        /**
+         * @brief
+         @rst
+         Lynae from WuWa (Wuthering Waves), a WWMI mod type -- see
+         :cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`<br />` :raw-html:`<br />`
+
+         WWMI-Assets has neither her nor her skin, so her asset tables (and
+         ``Data/Mod Downloads/WuWa/Lynae/3_7``) come from a frame dump. Her merged skeleton passes
+         256 bones (401), so a mod of hers carries WWMI's blend remap
+         @endrst
+         */
+        Lynae,
+
+        /**
+         * @brief Lynae's Peppermint skin from WuWa -- see :cpp:enumerator:`Lynae`
+         */
+        LynaePeppermint
     };
 
     /**

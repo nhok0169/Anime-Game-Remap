@@ -299,6 +299,25 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component5"}, "250398"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component6"}, "278574"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component7"}, "279936"},
+
+        // Lynae (3.6): 8 draw slots, from the frame dump's Metadata.json (match_first_index)
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component0"}, "0"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component1"}, "17970"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component2"}, "63606"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component3"}, "75930"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component4"}, "173856"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component5"}, "274170"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component6"}, "301470"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component7"}, "308814"},
+        // LynaePeppermint (3.7): 8 draw slots, from the frame dump's Metadata.json (match_first_index)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component0"}, "0"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component1"}, "17550"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component2"}, "61002"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component3"}, "73326"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component4"}, "171297"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "254433"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "262944"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "299937"},
     };
     return rows;
 }

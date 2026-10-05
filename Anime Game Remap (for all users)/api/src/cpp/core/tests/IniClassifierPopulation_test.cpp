@@ -218,7 +218,8 @@ static void testTargetOnlyIdsHaveNoKeywords() {
     }
 
     // The WuWa ids are built and classifiable, but by hash, not by name (2026-09-19).
-    for (ModTypeId wuwa : {ModTypeId::Sanhua, ModTypeId::SanhuaExorcist, ModTypeId::Chisa, ModTypeId::ChisaParfait}) {
+    for (ModTypeId wuwa : {ModTypeId::Sanhua, ModTypeId::SanhuaExorcist, ModTypeId::Chisa, ModTypeId::ChisaParfait,
+                           ModTypeId::Lynae, ModTypeId::LynaePeppermint}) {
         check(ModTypeIdTools::getSectionKeywords(wuwa).empty(),
               ModTypeIdTools::getName(wuwa) + " has no keywords -- a WWMI .ini never names a section after the character");
     }
@@ -234,7 +235,10 @@ static void testWuWaTypesClassifyByVb0Hash() {
 
     struct Case { const char* name; ModTypeId id; const char* vb0; };
     for (const Case& c : {Case{"Sanhua", ModTypeId::Sanhua, "33e4890f"}, Case{"SanhuaExorcist", ModTypeId::SanhuaExorcist, "b101dcf3"},
-                          Case{"Chisa", ModTypeId::Chisa, "afa1587c"}, Case{"ChisaParfait", ModTypeId::ChisaParfait, "e611d493"}}) {
+                          Case{"Chisa", ModTypeId::Chisa, "afa1587c"}, Case{"ChisaParfait", ModTypeId::ChisaParfait, "e611d493"},
+                          // Lynae by BOTH her vb0s: 3.7 moved it, and most of her mods carry the older one
+                          Case{"Lynae", ModTypeId::Lynae, "0c33d628"}, Case{"Lynae", ModTypeId::Lynae, "7e400733"},
+                          Case{"LynaePeppermint", ModTypeId::LynaePeppermint, "ebbfa346"}}) {
         std::string ini = std::string("[Constants]\nglobal $required_wwmi_version = 0.91\n\n[CommandListRegisterMod]\n$\\WWMIv1\\required_wwmi_version = $required_wwmi_version\n\n")
                           + "[TextureOverrideComponent0]\nhash = " + c.vb0 + "\nmatch_first_index = 0\n";
         AGRC::IniClassifyStats stats = classifier.classify(ini);

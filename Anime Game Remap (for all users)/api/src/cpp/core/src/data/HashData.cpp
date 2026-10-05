@@ -1833,6 +1833,26 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "upperDiffuse"}, "f72c0f87"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "upperMask"}, "405bb5b1"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "upperNormal"}, "f1ecfeb6"},
+
+
+        // ===== WuWa: Lynae and LynaePeppermint (2026-10-05) =====
+        // From the frame dumps Data/Mod Downloads/WuWa/<Name>/3_7 were built from, since
+        // WWMI-Assets has neither character. The vb0 hashes are what GlobalIniClassifiers
+        // identifies each of them by, and it registers every version's.
+        // Lynae (3.6): her vb0 as every mod exported before 3.7 declares it (9 of the 14 mods
+        //   on hand). Every index window of those mods equals the 3.7 dump's, and so do cb4 and
+        //   both shape-key hashes, which therefore resolve from this bucket at 3.7 too.
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "vb0"}, "0c33d628"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "cb4"}, "f02baf77"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "shapekey_offsets"}, "50e226d7"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "shapekey_scale"}, "3ed03673"},
+        // Lynae (3.7): ONE row -- 3.7 moved her vb0 and nothing else that a table holds
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::Lynae), "vb0"}, "7e400733"},
+        // LynaePeppermint (3.7)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "vb0"}, "ebbfa346"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "cb4"}, "f02baf77"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_offsets"}, "44a7eaed"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_scale"}, "f4d1692b"},
     };
     return rows;
 }

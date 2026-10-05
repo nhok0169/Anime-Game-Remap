@@ -58,6 +58,25 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexCou
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component5"}, "28176"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component6"}, "1362"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component7"}, "540"},
+
+        // Lynae (3.6): 8 draw slots, from the frame dump's Metadata.json (match_index_count)
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component0"}, "17970"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component1"}, "45636"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component2"}, "12324"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component3"}, "97926"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component4"}, "100314"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component5"}, "27300"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component6"}, "7344"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component7"}, "1608"},
+        // LynaePeppermint (3.7): 8 draw slots, from the frame dump's Metadata.json (match_index_count)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component0"}, "17550"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component1"}, "43452"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component2"}, "12324"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component3"}, "97971"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component4"}, "83136"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "8511"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "36993"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "1608"},
     };
     return rows;
 }

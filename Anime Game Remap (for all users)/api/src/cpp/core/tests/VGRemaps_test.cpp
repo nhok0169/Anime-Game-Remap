@@ -129,8 +129,9 @@ void testPrePopulated() {
     // +8 on 2026-09-24: Neuvillette <-> NeuvilletteMelusent: all four components each way.
     // +6 on 2026-09-27: Yaoyao <-> YaoyaoBamboo: all three components each way.
     // +6 on 2026-09-29: Lumine <-> LumineHeaven: all three components each way.
-    check(Data::getVGRemapDataRows().size() == 99,
-          "99 rows -- this table's own count, 47 ahead of the Python builder's 52");
+    // +2 on 2026-10-05: Lynae <-> LynaePeppermint, one row each way in the merged skeleton.
+    check(Data::getVGRemapDataRows().size() == 101,
+          "101 rows -- this table's own count, 49 ahead of the Python builder's 52");
 }
 
 void testRealLookups() {

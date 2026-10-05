@@ -240,6 +240,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lumineheaven|lumineskin).*\]``
 
+    Lynae: :class:`ModType`
+        **Lynae mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = 7e400733`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
+    LynaePeppermint: :class:`ModType`
+        **Lynae Peppermint skin mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = ebbfa346`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
 
@@ -394,6 +404,8 @@ class ModTypes(StrEnum, DeferredEnum):
     LisaStudent = (GIBuilder.lisaStudent, )
     Lumine = (GIBuilder.lumine, )
     LumineHeaven = (GIBuilder.lumineHeaven, )
+    Lynae = (WWMIBuilder.lynae, )
+    LynaePeppermint = (WWMIBuilder.lynaePeppermint, )
     Mona = (GIBuilder.mona, )
     MonaCN = (GIBuilder.monaCN, )
     Neuvillette = (GIBuilder.neuvillette, )

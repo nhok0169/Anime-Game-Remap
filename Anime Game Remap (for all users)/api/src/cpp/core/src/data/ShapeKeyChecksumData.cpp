@@ -34,6 +34,10 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getShapeKey
         // between them (Sanhua's and her skin's do)
         {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa), "", "shapekeys"}, "2610"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "shapekeys"}, "2610"},
+        // Lynae (3.6) and LynaePeppermint (3.7): the sum of the first four shape-key offsets,
+        // from the frame dumps' Metadata.json
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "shapekeys"}, "2020"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "shapekeys"}, "4892"},
     };
     return rows;
 }

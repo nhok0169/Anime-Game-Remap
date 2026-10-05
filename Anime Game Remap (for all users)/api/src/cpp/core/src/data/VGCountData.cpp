@@ -58,6 +58,25 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getVGCountD
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component5"}, "46"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component6"}, "1"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component7"}, "5"},
+
+        // Lynae (3.6): 8 draw slots, from the frame dump's Metadata.json (vg_count)
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component0"}, "45"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component1"}, "72"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component2"}, "1"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component3"}, "111"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component4"}, "93"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component5"}, "48"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component6"}, "30"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component7"}, "1"},
+        // LynaePeppermint (3.7): 8 draw slots, from the frame dump's Metadata.json (vg_count)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component0"}, "43"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component1"}, "56"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component2"}, "1"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component3"}, "85"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component4"}, "72"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "20"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "37"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "1"},
     };
     return rows;
 }

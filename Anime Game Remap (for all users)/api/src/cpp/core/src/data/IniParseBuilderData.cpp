@@ -148,6 +148,12 @@ namespace AGRemapCore {
                 {{"2.8", ModTypeIdTools::getName(ModTypeId::Chisa)}, IniParseBuilderFuncs::chisa2_8()},
                 {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniParseBuilderFuncs::chisaParfait3_5()},
 
+                // ===== Lynae and LynaePeppermint (2026-10-05), STUBS =====
+                // Registered for their asset tables; neither has a parser yet, so a .ini of theirs
+                // classifies by vb0 hash and is then parsed by nothing.
+                {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniParseBuilderFuncs::wwmiStub()},
+
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a
                 // Texcoord of stride 12.

@@ -559,8 +559,9 @@ bones**, the rule Neuvillette's torn capes already wrote down.
 **The other two faults were in the FIXER, not here**, and knowing that is what stops the next round
 of row-tweaking: a `splitGroups` damping that made the braid rigid with the head (the lever ratio
 that justified it was real and the conclusion was wrong -- a longer lock swinging further at the tip
-is what hair does), and a residual clip through the shoulder that a 4 cm `pushAway` clears now that
-the braid is whole. See Creating Remaps' "THREE FAULTS STACKED ON ONE BRAID".
+is what hair does), and a residual clip through the shoulder that a `pushAway` clears now that
+the braid is whole -- 6.5 cm on her right and **9.6 cm on her left**, because the skin's standing
+idle is not mirror-symmetric even though the mod's two braids and the skin's bones 7 / 8 both are. See Creating Remaps' "THREE FAULTS STACKED ON ONE BRAID".
 
 **Four different Body carriers were tried for the lower half and they render IDENTICALLY**, which is
 why the search went in a circle for two days: a bone's skinning matrix is the identity at the

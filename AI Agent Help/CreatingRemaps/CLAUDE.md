@@ -383,10 +383,24 @@ LOWER TWO links of each braid go **6.5 cm forward and 1 cm outward**. Four thing
   how much. It is three lines of numpy and it is what would have caught the bangs before the user did.
 * **Measured at 1 cm steps in game**, against the mod shown on Citlali herself: 2.5 cm and 4 cm each
   still lost one braid in the shoulder; 6.5 cm clears both in every frame of the idle.
-* **Symmetric, although only one side ever clipped.** The skin's standing idle is not
-  mirror-symmetric, but the MOD's two braids are mirror-exact -- mean z agreeing to **0.0000** in
-  every height band below y 1.30 -- so the lean belongs to the TARGET's rig and a per-side value
-  (which `side` makes easy to write) would be tuned to the one animation it was measured in.
+* **PER SIDE -- after shipping symmetric twice and being told three times.** Her LEFT braid sank
+  into the bodice about 2 cm higher than her right in the same frame, so it takes **9.6 cm** against
+  her right's 6.5 (`VGPushAway::side` makes that one line). Everything measurable off the files says
+  the two are the same part: the MOD's braids are mirror-exact (mean z agreeing to **0.0000** in
+  every height band below y 1.30, share profiles agreeing band for band) and the skin's bones 7 and
+  8 are a mirror PAIR (centroids -0.059 / +0.063, same y 1.279, same 1.241-1.379 span). That is
+  precisely why the symmetric value shipped twice, and it was never evidence about the picture: the
+  asymmetry is in the TARGET's standing idle, which no file here can see. **Mirror-exact inputs do
+  not give a mirror-exact picture -- compare the two sides WITHIN one frame rather than arguing from
+  the buffers.** The usual objection to a per-side value, that it is tuned to the animation it was
+  measured in, is worth stating and then weighing: here it costs nothing, because the skin cannot be
+  worn without owning the character, so the shop preview's idle is the only pose it is ever seen in.
+* **A live tuner has to weight by the SOURCE groups, not by the target bone.** Editing the fixed
+  `*RemapPosition*.buf` and pressing F10 tries a distance in ~20 seconds without a rebuild, but the
+  share must come from the groups the config NAMES. Weighting by the target bone instead -- group 7,
+  which `25, 26` map onto -- silently swept in a 94-vertex strand that reaches 7 from source `28`,
+  and moved 203 vertices the compiled fix does not. Diffing the hand-tuned buffer against the
+  rebuilt one is what caught it, and it is the step that turns a tuned number into a shipped one.
 
 **AND THAT GROUP LIST IS THE ONE THE FIRST PUSH USED: wrong then, right now.** On 2026-10-04 the same
 `{25, 26}` / `{31, 32}` drew "the braid is dislocated from her hair" -- because the chain was still

@@ -140,20 +140,37 @@ namespace AGRemapCore {
             //
             // WHAT REMAINS IS A GENUINE CLIP, and a push is the right tool for it now that the braid
             // is whole: whatever this moves, it moves all of. The braid runs down the front of the
-            // shoulder and the skin's deltoid is drawn through it, so it goes 6.5 cm FORWARD and
-            // 1 cm outward -- `from` is 15 cm behind and slightly inboard of each braid, which is
+            // shoulder and the skin's deltoid is drawn through it, so it goes FORWARD, with a tenth
+            // of that outward -- `from` is 15 cm behind and slightly inboard of each braid, which is
             // what makes the direction (0.15, 0.99) in xz. Measured in game at 1 cm steps, against
-            // the mod shown on Citlali herself: 2.5 cm and 4 cm both still lost one braid in the
-            // shoulder, 6.5 cm clears both in every frame of the idle and reads as lying against
-            // the body rather than standing off it from any angle.
+            // the mod shown on Citlali herself: 2.5 cm and 4 cm both still lost a braid in the
+            // shoulder, and 6.5 cm clears her RIGHT one in every frame of the idle, reading as
+            // lying against the body rather than standing off it from any angle.
             //
-            // SYMMETRIC, ALTHOUGH ONLY ONE SIDE EVER CLIPPED. The skin's standing idle is not
-            // mirror-symmetric -- one arm leads, and its braid is the one that went into the
-            // shoulder at 2.5 and at 4 -- but the MOD's two braids are mirror-exact (their mean z
-            // agrees to 0.0000 in every height band below y 1.30, measured), so the lean belongs to
-            // the target's rig and not to anything here. A per-side value would therefore be tuned
-            // to the one animation it was measured in; the larger symmetric value costs the other
-            // braid 2.5 cm of forward travel it does not need, and that is invisible.
+            // AND IT IS NOT SYMMETRIC, WHICH TOOK THREE REPORTS TO ACCEPT. Everything that can be
+            // measured off the files says the two braids are the same part: the MOD's two braids are
+            // mirror-exact (mean z agreeing to 0.0000 in every height band below y 1.30, and the
+            // share profiles on 25/26 and 31/32 agree band for band), and the skin's own bones 7 and
+            // 8 are a mirror PAIR (centroids -0.059 / +0.063 at the same y 1.279, the same
+            // 1.241-1.379 span). So the row is right and the geometry is right -- and her LEFT braid
+            // still sank into the bodice about 2 cm higher than her right at the same instant.
+            //
+            // That difference lives in the skin's standing IDLE, which no file here can see: the
+            // animation puts her left shoulder and its hair chain somewhere her right ones are not.
+            // A static displacement is the only tool that reaches it, so the two sides take
+            // different distances -- 9.6 cm on her left (x < 0, source 25/26) against 6.5 cm on her
+            // right. Measured by stepping the left side alone, 1 cm at a time, and comparing the two
+            // braids WITHIN each frame: at 9.6 cm her left braid reaches the same depth down the
+            // chest as her right, and her right is untouched.
+            //
+            // The symmetric value shipped twice before this on the argument that a per-side number
+            // would be "tuned to the one animation it was measured in". That is still true and it is
+            // still the cost of this: it is the only animation this skin is ever seen in, because
+            // the outfit cannot be worn without owning the character, so the shop preview IS the
+            // test. Re-measure both numbers if that ever stops being so. The general lesson is the
+            // one that cost the rounds: MIRROR-EXACT INPUTS DO NOT GIVE A MIRROR-EXACT PICTURE, and
+            // a symmetry argument made entirely from the files cannot outvote what the target's rig
+            // does to them. Check the pair in the frame, not on disk.
             //
             // WHICH GROUPS THE PUSH NAMES IS WHAT SETS HOW FAR UP IT REACHES, and naming all four
             // links reached the HAIRLINE. VGPushAway weighs each vertex by its share of the groups
@@ -166,7 +183,9 @@ namespace AGRemapCore {
             // y 1.355 (the fringe cannot move at all), 0.05 at y 1.32-1.36, 0.40 at 1.24-1.28 and
             // 1.00 by y 1.10 -- the braid now BENDS forward from where it leaves the head over about
             // 20 cm, instead of the whole lock including its root translating. The clip is at the
-            // shoulder, y 1.15-1.25, which still takes 5.1-6.6 cm of it.
+            // shoulder, y 1.15-1.25, where the share is 0.80-1.00: 5.2-6.5 cm of her right braid's
+            // distance and 7.7-9.6 cm of her left's. At the top band the push can reach (y
+            // 1.355-1.381, share 0.02-0.04) that is 0.2-0.4 cm, so the fringe stays put either way.
             //
             // This is the same group list the FIRST push used, on 2026-10-04, when it drew the
             // complaint "the braid is dislocated from her hair" -- and the difference is not the
@@ -183,7 +202,7 @@ namespace AGRemapCore {
             // displacement cannot follow a pose -- the offset a bend needs is not the offset
             // standing needs -- and the Bangs component has no body bone to share weight with even
             // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
-            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0552f, 1.130f, -0.1183f}, 0.0658f, -1},
+            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0552f, 1.130f, -0.1183f}, 0.0958f, -1},
                               VGPushAway{{31, 32}, {+0.0552f, 1.130f, -0.1183f}, 0.0658f, 1}};
 
             config.components = {body, bangs, eyes};

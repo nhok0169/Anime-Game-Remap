@@ -1431,10 +1431,17 @@ it weighs each vertex by its share of them -- so naming all four links gave the 
 moves nothing above y 1.356 at all and ramps from 0.5 cm at y 1.34 to the full 6.6 cm by y 1.10, so
 the braid BENDS from where it leaves the head instead of the whole lock translating. And the
 distance was measured at 1 cm steps against the mod shown on Citlali herself -- 2.5 cm and 4 cm each
-still lost one braid in the shoulder -- and kept **SYMMETRIC although only one side ever clipped**,
-because the MOD's two braids are mirror-exact (mean z agreeing to 0.0000 in every height band below
-y 1.30), so the lean belongs to the skin's standing idle and a per-side value would be tuned to the
-one animation it was measured in.
+still lost a braid in the shoulder -- and it is **PER SIDE**: 9.6 cm on her LEFT against 6.5 cm on
+her right. It shipped symmetric twice first, on an argument built entirely from the files -- the
+MOD's two braids are mirror-exact (mean z agreeing to 0.0000 in every height band below y 1.30, and
+their share profiles agree band for band) and the skin's bones 7 and 8 are a mirror PAIR (centroids
+-0.059 / +0.063 at the same y 1.279 and the same 1.241-1.379 span) -- so a per-side value "could
+only be tuned to the one animation it was measured in". The user reported her left braid clipping
+THREE times. **MIRROR-EXACT INPUTS DO NOT GIVE A MIRROR-EXACT PICTURE**: the difference lives in the
+target's standing IDLE, which no file in the repo can see, and a symmetry argument assembled from
+the buffers cannot outvote the frame. Compare the two sides WITHIN a picture rather than arguing
+from disk -- and here the caveat cost nothing, because a skin the player does not own can only ever
+be seen in the shop preview's idle, so that idle IS the test.
 **That group list is the one the FIRST push used, and it was wrong then and right now.** On
 2026-10-04 it drew "the braid is dislocated from her hair", because the chain was still cut across
 two components and moving the lower links broke it at a hard seam. In ONE component on ONE chain the

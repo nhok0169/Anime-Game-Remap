@@ -20,7 +20,6 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
-#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
@@ -116,38 +115,33 @@ namespace AGRemapCore {
             eyes.name = "Eyes";
             eyes.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes);
 
-            // ---- the front braids clear the arm ----
+            // ---- the two long front braids ----
             //
-            // HER BRAIDS CLIP THROUGH THE SKIN'S ARMS, AND NO BONE FIXES THAT. Citlali's two front
-            // braids (groups 25/26 and 31/32) pass the upper arm with 6.8 mm to spare in her own
-            // bind pose -- the closest of her 2073 hair vertices to the nearest of her 4405 arm
-            // vertices -- and the skin holds its arms slightly differently, so the arm is drawn
-            // THROUGH them: the braid appears at the shoulder, the bare arm covers its middle, and
-            // it comes out below with its clasp.
+            // THE CHAIN USED TO BE CUT IN HALF ACROSS TWO COMPONENTS, AND THAT WAS THE WHOLE BUG.
+            // Each braid is a four-link chain of Citlali's (23 -> 24 -> 25 -> 26, mirror
+            // 29 -> 30 -> 31 -> 32) hanging from the temple to the chest. Its top two links went to
+            // the Bangs' own front-hair chain and its bottom two to a bone of the Body, so one braid
+            // was skinned in two index spaces by two unrelated bones. A user reported both halves of
+            // that in one sentence: "the braid is stationary sticking to her body instead of flowing
+            // naturally like hair", and "the braid is dislocated from her hair" -- the bottom half
+            // rode a bone that does not move, and a `pushAway` put here to clear the arm displaced
+            // only that half, so the braid visibly broke at the seam. It is the same fault as
+            // Neuvillette's capes ripping along a component boundary, and the same rule applies:
+            // ONE part belongs on ONE component's bones. VGRemapData.cpp sends all four links to
+            // the skin's own front lock, Bangs 3 -> 5 -> 7 (mirror 4 -> 6 -> 8).
             //
-            // WHICH BONE CARRIES THEM MAKES NO DIFFERENCE AT ALL, and four carriers were tried
-            // before that was measured (2026-10-05). The skinning matrix of every bone is the
-            // IDENTITY at the character's own rest pose, so a remapped mod renders at the source's
-            // coordinates whatever it is bound to -- the chest bone, the shoulder, the clavicle and
-            // the front dress chain are pixel-indistinguishable here. What moves Citlali's braids
-            // out of the way on her OWN model is her hair bones' ANIMATION, and the skin has no
-            // bone at that place that animates. So the braids stay at the bind position, which is
-            // the narrow groove between the arm and the chest, and the arm is drawn through them.
-            //
-            // The push is the static substitute for that animation, and its DIRECTION is the whole
-            // of it. Measured against the mod fixed onto nothing and shown on Citlali herself (the
-            // shop's Dawnseer card -- see Images/Citlali/CitlaliWhisperBraidAgainstCitlali.png),
-            // her braids hang OUTBOARD, beside the arm, clear of both it and the chest. A push
-            // straight forward -- `from` directly behind each braid, which shipped on 2026-10-04 --
-            // takes them off the arm and lays them on the BUST instead, which is what the user
-            // reported next. `from` on the MIDLINE and behind gives a direction that is mostly
-            // forward and partly outward, into the gap beside the arm where her own hair hangs.
-            // 3 cm is where the braid matches hers; 4.5 cm puts it over the arm band.
-            //
-            // Both entries are the same point: `side` is what makes it outward rather than across.
-            // Set after the copies above, so the Bangs and the Eyes do not take it.
-            body.pushAway = {VGPushAway{{25, 26}, {0.0f, 1.130f, -0.100f}, 0.030f, -1},
-                             VGPushAway{{31, 32}, {0.0f, 1.130f, -0.100f}, 0.030f, 1}};
+            // AND THE AMPLITUDE IS DAMPED HERE RATHER THAN BY PICKING A DIFFERENT BONE, which is
+            // what three earlier attempts did and none of them fixed anything. Bone 7 pivots at
+            // y 1.279 and the skin's own lock ends at 1.241 -- a 3.8 cm lever -- while Citlali's
+            // braid runs on to 1.037, 24 cm below it, so the same few degrees of hair sim move her
+            // tip about six times as far, which is why continuing the chain bare threw it into the
+            // arm when that was tried. splitGroups shares each lower link's weight with the Bangs'
+            // own head bone, in the ratio of the skin's lever to that link's: 3.8 / 10.8 cm for
+            // group 25 (centroid y 1.171) and 3.8 / 18.4 cm for group 26 (y 1.095). The braid swings
+            // with the hair and hangs from the head, as it does on Citlali -- it simply swings the
+            // distance the skin's rig was built to move rather than six times it.
+            bangs.splitGroups = {{25, {{7, 0.35}, {0, 0.65}}}, {26, {{7, 0.20}, {0, 0.80}}},
+                                 {31, {{8, 0.35}, {0, 0.65}}}, {32, {{8, 0.20}, {0, 0.80}}}};
 
             config.components = {body, bangs, eyes};
 

@@ -1405,32 +1405,36 @@ strips any a mod carried -- this one's face arrives through GIMI's newer API, an
 `GIMIApiNormalizer` faithfully turns its `SetTextures` into the traditional call, which is right
 everywhere except the one object the fix binds by hand.
 
-**THREE USER-REPORTED CITLALI BUGS, AND THE HAIR ONE TOOK FIVE ATTEMPTS BECAUSE THE QUESTION WAS
-UNFALSIFIABLE (2026-10-04/05).** *Her hair clipped to the arms and did not flow*: the long front locks
-were on the skin's `Body:56`, its TORSO bone, and the first four attempts all moved them to a
-different bone -- the finder's shoulder, the skin's own front hair chain, its front dress chain.
-**Every one of them renders identically, and that is provable rather than a coincidence.** The matrix
-the game uploads per bone is `pose * bindInverse`, the IDENTITY at the character's own rest pose, so a
-remapped mod renders at the SOURCE's coordinates whatever it is bound to; rebinding the braids live to
-four carriers and reloading gives four pixel-matched pictures. What differs between the two characters
-is which bones ANIMATE: on Citlali the braids ride her hair-physics bones, which swing them clear of
-the arm, and the skin has no bone that animates there, so they sit in the groove between arm and chest
-and the arm sweeps through them. **A clip at rest is `pushAway` or `splitGroups`; only a swing or a
-fold is a bone** -- and before changing a bone, displace the geometry you suspect a long way and
-reload: if the symptom survives, it was innocent. *The hair then clipped her chest and the ponytails
-looked detached*: `VGPushAway`'s DIRECTION is the whole of it, and 2 cm straight FORWARD (`from`
-directly behind each braid) takes the braid off the arm and lays it on the BUST. `from` on the MIDLINE
-and behind pushes mostly forward and partly OUTWARD, into the gap beside the arm; 3 cm matches her own
-model and 4.5 cm puts it over the arm band. **What finally made this measurable instead of a matter of
-taste is the audit rule nobody had run: put the mod on its OWN character and photograph it side by
-side** -- copy the folder, restore its `RemapBKUP...txt`, delete the `*Remap*` files, and for a
-character the maintainer does not own, use the outfit shop's default card (`Dawnseer` is Citlali's).
-Her braids hang OUTBOARD, clear of both arm and chest. Also: **iterate on the mod's own fixed
-`*Remap*.buf` and press F10** -- a ~20 second loop against minutes per rebuild -- then A/B the compiled
-fix against the hand version, expecting a small legitimate difference where the split renormalised the
-weights (544 of 1188 vertices, up to 9 mm). Four lessons in these files were wrong and are corrected in
-place; the LEVER reasoning is kept, marked as being about MOTION only, and no longer credited with
-fixing anything. *Her feet sank into the ground in the
+**FOUR USER-REPORTED CITLALI BUGS, AND THE HAIR ONE TOOK FIVE ATTEMPTS BECAUSE EVERY ATTEMPT AIMED AT
+HALF A BRAID (2026-10-04/05).** Her two long front locks are four-link chains (`23 -> 24 -> 25 -> 26`
+and the mirror) hanging from the temple to the chest, and the rows **cut each chain across two
+components** -- the top two links to the skin's Bangs, the bottom two to its Body. Every symptom
+reported follows from that one fault. *"Clipped to the arms and not free flowing"*: the bottom two
+links are most of the braid and rode a bone of the BODY, and no Body bone animates there, so the braid
+could not move out of the arm's way as it does on Citlali, where it rides her hair physics. *"Still
+clipping, and the ponytails are dislocated from her hair"*: a `VGPushAway` added to clear the arm can
+only move the half that lives in the component it is configured on, so the braid broke at the seam and
+its lower half stood visibly forward of the hair it grows out of. **The rule that was broken is one
+this file already carried**: ONE part belongs on ONE component's bones -- the Neuvillette lesson, where
+his capes ripped along a component seam. All four links now go to the skin's own front lock,
+`Bangs 3 -> 5 -> 7`, and the amplitude objection to that chain (bone 7's lever is 3.8 cm, Citlali's
+braid hangs 24 cm below it, so the skin's hair sim moves her tip six times too far) is answered by
+`GIMIComponentFixerConfig::Component::splitGroups` sharing each lower link's weight with the Bangs'
+head bone -- **a long part on a short chain is a weighting problem, not a bone-choice problem.**
+**What made this cost three reports is a measurement that was true and a conclusion that was not.**
+The three Body bones tried for the lower half -- the torso `56`, the clavicle, the front dress chain
+`70-73` -- really do render identically, because a bone's skinning matrix is the IDENTITY at the
+character's own rest pose. "So the carrier does not matter" does NOT follow, and shipping that
+reasoning cost a round: the carrier decides everything the rest pose cannot show, which is whether the
+part MOVES. **Judge a carrier on an idle SERIES, never on a pose-matched still** -- a pose-matched
+comparison is built to cancel exactly the difference being looked for. Two methods that did work:
+**displace the geometry you suspect a long way and reload** (if nothing moves, it was innocent), and
+**iterate on the mod's own fixed `*Remap*.buf` and press F10** -- a ~20 second loop against minutes per
+rebuild, which tries any carrier or weighting without building; A/B the compiled fix against it
+afterwards, expecting a small legitimate difference where the split renormalised the weights. And one
+trap that cost a round of its own: **"the part vanished" was the camera** -- the braid is invisible
+from the front and from most of a 360 sweep because the loose hair hangs over it. Confirm a part is
+gone by displacing it, not by failing to find it. *Her feet sank into the ground in the
 overworld*: **two skins of one character can stand on different GROUND PLANES** -- a mod renders at
 the SOURCE's coordinates while the game plants the character by the TARGET's, and Citlali's sole sits
 0.045 below the skin's, so every mod of the pair stood 4.5 cm low. It is DIRECTIONAL and the mirror

@@ -340,96 +340,89 @@ Neither question is about the PART. A statistic over whatever geometry happens t
 the SKIN's anatomy, not the source part's job: a hair lock hanging over a chest is surrounded by chest, and is
 still hair.
 
-### A CLIP IS NOT A BONE PROBLEM, AND FOUR CARRIERS PROVED IT PIXEL BY PIXEL (2026-10-05)
+### A PART CUT ACROSS TWO COMPONENTS CANNOT BE FIXED FROM EITHER SIDE (2026-10-05)
 
-**The report was "the hair clips through her arms", and the answer was none of the four bones tried.**
-Citlali's two front BRAIDS pass the upper arm with **6.8 mm** to spare in her own bind pose -- the
-closest of her 2073 hair vertices to the nearest of her 4405 arm vertices -- and on the skin the arm is
-drawn THROUGH them: the braid appears at the shoulder, bare arm skin covers its middle, and it comes
-out below with its clasp stranded (`Images/Citlali/CitlaliWhisperBraidClipAB.png`).
+**Three user reports, five attempts, and every one of them was aimed at the wrong half of a braid.**
+Citlali's two long front locks are four-link chains -- `23 -> 24 -> 25 -> 26` and the mirror
+`29 -> 30 -> 31 -> 32` -- hanging from the temple to the chest. The rows sent the **top two links to
+the skin's Bangs component** and the **bottom two to its Body**, so one braid was skinned in two
+index spaces by two unrelated bones. Everything the user reported follows from that and from nothing
+else:
 
-**THE CARRIER BONE IS INVISIBLE AT REST, AND THAT IS NOT A CURIOSITY -- IT IS THE WHOLE EXPLANATION.**
-The matrix the game uploads per bone is `pose * bindInverse`, which is the IDENTITY at the character's
-own rest pose, so a remapped mod renders at the SOURCE's coordinates no matter what it is bound to.
-Measured, not reasoned: the braids were rebound live to the skin's chest bone (`56`), its clavicle
-(`9/33`), its shoulder cloth (`57/58`) and its front dress chain (`70-73`), each reloaded and captured
-at the same camera on a pose-matched frame, and the four are **indistinguishable**. Any "which bone"
-argument about a part that is wrong AT REST is unfalsifiable by construction.
+* *"the hair is clipped to the arms and is not free flowing"* -- the bottom two links, which are most
+  of the braid, rode a bone of the BODY. No bone of the Body animates at that place, so the braid
+  could not move out of the arm's way the way it does on Citlali, where it rides her hair physics.
+* *"the braid is dislocated from her hair"* -- a `pushAway` added to clear the arm could only move
+  the half that lives in the component it is configured on, so the braid broke at the seam and the
+  lower half stood visibly forward of the hair it grows out of.
+* and the three different Body bones tried for the lower half -- the torso `56`, the clavicle, the
+  front dress chain `70-73` -- **render identically**, which is what sent four attempts in a circle.
 
-**What the two characters really differ in is which bones ANIMATE.** On Citlali the braids ride her own
-hair-physics bones, which swing them clear of the arm; the skin has no bone that animates at that
-place, so the braids stay at the bind position -- the narrow groove between the arm and the chest --
-and the arm sweeps through it. The fix is therefore a static stand-in for that animation:
-`GIMIComponentFixerConfig::Component::pushAway` (:cpp:class:`VGPushAway`), which exists for exactly
-this ("cloth that clips a limb the target moves differently") and which Neuvillette already uses for
-the coat flaps his stepping thigh went through.
+**THE RULE IS ALREADY WRITTEN DOWN AND IT IS THE ONE THAT WAS BROKEN: one part belongs on ONE
+component's bones.** It is the Neuvillette lesson -- his capes ripped along a component seam for
+exactly this reason -- and a hair lock tears the same way. The fix is one line of
+`VGRemapData.cpp`: all four links go to the skin's own front lock, `Bangs 3 -> 5 -> 7` (mirror
+`4 -> 6 -> 8`), and the Body row loses them.
 
-**AND ITS DIRECTION IS THE WHOLE OF IT -- GUESSING IT COST A SECOND USER REPORT.** The first attempt
-pushed 2 cm straight FORWARD (`from` directly behind each braid), reasoning that a push away from the
-midline would drive a part hanging beside the chest further INTO the arm. That reasoning is wrong, and
-the user came back with "the hair is still clipping to her breasts/body and the ponytails are
-dislocated from her hair": straight forward takes the braid off the arm and lays it on the BUST.
-`from` on the MIDLINE and behind gives a direction that is mostly forward and partly OUTWARD, into the
-gap beside the arm, and 3 cm is what matches her own model -- 4.5 cm puts the braid over the arm band.
+**AND THE OBJECTION TO THAT CHAIN IS AMPLITUDE, WHICH IS ANSWERED WHERE IT ARISES RATHER THAN BY
+PICKING ANOTHER BONE.** Bone 7 pivots at y 1.279 and the skin's own lock ends at 1.241 -- a 3.8 cm
+lever -- while Citlali's braid runs on to 1.037, 24 cm below it, so the same few degrees of hair sim
+move her tip about six times as far; continuing the chain bare was tried in an earlier round and threw
+the braid into the arm, which is what sent the row to a Body bone in the first place.
+`GIMIComponentFixerConfig::Component::splitGroups` shares each lower link's weight with the Bangs'
+own head bone in the ratio of the skin's lever to that link's (0.35 for group 25 at y 1.171, 0.20 for
+group 26 at y 1.095). **A long part on a short chain is a weighting problem, not a bone-choice
+problem** -- and `splitGroups` existed for it the whole time, documented for a coat flap.
 
-**THE MEASUREMENT THAT SETTLED IT IS THE AUDIT RULE NOBODY HAD RUN: PUT THE MOD ON ITS OWN CHARACTER
-AND PHOTOGRAPH IT.** Copy the mod folder, restore its `RemapBKUP...txt` over the `.ini`, delete the
-`*Remap*` files, load it, and look at the SOURCE character -- for a character the maintainer does not
-own, the outfit shop's default card does it (`Dawnseer` is Citlali's). Side by side at the same camera
-yaw the answer was immediate, and it had survived four rounds of argument: her braids hang OUTBOARD,
-beside the arm, clear of both it and the chest
-(`Images/Citlali/CitlaliWhisperBraidAgainstCitlali.png`). Without that row the "right" placement is a
-matter of taste, and three different tastes had already shipped.
+**WHAT MADE THIS TAKE THREE REPORTS: a measurement that was true and a conclusion that was not.**
+The four Body carriers really are pixel-identical, because a bone's skinning matrix is the identity
+at the character's own rest pose -- but "the carrier does not matter" does not follow from it, and
+that is what the previous revision of this section said. It matters for everything the rest pose
+cannot show: whether the part MOVES, and with what. **Judge a carrier on an idle series, never on a
+pose-matched still** -- a pose-matched comparison is built to cancel exactly the difference being
+looked for.
 
-**THE OTHER METHOD LESSON. Before changing a bone, prove WHICH geometry is at fault** -- displace the
-vertices you think are guilty a long way (`+z 0.4` is unmistakable) and reload. If the symptom is still
-there, they were innocent. It is the `purpleSlot.py` idea applied to geometry instead of textures. And
-**iterate on the mod's OWN fixed buffers, not through a rebuild**: rewriting the blend indices or the
-positions of the already-written `*Remap*.buf` and pressing F10 is a ~20 second loop against minutes
-for edit / rebuild / re-fix / reload. Both sweeps above were run that way; the compiled fix is then
-A/B'd against the hand version, and **expect a small legitimate difference there** -- the split
-renormalises the weights of groups that went to another component, so a share taken from the SPLIT
-blend is larger than the share the fix takes from the SOURCE blend (here 544 of 1188 vertices, up to
-9 mm).
+Two cheap methods that did work, and one trap:
 
-Once you know the part, ask whether it OVERLAPS or merely MOVES wrongly: a clip at rest is `pushAway`
-or `splitGroups`, and only a swing or a fold is a bone.
+* **Displace and reload.** Shove the vertices you suspect a long way (``+-0.3`` in x is unmistakable)
+  and reload; if nothing moves, they were innocent, and if the part appears somewhere absurd you have
+  found which draw owns it. It is the ``purpleSlot.py`` idea applied to geometry.
+* **Iterate on the mod's own fixed ``*Remap*.buf`` and press F10** -- about 20 seconds against minutes
+  for edit / rebuild / re-fix. Rewriting blend indices and weights in place tries any carrier or any
+  weighting without a build. The compiled fix is then A/B'd against the hand version, and **expect a
+  small legitimate difference**: the split renormalises the weights of groups that went to another
+  component, so a share read from the SPLIT blend exceeds the share the fix reads from the SOURCE.
+* **The trap: "I cannot see the part" is usually the camera.** The braid is invisible from the front
+  and from most of a 360 sweep in the outfit preview, because the loose hair hangs over it -- which
+  was read once as "the change made the braid vanish" and cost a round. Confirm a part is really gone
+  by displacing it, not by not finding it.
 
-### THE LEVER, AND WHY IT DID NOT MATTER HERE (2026-10-04, corrected 2026-10-05)
+### THE LEVER, AND WHY IT WAS NEVER THE QUESTION HERE (2026-10-04, corrected 2026-10-05)
 
 .. warning::
-   Read the section ABOVE first. Everything below is about how a part MOVES, and on this pair the
-   braids do not move at all on any of the candidates -- the carrier was measured to be invisible.
-   The rows shipped for Citlali's four braid groups are still the dress chain, because it is the best
-   answer to the motion question, but **it is not what fixed the report** and nothing in game can tell
-   it from the chest bone. Keep the reasoning; do not repeat the claim that it fixed anything.
+   Read the section ABOVE first. The three Body bones below were all chosen to answer "which one
+   moves the part best", and the part was broken in half the whole time, so none of them could have
+   been right and no comparison between them meant anything. Keep the ranking method; do not repeat
+   the claim that any of these rows fixed a report.
 
-**The materially obvious repair was tried and was no better.** Citlali's lock is `23 -> 24 -> 25 -> 26` and
-the skin's own front lock is `Bangs 3 -> 5 -> 7`, so the chain was continued onto it -- real hair bones, hair
-onto hair, and the lock in ONE component instead of cut across two. **The skin's lock stops at y 1.241 and
-Citlali's runs to 1.037, so the tip would hang 19 cm below its pivot**: a few degrees of hair sim is
-centimetres of sideways travel at that radius, against a measured 6.8 mm of clearance. So on the motion
-question it is a bad answer even though it is the one the material argues for.
+**Rank a counterpart-less part's candidates by the DISTANCE FROM THE PART TO THE PIVOT, in ALL THREE
+AXES, then by whether the carrier moves the same WAY, and only then by material.** The lever is why
+the skin's own front lock looks wrong on paper for Citlali's braid -- its last bone sits 24 cm above
+her braid's tip -- and it is also why `Body 70 -> 72`, the front dress chain, looked right: its links
+sit at y 1.189 and 1.095 against the lock's 1.171 and 1.095. **The depth was never checked, and it is
+bad**: those links sit at z 0.126 and 0.152 against the braid's 0.03, a 10 cm lever in the one axis
+nobody looked at. Measure all three.
 
-**Rank candidates by the DISTANCE FROM THE PART TO THE PIVOT, not by what the bone is called.** On that
-measure the answer is the skin's front-hanging DRESS chain `Body 70 -> 72` (mirror `71 -> 73`): its links sit
-at y 1.189 and 1.095 against the lock's 1.171 and 1.095, so the pivots are at the part's own height, and it
-hangs down the front of the chest as the lock does. Cloth driving hair is fine -- a chest-length tie and a
-chest-length hair lock MOVE alike. **But measure the DEPTH too, which this did not:** those links sit at
-z 0.126 and 0.152 against the braid's 0.03, a 10 cm lever in the one axis nobody looked at, and on a dangly
-ornament bone. It happens not to matter here only because that bone does not animate.
+**And before spending any of that, ask whether the part is wrong at REST, or whether it is CUT.** A
+part that does not move is a carrier question; a part that breaks, tears or stands off from what it
+grows out of is a component question; a part that overlaps a limb while standing still is
+`pushAway` or `splitGroups`. Only the first of those is answered by choosing a different bone.
 
-**The general rule, which the four attempts triangulate:** a part with no counterpart needs a bone that is
-(1) at the part's own position in ALL THREE AXES, so the lever is short, (2) attached to something that moves
-the same WAY (front-hanging to front-hanging), and only then (3) of the same material if there is a choice --
-and **before spending a round on any of it, check whether the part is wrong at REST**, in which case none of
-the three applies.
-
-Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
-keep a garment on one component; and check left against right -- the Citlali lock also collapsed its LEFT and
-RIGHT chains onto one centre-line bone, so the two sides could not move independently even in principle. Then
-look at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose
-can hide a clip or a fold that the next frame shows.
+Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs
+from it; keep a garment on one component; and check left against right -- the Citlali lock also
+collapsed its LEFT and RIGHT chains onto one centre-line bone at one point, so the two sides could not
+move independently even in principle. Then look at it IN MOTION -- a timed series through the idle
+animation, not one frame.
 
 <br>
 

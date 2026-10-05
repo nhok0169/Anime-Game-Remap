@@ -543,41 +543,41 @@ workbook keeps the tool's `About` sheet until the rows are checked in game. The 
 `Face` / `Mouth` / `Eyebrows` meshes are not in any row: a 6.7 frame dump shows base Citlali drawing
 the same meshes by the same hashes, so they are nobody's to remap.
 
-### And one of those overrides looked wrong, reported by a user -- but the row was never the fault (2026-10-04, settled 2026-10-05)
+### And one of those overrides was the wrong QUESTION: the part was cut in half (2026-10-04, settled 2026-10-05)
 
-The front hair locks -- Citlali `25`/`26` and `31`/`32`, the lower half of each lock, 1112 vertices a
-side -- were overruled off the shoulder (right: an arm would swing the lock with it) and onto `Body:56`,
-the skin's TORSO bone, on the "vertices answer" rule above. In game the locks hung through the arms:
-*"the hair is clipped to CitlaliWhisper's arms and is not free flowing."*
+Citlali's two long front locks are four-link chains -- `23 -> 24 -> 25 -> 26` and the mirror
+`29 -> 30 -> 31 -> 32` -- and the rows **sent the top two links to the skin's Bangs component and the
+bottom two to its Body**. One braid, two index spaces, two unrelated bones. Three user reports came out
+of that single fault: the braid could not flow (its lower two links, most of its mass, rode a Body bone
+and no Body bone animates there), and when a `VGPushAway` was added to clear the arm it moved only the
+half configured on that component, so the braid broke at the seam -- *"the braid is dislocated from her
+hair"*.
 
-**Four carriers were tried over two days and they render IDENTICALLY, which is provable rather than
-bad luck.** The skinning matrix the game uploads is `pose * bindInverse`, the identity at the
-character's own rest pose, so a remapped mod renders at the SOURCE's coordinates whatever bone it is
-bound to. Rebinding the braids live -- the chest bone `56`, the clavicle `9/33`, the shoulder cloth
-`57/58`, the dress chain `70-73` -- and reloading between each gives four pixel-matched pictures.
-**A part that is wrong AT REST cannot be fixed by a vertex group row, and no amount of reviewing one
-will say otherwise.** The real difference is that Citlali's braids ride her own hair-PHYSICS bones,
-which swing them clear of the arm, and the skin has no bone that animates at that place; the fix is
-`GIMIComponentFixerConfig::Component::pushAway`, a static stand-in for that animation. See Creating
-Remaps' "A CLIP IS NOT A BONE PROBLEM".
+**Four different Body bones were tried for the lower half and they render IDENTICALLY**, which is why
+the search went in a circle for two days: a bone's skinning matrix is the identity at the character's
+own rest pose, so a remapped mod renders at the SOURCE's coordinates whatever it is bound to. That is a
+true measurement and it supports exactly one conclusion -- **a still frame cannot tell you anything
+about a carrier.** It does not mean the carrier is irrelevant; it decides whether the part moves, which
+is the half of the report a still frame is blind to. **Judge a carrier on an idle SERIES.**
 
-**The motion reasoning below is still the right way to CHOOSE a row -- it just did not fix this.**
-Continuing the chain onto the skin's own front lock (`Bangs 3 -> 5 -> 7`, clamped at its end) would put
-the lock on genuine hair bones and in ONE component, and it is still a bad row: the skin's lock stops at
-y 1.241 while Citlali's runs to 1.037, leaving the tip **19 cm below its pivot**, and the hair clears the
-arm by only **6.8 mm** at the bind pose, so a centimetre of swing would bury it. The shipped row is the
-skin's front-hanging DRESS chain `Body 70 -> 72` (mirror `71 -> 73`), whose links sit at y 1.189 and 1.095
-against the lock's 1.171 and 1.095 -- pivots at the part's own height. **Its DEPTH was not checked and is
-poor**: those links sit at z 0.126 and 0.152 against the braid's 0.03, a 10 cm lever in the one axis
-nobody looked at. It costs nothing here only because that bone does not animate, and it is kept because
-it remains the best answer to the motion question.
+The row now sends all four links to the skin's own front lock, `Bangs 3 -> 5 -> 7` (mirror
+`4 -> 6 -> 8`), so the lock is whole in ONE component on real hair bones -- the rule Neuvillette's torn
+capes already wrote down. The objection to that chain is amplitude, not identity: bone 7 pivots at
+y 1.279 and the skin's own lock ends at 1.241, a 3.8 cm lever, while Citlali's braid runs to 1.037,
+24 cm below it, so the skin's hair sim would move her tip six times too far. That is answered in the
+FIXER, by `GIMIComponentFixerConfig::Component::splitGroups` sharing each lower link's weight with the
+Bangs' head bone in the ratio of the levers -- **a long part on a short chain is a weighting problem,
+not a bone-choice problem.**
 
-Rank a counterpart-less part's candidates by **lever first, in all three axes**, then by whether the
-carrier moves the same WAY, and only then by material -- and first of all ask whether the part is wrong
-at rest, in which case none of it applies. See Creating Remaps' "THE LEVER, AND WHY IT DID NOT MATTER
-HERE". And note the second thing the shipped row did: it collapsed the LEFT and RIGHT locks onto the
-same centre-line bone, so the two sides could not move independently in principle -- **a many-to-one that
-crosses the mirror line is worth flagging on its own**, whatever the distances say.
+Rank a counterpart-less part's candidates by **lever first, in all three axes** (the dress chain that
+shipped for a while scored well on height and sits 10 cm away in DEPTH, which nobody measured), then by
+whether the carrier moves the same WAY, and only then by material. But first ask which KIND of fault you
+have: a part that does not move is a carrier question, a part that breaks or stands off from what it
+grows out of is a COMPONENT question, and a part that overlaps a limb while standing still is
+`pushAway` or `splitGroups`. Only the first is answered by choosing a different bone. And note the
+second thing the earlier row did: it collapsed the LEFT and RIGHT locks onto one centre-line bone, so
+the two sides could not move independently in principle -- **a many-to-one that crosses the mirror line
+is worth flagging on its own**, whatever the distances say.
 
 <br>
 

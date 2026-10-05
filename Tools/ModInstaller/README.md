@@ -16,7 +16,7 @@ Standard library only; no `requirements.txt` to install. Run it from anywhere.
 | Case | Behaviour |
 | --- | --- |
 | `.zip` | Python's `zipfile`. A name without the zip UTF-8 flag is retried as UTF-8, then `--zipEncoding` (default `gbk`; `shift_jis` or `cp949` for Japanese / Korean authors) |
-| `.rar` (WinRAR) | WinRAR's `UnRAR.exe` / `Rar.exe` if installed, otherwise Windows' `tar` (bsdtar reads RAR4 and RAR5) |
+| `.rar` (WinRAR) | WinRAR's `UnRAR.exe` / `Rar.exe` if installed, else 7-Zip's `7z.exe`, otherwise Windows' `tar`. bsdtar reads most RAR4 / RAR5, but rejected three of fourteen Lynae `.rar`s outright (`Archive entry has empty or unreadable filename`), which 7-Zip extracts |
 | multi-volume `x.part1.rar`, `x.part2.rar`, ... | installed once, from `part1`; the later parts are not counted as mods |
 | `.7z`, `.tar*` | Windows' built-in `C:\Windows\System32\tar.exe` (bsdtar). A Git-for-Windows GNU `tar` cannot read `.7z`, so the system one is preferred |
 | wrapper folders | an archive holding only `ModName/` (or `a/b/ModName/`) lands as `<Name><i>/<contents of ModName>`. An archive with several things at its top level is kept as-is |

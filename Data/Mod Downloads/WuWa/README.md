@@ -73,5 +73,27 @@ her own identity mod installed, ChisaParfait extracted as a 929-slot skeleton (a
 MOD's textures under the mod's hashes, every time, and nothing reported an error. See the VGRemaps
 guide.
 
+**`Lynae/3_7` and `LynaePeppermint/3_7` (2026-10-04)** come from two character-menu dumps at 3.7 with
+LOD bias `2` (High, the menu's maximum), no Lynae mod installed: `FrameAnalysis-Lynae-2026-10-04-232242`
+(original outfit) and `FrameAnalysis-LynaePeppermint-2026-10-04-232459` (the Peppermint outfit's
+preview in Resonator Outfits, which works for an outfit the account does not own).
+
+| character | `vb0` | components | merged skeleton | blend remap | textures |
+| --- | --- | --- | --- | --- | --- |
+| `Lynae` | `7e400733` (`ib` `27e35645`) | 8, 75828 vertices | 401 slots, highest bone 366 | components 4, 5, 6 | 26: 17 x 2048, 3 x 1024, 6 x 512 |
+| `LynaePeppermint` | `ebbfa346` (`ib` `b41c509e`) | 8, 71603 vertices | 315 slots, highest bone 310 | components 4, 6 | 27: 13 x 2048, 7 x 1024, 7 x 512 |
+
+Both are eight-weight characters (16-byte `Blend.buf`), and both shape-key checksums match their
+`Metadata.json` (2020 and 4892). **Lynae's extraction needed `wwmiExtractDump.py --only`**: the addon
+aborted with `components CB4 hash mismatch for object 7e400733`, because her component 6 (indices
+301470+) is drawn twice in a pass that binds the SCENE's `vs-cb4` (`4785ce09`) as well as four times
+with her own (`f02baf77`), and the addon keeps one draw per component. `--only` drops a kept object's
+draws that bind a minority `cb4` (calls `000045`, `000046` here) and every other object's draws. It was
+proved by re-extracting `ChisaParfait/3_7` from its own 3.7 dump with `--only 95ecef77`: `--check`
+reports 44 identical, 0 differ. Both new folders were then verified against the dumps' own bytes by
+`wwmiCheckDownload.py`: `Position`, `Vector`, `Color`, `Texcoord` and `Index` are byte-identical to
+the slots their draws bound (Lynae `vb1=086b1dc5`, `vb2=5b48efca`, `vb3=483b3ebd`; LynaePeppermint
+`vb1=41d28b52`, `vb2=25beb1d7`, `vb3=cfc48cd0`), 0 unexplained.
+
 Not yet wired into a parser: `DownloadTools::urlPath` composes `GI/<char>/<version>/...` and needs
 a game folder before a WuWa fixer can fetch these (2026-09-19).

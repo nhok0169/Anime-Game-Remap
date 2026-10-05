@@ -9,9 +9,9 @@ from ScriptBuilder.CommandBuilder import CommandBuilder
 sys.path.insert(1, UtilitiesPath)
 from Utils.enums.ScriptPartNames import ScriptPartNames
 from Utils.constants.FileExts import FileExts
-from Utils.constants.toolStats import ScriptStats, ScriptBuildStats, ScriptBuilderBuildStats, APIStats
+from Utils.constants.toolStats import ScriptStats, ScriptBuildStats, ScriptBuilderBuildStats, APIStats, APIMirrorStats
 from Utils.path.ModulePathTools import ModulePathTools
-from Utils.constants.StrReplacements import VersionReplace, RanDateTimeReplace, BuildHashReplace, RanHashReplace, BuiltDateTimeReplace, BuildEnvReplace, APIRelPathReplace, APIPackageReplace
+from Utils.constants.StrReplacements import VersionReplace, RanDateTimeReplace, BuildHashReplace, RanHashReplace, BuiltDateTimeReplace, BuildEnvReplace, APIRelPathReplace, APIPackageReplace, APIMirrorPackageReplace
 from Utils.constants.BoilerPlate import ScriptPreamble, ScriptPostamble, Credits, ScriptPreambleScriptStats
 from Utils.constants.Paths import ScriptModulePath
 from Utils.scriptBuilder.ScriptBuilder import ScriptBuilder
@@ -63,7 +63,8 @@ if __name__ == "__main__":
     replacements = {
         BuildEnvReplace: args.env.value,
         APIRelPathReplace: getApiRelPath(),
-        APIPackageReplace: APIStats.name
+        APIPackageReplace: APIStats.name,
+        APIMirrorPackageReplace: APIMirrorStats.name
     }
 
     print(f"Building the script for the '{args.env.value}' environment")

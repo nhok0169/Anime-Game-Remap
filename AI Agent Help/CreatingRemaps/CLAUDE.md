@@ -368,23 +368,32 @@ head bone looks like. **Before damping a part, ask what it would look like UNDAM
 rig** -- the amplitude ratio that justified it was never evidence of anything being wrong.
 
 **FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
-is whole.** It runs down the front of the shoulder and the skin's deltoid is drawn through it, so it
-goes **6.5 cm forward and 1 cm outward**. Three things about that number worth copying:
+is whole.** It runs down the front of the shoulder and the skin's deltoid is drawn through it, so the
+LOWER TWO links of each braid go **6.5 cm forward and 1 cm outward**. Four things worth copying:
 
-* **Measured at 1 cm steps in game, not derived**, and against the mod shown on Citlali herself.
-  2.5 cm and 4 cm each still lost one braid in the shoulder; 6.5 cm clears both in every frame of
-  the idle and reads as lying against the body from any angle.
+* **Which groups the push NAMES is what sets how far up it reaches**, and that matters more than the
+  distance. `VGPushAway` weighs each vertex by its share of the groups it lists, so listing all four
+  links -- including the two at the temple, where the braid's weight blends into the scalp -- gave
+  the FRINGE a share of 0.39 on average at y 1.36-1.40 and 0.66 at 1.32-1.36. At 4 cm that is
+  1.5-2.6 cm and nobody notices; at 6.5 cm it is 2.5-4.6 cm and a user reports her bangs standing
+  off her face. Naming only the lower two moves **nothing above y 1.356**, ramps 0.5 cm at y 1.34 to
+  6.6 cm by y 1.10, and bends the braid from where it leaves the head.
+* **Print the share profile by height before shipping a push.** One table -- vertices per height band
+  against mean and max share, times the distance -- says exactly which parts of the model move and by
+  how much. It is three lines of numpy and it is what would have caught the bangs before the user did.
+* **Measured at 1 cm steps in game**, against the mod shown on Citlali herself: 2.5 cm and 4 cm each
+  still lost one braid in the shoulder; 6.5 cm clears both in every frame of the idle.
 * **Symmetric, although only one side ever clipped.** The skin's standing idle is not
-  mirror-symmetric -- one arm leads, and its braid is the one that went in at 2.5 and again at 4 --
-  but the MOD's two braids are mirror-exact: their mean z agrees to **0.0000** in every height band
-  below y 1.30. The lean belongs to the TARGET's rig, so a per-side value (which `VGPushAway`'s
-  `side` field makes easy to write) would be tuned to the one animation it was measured in. The
-  larger symmetric value costs the other braid 2.5 cm of travel it does not need, and that is
-  invisible.
-* **The taper is the engine's own.** `VGPushAway` weighs each vertex by its share of the groups it
-  names, so listing all four links gives 0.29 at the scalp (y 1.40) rising to 1.00 by y 1.20: the
-  braid bends away from the head instead of detaching from it. A hand-rolled height cutoff is worse
-  and was what the live prototype used.
+  mirror-symmetric, but the MOD's two braids are mirror-exact -- mean z agreeing to **0.0000** in
+  every height band below y 1.30 -- so the lean belongs to the TARGET's rig and a per-side value
+  (which `side` makes easy to write) would be tuned to the one animation it was measured in.
+
+**AND THAT GROUP LIST IS THE ONE THE FIRST PUSH USED: wrong then, right now.** On 2026-10-04 the same
+`{25, 26}` / `{31, 32}` drew "the braid is dislocated from her hair" -- because the chain was still
+cut across two components, so moving the lower links broke the braid at a hard seam. In ONE component
+on ONE chain it is a smooth bend, because the share tapers across the 24 -> 25 blend instead of
+stopping dead at a component boundary. **A field that was wrong under a broken row can be right once
+the row is fixed; re-test it rather than ruling it out from memory.**
 
 **AND ONE THING A PUSH CANNOT FIX, written down so the next report is not chased.** When she BENDS,
 both braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs

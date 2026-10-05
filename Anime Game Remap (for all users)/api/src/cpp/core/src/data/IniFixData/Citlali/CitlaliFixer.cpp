@@ -155,19 +155,36 @@ namespace AGRemapCore {
             // to the one animation it was measured in; the larger symmetric value costs the other
             // braid 2.5 cm of forward travel it does not need, and that is invisible.
             //
-            // The taper is the engine's own: VGPushAway weighs each vertex by its share of the four
-            // listed groups, which runs 0.29 at the scalp (y 1.40) to 1.00 by y 1.20, so the braid
-            // bends away from the head rather than detaching from it.
+            // WHICH GROUPS THE PUSH NAMES IS WHAT SETS HOW FAR UP IT REACHES, and naming all four
+            // links reached the HAIRLINE. VGPushAway weighs each vertex by its share of the groups
+            // it lists, so listing 23 and 29 -- the links at the temple, where the braid's weight
+            // blends into the scalp -- gave the fringe a share of 0.39 on average at y 1.36-1.40 and
+            // 0.66 at y 1.32-1.36. At 4 cm that was 1.5-2.6 cm and went unnoticed; at 6.5 cm it is
+            // 2.5-4.6 cm, and a user reported her BANGS standing forward off her face.
             //
-            // WHAT THIS CANNOT FIX, and it is worth knowing before the next report: when she BENDS,
-            // both braids pass through her chest. The skin has no hair bone below y 1.24, so the
-            // whole braid hangs off a chain parented to the HEAD; bending rotates the torso forward
-            // about the hips while the braid stays with the head, and the chest sweeps into it. No
-            // static displacement can follow that -- the offset a bend needs is not the offset
+            // So the push names only the LOWER two links of each braid. Their share is 0.00 above
+            // y 1.355 (the fringe cannot move at all), 0.05 at y 1.32-1.36, 0.40 at 1.24-1.28 and
+            // 1.00 by y 1.10 -- the braid now BENDS forward from where it leaves the head over about
+            // 20 cm, instead of the whole lock including its root translating. The clip is at the
+            // shoulder, y 1.15-1.25, which still takes 5.1-6.6 cm of it.
+            //
+            // This is the same group list the FIRST push used, on 2026-10-04, when it drew the
+            // complaint "the braid is dislocated from her hair" -- and the difference is not the
+            // list. Back then the chain was cut across two components, so moving the lower links
+            // broke the braid at a hard seam. In ONE component on ONE chain the same list is a
+            // smooth bend, because the share tapers across the 24 -> 25 blend instead of stopping
+            // dead at a component boundary. A field that was wrong under a broken row can be right
+            // once the row is fixed; re-test it rather than ruling it out from memory.
+            //
+            // WHAT NO PUSH CAN FIX, recorded so the next report is not chased: when she BENDS, both
+            // braids pass through her chest. The skin has no hair bone below y 1.24, so the whole
+            // braid hangs off a chain parented to the HEAD; bending rotates the torso forward about
+            // the hips while the braid stays with the head, and the chest sweeps into it. A static
+            // displacement cannot follow a pose -- the offset a bend needs is not the offset
             // standing needs -- and the Bangs component has no body bone to share weight with even
             // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
-            bangs.pushAway = {VGPushAway{{23, 24, 25, 26}, {-0.0552f, 1.130f, -0.1183f}, 0.0658f, -1},
-                              VGPushAway{{29, 30, 31, 32}, {+0.0552f, 1.130f, -0.1183f}, 0.0658f, 1}};
+            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0552f, 1.130f, -0.1183f}, 0.0658f, -1},
+                              VGPushAway{{31, 32}, {+0.0552f, 1.130f, -0.1183f}, 0.0658f, 1}};
 
             config.components = {body, bangs, eyes};
 

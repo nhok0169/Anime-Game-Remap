@@ -761,9 +761,11 @@ namespace AGRemapCore {
          * reprojected from the TARGET's -- a large bogus motion, which TAA smears into a
          * second body over the whole character.
          *
-         * Defaulted ON because the alternative is never right. It moves the output of every
-         * WuWa pair, so a pair confirmed in game before 2026-10-03 wants another look.
+         * Defaulted ON because the alternative is never right.
          */
+        // Turning this on moved the output of every WuWa pair, so a pair whose in-game check
+        // predates it wants another look. Kept out of the doc comment above on purpose: that one
+        // is published as the API reference and reads as the present-tense contract.
         bool bindPrevPoseAlways = true;
 
         /**

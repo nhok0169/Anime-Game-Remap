@@ -124,6 +124,45 @@ forward offset
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="243" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="243" bodyend="243"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a4b88af438e12c13de27215b31c73ca78" prot="public" static="no" mutable="no">
+        <type>std::array&lt; float, 2 &gt;</type>
+        <definition>std::array&lt;float, 2&gt; AGRemapCore::GIMIMergeFixerConfig::Component::positionOffsetFade</definition>
+        <argsstring></argsstring>
+        <name>positionOffsetFade</name>
+        <qualifiedname>AGRemapCore::GIMIMergeFixerConfig::Component::positionOffsetFade</qualifiedname>
+        <initializer>= {0.0f, 0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``y`` range over which :cpp:member:`positionOffset` FADES to nothing -- full at or
+below ``[0]``, none at or above ``[1]``, linear between. ``{0, 0}`` (the default) is no
+fade at all: every vertex takes the whole offset :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**A character and a skin of different HEIGHT cannot be matched by a rigid translation.**
+Lifting a mod so its soles meet the target&apos;s ground also lifts its head -- and the GAME
+draws the FACE, at its own fixed place, for any mod that does not carry a face mesh of its
+own. Citlali&apos;s sole sits 4.5 cm below CitlaliWhisperofStars&apos; and her head only 1 cm above:
+lift the whole model and the feet come right while the face is left 4.5 cm below the head
+it belongs to :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Fading the lift out by the height of the face anchors the head where the game&apos;s face is and
+takes the difference up through the body, which is where two models of one character
+actually differ -- the skin&apos;s foot and knee groups sit 2 to 6 cm higher than Citlali&apos;s while
+her head group sits 1 cm lower. Set ``[0]`` to the source&apos;s sole and ``[1]`` just above its
+eyes
+
+.. note::
+   This is a DEFORMATION, not a translation, so it is only right where the two models
+   genuinely differ in height. Where they differ by an ORIGIN instead -- Xiangling and
+   XianglingCheer, 0.78 units apart -- the whole model must move and the fade must stay off
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="272" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="272" bodyend="272"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::GIMIMergeFixerConfig::Component::offsetOnlyWithGameFace</definition>
@@ -143,7 +182,7 @@ sit where its own face has them. The forward direction&apos;s rule, see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="254" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="254" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="283" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="283" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -151,12 +190,13 @@ sit where its own face has them. The forward direction&apos;s rule, see
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="174" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="174" bodyend="255"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" line="174" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" bodystart="174" bodyend="284"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1afc2c8fce2888e997c0bfb7290265e630" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>modTypeName</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a068618ed142582f5aa27ad806b04ee3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>name</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>offsetOnlyWithGameFace</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>positionOffset</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a4b88af438e12c13de27215b31c73ca78" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>positionOffsetFade</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1ac7a5209932913b4fe21846d38c9bbdbf" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>slots</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aecebc1423a6c0dfa0a66f841803542b6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIMergeFixerConfig::Component</scope><name>vertexCount</name></member>
     </listofallmembers>

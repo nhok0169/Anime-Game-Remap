@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="134" bodyend="136"/>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="160" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_fixer_1a16b7a60569a76b451436ef192b3856e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="139" bodyend="141"/>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="165" bodyend="167"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_citlali_fixer_1a118192fe34a7f57d3236882ac24d3179" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="144" bodyend="146"/>
+        <location file="include/AGRemapCore/data/IniFixData/Citlali/CitlaliFixer.h" line="53" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="170" bodyend="172"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

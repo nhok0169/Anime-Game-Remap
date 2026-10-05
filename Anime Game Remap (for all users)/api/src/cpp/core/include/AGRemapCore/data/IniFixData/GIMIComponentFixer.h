@@ -424,7 +424,7 @@ namespace AGRemapCore {
              draws the FACE, at its own fixed place, for any mod that does not carry a face mesh of its
              own. Citlali's sole sits 4.5 cm below CitlaliWhisperofStars' and her head only 1 cm above:
              lift the whole model and the feet come right while the face is left 4.5 cm below the head
-             it belongs to, which is what a user reported (2026-10-04) :raw-html:`<br />`
+             it belongs to :raw-html:`<br />`
              :raw-html:`<br />`
 
              Fading the lift out by the height of the face anchors the head where the game's face is and

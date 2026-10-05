@@ -428,7 +428,7 @@ index columns, of which **two** (``fromVersion`` at position 0 and ``toVersion``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="1788" declfile="include/AGRemapCore/data/VGRemapData.h" declline="69" declcolumn="27"/>
+        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="1808" declfile="include/AGRemapCore/data/VGRemapData.h" declline="69" declcolumn="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

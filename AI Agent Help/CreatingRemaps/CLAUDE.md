@@ -383,6 +383,50 @@ mod on its own character, and note everything odd rather than only the thing you
 of the faults the maintainer reported on this pair were already visible in an agent's own earlier
 screenshots.
 
+### A PRE-FLIGHT REPORT HAS TWO DATES: THE ARTIFACT'S AND THE TOOL'S (2026-10-05)
+
+**A failing pre-flight report handed to you, rather than produced by you, is evidence about a run
+--- not about the build.** Check 4 reported four UNBOUND download resources on `BennettAdventure1`,
+a twelve-variant merged master whose fix block held no `Eye` member section at all: the Eye geometry
+fetched and nothing consuming it, which is exactly the fault that check exists for. It cost no
+in-game round and no code change, because **both** halves of the report were out of date:
+
+| what was stale | how it showed |
+| --- | --- |
+| **the artifact** | every file in the mod folder, `BennettAdventureMerged.ini` included, was stamped `2026-09-16 06:02` --- the fix had not run on it in three weeks. Re-fixed from a genuinely unfixed baseline with the current build, the master carries a `[CommandListBennettAdventureEyeABennettEyeARemapFix]` that the old output does not: called from the tail of the Head-slot section, drawing `drawindexed = 828, 9384, 0`, binding the downloaded `BodyA` diffuse and light map |
+| **the tool** | `CONSUMED`, the verdict that makes this exact shape read OK, landed on 2026-10-04 in `385641c6` ("A download the fix READ is not a download the mod binds") and had not reached `master`. The same fresh output reads `FAIL: 4 problem(s)` from `master`'s copy of the checker and `OK: 1 .ini file(s), 0 problem(s)` from that commit's |
+
+So before chasing a report: **`ls -la` the folder it was taken from, and `git log` the tool that
+produced it.** A mod folder parked one level up under `GIMI/` rather than `GIMI/Mods/` is outside
+the set a no-argument run fixes, so its output is as old as the day it was parked; and a
+diagnostic's exemptions are always newer than the diagnostic.
+
+**And re-running the check is not the same as confirming it.** `CONSUMED` asserts that a bound
+merged buffer exists and that the member owning the download draws out of it. It does not assert
+that the vertices are at the offset that draw reads from --- the checker says so itself, and leaves
+the question to the arithmetic of "A mod that is MISSING a whole component" below. On a merged
+master that arithmetic is four questions, each asked **per branch**:
+
+| the question | BennettAdventure1, all 12 branches |
+| --- | --- |
+| merged length / stride == sum of the component counts | `mod + 2495 + 202` matches the merged Position, Blend AND Texcoord on every branch (28785, 26548, 41794, 42274, 28725, 26488, 37440, 36708, 39561, 38779, 36891, 36019) |
+| every component's indices lie inside its own slice | body `[0, mod)`, frontHair `[mod, +2495)`, eye `[mod+2495, +202)` |
+| the appended component's indices are the download's own, shifted by the sum of the ones before it | each branch's eye slice is byte-for-byte `EyeARemapDL.ib + (mod + 2495)` |
+| the downloaded bytes are really in the buffer | the merged Position is the mod's bytes, then the front hair's, then `EyePositionRemapDL`'s, verbatim |
+
+`override_vertex_count = 42274` is the largest of the twelve, as it has to be. And `828, 9384` is
+branch-invariant here --- neither the front hair's vertex count nor the eye's varies --- which is
+why that appended draw correctly sits at section depth instead of inside each `if`: the
+`RegBottomAdd` / `RegBranchAdd` distinction of "FIXING A MERGED MASTER", coming out on the other
+side for once.
+
+**There is no tool for that arithmetic.** `drawFits.py` asks that no draw overruns its buffer and
+`drawCoverage.py` that every member is drawn once per path; the per-branch length and shift checks
+have been written by hand each time this has come up. Forty lines of `.ini`-driven Python would
+make it check 11.
+
+<br>
+
 ## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
 
 **The fix has to be right for mods nobody has tested it on.** Some characters have very few mods on the

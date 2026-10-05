@@ -28,6 +28,14 @@
 # name when the (resolved) hash has a current texture. The .ini is backed up beside itself with the
 # WWMI `DISABLED` prefix, so the game never loads the backup.
 #
+# `--live <json>` (asset hash -> the hash the game binds with texture quality on Ultra High, e.g.
+# Data/Mod Downloads/WuWa/Sanhua/SanhuaLiveHashes.json): the asset repo's hash is NOT what a player on
+# that setting has bound, because 3DMigoto rehashes a streamed texture as its mips load. A hash on
+# either side counts as current, and every override this keeps or updates gets a TWIN section on the
+# other side (`[<section>Live]` / `[<section>Asset]`, same body) unless the file already overrides it,
+# so the mod works on either setting. Measured on Sanhua at WuWa 3.7 (2026-10-05): every one of her
+# mods' overrides was on the asset or an older hash, and none fired in game.
+#
 # Needs the API's Python (`py -3` here) for the DDS decode (FixRaidenBoss2.TextureFile); numpy and Pillow.
 #
 
@@ -144,12 +152,23 @@ def main():
     parser.add_argument("--maps", nargs = "*", default = [], help = "community old -> new hash tables (json), chained")
     parser.add_argument("--apply", action = "store_true", help = "write the changes (default: report only)")
     parser.add_argument("--threshold", type = float, default = 0.95, help = "image correlation needed to call a mod texture the game's own (default: %(default)s)")
+    parser.add_argument("--live", help = "asset hash -> the hash the game binds at full texture quality (json); each kept or updated override gets a twin on the other hash")
     args = parser.parse_args()
 
     current = currentTextures(args.assets)
     if (not current):
         raise SystemExit(f"no current textures found in {args.assets}")
     pairs = loadMaps(args.maps)
+
+    # asset hash <-> live hash, both ways; a live hash is as current as its asset twin
+    twinOf = {}
+    if (args.live):
+        with open(args.live, "r", encoding = "utf-8") as f:
+            for a, b in json.load(f).items():
+                if (re.fullmatch(r"[0-9a-f]{8}", a) and re.fullmatch(r"[0-9a-f]{8}", str(b))):
+                    twinOf[a.lower()] = b.lower()
+                    twinOf[b.lower()] = a.lower()
+    isLive = {h for h in twinOf if h not in current}
     sizes = {h: ddsHeader(p) for h, p in current.items()}
     cache = {}
 
@@ -179,6 +198,7 @@ def main():
                             resources[sec] = km.group(1).replace("\\", "/")
             print(f"\n{os.path.relpath(iniPath, args.mod)}")
             changes, copies, unresolved = [], [], []
+            resolvedSecs, overridden = [], set()     # sections whose hash has a twin; every hash overridden
             for sec, (s, e) in sections.items():
                 if (not sec.startswith("TextureOverrideTexture")):
                     continue
@@ -189,7 +209,7 @@ def main():
                 refs = [v.strip() for k in range(s, e) for v in [re.sub(r"^\s*this\s*=\s*", "", lines[k])] if re.match(r"\s*this\s*=", lines[k])]
                 files = [resources.get(r) for r in refs if resources.get(r)]
                 new, why = old, None
-                if (old in current):
+                if (old in current or old in isLive):
                     why = "current"
                 else:
                     mapped = chain(pairs, old, current)
@@ -224,6 +244,9 @@ def main():
                 elif (why != "current"):
                     unresolved.append((sec, old, why))
                     print(f"  [{sec}] hash {old} left alone: {why}")
+                if (new in twinOf):
+                    resolvedSecs.append((sec, s, e, hashLine, new))
+                overridden.add(new)
                 # a referenced file the mod does not ship, when the (resolved) hash has a current texture
                 for r in refs:
                     fn = resources.get(r)
@@ -233,13 +256,34 @@ def main():
                             print(f"  [{sec}] {fn} is MISSING from the mod: the game's own {new} goes in under that name")
                         else:
                             print(f"  [{sec}] {fn} is MISSING from the mod and {new} has no current texture to fill it")
-            print(f"  {len(changes)} hash(es) to update, {len(copies)} missing file(s) to supply, {len(unresolved)} left alone")
-            if (args.apply and (changes or copies)):
+            # the other side of each asset / live pair, unless the file already overrides it
+            twins = []
+            for sec, s, e, k, h in resolvedSecs:
+                other = twinOf[h]
+                if (other in overridden):
+                    continue
+                twinName = sec + ("Live" if (other in isLive) else "Asset")
+                if (twinName in sections):
+                    continue
+                overridden.add(other)
+                twins.append((sec, s, e, k, other, twinName))
+                print(f"  [{sec}] {h}: twin [{twinName}] on {other}, the hash the game binds at the "
+                      + ("full" if (other in isLive) else "asset repo's") + " texture quality")
+            print(f"  {len(changes)} hash(es) to update, {len(twins)} twin(s) to add, {len(copies)} missing file(s) to supply, {len(unresolved)} left alone")
+            if (args.apply and (changes or copies or twins)):
                 backup = os.path.join(root, f"DISABLED {name}_texfix_backup")
                 if (not os.path.exists(backup)):
                     shutil.copyfile(iniPath, backup)
                 for sec, k, old, new, why in changes:
                     lines[k] = re.sub(old, new, lines[k], flags = re.IGNORECASE)
+                # bottom up, so an insertion does not move a section still to be copied
+                for sec, s, e, k, other, twinName in sorted(twins, key = lambda t: t[2], reverse = True):
+                    body = lines[s:e]
+                    while (body and not body[-1].strip()):
+                        body.pop()
+                    body[0] = f"[{twinName}]"
+                    body[k - s] = re.sub(r"[0-9a-f]{8}", other, lines[k], count = 1, flags = re.IGNORECASE)
+                    lines[e:e] = body + [""]
                 with open(iniPath, "w", encoding = "utf-8", newline = "") as f:
                     f.write(ending.join(lines))
                 for src, dst, sec in copies:

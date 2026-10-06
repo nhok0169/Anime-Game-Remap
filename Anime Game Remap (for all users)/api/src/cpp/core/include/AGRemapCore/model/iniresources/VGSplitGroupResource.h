@@ -60,6 +60,28 @@ namespace AGRemapCore {
          @endrst
          */
         int side = 0;
+
+        /**
+         * @brief
+         @rst
+         The heights between which the push FADES OUT, as ``{full, none}`` -- a vertex at or below
+         ``[0]`` takes the whole push, one at or above ``[1]`` takes none, and it ramps linearly
+         between. ``[1] <= [0]`` disables the fade and every vertex takes its full share
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A push is weighted by a vertex's SHARE of :cpp:member:`groups`, and a share tapers upwards
+         into whatever the part grows out of -- so a push sized for the bottom of a lock still moves
+         its top by a centimetre or two. Where the part runs alongside something else up there, that
+         is enough to drive it through: Citlali's braid passes her own fringe with 4 mm to spare, and
+         a 11 cm push over the groups that clear her shoulder closed that to 1 mm. The fade lets the
+         push stop before it reaches the parting, with no cost to what it was sized for.
+
+         .. note::
+            Set ``[0]`` above the top of what the push must clear and ``[1]`` below whatever it must
+            not disturb; a few cm between them keeps the bend smooth
+         @endrst
+         */
+        std::array<float, 2> fade = {0.0f, 0.0f};
     };
 
     struct VGSplitGroupConfig {

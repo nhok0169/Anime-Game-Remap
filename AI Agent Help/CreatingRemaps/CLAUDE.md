@@ -432,6 +432,30 @@ on ONE chain it is a smooth bend, because the share tapers across the 24 -> 25 b
 stopping dead at a component boundary. **A field that was wrong under a broken row can be right once
 the row is fixed; re-test it rather than ruling it out from memory.**
 
+**FAULT 5: A PUSH REACHES UPWARDS INTO WHAT THE PART GROWS OUT OF, AND THAT NEEDED A NEW FIELD.**
+The last report on this braid was that it now cut into her BANGS. A `VGPushAway` weighs each vertex
+by its share of the groups it names, and a share tapers UPWARDS -- so a push sized for the bottom of
+a lock still moves its top by a centimetre or two. Where the part runs alongside something else up
+there, that is enough: Citlali's braid passes her own fringe with **4 mm** to spare, and an 11 cm
+push closed that to **1.0 mm** on her left (her right, on the smaller distance, stayed at 5.4 mm).
+
+* **It is not fixable by `from` or `distance`.** Swept over every candidate that still clears the
+  body, the gap stays 1.0-1.6 mm -- including ones with the lateral component taken to zero. The
+  problem is the push's REACH, and neither field expresses it. `VGPushAway::fade` does:
+  ``{full, none}`` heights, mirroring `positionOffsetFade`, defaulted off so no existing output
+  moves. Citlali's is ``{1.22f, 1.32f}`` -- full through the band the clip is in (y 1.06-1.22), zero
+  by the band the fringe is in (y 1.30-1.38) -- and it restores the gap to 4.0 mm, exactly the
+  no-push baseline, with the body clearance unchanged at 8.1 cm.
+* **A push has TWO ends to check, and the second one is easy to forget.** Everything before this
+  measured what the push was FOR (does the part clear the body). What it also does is move the
+  part's root, into whatever that root sits beside. **Measure both: clearance at the bottom and the
+  gap to the neighbours at the top.**
+* **Predict the parameters on the OUTPUT before building them.** The no-push control and the shipped
+  build share a vertex order, so subtracting gives every vertex's exact displacement, and dividing by
+  the distance recovers its share. From share plus the control positions any ``(from, distance,
+  fade)`` can be replayed against the real geometry in milliseconds. The prediction here said 4.0 mm
+  and 8.1 cm; the build measured 4.0 mm and 8.1 cm. That is worth far more than another in-game round.
+
 **FAULT 4: A SPLIT THAT CUTS THROUGH A BLENDED REGION RIPS, AND ONLY WHEN THE MODEL MOVES.** The
 user reported a "slight dislocation/rip" at the temple that was "only more noticeable when Citlali
 moves -- when she is standing still, you can barely tell". That last clause is the whole diagnosis:

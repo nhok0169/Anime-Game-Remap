@@ -259,8 +259,23 @@ namespace AGRemapCore {
             bangs.standIns = {{91, 0}};
 
 
-            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0100f, 1.130f, -0.1183f}, 0.1120f, -1},
-                              VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1}};
+            // AND THE PUSH STOPS BELOW THE PARTING, which is the last thing the braid needed. A
+            // share tapers UPWARDS into whatever the part grows out of, so a push sized for the
+            // shoulder still moves the top of the lock a centimetre or two -- and up there the braid
+            // runs alongside her own fringe with only 4 mm to spare. Measured on the output against a
+            // no-push control: the 11 cm push closed that to 1.0 mm on her LEFT (her right, on the
+            // smaller distance, stayed at 5.4 mm), and the user saw the braids cutting into the
+            // bangs. No choice of `from` or `distance` fixes it -- every candidate that still clears
+            // the body leaves 1.0-1.6 mm -- because the problem is the push's REACH, not its size or
+            // direction.
+            //
+            // `fade` takes it to nothing between y 1.22 and y 1.32: full through the band the clip
+            // is in (y 1.06-1.22) and zero by the band the fringe is in (y 1.30-1.38). Simulated
+            // over the real output geometry before it was built, the fringe gap goes back to 4.0 mm
+            // -- exactly the no-push baseline -- with the body clearance unchanged at 8.1 cm. Taking
+            // the fade any lower starts costing that clearance (7.4 cm at 1.20, 2.9 cm at 1.16).
+            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0100f, 1.130f, -0.1183f}, 0.1120f, -1, {1.22f, 1.32f}},
+                              VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1, {1.22f, 1.32f}}};
 
             config.components = {body, bangs, eyes};
 

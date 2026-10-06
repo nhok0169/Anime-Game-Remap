@@ -1461,6 +1461,19 @@ be seen in the shop preview's idle, so that idle IS the test.
 two components and moving the lower links broke it at a hard seam. In ONE component on ONE chain the
 same list is a smooth bend. **A field that was wrong under a broken row can be right once the row is
 fixed; re-test it rather than ruling it out from memory.**
+**(5) A PUSH ALSO REACHES UPWARDS, INTO WHAT THE PART GROWS OUT OF -- `VGPushAway::fade` IS NEW FOR
+IT.** The last report on this braid was that it cut into her BANGS. A share tapers upwards, so a push
+sized for the bottom of a lock still moves its top a centimetre or two, and up there the braid passes
+her own fringe with **4 mm** to spare -- an 11 cm push closed that to **1.0 mm**. Neither `from` nor
+`distance` can fix it (every candidate that still clears the body leaves 1.0-1.6 mm, including ones
+with no lateral component at all): the problem is the push's REACH. `fade` is ``{full, none}``
+heights, mirroring `positionOffsetFade` and defaulted off so no existing output moves; Citlali's
+``{1.22f, 1.32f}`` restores the gap to the no-push baseline with the body clearance unchanged.
+**A push has TWO ends to measure** -- what it clears at the bottom AND what its root is driven into
+at the top. And **predict the parameters on the OUTPUT before building them**: a no-push control and
+the shipped build share a vertex order, so subtracting recovers every vertex's share, and any
+``(from, distance, fade)`` can then be replayed against the real geometry in milliseconds. The
+prediction and the build agreed to the millimetre here.
 **(4) AND A SPLIT THAT CUTS THROUGH A BLENDED REGION RIPS -- ONLY WHEN THE MODEL MOVES.** A later
 report of a "slight dislocation/rip" at her temple, "only noticeable when she moves", was not the
 push at all: on the mod's mesh the hairline blends from the scalp (source `91`) into the lock

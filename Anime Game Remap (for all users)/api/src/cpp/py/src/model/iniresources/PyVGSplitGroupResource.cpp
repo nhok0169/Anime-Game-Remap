@@ -57,14 +57,17 @@ void initCppVGSplitGroupResource(pybind11::module_ &m) {
 A push of cloth HORIZONTALLY away from a point: every vertex on :attr:`groups` moves by :attr:`distance` times its
 weight share on them, away from :attr:`from_`'s (x, z)
     )doc")
-        .def(py::init([](std::vector<long long> groups, std::array<float, 3> from, float distance, int side) {
-            return AGRC::VGPushAway{std::move(groups), from, distance, side};
+        .def(py::init([](std::vector<long long> groups, std::array<float, 3> from, float distance, int side,
+                         std::array<float, 2> fade) {
+            return AGRC::VGPushAway{std::move(groups), from, distance, side, fade};
         }), py::arg("groups") = std::vector<long long>{}, py::arg("from_") = std::array<float, 3>{0.0f, 0.0f, 0.0f},
-            py::arg("distance") = 0.0f, py::arg("side") = 0)
+            py::arg("distance") = 0.0f, py::arg("side") = 0,
+            py::arg("fade") = std::array<float, 2>{0.0f, 0.0f})
         .def_readwrite("groups", &AGRC::VGPushAway::groups, py::doc("List[:class:`int`]: The SOURCE vertex groups whose vertices are pushed"))
         .def_readwrite("from_", &AGRC::VGPushAway::from, py::doc("List[:class:`float`]: The point pushed away from; only its (x, z) counts"))
         .def_readwrite("distance", &AGRC::VGPushAway::distance, py::doc(":class:`float`: How far a vertex wholly on :attr:`groups` moves"))
-        .def_readwrite("side", &AGRC::VGPushAway::side, py::doc(":class:`int`: Only vertices with x > 0 (``1``), x < 0 (``-1``), or both (``0``)"));
+        .def_readwrite("side", &AGRC::VGPushAway::side, py::doc(":class:`int`: Only vertices with x > 0 (``1``), x < 0 (``-1``), or both (``0``)"))
+        .def_readwrite("fade", &AGRC::VGPushAway::fade, py::doc("List[:class:`float`]: The heights the push fades out between, ``{full, none}``; ``[1] <= [0]`` disables it"));
 
     using Triangles = AGRC::InnerLayerOutline::Triangles;
     using Vec3 = AGRC::InnerLayerOutline::Vec3;

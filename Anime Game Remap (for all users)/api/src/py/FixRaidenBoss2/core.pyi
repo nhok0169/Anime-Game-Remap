@@ -24751,7 +24751,7 @@ class VGPushAway:
     weight share on them, away from :attr:`from_`'s (x, z)
         
     """
-    def __init__(self, groups: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = [], from_: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"] = [0.0, 0.0, 0.0], distance: typing.SupportsFloat | typing.SupportsIndex = 0.0, side: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+    def __init__(self, groups: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = [], from_: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"] = [0.0, 0.0, 0.0], distance: typing.SupportsFloat | typing.SupportsIndex = 0.0, side: typing.SupportsInt | typing.SupportsIndex = 0, fade: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(2)"] = [0.0, 0.0]) -> None:
         ...
     @property
     def distance(self) -> float:
@@ -24760,6 +24760,14 @@ class VGPushAway:
         """
     @distance.setter
     def distance(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def fade(self) -> typing.Annotated[list[float], "FixedSize(2)"]:
+        """
+        List[:class:`float`]: The heights the push fades out between, ``{full, none}``; ``[1] <= [0]`` disables it
+        """
+    @fade.setter
+    def fade(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(2)"]) -> None:
         ...
     @property
     def from_(self) -> typing.Annotated[list[float], "FixedSize(3)"]:

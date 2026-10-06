@@ -447,7 +447,7 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
-## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-4
+## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-6
 
 Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the
 registration (Lynae filed at 3.6 with the `vb0` most of her mods carry, `0c33d628`, plus a 3.7 row for the live
@@ -491,6 +491,49 @@ these steps taught:
 * **Another session can rebuild the shared `.pyd` under you**: between two turns the installed module went back to
   a `master` build without Lynae (`WWMIBuilder.lynae` missing), and the package stopped importing. Check the `.pyd`'s
   mtime against your last build before trusting a run.
+
+**Steps 5-6 (2026-10-05): `Tools/Misc/Prototypes/lynaePeppermintFix.py`, a pure library config.** Every
+`WWMIFixerConfig` field is bound to Python now (`PyWWMIBuilders.cpp`), so a WuWa prototype is a config like the GI
+ones. Pairing by geometry (`compGeom.py`-style per-component overlap of the two download folders): 0-4 and 7 one to
+one (face and eyes the same mesh), her jacket (5) onto the skin's jacket (6), her props (6) onto the skin's pouch (5).
+Tested on all 13 Lynae mods: pre-flight clean against each mod's PRISTINE copy (every dangling / undefined flag was
+the author's), and at every vertex a mod keeps at a vanilla position its remapped bone equals the remapped identity
+mod's on 98.4-100% (`remapAgree.py` in the session scratchpad: the fix's 16-bit output ids, mod against identity) --
+the offline check that caught three of the five faults below before the game did. What the pair found, all in shared
+code unless said:
+* **A GAME UPDATE CAN RENUMBER A CHARACTER'S SKELETON, AND A MOD'S `vb0` DOES NOT SAY WHICH NUMBERING IT IS IN.**
+  Lynae's 3.7 inserted bones: 71 of 360 merged ids moved, mostly by one or two (in component 3 local 26 is 144 at
+  3.7 and 145 at 3.6), and 10 of her 13 mods are 3.6-numbered. Reconstructed from Lynae5 (a pre-merged-skeleton mod,
+  every component at vanilla positions) against the 3.7 identity mod by WWMI's first-slot rule; nine 3.6 mods agree
+  with it on 99.7-99.98%. Lynae11 carries the 3.7 `vb0` over 3.6 ids -- a hash-update tool rewrote the hash and not
+  the bones -- so the version is picked by GEOMETRY: `WWMIFixerConfig::skeletonNumberings` +
+  `referenceBoneCentroids` score each numbering by the median distance of the mod's vertices to their heaviest
+  renumbered bone's centroid (a factor of 1.5-4 on every mod, all right) and read the blend with that version's
+  `VGRemapData` row (a 3.6 row now beside the 3.7 one). `sourceVersionByVb0` still picks the hash lookups. This was
+  also what the glass-props work had seen as "Lynae11 numbers the pin bones two lower".
+* **`writeBlendRemap` (target past 256 bones) took precedence over the legacy lift** and read a pre-merged-skeleton
+  mod's LOCAL ids as merged ones: Lynae5's leg drawn as a long stick. It lifts through `sourceVgMaps` first now. No
+  pair before had a legacy mod AND a target past 256.
+* **`wwmiBlendInfluences` rejected the files' own layout when `$mesh_vertex_count` disagreed with `Position.buf`**
+  (Lynae9: 240090 declared, 240078 real) and fell back to 4 influences for an 8-influence mesh -- WWMI's
+  `BlendRemapper` got `weights_per_vertex_count = 4` and the body drew as SPIKES on the target while rendering fine on
+  her. Found after four wrong guesses (shape-key checksum, dispatch size, shape-keyed positions, custom keys) by
+  diffing the fix's generated lists between a working and a broken mod. **Chisa1 has the same mismatch** (108129
+  declared, 74835 real, 8 influences), so its Chisa -> ChisaParfait output changed with this and wants a fresh look.
+* **Batched shape keys** (newer WWMI Tools: `shapekey_checksum_batch0/1`, `shapekey_dispatch_size_y_original_batch0/1`):
+  the checksum keys are remapped like the bare one now, and `shapeKeyDispatchSize` (opt-in; the target's
+  `Metadata.json` `dispatch_y`) rewrites the dispatch -- WWMI picks the batch by it and on a mismatch loads too few of
+  the mod's offsets. Neither turned out to be Lynae9's spikes, but both are wrong without the fix.
+* **A texture the `.ini` declares and the folder lacks is no role candidate** (six Lynae mods name one): the remap
+  bound that missing resource on the target. The role takes its fallback download now.
+* **The skin has no special-material shader**, so the props' glass / foil passes and Lynae's lower-body SHEER pass
+  (`30ab50e7`, white `d63a624a`) do not carry: the ID card draws opaque, sheer stockings and see-through tops opaque.
+  And looks a mod gets from RabbitFX on Lynae's shaders (Lynae10's suit, Lynae11's lining and stockings) carry only
+  partly even with its lines kept (`--keepRabbitFX`): RabbitFX patches the skin's shaders only in part. Both are
+  limitations of the pair, not bugs.
+* **`mods only` parks EVERY other mod, the maintainer's included**, back to wherever the journal says it came from --
+  including another session's scratchpad. Load and park one mod at a time (`load` / `park`), and check `mods list`
+  after every round: a stale fixed copy left loaded made a whole round of screenshots two Lynae mods at once.
 
 <br>
 

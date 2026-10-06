@@ -2413,7 +2413,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1263" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="119" bodyend="121"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1263" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="344" bodyend="346"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aab710e60c9e04a9f98722c7a52885093" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2428,7 +2428,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1268" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="124" bodyend="126"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1268" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="349" bodyend="351"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adaae31c7cfae803ad044bb0068f7efac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2443,7 +2443,7 @@ three built from one :cpp:class:`GIMIComponentFixerConfig`. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1273" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="129" bodyend="131"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1273" column="43" bodyfile="src/data/IniFixData/Citlali/CitlaliFixer.cpp" bodystart="354" bodyend="356"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2c8cf19431210fe3c3ecaa8f493d29a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2737,7 +2737,7 @@ onto a target of one, and the inverse of :cpp:class:`CitlaliFixer`&apos;s direct
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1401" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="133" bodyend="135"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1401" column="43" bodyfile="src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp" bodystart="158" bodyend="160"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a63c07d7a88a6adefbd17206d942dfcc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>

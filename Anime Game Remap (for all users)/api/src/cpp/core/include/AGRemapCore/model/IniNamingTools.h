@@ -431,7 +431,7 @@ namespace AGRemapCore {
              is not one of the mod's own, and a fix that binds its name writes a reference to a
              section that will not be there. That is what left 86 dangling ``ps-t`` bindings across
              two already-fixed mods, each pointing at a ``Resource<Role><Target>RemapRef`` the same
-             run deleted (2026-09-30)
+             run deleted
 
              .. note::
                 A bare ``Remap`` ANYWHERE in the name is not the test, and the difference is not

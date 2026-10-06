@@ -326,11 +326,344 @@ NEUVILLETTEMELUSENT" in Creating Remaps):
 * **the part may not ride the chain you think**: Neuvillette3's clipping flap rides his TAIL chain, not the
   front-panel chain the first fix went on -- tally which groups carry the part in EACH mod before tuning it;
 * and before this pair, **hair is simulated**: Chisa's jacket shoulders on ChisaParfait's hair bones swung
-  "like jello".
-Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
-keep a garment on one component; never put a non-hair part on hair; and check left against right. Then look
-at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
-hide a clip or a fold that the next frame shows.
+  "like jello";
+* **and the converse is NOT a rule, which cost two user reports (Citlali -> CitlaliWhisperofStars,
+  2026-10-04/05): "never take a HAIR part off hair" sounds right and decided nothing.** Citlali's long front
+  locks (groups 25/26 and 31/32, 1112 vertices a side) were moved off the skin's torso bone onto its own front
+  hair, then onto a dress chain, and the clip was identical every time -- see "A CLIP IS NOT A BONE PROBLEM"
+  below, which measures why.
+
+**"Which bone drives the SKIN here" is a THIRD wrong answer, as wrong as "which bone is nearest".**
+`Tools/VGRemapFinder` proposed the shoulder (nearest), the draft's reviewer overrode it to the chest because
+the chest owns most of the skin's vertices at that height ("vertices mode 52%"), and the chest is what shipped.
+Neither question is about the PART. A statistic over whatever geometry happens to surround a point describes
+the SKIN's anatomy, not the source part's job: a hair lock hanging over a chest is surrounded by chest, and is
+still hair.
+
+### THREE FAULTS STACKED ON ONE BRAID, AND EACH FIX EXPOSED THE NEXT (2026-10-05)
+
+Citlali's two long front locks are four-link chains -- `23 -> 24 -> 25 -> 26` and the mirror
+`29 -> 30 -> 31 -> 32` -- hanging from the temple to the chest. Five user reports came out of them,
+and reading the sequence is worth more than any one of the fixes.
+
+**FAULT 1: the chain was CUT ACROSS TWO COMPONENTS.** The rows sent the top two links to the skin's
+Bangs and the bottom two to its Body: one braid, two index spaces, two unrelated bones. Both of the
+first two reports follow from it. *"Clipped to the arms and not free flowing"* -- the bottom two
+links are most of the braid's mass and rode a bone of the BODY, where nothing animates. *"Dislocated
+from her hair"* -- a `VGPushAway` added to clear the arm can only move the half that lives in the
+component it is configured on, so the braid broke at the seam and its lower half stood forward of
+the hair it grows out of. **ONE part belongs on ONE component's bones.** It is the Neuvillette
+lesson -- his capes ripped along a component seam for exactly this reason -- and a hair lock tears
+the same way. All four links now go to the skin's own front lock. The ROOT link (`23` / `29`) was moved onto the Bangs HEAD bone (`0`) on 2026-10-06, so the chain is `0 -> 5 -> 7`: see "A LOCK'S ROOT BELONGS TO THE HEAD".
+
+**FAULT 2: then it was damped, and the damping was a fix that made things worse.**
+`GIMIComponentFixerConfig::Component::splitGroups` shared each lower link's weight with the Bangs'
+head bone, on this argument: bone 7 pivots at y 1.279 and the skin's own lock ends at 1.241, a
+3.8 cm lever, while Citlali's braid runs on to 1.037, 24 cm below it, so the same few degrees of
+hair sim move her tip about six times as far. **The arithmetic is right and the conclusion is
+wrong.** If a bone rotates by theta, a 24 cm lock's tip travels 24.theta where a 4 cm lock's travels
+4.theta -- a longer lock swinging further at the tip is what hair does, not a defect to correct. The
+user's next words were *"stationary, solid with her head"*, which is what 65-80% of the weight on a
+head bone looks like. **Before damping a part, ask what it would look like UNDAMPED on the real
+rig** -- the amplitude ratio that justified it was never evidence of anything being wrong.
+
+**FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
+is whole.** It hangs down the front of the shoulder and the body is drawn through it, so the LOWER
+TWO links of each braid go **out and forward** -- about 6.3 cm sideways and 6.4 forward, both
+sides. Seven things worth copying:
+
+* **AIM IT BY THE TRUE DISTANCE TO THE BODY, NOT ALONG ONE AXIS -- the two disagree, and the axis
+  measure justified a push nearly twice as large as it needed to be for several rounds.** Clearance
+  read as "the braid's z against the body's front z at the same x" says a straight-ahead push is
+  what clears; the real 3-D distance says the opposite, because straight ahead drives the part
+  ACROSS the chest's bulge where it needs the most travel, while round the side it leaves the
+  silhouette sooner. Measured on Citlali: 10.2 cm of lean cleared by **6.5 mm**, and 6.4 cm of lean
+  angled outward clears everywhere. The user's words were "don't you think the braids are leaned a
+  bit too forward" -- they were, and fixing it IMPROVED the margin rather than trading against it.
+  **Neither measure alone is enough**: distance-to-nearest-vertex cannot tell inside from outside,
+  and the axis measure conflates a nearby protrusion with the surface under the part. Use the axis
+  measure per narrow x bin to ask "is it inside", and the 3-D distance to ask "how close".
+
+* **Sideways is worth far more than forward, because a body is much SHALLOWER just outside the bust
+  than in front of it.** Measured on the mod's own body at y 1.10-1.14: the front surface sits at
+  z 0.124-0.149 inside |x| 0.10 and at z 0.015-0.026 outside it. So the first 3 cm of lateral travel
+  carries the braid off the breast entirely and buys about **10 cm** of clearance, where forward
+  travel only ever buys its own length. The almost-purely-forward push that shipped first (1.5 cm
+  sideways against 9.4 forward) cleared the body by **0.4 cm** at its best band and was still being
+  closed by the idle -- three user reports' worth. Angled out, the same push clears by **3.5-10 cm**
+  in every band. **When a part clips a torso, ask where the silhouette ENDS before reaching for more
+  distance**: what a displacement buys is a property of the surface it crosses, not of its size. And
+  the check costs no game time -- bin the mod's own body by height, take the front z per x bin, and
+  compare it to where the part will land.
+* **And that same edge turns a taste question into a measurement.** Told the braids now stood too far
+  out, the answer was not another guess: sweeping `from` and `distance` against the body PER VERTEX
+  (not per band -- a band mean hides the one row of vertices that grazes) showed that bringing a
+  braid back inside |x| 0.105 puts it in front of the bust again, where it needs ~12 cm of forward
+  travel to clear and reads as detached. Her left had room and came in 1.4 cm; her right was already
+  at its minimum, losing its margin at x +0.097, y 1.15 the moment it moved. **A sweep like that
+  costs seconds and answers "how much closer can it come" with a margin attached** -- and it also
+  tells you when the answer is "it cannot", which is worth saying out loud rather than shipping a
+  value that clips again.
+
+* **Which groups the push NAMES is what sets how far up it reaches**, and that matters more than the
+  distance. `VGPushAway` weighs each vertex by its share of the groups it lists, so listing all four
+  links -- including the two at the temple, where the braid's weight blends into the scalp -- gave
+  the FRINGE a share of 0.39 on average at y 1.36-1.40 and 0.66 at 1.32-1.36. At 4 cm that is
+  1.5-2.6 cm and nobody notices; at 6.5 cm it is 2.5-4.6 cm and a user reports her bangs standing
+  off her face. Naming only the lower two moves **nothing above y 1.356**, ramps 0.5 cm at y 1.34 to
+  6.6 cm by y 1.10, and bends the braid from where it leaves the head.
+* **Print the share profile by height before shipping a push.** One table -- vertices per height band
+  against mean and max share, times the distance -- says exactly which parts of the model move and by
+  how much. It is three lines of numpy and it is what would have caught the bangs before the user did.
+* **Measured in game, against the mod shown on Citlali herself**, and the distance was raised only
+  after the direction was right: 2.5 cm and 4 cm of nearly-pure forward each still lost a braid in
+  the shoulder, and so did 6.5 and 9.6 -- which is the clue that more of the same was the wrong axis.
+* **PER SIDE -- after shipping symmetric twice and being told three times.** Her LEFT braid sank
+  into the bodice about 2 cm higher than her right in the same frame, so it takes the larger
+  distance of the two (`VGPushAway::side` makes that one line). Everything measurable off the files says
+  the two are the same part: the MOD's braids are mirror-exact (mean z agreeing to **0.0000** in
+  every height band below y 1.30, share profiles agreeing band for band) and the skin's bones 7 and
+  8 are a mirror PAIR (centroids -0.059 / +0.063, same y 1.279, same 1.241-1.379 span). That is
+  precisely why the symmetric value shipped twice, and it was never evidence about the picture: the
+  asymmetry is in the TARGET's standing idle, which no file here can see. **Mirror-exact inputs do
+  not give a mirror-exact picture -- compare the two sides WITHIN one frame rather than arguing from
+  the buffers.** The usual objection to a per-side value, that it is tuned to the animation it was
+  measured in, is worth stating and then weighing: here it costs nothing, because the skin cannot be
+  worn without owning the character, so the shop preview's idle is the only pose it is ever seen in.
+* **A live tuner has to weight by the SOURCE groups, not by the target bone.** Editing the fixed
+  `*RemapPosition*.buf` and pressing F10 tries a distance in ~20 seconds without a rebuild, but the
+  share must come from the groups the config NAMES. Weighting by the target bone instead -- group 7,
+  which `25, 26` map onto -- silently swept in a 94-vertex strand that reaches 7 from source `28`,
+  and moved 203 vertices the compiled fix does not. Diffing the hand-tuned buffer against the
+  rebuilt one is what caught it, and it is the step that turns a tuned number into a shipped one.
+
+**AND THAT GROUP LIST IS THE ONE THE FIRST PUSH USED: wrong then, right now.** On 2026-10-04 the same
+`{25, 26}` / `{31, 32}` drew "the braid is dislocated from her hair" -- because the chain was still
+cut across two components, so moving the lower links broke the braid at a hard seam. In ONE component
+on ONE chain it is a smooth bend, because the share tapers across the 24 -> 25 blend instead of
+stopping dead at a component boundary. **A field that was wrong under a broken row can be right once
+the row is fixed; re-test it rather than ruling it out from memory.**
+
+**FAULT 6: A LOCK'S ROOT BELONGS TO THE HEAD, AND A THIRD INDEPENDENT MOTION IS WHAT MAKES A
+DESIGNED OVERLAP VISIBLE.** The user's last comparison -- the mod on Citlali beside the remap -- was
+the thing that settled it: on her own character the braid hangs clear of the loose hair, and on the
+skin it is embedded in it. The braid's upper stretch is SANDWICHED, 4 mm from the fringe in front and
+TOUCHING the loose hair behind, and that touch is in the mod's own geometry: it is there on Citlali
+too. **A static interpenetration a mod ships with cannot be measured away, and no displacement
+clears a 4 mm gap from both sides at once** -- every push that cleared the fringe drove the braid
+into the hair and vice versa, which is what several rounds of `from` / `distance` / `fade` were
+really chasing.
+
+What differs on the skin is how many things MOVE independently there. On Citlali the braid, the
+fringe and the loose hair all hang off one skeleton. On the skin the braid rode the lock chain
+(`Bangs 3`), the fringe its own bone, and the loose hair the Body back-hair chains (`108-115`) --
+three independent motions where the mod only ever expected two, so the designed overlap slid open.
+Mapping the root link (`23` / `29`) to the Bangs HEAD bone (`0`) removes the third: the root now
+moves with the scalp it grows out of, and the swing starts one link lower at `24 -> 5`. The source
+weights blend `23` into `24`, so the handover is a gradient, not a hinge -- confirmed in the output,
+where the dominant bone runs `0` at y 1.38-1.42, `0`/`5` at 1.34-1.38, `5` at 1.30-1.34 and `7`
+below 1.26.
+
+* **This is NOT the damping that failed.** That shared 65-80% of the LOWER links' weight with the
+  head and drew "stationary, solid with her head". Only the root moves; every link that hangs free
+  still swings. **Where on the chain a weight change lands decides whether it is right.**
+* **A root pin changes no static position** -- a skinning matrix is the identity at the character's
+  own rest pose -- so every distance in the output is unchanged by it. The measurements that judge
+  it are about WHICH BONE drives each band, not about millimetres.
+* **Ask for the base shot early when a part looks wrong against other parts.** One picture of the
+  mod on its own character showed the braid hanging clear of the hair, which is what identified the
+  relationship that had been broken; no amount of measuring the remap alone would have said what the
+  braid was supposed to look like.
+
+**FAULT 5: A PUSH REACHES UPWARDS INTO WHAT THE PART GROWS OUT OF, AND THAT NEEDED A NEW FIELD.**
+The last report on this braid was that it now cut into her BANGS. A `VGPushAway` weighs each vertex
+by its share of the groups it names, and a share tapers UPWARDS -- so a push sized for the bottom of
+a lock still moves its top by a centimetre or two. Where the part runs alongside something else up
+there, that is enough: Citlali's braid passes her own fringe with **4 mm** to spare, and an 11 cm
+push closed that to **1.0 mm** on her left (her right, on the smaller distance, stayed at 5.4 mm).
+
+* **It is not fixable by `from` or `distance`.** Swept over every candidate that still clears the
+  body, the gap stays 1.0-1.6 mm -- including ones with the lateral component taken to zero. The
+  problem is the push's REACH, and neither field expresses it. `VGPushAway::fade` does:
+  ``{full, none}`` heights, mirroring `positionOffsetFade`, defaulted off so no existing output
+  moves. Citlali's is ``{1.22f, 1.32f}`` -- full through the band the clip is in (y 1.06-1.22), zero
+  by the band the fringe is in (y 1.30-1.38) -- and it restores the gap to 4.0 mm, exactly the
+  no-push baseline, with the body clearance unchanged at 8.1 cm.
+* **A push has TWO ends to check, and the second one is easy to forget.** Everything before this
+  measured what the push was FOR (does the part clear the body). What it also does is move the
+  part's root, into whatever that root sits beside. **Measure both: clearance at the bottom and the
+  gap to the neighbours at the top.**
+* **Predict the parameters on the OUTPUT before building them.** The no-push control and the shipped
+  build share a vertex order, so subtracting gives every vertex's exact displacement, and dividing by
+  the distance recovers its share. From share plus the control positions any ``(from, distance,
+  fade)`` can be replayed against the real geometry in milliseconds. The prediction here said 4.0 mm
+  and 8.1 cm; the build measured 4.0 mm and 8.1 cm. That is worth far more than another in-game round.
+
+**FAULT 4: A SPLIT THAT CUTS THROUGH A BLENDED REGION RIPS, AND ONLY WHEN THE MODEL MOVES.** The
+user reported a "slight dislocation/rip" at the temple that was "only more noticeable when Citlali
+moves -- when she is standing still, you can barely tell". That last clause is the whole diagnosis:
+a static displacement cannot produce a motion-only artifact, so nothing about the push could explain
+it.
+
+On the mod's own mesh the hairline blends smoothly from the scalp (source `91`) into the front lock
+(`21`/`22`/`23`). A split has to give each vertex to ONE component, and in that component it can only
+reference that component's bones -- so the blend is replaced by a hard switch. **104 vertices at
+y 1.355-1.453 exist in BOTH buffers at the same point in space**, bound to `Bangs 3/4/5/6/9` on one
+side and to `Body 7` -- the skin's HEAD -- on the other. Standing still the two copies coincide
+exactly and nothing shows. The moment the hair sim moves the chain bones and the head does not, the
+surface opens.
+
+* **The check is cheap and needs no game.** Index one component's vertices on a 1 mm grid, look up
+  the other's, and report every coincident pair whose DOMINANT bone differs. A pair list that is
+  empty says the seam is safe; 104 pairs all against the head bone names the fault and its height
+  band in one run. Do this on any pair whose components meet in the middle of a part.
+* **`overlapRings` is the field for it, and it already existed** -- "how many rings of its
+  neighbours' triangles it draws as well, so a seam that opens when the skin poses is covered". The
+  band is drawn by BOTH components and ownership does not change, so a gap narrower than the band is
+  hidden by the other side's copy. `bangs.overlapRings = 1` added 179 triangles and the draw call
+  was regenerated to match it (`drawindexed = 6657` against 6657 indices -- check that, because a
+  template that grew a buffer and left the count behind draws a hole).
+* **AND THE BAND IS USELESS WITHOUT `standIns`, which is the half that is easy to miss.** The band
+  is the NEIGHBOUR's triangles, so its vertices carry the neighbour's groups -- here source `91`, the
+  scalp, which the Bangs row does not own. **An unowned weight is DROPPED**, and the vertex
+  renormalises onto whatever groups the component DOES own: the lock chain. So the band covered the
+  gap and then swung with the lock while the hair under it stayed with the head. The user's next
+  report was no longer a rip but "slight misalignment whenever Citlali moves ... that shadow line
+  not aligning" -- **a band without a stand-in does not read as a hole, it reads as a patch that
+  shades or slides against its surroundings**, which is a much harder symptom to attribute.
+  `standIns = {{91, 0}}` maps the scalp onto the Bangs' own head-parented bulk (centroid y 1.435,
+  against Body 7's y 1.433) and the band then moves with exactly what it covers. The objective check
+  is the dominant bone by height: y 1.38-1.42 went from `3:43, 4:31, 9:26` (all lock) to `0:86`.
+  **Set `overlapRings` and `standIns` together, always.**
+* **The fix that suggests itself is the wrong one.** Pinning the lock's root to the head bone closes
+  the same gap by making the root rigid -- the damping mistake of 2026-10-04 wearing a different hat.
+  Habit 53 again: grep the config's own fields before hand-rolling a weight edit.
+* **Set it AFTER any `Component x = bangs;` copy**, or the other component inherits the band.
+
+**AND THE WAY TO CLEAR A SUSPECT PARAMETER IS A CONTROL BUILD, not an argument.** The report landed
+immediately after a push change, so the push was the obvious suspect. Building the fix with
+`distance = 0`, re-fixing, and diffing the two outputs vertex by vertex settles it in minutes:
+nothing above y 1.36 moved, the highest vertex the push touches is y 1.3564 and it moves 1 mm, and
+the Body and Eyes components did not move a single vertex -- while the reported artifact sits at
+y 1.45. **Keep the control's buffers**: they are also the baseline for measuring what any later
+change really did.
+
+**AND ONE THING A PUSH CANNOT FIX, written down so the next report is not chased.** When she BENDS,
+both braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs
+off a chain parented to the HEAD: bending rotates the torso forward about the hips while the braid
+stays with the head, and the chest sweeps into it. A static displacement cannot follow a pose -- the
+offset a bend needs is not the offset standing needs -- and the Bangs component has no body bone to
+share weight with even if sharing were wanted. On Citlali the same motion is absorbed by her own hair
+sim. **When a target rig simply lacks a bone where the source part hangs, say so and stop**; the
+alternative is a value that fixes one pose and breaks another.
+
+**AND THE MEASUREMENT THAT SENT FOUR ROUNDS IN A CIRCLE WAS TRUE.** The Body carriers tried for the
+lower half -- the torso `56`, the clavicle `9/33`, the shoulder cloth `57/58`, the dress chain
+`70-73` -- are **pixel-identical** when rebound live and reloaded, because the matrix the game
+uploads per bone is `pose * bindInverse`, the IDENTITY at the character's own rest pose. "So the
+carrier does not matter" does not follow from it, and shipping that reasoning cost a round: the
+carrier decides whether the part MOVES, which is the half a still cannot show. **Judge a carrier on
+an idle SERIES, never on a pose-matched still** -- that comparison is built to cancel exactly the
+difference being looked for.
+
+Four methods that did work, and one trap:
+
+* **Ask for the base shot.** The same mod on its own character, side by side, settled in one picture
+  what four rounds of argument could not -- and for a character the maintainer does not own, the
+  outfit shop's default card renders it (`Dawnseer` is Citlali's).
+* **Displace and reload.** Shove the vertices you suspect a long way (``+-0.3`` in x is
+  unmistakable); if nothing moves, they were innocent, and if the part appears somewhere absurd you
+  have found which draw owns it.
+* **Iterate on the mod's own fixed ``*Remap*.buf`` and press F10** -- about 20 seconds against
+  minutes for edit / rebuild / re-fix. Rewriting blend indices, weights or positions in place tries
+  any carrier, damping or push with no build. A/B the compiled fix against it afterwards, and expect
+  a small legitimate difference: the split renormalises the weights of groups that went to another
+  component, so a share read from the SPLIT blend exceeds the share the fix reads from the SOURCE.
+* **Reach for the shared field before inventing a number.** `splitGroups` and `pushAway` both
+  already existed, documented for a coat flap; the work here was choosing between them, not building
+  anything.
+* **The trap: "I cannot see the part" is usually the camera.** The braid is invisible from the front
+  and from most of a 360 sweep in the outfit preview, because the loose hair hangs over it -- read
+  once as "the change made the braid vanish", which cost a round. Confirm a part is gone by
+  displacing it, not by not finding it.
+
+### THE LEVER, AND WHY IT WAS NEVER THE QUESTION HERE (2026-10-04, corrected 2026-10-05)
+
+.. warning::
+   Read the section ABOVE first. The three Body bones below were all chosen to answer "which one
+   moves the part best", and the part was broken in half the whole time, so none of them could have
+   been right and no comparison between them meant anything. Keep the ranking method; do not repeat
+   the claim that any of these rows fixed a report.
+
+**Rank a counterpart-less part's candidates by the DISTANCE FROM THE PART TO THE PIVOT, in ALL THREE
+AXES, then by whether the carrier moves the same WAY, and only then by material.** The lever is why
+the skin's own front lock looks wrong on paper for Citlali's braid -- its last bone sits 24 cm above
+her braid's tip -- and it is also why `Body 70 -> 72`, the front dress chain, looked right: its links
+sit at y 1.189 and 1.095 against the lock's 1.171 and 1.095. **The depth was never checked, and it is
+bad**: those links sit at z 0.126 and 0.152 against the braid's 0.03, a 10 cm lever in the one axis
+nobody looked at. Measure all three.
+
+**And before spending any of that, ask whether the part is wrong at REST, or whether it is CUT.** A
+part that does not move is a carrier question; a part that breaks, tears or stands off from what it
+grows out of is a component question; a part that overlaps a limb while standing still is
+`pushAway` or `splitGroups`. Only the first of those is answered by choosing a different bone.
+
+Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs
+from it; keep a garment on one component; and check left against right -- the Citlali lock also
+collapsed its LEFT and RIGHT chains onto one centre-line bone at one point, so the two sides could not
+move independently even in principle. Then look at it IN MOTION -- a timed series through the idle
+animation, not one frame.
+
+<br>
+
+## TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES (2026-10-04)
+
+**Reported as "her feet clip into the ground in the overworld", and it is neither the vertex groups nor the
+animation.** A mod's vertices are the SOURCE's, the skinning is the identity at the bind pose, so a remapped
+mod renders at the SOURCE's coordinates -- while the game plants the character by the TARGET's. If the two
+models' soles sit at different heights in model space, the whole remapped model is off by the difference, in
+every pose, for every mod of that pair. Citlali's sole is at y `-0.0629` and CitlaliWhisperofStars' at
+`-0.0178`, so every Citlali mod on the skin stood **4.5 cm low**.
+
+**It is DIRECTIONAL, and fixing one direction implies the mirror.** The same 4.5 cm makes a mod of the skin
+carried back onto Citlali **float**. Neither had been noticed, because a model hovering a few centimetres
+reads as normal unless something on the ground gives it away. Measure it once and set both.
+
+**Measure it, in about a minute, from the two download folders** -- no game and no mod needed:
+
+```bash
+py -3 Tools/Misc/Diagnostics/boneCentroids.py "Data/Mod Downloads/GI/<Source>/<ver>"              # prints "y <min>..<max>"
+py -3 Tools/Misc/Diagnostics/boneCentroids.py "Data/Mod Downloads/GI/<Target>/<ver>" --component Body
+```
+
+The offset is `targetSoleY - sourceSoleY`. Two things make it a measurement rather than a guess:
+
+* **Check WHAT the lowest vertices are before differencing them.** Sort by y, take the lowest few hundred, and
+  print which vertex group dominates them: both of Citlali's and the skin's came back as the matching toe and
+  foot groups (`109/113/133/137` against the skin's `25/29/49/53`), which is what makes the two numbers
+  comparable. A long skirt, a cape hem or a trailing ribbon can hang below the sole and would silently make the
+  difference mean nothing.
+* **Check the sole is a PLANE.** Both of these hold 50+ vertices inside 3 mm of the minimum, so the minimum is
+  the contact surface and not one stray vertex. Where it is not flat, the measurement needs a different idea.
+
+**The library already expresses it, in both templates -- do not build anything.** It is
+`GIMIComponentFixerConfig::Component::positionOffset` for a split and `GIMIMergeFixerConfig::Component::positionOffset`
+for a merge, both added for NeuvilletteMelusent's EYES and both documented in terms of eyes, which is why two
+later sessions did not find them (habit 53: the class you want may already exist under another character's
+problem). Rules for using them this way:
+
+* **Set it on EVERY component, with the same value**, or the model shears apart at its seams. Where one config
+  builds its components by copying (`Component bangs = body;`), set it before the copies and say so in a comment.
+* **Leave `offsetOnlyWithGameFace` false.** That flag exists for the eye case, where the offset is about lining
+  up with whichever face is drawn. A ground plane is about the ground and always applies.
+* **The merge applies it to downloaded geometry too**, which is what you want: a component the mod lacks is
+  fetched from the SKIN's downloads and still has to land on the target's ground. Verified -- the 255 downloaded
+  Eyes vertices inside the merged buffer came out shifted with the rest.
+
+**The acceptance check is one line and needs no game**: the fixed mod's remapped `Position.buf` must now
+bottom out at the TARGET's sole, not the source's. It went `-0.0629 -> -0.0179` forward (target `-0.0178`) and
+`-0.0178 -> -0.0628` back (target `-0.0629`), with min and max both moving by exactly the offset, which is what
+proves the translation uniform.
 
 <br>
 
@@ -358,6 +691,7 @@ and a failure in any of them makes the round worthless anyway.
 | 8 | `grep -ri "NotFound" <mod>` | any reverse lookup that failed -- `HashNotFound`, `ChecksumNotFound` | no hits |
 | 9 | `wwmiFixTwiceSweep.py` / fix the folder a second time | a pass that stops declaring a resource on re-run, and a download that did not land | the second run's output matches the first |
 | 10 | `folderProbe.py <mod>` | the fix inventing folders the mod does not have | no new directories |
+| 11 | the remapped `Position.buf`'s min y | the pair standing on different ground planes -- feet sunk into the ground, or a model floating above it | it bottoms out at the TARGET's sole, not the source's (see "TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES") |
 
 Then the two rules that decide whether any of it means anything:
 
@@ -553,6 +887,7 @@ surprises you.
 | **a texture symptom** --- a hue over everything, one part wearing another's art, blank white, flat green | "A `TextureOverride` BINDS REGISTERS ONLY FOR THE DRAW ITS HASH MATCHES" (parse the mod's own sections into a per-slot table before reasoning), "A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS", "THE FIX LIBRARIES ARE INVOLUTIONS", "WuWa triage: what the in-game symptom says", and "WHEN THE SYMPTOM IS ON A TEXTURE, CROP THE UV ISLAND AND LOOK AT IT" |
 | **"it works on one mod and not another"** | "Triage: a merged mod that works on one variant and not the others", "FIXING A MERGED MASTER", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES", and "CHOOSING TEST MODS: VARY THE STRUCTURE, NOT THE CHARACTER" |
 | **"a part is missing / still the skin's own"** | "A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY", "A TARGET OBJECT SEVERAL COMPONENTS MERGE ONTO IS NOT ONE DRAW", "A mod that is MISSING a whole component" |
+| **"a part clips / hangs wrong / leans"** --- hair, a cape, a tail, anything that hangs | "THREE FAULTS STACKED ON ONE BRAID" and the FAULT 4-6 sections after it, in order. **First ask whether the part's REST pose is already inside the body**: Citlali's braids are modelled 4-11 cm inside hers and her own bones carry them out, so the remap is not what put them there and a displacement is standing in for a bone. Then: which KIND of fault (carrier / component / weighting / `pushAway`), measure clearance in 3-D *and* per narrow x bin (neither alone is enough), and remember a push has TWO ends --- what it clears at the bottom and what its root is driven into at the top |
 | **an undo left something behind** | "Undo is only as complete as what the fix wrote INSIDE its block" |
 | **"in game it looks exactly like the target's own model"** -- the fix seems not to have loaded | DUMP A FRAME AND GREP ITS LOG before touching code ([Overview](../Overview/CLAUDE.md)'s habit 73): it says which of your sections fired, whether the skip took and what drew. On CharlotteHurlock it showed a merge whose members never drew -- "CHARLOTTE <-> CHARLOTTEHURLOCK", point 4 |
 | a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". Both shapes have their own handling now; a watcher file gets only its own sections on the target's hashes |

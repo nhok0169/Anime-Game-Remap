@@ -1838,16 +1838,30 @@ namespace AGRemapCore {
                         return nullptr;
                     }
 
-                    return [offset](const ByteVec& line) {
+                    // A fade takes the offset to nothing by the height of the face -- see
+                    // Component::positionOffsetFade. {0, 0} leaves it a plain translation.
+                    const std::array<float, 2> fade = component_.positionOffsetFade;
+                    const bool fades = (fade[1] > fade[0]);
+
+                    return [offset, fade, fades](const ByteVec& line) {
                         ByteVec out = line;
                         if (out.size() < 3 * sizeof(float)) {
                             return out;
                         }
 
+                        // Scaled by the ORIGINAL height, read before any axis is written back.
+                        float scale = 1.0f;
+                        if (fades) {
+                            float y = 0.0f;
+                            std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
+                            scale = (fade[1] - y) / (fade[1] - fade[0]);
+                            scale = std::min(1.0f, std::max(0.0f, scale));
+                        }
+
                         for (std::size_t axis = 0; axis < 3; ++axis) {
                             float value = 0.0f;
                             std::memcpy(&value, out.data() + axis * sizeof(float), sizeof(float));
-                            value += offset[axis];
+                            value += offset[axis] * scale;
                             std::memcpy(out.data() + axis * sizeof(float), &value, sizeof(float));
                         }
                         return out;

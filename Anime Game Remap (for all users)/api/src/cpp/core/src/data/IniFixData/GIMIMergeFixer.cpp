@@ -1841,12 +1841,25 @@ namespace AGRemapCore {
                                 continue;
                             }
                             const std::array<float, 3> offset = c.positionOffset;
-                            entry.positionLineEdit = [offset](const ByteVec& line) {
+                            const std::array<float, 2> fade = c.positionOffsetFade;
+                            const bool fades = (fade[1] > fade[0]);
+                            entry.positionLineEdit = [offset, fade, fades](const ByteVec& line) {
                                 ByteVec out = line;
+
+                                // See Component::positionOffsetFade: the offset falls off with
+                                // height, read from the ORIGINAL y before any axis is written back.
+                                float scale = 1.0f;
+                                if (fades && 2 * sizeof(float) <= out.size()) {
+                                    float y = 0.0f;
+                                    std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
+                                    scale = (fade[1] - y) / (fade[1] - fade[0]);
+                                    scale = std::min(1.0f, std::max(0.0f, scale));
+                                }
+
                                 for (std::size_t k = 0; k < 3 && (k + 1) * sizeof(float) <= out.size(); ++k) {
                                     float value;
                                     std::memcpy(&value, out.data() + k * sizeof(float), sizeof(float));
-                                    value += offset[k];
+                                    value += offset[k] * scale;
                                     std::memcpy(out.data() + k * sizeof(float), &value, sizeof(float));
                                 }
                                 return out;

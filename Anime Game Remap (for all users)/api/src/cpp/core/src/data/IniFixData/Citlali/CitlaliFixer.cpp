@@ -20,6 +20,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
@@ -79,6 +80,32 @@ namespace AGRemapCore {
             body.texcoordStride = 20;
             body.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
 
+            // ---- the ground plane ----
+            //
+            // THE TWO MODELS STAND ON DIFFERENT HEIGHTS. A mod's vertices are Citlali's, and the
+            // skinning is the identity at rest, so a remapped mod renders at CITLALI's coordinates
+            // while the game plants the character by the SKIN's -- and Citlali's sole sits 0.045
+            // lower than CitlaliWhisperofStars'. Measured off the two download folders: both models'
+            // lowest 400 vertices are the soles, dominated by the matching toe and foot groups
+            // (Citlali 109/113/133/137 -> the skin's 25/29/49/53), and each sole is a flat plane --
+            // 50 vertices inside 3 mm at y = -0.0629 for Citlali and y = -0.0178 for the skin.
+            // Unshifted, the whole remapped model sits 4.5 cm low and her feet sink into the ground
+            // in the overworld (reported 2026-10-04).
+            //
+            // Set on `body` BEFORE the two copies below, so all three components move together --
+            // shifting one of them alone shears the model apart at its seams.
+            body.positionOffset = {0.0f, 0.0450f, 0.0f};
+
+            // AND IT FADES OUT BY THE FACE, which is the half this did not have on its first run
+            // (2026-10-04). This mod carries NO face mesh -- only a face DIFFUSE bound by hash -- so
+            // the GAME draws the skin's face, at the skin's fixed height. Lifting every vertex put
+            // the feet right and left the face 4.5 cm below the head it belongs to, which the user
+            // reported straight back. Full lift at Citlali's sole, none at or above y 1.400, which
+            // is just over her eye groups at 1.384: the head stays where the game's face is and the
+            // 4.5 cm is taken up through the body, which is where the two models differ anyway (the
+            // skin's foot and knee groups sit 2-6 cm higher than hers, her head group 1 cm lower).
+            body.positionOffsetFade = {-0.0629f, 1.400f};
+
             GIMIComponentFixerConfig::Component bangs = body;
             bangs.name = "Bangs";
             bangs.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsBangs);
@@ -88,6 +115,204 @@ namespace AGRemapCore {
             GIMIComponentFixerConfig::Component eyes = bangs;
             eyes.name = "Eyes";
             eyes.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes);
+
+            // ---- the two long front braids ----
+            //
+            // THE CHAIN USED TO BE CUT IN HALF ACROSS TWO COMPONENTS, AND THAT WAS THE FIRST BUG.
+            // Each braid is a four-link chain of Citlali's (23 -> 24 -> 25 -> 26, mirror
+            // 29 -> 30 -> 31 -> 32) hanging from the temple to the chest. Its top two links went to
+            // the Bangs' own front-hair chain and its bottom two to a bone of the Body, so one braid
+            // was skinned in two index spaces by two unrelated bones. A user reported both halves of
+            // that in one sentence: "the braid is stationary sticking to her body instead of flowing
+            // naturally like hair", and "dislocated from her hair" -- the bottom half rode a bone
+            // that does not move, and a `pushAway` put on the Body displaced only that half, so the
+            // braid visibly broke at the seam. It is the same fault as Neuvillette's capes ripping
+            // along a component boundary: ONE part belongs on ONE component's bones. VGRemapData.cpp
+            // sends all four links to the skin's own front lock, Bangs 3 -> 5 -> 7 (mirror 4 -> 6 -> 8).
+            //
+            // AND THE BRAID IS NOT DAMPED, WHICH WAS THE SECOND BUG. A `splitGroups` shared each
+            // lower link's weight with the Bangs' head bone, on the argument that bone 7's lever is
+            // 3.8 cm while Citlali's braid hangs 24 cm below it, so the skin's hair sim would move
+            // her tip "six times too far". That arithmetic is right and the conclusion is wrong: a
+            // longer lock swinging further at the tip is what hair does. Damped, the braid read as
+            // "stationary, solid with her head" -- the user's words -- because 65-80% of its weight
+            // was on the head. It carries the hair bones' full weight now and swings with them.
+            //
+            // WHAT REMAINS IS A GENUINE CLIP, and a push is the right tool for it now that the braid
+            // is whole: whatever this moves, it moves all of. The braid hangs down the front of the
+            // shoulder and the body is drawn through it, so it goes OUT and FORWARD -- about 4.7 cm
+            // sideways and 10.1 forward on her left, 4.1 and 6.3 on her right, measured at the
+            // braid's mid-height. `from` sits 12 cm behind it, which is what sets the direction.
+            //
+            // GOING SIDEWAYS IS WORTH FAR MORE THAN GOING FORWARD HERE, and the reason generalises:
+            // a body is much SHALLOWER just outside the bust than in front of it. Measured on this
+            // mod's own body at y 1.10-1.14, the front surface is at z 0.124-0.149 while the braid
+            // sits inside |x| 0.105, and z 0.015-0.026 outside it. So the first 3 cm of lateral
+            // travel carries the braid off the breast entirely and buys ~10 cm of clearance, where
+            // forward travel only ever buys its own length. An almost purely forward push (1.5 cm
+            // sideways against 9.4) cleared the body by 0.4 cm at best -- a margin the idle could
+            // still close, which is exactly what the user kept seeing. Angled out, the same push
+            // clears by 3.5-11 cm in every band. WHEN A PART CLIPS A TORSO, ASK WHERE THE SILHOUETTE
+            // ENDS BEFORE REACHING FOR MORE DISTANCE: the clearance a displacement buys is a
+            // property of the surface it is moving across, not of its size.
+            //
+            // THAT EDGE IS ALSO WHY THESE NUMBERS ARE A FLOOR, not a preference. The user's last
+            // note was that the braids now sat too far out, so both were swept against the body
+            // per VERTEX rather than per band. Pulling a braid back inside |x| 0.105 puts it in
+            // front of the bust again, where it needs ~12 cm of forward travel to clear -- which
+            // reads as detached. Her left had room and came in 1.4 cm; her RIGHT is already at its
+            // minimum, and loses its margin at x +0.097, y 1.15 (the bust edge) the moment it comes
+            // in further. The two sides end up nearly even laterally, 4.7 against 4.1, which is
+            // also what makes them read as a pair. SWEEP THE PARAMETER AGAINST THE MOD'S OWN BODY
+            // BEFORE THE NEXT IN-GAME ROUND: it costs seconds, and it is what turns "a bit closer"
+            // into a number with a known margin instead of another guess.
+            //
+            // AND IT IS NOT SYMMETRIC, WHICH TOOK THREE REPORTS TO ACCEPT. Everything that can be
+            // measured off the files says the two braids are the same part: the MOD's two braids are
+            // mirror-exact (mean z agreeing to 0.0000 in every height band below y 1.30, and the
+            // share profiles on 25/26 and 31/32 agree band for band), and the skin's own bones 7 and
+            // 8 are a mirror PAIR (centroids -0.059 / +0.063 at the same y 1.279, the same
+            // 1.241-1.379 span). So the row is right and the geometry is right -- and her LEFT braid
+            // still sank into the bodice about 2 cm higher than her right at the same instant.
+            //
+            // That difference lives in the skin's standing IDLE, which no file here can see: the
+            // animation puts her left shoulder and its hair chain somewhere her right ones are not.
+            // A static displacement is the only tool that reaches it, so her left takes the larger
+            // distance. Measured by stepping the left side alone and comparing the two braids WITHIN
+            // each frame, never by arguing from the buffers.
+            //
+            // The symmetric value shipped twice before this on the argument that a per-side number
+            // would be "tuned to the one animation it was measured in". That is still true and it is
+            // still the cost of this: it is the only animation this skin is ever seen in, because
+            // the outfit cannot be worn without owning the character, so the shop preview IS the
+            // test. Re-measure both numbers if that ever stops being so. The general lesson is the
+            // one that cost the rounds: MIRROR-EXACT INPUTS DO NOT GIVE A MIRROR-EXACT PICTURE, and
+            // a symmetry argument made entirely from the files cannot outvote what the target's rig
+            // does to them. Check the pair in the frame, not on disk.
+            //
+            // WHICH GROUPS THE PUSH NAMES IS WHAT SETS HOW FAR UP IT REACHES, and naming all four
+            // links reached the HAIRLINE. VGPushAway weighs each vertex by its share of the groups
+            // it lists, so listing 23 and 29 -- the links at the temple, where the braid's weight
+            // blends into the scalp -- gave the fringe a share of 0.39 on average at y 1.36-1.40 and
+            // 0.66 at y 1.32-1.36. At 4 cm that was 1.5-2.6 cm and went unnoticed; at 6.5 cm it is
+            // 2.5-4.6 cm, and a user reported her BANGS standing forward off her face.
+            //
+            // So the push names only the LOWER two links of each braid. Their share is 0.00 above
+            // y 1.355 (the fringe cannot move at all), 0.05 at y 1.32-1.36, 0.40 at 1.24-1.28 and
+            // 1.00 by y 1.10 -- the braid now BENDS forward from where it leaves the head over about
+            // 20 cm, instead of the whole lock including its root translating. The clip is at the
+            // shoulder, y 1.15-1.25, where the share is 0.80-1.00, so the braid takes nearly the
+            // whole displacement there. At the top band the push can reach (y 1.355-1.381, share
+            // 0.02-0.05) it is 0.2-0.6 cm, so the fringe stays put at either side's distance.
+            //
+            // This is the same group list the FIRST push used, on 2026-10-04, when it drew the
+            // complaint "the braid is dislocated from her hair" -- and the difference is not the
+            // list. Back then the chain was cut across two components, so moving the lower links
+            // broke the braid at a hard seam. In ONE component on ONE chain the same list is a
+            // smooth bend, because the share tapers across the 24 -> 25 blend instead of stopping
+            // dead at a component boundary. A field that was wrong under a broken row can be right
+            // once the row is fixed; re-test it rather than ruling it out from memory.
+            //
+            // WHAT NO PUSH CAN FIX, recorded so the next report is not chased: when she BENDS, both
+            // braids pass through her chest. The skin has no hair bone below y 1.24, so the whole
+            // braid hangs off a chain parented to the HEAD; bending rotates the torso forward about
+            // the hips while the braid stays with the head, and the chest sweeps into it. A static
+            // displacement cannot follow a pose -- the offset a bend needs is not the offset
+            // standing needs -- and the Bangs component has no body bone to share weight with even
+            // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
+            // AND THE LOCK'S ROOT IS COVERED BY AN OVERLAP BAND, because the chain and the scalp
+            // it grows out of end up in DIFFERENT COMPONENTS. On the mod's mesh the hairline blends
+            // smoothly from the scalp (source 91) into the lock (source 21/22/23), but a split has
+            // to give each vertex to ONE component, so the blend becomes a hard switch: 104 vertices
+            // at y 1.355-1.453 sit at the same point in space in both buffers, bound to Bangs 3/4/5/6/9
+            // on one side and to Body 7 -- the skin's HEAD -- on the other. Standing still the two
+            // copies coincide exactly and nothing shows; the moment the hair sim moves the chain
+            // bones and the head does not, the surface opens. A user saw it as a "slight
+            // dislocation/rip" at the temple that is "only noticeable when she moves".
+            //
+            // `overlapRings` is the field written for this: the band is drawn by BOTH components, so
+            // a gap narrower than it is covered by the other side's copy, and ownership does not
+            // change. It is NOT a weighting fix -- pinning the lock's root to the head bone would
+            // close the same gap by making the root rigid, which is the damping mistake of
+            // 2026-10-04 in another costume.
+            //
+            // The push is NOT what opens this, measured rather than argued: against a zero-push
+            // control build, nothing above y 1.36 moves at all, the highest vertex it touches is
+            // y 1.3564 and it moves 1 mm, and the Body and Eyes components do not move a vertex.
+            bangs.overlapRings = 1;
+
+            // AND THE BAND NEEDS A STAND-IN, or it is drawn on the WRONG BONES. The band is a ring
+            // of the NEIGHBOUR's triangles, so its vertices are the scalp's: source 91, which the
+            // Bangs row does not own (it is Body 7, the skin's head). An unowned weight is DROPPED
+            // and the vertex renormalises onto whatever Bangs groups it still carries -- the lock
+            // chain. So the band covered the gap and then swung with the lock while the hair under
+            // it stayed with the head: the user's next report was no longer a rip but "slight
+            // misalignment whenever Citlali moves ... that shadow line not aligning", which is a
+            // band lit as if it belonged to a different part. Measured: the band put 27 vertices at
+            // y 1.42-1.46 and 125 at 1.38-1.42 -- scalp height -- all dominated by lock bones 3/4/9.
+            //
+            // `standIns` is the companion field: source 91 stands in as Bangs bone 0, the Bangs'
+            // own head-parented bulk (centroid y 1.435, against Body 7's y 1.433), so the band moves
+            // with exactly the geometry it covers. A band without a stand-in is worth checking for
+            // on any cut component: the symptom is not a hole, it is a patch that shades or slides
+            // against its surroundings.
+            bangs.standIns = {{91, 0}};
+
+
+            // AND THE PUSH STOPS BELOW THE PARTING, which is the last thing the braid needed. A
+            // share tapers UPWARDS into whatever the part grows out of, so a push sized for the
+            // shoulder still moves the top of the lock a centimetre or two -- and up there the braid
+            // runs alongside her own fringe with only 4 mm to spare. Measured on the output against a
+            // no-push control: the 11 cm push closed that to 1.0 mm on her LEFT (her right, on the
+            // smaller distance, stayed at 5.4 mm), and the user saw the braids cutting into the
+            // bangs. No choice of `from` or `distance` fixes it -- every candidate that still clears
+            // the body leaves 1.0-1.6 mm -- because the problem is the push's REACH, not its size or
+            // direction.
+            //
+            // `fade` takes it to nothing between y 1.22 and y 1.32: full through the band the clip
+            // is in (y 1.06-1.22) and zero by the band the fringe is in (y 1.30-1.38). Simulated
+            // over the real output geometry before it was built, the fringe gap goes back to 4.0 mm
+            // -- exactly the no-push baseline -- with the body clearance unchanged at 8.1 cm. Taking
+            // the fade any lower starts costing that clearance (7.4 cm at 1.20, 2.9 cm at 1.16).
+            // AND THE DIRECTION IS MOSTLY SIDEWAYS NOW, WHICH COSTS LESS LEAN FOR MORE CLEARANCE.
+            // The braid's REST position is 4-11 cm INSIDE the body: the mod is authored that way and
+            // Citlali's own hair bones carry it out at runtime. The skin's chain does not, so this
+            // push stands in for her bones -- which is why it has to be large, and why "it leans
+            // forward" is the shape of the compromise rather than a tuning slip.
+            //
+            // But a straight-ahead push drives the braid ACROSS the chest's bulge, where it needs
+            // the most travel to get clear. Round the side it leaves the silhouette sooner. Measured
+            // as a true 3-D distance from the braid to the body over y 1.04-1.24, the old setting
+            // (10.2 cm forward, 4.6 out) cleared by 6.5 mm at worst, and this one (6.4 forward, 6.3
+            // out) clears everywhere -- nearly three times the margin for well under half the lean,
+            // and slightly narrower too. A no-push braid clears by 2.7 mm, i.e. it is inside her.
+            //
+            // The lesson, which took a user asking "isn't it leaning too far forward" to see: THE
+            // CHEAPEST DISPLACEMENT IS THE ONE THAT LEAVES THE SILHOUETTE SOONEST, and the axis that
+            // does that is not the one the clip appears along. Measure the 3-D distance to the body
+            // over the candidates rather than the clearance along one axis -- the two disagree, and
+            // the axis measure is what made a 10 cm push look justified for several rounds.
+            // AND THE SIZE IS SET BY WHAT THE EYE ACCEPTS, not by what the geometry would like. Three
+            // reports bound it from both directions: 10.2 cm forward / 4.6 out drew "leaned a bit
+            // too forward", 9.4 / 6.1 drew "too much veered to the side", and 6.4 / 6.3 drew
+            // "stretched" -- the braids splayed off the head. The envelope that leaves is roughly
+            // FORWARD UNDER 6 cm AND SIDEWAYS UNDER 5, and 0.0600 sits inside it at 4.3 / 4.2.
+            //
+            // What that gives up is the braid's last few cm: her dress panel juts to z 0.12 out to
+            // x 0.14 at y 1.02-1.06, and the tip only escapes it by travelling sideways past its
+            // edge, which needs 0.090 and reads as stretched. So the tip stays behind the panel --
+            // which is where the MOD ITSELF puts it (its rest pose has the whole braid 4-11 cm
+            // inside the body) and the one thing no report has ever objected to. Everything above
+            // the tip clears: the body by about 15 mm in 3-D through y 1.04-1.24.
+            //
+            // THE LESSON IS THE BOUND, NOT THE NUMBER. A part whose target rig cannot pose it has no
+            // setting that is simply right; there is a region the eye accepts and a region the
+            // geometry wants, and when they do not overlap the eye wins and the leftover is named
+            // out loud. Collect the rejections as a BOX and stay inside it rather than optimising
+            // one axis at a time -- walking back past a limit already set is how 6.3 cm of sideways
+            // shipped after 6.1 had been refused.
+            bangs.pushAway = {VGPushAway{{25, 26}, {+0.0700f, 1.130f, -0.1183f}, 0.0600f, -1, {1.22f, 1.32f}},
+                              VGPushAway{{31, 32}, {-0.0700f, 1.130f, -0.1183f}, 0.0600f, 1, {1.22f, 1.32f}}};
 
             config.components = {body, bangs, eyes};
 

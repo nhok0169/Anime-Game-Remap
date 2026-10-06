@@ -20,6 +20,16 @@ Everything else, including a failed test, is yours to diagnose and retry. The fi
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
 
+**A RE-FIX IS NOT A RELOAD, AND THE GAME WILL HAPPILY SHOW YOU YESTERDAY'S BUILD (2026-10-06).**
+Rebuilding and re-running the fix changes the files on disk; 3DMigoto keeps serving what it already
+has until `reload`. On 2026-10-06 that cost a round outright: a push was re-aimed from 10.2 cm of
+forward lean to 6.4, the mod was re-fixed, the change was reported as ready to look at -- and the
+maintainer, looking at the still-resident old buffers, said the braids were pushed forward *even
+more*. **Never say a change is ready to look at until a `reload` has run since the last fix**, and
+when a report contradicts a measurement, check that the game is showing the build you measured
+before doubting the measurement.
+
+
 ## AN ARROW KEY THIS TOOL SENT ARRIVED AS A NUMPAD KEY (fixed 2026-09-27)
 
 `key left`, `key ctrl+left`, `key alt+down` -- every arrow, modified or not -- did **nothing**, in
@@ -72,7 +82,13 @@ colours** -- then "did it switch" is a colour, not a statistic.
    look for a way around the prompt. A registered highest-privilege task was proposed for that and
    refused as unrequested persistence.
    **The helper runs under whichever Python started it, and screenshots need Pillow in THAT one**
-   (2026-09-29). A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
+   (2026-09-29; it happened AGAIN on 2026-10-04 and cost another round trip, so `helper start` now
+   REFUSES an interpreter without Pillow and names the fix. If a capture fails with a bare
+   `ModuleNotFoundError: No module named 'PIL'` anyway, the helper predates that check: `helper stop`
+   then `py -3.9 main.py helper start`. The `helper.json` beside `config.json` in the scratch folder
+   -- `status` prints its path -- records which Python a RUNNING helper is on, which is the one
+   question `helper status` does not answer.)
+   A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
    failed every capture. Ask for it to be restarted under the Python that has Pillow (`py -3`, 3.9
    there; habit 77 says to check with `py -0`), rather than installing packages into another one.
 3. **Is hunting on?** `status` shows `hunting` per importer. `show_original` (F9, which `compare`
@@ -108,6 +124,13 @@ py -3 main.py mods GIMI restore                                  # at the end: e
 - `scan`'s hint is the commonest first word of a mod's `TextureOverride` sections, and it is only
   a guess, because authors name sections after the base character while building on a skin. The fix
   run's own classification decides which mods are the character's.
+- **`restore` replays the WHOLE journal, including moves from earlier sessions** (2026-10-04). It is
+  not "undo what I did": `mods-journal-GIMI.json` persists, so a restore at the end of your work can
+  LOAD a mod somebody parked days ago. One run came back with 33 mods loaded where the session had
+  started at 32, the extra being a `Yaoyao5Tri` nobody had touched that day. **Record the loaded set
+  before you start** (`mods <IMP> list`) and diff against it afterwards rather than trusting the
+  restore, and park anything it resurrected. A folder you deleted by hand is reported as
+  `could not undo ... (already moved by hand?)`, which is harmless.
 - Moves are renames only. A mod folder on another drive than the importer is refused, because a
   cross-drive move is a copy plus a delete of the maintainer's original.
 - The fix edits the mod IN PLACE (backups and `-u` undo are the API's), the maintainer's own way.

@@ -44,7 +44,7 @@ Held by ``shared_ptr`` because that is what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="902" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="215" bodyend="225"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="902" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="221" bodyend="231"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

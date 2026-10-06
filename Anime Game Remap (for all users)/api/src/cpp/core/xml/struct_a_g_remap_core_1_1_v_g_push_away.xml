@@ -69,6 +69,38 @@ Only vertices on this side of x = 0: ``1`` for x &gt; 0, ``-1`` for x &lt; 0, ``
         </inbodydescription>
         <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="62" column="13" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="62" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_push_away_1aa546762e7d1f8b847cc7b6ff0ffa5109" prot="public" static="no" mutable="no">
+        <type>std::array&lt; float, 2 &gt;</type>
+        <definition>std::array&lt;float, 2&gt; AGRemapCore::VGPushAway::fade</definition>
+        <argsstring></argsstring>
+        <name>fade</name>
+        <qualifiedname>AGRemapCore::VGPushAway::fade</qualifiedname>
+        <initializer>= {0.0f, 0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The heights between which the push FADES OUT, as ``{full, none}`` -- a vertex at or below
+``[0]`` takes the whole push, one at or above ``[1]`` takes none, and it ramps linearly
+between. ``[1] &lt;= [0]`` disables the fade and every vertex takes its full share
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A push is weighted by a vertex&apos;s SHARE of :cpp:member:`groups`, and a share tapers upwards
+into whatever the part grows out of -- so a push sized for the bottom of a lock still moves
+its top by a centimetre or two. Where the part runs alongside something else up there, that
+is enough to drive it through: Citlali&apos;s braid passes her own fringe with 4 mm to spare, and
+a 11 cm push over the groups that clear her shoulder closed that to 1 mm. The fade lets the
+push stop before it reaches the parting, with no cost to what it was sized for.
+
+.. note::
+   Set ``[0]`` above the top of what the push must clear and ``[1]`` below whatever it must
+   not disturb; a few cm between them keeps the bend smooth
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="84" column="20" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="84" bodyend="84"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -80,9 +112,10 @@ cut component gets depends on what the negative-index components keep), and whic
 index buffers take part
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="40" bodyend="63"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="40" bodyend="85"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a6135fcd2ba1a4fb58274e604f868154d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>distance</name></member>
+      <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1aa546762e7d1f8b847cc7b6ff0ffa5109" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>fade</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ac35866357791eac94910e7a5ee53c4b9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>from</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a207b7248972efcd98098c591c25f159d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>groups</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ae8041ce3f70f6873248e9840d3d4e8e3" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>side</name></member>

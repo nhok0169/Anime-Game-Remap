@@ -20,6 +20,16 @@ Everything else, including a failed test, is yours to diagnose and retry. The fi
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
 
+**A RE-FIX IS NOT A RELOAD, AND THE GAME WILL HAPPILY SHOW YOU YESTERDAY'S BUILD (2026-10-06).**
+Rebuilding and re-running the fix changes the files on disk; 3DMigoto keeps serving what it already
+has until `reload`. On 2026-10-06 that cost a round outright: a push was re-aimed from 10.2 cm of
+forward lean to 6.4, the mod was re-fixed, the change was reported as ready to look at -- and the
+maintainer, looking at the still-resident old buffers, said the braids were pushed forward *even
+more*. **Never say a change is ready to look at until a `reload` has run since the last fix**, and
+when a report contradicts a measurement, check that the game is showing the build you measured
+before doubting the measurement.
+
+
 ## AN ARROW KEY THIS TOOL SENT ARRIVED AS A NUMPAD KEY (fixed 2026-09-27)
 
 `key left`, `key ctrl+left`, `key alt+down` -- every arrow, modified or not -- did **nothing**, in

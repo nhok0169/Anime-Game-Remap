@@ -4873,9 +4873,23 @@ namespace AGRemapCore {
                             mergeList.key(IniKeywords::Run, fixName("CommandListRemapMergedSkeleton"));
                         }
 
+                        // see WWMIFixerConfig::currentPoseInCb3Only. Decided BEFORE anything is rebound: a
+                        // `vs-cbN == filter` test reads the buffer bound at that moment, and once vs-cb4
+                        // holds the fix's own skeleton it no longer carries the marker.
+                        const std::string Cb3Only = "$cb3_only";
+                        if (config_.currentPoseInCb3Only) {
+                            mergeList.key("local " + Cb3Only)
+                                     .key(Cb3Only, "0")
+                                     .open("vs-cb3 == " + config_.boneDataFilter + " && vs-cb4 != " + config_.boneDataFilter)
+                                     .key(Cb3Only, "1")
+                                     .close();
+                        }
+
                         for (const auto& cb : {std::make_tuple(std::string("vs-cb4"), mergedRW, merged, remappedRW, remapped),
                                                std::make_tuple(std::string("vs-cb3"), extraRW, extra, extraRemappedRW, extraRemapped)}) {
-                            mergeList.open(std::get<0>(cb) + " == " + config_.boneDataFilter)
+                            const bool cb3 = std::get<0>(cb) == "vs-cb3";
+                            mergeList.open(std::get<0>(cb) + " == " + config_.boneDataFilter
+                                           + (cb3 && config_.currentPoseInCb3Only ? " && " + Cb3Only + " == 0" : ""))
                                      .keys({{VgOffsetKey, s.vgOffset},
                                             {VgCountKey, s.vgCount},
                                             {"$\\WWMIv1\\custom_mesh_scale", "1.00"},
@@ -4898,6 +4912,24 @@ namespace AGRemapCore {
                             mergeList.close();
                         }
 
+                        // ...and a draw whose current pose is in vs-cb3 alone: into the MAIN skeleton
+                        if (config_.currentPoseInCb3Only) {
+                            mergeList.open(Cb3Only + " == 1")
+                                     .keys({{VgOffsetKey, s.vgOffset},
+                                            {VgCountKey, s.vgCount},
+                                            {"$\\WWMIv1\\custom_mesh_scale", "1.00"},
+                                            {"cs-cb8", IniKeywords::Ref + " vs-cb3"},
+                                            {"cs-u6", mergedRW},
+                                            {IniKeywords::Run, "CustomShader\\WWMIv1\\SkeletonMerger"}});
+                            if (targetPast256_) {
+                                mergeList.key("vs-cb3", remapped);
+                            } else {
+                                mergeList.keys({{merged, "copy " + mergedRW}, {"vs-cb3", merged}});
+                            }
+
+                            mergeList.close();
+                        }
+
                         // AND THE PREVIOUS POSE AGAIN, OUTSIDE THE GUARD (2026-10-03).
                         //
                         // The game does not set `boneDataFilter` on cb3 for every pass. Measured in a
@@ -4913,7 +4945,13 @@ namespace AGRemapCore {
                         // the character's motion blur to zero. On a pass that does carry the marker the
                         // guarded block above has already bound the same resource, so this is a no-op.
                         if (config_.bindPrevPoseAlways) {
-                            mergeList.key("vs-cb3", targetPast256_ ? extraRemapped : extra);
+                            if (config_.currentPoseInCb3Only) {
+                                mergeList.open(Cb3Only + " == 0")
+                                         .key("vs-cb3", targetPast256_ ? extraRemapped : extra)
+                                         .close();
+                            } else {
+                                mergeList.key("vs-cb3", targetPast256_ ? extraRemapped : extra);
+                            }
                         }
 
                         out += mergeList.str();

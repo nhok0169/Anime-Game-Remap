@@ -860,6 +860,26 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Treat a draw whose ``vs-cb3`` carries :cpp:member:`boneDataFilter` while its ``vs-cb4`` does
+         not as one whose skeleton -- the CURRENT pose -- sits in ``vs-cb3``: merge it into the main
+         skeleton and bind the remapped main one there, where the default reads ``vs-cb3`` as the
+         previous pose on every draw :raw-html:`<br />` :raw-html:`<br />`
+
+         WWMI Tools' own template has the same branch (``elif vs-cb3 == marker`` -> ``vs-cb3 = ref
+         ResourceMergedSkeleton``). Some characters draw passes with their skeleton in ``vs-cb3``
+         alone -- Lynae's early depth passes, 11 draws of her dump -- and reading it as the previous
+         pose wrote their depth for last frame's pose: every thin layered part then failed the later
+         passes' equal-depth test and dropped out (her ID card, chest pin and ear cups, first seen on
+         her identity mod). Such a draw also takes no previous pose from
+         :cpp:member:`bindPrevPoseAlways`. **Default**: ``false``, which writes exactly the lines every
+         earlier pair writes
+         @endrst
+         */
+        bool currentPoseInCb3Only = false;
+
+        /**
+         * @brief
+         @rst
          The command list every slot section runs to bind the mod's buffers; the texture command
          list and the zero stream are added right after it. **Default**:
          ``"CommandListOverrideSharedResources"``

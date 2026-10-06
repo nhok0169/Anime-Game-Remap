@@ -424,6 +424,12 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
                         py::doc(":class:`int`: The float4 slots of the merged skeleton buffers declared for a legacy mod. **Default**: ``768``"))
         .def_readwrite("boneDataFilter", &AGRC::WWMIFixerConfig::boneDataFilter,
                         py::doc(":class:`str`: WWMI's marker on the game's bone-data constant buffer. **Default**: ``3381.7777``"))
+        .def_readwrite("currentPoseInCb3Only", &AGRC::WWMIFixerConfig::currentPoseInCb3Only, py::doc(R"doc(
+:class:`bool`: Treat a draw whose ``vs-cb3`` carries the bone-data marker while its ``vs-cb4`` does not as
+one whose CURRENT pose sits in ``vs-cb3`` -- merged into the main skeleton and bound the remapped main
+one -- as WWMI Tools' own template does. For a target with passes like that (Lynae's depth passes),
+where reading ``vs-cb3`` as the previous pose drops thin layered parts out. **Default**: ``False``
+        )doc"))
         .def_readwrite("bindPrevPoseAlways", &AGRC::WWMIFixerConfig::bindPrevPoseAlways,
                         py::doc(":class:`bool`: Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton carries :attr:`boneDataFilter`. **Default**: ``True``"))
         .def_readwrite("cleanupResourcesList", &AGRC::WWMIFixerConfig::cleanupResourcesList,

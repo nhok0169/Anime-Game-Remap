@@ -325,6 +325,19 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             ``Lynae -> LynaePeppermint`` at game version ``3.7``, built by :cpp:func:`makeWWMIFixer`.
+             See ``data/IniFixData/Lynae/LynaeFixer.cpp``
+
+             Filed at 3.7, the skin's version and the one whose hashes it writes. The fix reads each
+             mod with the vertex group row of the skeleton numbering its own geometry is in, since her
+             3.7 update renumbered her skeleton
+             @endrst
+             */
+            static IniFixBuilder::Factory lynaePeppermint3_7();
+
+            /**
+             * @brief
+             @rst
              ``ChisaParfait -> Chisa`` at game version ``2.8``, built by :cpp:func:`makeWWMIFixer`.
              The FIRST fix onto a target past 256 merged bones, so it writes WWMI's own blend remap.
              See ``data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp``

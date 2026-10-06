@@ -1832,7 +1832,7 @@ mostly download names and section order. Three habits make the zero mean somethi
 
 <br>
 
-**93. A USER'S SUCCESSIVE REJECTIONS ARE A BOX, NOT A QUEUE (2026-10-06).** Tuning one number against
+**95. A USER'S SUCCESSIVE REJECTIONS ARE A BOX, NOT A QUEUE (2026-10-06).** Tuning one number against
 a series of reports, the obvious move is to fix whichever axis the latest report named. Do that and
 each round rebounds past a limit an earlier round already set. On Citlali's braid: "leaned a bit too
 forward" (10.2 cm forward / 4.6 sideways) led to more sideways, which drew "too much veered to the
@@ -1842,7 +1842,7 @@ CONSTRAINT and satisfy all of them at once**; three reports there bounded it to 
 AND sideways under 5", which no single-axis step would ever have found. And when the constraints do
 not leave a solution, say so and name what is being given up rather than oscillating.
 
-**94. WHEN THREE CONSECUTIVE FIXES EACH EXPOSE A NEW SYMPTOM IN THE SAME SMALL REGION, STOP FIXING
+**96. WHEN THREE CONSECUTIVE FIXES EACH EXPOSE A NEW SYMPTOM IN THE SAME SMALL REGION, STOP FIXING
 AND RE-DERIVE THE MEASUREMENT (2026-10-06).** Five rounds went: push forward -> hits the fringe ->
 fade it -> settles into the hair -> cover with an overlap band -> shadow line -> give the band a
 stand-in -> clips the bangs. Every one was a real fix for the symptom in view, and every one was
@@ -1850,14 +1850,14 @@ steered by a clearance measured along ONE AXIS where the question was three-dime
 is not that a fix fails -- it is that each fix relocates the symptom by a few millimetres.** The
 maintainer named it before the agent did; they should not have had to.
 
-**95. SAY WHEN YOU ARE EXHAUSTED OR GOING IN CIRCLES (2026-10-06).** The maintainer asked for this
+**97. SAY WHEN YOU ARE EXHAUSTED OR GOING IN CIRCLES (2026-10-06).** The maintainer asked for this
 outright: *"let me know when you have exhausted all options or if you think we are going in
 circles."* Keeping a round going because another parameter exists is not diligence when the
 remaining options all sit on one trade-off curve. State which part is a boundary rather than a bug
 (for Citlali: the skin has no hair bone below y 1.24, so a braid hanging off a head-parented chain
 cannot follow a bend), what was traded for what, and what the honest remaining choices are.
 
-**96. WHEN A REPORT CONTRADICTS YOUR MEASUREMENT, CHECK THEY ARE LOOKING AT THE BUILD YOU MEASURED
+**98. WHEN A REPORT CONTRADICTS YOUR MEASUREMENT, CHECK THEY ARE LOOKING AT THE BUILD YOU MEASURED
 (2026-10-06).** A rebuild and a re-fix change the files; the game serves what it already has until
 `reload`. Told the braids were "pushed forward even more" right after a change that cut the lean
 from 10.2 cm to 6.4, the first instinct was to doubt the numbers --- the numbers were right and the
@@ -1865,13 +1865,27 @@ game was two builds stale. **Never say a change is ready to look at until a relo
 last fix.** The same shape applies to any artifact: before doubting a measurement, prove the thing
 being looked at is the thing that was measured.
 
-**97. THE CHECKOUT MAY HAVE ANOTHER AGENT IN IT, AND IT WILL LOCK YOUR BUILD OUTPUT (2026-10-06).**
+**99. THE CHECKOUT MAY HAVE ANOTHER AGENT IN IT, AND IT WILL LOCK YOUR BUILD OUTPUT (2026-10-06).**
 A build failed with `COPY_FAILED` --- "the process cannot access the file" --- on
 `core.cp39-win_amd64.pyd`, because another session's `gimiCheck.py` run had the module imported.
 `ninja` had succeeded; only the copy into the API package failed, which reads like a broken build
 and is not. Retry the copy in a loop rather than rebuilding, **never kill a python process you did
 not start** (one of them is GameView's elevated helper), and `Get-CimInstance Win32_Process` shows
 whose it is.
+
+**100. `git worktree remove` DEREGISTERS THE WORKTREE BEFORE IT DELETES THE FILES, AND HERE THE
+DELETE FAILS (2026-10-06).** Ten stale agent worktrees under `.claude/worktrees/` each answered
+`error: failed to delete ...: Filename too long` --- a worktree path is already ~110 characters and
+the tree inside reaches `api/extern/Compressonator/...`, well past Windows' 260. **The
+registration is dropped anyway**: the second attempt says `is not a working tree` while every file
+is still on disk, so one failed-looking run had in fact half-removed all ten, and
+`core.longpaths=true` cannot help because git has already given up. What works is to mirror an
+empty directory over each tree with `robocopy <empty> <target> /MIR /R:1 /W:1` (long-path aware)
+and then `Remove-Item`, ~50s each, followed by `git worktree prune`. Before removing any of them:
+**a worktree's BRANCH survives the removal, so only UNCOMMITTED changes can be lost** --- run
+`git -C <wt> status --porcelain` on each, save the diff of every dirty one, and check the app's
+session list that none is still running. Two of the eleven here held uncommitted work --- one of
+them 609 lines, which is why it was left in place --- and neither folder's mtime said so.
 
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 

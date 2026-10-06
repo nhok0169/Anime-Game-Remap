@@ -228,7 +228,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is ninety-four short habits, none of
+feature or bug request here: the habits that pay" first.** It is one hundred short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -1187,9 +1187,9 @@ useful parts of that, all general:
   axis the clip appears along -- a body is much shallower beside the bust than in front of it.
 - **A push has two ends**: what it clears at the bottom, and what its root is driven into at the top
   (`VGPushAway::fade`, new 2026-10-06, stops it before the parting).
-- **A user's successive rejections are a BOX, not a queue** (Overview habit 93), and **when three
-  consecutive fixes each relocate the symptom by millimetres, re-derive the measurement** (habit 94).
-- **Say when it is a boundary rather than a bug** (habit 95). The maintainer asked for that directly.
+- **A user's successive rejections are a BOX, not a queue** (Overview habit 95), and **when three
+  consecutive fixes each relocate the symptom by millimetres, re-derive the measurement** (habit 96).
+- **Say when it is a boundary rather than a bug** (habit 97). The maintainer asked for that directly.
 
 **FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
 2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own

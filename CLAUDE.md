@@ -1469,7 +1469,14 @@ that component's bones -- so the blend becomes a hard switch. **104 vertices at 
 in both buffers at the same point**, on `Bangs 3/4/5/6/9` one side and `Body 7` (the skin's HEAD) the
 other. Still, they coincide exactly; moving, the chain swings and the head does not, and the surface
 opens. **`overlapRings` is the field written for it** and it already existed -- a band drawn by BOTH
-components, ownership unchanged, so a gap narrower than it is covered by the other side's copy. The
+components, ownership unchanged, so a gap narrower than it is covered by the other side's copy --
+**and it is useless without `standIns`**, which is the half that is easy to miss: the band is the
+NEIGHBOUR's triangles, so its vertices carry the neighbour's groups, an unowned weight is DROPPED,
+and the band renormalises onto the lock chain. It then swings with the lock while the hair under it
+stays with the head, which does not read as a hole but as **a patch that shades or slides against
+its surroundings** ("that shadow line not aligning"). `standIns = {{91, 0}}` puts the scalp on the
+component's own head bone and the band moves with what it covers; the check is the dominant bone by
+height (y 1.38-1.42 went from `3:43, 4:31, 9:26` to `0:86`). Set the two together, always. The
 fix that suggests itself, pinning the lock's root to the head bone, closes the gap by making the root
 RIGID, which is the damping mistake above in another hat (habit 53: grep the config's fields first).
 **Find it without the game** by indexing one component's vertices on a 1 mm grid and reporting every

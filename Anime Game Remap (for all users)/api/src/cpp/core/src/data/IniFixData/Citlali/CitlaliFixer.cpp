@@ -241,6 +241,24 @@ namespace AGRemapCore {
             // y 1.3564 and it moves 1 mm, and the Body and Eyes components do not move a vertex.
             bangs.overlapRings = 1;
 
+            // AND THE BAND NEEDS A STAND-IN, or it is drawn on the WRONG BONES. The band is a ring
+            // of the NEIGHBOUR's triangles, so its vertices are the scalp's: source 91, which the
+            // Bangs row does not own (it is Body 7, the skin's head). An unowned weight is DROPPED
+            // and the vertex renormalises onto whatever Bangs groups it still carries -- the lock
+            // chain. So the band covered the gap and then swung with the lock while the hair under
+            // it stayed with the head: the user's next report was no longer a rip but "slight
+            // misalignment whenever Citlali moves ... that shadow line not aligning", which is a
+            // band lit as if it belonged to a different part. Measured: the band put 27 vertices at
+            // y 1.42-1.46 and 125 at 1.38-1.42 -- scalp height -- all dominated by lock bones 3/4/9.
+            //
+            // `standIns` is the companion field: source 91 stands in as Bangs bone 0, the Bangs'
+            // own head-parented bulk (centroid y 1.435, against Body 7's y 1.433), so the band moves
+            // with exactly the geometry it covers. A band without a stand-in is worth checking for
+            // on any cut component: the symptom is not a hole, it is a patch that shades or slides
+            // against its surroundings.
+            bangs.standIns = {{91, 0}};
+
+
             bangs.pushAway = {VGPushAway{{25, 26}, {-0.0100f, 1.130f, -0.1183f}, 0.1120f, -1},
                               VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1}};
 

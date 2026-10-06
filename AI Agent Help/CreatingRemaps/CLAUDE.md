@@ -456,6 +456,18 @@ surface opens.
   hidden by the other side's copy. `bangs.overlapRings = 1` added 179 triangles and the draw call
   was regenerated to match it (`drawindexed = 6657` against 6657 indices -- check that, because a
   template that grew a buffer and left the count behind draws a hole).
+* **AND THE BAND IS USELESS WITHOUT `standIns`, which is the half that is easy to miss.** The band
+  is the NEIGHBOUR's triangles, so its vertices carry the neighbour's groups -- here source `91`, the
+  scalp, which the Bangs row does not own. **An unowned weight is DROPPED**, and the vertex
+  renormalises onto whatever groups the component DOES own: the lock chain. So the band covered the
+  gap and then swung with the lock while the hair under it stayed with the head. The user's next
+  report was no longer a rip but "slight misalignment whenever Citlali moves ... that shadow line
+  not aligning" -- **a band without a stand-in does not read as a hole, it reads as a patch that
+  shades or slides against its surroundings**, which is a much harder symptom to attribute.
+  `standIns = {{91, 0}}` maps the scalp onto the Bangs' own head-parented bulk (centroid y 1.435,
+  against Body 7's y 1.433) and the band then moves with exactly what it covers. The objective check
+  is the dominant bone by height: y 1.38-1.42 went from `3:43, 4:31, 9:26` (all lock) to `0:86`.
+  **Set `overlapRings` and `standIns` together, always.**
 * **The fix that suggests itself is the wrong one.** Pinning the lock's root to the head bone closes
   the same gap by making the root rigid -- the damping mistake of 2026-10-04 wearing a different hat.
   Habit 53 again: grep the config's own fields before hand-rolling a weight edit.

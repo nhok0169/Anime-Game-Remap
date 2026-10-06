@@ -68,6 +68,18 @@ def findIni(folder):
     return None
 
 
+def iniIndexFile(iniPath):
+    """The file the .ini's `[ResourceIndexBuffer]` names: some exports call it anything
+    (`b41c509e-Component1.buf` holds the whole mesh's index buffer in two LynaePeppermint mods)"""
+    text = open(iniPath, "r", encoding = "utf-8", errors = "replace").read()
+    block = re.search(r'^\[ResourceIndexBuffer\][^\n]*\n(.*?)(?=^\[|\Z)', text, re.S | re.M | re.I)
+    name = re.search(r'^\s*filename\s*=\s*(.+?)\s*$', block.group(1), re.M) if (block) else None
+    if (name is None):
+        return None
+    path = os.path.join(os.path.dirname(iniPath), name.group(1).replace("\\", os.sep).replace("/", os.sep))
+    return path if (os.path.isfile(path)) else None
+
+
 def readComponents(iniPath):
     """[(section name, [(index offset, index count)], the remap resource it selects or None)]
 
@@ -153,10 +165,29 @@ def drawsBypassingRemap(folder):
                 return True
         return False
 
+    # A section RUN by others draws on their state too: a mod's `[CustomShader...]` called from inside
+    # a remapped section after its blend remap ran (LynaePeppermint3's sheer cloth, 2026-10-06) is
+    # served by it. So a section counts when it reaches BlendRemapper itself, or when it is called
+    # and every caller counts.
+    callers = {}
+    for caller, lines in sections.items():
+        for line in lines:
+            called = re.match(r'^\s*run\s*=\s*(.+?)\s*$', line, re.I)
+            if (called):
+                callers.setdefault(called.group(1), set()).add(caller)
+
+    def served(name, seen):
+        if (reaches(name, set())):
+            return True
+        if (name in seen or not callers.get(name)):
+            return False
+        seen = seen | {name}
+        return all(served(caller, seen) for caller in callers[name])
+
     drawing = [n for n, lines in sections.items()
                if ("remapfix" in n.lower()
                    and any(re.match(r'^\s*drawindexed\s*=', l, re.I) for l in lines))]
-    return drawing, [n for n in drawing if (not reaches(n, set()))]
+    return drawing, [n for n in drawing if (not served(n, set()))]
 
 
 def check(folder, names, wanted = None):
@@ -184,7 +215,11 @@ def check(folder, names, wanted = None):
     vertexVg = np.fromfile(vgPath, dtype = "<u2")
     forward = np.fromfile(fwdPath, dtype = "<u2")
     reverse = np.fromfile(revPath, dtype = "<u2")
-    index = np.fromfile(findFile(folder, "Index.buf"), dtype = "<u4")
+    indexPath = findFile(folder, "Index.buf") or iniIndexFile(ini)
+    if (indexPath is None):
+        print(f"  {label}: NOTHING WAS CHECKED -- no Index.buf and no [ResourceIndexBuffer] filename")
+        return None
+    index = np.fromfile(indexPath, dtype = "<u4")
 
     if (len(blend) * 2 != len(vertexVg) * 2):
         # Blend.buf is (influences) index bytes + (influences) weight bytes a vertex; VertexVG is

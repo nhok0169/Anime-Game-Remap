@@ -1615,6 +1615,7 @@
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7e99fb87264ff2ce673f66060718e1fa" kind="variable"><name>appendedSections</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab2d7352d45fbd615b8ebae72d5aff841" kind="variable"><name>appendedSectionsInCopies</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af242f039784066ef408ad35d5c0e92a2" kind="variable"><name>appendedSectionsPerGroup</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4ddd243e7d800bef749dd3caa68af6a6" kind="variable"><name>appendedSectionsDropRepeats</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ad73a119abc6ce34cd479aeab07f6793c" kind="variable"><name>copyHiddenSectionNames</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4d9123ab804410bcd9ce99afcc4580e2" kind="variable"><name>hiddenModObjs</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8bbfcfba559d366f4e4e35674affe1b9" kind="variable"><name>prevFixer</name></member>

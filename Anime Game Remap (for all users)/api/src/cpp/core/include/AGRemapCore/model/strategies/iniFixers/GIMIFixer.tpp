@@ -631,16 +631,25 @@ namespace AGRemapCore {
             // line, these sections sat outside every region the remover takes whole, so undoing a
             // fix left them behind -- a skip on one of the skin's own ib hashes, which then hid that
             // component of the unmodded skin.
+            // Appended text without what the file already declares word for word, when asked
+            const auto appendTo = [this](const std::string& content, const std::string& appended) {
+                const std::string kept = (appendedSectionsDropRepeats && !content.empty())
+                    ? GIMIFixerDetail::dropRepeatedSections(content, appended) : appended;
+                if (content.empty()) {
+                    return kept;
+                }
+                return StringTools::strip(kept).empty() ? content
+                                                        : std::string(StringTools::rstrip(content)) + "\n\n" + kept;
+            };
+
             if ((i == 0 || appendedSectionsInCopies) && !appendedSections.empty()) {
-                content = content.empty() ? appendedSections
-                                          : std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
+                content = appendTo(content, appendedSections);
             }
 
             // ...and what belongs to this one file -- see appendedSectionsPerGroup
             const auto ownSections = appendedSectionsPerGroup.find(i);
             if (ownSections != appendedSectionsPerGroup.end() && !ownSections->second.empty()) {
-                content = content.empty() ? ownSections->second
-                                          : std::string(StringTools::rstrip(content)) + "\n\n" + ownSections->second;
+                content = appendTo(content, ownSections->second);
             }
 
             // The target's heading AFTER the appended sections, so they sit inside its `; ***** X *****` block

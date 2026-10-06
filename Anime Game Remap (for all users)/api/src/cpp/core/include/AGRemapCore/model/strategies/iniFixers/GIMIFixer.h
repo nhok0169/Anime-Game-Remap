@@ -290,6 +290,19 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether an appended section (:cpp:member:`appendedSections`, :cpp:member:`appendedSectionsPerGroup`)
+             that the file already declares WORD FOR WORD is left out :raw-html:`<br />` :raw-html:`<br />`
+
+             3DMigoto keeps the first of two sections with one name and warns about the second, so a
+             repeat changes nothing but the warning. A same-named section with different text is kept,
+             so a real conflict still shows. **Default**: ``false``
+             @endrst
+             */
+            bool appendedSectionsDropRepeats = false;
+
+            /**
+             * @brief
+             @rst
              The mod's own sections commented out in every generated COPY, and left alone in the
              mod's own file -- in addition to whatever #hiddenModObjs and ``hideOrig`` hide
              everywhere :raw-html:`<br />` :raw-html:`<br />`

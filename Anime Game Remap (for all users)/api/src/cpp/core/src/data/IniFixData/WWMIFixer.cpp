@@ -1533,6 +1533,9 @@ namespace AGRemapCore {
                     // own draw sections live -- the mod's own file keeps serving the mod on its
                     // source character, and a copy exists only for one more claimant of a draw.
                     this->appendedSectionsInCopies = true;
+                    // The skeleton block re-declares the bone-data marker, which a mod that has its own
+                    // already carries as a remapped section of the same name and text (2026-10-06)
+                    this->appendedSectionsDropRepeats = true;
                     for (const auto& entry : ctx_.getIniFile()->getIfTemplates()) {
                         if (StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
                             this->copyHiddenSectionNames.insert(entry.first);

@@ -580,9 +580,19 @@ the mod on its own card. What it found:
 * **`vb6` checked, not changed.** Eight of Lynae's draws read the game's shape-key stream (75828 entries), and two of
   the skin mods have more vertices than that. `zeroShapeKeyStream` stays off, as in the forward direction, because
   the shape keys are retargeted. No planes appeared in any turn or idle series on those two mods.
-* **Open, and not this pair's alone:** a fixed `.ini` declares `[TextureOverrideMarkBoneDataCBLynaeRemapFix]` twice
-  (ChisaParfait -> Chisa's output does the same). And `wwmiCheckBlendRemap.py` cannot read a mod whose index buffer is
-  one file per component (LynaePeppermint1 and 3), so those two were checked only through the shared code path.
+* **A fixed `.ini` declared its bone-data marker twice** on every target past 256 bones, ChisaParfait -> Chisa included:
+  once as the mod's own marker section remapped, and again in the appended skeleton block, under the same name and
+  with the same text. 3DMigoto keeps the first and warns about the second, so nothing rendered differently. The WWMI
+  template now sets `GIMIFixer::appendedSectionsDropRepeats`, which leaves out an appended section the file already
+  declares word for word. Across all 36 Chisa / Sanhua regression mods and the 14 Lynae ones, the only output change
+  is that removed repeat (and Lynae5, a pre-merged-skeleton mod with no marker of its own, does not change at all).
+* **`wwmiCheckBlendRemap.py` had two gaps, both fixed.** It looked for a file named exactly `Index.buf`, and two
+  LynaePeppermint mods name theirs `b41c509e-Component1.buf`, so it now also reads the `.ini`'s `[ResourceIndexBuffer]`.
+  And it reported LynaePeppermint3's sheer-cloth `[CustomShader...]` sections as never reaching the blend remapper,
+  because it only followed `run =` downward. A custom shader run from inside a remapped section, after that section's
+  blend remap, draws on the state it set, so a section now also counts when every section that runs it counts. Proved
+  both ways: all five skin mods pass, and a copy with the blend-remap call removed from one section still fails,
+  naming that section and the two custom shaders it runs.
 
 <br>
 

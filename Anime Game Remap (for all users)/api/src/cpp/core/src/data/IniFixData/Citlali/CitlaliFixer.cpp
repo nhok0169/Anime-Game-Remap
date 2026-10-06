@@ -139,13 +139,23 @@ namespace AGRemapCore {
             // was on the head. It carries the hair bones' full weight now and swings with them.
             //
             // WHAT REMAINS IS A GENUINE CLIP, and a push is the right tool for it now that the braid
-            // is whole: whatever this moves, it moves all of. The braid runs down the front of the
-            // shoulder and the skin's deltoid is drawn through it, so it goes FORWARD, with a tenth
-            // of that outward -- `from` is 15 cm behind and slightly inboard of each braid, which is
-            // what makes the direction (0.15, 0.99) in xz. Measured in game at 1 cm steps, against
-            // the mod shown on Citlali herself: 2.5 cm and 4 cm both still lost a braid in the
-            // shoulder, and 6.5 cm clears her RIGHT one in every frame of the idle, reading as
-            // lying against the body rather than standing off it from any angle.
+            // is whole: whatever this moves, it moves all of. The braid hangs down the front of the
+            // shoulder and the body is drawn through it, so it goes OUT and FORWARD -- about 6 cm
+            // sideways and 9 forward on her left, 4 and 6 on her right, measured at the braid's
+            // mid-height. `from` sits 12 cm behind the braid and PAST the midline, which is what
+            // makes the direction roughly (0.53, 0.85) in xz.
+            //
+            // GOING SIDEWAYS IS WORTH FAR MORE THAN GOING FORWARD HERE, and the reason generalises:
+            // a body is much SHALLOWER just outside the bust than in front of it. Measured on this
+            // mod's own body at y 1.10-1.14, the front surface is at z 0.124-0.149 while the braid
+            // sits inside |x| 0.10, and z 0.015-0.026 outside it. So the first 3 cm of lateral
+            // travel carries the braid off the breast entirely and buys ~10 cm of clearance, where
+            // forward travel only ever buys its own length. The earlier push was almost pure
+            // forward (1.5 cm sideways against 9.4) and cleared the body by 0.4 cm at best -- a
+            // margin the idle could still close, which is exactly what the user kept seeing. The
+            // same push angled out clears by 3.5-10 cm in every band. WHEN A PART CLIPS A TORSO,
+            // ASK WHERE THE SILHOUETTE ENDS BEFORE REACHING FOR MORE DISTANCE: the clearance a
+            // displacement buys is a property of the surface it is moving across, not of its size.
             //
             // AND IT IS NOT SYMMETRIC, WHICH TOOK THREE REPORTS TO ACCEPT. Everything that can be
             // measured off the files says the two braids are the same part: the MOD's two braids are
@@ -157,11 +167,9 @@ namespace AGRemapCore {
             //
             // That difference lives in the skin's standing IDLE, which no file here can see: the
             // animation puts her left shoulder and its hair chain somewhere her right ones are not.
-            // A static displacement is the only tool that reaches it, so the two sides take
-            // different distances -- 9.6 cm on her left (x < 0, source 25/26) against 6.5 cm on her
-            // right. Measured by stepping the left side alone, 1 cm at a time, and comparing the two
-            // braids WITHIN each frame: at 9.6 cm her left braid reaches the same depth down the
-            // chest as her right, and her right is untouched.
+            // A static displacement is the only tool that reaches it, so her left takes the larger
+            // distance. Measured by stepping the left side alone and comparing the two braids WITHIN
+            // each frame, never by arguing from the buffers.
             //
             // The symmetric value shipped twice before this on the argument that a per-side number
             // would be "tuned to the one animation it was measured in". That is still true and it is
@@ -183,9 +191,9 @@ namespace AGRemapCore {
             // y 1.355 (the fringe cannot move at all), 0.05 at y 1.32-1.36, 0.40 at 1.24-1.28 and
             // 1.00 by y 1.10 -- the braid now BENDS forward from where it leaves the head over about
             // 20 cm, instead of the whole lock including its root translating. The clip is at the
-            // shoulder, y 1.15-1.25, where the share is 0.80-1.00: 5.2-6.5 cm of her right braid's
-            // distance and 7.7-9.6 cm of her left's. At the top band the push can reach (y
-            // 1.355-1.381, share 0.02-0.04) that is 0.2-0.4 cm, so the fringe stays put either way.
+            // shoulder, y 1.15-1.25, where the share is 0.80-1.00, so the braid takes nearly the
+            // whole displacement there. At the top band the push can reach (y 1.355-1.381, share
+            // 0.02-0.05) it is 0.2-0.6 cm, so the fringe stays put at either side's distance.
             //
             // This is the same group list the FIRST push used, on 2026-10-04, when it drew the
             // complaint "the braid is dislocated from her hair" -- and the difference is not the
@@ -202,8 +210,8 @@ namespace AGRemapCore {
             // displacement cannot follow a pose -- the offset a bend needs is not the offset
             // standing needs -- and the Bangs component has no body bone to share weight with even
             // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
-            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0552f, 1.130f, -0.1183f}, 0.0958f, -1},
-                              VGPushAway{{31, 32}, {+0.0552f, 1.130f, -0.1183f}, 0.0658f, 1}};
+            bangs.pushAway = {VGPushAway{{25, 26}, {+0.0179f, 1.130f, -0.1183f}, 0.1120f, -1},
+                              VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1}};
 
             config.components = {body, bangs, eyes};
 

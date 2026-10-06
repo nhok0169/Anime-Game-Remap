@@ -1423,8 +1423,17 @@ what hair does** -- and the user's next words were "stationary, solid with her h
 exactly what 65-80% of the weight on the head bone looks like. It carries the hair bones' full
 weight now and swings.
 **(3) What remained was a genuine clip, and a push is the right tool once the braid is whole**:
-6.5 cm forward and 1 cm outward, over the LOWER TWO links of each braid only. Two numbers matter and
-neither is the distance. **Which groups a `VGPushAway` names is what sets how far UP it reaches** --
+OUT and forward -- about 6 cm sideways and 9 forward on her left, 4 and 6 on her right -- over the
+LOWER TWO links of each braid only. **GOING SIDEWAYS WAS WORTH FAR MORE THAN GOING FORWARD, and the
+reason generalises: a body is much SHALLOWER just outside the bust than in front of it.** On this
+mod's own body at y 1.10-1.14 the front surface is at z 0.124-0.149 inside |x| 0.10 and z 0.015-0.026
+outside it, so the first 3 cm of lateral travel carries the braid off the breast and buys ~10 cm of
+clearance, where forward travel only ever buys its own length. An almost purely forward push (1.5 cm
+sideways against 9.4) cleared the body by 0.4 cm at best, a margin the idle kept closing; the same
+push angled out clears by 3.5-10 cm in every band. **When a part clips a torso, ask where the
+SILHOUETTE ends before reaching for more distance** -- the clearance a displacement buys is a
+property of the surface it crosses, not of its size. Two more numbers matter and neither is the
+distance. **Which groups a `VGPushAway` names is what sets how far UP it reaches** --
 it weighs each vertex by its share of them -- so naming all four links gave the fringe a share of
 0.39 on average at y 1.36-1.40, which at 4 cm was 1.5-2.6 cm and unnoticed and at 6.5 cm was
 2.5-4.6 cm and drew a report that her BANGS stood forward off her face. Naming only the lower two

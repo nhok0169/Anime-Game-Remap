@@ -368,8 +368,21 @@ head bone looks like. **Before damping a part, ask what it would look like UNDAM
 rig** -- the amplitude ratio that justified it was never evidence of anything being wrong.
 
 **FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
-is whole.** It runs down the front of the shoulder and the skin's deltoid is drawn through it, so the
-LOWER TWO links of each braid go **6.5 cm forward and 1 cm outward**. Four things worth copying:
+is whole.** It hangs down the front of the shoulder and the body is drawn through it, so the LOWER
+TWO links of each braid go **out and forward** -- about 6 cm sideways and 9 forward on her left, 4
+and 6 on her right. Five things worth copying:
+
+* **Sideways is worth far more than forward, because a body is much SHALLOWER just outside the bust
+  than in front of it.** Measured on the mod's own body at y 1.10-1.14: the front surface sits at
+  z 0.124-0.149 inside |x| 0.10 and at z 0.015-0.026 outside it. So the first 3 cm of lateral travel
+  carries the braid off the breast entirely and buys about **10 cm** of clearance, where forward
+  travel only ever buys its own length. The almost-purely-forward push that shipped first (1.5 cm
+  sideways against 9.4 forward) cleared the body by **0.4 cm** at its best band and was still being
+  closed by the idle -- three user reports' worth. Angled out, the same push clears by **3.5-10 cm**
+  in every band. **When a part clips a torso, ask where the silhouette ENDS before reaching for more
+  distance**: what a displacement buys is a property of the surface it crosses, not of its size. And
+  the check costs no game time -- bin the mod's own body by height, take the front z per x bin, and
+  compare it to where the part will land.
 
 * **Which groups the push NAMES is what sets how far up it reaches**, and that matters more than the
   distance. `VGPushAway` weighs each vertex by its share of the groups it lists, so listing all four
@@ -381,11 +394,12 @@ LOWER TWO links of each braid go **6.5 cm forward and 1 cm outward**. Four thing
 * **Print the share profile by height before shipping a push.** One table -- vertices per height band
   against mean and max share, times the distance -- says exactly which parts of the model move and by
   how much. It is three lines of numpy and it is what would have caught the bangs before the user did.
-* **Measured at 1 cm steps in game**, against the mod shown on Citlali herself: 2.5 cm and 4 cm each
-  still lost one braid in the shoulder; 6.5 cm clears both in every frame of the idle.
+* **Measured in game, against the mod shown on Citlali herself**, and the distance was raised only
+  after the direction was right: 2.5 cm and 4 cm of nearly-pure forward each still lost a braid in
+  the shoulder, and so did 6.5 and 9.6 -- which is the clue that more of the same was the wrong axis.
 * **PER SIDE -- after shipping symmetric twice and being told three times.** Her LEFT braid sank
-  into the bodice about 2 cm higher than her right in the same frame, so it takes **9.6 cm** against
-  her right's 6.5 (`VGPushAway::side` makes that one line). Everything measurable off the files says
+  into the bodice about 2 cm higher than her right in the same frame, so it takes the larger
+  distance of the two (`VGPushAway::side` makes that one line). Everything measurable off the files says
   the two are the same part: the MOD's braids are mirror-exact (mean z agreeing to **0.0000** in
   every height band below y 1.30, share profiles agreeing band for band) and the skin's bones 7 and
   8 are a mirror PAIR (centroids -0.059 / +0.063, same y 1.279, same 1.241-1.379 span). That is

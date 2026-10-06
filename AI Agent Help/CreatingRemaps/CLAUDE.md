@@ -369,8 +369,20 @@ rig** -- the amplitude ratio that justified it was never evidence of anything be
 
 **FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
 is whole.** It hangs down the front of the shoulder and the body is drawn through it, so the LOWER
-TWO links of each braid go **out and forward** -- about 4.7 cm sideways and 10.1 forward on her
-left, 4.1 and 6.3 on her right. Six things worth copying:
+TWO links of each braid go **out and forward** -- about 6.3 cm sideways and 6.4 forward, both
+sides. Seven things worth copying:
+
+* **AIM IT BY THE TRUE DISTANCE TO THE BODY, NOT ALONG ONE AXIS -- the two disagree, and the axis
+  measure justified a push nearly twice as large as it needed to be for several rounds.** Clearance
+  read as "the braid's z against the body's front z at the same x" says a straight-ahead push is
+  what clears; the real 3-D distance says the opposite, because straight ahead drives the part
+  ACROSS the chest's bulge where it needs the most travel, while round the side it leaves the
+  silhouette sooner. Measured on Citlali: 10.2 cm of lean cleared by **6.5 mm**, and 6.4 cm of lean
+  angled outward clears everywhere. The user's words were "don't you think the braids are leaned a
+  bit too forward" -- they were, and fixing it IMPROVED the margin rather than trading against it.
+  **Neither measure alone is enough**: distance-to-nearest-vertex cannot tell inside from outside,
+  and the axis measure conflates a nearby protrusion with the surface under the part. Use the axis
+  measure per narrow x bin to ask "is it inside", and the 3-D distance to ask "how close".
 
 * **Sideways is worth far more than forward, because a body is much SHALLOWER just outside the bust
   than in front of it.** Measured on the mod's own body at y 1.10-1.14: the front surface sits at

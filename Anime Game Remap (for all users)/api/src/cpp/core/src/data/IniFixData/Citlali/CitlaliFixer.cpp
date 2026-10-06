@@ -274,8 +274,31 @@ namespace AGRemapCore {
             // over the real output geometry before it was built, the fringe gap goes back to 4.0 mm
             // -- exactly the no-push baseline -- with the body clearance unchanged at 8.1 cm. Taking
             // the fade any lower starts costing that clearance (7.4 cm at 1.20, 2.9 cm at 1.16).
-            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0100f, 1.130f, -0.1183f}, 0.1120f, -1, {1.22f, 1.32f}},
-                              VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1, {1.22f, 1.32f}}};
+            // AND THE DIRECTION IS MOSTLY SIDEWAYS NOW, WHICH COSTS LESS LEAN FOR MORE CLEARANCE.
+            // The braid's REST position is 4-11 cm INSIDE the body: the mod is authored that way and
+            // Citlali's own hair bones carry it out at runtime. The skin's chain does not, so this
+            // push stands in for her bones -- which is why it has to be large, and why "it leans
+            // forward" is the shape of the compromise rather than a tuning slip.
+            //
+            // But a straight-ahead push drives the braid ACROSS the chest's bulge, where it needs
+            // the most travel to get clear. Round the side it leaves the silhouette sooner. Measured
+            // as a true 3-D distance from the braid to the body over y 1.04-1.24, the old setting
+            // (10.2 cm forward, 4.6 out) cleared by 6.5 mm at worst, and this one (6.4 forward, 6.3
+            // out) clears everywhere -- nearly three times the margin for well under half the lean,
+            // and slightly narrower too. A no-push braid clears by 2.7 mm, i.e. it is inside her.
+            //
+            // The lesson, which took a user asking "isn't it leaning too far forward" to see: THE
+            // CHEAPEST DISPLACEMENT IS THE ONE THAT LEAVES THE SILHOUETTE SOONEST, and the axis that
+            // does that is not the one the clip appears along. Measure the 3-D distance to the body
+            // over the candidates rather than the clearance along one axis -- the two disagree, and
+            // the axis measure is what made a 10 cm push look justified for several rounds.
+            // The distance is set by the braid's TIP, not by the clip that started all this. Her dress
+            // panel juts to z 0.12 out to x 0.14 at y 1.02-1.06, and the tip only escapes it by
+            // travelling far enough SIDEWAYS to pass its edge -- at 0.060 the tip is 5.9 cm inside
+            // the panel, and it clears at 0.090. (The mod's own rest pose has it inside there too;
+            // Citlali's bones carry it out, which is the whole reason this push exists.)
+            bangs.pushAway = {VGPushAway{{25, 26}, {+0.0700f, 1.130f, -0.1183f}, 0.0900f, -1, {1.22f, 1.32f}},
+                              VGPushAway{{31, 32}, {-0.0700f, 1.130f, -0.1183f}, 0.0900f, 1, {1.22f, 1.32f}}};
 
             config.components = {body, bangs, eyes};
 

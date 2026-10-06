@@ -1423,7 +1423,7 @@ what hair does** -- and the user's next words were "stationary, solid with her h
 exactly what 65-80% of the weight on the head bone looks like. It carries the hair bones' full
 weight now and swings.
 **(3) What remained was a genuine clip, and a push is the right tool once the braid is whole**:
-OUT and forward -- about 4.7 cm sideways and 10.1 forward on her left, 4.1 and 6.3 on her right --
+OUT and forward -- about 6.3 cm sideways and 6.4 forward, both sides --
 over the LOWER TWO links of each braid only. **GOING SIDEWAYS WAS WORTH FAR MORE THAN GOING FORWARD, and the
 reason generalises: a body is much SHALLOWER just outside the bust than in front of it.** On this
 mod's own body at y 1.10-1.14 the front surface is at z 0.124-0.149 inside |x| 0.10 and z 0.015-0.026

@@ -47,6 +47,12 @@ def findFile(folder, name):
     for root, _, files in os.walk(folder):
         if (name in files):
             return os.path.join(root, name)
+
+    # WWMI Tools may prefix every buffer with the vb0 hash (`b41c509e-Index.buf`)
+    for root, _, files in os.walk(folder):
+        prefixed = [f for f in files if f.endswith("-" + name)]
+        if (len(prefixed) == 1):
+            return os.path.join(root, prefixed[0])
     return None
 
 

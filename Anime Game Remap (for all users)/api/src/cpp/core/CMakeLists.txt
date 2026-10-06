@@ -126,6 +126,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Lynae/LynaeSkeleton.cpp
     src/data/IniFixData/Lynae/LynaeTextures.cpp
     src/data/IniFixData/Lynae/LynaeThumbprints.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp
     src/data/IniFixData/ChisaParfait/ChisaParfaitThumbprints.cpp
@@ -138,6 +142,7 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/WWMIParser.cpp
     src/data/IniParseData/Chisa/ChisaParser.cpp
     src/data/IniParseData/Lynae/LynaeParser.cpp
+    src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp
     src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
     src/data/IniParseData/Sanhua/SanhuaParser.cpp
     src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp

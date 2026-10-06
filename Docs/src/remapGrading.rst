@@ -345,6 +345,37 @@ Grading
        |
        | - A mod that binds a slot's textures in the game's own register order (an eye with only a diffuse, say)
        | is read by the textures' names, and the missing ones are fetched from the game.
+   * - | **Lynae --> LynaePeppermint**
+     - | :greenBold:`4`
+     - | Proposed; the grade is the maintainer's to set. Both characters are ONE mesh drawn as eight
+       | components over a merged skeleton past 256 bones, so the fix writes Wuthering Waves' blend-remap
+       | buffers itself.
+       |
+       | - Lynae's 3.7 update renumbered her skeleton, and a mod's ``vb0`` hash does not say which
+       | numbering it was made in, so each mod is read in the numbering its own geometry fits.
+       |
+       | - Her headphones, pin and ID card go onto the skin's hip pouch slot, which has no glass / foil
+       | material: they draw opaque. Her sheer stockings and see-through tops draw opaque too.
+       |
+       | - Effects a mod gets from RabbitFX on Lynae's shaders carry over only in part.
+   * - | **LynaePeppermint --> Lynae**
+     - | :greenBold:`4`
+     - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its
+       | mirror image.
+       |
+       | - Lynae's props slot renders through a glass / foil layer that ordinary cloth barely reaches,
+       | so nothing is drawn there. The skin's coat and her shirt, jacket and shoes both go through
+       | Lynae's jacket slot, the second in a generated copy ``.ini`` that shares the mod's skeleton.
+       |
+       | - The skin marks the cloth under a sheer garment differently from Lynae, so every body mask is
+       | repacked into Lynae's legend. Her see-through shirt and coat draw opaque.
+       |
+       | - The lower body's outline pass is handed the skin's diffuse where Lynae's own pass reads a flat
+       | white, so the outline follows the skin's own mask and does not show through her layered thigh
+       | overlay.
+       |
+       | - Checked in game on five mods, including the character's own model as a mod, from every angle
+       | and in every toggle state.
    * - | **Neuvillette --> NeuvilletteMelusent**
      - | :greenBold:`4.5`
      - | Neuvillette is ONE mesh (``head``, ``body``, ``dress``) and NeuvilletteMelusent is FOUR components (an

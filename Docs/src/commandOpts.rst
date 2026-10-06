@@ -421,6 +421,14 @@ Below are the supported types of mods
      - GI
      - | AsHeavenAndEarthAreMadeAnewLumine, HeavenLumine, LumineAsHeavenAndEarthAreMadeAnew, LumineSkin, TravelerGirlHeaven
      - Lumine As Heaven and Earth Are Made Anew mods
+   * - **Lynae**
+     - WuWa
+     - 
+     - Lynae mods
+   * - **LynaePeppermint**
+     - WuWa
+     - LynaeSkin1, PeppermintLynae
+     - Lynae Peppermint skin mods
    * - **Mona**
      - GI
      - | BigHat, NoMora

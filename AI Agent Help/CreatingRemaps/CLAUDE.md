@@ -447,7 +447,7 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
-## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-6
+## LYNAE <-> LYNAEPEPPERMINT (WuWa, compiled both ways 2026-10-06)
 
 Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the
 registration (Lynae filed at 3.6 with the `vb0` most of her mods carry, `0c33d628`, plus a 3.7 row for the live
@@ -526,14 +526,63 @@ code unless said:
   the mod's offsets. Neither turned out to be Lynae9's spikes, but both are wrong without the fix.
 * **A texture the `.ini` declares and the folder lacks is no role candidate** (six Lynae mods name one): the remap
   bound that missing resource on the target. The role takes its fallback download now.
-* **The skin has no special-material shader**, so the props' glass / foil passes and Lynae's lower-body SHEER pass
-  (`30ab50e7`, white `d63a624a`) do not carry: the ID card draws opaque, sheer stockings and see-through tops opaque.
+* **The skin has no special-material shader**, so the props' glass / foil passes do not carry: the ID card draws
+  opaque, sheer stockings and see-through tops opaque. (This bullet used to call `30ab50e7` her lower-body SHEER pass.
+  It is her lower body's OUTLINE: it runs on the outline vertex shader `6a6650a9`, and the white `d63a624a` it reads
+  at `ps-t0` is an outline mask -- see the reverse direction below.)
   And looks a mod gets from RabbitFX on Lynae's shaders (Lynae10's suit, Lynae11's lining and stockings) carry only
   partly even with its lines kept (`--keepRabbitFX`): RabbitFX patches the skin's shaders only in part. Both are
   limitations of the pair, not bugs.
 * **`mods only` parks EVERY other mod, the maintainer's included**, back to wherever the journal says it came from --
   including another session's scratchpad. Load and park one mod at a time (`load` / `park`), and check `mods list`
   after every round: a stale fixed copy left loaded made a whole round of screenshots two Lynae mods at once.
+
+**Steps 9-12, the reverse (`LynaePeppermint -> Lynae`, 2026-10-06): `Tools/Misc/Prototypes/peppermintLynaeFix.py`,
+compiled as `data/IniFixData/LynaePeppermint/` + `data/IniParseData/LynaePeppermint/`.** The compiled fix is
+A/B-identical to the prototype on all five skin mods (the identity and LynaePeppermint1-4) apart from the copy
+preamble, and was checked in game on all five: a full turn, an idle series, a close-up, and every toggle state against
+the mod on its own card. What it found:
+* **Lynae's props slot is not a cloth slot.** It renders through a special-material (glass / foil) layer, and anything
+  drawn there through the ordinary passes barely reaches the G-buffer: in a frame dump, 700 pixels for a whole shirt
+  and 137 for her OWN props in the vanilla frame. Six probes aimed elsewhere (`cb3` handling, previous pose, depth
+  pre-pass, mask alpha, the glass passes, binding every pass) missed it. So no skin component goes there: her coat (5)
+  and her shirt / jacket / shoes (6) both land on Lynae's jacket slot, the second through a generated copy `.ini`.
+* **A copy `.ini` on a target past 256 bones needs two template fixes, both behind
+  `WWMIFixerConfig::copiesShareSkeleton` (opt-in).** Each `.ini` declares the fix's merged skeleton for itself, and
+  only the draws THAT file matches merge into it, so the copy's skeleton was zero for every slot it does not draw. It
+  now gets a merge-only section for each such slot (`GIMIFixer::appendedSectionsPerGroup`). And a copy repeating the
+  bone-data marker and the shape-key overrides on the game's hashes drew the whole model as giant polygons (found by
+  bisecting the copy section by section), so those stay in the mod's own file. Off by default, because
+  ChisaParfait -> Chisa makes copies too and its output is confirmed in game: all 36 Chisa / Sanhua regression mods
+  are byte-identical with the flag off.
+* **`Binding.srcComponent` existed in C++ and was never bound to Python**, so no prototype could set it, and the
+  audit's first finding -- the coat's outline drawing with the JACKET's diffuse, because the two merged sources' rows
+  landed in one list -- was unfixable from Python. Bound now (`Binding(reg, role, srcComponent = -1)`). **When an audit
+  item needs a config field, check that the field is bound before deciding the item is a design question.**
+* **A pass comment saying "the second inherits" can be wrong.** The eye's second pass `e04f4df8` was listed in the
+  slot's passes as inheriting the first's set, but her dump's draw of it SETS `ps-t0`, and to the eye MASK
+  (`a506a70d`), not the iris. Only a `-ps-t0=<hash>` file on that draw's own number is evidence.
+* **Two black bands down the backs of her thighs were the lower body's OUTLINE.** `30ab50e7` reads an outline mask at
+  `ps-t0` (Lynae's own: a flat white, outline everywhere) and the diffuse at `ps-t1`. The skin's thigh carries a thin
+  layered overlay (a strip of its lower texture with mask R = 0), and with a full-width outline everywhere the
+  overlay's outline shell showed through as solid black. The skin's own outline reads its DIFFUSE at `ps-t0`, so the
+  fix binds the diffuse at both registers, and the bands are gone. Ruled out first, each by an in-game variant: the
+  mask's R repack, the mask's G code, the normal map, the detail map, and a white `ps-t8`. What settled it was keeping
+  the remapped draw off that one pass (`if vs != <its filter_index>` around the `drawindexed`).
+* **A back view in the character menu is not repeatable.** The idle pose and the camera's rotation after a reload both
+  vary, so one "turn twice" shot lands on a different angle each variant. Take a full turn per variant (eight shots,
+  small drags) and compare the frames that show the part. Match the angle on BOTH cards before calling something a
+  difference: the skin's own render from behind shows a few tattoo marks where the remap showed the bands.
+* **Toggles were driven by editing the variable's `global persist` default in the installed copy**, then a reload.
+  LynaePeppermint4's keys are gated on `$ActiveCharacter`, which nothing in the mod sets, and LynaePeppermint3's need
+  Ctrl+Numpad1. This reaches every branch whatever the keys do. **The card's intro splash covers the model for about
+  30 seconds after a reload**, so wait about 34s before the first shot.
+* **`vb6` checked, not changed.** Eight of Lynae's draws read the game's shape-key stream (75828 entries), and two of
+  the skin mods have more vertices than that. `zeroShapeKeyStream` stays off, as in the forward direction, because
+  the shape keys are retargeted. No planes appeared in any turn or idle series on those two mods.
+* **Open, and not this pair's alone:** a fixed `.ini` declares `[TextureOverrideMarkBoneDataCBLynaeRemapFix]` twice
+  (ChisaParfait -> Chisa's output does the same). And `wwmiCheckBlendRemap.py` cannot read a mod whose index buffer is
+  one file per component (LynaePeppermint1 and 3), so those two were checked only through the shared code path.
 
 <br>
 

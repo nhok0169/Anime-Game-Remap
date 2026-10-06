@@ -154,15 +154,20 @@ per extra claimant of a slot), and skips the target slots nothing is drawn throu
 One register of a target slot's draw and the ROLE of the mod texture bound there
     )doc")
         .def(py::init<>())
-        .def(py::init([](std::string reg, std::string role) {
-            return AGRC::WWMIFixerConfig::Binding{std::move(reg), std::move(role)};
-        }), py::arg("reg"), py::arg("role"))
+        .def(py::init([](std::string reg, std::string role, int srcComponent) {
+            return AGRC::WWMIFixerConfig::Binding{std::move(reg), std::move(role), srcComponent};
+        }), py::arg("reg"), py::arg("role"), py::arg("srcComponent") = -1)
         .def_readwrite("reg", &AGRC::WWMIFixerConfig::Binding::reg,
                         py::doc(":class:`str`: The register, eg. ``\"ps-t0\"``"))
         .def_readwrite("role", &AGRC::WWMIFixerConfig::Binding::role, py::doc(R"doc(
 :class:`str`: The role (a value of :attr:`WWMIFixerConfig.roles` or :attr:`WWMIFixerConfig.typeRoles`,
 or the name of a :attr:`WWMIFixerConfig.createdTextures` entry). A role no file of the mod has is
 left unbound, so the GAME's texture serves the register
+        )doc"))
+        .def_readwrite("srcComponent", &AGRC::WWMIFixerConfig::Binding::srcComponent, py::doc(R"doc(
+:class:`int`: In :attr:`WWMIFixerConfig.extraPassRegs` only: the SOURCE component this binding is for,
+or ``-1`` for every source drawn through the slot. Needed where two sources merge onto one target
+slot, since "the diffuse" is then a different file for each. **Default**: ``-1``
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::SourceComponent>(fixerConfig, "SourceComponent", R"doc(

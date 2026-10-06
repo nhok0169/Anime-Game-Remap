@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f1ba44e78c9ad12fab4d9b6b66c3712b" kind="dir">
+    <compoundname>src/data/IniParseData/LynaePeppermint</compoundname>
+    <innerfile refid="_lynae_peppermint_parser_8cpp">LynaePeppermintParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/LynaePeppermint/"/>
+  </compounddef>
+</doxygen>

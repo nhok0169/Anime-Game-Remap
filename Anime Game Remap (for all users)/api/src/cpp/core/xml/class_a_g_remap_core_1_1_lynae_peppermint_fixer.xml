@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lynae_peppermint_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LynaePeppermintFixer</compoundname>
+    <includes refid="_lynae_peppermint_fixer_8h" local="no">LynaePeppermintFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ab790cd72d38d220e80f68ae27228916f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LynaePeppermintFixer::LynaePeppermintFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LynaePeppermintFixer</name>
+        <qualifiedname>AGRemapCore::LynaePeppermintFixer::LynaePeppermintFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="42" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1a046492c123c6d960a1f1f4963528338f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LynaePeppermintFixer::lynae3_7</definition>
+        <argsstring>()</argsstring>
+        <name>lynae3_7</name>
+        <qualifiedname>AGRemapCore::LynaePeppermintFixer::lynae3_7</qualifiedname>
+        <briefdescription>
+<para><computeroutput>LynaePeppermint -&gt; Lynae</computeroutput> at game version <computeroutput>3.7</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a80e49ce4240005be9347d8b7de03eb70" kindref="member">IniFixBuilderFuncs::lynae3_7</ref></computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="231" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+LynaePeppermint&apos;s own ``.ini`` fixers -- the reverse of :cpp:class:`LynaeFixer`, through
+:cpp:func:`makeWWMIFixer`. What is specific to this direction:
+
+* **two source components share one target slot.** Lynae&apos;s props slot renders through a
+  special-material (glass / foil) layer that ordinary cloth barely reaches, so the skin&apos;s coat and
+  her shirt / jacket / shoes both go through Lynae&apos;s jacket slot, the second in a generated copy
+  ``.ini``. On a target past 256 merged bones that copy has to share the mod&apos;s skeleton state
+  (:cpp:member:`WWMIFixerConfig::copiesShareSkeleton`), and the slot&apos;s outline pass binds each
+  source&apos;s own diffuse (:cpp:member:`WWMIFixerConfig::Binding::srcComponent`)
+* **Lynae draws passes with her skeleton in ``vs-cb3`` alone** (her early depth passes), which
+  the merge list reads as the current pose (:cpp:member:`WWMIFixerConfig::currentPoseInCb3Only`)
+* **the skin&apos;s material masks mark the cloth under a sheer garment with R = 0**, which Lynae&apos;s
+  shaders do not draw as cloth, so every body mask is repacked into her legend
+  (:cpp:member:`WWMIFixerConfig::texEdits`)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="40" column="5" bodyfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" bodystart="40" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1a046492c123c6d960a1f1f4963528338f" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaePeppermintFixer</scope><name>lynae3_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer_1ab790cd72d38d220e80f68ae27228916f" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaePeppermintFixer</scope><name>LynaePeppermintFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

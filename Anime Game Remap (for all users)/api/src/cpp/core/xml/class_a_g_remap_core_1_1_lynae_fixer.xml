@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lynae_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LynaeFixer</compoundname>
+    <includes refid="_lynae_fixer_8h" local="no">LynaeFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lynae_fixer_1a3c5ce0798c061673e53b5087a85a9039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LynaeFixer::LynaeFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>LynaeFixer</name>
+        <qualifiedname>AGRemapCore::LynaeFixer::LynaeFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h" line="43" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lynae_fixer_1a28902964e628b4c3ac31ce68f2969404" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::LynaeFixer::peppermint3_7</definition>
+        <argsstring>()</argsstring>
+        <name>peppermint3_7</name>
+        <qualifiedname>AGRemapCore::LynaeFixer::peppermint3_7</qualifiedname>
+        <briefdescription>
+<para><computeroutput>Lynae -&gt; LynaePeppermint</computeroutput> at game version <computeroutput>3.7</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8ec611eed564054a2c9f03064793325e" kindref="member">IniFixBuilderFuncs::lynaePeppermint3_7</ref></computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Lynae/LynaeFixer.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Lynae&apos;s own ``.ini`` fixers, through :cpp:func:`makeWWMIFixer`. Pair this with
+:cpp:class:`LynaeParser`
+
+What she needs that the earlier Wuthering Waves characters do not, each of it a field of
+:cpp:class:`WWMIFixerConfig` rather than anything of hers:
+
+* her skeleton was RENUMBERED by a game update, so a mod is read with the vertex group row of the
+  numbering its own geometry says it is in (:cpp:member:`WWMIFixerConfig::skeletonNumberings`,
+  :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`) -- its ``vb0`` cannot say, since
+  hash-update tools rewrite the hash and keep the bone ids
+* a newer export&apos;s batched shape keys need the target&apos;s dispatch height
+  (:cpp:member:`WWMIFixerConfig::shapeKeyDispatchSize`)
+* a mod from before WWMI&apos;s merged skeleton is lifted into her 3.6 numbering
+  (:cpp:member:`WWMIFixerConfig::sourceVgMaps`), which is the only numbering such a mod of hers can
+  be in
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h" line="41" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h" bodystart="41" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_lynae_fixer_1a3c5ce0798c061673e53b5087a85a9039" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaeFixer</scope><name>LynaeFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_lynae_fixer_1a28902964e628b4c3ac31ce68f2969404" prot="public" virt="non-virtual"><scope>AGRemapCore::LynaeFixer</scope><name>peppermint3_7</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

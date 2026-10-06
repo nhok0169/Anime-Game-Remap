@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c201e0d3ae39a4f2e32bf198c2eaf82d" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/LynaePeppermint</compoundname>
+    <innerfile refid="_lynae_peppermint_fixer_8h">LynaePeppermintFixer.h</innerfile>
+    <innerfile refid="_lynae_peppermint_skeleton_8h">LynaePeppermintSkeleton.h</innerfile>
+    <innerfile refid="_lynae_peppermint_textures_8h">LynaePeppermintTextures.h</innerfile>
+    <innerfile refid="_lynae_peppermint_thumbprints_8h">LynaePeppermintThumbprints.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/"/>
+  </compounddef>
+</doxygen>

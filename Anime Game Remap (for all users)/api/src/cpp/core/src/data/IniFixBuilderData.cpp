@@ -346,12 +346,12 @@ namespace AGRemapCore {
                 // ===== Lynae <-> LynaePeppermint (2026-10-05) =====
                 // Both rows sit at toVersion 3.7: LynaePeppermint is a 3.7 skin, and 3.7 moved
                 // Lynae's vb0 (HashData), so a row at her 3.6 would write a hash the live game no
-                // longer binds. Lynae -> LynaePeppermint is compiled (data/IniFixData/Lynae/); the
-                // reverse is still a stub.
+                // longer binds. Both directions are compiled: data/IniFixData/Lynae/ and
+                // data/IniFixData/LynaePeppermint/.
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Lynae),
                   "3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniFixBuilderFuncs::lynaePeppermint3_7()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::LynaePeppermint),
-                  "3.7", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniFixBuilderFuncs::wwmiStub()},
+                  "3.7", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniFixBuilderFuncs::lynae3_7()},
 
                 // ===== YelanTranquil @ toVersion 6.1 (2026-09-14) =====
                 //

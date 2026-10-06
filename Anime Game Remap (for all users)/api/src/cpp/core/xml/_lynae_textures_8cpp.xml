@@ -1,0 +1,448 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_lynae_textures_8cpp" kind="file" language="C++">
+    <compoundname>LynaeTextures.cpp</compoundname>
+    <includes refid="_lynae_textures_8h" local="yes">AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h</includes>
+    <includes refid="_lynae_thumbprints_8h" local="yes">AGRemapCore/data/IniFixData/Lynae/LynaeThumbprints.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>AGRemapCore/constants/FileExt.h</label>
+        <link refid="_file_ext_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/constants/IniKeywords.h</label>
+        <link refid="_ini_keywords_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h</label>
+        <link refid="_lynae_textures_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/data/IniFixData/Lynae/LynaeThumbprints.h</label>
+        <link refid="_lynae_thumbprints_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/data/WWMITextureFacts.h</label>
+        <link refid="_w_w_m_i_texture_facts_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/model/IniNamingTools.h</label>
+        <link refid="_ini_naming_tools_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/assets/Hashes.h</label>
+        <link refid="_hashes_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/model/assets/ModDictAssets.h</label>
+        <link refid="_mod_dict_assets_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
+        <link refid="_mod_mapped_assets_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>AGRemapCore/model/files/IniScan.h</label>
+        <link refid="_ini_scan_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/model/textures/TexThumbprint.h</label>
+        <link refid="_tex_thumbprint_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/tools/StringTools.h</label>
+        <link refid="_string_tools_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/tools/files/FileService.h</label>
+        <link refid="_file_service_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/data/IniFixData/Lynae/LynaeTextures.cpp</label>
+        <link refid="_lynae_textures_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="24">
+        <label>ModMappedAssets.tpp</label>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="17">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>filesystem</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="31">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="19">
+        <label>utility</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_lynae_textures_8h" kindref="compound">AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_lynae_thumbprints_8h" kindref="compound">AGRemapCore/data/IniFixData/Lynae/LynaeThumbprints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref><sp/><ref refid="namespace_a_g_remap_core_1ab42fcd953bb895f290b0eb36c44d2fec" kindref="member">lynaeTextureFacts</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref><sp/>facts;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>her<sp/>textures<sp/>by<sp/>the<sp/>hash<sp/>the<sp/>game<sp/>binds<sp/>them<sp/>under:<sp/>the<sp/>3.7<sp/>dump&apos;s...<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts_1a46d11b5fe1edabb8f270615fe6d206ad" kindref="member">roles</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;0eacd18a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;0f19cf16&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;0f5d6c08&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;179ec8b9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;1998df83&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;265d844d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;48947f0c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;4f1d5285&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;694d3d7f&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairRamp&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;6bf7a371&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeIris&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;6d5f71f9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDetail&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;739ef6e9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;7d044e58&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;94d7281e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;950acc22&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDetail&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;997e0a9a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a004a399&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a506a70d&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;b2ef1928&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bfa33038&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c3375aee&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c49bec43&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDetail&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c5784ddf&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperDetail&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cecc13eb&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d2ef0438&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d5dfa096&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d63a624a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerSheer&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;d7c56e9e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairShadeRamp&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e28662e9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;f94bbcf4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...and<sp/>every<sp/>OLDER<sp/>generation<sp/>wwmiHashHistory.py<sp/>proved<sp/>from<sp/>her<sp/>mods:<sp/>all<sp/>but<sp/>two<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>thirteen<sp/>on<sp/>hand<sp/>carry<sp/>one,<sp/>and<sp/>each<sp/>is<sp/>identified<sp/>by<sp/>a<sp/>mod<sp/>shipping<sp/>the<sp/>game&apos;s<sp/>own<sp/>pixels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>under<sp/>it<sp/>(correlation<sp/>1.000<sp/>with<sp/>the<sp/>current<sp/>texture<sp/>of<sp/>that<sp/>role)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;10c8713e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;1261dcbc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;17372a89&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;211e50f4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;23d9b128&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;2e60ca6c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;2fd59f3a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;347a41a2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;358f8d1e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;37cdf366&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;38686e88&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;391a7fde&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;47df9d42&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;513eace9&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;60caec0b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;6c09d0d7&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;7065b0be&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;70ee685f&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;7aa57b2c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;7f91ca3e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerSheer&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;8383cbbf&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;879f275e&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;8e20c909&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a8e46264&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;b0e8646a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;b5453395&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ba2b09a1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;c84b599c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cb04a3d7&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeDiffuse&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dd5dceaa&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;e45c9797&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ec6b0edc&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;f45cea79&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>which<sp/>role<sp/>each<sp/>of<sp/>HER<sp/>registers<sp/>binds,<sp/>per<sp/>component<sp/>(her<sp/>own<sp/>draws,<sp/>wwmiPassLayout.py),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>plus<sp/>RabbitFX&apos;s<sp/>resource<sp/>lines,<sp/>which<sp/>a<sp/>RabbitFX<sp/>mod<sp/>sets<sp/>instead<sp/>of<sp/>any<sp/>ps-t<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.registerRoles<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairShadeRamp&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairRamp&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairShadeRamp&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperDetail&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Normalmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDetail&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t8&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerSheer&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Normalmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDetail&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Normalmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{6,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDetail&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Normalmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{7,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeIris&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Diffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeDiffuse&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX\\Lightmap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;eyeMask&quot;</highlight><highlight class="normal">}}},</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>her<sp/>own<sp/>textures&apos;<sp/>pixels,<sp/>for<sp/>a<sp/>file<sp/>no<sp/>hash<sp/>and<sp/>no<sp/>register<sp/>names<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.textureThumbprints<sp/>=<sp/><ref refid="namespace_a_g_remap_core_1a0f9081f911e48caa81c5d665bd579426" kindref="member">lynaeTextureThumbprints</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>a<sp/>role<sp/>the<sp/>mod<sp/>ships<sp/>no<sp/>file<sp/>for<sp/>falls<sp/>back<sp/>to<sp/>HER<sp/>game<sp/>texture<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>eye<sp/>textures<sp/>are<sp/>the<sp/>same<sp/>hashes<sp/>on<sp/>both<sp/>skins,<sp/>so<sp/>the<sp/>game<sp/>already<sp/>binds<sp/>them<sp/>on<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>target<sp/>and<sp/>they<sp/>have<sp/>no<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.downloadGameFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;WuWa&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.downloadCharFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Lynae&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.downloadVersionFolder<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;3_7&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.downloadPrefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Lynae&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>facts.fallbackTextures<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;7d044e58&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;997e0a9a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;48947f0c&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0f19cf16&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e28662e9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;265d844d&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bfa33038&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;694d3d7f&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairShadeRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d7c56e9e&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b2ef1928&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;6d5f71f9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f94bbcf4&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d2ef0438&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0eacd18a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;950acc22&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1998df83&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;94d7281e&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0f5d6c08&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerSheer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d63a624a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c49bec43&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c3375aee&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4f1d5285&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cecc13eb&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c5784ddf&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;179ec8b9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d5dfa096&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;739ef6e9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>facts;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/data/IniFixData/Lynae/LynaeTextures.cpp"/>
+  </compounddef>
+</doxygen>

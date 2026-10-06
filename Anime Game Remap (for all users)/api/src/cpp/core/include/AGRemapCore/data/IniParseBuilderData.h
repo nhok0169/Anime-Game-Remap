@@ -759,6 +759,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 3.7 parser for **LynaePeppermint**, built by :cpp:func:`makeWWMIParser`: eight draw
+             slots on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key
+             overrides by a hash of their own. See
+             ``data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory lynaePeppermint3_7();
+
+            /**
+             * @brief
+             @rst
              The 3.5 parser for **ChisaParfait**, built by :cpp:func:`makeWWMIParser`: EIGHT draw
              slots on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key
              overrides by a hash of their own. The version is the SKIN's, which is the one her assets

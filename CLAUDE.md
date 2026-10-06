@@ -142,6 +142,16 @@ on, trace both through `ORFix.ini`** (Creating Remaps' "A FIX LIBRARY DECIDES WH
 slot C differs between its two configs and renders identically, and the "fix" lost two verified texture edits. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LUMINE <-> LUMINEHEAVEN".
 
+**LYNAE <-> LYNAEPEPPERMINT IS COMPILED BOTH WAYS (2026-10-06), THE THIRD WUWA PAIR, AND THE REVERSE MERGES TWO
+COMPONENTS ONTO ONE SLOT.** Lynae's props slot renders through a glass / foil layer that ordinary cloth barely
+reaches (137 pixels for her own props in a vanilla frame dump), so the skin's coat and jacket both go through her
+jacket slot, the second in a copy `.ini`. On a target past 256 bones that copy needs
+`WWMIFixerConfig::copiesShareSkeleton`: without it the copy's skeleton was zero for the other slots, and its repeated
+bone-data marker and shape-key overrides drew the whole model as giant polygons. `Binding.srcComponent` had never been
+bound to Python. And two black bands down the backs of her thighs were her lower body's OUTLINE pass (`30ab50e7`,
+which an earlier note had called her sheer pass) drawing with a flat white outline mask. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LYNAE <-> LYNAEPEPPERMINT".
+
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
 component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);

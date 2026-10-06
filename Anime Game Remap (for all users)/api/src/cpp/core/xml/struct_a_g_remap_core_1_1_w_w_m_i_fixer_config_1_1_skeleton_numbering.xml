@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::SkeletonNumbering</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1ab34b75dc35c90fc88b1799e104c472ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::SkeletonNumbering::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SkeletonNumbering::version</qualifiedname>
+        <briefdescription>
+<para>The version whose :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_v_g_remaps" kindref="compound">VGRemaps</ref></computeroutput> row reads ids in this numbering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="234" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1a3eb40ea1b4b92441eb148aa5774d9568" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, long long &gt;</type>
+        <definition>std::unordered_map&lt;long long, long long&gt; AGRemapCore::WWMIFixerConfig::SkeletonNumbering::toReference</definition>
+        <argsstring></argsstring>
+        <name>toReference</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SkeletonNumbering::toReference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Id in this numbering -&gt; the same bone&apos;s id in the numbering
+:cpp:member:`referenceBoneCentroids` is keyed by. An id not listed is the same in both
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="243" column="32" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One way the source&apos;s merged bone ids have been numbered <ndash/> see <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae9bef6bb5b10e9d7c8d0563c5e7b9eda" kindref="member">skeletonNumberings</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="230" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="230" bodyend="244"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1a3eb40ea1b4b92441eb148aa5774d9568" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SkeletonNumbering</scope><name>toReference</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1ab34b75dc35c90fc88b1799e104c472ab" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SkeletonNumbering</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

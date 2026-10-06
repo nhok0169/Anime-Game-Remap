@@ -19,8 +19,9 @@
 #     what dropped her ID card, pin and ear cups out of her own identity mod when its builder did the
 #     same. WWMIFixerConfig::currentPoseInCb3Only (new, opt-in) is WWMI Tools' own `elif vs-cb3` branch.
 #   * Her lower body's outline pass (30ab50e7) binds a 2048 white map at ps-t0 and the diffuse at ps-t1,
-#     where every other outline takes the diffuse at ps-t0. The skin has no such map, so a flat white
-#     stands in.
+#     where every other outline takes the diffuse at ps-t0. A flat white there drew the outline shell of
+#     the skin's layered thigh overlay as two black bands down the backs of her thighs; the skin's own
+#     outline reads its DIFFUSE at ps-t0, so the diffuse goes at both.
 #   * Her props slot (card, pin, headphones) is NOT a cloth slot: it renders through a special-material
 #     (glass / foil) layer, and anything drawn there through the ordinary passes barely reaches the
 #     G-buffer -- measured in a frame dump, 700 pixels for a whole shirt, and 137 for her OWN props in
@@ -164,7 +165,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         ["404f5464fdffc665"],                       # 5 jacket
         # 6 props: nothing of the skin is drawn there (see the header), so only the hide section uses it
         ["0f6f8facde912ff4", "2d6d59feda76cef9", "208e7eadc60a7abd", "0fc420109de57a0e"],
-        ["fa9e4d98ed0a570e", "e04f4df80ee6b0ab"],   # 7 eyes (the second inherits)
+        ["fa9e4d98ed0a570e"],                       # 7 eyes (and e04f4df8, in extraPassRegs)
     ]
 
     # ---- every pass gated through its VERTEX shaders ----
@@ -243,12 +244,19 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         0: {"bce1512f1c6b82fe": [B("ps-t0", "bangsDiffuse")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairDiffuse")]},
         3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse")]},
-        # her lower body's outline reads a white map at ps-t0 and the diffuse at ps-t1
-        4: {"30ab50e715dce218": [B("ps-t0", "OutlineMaskWhite"), B("ps-t1", "lowerDiffuse")]},
-        5: {"f8c96a270bf847dd": [B("ps-t0", "jacketDiffuse")]},
+        # her lower body's outline reads a mask at ps-t0 and the diffuse at ps-t1. Her own mask there is a
+        # flat white ("outline everywhere"); the skin's outline reads its DIFFUSE at ps-t0 instead, and
+        # with the white the outline shell of the skin's layered thigh overlay drew as two black bands
+        # down the backs of her thighs (2026-10-06). So the skin's diffuse goes at both
+        4: {"30ab50e715dce218": [B("ps-t0", "lowerDiffuse"), B("ps-t1", "lowerDiffuse")]},
+        # her jacket slot takes TWO sources (the coat, 5, and the jacket, 6), and "the diffuse" is a
+        # different file for each: without srcComponent both land in one list and the jacket's wins
+        5: {"f8c96a270bf847dd": [B("ps-t0", "pouchDiffuse", 5), B("ps-t0", "jacketDiffuse", 6)]},
+        # her second eye pass SETS its own t0, and it is the eye MASK (a506a70d in her dump's draw of
+        # it): the iris the main eye pass reads there would be the wrong role (the forward direction's
+        # row, the same shader on both skins)
+        7: {"e04f4df80ee6b0ab": [B("ps-t0", "eyeMask")]},
     }
-
-    config.createdTextures = [FRB.WWMIFixerConfig.CreatedTexture("OutlineMaskWhite", FRB.Colour(255, 255, 255, 255), 16)]
 
     config.sourceTextures = facts
 
@@ -302,7 +310,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                            for i, c in enumerate(metadata["components"])}
 
     config.sourceLabels = {0: "bangs", 1: "hair", 2: "face", 3: "upper body", 4: "lower body",
-                           5: "hip pouch", 6: "jacket and shoes", 7: "eyes"}
+                           5: "coat", 6: "shirt, jacket and shoes", 7: "eyes"}
+    # (copyPreamble, the comment heading the generated copy .ini, is set on the compiled row only: the
+    # constant, IniComments::GIMIObjMergerPreamble, is not bound)
     config.targetLabels = {0: "bangs", 1: "hair", 2: "face", 3: "upper body", 4: "lower body",
                            5: "jacket", 6: "props (headphones, pin, ID card)", 7: "eyes"}
     return config

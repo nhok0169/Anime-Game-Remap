@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d9280e6f373ac4500748406848404846" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Lynae</compoundname>
+    <innerfile refid="_lynae_fixer_8h">LynaeFixer.h</innerfile>
+    <innerfile refid="_lynae_skeleton_8h">LynaeSkeleton.h</innerfile>
+    <innerfile refid="_lynae_textures_8h">LynaeTextures.h</innerfile>
+    <innerfile refid="_lynae_thumbprints_8h">LynaeThumbprints.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Lynae/"/>
+  </compounddef>
+</doxygen>

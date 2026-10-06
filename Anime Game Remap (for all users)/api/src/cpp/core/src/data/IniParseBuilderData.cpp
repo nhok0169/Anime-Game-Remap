@@ -149,10 +149,10 @@ namespace AGRemapCore {
                 {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniParseBuilderFuncs::chisaParfait3_5()},
 
                 // ===== Lynae and LynaePeppermint (2026-10-05) =====
-                // Lynae's parser is compiled (data/IniParseData/Lynae/). LynaePeppermint's is still a
-                // stub, so a .ini of hers classifies by vb0 hash and is then parsed by nothing.
+                // Both parsers are compiled: data/IniParseData/Lynae/ and
+                // data/IniParseData/LynaePeppermint/.
                 {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniParseBuilderFuncs::lynae3_6()},
-                {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniParseBuilderFuncs::lynaePeppermint3_7()},
 
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a

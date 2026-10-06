@@ -1461,6 +1461,21 @@ be seen in the shop preview's idle, so that idle IS the test.
 two components and moving the lower links broke it at a hard seam. In ONE component on ONE chain the
 same list is a smooth bend. **A field that was wrong under a broken row can be right once the row is
 fixed; re-test it rather than ruling it out from memory.**
+**(4) AND A SPLIT THAT CUTS THROUGH A BLENDED REGION RIPS -- ONLY WHEN THE MODEL MOVES.** A later
+report of a "slight dislocation/rip" at her temple, "only noticeable when she moves", was not the
+push at all: on the mod's mesh the hairline blends from the scalp (source `91`) into the lock
+(`21`/`22`/`23`), and a split must give each vertex to ONE component, where it can only reference
+that component's bones -- so the blend becomes a hard switch. **104 vertices at y 1.355-1.453 exist
+in both buffers at the same point**, on `Bangs 3/4/5/6/9` one side and `Body 7` (the skin's HEAD) the
+other. Still, they coincide exactly; moving, the chain swings and the head does not, and the surface
+opens. **`overlapRings` is the field written for it** and it already existed -- a band drawn by BOTH
+components, ownership unchanged, so a gap narrower than it is covered by the other side's copy. The
+fix that suggests itself, pinning the lock's root to the head bone, closes the gap by making the root
+RIGID, which is the damping mistake above in another hat (habit 53: grep the config's fields first).
+**Find it without the game** by indexing one component's vertices on a 1 mm grid and reporting every
+coincident pair whose dominant bone differs -- and **clear a suspect parameter with a CONTROL BUILD**
+rather than an argument: the push was the obvious suspect, and a `distance = 0` build diffed vertex
+by vertex showed nothing above y 1.36 moves at all, against an artifact at y 1.45.
 **AND ONE THING NO PUSH CAN FIX, recorded so the next report is not chased**: when she BENDS, both
 braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs off a
 chain parented to the HEAD; bending rotates the torso forward about the hips while the braid stays

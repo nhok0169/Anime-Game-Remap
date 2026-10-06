@@ -432,6 +432,43 @@ on ONE chain it is a smooth bend, because the share tapers across the 24 -> 25 b
 stopping dead at a component boundary. **A field that was wrong under a broken row can be right once
 the row is fixed; re-test it rather than ruling it out from memory.**
 
+**FAULT 4: A SPLIT THAT CUTS THROUGH A BLENDED REGION RIPS, AND ONLY WHEN THE MODEL MOVES.** The
+user reported a "slight dislocation/rip" at the temple that was "only more noticeable when Citlali
+moves -- when she is standing still, you can barely tell". That last clause is the whole diagnosis:
+a static displacement cannot produce a motion-only artifact, so nothing about the push could explain
+it.
+
+On the mod's own mesh the hairline blends smoothly from the scalp (source `91`) into the front lock
+(`21`/`22`/`23`). A split has to give each vertex to ONE component, and in that component it can only
+reference that component's bones -- so the blend is replaced by a hard switch. **104 vertices at
+y 1.355-1.453 exist in BOTH buffers at the same point in space**, bound to `Bangs 3/4/5/6/9` on one
+side and to `Body 7` -- the skin's HEAD -- on the other. Standing still the two copies coincide
+exactly and nothing shows. The moment the hair sim moves the chain bones and the head does not, the
+surface opens.
+
+* **The check is cheap and needs no game.** Index one component's vertices on a 1 mm grid, look up
+  the other's, and report every coincident pair whose DOMINANT bone differs. A pair list that is
+  empty says the seam is safe; 104 pairs all against the head bone names the fault and its height
+  band in one run. Do this on any pair whose components meet in the middle of a part.
+* **`overlapRings` is the field for it, and it already existed** -- "how many rings of its
+  neighbours' triangles it draws as well, so a seam that opens when the skin poses is covered". The
+  band is drawn by BOTH components and ownership does not change, so a gap narrower than the band is
+  hidden by the other side's copy. `bangs.overlapRings = 1` added 179 triangles and the draw call
+  was regenerated to match it (`drawindexed = 6657` against 6657 indices -- check that, because a
+  template that grew a buffer and left the count behind draws a hole).
+* **The fix that suggests itself is the wrong one.** Pinning the lock's root to the head bone closes
+  the same gap by making the root rigid -- the damping mistake of 2026-10-04 wearing a different hat.
+  Habit 53 again: grep the config's own fields before hand-rolling a weight edit.
+* **Set it AFTER any `Component x = bangs;` copy**, or the other component inherits the band.
+
+**AND THE WAY TO CLEAR A SUSPECT PARAMETER IS A CONTROL BUILD, not an argument.** The report landed
+immediately after a push change, so the push was the obvious suspect. Building the fix with
+`distance = 0`, re-fixing, and diffing the two outputs vertex by vertex settles it in minutes:
+nothing above y 1.36 moved, the highest vertex the push touches is y 1.3564 and it moves 1 mm, and
+the Body and Eyes components did not move a single vertex -- while the reported artifact sits at
+y 1.45. **Keep the control's buffers**: they are also the baseline for measuring what any later
+change really did.
+
 **AND ONE THING A PUSH CANNOT FIX, written down so the next report is not chased.** When she BENDS,
 both braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs
 off a chain parented to the HEAD: bending rotates the torso forward about the hips while the braid

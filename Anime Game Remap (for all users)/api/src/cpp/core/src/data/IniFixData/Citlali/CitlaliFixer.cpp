@@ -220,6 +220,27 @@ namespace AGRemapCore {
             // displacement cannot follow a pose -- the offset a bend needs is not the offset
             // standing needs -- and the Bangs component has no body bone to share weight with even
             // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
+            // AND THE LOCK'S ROOT IS COVERED BY AN OVERLAP BAND, because the chain and the scalp
+            // it grows out of end up in DIFFERENT COMPONENTS. On the mod's mesh the hairline blends
+            // smoothly from the scalp (source 91) into the lock (source 21/22/23), but a split has
+            // to give each vertex to ONE component, so the blend becomes a hard switch: 104 vertices
+            // at y 1.355-1.453 sit at the same point in space in both buffers, bound to Bangs 3/4/5/6/9
+            // on one side and to Body 7 -- the skin's HEAD -- on the other. Standing still the two
+            // copies coincide exactly and nothing shows; the moment the hair sim moves the chain
+            // bones and the head does not, the surface opens. A user saw it as a "slight
+            // dislocation/rip" at the temple that is "only noticeable when she moves".
+            //
+            // `overlapRings` is the field written for this: the band is drawn by BOTH components, so
+            // a gap narrower than it is covered by the other side's copy, and ownership does not
+            // change. It is NOT a weighting fix -- pinning the lock's root to the head bone would
+            // close the same gap by making the root rigid, which is the damping mistake of
+            // 2026-10-04 in another costume.
+            //
+            // The push is NOT what opens this, measured rather than argued: against a zero-push
+            // control build, nothing above y 1.36 moves at all, the highest vertex it touches is
+            // y 1.3564 and it moves 1 mm, and the Body and Eyes components do not move a vertex.
+            bangs.overlapRings = 1;
+
             bangs.pushAway = {VGPushAway{{25, 26}, {-0.0100f, 1.130f, -0.1183f}, 0.1120f, -1},
                               VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1}};
 

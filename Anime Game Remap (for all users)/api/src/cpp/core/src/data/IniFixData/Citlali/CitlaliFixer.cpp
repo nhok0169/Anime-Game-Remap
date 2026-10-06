@@ -140,22 +140,32 @@ namespace AGRemapCore {
             //
             // WHAT REMAINS IS A GENUINE CLIP, and a push is the right tool for it now that the braid
             // is whole: whatever this moves, it moves all of. The braid hangs down the front of the
-            // shoulder and the body is drawn through it, so it goes OUT and FORWARD -- about 6 cm
-            // sideways and 9 forward on her left, 4 and 6 on her right, measured at the braid's
-            // mid-height. `from` sits 12 cm behind the braid and PAST the midline, which is what
-            // makes the direction roughly (0.53, 0.85) in xz.
+            // shoulder and the body is drawn through it, so it goes OUT and FORWARD -- about 4.7 cm
+            // sideways and 10.1 forward on her left, 4.1 and 6.3 on her right, measured at the
+            // braid's mid-height. `from` sits 12 cm behind it, which is what sets the direction.
             //
             // GOING SIDEWAYS IS WORTH FAR MORE THAN GOING FORWARD HERE, and the reason generalises:
             // a body is much SHALLOWER just outside the bust than in front of it. Measured on this
             // mod's own body at y 1.10-1.14, the front surface is at z 0.124-0.149 while the braid
-            // sits inside |x| 0.10, and z 0.015-0.026 outside it. So the first 3 cm of lateral
+            // sits inside |x| 0.105, and z 0.015-0.026 outside it. So the first 3 cm of lateral
             // travel carries the braid off the breast entirely and buys ~10 cm of clearance, where
-            // forward travel only ever buys its own length. The earlier push was almost pure
-            // forward (1.5 cm sideways against 9.4) and cleared the body by 0.4 cm at best -- a
-            // margin the idle could still close, which is exactly what the user kept seeing. The
-            // same push angled out clears by 3.5-10 cm in every band. WHEN A PART CLIPS A TORSO,
-            // ASK WHERE THE SILHOUETTE ENDS BEFORE REACHING FOR MORE DISTANCE: the clearance a
-            // displacement buys is a property of the surface it is moving across, not of its size.
+            // forward travel only ever buys its own length. An almost purely forward push (1.5 cm
+            // sideways against 9.4) cleared the body by 0.4 cm at best -- a margin the idle could
+            // still close, which is exactly what the user kept seeing. Angled out, the same push
+            // clears by 3.5-11 cm in every band. WHEN A PART CLIPS A TORSO, ASK WHERE THE SILHOUETTE
+            // ENDS BEFORE REACHING FOR MORE DISTANCE: the clearance a displacement buys is a
+            // property of the surface it is moving across, not of its size.
+            //
+            // THAT EDGE IS ALSO WHY THESE NUMBERS ARE A FLOOR, not a preference. The user's last
+            // note was that the braids now sat too far out, so both were swept against the body
+            // per VERTEX rather than per band. Pulling a braid back inside |x| 0.105 puts it in
+            // front of the bust again, where it needs ~12 cm of forward travel to clear -- which
+            // reads as detached. Her left had room and came in 1.4 cm; her RIGHT is already at its
+            // minimum, and loses its margin at x +0.097, y 1.15 (the bust edge) the moment it comes
+            // in further. The two sides end up nearly even laterally, 4.7 against 4.1, which is
+            // also what makes them read as a pair. SWEEP THE PARAMETER AGAINST THE MOD'S OWN BODY
+            // BEFORE THE NEXT IN-GAME ROUND: it costs seconds, and it is what turns "a bit closer"
+            // into a number with a known margin instead of another guess.
             //
             // AND IT IS NOT SYMMETRIC, WHICH TOOK THREE REPORTS TO ACCEPT. Everything that can be
             // measured off the files says the two braids are the same part: the MOD's two braids are
@@ -210,7 +220,7 @@ namespace AGRemapCore {
             // displacement cannot follow a pose -- the offset a bend needs is not the offset
             // standing needs -- and the Bangs component has no body bone to share weight with even
             // if sharing were wanted. On Citlali the same motion is absorbed by her own hair sim.
-            bangs.pushAway = {VGPushAway{{25, 26}, {+0.0179f, 1.130f, -0.1183f}, 0.1120f, -1},
+            bangs.pushAway = {VGPushAway{{25, 26}, {-0.0100f, 1.130f, -0.1183f}, 0.1120f, -1},
                               VGPushAway{{31, 32}, {-0.0179f, 1.130f, -0.1183f}, 0.0760f, 1}};
 
             config.components = {body, bangs, eyes};

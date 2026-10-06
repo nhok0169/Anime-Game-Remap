@@ -369,8 +369,8 @@ rig** -- the amplitude ratio that justified it was never evidence of anything be
 
 **FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
 is whole.** It hangs down the front of the shoulder and the body is drawn through it, so the LOWER
-TWO links of each braid go **out and forward** -- about 6 cm sideways and 9 forward on her left, 4
-and 6 on her right. Five things worth copying:
+TWO links of each braid go **out and forward** -- about 4.7 cm sideways and 10.1 forward on her
+left, 4.1 and 6.3 on her right. Six things worth copying:
 
 * **Sideways is worth far more than forward, because a body is much SHALLOWER just outside the bust
   than in front of it.** Measured on the mod's own body at y 1.10-1.14: the front surface sits at
@@ -383,6 +383,15 @@ and 6 on her right. Five things worth copying:
   distance**: what a displacement buys is a property of the surface it crosses, not of its size. And
   the check costs no game time -- bin the mod's own body by height, take the front z per x bin, and
   compare it to where the part will land.
+* **And that same edge turns a taste question into a measurement.** Told the braids now stood too far
+  out, the answer was not another guess: sweeping `from` and `distance` against the body PER VERTEX
+  (not per band -- a band mean hides the one row of vertices that grazes) showed that bringing a
+  braid back inside |x| 0.105 puts it in front of the bust again, where it needs ~12 cm of forward
+  travel to clear and reads as detached. Her left had room and came in 1.4 cm; her right was already
+  at its minimum, losing its margin at x +0.097, y 1.15 the moment it moved. **A sweep like that
+  costs seconds and answers "how much closer can it come" with a margin attached** -- and it also
+  tells you when the answer is "it cannot", which is worth saying out loud rather than shipping a
+  value that clips again.
 
 * **Which groups the push NAMES is what sets how far up it reaches**, and that matters more than the
   distance. `VGPushAway` weighs each vertex by its share of the groups it lists, so listing all four

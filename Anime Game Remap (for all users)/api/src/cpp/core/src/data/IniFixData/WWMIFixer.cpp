@@ -1047,8 +1047,58 @@ namespace AGRemapCore {
             std::string reverse;
         };
 
+        // A mod from before WWMI's merged skeleton, for writeBlendRemap: its index buffer, its own
+        // draw ranges per source component and WWMIFixerConfig::sourceVgMaps -- what lifts each of
+        // its component-LOCAL ids into the merged skeleton the library's row is written in.
+        struct LegacyLift {
+            std::string indexPath;
+            std::map<int, std::vector<std::pair<long long, long long>>> drawRanges;
+            std::map<int, std::vector<int>> vgMaps;
+        };
+
+        // Which source component draws each vertex, off the mod's own draw ranges (-1: none). The
+        // index buffer goes through IbFile, whose triangles flattened back in order are the list a
+        // draw range indexes into.
+        std::optional<std::vector<int>> componentOfVertex(RemapBlendResource& resource, const std::string& indexPath,
+                                                          const std::map<int, std::vector<std::pair<long long, long long>>>& drawRanges,
+                                                          std::size_t vertices) {
+            std::vector<std::uint32_t> indexList;
+            try {
+                IbFile indices{indexPath};
+                for (const std::vector<long long>& triangle :
+                         bufRows(indices, IbFile::TriangleBufElementKey, IbFile::VerticesPerTriangle)) {
+                    for (const long long corner : triangle) {
+                        indexList.push_back(static_cast<std::uint32_t>(corner));
+                    }
+                }
+            } catch (const std::exception& exception) {
+                bail(resource, std::string("its index buffer could not be read: ") + exception.what());
+                return std::nullopt;
+            }
+
+            const std::size_t indexCount = indexList.size();
+            std::vector<int> componentOf(vertices, -1);
+            for (const auto& entry : drawRanges) {
+                for (const auto& range : entry.second) {
+                    for (long long k = range.second; k < range.second + range.first && k >= 0; ++k) {
+                        if (static_cast<std::size_t>(k) >= indexCount) {
+                            break;
+                        }
+
+                        const std::uint32_t vertex = indexList[static_cast<std::size_t>(k)];
+                        if (vertex < vertices) {
+                            componentOf[vertex] = entry.first;
+                        }
+                    }
+                }
+            }
+
+            return componentOf;
+        }
+
         bool writeBlendRemap(RemapBlendResource& resource, const std::string& srcVertexVGPath,
-                             const std::string& positionPath, const BlendRemapOut& out) {
+                             const std::string& positionPath, const BlendRemapOut& out,
+                             const std::optional<LegacyLift>& legacy = std::nullopt) {
 
             // The layout is derived, never assumed -- hardcoding it is what made the legacy lift
             // silently do nothing on these same mods, and what read an 8-influence line as two. It
@@ -1108,6 +1158,34 @@ namespace AGRemapCore {
                     for (std::size_t b = 0; b < influences; ++b) {
                         trueIds[vertex * influences + b] =
                             static_cast<std::uint16_t>(ids[vertex][b]);
+                    }
+                }
+            }
+
+            // A LEGACY MOD'S IDS ARE COMPONENT-LOCAL (2026-10-05). This function takes precedence
+            // over liftLegacyBlend whenever the target is past 256 bones, and it used to read such a
+            // mod's local ids as merged ones: Lynae5 (a pre-merged-skeleton mod) onto LynaePeppermint
+            // put 90% of its vertices on the wrong bone, a leg drawn as a long stick in game. No pair
+            // before had both a legacy mod and a target past 256. Lifted here exactly as
+            // liftLegacyBlend lifts them, before the row.
+            if (!haveVertexVG && legacy.has_value()) {
+                const std::optional<std::vector<int>> componentOf =
+                    componentOfVertex(resource, legacy->indexPath, legacy->drawRanges, vertices);
+                if (!componentOf.has_value()) {
+                    return false;
+                }
+
+                for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                    const auto vgMap = legacy->vgMaps.find((*componentOf)[vertex]);
+                    if (vgMap == legacy->vgMaps.end()) {
+                        continue;
+                    }
+
+                    for (std::size_t b = 0; b < influences; ++b) {
+                        const std::size_t at = vertex * influences + b;
+                        if (trueIds[at] < vgMap->second.size()) {
+                            trueIds[at] = static_cast<std::uint16_t>(vgMap->second[trueIds[at]]);
+                        }
                     }
                 }
             }
@@ -1265,23 +1343,6 @@ namespace AGRemapCore {
                              const std::string& positionPath,
                              const std::map<int, std::vector<std::pair<long long, long long>>>& drawRanges,
                              const std::map<int, std::vector<int>>& vgMaps) {
-            // The index buffer through IbFile: it decodes the triangles, and a flat list of its
-            // vertex ids is those triples in order -- which is what a draw range indexes into.
-            std::vector<std::uint32_t> indexList;
-            try {
-                IbFile indices{indexPath};
-
-                // A draw range indexes into the triangles' corners in order, so the rows are
-                // flattened back to that one list.
-                for (const std::vector<long long>& triangle :
-                         bufRows(indices, IbFile::TriangleBufElementKey, IbFile::VerticesPerTriangle)) {
-                    for (const long long corner : triangle) {
-                        indexList.push_back(static_cast<std::uint32_t>(corner));
-                    }
-                }
-            } catch (const std::exception& exception) {
-                return bail(resource, std::string("its index buffer could not be read: ") + exception.what());
-            }
             // THE LAYOUT IS DERIVED, NOT ASSUMED. WWMIBlendStride is four R8 ids then four R8
             // weights, which is one WWMI layout and not the only one: Chisa's mods carry EIGHT of
             // each. Reading a 16-byte vertex as two 8-byte ones gives twice the vertex count, so
@@ -1295,24 +1356,13 @@ namespace AGRemapCore {
             const std::size_t vertices = shape.vertices;
             const std::size_t influences = shape.influences;
 
-            const std::size_t indexCount = indexList.size();
-
             // which component draws each vertex
-            std::vector<int> componentOf(vertices, -1);
-            for (const auto& entry : drawRanges) {
-                for (const auto& range : entry.second) {
-                    for (long long k = range.second; k < range.second + range.first && k >= 0; ++k) {
-                        if (static_cast<std::size_t>(k) >= indexCount) {
-                            break;
-                        }
-
-                        const std::uint32_t vertex = indexList[static_cast<std::size_t>(k)];
-                        if (vertex < vertices) {
-                            componentOf[vertex] = entry.first;
-                        }
-                    }
-                }
+            const std::optional<std::vector<int>> components = componentOfVertex(resource, indexPath, drawRanges, vertices);
+            if (!components.has_value()) {
+                return false;
             }
+
+            const std::vector<int>& componentOf = *components;
 
             // A blend line is `wwmiBlendElements`' two elements -- `influences` ids then `influences`
             // weights, one unsigned byte each -- so BufFile hands the filter the ids and the weights
@@ -1660,8 +1710,50 @@ namespace AGRemapCore {
                                                     std::optional<std::string>(Vb0HashKey)});
                 }
 
+                // The version WWMIFixerConfig::sourceVersionByVb0 files the mod's own vb0 under, read
+                // off its slot sections -- see that field. Read once: the sections do not change
+                // during a fix, and this is asked before readMod has collected them.
+                std::optional<std::string> versionOfModVb0() const {
+                    if (modVb0Version_.has_value()) {
+                        return *modVb0Version_;
+                    }
+
+                    modVb0Version_ = std::optional<std::string>();
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return std::nullopt;
+                    }
+
+                    for (const auto& entry : ini->getIfTemplates()) {
+                        if (entry.second == nullptr
+                                || !ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex).has_value()) {
+                            continue;
+                        }
+
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        if (!hash.has_value()) {
+                            continue;
+                        }
+
+                        const auto found = config_.sourceVersionByVb0.find(
+                            StringTools::toLower(std::string(StringTools::strip(*hash))));
+                        if (found != config_.sourceVersionByVb0.end()) {
+                            modVb0Version_ = found->second;
+                            break;
+                        }
+                    }
+
+                    return *modVb0Version_;
+                }
+
                 std::optional<Version> fromVersion() const {
                     std::optional<Version> version = ctx_.version();
+                    if (!version.has_value() && !config_.sourceVersionByVb0.empty()) {
+                        if (const std::optional<std::string> byVb0 = versionOfModVb0()) {
+                            version = Version::parse(*byVb0);
+                        }
+                    }
+
                     if (!version.has_value()) {
                         // the SOURCE's own version, which is not the target's when the pair is not
                         // filed under one -- see WWMIFixerConfig::sourceVersion for what a
@@ -2413,8 +2505,29 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // A file the .ini DECLARES but the folder does not hold is no candidate (2026-10-05).
+                    // A mod may name a texture it never shipped -- six of thirteen Lynae mods do, from a
+                    // dump's stale list -- and on its own character the override sits on a hash the
+                    // game no longer binds, so nothing ever reads it. Taken as the role's file, the
+                    // remapped section binds that missing resource on the TARGET's draw (an upper-body
+                    // normal map bound to nothing), where the role's fallback download is right.
+                    std::set<std::string> missing;
+                    auto isMissing = [&missing](const std::string& file) {
+                        std::error_code error;
+                        if (std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
+                            return false;
+                        }
+
+                        missing.insert(file);
+                        return true;
+                    };
+
                     // role -> (file, how the role was decided), every role of every file
                     for (const auto& entry : scan.roles->rolesOf()) {
+                        if (isMissing(entry.first)) {
+                            continue;
+                        }
+
                         for (const WWMITextureRoles::Role& role : entry.second) {
                             scan.byRole[role.role].emplace_back(entry.first, role.how);
 
@@ -2462,7 +2575,7 @@ namespace AGRemapCore {
                                     const std::string name = IniNamingTools::removeRefPrefix(*bound);
 
                                     const auto file = fileOfResource.find(StringTools::toLower(name));
-                                    if (file == fileOfResource.end()) {
+                                    if (file == fileOfResource.end() || isMissing(file->second)) {
                                         continue;
                                     }
 
@@ -2474,6 +2587,11 @@ namespace AGRemapCore {
                         }
                     }
 
+                    for (const std::string& file : missing) {
+                        ctx_.log(FileService::pathToStr(FileService::strToPath(file).filename())
+                                 + " is declared but not in the mod's folder; its role is treated as one the"
+                                 + " mod has no file for");
+                    }
                 }
 
                 /**
@@ -3361,7 +3479,117 @@ namespace AGRemapCore {
                     buildComponentAdditions();
                     buildSlotRemap();
                     buildPerGroupEdits();
-                    buildBlendCollects(source, from, to);
+                    buildBlendCollects(source, vgRemapVersion(from), to);
+                }
+
+                // The version of the VGRemaps row the mod's blend is read with -- see
+                // WWMIFixerConfig::skeletonNumberings. 'from' when the probe is off, cannot run, or
+                // has too little to go on.
+                std::optional<Version> vgRemapVersion(const std::optional<Version>& from) {
+                    if (config_.skeletonNumberings.size() < 2 || config_.referenceBoneCentroids.empty()
+                            || legacy_ || positionFile_.empty() || blendSourceFile_.empty()) {
+                        return from;
+                    }
+
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return from;
+                    }
+
+                    auto readAll = [&ini](const std::string& rel) {
+                        std::ifstream in(FileService::strToPath(FileService::absPathOfRelPath(
+                                             FileService::iniPathToRel(rel), ini->getFolder())), std::ios::binary);
+                        return in ? std::vector<unsigned char>((std::istreambuf_iterator<char>(in)),
+                                                               std::istreambuf_iterator<char>())
+                                  : std::vector<unsigned char>();
+                    };
+
+                    const std::vector<unsigned char> pos = readAll(positionFile_);
+                    const std::vector<unsigned char> blend = readAll(blendSourceFile_);
+                    const std::size_t vertices = pos.size() / 12;
+                    if (vertices == 0 || blend.size() % vertices != 0 || (blend.size() / vertices) % 2 != 0) {
+                        return from;
+                    }
+
+                    const std::size_t influences = blend.size() / vertices / 2;
+                    std::vector<unsigned char> wide;
+                    if (vertexVGFile_.has_value()) {
+                        wide = readAll(*vertexVGFile_);
+                        if (wide.size() != vertices * influences * 2) {
+                            wide.clear();
+                        }
+                    }
+
+                    const std::size_t count = config_.skeletonNumberings.size();
+                    std::vector<std::vector<double>> distances(count);
+                    std::vector<long long> refs(count);
+                    for (std::size_t v = 0; v < vertices; ++v) {
+                        const unsigned char* line = blend.data() + v * influences * 2;
+                        std::size_t heaviest = 0;
+                        for (std::size_t b = 1; b < influences; ++b) {
+                            if (line[influences + b] > line[influences + heaviest]) {
+                                heaviest = b;
+                            }
+                        }
+
+                        if (line[influences + heaviest] <= 127) {
+                            continue;                     // no bone carries over half the vertex
+                        }
+
+                        const long long id = wide.empty()
+                            ? static_cast<long long>(line[heaviest])
+                            : static_cast<long long>(wide[(v * influences + heaviest) * 2])
+                                  | (static_cast<long long>(wide[(v * influences + heaviest) * 2 + 1]) << 8);
+
+                        bool differ = false;
+                        bool known = true;
+                        for (std::size_t n = 0; n < count; ++n) {
+                            const auto& map = config_.skeletonNumberings[n].toReference;
+                            const auto at = map.find(id);
+                            refs[n] = at == map.end() ? id : at->second;
+                            differ = differ || refs[n] != refs[0];
+                            known = known && config_.referenceBoneCentroids.count(refs[n]) > 0;
+                        }
+
+                        if (!differ || !known) {
+                            continue;                     // the numberings agree here, so it says nothing
+                        }
+
+                        float p[3];
+                        std::memcpy(p, pos.data() + v * 12, sizeof(p));
+                        for (std::size_t n = 0; n < count; ++n) {
+                            const std::array<double, 3>& c = config_.referenceBoneCentroids.at(refs[n]);
+                            distances[n].push_back(std::sqrt((p[0] - c[0]) * (p[0] - c[0]) + (p[1] - c[1]) * (p[1] - c[1])
+                                                             + (p[2] - c[2]) * (p[2] - c[2])));
+                        }
+                    }
+
+                    constexpr std::size_t MinProbeVertices = 20;
+                    if (distances[0].size() < MinProbeVertices) {
+                        return from;
+                    }
+
+                    std::size_t best = 0;
+                    std::vector<double> medians(count);
+                    for (std::size_t n = 0; n < count; ++n) {
+                        std::vector<double>& d = distances[n];
+                        std::nth_element(d.begin(), d.begin() + static_cast<std::ptrdiff_t>(d.size() / 2), d.end());
+                        medians[n] = d[d.size() / 2];
+                        if (medians[n] < medians[best]) {
+                            best = n;
+                        }
+                    }
+
+                    std::ostringstream how;
+                    for (std::size_t n = 0; n < count; ++n) {
+                        how << (n == 0 ? "" : ", ") << config_.skeletonNumberings[n].version << " "
+                            << static_cast<long long>(std::lround(medians[n] * 100)) / 100.0;
+                    }
+
+                    ctx_.log("its bone ids are " + config_.skeletonNumberings[best].version + "'s numbering ("
+                             + std::to_string(distances[0].size()) + " vertices on renumbered bones; median"
+                             + " distance to the bone by version: " + how.str() + ")");
+                    return Version::parse(config_.skeletonNumberings[best].version);
                 }
 
                 /** @brief The fix's own list that puts the captured bindings back -- see BypassRestore */
@@ -4107,8 +4335,14 @@ namespace AGRemapCore {
                                 FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder()),
                                 FileService::absPathOfRelPath(blendRemapFile("Forward"), ctx_.getIniFile()->getFolder()),
                                 FileService::absPathOfRelPath(blendRemapFile("Reverse"), ctx_.getIniFile()->getFolder())};
-                            lift = [vgPath, posPath, out](RemapBlendResource& resource) {
-                                return writeBlendRemap(resource, vgPath, posPath, out);
+                            std::optional<LegacyLift> legacy;
+                            if (legacy_) {
+                                legacy = LegacyLift{FileService::absPathOfRelPath(indexFile_, ctx_.getIniFile()->getFolder()),
+                                                    drawRanges_, config_.sourceVgMaps};
+                            }
+
+                            lift = [vgPath, posPath, out, legacy](RemapBlendResource& resource) {
+                                return writeBlendRemap(resource, vgPath, posPath, out, legacy);
                             };
                         } else if (vertexVGFile_.has_value()) {
                             const std::string vgRel = FileService::iniPathToRel(*vertexVGFile_);
@@ -5869,6 +6103,7 @@ namespace AGRemapCore {
                 std::map<std::pair<std::string, int>, std::string> resourceOfSlotRole_;   // (role, source component) -> the resource that component binds
                 std::map<std::pair<std::string, int>, std::string> preEditResourceOfSlotRole_;  // ...as it read before a texture edit rewrote it, for the carried re-key
                 std::vector<std::string> remapNames_;   // the mod names a fix of this .ini could have named its sections after
+                mutable std::optional<std::optional<std::string>> modVb0Version_;   // versionOfModVb0's answer, once asked
                 std::vector<std::pair<std::string, std::string>> declared_;   // (file, path relative to the .ini) for a file no resource of the .ini names
                 std::map<std::string, std::string> declaredName_;      // that file -> the resource section the fix declares for it
                 std::set<std::string> usedDeclaredNames_;

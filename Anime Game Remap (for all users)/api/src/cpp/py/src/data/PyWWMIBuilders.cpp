@@ -21,6 +21,8 @@
 #include <pybind11/stl.h>
 
 #include "PyGIMICharBuilders.h"         // PyIniParseFactory / PyIniFixFactory, the same wrappers
+#include "../model/strategies/texEditors/PyTexEditor.h"   // PyTexFilter
+#include "../tools/PyRefFunction.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
@@ -189,6 +191,91 @@ A texture the fix INVENTS, eg. the flat material mask a target reads skin off
         .def_readwrite("size", &AGRC::WWMIFixerConfig::CreatedTexture::size,
                         py::doc(":class:`int`: Its width and height. **Default**: ``16``"));
 
+    py::class_<AGRC::WWMIFixerConfig::RegRemoval>(fixerConfig, "RegRemoval", R"doc(
+A register line a remapped section drops -- see :attr:`WWMIFixerConfig.removedRegs`
+    )doc")
+        .def(py::init<>())
+        .def(py::init([](std::string reg, std::string valuePrefix) {
+                 return AGRC::WWMIFixerConfig::RegRemoval{std::move(reg), std::move(valuePrefix)};
+             }), py::arg("reg"), py::arg("valuePrefix") = "")
+        .def_readwrite("reg", &AGRC::WWMIFixerConfig::RegRemoval::reg,
+                        py::doc(":class:`str`: The register (or key) to drop, eg. ``ResourceBlendBufferOverride``"))
+        .def_readwrite("valuePrefix", &AGRC::WWMIFixerConfig::RegRemoval::valuePrefix, py::doc(R"doc(
+:class:`str`: Drop the line only when its value begins with this, ignoring case and leading space.
+Empty (the default) drops every value
+        )doc"));
+
+    py::class_<AGRC::WWMIFixerConfig::TexEditContext>(fixerConfig, "TexEditContext", R"doc(
+What a :class:`WWMIFixerConfig.TexEdit`'s filter factory is told about the mod being fixed
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("iniFolder", &AGRC::WWMIFixerConfig::TexEditContext::iniFolder,
+                        py::doc(":class:`str`: The folder of the ``.ini`` being fixed"))
+        .def_readwrite("positionFile", &AGRC::WWMIFixerConfig::TexEditContext::positionFile,
+                        py::doc(":class:`str`: The mod's position buffer"))
+        .def_readwrite("texcoordFile", &AGRC::WWMIFixerConfig::TexEditContext::texcoordFile,
+                        py::doc(":class:`str`: The mod's texcoord buffer"))
+        .def_readwrite("indexFile", &AGRC::WWMIFixerConfig::TexEditContext::indexFile,
+                        py::doc(":class:`str`: The mod's index buffer"))
+        .def_readwrite("drawRanges", &AGRC::WWMIFixerConfig::TexEditContext::drawRanges,
+                        py::doc("Dict[:class:`int`, List[Tuple[:class:`int`, :class:`int`]]]: Source component -> the (count, start) ranges the mod draws it with"))
+        .def_readwrite("fileOfRole", &AGRC::WWMIFixerConfig::TexEditContext::fileOfRole, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: The file each role resolved to -- the mod's own, or the one its
+fallback download lands. A filter may need ANOTHER role's texture
+        )doc"));
+
+    py::class_<AGRC::WWMIFixerConfig::TexEdit>(fixerConfig, "TexEdit", R"doc(
+An edit the fix makes to a role's texture before binding it -- see :attr:`WWMIFixerConfig.texEdits`
+    )doc")
+        .def(py::init<>())
+        .def(py::init([](std::string role, std::string name, const py::object &makeFilter, bool compress) {
+                 AGRC::WWMIFixerConfig::TexEdit edit;
+                 edit.role = std::move(role);
+                 edit.name = std::move(name);
+                 edit.makeFilter = toPyRefFunction<AGRC::TexEditor::Filter(const AGRC::WWMIFixerConfig::TexEditContext&)>(makeFilter);
+                 edit.compress = compress;
+                 return edit;
+             }), py::arg("role"), py::arg("name"), py::arg("makeFilter"), py::arg("compress") = false)
+        .def_readwrite("role", &AGRC::WWMIFixerConfig::TexEdit::role,
+                        py::doc(":class:`str`: The role whose texture is edited"))
+        .def_readwrite("name", &AGRC::WWMIFixerConfig::TexEdit::name, py::doc(R"doc(
+:class:`str`: A short name for the edit, part of the written file's name. Two edits of one role need
+two names, or the second overwrites the first
+        )doc"))
+        // A property over toPyRefFunction rather than def_readwrite: pybind11's own conversion of a
+        // filter hands it a COPY of the texture, so an edit written in Python would save the
+        // unedited texture (see GIMIComponentFixerConfig.diffuseEdits)
+        .def_property("makeFilter",
+            [](const AGRC::WWMIFixerConfig::TexEdit &self) {
+                return fromPyRefFunction<AGRC::TexEditor::Filter(const AGRC::WWMIFixerConfig::TexEditContext&),
+                                         PyTexFilter(const AGRC::WWMIFixerConfig::TexEditContext&)>(self.makeFilter);
+            },
+            [](AGRC::WWMIFixerConfig::TexEdit &self, const PyOptionalCallable<PyTexFilter(const AGRC::WWMIFixerConfig::TexEditContext&)> &makeFilter) {
+                self.makeFilter = toPyRefFunction<AGRC::TexEditor::Filter(const AGRC::WWMIFixerConfig::TexEditContext&)>(makeFilter);
+            }, py::doc(R"doc(
+Callable[[:class:`WWMIFixerConfig.TexEditContext`], Callable[[:class:`CppTextureFile`], ``None``]]:
+Builds the filter for THIS mod -- a factory rather than a filter, because an edit may depend on the
+mod's own geometry. The filter is handed the texture itself and edits it in place
+            )doc"))
+        .def_readwrite("compress", &AGRC::WWMIFixerConfig::TexEdit::compress, py::doc(R"doc(
+:class:`bool`: Whether to re-encode to the source's compressed format. **Default**: ``False``,
+because a mask is CODES and BCn would move them
+        )doc"));
+
+    py::class_<AGRC::WWMIFixerConfig::SkeletonNumbering>(fixerConfig, "SkeletonNumbering", R"doc(
+One way the source's merged bone ids have been numbered -- see :attr:`WWMIFixerConfig.skeletonNumberings`
+    )doc")
+        .def(py::init<>())
+        .def(py::init([](std::string version, std::unordered_map<long long, long long> toReference) {
+                 return AGRC::WWMIFixerConfig::SkeletonNumbering{std::move(version), std::move(toReference)};
+             }), py::arg("version"), py::arg("toReference") = std::unordered_map<long long, long long>{})
+        .def_readwrite("version", &AGRC::WWMIFixerConfig::SkeletonNumbering::version,
+                        py::doc(":class:`str`: The version whose vertex group remap row reads ids in this numbering"))
+        .def_readwrite("toReference", &AGRC::WWMIFixerConfig::SkeletonNumbering::toReference, py::doc(R"doc(
+Dict[:class:`int`, :class:`int`]: Id in this numbering -> the same bone's id in the numbering
+:attr:`WWMIFixerConfig.referenceBoneCentroids` is keyed by. An id not listed is the same in both
+        )doc"));
+
     fixerConfig
         .def(py::init<>())
         .def_readwrite("targetId", &AGRC::WWMIFixerConfig::targetId,
@@ -245,7 +332,96 @@ and copied nowhere. **Default**: the two shape-key overrides
         .def_readwrite("targetLabels", &AGRC::WWMIFixerConfig::targetLabels,
                         py::doc("Dict[:class:`int`, :class:`str`]: Target slot -> a label for the log"))
         .def_readwrite("copyPreamble", &AGRC::WWMIFixerConfig::copyPreamble,
-                        py::doc(":class:`str`: What every generated ``.ini`` copy opens with"));
+                        py::doc(":class:`str`: What every generated ``.ini`` copy opens with"))
+        .def_readwrite("sourceVersion", &AGRC::WWMIFixerConfig::sourceVersion, py::doc(R"doc(
+:class:`str`: The SOURCE's own game version, when the pair is not filed under one; empty falls back
+to :attr:`version`. A reverse-then-forward lookup of a value both characters share (a shape-key
+checksum) answers the wrong character when asked at the target's version
+        )doc"))
+        .def_readwrite("sourceVersionByVb0", &AGRC::WWMIFixerConfig::sourceVersionByVb0, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: The SOURCE's version per ``vb0`` hash (lower case), read off the mod's
+own slot sections -- for a character whose skeleton was renumbered between game versions, so each mod
+takes the vertex group remap row filed at the version it was exported at. Empty (the default) keeps
+:attr:`sourceVersion` for every mod
+        )doc"))
+        .def_readwrite("skeletonNumberings", &AGRC::WWMIFixerConfig::skeletonNumberings, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.SkeletonNumbering`]: Every numbering the source's merged skeleton has had,
+when a game update renumbered it. The fix scores each against the mod's own geometry (its vertices'
+distance to their heaviest bone's centroid, :attr:`referenceBoneCentroids`) and reads the blend with
+the vertex group remap row of the closest -- a mod's ``vb0`` cannot say, since hash-update tools
+rewrite the hashes and leave the bone ids. Fewer than two (the default) switches it off
+        )doc"))
+        .def_readwrite("referenceBoneCentroids", &AGRC::WWMIFixerConfig::referenceBoneCentroids, py::doc(R"doc(
+Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of
+each source bone, keyed by its id in the reference numbering
+        )doc"))
+        .def_readwrite("filterIndices", &AGRC::WWMIFixerConfig::filterIndices, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: Shader hash -> the ``filter_index`` to tag it with, overriding
+:attr:`filterBase` / :attr:`filterStep`. Both directions of a pair must agree on every shader they
+both tag, since 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``
+        )doc"))
+        .def_readwrite("flatFallsBackToSource", &AGRC::WWMIFixerConfig::flatFallsBackToSource, py::doc(R"doc(
+Set[:class:`str`]: Roles whose texture marks REGIONS, so a constant one from the mod is replaced by
+the source's own (its fallback download)
+        )doc"))
+        .def_readwrite("flatLeftToGame", &AGRC::WWMIFixerConfig::flatLeftToGame, py::doc(R"doc(
+Set[:class:`str`]: Like :attr:`flatFallsBackToSource`, except that a flat one is left to the GAME
+        )doc"))
+        .def_readwrite("mirroredComponents", &AGRC::WWMIFixerConfig::mirroredComponents, py::doc(R"doc(
+Set[:class:`int`]: Source components drawn a second time, wound the other way with their normals
+flipped, for single-layer cloth whose inside the target's shader lights differently
+        )doc"))
+        .def_readwrite("texRegPrefix", &AGRC::WWMIFixerConfig::texRegPrefix,
+                        py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``ps-t``"))
+        .def_readwrite("vectorReg", &AGRC::WWMIFixerConfig::vectorReg,
+                        py::doc(":class:`str`: The register the vector (normal) buffer is bound at. **Default**: ``vb1``"))
+        .def_readwrite("removedRegs", &AGRC::WWMIFixerConfig::removedRegs, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section drops, on top of what
+the template removes anyway -- eg. the three ``Resource...Override = ref ...`` lines of a source past
+256 merged bones, which undo the remap, and RabbitFX's resource lines
+        )doc"))
+        .def_readwrite("anchorChains", &AGRC::WWMIFixerConfig::anchorChains, py::doc(R"doc(
+Dict[:class:`int`, List[:class:`int`]]: Chains of SOURCE vertex groups pinned to one bone each,
+``{root: members}``: every member is remapped to whatever the ROOT maps to. Check a chain with
+``Tools/Misc/Diagnostics/anchorSafety.py`` first -- a member another component also weights is
+pinned there too
+        )doc"))
+        .def_readwrite("extraPassRegs", &AGRC::WWMIFixerConfig::extraPassRegs, py::doc(R"doc(
+Dict[:class:`int`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Per target slot, per
+pass, the bindings that pass takes INSTEAD of the plan's -- a slot's register layout is per shader
+        )doc"))
+        .def_readwrite("extraPassNoDraw", &AGRC::WWMIFixerConfig::extraPassNoDraw,
+                        py::doc("Dict[:class:`int`, Set[:class:`str`]]: Target slot -> the passes of :attr:`extraPassRegs` its draw is not re-issued on"))
+        .def_readwrite("passVertexShaders", &AGRC::WWMIFixerConfig::passVertexShaders, py::doc(R"doc(
+Dict[:class:`str`, List[:class:`str`]]: Each pass (pixel shader) mapped to the VERTEX shaders it is
+drawn with. Set, the fix tags those vertex shaders and guards ``vs == ...`` instead of tagging the
+pixel shader -- which RabbitFX also tags, so a ``ps`` tag switches its effects off. A pass left out
+of a non-empty map is an error
+        )doc"))
+        .def_readwrite("sharedMeshes", &AGRC::WWMIFixerConfig::sharedMeshes, py::doc(R"doc(
+Dict[:class:`str`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Other meshes the
+character draws, by their own ``vb0`` hash -- ``{mesh hash: {pass: bindings}}``
+        )doc"))
+        .def_readwrite("texEdits", &AGRC::WWMIFixerConfig::texEdits,
+                        py::doc("List[:class:`WWMIFixerConfig.TexEdit`]: Edits the fix makes to a role's texture before binding it"))
+        .def_readwrite("cleanTexcoords", &AGRC::WWMIFixerConfig::cleanTexcoords, py::doc(R"doc(
+:class:`bool`: Bind the remapped sections to a CLEANED copy of the mod's texcoord buffer (a NaN
+second UV zeroed, a U in the next tile folded back). **Default**: ``False``
+        )doc"))
+        .def_readwrite("texcoordReg", &AGRC::WWMIFixerConfig::texcoordReg,
+                        py::doc(":class:`str`: The register the texcoord buffer is bound at. **Default**: ``vb2``"))
+        .def_readwrite("sourceVgMaps", &AGRC::WWMIFixerConfig::sourceVgMaps, py::doc(R"doc(
+Dict[:class:`int`, List[:class:`int`]]: The SOURCE's ``vg_map`` per component, for a mod from before
+WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it such a mod is refused
+        )doc"))
+        .def_readwrite("mergedSkeletonSlots", &AGRC::WWMIFixerConfig::mergedSkeletonSlots,
+                        py::doc(":class:`int`: The float4 slots of the merged skeleton buffers declared for a legacy mod. **Default**: ``768``"))
+        .def_readwrite("boneDataFilter", &AGRC::WWMIFixerConfig::boneDataFilter,
+                        py::doc(":class:`str`: WWMI's marker on the game's bone-data constant buffer. **Default**: ``3381.7777``"))
+        .def_readwrite("bindPrevPoseAlways", &AGRC::WWMIFixerConfig::bindPrevPoseAlways,
+                        py::doc(":class:`bool`: Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton carries :attr:`boneDataFilter`. **Default**: ``True``"))
+        .def_readwrite("cleanupResourcesList", &AGRC::WWMIFixerConfig::cleanupResourcesList,
+                        py::doc(":class:`str`: The command list every slot section runs after its draw. **Default**: ``CommandListCleanupSharedResources``"));
 
     m.def("makeWWMIParser", [](const AGRC::WWMIParserConfig &config) {
         return PyIniParseFactory{AGRC::makeWWMIParser(config)};

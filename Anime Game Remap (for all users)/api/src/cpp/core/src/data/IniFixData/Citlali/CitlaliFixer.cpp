@@ -292,13 +292,27 @@ namespace AGRemapCore {
             // does that is not the one the clip appears along. Measure the 3-D distance to the body
             // over the candidates rather than the clearance along one axis -- the two disagree, and
             // the axis measure is what made a 10 cm push look justified for several rounds.
-            // The distance is set by the braid's TIP, not by the clip that started all this. Her dress
-            // panel juts to z 0.12 out to x 0.14 at y 1.02-1.06, and the tip only escapes it by
-            // travelling far enough SIDEWAYS to pass its edge -- at 0.060 the tip is 5.9 cm inside
-            // the panel, and it clears at 0.090. (The mod's own rest pose has it inside there too;
-            // Citlali's bones carry it out, which is the whole reason this push exists.)
-            bangs.pushAway = {VGPushAway{{25, 26}, {+0.0700f, 1.130f, -0.1183f}, 0.0900f, -1, {1.22f, 1.32f}},
-                              VGPushAway{{31, 32}, {-0.0700f, 1.130f, -0.1183f}, 0.0900f, 1, {1.22f, 1.32f}}};
+            // AND THE SIZE IS SET BY WHAT THE EYE ACCEPTS, not by what the geometry would like. Three
+            // reports bound it from both directions: 10.2 cm forward / 4.6 out drew "leaned a bit
+            // too forward", 9.4 / 6.1 drew "too much veered to the side", and 6.4 / 6.3 drew
+            // "stretched" -- the braids splayed off the head. The envelope that leaves is roughly
+            // FORWARD UNDER 6 cm AND SIDEWAYS UNDER 5, and 0.0600 sits inside it at 4.3 / 4.2.
+            //
+            // What that gives up is the braid's last few cm: her dress panel juts to z 0.12 out to
+            // x 0.14 at y 1.02-1.06, and the tip only escapes it by travelling sideways past its
+            // edge, which needs 0.090 and reads as stretched. So the tip stays behind the panel --
+            // which is where the MOD ITSELF puts it (its rest pose has the whole braid 4-11 cm
+            // inside the body) and the one thing no report has ever objected to. Everything above
+            // the tip clears: the body by about 15 mm in 3-D through y 1.04-1.24.
+            //
+            // THE LESSON IS THE BOUND, NOT THE NUMBER. A part whose target rig cannot pose it has no
+            // setting that is simply right; there is a region the eye accepts and a region the
+            // geometry wants, and when they do not overlap the eye wins and the leftover is named
+            // out loud. Collect the rejections as a BOX and stay inside it rather than optimising
+            // one axis at a time -- walking back past a limit already set is how 6.3 cm of sideways
+            // shipped after 6.1 had been refused.
+            bangs.pushAway = {VGPushAway{{25, 26}, {+0.0700f, 1.130f, -0.1183f}, 0.0600f, -1, {1.22f, 1.32f}},
+                              VGPushAway{{31, 32}, {-0.0700f, 1.130f, -0.1183f}, 0.0600f, 1, {1.22f, 1.32f}}};
 
             config.components = {body, bangs, eyes};
 

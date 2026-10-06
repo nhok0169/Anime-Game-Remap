@@ -553,7 +553,8 @@ skin's Bangs and the bottom two to its Body, so one braid was skinned in two ind
 unrelated bones. That alone produced two reports -- the braid could not flow (its lower links, most
 of its mass, rode a Body bone where nothing animates) and a `VGPushAway` added to clear the arm moved
 only the half configured on that component, so it broke at the seam. All four links now go to the
-skin's own front lock, `Bangs 3 -> 5 -> 7` (mirror `4 -> 6 -> 8`): **one part, one component's
+skin's own front lock (mirror on the other side), its ROOT link on the head bone since
+2026-10-06 so the chain is `0 -> 5 -> 7`: **one part, one component's
 bones**, the rule Neuvillette's torn capes already wrote down.
 
 **The other two faults were in the FIXER, not here**, and knowing that is what stops the next round

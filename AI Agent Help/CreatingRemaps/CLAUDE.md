@@ -354,7 +354,7 @@ from her hair"* -- a `VGPushAway` added to clear the arm can only move the half 
 component it is configured on, so the braid broke at the seam and its lower half stood forward of
 the hair it grows out of. **ONE part belongs on ONE component's bones.** It is the Neuvillette
 lesson -- his capes ripped along a component seam for exactly this reason -- and a hair lock tears
-the same way. All four links now go to the skin's own front lock, `Bangs 3 -> 5 -> 7`.
+the same way. All four links now go to the skin's own front lock. The ROOT link (`23` / `29`) was moved onto the Bangs HEAD bone (`0`) on 2026-10-06, so the chain is `0 -> 5 -> 7`: see "A LOCK'S ROOT BELONGS TO THE HEAD".
 
 **FAULT 2: then it was damped, and the damping was a fix that made things worse.**
 `GIMIComponentFixerConfig::Component::splitGroups` shared each lower link's weight with the Bangs'
@@ -431,6 +431,37 @@ cut across two components, so moving the lower links broke the braid at a hard s
 on ONE chain it is a smooth bend, because the share tapers across the 24 -> 25 blend instead of
 stopping dead at a component boundary. **A field that was wrong under a broken row can be right once
 the row is fixed; re-test it rather than ruling it out from memory.**
+
+**FAULT 6: A LOCK'S ROOT BELONGS TO THE HEAD, AND A THIRD INDEPENDENT MOTION IS WHAT MAKES A
+DESIGNED OVERLAP VISIBLE.** The user's last comparison -- the mod on Citlali beside the remap -- was
+the thing that settled it: on her own character the braid hangs clear of the loose hair, and on the
+skin it is embedded in it. The braid's upper stretch is SANDWICHED, 4 mm from the fringe in front and
+TOUCHING the loose hair behind, and that touch is in the mod's own geometry: it is there on Citlali
+too. **A static interpenetration a mod ships with cannot be measured away, and no displacement
+clears a 4 mm gap from both sides at once** -- every push that cleared the fringe drove the braid
+into the hair and vice versa, which is what several rounds of `from` / `distance` / `fade` were
+really chasing.
+
+What differs on the skin is how many things MOVE independently there. On Citlali the braid, the
+fringe and the loose hair all hang off one skeleton. On the skin the braid rode the lock chain
+(`Bangs 3`), the fringe its own bone, and the loose hair the Body back-hair chains (`108-115`) --
+three independent motions where the mod only ever expected two, so the designed overlap slid open.
+Mapping the root link (`23` / `29`) to the Bangs HEAD bone (`0`) removes the third: the root now
+moves with the scalp it grows out of, and the swing starts one link lower at `24 -> 5`. The source
+weights blend `23` into `24`, so the handover is a gradient, not a hinge -- confirmed in the output,
+where the dominant bone runs `0` at y 1.38-1.42, `0`/`5` at 1.34-1.38, `5` at 1.30-1.34 and `7`
+below 1.26.
+
+* **This is NOT the damping that failed.** That shared 65-80% of the LOWER links' weight with the
+  head and drew "stationary, solid with her head". Only the root moves; every link that hangs free
+  still swings. **Where on the chain a weight change lands decides whether it is right.**
+* **A root pin changes no static position** -- a skinning matrix is the identity at the character's
+  own rest pose -- so every distance in the output is unchanged by it. The measurements that judge
+  it are about WHICH BONE drives each band, not about millimetres.
+* **Ask for the base shot early when a part looks wrong against other parts.** One picture of the
+  mod on its own character showed the braid hanging clear of the hair, which is what identified the
+  relationship that had been broken; no amount of measuring the remap alone would have said what the
+  braid was supposed to look like.
 
 **FAULT 5: A PUSH REACHES UPWARDS INTO WHAT THE PART GROWS OUT OF, AND THAT NEEDED A NEW FIELD.**
 The last report on this braid was that it now cut into her BANGS. A `VGPushAway` weighs each vertex

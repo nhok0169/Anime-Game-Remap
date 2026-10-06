@@ -1414,7 +1414,7 @@ arms and not free flowing"*: the bottom two links are most of the braid and rode
 Body bone animates there. *"Dislocated from her hair"*: a `VGPushAway` added to clear the arm can
 only move the half that lives in the component it is configured on, so the braid broke at the seam.
 **ONE part belongs on ONE component's bones** -- the Neuvillette lesson, where his capes ripped along
-a component seam. All four links now go to the skin's own front lock, `Bangs 3 -> 5 -> 7`.
+a component seam. All four links now go to the skin's own front lock. The ROOT link (`23` / `29`) was moved onto the Bangs HEAD bone (`0`) on 2026-10-06, so the chain is `0 -> 5 -> 7`: see "A LOCK'S ROOT BELONGS TO THE HEAD".
 **(2) Then it was DAMPED, and that was a fix of mine that made it worse.** `splitGroups` shared each
 lower link's weight with the Bangs' head bone, on the argument that bone 7's lever is 3.8 cm while
 the braid hangs 24 cm below it, so the skin's hair sim would move her tip "six times too far". The

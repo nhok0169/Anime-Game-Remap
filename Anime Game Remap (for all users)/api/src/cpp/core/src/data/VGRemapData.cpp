@@ -1127,8 +1127,22 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Bangs"},
          VGRemap({
-            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {25, 7}, {26, 7}, {27, 5}, {28, 7},
-            {29, 4}, {30, 6}, {31, 8}, {32, 8}, {33, 6}, {34, 8}
+            // THE LOCK'S ROOT RIDES THE HEAD (0), not the skin's front-lock root (3 / 4). Group 23
+            // owns y 1.34-1.42 outright and 56% of 1.30-1.34 -- the stretch where the braid is
+            // SANDWICHED, 4 mm from the fringe in front and touching the loose hair behind. On
+            // Citlali all three hang off one skeleton and move as a designed unit; here the braid
+            // rides the lock chain, the fringe its own bone and the loose hair the Body back-hair
+            // chains (108-115), so any relative motion closes a gap that was never meant to be
+            // defended, and no displacement can clear both sides of 4 mm. Rooting the top link to
+            // the head puts it on the same bone as the scalp it grows out of, which is what a real
+            // model does with a lock root: the swing starts at 24 -> 5 instead, and the source
+            // weights blend 23 into 24 so the handover is a gradient rather than a hinge.
+            //
+            // This is NOT the damping of 2026-10-04, which shared 65-80% of the LOWER links' weight
+            // with the head and left the braid "stationary, solid with her head". Only the root
+            // moves to the head; every link that hangs free still swings.
+            {21, 9}, {22, 9}, {23, 0}, {24, 5}, {25, 7}, {26, 7}, {27, 5}, {28, 7},
+            {29, 0}, {30, 6}, {31, 8}, {32, 8}, {33, 6}, {34, 8}
          })},
 
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",

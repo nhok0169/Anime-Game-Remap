@@ -4287,7 +4287,18 @@ namespace AGRemapCore {
                         if (hidden.count(obj.second) > 0) {
                             this->hiddenModObjs.insert(obj);
                         } else {
-                            for (std::size_t g = 0; g < groups_.size(); ++g) {
+                            // ONCE, in the mod's own file, when the target is past 256 bones
+                            // (2026-10-06). These are the bone-data marker and the shape-key
+                            // overrides: sections on the GAME's hashes that set WWMI's shared state
+                            // and skip the game's own shape-key dispatch. A copy repeating them runs
+                            // the shape-key pipeline a second time, into its own buffers, on the same
+                            // dispatch -- LynaePeppermint -> Lynae with two source components on her
+                            // jacket slot drew the whole model as giant polygons until the copy's
+                            // were removed, and drew it correctly without them. The marker is a
+                            // filter on the game's buffer, so one file setting it serves every file.
+                            const std::size_t copies = targetPast256_ && config_.copiesShareSkeleton
+                                ? std::size_t(1) : groups_.size();
+                            for (std::size_t g = 0; g < copies; ++g) {
                                 targets.emplace_back(GraphId(0, obj.first, obj.second), rename);
                             }
                         }
@@ -5214,6 +5225,56 @@ namespace AGRemapCore {
                     }
 
                     this->appendedSections = std::string(StringTools::rstrip(out));
+                    buildCopyMerges();
+                }
+
+                // A COPY'S SKELETON HAS TO RECEIVE EVERY SLOT'S BONES (2026-10-06).
+                //
+                // Each generated .ini declares the fix's merged skeleton for itself, and only the
+                // sections THAT file matches merge into it. The mod's own file draws every slot it
+                // claims and so fills the whole skeleton; a copy draws one or two slots and leaves
+                // every other window zero. Its geometry then skins the bones of the other slots
+                // against zero matrices and collapses to the origin -- which on LynaePeppermint ->
+                // Lynae, two source components merged onto her jacket slot, drew huge polygons over
+                // the whole scene. So each copy gets a merge-only section for every target slot it
+                // does not draw: no skip, no draw, only the window into that file's skeleton.
+                void buildCopyMerges() {
+                    this->appendedSectionsPerGroup.clear();
+                    if (!targetPast256_ || !config_.copiesShareSkeleton || groups_.size() < 2) {
+                        return;
+                    }
+
+                    for (std::size_t g = 1; g < groups_.size(); ++g) {
+                        std::set<int> own;
+                        for (int component : groups_[g]) {
+                            own.insert(config_.plan.at(component).slot);
+                        }
+
+                        std::string text;
+                        for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
+                            const int s = static_cast<int>(slot);
+                            if (own.count(s) > 0 || drawnSlots_.count(s) == 0) {
+                                continue;            // drawn here, or already a hide section's job
+                            }
+
+                            const Slot& window = target_.slots[slot];
+                            SectionText merge(z3_, IniKeywords::TextureOverride + toModName_
+                                                       + TextTools::capitalize(config_.slotPrefix)
+                                                       + std::to_string(slot) + IniKeywords::Remap + "Merge");
+                            merge.prefix("; another file draws this slot: only its bones are merged into this file's skeleton")
+                                .keys({{IniKeywords::Hash, target_.vb0Hash},
+                                       {IniKeywords::MatchFirstIndex, window.indexOffset},
+                                       {IniKeywords::MatchIndexCount, window.indexCount}})
+                                .open("$mod_enabled")
+                                .keys({{VgOffsetKey, window.vgOffset},
+                                       {VgCountKey, window.vgCount},
+                                       {IniKeywords::Run, fixName("CommandListMergeWindow")}})
+                                .close();
+                            text += merge.str();
+                        }
+
+                        this->appendedSectionsPerGroup[g] = std::string(StringTools::rstrip(text));
+                    }
                 }
 
                 // The three blend remap buffers, named so the undo takes them: a file the fix

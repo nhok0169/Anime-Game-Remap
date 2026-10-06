@@ -21,18 +21,26 @@
 #   * Her lower body's outline pass (30ab50e7) binds a 2048 white map at ps-t0 and the diffuse at ps-t1,
 #     where every other outline takes the diffuse at ps-t0. The skin has no such map, so a flat white
 #     stands in.
-#   * Her props slot draws on six passes, two of them a glass / foil layer (bb718d76, 9a01e7bd). The
-#     skin's hip pouch goes there -- the one slot left, same base register order -- and is kept OUT of
-#     those two passes (extraPassNoDraw): cloth through a glass layer is not what the skin's pouch is.
+#   * Her props slot (card, pin, headphones) is NOT a cloth slot: it renders through a special-material
+#     (glass / foil) layer, and anything drawn there through the ordinary passes barely reaches the
+#     G-buffer -- measured in a frame dump, 700 pixels for a whole shirt, and 137 for her OWN props in
+#     the vanilla frame. So nothing of the skin goes there: the skin's two cloth components (her coat,
+#     5, and her shirt / jacket / shoes, 6) BOTH land on Lynae's jacket slot, the second through a
+#     generated copy .ini (a merge), and her props slot is left hidden.
+#   * That merge needed two template fixes for a target past 256 bones (2026-10-06): each copy gets
+#     merge-only sections for the slots other files draw (its own skeleton was otherwise zero there),
+#     and the bone-data marker and shape-key overrides go in the mod's own file only (a copy repeating
+#     them drew the whole model as giant polygons). Both are WWMIFixerConfig::copiesShareSkeleton,
+#     opt-in so ChisaParfait -> Chisa's in-game-confirmed copies stay as they were.
 #
 # ---- The pairing, measured (2026-10-05) ----
 #
-#   0-4 and 7 one to one (the face and eyes are the same mesh); the skin's jacket (6) onto Lynae's
-#   jacket (5); the skin's pouch (5) onto Lynae's props slot (6).
+#   0-4 and 7 one to one (the face and eyes are the same mesh); the skin's coat (5) and jacket (6)
+#   both onto Lynae's jacket (5).
 #
 # GAPS this prototype knows about:
-#   * The skin's shoes are part of her jacket component (6), so they ride on Lynae's jacket slot and its
-#     shader.
+#   * The skin's sheer garments (her see-through shirt and coat) render opaque: Lynae's cloth shaders
+#     have no such material.
 #   * Lynae's sheer lower-body look has no counterpart on the skin, so nothing of the skin's draws there.
 import argparse
 import json
@@ -141,7 +149,10 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.sourceVersion = "3.7"
 
     # ---- the TARGET's draws read their skeleton from vs-cb3 alone on her early depth passes ----
-    config.currentPoseInCb3Only = not os.environ.get("LYNAE_PROBE_NO_CB3")
+    config.currentPoseInCb3Only = True
+    # ...and two source components share her jacket slot through a copy .ini, which must share the
+    # mod's skeleton state (see the header)
+    config.copiesShareSkeleton = True
 
     # ---- the passes the TARGET (Lynae) draws each slot on (her dumps, wwmiDrawTable.py) ----
     config.slotPasses = [
@@ -151,8 +162,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         ["a175ff3bd01feb29", "8d8250706d224af7"],   # 3 upper body (the second inherits)
         ["a68c6144f18d6caf"],                       # 4 lower body
         ["404f5464fdffc665"],                       # 5 jacket
-        # 6 props: the depth passes (the second inherits) and the G-buffer pair; the glass / foil layer
-        # is in extraPassRegs with extraPassNoDraw
+        # 6 props: nothing of the skin is drawn there (see the header), so only the hide section uses it
         ["0f6f8facde912ff4", "2d6d59feda76cef9", "208e7eadc60a7abd", "0fc420109de57a0e"],
         ["fa9e4d98ed0a570e", "e04f4df80ee6b0ab"],   # 7 eyes (the second inherits)
     ]
@@ -219,10 +229,10 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                                                    B("ps-t2", "upperDetail"), B("ps-t3", "upperDiffuse")]),
         4: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
                                                    B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse")]),
-        # the pouch onto Lynae's props slot: base register order normal / mask / detail / diffuse
-        5: FRB.WWMIFixerConfig.SourceComponent(6, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
+        # the coat AND the jacket onto Lynae's jacket (her shader reads detail at t2, diffuse at t3);
+        # the coat, first in order, stays in the mod's own file and the jacket goes to the copy
+        5: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
                                                    B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse")]),
-        # the jacket onto Lynae's jacket: her shader reads detail at t2, diffuse at t3
         6: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
                                                    B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse")]),
         7: FRB.WWMIFixerConfig.SourceComponent(7, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
@@ -236,28 +246,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         # her lower body's outline reads a white map at ps-t0 and the diffuse at ps-t1
         4: {"30ab50e715dce218": [B("ps-t0", "OutlineMaskWhite"), B("ps-t1", "lowerDiffuse")]},
         5: {"f8c96a270bf847dd": [B("ps-t0", "jacketDiffuse")]},
-        # the props slot's glass / foil layer: listed so it can be kept from drawing the pouch
-        6: {"bb718d7619295f25": [], "9a01e7bd0aeff915": [],
-            # and its G-buffer pass re-binds the base set at t5-t7 as well
-            "208e7eadc60a7abd": [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"), B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse"),
-                                 B("ps-t5", "pouchMask"), B("ps-t6", "pouchDetail"), B("ps-t7", "pouchDiffuse")]},
     }
-    config.extraPassNoDraw = {} if os.environ.get("LYNAE_PROBE_GLASS") else {6: {"bb718d7619295f25", "9a01e7bd0aeff915"}}
-    if (os.environ.get("LYNAE_PROBE_MERGE_JACKET")):
-        config.plan = {**dict(config.plan), 5: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
-                                                                                    B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse")])}
-    if (os.environ.get("LYNAE_PROBE_ALL_PROPS_PASSES")):
-        config.slotPasses = [p if i != 6 else ["0f6f8facde912ff4", "2d6d59feda76cef9", "bb718d7619295f25", "9a01e7bd0aeff915",
-                                               "208e7eadc60a7abd", "0fc420109de57a0e"] for i, p in enumerate(config.slotPasses)]
-        config.extraPassRegs = {k: v for k, v in dict(config.extraPassRegs).items() if k != 6}
-        config.extraPassNoDraw = {}
-    if (os.environ.get("LYNAE_PROBE_POUCH_TO_JACKET")):
-        config.plan = {**dict(config.plan), 5: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
-                                                                                    B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse")])}
-        config.plan = {**{k: v for k, v in dict(config.plan).items() if k != 6},
-                       6: FRB.WWMIFixerConfig.SourceComponent(6, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
-                                                                  B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse")])}
-    config.slotPasses = [p if i != 6 else [x for x in p if x != "208e7eadc60a7abd"] for i, p in enumerate(config.slotPasses)]
 
     config.createdTextures = [FRB.WWMIFixerConfig.CreatedTexture("OutlineMaskWhite", FRB.Colour(255, 255, 255, 255), 16)]
 
@@ -282,10 +271,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
       return make
 
     E = FRB.WWMIFixerConfig.TexEdit
-    propsRole = "jacketMask" if os.environ.get("LYNAE_PROBE_POUCH_TO_JACKET") else "pouchMask"
-    propsAlpha = int(os.environ.get("LYNAE_PROBE_PROPS_ALPHA", "0"))
-    config.texEdits = [E(role, "Repack", maskFilter(propsAlpha if role == propsRole else 0))
-                       for role in ("upperMask", "lowerMask", "jacketMask", "pouchMask")]
+    config.texEdits = [E(role, "Repack", maskFilter(0)) for role in ("upperMask", "lowerMask", "jacketMask", "pouchMask")]
 
     # Masks mark regions: a flat one from a mod is replaced by HER game texture
     config.flatFallsBackToSource = {"upperMask", "lowerMask", "jacketMask", "pouchMask", "hairMask", "bangsMask"}

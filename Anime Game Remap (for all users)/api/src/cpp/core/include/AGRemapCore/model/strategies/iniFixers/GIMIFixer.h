@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <map>
 #include <cstddef>
 #include <functional>
 #include <memory>
@@ -271,6 +272,20 @@ namespace AGRemapCore {
              @endrst
              */
             bool appendedSectionsInCopies = false;
+
+            /**
+             * @brief
+             @rst
+             Raw `sections`_ appended to ONE generated file only, by group -- ``0`` is the mod's own
+             ``.ini``, ``1`` its first copy, and so on. Written after :cpp:member:`appendedSections`,
+             inside the fix's block :raw-html:`<br />` :raw-html:`<br />`
+
+             For content that differs per file: a WWMI copy keeps its own merged skeleton, which only
+             the draws that FILE matches feed, so each copy needs merge-only sections for the target
+             slots that other files draw. **Default**: empty
+             @endrst
+             */
+            std::map<std::size_t, std::string> appendedSectionsPerGroup;
 
             /**
              * @brief

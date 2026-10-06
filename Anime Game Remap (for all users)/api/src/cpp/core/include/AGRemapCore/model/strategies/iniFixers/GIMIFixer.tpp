@@ -636,6 +636,13 @@ namespace AGRemapCore {
                                           : std::string(StringTools::rstrip(content)) + "\n\n" + appendedSections;
             }
 
+            // ...and what belongs to this one file -- see appendedSectionsPerGroup
+            const auto ownSections = appendedSectionsPerGroup.find(i);
+            if (ownSections != appendedSectionsPerGroup.end() && !ownSections->second.empty()) {
+                content = content.empty() ? ownSections->second
+                                          : std::string(StringTools::rstrip(content)) + "\n\n" + ownSections->second;
+            }
+
             // The target's heading AFTER the appended sections, so they sit inside its `; ***** X *****` block
             // with the fix's other sections -- labelled first, they landed after the block's closing line
             // (the component template's hide and side-mesh sections, 2026-09-26).

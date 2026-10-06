@@ -880,6 +880,23 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Make every generated COPY ``.ini`` (a second source component on one target slot) share the
+         mod's skeleton state, on a target past 256 bones :raw-html:`<br />` :raw-html:`<br />`
+
+         Two changes, both found merging LynaePeppermint's coat and jacket onto Lynae's one jacket
+         slot. Each copy gets a merge-only section for every target slot another file draws, since a
+         copy's own merged skeleton is fed only by the draws that file matches and its other windows
+         stayed zero. And the bone-data marker and the shape-key overrides are written in the mod's
+         own file only, since a copy repeating them on the game's hashes drew the whole model as giant
+         polygons. **Default**: ``false``, which keeps ChisaParfait -> Chisa's copies, confirmed in game,
+         exactly as they were
+         @endrst
+         */
+        bool copiesShareSkeleton = false;
+
+        /**
+         * @brief
+         @rst
          The command list every slot section runs to bind the mod's buffers; the texture command
          list and the zero stream are added right after it. **Default**:
          ``"CommandListOverrideSharedResources"``

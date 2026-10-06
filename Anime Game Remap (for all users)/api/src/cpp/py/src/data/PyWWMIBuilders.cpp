@@ -424,6 +424,11 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
                         py::doc(":class:`int`: The float4 slots of the merged skeleton buffers declared for a legacy mod. **Default**: ``768``"))
         .def_readwrite("boneDataFilter", &AGRC::WWMIFixerConfig::boneDataFilter,
                         py::doc(":class:`str`: WWMI's marker on the game's bone-data constant buffer. **Default**: ``3381.7777``"))
+        .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
+:class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
+state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key
+overrides in the mod's own file only. **Default**: ``False``
+        )doc"))
         .def_readwrite("currentPoseInCb3Only", &AGRC::WWMIFixerConfig::currentPoseInCb3Only, py::doc(R"doc(
 :class:`bool`: Treat a draw whose ``vs-cb3`` carries the bone-data marker while its ``vs-cb4`` does not as
 one whose CURRENT pose sits in ``vs-cb3`` -- merged into the main skeleton and bound the remapped main

@@ -1157,6 +1157,25 @@ index window, and a round of texture faults; it is the right FIRST mod and never
 three of this repo's own diagnostics reported correct output as broken in one session, and the
 repair each false FAIL invites is a change to working code.
 
+**A PART THAT HANGS AND CLIPS MAY HAVE NO RIGHT ANSWER, AND FIVE ROUNDS WENT BY BEFORE THAT WAS SAID
+OUT LOUD (2026-10-06).** Citlali's braids are modelled 4-11 cm INSIDE her body at rest -- her own
+hair bones carry them out at runtime -- and CitlaliWhisperofStars has no hair bone below y 1.24. So
+the fix displaces the braid to stand in for a bone, and a fixed offset cannot follow a pose. The
+useful parts of that, all general:
+
+- **Ask whether the part's REST pose is already inside the body before blaming the remap.** It often
+  is; the source character's bones are what take it out.
+- **Measure clearance in 3-D AND per narrow x bin.** Nearest-vertex distance cannot tell inside from
+  outside; the per-axis measure conflates a nearby protrusion with the surface under the part. Using
+  only the axis measure justified a push nearly twice the size it needed for several rounds.
+- **The cheapest displacement is the one that leaves the SILHOUETTE soonest**, which is rarely the
+  axis the clip appears along -- a body is much shallower beside the bust than in front of it.
+- **A push has two ends**: what it clears at the bottom, and what its root is driven into at the top
+  (`VGPushAway::fade`, new 2026-10-06, stops it before the parting).
+- **A user's successive rejections are a BOX, not a queue** (Overview habit 93), and **when three
+  consecutive fixes each relocate the symptom by millimetres, re-derive the measurement** (habit 94).
+- **Say when it is a boundary rather than a bug** (habit 95). The maintainer asked for that directly.
+
 **FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
 2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
 writing:

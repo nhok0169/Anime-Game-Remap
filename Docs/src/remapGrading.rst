@@ -200,6 +200,19 @@ Grading
        | - The skin's ``Bangs`` and ``Eyes`` have no textures of their own --- the game draws them with the
        | ``Body``'s --- so a mod that repaints only one of the three is followed for that one and given the
        | game's own textures for the others.
+       |
+       | - **Citlali's two long front braids cannot be posed exactly.** They are modelled inside her body
+       | at rest and her own hair bones carry them out at runtime; CitlaliWhisperofStars has no hair bone
+       | below the collarbone, so her shorter front lock stands in and the rest is made up by displacing
+       | the braid. That displacement is a fixed offset rather than a bone, so it cannot follow a pose:
+       |
+       |   - the braids pass through her chest when she **bends forward**, and
+       |   - they overlap the loose hair beside them within a few millimetres, which the mod itself does
+       |     and Citlali hides with bones the skin does not have.
+       |
+       | The offset is sized to keep them off her body while they still read as hanging against it; a
+       | larger one clears more and starts to look detached. The last few centimetres of each braid stay
+       | behind her dress panel, which is where the mod puts them.
    * - | **CitlaliWhisperofStars --> Citlali**
      - | :greenBold:`4.5`
      - | The inverse: three components merged onto one mesh, laid end to end into one set of buffers with

@@ -1804,6 +1804,47 @@ callers are data you can read rather than guess at.**
 
 <br>
 
+**93. A USER'S SUCCESSIVE REJECTIONS ARE A BOX, NOT A QUEUE (2026-10-06).** Tuning one number against
+a series of reports, the obvious move is to fix whichever axis the latest report named. Do that and
+each round rebounds past a limit an earlier round already set. On Citlali's braid: "leaned a bit too
+forward" (10.2 cm forward / 4.6 sideways) led to more sideways, which drew "too much veered to the
+side" at 6.1, which led back to forward, which drew "leaned too forward" again -- and a later round
+shipped **6.3 cm of sideways after 6.1 had already been refused.** **Write every rejection down as a
+CONSTRAINT and satisfy all of them at once**; three reports there bounded it to "forward under 6 cm
+AND sideways under 5", which no single-axis step would ever have found. And when the constraints do
+not leave a solution, say so and name what is being given up rather than oscillating.
+
+**94. WHEN THREE CONSECUTIVE FIXES EACH EXPOSE A NEW SYMPTOM IN THE SAME SMALL REGION, STOP FIXING
+AND RE-DERIVE THE MEASUREMENT (2026-10-06).** Five rounds went: push forward -> hits the fringe ->
+fade it -> settles into the hair -> cover with an overlap band -> shadow line -> give the band a
+stand-in -> clips the bangs. Every one was a real fix for the symptom in view, and every one was
+steered by a clearance measured along ONE AXIS where the question was three-dimensional. **The tell
+is not that a fix fails -- it is that each fix relocates the symptom by a few millimetres.** The
+maintainer named it before the agent did; they should not have had to.
+
+**95. SAY WHEN YOU ARE EXHAUSTED OR GOING IN CIRCLES (2026-10-06).** The maintainer asked for this
+outright: *"let me know when you have exhausted all options or if you think we are going in
+circles."* Keeping a round going because another parameter exists is not diligence when the
+remaining options all sit on one trade-off curve. State which part is a boundary rather than a bug
+(for Citlali: the skin has no hair bone below y 1.24, so a braid hanging off a head-parented chain
+cannot follow a bend), what was traded for what, and what the honest remaining choices are.
+
+**96. WHEN A REPORT CONTRADICTS YOUR MEASUREMENT, CHECK THEY ARE LOOKING AT THE BUILD YOU MEASURED
+(2026-10-06).** A rebuild and a re-fix change the files; the game serves what it already has until
+`reload`. Told the braids were "pushed forward even more" right after a change that cut the lean
+from 10.2 cm to 6.4, the first instinct was to doubt the numbers --- the numbers were right and the
+game was two builds stale. **Never say a change is ready to look at until a reload has run since the
+last fix.** The same shape applies to any artifact: before doubting a measurement, prove the thing
+being looked at is the thing that was measured.
+
+**97. THE CHECKOUT MAY HAVE ANOTHER AGENT IN IT, AND IT WILL LOCK YOUR BUILD OUTPUT (2026-10-06).**
+A build failed with `COPY_FAILED` --- "the process cannot access the file" --- on
+`core.cp39-win_amd64.pyd`, because another session's `gimiCheck.py` run had the module imported.
+`ninja` had succeeded; only the copy into the API package failed, which reads like a broken build
+and is not. Retry the copy in a loop rather than rebuilding, **never kill a python process you did
+not start** (one of them is GameView's elevated helper), and `Get-CimInstance Win32_Process` shows
+whose it is.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

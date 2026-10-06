@@ -421,6 +421,25 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The TARGET's original shape-key dispatch height -- its ``Metadata.json``'s
+         ``shapekeys.dispatch_y``, which is its shape-key vertex count / 32 rounded up -- written into a
+         retargeted mod's ``$\WWMIv1\shapekey_dispatch_size_y_original_batch0`` / ``_batch1``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A newer WWMI Tools export loads its keys in batches, and WWMI's
+         ``CommandListLoadShapeKeysBatch`` picks a batch by comparing that value with the draw's
+         ``THREAD_GROUP_COUNT_Y``. Left at the SOURCE's value, nothing matches on the target and the
+         fallback sets ``$shapekey_vertex_count`` to the dispatch size itself, so most of the mod's
+         offsets are never loaded and the body is drawn as spikes (Lynae9 onto LynaePeppermint: 1631
+         where the target dispatches 1854). Only keys the mod already has are rewritten. Empty (the
+         default) leaves them alone
+         @endrst
+         */
+        std::string shapeKeyDispatchSize;
+
+        /**
+         * @brief
+         @rst
          The SOURCE components drawn a SECOND time, wound the other way with their normals flipped.
          **Default**: empty -- nothing is mirrored, so no character's output moves
          :raw-html:`<br />` :raw-html:`<br />`

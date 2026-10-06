@@ -812,9 +812,15 @@ namespace AGRemapCore {
             // The FALLBACK is this caller's own policy, and the one thing it does not share: it
             // exists so a failed derivation cannot move a shipped character's output.
             constexpr std::size_t Fallback = 4;
+            // THE FILES WIN OVER THE DECLARATION (2026-10-05). When Blend.buf and Position.buf agree
+            // on a vertex count, that layout is the truth whatever the .ini's `$mesh_vertex_count`
+            // says. It used to be accepted only when the two counts matched, and one Lynae mod
+            // declares 240090 for 240078 real vertices: the layout was rejected, the 16-byte blend
+            // read as 8 bytes, WWMI's BlendRemapper handed `weights_per_vertex_count = 4` for an
+            // 8-influence mesh, and every vertex's bones scrambled -- the body drawn as spikes on
+            // the target while it rendered correctly on its own character.
             const std::optional<BlendLayout> layout = blendLayout(blendPath, positionPath);
-            if (layout.has_value() && (vertices <= 0
-                                       || static_cast<std::size_t>(vertices) == layout->vertices)) {
+            if (layout.has_value()) {
                 return layout->influences;
             }
 
@@ -3465,9 +3471,27 @@ namespace AGRemapCore {
                     assetRemap_ = std::make_unique<RegAssetRemap<>>(
                         std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
                             {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)},
-                            {ShapeKeyChecksumKey, RegAssetRemap<>::AssetSpec(source->shapeKeyChecksums.get(), ChecksumNotFound)}},
+                            {ShapeKeyChecksumKey, RegAssetRemap<>::AssetSpec(source->shapeKeyChecksums.get(), ChecksumNotFound)},
+                            // AND THE PER-BATCH FORM (2026-10-05). A newer WWMI Tools export loads its keys in
+                            // batches (WWMI's Core/WWMI/ShapeKeys.ini reads batch0 and batch1) and names the
+                            // checksum per batch. Only the bare key above was remapped, so such a mod's remap
+                            // kept the SOURCE's checksum, ShapeKeyOverrider matched no buffer of the target,
+                            // and a mod driving a hundred custom keys (Lynae9) drew its body as spikes. The
+                            // batch's dispatch size needs no remap: on a mismatch WWMI falls back to
+                            // dispatching at least the draw's own thread-group count.
+                            {ShapeKeyChecksumKey + "_batch0", RegAssetRemap<>::AssetSpec(source->shapeKeyChecksums.get(), ChecksumNotFound)},
+                            {ShapeKeyChecksumKey + "_batch1", RegAssetRemap<>::AssetSpec(source->shapeKeyChecksums.get(), ChecksumNotFound)}},
                         toModName_, ctx_.modTypeName().value_or(""), from, to);
                     assetAdapter_ = std::make_unique<RegPartEdit<>>(assetRemap_.get());
+                    // see WWMIFixerConfig::shapeKeyDispatchSize
+                    if (!config_.shapeKeyDispatchSize.empty()) {
+                        const std::string key = "$\\WWMIv1\\shapekey_dispatch_size_y_original_batch";
+                        dispatchEdit_ = std::make_unique<RegNewVals<>>(
+                            std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                                {key + "0", RegNewVals<>::NewVal(config_.shapeKeyDispatchSize)},
+                                {key + "1", RegNewVals<>::NewVal(config_.shapeKeyDispatchSize)}});
+                        dispatchAdapter_ = std::make_unique<RegPartEdit<>>(dispatchEdit_.get());
+                    }
 
                     // In this order because each reads what the one before it set: the removals
                     // need the blend width, the groups decide which slots are drawn, and everything
@@ -4291,6 +4315,10 @@ namespace AGRemapCore {
 
                             edits.push_back(newValsOf_.at(slot));
                             edits.push_back(assetAdapter_.get());
+                            if (dispatchAdapter_ != nullptr) {
+                                edits.push_back(dispatchAdapter_.get());
+                            }
+
                             perGroup[g].edits[obj] = std::move(edits);
                             perGroup[g].trackKeys[obj] = false;
                         }
@@ -4301,6 +4329,9 @@ namespace AGRemapCore {
                             }
 
                             perGroup[g].edits[obj] = {assetAdapter_.get()};
+                            if (dispatchAdapter_ != nullptr) {
+                                perGroup[g].edits[obj].push_back(dispatchAdapter_.get());
+                            }
                             perGroup[g].trackKeys[obj] = false;
                             if (g == 0) {
                                 }
@@ -6152,6 +6183,8 @@ namespace AGRemapCore {
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;
                 std::unique_ptr<RegAssetRemap<>> assetRemap_;
                 std::unique_ptr<RegPartEdit<>> assetAdapter_;
+                std::unique_ptr<RegNewVals<>> dispatchEdit_;        // WWMIFixerConfig::shapeKeyDispatchSize
+                std::unique_ptr<RegPartEdit<>> dispatchAdapter_;
                 std::unique_ptr<RegRemove<>> regRemove_;
                 std::unique_ptr<RegPartEdit<>> removeAdapter_;
                 std::map<int, PartEdit*> newValsOf_;

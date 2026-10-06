@@ -187,12 +187,13 @@ def boneCentroids():
     return result
 
 
-def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
+def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     config = FRB.WWMIFixerConfig()
     config.targetId = FRB.ModTypeId.LynaePeppermint
     config.version = "3.7"
-    # Hers. Both skins share cb4 f02baf77; at 3.6 only Lynae has rows, so a reverse lookup of a
-    # shared value cannot answer LynaePeppermint (the ChecksumNotFound trap of Chisa).
+    # Hers, for a mod whose vb0 is not in sourceVersionByVb0. Both skins share cb4 f02baf77, which at 3.6
+    # only Lynae has; a 3.7-vb0 mod is looked up at 3.7, where no NotFound has been seen on any of the
+    # 13 mods (grep the output when adding mods).
     config.sourceVersion = "3.6"
     # Her 3.7 update moved her vb0 AND renumbered her skeleton, so each mod takes the vertex group
     # row of the version it was exported at, read off its own vb0
@@ -302,16 +303,28 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         R("ResourceBlendBufferOverride", "ref"),
         R("ResourceMergedSkeletonOverride", "ref"),
         R("ResourceExtraMergedSkeletonOverride", "ref"),
-        R("Resource\\RabbitFX\\Diffuse"), R("Resource\\RabbitFX\\Lightmap"), R("Resource\\RabbitFX\\Normalmap"),
-        R("Resource\\RabbitFX\\Materialmap"), R("Resource\\RabbitFX\\Cutoutmap"), R("Resource\\RabbitFX\\Specialmap"),
-        R("run", "commandlist\\rabbitfx\\settextures"),
     ]
+    # DIAGNOSTIC --keepRabbitFX: leave a mod's RabbitFX lines in its remapped sections. Two mods here
+    # (Lynae10's suit, Lynae11's stockings and lining) get their look from RabbitFX on Lynae's shaders,
+    # not from their textures; whether RabbitFX patches the skin's shaders too decides if keeping the
+    # lines carries that look
+    if (not keepRabbitFX):
+        config.removedRegs = list(config.removedRegs) + [
+            R("Resource\\RabbitFX\\Diffuse"), R("Resource\\RabbitFX\\Lightmap"), R("Resource\\RabbitFX\\Normalmap"),
+            R("Resource\\RabbitFX\\Materialmap"), R("Resource\\RabbitFX\\Cutoutmap"), R("Resource\\RabbitFX\\Specialmap"),
+            R("run", "commandlist\\rabbitfx\\settextures")]
 
     # ---- the shape keys are RETARGETED (the Chisa decision): the overrides keep firing and the
     # asset remap moves their hashes and checksum onto the skin's ----
     config.hiddenObjs = []
     config.zeroShapeKeyStream = False
+    # ...and a batched export's dispatch height is the skin's (her Metadata.json's dispatch_y), or WWMI
+    # loads too few of the mod's offsets on her draws and the body is drawn as spikes (Lynae9)
+    config.shapeKeyDispatchSize = "1854"
     config.cleanTexcoords = True
+    # The fix's own merged skeleton is sized for the TARGET: LynaePeppermint's slots reach bone 314
+    # (315 x 3 float4 = 945), past the 768 default; 1536 is ChisaParfait -> Chisa's value, and WWMI Tools'
+    config.mergedSkeletonSlots = 1536
 
     # ---- a mod from before WWMI's merged skeleton holds per-component LOCAL bone ids (Lynae5, a
     # `WWMI BETA-8 INI` with no vg_offset). Every such mod of hers is a 3.6 export, so its locals are
@@ -341,6 +354,7 @@ def main():
     parser = argparse.ArgumentParser(description = "Lynae -> LynaePeppermint, as a WWMI-template config")
     parser.add_argument("mod", help = "the mod folder (every Lynae .ini under it is fixed)")
     parser.add_argument("--undo", action = "store_true", help = "undo a previous fix instead")
+    parser.add_argument("--keepRabbitFX", action = "store_true", help = "DIAGNOSTIC: keep the mod's RabbitFX lines in the remapped sections")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
@@ -350,7 +364,7 @@ def main():
     facts = textureFacts()
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeWWMIParser(parserConfig(facts)))
-    FRB.CppStrategyOverrides.setFixer(SrcName, DstName, FRB.makeWWMIFixer(fixerConfig(facts)))
+    FRB.CppStrategyOverrides.setFixer(SrcName, DstName, FRB.makeWWMIFixer(fixerConfig(facts, args.keepRabbitFX)))
 
     folder = os.path.abspath(args.mod)
     try:

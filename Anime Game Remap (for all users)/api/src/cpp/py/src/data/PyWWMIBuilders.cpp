@@ -344,6 +344,12 @@ own slot sections -- for a character whose skeleton was renumbered between game 
 takes the vertex group remap row filed at the version it was exported at. Empty (the default) keeps
 :attr:`sourceVersion` for every mod
         )doc"))
+        .def_readwrite("shapeKeyDispatchSize", &AGRC::WWMIFixerConfig::shapeKeyDispatchSize, py::doc(R"doc(
+:class:`str`: The TARGET's original shape-key dispatch height (its ``Metadata.json``'s
+``shapekeys.dispatch_y``), written into a retargeted mod's ``shapekey_dispatch_size_y_original_batch0`` /
+``_batch1``. WWMI picks the batch by that value, and the source's leaves most of the mod's offsets
+unloaded on the target. Empty (the default) leaves them alone
+        )doc"))
         .def_readwrite("skeletonNumberings", &AGRC::WWMIFixerConfig::skeletonNumberings, py::doc(R"doc(
 List[:class:`WWMIFixerConfig.SkeletonNumbering`]: Every numbering the source's merged skeleton has had,
 when a game update renumbered it. The fix scores each against the mod's own geometry (its vertices'

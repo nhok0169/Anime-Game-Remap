@@ -59,4 +59,14 @@ Rough work used for helping with finding out Vertex Group Remaps for different m
   `Data/Mod Downloads/WuWa/Chisa/2_8` and `ChisaParfait/3_5` were built from, since WWMI-Assets has
   neither character, and reading it needed the finder to learn the **eight-influence** blend layout
   (`R8_UNORM`, and an element whose real width is the distance to the next one).
+- **`LynaeRemapDraft.xlsx` is the third Wuthering Waves pair** (2026-10-05), both directions, in the merged-skeleton
+  space, from the frame dumps `Data/Mod Downloads/WuWa/Lynae/3_7` and `LynaePeppermint/3_7` were built from. Lynae is
+  367 vertex groups (360 with vertices), LynaePeppermint 311 (251). The finder proposed it and it was then **reviewed
+  row by row** -- 57 forward and 29 reverse rows changed, each saying `REVIEWED` in column D with the finder's answer
+  kept in brackets. What the review found, in the order it matters: fingers welded together in both directions (the
+  two hand rigs coincide to ~0.05 units, so every hand row is now its exact counterpart, one to one); her necktie and
+  headphone band spread over the skin's breasts, earrings and necklace (now one rigid anchor each: chest, neck); the
+  back of Lynae's skirt on the skin's JACKET hem chain, and the skin's hip helpers on Lynae's skirt pleats (now hips
+  and thighs both ways); and Lynae's centre back hair strand split across the skin's two twin tails. Not checked in
+  game, so the `About` mark stays.
 - Not recorded here: the CN skins (Amber, Rosaria, Jean, Mona), whose remaps came from someone else, and Kirara, Raiden and Arlecchino.

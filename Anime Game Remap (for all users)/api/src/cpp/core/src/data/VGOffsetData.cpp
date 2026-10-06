@@ -60,6 +60,25 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getVGOffset
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component5"}, "212"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component6"}, "258"},
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), "", "component7"}, "259"},
+
+        // Lynae (3.6): 8 draw slots, from the frame dump's Metadata.json (vg_offset)
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component0"}, "0"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component1"}, "45"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component2"}, "117"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component3"}, "118"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component4"}, "229"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component5"}, "322"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component6"}, "370"},
+        {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "component7"}, "400"},
+        // LynaePeppermint (3.7): 8 draw slots, from the frame dump's Metadata.json (vg_offset)
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component0"}, "0"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component1"}, "43"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component2"}, "99"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component3"}, "100"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component4"}, "185"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "257"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "277"},
+        {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "314"},
     };
     return rows;
 }

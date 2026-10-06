@@ -228,7 +228,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is ninety-two short habits, none of
+feature or bug request here: the habits that pay" first.** It is ninety-four short habits, none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -1126,6 +1126,21 @@ chain takes whatever IT maps to, so writing the target id there is a silent no-o
 the part's OTHER bones have to be anchored too (27% of that prop's weight sat on a bone outside the
 chain, which left it torn between two places). Both are in
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md).
+
+**A WUWA MOD THAT LOOKS WRONG ON ITS *OWN* CHARACTER IS ITS TEXTURE HASHES, NOT THE REMAP (2026-10-05).**
+All 13 Sanhua / SanhuaExorcist mods drew the game's textures at their own UVs at 3.7. Each overrode
+either an old hash or WWMI-Assets' current one, and with texture quality on Ultra High the game binds
+neither: it binds the "live" hash 3DMigoto computes once a texture's mips have streamed in. A frame
+dump of the BASE outfit in the character menu says which in minutes. `wwmiTextureFix.py --live
+<Name>LiveHashes.json` adds a live twin to every override (undo the remap first, fix again after),
+and each fix config's `roles` holds the live hashes too. Older generations go in `HashData`, never the
+current or live ones. The same session found the fix had stopped seeing textures that ANOTHER `.ini`
+of the mod binds on the same draw (a RabbitFX cloak's namespaced file one folder up), fixed by
+`WWMIFixer::readSameDrawInis`. And a "still broken" report afterwards was the released
+`AGRemap-5-0-0.py` (the pip-installed API) re-fixing the mod: **diff the live folder against your
+verified output before reopening code** (Overview habits 93-94; `Tools/Misc/Diagnostics/abFixBindings.py`
+A/Bs two fixed copies by what they bind). See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+"THE MOD LOOKS WRONG ON ITS OWN CHARACTER" and its two START HERE rows.
 
 **A SYMPTOM MAY BELONG TO A THIRD-PARTY MOD, AND 3DMIGOTO'S LOG SAYS SO IN TWO MINUTES
 (2026-10-01).** A Chisa mod's heart eyes went missing after WuWa 3.7 and read as a remap

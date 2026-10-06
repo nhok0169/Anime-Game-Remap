@@ -31,6 +31,12 @@ EnvName = "{{Build Env}}"
 #   API on another. Only a 'dev' build uses this.
 ApiRelPath = "{{API Rel Path}}"
 
-# ApiPackage: The API, both as a module to import and as an installation name on pypi
+# ApiPackage: The API as a module to import, from the API's source folder. Only a 'dev' build uses this.
 ApiPackage = "{{API Package}}"
+
+# ApiMirrorPackage: The API's mirror, both as a module to import and as an installation name on pypi
+#
+# note: the mirror re-exports the whole API and pins the API's package at its own version, so
+#   installing the mirror also installs the API. Only a 'prod' build uses this.
+ApiMirrorPackage = "{{API Mirror Package}}"
 ##### EndScript

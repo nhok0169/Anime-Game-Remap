@@ -717,6 +717,50 @@ mod on its own character, and note everything odd rather than only the thing you
 of the faults the maintainer reported on this pair were already visible in an agent's own earlier
 screenshots.
 
+### A PRE-FLIGHT REPORT HAS TWO DATES: THE ARTIFACT'S AND THE TOOL'S (2026-10-05)
+
+**A failing pre-flight report handed to you, rather than produced by you, is evidence about a run
+--- not about the build.** Check 4 reported four UNBOUND download resources on `BennettAdventure1`,
+a twelve-variant merged master whose fix block held no `Eye` member section at all: the Eye geometry
+fetched and nothing consuming it, which is exactly the fault that check exists for. It cost no
+in-game round and no code change, because **both** halves of the report were out of date:
+
+| what was stale | how it showed |
+| --- | --- |
+| **the artifact** | every file in the mod folder, `BennettAdventureMerged.ini` included, was stamped `2026-09-16 06:02` --- the fix had not run on it in three weeks. Re-fixed from a genuinely unfixed baseline with the current build, the master carries a `[CommandListBennettAdventureEyeABennettEyeARemapFix]` that the old output does not: called from the tail of the Head-slot section, drawing `drawindexed = 828, 9384, 0`, binding the downloaded `BodyA` diffuse and light map |
+| **the tool** | `CONSUMED`, the verdict that makes this exact shape read OK, landed on 2026-10-04 in `385641c6` ("A download the fix READ is not a download the mod binds") and had not reached `master`. The same fresh output reads `FAIL: 4 problem(s)` from `master`'s copy of the checker and `OK: 1 .ini file(s), 0 problem(s)` from that commit's |
+
+So before chasing a report: **`ls -la` the folder it was taken from, and `git log` the tool that
+produced it.** A mod folder parked one level up under `GIMI/` rather than `GIMI/Mods/` is outside
+the set a no-argument run fixes, so its output is as old as the day it was parked; and a
+diagnostic's exemptions are always newer than the diagnostic.
+
+**And re-running the check is not the same as confirming it.** `CONSUMED` asserts that a bound
+merged buffer exists and that the member owning the download draws out of it. It does not assert
+that the vertices are at the offset that draw reads from --- the checker says so itself, and leaves
+the question to the arithmetic of "A mod that is MISSING a whole component" below. On a merged
+master that arithmetic is four questions, each asked **per branch**:
+
+| the question | BennettAdventure1, all 12 branches |
+| --- | --- |
+| merged length / stride == sum of the component counts | `mod + 2495 + 202` matches the merged Position, Blend AND Texcoord on every branch (28785, 26548, 41794, 42274, 28725, 26488, 37440, 36708, 39561, 38779, 36891, 36019) |
+| every component's indices lie inside its own slice | body `[0, mod)`, frontHair `[mod, +2495)`, eye `[mod+2495, +202)` |
+| the appended component's indices are the download's own, shifted by the sum of the ones before it | each branch's eye slice is byte-for-byte `EyeARemapDL.ib + (mod + 2495)` |
+| the downloaded bytes are really in the buffer | the merged Position is the mod's bytes, then the front hair's, then `EyePositionRemapDL`'s, verbatim |
+
+`override_vertex_count = 42274` is the largest of the twelve, as it has to be. And `828, 9384` is
+branch-invariant here --- neither the front hair's vertex count nor the eye's varies --- which is
+why that appended draw correctly sits at section depth instead of inside each `if`: the
+`RegBottomAdd` / `RegBranchAdd` distinction of "FIXING A MERGED MASTER", coming out on the other
+side for once.
+
+**There is no tool for that arithmetic.** `drawFits.py` asks that no draw overruns its buffer and
+`drawCoverage.py` that every member is drawn once per path; the per-branch length and shift checks
+have been written by hand each time this has come up. Forty lines of `.ini`-driven Python would
+make it check 11.
+
+<br>
+
 ## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
 
 **The fix has to be right for mods nobody has tested it on.** Some characters have very few mods on the
@@ -781,6 +825,53 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
+## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-4
+
+Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the
+registration (Lynae filed at 3.6 with the `vb0` most of her mods carry, `0c33d628`, plus a 3.7 row for the live
+`7e400733`; LynaePeppermint at 3.7). Identity mods: `WWMI/LynaeIdentity`, `WWMI/LynaePeppermintIdentity`. What
+these steps taught:
+
+* **9 of 14 Lynae mods were exported before 3.7 moved her `vb0`**; every index window, `cb4` and shape-key hash
+  of theirs equals the 3.7 dump's, so only `vb0` needs a second row (the ChisaParfait arrangement). Count the
+  `vb0`s across the mods on hand before filing a version (`Tools`-less: grep `hash =` in the component sections).
+* **A downloaded "Lynae" mod may be built on the skin**: `lynae_klukai_v11` carries LynaePeppermint's `vb0` and
+  windows, and is `LynaePeppermint4` now. Classify downloads by hash, not by archive name.
+* **The extractor aborted on Lynae herself** (`components CB4 hash mismatch`): one component is also drawn in a
+  pass binding the scene's `vs-cb4`. `wwmiExtractDump.py --only <vb0>` drops those draws; see the downloads README.
+* **The Lynae identity mod drew three glassy props wrong, and the cause was the SKELETON BINDING, not the props
+  (found 2026-10-05).** The ID card on her belt drew opaque white (clear plastic in the game), the chest pin a dark
+  ring (silver), the headphone ear cups a flat white dial (an iridescent disc); LynaePeppermint's identity mod and a
+  near-vanilla author mod (`Lynae11`) were right. Eliminated first, each by a test: texture bytes, mip chains,
+  COLOR1, every other vertex attribute, the props' merged bones, the `vg` windows, shape keys, `vb6`. What found it:
+  (1) the dump pair (vanilla vs identity) showed component 6's six passes, of which a special-material layer
+  (`b35f6bd4`) lost the pin and most of the card in the modded frame with HOLES in the lining around them -- a
+  depth-test failure, not a shading one; (2) a per-pass probe (`ShaderOverride` + `filter_index` on each pass's
+  pixel shader, the section stepping aside with `&& ps != N`) broke the props whichever PAIR of passes the mod drew
+  while the game drew the rest -- so the mod's draws land at a different depth from the game's; (3) diffing the
+  identity `.ini` against `Lynae11`'s found the only relevant difference in `CommandListOverrideSharedResources`.
+  `wwmiIdentityMod.py` wrote WWMI Tools 1.3.x's binding (`if vs-cb3 marked -> ExtraMergedSkeleton; if vs-cb4 marked
+  -> MergedSkeleton`), and WWMI Tools 1.7.3 writes `if vs-cb4 marked -> main in cb4, extra in cb3; ELIF vs-cb3 marked
+  -> MAIN in cb3`. **Lynae has draws whose skeleton is in `vs-cb3` ALONE** (11 in her dump, her early depth passes;
+  LynaePeppermint has none, which is the whole asymmetry), and the old form bound the EXTRA skeleton -- the previous
+  frame's pose -- there. Those passes wrote depth for last frame's pose, the later passes' equal-depth tests failed
+  on every thin layered part, and those parts dropped out. The builder writes the 1.7.3 form now and both identity
+  mods are regenerated (only that block changed); the Lynae one is confirmed in game. Count a character's
+  cb3-only draws in a dump with
+  `ls <dump> | grep -E '^[0-9]{6}-vs-cb[34]=<cb hash>'` grouped by draw. **For step 9 (LynaePeppermint -> Lynae):
+  `WWMIFixer`'s `CommandListMergeSlot<N>` has the same two independent `if`s** -- on a cb3-only draw it merges the
+  current pose into the EXTRA buffer and binds the extra, so expect this exact symptom on the reverse fix until the
+  merge list gains the `elif` (no compiled pair has hit it; check its target's dump for cb3-only draws first).
+* **A before/after of a REFLECTIVE part from one frame lies.** The ear cup's look depends on the idle pose's angle
+  to the camera, and one turned frame read as "mip chains fix it" -- a conclusion the next series overturned. Take a
+  timed series (six shots, two seconds apart, tiled) of the game (`screenshot --original`) and of the mod, and compare
+  frames of the same pose.
+* **Another session can rebuild the shared `.pyd` under you**: between two turns the installed module went back to
+  a `master` build without Lynae (`WWMIBuilder.lynae` missing), and the package stopped importing. Check the `.pyd`'s
+  mtime against your last build before trusting a run.
+
+<br>
+
 ## START HERE: which kind of remap request is this (2026-09-20)
 
 This file is long and its sections were written in the order they were learned, not in the order
@@ -820,9 +911,11 @@ surprises you.
 | **small dark squares / wedges** on layered CLOTHING that change colour with a band edit but never go away | "LUMINE <-> LUMINEHEAVEN", point 11: the outline shells of the under-layer. Zero the vertex colour alpha (the outline width) as the test, then `Component::innerOutlineObjs` |
 | **white cloth goes warm, or hair goes two colours, in the overworld's SHADE** only (the Dressing Room looks fine) | "LUMINE <-> LUMINEHEAVEN", point 10: one skin slot carries cloth and hair, and a draw shades everything as one of them. `GIMIMergeFixerConfig::Slot::splitFrom` splits it by light map band. Test in the overworld's shade (`look DX DY`), never only in the preview |
 | two configs of one pair **disagree about a slot's layout** (normal map or not) | "A TexFx call follows the TARGET's layout", the YelanTranquil slot C paragraph, and [Overview](../Overview/CLAUDE.md)'s habit 86: trace both through ORFix before "fixing" either |
+| the mod **looks wrong on its OWN character**, not only on the remap (WuWa: the game's textures at the mod's UVs, gold smears, a washed-out top) | NOT a remap bug. "THE MOD LOOKS WRONG ON ITS OWN CHARACTER WAS THE LIVE TEXTURE HASHES": dump the BASE outfit in the character menu (check the dump's `vb0` is the right character, since the selected outfit card decides which one draws), compare the hashes it binds with the mod's `[TextureOverrideTextureN]` hashes, then `wwmiTextureFix.py --live` (undo the remap first, fix again after). Prove it with a before/after on a mod whose VISIBLE parts use the changed overrides |
+| on the remap, **some parts render in the GAME's textures** while the mod's own `.ini` binds no textures for them, and another `.ini` of the mod does (a namespaced or RabbitFX file, often one folder up, matching the same `vb0` + `match_first_index`) | "THE MOD LOOKS WRONG ON ITS OWN CHARACTER", its last paragraph: `WWMIFixer::readSameDrawInis` reads those, but only the registers `WWMITextureFacts::registerRoles` names. A new character needs its RabbitFX names there. The tell is `<Source><Role>RemapDL.dds` files beside the mod: each is a role the fix found no file for |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
-Four things hold whichever row you are on, and each has cost a session:
+Five things hold whichever row you are on, and each has cost a session:
 
 * **The report's own words are the first instrument.** A hue over body and clothes is a mask; one
   part in another's texture is a role with no file; a wrong shape is a vertex group. [Overview](../Overview/CLAUDE.md)'s
@@ -837,6 +930,10 @@ Four things hold whichever row you are on, and each has cost a session:
   NAMES, not their bodies.
 * **The maintainer moves mod folders between `Mods/` and its parent between turns.** A mod you
   cannot find is one directory up, not missing.
+* **A "still broken" report after a fix you verified: diff the live folder against your verified
+  output before reopening code** ([Overview](../Overview/CLAUDE.md)'s habit 93). The maintainer's
+  `Mods` holds the released `AGRemap-*.py` beside `FixRaidenBoss7.py`, and the release fixes with
+  the pip-installed API. Output byte-identical to the OLD build means the wrong script ran.
 
 <br>
 
@@ -6978,10 +7075,19 @@ fill them, with where each comes from:
    dump; the eye pass has its own layout.
 3. **The roles by hash** (`roles`) for the CURRENT hashes off the dump AND every older hash the
    community maps and `Data/Mod Downloads/WuWa/<Name>/<Name>HashLineage.json` know -- mods carry
-   whatever version their author exported from.
+   whatever version their author exported from. **And the LIVE ones** (2026-10-05): the hashes the
+   game binds with texture quality on Ultra High, which differ from the asset repo's. Read them off a
+   frame dump of the character menu, put them in `roles` too, and write
+   `<Name>LiveHashes.json` (asset -> live) for `wwmiTextureFix.py --live`. File the OLDER generations
+   in `HashData` (ChisaParfait's and Sanhua's shape: older only, never current or live, which would
+   make them remappable).
 4. **The thumbprints** (`textureThumbprints`, `Tools/Misc/Diagnostics/wwmiTextureThumbs.py` over the
-   download folder) for files no hash names; the `Component<N>_<Type>` convention (`typeRoles`) after
-   them.
+   download folder) for files no hash names, and **`registerRoles`** for files a mod binds by
+   register or by RabbitFX name (`Resource\RabbitFX\Diffuse` / `Lightmap` / `Normalmap`; Lightmap
+   is the mask on both characters so far). `typeRoles` (`Component<N>_<Type>.dds`) **no longer
+   assigns a role** since 2026-09-29: a mod whose only evidence was the file NAME lost those
+   textures to game downloads (Sanhua3's hair, 2026-10-05). It only says which component a role
+   belongs to.
 5. **The created textures** (`createdTextures`: the skin mask code measured off the TARGET's mask,
    `(255, 77, 0)` for the Exorcist -- measure it, the legends differ per skin).
 6. **The fallbacks** (`fallbackTextures` + `downloadCharFolder` / `downloadVersionFolder` /
@@ -7895,6 +8001,49 @@ ChisaParfait mods that exist are all 3.5-era, which is why that direction cannot
 until one is re-exported -- or until the fix updates the mod's own sections to the source's current
 hash, which is what the maintainer's `25fix` / `wwmi_fix_23` tools do and is a decision rather than a
 bug.
+
+<br>
+
+### "THE MOD LOOKS WRONG ON ITS OWN CHARACTER" WAS THE LIVE TEXTURE HASHES, AND A DUMP SAYS SO IN MINUTES (2026-10-05)
+
+Every Sanhua mod rendered the GAME's textures at the mod's UVs on Sanhua herself at WuWa 3.7: gold
+smears on a skirt, a washed-out blouse. A WWMI-Tools mod binds its textures through
+`[TextureOverrideTextureN] hash = <game texture>` sections that `CheckTextureOverride` fires, so a
+hash the game no longer binds is a texture that silently never arrives. Four mods carried pre-2.5
+hashes and two had been moved to WWMI-Assets' 2.5 hashes by `wwmiTextureFix.py` in September, and
+**all six were wrong**: with texture quality on Ultra High the game binds the "live" hashes, the ones
+3DMigoto computes after a texture's mips have streamed in (`b0828323` where the asset repo says
+`ae6e9014`). They had been measured on 2026-09-20 and filed only as `live -> asset` entries in the
+lineage table, which a tool moving mods TO the asset hashes cannot use.
+
+`Data/Mod Downloads/WuWa/Sanhua/SanhuaLiveHashes.json` is the `asset -> live` table, re-confirmed
+off a character-menu dump of the base outfit (`FrameAnalysis-Sanhua37Base-2026-10-05-012744`), and
+`wwmiTextureFix.py --live <it>` adds a `[<section>Live]` twin to each override, so a mod works at
+either texture setting. The live hashes went into `SanhuaTextures.cpp`'s role table too: without
+that, the remap fix would no longer recognise an updated mod's textures. The order for a mod that is
+already remapped is undo, then the tool, then the fix again. All eight Sanhua mods came out with
+remapped bindings and blends identical to before.
+SanhuaExorcist's five mods had the same fault and got the same treatment
+(`SanhuaExorcistLiveHashes.json`; her live hashes were already in her role table). In game, qiming
+went from pale hair and smeared pink arms to its own art. One of them, `SanhuaExorcist3`, looked the same
+before and after, because none of the parts on screen used the overrides that changed. **A single
+before/after that matches proves nothing; pick a mod whose visible parts are bound by the overrides
+the tool moved.** Both characters' OLDER generations are filed in `HashData` now, ChisaParfait's
+shape: older hashes only, never the current or live ones, which would make them remappable. Over the
+13 mods' pristine copies the remap output did not move, because the configs' role tables already
+held every one of them.
+**Check the dump's `vb0` before reading it**: the first attempt was taken with the outfit menu
+showing the SKIN's card and caught SanhuaExorcist (`b101dcf3`), so none of Sanhua's hashes were in it.
+
+And the RabbitFX cloak mod (`Sanhua3`) found the second half the same day. Its mesh `.ini` binds
+no textures. A namespaced `SanhuaCloak.ini` one folder up overrides the SAME draws (source `vb0`
+hash plus `match_first_index`) and hands its bangs, hair and bodice art to RabbitFX by name. The
+parser has only read the `.ini`'s own files since 2026-09-29, so those roles fell back to
+downloading Sanhua's GAME textures. `WWMIFixer::readSameDrawInis` now reads loaded `.ini` files beside
+the mesh's and up to two folders above it, takes only sections on one of this file's own draws, and
+only the registers `WWMITextureFacts::registerRoles` names. Sanhua's facts gained the RabbitFX
+names (her `Lightmap` is the mask; component 6 is left out, its "Diffuse" is the ramp). Only Sanhua3
+moved among the eight Sanhua mods.
 
 <br>
 

@@ -56,6 +56,16 @@ namespace AGRemapCore {
             static ModType chisaParfait();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Lynae
+             */
+            static ModType lynae();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for LynaePeppermint
+             */
+            static ModType lynaePeppermint();
+
+            /**
              * @brief Every WuWa :cpp:class:`ModType`, freshly built on each call
              */
             static std::vector<ModType> all();

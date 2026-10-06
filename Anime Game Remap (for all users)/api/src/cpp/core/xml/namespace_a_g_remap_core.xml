@@ -1350,6 +1350,29 @@ WWMI-Assets has neither her nor her skin, so her asset tables (and
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" prot="public">
+          <name>Lynae</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Lynae from WuWa (Wuthering Waves), a WWMI mod type -- see
+:cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+WWMI-Assets has neither her nor her skin, so her asset tables (and
+``Data/Mod Downloads/WuWa/Lynae/3_7``) come from a frame dump. Her merged skeleton passes
+256 bones (401), so a mod of hers carries WWMI&apos;s blend remap
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" prot="public">
+          <name>LynaePeppermint</name>
+          <briefdescription>
+<para>Lynae&apos;s Peppermint skin from WuWa <ndash/> see :cpp:enumerator:<computeroutput>Lynae</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1359,7 +1382,7 @@ The names of the different types of mods this fix will fix from or fix to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="545"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="563"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -2042,7 +2065,7 @@ mod&apos;s files are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" bodystart="20" bodyend="71" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" bodystart="20" bodyend="97" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2135,7 +2158,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="5786" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5786" bodyend="5790" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="827" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="5961" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5961" bodyend="5965" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="827" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2601,7 +2624,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="356" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="213" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="363" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="235" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

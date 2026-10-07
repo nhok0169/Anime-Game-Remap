@@ -149,7 +149,11 @@ jacket slot, the second in a copy `.ini`. On a target past 256 bones that copy n
 `WWMIFixerConfig::copiesShareSkeleton`: without it the copy's skeleton was zero for the other slots, and its repeated
 bone-data marker and shape-key overrides drew the whole model as giant polygons. `Binding.srcComponent` had never been
 bound to Python. And two black bands down the backs of her thighs were her lower body's OUTLINE pass (`30ab50e7`,
-which an earlier note had called her sheer pass) drawing with a flat white outline mask. See
+which an earlier note had called her sheer pass) drawing with a flat white outline mask. **And a "second shadow body, only when she moves" was the fix's own
+skeleton remap running at the top of every slot's merge list** -- windows of different ages, so the parts of one body
+were drawn a frame apart; it now runs once a frame, latched on the host's `$object_detected` (every target past 256
+bones, ChisaParfait -> Chisa included; `Tools/Misc/Diagnostics/wwmiRemapLatch.py`). Such a ghost needs the character
+to RUN: turning her in a menu moves no bones. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LYNAE <-> LYNAEPEPPERMINT".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

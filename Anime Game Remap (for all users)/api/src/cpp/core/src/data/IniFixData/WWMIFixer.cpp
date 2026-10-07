@@ -1674,6 +1674,139 @@ namespace AGRemapCore {
                     return IniNamingTools::getRemapFixName(name, toModName_);
                 }
 
+            public:
+                std::string groupToStr(std::size_t groupInd) const override {
+                    std::string text = Fixer::groupToStr(groupInd);
+                    if (!targetPast256_ || !hostResetsDetected_) {
+                        return text;
+                    }
+                    return latchFrameRemap(text);
+                }
+
+            private:
+                // Whether the host's [Present] resets `$object_detected` each frame: the line WWMI Tools
+                // writes there, `post $object_detected = 0`, anywhere inside that section
+                static bool presentResetsObjectDetected(const std::string& txt) {
+                    bool inPresent = false;
+                    std::size_t start = 0;
+                    while (start <= txt.size()) {
+                        std::size_t end = txt.find('\n', start);
+                        if (end == std::string::npos) {
+                            end = txt.size();
+                        }
+
+                        const std::string line = StringTools::toLower(std::string(StringTools::strip(
+                            std::string_view(txt).substr(start, end - start))));
+                        if (!line.empty() && line.front() == '[') {
+                            inPresent = line == "[present]";
+                        } else if (inPresent && StringTools::startsWith(line, "post $object_detected")
+                                   && line.find('=') != std::string::npos
+                                   && StringTools::strip(std::string_view(line).substr(line.find('=') + 1)) == "0") {
+                            return true;
+                        }
+                        start = end + 1;
+                    }
+                    return false;
+                }
+
+                // THE REMAP RUNS ONCE A FRAME, AT THE FIRST FIX SECTION THAT DRAWS (2026-10-06).
+                //
+                // WWMI's own design binds every draw of a frame ONE complete skeleton, the one its
+                // [Present] snapshots: the whole character is a frame behind, uniformly. The remap used
+                // to run at the top of every slot's merge list instead, from a merge buffer holding some
+                // windows from this frame and the rest from the last -- so a slot's first pass skinned
+                // its own bones a frame late, its later passes did not, and bones of other slots
+                // depended on draw order. Still, nothing differs; in motion the parts of one body are
+                // drawn a frame apart, which TAA leaves as a dark shell trailing her (reported on
+                // Lynae1 as "a second shadow ghost body, only when she moves").
+                //
+                // The host flags its own frames: every section sets `$object_detected = 1` and its
+                // [Present] resets it with `post`. So a fix section that runs a merge list remaps
+                // first when the flag is still 0 -- the frame's first -- and the rest of the frame
+                // binds that one result. A section of the fix's that merges without setting the flag
+                // (a copy's merge-only section) sets it here. Only for a host whose [Present] does the
+                // reset: without it the flag would stay 1 and the remap would never run again.
+                std::string latchFrameRemap(const std::string& text) const {
+                    std::unordered_set<std::string> merges;
+                    for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
+                        merges.insert(std::string(IniKeywords::Run) + " = " + mergeListName(static_cast<int>(slot)));
+                    }
+                    merges.insert(std::string(IniKeywords::Run) + " = " + fixName("CommandListMergeWindow"));
+                    const std::string detected = "$object_detected = 1";
+                    const std::vector<std::string> latch = {
+                        "if $object_detected == 0",
+                        "\t" + std::string(IniKeywords::Run) + " = " + fixName("CommandListRemapMergedSkeleton"),
+                        "endif"};
+
+                    std::vector<std::string> lines;
+                    std::size_t start = 0;
+                    while (start <= text.size()) {
+                        std::size_t end = text.find('\n', start);
+                        if (end == std::string::npos) {
+                            lines.push_back(text.substr(start));
+                            break;
+                        }
+                        lines.push_back(text.substr(start, end - start));
+                        start = end + 1;
+                    }
+
+                    const auto topLevel = [](const std::string& line) {
+                        return !line.empty() && line.front() != ' ' && line.front() != '\t';
+                    };
+
+                    std::vector<std::string> out;
+                    std::size_t i = 0;
+                    while (i < lines.size()) {
+                        if (lines[i].empty() || lines[i].front() != '[') {
+                            out.push_back(lines[i++]);
+                            continue;
+                        }
+
+                        std::size_t next = i + 1;
+                        while (next < lines.size() && (lines[next].empty() || lines[next].front() != '[')) {
+                            ++next;
+                        }
+
+                        bool runsMerge = false;
+                        std::optional<std::size_t> detectedAt;
+                        std::optional<std::size_t> firstIf;
+                        for (std::size_t k = i + 1; k < next; ++k) {
+                            const std::string stripped(StringTools::strip(lines[k]));
+                            if (merges.count(stripped) > 0) {
+                                runsMerge = true;
+                            }
+                            if (topLevel(lines[k]) && stripped == detected && !detectedAt.has_value()) {
+                                detectedAt = k;
+                            }
+                            if (topLevel(lines[k]) && StringTools::startsWith(stripped, "if ") && !firstIf.has_value()) {
+                                firstIf = k;
+                            }
+                        }
+
+                        for (std::size_t k = i; k < next; ++k) {
+                            if (runsMerge && detectedAt.has_value() && k == *detectedAt) {
+                                out.insert(out.end(), latch.begin(), latch.end());
+                            } else if (runsMerge && !detectedAt.has_value() && firstIf.has_value() && k == *firstIf) {
+                                out.insert(out.end(), latch.begin(), latch.end());
+                                out.push_back(detected);
+                            }
+                            out.push_back(lines[k]);
+                        }
+                        i = next;
+                    }
+
+                    std::string result;
+                    for (std::size_t k = 0; k < out.size(); ++k) {
+                        result += out[k];
+                        if (k + 1 < out.size()) {
+                            result += '\n';
+                        }
+                    }
+                    return result;
+                }
+
+            private:
+
                 /**
                  * @brief Whether a section is one a PREVIOUS run of this fix wrote
                  *
@@ -1827,6 +1960,8 @@ namespace AGRemapCore {
                         error = "the fixer has no .ini file";
                         return false;
                     }
+
+                    hostResetsDetected_ = presentResetsObjectDetected(ini->getFileTxt());
 
                     // The fixer is built BEFORE the parser parses, so the sections are found by hash
                     // over IniFile::getIfTemplates rather than through the parser's graphs.
@@ -4881,9 +5016,9 @@ namespace AGRemapCore {
                     for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
                         const Slot& s = target_.slots[slot];
                         SectionText mergeList(z3_, mergeListName(static_cast<int>(slot)));
-                        if (targetPast256_) {
-                            // Before the merge, so the frame's first remapped draw remaps from the previous
-                            // frame's COMPLETE merge rather than from this frame's first window.
+                        if (targetPast256_ && !hostResetsDetected_) {
+                            // Only without a frame latch (see latchFrameRemap): a remap here runs before
+                            // EVERY slot's merge and so reads a buffer whose windows differ in age.
                             mergeList.key(IniKeywords::Run, fixName("CommandListRemapMergedSkeleton"));
                         }
 
@@ -5229,6 +5364,17 @@ namespace AGRemapCore {
 
                     this->appendedSections = std::string(StringTools::rstrip(out));
                     buildCopyMerges();
+
+                    // The appended sections merge too -- a hidden slot's, and a copy's merge-only ones --
+                    // and they are rendered outside groupToStr, so they take the frame latch here. A hide
+                    // section left out would set `$object_detected` itself, and on a frame where it runs
+                    // first the remap would not run at all
+                    if (targetPast256_ && hostResetsDetected_) {
+                        this->appendedSections = latchFrameRemap(this->appendedSections);
+                        for (auto& entry : this->appendedSectionsPerGroup) {
+                            entry.second = latchFrameRemap(entry.second);
+                        }
+                    }
                 }
 
                 // A COPY'S SKELETON HAS TO RECEIVE EVERY SLOT'S BONES (2026-10-06).
@@ -6271,6 +6417,7 @@ namespace AGRemapCore {
                 // PAIR -- so the .ini and the buffers, written at different times, cannot disagree
                 // about whether there is a blend remap.
                 bool targetPast256_ = false;
+                bool hostResetsDetected_ = false;                     // the host's [Present] does `post $object_detected = 0`
 
                 // How many bones the one remap holds -- the DISTINCT targets the vertex group row
                 // names, so the .ini (written first) and the buffers agree without either having to

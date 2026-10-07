@@ -586,6 +586,24 @@ the mod on its own card. What it found:
   template now sets `GIMIFixer::appendedSectionsDropRepeats`, which leaves out an appended section the file already
   declares word for word. Across all 36 Chisa / Sanhua regression mods and the 14 Lynae ones, the only output change
   is that removed repeat (and Lynae5, a pre-merged-skeleton mod with no marker of its own, does not change at all).
+* **A SECOND SHADOW BODY, SEEN ONLY WHEN SHE MOVES, WAS THE SKELETON REMAP RUNNING AT THE WRONG TIME (the maintainer's
+  report on Lynae1, 2026-10-06).** Running in the overworld, a dark silhouette trailed her legs and back; still, nothing.
+  On a target past 256 bones the fix remaps WWMI's merged skeleton itself (`CommandListRemapMergedSkeleton<Fix>`), and
+  it ran at the top of EVERY slot's merge list -- before that slot's own window was merged this frame. So a slot's first
+  pass skinned its own bones a frame late, its later passes did not, and bones of other slots depended on draw order.
+  WWMI's own design binds every draw of a frame one complete skeleton (its `[Present]` snapshot), uniformly a frame
+  behind. The fix now runs the remap once a frame, latched on the host's own frame flag: every section sets
+  `$object_detected = 1` and the host's `[Present]` resets it with `post`, so the fix's merging sections remap under
+  `if $object_detected == 0`, ahead of setting it (`WWMIFixerImpl::latchFrameRemap`, also over the appended hide and
+  copy-merge sections, which are rendered outside `groupToStr`). A host whose `[Present]` does not reset the flag keeps
+  the per-list remap, since a latch nothing resets would freeze the skeleton. Every changed output line across both
+  Lynae directions and ChisaParfait -> Chisa is the latch and nothing else, and `Tools/Misc/Diagnostics/wwmiRemapLatch.py`
+  fails on the old output (160 sections) and passes on the new (127). How it was found, in order: the frame dump's
+  `vs-cb3` / `vs-cb4` were both ours on every draw (so not the previous-pose ghost of ChisaParfait), vanilla and the
+  forward identity mod were clean when TURNED in the menu (turning moves the world matrix, not the bones -- **a ghost of
+  bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
+  any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
+  matches, so there is no own-character reference for it.
 * **`wwmiCheckBlendRemap.py` had two gaps, both fixed.** It looked for a file named exactly `Index.buf`, and two
   LynaePeppermint mods name theirs `b41c509e-Component1.buf`, so it now also reads the `.ini`'s `[ResourceIndexBuffer]`.
   And it reported LynaePeppermint3's sheer-cloth `[CustomShader...]` sections as never reaching the blend remapper,
@@ -4519,6 +4537,7 @@ first. Read the report's WORDS against the left column before opening any code (
 
 | the report says | what it was | look first at |
 | --- | --- | --- |
+| "a second shadow body", only while she MOVES (target past 256 bones) | the fix's skeleton remap run per merge list, so parts of one body drawn a frame apart | `wwmiRemapLatch.py`; run her in the overworld -- turning her in a menu moves no bones |
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |

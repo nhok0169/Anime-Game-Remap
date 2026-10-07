@@ -604,6 +604,19 @@ the mod on its own card. What it found:
   bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
   any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
   matches, so there is no own-character reference for it.
+* **A TOGGLE THAT PUTS A TEXTURE INTO ANOTHER KIND OF SLOT DID NOTHING ON THE REMAP (Lynae3's U, 2026-10-06).** Its
+  `$Wish` binds each part's DIFFUSE into `ps-t2`, which Lynae's shaders read as the hair ramp, the body's detail map and
+  the bangs' shared texture: on her the gold sheen on the hair goes. The fix carried every mod texture line by the
+  TEXTURE's role, so these went to the skin's diffuse register, where the same diffuse already sat -- U changed nothing,
+  while the skin reads `ps-t2` exactly as Lynae does on all four parts. `WWMIFixerConfig::carryByRegisterRole` (opt-in,
+  on for both Lynae directions) carries a line whose texture KIND differs from its register's role on the source
+  (`WWMITextureFacts::registerRoles`) by the REGISTER's role, file unchanged; a register with no role there keeps its
+  line. Only Lynae3's four Wish lines moved across all 19 Lynae mods, and in game U now takes the sheen off the remap
+  as it does on the original. **To see what an old Lynae mod does on her own outfit**, a 3.6 export has to be made to
+  render at 3.7 first: its `vb0`, its bone ids (`lynaeRenumbered36To37`, through Forward / Reverse / VertexVG and the
+  `Blend.buf` index bytes) AND its texture override hashes (older -> current per role) -- with only the first two the
+  mod's meshes draw with the game's textures and look torn. The session's `orig37.py` / `orig37tex.py` did this and
+  are worth lifting into `Tools/` if it is needed again.
 * **`wwmiCheckBlendRemap.py` had two gaps, both fixed.** It looked for a file named exactly `Index.buf`, and two
   LynaePeppermint mods name theirs `b41c509e-Component1.buf`, so it now also reads the `.ini`'s `[ResourceIndexBuffer]`.
   And it reported LynaePeppermint3's sheer-cloth `[CustomShader...]` sections as never reaching the blend remapper,
@@ -4537,6 +4550,7 @@ first. Read the report's WORDS against the left column before opening any code (
 
 | the report says | what it was | look first at |
 | --- | --- | --- |
+| a mod's toggle does nothing on the remap, and works on its own character | a texture bound into a different KIND of slot on purpose, carried by the texture's role | `carryByRegisterRole`; read the toggle's `ps-t` lines against `registerRoles` |
 | "a second shadow body", only while she MOVES (target past 256 bones) | the fix's skeleton remap run per merge list, so parts of one body drawn a frame apart | `wwmiRemapLatch.py`; run her in the overworld -- turning her in a menu moves no bones |
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |

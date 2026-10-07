@@ -322,6 +322,9 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # loads too few of the mod's offsets on her draws and the body is drawn as spikes (Lynae9)
     config.shapeKeyDispatchSize = "1854"
     config.cleanTexcoords = True
+    # a mod's line that puts a texture into another kind of slot on purpose keeps that slot (Lynae3's
+    # U toggle binds each part's diffuse into the ramp / detail slot, ps-t2, which both skins read alike)
+    config.carryByRegisterRole = True
     # The fix's own merged skeleton is sized for the TARGET: LynaePeppermint's slots reach bone 314
     # (315 x 3 float4 = 945), past the 768 default; 1536 is ChisaParfait -> Chisa's value, and WWMI Tools'
     config.mergedSkeletonSlots = 1536

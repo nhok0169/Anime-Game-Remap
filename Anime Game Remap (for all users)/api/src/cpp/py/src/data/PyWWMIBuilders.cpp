@@ -429,6 +429,11 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
                         py::doc(":class:`int`: The float4 slots of the merged skeleton buffers declared for a legacy mod. **Default**: ``768``"))
         .def_readwrite("boneDataFilter", &AGRC::WWMIFixerConfig::boneDataFilter,
                         py::doc(":class:`str`: WWMI's marker on the game's bone-data constant buffer. **Default**: ``3381.7777``"))
+        .def_readwrite("carryByRegisterRole", &AGRC::WWMIFixerConfig::carryByRegisterRole, py::doc(R"doc(
+:class:`bool`: Carry a mod's own texture line that puts a texture into a register of a different kind by
+the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
+ramp or detail slot keeps doing so on the target. **Default**: ``False``
+        )doc"))
         .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
 :class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
 state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key

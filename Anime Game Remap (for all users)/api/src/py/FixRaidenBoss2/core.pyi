@@ -25972,6 +25972,16 @@ class WWMIFixerConfig:
     def boneDataFilter(self, arg0: str) -> None:
         ...
     @property
+    def carryByRegisterRole(self) -> bool:
+        """
+        :class:`bool`: Carry a mod's own texture line that puts a texture into a register of a different kind by
+        the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
+        ramp or detail slot keeps doing so on the target. **Default**: ``False``
+        """
+    @carryByRegisterRole.setter
+    def carryByRegisterRole(self, arg0: bool) -> None:
+        ...
+    @property
     def cleanTexcoords(self) -> bool:
         """
         :class:`bool`: Bind the remapped sections to a CLEANED copy of the mod's texcoord buffer (a NaN

@@ -153,6 +153,12 @@ namespace AGRemapCore {
         config.shapeKeyDispatchSize = "1854";
         config.cleanTexcoords = true;
 
+        // A mod's own line that puts a texture into another kind of slot on purpose keeps that slot:
+        // Lynae3's `$Wish` (U) binds each part's diffuse into the hair ramp / detail slot, `ps-t2`,
+        // which the two skins read alike -- moved by the texture's role it landed on the diffuse
+        // register and the toggle did nothing
+        config.carryByRegisterRole = true;
+
         // The fix's own merged skeleton is sized for the TARGET: LynaePeppermint's slots reach bone 314
         // (315 x 3 float4 = 945), past the 768 default
         config.mergedSkeletonSlots = 1536;

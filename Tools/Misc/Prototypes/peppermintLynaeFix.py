@@ -300,6 +300,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.zeroShapeKeyStream = False
     config.shapeKeyDispatchSize = "1631"
     config.cleanTexcoords = True
+    # a mod's line that puts a texture into another kind of slot on purpose keeps that slot (Lynae3's
+    # U toggle binds each part's diffuse into the ramp / detail slot, ps-t2, which both skins read alike)
+    config.carryByRegisterRole = True
     # Lynae's merged skeleton is 401 slots (1203 float4)
     config.mergedSkeletonSlots = 1536
 

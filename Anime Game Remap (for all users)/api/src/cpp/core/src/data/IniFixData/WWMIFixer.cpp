@@ -654,9 +654,13 @@ namespace AGRemapCore {
                 /** @brief resource + role -> the fix's edited copy of it, where one was written */
                 using EditedOf = std::function<std::string(const std::string&, const std::string&)>;
 
-                CarriedTexRegs(std::string regPrefix, RoleOf roleOf, RegOf regOf, EditedOf editedOf)
+                /** @brief source register (lowered) -> the role the SOURCE reads there, if known */
+                using RegRoleOf = std::function<std::optional<std::string>(const std::string&)>;
+
+                CarriedTexRegs(std::string regPrefix, RoleOf roleOf, RegOf regOf, EditedOf editedOf,
+                               RegRoleOf regRoleOf = nullptr)
                     : regPrefix_(StringTools::toLower(regPrefix)), roleOf_(std::move(roleOf)),
-                      regOf_(std::move(regOf)), editedOf_(std::move(editedOf)) {}
+                      regOf_(std::move(regOf)), editedOf_(std::move(editedOf)), regRoleOf_(std::move(regRoleOf)) {}
 
                 ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
                                   const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
@@ -680,6 +684,25 @@ namespace AGRemapCore {
                         }
 
                         const std::optional<std::string> role = roleOf_(StringTools::toLower(value));
+
+                        // A TEXTURE PUT INTO ANOTHER KIND OF SLOT ON PURPOSE goes by the slot (see
+                        // WWMIFixerConfig::carryByRegisterRole): to the target's register for the role
+                        // the source reads at this one, its file unchanged -- or left where it is when
+                        // the source's register has no role here
+                        if (role.has_value() && regRoleOf_) {
+                            const std::optional<std::string> slotRole = regRoleOf_(StringTools::toLower(item->key));
+                            if (!slotRole.has_value() || roleKind(*slotRole) != roleKind(*role)) {
+                                const std::optional<std::string> slotReg =
+                                    slotRole.has_value() ? regOf_(*slotRole) : std::nullopt;
+                                if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, item->key)) {
+                                    const auto at = static_cast<size_t>(item->orderIndex);
+                                    part.removeKVPAt(at);
+                                    part.addKVPAt(static_cast<long long>(at), *slotReg, item->value);
+                                }
+                                continue;
+                            }
+                        }
+
                         const std::optional<std::string> reg = role.has_value() ? regOf_(*role) : std::nullopt;
 
                         // LEFT ALONE rather than dropped. A role the scan does not know is a
@@ -715,6 +738,7 @@ namespace AGRemapCore {
                 RoleOf roleOf_;
                 RegOf regOf_;
                 EditedOf editedOf_;
+                RegRoleOf regRoleOf_;
         };
 
 
@@ -4332,8 +4356,24 @@ namespace AGRemapCore {
                                 return resource;
                             };
 
+                            // see WWMIFixerConfig::carryByRegisterRole
+                            CarriedTexRegs::RegRoleOf regRoleOf = nullptr;
+                            if (config_.carryByRegisterRole) {
+                                std::map<std::string, std::string> slotRoles;
+                                const auto own = config_.sourceTextures.registerRoles.find(component);
+                                if (own != config_.sourceTextures.registerRoles.end()) {
+                                    for (const auto& [reg, role] : own->second) {
+                                        slotRoles.emplace(StringTools::toLower(reg), role);
+                                    }
+                                }
+                                regRoleOf = [slotRoles](const std::string& reg) -> std::optional<std::string> {
+                                    const auto found = slotRoles.find(reg);
+                                    return found == slotRoles.end() ? std::nullopt : std::optional<std::string>(found->second);
+                                };
+                            }
+
                             auto carried = std::make_unique<CarriedTexRegs>(
-                                config_.texRegPrefix, roleOf, regOf, editedOf);
+                                config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf);
                             auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
                             editsOf_[component].push_back(adapter.get());
                             carriedEdits_.push_back(std::move(carried));

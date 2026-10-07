@@ -897,6 +897,26 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Carry a mod's own texture line that puts a texture into a register of a DIFFERENT kind by the
+         REGISTER's role rather than the texture's :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod's ``ps-tN = Resource...`` line is normally moved to the register where the target reads
+         that texture's role. That is right when the texture plays the role its register holds -- a
+         diffuse at the diffuse register -- and wrong when the author bound it somewhere else on
+         purpose: a toggle that puts each part's diffuse into the slot the source reads its hair ramp
+         or detail map from, to change the shading. Moved by the texture's role, such a line lands on
+         the target's diffuse register, where the same diffuse is already bound, and the toggle does
+         nothing. With this on, a line whose texture kind (``Diffuse``, ``Detail``, ``Ramp``...)
+         differs from its register's role on the source (:cpp:member:`WWMITextureFacts::registerRoles`)
+         goes to the target's register for the REGISTER's role, its file unchanged; a register with no
+         role there keeps its line where it is. **Default**: ``false``
+         @endrst
+         */
+        bool carryByRegisterRole = false;
+
+        /**
+         * @brief
+         @rst
          The command list every slot section runs to bind the mod's buffers; the texture command
          list and the zero stream are added right after it. **Default**:
          ``"CommandListOverrideSharedResources"``

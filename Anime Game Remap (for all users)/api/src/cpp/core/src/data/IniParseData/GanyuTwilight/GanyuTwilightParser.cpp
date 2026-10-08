@@ -31,6 +31,19 @@ namespace AGRemapCore {
         config.drawnObjs = {"head", "body", "dress"};
         config.texcoordStride = 20;
 
+        // HER HEAD'S DIFFUSE AND LIGHTMAP SIT ONE SLOT HIGHER, because ps-t0 is its normal map
+        // (f8aa8a9d). Her body and dress are on the modern ps-t0 / ps-t1. Every fix row of hers
+        // drops the head's ps-t0, and her mods bind these very download files there: the head's
+        // diffuse and lightmap on ps-t1 / ps-t2, the body's and dress's on ps-t0 / ps-t1. Left on
+        // the default slots, a downloaded head diffuse was deleted as the "normal map" and the
+        // lightmap shifted into Ganyu's diffuse slot.
+        //
+        // Not the pure-Python table's either reading: its 4.4 block shifts all three objects and
+        // its 5.7 block none. GI-Model-Importer-Assets' hash.json gives the head four slots ending
+        // in the shared metal map, so it really has a normal map; the body's and dress's labels are
+        // one slot off (the "LightMap" they list is that same metal map, b0e08915).
+        config.objDownloadRegs = {{"head", "ps-t1", "ps-t2"}};
+
         return makeGIMICharParser(std::move(config));
     }
 

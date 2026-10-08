@@ -38,6 +38,14 @@ namespace AGRemapCore {
         // 28 -- the largest in the table, and nothing else uses it. Do not copy a 20 here.
         config.texcoordStride = 28;
 
+        // HER HEAD AND DRESS SIT ONE SLOT HIGHER, because ps-t0 is their normal map (efe5e3ed /
+        // e66b5b37); her body and glasses are on the modern ps-t0 / ps-t1. That is what the
+        // pure-Python download table says at 5.3, what every mod of hers binds, and what both fix
+        // rows assume when they drop the head's and dress's ps-t0 and shift ps-t1 / ps-t2 down.
+        // Left on the default slots, a downloaded head or dress diffuse was deleted as the "normal
+        // map" and its lightmap shifted into HuTao's diffuse slot.
+        config.objDownloadRegs = {{"head", "ps-t1", "ps-t2"}, {"dress", "ps-t1", "ps-t2"}};
+
         return makeGIMICharParser(std::move(config));
     }
 

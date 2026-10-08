@@ -2361,11 +2361,11 @@ What each piece does now:
 - A recolour's `if $var == n` around its `this =`. The binding is unconditional on the target, and a
   SIBLING's variable cannot be named from the mesh file at all (CherryHutao6's colour toggle is always on
   after the remap).
-- **LisaStudent -> Lisa and XianglingCheer -> Xiangling lose the recolour, and every downloaded texture
-  with it**, for a reason that predates this: their parse rows register downloads in the modern
-  `ps-t0` / `ps-t1` layout (`lisaStudent5_7`'s comment says so) while their fixers delete `ps-t0` and
-  shift the rest down for the normal-map layout. A mod of theirs missing a whole object gets its light
-  map in the diffuse slot. Which layout is right is the maintainer's call.
+- (No longer open.) LisaStudent -> Lisa and XianglingCheer -> Xiangling lost the recolour, and every
+  downloaded texture with it, because their parse rows registered downloads in the plain layout while
+  their fixers drop `ps-t0` and shift the rest down. Fixed on `master` with four more skins (#286):
+  see "Where a downloaded texture hangs off: `objDownloadRegs`". A recolour's binding follows the
+  download's register, so it was fixed by the same change.
 - A face-only recolour on the COMPONENT template (base onto a skin) still writes nothing, as before.
 
 **Seen in game (2026-10-07, GameView, shop / Dressing Room previews)** with recolours whose diffuse had R, G, B rotated
@@ -8767,6 +8767,37 @@ OBJECT as well as per version. Kirara at 4.0 has three different layouts at once
 carry a normal map and sit a slot higher, the dress sits a slot higher without one), and by 5.7
 her body and dress have moved down while her head has not. KiraraBoots is the exact mirror. Put
 a download on the wrong slot and the shader samples a lightmap as a diffuse; nothing reports it.
+
+**The download registers must be in the layout the FIXER's register edits assume (2026-10-07).**
+A download is inserted in the SOURCE's layout, before the fixer's `objRegRemovals` / `objRegRemaps`
+run. So a parser that puts a downloaded diffuse on `ps-t0`, feeding a fixer that drops `ps-t0` as the
+source's normal map and shifts `ps-t1` / `ps-t2` down, deletes the diffuse and binds the light map
+as the target's diffuse. `lisaStudent5_7` (an anomaly in the pure-Python table, where every other
+LisaStudent row is shifted) and `xianglingCheer5_3` (its pure-Python row WAS shifted, and the port
+dropped it) both did this. **Only a mod missing a whole object reaches this path**, so an A/B over
+complete mods is blind to it: of six real mods only one sub-mod (LisaStudent1's book, which draws
+none of her objects) moved. Test it with a one-section mod, `[TextureOverride<Char><Obj>Diffuse]` +
+`hash =` one texture hash. When deciding which side is wrong, the evidence that settled these two:
+GI-Model-Importer-Assets' `hash.json` (its `texture_hashes` are in register order; LisaStudent's
+4.x labels Diffuse / LightMap / Shadow are the SAME hashes 5.4 relabels NormalMap / Diffuse /
+LightMap), a mod dumped from the game (XianglingCheer3 names each texture's hash), and a normal map's
+mean colour (~(128, 128, 255), or (128, 128, ~5) for a two-channel one) on `ps-t0`. **Four more
+directions had the same mismatch and were fixed the same day, all on the parser side**:
+GanyuTwilight (head only -- her body and dress are modern), CherryHuTao (head and dress),
+KaeyaSailwind (body only) and KiraraBoots (dress: its parser was the one SHIFTED, and every
+KiraraBoots fix row wants it modern). **A dumped `hash.json`'s labels can be one slot off, so read
+the HASHES, not the names**: the dumper assumes a normal map on `ps-t0`, so an object without one
+comes out labelled NormalMap / Diffuse / LightMap over what is really diffuse / lightmap / ramp
+(KiraraBoots' dress: the "NormalMap" is her body's diffuse hash, the "LightMap" a shared ramp), and
+an older dump labels a real normal-map layout Diffuse / LightMap / Shadow (LisaStudent,
+KaeyaSailwind's body). A slot list ending in the shared metal map `b0e08915` at the 4th slot has a
+real normal map; one with `b0e08915` in the 3rd has none. A download FILE named after such a label
+can be mislabelled too -- find a mod that ships the same bytes (md5) and read which register that
+mod binds it on. And a format check settles a name: a diffuse is an sRGB
+BC7 (DXGI 99), a normal map / lightmap linear (98). **Still open**: KiraraBoots' 5.7 parser row
+puts her HEAD and BODY downloads on the modern slots (the pure-Python 5.7 block), while her one
+real mod and the assets repo give both a normal map on `ps-t0`; with no post-5.7 dump to say who
+is right it was left alone.
 
 `faceDownloadVersionFolder` / `faceDownloadPrefix` are the same idea for the face, and exist
 because THREE characters file their face diffuse away from the rest of their assets

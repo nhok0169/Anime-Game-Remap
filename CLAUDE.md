@@ -96,8 +96,9 @@ TEMPLATE NOW (2026-10-07); BEFORE, ONLY THE MERGE CARRIED IT.** A synthetic reco
 override in place of the download (`TextureOverrides`), and the component fixer fetches a recolour's downloads
 before it splits. Which files draw the source's model is a table: an icon file, a position watcher, a
 face-only or shared-texture recolour, and a tweak whose sibling `.ini` draws the mesh each keep only their own
-sections (each used to draw a second vanilla model over the real mod). LisaStudent / XianglingCheer -> base
-still lose it, through a pre-existing download-layout mismatch left for the maintainer. See
+sections (each used to draw a second vanilla model over the real mod). A recolour's binding follows the
+download's register, so the skins whose download layout was wrong (LisaStudent, XianglingCheer, CherryHuTao and
+the rest #286 fixed) lost it until that fix. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A RECOLOUR BY TEXTURE HASH ALONE".
 
 **THREE LATER CHARLOTTE REPORTS, THREE DIFFERENT ANSWERS, AND NONE OF THEM WAS THE VERTEX

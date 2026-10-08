@@ -38,14 +38,13 @@ namespace AGRemapCore {
         // 28 -- the largest in the table, and nothing else uses it. Do not copy a 20 here.
         config.texcoordStride = 28;
 
-        // HER HEAD AND DRESS ARE THE NORMAL-MAP LAYOUT (2026-10-07): normal map at ps-t0, diffuse at
-        // ps-t1, light map at ps-t2 -- what every CherryHuTao mod binds, and what both
-        // cherryHuTao5_3 and cherryHuTao6_1 assume when they drop ps-t0 and shift the rest down.
-        // Registered at the default ps-t0 / ps-t1 instead, a downloaded head or dress diffuse was the
-        // texture the fix then deleted and its light map took the diffuse's slot: a recolour of
-        // CherryHutao6 drew Hu Tao's hair and skirt glowing green in game, and moving the head's two
-        // textures by hand fixed it. Her body and extra are the plain layout and keep the default.
-        // No normal map is registered: the asset folder has none, and HuTao reads none.
+        // HER HEAD AND DRESS SIT ONE SLOT HIGHER, because ps-t0 is their normal map (efe5e3ed /
+        // e66b5b37); her body and glasses are on the modern ps-t0 / ps-t1. That is what the
+        // pure-Python download table says at 5.3, what every mod of hers binds, and what both fix
+        // rows assume when they drop the head's and dress's ps-t0 and shift ps-t1 / ps-t2 down.
+        // Left on the default slots, a downloaded head or dress diffuse was deleted as the "normal
+        // map" and its lightmap shifted into HuTao's diffuse slot.
+        // Seen in game on CherryHutao6 remapped onto Hu Tao (2026-10-07): head and dress green before, right after.
         config.objDownloadRegs = {{"head", "ps-t1", "ps-t2"}, {"dress", "ps-t1", "ps-t2"}};
 
         return makeGIMICharParser(std::move(config));

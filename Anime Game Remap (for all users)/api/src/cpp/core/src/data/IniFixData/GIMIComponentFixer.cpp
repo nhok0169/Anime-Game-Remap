@@ -17,6 +17,7 @@
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
+#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 
 #include <algorithm>
 #include <array>
@@ -43,7 +44,9 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
+#include "AGRemapCore/model/iniresources/RemapIniResource.h"
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
+#include "AGRemapCore/model/stats/CachedFileStats.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
@@ -479,6 +482,9 @@ namespace AGRemapCore {
                         }
                     }
 
+                    const auto* facts = dynamic_cast<const TextureOverrideFacts*>(parser);
+                    recolourOnly_ = facts != nullptr && facts->isRecolourOnly();
+
                     // Nothing to build without the mod's own files: every edit below is keyed by
                     // what the component draws, which only the split knows.
                     if (!readFiles() || !splitFiles()) {
@@ -889,6 +895,17 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // ...UNLESS IT IS A RECOLOUR (2026-10-07). A mod that only replaces the character's
+                    // textures by hash has no mesh to split and still has something to remap: its
+                    // look is the GAME's model in its textures, and the parser has bound those in place
+                    // of the downloaded ones (TextureOverrideFacts). So the downloads ARE the mesh to
+                    // split, and they are fetched here, ahead of fixResources, because the split reads
+                    // them now. A file whose textures the target draws too, or whose mesh a sibling
+                    // .ini draws, is not a recolour in this sense and still gets nothing.
+                    if (!authored && recolourOnly_) {
+                        authored = fetchDownloads();
+                    }
+
                     if (!authored) {
                         ctx_.log("this .ini authors no mesh of its own -- every buffer it would split is a download -- so"
                                   " there is no geometry to remap");
@@ -896,6 +913,39 @@ namespace AGRemapCore {
                     }
 
                     return authored;
+                }
+
+                // Fetches every download the parser registered for this .ini that is not on disk yet,
+                // into the path its resource section names. fixResources fetches them again later
+                // (each download does not know this one ran), which is the same file.
+                bool fetchDownloads() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    if (iniFile == nullptr) {
+                        return false;
+                    }
+
+                    bool any = false;
+                    for (const std::unique_ptr<IniResource>& resource : iniFile->getFileDownloads()) {
+                        auto* download = dynamic_cast<RemapIniDownload*>(resource.get());
+                        if (download == nullptr || download->download == nullptr) {
+                            continue;
+                        }
+
+                        any = true;
+                        std::error_code error;
+                        if (std::filesystem::exists(FileService::strToPath(download->srcPath), error)) {
+                            continue;
+                        }
+
+                        try {
+                            CachedFileStats scratch;
+                            download->fix(scratch);
+                        } catch (const std::exception& e) {
+                            ctx_.log("could not download " + download->srcPath + " for the recolour: " + e.what());
+                            return false;
+                        }
+                    }
+                    return any;
                 }
 
                 // ---- the split, once, to know what this component draws ----
@@ -2308,6 +2358,7 @@ namespace AGRemapCore {
                 std::size_t groupCount_ = 1;
 
                 bool authorsNoMesh_ = false;
+                bool recolourOnly_ = false;
                 bool gaveUp_ = false;
                 GraphGroupRemove<> removeEveryGroup_;
                 std::unique_ptr<SlotRemap> slotRemap_;

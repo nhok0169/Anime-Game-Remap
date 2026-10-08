@@ -30,6 +30,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
+#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -52,7 +53,6 @@ namespace AGRemapCore {
         const std::string DrawHashKey = "draw_vb";
         const std::string FaceDiffuseHashKey = "tex_face_diffuse";
         const std::string TexKeyPrefix = "tex_";
-        const std::string ThisKey = "this";
 
         const ModObj FaceObj{"", "face"};
 
@@ -326,31 +326,20 @@ namespace AGRemapCore {
                 void collectTextureOverrides(const ModBranches::Templates& templates,
                                              const std::function<std::string(const std::string&)>& bindingOf,
                                              std::unordered_map<std::string, std::string>& overrides) {
-                    for (const auto& entry : templates) {
-                        if (entry.second == nullptr) {
-                            continue;
-                        }
-
-                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                        const std::optional<std::string> resource = ModBranches::firstVal(*entry.second, ThisKey);
-                        if (!hash.has_value() || !resource.has_value()) {
-                            continue;
-                        }
-
+                    for (const TextureOverrides::Override& override_ : TextureOverrides::collect(templates)) {
                         for (const GIMIComponentParserConfig::Component& component : config_.components) {
-                            const std::string key = hashKeyOf(*hash, component);
-                            if (!StringTools::startsWith(key, TexKeyPrefix)) {
-                                continue;
+                            // Every slot the texture is filed under: two slots may draw one texture
+                            // (YelanTranquil's Body B and C), and the override recolours both.
+                            for (const std::string& key : TextureOverrides::keysOf(component.modTypeName, override_.hash)) {
+                                // tex_<slot>_<role>
+                                const std::string rest = key.substr(TexKeyPrefix.size());
+                                const std::size_t sep = rest.rfind('_');
+                                const std::string binding = bindingOf(override_.resource);
+                                if (sep == std::string::npos || binding.empty()) {
+                                    continue;
+                                }
+                                overrides.emplace(component.name + ";" + rest.substr(0, sep) + ";" + rest.substr(sep + 1), binding);
                             }
-
-                            // tex_<slot>_<role>
-                            const std::string rest = key.substr(TexKeyPrefix.size());
-                            const std::size_t sep = rest.rfind('_');
-                            const std::string binding = bindingOf(std::string(StringTools::strip(*resource)));
-                            if (sep == std::string::npos || binding.empty()) {
-                                continue;
-                            }
-                            overrides.emplace(component.name + ";" + rest.substr(0, sep) + ";" + rest.substr(sep + 1), binding);
                         }
                     }
                 }
@@ -387,36 +376,7 @@ namespace AGRemapCore {
                 // The other .ini files of the mod's folder the game loads: not this one, not a DISABLED
                 // one, and not a copy a fix wrote (<name>RemapFix<N>.ini).
                 std::vector<std::string> siblingInis() const {
-                    std::vector<std::string> result;
-                    IniFile* iniFile = const_cast<GIMIComponentGIMIParser*>(this)->getIniFile();
-                    if (iniFile == nullptr || !iniFile->getFile().has_value()) {
-                        return result;
-                    }
-
-                    std::error_code error;
-                    const std::filesystem::path self = FileService::strToPath(*iniFile->getFile());
-                    for (const auto& entry : std::filesystem::directory_iterator(self.parent_path(), error)) {
-                        if (!entry.is_regular_file(error) || std::filesystem::equivalent(entry.path(), self, error)) {
-                            continue;
-                        }
-
-                        const std::string name = FileService::pathToStr(entry.path().filename());
-                        const std::string low = lowered(name);
-                        if (!StringTools::endsWith(low, ".ini") || StringTools::startsWith(low, "disabled")) {
-                            continue;
-                        }
-
-                        const std::size_t fix = low.rfind(lowered(IniKeywords::RemapFix));
-                        const std::string stem = low.substr(0, low.size() - 4);
-                        if (fix != std::string::npos && fix + IniKeywords::RemapFix.size() <= stem.size()
-                                && stem.find_first_not_of("0123456789", fix + IniKeywords::RemapFix.size()) == std::string::npos) {
-                            continue;
-                        }
-
-                        result.push_back(FileService::pathToStr(entry.path()));
-                    }
-                    std::sort(result.begin(), result.end());
-                    return result;
+                    return TextureOverrides::siblingInis(const_cast<GIMIComponentGIMIParser*>(this)->getIniFile());
                 }
 
                 // Whether this file's own sections draw the skin's mesh.
@@ -691,7 +651,14 @@ namespace AGRemapCore {
 
                 // Whether any of the mod's OWN sections this parser targets -- or a command list one of
                 // them runs, if the file defines it -- binds something: a buffer, an index buffer, a
-                // texture, a draw or a `this`. Asked before the downloads; see getSectionTargets.
+                // texture register or a draw. Asked before the downloads; see getSectionTargets.
+                //
+                // NOT a `this` (2026-10-07): the one targeted section that can carry one is the face's
+                // texture override, and a face is a draw of its own on both characters. Counted, a file
+                // that only recolours the skin's face (Bennett2's BennettSkin.ini) drew the whole skin
+                // from downloads over the base character; it now keeps its own sections, the face
+                // override retargeted onto the target's face hash. Slot texture overrides are weighed
+                // apart, in readTextureOverrides.
                 bool targetsBindSomething() {
                     IniFile* iniFile = this->getIniFile();
                     if (iniFile == nullptr) {
@@ -701,7 +668,7 @@ namespace AGRemapCore {
 
                     static const std::vector<std::string> BindingKeys = {
                         IniKeywords::Vb0, IniKeywords::Vb1, "vb2", IniKeywords::Ib, IniKeywords::DrawIndexed,
-                        "draw", ThisKey, "ps-t0", "ps-t1", "ps-t2", "ps-t3"};
+                        "draw", "ps-t0", "ps-t1", "ps-t2", "ps-t3"};
 
                     std::unordered_set<std::string> visited;
                     std::vector<std::string> toVisit;

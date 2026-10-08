@@ -142,6 +142,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp
     src/data/IniParseData/Yelan/YelanParser.cpp
     src/data/IniParseData/GIMIComponentParser.cpp
+    src/data/IniParseData/TextureOverrides.cpp
     src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp
     src/data/IniParseData/Bennett/BennettParser.cpp
     src/data/IniFixData/Bennett/BennettFixer.cpp

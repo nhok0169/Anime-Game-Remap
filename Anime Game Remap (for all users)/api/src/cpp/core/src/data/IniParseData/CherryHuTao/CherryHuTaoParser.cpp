@@ -44,6 +44,7 @@ namespace AGRemapCore {
         // rows assume when they drop the head's and dress's ps-t0 and shift ps-t1 / ps-t2 down.
         // Left on the default slots, a downloaded head or dress diffuse was deleted as the "normal
         // map" and its lightmap shifted into HuTao's diffuse slot.
+        // Seen in game on CherryHutao6 remapped onto Hu Tao (2026-10-07): head and dress green before, right after.
         config.objDownloadRegs = {{"head", "ps-t1", "ps-t2"}, {"dress", "ps-t1", "ps-t2"}};
 
         return makeGIMICharParser(std::move(config));

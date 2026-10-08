@@ -54,6 +54,13 @@ namespace AGRemapCore {
          * one line of a mod's .ini -- noise loud enough to decide a classification on its own.
          * Even 'tex_face_diffuse', which does appear as a section hash, is shared in 35 of its
          * 54 rows.
+         *
+         * BUT A TEXTURE HASH ONE CHARACTER ALONE CLAIMS IDENTIFIES IT (2026-10-07), and a recolour
+         * has nothing else to be known by: `[TextureOverrideBodyDiffuse] hash = <her body diffuse>
+         * / this = ...` names no character and carries no buffer hash, so it classified as nothing
+         * and was never fixed. The shared ones are exactly what populate() already drops (a hash
+         * two mod types claim votes for neither), so the texture hashes are registered too -- for
+         * GI only, see textureHashesByModName -- and only the unique ones survive.
          */
         const std::unordered_set<std::string>& identifyingHashTypes() {
             static const std::unordered_set<std::string> types = {
@@ -100,6 +107,29 @@ namespace AGRemapCore {
         }
 
 
+        /*
+         * modTypeName -> every TEXTURE hash HashData files under it (a 'tex_' row), across every game
+         * version. Kept apart from hashesByModName because only the GI half of the classifier takes
+         * them: a WWMI mod is classified by its one vertex buffer hash, and a WuWa texture hash drifts
+         * with streaming and game version.
+         */
+        const std::unordered_map<std::string, std::unordered_set<std::string>>& textureHashesByModName() {
+            static const std::unordered_map<std::string, std::unordered_set<std::string>> byName = []() {
+                std::unordered_map<std::string, std::unordered_set<std::string>> acc;
+                for (const std::pair<std::vector<std::string>, std::string>& row : Data::getHashDataRows()) {
+                    if (row.first.size() < 3 || row.first[2].rfind("tex_", 0) != 0) {
+                        continue;
+                    }
+
+                    acc[row.first[1]].insert(row.second);
+                }
+                return acc;
+            }();
+
+            return byName;
+        }
+
+
         // Registers every shipped mod type on 'classifier'. The counterpart to the pure-Python
         // IniClassifierBuilderOld::build, minus its whole first half: that one also wires up the
         // generic isFixed/isMod machinery (comment markers, "textureoverride", RemapFix/RemapTex,
@@ -112,18 +142,24 @@ namespace AGRemapCore {
          * COMPONENT's name (see populate()).
          */
         std::unordered_set<std::string> identifyingHashesOf(const ModType& modType, ModTypeId modTypeId) {
-            const std::unordered_map<std::string, std::unordered_set<std::string>>& byName = hashesByModName();
-            std::unordered_set<std::string> hashes;
-
-            auto hashIt = byName.find(modType.name);
-            if (hashIt != byName.end()) {
-                hashes = hashIt->second;
+            // A GI mod type also votes with its texture hashes -- see identifyingHashTypes
+            std::vector<const std::unordered_map<std::string, std::unordered_set<std::string>>*> tables = {&hashesByModName()};
+            if (modType.gameTypeId != static_cast<int>(GameTypeId::WuWa)) {
+                tables.push_back(&textureHashesByModName());
             }
 
-            for (ModTypeId component : ModTypeIdTools::getComponentIds(modTypeId)) {
-                auto componentIt = byName.find(ModTypeIdTools::getName(component));
-                if (componentIt != byName.end()) {
-                    hashes.insert(componentIt->second.begin(), componentIt->second.end());
+            std::unordered_set<std::string> hashes;
+            for (const auto* byName : tables) {
+                auto hashIt = byName->find(modType.name);
+                if (hashIt != byName->end()) {
+                    hashes.insert(hashIt->second.begin(), hashIt->second.end());
+                }
+
+                for (ModTypeId component : ModTypeIdTools::getComponentIds(modTypeId)) {
+                    auto componentIt = byName->find(ModTypeIdTools::getName(component));
+                    if (componentIt != byName->end()) {
+                        hashes.insert(componentIt->second.begin(), componentIt->second.end());
+                    }
                 }
             }
 

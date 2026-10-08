@@ -1887,6 +1887,56 @@ and then `Remove-Item`, ~50s each, followed by `git worktree prune`. Before remo
 session list that none is still running. Two of the eleven here held uncommitted work --- one of
 them 609 lines, which is why it was left in place --- and neither folder's mtime said so.
 
+**101. COMMIT ONTO A BRANCH WITHOUT TOUCHING THE USER'S CHECKOUT (2026-10-07).** Asked to "commit
+this on a new branch" while the checkout sits on the maintainer's own branch with THEIR uncommitted
+edit in a file the target branch changes, `git switch` refuses, and stashing their work to get past it
+is touching what is not yours. Build the commit with a private index instead, and the working tree and
+current branch never move:
+
+```bash
+export GIT_INDEX_FILE="$(git rev-parse --git-dir)/index-mine"   # a scratch index, never the real one
+git read-tree master                  # start from the base you want, not from HEAD
+git add -- <exactly your files>       # stages from the working tree into the scratch index
+git diff --cached --stat master       # confirm it is ONLY your files
+C=$(git commit-tree "$(git write-tree)" -p master -F msg.txt) && git branch <new> "$C"
+rm -f "$GIT_INDEX_FILE"; unset GIT_INDEX_FILE
+```
+
+Then prove the commit holds what is on disk: `cmp <(git show <new>:"$f" | tr -d '\r') <(tr -d '\r' < "$f")`
+per file. **Do not use `git diff <new> -- <paths>` for that**: a file that is NEW in the commit and
+untracked in the working tree shows as DELETED there, which reads as a lost file and is nothing.
+Later, discarding those same changes from the user's checkout is safe only after the same per-file
+comparison says every one is identical to what was pushed.
+
+**102. `FETCH_HEAD` BELONGS TO ONE WORKTREE, AND TWO FETCHED BRANCHES MAKE IT AMBIGUOUS (2026-10-08).**
+`git fetch origin master <branch>` in the main checkout, then `git merge FETCH_HEAD` inside a worktree,
+fails with `could not open .../worktrees/<name>/FETCH_HEAD` -- each worktree has its own. And with two
+branches fetched it names both. The fetch updates `origin/<branch>` anyway, so **merge `origin/master`
+by name**, and read `git rev-parse --short origin/master` first so the summary can say what was merged.
+For a merge while the user's checkout is busy, a worktree at a SHORT path (`C:\agtx`) avoids habit 100's
+MAX_PATH failure; creating one here takes ~10 minutes, so run it in the background.
+
+**103. COMPARING FIXES OVER DIFFERENT SETS OF FOLDERS: THE GENERATED NAMES DIFFER BY RUN ORDER
+(2026-10-07).** Re-fixing 101 of a corpus's 223 folders with a newer build and comparing against the
+full run reported **2593 files only before, 2593 only after, 257 changed**. That was not a regression:
+the merge and the texture edits suffix generated files with ids that depend on what the run had
+already generated (`..._B8g_By.buf` against `..._B8g_Bi.buf`, `_pr_JQ`, `_GUF_D7_LCo_B`,
+`...RemapTexr_ MAG.dds`), so a run over a different folder set names everything differently. **The tell
+is "only-before" equalling "only-after".** Compare binaries as a per-folder MULTISET of content md5s,
+and for the `.ini` files check that every differing line is a `filename =` line. Here that was 5186 of
+5186 lines over 385 files, with binaries identical in all 101 folders, so the build change moved nothing.
+Normalising the ids with a regex is the other route, but there are at least four shapes, and each one
+the regex missed showed up as a fake difference.
+
+**104. A CHANGE TO WHICH FILES GET DOWNLOADS SHOWS UP IN THE INTEGRATION GOLDENS, AND THE API DOCS PAGE
+WITH THEM (2026-10-08).** The texture-only work made a `.ini` with nothing of its character draw nothing,
+and CI failed `test_iniPath_ForcedModTypeFix`: it forces a KIRARA mod to be fixed as Rosaria, and its
+golden recorded the vanilla Rosaria the old build drew from 17 downloads. **When a change is about
+what a file draws, run the API docs tests before pushing**. They back `Docs/src/apiExamples.rst`, so a
+golden change is also a docs change: regenerate the page with `Tools/Misc/Docs/genApiExamples.py --write`
+and check only the expected example moved. Testing's "Regenerating ONE API docs golden from Windows"
+has the recipe.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

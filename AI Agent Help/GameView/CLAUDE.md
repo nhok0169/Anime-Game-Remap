@@ -395,6 +395,28 @@ driving it:
   where you started. A parked master's persisted value is dropped from `d3dx_user.ini` at the next
   save (the reload says so in a NOTICE) -- restoring the folder brings the mod back, not the variant.
 
+### Five more things the shop and the character screen do (2026-10-07)
+
+- **Amber's outfit names are the opposite of what the mod types suggest.** In her Dressing Room,
+  **"100% Outrider" is the `Amber` model** (the classic one, equipped on this account), and
+  **"5-Star Outrider" is `AmberCN`**. It is not in the shop at all. Selecting a card previews it; only
+  **Switch** equips, so a remap onto AmberCN is seen by selecting the 5-Star card without switching.
+  Re-select the equipped card before you leave.
+- **Find a character fast with the list's FILTER, not by scrolling.** On the character screen the grid
+  button (bottom left) opens the full list, and its filter takes element + weapon (Pyro + Bow gave Amber
+  alone). Scrolling that list with `scroll` once opened an Ascension Materials panel and once closed the
+  list. Clear the filter (its `Clear` chip) before you leave; it persists.
+- **A "Sold out" outfit card still opens its preview** (Tranquil Banquet), so a skin whose shop run is
+  over is still testable there.
+- **From an outfit preview, X goes to the shop GRID, and X on the grid goes straight to the OVERWORLD**.
+  It does not pass through the Paimon menu. Getting back IN goes through the Paimon menu (`esc`, then the
+  Shop tile), which shows the UID top left. Click through it blind and verify with
+  `screenshot --crop 0.3 0 0.7 0.95 --space frac`. That writes only the crop to disk, so nothing outside
+  it is ever saved.
+- **The first click of a `do` sequence sometimes does not land** (it hit about half the time on the X and
+  the card buttons). Write `move X Y; wait 1; click X Y`, and check the result before the next step. A
+  click that silently missed reads exactly like a click that worked until the next screenshot.
+
 ## Getting a character on screen (WuWa, the maintainer's notes + verified 2026-09-23)
 
 WuWa does not keep a character's base look and skins together in one shop, so **first find out

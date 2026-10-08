@@ -1210,7 +1210,7 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         // YelanTranquil (5.7) is a Body, a Bang and an Eye, each with its own buffers and so its
         // own hashes, and each a fix TARGET of its own (ModTypeId::YelanTranquilBody etc.): the
         // rows are filed under the component's name. All three share the skin's face diffuse.
-        // Read off the 5.7 frame analysis; no texture hashes, the fix never looks them up.
+        // Read off the 5.7 frame analysis. The slots' texture hashes follow the Eye's rows.
         {{"4.0", "Yelan", "draw_vb"}, "589fed34"},
         {{"4.0", "Yelan", "position_vb"}, "c58c76f9"},
         {{"4.0", "Yelan", "blend_vb"}, "f6e01e3c"},
@@ -1247,6 +1247,19 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"5.7", "YelanTranquilEye", "ib"}, "54bc082e"},
         {{"5.7", "YelanTranquilEye", "tex_face_diffuse"}, "e8ad6095"},
 
+        // THE SLOTS' OWN TEXTURES (2026-10-07), keyed tex_<slot>_<role> as CharlotteHurlock's are, for
+        // a mod that recolours the skin by texture hash alone (`this = ...`). Off her hash.json (a copy
+        // is Tools/Misc/YelanExperiments/YelanTranquil_hash.json) and confirmed against the 5.7 frame
+        // dump. Slot C draws with slot B's textures, so it is filed under both.
+        {{"5.7", "YelanTranquilBody", "tex_a_normalmap"}, "183ca818"},
+        {{"5.7", "YelanTranquilBody", "tex_a_diffuse"}, "f5cc10b7"},
+        {{"5.7", "YelanTranquilBody", "tex_a_lightmap"}, "fe0fd573"},
+        {{"5.7", "YelanTranquilBody", "tex_b_normalmap"}, "67653907"},
+        {{"5.7", "YelanTranquilBody", "tex_b_diffuse"}, "54c8e09c"},
+        {{"5.7", "YelanTranquilBody", "tex_b_lightmap"}, "f0536867"},
+        {{"5.7", "YelanTranquilBody", "tex_c_diffuse"}, "54c8e09c"},
+        {{"5.7", "YelanTranquilBody", "tex_c_lightmap"}, "f0536867"},
+
         // ===== Bennett and BennettAdventure (2026-09-14) =====
         //
         // Bennett's rows follow the assets repo's history of his hash.json, the same shape as
@@ -1275,9 +1288,8 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         // (ModTypeId::BennettAdventureBody etc.): the rows are filed under the component's name,
         // exactly as YelanTranquil's are. All three share the skin's face diffuse.
         //
-        // Read off the skin's own dump. As with YelanTranquil, the per-object texture hashes its
-        // hash.json carries are deliberately NOT here: they would need object names ("a", "b") that
-        // this table's tex_<object>_<kind> vocabulary does not have, and nothing looks them up.
+        // Read off the skin's own dump. Its slots' texture hashes follow the Eye's rows, keyed by
+        // slot as YelanTranquil's are.
         {{"5.7", "BennettAdventureBody", "draw_vb"}, "bc87167b"},
         {{"5.7", "BennettAdventureBody", "position_vb"}, "14efbc45"},
         {{"5.7", "BennettAdventureBody", "blend_vb"}, "09b92379"},
@@ -1296,6 +1308,18 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"5.7", "BennettAdventureEye", "texcoord_vb"}, "941adcbf"},
         {{"5.7", "BennettAdventureEye", "ib"}, "91b4d5dd"},
         {{"5.7", "BennettAdventureEye", "tex_face_diffuse"}, "2b1b2edf"},
+
+        // THE SLOTS' OWN TEXTURES (2026-10-07), for a recolour by texture hash -- see YelanTranquil's.
+        // No asset repo has the skin, so these are read off FrameAnalysis-BennettAdventure-2026-09-14
+        // through giDrawTable.py: its character pass (ps 6546504e) binds light map / normal map /
+        // diffuse at ps-t0/1/2, exactly YelanTranquil's layout on the same shader, and its first pass
+        // (ps e39077b7) binds the same diffuse and light map at ps-t0/1.
+        {{"5.7", "BennettAdventureBody", "tex_a_normalmap"}, "c3e39ad5"},
+        {{"5.7", "BennettAdventureBody", "tex_a_diffuse"}, "bfa7fe04"},
+        {{"5.7", "BennettAdventureBody", "tex_a_lightmap"}, "04cd73c6"},
+        {{"5.7", "BennettAdventureBody", "tex_b_normalmap"}, "c2ea1b8a"},
+        {{"5.7", "BennettAdventureBody", "tex_b_diffuse"}, "87a8783e"},
+        {{"5.7", "BennettAdventureBody", "tex_b_lightmap"}, "4e3500ad"},
 
         // ===== Citlali and CitlaliWhisperofStars (2026-09-21) =====
         //
@@ -1344,6 +1368,23 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.7", "CitlaliWhisperofStarsEyes", "ib"}, "f4cca9ef"},
         {{"6.7", "CitlaliWhisperofStarsEyes", "tex_face_diffuse"}, "5783625d"},
 
+        // THE SLOTS' OWN TEXTURES (2026-10-07), for a recolour by texture hash -- see YelanTranquil's.
+        // Read off the skin's 6.7 frame dump (FrameAnalysis-CitlaliWhisperofWinds-2026-09-21, which
+        // draws ib f117984b) through giDrawTable.py, every value seen in two passes of different
+        // register layouts. Slot C draws with slot B's textures and slot D with slot A's diffuse and
+        // light map, so each is filed under both slots.
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_a_normalmap"}, "8f0a3b77"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_a_diffuse"}, "f485d1ea"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_a_lightmap"}, "ee37b5cf"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_b_normalmap"}, "1ac70a05"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_b_diffuse"}, "15d6b4ea"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_b_lightmap"}, "47e5fb56"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_c_normalmap"}, "1ac70a05"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_c_diffuse"}, "15d6b4ea"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_c_lightmap"}, "47e5fb56"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_d_diffuse"}, "f485d1ea"},
+        {{"6.7", "CitlaliWhisperofStarsBody", "tex_d_lightmap"}, "ee37b5cf"},
+
         // ===== Charlotte and CharlotteHurlock (2026-09-23) =====
         //
         // Charlotte's rows follow the assets repo's history of her hash.json, the Bennett way: the state
@@ -1379,9 +1420,6 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         // drawn from the same texture on both, and tex_face_diffuse is not an identifying hash type, so
         // filing it under both names is what every CN skin sharing its base's face already does.
         //
-        // Deliberately NOT here: the skin's per-object texture hashes (Body A / B), for the reason
-        // BennettAdventure gives -- this table's tex_<object>_<kind> vocabulary has no slot names.
-        //
         // ONE value here is not unique: the Eyes draw_vb 61b441bd is also YelanTranquilEye's (and, in the
         // assets repo, Jahoda's eyes'). It is filed anyway, as YelanTranquil's was, because the forward
         // fix rewrites Charlotte's VertexLimitRaise onto each target component's draw_vb and the Eyes one
@@ -1394,8 +1432,9 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.7", "CharlotteHurlockBody", "tex_face_diffuse"}, "58d9859b"},
 
         // THE SLOTS' OWN TEXTURES, off the asset's hash.json (2026-09-24), keyed
-        // tex_<slot>_<role>. Not identifying (the classifier reads none of them): they are here
-        // for a mod that recolours the skin by texture hash alone (`this = ...`) -- see
+        // tex_<slot>_<role>. Here for a mod that recolours the skin by texture hash alone (`this = ...`),
+        // which the classifier also knows the skin by (a texture hash one character alone claims
+        // identifies it, see GlobalIniClassifiers) -- see
         // GIMIComponentParserConfig, whose parser binds such an override in place of the
         // download for that slot.
         {{"6.7", "CharlotteHurlockBody", "tex_a_diffuse"}, "ef84e3a2"},

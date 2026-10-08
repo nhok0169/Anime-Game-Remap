@@ -100,6 +100,7 @@ Requirements
     The build uses the Ninja generator, which needs the MSVC environment set up in the same shell.
 
 :raw-html:`<br />`
+:raw-html:`<br />`
 
 Building
 ~~~~~~~~
@@ -135,6 +136,7 @@ The build installs everything into the ``csdk`` folder at the root of the repo, 
     Add ``-f <folder>`` to install the SDK somewhere else. The `API Builder`_'s README lists all of its options.
 
 :raw-html:`<br />`
+:raw-html:`<br />`
 
 Using it in a CMake project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -153,6 +155,8 @@ Using it in a CMake project
     add_executable(MyRemapTool main.cpp)
     target_link_libraries(MyRemapTool PRIVATE AGRemapCore::AGRemapCore)
 
+:raw-html:`<br />`
+
 .. code-block:: cpp
     :caption: main.cpp
 
@@ -165,12 +169,16 @@ Using it in a CMake project
         return 0;
     }
 
+:raw-html:`<br />`
+
 Point ``CMAKE_PREFIX_PATH`` at both the SDK and Z3 when configuring your project:
 
 .. code-block:: bash
 
     cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="<repo>/csdk;<repo>/cext/z3"
     cmake --build build
+
+:raw-html:`<br />`
 
 .. note::
     When your program runs, the shared libraries in ``csdk/bin`` and ``cext/z3/bin`` need to be next to it or on your ``PATH``.

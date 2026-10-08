@@ -98,8 +98,11 @@ before it splits. Which files draw the source's model is a table: an icon file, 
 face-only or shared-texture recolour, and a tweak whose sibling `.ini` draws the mesh each keep only their own
 sections (each used to draw a second vanilla model over the real mod). A recolour's binding follows the
 download's register, so the skins whose download layout was wrong (LisaStudent, XianglingCheer, CherryHuTao and
-the rest #286 fixed) lost it until that fix. See
-[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A RECOLOUR BY TEXTURE HASH ALONE".
+the rest #286 fixed) lost it until that fix. Seen in game on all three templates with channel-rotated test textures,
+and it moved one Integration Tester golden (a Kirara mod forced to Rosaria now draws nothing of Rosaria). See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A RECOLOUR BY TEXTURE HASH ALONE" and
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits 101-104 (committing beside a user's work, merging in a
+worktree, comparing fixes of different folder sets, and goldens that move with what a file draws).
 
 **THREE LATER CHARLOTTE REPORTS, THREE DIFFERENT ANSWERS, AND NONE OF THEM WAS THE VERTEX
 GROUPS' FAULT (2026-09-24).** *Black shards on a cardigan*: a skin's slots draw on

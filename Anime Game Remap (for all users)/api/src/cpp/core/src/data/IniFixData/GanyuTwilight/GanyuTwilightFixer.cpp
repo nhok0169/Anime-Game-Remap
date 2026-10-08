@@ -38,14 +38,20 @@ namespace AGRemapCore {
         GIMICharFixerConfig config{};
         config.drawnObjs = {"head", "body", "dress"};
 
-        // Only the head loses its normal map; body and dress lose the reflection keys alone.
-        // NO SHIFT, unlike ganyuTwilight4_4 -- by 5.7 the registers stay where they are.
+        // Only the head loses its normal map and shifts, exactly as in ganyuTwilight4_4 and 6_1:
+        // Ganyu reads the head's diffuse on ps-t0 and its lightmap on ps-t1 at every version.
+        // Body and dress lose the reflection keys alone.
         std::vector<GIMICharFixerConfig::RegRef> headRem = reflectionKeys("Head");
         headRem.push_back({"ps-t0"});
 
         config.objRegRemovals = {{"head", headRem},
                                  {"body", reflectionKeys("Body")},
                                  {"dress", reflectionKeys("Dress")}};
+
+        // This row once had NO shift, which left the head's diffuse on ps-t1, its lightmap on
+        // ps-t2 and nothing on ps-t0 (proven 2026-10-08 against the old script at --version 5.7,
+        // which binds them on ps-t0 / ps-t1). Both renames in ONE entry -- see ganyuTwilight6_1.
+        config.objRegRemaps = {{"head", {{"ps-t1", {"ps-t0"}}, {"ps-t2", {"ps-t1"}}}}};
 
         // ---- the 6.1-era defaults ----
         config.swapFaceRegs = false;

@@ -4315,6 +4315,7 @@ Forcibly remap a mod to a different character
 :raw-html:`<br />`
 
 The example below shows how to forcibly use the strategy for remapping Rosaria onto a Kirara mod.
+None of the mod's sections are Rosaria's and it overrides none of Rosaria's textures, so the Rosaria remap finds nothing of Rosaria to carry over: it adds its header and no sections.
 
 :raw-html:`<br />`
 
@@ -4511,40 +4512,6 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             +--> KiraraBlend.buf
             |
             +--> Neko.dds
-            |
-            +--> RosariaBlendRemapDL.buf
-            |
-            +--> RosariaBodyDiffuseRemapDL.dds
-            |
-            +--> RosariaBodyLightMapRemapDL.dds
-            |
-            +--> RosariaBodyRemapDL.ib
-            |
-            +--> RosariaDressDiffuseRemapDL.dds
-            |
-            +--> RosariaDressLightMapRemapDL.dds
-            |
-            +--> RosariaDressRemapDL.ib
-            |
-            +--> RosariaExtraDiffuseRemapDL.dds
-            |
-            +--> RosariaExtraLightMapRemapDL.dds
-            |
-            +--> RosariaExtraRemapDL.ib
-            |
-            +--> RosariaFaceDiffuseRemapDL.dds
-            |
-            +--> RosariaHeadDiffuseRemapDL.dds
-            |
-            +--> RosariaHeadLightMapRemapDL.dds
-            |
-            +--> RosariaHeadRemapDL.ib
-            |
-            +--> RosariaPositionRemapDL.buf
-            |
-            +--> RosariaRosariaCNRemapBlendRemapDL.buf
-            |
-            +--> RosariaTexcoordRemapDL.buf
 
 
     :raw-html:`<br />`
@@ -4686,120 +4653,7 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             ; Rosaria remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Rosaria mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-            [TextureOverrideRosariaHeadRosariaCNRemapFix]
-            ib = ResourceRosariaHeadIbRemapDL
-            ps-t1 = ResourceRosariaHeadLightMapRemapDL
-            hash = bdca273e
-            match_first_index = 0
-            ps-t0 = ResourceRosariaHeadDiffuseRemapDL
-            run = CommandList\global\ORFix\NNFix
 
-            [TextureOverrideRosariaBodyRosariaCNRemapFix]
-            ib = ResourceRosariaBodyIbRemapDL
-            ps-t1 = ResourceRosariaBodyLightMapRemapDL
-            hash = bdca273e
-            match_first_index = 11025
-            ps-t0 = ResourceRosariaBodyDiffuseRemapDL
-            run = CommandList\global\ORFix\NNFix
-
-            [TextureOverrideRosariaDressRosariaCNRemapFix]
-            ib = ResourceRosariaDressIbRemapDL
-            ps-t1 = ResourceRosariaDressLightMapRemapDL
-            hash = bdca273e
-            match_first_index = 46539
-            ps-t0 = ResourceRosariaDressDiffuseRemapDL
-            run = CommandList\global\ORFix\NNFix
-
-            [TextureOverrideRosariaExtraRosariaCNRemapFix]
-            ib = ResourceRosariaExtraIbRemapDL
-            ps-t1 = ResourceRosariaExtraLightMapRemapDL
-            hash = bdca273e
-            match_first_index = 48441
-            ps-t0 = ResourceRosariaExtraDiffuseRemapDL
-            run = CommandList\global\ORFix\NNFix
-
-            [TextureOverrideRosariaRosariaCNRemapBlendRemapFix]
-            hash = a7bee046
-            vb1 = ResourceRosariaRosariaCNRemapBlendRemapDL
-
-            [TextureOverrideRosariaRosariaCNRemapPositionRemapFix]
-            hash = 59a1f8b1
-            vb0 = ResourceRosariaPositionRemapDL
-
-            [TextureOverrideRosariaRosariaCNRemapTexcoordRemapFix]
-            hash = 86e0d16b
-            vb1 = ResourceRosariaTexcoordRemapDL
-
-            [TextureOverrideRosariaFaceRosariaCNRemapFix]
-            hash = 2abd61ee
-            ps-t1 = ResourceRosariaFaceDiffuseRemapDL
-
-            [ResourceRosariaHeadDiffuseRemapDL]
-            filename = RosariaHeadDiffuseRemapDL.dds
-
-            [ResourceRosariaHeadLightMapRemapDL]
-            filename = RosariaHeadLightMapRemapDL.dds
-
-            [ResourceRosariaHeadIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = RosariaHeadRemapDL.ib
-
-            [ResourceRosariaBodyDiffuseRemapDL]
-            filename = RosariaBodyDiffuseRemapDL.dds
-
-            [ResourceRosariaBodyLightMapRemapDL]
-            filename = RosariaBodyLightMapRemapDL.dds
-
-            [ResourceRosariaBodyIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = RosariaBodyRemapDL.ib
-
-            [ResourceRosariaDressDiffuseRemapDL]
-            filename = RosariaDressDiffuseRemapDL.dds
-
-            [ResourceRosariaDressLightMapRemapDL]
-            filename = RosariaDressLightMapRemapDL.dds
-
-            [ResourceRosariaDressIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = RosariaDressRemapDL.ib
-
-            [ResourceRosariaExtraDiffuseRemapDL]
-            filename = RosariaExtraDiffuseRemapDL.dds
-
-            [ResourceRosariaExtraLightMapRemapDL]
-            filename = RosariaExtraLightMapRemapDL.dds
-
-            [ResourceRosariaExtraIbRemapDL]
-            type = Buffer
-            format = DXGI_FORMAT_R32_UINT
-            filename = RosariaExtraRemapDL.ib
-
-            [ResourceRosariaFaceDiffuseRemapDL]
-            filename = RosariaFaceDiffuseRemapDL.dds
-
-            [ResourceRosariaBlendRemapDL]
-            type = Buffer
-            stride = 32
-            filename = RosariaBlendRemapDL.buf
-
-            [ResourceRosariaPositionRemapDL]
-            type = Buffer
-            stride = 40
-            filename = RosariaPositionRemapDL.buf
-
-            [ResourceRosariaTexcoordRemapDL]
-            type = Buffer
-            stride = 20
-            filename = RosariaTexcoordRemapDL.buf
-
-            [ResourceRosariaRosariaCNRemapBlendRemapDL]
-            type = Buffer
-            stride = 32
-            filename = RosariaRosariaCNRemapBlendRemapDL.buf
 
             ; ---------------------------------------------
 

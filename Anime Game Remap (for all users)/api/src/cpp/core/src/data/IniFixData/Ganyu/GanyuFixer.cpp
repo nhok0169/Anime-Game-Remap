@@ -45,9 +45,15 @@ namespace AGRemapCore {
         GIMICharFixerConfig config{};
         config.drawnObjs = {"head", "body", "dress"};
 
-        // NO REGISTER SHIFT, unlike ganyu4_0 -- by 5.7 the normal map binds straight at ps-t0
-        // and the darkened diffuse stays where it is.
-        config.texEdits = {{"head", "ps-t1", "DarkDiffuse", &DarkDiffuse::edit}};
+        // The same shift as ganyu4_0 and 6_1: the diffuse is duplicated onto ps-t1 and stays on
+        // ps-t0 for the texAdd below to overwrite, and the lightmap moves up to ps-t2. This row
+        // once had no shift at all, so the invented normal map overwrote the diffuse and the
+        // darkening ran on the lightmap. Both renames in ONE entry -- see ganyu6_1.
+        config.objRegRemaps = {{"head", {{"ps-t0", {"ps-t0", "ps-t1"}}, {"ps-t1", {"ps-t2"}}}}};
+
+        // Declared against ps-t0, the register the diffuse sits on BEFORE the shift -- the
+        // collectors run before the register edits. See ganyu6_1.
+        config.texEdits = {{"head", "ps-t0", "DarkDiffuse", &DarkDiffuse::edit}};
         config.texAdds = {{"head", "ps-t0", "NormalMap",
                             TexCreator(NormalMapSize, NormalMapSize, NormalMapYellow)}};
 

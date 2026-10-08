@@ -890,7 +890,7 @@ surprises you.
 | **"a part clips / hangs wrong / leans"** --- hair, a cape, a tail, anything that hangs | "THREE FAULTS STACKED ON ONE BRAID" and the FAULT 4-6 sections after it, in order. **First ask whether the part's REST pose is already inside the body**: Citlali's braids are modelled 4-11 cm inside hers and her own bones carry them out, so the remap is not what put them there and a displacement is standing in for a bone. Then: which KIND of fault (carrier / component / weighting / `pushAway`), measure clearance in 3-D *and* per narrow x bin (neither alone is enough), and remember a push has TWO ends --- what it clears at the bottom and what its root is driven into at the top |
 | **an undo left something behind** | "Undo is only as complete as what the fix wrote INSIDE its block" |
 | **"in game it looks exactly like the target's own model"** -- the fix seems not to have loaded | DUMP A FRAME AND GREP ITS LOG before touching code ([Overview](../Overview/CLAUDE.md)'s habit 73): it says which of your sections fired, whether the skip took and what drew. On CharlotteHurlock it showed a merge whose members never drew -- "CHARLOTTE <-> CHARLOTTEHURLOCK", point 4 |
-| a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". Both shapes have their own handling now; a watcher file gets only its own sections on the target's hashes |
+| a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "A RECOLOUR BY TEXTURE HASH ALONE, ON EVERY GI TEMPLATE" (the decision table for which files draw the source's model and which keep only their own sections), "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". A watcher file gets only its own sections on the target's hashes |
 | **an outline or TexFx effect looks wrong** on a merged skin | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 6. A carried member's `ps-t69` / `ps-t70` is cleared after its draw; an effect that still looks different on the target is the AUTHOR's, and the maintainer's call (2026-09-24) is to keep it |
 | **black shards / lighting-shaped dark patches** on one object of a component remap, on some mods and not the identity | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 8: the target SLOT decides the pixel shader. Hand-edit that group's `match_first_index` to another slot of the component and reload before theorising; `Component::objSlotIndices` then routes the object for good |
 | **stretched triangles** reaching from one part to another (skirt up to the chest) on a MERGE, on one mod and not the identity, with a vertex group table that looks right | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 9: list the slot sections the MOD declares. A slot it leaves out under a component `handling = skip` was being downloaded and drawn over the mod's own vertices. Comment out that slot's `run =` in the fixed `.ini` and reload to confirm in one step |
@@ -2309,6 +2309,83 @@ before-and-after `.ini` diff plus the game. The same session found `GameView rel
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES
 EVERYTHING INSIDE ONE `if`" below.
+
+<br>
+
+## A RECOLOUR BY TEXTURE HASH ALONE, ON EVERY GI TEMPLATE (2026-10-07)
+
+"CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, made the MERGE (a skin's mod onto its base) handle a mod that is nothing but
+`hash = <a texture> / this = Resource...`. The other two GI templates did not, and a synthetic recolour
+per character (`[TextureOverride<Char>BodyDiffuse] hash = <tex_body_diffuse> / this = ...`) lost its
+texture on **all 48 directions** checked: the classic template (`makeGIMICharParser` /
+`makeGIMICharFixer`) downloaded the source's model and drew it with the GAME's diffuse, and the
+component template (base onto a multi-component skin) gave up with "authors no mesh". With the section
+named after nothing (`[TextureOverrideBodyDiffuse]`, the usual hand-written shape) the file was not
+even FOUND: 0 of 48 classified.
+
+What each piece does now:
+
+- **The classifier votes with texture hashes** that one character alone claims (`GlobalIniClassifiers`,
+  GI only). The shared ones are what `populate()` already drops, so `b0e08915` (the metal map forty
+  characters list) and a face two skins share still identify nobody. Pinned by
+  `IniClassifierPopulation_test`'s `testARecolourClassifiesByItsTextureHash`.
+- **Both parsers bind the override in place of the download** for every object the texture is filed
+  under (`TextureOverrides::keysOf`: Yelan's body and dress share one diffuse, YelanTranquil's Body B
+  and C one atlas), at the register that object's download would have used, so every later register
+  edit of the fixer treats it exactly like a texture the mod bound itself. A role this parser has no
+  download for (a shadow ramp, a metal map) is not carried.
+- **Which files draw the SOURCE's model** (the classic parser's `getSectionTargets`; the merge's rule
+  was already the same shape):
+
+  | the file | gets |
+  | --- | --- |
+  | its own sections bind a mesh or a texture register | what it always got |
+  | only overrides a head / body / dress / extra texture the target does NOT draw too | the source's whole model from downloads, the mod's textures bound, plus an invented `ib` with `handling = skip` and a `VertexLimitRaise` with the source's vertex count (`inventSection`), so the target's own model stops drawing under it |
+  | the same, but a SIBLING `.ini` draws the mesh (CherryHutao6's `textures.ini` beside `HuTaoCherry.ini`) | its own sections only; the mesh file binds the sibling's textures under `...RemapRef` resources |
+  | overrides only the FACE, or only textures the target shares (Amber / AmberCN's face) | its own sections only: the face is a draw of its own on both characters and its override is carried onto the target's face hash with the face section |
+  | overrides nothing of the character (UI icons: Xingqiu3's `XingqiuIcon.ini`), or only watches the position hash | its own sections only |
+
+  The last three rows each used to get a whole vanilla model drawn over the real mod. **A face-only
+  recolour must not bring the outfit** -- Bennett2 ships one face texture per outfit, and drawing
+  vanilla Bennett over BennettAdventure to carry a face was the first version of this.
+- **The component fixer fetches a recolour's downloads itself**, before its split
+  (`GIMIComponentFixerImpl::fetchDownloads`), because the split reads the buffers while the fixer is
+  built and `fixResources` fetches them afterwards. The parser says the file is a recolour through
+  `TextureOverrideFacts`, reached by `dynamic_cast` the way `GIMIComponentParseFacts` is.
+- **Three skins had no slot texture rows**: YelanTranquil (off her `hash.json`), BennettAdventure and
+  CitlaliWhisperofStars (off their frame dumps through `giDrawTable.py`, each value seen in two passes of
+  different register layouts). A skin without `tex_<slot>_<role>` rows remaps a recolour as the plain skin.
+
+**What is still not carried**, and why:
+
+- A recolour's `if $var == n` around its `this =`. The binding is unconditional on the target, and a
+  SIBLING's variable cannot be named from the mesh file at all (CherryHutao6's colour toggle is always on
+  after the remap).
+- **LisaStudent -> Lisa and XianglingCheer -> Xiangling lose the recolour, and every downloaded texture
+  with it**, for a reason that predates this: their parse rows register downloads in the modern
+  `ps-t0` / `ps-t1` layout (`lisaStudent5_7`'s comment says so) while their fixers delete `ps-t0` and
+  shift the rest down for the normal-map layout. A mod of theirs missing a whole object gets its light
+  map in the diffuse slot. Which layout is right is the maintainer's call.
+- A face-only recolour on the COMPONENT template (base onto a skin) still writes nothing, as before.
+
+**Seen in game (2026-10-07, GameView, shop / Dressing Room previews)** with recolours whose diffuse had R, G, B rotated
+(unmistakable, alpha kept): Amber -> AmberCN (the generic `[TextureOverrideBodyDiffuse]` shape), Yelan -> YelanTranquil
+and CitlaliWhisperofStars -> Citlali each drew the source's outfit on the target in the recolour, matching the mod on its
+own character part for part, with nothing of the target left under it (`compare`). CherryHutao6 (the sibling
+`textures.ini` shape) drew the right geometry where the old build shattered it, but its HEAD and DRESS came out green: the
+parser / fixer layout mismatch above, on a third pair. One hand edit putting the head's diffuse on `ps-t0` and its light
+map on `ps-t1` fixed the head in game, and **CherryHuTao's parser now registers head and dress at `ps-t1` / `ps-t2`**
+(`objDownloadRegs`; every CherryHuTao mod binds normal / diffuse / light map at `ps-t0/1/2` there), after which the remap
+matched the mod on its own skin part for part. It also moved the dress transparency edit off the downloaded LIGHT MAP
+(CherryHutao5); the other 8 CherryHuTao / HuTao corpus folders are byte-identical. **And that folder's old fix block declares the sibling's textures as
+plain resource sections, so the first undo of it deletes them** (the undo rule; the old build does it too) and the texture
+edits that read them then write nothing, which renders BLACK. A fix by this build re-declares them as `...RemapRef`.
+
+**Test this with the decision table above, not with one mod.** The synthetic set
+(`[TextureOverride<Char>BodyDiffuse]` for every character with a `tex_body_diffuse` row, in both naming
+styles) found the classic and component gaps, but every row of the table after the second came from a
+REAL mod in the maintainer's folder: `findTexOnly`-style, list the `.ini` files with a `this =` and no
+`ib` / `vb` line, and the list is icons, face packs, sibling tweaks and watchers far more than recolours.
 
 <br>
 

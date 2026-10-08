@@ -89,6 +89,17 @@ member's outline. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.
 CHARLOTTEHURLOCK" and "A NAMESPACE-MERGED MOD", and [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s
 outfit-shop notes (**a second `Esc` in the shop opens the Paimon menu, which shows the UID top LEFT**).
 
+**A MOD THAT ONLY REPLACES TEXTURES (`hash = <a texture> / this = Resource...`) IS REMAPPED ON EVERY GI
+TEMPLATE NOW (2026-10-07); BEFORE, ONLY THE MERGE CARRIED IT.** A synthetic recolour lost its texture on all
+48 classic and component directions, and one with its section named after nothing classified as nothing
+(0 of 48 found). Texture hashes one character alone claims now vote in the classifier, both parsers bind the
+override in place of the download (`TextureOverrides`), and the component fixer fetches a recolour's downloads
+before it splits. Which files draw the source's model is a table: an icon file, a position watcher, a
+face-only or shared-texture recolour, and a tweak whose sibling `.ini` draws the mesh each keep only their own
+sections (each used to draw a second vanilla model over the real mod). LisaStudent / XianglingCheer -> base
+still lose it, through a pre-existing download-layout mismatch left for the maintainer. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A RECOLOUR BY TEXTURE HASH ALONE".
+
 **THREE LATER CHARLOTTE REPORTS, THREE DIFFERENT ANSWERS, AND NONE OF THEM WAS THE VERTEX
 GROUPS' FAULT (2026-09-24).** *Black shards on a cardigan*: a skin's slots draw on
 DIFFERENT pixel shaders, and her body had been routed through the skin's hair-shader slot

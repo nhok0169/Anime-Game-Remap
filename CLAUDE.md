@@ -104,6 +104,17 @@ and it moved one Integration Tester golden (a Kirara mod forced to Rosaria now d
 [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits 101-104 (committing beside a user's work, merging in a
 worktree, comparing fixes of different folder sets, and goldens that move with what a file draws).
 
+**A SIBLING RECOLOUR KEEPS ITS TOGGLE NOW, AND THE FIRST WAY OF DOING IT MADE EVERY UNDO DELETE THE
+AUTHOR'S `[Constants]` (2026-10-10).** CherryHutao6's `left` key (textures.ini's `$color`) did nothing on Hu
+Tao. One `.ini` cannot read another's variable: 3DMigoto names a file with no `namespace =` after its PATH,
+and a path reference stops at the first space -- measured in game, not argued. So the fix declares a copy
+(`$colorRemapRef`) in a `[Constants]` of its own (3DMigoto merges repeats), drives it with a copy of the
+sibling's key section, and binds the recolour after the download under the same `if`. The remover deleted
+sections by NAME wherever they sat, so that `[Constants]` took the author's with it on undo while every suite
+stayed green; a fix / re-fix / undo cycle on a real copy found it (Overview habit 106). The same report's
+"current build" was `master` while the maintainer's launcher ran uncommitted work (habit 105). See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A RECOLOUR'S TOGGLE IS CARRIED".
+
 **THREE LATER CHARLOTTE REPORTS, THREE DIFFERENT ANSWERS, AND NONE OF THEM WAS THE VERTEX
 GROUPS' FAULT (2026-09-24).** *Black shards on a cardigan*: a skin's slots draw on
 DIFFERENT pixel shaders, and her body had been routed through the skin's hair-shader slot
@@ -243,7 +254,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is one hundred short habits, none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (109 as of 2026-10-10), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

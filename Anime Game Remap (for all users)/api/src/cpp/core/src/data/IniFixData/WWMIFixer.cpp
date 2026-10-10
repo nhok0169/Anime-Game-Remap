@@ -2188,6 +2188,97 @@ namespace AGRemapCore {
                              "through " + source_.name + "'s vg_map, and the fix supplies the merged skeleton it lacks");
                     }
 
+                    // A COMPONENT WHOSE SECTION DRAWS NOTHING IS AN UNDRAWN SLOT (2026-10-10). A mod that
+                    // hides whole components keeps their sections only to skip the game's geometry and
+                    // merge their bone window ("; Draw skipped: No matching custom components found",
+                    // the shared-resource lists commented out). Remapped like a drawing component, the
+                    // section got none of the fix's additions -- they hang off that commented-out list
+                    // -- so the TARGET slot's window was never merged, and every vertex of the mod's
+                    // other components weighted to those bones skinned against a zero matrix: Lynae4's
+                    // legs, on LynaePeppermint's leg bones, collapsed to spikes at the model's origin.
+                    // Left out here, the slot gets the hide section every undrawn slot gets, which
+                    // skips the skin's geometry and merges its window. A `run =` this file cannot
+                    // resolve counts as drawing, unless it is WWMI's own library.
+                    std::function<bool(const std::string&, std::unordered_set<std::string>&)> mayDraw =
+                        [&templates, &mayDraw](const std::string& section, std::unordered_set<std::string>& seen) -> bool {
+                            if (!seen.insert(StringTools::toLower(section)).second) {
+                                return false;
+                            }
+
+                            auto tpl = templates.find(section);
+                            if (tpl == templates.end() || tpl->second == nullptr) {
+                                return StringTools::toLower(section).find("\\wwmiv1\\") == std::string::npos;
+                            }
+
+                            for (const auto& part : tpl->second->parts()) {
+                                const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+
+                                for (const auto& item : content->items()) {
+                                    const std::string key = StringTools::toLower(std::string(StringTools::strip(item.key)));
+                                    if (StringTools::startsWith(key, "draw")) {
+                                        return true;
+                                    }
+
+                                    if (key == StringTools::toLower(IniKeywords::Run)
+                                        && mayDraw(std::string(StringTools::strip(item.value)), seen)) {
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            return false;
+                        };
+
+                    // ...and only a section that skips the game's draw: one that draws nothing and
+                    // leaves the game's own geometry on screen is not a hidden component
+                    auto skips = [&templates](const std::string& section) -> bool {
+                        auto tpl = templates.find(section);
+                        if (tpl == templates.end() || tpl->second == nullptr) {
+                            return false;
+                        }
+
+                        for (const auto& part : tpl->second->parts()) {
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const std::string& value : content->getVals(IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(std::string(StringTools::strip(value)), "skip")) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    };
+
+                    std::vector<int> silent;
+                    for (const auto& entry : present_) {
+                        bool draws = false;
+                        bool skipped = false;
+                        for (const std::string& section : entry.second) {
+                            std::unordered_set<std::string> seen;
+                            draws = draws || mayDraw(section, seen);
+                            skipped = skipped || skips(section);
+                        }
+
+                        if (!draws && skipped) {
+                            silent.push_back(entry.first);
+                        }
+                    }
+
+                    silent_.clear();
+                    if (silent.size() < present_.size()) {
+                        for (int component : silent) {
+                            present_.erase(component);
+                            silent_.push_back(component);
+                        }
+                    }
+
                     auto constants = templates.find(ConstantsSection);
                     if (constants != templates.end() && constants->second != nullptr) {
                         std::optional<std::string> count = ModBranches::firstVal(*constants->second, MeshVertexCountKey);
@@ -4460,6 +4551,14 @@ namespace AGRemapCore {
                         remap.emplace_back(GraphId(0, src.first, src.second), std::move(targets));
                     }
 
+                    // A component whose section draws nothing (see readMod) goes nowhere, as one the
+                    // plan does not name does: left out of the remap, its graph would be rendered
+                    // into the fix block under the mod's own section names
+                    for (int component : silent_) {
+                        const ModObj src = slotObj(component);
+                        remap.emplace_back(GraphId(0, src.first, src.second), std::vector<GraphGroupRemap<>::RemapTarget>{});
+                    }
+
                     for (const ModObj& obj : hashOnlyObjs) {
                         std::vector<GraphGroupRemap<>::RemapTarget> targets;
                         if (hidden.count(obj.second) > 0) {
@@ -6410,6 +6509,7 @@ namespace AGRemapCore {
                 Character source_;
                 Character target_;
                 std::map<int, std::vector<std::string>> present_;     // source component -> its sections
+                std::vector<int> silent_;                              // components whose sections draw nothing
                 std::vector<int> dropped_;
                 std::vector<std::vector<int>> groups_;
                 std::vector<ModObj> hashOnlyObjs_;                    // ...and the mod's objects that are not slots

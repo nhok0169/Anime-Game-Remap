@@ -604,6 +604,19 @@ the mod on its own card. What it found:
   bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
   any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
   matches, so there is no own-character reference for it.
+* **LEGS AS POINTY STICKS: A COMPONENT THE MOD HIDES STILL OWNS BONES (Lynae4, 2026-10-10).** Lynae4 draws nothing
+  through her components 4-6 -- WWMI Tools writes such a section with `; Draw skipped: No matching custom components
+  found` and its shared-resource lists commented out, keeping only `handling = skip` and the window's
+  `run = CommandListMergeSkeleton`. Her body's leg vertices are still weighted to bones in those windows. The fix remapped
+  the section like any drawing one, but every addition (merge list, blend remap, textures) hangs off the
+  `run = CommandListOverrideSharedResources` that is commented out there, so NOTHING was added: the target slot's window
+  never reached the fix's skeleton, and every vertex on it skinned against a zero matrix -- both legs tapered to a spike
+  at the model's origin, in the menu as much as in the overworld. `readMod` now drops a component whose section skips the
+  game's draw and reaches no `draw*` through any `run =` it can resolve (WWMI's own `\WWMIv1\` lists count as not
+  drawing, any other unresolved call as drawing), so its slot gets the hide section every undrawn slot gets -- which
+  skips the skin's geometry and merges the window. Ten more mods in the corpus have such a section (grep the
+  WWMI Tools comment above); across all 55 test mods only those eleven moved. In game, Lynae4 was the broken one;
+  Lynae12 (two hidden components) looked the same before and after, its hidden windows' bones apparently unused by the rest. **Tell**: every part of one component (or several) converging on ONE point at her feet.
 * **A TOGGLE THAT PUTS A TEXTURE INTO ANOTHER KIND OF SLOT DID NOTHING ON THE REMAP (Lynae3's U, 2026-10-06).** Its
   `$Wish` binds each part's DIFFUSE into `ps-t2`, which Lynae's shaders read as the hair ramp, the body's detail map and
   the bangs' shared texture: on her the gold sheen on the hair goes. The fix carried every mod texture line by the
@@ -4551,6 +4564,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | the report says | what it was | look first at |
 | --- | --- | --- |
 | a mod's toggle does nothing on the remap, and works on its own character | a texture bound into a different KIND of slot on purpose, carried by the texture's role | `carryByRegisterRole`; read the toggle's `ps-t` lines against `registerRoles` |
+| a whole part (both legs) tapering to a spike at the model's origin, in the menu too | a component the MOD hides (draws nothing) still owns bones the rest of the body uses, and its window was never merged | the section must reduce to the hide section (`TextureOverride<Target>Component<N>RemapHide`, with `CommandListMergeWindow`); grep the fixed `.ini` for it |
 | "a second shadow body", only while she MOVES (target past 256 bones) | the fix's skeleton remap run per merge list, so parts of one body drawn a frame apart | `wwmiRemapLatch.py`; run her in the overworld -- turning her in a menu moves no bones |
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |

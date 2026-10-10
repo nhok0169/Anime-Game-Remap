@@ -153,7 +153,9 @@ which an earlier note had called her sheer pass) drawing with a flat white outli
 skeleton remap running at the top of every slot's merge list** -- windows of different ages, so the parts of one body
 were drawn a frame apart; it now runs once a frame, latched on the host's `$object_detected` (every target past 256
 bones, ChisaParfait -> Chisa included; `Tools/Misc/Diagnostics/wwmiRemapLatch.py`). Such a ghost needs the character
-to RUN: turning her in a menu moves no bones. See
+to RUN: turning her in a menu moves no bones. **And legs tapering to spikes at her feet (Lynae4, 2026-10-10)** were a
+component the MOD hides -- its section draws nothing, so none of the fix's additions landed and that slot's bone window
+was never merged; such a section is now treated as an undrawn slot and gets the merging hide section. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LYNAE <-> LYNAEPEPPERMINT".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

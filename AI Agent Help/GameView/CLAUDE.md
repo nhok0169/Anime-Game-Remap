@@ -261,6 +261,26 @@ whatever key arrives. `d3dx_user.ini` tells you which of the two you have: if th
 move, the key never arrived; if it moves and nothing renders differently, the condition is false or
 the branch draws nothing.
 
+## `mods only` STOPS HALFWAY WHEN A SAME-NAMED FOLDER IS ALREADY PARKED, AND OTHER TRAPS OF A NEW DAY (2026-10-10)
+
+- **`only` refuses a name clash after it has started moving.** It parks the loaded set one folder at a
+  time, so when one of them already has a namesake in the importer folder (the maintainer had `GIMI/Ayaka7`
+  AND `GIMI/Mods/Ayaka7`) it stops with `... already exists; not overwriting it` with everything before it
+  alphabetically parked and nothing loaded. A test copy named like a parked mod (`--from <x>/CherryHutao6`
+  while `GIMI/CherryHutao6` exists) hits the same wall. Record `mods <IMP> list` first; use an explicit
+  `park <the conflicting mod>` plus `load <copy> --from <folder>`; stage test copies under a distinct name
+  (`CherryHutao6Fixed`); diff `mods list` against the record at the end.
+- **The window can change size between sessions** (3440x1440 one day, 1920x1080 the next). A view
+  coordinate taken from an older screenshot then lands on another control -- one card click stepped the
+  outfit preview to a different character. Take positions from a FRESH screenshot and click with
+  `--space frac`.
+- **After a logoff or reboot the helper is gone** (`helper status` before anything else), and the game
+  may come up wherever the user left it -- a Dressing Room with a skin equipped. Back out without
+  switching what is equipped.
+- **A second `Esc` from a character screen opens the Paimon menu, UID top LEFT.** When a capture might show
+  it, blank the top-left corner of the file with Pillow before reading it, and delete any capture that
+  showed the UID.
+
 ## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
 
 A Chisa mod's heart eyes stopped appearing after WuWa 3.7, and the obvious reading -- that the

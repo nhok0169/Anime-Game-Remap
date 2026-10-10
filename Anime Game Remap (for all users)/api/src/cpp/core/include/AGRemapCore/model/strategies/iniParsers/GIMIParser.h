@@ -726,7 +726,9 @@ namespace AGRemapCore {
              :raw-html:`<br />`
 
              Left unset, the invented section carries only the download's register, so a parser that never
-             invents one need not provide it. :cpp:func:`makeGIMICharParser` supplies it from the
+             invents one need not provide it. Set, an EMPTY answer means the object cannot be matched at
+             all, and no section is invented for it -- nor its download declared (CherryHuTao has no
+             face hash, so a mod of hers without a face section used to get a face section with none). :cpp:func:`makeGIMICharParser` supplies it from the
              same maps its classifier uses, which is the point: the assets that let the classifier
              RECOGNISE a section are exactly the ones an invented section has to CARRY
              @endrst

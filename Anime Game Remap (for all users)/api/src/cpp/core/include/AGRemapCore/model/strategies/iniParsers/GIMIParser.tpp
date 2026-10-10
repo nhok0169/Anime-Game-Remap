@@ -757,6 +757,18 @@ namespace AGRemapCore {
                     continue;
                 }
 
+                // NOTHING TO MATCH, NOTHING INVENTED (2026-10-08). A parser that can say what
+                // identifies an object, and says "nothing" for this one, has no hash to put on the
+                // section below: CherryHuTao and seven other skins have no face row in HashData, so
+                // every mod of theirs without a face section got
+                // `[TextureOverride<Mod>Face<Target>RemapFix] ps-t1 = ...FaceDiffuseRemapDL` and no
+                // hash -- "missing hash= or valid match options" in 3DMigoto's log, and a download
+                // fetched for a section the game never runs. Left out instead, with its download.
+                // Asked before the resource is created, so no resource section is left behind.
+                if (graphIsEmpty && objIdentityKVPs && objIdentityKVPs(modObj).empty()) {
+                    continue;
+                }
+
                 std::string commandSectionName = IniNamingTools::getTextureOverrideRemapFix(modObj.first, modObj.second, modTypeName);
                 std::string resourceSectionName = createDownloadResource(modTypeName, modObj, reg, downloadData, iniFolder);
                 V resourceSectionVal = config_.valOfSectionName(resourceSectionName);

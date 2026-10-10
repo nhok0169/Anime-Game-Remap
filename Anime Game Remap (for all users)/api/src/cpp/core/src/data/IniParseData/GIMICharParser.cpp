@@ -20,6 +20,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -66,6 +67,97 @@ namespace AGRemapCore {
         // The version VertexCountData is keyed under. Every row in that table is 4.0; it is the
         // count of the model itself, which no game version since has changed.
         const std::string VertexCountVersion = "4.0";
+
+        const std::string ConstantsSection = "constants";
+        const std::string KeySectionPrefix = "key";
+        const std::string ConditionKey = "condition";
+
+        bool isIdentChar(char c) {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
+        }
+
+        // Each `$name` in 'text' through 'visit(start, end, name)', where [start, end) spans the
+        // `$name`. A namespaced reference (`$\ns\name`) belongs to another file and is skipped.
+        template <typename Visit>
+        void forEachVar(const std::string& text, Visit&& visit) {
+            for (std::size_t i = 0; i < text.size(); ++i) {
+                if (text[i] != '$' || i + 1 >= text.size() || !isIdentChar(text[i + 1])) {
+                    continue;
+                }
+
+                std::size_t end = i + 1;
+                while (end < text.size() && isIdentChar(text[end])) {
+                    ++end;
+                }
+                visit(i, end, text.substr(i + 1, end - i - 1));
+                i = end - 1;
+            }
+        }
+
+        // The variables 'text' reads, lowercased (3DMigoto's names are case-insensitive)
+        std::vector<std::string> varsIn(const std::string& text) {
+            std::vector<std::string> result;
+            forEachVar(text, [&result](std::size_t, std::size_t, const std::string& name) {
+                result.push_back(StringTools::toLower(name));
+            });
+            return result;
+        }
+
+        // 'text' with each variable 'renames' names (by its lowercased name) renamed
+        std::string renameVars(const std::string& text, const std::map<std::string, std::string>& renames) {
+            std::string result;
+            std::size_t copied = 0;
+            forEachVar(text, [&](std::size_t start, std::size_t end, const std::string& name) {
+                auto found = renames.find(StringTools::toLower(name));
+                if (found == renames.end()) {
+                    return;
+                }
+                result += text.substr(copied, start - copied) + "$" + found->second;
+                copied = end;
+            });
+            return result + text.substr(copied);
+        }
+
+        // The variable a `[Constants]` line declares (`global persist $color = 0` -> "color"), lowercased
+        std::string declaredVar(const std::string& key) {
+            const std::vector<std::string> vars = varsIn(key);
+            return vars.empty() ? std::string() : vars.back();
+        }
+
+        // Every variable the `[Constants]` sections of 'templates' declare, lowercased
+        std::set<std::string> declaredVars(const ModBranches::Templates& templates) {
+            std::set<std::string> result;
+            for (const auto& entry : templates) {
+                if (entry.second == nullptr || StringTools::toLower(entry.first) != ConstantsSection) {
+                    continue;
+                }
+                for (const auto& part : entry.second->parts()) {
+                    if (const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get())) {
+                        for (const auto& kvp : content->entries()) {
+                            const std::string var = declaredVar(kvp.first);
+                            if (!var.empty()) {
+                                result.insert(var);
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        // A toggled texture override (see GIMICharGIMIParser::readTextureOverrides): the register it
+        // binds, the resource, and the `if` blocks it is bound in, outermost first
+        struct CondBinding {
+            std::string reg;
+            std::string resource;
+            std::vector<std::vector<std::string>> branches;
+        };
+
+        // `key = val`, or the bare key for a line that had no `=`
+        std::string iniLine(const std::string& key, const std::string& val) {
+            const std::string_view strippedVal = StringTools::strip(val);
+            return strippedVal.empty() ? key : key + " = " + std::string(strippedVal);
+        }
 
 
         /**
@@ -227,6 +319,8 @@ namespace AGRemapCore {
 
                     if (!needsSourceModel_ || (ownTextureOverrides_ && siblingDrawsMesh())) {
                         textureBindings_.clear();
+                        condBindings_.clear();
+                        carriedSections_.clear();
                         this->downloads.clear();
                         return;
                     }
@@ -235,6 +329,10 @@ namespace AGRemapCore {
 
                 bool isRecolourOnly() const override {
                     return recolourOnly_;
+                }
+
+                std::string carriedSections() const override {
+                    return std::string(StringTools::rstrip(carriedSections_));
                 }
 
             protected:
@@ -360,8 +458,19 @@ namespace AGRemapCore {
                 // tex.ini shape: the mesh in one .ini, its recolour in another). A sibling's resource
                 // cannot be named across .ini files, so it is declared again in this one under a
                 // RemapRef name, which an undo removes while leaving the mod's texture alone.
+                //
+                // A RECOLOUR BEHIND A TOGGLE KEEPS ITS TOGGLE (2026-10-08). An override inside
+                // `if $color == 0` is the mod's only while the toggle says so, and the game's texture
+                // otherwise; bound unconditionally, the toggle did nothing on the target. Such an
+                // override keeps the object's download and is bound after it under the same `if`
+                // (bindTextureOverrides). A SIBLING's variable cannot be read from this file -- a file
+                // with no `namespace =` is named after its path -- so its condition is carried under a
+                // copy of the variable, which this file declares and drives with a copy of the
+                // sibling's key sections (carriedSections). CherryHutao6's `left` key, on Hu Tao.
                 void readTextureOverrides() {
                     textureBindings_.clear();
+                    condBindings_.clear();
+                    carriedSections_.clear();
                     siblingRefs_.clear();
                     ownTextureOverrides_ = false;
                     needsSourceModel_ = false;
@@ -371,11 +480,17 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    // (object, register) -> the resource to bind; this file's first, which win
-                    std::map<std::pair<ModObj, std::string>, std::string> bindings;
+                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const std::set<std::string> ownVars = declaredVars(own);
+
+                    // (object, register) -> the resource to bind and the `if` blocks it is bound in;
+                    // this file's first, which win
+                    std::map<std::pair<ModObj, std::string>, CondBinding> bindings;
+                    std::set<std::string> carriedNames;
                     auto addOverrides = [&](const ModBranches::Templates& templates,
                                             const std::function<std::string(const std::string&)>& resourceOf,
                                             bool own) {
+                        std::map<std::string, std::string> carried;
                         for (const TextureOverrides::Override& override_ : TextureOverrides::collect(templates)) {
                             // Every object the texture is drawn on: one texture may serve several
                             // (Yelan's body and dress share one diffuse)
@@ -408,13 +523,22 @@ namespace AGRemapCore {
                                     [](const std::pair<ModObj, std::string>& target) { return target.first.second != FaceObjName; });
                                 needsSourceModel_ = needsSourceModel_ || (drawnObj && !TextureOverrides::isShared(override_.hash));
                             }
-                            for (const auto& target : targets) {
-                                bindings.emplace(target, resource);
+                            std::vector<std::vector<std::string>> branches = override_.branches;
+                            if (!own && !branches.empty()) {
+                                std::optional<std::vector<std::vector<std::string>>> renamed =
+                                    carryBranches(templates, branches, ownVars, carried);
+                                branches = renamed.has_value() ? std::move(*renamed) : std::vector<std::vector<std::string>>();
                             }
+                            for (const auto& target : targets) {
+                                bindings.emplace(target, CondBinding{target.second, resource, branches});
+                            }
+                        }
+
+                        if (!own) {
+                            carrySections(templates, carried, ownVars, carriedNames);
                         }
                     };
 
-                    const ModBranches::Templates& own = iniFile->getIfTemplates();
                     addOverrides(own, [](const std::string& resource) { return resource; }, true);
 
                     if (drawsMesh(own)) {
@@ -438,12 +562,17 @@ namespace AGRemapCore {
                         }
                     }
 
-                    for (const auto& [target, resource] : bindings) {
+                    for (const auto& [target, binding] : bindings) {
+                        if (!binding.branches.empty()) {
+                            condBindings_[target.first].push_back(binding);
+                            continue;
+                        }
+
                         auto objDownloads = this->downloads.find(target.first);
                         if (objDownloads != this->downloads.end()) {
                             objDownloads.value().erase(target.second);
                         }
-                        textureBindings_[target.first].emplace_back(target.second, resource);
+                        textureBindings_[target.first].emplace_back(target.second, binding.resource);
                     }
                 }
 
@@ -547,6 +676,7 @@ namespace AGRemapCore {
                             bound.insert(binding.second);
                         }
                     }
+                    bound.insert(condBound_.begin(), condBound_.end());
 
                     for (const auto& [name, file] : siblingRefs_) {
                         if (bound.count(name) == 0) {
@@ -581,6 +711,239 @@ namespace AGRemapCore {
                         Section* section = ctx_.getSection(graph->roots().front());
                         if (section != nullptr) {
                             section->addKVPsToFront(bindings);
+                        }
+                    }
+
+                    condBound_.clear();
+                    for (const auto& [modObj, bindings] : condBindings_) {
+                        bindConditionally(modObj, bindings);
+                    }
+                }
+
+                // A toggled recolour (see readTextureOverrides), at the top of the object's entry
+                // section: the download for the register first, then the recolour under the
+                // override's own `if` blocks --
+                //
+                //     ps-t1 = Resource<Mod>HeadDiffuseRemapDL
+                //     if $colorRemapRef == 0
+                //         ps-t1 = ResourceHuTaoCherryHeadDiffuseRemapRef
+                //     endif
+                //
+                // -- so whichever branch the toggle is in, the register is bound before the section
+                // draws, and every later register edit sees both. A register with no download there
+                // is one the mod binds itself, which a `this =` never reaches on the source either.
+                void bindConditionally(const ModObj& modObj, const std::vector<CondBinding>& bindings) {
+                    Graph* graph = this->getCommandGraph(modObj);
+                    if (graph == nullptr || graph->isEmpty() || graph->roots().empty()) {
+                        return;
+                    }
+                    Section* section = ctx_.getSection(graph->roots().front());
+                    if (section == nullptr || section->parts().empty()) {
+                        return;
+                    }
+                    auto* first = dynamic_cast<ContentPart*>(section->parts().front().get());
+                    if (first == nullptr) {
+                        return;
+                    }
+
+                    using Kvps = std::vector<std::pair<std::string, std::string>>;
+                    Kvps downloaded;
+                    std::vector<std::pair<std::vector<std::vector<std::string>>, Kvps>> groups;
+                    for (const CondBinding& binding : bindings) {
+                        std::optional<std::string> download;
+                        for (const std::string& val : first->getVals(binding.reg)) {
+                            const std::string stripped(StringTools::strip(val));
+                            if (StringTools::endsWith(stripped, IniKeywords::RemapDL)) {
+                                download = stripped;
+                                break;
+                            }
+                        }
+                        if (!download.has_value()) {
+                            continue;
+                        }
+
+                        const std::string downloadName = *download;
+                        first->removeKey(binding.reg, std::nullopt, [&downloadName](long long, const std::string& val) {
+                            return std::string(StringTools::strip(val)) == downloadName;
+                        });
+                        downloaded.emplace_back(binding.reg, downloadName);
+
+                        auto group = std::find_if(groups.begin(), groups.end(),
+                            [&binding](const auto& g) { return g.first == binding.branches; });
+                        if (group == groups.end()) {
+                            groups.emplace_back(binding.branches, Kvps{});
+                            group = std::prev(groups.end());
+                        }
+                        group->second.emplace_back(binding.reg, binding.resource);
+                        condBound_.insert(binding.resource);
+                    }
+                    if (groups.empty()) {
+                        return;
+                    }
+
+                    std::optional<Z3Context> fallbackZ3Ctx;
+                    Z3Context* z3Ctx = graph->z3Ctx();
+                    if (z3Ctx == nullptr) {
+                        fallbackZ3Ctx.emplace();
+                        z3Ctx = &(*fallbackZ3Ctx);
+                    }
+
+                    std::vector<std::unique_ptr<IfTemplatePart>> front;
+                    front.push_back(std::make_unique<ContentPart>(downloaded, 0));
+                    for (const auto& [branches, binds] : groups) {
+                        for (const std::vector<std::string>& level : branches) {
+                            for (const std::string& header : level) {
+                                const std::optional<IfPredPartType> type = IfPredPartTypeTools::getType(header);
+                                front.push_back(std::make_unique<IfPredPart>(header, type.value_or(IfPredPartType::If), *z3Ctx));
+                            }
+                        }
+                        front.push_back(std::make_unique<ContentPart>(binds, static_cast<int>(branches.size())));
+                        for (std::size_t i = 0; i < branches.size(); ++i) {
+                            front.push_back(std::make_unique<IfPredPart>(
+                                IfPredPartTypeTools::getName(IfPredPartType::EndIf), IfPredPartType::EndIf, *z3Ctx));
+                        }
+                    }
+
+                    auto& parts = section->parts();
+                    if (first->size() == 0) {
+                        parts.erase(parts.begin());
+                    }
+                    parts.insert(parts.begin(), std::make_move_iterator(front.begin()), std::make_move_iterator(front.end()));
+                    section->rebuild();
+                }
+
+                // Whether a `[Key...]` section of 'templates' sets the variable 'var' (lowercased)
+                static bool keySets(const ModBranches::Templates& templates, const std::string& var) {
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr || !StringTools::startsWith(StringTools::toLower(entry.first), KeySectionPrefix)) {
+                            continue;
+                        }
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            for (const auto& kvp : content->entries()) {
+                                if (StringTools::toLower(StringTools::strip(kvp.first)) == "$" + var) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                // A SIBLING override's `if` blocks, reading this file's copies of the sibling's
+                // variables -- or nothing when one cannot be read here. A variable the sibling
+                // declares and one of its key sections sets (a toggle) is carried, as
+                // `$<name>RemapRef`; one this file declares itself is read as it is (`$active`).
+                static std::optional<std::vector<std::vector<std::string>>> carryBranches(
+                        const ModBranches::Templates& sibling, const std::vector<std::vector<std::string>>& branches,
+                        const std::set<std::string>& ownVars, std::map<std::string, std::string>& carried) {
+                    const std::set<std::string> siblingVars = declaredVars(sibling);
+                    std::map<std::string, std::string> renames;
+                    for (const std::vector<std::string>& level : branches) {
+                        for (const std::string& header : level) {
+                            for (const std::string& var : varsIn(header)) {
+                                if (renames.count(var) != 0) {
+                                    continue;
+                                }
+                                if (siblingVars.count(var) != 0 && keySets(sibling, var)) {
+                                    renames.emplace(var, var + IniKeywords::RemapRef);
+                                } else if (ownVars.count(var) == 0) {
+                                    return std::nullopt;
+                                }
+                            }
+                        }
+                    }
+
+                    std::vector<std::vector<std::string>> result;
+                    for (const std::vector<std::string>& level : branches) {
+                        std::vector<std::string>& out = result.emplace_back();
+                        for (const std::string& header : level) {
+                            out.push_back(renameVars(header, renames));
+                        }
+                    }
+                    carried.insert(renames.begin(), renames.end());
+                    return result;
+                }
+
+                // The copies 'carried' names (lowercased sibling variable -> copy): a `[Constants]`
+                // declaring each the way the sibling does, and each sibling key section that sets one,
+                // as `[<its name>RemapRef]`. A key's other variables are dropped, and so is a
+                // `condition` reading one this file cannot see -- the key then works everywhere.
+                void carrySections(const ModBranches::Templates& sibling, const std::map<std::string, std::string>& carried,
+                                   const std::set<std::string>& ownVars, std::set<std::string>& carriedNames) {
+                    if (carried.empty()) {
+                        return;
+                    }
+
+                    std::set<std::string> visible = ownVars;
+                    for (const auto& entry : carried) {
+                        visible.insert(StringTools::toLower(entry.second));
+                    }
+
+                    std::string constants;
+                    for (const auto& entry : sibling) {
+                        if (entry.second == nullptr || StringTools::toLower(entry.first) != ConstantsSection) {
+                            continue;
+                        }
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            for (const auto& kvp : content->entries()) {
+                                const std::string var = declaredVar(kvp.first);
+                                if (carried.count(var) != 0 && carriedNames.insert("$" + var).second) {
+                                    constants += iniLine(renameVars(std::string(StringTools::strip(kvp.first)), carried), kvp.second) + "\n";
+                                }
+                            }
+                        }
+                    }
+                    if (!constants.empty()) {
+                        carriedSections_ += "[Constants]\n" + constants + "\n";
+                    }
+
+                    for (const auto& entry : sibling) {
+                        if (entry.second == nullptr || !StringTools::startsWith(StringTools::toLower(entry.first), KeySectionPrefix)) {
+                            continue;
+                        }
+
+                        std::string body;
+                        bool setsCarried = false;
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            for (const auto& kvp : content->entries()) {
+                                const std::string key(StringTools::strip(kvp.first));
+                                if (StringTools::startsWith(key, "$")) {
+                                    auto found = carried.find(StringTools::toLower(key.substr(1)));
+                                    if (found != carried.end()) {
+                                        body += iniLine("$" + found->second, kvp.second) + "\n";
+                                        setsCarried = true;
+                                    }
+                                    continue;
+                                }
+
+                                if (StringTools::toLower(key) == ConditionKey) {
+                                    const std::string condition = renameVars(kvp.second, carried);
+                                    const std::vector<std::string> vars = varsIn(condition);
+                                    if (!std::all_of(vars.begin(), vars.end(), [&visible](const std::string& var) { return visible.count(var) != 0; })) {
+                                        continue;
+                                    }
+                                    body += iniLine(key, condition) + "\n";
+                                    continue;
+                                }
+                                body += iniLine(key, kvp.second) + "\n";
+                            }
+                        }
+
+                        const std::string name = entry.first + IniKeywords::RemapRef;
+                        if (setsCarried && carriedNames.insert(StringTools::toLower(name)).second) {
+                            carriedSections_ += "[" + name + "]\n" + body + "\n";
                         }
                     }
                 }
@@ -752,6 +1115,13 @@ namespace AGRemapCore {
 
                 // Whether this file overrides any of the character's textures, and any the target
                 // does not draw itself.
+                // object -> its toggled overrides, and the resources bindConditionally bound
+                std::map<ModObj, std::vector<CondBinding>> condBindings_;
+                std::set<std::string> condBound_;
+
+                // What carriedSections() hands the fixer
+                std::string carriedSections_;
+
                 bool ownTextureOverrides_ = false;
                 bool needsSourceModel_ = false;
                 bool recolourOnly_ = false;

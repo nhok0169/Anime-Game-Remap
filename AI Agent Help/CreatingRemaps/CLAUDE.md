@@ -2360,9 +2360,10 @@ What each piece does now:
 
 **What is still not carried**, and why:
 
-- A recolour's `if $var == n` around its `this =`. The binding is unconditional on the target, and a
-  SIBLING's variable cannot be named from the mesh file at all (CherryHutao6's colour toggle is always on
-  after the remap).
+- ~~A recolour's `if $var == n` around its `this =`~~ -- **carried since 2026-10-10** on the classic
+  template; see "A RECOLOUR'S TOGGLE IS CARRIED" below. Still not carried: a condition reading a variable
+  that no sibling `[Key...]` sets and the mesh file does not declare (bound unconditionally, as before),
+  and a toggle on the component / merge templates.
 - (No longer open.) LisaStudent -> Lisa and XianglingCheer -> Xiangling lost the recolour, and every
   downloaded texture with it, because their parse rows registered downloads in the plain layout while
   their fixers drop `ps-t0` and shift the rest down. Fixed on `master` with four more skins (#286):
@@ -2397,6 +2398,66 @@ card the remap (or the other way round).
 styles) found the classic and component gaps, but every row of the table after the second came from a
 REAL mod in the maintainer's folder: `findTexOnly`-style, list the `.ini` files with a `this =` and no
 `ib` / `vb` line, and the list is icons, face packs, sibling tweaks and watchers far more than recolours.
+
+**"The current build shatters CherryHutao6" was `master`, not this section (2026-10-08).** The commit above
+(`Remap texture-only (this =) mods on every GI template`) sat unmerged on `add-texture-only-remap` (merged since, PR #287) while the
+maintainer's checkout ran it UNCOMMITTED, so a build of `master` still fixed `textures.ini` as a whole
+CherryHuTao mod: downloaded ib / buffers drawn on Hu Tao's hashes over the real fix, the model in shards.
+**Before debugging "the current build", find out which commit that is** -- `git status` in the main checkout
+and the `.pyd`'s timestamp. Two smaller faults survived even the texture-only build, both in shared code and
+both pinned by `core/tests/TextureOnlySibling_test.cpp` (fails on `master` 15 ways, on the texture-only build
+6, passes now):
+
+- **A section invented for a download, with nothing to match on, is no longer written**
+  (`GIMIParser::addDownloads`). Eight skins have no `tex_face_diffuse` row -- Arlecchino, AyakaSpringbloom,
+  CherryHuTao, GanyuTwilight, KleeBlossomingStarlight, ShenheFrostFlower, XianglingCheer, XingqiuBamboo --
+  so every mod of theirs without a face section got `[TextureOverride<Mod>Face<Target>RemapFix] ps-t1 =
+  ...FaceDiffuseRemapDL` and no `hash`: "missing hash= or valid match options" in 3DMigoto's log and a
+  download for nothing. An empty `objIdentityKVPs` answer now means "do not invent".
+- **A generated copy that repeats the mod's own file is not written** (`GIMIFixer::fix`). A file that
+  draws nothing still gets one group per split object, and group 1 rendered only what group 0 had:
+  `texturesRemapFix1.ini` repeated textures.ini's position watcher, and so did copies of CherryHuTao4 /
+  Keqing6-3's masters, Keqing5's lone VertexLimitRaise and NuraThings' mod-manager file.
+
+A/B over 252 folders (the 223-folder corpus plus `GIMI\Mods`), texture-only build against this one, both
+from the same undone copies: 941 `.ini` files fixed on each side, 0 buffers or textures moved, 0 of 599
+RemapBlend files; 218 `.ini` files each lose exactly one hash-less face section and its resource, 108 face
+downloads and 6 copies are gone, nothing is added. In game (shop preview, Hu Tao's base card) CherryHutao6
+draws whole from every side and matches the mod on its own skin card, except the glasses' lenses: silver on
+Hu Tao, red on the skin. Neither build changes that -- the skin draws its lenses in a draw of their own, and
+the fixer merges them into Hu Tao's head draw. `up` / `left` reach the game with `key --vk`. **CherryHutao6's
+own folder must have the four textures before the fix**: copy them from an UNDONE copy, never one an undo of
+the old fix has run over.
+
+**A RECOLOUR'S TOGGLE IS CARRIED (2026-10-10), and the undo bug it exposed.** CherryHutao6's `left` switches
+its own skin card between the white outfit and the black recolour (textures.ini's `$color`); after the fix
+above, Hu Tao stayed black. Two in-game experiments decided the design before any code:
+
+- **A sibling's variable cannot be named by its path.** 3DMigoto names a file with no `namespace =` after its
+  PATH (`d3d11_log.txt`: `Renaming namespace "Mods\BufferValues\ORFix.ini" -> "global\ORFix"` for the
+  ones that declare one), and `if $\Mods\CherryHutao6\...\HuTaoCherry Tweaks by Rain_9\textures.ini\color`
+  is cut at the first space -- `Unrecognised identifier: $\mods\...\hutaocherry`. It would break on any
+  folder move anyway.
+- **A second `[Constants]` in one file is merged**, so a fix block can declare variables of its own. The
+  author's `[KeySwap3]` in HuTaoCherry.ini, which cycles an undeclared `$color` (`Undeclared variable
+  $color` in the log, so dead on its own skin), came alive the moment one was declared.
+
+So `GIMICharParser` keeps the override's `if` (`TextureOverrides::Override::branches`): a toggled override
+keeps the object's download and is bound after it at the top of the section, `ps-tN = <download>` then
+`if $colorRemapRef == 0 / ps-tN = <recolour> / endif`, so every later register shift and texture edit sees
+both. A SIBLING's variable is carried as `$<name>RemapRef`: declared in a `[Constants]` and cycled by a copy
+of the sibling's `[Key...]` (`[KeySwap3RemapRef]`, same key, same `condition` when this file can read its
+variables), handed to the fixer through `TextureOverrideFacts::carriedSections` and written as appended
+sections into every generated copy too, each a namespace of its own. The two copies of the variable stay in
+step because one key under one condition drives both. Seen in game: `left` on Hu Tao's card goes black ->
+white -> black.
+
+**The first real-mod test found that an undo then DELETED THE AUTHOR'S `[Constants]`.** `RemapIniRemover`
+removes by NAME, every span of a name the fix block declared, wherever it sits -- harmless while a fix only
+wrote names of its own, fatal for a section 3DMigoto merges. Outside a boilerplate, `[Constants]` and
+`[Present]` are now the author's (`RemapIniRemover::isMergedSection`). Caught by a fix-refix-undo cycle on a
+real copy, which the unit test now repeats (`testUndoKeepsTheAuthorsConstants`): **run every fix twice and
+undo it once before calling it done** -- the re-fix was where the missing `[Constants]` showed.
 
 <br>
 

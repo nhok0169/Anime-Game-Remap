@@ -116,6 +116,30 @@ namespace AGRemapCore {
             eyes.name = "Eyes";
             eyes.modTypeName = ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStarsEyes);
 
+            // ---- the eyes sit in the GAME's face, not on the ground plane ----
+            //
+            // BOTH EYE MESHES ARE 255 VERTICES AND CITLALI'S SIT 4.2 mm HIGHER. A mod carries no
+            // face mesh, so the GAME draws the skin's face and these have to land in ITS sockets;
+            // at Citlali's own height they ride up toward the lids, which a user reported as the
+            // eyes sitting "a bit above compared to the original" (2026-10-07). Measured as the two
+            // models' eye centroids -- her groups 5/6 against the skin's own EyesPosition.buf --
+            // y 1.38413 against 1.37993, with x agreeing to 0.00001 and z to 0.03 mm, so it is a
+            // purely vertical difference. That is the same metric that says Lumine's eyes need no
+            // offset (0.15 mm apart) and Neuvillette's do (12.4 mm).
+            //
+            // IT REPLACES THE GROUND PLANE'S OFFSET AND CLEARS ITS FADE rather than adding to them,
+            // and the fade is what makes that necessary: it is only ~0.011 at eye height, so left
+            // on it would scale this 4.2 mm correction down to 0.05 mm and do nothing whatever.
+            // Inherited from `body` it was instead adding 0.49 mm on average, which is the other
+            // 0.5 mm of the 4.7 mm total the eyes were out by.
+            eyes.positionOffset = {0.0f, -0.00419f, 0.0f};
+            eyes.positionOffsetFade = {0.0f, 0.0f};
+
+            // ...but only into the GAME's face -- the Neuvillette rule. A mod that hides the face
+            // diffuse and draws its own inside its head mesh reaches the skin unshifted, and its
+            // eyes are placed for THAT face: shifted down, they would look out below it.
+            eyes.offsetOnlyWithGameFace = true;
+
             // ---- the two long front braids ----
             //
             // THE CHAIN USED TO BE CUT IN HALF ACROSS TWO COMPONENTS, AND THAT WAS THE FIRST BUG.

@@ -114,8 +114,16 @@ namespace AGRemapCore {
             eyes.name = "Eyes";
             eyes.slots = {{"A", "0", "body", true, "Body;A", 864, true}};
             eyes.vertexCount = 255;
-            eyes.positionOffset = GroundOffset;
-            eyes.positionOffsetFade = GroundFade;
+
+            // THE MIRROR OF THE FORWARD DIRECTION'S EYE OFFSET, and it was wrong here too -- found
+            // while fixing that one (2026-10-07) rather than reported, exactly as the ground plane
+            // was. Citlali draws the face here, so the skin's eyes have to rise 4.2 mm to sit in
+            // it; inheriting the ground fade they were instead dropping 0.6 mm, about 4.8 mm low.
+            // The fade is cleared for the same reason as forward: at eye height it is ~0.014, so
+            // it would scale the correction away to nothing.
+            eyes.positionOffset = {0.0f, 0.00419f, 0.0f};
+            eyes.positionOffsetFade = {0.0f, 0.0f};
+            eyes.offsetOnlyWithGameFace = true;
 
             config.components = {std::move(body), std::move(bangs), std::move(eyes)};
             config.targetObjs = {"head", "body"};

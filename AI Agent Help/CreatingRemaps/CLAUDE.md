@@ -604,6 +604,26 @@ the mod on its own card. What it found:
   bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
   any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
   matches, so there is no own-character reference for it.
+* **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
+  2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
+  (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse
+  under each texel, flesh is material **0** on 98% of Lynae's upper and lower body and material **4** on 94% / 82% of
+  LynaePeppermint's -- and each uses the other's number for something small (trims, logos). Carried across unchanged,
+  the body's skin shaded as cloth: whiter, with grey-lavender shadows, beside a face (a different shader) that stayed
+  warm. The original on Lynae and vanilla Peppermint are both warm all over, which is what said "the remap". A hand
+  edit (swap 0 and 4, bind the copy) settled it in one round before any code: thigh saturation 0.072 -> 0.110
+  (original 0.101). Now `lynaeSkinCodeSwap` (`Lynae/LynaeSkinCodes.h`), a `texEdit` on `upperDetail` / `lowerDetail`
+  in BOTH directions -- the swap is its own inverse. NOT on the jacket or props maps: there code 0 is cloth (71% of her
+  jacket), so a legend is per SHADER, not per character. **`TextureFile` could not read these at all**: an 8-bit
+  single-channel `.dds` (legacy luminance or DX10 `R8_UNORM`) is not something Compressonator loads, so `open()`
+  answered "no image" and any edit of such a role did nothing -- it reads them by hand now, as `(v, v, v, 255)`, and
+  writes an R8 source back as R8 while the edit leaves it grey. Mods ship these maps in three forms -- R8 `.dds`, a
+  `.jpg` (Lynae5, 10, 12, 13; WIC-decoded, lossy but the original renders from the same file) and BC7 (Lynae4's 8192 x
+  4096, written back uncompressed at 134 MB, since BCn would move codes). **To render a pre-merged-skeleton 3.6 Lynae
+  mod on her own outfit at 3.7** (the A/B this needed), the `vb0` and texture-hash moves are not enough -- it drew as
+  giant polygons: each vertex's LOCAL bone id has to go local 3.6 -> merged 3.6 (`lynae36VgMaps`) -> merged 3.7
+  (`lynaeRenumbered36To37`) -> local 3.7 (the 3.7 `Metadata.json`'s `vg_map`, a DICT of local -> merged); the
+  session's `orig37legacy.py` did it with every influence mapped.
 * **LEGS AS POINTY STICKS: A COMPONENT THE MOD HIDES STILL OWNS BONES (Lynae4, 2026-10-10).** Lynae4 draws nothing
   through her components 4-6 -- WWMI Tools writes such a section with `; Draw skipped: No matching custom components
   found` and its shared-resource lists commented out, keeping only `handling = skip` and the window's
@@ -4564,6 +4584,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | the report says | what it was | look first at |
 | --- | --- | --- |
 | a mod's toggle does nothing on the remap, and works on its own character | a texture bound into a different KIND of slot on purpose, carried by the texture's role | `carryByRegisterRole`; read the toggle's `ps-t` lines against `registerRoles` |
+| bare skin on the body whiter / cooler than the face, lavender-grey in shadow; the original is warm all over | a material-CODE map (`ps-t2` on WuWa bodies) whose skin code differs between the two skins | tally the codes under flesh-coloured diffuse texels on BOTH skins' game textures; swap them with a `texEdit` (Lynae: 0 <-> 4) |
 | a whole part (both legs) tapering to a spike at the model's origin, in the menu too | a component the MOD hides (draws nothing) still owns bones the rest of the body uses, and its window was never merged | the section must reduce to the hide section (`TextureOverride<Target>Component<N>RemapHide`, with `CommandListMergeWindow`); grep the fixed `.ini` for it |
 | "a second shadow body", only while she MOVES (target past 256 bones) | the fix's skeleton remap run per merge list, so parts of one body drawn a frame apart | `wwmiRemapLatch.py`; run her in the overworld -- turning her in a menu moves no bones |
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |

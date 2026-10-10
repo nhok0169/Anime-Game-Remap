@@ -23,6 +23,7 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 
@@ -183,6 +184,12 @@ namespace AGRemapCore {
             {"lowerMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
             {"jacketMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
             {"pouchMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
+
+            // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
+            // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
+            // shadows, under a warm face: see lynaeSkinCodeSwap ----
+            {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
+            {"lowerDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
         };
 
         // Masks mark regions: a flat one from a mod is replaced by HER game texture

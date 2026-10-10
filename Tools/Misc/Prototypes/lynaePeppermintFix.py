@@ -290,6 +290,26 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
 
     config.sourceTextures = facts
 
+    # ---- the body's material-code maps (ps-t2) mark skin with material 0 on Lynae and 4 on the skin
+    # (low four bits; the high four are flags), so a map carried across unchanged shaded the body's
+    # skin as cloth -- whiter, with lavender shadows, under a warm face. 0 and 4 are exchanged, the same
+    # rule both ways (core's lynaeSkinCodeSwap) ----
+    def _swapCode(v):
+        lo, hi = v & 0x0F, v & 0xF0
+        return hi | (4 if lo == 0 else 0 if lo == 4 else lo)
+    _codeTable = bytes(_swapCode(v) for v in range(256))
+    def skinCodeSwap(ctx):
+        def run(tex):
+            tex.gamma = None                     # these bytes are codes, not colour
+            px = bytearray(tex.getPixels())
+            red = bytes(px[0::4]).translate(_codeTable)
+            px[0::4] = red
+            px[1::4] = red
+            px[2::4] = red
+            tex.setPixels(bytes(px), tex.width, tex.height)
+        return run
+    config.texEdits = [FRB.WWMIFixerConfig.TexEdit(role, "SkinCode", skinCodeSwap) for role in ("upperDetail", "lowerDetail")]
+
     # Masks mark regions: a flat one from a mod says "all of this is one material"
     # Her own masks are flat in places on purpose (her hair mask is one value over the whole texture,
     # her lower-body and jacket masks R = 255 throughout), so a flat mask is replaced by HER game

@@ -225,6 +225,79 @@ namespace AGRemapCore {
             }
         }
 
+        // ---- ONE 8-BIT CHANNEL, read by hand ----
+        //
+        // A legacy header with DDPF_LUMINANCE (or DDPF_RGB and only an 0xff red mask) at 8 bits a
+        // pixel, or a DX10 header saying R8_UNORM: a material CODE map, as a WuWa character ships at
+        // ps-t2 (Lynae's body detail maps hold codes 0-67). Compressonator loads none of these, so
+        // open() said "no image" and every texture edit of such a role silently did nothing. Each
+        // value comes back as (v, v, v, 255) and is written back as such -- a shader reading the
+        // red channel of the 32-bit copy sees exactly the value it read before.
+        constexpr std::size_t LegacyHeaderSize = 128;
+        constexpr std::uint32_t DdpfRGB = 0x40u;
+        constexpr std::uint32_t DdpfLuminance = 0x20000u;
+        constexpr std::uint32_t DxgiR8Unorm = 61;
+
+        bool readSingleChannel8(const std::string& src, std::vector<std::uint8_t>& pixels, int& width, int& height) {
+            std::ifstream file(FileService::strToPath(src), std::ios::binary);
+            if (!file) {
+                return false;
+            }
+
+            std::vector<char> header(HeaderSize);
+            file.read(header.data(), static_cast<std::streamsize>(HeaderSize));
+            if (file.gcount() != static_cast<std::streamsize>(HeaderSize)
+                    || std::memcmp(header.data() + MagicOffset, "DDS ", 4) != 0) {
+                return false;
+            }
+
+            std::size_t dataAt = LegacyHeaderSize;
+            if (std::memcmp(header.data() + FourCCOffset, "DX10", 4) == 0) {
+                if (readLE32(header, DxgiFormatOffset) != DxgiR8Unorm) {
+                    return false;
+                }
+                dataAt = LegacyHeaderSize + 20;
+            } else {
+                const std::uint32_t flags = readLE32(header, 80);
+                const std::uint32_t bits = readLE32(header, 88);
+                const std::uint32_t redMask = readLE32(header, 92);
+                const std::uint32_t fourCC = readLE32(header, FourCCOffset);
+                const bool luminance = (flags & DdpfLuminance) != 0;
+                const bool redOnly = (flags & DdpfRGB) != 0 && redMask == 0xffu
+                                     && readLE32(header, 96) == 0 && readLE32(header, 100) == 0;
+                if (fourCC != 0 || bits != 8 || !(luminance || redOnly)) {
+                    return false;
+                }
+            }
+
+            const int h = static_cast<int>(readLE32(header, 12));
+            const int w = static_cast<int>(readLE32(header, 16));
+            if (w <= 0 || h <= 0) {
+                return false;
+            }
+
+            const std::size_t count = static_cast<std::size_t>(w) * static_cast<std::size_t>(h);
+            std::vector<char> values(count);
+            file.seekg(static_cast<std::streamoff>(dataAt));
+            file.read(values.data(), static_cast<std::streamsize>(count));
+            if (file.gcount() != static_cast<std::streamsize>(count)) {
+                return false;
+            }
+
+            pixels.resize(count * 4);
+            for (std::size_t i = 0; i < count; ++i) {
+                const std::uint8_t v = static_cast<std::uint8_t>(values[i]);
+                pixels[i * 4] = v;
+                pixels[i * 4 + 1] = v;
+                pixels[i * 4 + 2] = v;
+                pixels[i * 4 + 3] = 255;
+            }
+
+            width = w;
+            height = h;
+            return true;
+        }
+
         // ===== DECODING BC7 OURSELVES =====
         //
         // CMP_ConvertMipTexture is the library's whole-texture decode, and on a 4096x4096 BC7
@@ -525,6 +598,47 @@ namespace AGRemapCore {
             header[at + 3] = static_cast<std::uint8_t>((value >> 24) & 0xFFu);
         };
 
+        // A SINGLE-CHANNEL SOURCE GOES BACK AS ONE CHANNEL, while the edit left it one: every texel
+        // still grey and opaque. A mod's 8192 x 4096 code map is 34MB as it shipped and 134MB at 32
+        // bits a texel, for the same values. An edit that put colour in falls through to 32 bits.
+        bool singleChannel = format_ == CMP_FORMAT_R_8;
+        for (std::size_t i = 0; singleChannel && i + 3 < expected; i += 4) {
+            singleChannel = pixels_[i + 1] == pixels_[i] && pixels_[i + 2] == pixels_[i] && pixels_[i + 3] == 255;
+        }
+
+        if (singleChannel) {
+            header[0] = 'D';
+            header[1] = 'D';
+            header[2] = 'S';
+            header[3] = ' ';
+            put32(4, 124u);
+            put32(8, 0x0002100Fu);
+            put32(12, static_cast<std::uint32_t>(height_));
+            put32(16, static_cast<std::uint32_t>(width_));
+            put32(20, static_cast<std::uint32_t>(width_));      // one byte a texel
+            put32(28, 1u);
+            put32(76, 32u);
+            put32(80, 0x20000u);                                // DDPF_LUMINANCE
+            put32(88, 8u);
+            put32(92, 0xFFu);
+            put32(108, 0x1000u);
+
+            std::ofstream out(FileService::strToPath(dest), std::ios::binary | std::ios::trunc);
+            if (!out) {
+                return false;
+            }
+
+            out.write(reinterpret_cast<const char*>(header.data()), static_cast<std::streamsize>(header.size()));
+            std::vector<std::uint8_t> values(expected / 4u);
+            for (std::size_t i = 0; i < values.size(); ++i) {
+                values[i] = pixels_[i * 4u];
+            }
+
+            out.write(reinterpret_cast<const char*>(values.data()), static_cast<std::streamsize>(values.size()));
+            out.flush();
+            return static_cast<bool>(out);
+        }
+
         header[0] = 'D';
         header[1] = 'D';
         header[2] = 'S';
@@ -614,6 +728,17 @@ namespace AGRemapCore {
                     return;
                 }
             }
+        }
+
+        // A single 8-bit channel never reaches Compressonator -- see readSingleChannel8
+        if (readSingleChannel8(src_, pixels_, width_, height_)) {
+            format_ = CMP_FORMAT_R_8;
+            gamma_.reset();
+            hasImage_ = true;
+            if (cache_ != nullptr && sourceHash.has_value()) {
+                cache_->rememberDecoded(*sourceHash, TexCache::Decoded{pixels_, width_, height_, format_, gamma_});
+            }
+            return;
         }
 
         ensureFrameworkInit();

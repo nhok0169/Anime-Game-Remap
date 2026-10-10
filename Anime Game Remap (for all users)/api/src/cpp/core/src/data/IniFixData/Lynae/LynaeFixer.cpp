@@ -66,8 +66,11 @@ namespace AGRemapCore {
             {"4470be479e212ca1", {"fd92e896d5503d96"}},
             {"efc2690a4acd3c11", {"1f324d354402418c"}},
             {"0b6e3ef7b7c30cd3", {"1f324d354402418c"}},
-            {"fa9e4d98ed0a570e", {"c32a69851757154a"}},
-            {"e04f4df80ee6b0ab", {"a54621ce48ed541b"}},
+            // the eyes are drawn with EITHER of two vertex shaders, frame to frame, on the same pixel
+            // shaders (the menu's and the overworld's dumps disagree): with one listed, the other
+            // frames kept the game's eye and the mod's eyes flickered to the skin's colour
+            {"fa9e4d98ed0a570e", {"c32a69851757154a", "ceff9a81afb1de70"}},
+            {"e04f4df80ee6b0ab", {"a54621ce48ed541b", "5fd6e5bb6ff81c53"}},
             {"bce1512f1c6b82fe", {"a57b6349c93b6107"}},
             {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
             {"0fbe7ebba08cd1b0", {"641c11c9ee112caf", "d87c4657c08f2cdd"}},
@@ -88,6 +91,9 @@ namespace AGRemapCore {
             {"fd92e896d5503d96", "3381.614"},
             {"c32a69851757154a", "3381.615"},
             {"a54621ce48ed541b", "3381.616"},
+            // the eyes' second vertex shaders, at the values the reverse direction gives them
+            {"ceff9a81afb1de70", "3381.625"},
+            {"5fd6e5bb6ff81c53", "3381.718"},
             {"a57b6349c93b6107", "3381.617"},
             {"d87c4657c08f2cdd", "3381.618"},
         };

@@ -604,6 +604,17 @@ the mod on its own card. What it found:
   bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
   any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
   matches, so there is no own-character reference for it.
+* **EYES THAT FLICKER BETWEEN THE MOD'S COLOUR AND THE SKIN'S, FRAME TO FRAME (Lynae5, 2026-10-10): ONE PASS, TWO
+  VERTEX SHADERS.** The game draws the eye on the same two pixel shaders (`fa9e4d98`, `e04f4df8`) with EITHER of two
+  vertex shaders per pass -- `c32a6985` / `a54621ce` or `ceff9a81` / `5fd6e5bb` -- and which one varies from frame to
+  frame (9 of 12 menu frames on one, a few of 16 overworld frames on the other). The texture lists are gated on the
+  vertex shader (`passVertexShaders`, so RabbitFX's pixel-shader tags survive), and the forward config listed only the
+  first of each: on the other frames both eye lists said `false` and the GAME's eye drew -- violet for red. A menu frame
+  dump's log said it in one line (`if vs == 3381.615: false` at the eye draw, `VSSetShader ... hash=ceff9a81`). The
+  reverse config already had both; the forward one now does, at the SAME `filter_index` values (`.625` / `.718`: a
+  shader holds one across every loaded `.ini`). **Checking a config's shaders against only the TARGET's
+  `TextureUsage.json` would not have caught it** -- the second variant was in the SOURCE's; union both skins' and
+  every dump's, per pixel shader. A timed series of face crops is the test: one screenshot can land on either variant.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse
@@ -4584,6 +4595,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | the report says | what it was | look first at |
 | --- | --- | --- |
 | a mod's toggle does nothing on the remap, and works on its own character | a texture bound into a different KIND of slot on purpose, carried by the texture's role | `carryByRegisterRole`; read the toggle's `ps-t` lines against `registerRoles` |
+| a part's colour flips between the mod's and the skin's from FRAME to frame (eyes) | the pass is drawn with a second vertex shader the config's `passVertexShaders` does not list, so the gated list is `false` on those frames | a menu frame dump: the log's `if vs == ...: false` at that draw and its `VSSetShader ... hash=`; add the shader at the value the other direction gives it |
 | bare skin on the body whiter / cooler than the face, lavender-grey in shadow; the original is warm all over | a material-CODE map (`ps-t2` on WuWa bodies) whose skin code differs between the two skins | tally the codes under flesh-coloured diffuse texels on BOTH skins' game textures; swap them with a `texEdit` (Lynae: 0 <-> 4) |
 | a whole part (both legs) tapering to a spike at the model's origin, in the menu too | a component the MOD hides (draws nothing) still owns bones the rest of the body uses, and its window was never merged | the section must reduce to the hide section (`TextureOverride<Target>Component<N>RemapHide`, with `CommandListMergeWindow`); grep the fixed `.ini` for it |
 | "a second shadow body", only while she MOVES (target past 256 bones) | the fix's skeleton remap run per merge list, so parts of one body drawn a frame apart | `wwmiRemapLatch.py`; run her in the overworld -- turning her in a menu moves no bones |

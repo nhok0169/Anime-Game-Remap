@@ -157,7 +157,9 @@ to RUN: turning her in a menu moves no bones. **And legs tapering to spikes at h
 component the MOD hides -- its section draws nothing, so none of the fix's additions landed and that slot's bone window
 was never merged; such a section is now treated as an undrawn slot and gets the merging hide section. **A face warmer
 than the body (Lynae5)** was the body's `ps-t2` MATERIAL-CODE map: skin is code 0 on Lynae and 4 on the skin, so it is
-swapped both ways now (`lynaeSkinCodeSwap`), and `TextureFile` reads single-channel 8-bit `.dds` it used to call empty. See
+swapped both ways now (`lynaeSkinCodeSwap`), and `TextureFile` reads single-channel 8-bit `.dds` it used to call empty.
+**Eyes flickering to the skin's colour** were one pass drawn with either of two vertex shaders frame to frame, the
+texture lists gated on only one -- union every skin's and dump's vertex shaders per pixel shader. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LYNAE <-> LYNAEPEPPERMINT".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

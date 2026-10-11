@@ -172,7 +172,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.passVertexShaders = {
         "d4252cf5b68968eb": ["3e7bb648e306c671"],
         "5eb19d847b81ed33": ["3e7bb648e306c671"],
-        "97ce9ee79fd51349": ["7c0b4db32cee62d3"],
+        "97ce9ee79fd51349": ["7c0b4db32cee62d3", "4ce754b5b9574b1a"],   # the face draws with either
         "a175ff3bd01feb29": ["1f324d354402418c"],
         "8d8250706d224af7": ["1f324d354402418c"],
         "a68c6144f18d6caf": ["343a49bd31719ade", "c30da0cb86079064"],
@@ -201,6 +201,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         "6a6650a9db8983ce": "3381.73",
         "e4a3da6d1d1068b9": "3381.731",
         "7c0b4db32cee62d3": "3381.76",
+        "4ce754b5b9574b1a": "3381.769",
         "c30da0cb86079064": "3381.61",
         "1f324d354402418c": "3381.612",
         "c32a69851757154a": "3381.615",

@@ -59,7 +59,8 @@ namespace AGRemapCore {
         config.passVertexShaders = {
             {"dfeea2d5f7210740", {"c30da0cb86079064"}},
             {"8485dc12c5851fa9", {"c30da0cb86079064"}},
-            {"640fac991b3599a7", {"1c42858ceb438917"}},
+            // the face too: 1c42858c or 595d6591, frame to frame (log-only dumps in the overworld, 3 of 7)
+            {"640fac991b3599a7", {"1c42858ceb438917", "595d6591285d716e"}},
             {"ed4fe222718a4497", {"1f324d354402418c"}},
             {"0a52e215e81518f3", {"8af0aa3dcb3903ee"}},
             {"12fcca8e31aad1f5", {"fd92e896d5503d96"}},
@@ -94,6 +95,7 @@ namespace AGRemapCore {
             // the eyes' second vertex shaders, at the values the reverse direction gives them
             {"ceff9a81afb1de70", "3381.625"},
             {"5fd6e5bb6ff81c53", "3381.718"},
+            {"595d6591285d716e", "3381.628"},
             {"a57b6349c93b6107", "3381.617"},
             {"d87c4657c08f2cdd", "3381.618"},
         };

@@ -630,6 +630,16 @@ the mod on its own card. What it found:
   shader holds one across every loaded `.ini`). **Checking a config's shaders against only the TARGET's
   `TextureUsage.json` would not have caught it** -- the second variant was in the SOURCE's; union both skins' and
   every dump's, per pixel shader. A timed series of face crops is the test: one screenshot can land on either variant.
+  **The FACE has the same two-shader habit, and the menu never shows it (Lynae4's teardrop tattoo, 2026-10-10):**
+  Peppermint's face pass `640fac99` draws with `1c42858c` OR `595d6591`, and every menu dump caught the first -- the
+  second appeared in 3 of 7 LOG-ONLY dumps of an overworld close-up (`GameView dump --options "log"`: 3.6 MB, seconds,
+  no crash risk, and the draw's `VSSetShader ... hash=` is all the question needs). On those frames the game's face
+  drew: Peppermint's blue sparkle in place of the mod's red teardrop. The hand test that settled it before any code:
+  replace the face list's `if vs == ...` with `if 1` in the fixed `.ini` (the face's other passes read no `ps-t2`), and
+  the teardrop held in every frame. Lynae's own face (`97ce9ee7` on `7c0b4db3`, the reverse's target) now also lists
+  `4ce754b5`, the partner Chisa's face pass shows on the same `7c0b4db3` -- inferred, not caught on Lynae; an unused
+  entry costs nothing. Every face, eye and hair pass of every WuWa pair should be suspected of this until a series of
+  log-only dumps says otherwise.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

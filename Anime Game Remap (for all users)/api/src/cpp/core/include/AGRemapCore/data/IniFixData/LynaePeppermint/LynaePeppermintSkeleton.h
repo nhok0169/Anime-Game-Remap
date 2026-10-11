@@ -28,6 +28,15 @@ namespace AGRemapCore {
      @endrst
      */
     const std::map<int, std::vector<int>>& lynaePeppermintVgMaps();
+
+    /**
+     * @brief
+     @rst
+     For each of Lynae's shape-key slots, which of LynaePeppermint's keys it is (``-1``: none) -- see
+     :cpp:member:`WWMIFixerConfig::shapeKeyOrder`
+     @endrst
+     */
+    const std::vector<long long>& peppermintToLynaeShapeKeys();
 }
 
 #endif

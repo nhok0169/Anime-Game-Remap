@@ -604,6 +604,21 @@ the mod on its own card. What it found:
   bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
   any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
   matches, so there is no own-character reference for it.
+* **THE MOUTH TWITCHES OPEN WHEN THE FACE MOVES (Lynae5, 2026-10-10): THE TWO SKINS NUMBER THEIR SHAPE KEYS
+  DIFFERENTLY.** The game drives a character's shape keys -- blinks, mouth shapes, expressions -- by SLOT, and a mod's
+  shape-key buffers (`ShapeKeyOffset` = the first entry of each of 128 slots, `ShapeKeyVertexId` uint32 and
+  `ShapeKeyVertexOffset` 6 x float16 per entry) are in the SOURCE's numbering. Both skins have 105 game keys, and matched
+  by what they move (rest positions of the moved vertices, offsets there) 90 pair one to one -- only 2 at the same index:
+  the skin's key 0 is a face-and-eye expression and drove Lynae's eye-only key 0, its blink key 5 drove Lynae's key 5, a
+  1188-vertex face expression. Retargeting the checksum and dispatch (already done) only makes WWMI LOAD the mod's
+  keys; it says nothing about which is which. `WWMIFixerConfig::shapeKeyOrder` (target slot -> source key, `-1` none)
+  writes the three buffers again in the target's order (`<Target>RemapShapeKey*.buf`) and binds the copies in the fix's
+  shape-key lists only; slots past the table -- a mod's custom keys, 105+, driven by its own `shapekey_id` lines --
+  stay, and a source key no slot takes is kept with zeroed offsets so the `.ini`'s entry counts hold. The tables come
+  from `Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py` (both trailing body-key blocks, 91-104, pair by index: their meshes
+  differ, so nothing overlaps). A screenshot every 0.7s did not catch the twitch; the data did, and a hand-built
+  reorder showed a proper wink where the expression had landed on the mouth. **Any WuWa pair: run the tool before
+  trusting the shape keys** -- the skins of one character need not share an order.
 * **EYES THAT FLICKER BETWEEN THE MOD'S COLOUR AND THE SKIN'S, FRAME TO FRAME (Lynae5, 2026-10-10): ONE PASS, TWO
   VERTEX SHADERS.** The game draws the eye on the same two pixel shaders (`fa9e4d98`, `e04f4df8`) with EITHER of two
   vertex shaders per pass -- `c32a6985` / `a54621ce` or `ceff9a81` / `5fd6e5bb` -- and which one varies from frame to
@@ -4595,6 +4610,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | the report says | what it was | look first at |
 | --- | --- | --- |
 | a mod's toggle does nothing on the remap, and works on its own character | a texture bound into a different KIND of slot on purpose, carried by the texture's role | `carryByRegisterRole`; read the toggle's `ps-t` lines against `registerRoles` |
+| the face does the wrong expression -- the mouth twitches open on a blink -- only on the remap | the two skins number their shape keys differently; the mod's keys stay in the source's order and the game drives them by slot | `Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py <Source> <Target>`: if few keys pair at the same index, set `shapeKeyOrder` |
 | a part's colour flips between the mod's and the skin's from FRAME to frame (eyes) | the pass is drawn with a second vertex shader the config's `passVertexShaders` does not list, so the gated list is `false` on those frames | a menu frame dump: the log's `if vs == ...: false` at that draw and its `VSSetShader ... hash=`; add the shader at the value the other direction gives it |
 | bare skin on the body whiter / cooler than the face, lavender-grey in shadow; the original is warm all over | a material-CODE map (`ps-t2` on WuWa bodies) whose skin code differs between the two skins | tally the codes under flesh-coloured diffuse texels on BOTH skins' game textures; swap them with a `texEdit` (Lynae: 0 <-> 4) |
 | a whole part (both legs) tapering to a spike at the model's origin, in the menu too | a component the MOD hides (draws nothing) still owns bones the rest of the body uses, and its window was never merged | the section must reduce to the hide section (`TextureOverride<Target>Component<N>RemapHide`, with `CommandListMergeWindow`); grep the fixed `.ini` for it |

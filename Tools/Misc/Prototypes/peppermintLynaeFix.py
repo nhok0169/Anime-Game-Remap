@@ -319,6 +319,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.hiddenObjs = []
     config.zeroShapeKeyStream = False
     config.shapeKeyDispatchSize = "1631"
+    # the game drives shape keys by SLOT and the two skins number the same face keys differently (2 of 105 at
+    # the same index): a blink opened the mouth. From Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py, as in core
+    config.shapeKeyOrder = [5, 1, 3, 2, 4, 0, 10, 14, 11, 16, 13, 9, 8, 17, 12, 26, 31, 30, 24, 29, 27, 28, 7, 6, 23, 32, 46, 90, 44, 43, 36, 35, 40, 37, 41, 42, 34, 45, 39, 33, 38, 51, 48, 57, 56, 22, 21, 18, 20, 19, 59, 58, 54, 47, 52, 49, 50, 55, 53, 25, 15, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, -1, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104]
     config.cleanTexcoords = True
     # a mod's line that puts a texture into another kind of slot on purpose keeps that slot (Lynae3's
     # U toggle binds each part's diffuse into the ramp / detail slot, ps-t2, which both skins read alike)

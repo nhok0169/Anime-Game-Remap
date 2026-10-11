@@ -349,6 +349,12 @@ own slot sections -- for a character whose skeleton was renumbered between game 
 takes the vertex group remap row filed at the version it was exported at. Empty (the default) keeps
 :attr:`sourceVersion` for every mod
         )doc"))
+        .def_readwrite("shapeKeyOrder", &AGRC::WWMIFixerConfig::shapeKeyOrder, py::doc(R"doc(
+:class:`list` [:class:`int`]: For each of the target's shape-key slots, the source key it takes (``-1``: none).
+The game drives shape keys -- blinks, mouth shapes, expressions -- by slot, and two skins of one character can
+number them differently; with this set the fix writes the mod's shape-key buffers again in the target's order
+and binds the copies. Slots past the end (a mod's custom keys) are left alone. **Default**: ``[]``
+        )doc"))
         .def_readwrite("shapeKeyDispatchSize", &AGRC::WWMIFixerConfig::shapeKeyDispatchSize, py::doc(R"doc(
 :class:`str`: The TARGET's original shape-key dispatch height (its ``Metadata.json``'s
 ``shapekeys.dispatch_y``), written into a retargeted mod's ``shapekey_dispatch_size_y_original_batch0`` /

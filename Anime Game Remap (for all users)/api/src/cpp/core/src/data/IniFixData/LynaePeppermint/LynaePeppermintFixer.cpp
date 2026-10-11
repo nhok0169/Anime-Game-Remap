@@ -214,6 +214,10 @@ namespace AGRemapCore {
         config.hiddenObjs = {};
         config.zeroShapeKeyStream = false;
         config.shapeKeyDispatchSize = "1631";
+
+        // ---- the game drives shape keys by SLOT, and the two skins number the same face keys
+        // differently (2 of 105 at the same index): moved across unchanged, a blink opened the mouth ----
+        config.shapeKeyOrder = peppermintToLynaeShapeKeys();
         config.cleanTexcoords = true;
 
         // A mod's own line that puts a texture into another kind of slot on purpose keeps that slot:

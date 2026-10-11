@@ -440,6 +440,27 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The order the TARGET numbers its game shape keys in, as the SOURCE key each target slot
+         takes: ``shapeKeyOrder[j]`` is the source key whose data goes in slot ``j``, ``-1`` for a slot
+         that takes none :raw-html:`<br />` :raw-html:`<br />`
+
+         The game drives a character's shape keys -- blinks, mouth shapes, expressions -- by SLOT,
+         and two skins of one character can number the same face keys differently. A mod's shape-key
+         buffers are in the source's numbering, so on the target every expression weight lands on
+         another key: a blink can open the mouth. With this set, the fix writes the mod's
+         ``ResourceShapeKeyOffsetBuffer`` / ``ResourceShapeKeyVertexIdBuffer`` /
+         ``ResourceShapeKeyVertexOffsetBuffer`` again in the target's order and binds the copies in
+         its shape-key lists. Slots past the end of the list -- a mod's own custom keys, which only
+         its ``.ini`` drives -- keep their data and position. A source key no slot takes is kept with
+         its offsets zeroed, so the entry count the mod's ``.ini`` declares still holds. Empty (the
+         default) leaves the shape keys in the source's order
+         @endrst
+         */
+        std::vector<long long> shapeKeyOrder;
+
+        /**
+         * @brief
+         @rst
          The SOURCE components drawn a SECOND time, wound the other way with their normals flipped.
          **Default**: empty -- nothing is mirrored, so no character's output moves
          :raw-html:`<br />` :raw-html:`<br />`

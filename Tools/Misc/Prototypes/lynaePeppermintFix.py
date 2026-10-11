@@ -344,6 +344,9 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # ...and a batched export's dispatch height is the skin's (her Metadata.json's dispatch_y), or WWMI
     # loads too few of the mod's offsets on her draws and the body is drawn as spikes (Lynae9)
     config.shapeKeyDispatchSize = "1854"
+    # the game drives shape keys by SLOT and the two skins number the same face keys differently (2 of 105 at
+    # the same index): a blink opened the mouth. From Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py, as in core
+    config.shapeKeyOrder = [5, 1, 3, 2, 4, 0, 23, 22, 12, 11, 6, 8, 14, 10, 7, 60, 9, 13, 47, 49, 48, 46, 45, 24, 18, 59, 15, 20, 21, 19, 17, 16, 25, 39, 36, 31, 30, 33, 40, 38, 32, 34, 35, 29, 28, 37, 26, 53, 42, 55, 56, 41, 54, 58, 52, 57, 44, 43, 51, 50, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, -1, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 27, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104]
     config.cleanTexcoords = True
     # a mod's line that puts a texture into another kind of slot on purpose keeps that slot (Lynae3's
     # U toggle binds each part's diffuse into the ramp / detail slot, ps-t2, which both skins read alike)

@@ -117,6 +117,10 @@ namespace AGRemapCore {
         const std::string TexcoordBufferResource = "ResourceTexcoordBuffer";
         const std::string VectorBufferResource = "ResourceVectorBuffer";
 
+        // A WWMI Tools export's shape-key buffers -- see WWMIFixerConfig::shapeKeyOrder
+        const std::vector<std::string> ShapeKeyResources = {
+            "ResourceShapeKeyOffsetBuffer", "ResourceShapeKeyVertexIdBuffer", "ResourceShapeKeyVertexOffsetBuffer"};
+
 
 
         // The one element a texcoord line decodes into: `stride / 2` halves, named so
@@ -1579,6 +1583,7 @@ namespace AGRemapCore {
 
                     if (!gaveUp_) {
                         writeZeroStream();
+                        writeShapeKeyOrder();
                         writeMirrorBuffers();
                         addCreatedTextures();
                         addFallbackDownloads();
@@ -2333,6 +2338,39 @@ namespace AGRemapCore {
                         std::optional<std::string> file = ModBranches::firstVal(*entry.second, IniKeywords::Filename);
                         if (file.has_value()) {
                             *into = *file;
+                        }
+                    }
+
+                    // THE MOD'S SHAPE-KEY BUFFERS, for WWMIFixerConfig::shapeKeyOrder. Read and checked
+                    // here, because the edit that binds the reordered copies is built from what this
+                    // finds: a copy that could not be written must never be bound.
+                    shapeKeyFiles_.clear();
+                    if (!config_.shapeKeyOrder.empty()) {
+                        for (const std::string& resource : ShapeKeyResources) {
+                            for (const auto& entry : templates) {
+                                if (entry.second == nullptr || !StringTools::equalsIgnoreCase(entry.first, resource)) {
+                                    continue;
+                                }
+
+                                ShapeKeyFile file;
+                                file.section = entry.first;
+                                file.path = ModBranches::firstVal(*entry.second, IniKeywords::Filename).value_or("");
+                                file.type = ModBranches::firstVal(*entry.second, IniKeywords::Type).value_or("Buffer");
+                                file.format = ModBranches::firstVal(*entry.second, IniKeywords::Format).value_or("");
+                                file.stride = ModBranches::firstVal(*entry.second, IniKeywords::Stride).value_or("");
+                                if (!file.path.empty()) {
+                                    shapeKeyFiles_[resource] = file;
+                                }
+                                break;
+                            }
+                        }
+
+                        if (shapeKeyFiles_.size() != ShapeKeyResources.size()) {
+                            shapeKeyFiles_.clear();
+                        } else if (std::string why = checkShapeKeyLayout(); !why.empty()) {
+                            note("this mod's shape keys are left in " + source_.name + "'s order (" + why
+                                 + "), so the target's expressions drive the wrong ones");
+                            shapeKeyFiles_.clear();
                         }
                     }
 
@@ -3746,6 +3784,29 @@ namespace AGRemapCore {
                         dispatchAdapter_ = std::make_unique<RegPartEdit<>>(dispatchEdit_.get());
                     }
 
+                    // see WWMIFixerConfig::shapeKeyOrder: the fix's shape-key lists bind the reordered
+                    // copies; any other value of those registers stays
+                    if (!shapeKeyFiles_.empty()) {
+                        const RegNewVals<>::OldValProducer rebind =
+                            [this](const std::string& old, const ModType*) -> std::string {
+                                const std::string value(StringTools::strip(old));
+                                for (const std::string& resource : ShapeKeyResources) {
+                                    if (StringTools::equalsIgnoreCase(value, shapeKeyFiles_.at(resource).section)) {
+                                        return fixName(resource);
+                                    }
+                                }
+                                return old;
+                            };
+
+                        std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>> vals;
+                        for (const char* reg : {"cs-t33", "cs-t0", "cs-t1"}) {
+                            vals.emplace_back(reg, RegNewVals<>::NewVal(rebind));
+                        }
+
+                        shapeKeyEdit_ = std::make_unique<RegNewVals<>>(std::move(vals));
+                        shapeKeyAdapter_ = std::make_unique<RegPartEdit<>>(shapeKeyEdit_.get());
+                    }
+
                     // In this order because each reads what the one before it set: the removals
                     // need the blend width, the groups decide which slots are drawn, and everything
                     // after that is per drawn slot.
@@ -4607,6 +4668,10 @@ namespace AGRemapCore {
                                 edits.push_back(dispatchAdapter_.get());
                             }
 
+                            if (shapeKeyAdapter_ != nullptr) {
+                                edits.push_back(shapeKeyAdapter_.get());
+                            }
+
                             perGroup[g].edits[obj] = std::move(edits);
                             perGroup[g].trackKeys[obj] = false;
                         }
@@ -4619,6 +4684,10 @@ namespace AGRemapCore {
                             perGroup[g].edits[obj] = {assetAdapter_.get()};
                             if (dispatchAdapter_ != nullptr) {
                                 perGroup[g].edits[obj].push_back(dispatchAdapter_.get());
+                            }
+
+                            if (shapeKeyAdapter_ != nullptr) {
+                                perGroup[g].edits[obj].push_back(shapeKeyAdapter_.get());
                             }
                             perGroup[g].trackKeys[obj] = false;
                             if (g == 0) {
@@ -5350,6 +5419,22 @@ namespace AGRemapCore {
                                    .str();
                     }
 
+                    // see WWMIFixerConfig::shapeKeyOrder: the mod's own declarations, on the copies
+                    if (!shapeKeyFiles_.empty()) {
+                        for (const std::string& resource : ShapeKeyResources) {
+                            const ShapeKeyFile& file = shapeKeyFiles_.at(resource);
+                            SectionText section(z3_, fixName(resource));
+                            section.key(IniKeywords::Type, file.type);
+                            if (!file.format.empty()) {
+                                section.key(IniKeywords::Format, file.format);
+                            }
+                            if (!file.stride.empty()) {
+                                section.key(IniKeywords::Stride, file.stride);
+                            }
+                            out += section.key(IniKeywords::Filename, shapeKeyOrderFile(resource)).str();
+                        }
+                    }
+
                     // An empty section, like the mod's own [ResourceBypassVB0]: it is a handle for
                     // `= ref <reg>` to park a binding in, never a file.
                     for (const auto& [reg, bypass] : bypasses_) {
@@ -5596,6 +5681,16 @@ namespace AGRemapCore {
                                    toModName_ + IniKeywords::Remap + "BlendRemap" + which + ".buf");
                 }
 
+                // The reordered copy of one of the mod's shape-key buffers, beside the original
+                std::string shapeKeyOrderFile(const std::string& resource) const {
+                    std::string name = resource.substr(IniKeywords::Resource.size());
+                    if (StringTools::endsWith(name, "Buffer")) {
+                        name = name.substr(0, name.size() - std::string("Buffer").size());
+                    }
+                    const std::string folder = FileService::parentOf(FileService::iniPathToRel(shapeKeyFiles_.at(resource).path));
+                    return modFile(folder, toModName_ + IniKeywords::Remap + name + ".buf");
+                }
+
                 std::string zeroStreamFile() const {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + ShapeKeyZero + ".buf");
                 }
@@ -5681,6 +5776,154 @@ namespace AGRemapCore {
                     } catch (const std::exception& exception) {
                         throw std::runtime_error("cannot write " + zeroStreamFile() + ": " + exception.what());
                     }
+                }
+
+                // ---- WWMIFixerConfig::shapeKeyOrder ----
+                //
+                // The layout, as a WWMI Tools export writes it: ShapeKeyOffset holds the FIRST entry of
+                // each key slot (128 of them, uint32), and an entry is one uint32 vertex id plus one
+                // vertex offset of a fixed width. A slot's entries run to the next slot's first, the last
+                // slot's to the end. Anything else is not reordered.
+                struct ShapeKeyLayout {
+                    std::vector<std::uint32_t> firsts;
+                    std::size_t entries = 0;
+                    std::size_t offsetWidth = 0;
+                };
+
+                ShapeKeyLayout readShapeKeyLayout(const std::string& folder) const {
+                    ShapeKeyLayout layout;
+                    const ByteVec firsts = readWhole(FileService::absPathOfRelPath(FileService::iniPathToRel(
+                        shapeKeyFiles_.at(ShapeKeyResources[0]).path), folder), "this mod's shape-key offsets");
+                    const auto idBytes = FileService::fileSize(FileService::absPathOfRelPath(FileService::iniPathToRel(
+                        shapeKeyFiles_.at(ShapeKeyResources[1]).path), folder)).value_or(0);
+                    const auto offsetBytes = FileService::fileSize(FileService::absPathOfRelPath(FileService::iniPathToRel(
+                        shapeKeyFiles_.at(ShapeKeyResources[2]).path), folder)).value_or(0);
+                    if (firsts.size() % 4 != 0 || idBytes % 4 != 0 || idBytes == 0) {
+                        return layout;
+                    }
+
+                    layout.entries = static_cast<std::size_t>(idBytes / 4);
+                    if (offsetBytes % layout.entries != 0) {
+                        return layout;
+                    }
+
+                    layout.offsetWidth = static_cast<std::size_t>(offsetBytes / layout.entries);
+                    for (std::size_t i = 0; i + 3 < firsts.size(); i += 4) {
+                        std::uint32_t v = 0;
+                        std::memcpy(&v, firsts.data() + i, 4);
+                        layout.firsts.push_back(v);
+                    }
+                    return layout;
+                }
+
+                // Empty when the files can be reordered, else why not
+                std::string checkShapeKeyLayout() const {
+                    try {
+                        const ShapeKeyLayout layout = readShapeKeyLayout(ctx_.getIniFile()->getFolder());
+                        if (layout.firsts.empty() || layout.offsetWidth == 0) {
+                            return "its shape-key buffers are not the layout WWMI Tools writes";
+                        }
+                        if (layout.firsts.size() < config_.shapeKeyOrder.size()) {
+                            return "it has fewer shape-key slots than the target";
+                        }
+                        for (std::size_t i = 0; i < layout.firsts.size(); ++i) {
+                            if (layout.firsts[i] > layout.entries || (i > 0 && layout.firsts[i] < layout.firsts[i - 1])) {
+                                return "its shape-key offsets are out of order";
+                            }
+                        }
+                        for (long long key : config_.shapeKeyOrder) {
+                            if (key >= static_cast<long long>(layout.firsts.size())) {
+                                return "the shape-key order names a slot it does not have";
+                            }
+                        }
+                    } catch (const std::exception& exception) {
+                        return exception.what();
+                    }
+                    return "";
+                }
+
+                void writeShapeKeyOrder() {
+                    if (shapeKeyFiles_.empty()) {
+                        return;
+                    }
+
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    const ShapeKeyLayout layout = readShapeKeyLayout(folder);
+                    auto pathOf = [this, &folder](const std::string& resource) {
+                        return FileService::absPathOfRelPath(FileService::iniPathToRel(shapeKeyFiles_.at(resource).path), folder);
+                    };
+                    const ByteVec ids = readWhole(pathOf(ShapeKeyResources[1]), "this mod's shape-key vertex ids");
+                    const ByteVec offsets = readWhole(pathOf(ShapeKeyResources[2]), "this mod's shape-key vertex offsets");
+
+                    const std::size_t slots = layout.firsts.size();
+                    auto range = [&layout, slots](std::size_t key) {
+                        const std::size_t first = layout.firsts[key];
+                        const std::size_t end = key + 1 < slots ? layout.firsts[key + 1] : layout.entries;
+                        return std::make_pair(first, end);
+                    };
+
+                    ByteVec outIds;
+                    ByteVec outOffsets;
+                    std::vector<std::uint32_t> outFirsts;
+                    outIds.reserve(ids.size());
+                    outOffsets.reserve(offsets.size());
+                    auto append = [&](std::size_t key, bool zeroed) {
+                        const auto [first, end] = range(key);
+                        outIds.insert(outIds.end(), ids.begin() + static_cast<std::ptrdiff_t>(first * 4),
+                                      ids.begin() + static_cast<std::ptrdiff_t>(end * 4));
+                        if (zeroed) {
+                            outOffsets.insert(outOffsets.end(), (end - first) * layout.offsetWidth, 0);
+                        } else {
+                            outOffsets.insert(outOffsets.end(),
+                                              offsets.begin() + static_cast<std::ptrdiff_t>(first * layout.offsetWidth),
+                                              offsets.begin() + static_cast<std::ptrdiff_t>(end * layout.offsetWidth));
+                        }
+                    };
+
+                    const std::size_t ordered = config_.shapeKeyOrder.size();
+                    std::set<std::size_t> taken;
+                    for (long long key : config_.shapeKeyOrder) {
+                        if (key >= 0) {
+                            taken.insert(static_cast<std::size_t>(key));
+                        }
+                    }
+
+                    for (std::size_t slot = 0; slot < slots; ++slot) {
+                        outFirsts.push_back(static_cast<std::uint32_t>(outIds.size() / 4));
+                        if (slot < ordered) {
+                            const long long key = config_.shapeKeyOrder[slot];
+                            if (key >= 0) {
+                                append(static_cast<std::size_t>(key), false);
+                            }
+
+                            // the source's game keys no slot takes, kept with nothing to move so the
+                            // entry count the .ini declares still holds
+                            if (slot + 1 == ordered) {
+                                for (std::size_t other = 0; other < ordered; ++other) {
+                                    if (taken.count(other) == 0) {
+                                        append(other, true);
+                                    }
+                                }
+                            }
+                        } else {
+                            append(slot, false);
+                        }
+                    }
+
+                    if (outIds.size() != ids.size() || outOffsets.size() != offsets.size()) {
+                        throw std::runtime_error("reordering this mod's shape keys changed their entry count ("
+                                                 + std::to_string(ids.size() / 4) + " -> "
+                                                 + std::to_string(outIds.size() / 4) + ")");
+                    }
+
+                    ByteVec firstBytes(outFirsts.size() * 4);
+                    std::memcpy(firstBytes.data(), outFirsts.data(), firstBytes.size());
+                    writeWhole(FileService::absPathOfRelPath(shapeKeyOrderFile(ShapeKeyResources[0]), folder),
+                               firstBytes, "the reordered shape-key offsets");
+                    writeWhole(FileService::absPathOfRelPath(shapeKeyOrderFile(ShapeKeyResources[1]), folder),
+                               outIds, "the reordered shape-key vertex ids");
+                    writeWhole(FileService::absPathOfRelPath(shapeKeyOrderFile(ShapeKeyResources[2]), folder),
+                               outOffsets, "the reordered shape-key vertex offsets");
                 }
 
                 // The mirrored twin's two buffers -- see WWMIFixerConfig::mirroredComponents. The
@@ -6574,6 +6817,17 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> assetAdapter_;
                 std::unique_ptr<RegNewVals<>> dispatchEdit_;        // WWMIFixerConfig::shapeKeyDispatchSize
                 std::unique_ptr<RegPartEdit<>> dispatchAdapter_;
+
+                struct ShapeKeyFile {
+                    std::string section;                            // the mod's resource section, as it is spelled
+                    std::string path;
+                    std::string type;
+                    std::string format;
+                    std::string stride;
+                };
+                std::map<std::string, ShapeKeyFile> shapeKeyFiles_;  // WWMIFixerConfig::shapeKeyOrder, by ShapeKeyResources
+                std::unique_ptr<RegNewVals<>> shapeKeyEdit_;
+                std::unique_ptr<RegPartEdit<>> shapeKeyAdapter_;
                 std::unique_ptr<RegRemove<>> regRemove_;
                 std::unique_ptr<RegPartEdit<>> removeAdapter_;
                 std::map<int, PartEdit*> newValsOf_;

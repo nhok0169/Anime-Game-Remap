@@ -26174,6 +26174,17 @@ class WWMIFixerConfig:
     def shapeKeyDispatchSize(self, arg0: str) -> None:
         ...
     @property
+    def shapeKeyOrder(self) -> list[int]:
+        """
+        :class:`list` [:class:`int`]: For each of the target's shape-key slots, the source key it takes (``-1``: none).
+        The game drives shape keys -- blinks, mouth shapes, expressions -- by slot, and two skins of one character can
+        number them differently; with this set the fix writes the mod's shape-key buffers again in the target's order
+        and binds the copies. Slots past the end (a mod's custom keys) are left alone. **Default**: ``[]``
+        """
+    @shapeKeyOrder.setter
+    def shapeKeyOrder(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @property
     def shapeKeyStreamReg(self) -> str:
         """
         :class:`str`: The register the game reads that stream from. **Default**: ``"vb6"``

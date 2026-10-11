@@ -2325,8 +2325,12 @@ source's downloaded ib). **A mod with no position section of its own is exempt**
 from the downloaded model needs every download, and the first build of this rule dropped LisaStudent1's.
 Z3 knows no toggle's range, so it only ever drops a download no state needs; a leftover on an
 unreachable fall-through stays. The audit's `checkUndrawnDL.py` then reports those paths as `GAME`,
-because it does not correlate conditions across sections. Still open: the merge fixer taking a download
-over the mod's own ib, and draws split across sibling `.ini` files. The Charlotte session also found `GameView reload --mod` reporting
+because it does not correlate conditions across sections. **The merge fixer read a slot's ibs root-first,
+so a download the parser bound at the top of a root answered for every branch** -- CharlotteHurlock1 with
+slot B skipped in one variant merged the GAME's BodyB into all of them. Since 2026-10-11 a slot's ib list
+drops its downloads when it holds any file of the mod's own (the component fixer's `preferAuthored`),
+and the merged ib is byte-identical to the unmodified mod's; nothing else of 245 mods moved. Still open:
+draws split across sibling `.ini` files. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES

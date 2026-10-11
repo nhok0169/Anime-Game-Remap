@@ -316,7 +316,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
 
     # ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat mutes
     # under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders alike on
-    # both, so the mod's DIFFERENCE from it is pushed 2.5x further over component 6's UV island
+    # both, so the mod's DIFFERENCE from it is pushed 1.5x further over component 6's UV island
     # (core's lynaePropsGrade, the same raster: texel centres, barycentric, grown two texels) ----
     def propsGrade(ctx):
         import numpy as np
@@ -377,9 +377,9 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
             r = np.frombuffer(bytes(ref.getPixels()), np.uint8).reshape(ref.height, ref.width, 4).astype(np.float64)
             r = r[(np.arange(h) * ref.height) // h][:, (np.arange(w) * ref.width) // w]
-            # clamped, then rounded half AWAY from zero like core's std::lround -- 2.5 x an integer
+            # clamped, then rounded half AWAY from zero like core's std::lround -- 1.5 x an integer
             # lands on .5 constantly, and numpy's half-to-even made 7% of texels differ
-            pushed = np.floor(np.clip(r[..., :3] + 2.5 * (px[..., :3] - r[..., :3]), 0, 255) + 0.5)
+            pushed = np.floor(np.clip(r[..., :3] + 1.5 * (px[..., :3] - r[..., :3]), 0, 255) + 0.5)
             px[..., :3] = np.where(mask[..., None], pushed, px[..., :3])
             tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
         return run

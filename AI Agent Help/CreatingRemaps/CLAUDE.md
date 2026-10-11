@@ -674,10 +674,15 @@ the mod on its own card. What it found:
   slot draws two that mute it under its holographic sheen. Her OWN texture renders alike on both (her identity
   mod's jacket is indistinguishable on the two cards), so a plain grade would break the vanilla look -- the
   difference is in how far a mod STRAYS from her texture. `lynaePropsGrade` (Lynae -> LynaePeppermint) moves
-  every texel of component 6's UV island to `own + 2.5 (mod - own)`, `own` her game texture, downloaded through
+  every texel of component 6's UV island to `own + 1.5 (mod - own)`, `own` her game texture, downloaded through
   the new `WWMIFixerConfig::TexEdit::sourceGameRoles` (handed to the filter in `TexEditContext::gameFileOfRole`,
-  bound by nothing). 2.5 by eye in the menu; 3 is slightly redder, 5 overshoots; the violet rim is the skin's
-  shader and stays. Two traps on the way: **a probe `.dds` must keep the source's sRGB-ness** (mine were UNORM,
+  bound by nothing). **1.5, judged on the SLEEVES and over every recolour on hand** -- 2.5, picked on one
+  variant, the maintainer called too red. Over the torso the film shows the skin's own warmer skin shading,
+  which no strength fixes (the bare belly is warmer too), so judge where the film lies over the black gloves.
+  Checked at 1.5 against Lynae on all five of Lynae9's `Ctrl+X` variants (pink, cyan, yellow-green, purple)
+  and on Lynae5's GREY recolour, where a push away from her green could overshoot into pink and does not (the
+  coat's sheen swamps a low-saturation colour); Lynae5 itself no longer loads on Lynae (pre-3.7 vb0), so it has
+  no on-character reference. The violet rim is the skin's shader and stays. Two traps on the way: **a probe `.dds` must keep the source's sRGB-ness** (mine were UNORM,
   so the game read them darker and more saturated -- k = 3 "looked right" for the wrong reason; DX10 header,
   format 29), and **a texture edit can be bound by nothing the mod draws**: Lynae9 binds ONE toggle chain
   (`ResourceTextureJacket`..`D`) in both its jacket (5) and its props (6) sections, the carried-line re-key

@@ -146,9 +146,10 @@ namespace AGRemapCore {
         // ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat
         // mutes under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders
         // alike on both, so the mod's DIFFERENCE from it is pushed further -- see lynaePropsGrade.
-        // 2.5 by eye against Lynae9 on Lynae, in the menu (3 slightly redder, 5 overshoots) ----
+        // 1.5 by eye against Lynae9 on Lynae, in the menu, on the sleeves (over the gloves): the torso shows
+        // the skin's warmer skin through the film, which no strength fixes; 2.5 read too red there ----
         WWMIFixerConfig::TexEdit propsGrade{"propsDiffuse", "Grade", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            return lynaePropsGrade(ctx, "propsDiffuse", 2.5);
+            return lynaePropsGrade(ctx, "propsDiffuse", 1.5);
         }};
         propsGrade.sourceGameRoles = {"propsDiffuse"};
         config.texEdits.push_back(std::move(propsGrade));

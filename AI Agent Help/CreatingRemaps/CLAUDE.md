@@ -658,6 +658,17 @@ the mod on its own card. What it found:
   game for SanhuaExorcist -> Sanhua (SanhuaExorcist1 on her base outfit): the body intact, a blink in a menu series
   where the old fix's face never moved, and the log showing WWMI's ShapeKeyOverrider running on the fix's sections
   with Sanhua's checksum 3175. Sanhua -> SanhuaExorcist is checked offline only (it needs the skin worn).
+* **A GREEN SHEER SWEATER ON LYNAE, PINK ON THE SKIN: THE REMAP WAS RIGHT AND THE MOD IS STALE ON ITS OWN
+  CHARACTER (Lynae9, 2026-10-11).** Lynae draws her props (6) in four passes, and two of them (`bb718d76`,
+  `9a01e7bd`) read the diffuse at `ps-t7` / `ps-t2`, which a mod's `ps-t3` line never reaches; only its `this =`
+  on the diffuse's HASH does. Lynae9 overrides `37cdf366`, an OLDER generation of her props diffuse (the game binds
+  `c3375aee` at 3.7), so on Lynae today the sweater shows the GAME's green while the mod's own atlas paints it red
+  / pink -- which the remap, whose target slot reads one diffuse at `ps-t3`, faithfully shows. Settled in game: the
+  UV-gradient probe at `ps-t3` changed nothing on Lynae, and one added `[TextureOverride] hash = c3375aee`,
+  `this = ResourceTextureJacket` turned her own sweater red. Two wrong turns first, both worth avoiding: flat-code,
+  mask and foil probes on the skin, and an RGB inversion that "fixed" it (the mod's pink is roughly the complement
+  of Lynae's green, a coincidence). **Before matching a remap to the original's look, check that the original's
+  look is the mod's art** -- the section above on stale texture hashes, and `wwmiTextureFix.py --live`.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

@@ -2339,7 +2339,11 @@ character's position buffer, the classic parser keeps only that file's own objec
 as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
 component templates the part that file carries is still not drawn on the target (no synthetic or real mod
 has needed more yet). The fix that would draw it reads slot sections from siblings into the main file's
-merge. The Charlotte session also found `GameView reload --mod` reporting
+merge. **And the component template bound an EMPTY index buffer for a state it never split** (one that
+runs through a download, beside a state of the mod's own): the collect still wrote that state's split, at
+0 bytes, and bound it under the filled `drawindexed = auto`. Since 2026-10-11 such a binding is `ib = null`
+(`nullDownloadSplits_`, only when an authored state exists -- a recolour drawn from downloads keeps its real
+splits). Across fixes 1-5 the empty bindings in the 245-mod sweep went 58 -> 0. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES

@@ -736,15 +736,19 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        // Through `run =` and in any branch: a merged master skips inside its
+                        // CommandList, and a skip in one branch means that branch draws only what the
+                        // mod writes sections for.
                         bool skips = false;
+                        ModBranches branches;
                         for (const std::string& name : *ibSections) {
-                            auto found = templates.find(name);
-                            if (found == templates.end() || found->second == nullptr) {
-                                continue;
+                            for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                                    skips = true;
+                                    break;
+                                }
                             }
-                            const std::optional<std::string> handling = ModBranches::firstVal(*found->second, IniKeywords::Handling);
-                            if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
-                                skips = true;
+                            if (skips) {
                                 break;
                             }
                         }

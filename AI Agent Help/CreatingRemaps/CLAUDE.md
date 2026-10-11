@@ -2310,7 +2310,14 @@ before-and-after `.ini` diff plus the game. **The CLASSIC template had the same 
 (`GIMICharParser::dropUndrawnObjDownloads` now): a Fischl mod with no dress section, merged onto
 FischlHighness's body, drew the downloaded dress index buffer as "slightly jagged polygons" -- shards
 through her open jacket -- from its second `.ini` (`<Mod>RemapFix1.ini`). Over 17 classic mod folders it
-changed that one file and nothing else. The Charlotte session also found `GameView reload --mod` reporting
+changed that one file and nothing else. **Both checks read the skip through `run =` and in any branch
+since 2026-10-11**: a merged master writes `handling = skip` in `CommandList<Char>IB`, and the first
+version of each read only the ib section's own lines, so every merged master still downloaded and drew
+an undrawn object. Over 228 real mods that moved Lisa2 and ShenheFrostFlower3 only (a no-draw section on a
+downloaded ib dropped); a run-skip Bennett mod that used to be remapped as nothing is remapped now.
+Still open, from the same audit: an object drawn in some branches and only skipped in others
+(Ayaka9/10 JKGyaru), a variant that turns the mod off (ShenheFrostFlower `$vision`, CherryHutao5), the
+merge fixer taking a download over the mod's own ib, and draws split across sibling `.ini` files. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES

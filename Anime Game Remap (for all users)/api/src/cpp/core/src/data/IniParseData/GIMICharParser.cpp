@@ -225,6 +225,7 @@ namespace AGRemapCore {
 
                     if (targetsBindSomething()) {
                         dropUndrawnObjDownloads();
+                        dropSiblingSuppliedDownloads();
                         dropUnneededObjDownloads();
                         return;
                     }
@@ -543,6 +544,54 @@ namespace AGRemapCore {
                             this->downloads.erase(modObj);
                         }
                     }
+                }
+
+                // A FILE WHOSE MESH A SIBLING BINDS GETS NONE OF THE MODEL'S DOWNLOADS (2026-10-11). A mod
+                // may split its draws across .ini files of one folder: the buffers, the ib skip and some
+                // objects in one, another object's section in a second. The second file has no position
+                // section, so the parser filled it as a mod missing everything -- the game's buffers on
+                // the target's hashes (the same hashes the first file binds the MOD's buffers on) and a
+                // vanilla copy of every object it does not draw, over whichever buffers won. When a
+                // sibling binds this character's position buffer, this file keeps only its own objects:
+                // the buffers and every object without a section here are the sibling's.
+                void dropSiblingSuppliedDownloads() {
+                    auto own = this->sectionTargets().find(ModObj("", "position"));
+                    if ((own != this->sectionTargets().end() && !own->second.empty()) || !siblingBindsPosition()) {
+                        return;
+                    }
+
+                    for (const std::string& kind : {"blend", "position", "texcoord"}) {
+                        this->downloads.erase(ModObj("", kind));
+                    }
+                    for (const std::string& obj : config_.drawnObjs) {
+                        auto found = this->sectionTargets().find(ModObj("", obj));
+                        if (found == this->sectionTargets().end() || found->second.empty()) {
+                            this->downloads.erase(ModObj("", obj));
+                        }
+                    }
+                }
+
+                // Whether a sibling .ini of the folder binds vb0 on this character's position hash,
+                // directly or through `run =`.
+                bool siblingBindsPosition() {
+                    for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
+                        IniFile sibling(path);
+                        const ModBranches::Templates& templates = sibling.getIfTemplates();
+                        ModBranches branches;
+                        for (const auto& entry : templates) {
+                            if (entry.second == nullptr) {
+                                continue;
+                            }
+                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                            if (!hash.has_value() || hashKeyOf(*hash) != PositionHashKey) {
+                                continue;
+                            }
+                            if (!branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
                 }
 
                 // A DOWNLOADED IB IS NEEDED ONLY IN A STATE THAT DRAWS WITHOUT THE MOD'S OWN (2026-10-11).

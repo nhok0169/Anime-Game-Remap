@@ -280,6 +280,17 @@ namespace AGRemapCore {
                         textureBindings_.clear();
                         hasContent_ = false;
                     }
+
+                    // A FILE WHOSE BUFFERS A SIBLING BINDS IS NOT A MOD OF ITS OWN (2026-10-11). A mod may
+                    // move one slot's section into a second .ini of the folder. Filled from downloads, that
+                    // file merged its slot onto the GAME's buffers and bound them on the target's hashes --
+                    // the same hashes the first file binds the mod's merged buffers on -- so one of the two
+                    // drew over the wrong vertices. A merge needs every component's buffers in one file, so
+                    // such a file is left as its author wrote it; the slot it carries is not drawn on the
+                    // target. GIMICharParser's dropSiblingSuppliedDownloads is the classic counterpart.
+                    if (bindsSomething && !ownsPositionBuffer() && siblingBindsPosition()) {
+                        hasContent_ = false;
+                    }
                     if (!hasContent_) {
                         this->downloads.clear();
                     }
@@ -390,6 +401,43 @@ namespace AGRemapCore {
                         IniFile sibling(path);
                         if (drawsMesh(sibling.getIfTemplates())) {
                             return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether this file has a position section of its own for any component.
+                bool ownsPositionBuffer() const {
+                    for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                        auto found = this->sectionTargets().find(ModObj(component.name, "position"));
+                        if (found != this->sectionTargets().end() && !found->second.empty()) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether a sibling .ini of the folder binds vb0 on one of this skin's position hashes,
+                // directly or through `run =`.
+                bool siblingBindsPosition() {
+                    for (const std::string& path : siblingInis()) {
+                        IniFile sibling(path);
+                        const ModBranches::Templates& templates = sibling.getIfTemplates();
+                        ModBranches branches;
+                        for (const auto& entry : templates) {
+                            if (entry.second == nullptr) {
+                                continue;
+                            }
+                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                            if (!hash.has_value()) {
+                                continue;
+                            }
+                            for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                                if (hashKeyOf(*hash, component) == PositionHashKey
+                                        && !branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
+                                    return true;
+                                }
+                            }
                         }
                     }
                     return false;

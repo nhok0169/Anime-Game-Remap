@@ -2329,8 +2329,17 @@ because it does not correlate conditions across sections. **The merge fixer read
 so a download the parser bound at the top of a root answered for every branch** -- CharlotteHurlock1 with
 slot B skipped in one variant merged the GAME's BodyB into all of them. Since 2026-10-11 a slot's ib list
 drops its downloads when it holds any file of the mod's own (the component fixer's `preferAuthored`),
-and the merged ib is byte-identical to the unmodified mod's; nothing else of 245 mods moved. Still open:
-draws split across sibling `.ini` files. The Charlotte session also found `GameView reload --mod` reporting
+and the merged ib is byte-identical to the unmodified mod's; nothing else of 245 mods moved. **A mod may
+split its draws across `.ini` files of one folder** (buffers, ib skip and some objects in one; another
+object's section in a second). The second file has no position section, so it was filled from downloads:
+a vanilla copy of every object it does not draw, and the GAME's buffers bound on the target's hashes -- the
+same hashes the first file binds the mod's buffers on. Since 2026-10-11, when a sibling binds the
+character's position buffer, the classic parser keeps only that file's own objects
+(`dropSiblingSuppliedDownloads`), which remaps the split mod whole; the component parser marks such a file
+as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
+component templates the part that file carries is still not drawn on the target (no synthetic or real mod
+has needed more yet). The fix that would draw it reads slot sections from siblings into the main file's
+merge. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES

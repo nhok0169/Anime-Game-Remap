@@ -222,6 +222,7 @@ namespace AGRemapCore {
                     Parser::getSectionTargets();
 
                     if (targetsBindSomething()) {
+                        dropUndrawnObjDownloads();
                         return;
                     }
 
@@ -483,6 +484,58 @@ namespace AGRemapCore {
                         }
                     }
                     return false;
+                }
+
+                // AN OBJECT THE MOD LEAVES UNDRAWN GETS NO DOWNLOAD (2026-10-10). A mod that carries the
+                // character's buffers and skips its index buffer (`handling = skip`) draws exactly the
+                // objects it writes a section for; any other is never drawn on its own character.
+                // Downloading the game's index buffer for one of those and drawing it over the MOD's
+                // vertices -- in the game's vertex order, which the mod's buffers do not keep -- is
+                // shards: a Fischl mod with no dress section, merged onto FischlHighness's body, drew
+                // the downloaded dress as jagged triangles through her open jacket. Its textures go
+                // too, so no section is invented for it at all. A mod that does not skip the index
+                // buffer keeps its downloads: there the game draws the object too. The component
+                // parser does the same per slot; see GIMIComponentParser's findUndrawnSlots.
+                void dropUndrawnObjDownloads() {
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = iniFile->getIfTemplates();
+                    const auto& targets = this->sectionTargets();
+                    auto sectionsOf = [&](const ModObj& modObj) -> const std::vector<std::string>* {
+                        auto found = targets.find(modObj);
+                        return (found == targets.end() || found->second.empty()) ? nullptr : &found->second;
+                    };
+
+                    const std::vector<std::string>* ibSections = sectionsOf(ModObj("", "ib"));
+                    if (sectionsOf(ModObj("", "position")) == nullptr || ibSections == nullptr) {
+                        return;
+                    }
+
+                    bool skips = false;
+                    for (const std::string& name : *ibSections) {
+                        auto found = templates.find(name);
+                        if (found == templates.end() || found->second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> handling = ModBranches::firstVal(*found->second, IniKeywords::Handling);
+                        if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
+                            skips = true;
+                            break;
+                        }
+                    }
+                    if (!skips) {
+                        return;
+                    }
+
+                    for (const std::string& obj : config_.drawnObjs) {
+                        const ModObj modObj("", obj);
+                        if (sectionsOf(modObj) == nullptr) {
+                            this->downloads.erase(modObj);
+                        }
+                    }
                 }
 
                 // Whether any of the mod's OWN sections this parser targets -- or a command list one of

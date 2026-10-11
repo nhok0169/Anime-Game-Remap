@@ -2306,7 +2306,11 @@ carry (texture-only mods, a missing Eye) keeps its downloads, and so does one it
 there the game really does draw the slot over the mod's buffers. CharlotteHurlock2 (no D) was the only
 other mod it changed; 37 other mods / 3272 files did not move. **The prototype-vs-compiled A/B was
 blind to it**, since both share the parser and template (habit 55), so the proof is the
-before-and-after `.ini` diff plus the game. The same session found `GameView reload --mod` reporting
+before-and-after `.ini` diff plus the game. **The CLASSIC template had the same bug until 2026-10-10**
+(`GIMICharParser::dropUndrawnObjDownloads` now): a Fischl mod with no dress section, merged onto
+FischlHighness's body, drew the downloaded dress index buffer as "slightly jagged polygons" -- shards
+through her open jacket -- from its second `.ini` (`<Mod>RemapFix1.ini`). Over 17 classic mod folders it
+changed that one file and nothing else. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES

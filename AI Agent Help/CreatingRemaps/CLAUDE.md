@@ -704,8 +704,9 @@ the mod on its own card. What it found:
   never filled (any copy of a mod in WWMI's newer shape-key format -- `vb0 = ResourceShapeKeyedPosition`, custom
   shape-key sliders -- has that hole; a mod in the older format draws `ResourcePositionBuffer` and gets its keys from
   the game's stream, which a copy reads too). LynaePeppermint -> Lynae's coat / jacket merge now uses the same flag
-  (no copy; its five mods are all older-format, byte-identical but for the moved section). ChisaParfait -> Chisa
-  still writes copies. 3DMigoto runs two differently named sections that match the same hash and window in one file, which is all
+  (no copy; its five mods are all older-format, byte-identical but for the moved section), and so do ChisaParfait ->
+  Chisa's panel (5) and prop (7) on Chisa's upper / lower body (three mods, the same shape of diff, checked in game on
+  the identity and ChisaParfait1). No WWMI pair writes a copy for a shared slot now. 3DMigoto runs two differently named sections that match the same hash and window in one file, which is all
   the copy was for. (2) The suit was then DARK NAVY: the mod's lower mask has `R = 0` on 41% of it, which Lynae's
   lower-body and jacket shaders ignore (her own masks are R = 255 throughout) and the skin's reads as a dark material
   (3% of her own lower mask). `lynaeMaskRedFill` writes R = 255 into both roles; found by changing ONE channel of the

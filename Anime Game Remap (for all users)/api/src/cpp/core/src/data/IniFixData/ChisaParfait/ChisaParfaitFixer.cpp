@@ -368,11 +368,14 @@ namespace AGRemapCore {
             {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}}}},
-            {5, {3, {{"ps-t0", "panelNormal"}, {"ps-t1", "panelMask"}, {"ps-t2", "panelDiffuse"}}}},
+            // her panel and her prop share Chisa's upper / lower body draws, as second sections in the
+            // mod's own file: a copy .ini never fills the shape-keyed positions a mod in WWMI's newer
+            // shape-key format draws from (sameFileSection)
+            {5, {3, {{"ps-t0", "panelNormal"}, {"ps-t1", "panelMask"}, {"ps-t2", "panelDiffuse"}}, true}},
             // ps-t4 as well: the eye draw sets the 512 greyscale structure map at ps-t1 and the
             // 2048 COLOURED iris at ps-t4, and only the first had a role until 2026-10-01
             {6, {6, {{"ps-t1", "irisDiffuse"}, {"ps-t4", "eyeDiffuse"}}}},
-            {7, {4, {{"ps-t0", "propNormal"}, {"ps-t1", "propMask"}, {"ps-t2", "propDiffuse"}}}},
+            {7, {4, {{"ps-t0", "propNormal"}, {"ps-t1", "propMask"}, {"ps-t2", "propDiffuse"}}, true}},
         };
 
         // ---- ChisaParfait's textures by the hash the game binds them under -----------------------

@@ -837,9 +837,23 @@ namespace AGRemapCore {
                     //    dress before its transparency is configured, and TexFx then acts on a
                     //    surface that is already drawn. The original has that bug; matching it
                     //    reproduced it, which is why this deliberately diverges.
+                    //
+                    //    NOT into a branch that says `handling = skip` (2026-10-11). A merged master
+                    //    writes a variant without the object as nothing but that line: the object is
+                    //    drawn on no path of that variant on the mod's own character, so it is drawn on
+                    //    none on the target either. Filled, it drew whatever ib the section bound at its
+                    //    top -- a downloaded one -- over the mod's vertices: shards in 4 of the 7 variants
+                    //    of an Ayaka mod's dress.
                     fillDrawIndexed_ = std::make_unique<RegFillMissing<>>(
                         IniKeywords::DrawIndexed,
-                        RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed, DrawIndexedAuto));
+                        [](RegFillMissing<>::ContentPart& part) {
+                            for (const std::string& handling : part.getVals(IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling), "skip")) {
+                                    return;
+                                }
+                            }
+                            part.addKVP(IniKeywords::DrawIndexed, DrawIndexedAuto);
+                        });
 
                     // 4. Re-issuing the external libraries is per object now -- see the
                     //    objFixCalls loop below, which builds one RegDelimitedAdd per call. The rule

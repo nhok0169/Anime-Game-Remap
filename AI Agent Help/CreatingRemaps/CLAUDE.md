@@ -2315,9 +2315,18 @@ since 2026-10-11**: a merged master writes `handling = skip` in `CommandList<Cha
 version of each read only the ib section's own lines, so every merged master still downloaded and drew
 an undrawn object. Over 228 real mods that moved Lisa2 and ShenheFrostFlower3 only (a no-draw section on a
 downloaded ib dropped); a run-skip Bennett mod that used to be remapped as nothing is remapped now.
-Still open, from the same audit: an object drawn in some branches and only skipped in others
-(Ayaka9/10 JKGyaru), a variant that turns the mod off (ShenheFrostFlower `$vision`, CherryHutao5), the
-merge fixer taking a download over the mod's own ib, and draws split across sibling `.ini` files. The Charlotte session also found `GameView reload --mod` reporting
+**And per STATE since 2026-10-11 (classic template only).** A path can lack an ib for a reason that
+needs none, so `GIMICharParser::dropUnneededObjDownloads` keeps an object's ib download only when Z3
+finds a state with `!ib && (draws || (vb0 && !skip))`, and the classic fixer's draw fill no longer
+writes `drawindexed` into a `handling = skip` branch. That cleared a merged master's skipped variants
+(Ayaka9/10 JKGyaru: shards in 4 of 7) and a variant that switches the mod off (ShenheFrostFlower
+`$vision == 1`, CherryHutao5's vanilla `$swapvar == 0`: the target's own model was drawn with the
+source's downloaded ib). **A mod with no position section of its own is exempt** -- a recolour drawn
+from the downloaded model needs every download, and the first build of this rule dropped LisaStudent1's.
+Z3 knows no toggle's range, so it only ever drops a download no state needs; a leftover on an
+unreachable fall-through stays. The audit's `checkUndrawnDL.py` then reports those paths as `GAME`,
+because it does not correlate conditions across sections. Still open: the merge fixer taking a download
+over the mod's own ib, and draws split across sibling `.ini` files. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES

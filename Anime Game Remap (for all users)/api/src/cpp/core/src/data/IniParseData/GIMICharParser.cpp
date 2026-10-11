@@ -36,6 +36,8 @@
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
+#include "AGRemapCore/tools/z3/Z3Predicate.h"
 
 
 namespace AGRemapCore {
@@ -223,6 +225,7 @@ namespace AGRemapCore {
 
                     if (targetsBindSomething()) {
                         dropUndrawnObjDownloads();
+                        dropUnneededObjDownloads();
                         return;
                     }
 
@@ -538,6 +541,90 @@ namespace AGRemapCore {
                         const ModObj modObj("", obj);
                         if (sectionsOf(modObj) == nullptr) {
                             this->downloads.erase(modObj);
+                        }
+                    }
+                }
+
+                // A DOWNLOADED IB IS NEEDED ONLY IN A STATE THAT DRAWS WITHOUT THE MOD'S OWN (2026-10-11).
+                // The coverage test behind the downloads asks whether every PATH of an object's section
+                // binds an ib, and a path may lack one for a reason that needs none: the variant skips
+                // the draw, or the mod is switched off there. ShenheFrostFlower5 binds its ib, its
+                // vb0 and its skip under `if $vision == 0` only; with $vision == 1 the game draws its
+                // own model, and the downloaded ib bound on the target's draw turned vanilla Shenhe
+                // into shards. So, per object, over every value of the mod's variables:
+                //
+                //   drawn without the mod's ib  =  !ib && (draws || (vb0 && !skip))
+                //
+                // where `draws` is a drawindexed / draw of the object's sections or of the shared ib
+                // section, `vb0` the mod's position buffer, and `skip` a `handling = skip` on either.
+                // Only when that can hold is the ib download kept; when the object cannot be drawn in
+                // ANY state its texture downloads go too. Z3 does not know a toggle's range, so a
+                // value no key reaches still counts -- this only ever drops a download no state needs.
+                void dropUnneededObjDownloads() {
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = iniFile->getIfTemplates();
+                    const auto& targets = this->sectionTargets();
+                    auto sectionsOf = [&](const ModObj& modObj) {
+                        auto found = targets.find(modObj);
+                        return (found == targets.end()) ? std::vector<std::string>() : found->second;
+                    };
+
+                    ModBranches branches;
+                    Z3Context& z3 = branches.context();
+                    auto anyOf = [&](const std::vector<std::string>& sections, const std::string& key,
+                                     const std::function<bool(const std::string&)>& accept) {
+                        Z3Predicate result = Z3Predicate::falseValue(z3);
+                        for (const std::string& name : sections) {
+                            for (const BranchVal& value : branches.valsThroughRun(templates, name, key)) {
+                                if (!accept(std::string(StringTools::strip(value.val)))) {
+                                    continue;
+                                }
+                                std::optional<Z3Predicate> query =
+                                    value.query.has_value() ? branches.localQuery(&*value.query) : std::nullopt;
+                                if (!query.has_value()) {
+                                    return Z3Predicate::trueValue(z3);
+                                }
+                                result = result | *query;
+                            }
+                        }
+                        return result;
+                    };
+                    auto any = [](const std::string&) { return true; };
+                    auto isSkip = [](const std::string& value) { return StringTools::equalsIgnoreCase(value, "skip"); };
+
+                    // A mod with no position section of its own is drawn from the DOWNLOADED model --
+                    // a recolour (LisaStudent1) -- and needs every download it has.
+                    const std::vector<std::string> positionSections = sectionsOf(ModObj("", "position"));
+                    if (positionSections.empty()) {
+                        return;
+                    }
+
+                    const std::vector<std::string> ibSections = sectionsOf(ModObj("", "ib"));
+                    const Z3Predicate vb0 = anyOf(positionSections, IniKeywords::Vb0, any);
+                    const Z3Predicate sharedDraws = anyOf(ibSections, IniKeywords::DrawIndexed, any) | anyOf(ibSections, "draw", any);
+                    const Z3Predicate sharedSkip = anyOf(ibSections, IniKeywords::Handling, isSkip);
+
+                    for (const std::string& obj : config_.drawnObjs) {
+                        const ModObj modObj("", obj);
+                        auto objDownloads = this->downloads.find(modObj);
+                        const std::vector<std::string> sections = sectionsOf(modObj);
+                        if (objDownloads == this->downloads.end() || sections.empty()) {
+                            continue;
+                        }
+
+                        const Z3Predicate ib = anyOf(sections, IniKeywords::Ib, any);
+                        const Z3Predicate draws = sharedDraws | anyOf(sections, IniKeywords::DrawIndexed, any) | anyOf(sections, "draw", any);
+                        const Z3Predicate skip = sharedSkip | anyOf(sections, IniKeywords::Handling, isSkip);
+                        const Z3Predicate gameDraws = vb0 & !skip;
+
+                        if (!(ib | draws | gameDraws).isSatisfiable()) {
+                            this->downloads.erase(modObj);
+                        } else if (!(!ib & (draws | gameDraws)).isSatisfiable()) {
+                            objDownloads.value().erase(IniKeywords::Ib);
                         }
                     }
                 }

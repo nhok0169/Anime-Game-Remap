@@ -17,6 +17,7 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaePropsGrade.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 
@@ -141,6 +142,16 @@ namespace AGRemapCore {
             {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
             {"lowerDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
         };
+
+        // ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat
+        // mutes under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders
+        // alike on both, so the mod's DIFFERENCE from it is pushed further -- see lynaePropsGrade.
+        // 2.5 by eye against Lynae9 on Lynae, in the menu (3 slightly redder, 5 overshoots) ----
+        WWMIFixerConfig::TexEdit propsGrade{"propsDiffuse", "Grade", [](const WWMIFixerConfig::TexEditContext& ctx) {
+            return lynaePropsGrade(ctx, "propsDiffuse", 2.5);
+        }};
+        propsGrade.sourceGameRoles = {"propsDiffuse"};
+        config.texEdits.push_back(std::move(propsGrade));
 
         // Masks mark regions, and her own are flat in places on purpose (her hair mask is one value
         // over the whole texture, her lower-body and jacket masks R = 255 throughout), so a flat mask

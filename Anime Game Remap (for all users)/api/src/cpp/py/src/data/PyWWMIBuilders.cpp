@@ -227,6 +227,10 @@ What a :class:`WWMIFixerConfig.TexEdit`'s filter factory is told about the mod b
         .def_readwrite("fileOfRole", &AGRC::WWMIFixerConfig::TexEditContext::fileOfRole, py::doc(R"doc(
 Dict[:class:`str`, :class:`str`]: The file each role resolved to -- the mod's own, or the one its
 fallback download lands. A filter may need ANOTHER role's texture
+        )doc"))
+        .def_readwrite("gameFileOfRole", &AGRC::WWMIFixerConfig::TexEditContext::gameFileOfRole, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: The SOURCE character's own game texture for each role a
+:attr:`WWMIFixerConfig.TexEdit.sourceGameRoles` names, downloaded for the edit
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::TexEdit>(fixerConfig, "TexEdit", R"doc(
@@ -265,6 +269,11 @@ mod's own geometry. The filter is handed the texture itself and edits it in plac
         .def_readwrite("compress", &AGRC::WWMIFixerConfig::TexEdit::compress, py::doc(R"doc(
 :class:`bool`: Whether to re-encode to the source's compressed format. **Default**: ``False``,
 because a mask is CODES and BCn would move them
+        )doc"))
+        .def_readwrite("sourceGameRoles", &AGRC::WWMIFixerConfig::TexEdit::sourceGameRoles, py::doc(R"doc(
+List[:class:`str`]: Roles whose SOURCE game texture this edit reads, each downloaded and handed to the
+filter in :attr:`WWMIFixerConfig.TexEditContext.gameFileOfRole`. Nothing binds the download.
+**Default**: empty
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::SkeletonNumbering>(fixerConfig, "SkeletonNumbering", R"doc(

@@ -5989,6 +5989,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a6f6e568b0ed7288b4b806f82d225dbe9" kind="variable"><name>name</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a3b8fc80014bbcd9e018d5111c610b4ad" kind="variable"><name>makeFilter</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a238a56ac6ef2dc530fbf3c04c197c1ef" kind="variable"><name>compress</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_1a16bbab6dbf774502c36f4265d72926e1" kind="variable"><name>sourceGameRoles</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context" kind="struct"><name>AGRemapCore::WWMIFixerConfig::TexEditContext</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a5fd9c00e37e33f70ad15ad4e41fb9169" kind="variable"><name>iniFolder</name></member>
@@ -5997,6 +5998,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a493a2f11f79112ebef7afcf8687b3025" kind="variable"><name>indexFile</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1af0958febb346560cb25292b362716e3e" kind="variable"><name>drawRanges</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1ab731cd46398fc94b833f60e6d8ed10eb" kind="variable"><name>fileOfRole</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context_1a1d866eb0f9d94b10aaa00641918ab8e5" kind="variable"><name>gameFileOfRole</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_tex_editor" kind="class"><name>AGRemapCore::TexEditor</name>
     <member refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kind="typedef"><name>Filter</name></member>

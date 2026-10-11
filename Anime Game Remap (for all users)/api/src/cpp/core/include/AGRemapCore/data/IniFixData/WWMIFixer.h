@@ -740,6 +740,15 @@ namespace AGRemapCore {
              @endrst
              */
             std::map<std::string, std::string> fileOfRole;
+            /**
+             * @brief
+             @rst
+             The SOURCE character's own game texture for each role a :cpp:member:`TexEdit::sourceGameRoles`
+             names, downloaded for the edit. A filter that grades a mod's texture by how far it
+             strays from the character's own reads the original here
+             @endrst
+             */
+            std::map<std::string, std::string> gameFileOfRole;
         };
         /**
          * @brief An edit the fix makes to one role's texture before binding it
@@ -775,6 +784,16 @@ namespace AGRemapCore {
              @endrst
              */
             bool compress = false;
+            /**
+             * @brief
+             @rst
+             Roles whose SOURCE game texture this edit reads, each downloaded from
+             ``sourceTextures.fallbackTextures`` and handed to the filter in
+             :cpp:member:`TexEditContext::gameFileOfRole`. Nothing binds the download.
+             **Default**: none
+             @endrst
+             */
+            std::vector<std::string> sourceGameRoles;
         };
         /**
          * @brief

@@ -4406,8 +4406,58 @@ namespace AGRemapCore {
                             indexSlotRoles(preEditResourceOfSlotRole_);
                             indexSlotRoles(resourceOfSlotRole_);
 
-                            auto roleOf = [this, roleOfResource](const std::string& resource)
+                            auto roleOf = [this, roleOfResource, regOfRole](const std::string& resource)
                                     -> std::optional<std::string> {
+                                // A ROLE THIS COMPONENT'S ROW BINDS COMES FIRST (2026-10-11). One file
+                                // may serve several components under different roles -- Lynae9 draws
+                                // one sweater through her jacket (5) and her props (6), with one toggle
+                                // chain `ResourceTextureJacket`..`D` in both -- and the maps below give
+                                // each resource ONE role. In component 6 the chain's first file came
+                                // back `jacketDiffuse` (the props' edit was never swapped in, and the
+                                // carried line re-bound the unedited file after the fix's list), and in
+                                // component 5 its siblings came back `propsDiffuse` (the props' edited
+                                // copies on the jacket). Asked per component, through the toggle
+                                // siblings when the file itself names no role here, both resolve.
+                                auto rowRoleOf = [this, &roleOfResource, &regOfRole](const std::string& name)
+                                        -> std::optional<std::string> {
+                                    const auto found = roleOfResource.find(name);
+                                    if (found != roleOfResource.end() && regOfRole.count(found->second) > 0) {
+                                        return found->second;
+                                    }
+
+                                    const auto edited = editedRoleOf_.find(name);
+                                    if (edited != editedRoleOf_.end() && regOfRole.count(edited->second) > 0) {
+                                        return edited->second;
+                                    }
+
+                                    return std::nullopt;
+                                };
+
+                                const std::string key = StringTools::toLower(resource);
+                                if (const auto own = rowRoleOf(key)) {
+                                    return own;
+                                }
+
+                                std::vector<std::string> siblings;
+                                const auto owner = conditionalOwner_.find(key);
+                                if (owner != conditionalOwner_.end()) {
+                                    const auto held = variantsOf_.find(owner->second);
+                                    if (held != variantsOf_.end()) {
+                                        siblings = held->second;
+                                    }
+                                }
+
+                                const auto group = regVariantsOf_.find(key);
+                                if (group != regVariantsOf_.end()) {
+                                    siblings.insert(siblings.end(), group->second.second.begin(), group->second.second.end());
+                                }
+
+                                for (const std::string& sibling : siblings) {
+                                    if (const auto shared = rowRoleOf(StringTools::toLower(sibling))) {
+                                        return shared;
+                                    }
+                                }
+
                                 const auto found = roleOfResource.find(resource);
                                 if (found != roleOfResource.end()) {
                                     return found->second;
@@ -6068,6 +6118,14 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        // the source's own textures the edit compares against -- downloaded, never bound
+                        for (const std::string& role : edit.sourceGameRoles) {
+                            if (!addGameDownload(role)) {
+                                note("the " + edit.name + " edit of " + edit.role + " reads " + source_.name
+                                     + "'s own " + role + ", and fallbackTextures has no hash for it");
+                            }
+                        }
+
                         // the mod's own file, or -- for a role it has none for -- the one the
                         // fallback download lands
                         std::string source;
@@ -6188,6 +6246,36 @@ namespace AGRemapCore {
                     }
                 }
 
+                // The source's own game texture of 'role' as a download (gameFallbacks_), once; false
+                // when the character's facts give it no hash or no download folder. Declaring and
+                // downloading it binds nothing -- gameResourceOfRole_ is what binds.
+                bool addGameDownload(const std::string& role) {
+                    const WWMITextureFacts& source = config_.sourceTextures;
+                    if (source.downloadCharFolder.empty()) {
+                        return false;
+                    }
+
+                    if (gameFallbacks_.count(role) > 0) {
+                        return true;
+                    }
+
+                    const auto hash = source.fallbackTextures.find(role);
+                    if (hash == source.fallbackTextures.end()) {
+                        return false;
+                    }
+
+                    const std::string kind = TextTools::capitalize(role) + GameSuffix;
+                    const std::string fileName = DownloadTools::fixedFileName(source.downloadPrefix, kind, FileExt::DDS);
+                    gameFallbacks_[role] = Fallback{
+                        DownloadTools::downloadFolder() + "/"
+                            + DownloadTools::urlPath(source.downloadGameFolder, source.downloadCharFolder,
+                                                     source.downloadVersionFolder, source.downloadPrefix,
+                                                     "Texture" + hash->second, FileExt::DDS),
+                        fileName, modFile(textureFolder_, fileName),
+                        IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL};
+                    return true;
+                }
+
                 /**
                  * @brief
                  @rst
@@ -6244,8 +6332,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        auto hash = source.fallbackTextures.find(role);
-                        if (hash == source.fallbackTextures.end()) {
+                        if (!addGameDownload(role)) {
                             note("the draws " + config_.slotPrefix + " sections make before binding "
                                  "anything need " + source_.name + "'s own " + role
                                  + ", and fallbackTextures has no hash for it -- those draws keep "
@@ -6253,19 +6340,8 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::string kind = TextTools::capitalize(role) + GameSuffix;
-                        const std::string fileName =
-                            DownloadTools::fixedFileName(source.downloadPrefix, kind, FileExt::DDS);
-                        const std::string resource =
-                            IniKeywords::Resource + source.downloadPrefix + kind + IniKeywords::RemapDL;
-                        const std::string relPath = modFile(textureFolder_, fileName);
-                        gameFallbacks_[role] = Fallback{
-                            DownloadTools::downloadFolder() + "/"
-                                + DownloadTools::urlPath(source.downloadGameFolder, source.downloadCharFolder,
-                                                         source.downloadVersionFolder, source.downloadPrefix,
-                                                         "Texture" + hash->second, FileExt::DDS),
-                            fileName, relPath, resource};
-                        gameResourceOfRole_[role] = resource;
+                        const std::string relPath = gameFallbacks_.at(role).relPath;
+                        gameResourceOfRole_[role] = gameFallbacks_.at(role).resource;
                         downloaded.push_back(role);
 
                         // ...and the role's own edits, on this file too. The target's shader reads
@@ -6325,6 +6401,10 @@ namespace AGRemapCore {
                     for (const auto& entry : fallbacks_) {
                         context.fileOfRole.emplace(
                             entry.first, FileService::absPathOfRelPath(entry.second.relPath, folder));
+                    }
+
+                    for (const auto& entry : gameFallbacks_) {
+                        context.gameFileOfRole[entry.first] = FileService::absPathOfRelPath(entry.second.relPath, folder);
                     }
 
                     for (const PlannedEdit& planned : plannedEdits_) {

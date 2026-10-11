@@ -669,6 +669,23 @@ the mod on its own card. What it found:
   mask and foil probes on the skin, and an RGB inversion that "fixed" it (the mod's pink is roughly the complement
   of Lynae's green, a coincidence). **Before matching a remap to the original's look, check that the original's
   look is the mod's art** -- the section above on stale texture hashes, and `wwmiTextureFix.py --live`.
+  **And with the hashes fixed the two still differed (2026-10-11): rose on Lynae, pale pastel on the skin.**
+  Lynae draws her props through a glass layer of FOUR passes, two of which tint by the diffuse; the skin's coat
+  slot draws two that mute it under its holographic sheen. Her OWN texture renders alike on both (her identity
+  mod's jacket is indistinguishable on the two cards), so a plain grade would break the vanilla look -- the
+  difference is in how far a mod STRAYS from her texture. `lynaePropsGrade` (Lynae -> LynaePeppermint) moves
+  every texel of component 6's UV island to `own + 2.5 (mod - own)`, `own` her game texture, downloaded through
+  the new `WWMIFixerConfig::TexEdit::sourceGameRoles` (handed to the filter in `TexEditContext::gameFileOfRole`,
+  bound by nothing). 2.5 by eye in the menu; 3 is slightly redder, 5 overshoots; the violet rim is the skin's
+  shader and stays. Two traps on the way: **a probe `.dds` must keep the source's sRGB-ness** (mine were UNORM,
+  so the game read them darker and more saturated -- k = 3 "looked right" for the wrong reason; DX10 header,
+  format 29), and **a texture edit can be bound by nothing the mod draws**: Lynae9 binds ONE toggle chain
+  (`ResourceTextureJacket`..`D`) in both its jacket (5) and its props (6) sections, the carried-line re-key
+  gave each resource ONE role for every component, and the props section's carried chain re-bound the UNEDITED
+  file after the fix's list -- the grade would never have shown. The re-key now asks for a role THIS component's
+  row binds, through the toggle siblings when the file itself names none; that also moved the jacket's variants
+  2-4, which had sat on the skin's DETAIL register since the port. Over 32 WuWa mods of all three pairs the
+  re-key changed exactly one file (Lynae9's `.ini`, five lines).
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

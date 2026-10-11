@@ -25877,6 +25877,16 @@ class WWMIFixerConfig:
         @role.setter
         def role(self, arg0: str) -> None:
             ...
+        @property
+        def sourceGameRoles(self) -> list[str]:
+            """
+            List[:class:`str`]: Roles whose SOURCE game texture this edit reads, each downloaded and handed to the
+            filter in :attr:`WWMIFixerConfig.TexEditContext.gameFileOfRole`. Nothing binds the download.
+            **Default**: empty
+            """
+        @sourceGameRoles.setter
+        def sourceGameRoles(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
     class TexEditContext:
         """
         
@@ -25901,6 +25911,15 @@ class WWMIFixerConfig:
             """
         @fileOfRole.setter
         def fileOfRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def gameFileOfRole(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: The SOURCE character's own game texture for each role a
+            :attr:`WWMIFixerConfig.TexEdit.sourceGameRoles` names, downloaded for the edit
+            """
+        @gameFileOfRole.setter
+        def gameFileOfRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
             ...
         @property
         def indexFile(self) -> str:

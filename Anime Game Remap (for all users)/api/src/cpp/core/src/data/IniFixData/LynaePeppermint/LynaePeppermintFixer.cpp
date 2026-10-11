@@ -74,10 +74,6 @@ namespace AGRemapCore {
 
         // ---- the TARGET draws her early depth passes with her skeleton in vs-cb3 alone ----
         config.currentPoseInCb3Only = true;
-        // ...and two source components share her jacket slot through a copy .ini, which has to share the
-        // mod's skeleton state: merge-only sections for the slots the other file draws, and the
-        // bone-data marker and shape-key overrides in the mod's own file only
-        config.copiesShareSkeleton = true;
         config.copyPreamble = IniComments::GIMIObjMergerPreamble;
 
         // ---- the passes the TARGET (Lynae) draws each slot on (her dumps, wwmiDrawTable.py) ----
@@ -155,10 +151,11 @@ namespace AGRemapCore {
             {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}}},
-            // the coat AND the jacket onto Lynae's jacket (her shader reads detail at t2, diffuse at t3);
-            // the coat, first in order, stays in the mod's own file and the jacket goes to the copy
+            // the coat AND the jacket onto Lynae's jacket (her shader reads detail at t2, diffuse at t3),
+            // the jacket as a second section on that draw in the mod's own file: a copy .ini never fills
+            // the shape-keyed positions a mod with custom shape keys draws from (sameFileSection)
             {5, {5, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"}}}},
-            {6, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}}}},
+            {6, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}}, true}},
             {7, {7, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
         };
 

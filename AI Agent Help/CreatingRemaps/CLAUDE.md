@@ -701,8 +701,11 @@ the mod on its own card. What it found:
   lower-body slot gets the hide section. It is a SECOND SECTION ON THAT DRAW IN THE MOD'S OWN FILE --
   `WWMIFixerConfig::SourceComponent::sameFileSection` -- not a copy `.ini`: the template's copy for a shared slot drew
   nothing, because the shape-key pipeline runs ONCE, in the mod's own file, so a copy's `ResourceShapeKeyedPosition` is
-  never filled (any copy of a mod with shape keys has that hole; the reverse direction's coat / jacket copy is worth a
-  look). 3DMigoto runs two differently named sections that match the same hash and window in one file, which is all
+  never filled (any copy of a mod in WWMI's newer shape-key format -- `vb0 = ResourceShapeKeyedPosition`, custom
+  shape-key sliders -- has that hole; a mod in the older format draws `ResourcePositionBuffer` and gets its keys from
+  the game's stream, which a copy reads too). LynaePeppermint -> Lynae's coat / jacket merge now uses the same flag
+  (no copy; its five mods are all older-format, byte-identical but for the moved section). ChisaParfait -> Chisa
+  still writes copies. 3DMigoto runs two differently named sections that match the same hash and window in one file, which is all
   the copy was for. (2) The suit was then DARK NAVY: the mod's lower mask has `R = 0` on 41% of it, which Lynae's
   lower-body and jacket shaders ignore (her own masks are R = 255 throughout) and the skin's reads as a dark material
   (3% of her own lower mask). `lynaeMaskRedFill` writes R = 255 into both roles; found by changing ONE channel of the

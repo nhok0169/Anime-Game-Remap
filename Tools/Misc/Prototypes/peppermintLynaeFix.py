@@ -27,7 +27,9 @@
 #     G-buffer -- measured in a frame dump, 700 pixels for a whole shirt, and 137 for her OWN props in
 #     the vanilla frame. So nothing of the skin goes there: the skin's two cloth components (her coat,
 #     5, and her shirt / jacket / shoes, 6) BOTH land on Lynae's jacket slot, the second through a
-#     generated copy .ini (a merge), and her props slot is left hidden.
+#     generated copy .ini (a merge), and her props slot is left hidden. Since 2026-10-11 the jacket is a
+#     second section on that draw in the mod's own file instead (SourceComponent.sameFileSection): a copy
+#     never fills the shape-keyed positions a mod with custom shape keys draws from.
 #   * That merge needed two template fixes for a target past 256 bones (2026-10-06): each copy gets
 #     merge-only sections for the slots other files draw (its own skeleton was otherwise zero there),
 #     and the bone-data marker and shape-key overrides go in the mod's own file only (a copy repeating
@@ -153,7 +155,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.currentPoseInCb3Only = True
     # ...and two source components share her jacket slot through a copy .ini, which must share the
     # mod's skeleton state (see the header)
-    config.copiesShareSkeleton = True
 
     # ---- the passes the TARGET (Lynae) draws each slot on (her dumps, wwmiDrawTable.py) ----
     config.slotPasses = [
@@ -239,6 +240,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                                                    B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse")]),
         7: FRB.WWMIFixerConfig.SourceComponent(7, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
     }
+    plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
+    plan[6].sameFileSection = True
+    config.plan = plan
 
     # ---- a slot's OTHER passes ----
     config.extraPassRegs = {

@@ -3701,6 +3701,20 @@ namespace AGRemapCore {
                     return ModObj(toModName_, config_.slotPrefix + std::to_string(slot));
                 }
 
+                // The target object a source component's sections are remapped onto: its slot's, or
+                // -- for a component drawn as a second section on a shared slot in the mod's own file
+                // (SourceComponent::sameFileSection) -- one of its own, so the two claimants do not
+                // collide in one group. The sections keep the source's names either way.
+                ModObj targetObjOf(int component) const {
+                    const WWMIFixerConfig::SourceComponent& planned = config_.plan.at(component);
+                    if (!planned.sameFileSection) {
+                        return targetSlotObj(planned.slot);
+                    }
+
+                    return ModObj(toModName_, config_.slotPrefix + std::to_string(planned.slot) + "_"
+                                                  + std::to_string(component));
+                }
+
                 // Does the TARGET's merged skeleton pass what an 8-bit blend index can name, and can
                 // one WWMI blend remap hold the row? Sets #targetPast256_ and #blendRemapBones_,
                 // which every later phase reads.
@@ -4136,7 +4150,9 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::size_t group = claimants[planned->second.slot]++;
+                        // a second section in the mod's own file (SourceComponent::sameFileSection)
+                        // claims no copy
+                        const std::size_t group = planned->second.sameFileSection ? 0 : claimants[planned->second.slot]++;
                         if (groups_.size() <= group) {
                             groups_.resize(group + 1);
                         }
@@ -4654,7 +4670,7 @@ namespace AGRemapCore {
                         std::vector<GraphGroupRemap<>::RemapTarget> targets;
                         auto planned = config_.plan.find(entry.first);
                         if (planned != config_.plan.end()) {
-                            const ModObj target = targetSlotObj(planned->second.slot);
+                            const ModObj target = targetObjOf(entry.first);
                             targets.emplace_back(GraphId(0, target.first, target.second), rename);
                         }
 
@@ -4712,7 +4728,7 @@ namespace AGRemapCore {
                     for (std::size_t g = 0; g < groups_.size(); ++g) {
                         for (int component : groups_[g]) {
                             const int slot = config_.plan.at(component).slot;
-                            const ModObj obj = targetSlotObj(slot);
+                            const ModObj obj = targetObjOf(component);
                             std::vector<PartEdit*> edits = editsOf_[component];
                             if (removeAdapter_ != nullptr) {
                                 edits.push_back(removeAdapter_.get());
@@ -4814,7 +4830,7 @@ namespace AGRemapCore {
                                                                           positionBufPath());
                         auto collect = std::make_unique<Collector>();
                         for (int component : groups_[g]) {
-                            const ModObj obj = targetSlotObj(config_.plan.at(component).slot);
+                            const ModObj obj = targetObjOf(component);
                             collect->srcRegs[GraphId(g, obj.first, obj.second)] = config_.blendReg;
 
                             // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE:

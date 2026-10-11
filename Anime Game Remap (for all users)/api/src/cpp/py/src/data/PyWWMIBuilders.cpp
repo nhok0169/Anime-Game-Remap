@@ -180,7 +180,12 @@ How one SOURCE component is drawn on the target
         .def_readwrite("slot", &AGRC::WWMIFixerConfig::SourceComponent::slot,
                         py::doc(":class:`int`: The target draw slot it goes through"))
         .def_readwrite("bindings", &AGRC::WWMIFixerConfig::SourceComponent::bindings,
-                        py::doc("List[:class:`WWMIFixerConfig.Binding`]: The registers its command list binds, in this order"));
+                        py::doc("List[:class:`WWMIFixerConfig.Binding`]: The registers its command list binds, in this order"))
+        .def_readwrite("sameFileSection", &AGRC::WWMIFixerConfig::SourceComponent::sameFileSection, py::doc(R"doc(
+:class:`bool`: When another source component also goes through :attr:`slot`, draw this one from the
+mod's own ``.ini`` as a second section on that draw instead of from a copy ``.ini``, whose shape-keyed
+positions are never computed. **Default**: ``False``
+        )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::CreatedTexture>(fixerConfig, "CreatedTexture", R"doc(
 A texture the fix INVENTS, eg. the flat material mask a target reads skin off

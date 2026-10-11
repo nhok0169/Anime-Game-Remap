@@ -5719,6 +5719,7 @@
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component" kind="struct"><name>AGRemapCore::WWMIFixerConfig::SourceComponent</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a367138aa205bf3cc3ad100c8610b6263" kind="variable"><name>slot</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" kind="variable"><name>bindings</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1afe886117d0d3c638dfc4255af565313a" kind="variable"><name>sameFileSection</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtBlock</name>
     <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" kind="variable"><name>items</name></member>

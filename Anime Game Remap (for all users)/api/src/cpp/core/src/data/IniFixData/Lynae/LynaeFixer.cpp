@@ -113,7 +113,13 @@ namespace AGRemapCore {
             // are hers
             {2, {2, {{"ps-t2", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}}}},
-            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}}},
+            // Her lower body goes through the skin's UPPER-body slot, as a second section in the mod's
+            // own file: the skin draws her lower body first and her upper body after it with a different
+            // rasterizer state, so a garment in Lynae's lower body over skin in her upper body (Lynae10:
+            // a full body in 3, a skin-tight suit in 4) lost to the skin it covers. One pass for both
+            // lets depth decide; the two passes read the same four roles at ps-t0..t3, and t4 / t5 are
+            // global ramps. Not a copy .ini: a copy has no shape-keyed positions (sameFileSection)
+            {4, {3, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}, true}},
             // The skin's jacket shader reads mask / diffuse / detail at ps-t1 / t2 / t3 -- hers reads
             // the detail at t2 and the diffuse at t3
             {5, {6, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDiffuse"}, {"ps-t3", "jacketDetail"}}}},
@@ -126,8 +132,7 @@ namespace AGRemapCore {
         config.extraPassRegs = {
             {0, {{"bce1512f1c6b82fe", {{"ps-t0", "bangsDiffuse"}}}}},
             {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
-            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse"}}}}},
-            {4, {{"0fbe7ebba08cd1b0", {{"ps-t0", "lowerDiffuse"}}}}},
+            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}}}}},
             {5, {{"0fbe7ebba08cd1b0", {{"ps-t0", "propsDiffuse"}}}}},
             {6, {{"0fbe7ebba08cd1b0", {{"ps-t0", "jacketDiffuse"}}}}},
             {7, {{"e04f4df80ee6b0ab", {{"ps-t0", "eyeMask"}}}}},
@@ -141,6 +146,10 @@ namespace AGRemapCore {
         config.texEdits = {
             {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
             {"lowerDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
+            // ...and her lower-body / jacket masks' red channel, which her shaders ignore and the skin's
+            // reads as a dark material (Lynae10's suit, R = 0, came out navy): see lynaeMaskRedFill
+            {"lowerMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
+            {"jacketMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
         };
 
         // ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat

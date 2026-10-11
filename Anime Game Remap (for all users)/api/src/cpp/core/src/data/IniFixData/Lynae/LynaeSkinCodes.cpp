@@ -58,4 +58,16 @@ namespace AGRemapCore {
             tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
         };
     }
+
+    TexEditor::Filter lynaeMaskRedFill() {
+        return [](TextureFile& tex) {
+            tex.setGamma(std::nullopt);          // a mask is codes, not colour
+            std::vector<std::uint8_t> px = tex.getPixels();
+            for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                px[i] = 255;
+            }
+
+            tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+        };
+    }
 }

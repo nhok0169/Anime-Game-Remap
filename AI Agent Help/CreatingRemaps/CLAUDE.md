@@ -691,6 +691,24 @@ the mod on its own card. What it found:
   row binds, through the toggle siblings when the file itself names none; that also moved the jacket's variants
   2-4, which had sat on the skin's DETAIL register since the port. Over 32 WuWa mods of all three pairs the
   re-key changed exactly one file (Lynae9's `.ini`, five lines).
+* **"ALL THE CLOTHES BECAME TRANSPARENT" WAS TWO FAULTS, ONE OF THEM DRAW ORDER (Lynae10, 2026-10-11).** Lynae10
+  draws a full nude body in her UPPER body (component 3) and a skin-tight suit, helmet, jacket, gloves and legs in her
+  LOWER body (4). (1) On LynaePeppermint the skin draws her lower-body slot BEFORE her upper-body slot, with a different
+  rasterizer state (a log-only dump's `RSSetState` per draw shows it), and the suit drawn there lost to the body drawn
+  after it everywhere -- only raised bits (zipper, straps) poked through, which reads as "transparent". Hiding the body
+  draw showed the whole suit; drawing the suit from the UPPER slot's section put it over the skin. So Lynae's lower body
+  now goes through the skin's upper-body slot (the two passes read the same four roles at `ps-t0..t3`) and the
+  lower-body slot gets the hide section. It is a SECOND SECTION ON THAT DRAW IN THE MOD'S OWN FILE --
+  `WWMIFixerConfig::SourceComponent::sameFileSection` -- not a copy `.ini`: the template's copy for a shared slot drew
+  nothing, because the shape-key pipeline runs ONCE, in the mod's own file, so a copy's `ResourceShapeKeyedPosition` is
+  never filled (any copy of a mod with shape keys has that hole; the reverse direction's coat / jacket copy is worth a
+  look). 3DMigoto runs two differently named sections that match the same hash and window in one file, which is all
+  the copy was for. (2) The suit was then DARK NAVY: the mod's lower mask has `R = 0` on 41% of it, which Lynae's
+  lower-body and jacket shaders ignore (her own masks are R = 255 throughout) and the skin's reads as a dark material
+  (3% of her own lower mask). `lynaeMaskRedFill` writes R = 255 into both roles; found by changing ONE channel of the
+  mod's mask at a time, after flat probes of `ps-t2` and `ps-t4` changed nothing. **Every probe made while the body
+  still covered the suit proved nothing** -- three of them; hide the occluder first. Over 34 WuWa mods only the Lynae ->
+  LynaePeppermint outputs changed; the identity mod and three others look right through the new slot.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

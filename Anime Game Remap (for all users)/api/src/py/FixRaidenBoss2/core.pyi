@@ -25822,6 +25822,16 @@ class WWMIFixerConfig:
         def bindings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
             ...
         @property
+        def sameFileSection(self) -> bool:
+            """
+            :class:`bool`: When another source component also goes through :attr:`slot`, draw this one from the
+            mod's own ``.ini`` as a second section on that draw instead of from a copy ``.ini``, whose shape-keyed
+            positions are never computed. **Default**: ``False``
+            """
+        @sameFileSection.setter
+        def sameFileSection(self, arg0: bool) -> None:
+            ...
+        @property
         def slot(self) -> int:
             """
             :class:`int`: The target draw slot it goes through

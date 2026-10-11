@@ -34,6 +34,19 @@ namespace AGRemapCore {
      @endrst
      */
     TexEditor::Filter lynaeSkinCodeSwap();
+
+    /**
+     * @brief
+     @rst
+     Sets the red channel of a Lynae lower-body or jacket mask to 255 for LynaePeppermint :raw-html:`<br />` :raw-html:`<br />`
+
+     Lynae's own lower-body and jacket masks are ``R = 255`` throughout and her shaders show no use of
+     the channel there: a mod that paints ``R = 0`` over a whole outfit renders normally on her.
+     LynaePeppermint's body shaders read ``R = 0`` as a dark material, which turned such an outfit
+     dark navy. Writing 255 shows the target what Lynae showed; every other channel is kept
+     @endrst
+     */
+    TexEditor::Filter lynaeMaskRedFill();
 }
 
 #endif

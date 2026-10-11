@@ -269,7 +269,11 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         2: FRB.WWMIFixerConfig.SourceComponent(2, [B("ps-t2", "faceDiffuse")]),
         3: FRB.WWMIFixerConfig.SourceComponent(3, [B("ps-t0", "upperNormal"), B("ps-t1", "upperMask"),
                                                    B("ps-t2", "upperDetail"), B("ps-t3", "upperDiffuse")]),
-        4: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
+        # Her lower body through the skin's UPPER-body slot, as a second section in the mod's own file:
+        # the skin draws her lower body first and her upper body after it with a different rasterizer
+        # state, so a garment in Lynae's lower body over skin in her upper body (Lynae10) lost to the skin
+        # (core's LynaeFixer). Set as sameFileSection below
+        4: FRB.WWMIFixerConfig.SourceComponent(3, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
                                                    B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse")]),
         # The skin's jacket shader reads mask / diffuse / detail at ps-t1 / t2 / t3 -- hers reads the
         # detail at t2 and the diffuse at t3
@@ -279,14 +283,16 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                                                    B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse")]),
         7: FRB.WWMIFixerConfig.SourceComponent(7, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
     }
+    plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
+    plan[4].sameFileSection = True
+    config.plan = plan
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----
     config.extraPassRegs = {
         0: {"bce1512f1c6b82fe": [B("ps-t0", "bangsDiffuse")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairDiffuse")]},
-        3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse")]},
-        4: {"0fbe7ebba08cd1b0": [B("ps-t0", "lowerDiffuse")]},
+        3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4)]},
         5: {"0fbe7ebba08cd1b0": [B("ps-t0", "propsDiffuse")]},
         6: {"0fbe7ebba08cd1b0": [B("ps-t0", "jacketDiffuse")]},
         7: {"e04f4df80ee6b0ab": [B("ps-t0", "eyeMask")]},
@@ -313,6 +319,18 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             tex.setPixels(bytes(px), tex.width, tex.height)
         return run
     config.texEdits = [FRB.WWMIFixerConfig.TexEdit(role, "SkinCode", skinCodeSwap) for role in ("upperDetail", "lowerDetail")]
+
+    # ---- her lower-body / jacket masks' red channel: her shaders ignore it (her own are R = 255
+    # throughout) and the skin's reads R = 0 as a dark material -- Lynae10's suit came out navy
+    # (core's lynaeMaskRedFill) ----
+    def maskRedFill(ctx):
+        def run(tex):
+            tex.gamma = None                     # a mask is codes, not colour
+            px = bytearray(tex.getPixels())
+            px[0::4] = b"\xff" * (len(px) // 4)
+            tex.setPixels(bytes(px), tex.width, tex.height)
+        return run
+    config.texEdits = config.texEdits + [FRB.WWMIFixerConfig.TexEdit(role, "Red", maskRedFill) for role in ("lowerMask", "jacketMask")]
 
     # ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat mutes
     # under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders alike on

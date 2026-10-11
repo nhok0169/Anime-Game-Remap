@@ -145,6 +145,18 @@ namespace AGRemapCore {
              * @brief The registers its command list binds, in this order
              */
             std::vector<Binding> bindings;
+
+            /**
+             * @brief
+             @rst
+             When another source component also goes through :cpp:member:`slot`, draw this one from the
+             mod's own ``.ini`` as a second section on that draw, instead of from a copy ``.ini``.
+             A copy computes none of the mod's shape-keyed positions -- the shape-key pipeline runs
+             once, in the mod's own file -- so a component of a mod with shape keys drawn from a copy
+             reads an empty position buffer and draws nothing. **Default**: ``false``
+             @endrst
+             */
+            bool sameFileSection = false;
         };
 
         /**

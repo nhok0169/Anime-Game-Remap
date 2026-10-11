@@ -654,8 +654,10 @@ the mod on its own card. What it found:
   Both Sanhua directions now keep them (`hiddenObjs = {}`, no zero stream, the target's `dispatch_y`: 853 onto the
   Exorcist, 963 onto Sanhua); both skins number their keys identically, so no `shapeKeyOrder`. That needed one
   template change: the shape-key overrides go into ONE file of a multi-file fix whatever the target's bone count
-  (they repeated in every copy -- the giant-polygon failure -- and also in ChisaParfait -> Chisa's copies). **The
-  Sanhua half is checked offline only** (every fix runs, each mod's overrides land in one file), not in game.
+  (they repeated in every copy -- the giant-polygon failure -- and also in ChisaParfait -> Chisa's copies). Seen in
+  game for SanhuaExorcist -> Sanhua (SanhuaExorcist1 on her base outfit): the body intact, a blink in a menu series
+  where the old fix's face never moved, and the log showing WWMI's ShapeKeyOverrider running on the fix's sections
+  with Sanhua's checksum 3175. Sanhua -> SanhuaExorcist is checked offline only (it needs the skin worn).
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

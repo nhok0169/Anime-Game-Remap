@@ -132,6 +132,17 @@ namespace AGRemapCore {
 
             config.sourceTextures = sanhuaExorcistTextureFacts();
 
+            // ---- the mod's SHAPE KEYS are kept (2026-10-10). Hidden (the default), her face neither
+            // blinked nor moved on Sanhua, and the hiding commented the overrides out of the mod's OWN
+            // text, so its own character read the game's offsets by the mod's vertex ids -- every
+            // expression on the wrong vertices there. The two number their keys identically
+            // (Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py: every key at its own index), so no
+            // shapeKeyOrder; the asset remap moves the overrides' hashes and checksum, and a batched
+            // export's dispatch height is the target's (its Metadata.json's dispatch_y) ----
+            config.hiddenObjs = {};
+            config.zeroShapeKeyStream = false;
+            config.shapeKeyDispatchSize = "963";
+
 
             // Her own textures' thumbprints, so a file no hash names is placed by what it IS
 

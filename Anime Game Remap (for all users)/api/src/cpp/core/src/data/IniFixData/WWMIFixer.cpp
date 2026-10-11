@@ -4634,7 +4634,13 @@ namespace AGRemapCore {
                             // jacket slot drew the whole model as giant polygons until the copy's
                             // were removed, and drew it correctly without them. The marker is a
                             // filter on the game's buffer, so one file setting it serves every file.
-                            const std::size_t copies = targetPast256_ && config_.copiesShareSkeleton
+                            //
+                            // AND THE SHAPE-KEY OVERRIDES ONCE WHATEVER THE TARGET (2026-10-10): the
+                            // reason above is about the shape-key pipeline, not about bones, and a fix
+                            // that keeps the mod's shape keys (hiddenObjs empty) onto a target under 256
+                            // bones -- Sanhua's -- writes copies too
+                            const bool shapeKeys = obj.second == "shapekeyOffsets" || obj.second == "shapekeyScale";
+                            const std::size_t copies = (targetPast256_ && config_.copiesShareSkeleton) || shapeKeys
                                 ? std::size_t(1) : groups_.size();
                             for (std::size_t g = 0; g < copies; ++g) {
                                 targets.emplace_back(GraphId(0, obj.first, obj.second), rename);

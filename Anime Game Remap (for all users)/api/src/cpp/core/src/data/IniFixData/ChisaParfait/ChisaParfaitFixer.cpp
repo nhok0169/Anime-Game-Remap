@@ -219,12 +219,12 @@ namespace AGRemapCore {
         config.passVertexShaders = {
             {"13a86b87d383a40f", {"3e7bb648e306c671"}},
             {"5eb19d847b81ed33", {"3e7bb648e306c671"}},
-            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3"}},
+            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},
             {"c9cdf1b99fb01750", {"b3c7ad652f7a1c40"}},
             {"3bbc20374cc3d229", {"9cf0b7666af23697"}},
             {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
-            {"275e4ce82ebf0976", {"729d10a88623b937"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53"}},
+            {"275e4ce82ebf0976", {"729d10a88623b937", "2b36896899a06c0a"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "a54621ce48ed541b"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
             {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
             {"32414b557630d98d", {"255061ec51f15e29"}},
@@ -275,6 +275,13 @@ namespace AGRemapCore {
             {"84e073e202127beb", "3381.766"},
             {"91256be56071db94", "3381.767"},
             {"676fdbd61b302294", "3381.768"},
+        // A pass may draw with EITHER of two vertex shaders, frame to frame (Lynae's eyes and face, 2026-10-10;
+        // these partners measured in this pair's own dumps): a list gated on one drops the mod's textures on the
+        // other frames. A shader holds ONE filter_index across every loaded .ini, so a shared one keeps the value
+        // the Lynae configs give it (a54621ce .616, 4ce754b5 .769)
+            {"4ce754b5b9574b1a", "3381.769"},   // her face's second vertex shader
+            {"2b36896899a06c0a", "3381.735"},   // her eyes' second (the forward's value)
+            {"a54621ce48ed541b", "3381.616"},   // the eye pass's second
         };
 
         // ---- source component -> target slot, and the registers CHISA's pass reads ---------------
@@ -558,6 +565,7 @@ namespace AGRemapCore {
         // The cost is that a mod's own shape keys do not play on the target, which is the same
         // trade Sanhua makes and is not a plane across the scene.
         config.zeroShapeKeyStream = true;
+        config.shapeKeyDispatchSize = "1441";        // Chisa's dispatch_y -- see ChisaFixer
 
         // ---- a flat mask is LEFT TO THE GAME on the hair, as in the forward direction ------------
         // `flatFallsBackToSource` below is about a mask whose REGIONS are missing; this is about the

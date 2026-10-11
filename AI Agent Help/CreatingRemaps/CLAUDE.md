@@ -640,6 +640,22 @@ the mod on its own card. What it found:
   `4ce754b5`, the partner Chisa's face pass shows on the same `7c0b4db3` -- inferred, not caught on Lynae; an unused
   entry costs nothing. Every face, eye and hair pass of every WuWa pair should be suspected of this until a series of
   log-only dumps says otherwise.
+  **AND THE OTHER WUWA PAIRS (an audit, 2026-10-10).** Chisa <-> ChisaParfait had the same gaps, both ways: the eye
+  pass `e04f4df8` also draws on `a54621ce`, the eye pass `275e4ce8` on `2b368968`, ChisaParfait's face `6e25bfc4` on
+  `34ba67b2` and Chisa's `ed1c0f8b` on `4ce754b5` -- all added, each at ONE value across every config that tags it
+  (`.616`, `.735`, `.736`, `.769`). Proved on Chisa6 with log-only menu dumps: before, one frame of five drew the face on
+  `34ba67b2` with every face list `false`; after, the same frame's list said `true` and bound the mod's face. The tool
+  for that is a per-draw count over the log: a draw of a component where EVERY one of its lists says `false` is a
+  dropped texture (the passes a config leaves alone on purpose are the same in every frame, so compare frames).
+  Chisa -> ChisaParfait also never set `shapeKeyDispatchSize` (a batched mod, Chisa14, kept Chisa's 1441 where the
+  skin dispatches 1301 -- Lynae9's spikes); set both ways now. **Sanhua kept no shape keys at all** (the defaults:
+  `hiddenObjs` hides the overrides, which also comments them out of the mod's OWN text, and `zeroShapeKeyStream`):
+  on the target the face never moved, and the mod's own character read the game's offsets by the mod's vertex ids.
+  Both Sanhua directions now keep them (`hiddenObjs = {}`, no zero stream, the target's `dispatch_y`: 853 onto the
+  Exorcist, 963 onto Sanhua); both skins number their keys identically, so no `shapeKeyOrder`. That needed one
+  template change: the shape-key overrides go into ONE file of a multi-file fix whatever the target's bone count
+  (they repeated in every copy -- the giant-polygon failure -- and also in ChisaParfait -> Chisa's copies). **The
+  Sanhua half is checked offline only** (every fix runs, each mod's overrides land in one file), not in game.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

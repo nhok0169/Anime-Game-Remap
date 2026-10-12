@@ -1881,6 +1881,7 @@ By default, the mod will show on both the original character and the remapped ch
             hash = 7c6fc8c3
             match_first_index = 0
             run = CommandListKeqingHeadKeqingOpulentRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingHeadKeqingOpulentRemapFix]
             if $swapvar == 0
@@ -1899,6 +1900,7 @@ By default, the mod will show on both the original character and the remapped ch
             hash = 7c6fc8c3
             match_first_index = 19623
             run = CommandListKeqingBodyKeqingOpulentRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingBodyKeqingOpulentRemapFix]
             if $swapvar == 0
@@ -6146,6 +6148,7 @@ Mods for Shenhe and Raiden will not be fixed.
             hash = 7c6fc8c3
             match_first_index = 0
             run = CommandListKeqingHeadKeqingOpulentRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingHeadKeqingOpulentRemapFix]
             if $swapvar == 0
@@ -6164,6 +6167,7 @@ Mods for Shenhe and Raiden will not be fixed.
             hash = 7c6fc8c3
             match_first_index = 19623
             run = CommandListKeqingBodyKeqingOpulentRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingBodyKeqingOpulentRemapFix]
             if $swapvar == 0
@@ -6540,6 +6544,7 @@ Mods for Shenhe and Raiden will not be fixed.
             hash = 7c6fc8c3
             match_first_index = 0
             run = CommandListKeqingHeadKeqingOpulentRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingHeadKeqingOpulentRemapFix]
             if $swapvar == 0
@@ -6558,6 +6563,7 @@ Mods for Shenhe and Raiden will not be fixed.
             hash = 7c6fc8c3
             match_first_index = 19623
             run = CommandListKeqingBodyKeqingOpulentRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingBodyKeqingOpulentRemapFix]
             if $swapvar == 0
@@ -6576,6 +6582,7 @@ Mods for Shenhe and Raiden will not be fixed.
             hash = 7c6fc8c3
             match_first_index = 19623
             run = CommandListKeqingHeadKeqingOpulentBodyRemapFix
+            run = CommandList\global\ORFix\NNFix
 
             [CommandListKeqingHeadKeqingOpulentBodyRemapFix]
             if $swapvar == 0

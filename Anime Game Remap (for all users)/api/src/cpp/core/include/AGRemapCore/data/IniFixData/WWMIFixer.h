@@ -375,6 +375,18 @@ namespace AGRemapCore {
              @endrst
              */
             int flags = 0;
+            /**
+             * @brief
+             @rst
+             ``{new role: role of from}``: a role the rerouted draws bind under a name of their own,
+             served by the file ``from`` binds for the other role. A :cpp:member:`texEdits` entry on
+             the new name then edits a copy for the new slot alone -- eg. a mask whose channels the
+             new slot reads differently -- while the source's own slot keeps its own edit. Keep the
+             KIND (what follows the first capital: ``filmMask`` for ``jacketMask``), or the mod's own
+             line binding the file is not re-keyed onto it
+             @endrst
+             */
+            std::map<std::string, std::string> roleAliases;
         };
 
         /**

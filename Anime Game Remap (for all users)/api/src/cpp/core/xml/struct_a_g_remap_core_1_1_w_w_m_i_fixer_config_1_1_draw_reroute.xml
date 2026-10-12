@@ -74,18 +74,41 @@ its vertices carry any of them
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="377" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="377" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a8c0b44ed3d0a7bdf137198fa18cec358" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; AGRemapCore::WWMIFixerConfig::DrawReroute::roleAliases</definition>
+        <argsstring></argsstring>
+        <name>roleAliases</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::roleAliases</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``{new role: role of from}``: a role the rerouted draws bind under a name of their own,
+served by the file ``from`` binds for the other role. A :cpp:member:`texEdits` entry on
+the new name then edits a copy for the new slot alone -- eg. a mask whose channels the
+new slot reads differently -- while the source&apos;s own slot keeps its own edit. Keep the
+KIND (what follows the first capital: ``filmMask`` for ``jacketMask``), or the mod&apos;s own
+line binding the file is not re-keyed onto it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="389" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>Some draws of one source component, sent through a different target slot. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="352" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="352" bodyend="378"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="352" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="352" bodyend="390"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>codeRole</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>flags</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>from</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a8c0b44ed3d0a7bdf137198fa18cec358" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>roleAliases</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

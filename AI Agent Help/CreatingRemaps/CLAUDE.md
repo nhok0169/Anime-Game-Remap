@@ -872,6 +872,60 @@ these steps taught:
 
 <br>
 
+## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)
+
+**Read this before chasing vertex groups for a report of jagged, torn or stretched triangles.** The first report
+("FischlHighness looks slightly jagged") had a clean blend table, and the cause was a whole drawn object coming
+from the GAME's index buffer: the parser saw an object the mod does not draw, registered the game's `ib` as a
+download, and the fix drew it over the mod's own vertices -- whose order the game's indices do not match. An
+audit then found the same bug in six shapes. All are fixed on every GI template (branch
+`fix-fischl-undrawn-dress`, 2026-10-10/12), and each has a synthetic repro in the 2026-10-10 audit:
+
+| Mod shape | What went wrong | Where it is handled now |
+| --- | --- | --- |
+| an object the mod has no section for, ib skipped | game ib downloaded and drawn (Fischl -> FischlHighness: the dress) | `GIMICharParser::dropUndrawnObjDownloads`, `GIMIComponentParser::findUndrawnSlots` |
+| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` with `ModBranches::valsThroughRun`, any branch |
+| a variant that only says `handling = skip` | `drawindexed = auto` filled into the skip branch (Ayaka9/10: shards in 4 of 7) | the classic draw fill skips a `handling = skip` part |
+| a variant that switches the mod off (`$vision`, a vanilla variant) | the target's own model drawn with the source's ib (ShenheFrostFlower, CherryHutao5) | `dropUnneededObjDownloads`: Z3 keeps an ib download only if some state draws without the mod's ib |
+| a skin slot drawn in some variants, skipped in others | the merge used the download for EVERY branch | `GIMIMergeFixer` drops downloads from a slot's ib list when the mod has its own |
+| a state the component fixer never split | an EMPTY split ib bound before `drawindexed = auto` | bound as `ib = null` (`nullDownloadSplits_`) |
+| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`TextureOverrides::adopt`) |
+
+**The check that names it without the game:** `Tools/Misc/Diagnostics/checkUndrawnDL.py <fixed folder>` -- every
+remapped draw that can use a `Resource...RemapDL` ib in a file whose mod skips its own. It reports the pre-fix
+Fischl output and passes the fixed one. Its `GAME` lines are paths it cannot correlate across sections (a
+`$swapvar` set in one section and tested in another); read those by hand before believing them.
+
+**And when the report is GREEN instead of shards, check the fix call exists before anything else.** A merged
+master whose object section is nothing but `run = CommandList<Obj>`, with the draw left on the shared ib section
+(`moveDrawIndexed` off), got NO `NNFix` at all until 2026-10-11 -- `RegDelimitedAdd` placed only at entry nodes,
+and that path ends at a call's exit. CherryHutao5 on Hu Tao was neon green in every variant; 24 of 245 sweep mods
+had the same gap. The first fix of it then put a SECOND `ORFix` after draws that already had one (Ayaka9's bra),
+which `bareFixCalls.py` catches. See "The fix libraries are involutions" below.
+
+**A mod that is green on its OWN outfit card but right on the remap target is not the remap.** Most older mods
+never call `NNFix` themselves and predate GI 6.x; the remap only fixes its own copy. Prove it once per round with a
+control: undo one mod's fix (`--undo`) and its own card stays green while the target cards go vanilla.
+
+## AN IN-GAME ROUND OVER MANY MODS: the loop that worked for 23 (2026-10-12)
+
+Grouped by remap TARGET outfit, one shop page per group, about two minutes a mod:
+
+1. **Re-fix every live mod with the build under test first** (`FixRaidenBoss7.py -s <folder>`), then `cmp` one
+   fixed `.ini` against the verified sweep output -- the game must show the build you measured.
+2. **Journal your own folder moves** (Overview habit 109). Park the user's loaded mod of the same character
+   while testing, so two mods do not draw over one hash.
+3. **Verify the page by its TITLE before every capture**: crop the outfit name (view `1420,720` to `1860,830`)
+   after each arrow click. The arrows step one outfit at a time and the order is not alphabetical; three
+   captures in this round were taken on the wrong page and looked plausible.
+4. **Capture both cards in one script** (reload, wait for the warning overlay to clear, click base card, shoot,
+   click skin card, shoot, paste side by side). The overlay with ~30 mods loaded takes up to five minutes to
+   clear; a page with three cards (Jean) needs the third card's position.
+5. **Judge the remap TARGET card**; the mod's own card is the control and may be green (above).
+6. **Use `compare`** (mods vs F9 in the same frame) where the remapped model looks like the vanilla one -- it
+   showed LumineHeavenSynth drawing on Lumine when the two cards alone could not.
+7. **Finish with a restore and a `diff` of `Mods` against the listing taken before the first move.**
+
 ## START HERE: which kind of remap request is this (2026-09-20)
 
 This file is long and its sections were written in the order they were learned, not in the order

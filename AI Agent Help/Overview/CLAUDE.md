@@ -1937,6 +1937,54 @@ golden change is also a docs change: regenerate the page with `Tools/Misc/Docs/g
 and check only the expected example moved. Testing's "Regenerating ONE API docs golden from Windows"
 has the recipe.
 
+**105. A CHANGE TO SHARED FIX CODE IS PROVED BY A SWEEP, NOT BY THE MOD THAT REPORTED IT (2026-10-11).** One
+user report ("Fischl has jagged polygons") turned into six fixes, and three of them changed mods nobody had
+complained about. The method that kept that safe: copy a large set of real mods ONCE into a scratch tree
+(the 2026-10-11 session used 228 real folders plus synthetic repros, textures dropped to keep it at 6.5 GB),
+fix a copy of it with the CURRENT build **before** rebuilding, rebuild, fix a second copy, and hash-compare
+the two per mod folder. Every folder that moved gets read; every folder that did not is proof. Three rules
+fall out of it. **Snapshot the baseline before the rebuild** -- after it, the old output is gone (habit 56).
+**A quick diff of only `.ini` and `.ib` files answers in minutes** what a full 13 GB hash takes an hour to; run
+the full one too, but read the quick one first. **And the build cannot install while any fix run holds the
+`.pyd`**: `build.bat` printed `COPY_FAILED` and the old module kept serving, so list `python.exe` processes
+(`Get-CimInstance Win32_Process -Filter "Name='python.exe'"`) before every build and after any sub-agent.
+
+**106. A DIAGNOSTIC THAT REPORTS ZERO MAY NOT HAVE LOOKED, AND THE ONE THAT WOULD HAVE CAUGHT IT MAY ALREADY BE
+IN THE REPO (2026-10-12).** `fixCallPaths.py` counts fix calls BEFORE a draw, so a build that added an `ORFix`
+AFTER every draw passed it -- and the game found the green bra on Ayaka9. `bareFixCalls.py`, already in
+`Tools/Misc/Diagnostics`, flags exactly that (1 bare call on the bad build, 0 on the fixed one) and nobody ran
+it. `unfixedDraws.py` reports "0 draws checked" on a merged master whose draw sits on the shared ib section --
+a zero that means "did not look", so it could not see the CherryHuTao gap. **Before calling a fix-placement
+change done, run all four call checkers** (`fixCallPaths.py`, `bareFixCalls.py`, `unfixedDraws.py`,
+`checkUndrawnDL.py`) over the sweep, and read the "checked N" line of each before believing its zero.
+
+**107. HAND-EDIT THE FIXED `.ini`, SEE IT IN GAME, THEN CHANGE CODE -- AND MAKE THE CODE REPRODUCE THE HAND EDIT
+BYTE FOR BYTE (2026-10-11).** Both the Fischl shards (comment out one dress draw) and the CherryHuTao green (add
+one `NNFix` per section) were settled by a one-line edit of the generated file and one look in game, before any
+C++ was touched. The edit is then the specification: the rebuilt fix's output was `cmp`-identical to it. This
+is habit 79-80 again, and it held for a bug that turned out to live in a shared placement rule.
+
+**108. A SUB-AGENT AUDIT IS CHEAP AND FINDS THE SHAPES YOU DID NOT THINK OF -- READ ITS REPORT AS A LIST OF
+HYPOTHESES (2026-10-10).** One background agent, asked "where else can this bug happen", built 16 synthetic
+repros and swept 228 mods in about an hour and found six distinct shapes. Every one it called vulnerable was;
+one it called "low impact" was right too. Two costs to plan for: its stuck child processes held the `.pyd`
+(it could not kill them -- the permission check denied it -- so ask the user, never route around it), and it
+kept editing its scratch tree while a later sweep read it, so one synthetic folder changed between two runs
+for a reason that had nothing to do with the build.
+
+**109. KEEP YOUR OWN JOURNAL OF EVERY FOLDER YOU MOVE, AND DIFF `Mods` AGAINST A LISTING TAKEN BEFORE YOU START
+(2026-10-11).** `GameView mods ... restore` replays the WHOLE journal, including moves earlier sessions left
+behind, and it pulled six unrelated mods into `Mods` on a "restore". Take `ls Mods > start.txt` before the first
+move, log each `os.rename` in a scratch journal, restore from it newest-first, and finish with `diff` against
+the listing. Also: a rename of a mod folder can fail with `Access is denied` for a few seconds after a reload
+(the game holds a handle) -- retry with a short wait rather than giving up.
+
+**110. WHEN THE USER ASKS FOR A NEXT STEP, SAY WHAT IS LEFT AFTER IT (2026-10-12).** Fixes 1-6 of one audit, an
+in-game round of 23 mods and a cross-file feature were each requested one at a time. What made that cheap for
+the user was ending each answer with the short list of what remained (the next fix, the in-game check, the
+scratch to delete), so the next request was one line. Write that list from the state on disk, not from memory:
+an "is it done yet" between turns is a request for exactly that.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

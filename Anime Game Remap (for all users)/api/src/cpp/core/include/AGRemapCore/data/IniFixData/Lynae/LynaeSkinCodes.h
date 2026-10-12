@@ -54,10 +54,11 @@ namespace AGRemapCore {
      @rst
      Bakes Lynae's sheer stockings into a lower-body diffuse for LynaePeppermint :raw-html:`<br />` :raw-html:`<br />`
 
-     Lynae's lower-body shader draws material code 1 as a sheer stocking over the skin under it;
-     LynaePeppermint's has no such material and draws code 1 as plain cloth, so stockings came out as
-     bare legs. Every flesh-coloured texel whose code is 1 is desaturated toward its luminance and
-     cooled, the look Lynae's shader gives it. The code map is the mod's own ``lowerDetail`` when it
+     Lynae's lower-body shader draws every material code but skin (0) as a stocking over the skin under
+     it -- each in its own tone -- and LynaePeppermint's draws all of them as plain skin, so stockings
+     came out as bare legs. Every flesh-coloured texel under codes 1-4 is multiplied by that code's ratio
+     of Lynae's render to LynaePeppermint's, measured in game with each code bound flat. The shader's
+     view-dependent shading (darker sides, gloss) cannot be baked, so the result is paler. The code map is the mod's own ``lowerDetail`` when it
      binds one by default, otherwise Lynae's game map (``gameFileOfRole``); without either the texture
      is left as it is
      @endrst

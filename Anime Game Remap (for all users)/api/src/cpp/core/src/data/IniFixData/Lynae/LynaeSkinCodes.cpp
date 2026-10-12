@@ -85,12 +85,16 @@ namespace AGRemapCore {
                 return;
             }
 
-            // Measured on Lynae11 in the menu: her shader renders skin under code 1 at about
-            // x(0.83, 0.89, 0.99) and greyer; a bake strong enough to read as stockings on the
-            // skin's cloth shading is 90% toward the luminance, then x(0.84, 0.86, 0.93)
-            constexpr double Desat = 0.9;
-            constexpr double Gain[3] = {0.84, 0.86, 0.93};
-            constexpr std::uint8_t SheerCode = 1;
+            // Per Lynae code: the median leg colour Lynae renders with that code bound flat, over the
+            // median LynaePeppermint renders with the code it becomes after lynaeSkinCodeSwap (menu,
+            // Lynae11, 2026-10-12). Code 0 is skin on Lynae and stays as it is
+            constexpr double Ratio[5][3] = {
+                {1.0, 1.0, 1.0},
+                {0.866, 0.884, 0.935},
+                {0.910, 1.000, 1.043},
+                {0.883, 0.903, 0.918},
+                {0.890, 0.987, 1.022},
+            };
 
             const int w = tex.getWidth();
             const int h = tex.getHeight();
@@ -104,7 +108,8 @@ namespace AGRemapCore {
                     const std::size_t i = (static_cast<std::size_t>(y) * w + x) * 4;
                     const int cx = std::min(cw - 1, static_cast<int>((static_cast<long long>(x) * cw) / w));
                     const std::size_t c = (static_cast<std::size_t>(cy) * cw + cx) * 4;
-                    if (i + 3 >= px.size() || c >= code.size() || (code[c] & 0x0F) != SheerCode) {
+                    const int material = c < code.size() ? (code[c] & 0x0F) : 0;
+                    if (i + 3 >= px.size() || material == 0 || material > 4) {
                         continue;
                     }
 
@@ -115,10 +120,9 @@ namespace AGRemapCore {
                         continue;                  // not skin: the stocking is sheer only over skin
                     }
 
-                    const double lum = 0.299 * r + 0.587 * g + 0.114 * b;
                     const int in[3] = {r, g, b};
                     for (int k = 0; k < 3; ++k) {
-                        const double v = (lum + (in[k] - lum) * (1.0 - Desat)) * Gain[k];
+                        const double v = in[k] * Ratio[material][k];
                         px[i + k] = static_cast<std::uint8_t>(std::lround(std::min(255.0, std::max(0.0, v))));
                     }
                 }

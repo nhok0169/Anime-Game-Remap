@@ -401,9 +401,36 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             px[..., :3] = np.where(mask[..., None], pushed, px[..., :3])
             tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
         return run
+    # ---- her stockings: Lynae draws every non-skin code of the lower body's code map as a stocking, the
+    # skin draws them as skin; flesh-coloured texels under codes 1-4 take that code's measured ratio of the
+    # two renders (core's lynaeSheerBake) ----
+    sheerRatio = {1: (0.866, 0.884, 0.935), 2: (0.910, 1.000, 1.043), 3: (0.883, 0.903, 0.918), 4: (0.890, 0.987, 1.022)}
+    def sheerBake(ctx):
+        import numpy as np
+        codePath = ctx.fileOfRole.get("lowerDetail") or ctx.gameFileOfRole.get("lowerDetail", "")
+        def run(tex):
+            if not codePath:
+                return
+            codes = FRB.TextureFile(codePath)
+            codes.open()
+            if not codes.hasImage:
+                return
+            w, h = tex.width, tex.height
+            c = np.frombuffer(bytes(codes.getPixels()), np.uint8).reshape(codes.height, codes.width, 4)[..., 0]
+            c = c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 15
+            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
+            r, g, b = px[..., 0], px[..., 1], px[..., 2]
+            flesh = (r >= 120) & (r - g >= 10) & (g >= b - 8)
+            for code, k in sheerRatio.items():
+                s = flesh & (c == code)
+                px[..., :3][s] = np.floor(np.clip(px[..., :3][s] * np.array(k), 0, 255) + 0.5)
+            tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
+        return run
+    sheer = FRB.WWMIFixerConfig.TexEdit("lowerDiffuse", "Sheer", sheerBake)
+    sheer.sourceGameRoles = ["lowerDetail"]
     grade = FRB.WWMIFixerConfig.TexEdit("propsDiffuse", "Grade", propsGrade)
     grade.sourceGameRoles = ["propsDiffuse"]
-    config.texEdits = config.texEdits + [grade]
+    config.texEdits = config.texEdits + [sheer, grade]   # the compiled config's order
 
     # Masks mark regions: a flat one from a mod says "all of this is one material"
     # Her own masks are flat in places on purpose (her hair mask is one value over the whole texture,

@@ -152,8 +152,8 @@ namespace AGRemapCore {
             {"jacketMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
         };
 
-        // ---- her sheer stockings (code 1 in the lower body's code map) are a material the skin's shader
-        // does not have, so they are baked into the diffuse: see lynaeSheerBake ----
+        // ---- her stockings (every non-skin code of the lower body's code map) are materials the skin's
+        // shader does not have, so they are baked into the diffuse: see lynaeSheerBake ----
         WWMIFixerConfig::TexEdit sheer{"lowerDiffuse", "Sheer", [](const WWMIFixerConfig::TexEditContext& ctx) {
             return lynaeSheerBake(ctx);
         }};

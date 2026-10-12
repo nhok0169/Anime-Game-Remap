@@ -3107,6 +3107,18 @@ Read this before touching `NNFix`, `ORFix` or `RegDelimitedAdd` anywhere. It is 
 multi-component fact -- it moved both templates, and it had been wrong for every mod of a shape
 nobody had tested.
 
+**And "once" had a hole: a path can END where a `run =` returns (fixed 2026-10-11).** `editPerPath`
+inserted only at a part's ENTRY node, so a merged master whose section is nothing but
+`run = CommandList<Obj>` -- the list binding `ib`s and textures, the draw left on the shared ib section
+(`moveDrawIndexed` off) -- had its only path end at the call's EXIT node and got NO fix call at all.
+CherryHuTao onto HuTao rendered neon green in every variant; 24 of 245 sweep mods (Jean, Keqing,
+Nilou, Xiangling, Xingqiu, Ningguang, Shenhe, Klee...) gained 85 `NNFix` / 18 `ORFix` lines when an
+exit node was allowed to take the addition at the end of its part. **The first build of that doubled
+16 sections**: after a call to an EXTERNAL list (TexFx) the return edge is invisible to `covered`, so
+the exit added a second call right after the entry's -- `fixCallPaths.py` went 5 -> 21 and back to 5
+once an exit skips a part whose entry inserted or was covered. Run `fixCallPaths.py` over a sweep
+before and after ANY change to this edit; a count that moves is a finding.
+
 The rule used to be "immediately before every `drawindexed`, and once at the end of a path that
 draws nothing". That is right only while **no path draws more than once**, and silently wrong
 otherwise, because these command lists do not *set* the registers -- they **re-slot the ones already

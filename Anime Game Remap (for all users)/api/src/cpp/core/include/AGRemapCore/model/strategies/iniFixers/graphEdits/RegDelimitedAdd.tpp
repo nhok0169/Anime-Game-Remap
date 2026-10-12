@@ -407,6 +407,7 @@ namespace AGRemapCore {
             }
         }
 
+        std::unordered_set<ContentPart*> inserted;
         for (ContentPart* part : reachable) {
             const Node entry{part, false};
             if (covered[entry] || !mustInsert(entry)) {
@@ -419,6 +420,44 @@ namespace AGRemapCore {
                 index = indsIt->second.front();
             }
 
+            if (partFilter) {
+                auto iterIt = iterDataOf.find(part);
+                if (iterIt != iterDataOf.end()) {
+                    const OrderRanges allowed = partFilter(iterIt->second, modType, nullptr);
+                    if (!allowed.has(index)) {
+                        continue;
+                    }
+                }
+            }
+
+            addAdditionsAt(*part, index);
+            inserted.insert(part);
+        }
+
+        // A PATH CAN END WHERE A `run =` RETURNS (2026-10-11). The loop above inserts only at ENTRY
+        // nodes, so a path whose last node is the EXIT of a calling part -- a section that is nothing
+        // but `run = CommandList...`, whose list draws nothing, the draw living in a section outside
+        // this graph -- had no node to take the addition, and it was dropped without a word. Every
+        // merged master of a character whose fix leaves the draw on the shared ib section came out
+        // with no NNFix, and rendered in the light map's colours (CherryHuTao onto HuTao: neon green).
+        // Such an exit takes the addition at the end of its part. Not when the part delimits itself,
+        // and not when its ENTRY already holds or follows the addition: a call to an EXTERNAL list
+        // (TexFx) returns through an edge this analysis cannot see, so `covered` cannot carry the
+        // entry's addition across it -- and the exit then added a second NNFix right after the first
+        // (KiraraBoots, NilouBreeze), which undoes it.
+        for (ContentPart* part : reachable) {
+            const Node exit = callGraph.exitNodeOf(part);
+            if (!exit.isExit || covered[exit] || !mustInsert(exit)
+                    || inserted.count(part) != 0 || covered[Node{part, false}]) {
+                continue;
+            }
+
+            auto indsIt = delimiterInds.find(part);
+            if (indsIt != delimiterInds.end() && !indsIt->second.empty()) {
+                continue;
+            }
+
+            const long long index = static_cast<long long>(part->size());
             if (partFilter) {
                 auto iterIt = iterDataOf.find(part);
                 if (iterIt != iterDataOf.end()) {

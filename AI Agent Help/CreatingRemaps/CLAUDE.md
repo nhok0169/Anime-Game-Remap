@@ -3116,8 +3116,14 @@ Nilou, Xiangling, Xingqiu, Ningguang, Shenhe, Klee...) gained 85 `NNFix` / 18 `O
 exit node was allowed to take the addition at the end of its part. **The first build of that doubled
 16 sections**: after a call to an EXTERNAL list (TexFx) the return edge is invisible to `covered`, so
 the exit added a second call right after the entry's -- `fixCallPaths.py` went 5 -> 21 and back to 5
-once an exit skips a part whose entry inserted or was covered. Run `fixCallPaths.py` over a sweep
-before and after ANY change to this edit; a count that moves is a finding.
+once an exit skips a part whose entry inserted or was covered. **And the game found one the checker
+could not**: a merged master that DRAWS in every branch of its CommandList (bind, TexFx, ORFix,
+`drawindexed`) still got a trailing ORFix after the call, because the continuation after an external
+call reads as clean -- Ayaka9's bra turned green on Springbloom Missive. An exit now also requires that
+nothing between the part's entry and its exit draws or took the addition (`regionIsBare`); that changed
+only Ayaka9 and LumineHeavenSynth in the sweep and was confirmed in game. `fixCallPaths.py` counts calls
+BEFORE a draw, so a call placed after every draw is invisible to it. Run it over a sweep
+before and after ANY change to this edit; a count that moves is a finding -- and so is a picture.
 
 The rule used to be "immediately before every `drawindexed`, and once at the end of a path that
 draws nothing". That is right only while **no path draws more than once**, and silently wrong

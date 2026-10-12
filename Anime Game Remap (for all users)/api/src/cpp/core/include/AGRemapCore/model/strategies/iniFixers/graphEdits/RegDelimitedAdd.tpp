@@ -445,10 +445,46 @@ namespace AGRemapCore {
         // (TexFx) returns through an edge this analysis cannot see, so `covered` cannot carry the
         // entry's addition across it -- and the exit then added a second NNFix right after the first
         // (KiraraBoots, NilouBreeze), which undoes it.
+        //
+        // AND ONLY WHEN NOTHING THE CALL REACHES DRAWS OR TOOK THE ADDITION. `clean` cannot be trusted
+        // across a part that calls an external list and then draws: the draw is credited to the part's
+        // entry, while the continuation after the external call is a separate node with no visible
+        // predecessor, so it reads as clean. An Ayaka merged master draws in every branch of its
+        // CommandList (bind, TexFx, ORFix, drawindexed) and still got a second ORFix after the call --
+        // run after every draw, which re-slotted the registers back and turned a later draw green. So
+        // the region between the part's entry and its exit is walked, and any delimiter or insertion
+        // in it vetoes the exit.
+        auto regionIsBare = [&](ContentPart* part, const Node& exit) {
+            std::unordered_set<Node, NodeHash> seen;
+            std::vector<Node> stack;
+            auto push = [&](const Node& from) {
+                auto it = forwardEdges.find(from);
+                if (it == forwardEdges.end()) {
+                    return;
+                }
+                for (const Node& next : it->second) {
+                    if (!(next == exit) && seen.insert(next).second) {
+                        stack.push_back(next);
+                    }
+                }
+            };
+            push(Node{part, false});
+            while (!stack.empty()) {
+                const Node node = stack.back();
+                stack.pop_back();
+                auto indsIt = delimiterInds.find(node.part);
+                if ((indsIt != delimiterInds.end() && !indsIt->second.empty()) || inserted.count(node.part) != 0) {
+                    return false;
+                }
+                push(node);
+            }
+            return true;
+        };
+
         for (ContentPart* part : reachable) {
             const Node exit = callGraph.exitNodeOf(part);
             if (!exit.isExit || covered[exit] || !mustInsert(exit)
-                    || inserted.count(part) != 0 || covered[Node{part, false}]) {
+                    || inserted.count(part) != 0 || covered[Node{part, false}] || !regionIsBare(part, exit)) {
                 continue;
             }
 

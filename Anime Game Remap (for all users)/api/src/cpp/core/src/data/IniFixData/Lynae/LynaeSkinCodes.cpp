@@ -14,6 +14,7 @@
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <optional>
@@ -62,73 +63,113 @@ namespace AGRemapCore {
         };
     }
 
-    TexEditor::Filter lynaeSheerBake(const WWMIFixerConfig::TexEditContext& ctx) {
-        std::string codePath;
-        const auto own = ctx.fileOfRole.find("lowerDetail");
-        if (own != ctx.fileOfRole.end()) {
-            codePath = own->second;
-        } else {
-            const auto game = ctx.gameFileOfRole.find("lowerDetail");
-            if (game != ctx.gameFileOfRole.end()) {
-                codePath = game->second;
+    namespace {
+        using CodeRatios = std::array<std::array<double, 3>, 16>;
+
+        // The code map a bake of 'detailRole' reads: the mod's own when it binds one by default, else
+        // Lynae's game map (a role the mod binds only under a toggle is left out of fileOfRole)
+        std::string codeMapOf(const WWMIFixerConfig::TexEditContext& ctx, const std::string& detailRole) {
+            const auto own = ctx.fileOfRole.find(detailRole);
+            if (own != ctx.fileOfRole.end()) {
+                return own->second;
             }
+
+            const auto game = ctx.gameFileOfRole.find(detailRole);
+            return game == ctx.gameFileOfRole.end() ? std::string() : game->second;
         }
 
-        return [codePath](TextureFile& tex) {
-            if (codePath.empty()) {
-                return;
-            }
+        // Every texel whose material (low four bits of the code map, sampled at the texel's UV) has a
+        // ratio other than 1 is multiplied by it -- only flesh-coloured texels when 'fleshOnly'
+        TexEditor::Filter codeRatioBake(const std::string& codePath, const CodeRatios& ratios, bool fleshOnly) {
+            return [codePath, ratios, fleshOnly](TextureFile& tex) {
+                if (codePath.empty()) {
+                    return;
+                }
 
-            TextureFile codes(codePath);
-            codes.open();
-            if (!codes.hasImage()) {
-                return;
-            }
+                TextureFile codes(codePath);
+                codes.open();
+                if (!codes.hasImage()) {
+                    return;
+                }
 
-            // Per Lynae code: the median leg colour Lynae renders with that code bound flat, over the
-            // median LynaePeppermint renders with the code it becomes after lynaeSkinCodeSwap (menu,
-            // Lynae11, 2026-10-12). Code 0 is skin on Lynae and stays as it is
-            constexpr double Ratio[5][3] = {
-                {1.0, 1.0, 1.0},
-                {0.866, 0.884, 0.935},
-                {0.910, 1.000, 1.043},
-                {0.883, 0.903, 0.918},
-                {0.890, 0.987, 1.022},
+                const int w = tex.getWidth();
+                const int h = tex.getHeight();
+                const int cw = codes.getWidth();
+                const int ch = codes.getHeight();
+                const std::vector<std::uint8_t>& code = codes.getPixels();
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (int y = 0; y < h; ++y) {
+                    const int cy = std::min(ch - 1, static_cast<int>((static_cast<long long>(y) * ch) / h));
+                    for (int x = 0; x < w; ++x) {
+                        const std::size_t i = (static_cast<std::size_t>(y) * w + x) * 4;
+                        const int cx = std::min(cw - 1, static_cast<int>((static_cast<long long>(x) * cw) / w));
+                        const std::size_t c = (static_cast<std::size_t>(cy) * cw + cx) * 4;
+                        if (i + 3 >= px.size() || c >= code.size()) {
+                            continue;
+                        }
+
+                        const std::array<double, 3>& ratio = ratios[code[c] & 0x0F];
+                        if (ratio[0] == 1.0 && ratio[1] == 1.0 && ratio[2] == 1.0) {
+                            continue;
+                        }
+
+                        const int in[3] = {px[i], px[i + 1], px[i + 2]};
+                        if (fleshOnly && (in[0] < 120 || in[0] - in[1] < 10 || in[1] < in[2] - 8)) {
+                            continue;
+                        }
+
+                        for (int k = 0; k < 3; ++k) {
+                            const double v = in[k] * ratio[k];
+                            px[i + k] = static_cast<std::uint8_t>(std::lround(std::min(255.0, std::max(0.0, v))));
+                        }
+                    }
+                }
+
+                tex.setPixels(std::move(px), w, h);
             };
+        }
 
-            const int w = tex.getWidth();
-            const int h = tex.getHeight();
-            const int cw = codes.getWidth();
-            const int ch = codes.getHeight();
-            const std::vector<std::uint8_t>& code = codes.getPixels();
+        CodeRatios identityRatios() {
+            CodeRatios out{};
+            for (auto& r : out) {
+                r = {1.0, 1.0, 1.0};
+            }
+
+            return out;
+        }
+    }
+
+    TexEditor::Filter lynaeSheerBake(const WWMIFixerConfig::TexEditContext& ctx) {
+        // Per Lynae code: the median leg colour Lynae renders with that code bound flat, over the median
+        // LynaePeppermint renders with the code it becomes after lynaeSkinCodeSwap (menu, Lynae11,
+        // 2026-10-12). Code 0 is skin on Lynae and stays as it is
+        CodeRatios ratios = identityRatios();
+        ratios[1] = {0.866, 0.884, 0.935};
+        ratios[2] = {0.910, 1.000, 1.043};
+        ratios[3] = {0.883, 0.903, 0.918};
+        ratios[4] = {0.890, 0.987, 1.022};
+        return codeRatioBake(codeMapOf(ctx, "lowerDetail"), ratios, true);
+    }
+
+    TexEditor::Filter lynaeFilmBake(const WWMIFixerConfig::TexEditContext& ctx) {
+        // The coat lining, Lynae code 4: her render of it (a pink-red film) over LynaePeppermint's with the
+        // code moved to 49 by lynaeFilmCode (menu, Lynae11 -- whose coat texture is Lynae's own, 2026-10-12)
+        CodeRatios ratios = identityRatios();
+        ratios[4] = {2.0, 0.89, 0.88};
+        return codeRatioBake(codeMapOf(ctx, "jacketDetail"), ratios, false);
+    }
+
+    TexEditor::Filter lynaeFilmCode() {
+        return [](TextureFile& tex) {
+            tex.setGamma(std::nullopt);          // codes, not colour
             std::vector<std::uint8_t> px = tex.getPixels();
-            for (int y = 0; y < h; ++y) {
-                const int cy = std::min(ch - 1, static_cast<int>((static_cast<long long>(y) * ch) / h));
-                for (int x = 0; x < w; ++x) {
-                    const std::size_t i = (static_cast<std::size_t>(y) * w + x) * 4;
-                    const int cx = std::min(cw - 1, static_cast<int>((static_cast<long long>(x) * cw) / w));
-                    const std::size_t c = (static_cast<std::size_t>(cy) * cw + cx) * 4;
-                    const int material = c < code.size() ? (code[c] & 0x0F) : 0;
-                    if (i + 3 >= px.size() || material == 0 || material > 4) {
-                        continue;
-                    }
-
-                    const int r = px[i];
-                    const int g = px[i + 1];
-                    const int b = px[i + 2];
-                    if (r < 120 || r - g < 10 || g < b - 8) {
-                        continue;                  // not skin: the stocking is sheer only over skin
-                    }
-
-                    const int in[3] = {r, g, b};
-                    for (int k = 0; k < 3; ++k) {
-                        const double v = in[k] * Ratio[material][k];
-                        px[i + k] = static_cast<std::uint8_t>(std::lround(std::min(255.0, std::max(0.0, v))));
-                    }
+            for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                if ((px[i] & 0x0F) == 4) {
+                    px[i] = px[i + 1] = px[i + 2] = 49;   // LynaePeppermint's coat film: material 1, flags 3
                 }
             }
 
-            tex.setPixels(std::move(px), w, h);
+            tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
         };
     }
 

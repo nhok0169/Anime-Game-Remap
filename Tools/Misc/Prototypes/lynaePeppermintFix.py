@@ -428,9 +428,43 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         return run
     sheer = FRB.WWMIFixerConfig.TexEdit("lowerDiffuse", "Sheer", sheerBake)
     sheer.sourceGameRoles = ["lowerDetail"]
+
+    # ---- her coat lining: code 4 of the jacket's code map is a film her shader draws pink-red and the
+    # skin's draws as plain cyan diffuse; the code moves to the skin's film code 49 and the texels under it
+    # take the measured tint (core's lynaeFilmCode / lynaeFilmBake) ----
+    def filmCode(ctx):
+        def run(tex):
+            tex.gamma = None
+            px = bytearray(tex.getPixels())
+            for i in range(0, len(px) - 3, 4):
+                if px[i] & 15 == 4:
+                    px[i] = px[i + 1] = px[i + 2] = 49
+            tex.setPixels(bytes(px), tex.width, tex.height)
+        return run
+    def filmBake(ctx):
+        import numpy as np
+        codePath = ctx.fileOfRole.get("jacketDetail") or ctx.gameFileOfRole.get("jacketDetail", "")
+        def run(tex):
+            if not codePath:
+                return
+            codes = FRB.TextureFile(codePath)
+            codes.open()
+            if not codes.hasImage:
+                return
+            w, h = tex.width, tex.height
+            c = np.frombuffer(bytes(codes.getPixels()), np.uint8).reshape(codes.height, codes.width, 4)[..., 0]
+            c = c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 15
+            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
+            s = c == 4
+            px[..., :3][s] = np.floor(np.clip(px[..., :3][s] * np.array([2.0, 0.89, 0.88]), 0, 255) + 0.5)
+            tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
+        return run
+    filmC = FRB.WWMIFixerConfig.TexEdit("jacketDetail", "Film", filmCode)
+    filmD = FRB.WWMIFixerConfig.TexEdit("jacketDiffuse", "Film", filmBake)
+    filmD.sourceGameRoles = ["jacketDetail"]
     grade = FRB.WWMIFixerConfig.TexEdit("propsDiffuse", "Grade", propsGrade)
     grade.sourceGameRoles = ["propsDiffuse"]
-    config.texEdits = config.texEdits + [sheer, grade]   # the compiled config's order
+    config.texEdits = config.texEdits + [sheer, filmC, filmD, grade]   # the compiled config's order
 
     # Masks mark regions: a flat one from a mod says "all of this is one material"
     # Her own masks are flat in places on purpose (her hair mask is one value over the whole texture,

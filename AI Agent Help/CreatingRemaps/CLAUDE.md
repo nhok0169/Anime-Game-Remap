@@ -725,6 +725,14 @@ the mod on its own card. What it found:
   `lowerDetail` when it binds one by default, else Lynae's game map -- `TexEditContext::fileOfRole` leaves out a role
   `planToggledRoles` flagged. The see-through skirt panel and the clear ID card stay opaque (an opaque shader cannot
   draw them; the card "pressing into" the skirt was that panel gone solid).
+* **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
+  OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a
+  holographic film that renders her cyan lining texture pink-red; LynaePeppermint draws code 4 as plain diffuse, and its
+  OWN film is code 49 (material 1, flags 3 -- found by binding Lynae's map with one code rewritten at a time). Two edits:
+  `lynaeFilmCode` moves every material-4 code to 49 in `jacketDetail`, and `lynaeFilmBake` multiplies the `jacketDiffuse`
+  texels under code 4 by the measured ratio of the two renders, (2.0, 0.89, 0.88). **Code 4 only**: moving code 3 too
+  turned the ice charm pink. Code map chosen as for `lynaeSheerBake`. Checked on Lynae11 and the identity mod; over 34
+  WuWa mods only Lynae -> LynaePeppermint outputs changed, and the prototype is byte-identical (41 files).
 * **A RED-BROWN SKIRT THAT IS BLACK ON LYNAE: A REGISTER THE MOD BINDS ONLY UNDER A TOGGLE (Lynae11, 2026-10-11).**
   Lynae11 binds its own material-code map (`ps-t2 = test1 / test2`) only `if $Pants != 0` and leaves the register to
   the GAME in its default outfit. The texture list bound `test1` unconditionally -- laid out for the pants, it coded the

@@ -160,6 +160,16 @@ namespace AGRemapCore {
         sheer.sourceGameRoles = {"lowerDetail"};
         config.texEdits.push_back(std::move(sheer));
 
+        // ---- her coat lining is a film (code 4 of the jacket's code map) the skin draws as plain cyan
+        // diffuse: the code moves to the skin's film code and the texels under it take the measured tint
+        // (see lynaeFilmCode / lynaeFilmBake) ----
+        config.texEdits.push_back({"jacketDetail", "Film", [](const WWMIFixerConfig::TexEditContext&) { return lynaeFilmCode(); }});
+        WWMIFixerConfig::TexEdit film{"jacketDiffuse", "Film", [](const WWMIFixerConfig::TexEditContext& ctx) {
+            return lynaeFilmBake(ctx);
+        }};
+        film.sourceGameRoles = {"jacketDetail"};
+        config.texEdits.push_back(std::move(film));
+
         // ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat
         // mutes under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders
         // alike on both, so the mod's DIFFERENCE from it is pushed further -- see lynaePropsGrade.

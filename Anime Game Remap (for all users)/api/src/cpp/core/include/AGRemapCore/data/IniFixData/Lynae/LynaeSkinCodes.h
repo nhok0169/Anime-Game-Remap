@@ -66,6 +66,34 @@ namespace AGRemapCore {
      @param ctx The mod being fixed
      */
     TexEditor::Filter lynaeSheerBake(const WWMIFixerConfig::TexEditContext& ctx);
+
+    /**
+     * @brief
+     @rst
+     Moves Lynae's coat film code to LynaePeppermint's in a jacket code map :raw-html:`<br />` :raw-html:`<br />`
+
+     Lynae's coat shader draws material 4 of her jacket's code map (the coat lining) as a holographic
+     film; LynaePeppermint's coat shader draws its own film as code 49 (material 1, flags 3) and code 4 as
+     plain diffuse. Every code with material 4 becomes 49
+     @endrst
+     */
+    TexEditor::Filter lynaeFilmCode();
+
+    /**
+     * @brief
+     @rst
+     Tints the texels of a jacket diffuse under Lynae's coat film code (4) for LynaePeppermint's film
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     Lynae's film renders the cyan lining texture as a pink-red rainbow; LynaePeppermint's film (see
+     :cpp:func:`lynaeFilmCode`) tints its foil by the diffuse, so the lining came out cyan. Those texels
+     are multiplied by the measured ratio of the two renders. The code map is chosen as for
+     :cpp:func:`lynaeSheerBake`
+     @endrst
+
+     @param ctx The mod being fixed
+     */
+    TexEditor::Filter lynaeFilmBake(const WWMIFixerConfig::TexEditContext& ctx);
 }
 
 #endif

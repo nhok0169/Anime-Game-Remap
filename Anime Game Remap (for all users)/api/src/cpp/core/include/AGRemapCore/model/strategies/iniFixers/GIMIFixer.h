@@ -361,8 +361,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Where each group of the last #fixImpl was written, one entry per group -- see
-             #FixTargets. Empty until a fix has run
+             Where each group of the last #fixImpl was written, one entry per group written -- see
+             #FixTargets. Empty until a fix has run :raw-html:`<br />` :raw-html:`<br />`
+
+             A generated copy (any group after the first) whose every `section`_ repeats one of the
+             first group's word for word draws nothing new, and is neither written nor listed here: a
+             ``.ini`` file that draws none of the mesh (a position watcher, a texture-only sibling)
+             would otherwise get a ``RemapFix`` copy that declares its hashes a second time
              @endrst
              */
             const FixTargets& fixTargets() const;

@@ -53,6 +53,17 @@ namespace AGRemapCore {
                  * @brief The resource the override binds in its place, stripped
                  */
                 std::string resource;
+
+                /**
+                 * @brief
+                 @rst
+                 The ``if`` blocks the ``this =`` sits in, outermost first: per block, every branch
+                 header from its opening ``if`` down to the branch holding the override (eg.
+                 ``{{"if $color == 0"}}``, or ``{{"if $color == 1", "else"}}`` for an ``else``
+                 branch), stripped. Empty for an unconditional override
+                 @endrst
+                 */
+                std::vector<std::vector<std::string>> branches;
             };
 
             /**
@@ -140,6 +151,26 @@ namespace AGRemapCore {
              @endrst
              */
             virtual bool isRecolourOnly() const = 0;
+
+            /**
+             * @brief
+             @rst
+             `Sections`_ the fix writes into every ``.ini`` file it generates, so a SIBLING's toggle
+             keeps working there: a ``[Constants]`` declaring a copy of each variable a carried
+             recolour's condition reads, and a copy of each sibling ``[Key...]`` section that cycles
+             one, both under the copy's name :raw-html:`<br />` :raw-html:`<br />`
+
+             A file with no ``namespace =`` is named after its PATH, so a variable of one ``.ini``
+             cannot be read from another (and a namespace reference stops at the first space of the
+             folder's name). The copy is driven by the same key under the same condition, so the two
+             keep in step
+
+             **Default**: empty -- nothing to carry
+             @endrst
+             */
+            virtual std::string carriedSections() const {
+                return "";
+            }
     };
 }
 

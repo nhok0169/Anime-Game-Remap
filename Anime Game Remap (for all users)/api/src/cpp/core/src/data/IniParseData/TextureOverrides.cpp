@@ -27,6 +27,7 @@
 #include "AGRemapCore/data/HashData.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -47,13 +48,46 @@ namespace AGRemapCore {
             }
 
             const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-            const std::optional<std::string> resource = ModBranches::firstVal(*entry.second, ThisKey);
-            if (!hash.has_value() || !resource.has_value()) {
+            if (!hash.has_value()) {
                 continue;
             }
 
-            result.push_back({entry.first, StringTools::toLower(StringTools::strip(*hash)),
-                              std::string(StringTools::strip(*resource))});
+            // The first `this =`, with the `if` blocks around it: a recolour behind a toggle
+            // (`if $color == 0`) is only the mod's while the toggle says so
+            std::vector<std::vector<std::string>> levels;
+            std::optional<std::string> resource;
+            std::vector<std::vector<std::string>> branches;
+            for (const auto& part : entry.second->parts()) {
+                if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                    const std::string header(StringTools::strip(pred->src));
+                    if (pred->type == IfPredPartType::If) {
+                        levels.push_back({header});
+                    } else if (pred->type == IfPredPartType::EndIf) {
+                        if (!levels.empty()) {
+                            levels.pop_back();
+                        }
+                    } else if (!levels.empty()) {
+                        levels.back().push_back(header);
+                    }
+                    continue;
+                }
+
+                const auto* content = dynamic_cast<const ModBranches::Template::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+                const std::vector<std::string> vals = content->getVals(ThisKey);
+                if (!vals.empty()) {
+                    resource = std::string(StringTools::strip(vals.front()));
+                    branches = levels;
+                    break;
+                }
+            }
+            if (!resource.has_value()) {
+                continue;
+            }
+
+            result.push_back({entry.first, StringTools::toLower(StringTools::strip(*hash)), *resource, std::move(branches)});
         }
         return result;
     }

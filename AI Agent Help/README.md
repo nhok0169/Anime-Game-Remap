@@ -86,6 +86,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%9E%F0%9F%8E%A8%20The%20Live%20Hash%20Restorer-1-%23f472b6?style=flat&labelColor=%230b3b4f)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%AA%9E%E2%9A%96%EF%B8%8F%20The%20Mirror%20Breaker-1-%23e11d48?style=flat&labelColor=%230f766e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%A8%F0%9F%94%80%20The%20Recolour%20Carrier-1-%23f59e0b?style=plastic&labelColor=%234c1d95)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%9A%EF%B8%8F%F0%9F%A7%B3%20The%20Toggle%20Ferryman-1-%2314b8a6?style=for-the-badge&labelColor=%23431407)
 
 <br>
 

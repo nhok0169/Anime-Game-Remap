@@ -1937,6 +1937,44 @@ golden change is also a docs change: regenerate the page with `Tools/Misc/Docs/g
 and check only the expected example moved. Testing's "Regenerating ONE API docs golden from Windows"
 has the recipe.
 
+**105. "THE CURRENT BUILD" IS WHATEVER THE USER'S LAUNCHER LOADS, AND IT MAY BE NO COMMIT AT ALL
+(2026-10-08).** A report that "the current build" shattered CherryHutao6 described `master`. The
+maintainer's own launcher (`FixRaidenBoss7.py`, which runs the main checkout's `api/src/py`) was running an
+UNCOMMITTED change that already fixed most of it, and an unmerged branch held the same change as a commit.
+`git status` in the main checkout and the `.pyd`'s timestamp settled it, an hour late. Before reproducing
+a report, name the code it came from: the commit (or "main checkout plus uncommitted work"), the `.pyd`
+the launcher imports (`FixRaidenBoss2.core.__file__`) and when it was built. Reproduce with THAT, then
+decide what your branch has to contain. Habit 98 is the converse (the build the user is LOOKING at).
+
+**106. EVERY NEW SECTION NAME A FIX WRITES IS ALSO A CLAIM FOR THE UNDO: FIX, RE-FIX, UNDO, ON A REAL
+COPY (2026-10-10).** `RemapIniRemover` deletes by NAME -- every span of a name the fix block declared,
+wherever it sits. A fix that began writing a `[Constants]` of its own (legal: 3DMigoto merges repeats)
+made every undo delete the AUTHOR'S `[Constants]` too, every variable the mod declared, while the unit
+tests and both remover suites stayed green. One cycle on a real copy caught it: fix; fix again (must be
+byte-identical); undo (must match the pristine text, blank lines aside, with the mod's own files still on
+disk). Run it whenever a change writes a section name no fix wrote before. The re-fix is the step that
+shows it, because a fix undoes first.
+
+**107. SETTLE A 3DMIGOTO BEHAVIOUR WITH A HAND-EDITED COPY IN GAME BEFORE DESIGNING AROUND IT
+(2026-10-10).** Whether one `.ini` can read another's variable decided the whole design of carrying a
+toggle. Two scratch copies, each made by a short script and loaded once, answered it in twenty minutes: a
+path-namespaced reference is cut at the first space (`Unrecognised identifier` in the log), and a second
+`[Constants]` in one file is merged. The guide had recorded "a sibling's variable cannot be named" as an
+argument; the experiment also showed the cheap way round it. Build the variants with a script, load each
+with GameView, and read `log --problems --mod` before looking at pixels.
+
+**108. A CORPUS A/B WITH DOWNLOADS ON: A FOLDER THAT DIFFERS ONLY BY MISSING `RemapDL` FILES IS THE
+NETWORK (2026-10-10).** One side of a 252-folder A/B lost 29 files in Lisa2 -- every one a download -- and
+skipped one more Blend.buf. Its log said `Could not resolve host: github.com` through all six attempts,
+and the folder fixed alone afterwards matched 156 of 156 files. Before attributing a corpus diff, grep that
+side's log for `request failed` and re-run the folders it names.
+
+**109. A BRANCH THAT CHERRY-PICKED A PR'S COMMIT IS REBASED ONTO `master` ONCE THE PR MERGES, DROPPING
+THE PICK (2026-10-10).** `git rebase --onto origin/master <the cherry-pick>` replays only your own commits.
+The conflicts land in the guides, where both sides appended paragraphs: keep both. Rebuild and re-run the
+tests on the rebased tree before pushing -- the rows `master` brought in are code your tests never ran
+against.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

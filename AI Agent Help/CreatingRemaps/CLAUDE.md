@@ -726,8 +726,11 @@ the mod on its own card. What it found:
   cycle; at 4 Lynae shows her own hair, and now so does the remap). **Lynae11's ID card clipping into the skirt in
   motion is NOT this, and is open**: the card is 100% Lynae bone 247 (its own prop bone, 461 vertices, all fully
   weighted), which the row sends rigidly to LynaePeppermint's pelvis (104) while the skirt rides the skin's swinging
-  skirt bones; it predates the routing change (same in the pre-routing build). A probe to the front skirt bone 105 was
-  inconclusive at overworld distance.
+  skirt bones; it predates the routing change (same in the pre-routing build). **Decided (the maintainer, 2026-10-11):
+  the card stays on the pelvis.** Mapped to the front skirt bone 105 it slid down and off its belt clip even at rest
+  (zoomed A/B on the outfit screen): the skin has NO skirt bone at belt height -- its skirt bones sit at 89-98 cm and the
+  card hangs at 106 -- so any skirt bone drags it. A per-vertex blend (clip on the pelvis, lower edge toward the skirt)
+  would need machinery the bone-to-bone row cannot express, and was declined. Do not retry the skirt mapping.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

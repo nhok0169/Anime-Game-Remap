@@ -778,7 +778,9 @@ the mod on its own card. What it found:
   props diffuse `1.5x` away from Lynae's own -- her foil sweater -- and Lynae14's corset is new art on those UVs, so
   the extrapolation added an inverted rainbow (the mod's 127/2/14 red came out 28/0/0). It is deleted: **the
   maintainer's rule (2026-10-12) is that no edit is classified or aimed by the diffuse's colour** (a mod may give her
-  dark or blue skin), and it was what made Lynae9's sweater "pale pastel" look like a grading problem. The same rule
+  dark or blue skin), and it was what made Lynae9's sweater "pale pastel" look like a grading problem. Without the
+  grade Lynae9's sweater renders paler and peach-pink on the skin (the mod's art through its jacket shader) where the
+  graded build drew it deep red-orange; **the maintainer's decision (2026-10-12): keep it as the mod's art.** The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

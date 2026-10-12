@@ -436,6 +436,66 @@ namespace AGRemapCore {
          * not left reading the mirrored buffers -- the mod's own names, which the shared-resource
          * list binds and which the graph remap does not rename.
          */
+        // A rerouted draw, drawn by the reroute's own pixel shader -- see
+        // WWMIFixerConfig::DrawReroute::shader. Each `drawindexed = <count>, <start>, 0` the reroute
+        // took becomes a `run =` of the CustomShader section that makes that draw; a draw it did not
+        // take, or one with a base vertex, is left as it is.
+        class RerouteShaderDraws : public BaseRegEdit<> {
+            public:
+                explicit RerouteShaderDraws(std::map<std::pair<long long, long long>, std::string> sectionOf)
+                    : sectionOf_(std::move(sectionOf)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::DrawIndexed)) {
+                            continue;
+                        }
+
+                        std::vector<long long> args;
+                        try {
+                            std::string rest(item->value);
+                            std::size_t comma = 0;
+                            while (true) {
+                                comma = rest.find(',');
+                                args.push_back(std::stoll(std::string(StringTools::strip(rest.substr(0, comma)))));
+                                if (comma == std::string::npos) {
+                                    break;
+                                }
+                                rest = rest.substr(comma + 1);
+                            }
+                        } catch (const std::exception&) {
+                            continue;
+                        }
+
+                        if (args.size() != 3 || args[2] != 0) {
+                            continue;
+                        }
+
+                        const auto section = sectionOf_.find({args[0], args[1]});
+                        if (section == sectionOf_.end()) {
+                            continue;
+                        }
+
+                        const auto at = static_cast<size_t>(item->orderIndex);
+                        part.removeKVPAt(at);
+                        part.addKVPAt(static_cast<long long>(at), IniKeywords::Run, section->second);
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::map<std::pair<long long, long long>, std::string> sectionOf_;
+        };
+
+
         class MirrorTwin : public BaseRegEdit<> {
             public:
                 MirrorTwin(std::string mirrorIndex, std::string mirrorVector, std::string ownIndex,
@@ -1587,6 +1647,7 @@ namespace AGRemapCore {
                         writeZeroStream();
                         writeShapeKeyOrder();
                         writeMirrorBuffers();
+                        writeRerouteShaders();
                         addCreatedTextures();
                         addFallbackDownloads();
                         addTexEdits();
@@ -4280,7 +4341,8 @@ namespace AGRemapCore {
 
                             const std::string* resource = resourceFor(binding.role, component);
                             if (resource != nullptr) {
-                                bindings.push_back(bindLine(binding.role, binding.reg, *resource));
+                                bindings.push_back(bindLine(binding.role, binding.reg, *resource,
+                                                            rerouteShaders_.count(component) > 0));
                             }
                         }
 
@@ -4311,7 +4373,8 @@ namespace AGRemapCore {
 
                                 const auto at = gameResourceOfRole_.find(binding.role);
                                 if (at != gameResourceOfRole_.end()) {
-                                    gameBindings.push_back(bindLine(binding.role, binding.reg, at->second));
+                                    gameBindings.push_back(bindLine(binding.role, binding.reg, at->second,
+                                                                    rerouteShaders_.count(component) > 0));
                                 }
                             }
 
@@ -4347,7 +4410,8 @@ namespace AGRemapCore {
 
                                     const std::string* resource = resourceFor(binding.role, component);
                                     if (resource != nullptr) {
-                                        extraBindings.push_back(bindLine(binding.role, binding.reg, *resource));
+                                        extraBindings.push_back(bindLine(binding.role, binding.reg, *resource,
+                                                                         rerouteShaders_.count(component) > 0));
                                     }
                                 }
 
@@ -4570,6 +4634,10 @@ namespace AGRemapCore {
                             // only for the role that edit was registered for, since one file may
                             // serve several
                             auto editedOf = [this, component](const std::string& resource, const std::string& role) {
+                                if (rerouteShaders_.count(component) > 0) {
+                                    return resource;            // see rerouteShaders_: the mod's own art
+                                }
+
                                 const std::string bound = StringTools::toLower(resource);
                                 const auto byRole = editedByRole_.find({bound, role});
                                 if (byRole != editedByRole_.end()) {
@@ -4790,6 +4858,9 @@ namespace AGRemapCore {
                         // the reroute is a component of its own from here on
                         rerouteFrom_[reroute.as] = reroute.from;
                         reroutedDraws_[reroute.as] = taken;
+                        if (reroute.shader.has_value()) {
+                            rerouteShaders_[reroute.as] = &*reroute.shader;
+                        }
                         present_[reroute.as] = present_.at(reroute.from);
                         drawParts_[reroute.as] = drawParts_[reroute.from];
                         for (const auto& range : taken) {
@@ -4865,6 +4936,112 @@ namespace AGRemapCore {
                         rerouteRemoves_.push_back(std::move(keepTaken));
                         regAdapters_.push_back(std::move(dropAdapter));
                         regAdapters_.push_back(std::move(keepAdapter));
+                    }
+
+                    std::map<std::pair<long long, long long>, std::string> sectionOf;
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        for (const auto& range : reroutedDraws_.at(as)) {
+                            sectionOf.emplace(range, rerouteShaderSection(as, range));
+                        }
+                    }
+
+                    rerouteShaderEdit_.reset();
+                    rerouteShaderAdapter_.reset();
+                    if (!sectionOf.empty()) {
+                        rerouteShaderEdit_ = std::make_unique<RerouteShaderDraws>(std::move(sectionOf));
+                        rerouteShaderAdapter_ = std::make_unique<RegPartEdit<>>(rerouteShaderEdit_.get());
+                    }
+                }
+
+                // ---- WWMIFixerConfig::DrawReroute::shader ----
+                //
+                // Each rerouted draw becomes a `run =` of a list that draws it with the shader on the
+                // plan's passes and as it was on any other (the slot's outline pass draws it too)
+                std::string rerouteShaderSection(int as, const std::pair<long long, long long>& range,
+                                                 const std::string& kind = IniKeywords::CommandList) const {
+                    const auto& draws = reroutedDraws_.at(as);
+                    const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
+                    return fixName(kind + rerouteShaders_.at(as)->name + "Draw" + std::to_string(at));
+                }
+
+                std::string rerouteShaderFile(const WWMIFixerConfig::DrawReroute::Shader& shader) const {
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + ".hlsl");
+                }
+
+                std::string rerouteBufferResource(const WWMIFixerConfig::DrawReroute::Shader& shader, const std::string& reg) const {
+                    return fixName(IniKeywords::Resource + shader.name + IniNamingTools::getRegTag(reg));
+                }
+
+                std::string rerouteBufferFile(const WWMIFixerConfig::DrawReroute::Shader& shader, const std::string& reg) const {
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + IniNamingTools::getRegTag(reg) + ".buf");
+                }
+
+                // The sections: one CustomShader per rerouted draw, and the shader's constant buffers.
+                // The shader's source file is named by its `ps =`, which an undo removes with the block.
+                std::string rerouteShaderSections() {
+                    std::string out;
+                    std::set<const WWMIFixerConfig::DrawReroute::Shader*> declared;
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
+                        for (const auto& range : reroutedDraws_.at(as)) {
+                            const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                            const std::string custom = rerouteShaderSection(as, range, "CustomShader");
+                            out += SectionText(z3_, rerouteShaderSection(as, range))
+                                       .open(onPlan)
+                                       .key(IniKeywords::Run, custom)
+                                       .orElse()
+                                       .key(IniKeywords::DrawIndexed, draw)
+                                       .close()
+                                       .str();
+
+                            std::vector<Kvp> lines{{"ps", rerouteShaderFile(*shader)}};
+                            for (const auto& entry : shader->constantBuffers) {
+                                lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
+                            }
+                            for (const auto& line : shader->lines) {
+                                lines.push_back(line);
+                            }
+                            lines.emplace_back(IniKeywords::DrawIndexed, draw);
+                            out += SectionText(z3_, custom).keys(lines).str();
+                        }
+
+                        if (!declared.insert(shader).second) {
+                            continue;
+                        }
+
+                        for (const auto& entry : shader->constantBuffers) {
+                            out += SectionText(z3_, rerouteBufferResource(*shader, entry.first))
+                                       .keys({{IniKeywords::Type, "Buffer"},
+                                              {IniKeywords::Format, "DXGI_FORMAT_R32G32B32A32_FLOAT"},
+                                              {IniKeywords::Filename, rerouteBufferFile(*shader, entry.first)}})
+                                       .str();
+                        }
+                    }
+
+                    return out;
+                }
+
+                void writeRerouteShaders() {
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    std::set<const WWMIFixerConfig::DrawReroute::Shader*> written;
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        if (!written.insert(shader).second) {
+                            continue;
+                        }
+
+                        writeWhole(FileService::absPathOfRelPath(rerouteShaderFile(*shader), folder),
+                                   ByteVec(shader->ps.begin(), shader->ps.end()), "the " + shader->name + " shader");
+                        for (const auto& [reg, words] : shader->constantBuffers) {
+                            ByteVec bytes;
+                            bytes.reserve(words.size() * 4);
+                            for (std::uint32_t word : words) {
+                                for (int k = 0; k < 4; ++k) {
+                                    bytes.push_back(static_cast<std::uint8_t>((word >> (8 * k)) & 0xFF));
+                                }
+                            }
+                            writeWhole(FileService::absPathOfRelPath(rerouteBufferFile(*shader, reg), folder),
+                                       bytes, "the " + shader->name + " shader's " + reg);
+                        }
                     }
                 }
 
@@ -4984,6 +5161,10 @@ namespace AGRemapCore {
 
                             if (shapeKeyAdapter_ != nullptr) {
                                 edits.push_back(shapeKeyAdapter_.get());
+                            }
+
+                            if (rerouteShaders_.count(component) > 0 && rerouteShaderAdapter_ != nullptr) {
+                                edits.push_back(rerouteShaderAdapter_.get());   // last: every anchor above reads the draw
                             }
 
                             perGroup[g].edits[obj] = std::move(edits);
@@ -5161,7 +5342,8 @@ namespace AGRemapCore {
                     return {reg, std::string(IniKeywords::Null)};
                 }
 
-                Kvp bindLine(const std::string& role, const std::string& reg, const std::string& resource) {
+                // `raw`: the list keeps the mod's own resources, edited or not -- see rerouteShaders_
+                Kvp bindLine(const std::string& role, const std::string& reg, const std::string& resource, bool raw = false) {
                     const Kvp direct{reg, resource};
 
                     // An edit's output is not one of the mod's resources, so ask under the resource
@@ -5173,7 +5355,8 @@ namespace AGRemapCore {
                         return direct;
                     }
 
-                    const auto cached = roleLists_.find({role, reg});
+                    const std::string cacheRole = raw ? role + "\x01" : role;
+                    const auto cached = roleLists_.find({cacheRole, reg});
                     if (cached != roleLists_.end()) {
                         return {std::string(IniKeywords::Run), cached->second};
                     }
@@ -5186,7 +5369,8 @@ namespace AGRemapCore {
                     }
 
                     const std::string name =
-                        fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(role) + IniNamingTools::getRegTag(reg));
+                        fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(role) + IniNamingTools::getRegTag(reg)
+                                + (raw ? "Raw" : ""));
 
                     // A COPY OF THE MOD'S OWN SECTION, EDITED THROUGH THE SAME regEdits AS THE REST
                     // OF THE FIX. This used to render the section to text and rewrite the lines,
@@ -5226,7 +5410,11 @@ namespace AGRemapCore {
                     //    material code 0 over the whole head and A = 255 where the target's mask
                     //    carries 0 (2026-09-27).
                     const RegNewVals<>::OldValProducer toEdited =
-                        [this, &role](const std::string& oldValue, const ModType*) {
+                        [this, &role, raw](const std::string& oldValue, const ModType*) {
+                            if (raw) {
+                                return oldValue;
+                            }
+
                             const std::string bound = StringTools::toLower(oldValue);
                             const auto byRole = editedByRole_.find({bound, role});
                             if (byRole != editedByRole_.end()) {
@@ -5288,7 +5476,7 @@ namespace AGRemapCore {
                     }
 
                     list->rebuild();
-                    roleLists_.emplace(std::pair<std::string, std::string>{role, reg}, name);
+                    roleLists_.emplace(std::pair<std::string, std::string>{cacheRole, reg}, name);
                     // Their own vector, emitted at the END of buildAppended: textureLists_ is
                     // written out before the shared-mesh loop runs, so a list created there would be
                     // dropped. Section order in an .ini does not matter.
@@ -5905,6 +6093,8 @@ namespace AGRemapCore {
                         out += list + "\n";
                     }
 
+                    out += rerouteShaderSections();
+
                     this->appendedSections = std::string(StringTools::rstrip(out));
                     buildCopyMerges();
 
@@ -6512,7 +6702,9 @@ namespace AGRemapCore {
                         editedResources_.emplace_back(resource, fixedRel);
                         resourceOfRole_[edit.role] = resource;
                         for (auto& entry : resourceOfSlotRole_) {
-                            if (entry.first.first == edit.role) {
+                            // a reroute drawn by its own shader reads the mod's art as the mod wrote
+                            // it: the edits are for the target's shader
+                            if (entry.first.first == edit.role && rerouteShaders_.count(entry.first.second) == 0) {
                                 // What the MOD called it, kept before this is overwritten -- the
                                 // carried-register re-key reads resource -> role and has to know
                                 // the mod's own names, not the fix's copies. See roleOf.
@@ -7371,6 +7563,9 @@ namespace AGRemapCore {
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
+                std::map<int, const WWMIFixerConfig::DrawReroute::Shader*> rerouteShaders_;   // ...and its own shader, where it has one
+                std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
+                std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;
                 std::map<int, std::set<std::pair<long long, long long>>> reroutedDraws_;   // ...and those draws, keyed by `as`
                 std::vector<std::unique_ptr<RegRemove<>>> rerouteRemoves_;
 

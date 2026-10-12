@@ -25750,6 +25750,53 @@ class WWMIFixerConfig:
         :attr:`WWMIFixerConfig.drawReroutes`
             
         """
+        class Shader:
+            """
+            
+            A pixel shader of the reroute's own, which the rerouted draws are drawn with in place of the target
+            slot's. The fix writes the shader and its constant buffers beside the mod's buffers, declares them in
+            its own block (so an undo removes them), and turns each rerouted ``drawindexed`` into a ``run =`` of a
+            ``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
+            itself is the target draw's: its vertex shader, its render targets and the textures the reroute's
+            :attr:`WWMIFixerConfig.plan` entry binds
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def constantBuffers(self) -> dict[str, list[int]]:
+                """
+                Dict[:class:`str`, List[:class:`int`]]: Register -> the constant buffer bound there, as its 32-bit
+                words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buffer
+                """
+            @constantBuffers.setter
+            def constantBuffers(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+                ...
+            @property
+            def lines(self) -> list[tuple[str, str]]:
+                """
+                List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
+                written, eg. ``("ps-t5", "ref ps-t6")``
+                """
+            @lines.setter
+            def lines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+                ...
+            @property
+            def name(self) -> str:
+                """
+                :class:`str`: The name its files and sections are given, eg. ``"LynaeFilm"``
+                """
+            @name.setter
+            def name(self, arg0: str) -> None:
+                ...
+            @property
+            def ps(self) -> str:
+                """
+                :class:`str`: The HLSL source, entry point ``main``
+                """
+            @ps.setter
+            def ps(self, arg0: str) -> None:
+                ...
         @typing.overload
         def __init__(self) -> None:
             ...
@@ -25789,6 +25836,19 @@ class WWMIFixerConfig:
             """
         @from_.setter
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def shader(self) -> FixRaidenBoss2.core.WWMIFixerConfig.DrawReroute.Shader | None:
+            """
+            Optional[:class:`WWMIFixerConfig.DrawReroute.Shader`]: The shader the rerouted draws are drawn with,
+            when the target slot's own cannot draw what they are. With one, the reroute binds the mod's art as the
+            mod wrote it -- no texture edit of the config reaches it, since the edits are for the TARGET's shader.
+            It draws with the shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as
+            before on any other (an outline pass, :attr:`WWMIFixerConfig.extraPassRegs`).
+            **Default**: ``None``, the target slot's shader
+            """
+        @shader.setter
+        def shader(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.DrawReroute.Shader | None) -> None:
             ...
     class RegRemoval:
         """

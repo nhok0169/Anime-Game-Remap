@@ -287,7 +287,7 @@ component&apos;s own copy drops them. **Default**: none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="392" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="392" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="450" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="450" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae28be3a422ec6c5e358409867d4b95aa" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
@@ -308,7 +308,7 @@ export names). The suffixes accepted: ``diffuse``, ``albedo``, ``base``, ``color
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="404" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="404" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="462" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="462" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab323d24041a1319407c23388e5b63e4e" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_created_texture" kindref="compound">CreatedTexture</ref> &gt;</type>
@@ -326,7 +326,7 @@ Written into the mod&apos;s texture folder as ``&lt;role&gt;&lt;target&gt;RemapT
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="413" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="413" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="471" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="471" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a13c1c343348af3f9641da855a4e48ca1" prot="public" static="no" mutable="no">
         <type>std::set&lt; std::string &gt;</type>
@@ -362,7 +362,7 @@ authored for the target&apos;s UV layout, which this mesh does not use :raw-html
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="440" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="440" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="498" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="498" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8fbbc392c95ce74ff3c822cab15901f4" prot="public" static="no" mutable="no">
         <type>std::set&lt; std::string &gt;</type>
@@ -392,7 +392,7 @@ the hair red, and the register is better left to the game than filled in :raw-ht
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="461" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="461" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="519" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="519" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4ef719aa694142f97f1f1311889edc53" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -409,7 +409,7 @@ the hair red, and the register is better left to the game than filled in :raw-ht
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="466" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="466" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="524" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="524" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a4c0cbfa2281a9c72305762fde40ce5f0" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -426,7 +426,7 @@ the hair red, and the register is better left to the game than filled in :raw-ht
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="471" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="471" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="529" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="529" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af78fbf4f792428e35486ea76a572ef51" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -443,7 +443,7 @@ the hair red, and the register is better left to the game than filled in :raw-ht
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="476" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="476" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="534" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="534" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a7cd43364b593e8639bdc97974d8b6d9f" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -471,7 +471,7 @@ default) leaves them alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="495" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="495" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="553" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="553" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a386112dadb4671f53469129cc4b205ad" prot="public" static="no" mutable="no">
         <type>std::vector&lt; long long &gt;</type>
@@ -501,7 +501,7 @@ default) leaves the shape keys in the source&apos;s order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="516" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="516" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="574" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="574" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae893384db1f5b71adc62a47fe7206c0b" prot="public" static="no" mutable="no">
         <type>std::set&lt; int &gt;</type>
@@ -537,7 +537,7 @@ adds no vertices -- the twin indexes the same ones.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="543" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="543" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="601" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="601" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a762366cfadbf6d77567a914c5286c422" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -557,7 +557,7 @@ bindings are re-keyed within -- see :cpp:member:`plan`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="556" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="556" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="614" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="614" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae219afb4be19abce45a39a9482e22139" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -574,7 +574,7 @@ bindings are re-keyed within -- see :cpp:member:`plan`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="561" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="561" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="619" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="619" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab0b3c94cd32d5d67a1c4917aaa72cedf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -595,7 +595,7 @@ target&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="572" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="572" bodyend="572"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="630" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="630" bodyend="630"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a108aff0effe591a3f937343a506eb8c7" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -612,7 +612,7 @@ target&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="577" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="577" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="635" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="635" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a15a8db419ea3d39e06057602683db97a" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_reg_removal" kindref="compound">RegRemoval</ref> &gt;</type>
@@ -641,7 +641,7 @@ Two kinds, both needed for Chisa:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="613" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="613" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="671" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="671" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a5d28206db77e4a6cdbf9cd3f80b02f63" prot="public" static="no" mutable="no">
         <type>std::map&lt; long long, std::vector&lt; long long &gt; &gt;</type>
@@ -692,7 +692,7 @@ translation column, which is a skinning matrix and not a pose.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="654" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="654" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="712" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="712" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0452ac46471de1c18b6a5b97abe062e9" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt; &gt; &gt;</type>
@@ -722,7 +722,7 @@ against both
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="674" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="674" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="732" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="732" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a5a66d22b5fbabd20309833430eeb077b" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::set&lt; std::string &gt; &gt;</type>
@@ -741,7 +741,7 @@ Target slot -&gt; the passes of :cpp:member:`extraPassRegs` its draw must NOT be
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="692" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="692" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="750" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="750" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af951f1675d051aa563dbee67220240f5" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
@@ -774,7 +774,7 @@ different vertex shader per component, or on different ones in different dumps
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="715" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="715" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="773" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="773" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
@@ -808,7 +808,7 @@ INHERITED may have been written by an unrelated NPC standing in the same frame
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="739" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="739" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="797" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="797" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" prot="public" static="no" mutable="no">
         <type>std::map&lt; std::string, std::map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt; &gt; &gt;</type>
@@ -844,7 +844,7 @@ passes where the two characters differ.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="765" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="765" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="823" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="823" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit" kindref="compound">TexEdit</ref> &gt;</type>
@@ -865,7 +865,7 @@ repacked so a UV-mapped register need not be left to the game
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="865" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="865" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="923" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="923" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a20bc04c1e235777e39638dc4fb333d7b" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -902,7 +902,7 @@ The mod&apos;s own buffer and its own sections are untouched. **Default**: ``fal
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="891" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="891" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="949" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="949" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a50b73594dacea3771f227801d480a4b4" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -921,7 +921,7 @@ The register the texcoord buffer is bound at, for :cpp:member:`cleanTexcoords`.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="899" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="899" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="957" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="957" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afebf851a66702b21f8ae5565660b4842" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::vector&lt; int &gt; &gt;</type>
@@ -949,7 +949,7 @@ merged, which would scramble every bone of the body
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="918" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="918" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="976" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="976" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a758f2bfc3ee3abb1ba148ae6a7c3af1c" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -968,7 +968,7 @@ Tools&apos; own template&apos;s size, whatever the character&apos;s bone count. 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="927" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="927" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="985" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="985" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a94ddfc5f78f130299e3d44719cf0e76d" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -988,7 +988,7 @@ is gated on so a pass with something else in that slot cannot merge junk.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="937" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="937" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="995" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="995" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a218bdf8da9a3f36e39f2cf24c07d6f52" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -1009,7 +1009,7 @@ carries ``boneDataFilter`` -- see :cpp:member:`boneDataFilter`. **Default**: ``t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="955" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="955" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1013" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1013" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e840a2a04df1d7ee959311972bc05c8" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -1039,7 +1039,7 @@ earlier pair writes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="975" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="975" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1033" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1033" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aad50308989e68adbc5ebe9bc7fdf59d2" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -1066,7 +1066,7 @@ exactly as they were
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="992" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="992" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1050" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1050" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a1cc922c578f9fe9352d8f309cb135b59" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -1096,7 +1096,7 @@ role there keeps its line where it is. **Default**: ``false``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1012" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1012" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1070" column="14" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1070" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aaf8a9b191d52f166a43769f463dcd2d1" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -1116,7 +1116,7 @@ list and the zero stream are added right after it. **Default**:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1022" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1022" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1080" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1080" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac3568a3d33275a379c64c149daef2061" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -1137,7 +1137,7 @@ back -- see :cpp:member:`sharedResourcesList`. **Default**:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1036" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1036" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1094" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1094" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abe6af6d31e4c2a78b4c4924470c86b91" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -1154,7 +1154,7 @@ back -- see :cpp:member:`sharedResourcesList`. **Default**:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1041" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1041" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1099" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1099" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1afde91c6aa83f59b0dfb96a924e43ce81" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::string &gt;</type>
@@ -1170,7 +1170,7 @@ back -- see :cpp:member:`sharedResourcesList`. **Default**:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1046" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1046" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1104" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a644c193e090b6d6ba4bf83caa0f86628" prot="public" static="no" mutable="no">
         <type>std::map&lt; int, std::string &gt;</type>
@@ -1186,7 +1186,7 @@ back -- see :cpp:member:`sharedResourcesList`. **Default**:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1051" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1051" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1109" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a0ea8eef2b929fa4c8009bd32068c36a5" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -1201,7 +1201,7 @@ back -- see :cpp:member:`sharedResourcesList`. **Default**:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1056" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1056" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="1114" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="1114" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1265,7 +1265,7 @@ component draws nothing there), and retargeting the shape keys rather than hidin
         <link refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="83" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="83" bodyend="1057"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="83" column="5" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="83" bodyend="1115"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a5d28206db77e4a6cdbf9cd3f80b02f63" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>anchorChains</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a218bdf8da9a3f36e39f2cf24c07d6f52" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig</scope><name>bindPrevPoseAlways</name></member>

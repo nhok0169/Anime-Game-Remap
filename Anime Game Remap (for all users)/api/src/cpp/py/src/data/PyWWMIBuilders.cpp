@@ -187,10 +187,34 @@ mod's own ``.ini`` as a second section on that draw instead of from a copy ``.in
 positions are never computed. **Default**: ``False``
         )doc"));
 
-    py::class_<AGRC::WWMIFixerConfig::DrawReroute>(fixerConfig, "DrawReroute", R"doc(
+    py::class_<AGRC::WWMIFixerConfig::DrawReroute> drawReroute(fixerConfig, "DrawReroute", R"doc(
 Some draws of one source component, sent through a different target slot -- see
 :attr:`WWMIFixerConfig.drawReroutes`
+    )doc");
+
+    py::class_<AGRC::WWMIFixerConfig::DrawReroute::Shader>(drawReroute, "Shader", R"doc(
+A pixel shader of the reroute's own, which the rerouted draws are drawn with in place of the target
+slot's. The fix writes the shader and its constant buffers beside the mod's buffers, declares them in
+its own block (so an undo removes them), and turns each rerouted ``drawindexed`` into a ``run =`` of a
+``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
+itself is the target draw's: its vertex shader, its render targets and the textures the reroute's
+:attr:`WWMIFixerConfig.plan` entry binds
     )doc")
+        .def(py::init<>())
+        .def_readwrite("name", &AGRC::WWMIFixerConfig::DrawReroute::Shader::name,
+                        py::doc(":class:`str`: The name its files and sections are given, eg. ``\"LynaeFilm\"``"))
+        .def_readwrite("ps", &AGRC::WWMIFixerConfig::DrawReroute::Shader::ps,
+                        py::doc(":class:`str`: The HLSL source, entry point ``main``"))
+        .def_readwrite("constantBuffers", &AGRC::WWMIFixerConfig::DrawReroute::Shader::constantBuffers, py::doc(R"doc(
+Dict[:class:`str`, List[:class:`int`]]: Register -> the constant buffer bound there, as its 32-bit
+words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buffer
+        )doc"))
+        .def_readwrite("lines", &AGRC::WWMIFixerConfig::DrawReroute::Shader::lines, py::doc(R"doc(
+List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
+written, eg. ``("ps-t5", "ref ps-t6")``
+        )doc"));
+
+    drawReroute
         .def(py::init<>())
         .def(py::init([](int from, int as, std::string codeRole, int flags) {
             return AGRC::WWMIFixerConfig::DrawReroute{from, as, std::move(codeRole), flags};
@@ -206,6 +230,14 @@ not a source slot. Its slot and bindings say where they go and what they bind
         .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
 :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
 its vertices carry any of them
+        )doc"))
+        .def_readwrite("shader", &AGRC::WWMIFixerConfig::DrawReroute::shader, py::doc(R"doc(
+Optional[:class:`WWMIFixerConfig.DrawReroute.Shader`]: The shader the rerouted draws are drawn with,
+when the target slot's own cannot draw what they are. With one, the reroute binds the mod's art as the
+mod wrote it -- no texture edit of the config reaches it, since the edits are for the TARGET's shader.
+It draws with the shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as
+before on any other (an outline pass, :attr:`WWMIFixerConfig.extraPassRegs`).
+**Default**: ``None``, the target slot's shader
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::CreatedTexture>(fixerConfig, "CreatedTexture", R"doc(

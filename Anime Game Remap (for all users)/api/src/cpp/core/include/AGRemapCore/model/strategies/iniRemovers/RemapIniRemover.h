@@ -174,6 +174,17 @@ namespace AGRemapCore {
                 /**
                  * @brief
                  @rst
+                 The `KVP`_ keys that name a SHADER file in a removed `section`_ -- a ``CustomShader``'s
+                 ``vs``, ``ps``, ... -- which goes with the `section`_ as a ``filename`` does. A value
+                 of ``null``, or one without a file extension, names no file. Empty for any caller
+                 that does not set it
+                 @endrst
+                 */
+                std::vector<K> shaderKeys;
+
+                /**
+                 * @brief
+                 @rst
                  The domain customization points the :cpp:class:`IniSectionGraph` uses
                  :raw-html:`<br />` :raw-html:`<br />`
 

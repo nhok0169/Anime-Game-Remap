@@ -375,6 +375,64 @@ namespace AGRemapCore {
              @endrst
              */
             int flags = 0;
+
+            /**
+             * @brief
+             @rst
+             A pixel shader of the reroute's own, which the rerouted draws are drawn with in place of
+             the target slot's
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The fix writes the shader and its constant buffers beside the mod's buffers, declares
+             them in its own block (so an undo removes them), and turns each rerouted
+             ``drawindexed`` into a ``run =`` of a ``CustomShader`` section that binds them and makes
+             that draw. Everything the shader does not bind itself is the target draw's: its vertex
+             shader, its render targets and the textures the reroute's :cpp:member:`plan` entry
+             binds
+             @endrst
+             */
+            struct Shader {
+                /**
+                 * @brief The name its files and sections are given, eg. ``LynaeFilm``
+                 */
+                std::string name;
+
+                /**
+                 * @brief The HLSL source, entry point ``main``
+                 */
+                std::string ps;
+
+                /**
+                 * @brief
+                 @rst
+                 Register -> the constant buffer bound there, as its 32-bit words (four to a
+                 row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
+                 @endrst
+                 */
+                std::map<std::string, std::vector<std::uint32_t>> constantBuffers;
+
+                /**
+                 * @brief
+                 @rst
+                 Further lines of the ``CustomShader`` section, as they are written, eg.
+                 ``{"ps-t5", "ref ps-t6"}``
+                 @endrst
+                 */
+                std::vector<std::pair<std::string, std::string>> lines;
+            };
+
+            /**
+             * @brief
+             @rst
+             The shader the rerouted draws are drawn with, when the target slot's own cannot draw
+             what they are. With one, the reroute binds the mod's art as the mod wrote it -- no
+             texture edit of the config reaches it, since the edits are for the TARGET's shader. It
+             draws with the shader on the passes the slot's :cpp:member:`slotPasses` name, and as
+             before on any other (an outline pass, :cpp:member:`extraPassRegs`).
+             **Default**: none, the target slot's shader
+             @endrst
+             */
+            std::optional<Shader> shader;
         };
 
         /**

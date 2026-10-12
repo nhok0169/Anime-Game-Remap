@@ -15,6 +15,7 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
@@ -126,15 +127,22 @@ namespace AGRemapCore {
             // ...and her foil where the pouch reads its own (ps-t5): the film the pouch draws is hers
             {6, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"ps-t5", "filmFoil"}}}},
             {7, {7, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
-            // her jacket's FILM draws (see drawReroutes), on the hip pouch's register order
-            {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t5", "filmFoil"}}, true}},
+            // her jacket's FILM draws (see drawReroutes), through the hip pouch with HER jacket shader:
+            // her jacket's register order, her foil at ps-t4
+            {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t4", "filmFoil"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,
         // codes 211-226), and the skin's jacket slot has no film -- even its own film code 49 with its
-        // film mask stays matte. Those draws go through the hip pouch, whose foil is one (its plain
-        // material is 15, which her jacket codes never are) ----
-        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}};
+        // film mask stays matte, and the hip pouch's foil is a different material (a violet-rimmed
+        // holographic sheen where hers is a soft see-through film). Those draws go through the hip
+        // pouch's slot -- a deferred pass with her jacket pass's inputs and outputs -- drawn by her own
+        // jacket shader with her jacket's material constants, reading the mod's art as it is. Her
+        // shader reads the character's subsurface ramp at ps-t5, which the pouch's draw has at ps-t6 ----
+        WWMIFixerConfig::DrawReroute filmDraws{5, 105, "jacketDetail", 0x10};
+        filmDraws.shader = lynaeFilmShader();
+        filmDraws.shader->lines = {{"ps-t5", "ref ps-t6"}};
+        config.drawReroutes = {std::move(filmDraws)};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----

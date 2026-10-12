@@ -708,12 +708,24 @@ namespace AGRemapCore {
                 }
 
                 const std::size_t eq = stripped.find('=');
-                if (eq == std::string_view::npos
-                        || !StringTools::equalsIgnoreCase(StringTools::strip(stripped.substr(0, eq)), IniKeywords::Filename)) {
+                if (eq == std::string_view::npos) {
+                    continue;
+                }
+
+                // a file, or a shader file a fix wrote (a CustomShader's `ps = ...`, which an undo
+                // removes as it removes a `filename`)
+                const std::string key = StringTools::toLower(std::string(StringTools::strip(stripped.substr(0, eq))));
+                const bool shaderKey = key == "vs" || key == "hs" || key == "ds" || key == "gs" || key == "ps" || key == "cs";
+                if (key != IniKeywords::Filename && !shaderKey) {
                     continue;
                 }
 
                 const std::string value(StringTools::strip(stripped.substr(eq + 1)));
+                if (shaderKey && (StringTools::equalsIgnoreCase(value, IniKeywords::Null)
+                                  || FileService::strToPath(value).extension().empty())) {
+                    continue;
+                }
+
                 if (!value.empty()) {
                     referencedThisRun_.insert(_normalRunPath(FileService::absPathOfRelPath(value, folder)));
                 }

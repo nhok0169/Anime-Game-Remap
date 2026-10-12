@@ -818,7 +818,30 @@ the mod on its own card. What it found:
   output the same lighting pass would then shade as hers. **How the shader code was obtained without restarting the
   game**: hunting on, `marking_mode = skip`; the overlay prints the selected hash at the top left (`PS <hash>:`,
   sorted by hash), so the step was found by tiling that line from every frame, then `num3` wrote the ASM into
-  `ShaderFixes` -- moved out at once, since 3DMigoto loads anything there as a replacement on the next reload. The same rule
+  `ShaderFixes` -- moved out at once, since 3DMigoto loads anything there as a replacement on the next reload.
+  **AND THE JACKET PATH IS DRAWN WITH HER SHADER NOW (2026-10-12): `DrawReroute::shader`.** A reroute may carry a pixel
+  shader of its own (HLSL, its constant buffers as 32-bit words, extra lines); the fix writes the `.hlsl` and a
+  `R32G32B32A32_FLOAT` `.buf` per buffer beside the mod's buffers, and turns each rerouted `drawindexed` into
+  `run = CommandList<Name>Draw<n>`: `if <the plan slot's pass> run = CustomShader<Name>Draw<n> else drawindexed = ...` --
+  the slot's OUTLINE pass (`extraPassRegs`) draws it as before, with the slot's own shader. Everything the custom shader
+  does not bind is the target draw's (vertex shader, render targets, the plan's textures), so the plan entry `105` is
+  HER jacket's register order now (`ps-t0` normal, `t1` mask, `t2` code, `t3` diffuse, `t4` foil) and the shader line
+  `ps-t5 = ref ps-t6` hands her shader the character's subsurface ramp (512 x 25), which her pass has at `t5` and the
+  pouch's at `t6`. **With a shader the reroute binds the mod's art as the mod wrote it** -- no `texEdits` entry reaches it
+  (planTexEdits skips the component, the carried re-key's `editedOf` and `bindLine(..., raw)` keep the raw resource, so
+  the mod's `TXX` diffuse toggle still switches). Data: `Lynae/LynaeFilmShader.{h,cpp}` and the prototype's
+  `data/lynaeFilmShader.json`, both from `Tools/Misc/Diagnostics/wwmiShaderData.py` (her `cb4` rows 0-135 -- the rows
+  her shader declares; rows past those differ dump to dump). **Undo removes the shader file too**: `RemoverConfig::shaderKeys`
+  (`vs`/`hs`/`ds`/`gs`/`ps`/`cs`, a value with an extension) are deleted with a fix-block section the way `filename` is,
+  and `RemapService::_rememberReferences` counts them so a sibling `.ini`'s undo cannot delete a shader this run just
+  wrote. (A `cache_shaders = 1` setup writes a compiled `.bin` beside the `.hlsl`, which no undo knows about.) In game the
+  jacket path (X state 1) and "both" (2) match Lynae's sweater; the props path (0) keeps the pouch foil -- her props
+  passes are FORWARD translucent (one render target, several glass passes), so a custom shader in the pouch's deferred
+  draw cannot be one of them. **Three things that cost a round each**: `[CustomShader]` takes HLSL only (an assembly file,
+  or a cached `.bin` beside a stub, renders BLACK); the shader must be captured with every third-party shader mod parked
+  (RabbitFX's patched copy decompiles to assembly only, and is not the game's); and her `cb4` must be bound -- the
+  pouch's own, which her shader indexes differently, is also black. Every `.ini` of the 34-mod corpus but Lynae9's is
+  byte-identical, the prototype matches the compiled fix on Lynae9 / 11 / 14, and a second fix is byte-identical. The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

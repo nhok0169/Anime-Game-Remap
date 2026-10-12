@@ -65,6 +65,9 @@ namespace AGRemapCore {
         if constexpr (std::is_constructible_v<K, const std::string&> && std::is_constructible_v<V, const std::string&>) {
             result.hashKey = K(IniKeywords::Hash);
             result.filenameKey = K(IniKeywords::Filename);
+            for (const char* key : {"vs", "hs", "ds", "gs", "ps", "cs"}) {
+                result.shaderKeys.push_back(K(std::string(key)));
+            }
             result.runConfig = IfTemplateRunConfig<K, V>{
                 K(IniKeywords::Run),
                 [](const V& value) { return std::string(value); },
@@ -497,7 +500,31 @@ namespace AGRemapCore {
                 // Every branch is walked, not just one -- a section naming a different file per
                 // branch has all of them removed, so all of them are collected.
                 ContentPart* part = dynamic_cast<ContentPart*>(partOwned.get());
-                if (part == nullptr || !part->contains(config_.filenameKey)) {
+                if (part == nullptr) {
+                    continue;
+                }
+
+                // a shader the fix wrote goes with the section that names it
+                for (const K& key : config_.shaderKeys) {
+                    if (!part->contains(key)) {
+                        continue;
+                    }
+
+                    for (const V& rawPath : part->getVals(key)) {
+                        std::string filePath(StringTools::strip(valToStr(rawPath)));
+                        const std::size_t folderEnd = filePath.find_last_of("/\\");
+                        const bool hasExtension =
+                            filePath.find('.', folderEnd == std::string::npos ? 0 : folderEnd) != std::string::npos;
+                        if (filePath.empty() || StringTools::equalsIgnoreCase(filePath, IniKeywords::Null) || !hasExtension) {
+                            continue;
+                        }
+
+                        removedResources_[ResourceType::Other].push_back(
+                            std::make_unique<IniResource>(ResourceType::Other, iniFolder, filePath));
+                    }
+                }
+
+                if (!part->contains(config_.filenameKey)) {
                     continue;
                 }
 

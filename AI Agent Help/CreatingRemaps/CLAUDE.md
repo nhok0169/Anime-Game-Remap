@@ -806,7 +806,19 @@ the mod on its own card. What it found:
   as hers). So `filmFoil` (a fallback download, nothing a mod ships) is bound at the pouch's `ps-t5` for her props and
   the rerouted jacket draws. **What remains is the pouch shader's own violet fresnel** -- every code, mask channel,
   normal alpha and diffuse alpha tried leaves it, so it is not a texture's to fix. `wwmiPassLayout.py` on her and the
-  skin's TexDDS dumps (`--starts 274170 301470` / `254433`) is what listed the two foils. The same rule
+  skin's TexDDS dumps (`--starts 274170 301470` / `254433`) is what listed the two foils.
+  **And not a constant's either (2026-10-12).** The pouch's pixel shaders (`12fcca8e31aad1f5`, `4470be479e212ca1`) are
+  deferred G-buffer writers (`o0`-`o6`); the foil (`t5`) is a MATCAP from the view-space normal, scaled by a strength
+  blended between `cb4[119].w` 1 and `cb4[119].z` 4 / `cb4[120].x` 10 and tinted by `cb4[30]` (near white). `cb4` is
+  static material data (`a394978d` in dumps a week apart), and a copy bound as `ps-cb4` for her film draws does take
+  effect -- `cb4[30]` = red turned the clear ID card red -- yet zeroing the foil strength left the sweater's violet
+  exactly as it was, while material 15 removes the violet AND every trace of film (matte knit). So the violet is the
+  foil MATERIAL's deferred shading, chosen by the code the shader writes to the G-buffer: nothing this draw binds
+  reaches it. The one route left is drawing her film with HER pixel shader (a `[CustomShader]`), whose G-buffer
+  output the same lighting pass would then shade as hers. **How the shader code was obtained without restarting the
+  game**: hunting on, `marking_mode = skip`; the overlay prints the selected hash at the top left (`PS <hash>:`,
+  sorted by hash), so the step was found by tiling that line from every frame, then `num3` wrote the ASM into
+  `ShaderFixes` -- moved out at once, since 3DMigoto loads anything there as a replacement on the next reload. The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

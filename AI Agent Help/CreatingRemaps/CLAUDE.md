@@ -744,6 +744,23 @@ the mod on its own card. What it found:
   flashes, then turns red"). A flat colour at `ps-t3` changes nothing there; at `ps-t7` / `ps-t8` it recolours the whole
   sweater. The mod's own art only shows on Peppermint. Found by binding a flat green per register (t0-t8). **The maintainer's
   decision (2026-10-12): the remap keeps the mod's own sweater art; do not bake Lynae's foil pink into it.**
+* **A RED SATIN DRESS THAT READS METALLIC ON THE SKIN: LYNAE'S LOWER BODY SHADES BY THE NORMAL MAP'S ALPHA (Lynae14,
+  2026-10-12, `Images/Lynae/3_7/Lynae14RedDressShine.png`).** On Lynae the dress is deep satin; on LynaePeppermint it came
+  out lighter and flatter, which reads as glossy. Neither the mask (G) nor the material code is it -- flat probes of both
+  barely moved it. **Her lower-body shader reads the normal map's ALPHA as a shading band** and the skin's does not: a flat
+  grey 120 renders 186 / 173 / 172 / 176 / 185 at alpha 0 / 51 / 72 / 84 / 96, dips to 121 at 102, ramps 148 / 172 / 193
+  at 108 / 114 / 120, and from 128 up renders 213 -- exactly what the skin renders at ANY alpha (211). Her own normal maps
+  use bands near 48 / 72 / 120 / 176 / 240 (240 most); Lynae14 put its fabric at 102 and its fur at 242. `shadeBandBake`
+  (inside `lynaeSheerBake`) scales each lower-diffuse texel, in linear, by the multiplier that lands the skin where she lands
+  for its normal alpha (0.88 ... 0.46 at 102 ... 1.0 from 128; the 102 point closed-loop on the dress's own red). Measured on
+  the dress: median red 126 before, 113 after, 116 on Lynae; fur stays white. Her extra spec highlights (p99 201 vs 163)
+  are the shader's and cannot be baked. **Three wrong turns, in order:** a single ratio from the real dress (confounded by
+  shading and box contents), a per-CODE tone curve from flat greys (it greyed the white fur, because the code was the wrong
+  key), and the flesh test calling saturated red skin (`G >= 0.55 R` added). What settled it was probing the dress's two
+  differing channels (mask G 127 vs 54, normal alpha 102 vs 242) one at a time. **Two copies of one mod loaded at once break
+  her card** (both register on the skeleton buffer the skins share) -- load the original-port and the remap one at a time.
+  And a 3.6 mod can be seen on her at 3.7 only through a port (`vb0`, the bone renumbering, texture hashes) -- this used a
+  scratch `port37.py`; the toggle's saved value in `d3dx_user.ini` overrides an edited default, so make it non-persistent.
 * **A WAIST THAT SLANTS WHEN SHE SHIFTS HER WEIGHT: SKIRT CHAINS ON THE TARGET'S LEG BONES (Lynae11, 2026-10-12,
   `Images/Lynae/3_7/LynaePepermintHipsSlanted.png`).** The maintainer reported it twice and the first reading (the ID card
   clipping) was the wrong part. Her skirt is chains rooted at the waist (front 229-254, sides 241-263 / 256-301, back

@@ -425,9 +425,12 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # skin draws them as skin; flesh-coloured texels under codes 1-4 take that code's measured ratio of the
     # two renders (core's lynaeSheerBake) ----
     sheerRatio = {1: (0.788, 0.872, 0.949), 2: (0.910, 1.000, 1.043), 3: (0.883, 0.903, 0.918), 4: (0.890, 0.987, 1.022)}
+    shadeBand = [(0, 0.88), (51, 0.78), (72, 0.77), (84, 0.80), (96, 0.87), (102, 0.46), (108, 0.57),
+                 (114, 0.77), (120, 0.93), (128, 1.0), (255, 1.0)]
     def sheerBake(ctx):
         import numpy as np
         codePath = ctx.fileOfRole.get("lowerDetail") or ctx.gameFileOfRole.get("lowerDetail", "")
+        normalPath = ctx.fileOfRole.get("lowerNormal") or ctx.gameFileOfRole.get("lowerNormal", "")
         def run(tex):
             if not codePath:
                 return
@@ -440,14 +443,31 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             c = c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 15
             px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
             r, g, b = px[..., 0], px[..., 1], px[..., 2]
-            flesh = (r >= 120) & (r - g >= 10) & (g >= b - 8)
+            flesh = (r >= 120) & (r - g >= 10) & (g >= b - 8) & (g * 100 >= r * 55)
             for code, k in sheerRatio.items():
                 s = flesh & (c == code)
                 px[..., :3][s] = np.floor(np.clip(px[..., :3][s] * np.array(k), 0, 255) + 0.5)
+            # ...then the normal map's shading band (core's shadeBandBake)
+            if normalPath:
+                nt = FRB.TextureFile(normalPath)
+                nt.open()
+                if nt.hasImage:
+                    na = np.frombuffer(bytes(nt.getPixels()), np.uint8).reshape(nt.height, nt.width, 4)[..., 3]
+                    na = na[(np.arange(h) * nt.height) // h][:, (np.arange(w) * nt.width) // w]
+                    srgb = tex.gamma is not None
+                    bb = np.arange(256, dtype=np.float64)
+                    lin = (bb / 255.0) ** 2.2 * 255.0 if srgb else bb
+                    pts = np.array(shadeBand)
+                    rr = np.interp(np.arange(256), pts[:, 0], pts[:, 1])
+                    y = np.minimum(255.0, lin[None, :] * rr[:, None])
+                    o = (y / 255.0) ** (1 / 2.2) * 255.0 if srgb else y
+                    table = np.floor(o + 0.5).astype(np.uint8)
+                    q = px[..., :3].astype(np.uint8)
+                    px[..., :3] = table[na[..., None], q]
             tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
         return run
     sheer = FRB.WWMIFixerConfig.TexEdit("lowerDiffuse", "Sheer", sheerBake)
-    sheer.sourceGameRoles = ["lowerDetail"]
+    sheer.sourceGameRoles = ["lowerDetail", "lowerNormal"]
 
     # ---- her coat lining: code 4 of the jacket's code map is a film her shader draws pink-red and the
     # skin's draws as plain cyan diffuse; the code moves to the skin's film code 49 and the texels under it

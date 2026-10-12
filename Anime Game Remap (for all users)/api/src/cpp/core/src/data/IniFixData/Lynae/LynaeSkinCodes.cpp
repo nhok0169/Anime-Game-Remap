@@ -153,7 +153,8 @@ namespace AGRemapCore {
                         }
 
                         const int in[3] = {px[i], px[i + 1], px[i + 2]};
-                        if (fleshOnly && (in[0] < 120 || in[0] - in[1] < 10 || in[1] < in[2] - 8)) {
+                        // flesh: warm, bright, and G at least 0.55 R -- a saturated red (Lynae14's dress, G 0.32 R) is cloth
+                        if (fleshOnly && (in[0] < 120 || in[0] - in[1] < 10 || in[1] < in[2] - 8 || in[1] * 100 < in[0] * 55)) {
                             continue;
                         }
 
@@ -161,6 +162,78 @@ namespace AGRemapCore {
                             const double v = in[k] * ratio[k];
                             px[i + k] = static_cast<std::uint8_t>(std::lround(std::min(255.0, std::max(0.0, v))));
                         }
+                    }
+                }
+
+                tex.setPixels(std::move(px), w, h);
+            };
+        }
+
+        // Lynae's lower-body shader reads the NORMAL MAP's alpha as a shading band; LynaePeppermint's
+        // does not. Per alpha, the multiplier (in linear colour) that makes LynaePeppermint land where Lynae
+        // does: a flat grey 120 under code 1 on both cards, the normal map flat at each alpha (menu, Lynae14,
+        // 2026-10-12). From 128 up she renders as the skin does; around 102 (Lynae14's dress) a third as bright
+        // (0.39 at grey 120; 0.46 after one closed-loop round on the dress's own red, darker inputs dipping less)
+        double shadeBandMultiplier(int alpha) {
+            static const std::pair<double, double> Points[] = {
+                {0, 0.88}, {51, 0.78}, {72, 0.77}, {84, 0.80}, {96, 0.87}, {102, 0.46}, {108, 0.57},
+                {114, 0.77}, {120, 0.93}, {128, 1.0}, {255, 1.0}};
+            for (std::size_t i = 1; i < std::size(Points); ++i) {
+                if (alpha <= Points[i].first) {
+                    const double t = (alpha - Points[i - 1].first) / (Points[i].first - Points[i - 1].first);
+                    return Points[i - 1].second + t * (Points[i].second - Points[i - 1].second);
+                }
+            }
+            return 1.0;
+        }
+
+        // Every texel's colour scaled, in linear, by the band its normal map's alpha (sampled at the texel's
+        // UV) puts it in. A buffer read from an sRGB source holds gamma-encoded bytes (TextureFile::save
+        // pre-corrects by the same 2.2), anything else linear ones
+        TexEditor::Filter shadeBandBake(const std::string& normalPath) {
+            return [normalPath](TextureFile& tex) {
+                if (normalPath.empty()) {
+                    return;
+                }
+
+                TextureFile normals(normalPath);
+                normals.open();
+                if (!normals.hasImage()) {
+                    return;
+                }
+
+                const bool srgb = tex.getGamma().has_value();
+                std::vector<std::array<std::uint8_t, 256>> table(256);
+                for (int a = 0; a < 256; ++a) {
+                    const double r = shadeBandMultiplier(a);
+                    for (int b = 0; b < 256; ++b) {
+                        const double lin = srgb ? std::pow(b / 255.0, 2.2) * 255.0 : b;
+                        const double y = std::min(255.0, lin * r);
+                        const double o = srgb ? std::pow(y / 255.0, 1.0 / 2.2) * 255.0 : y;
+                        table[a][b] = static_cast<std::uint8_t>(std::floor(o + 0.5));
+                    }
+                }
+
+                const int w = tex.getWidth();
+                const int h = tex.getHeight();
+                const int nw = normals.getWidth();
+                const int nh = normals.getHeight();
+                const std::vector<std::uint8_t>& nrm = normals.getPixels();
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (int y = 0; y < h; ++y) {
+                    const int ny = std::min(nh - 1, static_cast<int>((static_cast<long long>(y) * nh) / h));
+                    for (int x = 0; x < w; ++x) {
+                        const std::size_t i = (static_cast<std::size_t>(y) * w + x) * 4;
+                        const int nx = std::min(nw - 1, static_cast<int>((static_cast<long long>(x) * nw) / w));
+                        const std::size_t n = (static_cast<std::size_t>(ny) * nw + nx) * 4 + 3;
+                        if (i + 3 >= px.size() || n >= nrm.size()) {
+                            continue;
+                        }
+
+                        const std::array<std::uint8_t, 256>& row = table[nrm[n]];
+                        px[i] = row[px[i]];
+                        px[i + 1] = row[px[i + 1]];
+                        px[i + 2] = row[px[i + 2]];
                     }
                 }
 
@@ -189,7 +262,14 @@ namespace AGRemapCore {
         ratios[2] = {0.910, 1.000, 1.043};
         ratios[3] = {0.883, 0.903, 0.918};
         ratios[4] = {0.890, 0.987, 1.022};
-        return codeRatioBake(codeMapOf(ctx, "lowerDetail"), ratios, true);
+        TexEditor::Filter stockings = codeRatioBake(codeMapOf(ctx, "lowerDetail"), ratios, true);
+
+        // ...then the normal map's shading band, on every texel (see shadeBandMultiplier)
+        TexEditor::Filter bands = shadeBandBake(codeMapOf(ctx, "lowerNormal"));
+        return [stockings, bands](TextureFile& tex) {
+            stockings(tex);
+            bands(tex);
+        };
     }
 
     TexEditor::Filter lynaeFilmBake(const WWMIFixerConfig::TexEditContext& ctx) {

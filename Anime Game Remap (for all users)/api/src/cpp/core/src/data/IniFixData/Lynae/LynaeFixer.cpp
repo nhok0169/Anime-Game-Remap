@@ -157,7 +157,7 @@ namespace AGRemapCore {
         WWMIFixerConfig::TexEdit sheer{"lowerDiffuse", "Sheer", [](const WWMIFixerConfig::TexEditContext& ctx) {
             return lynaeSheerBake(ctx);
         }};
-        sheer.sourceGameRoles = {"lowerDetail"};
+        sheer.sourceGameRoles = {"lowerDetail", "lowerNormal"};
         config.texEdits.push_back(std::move(sheer));
 
         // ---- her coat lining is a film (code 4 of the jacket's code map) the skin draws as plain cyan

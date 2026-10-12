@@ -713,6 +713,21 @@ the mod on its own card. What it found:
   mod's mask at a time, after flat probes of `ps-t2` and `ps-t4` changed nothing. **Every probe made while the body
   still covered the suit proved nothing** -- three of them; hide the occluder first. Over 34 WuWa mods only the Lynae ->
   LynaePeppermint outputs changed; the identity mod and three others look right through the new slot.
+* **A RED-BROWN SKIRT THAT IS BLACK ON LYNAE: A REGISTER THE MOD BINDS ONLY UNDER A TOGGLE (Lynae11, 2026-10-11).**
+  Lynae11 binds its own material-code map (`ps-t2 = test1 / test2`) only `if $Pants != 0` and leaves the register to
+  the GAME in its default outfit. The texture list bound `test1` unconditionally -- laid out for the pants, it coded the
+  default skirt as skin, which LynaePeppermint shades red (a flat cloth code at `ps-t2` turned it black: the probe that
+  settled it). `WWMIFixer::planToggledRoles` now finds a role whose resource is bound, in a component's sections, only
+  on `if` paths that reach none of that section's draws (and on no register a reaching line binds), and binds the
+  SOURCE's own game texture in the list instead, edited like the mod's; the mod's carried conditional lines still bind
+  its file in its branches. A resource the mod ALSO binds with `this =` on a hash is exempt -- it is on for every draw
+  (Lynae3's body diffuse; the first build without this exemption swapped Lynae3's body to the vanilla texture). Over the
+  34-mod corpus it moves Lynae11's code map and Lynae9's hair / bangs (their chain names `$LynaeMD1_TV` 0-3 of a 0-4
+  cycle; at 4 Lynae shows her own hair, and now so does the remap). **Lynae11's ID card clipping into the skirt in
+  motion is NOT this, and is open**: the card is 100% Lynae bone 247 (its own prop bone, 461 vertices, all fully
+  weighted), which the row sends rigidly to LynaePeppermint's pelvis (104) while the skirt rides the skin's swinging
+  skirt bones; it predates the routing change (same in the pre-routing build). A probe to the front skirt bone 105 was
+  inconclusive at overworld distance.
 * **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
   2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
   (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse

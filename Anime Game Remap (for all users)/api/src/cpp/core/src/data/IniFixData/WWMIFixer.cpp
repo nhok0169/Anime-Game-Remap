@@ -1546,6 +1546,7 @@ namespace AGRemapCore {
                     readTextures();
                     planTexEdits();
                     planGameTexEdits();
+                    planToggledRoles();
                     buildEdits();
                     buildAppended();
 
@@ -4263,6 +4264,13 @@ namespace AGRemapCore {
                                 continue;
                             }
 
+                            // see planToggledRoles: the game's own, and the mod's carried lines on its toggle
+                            const auto toggled = toggledGame_.find({binding.role, component});
+                            if (toggled != toggledGame_.end()) {
+                                bindings.push_back({binding.reg, toggled->second});
+                                continue;
+                            }
+
                             const std::string* resource = resourceFor(binding.role, component);
                             if (resource != nullptr) {
                                 bindings.push_back(bindLine(binding.role, binding.reg, *resource));
@@ -6262,6 +6270,222 @@ namespace AGRemapCore {
                     }
                 }
 
+                // The source's own game texture of 'role', downloaded, with every edit of the role run
+                // on it -- the resource lands in gameResourceOfRole_. Once per role; false when the
+                // character's facts give it no hash. The target's shader reads it the same way whoever
+                // binds it, so a mask still needs its repack and a diffuse its alpha clamp.
+                bool planGameResource(const std::string& role) {
+                    if (gameResourceOfRole_.count(role) > 0) {
+                        return true;
+                    }
+
+                    if (!addGameDownload(role)) {
+                        return false;
+                    }
+
+                    const WWMITextureFacts& source = config_.sourceTextures;
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    const std::string relPath = gameFallbacks_.at(role).relPath;
+                    gameResourceOfRole_[role] = gameFallbacks_.at(role).resource;
+                    for (const WWMIFixerConfig::TexEdit& edit : config_.texEdits) {
+                        if (edit.role != role || !edit.makeFilter) {
+                            continue;
+                        }
+
+                        const std::string editedRel =
+                            modFile(textureFolder_,
+                                    source.downloadPrefix + TextTools::capitalize(role) + edit.name
+                                    + GameSuffix + IniKeywords::RemapTex + FileExt::DDS);
+                        const std::string editedResource =
+                            fixName(IniKeywords::Resource + TextTools::capitalize(role) + edit.name
+                                    + GameSuffix + IniKeywords::RemapTex);
+                        plannedEdits_.push_back(PlannedEdit{
+                            &edit, FileService::absPathOfRelPath(relPath, folder), editedRel});
+                        editedResources_.emplace_back(editedResource, editedRel);
+                        gameResourceOfRole_[role] = editedResource;
+                    }
+
+                    return true;
+                }
+
+                // A ROLE THE MOD BINDS ONLY UNDER A TOGGLE THAT DOES NOT REACH ITS DRAWS (2026-10-11).
+                // Lynae11 binds its own material-code map (`ps-t2 = test1 / test2`) only `if $Pants !=
+                // 0`, and draws its default outfit under other conditions: there the GAME's own map is
+                // what Lynae renders with. The texture list bound `test1` unconditionally -- laid out
+                // for the pants, it coded the default skirt as skin, which LynaePeppermint shades red.
+                //
+                // A binding reaches a draw when its `if` block is the draw's or encloses it. A role
+                // whose resource is bound in a component's sections only on paths that reach none of
+                // that section's draws -- and whose register no reaching line binds -- gets the
+                // source's own game texture in the list instead (edited like the mod's would be); the
+                // mod's own conditional lines, carried after the list, still bind its file in the
+                // branches where it does. A section that draws only through `run =` is left alone.
+                void planToggledRoles() {
+                    if (gaveUp_ || config_.sourceTextures.downloadCharFolder.empty()) {
+                        return;
+                    }
+
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
+                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
+                    const auto& templates = ini->getIfTemplates();
+
+                    // A resource the mod also binds with `this =` on a texture's hash is on for every draw
+                    // of the source that binds that texture, whatever the register lines say: Lynae3
+                    // binds its body diffuse that way and has one register line for it, under `$Wish`.
+                    // Those roles keep the mod's file (the toggle lists of bindLine handle a `this` chain)
+                    std::set<std::string> thisBound;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content =
+                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const std::string& val : content->getVals(IniKeywords::This)) {
+                                thisBound.insert(StringTools::toLower(StringTools::strip(val)));
+                            }
+                        }
+                    }
+
+                    using Path = std::vector<std::size_t>;
+                    const auto encloses = [](const Path& outer, const Path& inner) {
+                        return outer.size() <= inner.size() && std::equal(outer.begin(), outer.end(), inner.begin());
+                    };
+
+                    for (const auto& [component, sections] : present_) {
+                        const auto planned = config_.plan.find(component);
+                        if (planned == config_.plan.end()) {
+                            continue;
+                        }
+
+                        // resource -> the (path, register) of every line binding it; and every draw's path
+                        std::map<std::string, std::vector<std::pair<Path, std::string>>> occurrences;
+                        std::vector<Path> draws;
+                        for (const std::string& section : sections) {
+                            const auto tpl = templates.find(section);
+                            if (tpl == templates.end() || tpl->second == nullptr) {
+                                continue;
+                            }
+
+                            Path path;
+                            std::size_t nextBlock = 0;
+                            for (const auto& part : tpl->second->parts()) {
+                                if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                                    if (pred->type == IfPredPartType::If) {
+                                        path.push_back(++nextBlock);
+                                    } else if (pred->type == IfPredPartType::EndIf) {
+                                        if (!path.empty()) {
+                                            path.pop_back();
+                                        }
+                                    } else if (!path.empty()) {
+                                        path.back() = ++nextBlock;      // elif / else: a sibling block
+                                    }
+
+                                    continue;
+                                }
+
+                                const auto* content =
+                                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+
+                                for (const auto& item : content->items()) {
+                                    const std::string key = StringTools::toLower(StringTools::strip(item.key));
+                                    if (StringTools::startsWith(key, "draw")) {
+                                        draws.push_back(path);
+                                        continue;
+                                    }
+
+                                    if (!StringTools::startsWith(key, prefix)) {
+                                        continue;
+                                    }
+
+                                    std::string val(StringTools::strip(item.value));
+                                    if (StringTools::startsWith(StringTools::toLower(val), ref + " ")) {
+                                        val = std::string(StringTools::lstrip(val.substr(ref.size())));
+                                    }
+
+                                    if (!val.empty()) {
+                                        occurrences[StringTools::toLower(val)].emplace_back(path, key);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (draws.empty()) {
+                            continue;
+                        }
+
+                        const auto reaches = [&draws, &encloses](const Path& path) {
+                            return std::any_of(draws.begin(), draws.end(),
+                                               [&](const Path& draw) { return encloses(path, draw); });
+                        };
+
+                        // the registers some reaching line binds: the mod's own default there
+                        std::set<std::string> defaulted;
+                        for (const auto& [resource, lines] : occurrences) {
+                            for (const auto& [path, key] : lines) {
+                                if (reaches(path)) {
+                                    defaulted.insert(key);
+                                }
+                            }
+                        }
+
+                        for (const WWMIFixerConfig::Binding& binding : planned->second.bindings) {
+                            if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0
+                                    || fileOfRole_.count(binding.role) == 0) {
+                                continue;
+                            }
+
+                            const std::string* resource = resourceFor(binding.role, component);
+                            if (resource == nullptr) {
+                                continue;
+                            }
+
+                            const auto edited = sourceOfEdited_.find(StringTools::toLower(*resource));
+                            const std::string base = StringTools::toLower(edited == sourceOfEdited_.end() ? *resource : edited->second);
+                            const auto lines = occurrences.find(base);
+                            if (lines == occurrences.end() || thisBound.count(base) > 0) {
+                                continue;                   // bound some other way (a `this` override, a RabbitFX line)
+                            }
+
+                            bool toggled = true;
+                            for (const auto& [path, key] : lines->second) {
+                                if (reaches(path) || defaulted.count(key) > 0) {
+                                    toggled = false;
+                                    break;
+                                }
+                            }
+
+                            if (!toggled) {
+                                continue;
+                            }
+
+                            if (!planGameResource(binding.role)) {
+                                note(config_.slotPrefix + std::to_string(component) + " binds its " + binding.role
+                                     + " only under a toggle, and fallbackTextures has no hash for " + source_.name
+                                     + "'s own -- the mod's file stays bound in every branch");
+                                continue;
+                            }
+
+                            toggledGame_[{binding.role, component}] = gameResourceOfRole_.at(binding.role);
+                            ctx_.log(config_.slotPrefix + std::to_string(component) + " binds its " + binding.role
+                                     + " only under a toggle; elsewhere " + source_.name + "'s own is bound, as the game does");
+                        }
+                    }
+                }
+
                 // The source's own game texture of 'role' as a download (gameFallbacks_), once; false
                 // when the character's facts give it no hash or no download folder. Declaring and
                 // downloading it binds nothing -- gameResourceOfRole_ is what binds.
@@ -6315,9 +6539,6 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const WWMITextureFacts& source = config_.sourceTextures;
-                    const std::string folder = ctx_.getIniFile()->getFolder();
-
                     std::set<std::string> roles;
                     for (const auto& entry : lateBindRegs_) {
                         auto planned = config_.plan.find(entry.first);
@@ -6348,7 +6569,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        if (!addGameDownload(role)) {
+                        if (!planGameResource(role)) {
                             note("the draws " + config_.slotPrefix + " sections make before binding "
                                  "anything need " + source_.name + "'s own " + role
                                  + ", and fallbackTextures has no hash for it -- those draws keep "
@@ -6356,30 +6577,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        const std::string relPath = gameFallbacks_.at(role).relPath;
-                        gameResourceOfRole_[role] = gameFallbacks_.at(role).resource;
                         downloaded.push_back(role);
-
-                        // ...and the role's own edits, on this file too. The target's shader reads
-                        // it the same way whichever generation bound it, so a mask still needs its
-                        // repack and a diffuse its alpha clamp.
-                        for (const WWMIFixerConfig::TexEdit& edit : config_.texEdits) {
-                            if (edit.role != role || !edit.makeFilter) {
-                                continue;
-                            }
-
-                            const std::string editedRel =
-                                modFile(textureFolder_,
-                                        source.downloadPrefix + TextTools::capitalize(role) + edit.name
-                                        + GameSuffix + IniKeywords::RemapTex + FileExt::DDS);
-                            const std::string editedResource =
-                                fixName(IniKeywords::Resource + TextTools::capitalize(role) + edit.name
-                                        + GameSuffix + IniKeywords::RemapTex);
-                            plannedEdits_.push_back(PlannedEdit{
-                                &edit, FileService::absPathOfRelPath(relPath, folder), editedRel});
-                            editedResources_.emplace_back(editedResource, editedRel);
-                            gameResourceOfRole_[role] = editedResource;
-                        }
                     }
 
                     if (!downloaded.empty()) {
@@ -6874,6 +7072,7 @@ namespace AGRemapCore {
                 std::map<std::string, Fallback> fallbacks_;           // role -> the source's game texture, for a planned role the mod has no file for
                 std::map<std::string, Fallback> gameFallbacks_;      // ...and the same download for a role the mod DOES serve, for the pre-binding draws of a split section
                 std::map<std::string, std::string> gameResourceOfRole_;  // role -> what a pre-binding draw binds: the source's own game texture, edited
+                std::map<std::pair<std::string, int>, std::string> toggledGame_;  // (role, source component) -> the game's own, for a role the mod binds only under a toggle
                 std::map<int, std::vector<std::string>> lateBindRegs_;   // source component -> the registers its own section binds AFTER it has already drawn
                 std::set<std::string> leftToGame_;                    // roles whose only file was flat and whose config says not to stand anything in
                 std::map<std::string, std::string> rejectedForRole_;  // resource -> the role the scan REFUSED it for, so a carried line cannot put it back

@@ -742,7 +742,8 @@ the mod on its own card. What it found:
   the diffuse at `ps-t7` (and a holographic foil, `74a761f5`, at `ps-t8`). Lynae9 binds only `ps-t3`, so on Lynae the
   sweater is HER game texture under the foil -- pink in the menu, green in the overworld (the maintainer's "the green
   flashes, then turns red"). A flat colour at `ps-t3` changes nothing there; at `ps-t7` / `ps-t8` it recolours the whole
-  sweater. The mod's own art only shows on Peppermint. Found by binding a flat green per register (t0-t8).
+  sweater. The mod's own art only shows on Peppermint. Found by binding a flat green per register (t0-t8). **The maintainer's
+  decision (2026-10-12): the remap keeps the mod's own sweater art; do not bake Lynae's foil pink into it.**
 * **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
   OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a
   holographic film that renders her cyan lining texture pink-red; LynaePeppermint draws code 4 as plain diffuse, and its

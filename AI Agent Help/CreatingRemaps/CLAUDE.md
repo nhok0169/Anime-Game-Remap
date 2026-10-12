@@ -713,6 +713,18 @@ the mod on its own card. What it found:
   mod's mask at a time, after flat probes of `ps-t2` and `ps-t4` changed nothing. **Every probe made while the body
   still covered the suit proved nothing** -- three of them; hide the occluder first. Over 34 WuWa mods only the Lynae ->
   LynaePeppermint outputs changed; the identity mod and three others look right through the new slot.
+* **BARE LEGS WHERE LYNAE WEARS SHEER STOCKINGS: MATERIAL CODE 1 (Lynae11, 2026-10-12).** Lynae's lower-body shader
+  draws code 1 of the `ps-t2` code map as a sheer stocking over the skin under it -- a flat code 1 put white stockings
+  on her legs and a gloss on the skirt; a flat 0 bared them (the probe that found it; the `ps-t8` "sheer" texture is
+  NOT it). LynaePeppermint has no such material: its code 1 is plain cloth, so the skin-coloured diffuse under it
+  rendered as bare legs. `lynaeSheerBake` (texEdit on `lowerDiffuse`) desaturates every flesh-coloured texel under
+  code 1 90% toward its luminance and multiplies by (0.84, 0.86, 0.93), which reads as grey-white stockings on the
+  skin's cloth shading (measured on Lynae: skin under code 1 renders x(0.83, 0.89, 0.99)). The code map is the mod's own
+  `lowerDetail` when it binds one by default, else Lynae's game map -- `TexEditContext::fileOfRole` now leaves out a role
+  `planToggledRoles` flagged. The see-through skirt panel and the clear ID card stay opaque: an opaque shader cannot draw
+  them, and the card "pressing into" the skirt was that panel gone solid. Checked in game on Lynae11 (stockings), the
+  identity mod (bare legs both cards) and Lynae1 (its dark stockings untouched); corpus: only Lynae -> LynaePeppermint
+  lower diffuses moved.
 * **A RED-BROWN SKIRT THAT IS BLACK ON LYNAE: A REGISTER THE MOD BINDS ONLY UNDER A TOGGLE (Lynae11, 2026-10-11).**
   Lynae11 binds its own material-code map (`ps-t2 = test1 / test2`) only `if $Pants != 0` and leaves the register to
   the GAME in its default outfit. The texture list bound `test1` unconditionally -- laid out for the pants, it coded the

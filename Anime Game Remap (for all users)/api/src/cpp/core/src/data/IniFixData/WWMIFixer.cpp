@@ -6609,7 +6609,15 @@ namespace AGRemapCore {
 
                     context.drawRanges = drawRanges_;
                     for (const auto& entry : fileOfRole_) {
-                        context.fileOfRole[entry.first] = entry.second;
+                        // a role the mod binds only under a toggle is the GAME's by default (planToggledRoles)
+                        bool toggled = false;
+                        for (const auto& t : toggledGame_) {
+                            toggled = toggled || t.first.first == entry.first;
+                        }
+
+                        if (!toggled) {
+                            context.fileOfRole[entry.first] = entry.second;
+                        }
                     }
 
                     for (const auto& entry : fallbacks_) {

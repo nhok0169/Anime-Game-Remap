@@ -15,6 +15,7 @@
 #ifndef LYNAE_SKIN_CODES_H
 #define LYNAE_SKIN_CODES_H
 
+#include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 
 
@@ -47,6 +48,23 @@ namespace AGRemapCore {
      @endrst
      */
     TexEditor::Filter lynaeMaskRedFill();
+
+    /**
+     * @brief
+     @rst
+     Bakes Lynae's sheer stockings into a lower-body diffuse for LynaePeppermint :raw-html:`<br />` :raw-html:`<br />`
+
+     Lynae's lower-body shader draws material code 1 as a sheer stocking over the skin under it;
+     LynaePeppermint's has no such material and draws code 1 as plain cloth, so stockings came out as
+     bare legs. Every flesh-coloured texel whose code is 1 is desaturated toward its luminance and
+     cooled, the look Lynae's shader gives it. The code map is the mod's own ``lowerDetail`` when it
+     binds one by default, otherwise Lynae's game map (``gameFileOfRole``); without either the texture
+     is left as it is
+     @endrst
+
+     @param ctx The mod being fixed
+     */
+    TexEditor::Filter lynaeSheerBake(const WWMIFixerConfig::TexEditContext& ctx);
 }
 
 #endif

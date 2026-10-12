@@ -152,6 +152,14 @@ namespace AGRemapCore {
             {"jacketMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
         };
 
+        // ---- her sheer stockings (code 1 in the lower body's code map) are a material the skin's shader
+        // does not have, so they are baked into the diffuse: see lynaeSheerBake ----
+        WWMIFixerConfig::TexEdit sheer{"lowerDiffuse", "Sheer", [](const WWMIFixerConfig::TexEditContext& ctx) {
+            return lynaeSheerBake(ctx);
+        }};
+        sheer.sourceGameRoles = {"lowerDetail"};
+        config.texEdits.push_back(std::move(sheer));
+
         // ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat
         // mutes under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders
         // alike on both, so the mod's DIFFERENCE from it is pushed further -- see lynaePropsGrade.

@@ -744,6 +744,21 @@ the mod on its own card. What it found:
   flashes, then turns red"). A flat colour at `ps-t3` changes nothing there; at `ps-t7` / `ps-t8` it recolours the whole
   sweater. The mod's own art only shows on Peppermint. Found by binding a flat green per register (t0-t8). **The maintainer's
   decision (2026-10-12): the remap keeps the mod's own sweater art; do not bake Lynae's foil pink into it.**
+* **A WAIST THAT SLANTS WHEN SHE SHIFTS HER WEIGHT: SKIRT CHAINS ON THE TARGET'S LEG BONES (Lynae11, 2026-10-12,
+  `Images/Lynae/3_7/LynaePepermintHipsSlanted.png`).** The maintainer reported it twice and the first reading (the ID card
+  clipping) was the wrong part. Her skirt is chains rooted at the waist (front 229-254, sides 241-263 / 256-301, back
+  245-264 / 250-321, centre front 210-212), and the draft had each chain on the skin's nearest bone -- 105 / 107 / 108 / 145
+  / 102 / 144, which on the skin's own model carry 0-24% of that spot while her hips (100 / 101) carry 40-73%. So about
+  42% of the remapped waistline rode bones that follow the legs. Each link now takes the bone that drives the same spot of
+  the skin's own model (nearest skin-identity vertices to the link's own vertices, weight-tallied): 100 / 101 for most,
+  the thigh roots 103 / 106 for the lowest front and side links, 104 for 211-212; both rows (3.6 through the renumbering)
+  and the draft. **Two checks that did not find it**, both worth knowing: `vgSymmetry.py` (the rows are left/right
+  symmetric -- a slant is not always a mirror fault) and a still-frame comparison (her idle cocks the hip either way). The
+  table that did: tally a region's bones on the TARGET's own model against the same region of the remapped mod.
+  **And her "robotic" legs (code 1, white-grey with silver sides on Lynae) have no counterpart on the skin**: all 14 codes
+  the skin's maps use and every mask channel (R 0 / 128, G 0 / 255, B 0, A 255), set on the code-1 texels one at a time,
+  left the legs unchanged on LynaePeppermint -- only the diffuse reaches them. The code-1 ratio of `lynaeSheerBake` was
+  corrected once by the measured remaining gap (now 0.788 / 0.872 / 0.949); the angle-dependent grey sides cannot be baked.
 * **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
   OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a
   holographic film that renders her cyan lining texture pink-red; LynaePeppermint draws code 4 as plain diffuse, and its

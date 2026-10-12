@@ -424,7 +424,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # ---- her stockings: Lynae draws every non-skin code of the lower body's code map as a stocking, the
     # skin draws them as skin; flesh-coloured texels under codes 1-4 take that code's measured ratio of the
     # two renders (core's lynaeSheerBake) ----
-    sheerRatio = {1: (0.866, 0.884, 0.935), 2: (0.910, 1.000, 1.043), 3: (0.883, 0.903, 0.918), 4: (0.890, 0.987, 1.022)}
+    sheerRatio = {1: (0.788, 0.872, 0.949), 2: (0.910, 1.000, 1.043), 3: (0.883, 0.903, 0.918), 4: (0.890, 0.987, 1.022)}
     def sheerBake(ctx):
         import numpy as np
         codePath = ctx.fileOfRole.get("lowerDetail") or ctx.gameFileOfRole.get("lowerDetail", "")

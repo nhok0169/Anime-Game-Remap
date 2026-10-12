@@ -183,7 +183,9 @@ namespace AGRemapCore {
         // LynaePeppermint renders with the code it becomes after lynaeSkinCodeSwap (menu, Lynae11,
         // 2026-10-12). Code 0 is skin on Lynae and stays as it is
         CodeRatios ratios = identityRatios();
-        ratios[1] = {0.866, 0.884, 0.935};
+        // code 1 is her default leg material (white-grey, 'robotic'); one probe left the remap's thighs warm
+        // pink, (240, 225, 229) against her (218, 222, 232), so its ratio carries that remaining gap too
+        ratios[1] = {0.788, 0.872, 0.949};
         ratios[2] = {0.910, 1.000, 1.043};
         ratios[3] = {0.883, 0.903, 0.918};
         ratios[4] = {0.890, 0.987, 1.022};

@@ -144,6 +144,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.downloadVersionFolder = "3_7"
     facts.downloadPrefix = "Lynae"
     facts.fallbackTextures = {role: h for h, role in CurrentRoles.items() if role not in NoFallback}
+    # her holographic foil (her jacket and props passes read it at ps-t4), bound where the pouch reads its own
+    facts.fallbackTextures = {**facts.fallbackTextures, "filmFoil": "74a761f5"}
     return facts
 
 
@@ -281,11 +283,13 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         5: FRB.WWMIFixerConfig.SourceComponent(6, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
                                                    B("ps-t2", "jacketDiffuse"), B("ps-t3", "jacketDetail")]),
         6: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "propsNormal"), B("ps-t1", "propsMask"),
-                                                   B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse")]),
+                                                   B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse"),
+                                                   B("ps-t5", "filmFoil")]),
         7: FRB.WWMIFixerConfig.SourceComponent(7, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
         # her jacket's FILM draws (see drawReroutes below), on the hip pouch's register order
         105: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
-                                                     B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse")]),
+                                                     B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse"),
+                                                     B("ps-t5", "filmFoil")]),
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True

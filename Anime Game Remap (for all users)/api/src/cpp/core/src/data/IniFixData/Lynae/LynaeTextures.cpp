@@ -115,6 +115,9 @@ namespace AGRemapCore {
         facts.downloadPrefix = "Lynae";
         facts.fallbackTextures = {
             {"bangsDiffuse", "7d044e58"},
+            // her holographic foil, which her jacket and props passes read at ps-t4 (and her props' glass
+            // passes at t7 / t8): nothing a mod ships, bound where the skin's pouch reads its own foil
+            {"filmFoil", "74a761f5"},
             {"bangsMask", "997e0a9a"},
             {"bangsStrand", "48947f0c"},
             {"faceDiffuse", "0f19cf16"},

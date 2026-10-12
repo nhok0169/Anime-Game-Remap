@@ -798,7 +798,15 @@ the mod on its own card. What it found:
   first build put the additions nowhere because of it, and the carried `ps-t` lines needed the SOURCE component's
   `registerRoles`. A component whose map is the game's, or whose draws carry no flag, is untouched: over the 34-mod
   corpus only Lynae9's `.ini` changed. In game the jacket-path sweater is a glossy see-through film like hers, its rims
-  more violet. The same rule
+  more violet.
+  **"The texture looks off" (the maintainer, same day) is the FOIL, not the opacity** -- a pass that made the film
+  more see-through (the pouch's own mask values under it) was reverted: on Lynae the sweater's other variants hide the
+  bikini. Her jacket and props passes read HER holographic foil, `74a761f5` (oil-slick swirl with sparkles), at
+  `ps-t4`; the pouch reads its own pastel one, `00e3f13b`, at `ps-t5` (its passes also inherit `4bee4070`, the same art
+  as hers). So `filmFoil` (a fallback download, nothing a mod ships) is bound at the pouch's `ps-t5` for her props and
+  the rerouted jacket draws. **What remains is the pouch shader's own violet fresnel** -- every code, mask channel,
+  normal alpha and diffuse alpha tried leaves it, so it is not a texture's to fix. `wwmiPassLayout.py` on her and the
+  skin's TexDDS dumps (`--starts 274170 301470` / `254433`) is what listed the two foils. The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

@@ -123,10 +123,11 @@ namespace AGRemapCore {
             // The skin's jacket shader reads mask / diffuse / detail at ps-t1 / t2 / t3 -- hers reads
             // the detail at t2 and the diffuse at t3
             {5, {6, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDiffuse"}, {"ps-t3", "jacketDetail"}}}},
-            {6, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}}}},
+            // ...and her foil where the pouch reads its own (ps-t5): the film the pouch draws is hers
+            {6, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"ps-t5", "filmFoil"}}}},
             {7, {7, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
             // her jacket's FILM draws (see drawReroutes), on the hip pouch's register order
-            {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}}, true}},
+            {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t5", "filmFoil"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,

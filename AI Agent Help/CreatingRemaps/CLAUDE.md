@@ -725,6 +725,24 @@ the mod on its own card. What it found:
   `lowerDetail` when it binds one by default, else Lynae's game map -- `TexEditContext::fileOfRole` leaves out a role
   `planToggledRoles` flagged. The see-through skirt panel and the clear ID card stay opaque (an opaque shader cannot
   draw them; the card "pressing into" the skirt was that panel gone solid).
+* **LYNAE9 ON PEPPERMINT: BROWN GLOVES, PALE TIGHTS, A GOLD SWEATER -- TWO SHARED-CODE BUGS AND AN sRGB CODE MAP
+  (2026-10-12).** (1) **One file, several edited roles.** Lynae9 binds one mask (`TMB`) and one code map (`A.dds`) in
+  her lower body (4) AND her jacket (5). `WWMIFixer`'s `editedResourceOf_` / `editedRoleOf_` held ONE edit per
+  resource, the last registered, so the jacket's edits overwrote the lower body's: both edited files were written, and
+  the lower body's CARRIED lines re-bound the raw mask and code map after the fix's texture list. `editedByRole_` /
+  `editedRolesOf_` keep every (resource, role) now. (2) **A toggle chain two roles share.** Her sweater chain
+  (`ResourceTextureJacket`..`D`) is her jacket's diffuse and her props' diffuse; the variant loop let the FIRST role
+  claim every file, so the props drew four of five variants ungraded. A role of the same KIND (`roleKind`) claims it too
+  now; a different kind still does not (the mask-over-diffuse case the rule exists for). (3) **An sRGB code map.**
+  `A.dds` is `BC7_UNORM_SRGB`: the shader reads the DECODED value, truncated -- 250 is 243 (material 3), proved on her
+  own card (a decoded-and-truncated R8 copy renders identically, 1.4 mean pixel difference; rounding to 244 paled the
+  tights, 28.5) -- while the edits wrote the raw bytes to a plain file, material 10. `shaderCodes` decodes first, and
+  `lynaeMaskRedFill` decodes an sRGB mask's G / B. Gloves and tights match Lynae after (1) and (3). **What does NOT match,
+  and should not be chased:** Lynae's props slot draws four passes in two register layouts, and its two glass passes read
+  the diffuse at `ps-t7` (and a holographic foil, `74a761f5`, at `ps-t8`). Lynae9 binds only `ps-t3`, so on Lynae the
+  sweater is HER game texture under the foil -- pink in the menu, green in the overworld (the maintainer's "the green
+  flashes, then turns red"). A flat colour at `ps-t3` changes nothing there; at `ps-t7` / `ps-t8` it recolours the whole
+  sweater. The mod's own art only shows on Peppermint. Found by binding a flat green per register (t0-t8).
 * **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
   OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a
   holographic film that renders her cyan lining texture pink-red; LynaePeppermint draws code 4 as plain diffuse, and its

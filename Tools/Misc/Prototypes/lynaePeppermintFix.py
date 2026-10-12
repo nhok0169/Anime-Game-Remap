@@ -46,6 +46,7 @@
 #     map is identified by hash only, never by thumbprint.
 import argparse
 import json
+import math
 import os
 import sys
 
@@ -308,11 +309,26 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         lo, hi = v & 0x0F, v & 0xF0
         return hi | (4 if lo == 0 else 0 if lo == 4 else lo)
     _codeTable = bytes(_swapCode(v) for v in range(256))
+    # A map stored sRGB reaches the shader DECODED, and the shader truncates value * 255 to its code
+    # (Lynae9's 250 is 243 on her own card); the edits write linear bytes, so an sRGB source is decoded
+    # first -- truncated for codes, nearest for a mask's other channels (core's srgbDecodeTable)
+    def _srgbTable(truncate):
+        out = []
+        for i in range(256):
+            c = i / 255
+            lin = (c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4) * 255
+            out.append(min(255, math.floor(lin + (1e-6 if truncate else 0.5))))
+        return bytes(out)
+    _srgbCodes, _srgbValues = _srgbTable(True), _srgbTable(False)
+    def _shaderCodes(tex):
+        red = bytes(bytearray(tex.getPixels())[0::4])
+        return red.translate(_srgbCodes) if tex.gamma is not None else red
     def skinCodeSwap(ctx):
         def run(tex):
+            codes = _shaderCodes(tex)
             tex.gamma = None                     # these bytes are codes, not colour
             px = bytearray(tex.getPixels())
-            red = bytes(px[0::4]).translate(_codeTable)
+            red = codes.translate(_codeTable)
             px[0::4] = red
             px[1::4] = red
             px[2::4] = red
@@ -325,9 +341,13 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # (core's lynaeMaskRedFill) ----
     def maskRedFill(ctx):
         def run(tex):
+            srgb = tex.gamma is not None
             tex.gamma = None                     # a mask is codes, not colour
             px = bytearray(tex.getPixels())
             px[0::4] = b"\xff" * (len(px) // 4)
+            if srgb:
+                px[1::4] = bytes(px[1::4]).translate(_srgbValues)
+                px[2::4] = bytes(px[2::4]).translate(_srgbValues)
             tex.setPixels(bytes(px), tex.width, tex.height)
         return run
     config.texEdits = config.texEdits + [FRB.WWMIFixerConfig.TexEdit(role, "Red", maskRedFill) for role in ("lowerMask", "jacketMask")]
@@ -416,7 +436,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             if not codes.hasImage:
                 return
             w, h = tex.width, tex.height
-            c = np.frombuffer(bytes(codes.getPixels()), np.uint8).reshape(codes.height, codes.width, 4)[..., 0]
+            c = np.frombuffer(_shaderCodes(codes), np.uint8).reshape(codes.height, codes.width)
             c = c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 15
             px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
             r, g, b = px[..., 0], px[..., 1], px[..., 2]
@@ -434,11 +454,13 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # take the measured tint (core's lynaeFilmCode / lynaeFilmBake) ----
     def filmCode(ctx):
         def run(tex):
+            codes = _shaderCodes(tex)
             tex.gamma = None
             px = bytearray(tex.getPixels())
-            for i in range(0, len(px) - 3, 4):
-                if px[i] & 15 == 4:
-                    px[i] = px[i + 1] = px[i + 2] = 49
+            red = bytes(49 if v & 15 == 4 else v for v in codes)
+            px[0::4] = red
+            px[1::4] = red
+            px[2::4] = red
             tex.setPixels(bytes(px), tex.width, tex.height)
         return run
     def filmBake(ctx):
@@ -452,7 +474,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             if not codes.hasImage:
                 return
             w, h = tex.width, tex.height
-            c = np.frombuffer(bytes(codes.getPixels()), np.uint8).reshape(codes.height, codes.width, 4)[..., 0]
+            c = np.frombuffer(_shaderCodes(codes), np.uint8).reshape(codes.height, codes.width)
             c = c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 15
             px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
             s = c == 4

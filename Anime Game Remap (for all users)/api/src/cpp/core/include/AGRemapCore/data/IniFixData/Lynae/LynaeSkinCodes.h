@@ -31,7 +31,11 @@ namespace AGRemapCore {
      with material 4, and each uses the other's number for something small (trims, logos). A code map
      carried across unchanged shades the body's skin as cloth: whiter, with grey-lavender shadows,
      beside a face that stays warm. Materials 0 and 4 are exchanged and every other bit is kept, so
-     the same filter serves both directions
+     the same filter serves both directions :raw-html:`<br />` :raw-html:`<br />`
+
+     A map stored in an sRGB format reaches the shader decoded, and the shader truncates the decoded
+     value to its code; such a map is decoded the same way first, and every edit of a code map here
+     writes the codes the shader would have read
      @endrst
      */
     TexEditor::Filter lynaeSkinCodeSwap();

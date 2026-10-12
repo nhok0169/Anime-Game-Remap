@@ -43,17 +43,56 @@ namespace AGRemapCore {
             }
             return v;
         }
+
+        // A map stored sRGB reaches the shader DECODED: the sampler linearises each byte, and the
+        // shader truncates value * 255 to its code (Lynae9's 250 is 243, material 3, on her own card:
+        // rounding to 244 rendered her tights paler). The edits below write linear bytes, so they
+        // decode an sRGB source first -- 'truncate' for codes, nearest for a mask's other channels
+        std::array<std::uint8_t, 256> srgbDecodeTable(bool truncate) {
+            std::array<std::uint8_t, 256> table{};
+            for (int i = 0; i < 256; ++i) {
+                const double c = i / 255.0;
+                const double linear = (c <= 0.04045 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4)) * 255.0;
+                table[i] = static_cast<std::uint8_t>(std::min(255.0, std::floor(linear + (truncate ? 1e-6 : 0.5))));
+            }
+
+            return table;
+        }
+
+        const std::array<std::uint8_t, 256>& srgbCodes() {
+            static const std::array<std::uint8_t, 256> table = srgbDecodeTable(true);
+            return table;
+        }
+
+        const std::array<std::uint8_t, 256>& srgbValues() {
+            static const std::array<std::uint8_t, 256> table = srgbDecodeTable(false);
+            return table;
+        }
+
+        // The red-channel codes of 'tex' as its shader reads them: decoded when the source was sRGB
+        // (TextureFile sets a gamma exactly then), the bytes otherwise
+        std::vector<std::uint8_t> shaderCodes(const TextureFile& tex) {
+            const std::vector<std::uint8_t>& px = tex.getPixels();
+            const bool srgb = tex.getGamma().has_value();
+            std::vector<std::uint8_t> codes(px.size() / 4);
+            for (std::size_t i = 0; i < codes.size(); ++i) {
+                codes[i] = srgb ? srgbCodes()[px[i * 4]] : px[i * 4];
+            }
+
+            return codes;
+        }
     }
 
     TexEditor::Filter lynaeSkinCodeSwap() {
         return [](TextureFile& tex) {
+            const std::vector<std::uint8_t> codes = shaderCodes(tex);
             tex.setGamma(std::nullopt);          // these bytes are codes, not colour
             std::vector<std::uint8_t> px = tex.getPixels();
 
             // The shader reads the red channel; a single-channel source comes in as (v, v, v, 255),
             // and the copy is written the same way
             for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                const std::uint8_t v = swapCode(px[i]);
+                const std::uint8_t v = swapCode(codes[i / 4]);
                 px[i] = v;
                 px[i + 1] = v;
                 px[i + 2] = v;
@@ -96,14 +135,14 @@ namespace AGRemapCore {
                 const int h = tex.getHeight();
                 const int cw = codes.getWidth();
                 const int ch = codes.getHeight();
-                const std::vector<std::uint8_t>& code = codes.getPixels();
+                const std::vector<std::uint8_t> code = shaderCodes(codes);
                 std::vector<std::uint8_t> px = tex.getPixels();
                 for (int y = 0; y < h; ++y) {
                     const int cy = std::min(ch - 1, static_cast<int>((static_cast<long long>(y) * ch) / h));
                     for (int x = 0; x < w; ++x) {
                         const std::size_t i = (static_cast<std::size_t>(y) * w + x) * 4;
                         const int cx = std::min(cw - 1, static_cast<int>((static_cast<long long>(x) * cw) / w));
-                        const std::size_t c = (static_cast<std::size_t>(cy) * cw + cx) * 4;
+                        const std::size_t c = static_cast<std::size_t>(cy) * cw + cx;
                         if (i + 3 >= px.size() || c >= code.size()) {
                             continue;
                         }
@@ -161,12 +200,13 @@ namespace AGRemapCore {
 
     TexEditor::Filter lynaeFilmCode() {
         return [](TextureFile& tex) {
+            const std::vector<std::uint8_t> codes = shaderCodes(tex);
             tex.setGamma(std::nullopt);          // codes, not colour
             std::vector<std::uint8_t> px = tex.getPixels();
             for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                if ((px[i] & 0x0F) == 4) {
-                    px[i] = px[i + 1] = px[i + 2] = 49;   // LynaePeppermint's coat film: material 1, flags 3
-                }
+                const std::uint8_t v = codes[i / 4];
+                // LynaePeppermint's coat film: material 1, flags 3
+                px[i] = px[i + 1] = px[i + 2] = (v & 0x0F) == 4 ? 49 : v;
             }
 
             tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
@@ -175,10 +215,15 @@ namespace AGRemapCore {
 
     TexEditor::Filter lynaeMaskRedFill() {
         return [](TextureFile& tex) {
+            const bool srgb = tex.getGamma().has_value();
             tex.setGamma(std::nullopt);          // a mask is codes, not colour
             std::vector<std::uint8_t> px = tex.getPixels();
             for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
                 px[i] = 255;
+                if (srgb) {
+                    px[i + 1] = srgbValues()[px[i + 1]];
+                    px[i + 2] = srgbValues()[px[i + 2]];
+                }
             }
 
             tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());

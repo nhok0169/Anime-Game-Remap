@@ -4449,9 +4449,16 @@ namespace AGRemapCore {
                                         return found->second;
                                     }
 
-                                    const auto edited = editedRoleOf_.find(name);
-                                    if (edited != editedRoleOf_.end() && regOfRole.count(edited->second) > 0) {
-                                        return edited->second;
+                                    // every role an edit was registered for, not just the last:
+                                    // Lynae9 binds one mask and one code map in her lower body (4)
+                                    // AND her jacket (5), each edited per role
+                                    const auto edited = editedRolesOf_.find(name);
+                                    if (edited != editedRolesOf_.end()) {
+                                        for (const std::string& role : edited->second) {
+                                            if (regOfRole.count(role) > 0) {
+                                                return role;
+                                            }
+                                        }
                                     }
 
                                     return std::nullopt;
@@ -4559,6 +4566,11 @@ namespace AGRemapCore {
                             // serve several
                             auto editedOf = [this, component](const std::string& resource, const std::string& role) {
                                 const std::string bound = StringTools::toLower(resource);
+                                const auto byRole = editedByRole_.find({bound, role});
+                                if (byRole != editedByRole_.end()) {
+                                    return byRole->second;
+                                }
+
                                 const auto swap = editedResourceOf_.find(bound);
                                 const auto owns = editedRoleOf_.find(bound);
                                 if (swap != editedResourceOf_.end() && owns != editedRoleOf_.end()
@@ -4994,6 +5006,11 @@ namespace AGRemapCore {
                     const RegNewVals<>::OldValProducer toEdited =
                         [this, &role](const std::string& oldValue, const ModType*) {
                             const std::string bound = StringTools::toLower(oldValue);
+                            const auto byRole = editedByRole_.find({bound, role});
+                            if (byRole != editedByRole_.end()) {
+                                return byRole->second;
+                            }
+
                             const auto swap = editedResourceOf_.find(bound);
                             const auto owns = editedRoleOf_.find(bound);
                             if (swap != editedResourceOf_.end()
@@ -6181,6 +6198,7 @@ namespace AGRemapCore {
                         if (was != nullptr) {
                             editedResourceOf_[StringTools::toLower(*was)] = resource;
                             editedRoleOf_[StringTools::toLower(*was)] = edit.role;
+                            noteEdited(*was, edit.role, resource);
                             sourceOfEdited_[StringTools::toLower(resource)] = *was;
 
                             // EVERY variant of the role, not just the one fileOfRole_ resolved to.
@@ -6206,9 +6224,21 @@ namespace AGRemapCore {
                                         // one register carries several source components' art, so a
                                         // file can sit in two groups; the first role to claim it
                                         // keeps it, because a second claim would run that role's
-                                        // filter over it -- a mask repack over a diffuse.
-                                        if (editedResourceOf_.count(StringTools::toLower(variant)) > 0) {
-                                            continue;
+                                        // filter over it -- a mask repack over a diffuse. A role of
+                                        // the SAME kind does claim it (2026-10-12): Lynae9's sweater
+                                        // chain is her jacket's diffuse and her props' diffuse, and
+                                        // with only the jacket's edits the props drew four of the
+                                        // five variants ungraded
+                                        const auto claimed = editedRolesOf_.find(StringTools::toLower(variant));
+                                        if (claimed != editedRolesOf_.end()) {
+                                            const bool otherKind =
+                                                std::any_of(claimed->second.begin(), claimed->second.end(),
+                                                            [&edit](const std::string& by) {
+                                                                return by == edit.role || roleKind(by) != roleKind(edit.role);
+                                                            });
+                                            if (otherKind) {
+                                                continue;
+                                            }
                                         }
 
                                         const auto file = fileOfResource_.find(StringTools::toLower(variant));
@@ -6230,6 +6260,7 @@ namespace AGRemapCore {
                                         editedResources_.emplace_back(variantResource, variantRel);
                                         editedResourceOf_[StringTools::toLower(variant)] = variantResource;
                                         editedRoleOf_[StringTools::toLower(variant)] = edit.role;
+                                        noteEdited(variant, edit.role, variantResource);
                                         sourceOfEdited_[StringTools::toLower(variantResource)] = variant;
 
                                         if (groupLabel.empty()) {
@@ -6267,6 +6298,20 @@ namespace AGRemapCore {
                                 entry.second = resource;
                             }
                         }
+                    }
+                }
+
+                // ONE FILE, SEVERAL EDITED ROLES (2026-10-12). editedResourceOf_ / editedRoleOf_ keep
+                // one edit per resource, the last registered; Lynae9 binds one mask and one code map
+                // in her lower body AND her jacket, so the jacket's edits overwrote the lower body's
+                // and the lower body's carried lines re-bound the UNEDITED mask and code map after the
+                // fix's list (both edited files were written and bound by nothing). These keep them all
+                void noteEdited(const std::string& resource, const std::string& role, const std::string& edited) {
+                    const std::string key = StringTools::toLower(resource);
+                    editedByRole_[{key, role}] = edited;
+                    std::vector<std::string>& roles = editedRolesOf_[key];
+                    if (std::find(roles.begin(), roles.end(), role) == roles.end()) {
+                        roles.push_back(role);
                     }
                 }
 
@@ -7169,6 +7214,8 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it
                 std::unordered_map<std::string, std::string> editedRoleOf_;           // ...and the ROLE that edit was registered for, since one file may serve several
                 std::unordered_map<std::string, std::string> sourceOfEdited_;         // ...and back
+                std::map<std::pair<std::string, std::string>, std::string> editedByRole_;   // (the mod's resource, role) -> that role's edited copy
+                std::unordered_map<std::string, std::vector<std::string>> editedRolesOf_;  // the mod's resource -> every role edited from it
                 std::map<std::pair<std::string, std::string>, std::string> roleLists_;   // (role, register) -> the copied list's name
                 std::vector<std::string> roleListTexts_;                              // ...and their section text
                 std::vector<PlannedEdit> plannedEdits_;

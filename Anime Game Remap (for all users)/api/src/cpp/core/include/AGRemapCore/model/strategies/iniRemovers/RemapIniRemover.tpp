@@ -699,6 +699,13 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
+    bool RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::isMergedSection(const std::string& name) {
+        const std::string lowered = StringTools::toLower(StringTools::strip(name));
+        return lowered == "constants" || lowered == "present";
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
     std::string RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::remove(bool parse, bool writeBack, IniRemovalContext context) {
         // Accepted and ignored -- see this method's own note.
         (void)parse;
@@ -804,6 +811,16 @@ namespace AGRemapCore {
 
         for (const SectionSpan& span : scan.sections) {
             if (!removed.count(span.name)) {
+                continue;
+            }
+
+            // A SECTION 3DMIGOTO MERGES IS THE AUTHOR'S TOO (2026-10-08). `[Constants]` and
+            // `[Present]` may appear more than once in one file and 3DMigoto reads them as one, so a
+            // fix declares its own variables in a `[Constants]` of its own (a sibling's toggle,
+            // carried -- see TextureOverrideFacts::carriedSections). By name, that made the
+            // author's `[Constants]` a target as well, and an undo deleted every declaration the mod
+            // had. Outside a boilerplate, such a section is the author's.
+            if (span.boilerPlateInd == std::string::npos && isMergedSection(span.name)) {
                 continue;
             }
 

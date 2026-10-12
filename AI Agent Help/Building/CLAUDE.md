@@ -429,6 +429,19 @@ exclusion is the cheapest thing to try. Measure it before believing it.
   several builds with `echo START %time%` prints one timestamp for all of them. That once looked
   like a build finishing in 0 seconds.
 
+## A BUILD THAT RUNS OUT OF COMPILER HEAP IS RAM, NOT CODE (2026-10-08)
+
+On the laptop with Genshin open (~6.6 GB committed) and WSL running (`vmmemWSL`, ~2.6 GB), a from-scratch
+build failed with `C1060: compiler is out of heap space`, `C1076: internal heap limit reached` and
+`C3859: Failed to create virtual memory for PCH` at `-j 8`, `-j 4`, `-j 2` and finally at **`-j 1`, on
+`VGRemapData.cpp` alone** (already `/Od`). `(Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory`
+said 1.5 GB of commit was free. `wsl --shutdown` made it 2.8 GB, still not enough; closing the game made
+it 8.7 GB, and `ninja -j 2` finished. **Both are the user's processes: ask before closing either** --
+another session may be using WSL, and the game may hold their test state. An incremental build that does
+not recompile the data tables fits beside the game. And an `INSTALL ... Permission denied` on
+`core.cp39-win_amd64.pyd` after a clean compile is a fix run (yours or another session's) holding the
+module: the build is done, and the standalone tests can link `AGRemapCore.lib` while you wait.
+
 ## On the maintainer's laptop, `cbuild` is a JUNCTION to the internal SSD (2026-09-16)
 
 The repo lives on `E:`, which on the maintainer's laptop is an **external USB drive**

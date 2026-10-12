@@ -608,8 +608,22 @@ namespace AGRemapCore {
             copySrcTxt = ctx_->fileTxt();
         }
 
+        // A COPY THAT REPEATS THE MOD'S OWN FILE IS NOT WRITTEN (2026-10-08). A copy exists to draw an
+        // object the mod's own file cannot (see copyPreamble); one whose every section is already in
+        // group 0, word for word, draws nothing new and only declares the same hashes a second time.
+        // A file that draws none of the mesh hits this whenever its fixer splits objects:
+        // CherryHutao6's textures.ini, which only watches the position hash, came out as a
+        // texturesRemapFix1.ini repeating that watcher. Dropped from fixTargets_ too, which stays
+        // parallel to fixedContents_.
+        const std::string group0Txt = (fixTargets_.size() > 1) ? groupToStr(0) : std::string();
+        FixTargets keptTargets;
+
         for (std::size_t i = 0; i < fixTargets_.size(); ++i) {
             std::string content = groupToStr(i);
+            if (i > 0 && StringTools::strip(GIMIFixerDetail::dropRepeatedSections(group0Txt, content)).empty()) {
+                continue;
+            }
+            keptTargets.push_back(fixTargets_[i]);
 
             // ---- one .ini file, several fixers ----
             //
@@ -688,6 +702,7 @@ namespace AGRemapCore {
 
             result[fixKey(i, target)] = content;
         }
+        fixTargets_ = std::move(keptTargets);
 
         if (hiding) {
             ctx_->setFileTxt(std::move(uncommentedTxt));

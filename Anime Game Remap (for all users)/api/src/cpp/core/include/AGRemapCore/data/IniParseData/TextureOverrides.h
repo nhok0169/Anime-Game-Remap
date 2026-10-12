@@ -12,7 +12,10 @@
 #ifndef AGRemapCore_TextureOverrides_H
 #define AGRemapCore_TextureOverrides_H
 
+#include <memory>
+#include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
@@ -111,6 +114,48 @@ namespace AGRemapCore {
              * @return The keys, each once, in the table's order
              */
             static std::vector<std::string> keysOf(const std::string& name, const std::string& hash);
+
+            /**
+             * @brief
+             @rst
+             A `section`_ of another ``.ini`` file, made ready to live in this one :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The `section`_, every `section`_ of that file it names in a value (a ``run =`` list,
+             recursively), and the files of every resource they bind -- each resource renamed with
+             ``RemapRef``, so a fix can declare it again in its own file and an undo removes only the
+             declaration
+             @endrst
+             */
+            struct Adoption {
+                /**
+                 * @brief The `sections`_ to add, in the order they were reached, resources renamed
+                 */
+                std::vector<std::pair<std::string, std::unique_ptr<ModBranches::Template>>> sections;
+
+                /**
+                 * @brief Each renamed resource -> every key of its `section`_ (``filename``, and
+                 *        ``type`` / ``format`` / ``stride`` for a buffer)
+                 */
+                std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>> refs;
+            };
+
+            /**
+             * @brief
+             @rst
+             'root' of 'sibling' as an :cpp:struct:`Adoption`, or ``std::nullopt`` when a `section`_
+             it would bring is already named in 'own' :raw-html:`<br />` :raw-html:`<br />`
+
+             A mod may keep its buffers and most objects in one ``.ini`` and one object's `section`_ in
+             another file of the folder; the file that binds the buffers adopts that `section`_ so the
+             object is remapped with the rest
+             @endrst
+             *
+             * @param sibling The other ``.ini`` file
+             * @param root The `section`_ of 'sibling' to adopt
+             * @param own The `sections`_ of the file adopting it
+             */
+            static std::optional<Adoption> adopt(IniFile& sibling, const std::string& root, const ModBranches::Templates& own);
     };
 
     /**

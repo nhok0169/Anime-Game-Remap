@@ -188,13 +188,19 @@ namespace AGRemapCore {
 
                     Classifier* classifier = classifier_.get();
                     this->objTargetFuncs.emplace_back(
-                        [classifier](Parser&, const std::string& sectionName, Section* section, bool,
-                                      ContentPart*, const Colouring* kvps) {
+                        [this, classifier](Parser&, const std::string& sectionName, Section* section, bool,
+                                            ContentPart*, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
                             }
 
-                            return classifier->classify(sectionName, section, *kvps);
+                            // An object the file that binds the buffers adopts is that file's to draw
+                            // -- see adoptSiblingObjs. Drawn here as well, it would draw twice.
+                            std::vector<ModObj> objs = classifier->classify(sectionName, section, *kvps);
+                            objs.erase(std::remove_if(objs.begin(), objs.end(), [this](const ModObj& modObj) {
+                                return givenAway_.count(modObj.second) != 0;
+                            }), objs.end());
+                            return objs;
                         });
 
                     buildDownloads(config, vertexCount);
@@ -221,6 +227,8 @@ namespace AGRemapCore {
                     this->downloads = allDownloads_;
                     recolourOnly_ = false;
                     readTextureOverrides();
+                    findGivenAwayObjs();
+                    adoptSiblingObjs();
                     Parser::getSectionTargets();
 
                     if (targetsBindSomething()) {
@@ -576,22 +584,141 @@ namespace AGRemapCore {
                 bool siblingBindsPosition() {
                     for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
                         IniFile sibling(path);
-                        const ModBranches::Templates& templates = sibling.getIfTemplates();
-                        ModBranches branches;
-                        for (const auto& entry : templates) {
-                            if (entry.second == nullptr) {
-                                continue;
-                            }
-                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
-                            if (!hash.has_value() || hashKeyOf(*hash) != PositionHashKey) {
-                                continue;
-                            }
-                            if (!branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
-                                return true;
-                            }
+                        if (bindsPosition(sibling.getIfTemplates())) {
+                            return true;
                         }
                     }
                     return false;
+                }
+
+                // Whether 'templates' binds vb0 on this character's position hash, directly or through `run =`.
+                bool bindsPosition(const ModBranches::Templates& templates) {
+                    ModBranches branches;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        if (!hash.has_value() || hashKeyOf(*hash) != PositionHashKey) {
+                            continue;
+                        }
+                        if (!branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // AN OBJECT DRAWN FROM A SIBLING .INI IS ADOPTED BY THE FILE THAT BINDS THE BUFFERS
+                // (2026-10-12). A mod may keep its buffers and most objects in one .ini and one object's
+                // section in another file of the folder. The second file has no buffers of its own and
+                // remaps nothing (dropSiblingSuppliedDownloads), so that object was left undrawn on the
+                // target. The file that binds the position buffer now takes the section in -- with the
+                // command lists it runs and each resource it binds declared again here under a RemapRef
+                // name -- for an object it has no section of its own for. GIMIComponentParser's
+                // adoptSiblingSlots does the same for a skin's slots.
+                // (hash, match_first_index) an object's section carries, or empty
+                std::pair<std::string, std::string> objIdentity(const std::string& obj) {
+                    std::pair<std::string, std::string> id;
+                    if (!this->objIdentityKVPs) {
+                        return id;
+                    }
+                    for (const auto& [key, value] : this->objIdentityKVPs(ModObj("", obj))) {
+                        if (key == IniKeywords::Hash) {
+                            id.first = StringTools::toLower(value);
+                        } else if (key == IniKeywords::MatchFirstIndex) {
+                            id.second = value;
+                        }
+                    }
+                    return id;
+                }
+
+                // The section of 'templates' carrying 'id', or empty
+                static std::string sectionWith(const ModBranches::Templates& templates, const std::pair<std::string, std::string>& id) {
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                        if (hash.has_value() && index.has_value()
+                                && StringTools::toLower(std::string(StringTools::strip(*hash))) == id.first
+                                && std::string(StringTools::strip(*index)) == id.second) {
+                            return entry.first;
+                        }
+                    }
+                    return std::string();
+                }
+
+                // The objects of THIS file that a sibling binding the buffers adopts -- asked exactly as
+                // that sibling's adoptSiblingObjs asks it, so the two files cannot disagree.
+                void findGivenAwayObjs() {
+                    givenAway_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr || !iniFile->getFile().has_value() || bindsPosition(iniFile->getIfTemplates())) {
+                        return;
+                    }
+
+                    IniFile self(*iniFile->getFile());
+                    const ModBranches::Templates& own = self.getIfTemplates();
+                    for (const std::string& path : TextureOverrides::siblingInis(iniFile)) {
+                        IniFile sibling(path);
+                        const ModBranches::Templates& theirs = sibling.getIfTemplates();
+                        if (!bindsPosition(theirs)) {
+                            continue;
+                        }
+                        for (const std::string& obj : config_.drawnObjs) {
+                            const std::pair<std::string, std::string> id = objIdentity(obj);
+                            if (id.first.empty() || id.second.empty() || !sectionWith(theirs, id).empty()) {
+                                continue;
+                            }
+                            const std::string root = sectionWith(own, id);
+                            if (!root.empty() && TextureOverrides::adopt(self, root, theirs).has_value()) {
+                                givenAway_.insert(obj);
+                            }
+                        }
+                    }
+                }
+
+                void adoptSiblingObjs() {
+                    adoptedRefs_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr || !this->objIdentityKVPs || !bindsPosition(iniFile->getIfTemplates())) {
+                        return;
+                    }
+
+                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const std::vector<std::string> siblings = TextureOverrides::siblingInis(iniFile);
+                    for (const std::string& obj : config_.drawnObjs) {
+                        const std::pair<std::string, std::string> id = objIdentity(obj);
+                        if (id.first.empty() || id.second.empty() || !sectionWith(own, id).empty()) {
+                            continue;
+                        }
+
+                        for (const std::string& path : siblings) {
+                            IniFile sibling(path);
+                            const std::string root = sectionWith(sibling.getIfTemplates(), id);
+                            if (root.empty()) {
+                                continue;
+                            }
+                            std::optional<TextureOverrides::Adoption> adoption = TextureOverrides::adopt(sibling, root, own);
+                            if (!adoption.has_value()) {
+                                continue;
+                            }
+                            for (auto& [name, section] : adoption->sections) {
+                                ctx_.addSection(name, std::move(section));
+                            }
+                            for (const auto& [name, kvps] : adoption->refs) {
+                                for (const auto& [key, value] : kvps) {
+                                    if (key == IniKeywords::Filename) {
+                                        siblingRefs_.emplace(name, value);
+                                    }
+                                }
+                                adoptedRefs_[name] = kvps;
+                            }
+                            break;
+                        }
+                    }
                 }
 
                 // A DOWNLOADED IB IS NEEDED ONLY IN A STATE THAT DRAWS WITHOUT THE MOD'S OWN (2026-10-11).
@@ -742,7 +869,8 @@ namespace AGRemapCore {
                     }
 
                     for (const auto& [name, file] : siblingRefs_) {
-                        if (bound.count(name) == 0) {
+                        auto adopted = adoptedRefs_.find(name);
+                        if (bound.count(name) == 0 && adopted == adoptedRefs_.end()) {
                             continue;
                         }
 
@@ -752,7 +880,8 @@ namespace AGRemapCore {
                         if (section == nullptr) {
                             section = ctx_.addSection(name,
                                 std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
-                            section->addKVPsToFront(std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
+                            section->addKVPsToFront(adopted != adoptedRefs_.end() ? adopted->second
+                                : std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
                         }
 
                         Graph* graph = ctx_.graphGroups().createGraph({}, {}, false, nullptr);
@@ -941,6 +1070,8 @@ namespace AGRemapCore {
                 // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
                 // the file it names, and the graphs that declare the ones an object binds.
                 std::map<std::string, std::string> siblingRefs_;
+                std::map<std::string, std::vector<std::pair<std::string, std::string>>> adoptedRefs_;   // adopted resource -> its keys
+                std::set<std::string> givenAway_;      // objects of this file a sibling binding the buffers adopts
                 std::vector<std::pair<std::string, Graph*>> refGraphs_;
 
                 // Whether this file overrides any of the character's textures, and any the target

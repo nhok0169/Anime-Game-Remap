@@ -2338,8 +2338,16 @@ character's position buffer, the classic parser keeps only that file's own objec
 (`dropSiblingSuppliedDownloads`), which remaps the split mod whole; the component parser marks such a file
 as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
 component templates the part that file carries is still not drawn on the target (no synthetic or real mod
-has needed more yet). The fix that would draw it reads slot sections from siblings into the main file's
-merge. **And the component template bound an EMPTY index buffer for a state it never split** (one that
+has needed more yet). **Since 2026-10-12 the file that binds the position buffer ADOPTS the sibling's
+section** (`TextureOverrides::adopt`, called by `GIMIComponentParser::adoptSiblingSlots` and
+`GIMICharParser::adoptSiblingObjs`): the section, every command list of the sibling it runs, and each
+resource it binds -- declared again under a `RemapRef` name with ALL its keys (an ib declared with only
+`filename` loses its `format` and is misread; the first build did that). Only for an object this file
+has no section of its own for, and only when no name collides. The sibling then classifies that object
+as nothing (`givenAway_`, asked with the same `adopt` call) so it is not drawn twice, and keeps any other
+section (a toggle watcher). Only the file that binds the buffers adopts: the first build let the sibling
+adopt the main file's slots back. All three repros (CharlotteHurlock merge, Fischl classic, Bennett
+component) now produce buffers byte-identical to their unsplit mods; no real mod of 245 moved. **And the component template bound an EMPTY index buffer for a state it never split** (one that
 runs through a download, beside a state of the mod's own): the collect still wrote that state's split, at
 0 bytes, and bound it under the filled `drawindexed = auto`. Since 2026-10-11 such a binding is `ib = null`
 (`nullDownloadSplits_`, only when an authored state exists -- a recolour drawn from downloads keeps its real

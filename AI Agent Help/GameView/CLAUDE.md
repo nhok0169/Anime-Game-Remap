@@ -474,6 +474,20 @@ Two WuWa specifics about the tool:
   dump with `--options` when the question allows; that also avoids the reload wait, which never sees
   the log go quiet while call logging floods it.
 
+## Navigating the shop and the character screen across a long round (2026-10-12)
+
+- **`click` and `drag` take VIEW coordinates** (the `.view.png` scale, 1 view px = 1.224 full px at 1920 wide).
+  Full-resolution numbers miss: a click meant for the shop's close button at full `(1840, 48)` did nothing.
+- **From an outfit preview, the close button (view `1505,40`) goes to the shop grid, and again to the overworld.**
+  From the overworld `key c` can land on the PAIMON MENU instead of the character screen; its Character tile is
+  at view `414,470`. **The Paimon menu shows the UID top left: black out the top-left 45 x 35 % of any capture
+  before reading it**, and delete one that slipped through.
+- **The character screen's grid button (view `62,822`) lists every owned character.** A party nickname replaces
+  the name ("Alice" is the Traveler), so pick by portrait.
+- **Turn hunting off only when its green line is visible**; `toggle` flips blind, and a `reload` turns it back on.
+- **Read the outfit title after every arrow click** (crop view `1420,720` to `1860,830`) -- see Creating Remaps'
+  "AN IN-GAME ROUND OVER MANY MODS".
+
 ## Rules for driving the game
 
 This is the maintainer's real account, and the tool presses real keys.

@@ -38,6 +38,7 @@
 #include "AGRemapCore/constants/RegFillMissingMode.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/tools/TextTools.h"
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/VGRemap.h"
 #include "AGRemapCore/model/buffers/VGComponentMerge.h"
 #include "AGRemapCore/model/IniSectionGraph.h"
@@ -93,6 +94,12 @@ namespace AGRemapCore {
         using SlotRemap = GraphGroupRemap<>;
 
         const ModObj FaceObj{"", "face"};
+
+        // A file the PARSER registered as a download rather than one the mod ships, recognised by the
+        // RemapDL its name must carry -- the component fixer's test of the same name.
+        bool isDownloadPath(const std::string& path) {
+            return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL) != std::string::npos;
+        }
 
         const std::string IbHashKey = "ib";
         const std::string PositionHashKey = "position_vb";
@@ -791,6 +798,25 @@ namespace AGRemapCore {
                                             ibBytesPerIndex_[file] = bytesPerIndexOf(resourceOf(rawIb.val));
                                             slotFiles.ibs.push_back(BranchVal{std::move(file), rawIb.query});
                                         }
+                                    }
+
+                                    // A DOWNLOAD BESIDE THE MOD'S OWN IB SERVES NO STATE (2026-10-11). The
+                                    // parser binds the game's ib at the TOP of a root some path of which
+                                    // lacks one -- a merged master's variant that only skips the slot --
+                                    // and a branch list reads root first, so the download answered for
+                                    // every branch: CharlotteHurlock1 with slot B skipped in one variant
+                                    // merged the GAME's BodyB over the mod's vertices in all of them, and
+                                    // the mod's own BodyB.ib went unused. When the list holds any file of
+                                    // the mod's own, its downloads are dropped, and a branch it leaves
+                                    // without an ib draws nothing of the slot -- as on the mod's own
+                                    // character. A list of nothing but downloads (a slot the mod lacks
+                                    // outright) keeps them. GIMIComponentFixer's preferAuthored.
+                                    if (std::any_of(slotFiles.ibs.begin(), slotFiles.ibs.end(), [](const BranchVal& v) {
+                                            return !v.val.empty() && !isDownloadPath(v.val);
+                                        })) {
+                                        slotFiles.ibs.erase(std::remove_if(slotFiles.ibs.begin(), slotFiles.ibs.end(),
+                                            [](const BranchVal& v) { return !v.val.empty() && isDownloadPath(v.val); }),
+                                            slotFiles.ibs.end());
                                     }
 
                                     for (const BranchVal& candidate : slotFiles.ibs) {

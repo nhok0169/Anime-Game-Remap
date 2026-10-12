@@ -37,6 +37,8 @@
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
+#include "AGRemapCore/tools/z3/Z3Predicate.h"
 
 
 namespace AGRemapCore {
@@ -278,13 +280,19 @@ namespace AGRemapCore {
 
                     Classifier* classifier = classifier_.get();
                     this->objTargetFuncs.emplace_back(
-                        [classifier](Parser&, const std::string& sectionName, Section* section, bool,
-                                      ContentPart*, const Colouring* kvps) {
+                        [this, classifier](Parser&, const std::string& sectionName, Section* section, bool,
+                                            ContentPart*, const Colouring* kvps) {
                             if (kvps == nullptr) {
                                 return std::vector<ModObj>();
                             }
 
-                            return classifier->classify(sectionName, section, *kvps);
+                            // An object the file that binds the buffers adopts is that file's to draw
+                            // -- see adoptSiblingObjs. Drawn here as well, it would draw twice.
+                            std::vector<ModObj> objs = classifier->classify(sectionName, section, *kvps);
+                            objs.erase(std::remove_if(objs.begin(), objs.end(), [this](const ModObj& modObj) {
+                                return givenAway_.count(modObj.second) != 0;
+                            }), objs.end());
+                            return objs;
                         });
 
                     buildDownloads(config, vertexCount);
@@ -311,9 +319,14 @@ namespace AGRemapCore {
                     this->downloads = allDownloads_;
                     recolourOnly_ = false;
                     readTextureOverrides();
+                    findGivenAwayObjs();
+                    adoptSiblingObjs();
                     Parser::getSectionTargets();
 
                     if (targetsBindSomething()) {
+                        dropUndrawnObjDownloads();
+                        dropSiblingSuppliedDownloads();
+                        dropUnneededObjDownloads();
                         return;
                     }
 
@@ -614,6 +627,313 @@ namespace AGRemapCore {
                     return false;
                 }
 
+                // AN OBJECT THE MOD LEAVES UNDRAWN GETS NO DOWNLOAD (2026-10-10). A mod that carries the
+                // character's buffers and skips its index buffer (`handling = skip`) draws exactly the
+                // objects it writes a section for; any other is never drawn on its own character.
+                // Downloading the game's index buffer for one of those and drawing it over the MOD's
+                // vertices -- in the game's vertex order, which the mod's buffers do not keep -- is
+                // shards: a Fischl mod with no dress section, merged onto FischlHighness's body, drew
+                // the downloaded dress as jagged triangles through her open jacket. Its textures go
+                // too, so no section is invented for it at all. A mod that does not skip the index
+                // buffer keeps its downloads: there the game draws the object too. The component
+                // parser does the same per slot; see GIMIComponentParser's findUndrawnSlots.
+                void dropUndrawnObjDownloads() {
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = iniFile->getIfTemplates();
+                    const auto& targets = this->sectionTargets();
+                    auto sectionsOf = [&](const ModObj& modObj) -> const std::vector<std::string>* {
+                        auto found = targets.find(modObj);
+                        return (found == targets.end() || found->second.empty()) ? nullptr : &found->second;
+                    };
+
+                    const std::vector<std::string>* ibSections = sectionsOf(ModObj("", "ib"));
+                    if (sectionsOf(ModObj("", "position")) == nullptr || ibSections == nullptr) {
+                        return;
+                    }
+
+                    // Through `run =` and in any branch: a merged master skips inside its
+                    // CommandList<Char>IB, and a skip in one branch means that branch draws only what
+                    // the mod writes sections for.
+                    bool skips = false;
+                    ModBranches branches;
+                    for (const std::string& name : *ibSections) {
+                        for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
+                            if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                                skips = true;
+                                break;
+                            }
+                        }
+                        if (skips) {
+                            break;
+                        }
+                    }
+                    if (!skips) {
+                        return;
+                    }
+
+                    for (const std::string& obj : config_.drawnObjs) {
+                        const ModObj modObj("", obj);
+                        if (sectionsOf(modObj) == nullptr) {
+                            this->downloads.erase(modObj);
+                        }
+                    }
+                }
+
+                // A FILE WHOSE MESH A SIBLING BINDS GETS NONE OF THE MODEL'S DOWNLOADS (2026-10-11). A mod
+                // may split its draws across .ini files of one folder: the buffers, the ib skip and some
+                // objects in one, another object's section in a second. The second file has no position
+                // section, so the parser filled it as a mod missing everything -- the game's buffers on
+                // the target's hashes (the same hashes the first file binds the MOD's buffers on) and a
+                // vanilla copy of every object it does not draw, over whichever buffers won. When a
+                // sibling binds this character's position buffer, this file keeps only its own objects:
+                // the buffers and every object without a section here are the sibling's.
+                void dropSiblingSuppliedDownloads() {
+                    auto own = this->sectionTargets().find(ModObj("", "position"));
+                    if ((own != this->sectionTargets().end() && !own->second.empty()) || !siblingBindsPosition()) {
+                        return;
+                    }
+
+                    for (const std::string& kind : {"blend", "position", "texcoord"}) {
+                        this->downloads.erase(ModObj("", kind));
+                    }
+                    for (const std::string& obj : config_.drawnObjs) {
+                        auto found = this->sectionTargets().find(ModObj("", obj));
+                        if (found == this->sectionTargets().end() || found->second.empty()) {
+                            this->downloads.erase(ModObj("", obj));
+                        }
+                    }
+                }
+
+                // Whether a sibling .ini of the folder binds vb0 on this character's position hash,
+                // directly or through `run =`.
+                bool siblingBindsPosition() {
+                    for (const std::string& path : TextureOverrides::siblingInis(this->getIniFile())) {
+                        IniFile sibling(path);
+                        if (bindsPosition(sibling.getIfTemplates())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether 'templates' binds vb0 on this character's position hash, directly or through `run =`.
+                bool bindsPosition(const ModBranches::Templates& templates) {
+                    ModBranches branches;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        if (!hash.has_value() || hashKeyOf(*hash) != PositionHashKey) {
+                            continue;
+                        }
+                        if (!branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // AN OBJECT DRAWN FROM A SIBLING .INI IS ADOPTED BY THE FILE THAT BINDS THE BUFFERS
+                // (2026-10-12). A mod may keep its buffers and most objects in one .ini and one object's
+                // section in another file of the folder. The second file has no buffers of its own and
+                // remaps nothing (dropSiblingSuppliedDownloads), so that object was left undrawn on the
+                // target. The file that binds the position buffer now takes the section in -- with the
+                // command lists it runs and each resource it binds declared again here under a RemapRef
+                // name -- for an object it has no section of its own for. GIMIComponentParser's
+                // adoptSiblingSlots does the same for a skin's slots.
+                // (hash, match_first_index) an object's section carries, or empty
+                std::pair<std::string, std::string> objIdentity(const std::string& obj) {
+                    std::pair<std::string, std::string> id;
+                    if (!this->objIdentityKVPs) {
+                        return id;
+                    }
+                    for (const auto& [key, value] : this->objIdentityKVPs(ModObj("", obj))) {
+                        if (key == IniKeywords::Hash) {
+                            id.first = StringTools::toLower(value);
+                        } else if (key == IniKeywords::MatchFirstIndex) {
+                            id.second = value;
+                        }
+                    }
+                    return id;
+                }
+
+                // The section of 'templates' carrying 'id', or empty
+                static std::string sectionWith(const ModBranches::Templates& templates, const std::pair<std::string, std::string>& id) {
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                        if (hash.has_value() && index.has_value()
+                                && StringTools::toLower(std::string(StringTools::strip(*hash))) == id.first
+                                && std::string(StringTools::strip(*index)) == id.second) {
+                            return entry.first;
+                        }
+                    }
+                    return std::string();
+                }
+
+                // The objects of THIS file that a sibling binding the buffers adopts -- asked exactly as
+                // that sibling's adoptSiblingObjs asks it, so the two files cannot disagree.
+                void findGivenAwayObjs() {
+                    givenAway_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr || !iniFile->getFile().has_value() || bindsPosition(iniFile->getIfTemplates())) {
+                        return;
+                    }
+
+                    IniFile self(*iniFile->getFile());
+                    const ModBranches::Templates& own = self.getIfTemplates();
+                    for (const std::string& path : TextureOverrides::siblingInis(iniFile)) {
+                        IniFile sibling(path);
+                        const ModBranches::Templates& theirs = sibling.getIfTemplates();
+                        if (!bindsPosition(theirs)) {
+                            continue;
+                        }
+                        for (const std::string& obj : config_.drawnObjs) {
+                            const std::pair<std::string, std::string> id = objIdentity(obj);
+                            if (id.first.empty() || id.second.empty() || !sectionWith(theirs, id).empty()) {
+                                continue;
+                            }
+                            const std::string root = sectionWith(own, id);
+                            if (!root.empty() && TextureOverrides::adopt(self, root, theirs).has_value()) {
+                                givenAway_.insert(obj);
+                            }
+                        }
+                    }
+                }
+
+                void adoptSiblingObjs() {
+                    adoptedRefs_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr || !this->objIdentityKVPs || !bindsPosition(iniFile->getIfTemplates())) {
+                        return;
+                    }
+
+                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    const std::vector<std::string> siblings = TextureOverrides::siblingInis(iniFile);
+                    for (const std::string& obj : config_.drawnObjs) {
+                        const std::pair<std::string, std::string> id = objIdentity(obj);
+                        if (id.first.empty() || id.second.empty() || !sectionWith(own, id).empty()) {
+                            continue;
+                        }
+
+                        for (const std::string& path : siblings) {
+                            IniFile sibling(path);
+                            const std::string root = sectionWith(sibling.getIfTemplates(), id);
+                            if (root.empty()) {
+                                continue;
+                            }
+                            std::optional<TextureOverrides::Adoption> adoption = TextureOverrides::adopt(sibling, root, own);
+                            if (!adoption.has_value()) {
+                                continue;
+                            }
+                            for (auto& [name, section] : adoption->sections) {
+                                ctx_.addSection(name, std::move(section));
+                            }
+                            for (const auto& [name, kvps] : adoption->refs) {
+                                for (const auto& [key, value] : kvps) {
+                                    if (key == IniKeywords::Filename) {
+                                        siblingRefs_.emplace(name, value);
+                                    }
+                                }
+                                adoptedRefs_[name] = kvps;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                // A DOWNLOADED IB IS NEEDED ONLY IN A STATE THAT DRAWS WITHOUT THE MOD'S OWN (2026-10-11).
+                // The coverage test behind the downloads asks whether every PATH of an object's section
+                // binds an ib, and a path may lack one for a reason that needs none: the variant skips
+                // the draw, or the mod is switched off there. ShenheFrostFlower5 binds its ib, its
+                // vb0 and its skip under `if $vision == 0` only; with $vision == 1 the game draws its
+                // own model, and the downloaded ib bound on the target's draw turned vanilla Shenhe
+                // into shards. So, per object, over every value of the mod's variables:
+                //
+                //   drawn without the mod's ib  =  !ib && (draws || (vb0 && !skip))
+                //
+                // where `draws` is a drawindexed / draw of the object's sections or of the shared ib
+                // section, `vb0` the mod's position buffer, and `skip` a `handling = skip` on either.
+                // Only when that can hold is the ib download kept; when the object cannot be drawn in
+                // ANY state its texture downloads go too. Z3 does not know a toggle's range, so a
+                // value no key reaches still counts -- this only ever drops a download no state needs.
+                void dropUnneededObjDownloads() {
+                    IniFile* iniFile = this->getIniFile();
+                    if (iniFile == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = iniFile->getIfTemplates();
+                    const auto& targets = this->sectionTargets();
+                    auto sectionsOf = [&](const ModObj& modObj) {
+                        auto found = targets.find(modObj);
+                        return (found == targets.end()) ? std::vector<std::string>() : found->second;
+                    };
+
+                    ModBranches branches;
+                    Z3Context& z3 = branches.context();
+                    auto anyOf = [&](const std::vector<std::string>& sections, const std::string& key,
+                                     const std::function<bool(const std::string&)>& accept) {
+                        Z3Predicate result = Z3Predicate::falseValue(z3);
+                        for (const std::string& name : sections) {
+                            for (const BranchVal& value : branches.valsThroughRun(templates, name, key)) {
+                                if (!accept(std::string(StringTools::strip(value.val)))) {
+                                    continue;
+                                }
+                                std::optional<Z3Predicate> query =
+                                    value.query.has_value() ? branches.localQuery(&*value.query) : std::nullopt;
+                                if (!query.has_value()) {
+                                    return Z3Predicate::trueValue(z3);
+                                }
+                                result = result | *query;
+                            }
+                        }
+                        return result;
+                    };
+                    auto any = [](const std::string&) { return true; };
+                    auto isSkip = [](const std::string& value) { return StringTools::equalsIgnoreCase(value, "skip"); };
+
+                    // A mod with no position section of its own is drawn from the DOWNLOADED model --
+                    // a recolour (LisaStudent1) -- and needs every download it has.
+                    const std::vector<std::string> positionSections = sectionsOf(ModObj("", "position"));
+                    if (positionSections.empty()) {
+                        return;
+                    }
+
+                    const std::vector<std::string> ibSections = sectionsOf(ModObj("", "ib"));
+                    const Z3Predicate vb0 = anyOf(positionSections, IniKeywords::Vb0, any);
+                    const Z3Predicate sharedDraws = anyOf(ibSections, IniKeywords::DrawIndexed, any) | anyOf(ibSections, "draw", any);
+                    const Z3Predicate sharedSkip = anyOf(ibSections, IniKeywords::Handling, isSkip);
+
+                    for (const std::string& obj : config_.drawnObjs) {
+                        const ModObj modObj("", obj);
+                        auto objDownloads = this->downloads.find(modObj);
+                        const std::vector<std::string> sections = sectionsOf(modObj);
+                        if (objDownloads == this->downloads.end() || sections.empty()) {
+                            continue;
+                        }
+
+                        const Z3Predicate ib = anyOf(sections, IniKeywords::Ib, any);
+                        const Z3Predicate draws = sharedDraws | anyOf(sections, IniKeywords::DrawIndexed, any) | anyOf(sections, "draw", any);
+                        const Z3Predicate skip = sharedSkip | anyOf(sections, IniKeywords::Handling, isSkip);
+                        const Z3Predicate gameDraws = vb0 & !skip;
+
+                        if (!(ib | draws | gameDraws).isSatisfiable()) {
+                            this->downloads.erase(modObj);
+                        } else if (!(!ib & (draws | gameDraws)).isSatisfiable()) {
+                            objDownloads.value().erase(IniKeywords::Ib);
+                        }
+                    }
+                }
+
                 // Whether any of the mod's OWN sections this parser targets -- or a command list one of
                 // them runs, if the file defines it -- binds a buffer, an index buffer, a texture
                 // register or a draw. A `this =` is not counted: an override is weighed on its own
@@ -679,7 +999,8 @@ namespace AGRemapCore {
                     bound.insert(condBound_.begin(), condBound_.end());
 
                     for (const auto& [name, file] : siblingRefs_) {
-                        if (bound.count(name) == 0) {
+                        auto adopted = adoptedRefs_.find(name);
+                        if (bound.count(name) == 0 && adopted == adoptedRefs_.end()) {
                             continue;
                         }
 
@@ -689,7 +1010,8 @@ namespace AGRemapCore {
                         if (section == nullptr) {
                             section = ctx_.addSection(name,
                                 std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
-                            section->addKVPsToFront(std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
+                            section->addKVPsToFront(adopted != adoptedRefs_.end() ? adopted->second
+                                : std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
                         }
 
                         Graph* graph = ctx_.graphGroups().createGraph({}, {}, false, nullptr);
@@ -1111,6 +1433,8 @@ namespace AGRemapCore {
                 // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
                 // the file it names, and the graphs that declare the ones an object binds.
                 std::map<std::string, std::string> siblingRefs_;
+                std::map<std::string, std::vector<std::pair<std::string, std::string>>> adoptedRefs_;   // adopted resource -> its keys
+                std::set<std::string> givenAway_;      // objects of this file a sibling binding the buffers adopts
                 std::vector<std::pair<std::string, Graph*>> refGraphs_;
 
                 // Whether this file overrides any of the character's textures, and any the target

@@ -89,6 +89,19 @@ member's outline. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.
 CHARLOTTEHURLOCK" and "A NAMESPACE-MERGED MOD", and [Game View](AI%20Agent%20Help/GameView/CLAUDE.md)'s
 outfit-shop notes (**a second `Esc` in the shop opens the Paimon menu, which shows the UID top LEFT**).
 
+**"JAGGED POLYGONS" OR SHARDS ON A REMAP ARE USUALLY THE GAME'S INDEX BUFFER, NOT THE VERTEX GROUPS
+(2026-10-10/12).** A Fischl mod's dress, which the mod never draws, was downloaded and drawn over its own
+vertices; an audit found the same bug in six more mod shapes (the skip inside a CommandList, a variant that only
+skips, a variant that turns the mod off, a skin slot in some variants, an empty split, a section in a sibling
+`.ini`), all fixed on branch `fix-fischl-undrawn-dress`. Run `Tools/Misc/Diagnostics/checkUndrawnDL.py` on the
+fixed folder first. The same work found that a merged master whose sections only `run =` their lists got NO
+`NNFix` (CherryHuTao on Hu Tao rendered neon green; 24 of 245 sweep mods), and that its first fix doubled the
+call after draws -- which `bareFixCalls.py`, already in the repo, catches. A mod GREEN on its own outfit and right
+on the target is the old mod, not the remap. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s
+"A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES" and "AN IN-GAME ROUND OVER MANY MODS", and
+[Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s habits 110-115 (prove shared-code changes by a sweep, read a
+checker's "checked N" before its zero, hand-edit then code, sub-agent audits, journal your folder moves).
+
 **A MOD THAT ONLY REPLACES TEXTURES (`hash = <a texture> / this = Resource...`) IS REMAPPED ON EVERY GI
 TEMPLATE NOW (2026-10-07); BEFORE, ONLY THE MERGE CARRIED IT.** A synthetic recolour lost its texture on all
 48 classic and component directions, and one with its section named after nothing classified as nothing
@@ -254,7 +267,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (109 as of 2026-10-10), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (115 as of 2026-10-12), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

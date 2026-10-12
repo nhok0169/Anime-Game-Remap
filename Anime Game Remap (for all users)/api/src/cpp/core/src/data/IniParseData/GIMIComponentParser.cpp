@@ -262,6 +262,7 @@ namespace AGRemapCore {
                 // invented and the fix carries only its own sections -- see hasRemappableContent.
                 void getSectionTargets() override {
                     readTextureOverrides();
+                    adoptSiblingSlots();
                     if (config_.downloadsByName) {
                         placeDownloadsByName();
                     }
@@ -278,6 +279,17 @@ namespace AGRemapCore {
                     // its own sections, as a file that watches the skin does.
                     if (!bindsSomething && ownTextureOverrides_ && siblingDrawsMesh()) {
                         textureBindings_.clear();
+                        hasContent_ = false;
+                    }
+
+                    // A FILE WHOSE BUFFERS A SIBLING BINDS IS NOT A MOD OF ITS OWN (2026-10-11). A mod may
+                    // move one slot's section into a second .ini of the folder. Filled from downloads, that
+                    // file merged its slot onto the GAME's buffers and bound them on the target's hashes --
+                    // the same hashes the first file binds the mod's merged buffers on -- so one of the two
+                    // drew over the wrong vertices. A merge needs every component's buffers in one file, so
+                    // such a file is left as its author wrote it; the slot it carries is not drawn on the
+                    // target. GIMICharParser's dropSiblingSuppliedDownloads is the classic counterpart.
+                    if (bindsSomething && !ownsPositionBuffer() && siblingBindsPosition()) {
                         hasContent_ = false;
                     }
                     if (!hasContent_) {
@@ -390,6 +402,51 @@ namespace AGRemapCore {
                         IniFile sibling(path);
                         if (drawsMesh(sibling.getIfTemplates())) {
                             return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether this file has a position section of its own for any component.
+                bool ownsPositionBuffer() const {
+                    for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                        auto found = this->sectionTargets().find(ModObj(component.name, "position"));
+                        if (found != this->sectionTargets().end() && !found->second.empty()) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether a sibling .ini of the folder binds vb0 on one of this skin's position hashes,
+                // directly or through `run =`.
+                bool siblingBindsPosition() {
+                    for (const std::string& path : siblingInis()) {
+                        IniFile sibling(path);
+                        if (bindsPosition(sibling.getIfTemplates())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether 'templates' binds vb0 on one of this skin's position hashes, directly or
+                // through `run =`.
+                bool bindsPosition(const ModBranches::Templates& templates) {
+                    ModBranches branches;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        if (!hash.has_value()) {
+                            continue;
+                        }
+                        for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                            if (hashKeyOf(*hash, component) == PositionHashKey
+                                    && !branches.valsThroughRun(templates, entry.first, IniKeywords::Vb0).empty()) {
+                                return true;
+                            }
                         }
                     }
                     return false;
@@ -584,8 +641,87 @@ namespace AGRemapCore {
                     }
                 }
 
+                // A SLOT DRAWN FROM A SIBLING .INI IS ADOPTED BY THE FILE THAT DRAWS THE MESH (2026-10-12).
+                // A mod may keep its buffers and most slots in one .ini and one slot's section in a
+                // second file of the folder. A merge needs every slot in ONE file, and the second file
+                // has no buffers to merge onto, so its slot was left undrawn on the target. The file
+                // that draws the mesh now takes that section in -- with every command list of the
+                // sibling it runs, and each resource it binds declared again here under a RemapRef name
+                // (an undo removes the declaration and leaves the mod's file). Only a slot this file has
+                // no section of its own for, and only when no name it brings collides with one here.
+                // The sibling itself is then a file whose buffers another file binds: it remaps nothing.
+                void adoptSiblingSlots() {
+                    adoptedRefs_.clear();
+                    IniFile* iniFile = this->getIniFile();
+                    // The file that binds the buffers -- not a sibling that only draws a slot, which
+                    // otherwise adopts the main file's slots in turn
+                    if (iniFile == nullptr || !bindsPosition(iniFile->getIfTemplates())) {
+                        return;
+                    }
+
+                    // (component, match_first_index) of every slot section a set of templates holds
+                    auto slotKeysOf = [&](const ModBranches::Templates& templates) {
+                        std::map<std::string, std::pair<std::string, std::string>> keys;   // section -> (component, index)
+                        for (const auto& entry : templates) {
+                            if (entry.second == nullptr) {
+                                continue;
+                            }
+                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                            const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                            if (!hash.has_value() || !index.has_value()) {
+                                continue;
+                            }
+                            for (const GIMIComponentParserConfig::Component& component : config_.components) {
+                                if (hashKeyOf(*hash, component) != IbHashKey) {
+                                    continue;
+                                }
+                                for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
+                                    if (slot.index == std::string(StringTools::strip(*index))) {
+                                        keys[entry.first] = {component.name, slot.index};
+                                    }
+                                }
+                            }
+                        }
+                        return keys;
+                    };
+
+                    const ModBranches::Templates& own = iniFile->getIfTemplates();
+                    std::set<std::pair<std::string, std::string>> ownSlots;
+                    for (const auto& [name, key] : slotKeysOf(own)) {
+                        ownSlots.insert(key);
+                    }
+
+                    for (const std::string& path : siblingInis()) {
+                        IniFile sibling(path);
+                        const ModBranches::Templates& templates = sibling.getIfTemplates();
+
+                        for (const auto& [rootName, key] : slotKeysOf(templates)) {
+                            if (ownSlots.count(key) != 0) {
+                                continue;
+                            }
+
+                            std::optional<TextureOverrides::Adoption> adoption = TextureOverrides::adopt(sibling, rootName, own);
+                            if (!adoption.has_value()) {
+                                continue;
+                            }
+                            for (auto& [name, section] : adoption->sections) {
+                                ctx_.addSection(name, std::move(section));
+                            }
+                            for (const auto& [name, kvps] : adoption->refs) {
+                                for (const auto& [key, value] : kvps) {
+                                    if (key == IniKeywords::Filename) {
+                                        siblingRefs_.emplace(name, value);
+                                    }
+                                }
+                                adoptedRefs_[name] = kvps;
+                            }
+                            ownSlots.insert(key);
+                        }
+                    }
+                }
+
                 // Each sibling texture a binding names, as a resource of this file's own -- see
-                // readTextureOverrides. Only those some slot binds.
+                // readTextureOverrides. Only those some slot binds, and every resource of an adopted slot.
                 void declareSiblingRefs() {
                     refGraphs_.clear();
                     std::set<std::string> bound;
@@ -596,7 +732,8 @@ namespace AGRemapCore {
                     }
 
                     for (const auto& [name, file] : siblingRefs_) {
-                        if (bound.count(name) == 0) {
+                        auto adopted = adoptedRefs_.find(name);
+                        if (bound.count(name) == 0 && adopted == adoptedRefs_.end()) {
                             continue;
                         }
 
@@ -606,7 +743,8 @@ namespace AGRemapCore {
                         if (section == nullptr) {
                             section = ctx_.addSection(name,
                                 std::make_unique<Section>(std::vector<std::unique_ptr<IfTemplatePart>>{}, this->config().runConfig, name));
-                            section->addKVPsToFront(std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
+                            section->addKVPsToFront(adopted != adoptedRefs_.end() ? adopted->second
+                                : std::vector<std::pair<std::string, std::string>>{{IniKeywords::Filename, file}});
                         }
 
                         Graph* graph = ctx_.graphGroups().createGraph({}, {}, false, nullptr);
@@ -736,15 +874,19 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        // Through `run =` and in any branch: a merged master skips inside its
+                        // CommandList, and a skip in one branch means that branch draws only what the
+                        // mod writes sections for.
                         bool skips = false;
+                        ModBranches branches;
                         for (const std::string& name : *ibSections) {
-                            auto found = templates.find(name);
-                            if (found == templates.end() || found->second == nullptr) {
-                                continue;
+                            for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                                    skips = true;
+                                    break;
+                                }
                             }
-                            const std::optional<std::string> handling = ModBranches::firstVal(*found->second, IniKeywords::Handling);
-                            if (handling.has_value() && StringTools::equalsIgnoreCase(StringTools::strip(*handling), "skip")) {
-                                skips = true;
+                            if (skips) {
                                 break;
                             }
                         }
@@ -928,6 +1070,7 @@ namespace AGRemapCore {
                 // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
                 // the file it names, and the graphs that declare the ones a slot binds.
                 std::map<std::string, std::string> siblingRefs_;
+                std::map<std::string, std::vector<std::pair<std::string, std::string>>> adoptedRefs_;   // adopted resource -> its keys
                 std::vector<std::pair<std::string, Graph*>> refGraphs_;
                 bool ownTextureOverrides_ = false;
                 std::set<ModObj> undrawnSlots_;

@@ -872,6 +872,60 @@ these steps taught:
 
 <br>
 
+## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)
+
+**Read this before chasing vertex groups for a report of jagged, torn or stretched triangles.** The first report
+("FischlHighness looks slightly jagged") had a clean blend table, and the cause was a whole drawn object coming
+from the GAME's index buffer: the parser saw an object the mod does not draw, registered the game's `ib` as a
+download, and the fix drew it over the mod's own vertices -- whose order the game's indices do not match. An
+audit then found the same bug in six shapes. All are fixed on every GI template (branch
+`fix-fischl-undrawn-dress`, 2026-10-10/12), and each has a synthetic repro in the 2026-10-10 audit:
+
+| Mod shape | What went wrong | Where it is handled now |
+| --- | --- | --- |
+| an object the mod has no section for, ib skipped | game ib downloaded and drawn (Fischl -> FischlHighness: the dress) | `GIMICharParser::dropUndrawnObjDownloads`, `GIMIComponentParser::findUndrawnSlots` |
+| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` with `ModBranches::valsThroughRun`, any branch |
+| a variant that only says `handling = skip` | `drawindexed = auto` filled into the skip branch (Ayaka9/10: shards in 4 of 7) | the classic draw fill skips a `handling = skip` part |
+| a variant that switches the mod off (`$vision`, a vanilla variant) | the target's own model drawn with the source's ib (ShenheFrostFlower, CherryHutao5) | `dropUnneededObjDownloads`: Z3 keeps an ib download only if some state draws without the mod's ib |
+| a skin slot drawn in some variants, skipped in others | the merge used the download for EVERY branch | `GIMIMergeFixer` drops downloads from a slot's ib list when the mod has its own |
+| a state the component fixer never split | an EMPTY split ib bound before `drawindexed = auto` | bound as `ib = null` (`nullDownloadSplits_`) |
+| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`TextureOverrides::adopt`) |
+
+**The check that names it without the game:** `Tools/Misc/Diagnostics/checkUndrawnDL.py <fixed folder>` -- every
+remapped draw that can use a `Resource...RemapDL` ib in a file whose mod skips its own. It reports the pre-fix
+Fischl output and passes the fixed one. Its `GAME` lines are paths it cannot correlate across sections (a
+`$swapvar` set in one section and tested in another); read those by hand before believing them.
+
+**And when the report is GREEN instead of shards, check the fix call exists before anything else.** A merged
+master whose object section is nothing but `run = CommandList<Obj>`, with the draw left on the shared ib section
+(`moveDrawIndexed` off), got NO `NNFix` at all until 2026-10-11 -- `RegDelimitedAdd` placed only at entry nodes,
+and that path ends at a call's exit. CherryHutao5 on Hu Tao was neon green in every variant; 24 of 245 sweep mods
+had the same gap. The first fix of it then put a SECOND `ORFix` after draws that already had one (Ayaka9's bra),
+which `bareFixCalls.py` catches. See "The fix libraries are involutions" below.
+
+**A mod that is green on its OWN outfit card but right on the remap target is not the remap.** Most older mods
+never call `NNFix` themselves and predate GI 6.x; the remap only fixes its own copy. Prove it once per round with a
+control: undo one mod's fix (`--undo`) and its own card stays green while the target cards go vanilla.
+
+## AN IN-GAME ROUND OVER MANY MODS: the loop that worked for 23 (2026-10-12)
+
+Grouped by remap TARGET outfit, one shop page per group, about two minutes a mod:
+
+1. **Re-fix every live mod with the build under test first** (`FixRaidenBoss7.py -s <folder>`), then `cmp` one
+   fixed `.ini` against the verified sweep output -- the game must show the build you measured.
+2. **Journal your own folder moves** (Overview habit 114). Park the user's loaded mod of the same character
+   while testing, so two mods do not draw over one hash.
+3. **Verify the page by its TITLE before every capture**: crop the outfit name (view `1420,720` to `1860,830`)
+   after each arrow click. The arrows step one outfit at a time and the order is not alphabetical; three
+   captures in this round were taken on the wrong page and looked plausible.
+4. **Capture both cards in one script** (reload, wait for the warning overlay to clear, click base card, shoot,
+   click skin card, shoot, paste side by side). The overlay with ~30 mods loaded takes up to five minutes to
+   clear; a page with three cards (Jean) needs the third card's position.
+5. **Judge the remap TARGET card**; the mod's own card is the control and may be green (above).
+6. **Use `compare`** (mods vs F9 in the same frame) where the remapped model looks like the vanilla one -- it
+   showed LumineHeavenSynth drawing on Lumine when the two cards alone could not.
+7. **Finish with a restore and a `diff` of `Mods` against the listing taken before the first move.**
+
 ## START HERE: which kind of remap request is this (2026-09-20)
 
 This file is long and its sections were written in the order they were learned, not in the order
@@ -2309,7 +2363,52 @@ carry (texture-only mods, a missing Eye) keeps its downloads, and so does one it
 there the game really does draw the slot over the mod's buffers. CharlotteHurlock2 (no D) was the only
 other mod it changed; 37 other mods / 3272 files did not move. **The prototype-vs-compiled A/B was
 blind to it**, since both share the parser and template (habit 55), so the proof is the
-before-and-after `.ini` diff plus the game. The same session found `GameView reload --mod` reporting
+before-and-after `.ini` diff plus the game. **The CLASSIC template had the same bug until 2026-10-10**
+(`GIMICharParser::dropUndrawnObjDownloads` now): a Fischl mod with no dress section, merged onto
+FischlHighness's body, drew the downloaded dress index buffer as "slightly jagged polygons" -- shards
+through her open jacket -- from its second `.ini` (`<Mod>RemapFix1.ini`). Over 17 classic mod folders it
+changed that one file and nothing else. **Both checks read the skip through `run =` and in any branch
+since 2026-10-11**: a merged master writes `handling = skip` in `CommandList<Char>IB`, and the first
+version of each read only the ib section's own lines, so every merged master still downloaded and drew
+an undrawn object. Over 228 real mods that moved Lisa2 and ShenheFrostFlower3 only (a no-draw section on a
+downloaded ib dropped); a run-skip Bennett mod that used to be remapped as nothing is remapped now.
+**And per STATE since 2026-10-11 (classic template only).** A path can lack an ib for a reason that
+needs none, so `GIMICharParser::dropUnneededObjDownloads` keeps an object's ib download only when Z3
+finds a state with `!ib && (draws || (vb0 && !skip))`, and the classic fixer's draw fill no longer
+writes `drawindexed` into a `handling = skip` branch. That cleared a merged master's skipped variants
+(Ayaka9/10 JKGyaru: shards in 4 of 7) and a variant that switches the mod off (ShenheFrostFlower
+`$vision == 1`, CherryHutao5's vanilla `$swapvar == 0`: the target's own model was drawn with the
+source's downloaded ib). **A mod with no position section of its own is exempt** -- a recolour drawn
+from the downloaded model needs every download, and the first build of this rule dropped LisaStudent1's.
+Z3 knows no toggle's range, so it only ever drops a download no state needs; a leftover on an
+unreachable fall-through stays. The audit's `checkUndrawnDL.py` then reports those paths as `GAME`,
+because it does not correlate conditions across sections. **The merge fixer read a slot's ibs root-first,
+so a download the parser bound at the top of a root answered for every branch** -- CharlotteHurlock1 with
+slot B skipped in one variant merged the GAME's BodyB into all of them. Since 2026-10-11 a slot's ib list
+drops its downloads when it holds any file of the mod's own (the component fixer's `preferAuthored`),
+and the merged ib is byte-identical to the unmodified mod's; nothing else of 245 mods moved. **A mod may
+split its draws across `.ini` files of one folder** (buffers, ib skip and some objects in one; another
+object's section in a second). The second file has no position section, so it was filled from downloads:
+a vanilla copy of every object it does not draw, and the GAME's buffers bound on the target's hashes -- the
+same hashes the first file binds the mod's buffers on. Since 2026-10-11, when a sibling binds the
+character's position buffer, the classic parser keeps only that file's own objects
+(`dropSiblingSuppliedDownloads`), which remaps the split mod whole; the component parser marks such a file
+as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
+component templates the part that file carries is still not drawn on the target (no synthetic or real mod
+has needed more yet). **Since 2026-10-12 the file that binds the position buffer ADOPTS the sibling's
+section** (`TextureOverrides::adopt`, called by `GIMIComponentParser::adoptSiblingSlots` and
+`GIMICharParser::adoptSiblingObjs`): the section, every command list of the sibling it runs, and each
+resource it binds -- declared again under a `RemapRef` name with ALL its keys (an ib declared with only
+`filename` loses its `format` and is misread; the first build did that). Only for an object this file
+has no section of its own for, and only when no name collides. The sibling then classifies that object
+as nothing (`givenAway_`, asked with the same `adopt` call) so it is not drawn twice, and keeps any other
+section (a toggle watcher). Only the file that binds the buffers adopts: the first build let the sibling
+adopt the main file's slots back. All three repros (CharlotteHurlock merge, Fischl classic, Bennett
+component) now produce buffers byte-identical to their unsplit mods; no real mod of 245 moved. **And the component template bound an EMPTY index buffer for a state it never split** (one that
+runs through a download, beside a state of the mod's own): the collect still wrote that state's split, at
+0 bytes, and bound it under the filled `drawindexed = auto`. Since 2026-10-11 such a binding is `ib = null`
+(`nullDownloadSplits_`, only when an authored state exists -- a recolour drawn from downloads keeps its real
+splits). Across fixes 1-5 the empty bindings in the 245-mod sweep went 58 -> 0. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES
@@ -3133,6 +3232,24 @@ character.
 Read this before touching `NNFix`, `ORFix` or `RegDelimitedAdd` anywhere. It is not a
 multi-component fact -- it moved both templates, and it had been wrong for every mod of a shape
 nobody had tested.
+
+**And "once" had a hole: a path can END where a `run =` returns (fixed 2026-10-11).** `editPerPath`
+inserted only at a part's ENTRY node, so a merged master whose section is nothing but
+`run = CommandList<Obj>` -- the list binding `ib`s and textures, the draw left on the shared ib section
+(`moveDrawIndexed` off) -- had its only path end at the call's EXIT node and got NO fix call at all.
+CherryHuTao onto HuTao rendered neon green in every variant; 24 of 245 sweep mods (Jean, Keqing,
+Nilou, Xiangling, Xingqiu, Ningguang, Shenhe, Klee...) gained 85 `NNFix` / 18 `ORFix` lines when an
+exit node was allowed to take the addition at the end of its part. **The first build of that doubled
+16 sections**: after a call to an EXTERNAL list (TexFx) the return edge is invisible to `covered`, so
+the exit added a second call right after the entry's -- `fixCallPaths.py` went 5 -> 21 and back to 5
+once an exit skips a part whose entry inserted or was covered. **And the game found one the checker
+could not**: a merged master that DRAWS in every branch of its CommandList (bind, TexFx, ORFix,
+`drawindexed`) still got a trailing ORFix after the call, because the continuation after an external
+call reads as clean -- Ayaka9's bra turned green on Springbloom Missive. An exit now also requires that
+nothing between the part's entry and its exit draws or took the addition (`regionIsBare`); that changed
+only Ayaka9 and LumineHeavenSynth in the sweep and was confirmed in game. `fixCallPaths.py` counts calls
+BEFORE a draw, so a call placed after every draw is invisible to it. Run it over a sweep
+before and after ANY change to this edit; a count that moves is a finding -- and so is a picture.
 
 The rule used to be "immediately before every `drawindexed`, and once at the end of a path that
 draws nothing". That is right only while **no path draws more than once**, and silently wrong

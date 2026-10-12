@@ -1035,6 +1035,7 @@ namespace AGRemapCore {
                         }
                         anyAuthoredState = anyAuthoredState || !throughDownload[state];
                     }
+                    anyAuthoredState_ = anyAuthoredState;
 
                     for (std::size_t state = 0; state < states_.size(); ++state) {
                         const std::string blendPath = branches_.pick(files_.blends, files_.blend, states_[state]);
@@ -2113,6 +2114,24 @@ namespace AGRemapCore {
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
+                    // A STATE THROUGH A DOWNLOAD IS NOT DRAWN, SO ITS IB IS `null` (2026-10-11). Beside a
+                    // state of the mod's own, a state that runs through a parser download is never split
+                    // (see the split loop), yet the collect still wrote its index buffer -- as an EMPTY file
+                    // -- and bound it, with the filled `drawindexed = auto` after it: a Bennett mod whose
+                    // body variant only says `handling = skip` drew that empty buffer in the skip branch.
+                    // Bound as `null`, the branch draws nothing of the object, as on the mod's own character.
+                    if (anyAuthoredState_) {
+                        nullDownloadSplits_ = std::make_unique<RegNewVals<>>(
+                            std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                                {IniKeywords::Ib, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(RegNewVals<>::OldValProducer(
+                                    [](const std::string& value, const ModType*) {
+                                        const bool downloadSplit = value.find(IniKeywords::RemapDL) != std::string::npos
+                                            && value.find("RemapIB") != std::string::npos;
+                                        return downloadSplit ? std::string(IniKeywords::Null) : value;
+                                    })))}});
+                        nullDownloadSplitsAdapter_ = std::make_unique<RegPartEdit<>>(nullDownloadSplits_.get());
+                    }
+
                     if (!component_.slotRegisters.empty()) {
                         // Per part -- see RegRestrict and Component::slotRegisters.
                         trimRegisters_ = std::make_unique<RegRestrict<>>(component_.slotRegisters, &isTextureRegister);
@@ -2216,6 +2235,9 @@ namespace AGRemapCore {
                         }
 
                         std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeReflectionKeysAdapter_.get()};
+                        if (nullDownloadSplitsAdapter_ != nullptr) {
+                            slotEdits.push_back(nullDownloadSplitsAdapter_.get());
+                        }
                         if (removeTexFxAdapter_ != nullptr) {
                             slotEdits.push_back(removeTexFxAdapter_.get());
                         }
@@ -2355,6 +2377,7 @@ namespace AGRemapCore {
 
                 std::vector<std::size_t> stateKept_;            // per states_ entry
                 std::vector<std::vector<std::string>> stateDrawn_;  // per states_ entry: objects this component keeps triangles of
+                bool anyAuthoredState_ = false;                 // some state runs through no parser download
                 std::size_t groupCount_ = 1;
 
                 bool authorsNoMesh_ = false;
@@ -2403,6 +2426,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
+                std::unique_ptr<RegNewVals<>> nullDownloadSplits_;
+                std::unique_ptr<RegPartEdit<>> nullDownloadSplitsAdapter_;
                 std::unique_ptr<RegRestrict<>> trimRegisters_;
                 std::unique_ptr<RegPartEdit<>> trimRegistersAdapter_;
                 std::vector<std::unique_ptr<RegBranchAdd<>>> blendBranchDraws_;          // per .ini group

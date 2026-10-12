@@ -780,7 +780,16 @@ the mod on its own card. What it found:
   maintainer's rule (2026-10-12) is that no edit is classified or aimed by the diffuse's colour** (a mod may give her
   dark or blue skin), and it was what made Lynae9's sweater "pale pastel" look like a grading problem. Without the
   grade Lynae9's sweater renders paler and peach-pink on the skin (the mod's art through its jacket shader) where the
-  graded build drew it deep red-orange; **the maintainer's decision (2026-10-12): keep it as the mod's art.** The same rule
+  graded build drew it deep red-orange; **the maintainer's decision (2026-10-12): keep it as the mod's art.**
+  **And its MATERIAL (the maintainer, same day: "cycle the sweaters with X").** X (`$LynaeMD1_THaS`) draws the sweater
+  through her props (0, default), her jacket (1) or both (2); Ctrl+X only changes its colour. On Lynae it is a glossy
+  see-through holographic film either way; on the skin the props path came out flat and peach, the jacket path matte,
+  opaque knit. Lynae marks film with FLAGS in the code map -- her own sweater is props code 16 (flag `0x10`), Lynae14's
+  satin corset 0, and Lynae9 paints its jacket sweater 211-226 (flags `0xD`/`0xE`) where her own jacket map uses 0-4.
+  So `lynaePropsPlainCode` keeps a code with flag `0x10` (the pouch draws it as its foil) and moves the rest to 15: the
+  props path now renders a see-through holographic film, a little olive where hers is pink. The jacket path has no
+  match: the skin's film code 49, even with its own film mask (A 240, G 96), only made the knit a little more
+  see-through, so it stays as it is (the maintainer chose the props-path fix only). The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

@@ -286,8 +286,10 @@ namespace AGRemapCore {
             tex.setGamma(std::nullopt);          // codes, not colour
             std::vector<std::uint8_t> px = tex.getPixels();
             for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
-                // the hip pouch's one plain material is 15; the flags are kept
-                px[i] = px[i + 1] = px[i + 2] = static_cast<std::uint8_t>((codes[i / 4] & 0xF0) | 0x0F);
+                // her film (flag 0x10: her own sweater is 16) keeps its code, which the pouch draws as its
+                // foil; everything else takes the pouch's one plain material, 15, with its flags kept
+                const std::uint8_t v = codes[i / 4];
+                px[i] = px[i + 1] = px[i + 2] = (v & 0x10) ? v : static_cast<std::uint8_t>((v & 0xF0) | 0x0F);
             }
 
             tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());

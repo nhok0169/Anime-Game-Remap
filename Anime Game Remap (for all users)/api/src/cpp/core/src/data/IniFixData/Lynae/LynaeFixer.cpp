@@ -171,8 +171,8 @@ namespace AGRemapCore {
         config.texEdits.push_back(std::move(film));
 
         // ---- her props land on the skin's hip pouch, whose shader draws every material her props maps
-        // use as its holographic foil (Lynae14's red dress: blue-violet rims): all become its plain
-        // material 15, see lynaePropsPlainCode. The mod's own diffuse is left as it is ----
+        // use as its holographic foil (Lynae14's red dress: blue-violet rims): all but her film (flag
+        // 0x10) become its plain material 15, see lynaePropsPlainCode. The mod's diffuse is left as it is ----
         config.texEdits.push_back({"propsDetail", "Plain", [](const WWMIFixerConfig::TexEditContext&) { return lynaePropsPlainCode(); }});
 
         // Masks mark regions, and her own are flat in places on purpose (her hair mask is one value

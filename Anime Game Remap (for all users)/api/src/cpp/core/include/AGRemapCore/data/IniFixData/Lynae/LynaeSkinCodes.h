@@ -101,12 +101,13 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Moves every material of a Lynae props code map to LynaePeppermint's plain hip-pouch material :raw-html:`<br />` :raw-html:`<br />`
+     Moves Lynae's plain props materials to LynaePeppermint's plain hip-pouch material :raw-html:`<br />` :raw-html:`<br />`
 
      Lynae's props go onto LynaePeppermint's hip pouch, whose shader draws materials 0-4 (all that
      Lynae's props maps use, with or without flags) as the pouch's holographic foil: a red satin dress
-     came out dark red with blue-violet and green rims. Its material 15 is plain. Every code's material
-     becomes 15 and its flags are kept
+     (code 0) came out dark red with blue-violet and green rims. Its material 15 is plain. Lynae marks
+     her see-through FILM with flag ``0x10`` (her own sweater is 16), and such a code is kept, so the
+     film lands on the pouch's foil; every other code's material becomes 15 and its flags are kept
      @endrst
      */
     TexEditor::Filter lynaePropsPlainCode();

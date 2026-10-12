@@ -4815,25 +4815,6 @@ namespace AGRemapCore {
                         copyFor(resourceOfSlotRole_);
                         copyFor(preEditResourceOfSlotRole_);
                         copyFor(toggledGame_);
-
-                        // ...and the roles the reroute binds under names of its own
-                        for (const auto& [alias, role] : reroute.roleAliases) {
-                            const auto served = resourceOfSlotRole_.find({role, reroute.from});
-                            if (served == resourceOfSlotRole_.end()) {
-                                continue;
-                            }
-
-                            resourceOfSlotRole_[{alias, reroute.as}] = served->second;
-                            const auto pre = preEditResourceOfSlotRole_.find({role, reroute.from});
-                            if (pre != preEditResourceOfSlotRole_.end()) {
-                                preEditResourceOfSlotRole_[{alias, reroute.as}] = pre->second;
-                            }
-
-                            const auto file = fileOfRole_.find(role);
-                            if (file != fileOfRole_.end()) {
-                                fileOfRole_[alias] = file->second;
-                            }
-                        }
                         const auto late = lateBindRegs_.find(reroute.from);
                         if (late != lateBindRegs_.end()) {
                             lateBindRegs_[reroute.as] = late->second;

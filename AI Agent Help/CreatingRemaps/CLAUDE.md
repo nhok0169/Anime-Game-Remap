@@ -798,18 +798,7 @@ the mod on its own card. What it found:
   first build put the additions nowhere because of it, and the carried `ps-t` lines needed the SOURCE component's
   `registerRoles`. A component whose map is the game's, or whose draws carry no flag, is untouched: over the 34-mod
   corpus only Lynae9's `.ini` changed. In game the jacket-path sweater is a glossy see-through film like hers, its rims
-  more violet.
-  **"More of a transparent feel" (the maintainer, same day) was the pouch's MASK.** The pouch reads its mask as how its
-  foil looks, and its own is R 96, G 48, A 0 over the foil: R is how dense it is (255 drew the film saturated and nearly
-  opaque, 0 dark), and G 144 with A 240 (Lynae's own props mask) tinted it amber -- every channel had to be the pouch's,
-  one at a time changed nothing. `lynaePouchFilmMask` writes those three under film-flagged texels (B is 112 on both),
-  on her props mask and on a copy of her jacket mask for the rerouted draws -- `DrawReroute::roleAliases` (new) binds it
-  under its own role, `filmMask`, so the jacket slot keeps its R 255. **Keep a role alias's KIND** (what follows the first
-  capital): `jacketFilmMask` reads as kind `FilmMask`, and the mod's own carried `ps-t1` line was left raw over the list.
-  Both paths now render a clear film with the skin through it; her own props (the clear ID card is code 16) look as on
-  her. **And a probe script that restores files from a backup can leave a STALE fixed texture behind**: a jacket mask
-  restored from an older backup kept alpha 255 and drew the film matte until the mod was fixed again -- compare a
-  fixed file's timestamp with the `.ini`'s before reading anything into an in-game look. The same rule
+  more violet. The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

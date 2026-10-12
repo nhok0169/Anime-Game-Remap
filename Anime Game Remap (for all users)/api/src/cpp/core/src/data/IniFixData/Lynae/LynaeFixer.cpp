@@ -126,14 +126,14 @@ namespace AGRemapCore {
             {6, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}}}},
             {7, {7, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
             // her jacket's FILM draws (see drawReroutes), on the hip pouch's register order
-            {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "filmMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}}, true}},
+            {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,
         // codes 211-226), and the skin's jacket slot has no film -- even its own film code 49 with its
         // film mask stays matte. Those draws go through the hip pouch, whose foil is one (its plain
         // material is 15, which her jacket codes never are) ----
-        config.drawReroutes = {{5, 105, "jacketDetail", 0x10, {{"filmMask", "jacketMask"}}}};
+        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----
@@ -182,20 +182,6 @@ namespace AGRemapCore {
         // use as its holographic foil (Lynae14's red dress: blue-violet rims): all but her film (flag
         // 0x10) become its plain material 15, see lynaePropsPlainCode. The mod's diffuse is left as it is ----
         config.texEdits.push_back({"propsDetail", "Plain", [](const WWMIFixerConfig::TexEditContext&) { return lynaePropsPlainCode(); }});
-
-        // ...and the pouch reads its mask's red channel as how dense its foil is: her film (flag 0x10)
-        // at the pouch's own 96, so it stays see-through -- on her props' mask, and on a copy of her
-        // jacket's for the draws routed through the pouch (see drawReroutes) ----
-        WWMIFixerConfig::TexEdit propsFilm{"propsMask", "Film", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            return lynaePouchFilmMask(ctx, "propsDetail", false);
-        }};
-        propsFilm.sourceGameRoles = {"propsDetail"};
-        config.texEdits.push_back(std::move(propsFilm));
-        WWMIFixerConfig::TexEdit jacketFilm{"filmMask", "Film", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            return lynaePouchFilmMask(ctx, "jacketDetail", true);
-        }};
-        jacketFilm.sourceGameRoles = {"jacketDetail"};
-        config.texEdits.push_back(std::move(jacketFilm));
 
         // Masks mark regions, and her own are flat in places on purpose (her hair mask is one value
         // over the whole texture, her lower-body and jacket masks R = 255 throughout), so a flat mask

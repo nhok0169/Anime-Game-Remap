@@ -25790,17 +25790,6 @@ class WWMIFixerConfig:
         @from_.setter
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
-        @property
-        def roleAliases(self) -> dict[str, str]:
-            """
-            Dict[:class:`str`, :class:`str`]: ``{new role: role of from_}`` -- a role the rerouted draws bind under a
-            name of their own, served by the file :attr:`from_` binds for the other role, so a texture edit on the new
-            name edits a copy for the new slot alone. Keep the kind (what follows the first capital: ``filmMask`` for
-            ``jacketMask``), or the mod's own line binding the file is not re-keyed onto it. **Default**: none
-            """
-        @roleAliases.setter
-        def roleAliases(self, arg0: collections.abc.Mapping[str, str]) -> None:
-            ...
     class RegRemoval:
         """
         

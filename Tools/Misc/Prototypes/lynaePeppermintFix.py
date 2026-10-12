@@ -284,7 +284,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                                                    B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse")]),
         7: FRB.WWMIFixerConfig.SourceComponent(7, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
         # her jacket's FILM draws (see drawReroutes below), on the hip pouch's register order
-        105: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "jacketNormal"), B("ps-t1", "filmMask"),
+        105: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
                                                      B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse")]),
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
@@ -295,9 +295,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater), and the
     # skin's jacket slot has no film: those draws go through the hip pouch, whose foil is one (core's
     # LynaeFixer) ----
-    reroute = FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)
-    reroute.roleAliases = {"filmMask": "jacketMask"}
-    config.drawReroutes = [reroute]
+    config.drawReroutes = [FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----
@@ -445,43 +443,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
             tex.setPixels(bytes(px), tex.width, tex.height)
         return run
     plain = FRB.WWMIFixerConfig.TexEdit("propsDetail", "Plain", propsPlainCode)
-
-    # ---- the pouch reads its mask's red channel as how dense its foil is: her film (flag 0x10) at the
-    # pouch's own 96 -- on her props' mask, and on a copy of her jacket's for the rerouted draws (core's
-    # lynaePouchFilmMask) ----
-    def pouchFilmMask(codeRole, fillRed):
-        import numpy as np
-        def make(ctx):
-            codePath = ctx.fileOfRole.get(codeRole) or ctx.gameFileOfRole.get(codeRole, "")
-            def run(tex):
-                film = None
-                w, h = tex.width, tex.height
-                if codePath:
-                    codes = FRB.TextureFile(codePath)
-                    codes.open()
-                    if codes.hasImage:
-                        c = np.frombuffer(_shaderCodes(codes), np.uint8).reshape(codes.height, codes.width)
-                        film = (c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 0x10) != 0
-                srgb = tex.gamma is not None
-                tex.gamma = None
-                px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).copy()
-                if srgb:
-                    table = np.frombuffer(_srgbValues, np.uint8)
-                    px[..., :3] = table[px[..., :3]]
-                if fillRed:
-                    px[..., 0] = 255
-                if film is not None:
-                    px[..., 0][film] = 96       # the pouch's own mask over its foil: R, G and A
-                    px[..., 1][film] = 48
-                    px[..., 3][film] = 0
-                tex.setPixels(px.tobytes(), w, h)
-            return run
-        return make
-    propsFilm = FRB.WWMIFixerConfig.TexEdit("propsMask", "Film", pouchFilmMask("propsDetail", False))
-    propsFilm.sourceGameRoles = ["propsDetail"]
-    jacketFilm = FRB.WWMIFixerConfig.TexEdit("filmMask", "Film", pouchFilmMask("jacketDetail", True))
-    jacketFilm.sourceGameRoles = ["jacketDetail"]
-    config.texEdits = config.texEdits + [sheer, filmC, filmD, plain, propsFilm, jacketFilm]   # the compiled config's order
+    config.texEdits = config.texEdits + [sheer, filmC, filmD, plain]   # the compiled config's order
 
     # Masks mark regions: a flat one from a mod says "all of this is one material"
     # Her own masks are flat in places on purpose (her hair mask is one value over the whole texture,

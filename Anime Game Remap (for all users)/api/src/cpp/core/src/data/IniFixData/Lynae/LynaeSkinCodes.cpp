@@ -296,68 +296,6 @@ namespace AGRemapCore {
         };
     }
 
-    TexEditor::Filter lynaePouchFilmMask(const WWMIFixerConfig::TexEditContext& ctx, const std::string& codeRole,
-                                         bool fillRed) {
-        const std::string codePath = codeMapOf(ctx, codeRole);
-        return [codePath, fillRed](TextureFile& tex) {
-            // the pouch's own mask over its foil: R (how dense), G and A; B is the same on both
-            constexpr std::uint8_t PouchFilmR = 96;
-            constexpr std::uint8_t PouchFilmG = 48;
-            constexpr std::uint8_t PouchFilmA = 0;
-
-            std::vector<std::uint8_t> code;
-            int cw = 0;
-            int ch = 0;
-            if (!codePath.empty()) {
-                TextureFile codes(codePath);
-                codes.open();
-                if (codes.hasImage()) {
-                    code = shaderCodes(codes);
-                    cw = codes.getWidth();
-                    ch = codes.getHeight();
-                }
-            }
-
-            const bool srgb = tex.getGamma().has_value();
-            tex.setGamma(std::nullopt);          // a mask is codes, not colour
-            std::vector<std::uint8_t> px = tex.getPixels();
-            const int w = tex.getWidth();
-            const int h = tex.getHeight();
-            for (int y = 0; y < h; ++y) {
-                const int cy = ch > 0 ? std::min(ch - 1, static_cast<int>((static_cast<long long>(y) * ch) / h)) : 0;
-                for (int x = 0; x < w; ++x) {
-                    const std::size_t i = (static_cast<std::size_t>(y) * w + x) * 4;
-                    if (i + 3 >= px.size()) {
-                        continue;
-                    }
-
-                    if (srgb) {
-                        px[i] = srgbValues()[px[i]];
-                        px[i + 1] = srgbValues()[px[i + 1]];
-                        px[i + 2] = srgbValues()[px[i + 2]];
-                    }
-
-                    bool film = false;
-                    if (cw > 0) {
-                        const int cx = std::min(cw - 1, static_cast<int>((static_cast<long long>(x) * cw) / w));
-                        const std::size_t c = static_cast<std::size_t>(cy) * cw + cx;
-                        film = c < code.size() && (code[c] & 0x10) != 0;
-                    }
-
-                    if (film) {
-                        px[i] = PouchFilmR;
-                        px[i + 1] = PouchFilmG;
-                        px[i + 3] = PouchFilmA;
-                    } else if (fillRed) {
-                        px[i] = 255;
-                    }
-                }
-            }
-
-            tex.setPixels(std::move(px), w, h);
-        };
-    }
-
     TexEditor::Filter lynaeMaskRedFill() {
         return [](TextureFile& tex) {
             const bool srgb = tex.getGamma().has_value();

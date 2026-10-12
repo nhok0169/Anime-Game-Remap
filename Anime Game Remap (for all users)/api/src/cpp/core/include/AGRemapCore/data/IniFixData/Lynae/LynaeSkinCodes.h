@@ -111,28 +111,6 @@ namespace AGRemapCore {
      @endrst
      */
     TexEditor::Filter lynaePropsPlainCode();
-
-    /**
-     * @brief
-     @rst
-     Writes the hip pouch's own foil mask under Lynae's film :raw-html:`<br />` :raw-html:`<br />`
-
-     LynaePeppermint's hip pouch reads its mask as how its foil looks: its own mask is R 96, G 48, A 0
-     over it. Lynae's (R 255 from :cpp:func:`lynaeMaskRedFill`, or her props mask's G 144 and A 240) drew
-     her see-through film as a saturated, near-opaque one, or tinted it amber. Every texel whose code in
-     'codeRole''s map (sampled at the texel's UV) carries her film flag ``0x10`` takes the pouch's R, G
-     and A, and keeps its B (112 on both); with 'fillRed' every other
-     texel takes 255, as :cpp:func:`lynaeMaskRedFill` writes, and otherwise keeps its own. Read from the
-     code map only, never the mask's or the diffuse's colours. The code map is chosen as for
-     :cpp:func:`lynaeSheerBake`
-     @endrst
-
-     @param ctx The mod being fixed
-     @param codeRole The role of the material-code map that marks the film
-     @param fillRed Whether every other texel's red channel becomes 255
-     */
-    TexEditor::Filter lynaePouchFilmMask(const WWMIFixerConfig::TexEditContext& ctx, const std::string& codeRole,
-                                         bool fillRed);
 }
 
 #endif

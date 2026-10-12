@@ -206,12 +206,6 @@ not a source slot. Its slot and bindings say where they go and what they bind
         .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
 :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
 its vertices carry any of them
-        )doc"))
-        .def_readwrite("roleAliases", &AGRC::WWMIFixerConfig::DrawReroute::roleAliases, py::doc(R"doc(
-Dict[:class:`str`, :class:`str`]: ``{new role: role of from_}`` -- a role the rerouted draws bind under a
-name of their own, served by the file :attr:`from_` binds for the other role, so a texture edit on the new
-name edits a copy for the new slot alone. Keep the kind (what follows the first capital: ``filmMask`` for
-``jacketMask``), or the mod's own line binding the file is not re-keyed onto it. **Default**: none
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::CreatedTexture>(fixerConfig, "CreatedTexture", R"doc(

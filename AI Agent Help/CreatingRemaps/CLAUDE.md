@@ -758,7 +758,8 @@ the mod on its own card. What it found:
   **And her "robotic" legs (code 1, white-grey with silver sides on Lynae) have no counterpart on the skin**: all 14 codes
   the skin's maps use and every mask channel (R 0 / 128, G 0 / 255, B 0, A 255), set on the code-1 texels one at a time,
   left the legs unchanged on LynaePeppermint -- only the diffuse reaches them. The code-1 ratio of `lynaeSheerBake` was
-  corrected once by the measured remaining gap (now 0.788 / 0.872 / 0.949); the angle-dependent grey sides cannot be baked.
+  corrected once by the measured remaining gap (now 0.788 / 0.872 / 0.949); the angle-dependent grey sides cannot be baked. **The
+  maintainer's decision (2026-10-12): keep the legs as they are -- no baked fake side shading (it would stripe from the side).**
 * **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
   OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a
   holographic film that renders her cyan lining texture pink-red; LynaePeppermint draws code 4 as plain diffuse, and its

@@ -1244,6 +1244,12 @@
     <member refid="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" kind="function"><name>ibResourceKVPs</name></member>
     <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" kind="function"><name>blendRefKVPs</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct"><name>AGRemapCore::WWMIFixerConfig::DrawReroute</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" kind="variable"><name>from</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" kind="variable"><name>as</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" kind="variable"><name>codeRole</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" kind="variable"><name>flags</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kind="struct"><name>AGRemapCore::IniFixResourceModel::Entry</name>
     <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a204229d0acbf797ef55409251c28355c" kind="variable"><name>fixedPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" kind="variable"><name>fullPath</name></member>
@@ -6630,6 +6636,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1accc4ba3fc20e81e3015e80416c06bca3" kind="variable"><name>filterStep</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a020c01106d4c7b635d48a408e276ebad" kind="variable"><name>filterIndices</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a35e39e37eb7c09b4dca5f93c7183d140" kind="variable"><name>plan</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a3d78c9fb2d4207ff7dc0b7961971ebf8" kind="variable"><name>drawReroutes</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae28be3a422ec6c5e358409867d4b95aa" kind="variable"><name>typeRoles</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ab323d24041a1319407c23388e5b63e4e" kind="variable"><name>createdTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a13c1c343348af3f9641da855a4e48ca1" kind="variable"><name>flatFallsBackToSource</name></member>

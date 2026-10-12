@@ -25743,6 +25743,53 @@ class WWMIFixerConfig:
         @size.setter
         def size(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
+    class DrawReroute:
+        """
+        
+        Some draws of one source component, sent through a different target slot -- see
+        :attr:`WWMIFixerConfig.drawReroutes`
+            
+        """
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, from_: typing.SupportsInt | typing.SupportsIndex, as_: typing.SupportsInt | typing.SupportsIndex, codeRole: str, flags: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def as_(self) -> int:
+            """
+            :class:`int`: The :attr:`WWMIFixerConfig.plan` entry the rerouted draws are drawn by -- an id that is
+            not a source slot. Its slot and bindings say where they go and what they bind
+            """
+        @as_.setter
+        def as_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def codeRole(self) -> str:
+            """
+            :class:`str`: The role of the material-code map that marks the draws
+            """
+        @codeRole.setter
+        def codeRole(self, arg0: str) -> None:
+            ...
+        @property
+        def flags(self) -> int:
+            """
+            :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
+            its vertices carry any of them
+            """
+        @flags.setter
+        def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def from_(self) -> int:
+            """
+            :class:`int`: The source component whose draws may go elsewhere
+            """
+        @from_.setter
+        def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
     class RegRemoval:
         """
         
@@ -26063,6 +26110,17 @@ class WWMIFixerConfig:
         """
     @currentPoseInCb3Only.setter
     def currentPoseInCb3Only(self, arg0: bool) -> None:
+        ...
+    @property
+    def drawReroutes(self) -> list[WWMIFixerConfig.DrawReroute]:
+        """
+        List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
+        rest of their component, chosen by the mod's own material-code map -- never by its colours. A
+        component whose map is not the mod's own, or whose draws carry no such texel, is left whole.
+        **Default**: none
+        """
+    @drawReroutes.setter
+    def drawReroutes(self, arg0: collections.abc.Sequence[WWMIFixerConfig.DrawReroute]) -> None:
         ...
     @property
     def extraPassNoDraw(self) -> dict[int, set[str]]:

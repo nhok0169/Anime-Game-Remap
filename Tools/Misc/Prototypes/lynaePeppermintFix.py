@@ -283,10 +283,19 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         6: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "propsNormal"), B("ps-t1", "propsMask"),
                                                    B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse")]),
         7: FRB.WWMIFixerConfig.SourceComponent(7, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
+        # her jacket's FILM draws (see drawReroutes below), on the hip pouch's register order
+        105: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
+                                                     B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse")]),
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True
+    plan[105].sameFileSection = True
     config.plan = plan
+
+    # ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater), and the
+    # skin's jacket slot has no film: those draws go through the hip pouch, whose foil is one (core's
+    # LynaeFixer) ----
+    config.drawReroutes = [FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----
@@ -294,7 +303,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         0: {"bce1512f1c6b82fe": [B("ps-t0", "bangsDiffuse")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairDiffuse")]},
         3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4)]},
-        5: {"0fbe7ebba08cd1b0": [B("ps-t0", "propsDiffuse")]},
+        5: {"0fbe7ebba08cd1b0": [B("ps-t0", "propsDiffuse", 6), B("ps-t0", "jacketDiffuse", 105)]},
         6: {"0fbe7ebba08cd1b0": [B("ps-t0", "jacketDiffuse")]},
         7: {"e04f4df80ee6b0ab": [B("ps-t0", "eyeMask")]},
     }

@@ -187,6 +187,27 @@ mod's own ``.ini`` as a second section on that draw instead of from a copy ``.in
 positions are never computed. **Default**: ``False``
         )doc"));
 
+    py::class_<AGRC::WWMIFixerConfig::DrawReroute>(fixerConfig, "DrawReroute", R"doc(
+Some draws of one source component, sent through a different target slot -- see
+:attr:`WWMIFixerConfig.drawReroutes`
+    )doc")
+        .def(py::init<>())
+        .def(py::init([](int from, int as, std::string codeRole, int flags) {
+            return AGRC::WWMIFixerConfig::DrawReroute{from, as, std::move(codeRole), flags};
+        }), py::arg("from_"), py::arg("as_"), py::arg("codeRole"), py::arg("flags"))
+        .def_readwrite("from_", &AGRC::WWMIFixerConfig::DrawReroute::from,
+                        py::doc(":class:`int`: The source component whose draws may go elsewhere"))
+        .def_readwrite("as_", &AGRC::WWMIFixerConfig::DrawReroute::as, py::doc(R"doc(
+:class:`int`: The :attr:`WWMIFixerConfig.plan` entry the rerouted draws are drawn by -- an id that is
+not a source slot. Its slot and bindings say where they go and what they bind
+        )doc"))
+        .def_readwrite("codeRole", &AGRC::WWMIFixerConfig::DrawReroute::codeRole,
+                        py::doc(":class:`str`: The role of the material-code map that marks the draws"))
+        .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
+:class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
+its vertices carry any of them
+        )doc"));
+
     py::class_<AGRC::WWMIFixerConfig::CreatedTexture>(fixerConfig, "CreatedTexture", R"doc(
 A texture the fix INVENTS, eg. the flat material mask a target reads skin off
     )doc")
@@ -315,6 +336,12 @@ Dict[:class:`int`, :class:`WWMIFixerConfig.SourceComponent`]: Source component -
 the target. A source component the mod has a section for but this does not name is dropped. Several
 sources may name one target slot: that is the merge, and which lands in the mod's own ``.ini`` and
 which in a copy follows the source components' numeric order
+        )doc"))
+        .def_readwrite("drawReroutes", &AGRC::WWMIFixerConfig::drawReroutes, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
+rest of their component, chosen by the mod's own material-code map -- never by its colours. A
+component whose map is not the mod's own, or whose draws carry no such texel, is left whole.
+**Default**: none
         )doc"))
         .def_readwrite("typeRoles", &AGRC::WWMIFixerConfig::typeRoles, py::doc(R"doc(
 Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]: Source component ->

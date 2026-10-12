@@ -347,6 +347,51 @@ namespace AGRemapCore {
         std::map<int, SourceComponent> plan;
 
         /**
+         * @brief Some draws of one source component, sent through a different target slot
+         */
+        struct DrawReroute {
+            /**
+             * @brief The source component whose draws may go elsewhere
+             */
+            int from = -1;
+            /**
+             * @brief
+             @rst
+             The :cpp:member:`plan` entry the rerouted draws are drawn by -- an id that is not a
+             source slot, eg. ``105``. Its slot and bindings say where they go and what they bind;
+             it is drawn from the mod's own ``.ini`` (give it ``sameFileSection``)
+             @endrst
+             */
+            int as = -1;
+            /**
+             * @brief The role of the material-code map, among ``from``'s textures, that marks the draws
+             */
+            std::string codeRole;
+            /**
+             * @brief
+             @rst
+             The flag bits that mark a texel: a draw goes when more than half of the texels under
+             its vertices carry any of them
+             @endrst
+             */
+            int flags = 0;
+        };
+
+        /**
+         * @brief
+         @rst
+         Draws that go through a different target slot than the rest of their component, chosen by
+         the mod's own material-code map -- never by its colours. Lynae paints a see-through film
+         with flag ``0x10`` and her jacket's shader draws it as one; LynaePeppermint's jacket slot has
+         no film, so those draws go through her hip pouch, whose foil is. A component whose map is
+         not the mod's own, or whose draws carry no such texel, is left whole. The rerouted draws are
+         a second copy of the component's sections, renamed, holding only those draws; the
+         component's own copy drops them. **Default**: none
+         @endrst
+         */
+        std::vector<DrawReroute> drawReroutes;
+
+        /**
          * @brief
          @rst
          Source component -> ``{"diffuse" | "mask" | "normal" -> role}``, for a file named by

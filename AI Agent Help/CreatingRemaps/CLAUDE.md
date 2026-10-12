@@ -787,9 +787,18 @@ the mod on its own card. What it found:
   opaque knit. Lynae marks film with FLAGS in the code map -- her own sweater is props code 16 (flag `0x10`), Lynae14's
   satin corset 0, and Lynae9 paints its jacket sweater 211-226 (flags `0xD`/`0xE`) where her own jacket map uses 0-4.
   So `lynaePropsPlainCode` keeps a code with flag `0x10` (the pouch draws it as its foil) and moves the rest to 15: the
-  props path now renders a see-through holographic film, a little olive where hers is pink. The jacket path has no
-  match: the skin's film code 49, even with its own film mask (A 240, G 96), only made the knit a little more
-  see-through, so it stays as it is (the maintainer chose the props-path fix only). The same rule
+  props path now renders a see-through holographic film, a little olive where hers is pink. **The jacket path has no
+  film shader on the skin** -- its film code 49 with its own film mask (A 240, G 96), normal alpha 0 and diffuse alpha
+  240 together only turned the knit salmon -- so those draws are ROUTED THROUGH THE POUCH:
+  `WWMIFixerConfig::drawReroutes` (new) takes the draws of one source component whose texels, in the MOD's own code
+  map under the draw's vertices, mostly carry a flag (`{5, 105, "jacketDetail", 0x10}`), and draws them by a plan entry
+  of their own (`105`: slot 5, the jacket's roles on the pouch's registers, `sameFileSection`). Mechanically it is a
+  second remap target of component 5's graph with its own rename (`...Reroute105...`), a `drawindexed` filter on each
+  copy, and the anchors that find the shared-resource lists by name asking for that name too (`listNames`) -- the
+  first build put the additions nowhere because of it, and the carried `ps-t` lines needed the SOURCE component's
+  `registerRoles`. A component whose map is the game's, or whose draws carry no flag, is untouched: over the 34-mod
+  corpus only Lynae9's `.ini` changed. In game the jacket-path sweater is a glossy see-through film like hers, its rims
+  more violet. The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

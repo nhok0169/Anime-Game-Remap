@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::DrawReroute</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::DrawReroute::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::from</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>The source component whose draws may go elsewhere. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="356" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::DrawReroute::as</definition>
+        <argsstring></argsstring>
+        <name>as</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::as</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:member:`plan` entry the rerouted draws are drawn by -- an id that is not a
+source slot, eg. ``105``. Its slot and bindings say where they go and what they bind;
+it is drawn from the mod&apos;s own ``.ini`` (give it ``sameFileSection``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="365" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::DrawReroute::codeRole</definition>
+        <argsstring></argsstring>
+        <name>codeRole</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::codeRole</qualifiedname>
+        <briefdescription>
+<para>The role of the material-code map, among <computeroutput><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" kindref="member">from</ref></computeroutput>&apos;s textures, that marks the draws. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="369" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::WWMIFixerConfig::DrawReroute::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::flags</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The flag bits that mark a texel: a draw goes when more than half of the texels under
+its vertices carry any of them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="377" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Some draws of one source component, sent through a different target slot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="352" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="352" bodyend="378"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>codeRole</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>flags</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>from</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1544,6 +1544,7 @@ namespace AGRemapCore {
                     }
 
                     readTextures();
+                    readReroutes();
                     planTexEdits();
                     planGameTexEdits();
                     planToggledRoles();
@@ -1853,6 +1854,11 @@ namespace AGRemapCore {
                 }
 
                 ModObj slotObj(int component) const {
+                    const auto alias = rerouteFrom_.find(component);
+                    if (alias != rerouteFrom_.end()) {
+                        component = alias->second;
+                    }
+
                     return ModObj("", config_.slotPrefix + std::to_string(component));
                 }
 
@@ -3830,6 +3836,7 @@ namespace AGRemapCore {
                     buildGroups();
                     buildSlotValues();
                     buildComponentAdditions();
+                    buildRerouteFilters();
                     buildSlotRemap();
                     buildPerGroupEdits();
                     buildBlendCollects(source, vgRemapVersion(from), to);
@@ -4378,10 +4385,8 @@ namespace AGRemapCore {
                         // component writes one capture and one restore.
                         if (!bypasses_.empty()) {
                             auto bypass = std::make_unique<BypassRestore>(
-                                std::vector<std::string>{config_.sharedResourcesList,
-                                                         fixName(config_.sharedResourcesList)},
-                                std::vector<std::string>{config_.cleanupResourcesList,
-                                                         fixName(config_.cleanupResourcesList)},
+                                listNames(config_.sharedResourcesList),
+                                listNames(config_.cleanupResourcesList),
                                 bypasses_, restoreListName());
                             auto adapter = std::make_unique<RegPartEdit<>>(bypass.get());
                             editsOf_[component].push_back(adapter.get());
@@ -4598,7 +4603,10 @@ namespace AGRemapCore {
                             CarriedTexRegs::RegRoleOf regRoleOf = nullptr;
                             if (config_.carryByRegisterRole) {
                                 std::map<std::string, std::string> slotRoles;
-                                const auto own = config_.sourceTextures.registerRoles.find(component);
+                                // a reroute reads its source component's layout -- it is that component's art
+                                const auto alias = rerouteFrom_.find(component);
+                                const auto own = config_.sourceTextures.registerRoles.find(
+                                    alias != rerouteFrom_.end() ? alias->second : component);
                                 if (own != config_.sourceTextures.registerRoles.end()) {
                                     for (const auto& [reg, role] : own->second) {
                                         slotRoles.emplace(StringTools::toLower(reg), role);
@@ -4644,12 +4652,11 @@ namespace AGRemapCore {
                         if (!additions.empty()) {
                             // The remap has already renamed the called list by the time this runs,
                             // so the anchor is matched under either name.
-                            const std::string sharedList = config_.sharedResourcesList;
-                            const std::string renamedList = fixName(sharedList);
+                            const std::vector<std::string> sharedLists = listNames(config_.sharedResourcesList);
                             auto add = std::make_unique<RegSurroundedAdd<>>(
                                 std::move(additions),
-                                RegSurroundedAdd<>::RegMap{{IniKeywords::Run, [sharedList, renamedList](const std::string& value) {
-                                    return value == sharedList || value == renamedList;
+                                RegSurroundedAdd<>::RegMap{{IniKeywords::Run, [sharedLists](const std::string& value) {
+                                    return std::find(sharedLists.begin(), sharedLists.end(), value) != sharedLists.end();
                                 }}},
                                 RegSurroundedAdd<>::RegMap{}, false);
                             auto adapter = std::make_unique<GraphPartEdit<>>(add.get());
@@ -4663,6 +4670,204 @@ namespace AGRemapCore {
 
                 // The hash-only objects: the hidden ones (the shape keys) commented out of the
                 // original and copied nowhere, the rest (the bone-data override) into every group
+                // ---- WWMIFixerConfig::drawReroutes ----
+
+                // Every name a mod's command list can carry in the remapped graphs: its own, the
+                // fix's, and each reroute copy's (see buildSlotRemap)
+                std::vector<std::string> listNames(const std::string& list) const {
+                    std::vector<std::string> names{list, fixName(list)};
+                    for (const auto& entry : rerouteFrom_) {
+                        names.push_back(fixName(list + "Reroute" + std::to_string(entry.first)));
+                    }
+
+                    return names;
+                }
+
+                // The code a shader reads from one texel of a material-code map: the byte, decoded
+                // and truncated when the map is stored sRGB
+                static std::uint8_t shaderCode(std::uint8_t byte, bool srgb) {
+                    if (!srgb) {
+                        return byte;
+                    }
+
+                    const double c = byte / 255.0;
+                    const double linear = (c <= 0.04045 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4)) * 255.0;
+                    return static_cast<std::uint8_t>(std::min(255.0, std::floor(linear + 1e-6)));
+                }
+
+                // Which draws of each reroute's source component go elsewhere, read off the MOD's
+                // own code map at the draws' vertices. A reroute that takes draws becomes a present
+                // component of its own, sharing the source's sections and every texture it reads.
+                void readReroutes() {
+                    if (config_.drawReroutes.empty() || gaveUp_) {
+                        return;
+                    }
+
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    for (const WWMIFixerConfig::DrawReroute& reroute : config_.drawReroutes) {
+                        const auto ranges = drawRanges_.find(reroute.from);
+                        if (present_.count(reroute.from) == 0 || config_.plan.count(reroute.as) == 0
+                                || ranges == drawRanges_.end() || present_.count(reroute.as) > 0) {
+                            continue;
+                        }
+
+                        // the MOD's own map: a role it does not bind is the source's own, whose
+                        // texels the source's own shader already sorts out
+                        const auto resource = resourceOfSlotRole_.find({reroute.codeRole, reroute.from});
+                        if (resource == resourceOfSlotRole_.end()) {
+                            continue;
+                        }
+
+                        const auto file = fileOfResource_.find(StringTools::toLower(resource->second));
+                        if (file == fileOfResource_.end()) {
+                            continue;
+                        }
+
+                        std::set<std::pair<long long, long long>> taken;
+                        try {
+                            TextureFile codes(FileService::absPathOfRelPath(file->second, folder));
+                            codes.open();
+                            if (!codes.hasImage() || indexFile_.empty() || texcoordFile_.empty() || positionFile_.empty()) {
+                                continue;
+                            }
+
+                            const bool srgb = codes.getGamma().has_value();
+                            const std::vector<std::uint8_t>& px = codes.getPixels();
+                            const long long w = codes.getWidth();
+                            const long long h = codes.getHeight();
+                            const ByteVec index = readWhole(FileService::absPathOfRelPath(indexFile_, folder), "this mod's index buffer");
+                            const ByteVec uvRaw = readWhole(FileService::absPathOfRelPath(texcoordFile_, folder), "this mod's texcoords");
+                            const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
+                                FileService::strToPath(positionBufPath())) / 12);
+                            if (vertices == 0 || uvRaw.size() % vertices != 0 || uvRaw.size() / vertices < 4) {
+                                continue;
+                            }
+
+                            const std::size_t stride = uvRaw.size() / vertices;
+                            const BufFloat16 half(false);
+                            for (const auto& range : ranges->second) {
+                                std::set<std::uint32_t> seen;
+                                std::size_t marked = 0;
+                                for (long long i = range.second; i < range.second + range.first; ++i) {
+                                    if (static_cast<std::size_t>(i + 1) * 4 > index.size()) {
+                                        break;
+                                    }
+
+                                    std::uint32_t v = 0;
+                                    std::memcpy(&v, index.data() + i * 4, 4);
+                                    if (v >= vertices || !seen.insert(v).second) {
+                                        continue;
+                                    }
+
+                                    double uv[2];
+                                    for (int k = 0; k < 2; ++k) {
+                                        const std::size_t at = static_cast<std::size_t>(v) * stride + static_cast<std::size_t>(k) * 2;
+                                        const double value = std::get<double>(half.decode(ByteVec(uvRaw.begin() + at, uvRaw.begin() + at + 2)));
+                                        uv[k] = std::isfinite(value) ? value - std::floor(value) : 0.0;
+                                    }
+
+                                    const long long x = std::min(w - 1, static_cast<long long>(uv[0] * w));
+                                    const long long y = std::min(h - 1, static_cast<long long>(uv[1] * h));
+                                    const std::size_t at = static_cast<std::size_t>(y * w + x) * 4;
+                                    if (at < px.size() && (shaderCode(px[at], srgb) & reroute.flags) != 0) {
+                                        ++marked;
+                                    }
+                                }
+
+                                if (!seen.empty() && marked * 2 > seen.size()) {
+                                    taken.insert(range);
+                                }
+                            }
+                        } catch (const std::exception& e) {
+                            note(std::string("could not read which draws to reroute: ") + e.what());
+                            continue;
+                        }
+
+                        if (taken.empty()) {
+                            continue;
+                        }
+
+                        // the reroute is a component of its own from here on
+                        rerouteFrom_[reroute.as] = reroute.from;
+                        reroutedDraws_[reroute.as] = taken;
+                        present_[reroute.as] = present_.at(reroute.from);
+                        drawParts_[reroute.as] = drawParts_[reroute.from];
+                        for (const auto& range : taken) {
+                            drawRanges_[reroute.as].push_back(range);
+                        }
+
+                        auto& own = drawRanges_[reroute.from];
+                        own.erase(std::remove_if(own.begin(), own.end(),
+                                                 [&taken](const std::pair<long long, long long>& r) { return taken.count(r) > 0; }),
+                                  own.end());
+
+                        const auto copyFor = [&reroute](auto& byRoleComponent) {
+                            std::vector<std::pair<std::pair<std::string, int>, std::string>> add;
+                            for (const auto& entry : byRoleComponent) {
+                                if (entry.first.second == reroute.from) {
+                                    add.push_back({{entry.first.first, reroute.as}, entry.second});
+                                }
+                            }
+                            for (auto& entry : add) {
+                                byRoleComponent.insert(std::move(entry));
+                            }
+                        };
+                        copyFor(resourceOfSlotRole_);
+                        copyFor(preEditResourceOfSlotRole_);
+                        copyFor(toggledGame_);
+                        const auto late = lateBindRegs_.find(reroute.from);
+                        if (late != lateBindRegs_.end()) {
+                            lateBindRegs_[reroute.as] = late->second;
+                        }
+
+                        note(std::to_string(taken.size()) + " of " + config_.slotPrefix + std::to_string(reroute.from)
+                             + "'s draws carry the " + reroute.codeRole + " flag, and go through target slot "
+                             + std::to_string(config_.plan.at(reroute.as).slot) + " instead");
+                    }
+                }
+
+                // A reroute's copy keeps only its draws; its source's copy keeps everything else
+                void buildRerouteFilters() {
+                    for (const auto& [as, from] : rerouteFrom_) {
+                        const std::set<std::pair<long long, long long>> taken = reroutedDraws_.at(as);
+                        const auto rangeOf = [](const std::string& value) -> std::optional<std::pair<long long, long long>> {
+                            const std::size_t comma = value.find(',');
+                            const std::size_t second = value.find(',', comma + 1);
+                            if (comma == std::string::npos || second == std::string::npos) {
+                                return std::nullopt;
+                            }
+                            try {
+                                return std::make_pair(std::stoll(std::string(StringTools::strip(value.substr(0, comma)))),
+                                                      std::stoll(std::string(StringTools::strip(value.substr(comma + 1, second - comma - 1)))));
+                            } catch (const std::exception&) {
+                                return std::nullopt;
+                            }
+                        };
+
+                        // the source keeps a draw that is not taken (and anything it cannot read)
+                        auto dropTaken = std::make_unique<RegRemove<>>(std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
+                            {IniKeywords::DrawIndexed, RegRemove<>::RemoveKeyCheck([taken, rangeOf](long long, const std::string& value) {
+                                const auto range = rangeOf(value);
+                                return range.has_value() && taken.count(*range) > 0;
+                            })}});
+                        // ...and the reroute keeps only the taken ones
+                        auto keepTaken = std::make_unique<RegRemove<>>(std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
+                            {IniKeywords::DrawIndexed, RegRemove<>::RemoveKeyCheck([taken, rangeOf](long long, const std::string& value) {
+                                const auto range = rangeOf(value);
+                                return !range.has_value() || taken.count(*range) == 0;
+                            })}});
+
+                        auto dropAdapter = std::make_unique<RegPartEdit<>>(dropTaken.get());
+                        auto keepAdapter = std::make_unique<RegPartEdit<>>(keepTaken.get());
+                        editsOf_[from].push_back(dropAdapter.get());
+                        editsOf_[as].push_back(keepAdapter.get());
+                        rerouteRemoves_.push_back(std::move(dropTaken));
+                        rerouteRemoves_.push_back(std::move(keepTaken));
+                        regAdapters_.push_back(std::move(dropAdapter));
+                        regAdapters_.push_back(std::move(keepAdapter));
+                    }
+                }
+
                 void buildSlotRemap() {
                     // Members rather than locals: buildPerGroupEdits below reads both, and the two
                     // phases were one function when they shared them by scope.
@@ -4687,11 +4892,28 @@ namespace AGRemapCore {
                     const GraphGroupRemap<>::RenameFunc rename = [this](const std::string& name) { return fixName(name); };
                     GraphGroupRemap<>::RemapList remap;
                     for (const auto& entry : present_) {
+                        if (rerouteFrom_.count(entry.first) > 0) {
+                            continue;                       // a target of its source's graph, below
+                        }
+
                         std::vector<GraphGroupRemap<>::RemapTarget> targets;
                         auto planned = config_.plan.find(entry.first);
                         if (planned != config_.plan.end()) {
                             const ModObj target = targetObjOf(entry.first);
                             targets.emplace_back(GraphId(0, target.first, target.second), rename);
+                        }
+
+                        // ...and each reroute of it: the same sections again under their own names,
+                        // so the two copies do not collide in the mod's file
+                        for (const auto& [as, from] : rerouteFrom_) {
+                            if (from != entry.first) {
+                                continue;
+                            }
+
+                            const ModObj target = targetObjOf(as);
+                            const std::string tag = "Reroute" + std::to_string(as);
+                            targets.emplace_back(GraphId(0, target.first, target.second),
+                                                 [this, tag](const std::string& name) { return fixName(name + tag); });
                         }
 
                         const ModObj src = slotObj(entry.first);
@@ -7148,6 +7370,9 @@ namespace AGRemapCore {
                 std::string vectorFile_;                              // ...and [ResourceVectorBuffer]; the normals the mirrored twin negates
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
+                std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
+                std::map<int, std::set<std::pair<long long, long long>>> reroutedDraws_;   // ...and those draws, keyed by `as`
+                std::vector<std::unique_ptr<RegRemove<>>> rerouteRemoves_;
 
                 // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.
                 // Read off the vertex group row's largest target id, which is a property of the

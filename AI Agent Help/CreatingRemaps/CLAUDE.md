@@ -673,7 +673,9 @@ the mod on its own card. What it found:
   Lynae draws her props through a glass layer of FOUR passes, two of which tint by the diffuse; the skin's coat
   slot draws two that mute it under its holographic sheen. Her OWN texture renders alike on both (her identity
   mod's jacket is indistinguishable on the two cards), so a plain grade would break the vanilla look -- the
-  difference is in how far a mod STRAYS from her texture. `lynaePropsGrade` (Lynae -> LynaePeppermint) moves
+  difference is in how far a mod STRAYS from her texture. **(`lynaePropsGrade` is DELETED since 2026-10-12 -- see
+  "A RAINBOW-RIMMED DRESS" below: the pastel was the hip pouch's foil MATERIAL, and a grade aimed by the diffuse put
+  an inverted copy of her foil sweater into Lynae14's new art.)** `lynaePropsGrade` (Lynae -> LynaePeppermint) moved
   every texel of component 6's UV island to `own + 1.5 (mod - own)`, `own` her game texture, downloaded through
   the new `WWMIFixerConfig::TexEdit::sourceGameRoles` (handed to the filter in `TexEditContext::gameFileOfRole`,
   bound by nothing). **1.5, judged on the SLEEVES and over every recolour on hand** -- 2.5, picked on one
@@ -717,7 +719,9 @@ the mod on its own card. What it found:
   shader draws skin-coloured diffuse under EVERY code of the `ps-t2` code map except skin (0) as a stocking, each in its
   own tone (flat probes on her card: 1 sheer grey-white, 2 glossy white, 3 pinkish, 4 bright white); the `ps-t8` "sheer"
   texture is NOT it. LynaePeppermint draws all of them as plain skin. `lynaeSheerBake` (texEdit on `lowerDiffuse`)
-  multiplies every flesh-coloured texel under codes 1-4 by that code's MEASURED ratio -- median leg colour on Lynae with
+  multiplied every flesh-coloured texel under codes 1-4 by that code's MEASURED ratio **(REMOVED 2026-10-12: a
+  flesh-colour test is a diffuse classification, which a mod with dark or blue skin defeats -- and nothing but the
+  colour separates her stockings from cloth; see "A RAINBOW-RIMMED DRESS")** -- median leg colour on Lynae with
   the code bound flat, over the median on the skin with the code it becomes after `lynaeSkinCodeSwap`, same probe both
   sides. The first version baked code 1 only, tuned by eye (90% desaturation): it left the inner thighs (codes 2-4) bare
   and the rest far too grey-white, and the maintainer called it pale. Even measured, the result is paler than Lynae: her
@@ -761,6 +765,25 @@ the mod on its own card. What it found:
   her card** (both register on the skeleton buffer the skins share) -- load the original-port and the remap one at a time.
   And a 3.6 mod can be seen on her at 3.7 only through a port (`vb0`, the bone renumbering, texture hashes) -- this used a
   scratch `port37.py`; the toggle's saved value in `d3dx_user.ini` overrides an edited default, so make it non-persistent.
+* **A RAINBOW-RIMMED DRESS: THE HIP POUCH DRAWS HER PROPS' MATERIALS AS FOIL -- AND NO EDIT MAY BE AIMED BY THE DIFFUSE
+  (Lynae14, 2026-10-12).** After the band fix above the maintainer still saw "metallic red", and it was a DIFFERENT
+  outfit: their saved toggles (`body = 1`, `skirt = 1`) show a red corset that Lynae14 draws in her PROPS (component 6),
+  not the Santa dress in her lower body that had been calibrated. **Compare against the maintainer's saved toggles**
+  (`d3dx_user.ini`, and set the port copy's to match -- its key differs by folder), and **find the component first**:
+  a flat yellow at the lower diffuse turned the hat and fur yellow and left the corset red. On LynaePeppermint the corset
+  was dark red with blue-violet and green rims. Two causes: (1) her props land on the skin's hip pouch, whose shader draws
+  material 0-4 of the props code map (`ps-t2`) -- every material her props maps use -- as its holographic foil; its own
+  map is flat 0, so the pouch IS that foil. Flat codes 0, 1, 2, 3, 4, 16, 32, 64, 128 and 240 all rimmed; 15 and 255 did
+  not, so `lynaePropsPlainCode` moves every material to 15 and keeps the flags. (2) `lynaePropsGrade` pushed the mod's
+  props diffuse `1.5x` away from Lynae's own -- her foil sweater -- and Lynae14's corset is new art on those UVs, so
+  the extrapolation added an inverted rainbow (the mod's 127/2/14 red came out 28/0/0). It is deleted: **the
+  maintainer's rule (2026-10-12) is that no edit is classified or aimed by the diffuse's colour** (a mod may give her
+  dark or blue skin), and it was what made Lynae9's sweater "pale pastel" look like a grading problem. The same rule
+  removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
+  filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
+  code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),
+  so no other texture can aim it either -- the maintainer chose to drop the ratios. Diagnostics, in order: a flat yellow
+  per resource to find the slot, then per register (`ps-t2` flat removed the rims), then flat codes.
 * **A WAIST THAT SLANTS WHEN SHE SHIFTS HER WEIGHT: SKIRT CHAINS ON THE TARGET'S LEG BONES (Lynae11, 2026-10-12,
   `Images/Lynae/3_7/LynaePepermintHipsSlanted.png`).** The maintainer reported it twice and the first reading (the ID card
   clipping) was the wrong part. Her skirt is chains rooted at the waist (front 229-254, sides 241-263 / 256-301, back
@@ -775,7 +798,7 @@ the mod on its own card. What it found:
   **And her "robotic" legs (code 1, white-grey with silver sides on Lynae) have no counterpart on the skin**: all 14 codes
   the skin's maps use and every mask channel (R 0 / 128, G 0 / 255, B 0, A 255), set on the code-1 texels one at a time,
   left the legs unchanged on LynaePeppermint -- only the diffuse reaches them. The code-1 ratio of `lynaeSheerBake` was
-  corrected once by the measured remaining gap (now 0.788 / 0.872 / 0.949); the angle-dependent grey sides cannot be baked. **The
+  corrected once by the measured remaining gap (0.788 / 0.872 / 0.949, since removed with the flesh test); the angle-dependent grey sides cannot be baked. **The
   maintainer's decision (2026-10-12): keep the legs as they are -- no baked fake side shading (it would stripe from the side).**
 * **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
   OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a

@@ -34,8 +34,8 @@
 #   0 bangs, 1 hair, 2 face, 3 upper body, 4 lower body and 7 eyes land on the same slot (the face
 #   and eyes are the SAME mesh: overlap 1.00). Lynae's 5 (the jacket hanging off one shoulder) goes
 #   onto the skin's 6 (her jacket), and her 6 (props: headphones, chest pin, belt ID card) onto the
-#   skin's 5 (a hip pouch), the one slot left -- same register order, and the skin has no
-#   special-material shader, so the props' glass / iridescent passes do not carry over.
+#   skin's 5 (a hip pouch), the one slot left -- same register order; her props' glass / iridescent
+#   passes do not carry over, and the pouch's own foil material is moved off them (propsPlainCode).
 #
 # GAPS this prototype knows about (each is a note for the port, step 7):
 #   * The props lose their special-material passes (Lynae draws component 6 on six shaders, four of
@@ -352,122 +352,38 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         return run
     config.texEdits = config.texEdits + [FRB.WWMIFixerConfig.TexEdit(role, "Red", maskRedFill) for role in ("lowerMask", "jacketMask")]
 
-    # ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat mutes
-    # under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders alike on
-    # both, so the mod's DIFFERENCE from it is pushed 1.5x further over component 6's UV island
-    # (core's lynaePropsGrade, the same raster: texel centres, barycentric, grown two texels) ----
-    def propsGrade(ctx):
-        import numpy as np
-        own = ctx.gameFileOfRole.get("propsDiffuse", "")
-
-        def island(w, h):
-            ranges = ctx.drawRanges.get(6, [])
-            try:
-                uvRaw = open(ctx.texcoordFile, "rb").read()
-                idx = np.frombuffer(open(ctx.indexFile, "rb").read(), np.uint32)
-                vertices = os.path.getsize(ctx.positionFile) // 12
-            except OSError:
-                return None
-            if not ranges or vertices == 0 or len(uvRaw) % vertices:
-                return None
-            stride = len(uvRaw) // vertices
-            uv = np.frombuffer(uvRaw, np.uint8).reshape(vertices, stride)[:, 0:4].copy().view(np.float16)
-            uv = uv.astype(np.float32).reshape(-1, 2)
-            mask = np.zeros((h, w), bool)
-            for count, start in ranges:
-                tris = idx[start:start + count - count % 3].reshape(-1, 3)
-                for tri in tris:
-                    if (tri >= vertices).any():
-                        continue
-                    xs = uv[tri, 0] * w
-                    ys = uv[tri, 1] * h
-                    x0, x1 = max(0, int(np.floor(xs.min()))), min(w - 1, int(np.ceil(xs.max())))
-                    y0, y1 = max(0, int(np.floor(ys.min()))), min(h - 1, int(np.ceil(ys.max())))
-                    det = (ys[1] - ys[2]) * (xs[0] - xs[2]) + (xs[2] - xs[1]) * (ys[0] - ys[2])
-                    if abs(det) < 1e-9 or x1 < x0 or y1 < y0:
-                        continue
-                    px, py = np.meshgrid(np.arange(x0, x1 + 1) + 0.5, np.arange(y0, y1 + 1) + 0.5)
-                    w0 = ((ys[1] - ys[2]) * (px - xs[2]) + (xs[2] - xs[1]) * (py - ys[2])) / det
-                    w1 = ((ys[2] - ys[0]) * (px - xs[2]) + (xs[0] - xs[2]) * (py - ys[2])) / det
-                    mask[y0:y1 + 1, x0:x1 + 1] |= (w0 >= -1e-6) & (w1 >= -1e-6) & (w0 + w1 <= 1 + 1e-6)
-            if not mask.any():
-                return None
-            for _ in range(2):
-                grown = mask.copy()
-                grown[:, 1:] |= mask[:, :-1]
-                grown[:, :-1] |= mask[:, 1:]
-                grown[1:, :] |= mask[:-1, :]
-                grown[:-1, :] |= mask[1:, :]
-                mask = grown
-            return mask
-
-        def run(tex):
-            if not own:
-                return
-            ref = FRB.TextureFile(own)
-            ref.open()
-            if not ref.hasImage:
-                return
-            w, h = tex.width, tex.height
-            mask = island(w, h)
-            if mask is None:
-                return
-            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
-            r = np.frombuffer(bytes(ref.getPixels()), np.uint8).reshape(ref.height, ref.width, 4).astype(np.float64)
-            r = r[(np.arange(h) * ref.height) // h][:, (np.arange(w) * ref.width) // w]
-            # clamped, then rounded half AWAY from zero like core's std::lround -- 1.5 x an integer
-            # lands on .5 constantly, and numpy's half-to-even made 7% of texels differ
-            pushed = np.floor(np.clip(r[..., :3] + 1.5 * (px[..., :3] - r[..., :3]), 0, 255) + 0.5)
-            px[..., :3] = np.where(mask[..., None], pushed, px[..., :3])
-            tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
-        return run
-    # ---- her stockings: Lynae draws every non-skin code of the lower body's code map as a stocking, the
-    # skin draws them as skin; flesh-coloured texels under codes 1-4 take that code's measured ratio of the
-    # two renders (core's lynaeSheerBake) ----
-    sheerRatio = {1: (0.788, 0.872, 0.949), 2: (0.910, 1.000, 1.043), 3: (0.883, 0.903, 0.918), 4: (0.890, 0.987, 1.022)}
+    # ---- her lower body's shading bands (core's lynaeSheerBake): the normal map's alpha, which her shader
+    # reads as a band and the skin's does not. No per-material colour ratio: her stocking codes share every
+    # non-colour input with ordinary cloth, so only the diffuse's colour could aim one ----
     shadeBand = [(0, 0.88), (51, 0.78), (72, 0.77), (84, 0.80), (96, 0.87), (102, 0.46), (108, 0.57),
                  (114, 0.77), (120, 0.93), (128, 1.0), (255, 1.0)]
     def sheerBake(ctx):
         import numpy as np
-        codePath = ctx.fileOfRole.get("lowerDetail") or ctx.gameFileOfRole.get("lowerDetail", "")
         normalPath = ctx.fileOfRole.get("lowerNormal") or ctx.gameFileOfRole.get("lowerNormal", "")
         def run(tex):
-            if not codePath:
+            if not normalPath:
                 return
-            codes = FRB.TextureFile(codePath)
-            codes.open()
-            if not codes.hasImage:
+            nt = FRB.TextureFile(normalPath)
+            nt.open()
+            if not nt.hasImage:
                 return
             w, h = tex.width, tex.height
-            c = np.frombuffer(_shaderCodes(codes), np.uint8).reshape(codes.height, codes.width)
-            c = c[(np.arange(h) * codes.height) // h][:, (np.arange(w) * codes.width) // w] & 15
-            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).astype(np.float64)
-            r, g, b = px[..., 0], px[..., 1], px[..., 2]
-            flesh = (r >= 120) & (r - g >= 10) & (g >= b - 8) & (g * 100 >= r * 55)
-            for code, k in sheerRatio.items():
-                s = flesh & (c == code)
-                px[..., :3][s] = np.floor(np.clip(px[..., :3][s] * np.array(k), 0, 255) + 0.5)
-            # ...then the normal map's shading band (core's shadeBandBake)
-            if normalPath:
-                nt = FRB.TextureFile(normalPath)
-                nt.open()
-                if nt.hasImage:
-                    na = np.frombuffer(bytes(nt.getPixels()), np.uint8).reshape(nt.height, nt.width, 4)[..., 3]
-                    na = na[(np.arange(h) * nt.height) // h][:, (np.arange(w) * nt.width) // w]
-                    srgb = tex.gamma is not None
-                    bb = np.arange(256, dtype=np.float64)
-                    lin = (bb / 255.0) ** 2.2 * 255.0 if srgb else bb
-                    pts = np.array(shadeBand)
-                    rr = np.interp(np.arange(256), pts[:, 0], pts[:, 1])
-                    y = np.minimum(255.0, lin[None, :] * rr[:, None])
-                    o = (y / 255.0) ** (1 / 2.2) * 255.0 if srgb else y
-                    table = np.floor(o + 0.5).astype(np.uint8)
-                    q = px[..., :3].astype(np.uint8)
-                    px[..., :3] = table[na[..., None], q]
-            tex.setPixels(px.astype(np.uint8).tobytes(), w, h)
+            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).copy()
+            na = np.frombuffer(bytes(nt.getPixels()), np.uint8).reshape(nt.height, nt.width, 4)[..., 3]
+            na = na[(np.arange(h) * nt.height) // h][:, (np.arange(w) * nt.width) // w]
+            srgb = tex.gamma is not None
+            bb = np.arange(256, dtype=np.float64)
+            lin = (bb / 255.0) ** 2.2 * 255.0 if srgb else bb
+            pts = np.array(shadeBand)
+            rr = np.interp(np.arange(256), pts[:, 0], pts[:, 1])
+            y = np.minimum(255.0, lin[None, :] * rr[:, None])
+            o = (y / 255.0) ** (1 / 2.2) * 255.0 if srgb else y
+            table = np.floor(o + 0.5).astype(np.uint8)
+            px[..., :3] = table[na[..., None], px[..., :3]]
+            tex.setPixels(px.tobytes(), w, h)
         return run
     sheer = FRB.WWMIFixerConfig.TexEdit("lowerDiffuse", "Sheer", sheerBake)
-    sheer.sourceGameRoles = ["lowerDetail", "lowerNormal"]
+    sheer.sourceGameRoles = ["lowerNormal"]
 
     # ---- her coat lining: code 4 of the jacket's code map is a film her shader draws pink-red and the
     # skin's draws as plain cyan diffuse; the code moves to the skin's film code 49 and the texels under it
@@ -504,9 +420,21 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     filmC = FRB.WWMIFixerConfig.TexEdit("jacketDetail", "Film", filmCode)
     filmD = FRB.WWMIFixerConfig.TexEdit("jacketDiffuse", "Film", filmBake)
     filmD.sourceGameRoles = ["jacketDetail"]
-    grade = FRB.WWMIFixerConfig.TexEdit("propsDiffuse", "Grade", propsGrade)
-    grade.sourceGameRoles = ["propsDiffuse"]
-    config.texEdits = config.texEdits + [sheer, filmC, filmD, grade]   # the compiled config's order
+    # ---- her props land on the skin's hip pouch, whose shader draws every material her props maps use as
+    # its holographic foil: all become its plain material 15, flags kept (core's lynaePropsPlainCode) ----
+    def propsPlainCode(ctx):
+        def run(tex):
+            codes = _shaderCodes(tex)
+            tex.gamma = None
+            px = bytearray(tex.getPixels())
+            red = bytes((v & 0xF0) | 0x0F for v in codes)
+            px[0::4] = red
+            px[1::4] = red
+            px[2::4] = red
+            tex.setPixels(bytes(px), tex.width, tex.height)
+        return run
+    plain = FRB.WWMIFixerConfig.TexEdit("propsDetail", "Plain", propsPlainCode)
+    config.texEdits = config.texEdits + [sheer, filmC, filmD, plain]   # the compiled config's order
 
     # Masks mark regions: a flat one from a mod says "all of this is one material"
     # Her own masks are flat in places on purpose (her hair mask is one value over the whole texture,

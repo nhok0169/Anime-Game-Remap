@@ -118,9 +118,11 @@ namespace AGRemapCore {
         }
 
         // Every texel whose material (low four bits of the code map, sampled at the texel's UV) has a
-        // ratio other than 1 is multiplied by it -- only flesh-coloured texels when 'fleshOnly'
-        TexEditor::Filter codeRatioBake(const std::string& codePath, const CodeRatios& ratios, bool fleshOnly) {
-            return [codePath, ratios, fleshOnly](TextureFile& tex) {
+        // ratio other than 1 is multiplied by it. What a texel IS comes from the code map alone, never
+        // from its colour: a mod may paint skin any colour (dark, blue), and a test on the diffuse would
+        // misread it -- one such test took Lynae14's gold filigree for skin and turned it grey-green
+        TexEditor::Filter codeRatioBake(const std::string& codePath, const CodeRatios& ratios) {
+            return [codePath, ratios](TextureFile& tex) {
                 if (codePath.empty()) {
                     return;
                 }
@@ -153,11 +155,6 @@ namespace AGRemapCore {
                         }
 
                         const int in[3] = {px[i], px[i + 1], px[i + 2]};
-                        // flesh: warm, bright, and G at least 0.55 R -- a saturated red (Lynae14's dress, G 0.32 R) is cloth
-                        if (fleshOnly && (in[0] < 120 || in[0] - in[1] < 10 || in[1] < in[2] - 8 || in[1] * 100 < in[0] * 55)) {
-                            continue;
-                        }
-
                         for (int k = 0; k < 3; ++k) {
                             const double v = in[k] * ratio[k];
                             px[i + k] = static_cast<std::uint8_t>(std::lround(std::min(255.0, std::max(0.0, v))));
@@ -252,24 +249,12 @@ namespace AGRemapCore {
     }
 
     TexEditor::Filter lynaeSheerBake(const WWMIFixerConfig::TexEditContext& ctx) {
-        // Per Lynae code: the median leg colour Lynae renders with that code bound flat, over the median
-        // LynaePeppermint renders with the code it becomes after lynaeSkinCodeSwap (menu, Lynae11,
-        // 2026-10-12). Code 0 is skin on Lynae and stays as it is
-        CodeRatios ratios = identityRatios();
-        // code 1 is her default leg material (white-grey, 'robotic'); one probe left the remap's thighs warm
-        // pink, (240, 225, 229) against her (218, 222, 232), so its ratio carries that remaining gap too
-        ratios[1] = {0.788, 0.872, 0.949};
-        ratios[2] = {0.910, 1.000, 1.043};
-        ratios[3] = {0.883, 0.903, 0.918};
-        ratios[4] = {0.890, 0.987, 1.022};
-        TexEditor::Filter stockings = codeRatioBake(codeMapOf(ctx, "lowerDetail"), ratios, true);
-
-        // ...then the normal map's shading band, on every texel (see shadeBandMultiplier)
-        TexEditor::Filter bands = shadeBandBake(codeMapOf(ctx, "lowerNormal"));
-        return [stockings, bands](TextureFile& tex) {
-            stockings(tex);
-            bands(tex);
-        };
+        // No per-material colour ratio: her stocking materials (codes 1-4) share every non-colour input
+        // with ordinary cloth -- Lynae14 paints 88% of its atlas code 1, fur, gold and dresses alike, on
+        // the same normal-alpha band and mask values as her legs -- so a ratio could only be aimed by
+        // the diffuse's colour, which a mod is free to paint any way it likes. Her legs stay a little
+        // warmer than on Lynae (the maintainer's call, 2026-10-12)
+        return shadeBandBake(codeMapOf(ctx, "lowerNormal"));
     }
 
     TexEditor::Filter lynaeFilmBake(const WWMIFixerConfig::TexEditContext& ctx) {
@@ -277,7 +262,7 @@ namespace AGRemapCore {
         // code moved to 49 by lynaeFilmCode (menu, Lynae11 -- whose coat texture is Lynae's own, 2026-10-12)
         CodeRatios ratios = identityRatios();
         ratios[4] = {2.0, 0.89, 0.88};
-        return codeRatioBake(codeMapOf(ctx, "jacketDetail"), ratios, false);
+        return codeRatioBake(codeMapOf(ctx, "jacketDetail"), ratios);
     }
 
     TexEditor::Filter lynaeFilmCode() {
@@ -289,6 +274,20 @@ namespace AGRemapCore {
                 const std::uint8_t v = codes[i / 4];
                 // LynaePeppermint's coat film: material 1, flags 3
                 px[i] = px[i + 1] = px[i + 2] = (v & 0x0F) == 4 ? 49 : v;
+            }
+
+            tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+        };
+    }
+
+    TexEditor::Filter lynaePropsPlainCode() {
+        return [](TextureFile& tex) {
+            const std::vector<std::uint8_t> codes = shaderCodes(tex);
+            tex.setGamma(std::nullopt);          // codes, not colour
+            std::vector<std::uint8_t> px = tex.getPixels();
+            for (std::size_t i = 0; i + 3 < px.size(); i += 4) {
+                // the hip pouch's one plain material is 15; the flags are kept
+                px[i] = px[i + 1] = px[i + 2] = static_cast<std::uint8_t>((codes[i / 4] & 0xF0) | 0x0F);
             }
 
             tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());

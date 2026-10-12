@@ -56,15 +56,14 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Bakes Lynae's sheer stockings into a lower-body diffuse for LynaePeppermint :raw-html:`<br />` :raw-html:`<br />`
+     Bakes Lynae's lower-body shading bands into a lower-body diffuse for LynaePeppermint :raw-html:`<br />` :raw-html:`<br />`
 
-     Lynae's lower-body shader draws every material code but skin (0) as a stocking over the skin under
-     it -- each in its own tone -- and LynaePeppermint's draws all of them as plain skin, so stockings
-     came out as bare legs. Every flesh-coloured texel under codes 1-4 is multiplied by that code's ratio
-     of Lynae's render to LynaePeppermint's, measured in game with each code bound flat. The shader's
-     view-dependent shading (darker sides, gloss) cannot be baked, so the result is paler. The code map is the mod's own ``lowerDetail`` when it
-     binds one by default, otherwise Lynae's game map (``gameFileOfRole``); without either the texture
-     is left as it is
+     Lynae's lower-body shader reads the normal map's alpha as a shading band (around 102 a fabric
+     renders about a third as bright as from 128 up); LynaePeppermint's does not, so a satin dress came
+     out lighter and glossier. Every texel is scaled, in linear colour, by the measured ratio of the two
+     renders at its band. Nothing is decided from the diffuse's own colour. The normal map is the mod's
+     own ``lowerNormal`` when it binds one by default, otherwise Lynae's game map
+     (``gameFileOfRole``); without either the texture is left as it is
      @endrst
 
      @param ctx The mod being fixed
@@ -98,6 +97,19 @@ namespace AGRemapCore {
      @param ctx The mod being fixed
      */
     TexEditor::Filter lynaeFilmBake(const WWMIFixerConfig::TexEditContext& ctx);
+
+    /**
+     * @brief
+     @rst
+     Moves every material of a Lynae props code map to LynaePeppermint's plain hip-pouch material :raw-html:`<br />` :raw-html:`<br />`
+
+     Lynae's props go onto LynaePeppermint's hip pouch, whose shader draws materials 0-4 (all that
+     Lynae's props maps use, with or without flags) as the pouch's holographic foil: a red satin dress
+     came out dark red with blue-violet and green rims. Its material 15 is plain. Every code's material
+     becomes 15 and its flags are kept
+     @endrst
+     */
+    TexEditor::Filter lynaePropsPlainCode();
 }
 
 #endif

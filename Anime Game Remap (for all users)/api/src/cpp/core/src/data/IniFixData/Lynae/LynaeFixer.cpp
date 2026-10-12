@@ -17,7 +17,6 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
-#include "AGRemapCore/data/IniFixData/Lynae/LynaePropsGrade.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 
@@ -27,7 +26,8 @@ namespace AGRemapCore {
     // A/B'd against. Pairing (per-component overlap of the two download folders' Position.buf, and
     // shader family): 0-4 and 7 one to one (the face and eyes are the same mesh), her jacket (5)
     // onto the skin's jacket (6), her props (6) onto the skin's hip pouch (5) -- same register order,
-    // and the skin has no special-material shader, so the props' glass / foil passes do not carry.
+    // and her props' glass / foil passes do not carry; the pouch's own foil MATERIAL is moved off them
+    // (lynaePropsPlainCode).
     IniFixBuilder::Factory IniFixBuilderFuncs::lynaePeppermint3_7() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::LynaePeppermint;
@@ -152,12 +152,12 @@ namespace AGRemapCore {
             {"jacketMask", "Red", [](const WWMIFixerConfig::TexEditContext&) { return lynaeMaskRedFill(); }},
         };
 
-        // ---- her stockings (every non-skin code of the lower body's code map) are materials the skin's
-        // shader does not have, so they are baked into the diffuse: see lynaeSheerBake ----
+        // ---- her lower-body shader shades by the normal map's alpha, the skin's does not: the bands are
+        // baked into the diffuse, see lynaeSheerBake ----
         WWMIFixerConfig::TexEdit sheer{"lowerDiffuse", "Sheer", [](const WWMIFixerConfig::TexEditContext& ctx) {
             return lynaeSheerBake(ctx);
         }};
-        sheer.sourceGameRoles = {"lowerDetail", "lowerNormal"};
+        sheer.sourceGameRoles = {"lowerNormal"};
         config.texEdits.push_back(std::move(sheer));
 
         // ---- her coat lining is a film (code 4 of the jacket's code map) the skin draws as plain cyan
@@ -170,16 +170,10 @@ namespace AGRemapCore {
         film.sourceGameRoles = {"jacketDetail"};
         config.texEdits.push_back(std::move(film));
 
-        // ---- her props go through her glass layer, whose tint passes show a recolour the skin's coat
-        // mutes under its sheen: a pink sweater (Lynae9) came out pale pastel. Her own texture renders
-        // alike on both, so the mod's DIFFERENCE from it is pushed further -- see lynaePropsGrade.
-        // 1.5 by eye against Lynae9 on Lynae, in the menu, on the sleeves (over the gloves): the torso shows
-        // the skin's warmer skin through the film, which no strength fixes; 2.5 read too red there ----
-        WWMIFixerConfig::TexEdit propsGrade{"propsDiffuse", "Grade", [](const WWMIFixerConfig::TexEditContext& ctx) {
-            return lynaePropsGrade(ctx, "propsDiffuse", 1.5);
-        }};
-        propsGrade.sourceGameRoles = {"propsDiffuse"};
-        config.texEdits.push_back(std::move(propsGrade));
+        // ---- her props land on the skin's hip pouch, whose shader draws every material her props maps
+        // use as its holographic foil (Lynae14's red dress: blue-violet rims): all become its plain
+        // material 15, see lynaePropsPlainCode. The mod's own diffuse is left as it is ----
+        config.texEdits.push_back({"propsDetail", "Plain", [](const WWMIFixerConfig::TexEditContext&) { return lynaePropsPlainCode(); }});
 
         // Masks mark regions, and her own are flat in places on purpose (her hair mask is one value
         // over the whole texture, her lower-body and jacket masks R = 255 throughout), so a flat mask

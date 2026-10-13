@@ -56,6 +56,48 @@ namespace AGRemapCore {
                 {"0512a7e61d6bd01d"},                       // 5: eyes
             };
 
+            // ...each gated by the VERTEX shaders it is drawn with rather than by its own pixel
+            // shader, because RabbitFX patches these pixel shaders. Measured 2026-10-13 over the 3.7
+            // frame dumps of both characters (`FrameAnalysis-Sanhua37*`, read the way
+            // wwmiDrawTable.py reads them): NINE of the ten pixel shaders this pair used to tag run
+            // RabbitFX's [ShaderRegexMain] command list, the eye pass being the only one with no
+            // RabbitFX file in any dump -- and absence is not proof there, since all but one of its
+            // regexes have their dump lines commented out. A [ShaderOverride] is keyed by shader hash
+            // across every loaded .ini and a shader holds ONE filter_index, so tagging those pixel
+            // shaders replaced RabbitFX's own `filter_index = 1718.1` and every RabbitFX
+            // `SetTextures` / `Run` read `if ps == 1718.1` as false -- for EVERY mod drawing with
+            // them, not only a remapped one. The face shader alone (ed1c0f8b2ba08ac4) is shared with
+            // ChisaParfait and appears in 19 of the dumps on disk.
+            //
+            // Sanhua's hair slot and both of her bangs passes are drawn with ONE vertex shader
+            // (a695e6d5f9d489cf), so their conditions collapse into one -- which is harmless here
+            // because each slot's list lives in its own remapped section and both bind the same
+            // roles. The face pass carries ChisaParfait's second vertex shader too: it is the same
+            // pass, and naming only the one this character's dumps show is how Chisa's eye list
+            // ended up gated on a draw nobody sees (2026-10-01).
+            config.passVertexShaders = {
+                {"0f1752e476c3804d", {"a695e6d5f9d489cf"}},                         // hair, both characters
+                {"394feb3747bda7a0", {"a695e6d5f9d489cf"}},                         // Exorcist's bangs see-through pass
+                {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},     // face, both characters
+                {"fbe2f2f061949559", {"02f5c4b333a78fa0"}},                         // Exorcist's torso, arms, ribbons
+                {"348ac69e57e38686", {"15a2c90dd35b8c07"}},                         // Exorcist's hair bun, trousers
+                {"0512a7e61d6bd01d", {"a79e471015b2a16c"}},                         // eyes, both characters
+            };
+
+            // Every value named rather than derived from filterBase/filterStep: a derived value is
+            // numbered in map-iteration order, so adding a pass renumbers every shader after it and
+            // silently breaks the agreement these shaders are under. The face pair must match
+            // ChisaParfait's and LynaePeppermint's values -- a Chisa mod and a Sanhua mod installed
+            // together is the ordinary case, and whichever .ini loads last wins.
+            config.filterIndices = {
+                {"a695e6d5f9d489cf", "3381.91"},    // hair + bangs; the reverse direction tags it too
+                {"7c0b4db32cee62d3", "3381.76"},    // the face, as ChisaParfait and LynaePeppermint tag it
+                {"4ce754b5b9574b1a", "3381.769"},   //   and its second vertex shader, likewise
+                {"02f5c4b333a78fa0", "3381.94"},    // Exorcist's own slots: values the reverse never uses
+                {"15a2c90dd35b8c07", "3381.95"},
+                {"a79e471015b2a16c", "3381.96"},    // the eyes; the reverse tags this one too
+            };
+
             // Source component -> target slot, and the registers each pass reads. Shader families
             // decide the slot (bones do not, under a merged skeleton): the bangs, hair and face onto
             // their own slots, the eyes onto the eye slot (which reads the iris at ps-t2 and the eye

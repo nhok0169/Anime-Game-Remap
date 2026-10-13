@@ -149,6 +149,14 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   ~90 moves from earlier sessions (every Chisa folder, Lynae5, ...). It came out right only because
   they netted to zero. When you moved only a few folders, undo them with explicit `park` / `load`
   and compare `ls Mods` against the listing you took at the start.
+- **`park` sends a mod back to WHEREVER it came from, which can be a dead session's scratch folder**
+  (2026-10-13). `park SanhuaExorcist3` moved the maintainer's installed mod to
+  `%TEMP%\claude\...\<another session id>\scratchpad\ex\before\SanhuaExorcist3`, because that is
+  where an earlier agent had loaded it from, and `load <name>` then could not find it: it is not under
+  the importer any more. Nothing is lost -- `mods-journal-<IMP>.json`'s last entries name the exact
+  destination, and `load <name> --from <that folder>` puts it back. **Read the park's own output line**
+  (it prints the destination) rather than `tail`ing it away, and if a mod you parked is the
+  maintainer's live one, put it back by `--from` before you finish.
 - **A before/after of a mod's OLD state** is one `load --from`: keep the pristine copy in scratch,
   `park` the updated one, `load <name> --from <scratch>`, `compare`, and `park` it again (it goes back
   to scratch). That pair is what showed the Sanhua hash restoration worked, and that one of the mods
@@ -459,6 +467,12 @@ Two WuWa specifics about the tool:
   is `2`, so a reload silently puts hunting back to soft-off. The natural order --- fix the mod,
   `reload`, `compare` --- therefore produces two IDENTICAL halves every time, which reads exactly
   like a mod that does not draw. Toggle **after** the reload, not before.
+- **The log stays EMPTY even with `calls = 1`, because XXMI's WWMI logging is off at the launcher**
+  (2026-10-13). Setting `[Logging] calls = 1` in `d3dx.ini` and reloading left `d3d11_log.txt` at
+  0.0 MB, so the "ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING" route below needs the
+  maintainer to flip XXMI's own switch first -- ask, or answer the question from the frame dumps
+  instead (`Tools/Misc/Diagnostics/wwmiRabbitPatched.py` reads which shaders ran a RabbitFX regex
+  command list out of the dumps already on disk).
 - **`reload --mod`'s "no warnings" is an empty check here.** It reads `d3d11_log.txt`, and WWMI's
   call logging is off --- which it must stay for any run measured in minutes (110 GB in 40 of
   them). The one exception is deliberate and lasts SECONDS: "ASK THE LOG WHICH SHADERS A

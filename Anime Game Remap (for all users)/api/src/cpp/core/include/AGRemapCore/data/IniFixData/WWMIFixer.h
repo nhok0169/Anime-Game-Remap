@@ -528,7 +528,12 @@ namespace AGRemapCore {
          own pixel shader and guards ``ps == ...``; set, the fix tags those vertex shaders instead
          and guards ``vs == ...``, an OR when a pass has several.
 
-         Chisa needs it and Sanhua does not. RabbitFX patches PIXEL shaders and marks each
+         **Every WuWa pair needs this.** The Sanhua pair was the last one without it: of the ten
+         pixel shaders its two configs tagged, NINE run RabbitFX's ``[ShaderRegexMain]`` command
+         list in the 3.7 frame dumps on disk (measured 2026-10-13 --
+         ``Tools/Misc/Diagnostics/wwmiRabbitPatched.py``), so every fixed Sanhua mod had been
+         switching RabbitFX off on its own shaders -- including the face shader it shares with
+         ChisaParfait. RabbitFX patches PIXEL shaders and marks each
          ``filter_index = 1718.1``, and a shader carries one filter_index -- so tagging the same
          pixel shader makes every RabbitFX ``SetTextures`` read ``if ps == 1718.1`` as false, and
          because a ``[ShaderOverride]`` is keyed by shader hash GLOBALLY it does that for any mod

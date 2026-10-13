@@ -296,6 +296,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     plan[3].markLines = bodyMark
     plan[4].markLines = bodyMark
     config.plan = plan
+    # Lynae's overworld-only black top under her shirt, which showed through at the neck and arms
+    # (core's LynaePeppermintFixer)
+    config.hiddenMeshes = ["34c0d81d"]
 
     # ---- her material masks mark the region under a SHEER garment with R = 0 (the bikini under her
     # see-through shirt, a coat's translucent panels); Lynae's masks are R = 255 almost everywhere, and

@@ -548,6 +548,10 @@ of a non-empty map is an error
 Dict[:class:`str`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Other meshes the
 character draws, by their own ``vb0`` hash -- ``{mesh hash: {pass: bindings}}``
         )doc"))
+        .def_readwrite("hiddenMeshes", &AGRC::WWMIFixerConfig::hiddenMeshes, py::doc(R"doc(
+List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
+hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
+        )doc"))
         .def_readwrite("texEdits", &AGRC::WWMIFixerConfig::texEdits,
                         py::doc("List[:class:`WWMIFixerConfig.TexEdit`]: Edits the fix makes to a role's texture before binding it"))
         .def_readwrite("cleanTexcoords", &AGRC::WWMIFixerConfig::cleanTexcoords, py::doc(R"doc(

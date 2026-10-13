@@ -26391,6 +26391,15 @@ class WWMIFixerConfig:
     def flatLeftToGame(self, arg0: collections.abc.Set[str]) -> None:
         ...
     @property
+    def hiddenMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
+        hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
+        """
+    @hiddenMeshes.setter
+    def hiddenMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
     def hiddenObjs(self) -> list[str]:
         """
         List[:class:`str`]: The hash-only mod objects whose sections are commented out of the mod's own text

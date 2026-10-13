@@ -6707,6 +6707,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1af951f1675d051aa563dbee67220240f5" kind="variable"><name>passVertexShaders</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" kind="variable"><name>sourceTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kind="variable"><name>sharedMeshes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aace2b91797a0810be8047688c88b1789" kind="variable"><name>hiddenMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" kind="variable"><name>texEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a20bc04c1e235777e39638dc4fb333d7b" kind="variable"><name>cleanTexcoords</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a50b73594dacea3771f227801d480a4b4" kind="variable"><name>texcoordReg</name></member>

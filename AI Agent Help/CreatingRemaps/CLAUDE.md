@@ -1440,6 +1440,22 @@ the mod on its own card. What it found:
   body blended, 5856 over background and unmarked surfaces opaque. Every other pair's output is byte-identical
   across the 34-mod corpus.
 
+  **A BLACK COLLAR AND SLEEVES, IN THE OVERWORLD ONLY, WERE A MESH OF LYNAE'S THE MOD DOES NOT REPLACE (2026-10-13).**
+  Every check above was in the character menu. In the overworld her neck and upper arms rendered pure black, with
+  hard polygon edges, and nothing in the fix caused it: hiding EVERY remapped draw and the stencil marks left a black
+  long-sleeved top standing on its own. It is `34c0d81d`, a separate WWMI object of hers (2679 vertices, its own
+  skeleton and shape keys) drawn under her shirt, in the overworld and never in the menu. The skin's body is slimmer
+  at the neck and arms, so it shows through there. **8 of the 14 Lynae mods skip it themselves** (`FixBlackModel.ini`,
+  `[TextureOverrideBlackShirt]`), and a remapped mod was made for another character and does not. The new
+  `WWMIFixerConfig::hiddenMeshes` lists such meshes by `vb0` hash and skips each while the mod is enabled (not
+  `hiddenObjs`, which comments out the MOD's sections). Found by: per-component hiding in game, then a log-only dump
+  (`--options "dump_cb buf"`, 51 MB, with `marking_mode = original`) listing the draws beside hers -- `34c0d81d` sits
+  right before her body in both the pre-pass and the G-buffer pass -- then one `handling = skip` by hand. **For any
+  WuWa target, collect the hashes her own mods skip** (`handling = skip` with no index window, over every mod of
+  hers on disk): that list names her extra meshes before the overworld does. Lynae's also has `957ea5bd` (3 mods; a
+  small mesh drawn with her face shaders), not hidden here because nothing showed. Whether LynaePeppermint has such a
+  mesh of her own is unchecked: wearing her outfit in the overworld was not done.
+
 <br>
 
 ## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)

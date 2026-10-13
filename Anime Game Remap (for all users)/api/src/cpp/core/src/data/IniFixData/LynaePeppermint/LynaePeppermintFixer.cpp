@@ -237,6 +237,12 @@ namespace AGRemapCore {
         config.plan.at(3).markLines = bodyMark;
         config.plan.at(4).markLines = bodyMark;
 
+        // In the overworld only, Lynae also draws a black long-sleeved top under her shirt, its own mesh
+        // (2679 vertices). The skin's body is slimmer at the neck and arms, so it showed through there as a
+        // black collar and sleeves -- in the character menu it is not drawn at all. 8 of the 14 Lynae mods
+        // skip it themselves (`FixBlackModel.ini`, `[TextureOverrideBlackShirt]`)
+        config.hiddenMeshes = {"34c0d81d"};
+
         // ---- every BODY mask Lynae's shaders read is repacked into her legend: see maskRepackFilter.
         // Not the shirt's: the skin's own shader reads that one, in the skin's legend ----
         config.texEdits = {

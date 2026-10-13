@@ -6603,6 +6603,18 @@ namespace AGRemapCore {
                         ++meshNum;
                     }
 
+                    // The target's meshes the mod replaces -- see WWMIFixerConfig::hiddenMeshes
+                    for (std::size_t i = 0; i < config_.hiddenMeshes.size(); ++i) {
+                        out += SectionText(z3_, fixName(IniKeywords::TextureOverride + toModName_
+                                                        + "HiddenMesh" + std::to_string(i)))
+                                   .prefix("; a mesh of " + toModName_ + "'s own outfit the mod replaces: skipped")
+                                   .key(IniKeywords::Hash, config_.hiddenMeshes[i])
+                                   .open("$mod_enabled")
+                                   .key(IniKeywords::Handling, "skip")
+                                   .close()
+                                   .str();
+                    }
+
                     if (texcoordSection_.has_value()) {
                         out += *texcoordSection_;
                     }

@@ -921,6 +921,27 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::map<std::string, std::vector<Binding>>> sharedMeshes;
+
+        /**
+         * @brief
+         @rst
+         Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0`` hash: each
+         is skipped while the mod is enabled.
+
+         A character is not only her ``vb0`` mesh, and some of her other meshes belong to the
+         outfit the mod replaces. Lynae draws ``34c0d81d``, a black long-sleeved top under her
+         shirt, in the overworld only -- never in the character menu -- and it pokes through any
+         slimmer body at the neck and arms. Mods made for her skip it themselves; a remapped mod
+         was made for another character and does not.
+
+         Not :cpp:member:`hiddenObjs`, which comments out the MOD's own sections.
+
+         .. warning::
+             The section matches the hash with NO index window, so the mesh is skipped wherever it
+             is drawn while the mod is enabled
+         @endrst
+         */
+        std::vector<std::string> hiddenMeshes;
         /**
          * @brief What a texture-edit filter is allowed to know about the mod it is editing
          */

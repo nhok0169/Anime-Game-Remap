@@ -8412,6 +8412,46 @@ semantically and every generated file by CONTENT. Pass `--noDownload` --- see ha
 
 <br>
 
+## A PAIR THAT TAGS PIXEL SHADERS SWITCHES RABBITFX OFF FOR EVERYONE (2026-10-13)
+
+A WuWa fix tags the shaders of the passes it binds on, so its texture lists can ask `if <reg> ==
+<filter>`. Tag the **pixel** shader and RabbitFX loses the `filter_index = 1718.1` its own
+`[ShaderRegexMain]` set on it -- 3dmigoto keys a `[ShaderOverride]` by shader hash across every
+loaded `.ini` and a shader holds one index -- so `CommandList\RabbitFX\Run` and `SetTextures`,
+both gated `if ps == 1718.1`, stop firing **for every mod drawing with that shader**, not only the
+remapped one. `WWMIFixerConfig::passVertexShaders` is the answer and all four Chisa / Lynae configs
+use it; the Sanhua pair did not, and nine of the ten pixel shaders it tagged turned out to be
+RabbitFX's.
+
+**The question "does RabbitFX patch this pass" is answered off the dumps already on disk, not in
+game.** A frame dump names every resource a command list bound after that list, so a file
+`000057.0-[ShaderRegex_RabbitFX_Main]-ps-t0.dsc` says draw 57 ran RabbitFX's regex command list,
+and the draw's own files carry `-vs=<hash>-ps=<hash>`.
+`Tools/Misc/Diagnostics/wwmiRabbitPatched.py` reads both out of every dump and reports which of a
+config's tagged shaders are RabbitFX's, plus the vertex shaders each pass is drawn with -- which is
+the `passVertexShaders` map itself. **Presence is proof, absence is not**: all but one of RabbitFX's
+regexes have their dump lines commented out, so a patched pass can leave no trace (the eye pass is
+exactly that case, and is gated by vertex shader anyway now).
+
+Three things to get right when moving a pair over:
+
+* **A value shared with another character must match it.** The face vertex shaders
+  `7c0b4db32cee62d3` / `4ce754b5b9574b1a` are ChisaParfait's and LynaePeppermint's as well as the
+  Sanhua pair's, and they carry `3381.76` / `3381.769` there. `Tools/Misc/Diagnostics/wwmiShaderTags.py`
+  over the fixed mods is the check.
+* **Name every value rather than deriving it.** `filterBase`/`filterStep` number the shaders in
+  map-iteration order, so adding a pass renumbers every shader after it and breaks the agreement
+  between the two directions silently.
+* **Several passes may share one vertex shader** -- Sanhua's hair slot and both her bangs passes do
+  -- and their conditions then collapse into one. That is only safe while those passes bind the same
+  roles, which is why the template dedupes the OR rather than hiding the collision.
+
+And the fixed mods on disk keep whatever they were fixed with: after a change like this, every mod
+in the maintainer's library still carries the old tags until it is fixed again. `grep -rl "ps ==
+3381"` over the WWMI folder is the list.
+
+<br>
+
 ## Adding a `ModTypeId`: every place it enters (2026-09-13)
 
 Missed one and the build is fine, the tests are fine, and the type quietly does not exist. In

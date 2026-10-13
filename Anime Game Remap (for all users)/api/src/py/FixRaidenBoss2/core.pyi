@@ -25722,7 +25722,7 @@ class WWMIFixerConfig:
         def __init__(self) -> None:
             ...
         @typing.overload
-        def __init__(self, reg: str, role: str) -> None:
+        def __init__(self, reg: str, role: str, srcComponent: typing.SupportsInt | typing.SupportsIndex = -1) -> None:
             ...
         @property
         def reg(self) -> str:
@@ -25741,6 +25741,16 @@ class WWMIFixerConfig:
             """
         @role.setter
         def role(self, arg0: str) -> None:
+            ...
+        @property
+        def srcComponent(self) -> int:
+            """
+            :class:`int`: In :attr:`WWMIFixerConfig.extraPassRegs` only: the SOURCE component this binding is for,
+            or ``-1`` for every source drawn through the slot. Needed where two sources merge onto one target
+            slot, since "the diffuse" is then a different file for each. **Default**: ``-1``
+            """
+        @srcComponent.setter
+        def srcComponent(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
     class CreatedTexture:
         """
@@ -25778,12 +25788,232 @@ class WWMIFixerConfig:
         @size.setter
         def size(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
+    class DrawReroute:
+        """
+        
+        Some draws of one source component, sent through a different target slot -- see
+        :attr:`WWMIFixerConfig.drawReroutes`
+            
+        """
+        class FlagMask:
+            """
+            
+            Where a material-code map carries the reroute's :attr:`WWMIFixerConfig.DrawReroute.flags`, cut into
+            ``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
+            Bits are row-major, the lowest bit of each byte first
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def bits(self) -> list[int]:
+                """
+                List[:class:`int`]: The blocks, one bit each
+                """
+            @bits.setter
+            def bits(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+                ...
+            @property
+            def height(self) -> int:
+                """
+                :class:`int`: The number of blocks down
+                """
+            @height.setter
+            def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def width(self) -> int:
+                """
+                :class:`int`: The number of blocks across
+                """
+            @width.setter
+            def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, from_: typing.SupportsInt | typing.SupportsIndex, as_: typing.SupportsInt | typing.SupportsIndex, codeRole: str, flags: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def as_(self) -> int:
+            """
+            :class:`int`: The :attr:`WWMIFixerConfig.plan` entry the rerouted draws are drawn by -- an id that is
+            not a source slot. Its slot and bindings say where they go and what they bind
+            """
+        @as_.setter
+        def as_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def codeRole(self) -> str:
+            """
+            :class:`str`: The role of the material-code map that marks the draws
+            """
+        @codeRole.setter
+        def codeRole(self, arg0: str) -> None:
+            ...
+        @property
+        def flags(self) -> int:
+            """
+            :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
+            its vertices carry any of them
+            """
+        @flags.setter
+        def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def from_(self) -> int:
+            """
+            :class:`int`: The source component whose draws may go elsewhere
+            """
+        @from_.setter
+        def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:
+            """
+            :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
+            :attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
+            role: such a mod draws with the game's map on its own character, so that map decides which of its
+            draws carry the flags. **Default**: empty, and such a mod's component is left whole
+            """
+        @sourceFlags.setter
+        def sourceFlags(self, arg0: WWMIFixerConfig.DrawReroute.FlagMask) -> None:
+            ...
+    class RegRemoval:
+        """
+        
+        A register line a remapped section drops -- see :attr:`WWMIFixerConfig.removedRegs`
+            
+        """
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, reg: str, valuePrefix: str = '') -> None:
+            ...
+        @property
+        def reg(self) -> str:
+            """
+            :class:`str`: The register (or key) to drop, eg. ``ResourceBlendBufferOverride``
+            """
+        @reg.setter
+        def reg(self, arg0: str) -> None:
+            ...
+        @property
+        def valuePrefix(self) -> str:
+            """
+            :class:`str`: Drop the line only when its value begins with this, ignoring case and leading space.
+            Empty (the default) drops every value
+            """
+        @valuePrefix.setter
+        def valuePrefix(self, arg0: str) -> None:
+            ...
+    class Shader:
+        """
+        
+        A pixel shader a :class:`WWMIFixerConfig.SourceComponent` is drawn with in place of the target slot's.
+        The fix writes the shader and its constant buffers beside the mod's buffers, declares them in its own
+        block (so an undo removes them), and turns each ``drawindexed`` of the component into a ``run =`` of a
+        ``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
+        itself is the target draw's: its vertex shader, its render targets and the textures the component's
+        :attr:`WWMIFixerConfig.plan` entry binds
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def constantBuffers(self) -> dict[str, list[int]]:
+            """
+            Dict[:class:`str`, List[:class:`int`]]: Register -> the constant buffer bound there, as its 32-bit
+            words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buffer
+            """
+        @constantBuffers.setter
+        def constantBuffers(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def lines(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
+            written, eg. ``("ps-t5", "ref ps-t6")``
+            """
+        @lines.setter
+        def lines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: The name its files and sections are given, eg. ``"LynaeFilm"``
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def ps(self) -> str:
+            """
+            :class:`str`: The HLSL source, entry point ``main``
+            """
+        @ps.setter
+        def ps(self, arg0: str) -> None:
+            ...
+    class SkeletonNumbering:
+        """
+        
+        One way the source's merged bone ids have been numbered -- see :attr:`WWMIFixerConfig.skeletonNumberings`
+            
+        """
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, version: str, toReference: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex] = {}) -> None:
+            ...
+        @property
+        def toReference(self) -> dict[int, int]:
+            """
+            Dict[:class:`int`, :class:`int`]: Id in this numbering -> the same bone's id in the numbering
+            :attr:`WWMIFixerConfig.referenceBoneCentroids` is keyed by. An id not listed is the same in both
+            """
+        @toReference.setter
+        def toReference(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
+            ...
+        @property
+        def version(self) -> str:
+            """
+            :class:`str`: The version whose vertex group remap row reads ids in this numbering
+            """
+        @version.setter
+        def version(self, arg0: str) -> None:
+            ...
     class SourceComponent:
         """
         
         How one SOURCE component is drawn on the target
             
         """
+        class RabbitFX:
+            """
+            
+            RabbitFX on a component, carried across with the SOURCE's routing. RabbitFX patches a character's pixel
+            shaders to take a mod's maps in place of the shader's first texture samples, and decides which map
+            replaces which sample from the KIND of texture bound at ``ps-t0`` .. ``ps-t3`` when the mod runs its
+            ``SetTextures``. With this set, the component keeps the mod's RabbitFX lines and right after each
+            ``SetTextures`` the routing flags (``x187`` .. ``w187``) are pinned to what they are on the SOURCE's own
+            draw: read off the mod's own file for the role at each register, or :attr:`gameTags` where the mod
+            binds none. Valid only where the target slot samples the same roles in the same order as the source's
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def gameTags(self) -> dict[str, int]:
+                """
+                Dict[:class:`str`, :class:`int`]: ``ps-t0`` .. ``ps-t3`` -> the tag RabbitFX (8.3.2) gives the
+                SOURCE's own game texture there (3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+                """
+            @gameTags.setter
+            def gameTags(self, arg0: collections.abc.Mapping[str, typing.SupportsInt | typing.SupportsIndex]) -> None:
+                ...
         @typing.overload
         def __init__(self) -> None:
             ...
@@ -25799,6 +26029,39 @@ class WWMIFixerConfig:
         def bindings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
             ...
         @property
+        def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
+            """
+            Optional[:class:`WWMIFixerConfig.SourceComponent.RabbitFX`]: RabbitFX on this component, carried
+            across with the SOURCE's routing. **Default**: ``None``, RabbitFX's lines are removed as
+            :attr:`WWMIFixerConfig.removedRegs` says
+            """
+        @rabbitFX.setter
+        def rabbitFX(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None) -> None:
+            ...
+        @property
+        def sameFileSection(self) -> bool:
+            """
+            :class:`bool`: When another source component also goes through :attr:`slot`, draw this one from the
+            mod's own ``.ini`` as a second section on that draw instead of from a copy ``.ini``, whose shape-keyed
+            positions are never computed. **Default**: ``False``
+            """
+        @sameFileSection.setter
+        def sameFileSection(self, arg0: bool) -> None:
+            ...
+        @property
+        def shader(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader`]: The SOURCE's own pixel shader, when the target slot's cannot
+            draw what this component is. With one, the component binds the mod's art as the mod wrote it -- no
+            texture edit of the config reaches it, since the edits are for the TARGET's shader. It draws with the
+            shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as before on any other
+            (an outline pass, :attr:`WWMIFixerConfig.extraPassRegs`). A :class:`WWMIFixerConfig.DrawReroute`'s
+            ``as_`` entry may carry one too. **Default**: ``None``, the target slot's shader
+            """
+        @shader.setter
+        def shader(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader | None) -> None:
+            ...
+        @property
         def slot(self) -> int:
             """
             :class:`int`: The target draw slot it goes through
@@ -25806,7 +26069,150 @@ class WWMIFixerConfig:
         @slot.setter
         def slot(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
+    class TexEdit:
+        """
+        
+        An edit the fix makes to a role's texture before binding it -- see :attr:`WWMIFixerConfig.texEdits`
+            
+        """
+        @typing.overload
+        def __init__(self) -> None:
+            ...
+        @typing.overload
+        def __init__(self, role: str, name: str, makeFilter: typing.Any, compress: bool = False) -> None:
+            ...
+        @property
+        def compress(self) -> bool:
+            """
+            :class:`bool`: Whether to re-encode to the source's compressed format. **Default**: ``False``,
+            because a mask is CODES and BCn would move them
+            """
+        @compress.setter
+        def compress(self, arg0: bool) -> None:
+            ...
+        @property
+        def makeFilter(self) -> collections.abc.Callable[[WWMIFixerConfig.TexEditContext], collections.abc.Callable[[...], None]] | None:
+            """
+            Callable[[:class:`WWMIFixerConfig.TexEditContext`], Callable[[:class:`CppTextureFile`], ``None``]]:
+            Builds the filter for THIS mod -- a factory rather than a filter, because an edit may depend on the
+            mod's own geometry. The filter is handed the texture itself and edits it in place
+            """
+        @makeFilter.setter
+        def makeFilter(self, arg1: collections.abc.Callable[[WWMIFixerConfig.TexEditContext], collections.abc.Callable[[...], None]] | None) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: A short name for the edit, part of the written file's name. Two edits of one role need
+            two names, or the second overwrites the first
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: The role whose texture is edited
+            """
+        @role.setter
+        def role(self, arg0: str) -> None:
+            ...
+        @property
+        def sourceGameRoles(self) -> list[str]:
+            """
+            List[:class:`str`]: Roles whose SOURCE game texture this edit reads, each downloaded and handed to the
+            filter in :attr:`WWMIFixerConfig.TexEditContext.gameFileOfRole`. Nothing binds the download.
+            **Default**: empty
+            """
+        @sourceGameRoles.setter
+        def sourceGameRoles(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+    class TexEditContext:
+        """
+        
+        What a :class:`WWMIFixerConfig.TexEdit`'s filter factory is told about the mod being fixed
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def drawRanges(self) -> dict[int, list[tuple[int, int]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`int`]]]: Source component -> the (count, start) ranges the mod draws it with
+            """
+        @drawRanges.setter
+        def drawRanges(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]]) -> None:
+            ...
+        @property
+        def fileOfRole(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: The file each role resolved to -- the mod's own, or the one its
+            fallback download lands. A filter may need ANOTHER role's texture
+            """
+        @fileOfRole.setter
+        def fileOfRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def gameFileOfRole(self) -> dict[str, str]:
+            """
+            Dict[:class:`str`, :class:`str`]: The SOURCE character's own game texture for each role a
+            :attr:`WWMIFixerConfig.TexEdit.sourceGameRoles` names, downloaded for the edit
+            """
+        @gameFileOfRole.setter
+        def gameFileOfRole(self, arg0: collections.abc.Mapping[str, str]) -> None:
+            ...
+        @property
+        def indexFile(self) -> str:
+            """
+            :class:`str`: The mod's index buffer
+            """
+        @indexFile.setter
+        def indexFile(self, arg0: str) -> None:
+            ...
+        @property
+        def iniFolder(self) -> str:
+            """
+            :class:`str`: The folder of the ``.ini`` being fixed
+            """
+        @iniFolder.setter
+        def iniFolder(self, arg0: str) -> None:
+            ...
+        @property
+        def positionFile(self) -> str:
+            """
+            :class:`str`: The mod's position buffer
+            """
+        @positionFile.setter
+        def positionFile(self, arg0: str) -> None:
+            ...
+        @property
+        def texcoordFile(self) -> str:
+            """
+            :class:`str`: The mod's texcoord buffer
+            """
+        @texcoordFile.setter
+        def texcoordFile(self, arg0: str) -> None:
+            ...
     def __init__(self) -> None:
+        ...
+    @property
+    def anchorChains(self) -> dict[int, list[int]]:
+        """
+        Dict[:class:`int`, List[:class:`int`]]: Chains of SOURCE vertex groups pinned to one bone each,
+        ``{root: members}``: every member is remapped to whatever the ROOT maps to. Check a chain with
+        ``Tools/Misc/Diagnostics/anchorSafety.py`` first -- a member another component also weights is
+        pinned there too
+        """
+    @anchorChains.setter
+    def anchorChains(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+        ...
+    @property
+    def bindPrevPoseAlways(self) -> bool:
+        """
+        :class:`bool`: Bind the remapped PREVIOUS pose on every pass, not only where the second skeleton carries :attr:`boneDataFilter`. **Default**: ``True``
+        """
+    @bindPrevPoseAlways.setter
+    def bindPrevPoseAlways(self, arg0: bool) -> None:
         ...
     @property
     def blendReg(self) -> str:
@@ -25815,6 +26221,51 @@ class WWMIFixerConfig:
         """
     @blendReg.setter
     def blendReg(self, arg0: str) -> None:
+        ...
+    @property
+    def boneDataFilter(self) -> str:
+        """
+        :class:`str`: WWMI's marker on the game's bone-data constant buffer. **Default**: ``3381.7777``
+        """
+    @boneDataFilter.setter
+    def boneDataFilter(self, arg0: str) -> None:
+        ...
+    @property
+    def carryByRegisterRole(self) -> bool:
+        """
+        :class:`bool`: Carry a mod's own texture line that puts a texture into a register of a different kind by
+        the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
+        ramp or detail slot keeps doing so on the target. **Default**: ``False``
+        """
+    @carryByRegisterRole.setter
+    def carryByRegisterRole(self, arg0: bool) -> None:
+        ...
+    @property
+    def cleanTexcoords(self) -> bool:
+        """
+        :class:`bool`: Bind the remapped sections to a CLEANED copy of the mod's texcoord buffer (a NaN
+        second UV zeroed, a U in the next tile folded back). **Default**: ``False``
+        """
+    @cleanTexcoords.setter
+    def cleanTexcoords(self, arg0: bool) -> None:
+        ...
+    @property
+    def cleanupResourcesList(self) -> str:
+        """
+        :class:`str`: The command list every slot section runs after its draw. **Default**: ``CommandListCleanupSharedResources``
+        """
+    @cleanupResourcesList.setter
+    def cleanupResourcesList(self, arg0: str) -> None:
+        ...
+    @property
+    def copiesShareSkeleton(self) -> bool:
+        """
+        :class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
+        state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key
+        overrides in the mod's own file only. **Default**: ``False``
+        """
+    @copiesShareSkeleton.setter
+    def copiesShareSkeleton(self, arg0: bool) -> None:
         ...
     @property
     def copyPreamble(self) -> str:
@@ -25833,6 +26284,47 @@ class WWMIFixerConfig:
     def createdTextures(self, arg0: collections.abc.Sequence[WWMIFixerConfig.CreatedTexture]) -> None:
         ...
     @property
+    def currentPoseInCb3Only(self) -> bool:
+        """
+        :class:`bool`: Treat a draw whose ``vs-cb3`` carries the bone-data marker while its ``vs-cb4`` does not as
+        one whose CURRENT pose sits in ``vs-cb3`` -- merged into the main skeleton and bound the remapped main
+        one -- as WWMI Tools' own template does. For a target with passes like that (Lynae's depth passes),
+        where reading ``vs-cb3`` as the previous pose drops thin layered parts out. **Default**: ``False``
+        """
+    @currentPoseInCb3Only.setter
+    def currentPoseInCb3Only(self, arg0: bool) -> None:
+        ...
+    @property
+    def drawReroutes(self) -> list[WWMIFixerConfig.DrawReroute]:
+        """
+        List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
+        rest of their component, chosen by the mod's own material-code map -- never by its colours. A
+        component whose map is not the mod's own is read through
+        :attr:`WWMIFixerConfig.DrawReroute.sourceFlags`, or left whole without one; a component whose draws
+        carry no such texel is left whole.
+        **Default**: none
+        """
+    @drawReroutes.setter
+    def drawReroutes(self, arg0: collections.abc.Sequence[WWMIFixerConfig.DrawReroute]) -> None:
+        ...
+    @property
+    def extraPassNoDraw(self) -> dict[int, set[str]]:
+        """
+        Dict[:class:`int`, Set[:class:`str`]]: Target slot -> the passes of :attr:`extraPassRegs` its draw is not re-issued on
+        """
+    @extraPassNoDraw.setter
+    def extraPassNoDraw(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def extraPassRegs(self) -> dict[int, dict[str, list[WWMIFixerConfig.Binding]]]:
+        """
+        Dict[:class:`int`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Per target slot, per
+        pass, the bindings that pass takes INSTEAD of the plan's -- a slot's register layout is per shader
+        """
+    @extraPassRegs.setter
+    def extraPassRegs(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Mapping[str, collections.abc.Sequence[WWMIFixerConfig.Binding]]]) -> None:
+        ...
+    @property
     def filterBase(self) -> float:
         """
         :class:`float`: The ``filter_index`` the first distinct shader of :attr:`slotPasses` is tagged with. **Default**: ``3381.91``
@@ -25841,12 +26333,39 @@ class WWMIFixerConfig:
     def filterBase(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
+    def filterIndices(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: Shader hash -> the ``filter_index`` to tag it with, overriding
+        :attr:`filterBase` / :attr:`filterStep`. Both directions of a pair must agree on every shader they
+        both tag, since 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``
+        """
+    @filterIndices.setter
+    def filterIndices(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
+    @property
     def filterStep(self) -> float:
         """
         :class:`float`: How much higher each further shader's ``filter_index`` is. **Default**: ``0.01``
         """
     @filterStep.setter
     def filterStep(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def flatFallsBackToSource(self) -> set[str]:
+        """
+        Set[:class:`str`]: Roles whose texture marks REGIONS, so a constant one from the mod is replaced by
+        the source's own (its fallback download)
+        """
+    @flatFallsBackToSource.setter
+    def flatFallsBackToSource(self, arg0: collections.abc.Set[str]) -> None:
+        ...
+    @property
+    def flatLeftToGame(self) -> set[str]:
+        """
+        Set[:class:`str`]: Like :attr:`flatFallsBackToSource`, except that a flat one is left to the GAME
+        """
+    @flatLeftToGame.setter
+    def flatLeftToGame(self, arg0: collections.abc.Set[str]) -> None:
         ...
     @property
     def hiddenObjs(self) -> list[str]:
@@ -25858,6 +26377,34 @@ class WWMIFixerConfig:
     def hiddenObjs(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def mergedSkeletonSlots(self) -> int:
+        """
+        :class:`int`: The float4 slots of the merged skeleton buffers declared for a legacy mod. **Default**: ``768``
+        """
+    @mergedSkeletonSlots.setter
+    def mergedSkeletonSlots(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def mirroredComponents(self) -> set[int]:
+        """
+        Set[:class:`int`]: Source components drawn a second time, wound the other way with their normals
+        flipped, for single-layer cloth whose inside the target's shader lights differently
+        """
+    @mirroredComponents.setter
+    def mirroredComponents(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @property
+    def passVertexShaders(self) -> dict[str, list[str]]:
+        """
+        Dict[:class:`str`, List[:class:`str`]]: Each pass (pixel shader) mapped to the VERTEX shaders it is
+        drawn with. Set, the fix tags those vertex shaders and guards ``vs == ...`` instead of tagging the
+        pixel shader -- which RabbitFX also tags, so a ``ps`` tag switches its effects off. A pass left out
+        of a non-empty map is an error
+        """
+    @passVertexShaders.setter
+    def passVertexShaders(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[str]]) -> None:
+        ...
+    @property
     def plan(self) -> dict[int, WWMIFixerConfig.SourceComponent]:
         """
         Dict[:class:`int`, :class:`WWMIFixerConfig.SourceComponent`]: Source component -> how it is drawn on
@@ -25867,6 +26414,47 @@ class WWMIFixerConfig:
         """
     @plan.setter
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
+        ...
+    @property
+    def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
+        """
+        Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of
+        each source bone, keyed by its id in the reference numbering
+        """
+    @referenceBoneCentroids.setter
+    def referenceBoneCentroids(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"]]) -> None:
+        ...
+    @property
+    def removedRegs(self) -> list[WWMIFixerConfig.RegRemoval]:
+        """
+        List[:class:`WWMIFixerConfig.RegRemoval`]: Register lines a remapped section drops, on top of what
+        the template removes anyway -- eg. the three ``Resource...Override = ref ...`` lines of a source past
+        256 merged bones, which undo the remap, and RabbitFX's resource lines
+        """
+    @removedRegs.setter
+    def removedRegs(self, arg0: collections.abc.Sequence[WWMIFixerConfig.RegRemoval]) -> None:
+        ...
+    @property
+    def shapeKeyDispatchSize(self) -> str:
+        """
+        :class:`str`: The TARGET's original shape-key dispatch height (its ``Metadata.json``'s
+        ``shapekeys.dispatch_y``), written into a retargeted mod's ``shapekey_dispatch_size_y_original_batch0`` /
+        ``_batch1``. WWMI picks the batch by that value, and the source's leaves most of the mod's offsets
+        unloaded on the target. Empty (the default) leaves them alone
+        """
+    @shapeKeyDispatchSize.setter
+    def shapeKeyDispatchSize(self, arg0: str) -> None:
+        ...
+    @property
+    def shapeKeyOrder(self) -> list[int]:
+        """
+        :class:`list` [:class:`int`]: For each of the target's shape-key slots, the source key it takes (``-1``: none).
+        The game drives shape keys -- blinks, mouth shapes, expressions -- by slot, and two skins of one character can
+        number them differently; with this set the fix writes the mod's shape-key buffers again in the target's order
+        and binds the copies. Slots past the end (a mod's custom keys) are left alone. **Default**: ``[]``
+        """
+    @shapeKeyOrder.setter
+    def shapeKeyOrder(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
     @property
     def shapeKeyStreamReg(self) -> str:
@@ -25885,12 +26473,33 @@ class WWMIFixerConfig:
     def shapeKeyStride(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
+    def sharedMeshes(self) -> dict[str, dict[str, list[WWMIFixerConfig.Binding]]]:
+        """
+        Dict[:class:`str`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Other meshes the
+        character draws, by their own ``vb0`` hash -- ``{mesh hash: {pass: bindings}}``
+        """
+    @sharedMeshes.setter
+    def sharedMeshes(self, arg0: collections.abc.Mapping[str, collections.abc.Mapping[str, collections.abc.Sequence[WWMIFixerConfig.Binding]]]) -> None:
+        ...
+    @property
     def sharedResourcesList(self) -> str:
         """
         :class:`str`: The command list every slot section runs to bind the mod's buffers; the texture command list and the zero stream are added right after it. **Default**: ``"CommandListOverrideSharedResources"``
         """
     @sharedResourcesList.setter
     def sharedResourcesList(self, arg0: str) -> None:
+        ...
+    @property
+    def skeletonNumberings(self) -> list[WWMIFixerConfig.SkeletonNumbering]:
+        """
+        List[:class:`WWMIFixerConfig.SkeletonNumbering`]: Every numbering the source's merged skeleton has had,
+        when a game update renumbered it. The fix scores each against the mod's own geometry (its vertices'
+        distance to their heaviest bone's centroid, :attr:`referenceBoneCentroids`) and reads the blend with
+        the vertex group remap row of the closest -- a mod's ``vb0`` cannot say, since hash-update tools
+        rewrite the hashes and leave the bone ids. Fewer than two (the default) switches it off
+        """
+    @skeletonNumberings.setter
+    def skeletonNumberings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.SkeletonNumbering]) -> None:
         ...
     @property
     def slotPasses(self) -> list[list[str]]:
@@ -25931,6 +26540,36 @@ class WWMIFixerConfig:
     def sourceTextures(self, arg0: WWMITextureFacts) -> None:
         ...
     @property
+    def sourceVersion(self) -> str:
+        """
+        :class:`str`: The SOURCE's own game version, when the pair is not filed under one; empty falls back
+        to :attr:`version`. A reverse-then-forward lookup of a value both characters share (a shape-key
+        checksum) answers the wrong character when asked at the target's version
+        """
+    @sourceVersion.setter
+    def sourceVersion(self, arg0: str) -> None:
+        ...
+    @property
+    def sourceVersionByVb0(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: The SOURCE's version per ``vb0`` hash (lower case), read off the mod's
+        own slot sections -- for a character whose skeleton was renumbered between game versions, so each mod
+        takes the vertex group remap row filed at the version it was exported at. Empty (the default) keeps
+        :attr:`sourceVersion` for every mod
+        """
+    @sourceVersionByVb0.setter
+    def sourceVersionByVb0(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
+    @property
+    def sourceVgMaps(self) -> dict[int, list[int]]:
+        """
+        Dict[:class:`int`, List[:class:`int`]]: The SOURCE's ``vg_map`` per component, for a mod from before
+        WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it such a mod is refused
+        """
+    @sourceVgMaps.setter
+    def sourceVgMaps(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+        ...
+    @property
     def targetId(self) -> ModTypeId:
         """
         :class:`ModTypeId`: The character fixed TO -- whose ``vb0`` hash, slot windows, vertex-group offsets and shape-key checksum the library's WuWa tables hold
@@ -25947,6 +26586,30 @@ class WWMIFixerConfig:
     def targetLabels(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, str]) -> None:
         ...
     @property
+    def texEdits(self) -> list[WWMIFixerConfig.TexEdit]:
+        """
+        List[:class:`WWMIFixerConfig.TexEdit`]: Edits the fix makes to a role's texture before binding it
+        """
+    @texEdits.setter
+    def texEdits(self, arg0: collections.abc.Sequence[WWMIFixerConfig.TexEdit]) -> None:
+        ...
+    @property
+    def texRegPrefix(self) -> str:
+        """
+        :class:`str`: The register family a mod binds its textures with. **Default**: ``ps-t``
+        """
+    @texRegPrefix.setter
+    def texRegPrefix(self, arg0: str) -> None:
+        ...
+    @property
+    def texcoordReg(self) -> str:
+        """
+        :class:`str`: The register the texcoord buffer is bound at. **Default**: ``vb2``
+        """
+    @texcoordReg.setter
+    def texcoordReg(self, arg0: str) -> None:
+        ...
+    @property
     def typeRoles(self) -> dict[int, dict[str, str]]:
         """
         Dict[:class:`int`, Dict[:class:`str`, :class:`str`]]: Source component ->
@@ -25955,6 +26618,14 @@ class WWMIFixerConfig:
         """
     @typeRoles.setter
     def typeRoles(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Mapping[str, str]]) -> None:
+        ...
+    @property
+    def vectorReg(self) -> str:
+        """
+        :class:`str`: The register the vector (normal) buffer is bound at. **Default**: ``vb1``
+        """
+    @vectorReg.setter
+    def vectorReg(self, arg0: str) -> None:
         ...
     @property
     def version(self) -> str:

@@ -36,7 +36,7 @@ The fixer for a 6.1-era Ganyu ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="147" bodyend="149"/>
+        <location file="include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="153" bodyend="155"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

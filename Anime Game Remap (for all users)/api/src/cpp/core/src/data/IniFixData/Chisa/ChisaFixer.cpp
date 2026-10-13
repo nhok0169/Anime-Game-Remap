@@ -423,13 +423,13 @@ namespace AGRemapCore {
         config.passVertexShaders = {
             {"f863af7e80af9aed", {"3e7bb648e306c671"}},
             {"f863af7e80af9aed", {"3e7bb648e306c671"}},
-            {"6e25bfc4ac027787", {"75501c2d87600e89", "c277738ca4039045"}},
+            {"6e25bfc4ac027787", {"75501c2d87600e89", "c277738ca4039045", "34ba67b27aeadd4d"}},
             {"3f2e3788f5cb485a", {"343a49bd31719ade"}},
             {"01e5bb58c3054b73", {"6dd634933d8f0837"}},
             {"0fbe7ebba08cd1b0", {"641c11c9ee112caf"}},
             {"5e31423fa8ddfcec", {"d8d93966d246ed2b"}},
             {"ced9a47fb6ad4d16", {"d8d93966d246ed2b"}},
-            {"275e4ce82ebf0976", {"72f45530b1e1f75a", "729d10a88623b937"}},
+            {"275e4ce82ebf0976", {"72f45530b1e1f75a", "729d10a88623b937", "2b36896899a06c0a"}},
             {"259b766b59f72419", {"fd12d3374ac7a7dd", "1479e3f5a626af60"}},
             {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
             {"32414b557630d98d", {"255061ec51f15e29", "60b893ec7f585976", "f906b8aa4c220a6f", "af60c434a9393b08", "166a83e1c94c5a59", "4cf784b1b2c7ca1c"}},
@@ -438,7 +438,7 @@ namespace AGRemapCore {
             {"21a483170781cfeb", {"da98d2d08d937357"}},
             {"94d9d5e981938d52", {"5102d7edd774359e"}},
             {"021a95efb2428e47", {"ac592389c85c3e38", "98b6b0d294299cd6"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "89577c176b52b351"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "89577c176b52b351", "a54621ce48ed541b"}},
         };
         config.filterBase = 3381.71;
         config.filterStep = 0.001;
@@ -488,6 +488,13 @@ namespace AGRemapCore {
             {"fd12d3374ac7a7dd", "3381.732"},
             {"1479e3f5a626af60", "3381.733"},
             {"d8d93966d246ed2b", "3381.734"},
+        // A pass may draw with EITHER of two vertex shaders, frame to frame (Lynae's eyes and face, 2026-10-10;
+        // these partners measured in this pair's own dumps): a list gated on one drops the mod's textures on the
+        // other frames. A shader holds ONE filter_index across every loaded .ini, so a shared one keeps the value
+        // the Lynae configs give it (a54621ce .616, 4ce754b5 .769)
+            {"a54621ce48ed541b", "3381.616"},   // the eye pass's second vertex shader
+            {"2b36896899a06c0a", "3381.735"},   // her eyes' second
+            {"34ba67b27aeadd4d", "3381.736"},   // the face's second
         };
 
         // ---- source component -> target slot and the registers it binds ----
@@ -641,6 +648,10 @@ namespace AGRemapCore {
         // stream is wanted.
         config.hiddenObjs = {};
         config.zeroShapeKeyStream = false;
+
+        // a batched export's dispatch height is the TARGET's (her Metadata.json's dispatch_y), or WWMI loads
+        // too few of the mod's offsets on her draws (Lynae9's spikes; Chisa14 kept Chisa's 1441)
+        config.shapeKeyDispatchSize = "1301";
 
         // ---- a remap-only texcoord copy ---------------------------------------------------------
         // Her fox mask, hairpins and bells are drawn, placed and textured correctly and INVISIBLE,

@@ -449,6 +449,29 @@ whether the account owns the character**:
 | an UNOWNED character's base look | Gallery -> Crossing Stars -> the character |
 | an UNOWNED character's skin | `esc` -> **Shop** -> **Outfit Store**. **View only**: the rules below apply in full |
 
+**The roster down the right is not the whole roster --- the SQUARES icon at the bottom right of the
+character screen opens the full `Resonators` grid** (the maintainer's tip, 2026-10-13). That is how
+to reach a character the strip does not show. Three things go with it, all learned the slow way in
+the maintainer's own save:
+
+* **Neither list pages.** The right-hand strip and the grid both ignored the mouse wheel AND a
+  click-drag, so only what is already drawn is reachable --- about six portraits in the strip,
+  twelve cards in the grid. Lynae could not be reached either way; Chisa was in the strip (the third
+  portrait) and in the grid's first row. If a character is not drawn, ask the maintainer rather than
+  clicking around their save: every attempt is a click into an account you do not own.
+* **Read the NAME the click produces, never the portrait.** Selecting a card previews the character
+  and writes the name large on the right. Two teal-haired characters (Rebecca and Lynae) were
+  confused from the portrait alone twice in one session, and each wrong guess changed which
+  character the maintainer's screen was left on.
+* **Selecting a card is safe** --- it previews, it does not equip. Equipping is the separate
+  **Wear Outfit** button, and the SELECTED card is the model drawn whether worn or not (the row
+  above).
+
+**Put the character selection back when you finish, or say that you could not.** It is the
+maintainer's live screen; the mods are the part that must be restored exactly, but leaving their
+save on a different character with no mention of it is how a later session starts from a state
+nobody meant.
+
 Two WuWa specifics about the tool:
 
 - **Hunting ships soft-off (`hunting = 2`) and there is no on-screen overlay to read its state.**

@@ -5,30 +5,6 @@
     <includes refid="_v_g_remap_data_8h" local="yes">AGRemapCore/data/VGRemapData.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <incdepgraph>
-      <node id="48">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="54">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="100">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -185,32 +161,6 @@
         <childnode refid="76" relation="include">
         </childnode>
         <childnode refid="84" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>AGRemapCore/model/VGRemap.h</label>
-        <link refid="_v_g_remap_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -727,32 +677,6 @@
         <childnode refid="97" relation="include">
         </childnode>
       </node>
-      <node id="46">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-      </node>
-      <node id="104">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="105" relation="include">
-        </childnode>
-      </node>
       <node id="85">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -765,24 +689,6 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="88" relation="include">
-        </childnode>
-      </node>
-      <node id="45">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="49" relation="include">
         </childnode>
       </node>
       <node id="106">
@@ -1011,6 +917,97 @@
         <childnode refid="75" relation="include">
         </childnode>
       </node>
+      <node id="48">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="54">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="6">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="104">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>src/data/VGRemapData.cpp</label>
         <link refid="_v_g_remap_data_8cpp"/>
@@ -1018,6 +1015,9 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="88">
         <label>Generator.tpp</label>
@@ -2984,93 +2984,151 @@
 <codeline lineno="1826"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
 <codeline lineno="1827"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1828"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>WuWa:<sp/>Lynae<sp/>&lt;-&gt;<sp/>LynaePeppermint<sp/>(2026-10-05)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>directions<sp/>in<sp/>the<sp/>merged<sp/>skeleton,<sp/>transcribed<sp/>from<sp/>Data/RemapDrafts/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1830"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LynaeRemapDraft.xlsx:<sp/>the<sp/>finder&apos;s<sp/>proposal,<sp/>reviewed<sp/>row<sp/>by<sp/>row<sp/>(the<sp/>reasoning<sp/>per<sp/>row<sp/>is</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>in<sp/>its<sp/>Comments<sp/>column)<sp/>and<sp/>NOT<sp/>yet<sp/>checked<sp/>in<sp/>game.<sp/>A<sp/>bone<sp/>no<sp/>vertex<sp/>uses<sp/>maps<sp/>to<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" kindref="member">ModTypeId::Lynae</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="1833"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.7&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" kindref="member">ModTypeId::LynaePeppermint</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="1834"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
-<codeline lineno="1835"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>5},<sp/>{6,<sp/>6},<sp/>{7,<sp/>7},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
-<codeline lineno="1836"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>11},<sp/>{11,<sp/>12},<sp/>{12,<sp/>17},<sp/>{13,<sp/>10},<sp/>{14,<sp/>13},<sp/>{15,<sp/>36},<sp/>{16,<sp/>14},<sp/>{17,<sp/>15},<sp/>{18,<sp/>16},<sp/>{19,<sp/>18},</highlight></codeline>
-<codeline lineno="1837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>19},<sp/>{21,<sp/>20},<sp/>{22,<sp/>21},<sp/>{23,<sp/>22},<sp/>{24,<sp/>23},<sp/>{25,<sp/>24},<sp/>{26,<sp/>25},<sp/>{27,<sp/>26},<sp/>{28,<sp/>27},<sp/>{29,<sp/>28},</highlight></codeline>
-<codeline lineno="1838"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>29},<sp/>{31,<sp/>30},<sp/>{32,<sp/>32},<sp/>{33,<sp/>31},<sp/>{34,<sp/>33},<sp/>{35,<sp/>34},<sp/>{36,<sp/>35},<sp/>{37,<sp/>37},<sp/>{38,<sp/>38},<sp/>{39,<sp/>39},</highlight></codeline>
-<codeline lineno="1839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>40},<sp/>{41,<sp/>41},<sp/>{42,<sp/>42},<sp/>{43,<sp/>32},<sp/>{44,<sp/>34},<sp/>{45,<sp/>81},<sp/>{46,<sp/>80},<sp/>{47,<sp/>82},<sp/>{48,<sp/>73},<sp/>{49,<sp/>48},</highlight></codeline>
-<codeline lineno="1840"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>0},<sp/>{51,<sp/>83},<sp/>{52,<sp/>75},<sp/>{53,<sp/>74},<sp/>{54,<sp/>72},<sp/>{55,<sp/>71},<sp/>{56,<sp/>48},<sp/>{57,<sp/>73},<sp/>{58,<sp/>80},<sp/>{59,<sp/>81},</highlight></codeline>
-<codeline lineno="1841"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>82},<sp/>{61,<sp/>83},<sp/>{62,<sp/>44},<sp/>{63,<sp/>55},<sp/>{64,<sp/>43},<sp/>{65,<sp/>45},<sp/>{66,<sp/>46},<sp/>{67,<sp/>54},<sp/>{68,<sp/>53},<sp/>{69,<sp/>52},</highlight></codeline>
-<codeline lineno="1842"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>57},<sp/>{71,<sp/>58},<sp/>{72,<sp/>180},<sp/>{73,<sp/>69},<sp/>{74,<sp/>70},<sp/>{75,<sp/>51},<sp/>{76,<sp/>56},<sp/>{77,<sp/>59},<sp/>{78,<sp/>60},<sp/>{79,<sp/>61},</highlight></codeline>
-<codeline lineno="1843"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>62},<sp/>{81,<sp/>63},<sp/>{82,<sp/>92},<sp/>{83,<sp/>64},<sp/>{84,<sp/>93},<sp/>{85,<sp/>94},<sp/>{86,<sp/>95},<sp/>{87,<sp/>96},<sp/>{88,<sp/>97},<sp/>{89,<sp/>53},</highlight></codeline>
-<codeline lineno="1844"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>65},<sp/>{91,<sp/>66},<sp/>{92,<sp/>67},<sp/>{93,<sp/>76},<sp/>{94,<sp/>77},<sp/>{95,<sp/>78},<sp/>{96,<sp/>79},<sp/>{97,<sp/>84},<sp/>{98,<sp/>50},<sp/>{99,<sp/>49},</highlight></codeline>
-<codeline lineno="1845"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>85},<sp/>{101,<sp/>86},<sp/>{102,<sp/>65},<sp/>{103,<sp/>66},<sp/>{104,<sp/>67},<sp/>{105,<sp/>68},<sp/>{106,<sp/>46},<sp/>{107,<sp/>87},<sp/>{108,<sp/>87},<sp/>{109,<sp/>88},</highlight></codeline>
-<codeline lineno="1846"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>89},<sp/>{111,<sp/>90},<sp/>{112,<sp/>91},<sp/>{113,<sp/>88},<sp/>{114,<sp/>0},<sp/>{115,<sp/>0},<sp/>{116,<sp/>0},<sp/>{117,<sp/>0},<sp/>{118,<sp/>0},<sp/>{119,<sp/>65},</highlight></codeline>
-<codeline lineno="1847"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>53},<sp/>{121,<sp/>54},<sp/>{122,<sp/>65},<sp/>{123,<sp/>66},<sp/>{124,<sp/>67},<sp/>{125,<sp/>53},<sp/>{126,<sp/>65},<sp/>{127,<sp/>54},<sp/>{128,<sp/>54},<sp/>{129,<sp/>0},</highlight></codeline>
-<codeline lineno="1848"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>164},<sp/>{131,<sp/>165},<sp/>{132,<sp/>135},<sp/>{133,<sp/>141},<sp/>{134,<sp/>160},<sp/>{135,<sp/>156},<sp/>{136,<sp/>162},<sp/>{137,<sp/>178},<sp/>{138,<sp/>155},<sp/>{139,<sp/>154},</highlight></codeline>
-<codeline lineno="1849"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>153},<sp/>{141,<sp/>155},<sp/>{142,<sp/>120},<sp/>{143,<sp/>129},<sp/>{144,<sp/>118},<sp/>{145,<sp/>121},<sp/>{146,<sp/>130},<sp/>{147,<sp/>132},<sp/>{148,<sp/>136},<sp/>{149,<sp/>131},</highlight></codeline>
-<codeline lineno="1850"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>133},<sp/>{151,<sp/>137},<sp/>{152,<sp/>138},<sp/>{153,<sp/>139},<sp/>{154,<sp/>140},<sp/>{155,<sp/>142},<sp/>{156,<sp/>143},<sp/>{157,<sp/>134},<sp/>{158,<sp/>114},<sp/>{159,<sp/>116},</highlight></codeline>
-<codeline lineno="1851"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>115},<sp/>{161,<sp/>119},<sp/>{162,<sp/>113},<sp/>{163,<sp/>118},<sp/>{164,<sp/>119},<sp/>{165,<sp/>115},<sp/>{166,<sp/>116},<sp/>{167,<sp/>159},<sp/>{168,<sp/>161},<sp/>{169,<sp/>163},</highlight></codeline>
-<codeline lineno="1852"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>167},<sp/>{171,<sp/>168},<sp/>{172,<sp/>169},<sp/>{173,<sp/>170},<sp/>{174,<sp/>171},<sp/>{175,<sp/>172},<sp/>{176,<sp/>173},<sp/>{177,<sp/>166},<sp/>{178,<sp/>149},<sp/>{179,<sp/>151},</highlight></codeline>
-<codeline lineno="1853"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>150},<sp/>{181,<sp/>152},<sp/>{182,<sp/>148},<sp/>{183,<sp/>151},<sp/>{184,<sp/>152},<sp/>{185,<sp/>150},<sp/>{186,<sp/>110},<sp/>{187,<sp/>109},<sp/>{188,<sp/>111},<sp/>{189,<sp/>104},</highlight></codeline>
-<codeline lineno="1854"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{190,<sp/>122},<sp/>{191,<sp/>126},<sp/>{192,<sp/>123},<sp/>{193,<sp/>157},<sp/>{194,<sp/>127},<sp/>{195,<sp/>146},<sp/>{196,<sp/>98},<sp/>{197,<sp/>98},<sp/>{198,<sp/>0},<sp/>{199,<sp/>98},</highlight></codeline>
-<codeline lineno="1855"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{200,<sp/>180},<sp/>{201,<sp/>184},<sp/>{202,<sp/>179},<sp/>{203,<sp/>183},<sp/>{204,<sp/>111},<sp/>{205,<sp/>111},<sp/>{206,<sp/>111},<sp/>{207,<sp/>111},<sp/>{208,<sp/>111},<sp/>{209,<sp/>111},</highlight></codeline>
-<codeline lineno="1856"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{210,<sp/>111},<sp/>{211,<sp/>111},<sp/>{212,<sp/>111},<sp/>{213,<sp/>309},<sp/>{214,<sp/>310},<sp/>{215,<sp/>98},<sp/>{216,<sp/>98},<sp/>{217,<sp/>98},<sp/>{218,<sp/>98},<sp/>{219,<sp/>98},</highlight></codeline>
-<codeline lineno="1857"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{220,<sp/>98},<sp/>{221,<sp/>98},<sp/>{222,<sp/>98},<sp/>{223,<sp/>98},<sp/>{224,<sp/>98},<sp/>{225,<sp/>150},<sp/>{226,<sp/>115},<sp/>{227,<sp/>147},<sp/>{228,<sp/>112},<sp/>{229,<sp/>105},</highlight></codeline>
-<codeline lineno="1858"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{230,<sp/>105},<sp/>{231,<sp/>105},<sp/>{232,<sp/>0},<sp/>{233,<sp/>101},<sp/>{234,<sp/>0},<sp/>{235,<sp/>202},<sp/>{236,<sp/>201},<sp/>{237,<sp/>203},<sp/>{238,<sp/>204},<sp/>{239,<sp/>105},</highlight></codeline>
-<codeline lineno="1859"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{240,<sp/>105},<sp/>{241,<sp/>108},<sp/>{242,<sp/>105},<sp/>{243,<sp/>107},<sp/>{244,<sp/>107},<sp/>{245,<sp/>102},<sp/>{246,<sp/>108},<sp/>{247,<sp/>104},<sp/>{248,<sp/>108},<sp/>{249,<sp/>102},</highlight></codeline>
-<codeline lineno="1860"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{250,<sp/>144},<sp/>{251,<sp/>144},<sp/>{252,<sp/>107},<sp/>{253,<sp/>107},<sp/>{254,<sp/>105},<sp/>{255,<sp/>108},<sp/>{256,<sp/>145},<sp/>{257,<sp/>145},<sp/>{258,<sp/>145},<sp/>{259,<sp/>145},</highlight></codeline>
-<codeline lineno="1861"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{260,<sp/>144},<sp/>{261,<sp/>144},<sp/>{262,<sp/>102},<sp/>{263,<sp/>108},<sp/>{264,<sp/>102},<sp/>{265,<sp/>106},<sp/>{266,<sp/>189},<sp/>{267,<sp/>107},<sp/>{268,<sp/>197},<sp/>{269,<sp/>236},</highlight></codeline>
-<codeline lineno="1862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{270,<sp/>237},<sp/>{271,<sp/>239},<sp/>{272,<sp/>239},<sp/>{273,<sp/>240},<sp/>{274,<sp/>242},<sp/>{275,<sp/>241},<sp/>{276,<sp/>237},<sp/>{277,<sp/>237},<sp/>{278,<sp/>292},<sp/>{279,<sp/>293},</highlight></codeline>
-<codeline lineno="1863"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{280,<sp/>290},<sp/>{281,<sp/>291},<sp/>{282,<sp/>237},<sp/>{283,<sp/>237},<sp/>{284,<sp/>255},<sp/>{285,<sp/>244},<sp/>{286,<sp/>245},<sp/>{287,<sp/>247},<sp/>{288,<sp/>247},<sp/>{289,<sp/>248},</highlight></codeline>
-<codeline lineno="1864"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{290,<sp/>250},<sp/>{291,<sp/>249},<sp/>{292,<sp/>245},<sp/>{293,<sp/>245},<sp/>{294,<sp/>300},<sp/>{295,<sp/>301},<sp/>{296,<sp/>298},<sp/>{297,<sp/>299},<sp/>{298,<sp/>245},<sp/>{299,<sp/>245},</highlight></codeline>
-<codeline lineno="1865"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{300,<sp/>256},<sp/>{301,<sp/>145},<sp/>{302,<sp/>195},<sp/>{303,<sp/>251},<sp/>{304,<sp/>103},<sp/>{305,<sp/>105},<sp/>{306,<sp/>100},<sp/>{307,<sp/>108},<sp/>{308,<sp/>102},<sp/>{309,<sp/>252},</highlight></codeline>
-<codeline lineno="1866"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{310,<sp/>253},<sp/>{311,<sp/>254},<sp/>{312,<sp/>237},<sp/>{313,<sp/>238},<sp/>{314,<sp/>255},<sp/>{315,<sp/>200},<sp/>{316,<sp/>199},<sp/>{317,<sp/>198},<sp/>{318,<sp/>245},<sp/>{319,<sp/>246},</highlight></codeline>
-<codeline lineno="1867"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{320,<sp/>256},<sp/>{321,<sp/>144},<sp/>{322,<sp/>224},<sp/>{323,<sp/>220},<sp/>{324,<sp/>211},<sp/>{325,<sp/>221},<sp/>{326,<sp/>209},<sp/>{327,<sp/>212},<sp/>{328,<sp/>214},<sp/>{329,<sp/>213},</highlight></codeline>
-<codeline lineno="1868"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{330,<sp/>215},<sp/>{331,<sp/>208},<sp/>{332,<sp/>216},<sp/>{333,<sp/>205},<sp/>{334,<sp/>207},<sp/>{335,<sp/>222},<sp/>{336,<sp/>227},<sp/>{337,<sp/>225},<sp/>{338,<sp/>228},<sp/>{339,<sp/>229},</highlight></codeline>
-<codeline lineno="1869"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{340,<sp/>230},<sp/>{341,<sp/>205},<sp/>{342,<sp/>206},<sp/>{343,<sp/>206},<sp/>{344,<sp/>205},<sp/>{345,<sp/>206},<sp/>{346,<sp/>205},<sp/>{347,<sp/>206},<sp/>{348,<sp/>205},<sp/>{349,<sp/>206},</highlight></codeline>
-<codeline lineno="1870"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{350,<sp/>206},<sp/>{351,<sp/>231},<sp/>{352,<sp/>231},<sp/>{353,<sp/>231},<sp/>{354,<sp/>219},<sp/>{355,<sp/>205},<sp/>{356,<sp/>206},<sp/>{357,<sp/>232},<sp/>{358,<sp/>233},<sp/>{359,<sp/>223},</highlight></codeline>
-<codeline lineno="1871"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{360,<sp/>226},<sp/>{361,<sp/>234},<sp/>{362,<sp/>206},<sp/>{363,<sp/>217},<sp/>{364,<sp/>218},<sp/>{365,<sp/>219},<sp/>{366,<sp/>210}</highlight></codeline>
-<codeline lineno="1872"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
-<codeline lineno="1873"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" kindref="member">ModTypeId::LynaePeppermint</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="1874"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.6&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" kindref="member">ModTypeId::Lynae</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="1875"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
-<codeline lineno="1876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>5},<sp/>{6,<sp/>6},<sp/>{7,<sp/>7},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
-<codeline lineno="1877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>13},<sp/>{11,<sp/>10},<sp/>{12,<sp/>11},<sp/>{13,<sp/>14},<sp/>{14,<sp/>16},<sp/>{15,<sp/>17},<sp/>{16,<sp/>18},<sp/>{17,<sp/>12},<sp/>{18,<sp/>19},<sp/>{19,<sp/>20},</highlight></codeline>
-<codeline lineno="1878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>21},<sp/>{21,<sp/>22},<sp/>{22,<sp/>23},<sp/>{23,<sp/>24},<sp/>{24,<sp/>25},<sp/>{25,<sp/>26},<sp/>{26,<sp/>27},<sp/>{27,<sp/>28},<sp/>{28,<sp/>29},<sp/>{29,<sp/>30},</highlight></codeline>
-<codeline lineno="1879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>31},<sp/>{31,<sp/>33},<sp/>{32,<sp/>32},<sp/>{33,<sp/>34},<sp/>{34,<sp/>35},<sp/>{35,<sp/>36},<sp/>{36,<sp/>15},<sp/>{37,<sp/>37},<sp/>{38,<sp/>38},<sp/>{39,<sp/>39},</highlight></codeline>
-<codeline lineno="1880"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>40},<sp/>{41,<sp/>41},<sp/>{42,<sp/>42},<sp/>{43,<sp/>64},<sp/>{44,<sp/>62},<sp/>{45,<sp/>65},<sp/>{46,<sp/>66},<sp/>{47,<sp/>0},<sp/>{48,<sp/>56},<sp/>{49,<sp/>99},</highlight></codeline>
-<codeline lineno="1881"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>98},<sp/>{51,<sp/>75},<sp/>{52,<sp/>69},<sp/>{53,<sp/>68},<sp/>{54,<sp/>67},<sp/>{55,<sp/>63},<sp/>{56,<sp/>76},<sp/>{57,<sp/>70},<sp/>{58,<sp/>71},<sp/>{59,<sp/>77},</highlight></codeline>
-<codeline lineno="1882"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>78},<sp/>{61,<sp/>79},<sp/>{62,<sp/>80},<sp/>{63,<sp/>81},<sp/>{64,<sp/>83},<sp/>{65,<sp/>102},<sp/>{66,<sp/>103},<sp/>{67,<sp/>104},<sp/>{68,<sp/>105},<sp/>{69,<sp/>73},</highlight></codeline>
-<codeline lineno="1883"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>74},<sp/>{71,<sp/>55},<sp/>{72,<sp/>54},<sp/>{73,<sp/>57},<sp/>{74,<sp/>53},<sp/>{75,<sp/>52},<sp/>{76,<sp/>93},<sp/>{77,<sp/>94},<sp/>{78,<sp/>95},<sp/>{79,<sp/>96},</highlight></codeline>
-<codeline lineno="1884"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>58},<sp/>{81,<sp/>59},<sp/>{82,<sp/>60},<sp/>{83,<sp/>61},<sp/>{84,<sp/>97},<sp/>{85,<sp/>100},<sp/>{86,<sp/>101},<sp/>{87,<sp/>107},<sp/>{88,<sp/>113},<sp/>{89,<sp/>110},</highlight></codeline>
-<codeline lineno="1885"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>111},<sp/>{91,<sp/>112},<sp/>{92,<sp/>82},<sp/>{93,<sp/>84},<sp/>{94,<sp/>85},<sp/>{95,<sp/>86},<sp/>{96,<sp/>87},<sp/>{97,<sp/>88},<sp/>{98,<sp/>196},<sp/>{99,<sp/>0},</highlight></codeline>
-<codeline lineno="1886"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>306},<sp/>{101,<sp/>233},<sp/>{102,<sp/>306},<sp/>{103,<sp/>304},<sp/>{104,<sp/>189},<sp/>{105,<sp/>304},<sp/>{106,<sp/>265},<sp/>{107,<sp/>265},<sp/>{108,<sp/>304},<sp/>{109,<sp/>187},</highlight></codeline>
-<codeline lineno="1887"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>186},<sp/>{111,<sp/>188},<sp/>{112,<sp/>228},<sp/>{113,<sp/>162},<sp/>{114,<sp/>158},<sp/>{115,<sp/>160},<sp/>{116,<sp/>159},<sp/>{117,<sp/>163},<sp/>{118,<sp/>144},<sp/>{119,<sp/>161},</highlight></codeline>
-<codeline lineno="1888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>142},<sp/>{121,<sp/>145},<sp/>{122,<sp/>190},<sp/>{123,<sp/>192},<sp/>{124,<sp/>0},<sp/>{125,<sp/>0},<sp/>{126,<sp/>191},<sp/>{127,<sp/>194},<sp/>{128,<sp/>0},<sp/>{129,<sp/>143},</highlight></codeline>
-<codeline lineno="1889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>146},<sp/>{131,<sp/>149},<sp/>{132,<sp/>147},<sp/>{133,<sp/>150},<sp/>{134,<sp/>157},<sp/>{135,<sp/>132},<sp/>{136,<sp/>148},<sp/>{137,<sp/>151},<sp/>{138,<sp/>152},<sp/>{139,<sp/>153},</highlight></codeline>
-<codeline lineno="1890"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>154},<sp/>{141,<sp/>133},<sp/>{142,<sp/>155},<sp/>{143,<sp/>156},<sp/>{144,<sp/>306},<sp/>{145,<sp/>265},<sp/>{146,<sp/>195},<sp/>{147,<sp/>227},<sp/>{148,<sp/>182},<sp/>{149,<sp/>178},</highlight></codeline>
-<codeline lineno="1891"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>180},<sp/>{151,<sp/>179},<sp/>{152,<sp/>181},<sp/>{153,<sp/>140},<sp/>{154,<sp/>139},<sp/>{155,<sp/>141},<sp/>{156,<sp/>135},<sp/>{157,<sp/>193},<sp/>{158,<sp/>0},<sp/>{159,<sp/>167},</highlight></codeline>
-<codeline lineno="1892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>134},<sp/>{161,<sp/>168},<sp/>{162,<sp/>136},<sp/>{163,<sp/>169},<sp/>{164,<sp/>130},<sp/>{165,<sp/>131},<sp/>{166,<sp/>177},<sp/>{167,<sp/>170},<sp/>{168,<sp/>171},<sp/>{169,<sp/>172},</highlight></codeline>
-<codeline lineno="1893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>173},<sp/>{171,<sp/>174},<sp/>{172,<sp/>175},<sp/>{173,<sp/>176},<sp/>{174,<sp/>205},<sp/>{175,<sp/>206},<sp/>{176,<sp/>207},<sp/>{177,<sp/>204},<sp/>{178,<sp/>137},<sp/>{179,<sp/>202},</highlight></codeline>
-<codeline lineno="1894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>200},<sp/>{181,<sp/>0},<sp/>{182,<sp/>0},<sp/>{183,<sp/>203},<sp/>{184,<sp/>201},<sp/>{185,<sp/>0},<sp/>{186,<sp/>0},<sp/>{187,<sp/>0},<sp/>{188,<sp/>0},<sp/>{189,<sp/>266},</highlight></codeline>
-<codeline lineno="1895"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{190,<sp/>0},<sp/>{191,<sp/>0},<sp/>{192,<sp/>0},<sp/>{193,<sp/>0},<sp/>{194,<sp/>0},<sp/>{195,<sp/>302},<sp/>{196,<sp/>0},<sp/>{197,<sp/>268},<sp/>{198,<sp/>317},<sp/>{199,<sp/>316},</highlight></codeline>
-<codeline lineno="1896"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{200,<sp/>315},<sp/>{201,<sp/>236},<sp/>{202,<sp/>235},<sp/>{203,<sp/>237},<sp/>{204,<sp/>238},<sp/>{205,<sp/>333},<sp/>{206,<sp/>362},<sp/>{207,<sp/>334},<sp/>{208,<sp/>331},<sp/>{209,<sp/>326},</highlight></codeline>
-<codeline lineno="1897"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{210,<sp/>366},<sp/>{211,<sp/>324},<sp/>{212,<sp/>327},<sp/>{213,<sp/>329},<sp/>{214,<sp/>328},<sp/>{215,<sp/>330},<sp/>{216,<sp/>332},<sp/>{217,<sp/>363},<sp/>{218,<sp/>364},<sp/>{219,<sp/>365},</highlight></codeline>
-<codeline lineno="1898"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{220,<sp/>323},<sp/>{221,<sp/>325},<sp/>{222,<sp/>335},<sp/>{223,<sp/>359},<sp/>{224,<sp/>322},<sp/>{225,<sp/>337},<sp/>{226,<sp/>360},<sp/>{227,<sp/>336},<sp/>{228,<sp/>338},<sp/>{229,<sp/>339},</highlight></codeline>
-<codeline lineno="1899"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{230,<sp/>340},<sp/>{231,<sp/>365},<sp/>{232,<sp/>357},<sp/>{233,<sp/>358},<sp/>{234,<sp/>361},<sp/>{235,<sp/>314},<sp/>{236,<sp/>269},<sp/>{237,<sp/>270},<sp/>{238,<sp/>269},<sp/>{239,<sp/>271},</highlight></codeline>
-<codeline lineno="1900"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{240,<sp/>273},<sp/>{241,<sp/>275},<sp/>{242,<sp/>274},<sp/>{243,<sp/>320},<sp/>{244,<sp/>285},<sp/>{245,<sp/>286},<sp/>{246,<sp/>285},<sp/>{247,<sp/>287},<sp/>{248,<sp/>289},<sp/>{249,<sp/>291},</highlight></codeline>
-<codeline lineno="1901"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{250,<sp/>290},<sp/>{251,<sp/>303},<sp/>{252,<sp/>309},<sp/>{253,<sp/>310},<sp/>{254,<sp/>311},<sp/>{255,<sp/>314},<sp/>{256,<sp/>320},<sp/>{257,<sp/>0},<sp/>{258,<sp/>0},<sp/>{259,<sp/>0},</highlight></codeline>
-<codeline lineno="1902"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{260,<sp/>0},<sp/>{261,<sp/>0},<sp/>{262,<sp/>0},<sp/>{263,<sp/>0},<sp/>{264,<sp/>0},<sp/>{265,<sp/>0},<sp/>{266,<sp/>0},<sp/>{267,<sp/>0},<sp/>{268,<sp/>0},<sp/>{269,<sp/>0},</highlight></codeline>
-<codeline lineno="1903"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{270,<sp/>0},<sp/>{271,<sp/>0},<sp/>{272,<sp/>0},<sp/>{273,<sp/>0},<sp/>{274,<sp/>0},<sp/>{275,<sp/>0},<sp/>{276,<sp/>0},<sp/>{277,<sp/>0},<sp/>{278,<sp/>0},<sp/>{279,<sp/>0},</highlight></codeline>
-<codeline lineno="1904"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{280,<sp/>0},<sp/>{281,<sp/>0},<sp/>{282,<sp/>0},<sp/>{283,<sp/>0},<sp/>{284,<sp/>0},<sp/>{285,<sp/>0},<sp/>{286,<sp/>271},<sp/>{287,<sp/>0},<sp/>{288,<sp/>0},<sp/>{289,<sp/>0},</highlight></codeline>
-<codeline lineno="1905"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{290,<sp/>280},<sp/>{291,<sp/>281},<sp/>{292,<sp/>278},<sp/>{293,<sp/>279},<sp/>{294,<sp/>287},<sp/>{295,<sp/>0},<sp/>{296,<sp/>0},<sp/>{297,<sp/>0},<sp/>{298,<sp/>296},<sp/>{299,<sp/>297},</highlight></codeline>
-<codeline lineno="1906"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{300,<sp/>294},<sp/>{301,<sp/>295},<sp/>{302,<sp/>0},<sp/>{303,<sp/>0},<sp/>{304,<sp/>0},<sp/>{305,<sp/>0},<sp/>{306,<sp/>0},<sp/>{307,<sp/>0},<sp/>{308,<sp/>0},<sp/>{309,<sp/>213},</highlight></codeline>
-<codeline lineno="1907"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{310,<sp/>214}</highlight></codeline>
-<codeline lineno="1908"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
-<codeline lineno="1909"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="1910"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1911"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
-<codeline lineno="1912"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1913"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1914"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="1915"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HER<sp/>SKIRT<sp/>CHAINS<sp/>ride<sp/>LynaePeppermint&apos;s<sp/>HIPS<sp/>(2026-10-12).<sp/>The<sp/>draft<sp/>sent<sp/>each<sp/>chain<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1830"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>skin&apos;s<sp/>nearest<sp/>jiggle<sp/>bone<sp/>(105<sp/>/<sp/>107<sp/>/<sp/>108<sp/>/<sp/>145<sp/>/<sp/>102<sp/>/<sp/>144),<sp/>which<sp/>carry<sp/>0-24%<sp/>of<sp/>that<sp/>spot<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>her<sp/>own<sp/>model<sp/>while<sp/>her<sp/>hips<sp/>(100<sp/>/<sp/>101)<sp/>carry<sp/>40-73%:<sp/>the<sp/>waistline<sp/>then<sp/>followed<sp/>the<sp/>legs<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1832"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>slanted<sp/>whenever<sp/>she<sp/>shifted<sp/>her<sp/>weight.<sp/>Each<sp/>link<sp/>now<sp/>takes<sp/>the<sp/>bone<sp/>that<sp/>drives<sp/>the<sp/>same<sp/>spot<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1833"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>skin&apos;s<sp/>own<sp/>model<sp/>(nearest<sp/>vertices,<sp/>weighted),<sp/>the<sp/>lowest<sp/>front<sp/>and<sp/>side<sp/>links<sp/>her<sp/>thigh<sp/>roots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1834"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(103<sp/>/<sp/>106).<sp/>The<sp/>card<sp/>(247)<sp/>stays<sp/>on<sp/>104,<sp/>the<sp/>maintainer&apos;s<sp/>decision.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1835"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>directions<sp/>in<sp/>the<sp/>merged<sp/>skeleton,<sp/>transcribed<sp/>from<sp/>Data/RemapDrafts/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1836"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LynaeRemapDraft.xlsx:<sp/>the<sp/>finder&apos;s<sp/>proposal,<sp/>reviewed<sp/>row<sp/>by<sp/>row<sp/>(the<sp/>reasoning<sp/>per<sp/>row<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>in<sp/>its<sp/>Comments<sp/>column)<sp/>and<sp/>NOT<sp/>yet<sp/>checked<sp/>in<sp/>game.<sp/>A<sp/>bone<sp/>no<sp/>vertex<sp/>uses<sp/>maps<sp/>to<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1838"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;3.7&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" kindref="member">ModTypeId::Lynae</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1839"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.7&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" kindref="member">ModTypeId::LynaePeppermint</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="1840"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
+<codeline lineno="1841"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>5},<sp/>{6,<sp/>6},<sp/>{7,<sp/>7},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
+<codeline lineno="1842"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>11},<sp/>{11,<sp/>12},<sp/>{12,<sp/>17},<sp/>{13,<sp/>10},<sp/>{14,<sp/>13},<sp/>{15,<sp/>36},<sp/>{16,<sp/>14},<sp/>{17,<sp/>15},<sp/>{18,<sp/>16},<sp/>{19,<sp/>18},</highlight></codeline>
+<codeline lineno="1843"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>19},<sp/>{21,<sp/>20},<sp/>{22,<sp/>21},<sp/>{23,<sp/>22},<sp/>{24,<sp/>23},<sp/>{25,<sp/>24},<sp/>{26,<sp/>25},<sp/>{27,<sp/>26},<sp/>{28,<sp/>27},<sp/>{29,<sp/>28},</highlight></codeline>
+<codeline lineno="1844"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>29},<sp/>{31,<sp/>30},<sp/>{32,<sp/>32},<sp/>{33,<sp/>31},<sp/>{34,<sp/>33},<sp/>{35,<sp/>34},<sp/>{36,<sp/>35},<sp/>{37,<sp/>37},<sp/>{38,<sp/>38},<sp/>{39,<sp/>39},</highlight></codeline>
+<codeline lineno="1845"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>40},<sp/>{41,<sp/>41},<sp/>{42,<sp/>42},<sp/>{43,<sp/>32},<sp/>{44,<sp/>34},<sp/>{45,<sp/>81},<sp/>{46,<sp/>80},<sp/>{47,<sp/>82},<sp/>{48,<sp/>73},<sp/>{49,<sp/>48},</highlight></codeline>
+<codeline lineno="1846"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>0},<sp/>{51,<sp/>83},<sp/>{52,<sp/>75},<sp/>{53,<sp/>74},<sp/>{54,<sp/>72},<sp/>{55,<sp/>71},<sp/>{56,<sp/>48},<sp/>{57,<sp/>73},<sp/>{58,<sp/>80},<sp/>{59,<sp/>81},</highlight></codeline>
+<codeline lineno="1847"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>82},<sp/>{61,<sp/>83},<sp/>{62,<sp/>44},<sp/>{63,<sp/>55},<sp/>{64,<sp/>43},<sp/>{65,<sp/>45},<sp/>{66,<sp/>46},<sp/>{67,<sp/>54},<sp/>{68,<sp/>53},<sp/>{69,<sp/>52},</highlight></codeline>
+<codeline lineno="1848"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>57},<sp/>{71,<sp/>58},<sp/>{72,<sp/>180},<sp/>{73,<sp/>69},<sp/>{74,<sp/>70},<sp/>{75,<sp/>51},<sp/>{76,<sp/>56},<sp/>{77,<sp/>59},<sp/>{78,<sp/>60},<sp/>{79,<sp/>61},</highlight></codeline>
+<codeline lineno="1849"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>62},<sp/>{81,<sp/>63},<sp/>{82,<sp/>92},<sp/>{83,<sp/>64},<sp/>{84,<sp/>93},<sp/>{85,<sp/>94},<sp/>{86,<sp/>95},<sp/>{87,<sp/>96},<sp/>{88,<sp/>97},<sp/>{89,<sp/>53},</highlight></codeline>
+<codeline lineno="1850"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>65},<sp/>{91,<sp/>66},<sp/>{92,<sp/>67},<sp/>{93,<sp/>76},<sp/>{94,<sp/>77},<sp/>{95,<sp/>78},<sp/>{96,<sp/>79},<sp/>{97,<sp/>84},<sp/>{98,<sp/>50},<sp/>{99,<sp/>49},</highlight></codeline>
+<codeline lineno="1851"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>85},<sp/>{101,<sp/>86},<sp/>{102,<sp/>65},<sp/>{103,<sp/>66},<sp/>{104,<sp/>67},<sp/>{105,<sp/>68},<sp/>{106,<sp/>46},<sp/>{107,<sp/>87},<sp/>{108,<sp/>87},<sp/>{109,<sp/>88},</highlight></codeline>
+<codeline lineno="1852"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>89},<sp/>{111,<sp/>90},<sp/>{112,<sp/>91},<sp/>{113,<sp/>88},<sp/>{114,<sp/>0},<sp/>{115,<sp/>0},<sp/>{116,<sp/>0},<sp/>{117,<sp/>0},<sp/>{118,<sp/>0},<sp/>{119,<sp/>65},</highlight></codeline>
+<codeline lineno="1853"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>53},<sp/>{121,<sp/>54},<sp/>{122,<sp/>65},<sp/>{123,<sp/>66},<sp/>{124,<sp/>67},<sp/>{125,<sp/>53},<sp/>{126,<sp/>65},<sp/>{127,<sp/>54},<sp/>{128,<sp/>54},<sp/>{129,<sp/>0},</highlight></codeline>
+<codeline lineno="1854"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>164},<sp/>{131,<sp/>165},<sp/>{132,<sp/>135},<sp/>{133,<sp/>141},<sp/>{134,<sp/>160},<sp/>{135,<sp/>156},<sp/>{136,<sp/>162},<sp/>{137,<sp/>178},<sp/>{138,<sp/>155},<sp/>{139,<sp/>154},</highlight></codeline>
+<codeline lineno="1855"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>153},<sp/>{141,<sp/>155},<sp/>{142,<sp/>120},<sp/>{143,<sp/>129},<sp/>{144,<sp/>118},<sp/>{145,<sp/>121},<sp/>{146,<sp/>130},<sp/>{147,<sp/>132},<sp/>{148,<sp/>136},<sp/>{149,<sp/>131},</highlight></codeline>
+<codeline lineno="1856"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>133},<sp/>{151,<sp/>137},<sp/>{152,<sp/>138},<sp/>{153,<sp/>139},<sp/>{154,<sp/>140},<sp/>{155,<sp/>142},<sp/>{156,<sp/>143},<sp/>{157,<sp/>134},<sp/>{158,<sp/>114},<sp/>{159,<sp/>116},</highlight></codeline>
+<codeline lineno="1857"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>115},<sp/>{161,<sp/>119},<sp/>{162,<sp/>113},<sp/>{163,<sp/>118},<sp/>{164,<sp/>119},<sp/>{165,<sp/>115},<sp/>{166,<sp/>116},<sp/>{167,<sp/>159},<sp/>{168,<sp/>161},<sp/>{169,<sp/>163},</highlight></codeline>
+<codeline lineno="1858"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>167},<sp/>{171,<sp/>168},<sp/>{172,<sp/>169},<sp/>{173,<sp/>170},<sp/>{174,<sp/>171},<sp/>{175,<sp/>172},<sp/>{176,<sp/>173},<sp/>{177,<sp/>166},<sp/>{178,<sp/>149},<sp/>{179,<sp/>151},</highlight></codeline>
+<codeline lineno="1859"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>150},<sp/>{181,<sp/>152},<sp/>{182,<sp/>148},<sp/>{183,<sp/>151},<sp/>{184,<sp/>152},<sp/>{185,<sp/>150},<sp/>{186,<sp/>110},<sp/>{187,<sp/>109},<sp/>{188,<sp/>111},<sp/>{189,<sp/>104},</highlight></codeline>
+<codeline lineno="1860"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{190,<sp/>122},<sp/>{191,<sp/>126},<sp/>{192,<sp/>123},<sp/>{193,<sp/>157},<sp/>{194,<sp/>127},<sp/>{195,<sp/>146},<sp/>{196,<sp/>98},<sp/>{197,<sp/>98},<sp/>{198,<sp/>0},<sp/>{199,<sp/>98},</highlight></codeline>
+<codeline lineno="1861"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{200,<sp/>180},<sp/>{201,<sp/>184},<sp/>{202,<sp/>179},<sp/>{203,<sp/>183},<sp/>{204,<sp/>111},<sp/>{205,<sp/>111},<sp/>{206,<sp/>111},<sp/>{207,<sp/>111},<sp/>{208,<sp/>111},<sp/>{209,<sp/>111},</highlight></codeline>
+<codeline lineno="1862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{210,<sp/>101},<sp/>{211,<sp/>104},<sp/>{212,<sp/>104},<sp/>{213,<sp/>309},<sp/>{214,<sp/>310},<sp/>{215,<sp/>98},<sp/>{216,<sp/>98},<sp/>{217,<sp/>98},<sp/>{218,<sp/>98},<sp/>{219,<sp/>98},</highlight></codeline>
+<codeline lineno="1863"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{220,<sp/>98},<sp/>{221,<sp/>98},<sp/>{222,<sp/>98},<sp/>{223,<sp/>98},<sp/>{224,<sp/>98},<sp/>{225,<sp/>150},<sp/>{226,<sp/>115},<sp/>{227,<sp/>147},<sp/>{228,<sp/>112},<sp/>{229,<sp/>101},</highlight></codeline>
+<codeline lineno="1864"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{230,<sp/>101},<sp/>{231,<sp/>100},<sp/>{232,<sp/>0},<sp/>{233,<sp/>101},<sp/>{234,<sp/>0},<sp/>{235,<sp/>202},<sp/>{236,<sp/>201},<sp/>{237,<sp/>203},<sp/>{238,<sp/>204},<sp/>{239,<sp/>101},</highlight></codeline>
+<codeline lineno="1865"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{240,<sp/>101},<sp/>{241,<sp/>100},<sp/>{242,<sp/>100},<sp/>{243,<sp/>100},<sp/>{244,<sp/>100},<sp/>{245,<sp/>100},<sp/>{246,<sp/>100},<sp/>{247,<sp/>104},<sp/>{248,<sp/>100},<sp/>{249,<sp/>100},</highlight></codeline>
+<codeline lineno="1866"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{250,<sp/>100},<sp/>{251,<sp/>100},<sp/>{252,<sp/>101},<sp/>{253,<sp/>106},<sp/>{254,<sp/>103},<sp/>{255,<sp/>100},<sp/>{256,<sp/>100},<sp/>{257,<sp/>106},<sp/>{258,<sp/>100},<sp/>{259,<sp/>100},</highlight></codeline>
+<codeline lineno="1867"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{260,<sp/>100},<sp/>{261,<sp/>100},<sp/>{262,<sp/>100},<sp/>{263,<sp/>103},<sp/>{264,<sp/>100},<sp/>{265,<sp/>106},<sp/>{266,<sp/>189},<sp/>{267,<sp/>106},<sp/>{268,<sp/>197},<sp/>{269,<sp/>236},</highlight></codeline>
+<codeline lineno="1868"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{270,<sp/>237},<sp/>{271,<sp/>239},<sp/>{272,<sp/>239},<sp/>{273,<sp/>240},<sp/>{274,<sp/>242},<sp/>{275,<sp/>241},<sp/>{276,<sp/>237},<sp/>{277,<sp/>237},<sp/>{278,<sp/>292},<sp/>{279,<sp/>293},</highlight></codeline>
+<codeline lineno="1869"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{280,<sp/>290},<sp/>{281,<sp/>291},<sp/>{282,<sp/>237},<sp/>{283,<sp/>237},<sp/>{284,<sp/>255},<sp/>{285,<sp/>244},<sp/>{286,<sp/>245},<sp/>{287,<sp/>247},<sp/>{288,<sp/>247},<sp/>{289,<sp/>248},</highlight></codeline>
+<codeline lineno="1870"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{290,<sp/>250},<sp/>{291,<sp/>249},<sp/>{292,<sp/>245},<sp/>{293,<sp/>245},<sp/>{294,<sp/>300},<sp/>{295,<sp/>301},<sp/>{296,<sp/>298},<sp/>{297,<sp/>299},<sp/>{298,<sp/>245},<sp/>{299,<sp/>245},</highlight></codeline>
+<codeline lineno="1871"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{300,<sp/>256},<sp/>{301,<sp/>106},<sp/>{302,<sp/>195},<sp/>{303,<sp/>251},<sp/>{304,<sp/>103},<sp/>{305,<sp/>103},<sp/>{306,<sp/>100},<sp/>{307,<sp/>103},<sp/>{308,<sp/>100},<sp/>{309,<sp/>252},</highlight></codeline>
+<codeline lineno="1872"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{310,<sp/>253},<sp/>{311,<sp/>254},<sp/>{312,<sp/>237},<sp/>{313,<sp/>238},<sp/>{314,<sp/>255},<sp/>{315,<sp/>200},<sp/>{316,<sp/>199},<sp/>{317,<sp/>198},<sp/>{318,<sp/>245},<sp/>{319,<sp/>246},</highlight></codeline>
+<codeline lineno="1873"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{320,<sp/>256},<sp/>{321,<sp/>100},<sp/>{322,<sp/>224},<sp/>{323,<sp/>220},<sp/>{324,<sp/>211},<sp/>{325,<sp/>221},<sp/>{326,<sp/>209},<sp/>{327,<sp/>212},<sp/>{328,<sp/>214},<sp/>{329,<sp/>213},</highlight></codeline>
+<codeline lineno="1874"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{330,<sp/>215},<sp/>{331,<sp/>208},<sp/>{332,<sp/>216},<sp/>{333,<sp/>205},<sp/>{334,<sp/>207},<sp/>{335,<sp/>222},<sp/>{336,<sp/>227},<sp/>{337,<sp/>225},<sp/>{338,<sp/>228},<sp/>{339,<sp/>229},</highlight></codeline>
+<codeline lineno="1875"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{340,<sp/>230},<sp/>{341,<sp/>205},<sp/>{342,<sp/>206},<sp/>{343,<sp/>206},<sp/>{344,<sp/>205},<sp/>{345,<sp/>206},<sp/>{346,<sp/>205},<sp/>{347,<sp/>206},<sp/>{348,<sp/>205},<sp/>{349,<sp/>206},</highlight></codeline>
+<codeline lineno="1876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{350,<sp/>206},<sp/>{351,<sp/>231},<sp/>{352,<sp/>231},<sp/>{353,<sp/>231},<sp/>{354,<sp/>219},<sp/>{355,<sp/>205},<sp/>{356,<sp/>206},<sp/>{357,<sp/>232},<sp/>{358,<sp/>233},<sp/>{359,<sp/>223},</highlight></codeline>
+<codeline lineno="1877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{360,<sp/>226},<sp/>{361,<sp/>234},<sp/>{362,<sp/>206},<sp/>{363,<sp/>217},<sp/>{364,<sp/>218},<sp/>{365,<sp/>219},<sp/>{366,<sp/>210}</highlight></codeline>
+<codeline lineno="1878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
+<codeline lineno="1879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>SAME<sp/>mapping<sp/>for<sp/>a<sp/>mod<sp/>exported<sp/>at<sp/>3.6.<sp/>Lynae&apos;s<sp/>3.7<sp/>update<sp/>inserted<sp/>bones<sp/>into<sp/>her</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1880"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>skeleton<sp/>and<sp/>renumbered<sp/>71<sp/>of<sp/>its<sp/>360<sp/>merged<sp/>ids<sp/>(mostly<sp/>by<sp/>one<sp/>or<sp/>two),<sp/>so<sp/>a<sp/>3.6<sp/>mod&apos;s<sp/>ids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1881"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>go<sp/>through<sp/>3.6<sp/>-&gt;<sp/>3.7<sp/>first.<sp/>The<sp/>renumbering<sp/>was<sp/>reconstructed<sp/>from<sp/>Lynae5<sp/>(a<sp/>3.6<sp/>mod<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1882"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>per-component<sp/>LOCAL<sp/>ids,<sp/>every<sp/>component<sp/>at<sp/>vanilla<sp/>positions)<sp/>against<sp/>the<sp/>3.7<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1883"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mod,<sp/>by<sp/>WWMI&apos;s<sp/>own<sp/>first-slot<sp/>rule,<sp/>and<sp/>agrees<sp/>with<sp/>nine<sp/>3.6<sp/>merged-skeleton<sp/>mods<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1884"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>99.7-99.98%<sp/>of<sp/>their<sp/>vanilla-position<sp/>vertices.<sp/>WWMIFixerConfig::sourceVersionByVb0<sp/>picks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1885"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>row<sp/>by<sp/>the<sp/>mod&apos;s<sp/>vb0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1886"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;3.6&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" kindref="member">ModTypeId::Lynae</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1887"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.7&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" kindref="member">ModTypeId::LynaePeppermint</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="1888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
+<codeline lineno="1889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>5},<sp/>{6,<sp/>6},<sp/>{7,<sp/>7},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
+<codeline lineno="1890"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>11},<sp/>{11,<sp/>12},<sp/>{12,<sp/>17},<sp/>{13,<sp/>10},<sp/>{14,<sp/>13},<sp/>{15,<sp/>36},<sp/>{16,<sp/>14},<sp/>{17,<sp/>15},<sp/>{18,<sp/>16},<sp/>{19,<sp/>18},</highlight></codeline>
+<codeline lineno="1891"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>19},<sp/>{21,<sp/>20},<sp/>{22,<sp/>21},<sp/>{23,<sp/>22},<sp/>{24,<sp/>23},<sp/>{25,<sp/>24},<sp/>{26,<sp/>25},<sp/>{27,<sp/>26},<sp/>{28,<sp/>27},<sp/>{29,<sp/>28},</highlight></codeline>
+<codeline lineno="1892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>29},<sp/>{31,<sp/>30},<sp/>{32,<sp/>32},<sp/>{33,<sp/>31},<sp/>{34,<sp/>33},<sp/>{35,<sp/>34},<sp/>{36,<sp/>35},<sp/>{37,<sp/>37},<sp/>{38,<sp/>38},<sp/>{39,<sp/>39},</highlight></codeline>
+<codeline lineno="1893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>40},<sp/>{41,<sp/>41},<sp/>{42,<sp/>42},<sp/>{43,<sp/>32},<sp/>{44,<sp/>34},<sp/>{45,<sp/>81},<sp/>{46,<sp/>80},<sp/>{47,<sp/>82},<sp/>{48,<sp/>73},<sp/>{49,<sp/>48},</highlight></codeline>
+<codeline lineno="1894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>0},<sp/>{51,<sp/>83},<sp/>{52,<sp/>75},<sp/>{53,<sp/>74},<sp/>{54,<sp/>72},<sp/>{55,<sp/>71},<sp/>{56,<sp/>48},<sp/>{57,<sp/>73},<sp/>{58,<sp/>80},<sp/>{59,<sp/>81},</highlight></codeline>
+<codeline lineno="1895"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>82},<sp/>{61,<sp/>83},<sp/>{62,<sp/>44},<sp/>{63,<sp/>55},<sp/>{64,<sp/>43},<sp/>{65,<sp/>45},<sp/>{66,<sp/>46},<sp/>{67,<sp/>54},<sp/>{68,<sp/>53},<sp/>{69,<sp/>52},</highlight></codeline>
+<codeline lineno="1896"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>57},<sp/>{71,<sp/>58},<sp/>{72,<sp/>180},<sp/>{73,<sp/>69},<sp/>{74,<sp/>70},<sp/>{75,<sp/>51},<sp/>{76,<sp/>56},<sp/>{77,<sp/>59},<sp/>{78,<sp/>60},<sp/>{79,<sp/>61},</highlight></codeline>
+<codeline lineno="1897"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>62},<sp/>{81,<sp/>63},<sp/>{82,<sp/>92},<sp/>{83,<sp/>64},<sp/>{84,<sp/>93},<sp/>{85,<sp/>94},<sp/>{86,<sp/>95},<sp/>{87,<sp/>96},<sp/>{88,<sp/>97},<sp/>{89,<sp/>53},</highlight></codeline>
+<codeline lineno="1898"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>65},<sp/>{91,<sp/>66},<sp/>{92,<sp/>67},<sp/>{93,<sp/>76},<sp/>{94,<sp/>77},<sp/>{95,<sp/>78},<sp/>{96,<sp/>79},<sp/>{97,<sp/>84},<sp/>{98,<sp/>50},<sp/>{99,<sp/>49},</highlight></codeline>
+<codeline lineno="1899"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>85},<sp/>{101,<sp/>86},<sp/>{102,<sp/>65},<sp/>{103,<sp/>66},<sp/>{104,<sp/>67},<sp/>{105,<sp/>68},<sp/>{106,<sp/>46},<sp/>{107,<sp/>87},<sp/>{108,<sp/>87},<sp/>{109,<sp/>88},</highlight></codeline>
+<codeline lineno="1900"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>89},<sp/>{111,<sp/>90},<sp/>{112,<sp/>91},<sp/>{113,<sp/>88},<sp/>{114,<sp/>0},<sp/>{115,<sp/>0},<sp/>{116,<sp/>0},<sp/>{117,<sp/>0},<sp/>{118,<sp/>46},<sp/>{119,<sp/>65},</highlight></codeline>
+<codeline lineno="1901"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>53},<sp/>{121,<sp/>54},<sp/>{122,<sp/>65},<sp/>{123,<sp/>66},<sp/>{124,<sp/>67},<sp/>{125,<sp/>53},<sp/>{126,<sp/>65},<sp/>{127,<sp/>54},<sp/>{128,<sp/>54},<sp/>{129,<sp/>0},</highlight></codeline>
+<codeline lineno="1902"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>164},<sp/>{131,<sp/>165},<sp/>{132,<sp/>135},<sp/>{133,<sp/>141},<sp/>{134,<sp/>160},<sp/>{135,<sp/>156},<sp/>{136,<sp/>162},<sp/>{137,<sp/>178},<sp/>{138,<sp/>155},<sp/>{139,<sp/>154},</highlight></codeline>
+<codeline lineno="1903"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>153},<sp/>{141,<sp/>155},<sp/>{142,<sp/>120},<sp/>{143,<sp/>129},<sp/>{144,<sp/>121},<sp/>{145,<sp/>130},<sp/>{146,<sp/>132},<sp/>{147,<sp/>136},<sp/>{148,<sp/>131},<sp/>{149,<sp/>133},</highlight></codeline>
+<codeline lineno="1904"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>137},<sp/>{151,<sp/>138},<sp/>{152,<sp/>139},<sp/>{153,<sp/>140},<sp/>{154,<sp/>118},<sp/>{155,<sp/>142},<sp/>{156,<sp/>143},<sp/>{157,<sp/>134},<sp/>{158,<sp/>114},<sp/>{159,<sp/>116},</highlight></codeline>
+<codeline lineno="1905"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>115},<sp/>{161,<sp/>119},<sp/>{162,<sp/>113},<sp/>{163,<sp/>118},<sp/>{164,<sp/>119},<sp/>{165,<sp/>115},<sp/>{166,<sp/>159},<sp/>{167,<sp/>161},<sp/>{168,<sp/>163},<sp/>{169,<sp/>167},</highlight></codeline>
+<codeline lineno="1906"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>168},<sp/>{171,<sp/>169},<sp/>{172,<sp/>170},<sp/>{173,<sp/>171},<sp/>{174,<sp/>172},<sp/>{175,<sp/>173},<sp/>{176,<sp/>166},<sp/>{177,<sp/>149},<sp/>{178,<sp/>151},<sp/>{179,<sp/>150},</highlight></codeline>
+<codeline lineno="1907"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>152},<sp/>{181,<sp/>148},<sp/>{182,<sp/>152},<sp/>{183,<sp/>150},<sp/>{184,<sp/>110},<sp/>{185,<sp/>109},<sp/>{186,<sp/>111},<sp/>{187,<sp/>104},<sp/>{188,<sp/>122},<sp/>{189,<sp/>126},</highlight></codeline>
+<codeline lineno="1908"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{190,<sp/>123},<sp/>{191,<sp/>157},<sp/>{192,<sp/>127},<sp/>{193,<sp/>146},<sp/>{194,<sp/>98},<sp/>{195,<sp/>98},<sp/>{196,<sp/>180},<sp/>{197,<sp/>98},<sp/>{198,<sp/>180},<sp/>{199,<sp/>184},</highlight></codeline>
+<codeline lineno="1909"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{200,<sp/>179},<sp/>{201,<sp/>183},<sp/>{202,<sp/>111},<sp/>{203,<sp/>111},<sp/>{204,<sp/>111},<sp/>{205,<sp/>111},<sp/>{206,<sp/>111},<sp/>{207,<sp/>111},<sp/>{208,<sp/>101},<sp/>{209,<sp/>104},</highlight></codeline>
+<codeline lineno="1910"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{210,<sp/>104},<sp/>{211,<sp/>309},<sp/>{212,<sp/>310},<sp/>{213,<sp/>98},<sp/>{214,<sp/>98},<sp/>{215,<sp/>98},<sp/>{216,<sp/>98},<sp/>{217,<sp/>98},<sp/>{218,<sp/>98},<sp/>{219,<sp/>98},</highlight></codeline>
+<codeline lineno="1911"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{220,<sp/>98},<sp/>{221,<sp/>98},<sp/>{222,<sp/>98},<sp/>{223,<sp/>150},<sp/>{224,<sp/>151},<sp/>{225,<sp/>115},<sp/>{226,<sp/>116},<sp/>{227,<sp/>147},<sp/>{228,<sp/>112},<sp/>{229,<sp/>101},</highlight></codeline>
+<codeline lineno="1912"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{230,<sp/>101},<sp/>{231,<sp/>100},<sp/>{232,<sp/>104},<sp/>{233,<sp/>101},<sp/>{234,<sp/>111},<sp/>{235,<sp/>202},<sp/>{236,<sp/>201},<sp/>{237,<sp/>203},<sp/>{238,<sp/>204},<sp/>{239,<sp/>101},</highlight></codeline>
+<codeline lineno="1913"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{240,<sp/>101},<sp/>{241,<sp/>100},<sp/>{242,<sp/>100},<sp/>{243,<sp/>100},<sp/>{244,<sp/>100},<sp/>{245,<sp/>100},<sp/>{246,<sp/>100},<sp/>{247,<sp/>104},<sp/>{248,<sp/>100},<sp/>{249,<sp/>100},</highlight></codeline>
+<codeline lineno="1914"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{250,<sp/>100},<sp/>{251,<sp/>100},<sp/>{252,<sp/>101},<sp/>{253,<sp/>106},<sp/>{254,<sp/>103},<sp/>{255,<sp/>100},<sp/>{256,<sp/>100},<sp/>{257,<sp/>106},<sp/>{258,<sp/>100},<sp/>{259,<sp/>100},</highlight></codeline>
+<codeline lineno="1915"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{260,<sp/>100},<sp/>{261,<sp/>100},<sp/>{262,<sp/>100},<sp/>{263,<sp/>103},<sp/>{264,<sp/>100},<sp/>{265,<sp/>106},<sp/>{266,<sp/>189},<sp/>{267,<sp/>106},<sp/>{268,<sp/>197},<sp/>{269,<sp/>236},</highlight></codeline>
+<codeline lineno="1916"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{270,<sp/>237},<sp/>{271,<sp/>239},<sp/>{272,<sp/>239},<sp/>{273,<sp/>240},<sp/>{274,<sp/>242},<sp/>{275,<sp/>241},<sp/>{276,<sp/>237},<sp/>{277,<sp/>237},<sp/>{278,<sp/>292},<sp/>{279,<sp/>293},</highlight></codeline>
+<codeline lineno="1917"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{280,<sp/>290},<sp/>{281,<sp/>291},<sp/>{282,<sp/>237},<sp/>{283,<sp/>237},<sp/>{284,<sp/>255},<sp/>{285,<sp/>244},<sp/>{286,<sp/>245},<sp/>{287,<sp/>247},<sp/>{288,<sp/>247},<sp/>{289,<sp/>248},</highlight></codeline>
+<codeline lineno="1918"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{290,<sp/>250},<sp/>{291,<sp/>249},<sp/>{292,<sp/>245},<sp/>{293,<sp/>245},<sp/>{294,<sp/>300},<sp/>{295,<sp/>301},<sp/>{296,<sp/>298},<sp/>{297,<sp/>299},<sp/>{298,<sp/>245},<sp/>{299,<sp/>245},</highlight></codeline>
+<codeline lineno="1919"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{300,<sp/>256},<sp/>{301,<sp/>106},<sp/>{302,<sp/>195},<sp/>{303,<sp/>251},<sp/>{304,<sp/>103},<sp/>{305,<sp/>103},<sp/>{306,<sp/>100},<sp/>{307,<sp/>103},<sp/>{308,<sp/>100},<sp/>{309,<sp/>252},</highlight></codeline>
+<codeline lineno="1920"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{310,<sp/>253},<sp/>{311,<sp/>254},<sp/>{312,<sp/>237},<sp/>{313,<sp/>238},<sp/>{314,<sp/>255},<sp/>{315,<sp/>200},<sp/>{316,<sp/>199},<sp/>{317,<sp/>198},<sp/>{318,<sp/>245},<sp/>{319,<sp/>246},</highlight></codeline>
+<codeline lineno="1921"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{320,<sp/>256},<sp/>{321,<sp/>100},<sp/>{322,<sp/>224},<sp/>{323,<sp/>220},<sp/>{324,<sp/>211},<sp/>{325,<sp/>221},<sp/>{326,<sp/>209},<sp/>{327,<sp/>212},<sp/>{328,<sp/>214},<sp/>{329,<sp/>213},</highlight></codeline>
+<codeline lineno="1922"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{330,<sp/>215},<sp/>{331,<sp/>208},<sp/>{332,<sp/>216},<sp/>{333,<sp/>205},<sp/>{334,<sp/>207},<sp/>{335,<sp/>222},<sp/>{336,<sp/>227},<sp/>{337,<sp/>225},<sp/>{338,<sp/>228},<sp/>{339,<sp/>229},</highlight></codeline>
+<codeline lineno="1923"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{340,<sp/>230},<sp/>{341,<sp/>205},<sp/>{342,<sp/>206},<sp/>{343,<sp/>206},<sp/>{344,<sp/>205},<sp/>{345,<sp/>206},<sp/>{346,<sp/>205},<sp/>{347,<sp/>206},<sp/>{348,<sp/>205},<sp/>{349,<sp/>206},</highlight></codeline>
+<codeline lineno="1924"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{350,<sp/>206},<sp/>{351,<sp/>231},<sp/>{352,<sp/>231},<sp/>{353,<sp/>231},<sp/>{354,<sp/>219},<sp/>{355,<sp/>205},<sp/>{356,<sp/>206},<sp/>{357,<sp/>232},<sp/>{358,<sp/>233},<sp/>{359,<sp/>223},</highlight></codeline>
+<codeline lineno="1925"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{360,<sp/>226},<sp/>{361,<sp/>234},<sp/>{362,<sp/>206},<sp/>{363,<sp/>217},<sp/>{364,<sp/>218},<sp/>{365,<sp/>219},<sp/>{366,<sp/>210},<sp/>{367,<sp/>111},<sp/>{368,<sp/>111},<sp/>{369,<sp/>111},</highlight></codeline>
+<codeline lineno="1926"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{370,<sp/>104},<sp/>{371,<sp/>225},<sp/>{372,<sp/>220},<sp/>{373,<sp/>215},<sp/>{374,<sp/>226},<sp/>{375,<sp/>214},<sp/>{376,<sp/>227},<sp/>{377,<sp/>228},<sp/>{378,<sp/>229},<sp/>{379,<sp/>224},</highlight></codeline>
+<codeline lineno="1927"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{380,<sp/>221},<sp/>{381,<sp/>211},<sp/>{382,<sp/>209},<sp/>{383,<sp/>223},<sp/>{384,<sp/>217},<sp/>{385,<sp/>234},<sp/>{386,<sp/>212},<sp/>{387,<sp/>216},<sp/>{388,<sp/>213},<sp/>{389,<sp/>208},</highlight></codeline>
+<codeline lineno="1928"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{390,<sp/>205},<sp/>{391,<sp/>207},<sp/>{392,<sp/>222},<sp/>{393,<sp/>218},<sp/>{394,<sp/>233},<sp/>{395,<sp/>230},<sp/>{396,<sp/>98},<sp/>{397,<sp/>98},<sp/>{398,<sp/>123},<sp/>{399,<sp/>111},</highlight></codeline>
+<codeline lineno="1929"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{400,<sp/>0}</highlight></codeline>
+<codeline lineno="1930"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
+<codeline lineno="1931"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" kindref="member">ModTypeId::LynaePeppermint</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="1932"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;3.7&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" kindref="member">ModTypeId::Lynae</ref>),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="1933"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VGRemap({</highlight></codeline>
+<codeline lineno="1934"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{0,<sp/>0},<sp/>{1,<sp/>1},<sp/>{2,<sp/>2},<sp/>{3,<sp/>3},<sp/>{4,<sp/>4},<sp/>{5,<sp/>5},<sp/>{6,<sp/>6},<sp/>{7,<sp/>7},<sp/>{8,<sp/>8},<sp/>{9,<sp/>9},</highlight></codeline>
+<codeline lineno="1935"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10,<sp/>13},<sp/>{11,<sp/>10},<sp/>{12,<sp/>11},<sp/>{13,<sp/>14},<sp/>{14,<sp/>16},<sp/>{15,<sp/>17},<sp/>{16,<sp/>18},<sp/>{17,<sp/>12},<sp/>{18,<sp/>19},<sp/>{19,<sp/>20},</highlight></codeline>
+<codeline lineno="1936"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{20,<sp/>21},<sp/>{21,<sp/>22},<sp/>{22,<sp/>23},<sp/>{23,<sp/>24},<sp/>{24,<sp/>25},<sp/>{25,<sp/>26},<sp/>{26,<sp/>27},<sp/>{27,<sp/>28},<sp/>{28,<sp/>29},<sp/>{29,<sp/>30},</highlight></codeline>
+<codeline lineno="1937"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{30,<sp/>31},<sp/>{31,<sp/>33},<sp/>{32,<sp/>32},<sp/>{33,<sp/>34},<sp/>{34,<sp/>35},<sp/>{35,<sp/>36},<sp/>{36,<sp/>15},<sp/>{37,<sp/>37},<sp/>{38,<sp/>38},<sp/>{39,<sp/>39},</highlight></codeline>
+<codeline lineno="1938"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{40,<sp/>40},<sp/>{41,<sp/>41},<sp/>{42,<sp/>42},<sp/>{43,<sp/>64},<sp/>{44,<sp/>62},<sp/>{45,<sp/>65},<sp/>{46,<sp/>66},<sp/>{47,<sp/>0},<sp/>{48,<sp/>56},<sp/>{49,<sp/>99},</highlight></codeline>
+<codeline lineno="1939"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{50,<sp/>98},<sp/>{51,<sp/>75},<sp/>{52,<sp/>69},<sp/>{53,<sp/>68},<sp/>{54,<sp/>67},<sp/>{55,<sp/>63},<sp/>{56,<sp/>76},<sp/>{57,<sp/>70},<sp/>{58,<sp/>71},<sp/>{59,<sp/>77},</highlight></codeline>
+<codeline lineno="1940"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{60,<sp/>78},<sp/>{61,<sp/>79},<sp/>{62,<sp/>80},<sp/>{63,<sp/>81},<sp/>{64,<sp/>83},<sp/>{65,<sp/>102},<sp/>{66,<sp/>103},<sp/>{67,<sp/>104},<sp/>{68,<sp/>105},<sp/>{69,<sp/>73},</highlight></codeline>
+<codeline lineno="1941"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{70,<sp/>74},<sp/>{71,<sp/>55},<sp/>{72,<sp/>54},<sp/>{73,<sp/>57},<sp/>{74,<sp/>53},<sp/>{75,<sp/>52},<sp/>{76,<sp/>93},<sp/>{77,<sp/>94},<sp/>{78,<sp/>95},<sp/>{79,<sp/>96},</highlight></codeline>
+<codeline lineno="1942"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{80,<sp/>58},<sp/>{81,<sp/>59},<sp/>{82,<sp/>60},<sp/>{83,<sp/>61},<sp/>{84,<sp/>97},<sp/>{85,<sp/>100},<sp/>{86,<sp/>101},<sp/>{87,<sp/>107},<sp/>{88,<sp/>113},<sp/>{89,<sp/>110},</highlight></codeline>
+<codeline lineno="1943"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{90,<sp/>111},<sp/>{91,<sp/>112},<sp/>{92,<sp/>82},<sp/>{93,<sp/>84},<sp/>{94,<sp/>85},<sp/>{95,<sp/>86},<sp/>{96,<sp/>87},<sp/>{97,<sp/>88},<sp/>{98,<sp/>196},<sp/>{99,<sp/>0},</highlight></codeline>
+<codeline lineno="1944"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{100,<sp/>306},<sp/>{101,<sp/>233},<sp/>{102,<sp/>306},<sp/>{103,<sp/>304},<sp/>{104,<sp/>189},<sp/>{105,<sp/>304},<sp/>{106,<sp/>265},<sp/>{107,<sp/>265},<sp/>{108,<sp/>304},<sp/>{109,<sp/>187},</highlight></codeline>
+<codeline lineno="1945"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{110,<sp/>186},<sp/>{111,<sp/>188},<sp/>{112,<sp/>228},<sp/>{113,<sp/>162},<sp/>{114,<sp/>158},<sp/>{115,<sp/>160},<sp/>{116,<sp/>159},<sp/>{117,<sp/>163},<sp/>{118,<sp/>144},<sp/>{119,<sp/>161},</highlight></codeline>
+<codeline lineno="1946"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{120,<sp/>142},<sp/>{121,<sp/>145},<sp/>{122,<sp/>190},<sp/>{123,<sp/>192},<sp/>{124,<sp/>0},<sp/>{125,<sp/>0},<sp/>{126,<sp/>191},<sp/>{127,<sp/>194},<sp/>{128,<sp/>0},<sp/>{129,<sp/>143},</highlight></codeline>
+<codeline lineno="1947"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{130,<sp/>146},<sp/>{131,<sp/>149},<sp/>{132,<sp/>147},<sp/>{133,<sp/>150},<sp/>{134,<sp/>157},<sp/>{135,<sp/>132},<sp/>{136,<sp/>148},<sp/>{137,<sp/>151},<sp/>{138,<sp/>152},<sp/>{139,<sp/>153},</highlight></codeline>
+<codeline lineno="1948"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{140,<sp/>154},<sp/>{141,<sp/>133},<sp/>{142,<sp/>155},<sp/>{143,<sp/>156},<sp/>{144,<sp/>306},<sp/>{145,<sp/>265},<sp/>{146,<sp/>195},<sp/>{147,<sp/>227},<sp/>{148,<sp/>182},<sp/>{149,<sp/>178},</highlight></codeline>
+<codeline lineno="1949"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{150,<sp/>180},<sp/>{151,<sp/>179},<sp/>{152,<sp/>181},<sp/>{153,<sp/>140},<sp/>{154,<sp/>139},<sp/>{155,<sp/>141},<sp/>{156,<sp/>135},<sp/>{157,<sp/>193},<sp/>{158,<sp/>0},<sp/>{159,<sp/>167},</highlight></codeline>
+<codeline lineno="1950"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{160,<sp/>134},<sp/>{161,<sp/>168},<sp/>{162,<sp/>136},<sp/>{163,<sp/>169},<sp/>{164,<sp/>130},<sp/>{165,<sp/>131},<sp/>{166,<sp/>177},<sp/>{167,<sp/>170},<sp/>{168,<sp/>171},<sp/>{169,<sp/>172},</highlight></codeline>
+<codeline lineno="1951"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{170,<sp/>173},<sp/>{171,<sp/>174},<sp/>{172,<sp/>175},<sp/>{173,<sp/>176},<sp/>{174,<sp/>205},<sp/>{175,<sp/>206},<sp/>{176,<sp/>207},<sp/>{177,<sp/>204},<sp/>{178,<sp/>137},<sp/>{179,<sp/>202},</highlight></codeline>
+<codeline lineno="1952"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{180,<sp/>200},<sp/>{181,<sp/>0},<sp/>{182,<sp/>0},<sp/>{183,<sp/>203},<sp/>{184,<sp/>201},<sp/>{185,<sp/>0},<sp/>{186,<sp/>0},<sp/>{187,<sp/>0},<sp/>{188,<sp/>0},<sp/>{189,<sp/>266},</highlight></codeline>
+<codeline lineno="1953"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{190,<sp/>0},<sp/>{191,<sp/>0},<sp/>{192,<sp/>0},<sp/>{193,<sp/>0},<sp/>{194,<sp/>0},<sp/>{195,<sp/>302},<sp/>{196,<sp/>0},<sp/>{197,<sp/>268},<sp/>{198,<sp/>317},<sp/>{199,<sp/>316},</highlight></codeline>
+<codeline lineno="1954"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{200,<sp/>315},<sp/>{201,<sp/>236},<sp/>{202,<sp/>235},<sp/>{203,<sp/>237},<sp/>{204,<sp/>238},<sp/>{205,<sp/>333},<sp/>{206,<sp/>362},<sp/>{207,<sp/>334},<sp/>{208,<sp/>331},<sp/>{209,<sp/>326},</highlight></codeline>
+<codeline lineno="1955"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{210,<sp/>366},<sp/>{211,<sp/>324},<sp/>{212,<sp/>327},<sp/>{213,<sp/>329},<sp/>{214,<sp/>328},<sp/>{215,<sp/>330},<sp/>{216,<sp/>332},<sp/>{217,<sp/>363},<sp/>{218,<sp/>364},<sp/>{219,<sp/>365},</highlight></codeline>
+<codeline lineno="1956"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{220,<sp/>323},<sp/>{221,<sp/>325},<sp/>{222,<sp/>335},<sp/>{223,<sp/>359},<sp/>{224,<sp/>322},<sp/>{225,<sp/>337},<sp/>{226,<sp/>360},<sp/>{227,<sp/>336},<sp/>{228,<sp/>338},<sp/>{229,<sp/>339},</highlight></codeline>
+<codeline lineno="1957"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{230,<sp/>340},<sp/>{231,<sp/>365},<sp/>{232,<sp/>357},<sp/>{233,<sp/>358},<sp/>{234,<sp/>361},<sp/>{235,<sp/>314},<sp/>{236,<sp/>269},<sp/>{237,<sp/>270},<sp/>{238,<sp/>269},<sp/>{239,<sp/>271},</highlight></codeline>
+<codeline lineno="1958"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{240,<sp/>273},<sp/>{241,<sp/>275},<sp/>{242,<sp/>274},<sp/>{243,<sp/>320},<sp/>{244,<sp/>285},<sp/>{245,<sp/>286},<sp/>{246,<sp/>285},<sp/>{247,<sp/>287},<sp/>{248,<sp/>289},<sp/>{249,<sp/>291},</highlight></codeline>
+<codeline lineno="1959"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{250,<sp/>290},<sp/>{251,<sp/>303},<sp/>{252,<sp/>309},<sp/>{253,<sp/>310},<sp/>{254,<sp/>311},<sp/>{255,<sp/>314},<sp/>{256,<sp/>320},<sp/>{257,<sp/>0},<sp/>{258,<sp/>0},<sp/>{259,<sp/>0},</highlight></codeline>
+<codeline lineno="1960"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{260,<sp/>0},<sp/>{261,<sp/>0},<sp/>{262,<sp/>0},<sp/>{263,<sp/>0},<sp/>{264,<sp/>0},<sp/>{265,<sp/>0},<sp/>{266,<sp/>0},<sp/>{267,<sp/>0},<sp/>{268,<sp/>0},<sp/>{269,<sp/>0},</highlight></codeline>
+<codeline lineno="1961"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{270,<sp/>0},<sp/>{271,<sp/>0},<sp/>{272,<sp/>0},<sp/>{273,<sp/>0},<sp/>{274,<sp/>0},<sp/>{275,<sp/>0},<sp/>{276,<sp/>0},<sp/>{277,<sp/>0},<sp/>{278,<sp/>0},<sp/>{279,<sp/>0},</highlight></codeline>
+<codeline lineno="1962"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{280,<sp/>0},<sp/>{281,<sp/>0},<sp/>{282,<sp/>0},<sp/>{283,<sp/>0},<sp/>{284,<sp/>0},<sp/>{285,<sp/>0},<sp/>{286,<sp/>271},<sp/>{287,<sp/>0},<sp/>{288,<sp/>0},<sp/>{289,<sp/>0},</highlight></codeline>
+<codeline lineno="1963"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{290,<sp/>280},<sp/>{291,<sp/>281},<sp/>{292,<sp/>278},<sp/>{293,<sp/>279},<sp/>{294,<sp/>287},<sp/>{295,<sp/>0},<sp/>{296,<sp/>0},<sp/>{297,<sp/>0},<sp/>{298,<sp/>296},<sp/>{299,<sp/>297},</highlight></codeline>
+<codeline lineno="1964"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{300,<sp/>294},<sp/>{301,<sp/>295},<sp/>{302,<sp/>0},<sp/>{303,<sp/>0},<sp/>{304,<sp/>0},<sp/>{305,<sp/>0},<sp/>{306,<sp/>0},<sp/>{307,<sp/>0},<sp/>{308,<sp/>0},<sp/>{309,<sp/>213},</highlight></codeline>
+<codeline lineno="1965"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{310,<sp/>214}</highlight></codeline>
+<codeline lineno="1966"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
+<codeline lineno="1967"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="1968"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1969"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rows;</highlight></codeline>
+<codeline lineno="1970"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1971"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1972"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1973"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/VGRemapData.cpp"/>
   </compounddef>

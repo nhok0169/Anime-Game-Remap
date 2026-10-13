@@ -31,6 +31,10 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
+      </node>
       <node id="2">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
@@ -42,10 +46,6 @@
       <node id="4">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
-      </node>
-      <node id="5">
-        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
-        <link refid="_ini_file_remove_context_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>

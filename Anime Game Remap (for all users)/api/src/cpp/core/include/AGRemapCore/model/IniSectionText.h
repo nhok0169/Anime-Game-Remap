@@ -65,6 +65,12 @@ namespace AGRemapCore {
                 return *this;
             }
 
+            // The `else` of the innermost open `if`
+            SectionText& orElse() {
+                parts_.push_back(std::make_unique<IfPredPart>("else", IfPredPartType::Else, z3_));
+                return *this;
+            }
+
             // A comment above the `[name]` line. IfTemplate carries it, so even this is
             // the model's rather than text glued on the front.
             SectionText& prefix(std::string text) {

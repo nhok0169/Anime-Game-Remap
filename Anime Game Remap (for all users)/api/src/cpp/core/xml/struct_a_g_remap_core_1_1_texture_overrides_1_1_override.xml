@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextureOverrides::Override</compoundname>
+    <includes refid="_texture_overrides_8h" local="no">TextureOverrides.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1aaadecd0617131bbfd884e195c067cc1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextureOverrides::Override::section</definition>
+        <argsstring></argsstring>
+        <name>section</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::Override::section</qualifiedname>
+        <briefdescription>
+<para>The name of the <computeroutput><ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1aaadecd0617131bbfd884e195c067cc1b" kindref="member">section</ref></computeroutput>_ that holds the override. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="48" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a6dd6229439da61f69839121ad192dc1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextureOverrides::Override::hash</definition>
+        <argsstring></argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::Override::hash</qualifiedname>
+        <briefdescription>
+<para>The texture hash the override matches, stripped and lowercased. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="53" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1af21070be3035a2139a6145214597d364" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextureOverrides::Override::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::Override::resource</qualifiedname>
+        <briefdescription>
+<para>The resource the override binds in its place, stripped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="58" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a286475cb1863e580f3a2bc390bfaabaf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::string&gt; &gt; AGRemapCore::TextureOverrides::Override::branches</definition>
+        <argsstring></argsstring>
+        <name>branches</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::Override::branches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``if`` blocks the ``this =`` sits in, outermost first: per block, every branch
+header from its opening ``if`` down to the branch holding the override (eg.
+``{{&quot;if $color == 0&quot;}}``, or ``{{&quot;if $color == 1&quot;, &quot;else&quot;}}`` for an ``else``
+branch), stripped. Empty for an unconditional override
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="69" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One texture override. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="44" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="44" bodyend="70"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a286475cb1863e580f3a2bc390bfaabaf" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Override</scope><name>branches</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a6dd6229439da61f69839121ad192dc1d" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Override</scope><name>hash</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1af21070be3035a2139a6145214597d364" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Override</scope><name>resource</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1aaadecd0617131bbfd884e195c067cc1b" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Override</scope><name>section</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

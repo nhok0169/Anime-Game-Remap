@@ -95,17 +95,9 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="17">
-        <label>src/data/HashToModObjData.cpp</label>
-        <link refid="_hash_to_mod_obj_data_8cpp"/>
-      </node>
       <node id="5">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
-      </node>
-      <node id="6">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="7">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
@@ -118,10 +110,6 @@
       <node id="10">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
-      </node>
-      <node id="11">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
       <node id="12">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
@@ -142,6 +130,18 @@
       <node id="15">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/data/HashToModObjData.cpp</label>
+        <link refid="_hash_to_mod_obj_data_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
       <node id="9">
         <label>src/tools/DownloadTools.cpp</label>
@@ -178,7 +178,7 @@
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1_data" kindref="compound">Data</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespace_a_g_remap_core_1_1_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1_data" kindref="compound">Data</ref><sp/>{</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33" refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref><sp/>=<sp/>std::pair&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>

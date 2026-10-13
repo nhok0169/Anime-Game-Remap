@@ -1411,18 +1411,22 @@ the mod on its own card. What it found:
   lighting pass: no change), and stencil bit 2 under the shirt (no change). A probe that counts a slot's passes per
   frame (`$pass = $pass + 1`, reset in `[Present]`) is NOT a way to tell two passes of one vertex shader apart --
   other draws through that shader bump it, and it broke the picture even with Lynae's own shaders.
-  **KNOWN LIMIT: the bikini under the shirt shows through FAINTER on Lynae than on the skin (2026-10-13).** The shirt
-  is see-through on every LynaePeppermint mod (LynaePeppermint2 and the identity mod show the gap most; 3 and 4
-  match), and nothing a mod `.ini` can set has narrowed it. **And a frame dump cannot find it any more**: every dump
-  of the skin taken that day -- her vanilla outfit as well as the mod, lossless or the 2026-10-04 options
-  (`dump_rt dump_tex dump_cb dump_vb dump_ib buf txt`), with RabbitFX parked, with `deferred_ctx_immediate` -- has
-  her skin UNLIT and her shirt OPAQUE in its own final back buffer, while the game on screen shows both right. The
-  2026-10-04 dump (`FrameAnalysis-LynaePeppermint-2026-10-04-232459`) still has her skin lit, so something changed
-  since that no option brings back: her skin lighting and the see-through are composited by work a dump does not
-  reproduce (her skin is lit after the deferred lighting pass, and Lynae's body, whose stencil never carries her
-  bit 2, is lit inside it). Read a dump's final `o0` before trusting anything in it about her skin. Ruled out in
-  game: RabbitFX (parked, both cards unchanged). Whoever picks this up next needs a capture that renders her
-  skin lit, or a GPU debugger, not another 3DMigoto dump.
+  **THE SEE-THROUGH IS AN ALPHA BLEND OF THE BASE COLOUR, AND THE DUMPS THAT HID IT WERE SKIPPING HER BODY
+  (2026-10-13).** The bikini showed through fainter on Lynae, and every dump of the skin taken after a hunting
+  session rendered her skin unlit and her shirt opaque -- vanilla or modded, lossless or not, RabbitFX or not.
+  **Cause: hunting's `marking_mode = skip`.** GameView turns hunting ON to take a dump, and the shader still
+  selected from the last hunting session -- here her body shader `ed4fe222`, marked to capture it -- is then not
+  drawn at all: her body draw wrote no colour and no depth, so the G-buffer under the shirt was empty. **Before
+  trusting a dump, check that the draws you study write something** (a draw with zero changed pixels in every
+  target is a skipped draw), or take it with `marking_mode = original` for the dump and put `skip` back after.
+  With valid dumps her sheer pass's base colour (RT3, the sRGB target) depends on the colour under it while ours
+  did not: it ALPHA-BLENDS that target by the opacity it writes in the target's alpha. `blend[3] = ADD SRC_ALPHA
+  INV_SRC_ALPHA` and `alpha[3] = ADD ONE ZERO` reproduce it (the same estimate of the factor on her frame and on
+  ours, against a known blend), and in game the bikini shows through on LynaePeppermint1 and the identity mod as
+  on the skin; LynaePeppermint2 shows it too, a little less, at a different pose; LynaePeppermint4's jacket is
+  unchanged. Her other targets are not blended (RT1's correlation with what is under it is geometry -- it is the
+  same unblended). The probes on the way that did NOT help, kept for the next one: her body shader on the upper
+  body, her `ps-t10` (`308e6e5e`), stencil bit 2 under the shirt, RabbitFX parked.
 
 <br>
 

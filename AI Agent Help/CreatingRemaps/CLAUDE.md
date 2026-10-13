@@ -1411,6 +1411,18 @@ the mod on its own card. What it found:
   lighting pass: no change), and stencil bit 2 under the shirt (no change). A probe that counts a slot's passes per
   frame (`$pass = $pass + 1`, reset in `[Present]`) is NOT a way to tell two passes of one vertex shader apart --
   other draws through that shader bump it, and it broke the picture even with Lynae's own shaders.
+  **KNOWN LIMIT: the bikini under the shirt shows through FAINTER on Lynae than on the skin (2026-10-13).** The shirt
+  is see-through on every LynaePeppermint mod (LynaePeppermint2 and the identity mod show the gap most; 3 and 4
+  match), and nothing a mod `.ini` can set has narrowed it. **And a frame dump cannot find it any more**: every dump
+  of the skin taken that day -- her vanilla outfit as well as the mod, lossless or the 2026-10-04 options
+  (`dump_rt dump_tex dump_cb dump_vb dump_ib buf txt`), with RabbitFX parked, with `deferred_ctx_immediate` -- has
+  her skin UNLIT and her shirt OPAQUE in its own final back buffer, while the game on screen shows both right. The
+  2026-10-04 dump (`FrameAnalysis-LynaePeppermint-2026-10-04-232459`) still has her skin lit, so something changed
+  since that no option brings back: her skin lighting and the see-through are composited by work a dump does not
+  reproduce (her skin is lit after the deferred lighting pass, and Lynae's body, whose stencil never carries her
+  bit 2, is lit inside it). Read a dump's final `o0` before trusting anything in it about her skin. Ruled out in
+  game: RabbitFX (parked, both cards unchanged). Whoever picks this up next needs a capture that renders her
+  skin lit, or a GPU debugger, not another 3DMigoto dump.
 
 <br>
 

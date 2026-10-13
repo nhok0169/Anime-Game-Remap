@@ -21,11 +21,13 @@
       <node id="11">
         <label>include/AGRemapCore/data/IniFixData/ModBranches.h</label>
         <link refid="_mod_branches_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -33,25 +35,41 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
       </node>
-      <node id="28">
+      <node id="31">
         <label>include/AGRemapCore/data/IniFixData/TexFxLayout.h</label>
         <link refid="_tex_fx_layout_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
       </node>
-      <node id="32">
+      <node id="35">
         <label>include/AGRemapCore/data/IniFixData/TexRegLayout.h</label>
         <link refid="_tex_reg_layout_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/data/IniParseData/TextureOverrides.h</label>
+        <link refid="_texture_overrides_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -59,7 +77,7 @@
         <link refid="_base_ini_graph_part_edit_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -71,17 +89,17 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -112,7 +130,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="15">
+      <node id="18">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h</label>
         <link refid="_reg_delimited_add_8h"/>
         <childnode refid="4" relation="include">
@@ -123,10 +141,10 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="20">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</label>
         <link refid="_reg_fill_missing_8h"/>
         <childnode refid="4" relation="include">
@@ -135,10 +153,10 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="22">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h</label>
         <link refid="_reg_surrounded_add_8h"/>
         <childnode refid="4" relation="include">
@@ -147,10 +165,10 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="24">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</label>
         <link refid="_graph_group_part_edits_8h"/>
         <childnode refid="4" relation="include">
@@ -164,35 +182,35 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="22">
+      <node id="25">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h</label>
         <link refid="_graph_inherit_8h"/>
       </node>
-      <node id="24">
+      <node id="27">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
         <link refid="_base_reg_edit_8h"/>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="28">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
         <link refid="_reg_add_8h"/>
       </node>
-      <node id="26">
+      <node id="29">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</label>
         <link refid="_reg_asset_remap_8h"/>
         <childnode refid="4" relation="include">
@@ -206,10 +224,10 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="30">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
-        <childnode refid="28" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -221,31 +239,31 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
-        <link refid="_reg_remap_8h"/>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
       </node>
       <node id="34">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
+        <link refid="_reg_remap_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
         <link refid="_reg_remove_8h"/>
-        <childnode refid="32" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -258,7 +276,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="35">
+      <node id="38">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h</label>
         <link refid="_reg_restrict_8h"/>
         <childnode refid="5" relation="include">
@@ -276,19 +294,51 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="12">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
       <node id="7">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="29">
+      <node id="13">
+        <label>src/data/IniParseData/GIMICharParser.cpp</label>
+        <link refid="_g_i_m_i_char_parser_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
+        <link refid="_g_i_m_i_component_parser_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniParseData/TextureOverrides.cpp</label>
+        <link refid="_texture_overrides_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/model/files/GIMIApiNormalizer.cpp</label>
+        <link refid="_g_i_m_i_api_normalizer_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp</label>
+        <link refid="_base_ini_graph_edit_instantiation_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/iniFixers/graphEdits/RegDelimitedAddInstantiation.cpp</label>
+        <link refid="_reg_delimited_add_instantiation_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/model/strategies/iniFixers/graphEdits/RegFillMissingInstantiation.cpp</label>
+        <link refid="_reg_fill_missing_instantiation_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp</label>
+        <link refid="_reg_surrounded_add_instantiation_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
+      <node id="32">
         <label>src/data/IniFixData/TexFxLayout.cpp</label>
         <link refid="_tex_fx_layout_8cpp"/>
       </node>
-      <node id="33">
+      <node id="36">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
       </node>
@@ -296,33 +346,9 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="13">
-        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
-        <link refid="_g_i_m_i_component_parser_8cpp"/>
-      </node>
-      <node id="14">
+      <node id="17">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
-      </node>
-      <node id="30">
-        <label>src/model/files/GIMIApiNormalizer.cpp</label>
-        <link refid="_g_i_m_i_api_normalizer_8cpp"/>
-      </node>
-      <node id="23">
-        <label>src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp</label>
-        <link refid="_base_ini_graph_edit_instantiation_8cpp"/>
-      </node>
-      <node id="16">
-        <label>src/model/strategies/iniFixers/graphEdits/RegDelimitedAddInstantiation.cpp</label>
-        <link refid="_reg_delimited_add_instantiation_8cpp"/>
-      </node>
-      <node id="18">
-        <label>src/model/strategies/iniFixers/graphEdits/RegFillMissingInstantiation.cpp</label>
-        <link refid="_reg_fill_missing_instantiation_8cpp"/>
-      </node>
-      <node id="20">
-        <label>src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp</label>
-        <link refid="_reg_surrounded_add_instantiation_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public">AGRemapCore::BaseIniGraphPartEdit</innerclass>

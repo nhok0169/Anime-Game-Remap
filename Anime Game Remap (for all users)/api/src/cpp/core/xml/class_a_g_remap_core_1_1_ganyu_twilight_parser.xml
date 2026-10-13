@@ -36,7 +36,7 @@ The parser for a 4.4-era GanyuTwilight ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h" line="46" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="59" bodyend="61"/>
+        <location file="include/AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h" line="46" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="72" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ganyu_twilight_parser_1a30b88cb564bc5681008de1224c41584a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -58,7 +58,7 @@ the version asked for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h" line="59" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="54" bodyend="56"/>
+        <location file="include/AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h" line="59" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="67" bodyend="69"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

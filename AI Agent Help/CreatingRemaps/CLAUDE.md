@@ -825,7 +825,7 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
-## LYNAE <-> LYNAEPEPPERMINT (WuWa, in progress 2026-10-05): steps 1-4
+## LYNAE <-> LYNAEPEPPERMINT (WuWa, compiled both ways 2026-10-06)
 
 Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the
 registration (Lynae filed at 3.6 with the `vb0` most of her mods carry, `0c33d628`, plus a 3.7 row for the live
@@ -869,6 +869,533 @@ these steps taught:
 * **Another session can rebuild the shared `.pyd` under you**: between two turns the installed module went back to
   a `master` build without Lynae (`WWMIBuilder.lynae` missing), and the package stopped importing. Check the `.pyd`'s
   mtime against your last build before trusting a run.
+
+**Steps 5-6 (2026-10-05): `Tools/Misc/Prototypes/lynaePeppermintFix.py`, a pure library config.** Every
+`WWMIFixerConfig` field is bound to Python now (`PyWWMIBuilders.cpp`), so a WuWa prototype is a config like the GI
+ones. Pairing by geometry (`compGeom.py`-style per-component overlap of the two download folders): 0-4 and 7 one to
+one (face and eyes the same mesh), her jacket (5) onto the skin's jacket (6), her props (6) onto the skin's pouch (5).
+Tested on all 13 Lynae mods: pre-flight clean against each mod's PRISTINE copy (every dangling / undefined flag was
+the author's), and at every vertex a mod keeps at a vanilla position its remapped bone equals the remapped identity
+mod's on 98.4-100% (`remapAgree.py` in the session scratchpad: the fix's 16-bit output ids, mod against identity) --
+the offline check that caught three of the five faults below before the game did. What the pair found, all in shared
+code unless said:
+* **A GAME UPDATE CAN RENUMBER A CHARACTER'S SKELETON, AND A MOD'S `vb0` DOES NOT SAY WHICH NUMBERING IT IS IN.**
+  Lynae's 3.7 inserted bones: 71 of 360 merged ids moved, mostly by one or two (in component 3 local 26 is 144 at
+  3.7 and 145 at 3.6), and 10 of her 13 mods are 3.6-numbered. Reconstructed from Lynae5 (a pre-merged-skeleton mod,
+  every component at vanilla positions) against the 3.7 identity mod by WWMI's first-slot rule; nine 3.6 mods agree
+  with it on 99.7-99.98%. Lynae11 carries the 3.7 `vb0` over 3.6 ids -- a hash-update tool rewrote the hash and not
+  the bones -- so the version is picked by GEOMETRY: `WWMIFixerConfig::skeletonNumberings` +
+  `referenceBoneCentroids` score each numbering by the median distance of the mod's vertices to their heaviest
+  renumbered bone's centroid (a factor of 1.5-4 on every mod, all right) and read the blend with that version's
+  `VGRemapData` row (a 3.6 row now beside the 3.7 one). `sourceVersionByVb0` still picks the hash lookups. This was
+  also what the glass-props work had seen as "Lynae11 numbers the pin bones two lower".
+* **`writeBlendRemap` (target past 256 bones) took precedence over the legacy lift** and read a pre-merged-skeleton
+  mod's LOCAL ids as merged ones: Lynae5's leg drawn as a long stick. It lifts through `sourceVgMaps` first now. No
+  pair before had a legacy mod AND a target past 256.
+* **`wwmiBlendInfluences` rejected the files' own layout when `$mesh_vertex_count` disagreed with `Position.buf`**
+  (Lynae9: 240090 declared, 240078 real) and fell back to 4 influences for an 8-influence mesh -- WWMI's
+  `BlendRemapper` got `weights_per_vertex_count = 4` and the body drew as SPIKES on the target while rendering fine on
+  her. Found after four wrong guesses (shape-key checksum, dispatch size, shape-keyed positions, custom keys) by
+  diffing the fix's generated lists between a working and a broken mod. **Chisa1 has the same mismatch** (108129
+  declared, 74835 real, 8 influences), so its Chisa -> ChisaParfait output changed with this and wants a fresh look.
+* **Batched shape keys** (newer WWMI Tools: `shapekey_checksum_batch0/1`, `shapekey_dispatch_size_y_original_batch0/1`):
+  the checksum keys are remapped like the bare one now, and `shapeKeyDispatchSize` (opt-in; the target's
+  `Metadata.json` `dispatch_y`) rewrites the dispatch -- WWMI picks the batch by it and on a mismatch loads too few of
+  the mod's offsets. Neither turned out to be Lynae9's spikes, but both are wrong without the fix.
+* **A texture the `.ini` declares and the folder lacks is no role candidate** (six Lynae mods name one): the remap
+  bound that missing resource on the target. The role takes its fallback download now.
+* **The skin has no special-material shader**, so the props' glass / foil passes do not carry: the ID card draws
+  opaque, sheer stockings and see-through tops opaque. (This bullet used to call `30ab50e7` her lower-body SHEER pass.
+  It is her lower body's OUTLINE: it runs on the outline vertex shader `6a6650a9`, and the white `d63a624a` it reads
+  at `ps-t0` is an outline mask -- see the reverse direction below.)
+  And looks a mod gets from RabbitFX on Lynae's shaders (Lynae10's suit, Lynae11's lining and stockings) carry only
+  partly even with its lines kept (`--keepRabbitFX`): RabbitFX patches the skin's shaders only in part. Both are
+  limitations of the pair, not bugs. **...except on her lower body, where it now carries (2026-10-13,
+  `SourceComponent::rabbitFX`).** Lynae11's white robotic legs are not her shader's material -- her own lower-body
+  shader drawn as a CustomShader on her own draw gives skin-coloured legs, as does parking RabbitFX -- but RabbitFX's
+  texture swap: its patched shader takes the mod's `Resource\RabbitFX\*` maps in place of its first texture samples,
+  choosing which map replaces which sample from the KIND (`filter_index` 1718.3/.4/.5/.6, by format, squareness and mip
+  count) of what is bound at `ps-t0..t3` when `SetTextures` runs. On the skin those registers hold the fix's edits and
+  other formats, so the same lines route differently: kept as they were, the legs came out white by ACCIDENT (the mask
+  in the normal sample) and the shirt lavender. The fix now keeps the lines on a plan entry with `rabbitFX` and right
+  after each `SetTextures` runs a pass-gated list pinning `x187..w187` to what they are on the source's draw -- read off
+  what that draw really has at each register: the mod's own `ps-tN` line (unless only a toggle sets it), else its
+  `this =` over the game texture there, else the game texture (`gameTags`, read off RabbitFX's own `dump = desc` files).
+  **Read the registers, not the roles**: a first version read each role's resource, which for Lynae10 was the map it
+  hands RabbitFX (never bound at `t0`), pinned (0,0,0,1) where her draw computes (1,0,0,1), and turned the racing suit
+  dark grey. Only her lower body: it lands on the skin's slot 3 with her register order, while her upper body is drawn
+  by a different shader on her and its routing does not carry. Written for RabbitFX **8.3.2** (the 1718.6 LOD branch,
+  `t3` adjustments); a RabbitFX update can change the rule. In game: Lynae11's legs white (gold seams where hers are
+  grey), Lynae10's suit grey with green checks as on her card (closer than without RabbitFX), Lynae8 unchanged.
+* **`mods only` parks EVERY other mod, the maintainer's included**, back to wherever the journal says it came from --
+  including another session's scratchpad. Load and park one mod at a time (`load` / `park`), and check `mods list`
+  after every round: a stale fixed copy left loaded made a whole round of screenshots two Lynae mods at once.
+
+**Steps 9-12, the reverse (`LynaePeppermint -> Lynae`, 2026-10-06): `Tools/Misc/Prototypes/peppermintLynaeFix.py`,
+compiled as `data/IniFixData/LynaePeppermint/` + `data/IniParseData/LynaePeppermint/`.** The compiled fix is
+A/B-identical to the prototype on all five skin mods (the identity and LynaePeppermint1-4) apart from the copy
+preamble, and was checked in game on all five: a full turn, an idle series, a close-up, and every toggle state against
+the mod on its own card. What it found:
+* **Lynae's props slot is not a cloth slot.** It renders through a special-material (glass / foil) layer, and anything
+  drawn there through the ordinary passes barely reaches the G-buffer: in a frame dump, 700 pixels for a whole shirt
+  and 137 for her OWN props in the vanilla frame. Six probes aimed elsewhere (`cb3` handling, previous pose, depth
+  pre-pass, mask alpha, the glass passes, binding every pass) missed it. So no skin component goes there: her coat (5)
+  and her shirt / jacket / shoes (6) both land on Lynae's jacket slot, the second through a generated copy `.ini`.
+* **A copy `.ini` on a target past 256 bones needs two template fixes, both behind
+  `WWMIFixerConfig::copiesShareSkeleton` (opt-in).** Each `.ini` declares the fix's merged skeleton for itself, and
+  only the draws THAT file matches merge into it, so the copy's skeleton was zero for every slot it does not draw. It
+  now gets a merge-only section for each such slot (`GIMIFixer::appendedSectionsPerGroup`). And a copy repeating the
+  bone-data marker and the shape-key overrides on the game's hashes drew the whole model as giant polygons (found by
+  bisecting the copy section by section), so those stay in the mod's own file. Off by default, because
+  ChisaParfait -> Chisa makes copies too and its output is confirmed in game: all 36 Chisa / Sanhua regression mods
+  are byte-identical with the flag off.
+* **`Binding.srcComponent` existed in C++ and was never bound to Python**, so no prototype could set it, and the
+  audit's first finding -- the coat's outline drawing with the JACKET's diffuse, because the two merged sources' rows
+  landed in one list -- was unfixable from Python. Bound now (`Binding(reg, role, srcComponent = -1)`). **When an audit
+  item needs a config field, check that the field is bound before deciding the item is a design question.**
+* **A pass comment saying "the second inherits" can be wrong.** The eye's second pass `e04f4df8` was listed in the
+  slot's passes as inheriting the first's set, but her dump's draw of it SETS `ps-t0`, and to the eye MASK
+  (`a506a70d`), not the iris. Only a `-ps-t0=<hash>` file on that draw's own number is evidence.
+* **Two black bands down the backs of her thighs were the lower body's OUTLINE.** `30ab50e7` reads an outline mask at
+  `ps-t0` (Lynae's own: a flat white, outline everywhere) and the diffuse at `ps-t1`. The skin's thigh carries a thin
+  layered overlay (a strip of its lower texture with mask R = 0), and with a full-width outline everywhere the
+  overlay's outline shell showed through as solid black. The skin's own outline reads its DIFFUSE at `ps-t0`, so the
+  fix binds the diffuse at both registers, and the bands are gone. Ruled out first, each by an in-game variant: the
+  mask's R repack, the mask's G code, the normal map, the detail map, and a white `ps-t8`. What settled it was keeping
+  the remapped draw off that one pass (`if vs != <its filter_index>` around the `drawindexed`).
+* **A back view in the character menu is not repeatable.** The idle pose and the camera's rotation after a reload both
+  vary, so one "turn twice" shot lands on a different angle each variant. Take a full turn per variant (eight shots,
+  small drags) and compare the frames that show the part. Match the angle on BOTH cards before calling something a
+  difference: the skin's own render from behind shows a few tattoo marks where the remap showed the bands.
+* **Toggles were driven by editing the variable's `global persist` default in the installed copy**, then a reload.
+  LynaePeppermint4's keys are gated on `$ActiveCharacter`, which nothing in the mod sets, and LynaePeppermint3's need
+  Ctrl+Numpad1. This reaches every branch whatever the keys do. **The card's intro splash covers the model for about
+  30 seconds after a reload**, so wait about 34s before the first shot.
+* **`vb6` checked, not changed.** Eight of Lynae's draws read the game's shape-key stream (75828 entries), and two of
+  the skin mods have more vertices than that. `zeroShapeKeyStream` stays off, as in the forward direction, because
+  the shape keys are retargeted. No planes appeared in any turn or idle series on those two mods.
+* **A fixed `.ini` declared its bone-data marker twice** on every target past 256 bones, ChisaParfait -> Chisa included:
+  once as the mod's own marker section remapped, and again in the appended skeleton block, under the same name and
+  with the same text. 3DMigoto keeps the first and warns about the second, so nothing rendered differently. The WWMI
+  template now sets `GIMIFixer::appendedSectionsDropRepeats`, which leaves out an appended section the file already
+  declares word for word. Across all 36 Chisa / Sanhua regression mods and the 14 Lynae ones, the only output change
+  is that removed repeat (and Lynae5, a pre-merged-skeleton mod with no marker of its own, does not change at all).
+* **A SECOND SHADOW BODY, SEEN ONLY WHEN SHE MOVES, WAS THE SKELETON REMAP RUNNING AT THE WRONG TIME (the maintainer's
+  report on Lynae1, 2026-10-06).** Running in the overworld, a dark silhouette trailed her legs and back; still, nothing.
+  On a target past 256 bones the fix remaps WWMI's merged skeleton itself (`CommandListRemapMergedSkeleton<Fix>`), and
+  it ran at the top of EVERY slot's merge list -- before that slot's own window was merged this frame. So a slot's first
+  pass skinned its own bones a frame late, its later passes did not, and bones of other slots depended on draw order.
+  WWMI's own design binds every draw of a frame one complete skeleton (its `[Present]` snapshot), uniformly a frame
+  behind. The fix now runs the remap once a frame, latched on the host's own frame flag: every section sets
+  `$object_detected = 1` and the host's `[Present]` resets it with `post`, so the fix's merging sections remap under
+  `if $object_detected == 0`, ahead of setting it (`WWMIFixerImpl::latchFrameRemap`, also over the appended hide and
+  copy-merge sections, which are rendered outside `groupToStr`). A host whose `[Present]` does not reset the flag keeps
+  the per-list remap, since a latch nothing resets would freeze the skeleton. Every changed output line across both
+  Lynae directions and ChisaParfait -> Chisa is the latch and nothing else, and `Tools/Misc/Diagnostics/wwmiRemapLatch.py`
+  fails on the old output (160 sections) and passes on the new (127). How it was found, in order: the frame dump's
+  `vs-cb3` / `vs-cb4` were both ours on every draw (so not the previous-pose ghost of ChisaParfait), vanilla and the
+  forward identity mod were clean when TURNED in the menu (turning moves the world matrix, not the bones -- **a ghost of
+  bone motion needs the character to RUN**), and a hand edit of the installed `.ini` cleared it in the overworld before
+  any code changed. Lynae1 also does not render on Lynae's own outfit at all: it is a 3.6 export whose `vb0` no longer
+  matches, so there is no own-character reference for it.
+* **THE MOUTH TWITCHES OPEN WHEN THE FACE MOVES (Lynae5, 2026-10-10): THE TWO SKINS NUMBER THEIR SHAPE KEYS
+  DIFFERENTLY.** The game drives a character's shape keys -- blinks, mouth shapes, expressions -- by SLOT, and a mod's
+  shape-key buffers (`ShapeKeyOffset` = the first entry of each of 128 slots, `ShapeKeyVertexId` uint32 and
+  `ShapeKeyVertexOffset` 6 x float16 per entry) are in the SOURCE's numbering. Both skins have 105 game keys, and matched
+  by what they move (rest positions of the moved vertices, offsets there) 90 pair one to one -- only 2 at the same index:
+  the skin's key 0 is a face-and-eye expression and drove Lynae's eye-only key 0, its blink key 5 drove Lynae's key 5, a
+  1188-vertex face expression. Retargeting the checksum and dispatch (already done) only makes WWMI LOAD the mod's
+  keys; it says nothing about which is which. `WWMIFixerConfig::shapeKeyOrder` (target slot -> source key, `-1` none)
+  writes the three buffers again in the target's order (`<Target>RemapShapeKey*.buf`) and binds the copies in the fix's
+  shape-key lists only; slots past the table -- a mod's custom keys, 105+, driven by its own `shapekey_id` lines --
+  stay, and a source key no slot takes is kept with zeroed offsets so the `.ini`'s entry counts hold. The tables come
+  from `Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py` (both trailing body-key blocks, 91-104, pair by index: their meshes
+  differ, so nothing overlaps). A screenshot every 0.7s did not catch the twitch; the data did, and a hand-built
+  reorder showed a proper wink where the expression had landed on the mouth. **Any WuWa pair: run the tool before
+  trusting the shape keys** -- the skins of one character need not share an order.
+* **EYES THAT FLICKER BETWEEN THE MOD'S COLOUR AND THE SKIN'S, FRAME TO FRAME (Lynae5, 2026-10-10): ONE PASS, TWO
+  VERTEX SHADERS.** The game draws the eye on the same two pixel shaders (`fa9e4d98`, `e04f4df8`) with EITHER of two
+  vertex shaders per pass -- `c32a6985` / `a54621ce` or `ceff9a81` / `5fd6e5bb` -- and which one varies from frame to
+  frame (9 of 12 menu frames on one, a few of 16 overworld frames on the other). The texture lists are gated on the
+  vertex shader (`passVertexShaders`, so RabbitFX's pixel-shader tags survive), and the forward config listed only the
+  first of each: on the other frames both eye lists said `false` and the GAME's eye drew -- violet for red. A menu frame
+  dump's log said it in one line (`if vs == 3381.615: false` at the eye draw, `VSSetShader ... hash=ceff9a81`). The
+  reverse config already had both; the forward one now does, at the SAME `filter_index` values (`.625` / `.718`: a
+  shader holds one across every loaded `.ini`). **Checking a config's shaders against only the TARGET's
+  `TextureUsage.json` would not have caught it** -- the second variant was in the SOURCE's; union both skins' and
+  every dump's, per pixel shader. A timed series of face crops is the test: one screenshot can land on either variant.
+  **The FACE has the same two-shader habit, and the menu never shows it (Lynae4's teardrop tattoo, 2026-10-10):**
+  Peppermint's face pass `640fac99` draws with `1c42858c` OR `595d6591`, and every menu dump caught the first -- the
+  second appeared in 3 of 7 LOG-ONLY dumps of an overworld close-up (`GameView dump --options "log"`: 3.6 MB, seconds,
+  no crash risk, and the draw's `VSSetShader ... hash=` is all the question needs). On those frames the game's face
+  drew: Peppermint's blue sparkle in place of the mod's red teardrop. The hand test that settled it before any code:
+  replace the face list's `if vs == ...` with `if 1` in the fixed `.ini` (the face's other passes read no `ps-t2`), and
+  the teardrop held in every frame. Lynae's own face (`97ce9ee7` on `7c0b4db3`, the reverse's target) now also lists
+  `4ce754b5`, the partner Chisa's face pass shows on the same `7c0b4db3` -- inferred, not caught on Lynae; an unused
+  entry costs nothing. Every face, eye and hair pass of every WuWa pair should be suspected of this until a series of
+  log-only dumps says otherwise.
+  **AND THE OTHER WUWA PAIRS (an audit, 2026-10-10).** Chisa <-> ChisaParfait had the same gaps, both ways: the eye
+  pass `e04f4df8` also draws on `a54621ce`, the eye pass `275e4ce8` on `2b368968`, ChisaParfait's face `6e25bfc4` on
+  `34ba67b2` and Chisa's `ed1c0f8b` on `4ce754b5` -- all added, each at ONE value across every config that tags it
+  (`.616`, `.735`, `.736`, `.769`). Proved on Chisa6 with log-only menu dumps: before, one frame of five drew the face on
+  `34ba67b2` with every face list `false`; after, the same frame's list said `true` and bound the mod's face. The tool
+  for that is a per-draw count over the log: a draw of a component where EVERY one of its lists says `false` is a
+  dropped texture (the passes a config leaves alone on purpose are the same in every frame, so compare frames).
+  Chisa -> ChisaParfait also never set `shapeKeyDispatchSize` (a batched mod, Chisa14, kept Chisa's 1441 where the
+  skin dispatches 1301 -- Lynae9's spikes); set both ways now. **Sanhua kept no shape keys at all** (the defaults:
+  `hiddenObjs` hides the overrides, which also comments them out of the mod's OWN text, and `zeroShapeKeyStream`):
+  on the target the face never moved, and the mod's own character read the game's offsets by the mod's vertex ids.
+  Both Sanhua directions now keep them (`hiddenObjs = {}`, no zero stream, the target's `dispatch_y`: 853 onto the
+  Exorcist, 963 onto Sanhua); both skins number their keys identically, so no `shapeKeyOrder`. That needed one
+  template change: the shape-key overrides go into ONE file of a multi-file fix whatever the target's bone count
+  (they repeated in every copy -- the giant-polygon failure -- and also in ChisaParfait -> Chisa's copies). Seen in
+  game for SanhuaExorcist -> Sanhua (SanhuaExorcist1 on her base outfit): the body intact, a blink in a menu series
+  where the old fix's face never moved, and the log showing WWMI's ShapeKeyOverrider running on the fix's sections
+  with Sanhua's checksum 3175. Sanhua -> SanhuaExorcist is checked offline only (it needs the skin worn).
+* **A GREEN SHEER SWEATER ON LYNAE, PINK ON THE SKIN: THE REMAP WAS RIGHT AND THE MOD IS STALE ON ITS OWN
+  CHARACTER (Lynae9, 2026-10-11).** Lynae draws her props (6) in four passes, and two of them (`bb718d76`,
+  `9a01e7bd`) read the diffuse at `ps-t7` / `ps-t2`, which a mod's `ps-t3` line never reaches; only its `this =`
+  on the diffuse's HASH does. Lynae9 overrides `37cdf366`, an OLDER generation of her props diffuse (the game binds
+  `c3375aee` at 3.7), so on Lynae today the sweater shows the GAME's green while the mod's own atlas paints it red
+  / pink -- which the remap, whose target slot reads one diffuse at `ps-t3`, faithfully shows. Settled in game: the
+  UV-gradient probe at `ps-t3` changed nothing on Lynae, and one added `[TextureOverride] hash = c3375aee`,
+  `this = ResourceTextureJacket` turned her own sweater red. Two wrong turns first, both worth avoiding: flat-code,
+  mask and foil probes on the skin, and an RGB inversion that "fixed" it (the mod's pink is roughly the complement
+  of Lynae's green, a coincidence). **Before matching a remap to the original's look, check that the original's
+  look is the mod's art** -- the section above on stale texture hashes, and `wwmiTextureFix.py --live`.
+  **And with the hashes fixed the two still differed (2026-10-11): rose on Lynae, pale pastel on the skin.**
+  Lynae draws her props through a glass layer of FOUR passes, two of which tint by the diffuse; the skin's coat
+  slot draws two that mute it under its holographic sheen. Her OWN texture renders alike on both (her identity
+  mod's jacket is indistinguishable on the two cards), so a plain grade would break the vanilla look -- the
+  difference is in how far a mod STRAYS from her texture. **(`lynaePropsGrade` is DELETED since 2026-10-12 -- see
+  "A RAINBOW-RIMMED DRESS" below: the pastel was the hip pouch's foil MATERIAL, and a grade aimed by the diffuse put
+  an inverted copy of her foil sweater into Lynae14's new art.)** `lynaePropsGrade` (Lynae -> LynaePeppermint) moved
+  every texel of component 6's UV island to `own + 1.5 (mod - own)`, `own` her game texture, downloaded through
+  the new `WWMIFixerConfig::TexEdit::sourceGameRoles` (handed to the filter in `TexEditContext::gameFileOfRole`,
+  bound by nothing). **1.5, judged on the SLEEVES and over every recolour on hand** -- 2.5, picked on one
+  variant, the maintainer called too red. Over the torso the film shows the skin's own warmer skin shading,
+  which no strength fixes (the bare belly is warmer too), so judge where the film lies over the black gloves.
+  Checked at 1.5 against Lynae on all five of Lynae9's `Ctrl+X` variants (pink, cyan, yellow-green, purple)
+  and on Lynae5's GREY recolour, where a push away from her green could overshoot into pink and does not (the
+  coat's sheen swamps a low-saturation colour); Lynae5 itself no longer loads on Lynae (pre-3.7 vb0), so it has
+  no on-character reference. The violet rim is the skin's shader and stays. Two traps on the way: **a probe `.dds` must keep the source's sRGB-ness** (mine were UNORM,
+  so the game read them darker and more saturated -- k = 3 "looked right" for the wrong reason; DX10 header,
+  format 29), and **a texture edit can be bound by nothing the mod draws**: Lynae9 binds ONE toggle chain
+  (`ResourceTextureJacket`..`D`) in both its jacket (5) and its props (6) sections, the carried-line re-key
+  gave each resource ONE role for every component, and the props section's carried chain re-bound the UNEDITED
+  file after the fix's list -- the grade would never have shown. The re-key now asks for a role THIS component's
+  row binds, through the toggle siblings when the file itself names none; that also moved the jacket's variants
+  2-4, which had sat on the skin's DETAIL register since the port. Over 32 WuWa mods of all three pairs the
+  re-key changed exactly one file (Lynae9's `.ini`, five lines).
+* **"ALL THE CLOTHES BECAME TRANSPARENT" WAS TWO FAULTS, ONE OF THEM DRAW ORDER (Lynae10, 2026-10-11).** Lynae10
+  draws a full nude body in her UPPER body (component 3) and a skin-tight suit, helmet, jacket, gloves and legs in her
+  LOWER body (4). (1) On LynaePeppermint the skin draws her lower-body slot BEFORE her upper-body slot, with a different
+  rasterizer state (a log-only dump's `RSSetState` per draw shows it), and the suit drawn there lost to the body drawn
+  after it everywhere -- only raised bits (zipper, straps) poked through, which reads as "transparent". Hiding the body
+  draw showed the whole suit; drawing the suit from the UPPER slot's section put it over the skin. So Lynae's lower body
+  now goes through the skin's upper-body slot (the two passes read the same four roles at `ps-t0..t3`) and the
+  lower-body slot gets the hide section. It is a SECOND SECTION ON THAT DRAW IN THE MOD'S OWN FILE --
+  `WWMIFixerConfig::SourceComponent::sameFileSection` -- not a copy `.ini`: the template's copy for a shared slot drew
+  nothing, because the shape-key pipeline runs ONCE, in the mod's own file, so a copy's `ResourceShapeKeyedPosition` is
+  never filled (any copy of a mod in WWMI's newer shape-key format -- `vb0 = ResourceShapeKeyedPosition`, custom
+  shape-key sliders -- has that hole; a mod in the older format draws `ResourcePositionBuffer` and gets its keys from
+  the game's stream, which a copy reads too). LynaePeppermint -> Lynae's coat / jacket merge now uses the same flag
+  (no copy; its five mods are all older-format, byte-identical but for the moved section), and so do ChisaParfait ->
+  Chisa's panel (5) and prop (7) on Chisa's upper / lower body (three mods, the same shape of diff, checked in game on
+  the identity and ChisaParfait1). No WWMI pair writes a copy for a shared slot now. 3DMigoto runs two differently named sections that match the same hash and window in one file, which is all
+  the copy was for. (2) The suit was then DARK NAVY: the mod's lower mask has `R = 0` on 41% of it, which Lynae's
+  lower-body and jacket shaders ignore (her own masks are R = 255 throughout) and the skin's reads as a dark material
+  (3% of her own lower mask). `lynaeMaskRedFill` writes R = 255 into both roles; found by changing ONE channel of the
+  mod's mask at a time, after flat probes of `ps-t2` and `ps-t4` changed nothing. **Every probe made while the body
+  still covered the suit proved nothing** -- three of them; hide the occluder first. Over 34 WuWa mods only the Lynae ->
+  LynaePeppermint outputs changed; the identity mod and three others look right through the new slot.
+* **BARE LEGS WHERE LYNAE WEARS STOCKINGS: EVERY NON-SKIN MATERIAL CODE (Lynae11, 2026-10-12).** Lynae's lower-body
+  shader draws skin-coloured diffuse under EVERY code of the `ps-t2` code map except skin (0) as a stocking, each in its
+  own tone (flat probes on her card: 1 sheer grey-white, 2 glossy white, 3 pinkish, 4 bright white); the `ps-t8` "sheer"
+  texture is NOT it. LynaePeppermint draws all of them as plain skin. `lynaeSheerBake` (texEdit on `lowerDiffuse`)
+  multiplied every flesh-coloured texel under codes 1-4 by that code's MEASURED ratio **(REMOVED 2026-10-12: a
+  flesh-colour test is a diffuse classification, which a mod with dark or blue skin defeats -- and nothing but the
+  colour separates her stockings from cloth; see "A RAINBOW-RIMMED DRESS")** -- median leg colour on Lynae with
+  the code bound flat, over the median on the skin with the code it becomes after `lynaeSkinCodeSwap`, same probe both
+  sides. The first version baked code 1 only, tuned by eye (90% desaturation): it left the inner thighs (codes 2-4) bare
+  and the rest far too grey-white, and the maintainer called it pale. Even measured, the result is paler than Lynae: her
+  shader's view-dependent darkening of the stocking's sides and its gloss cannot be baked. The code map is the mod's own
+  `lowerDetail` when it binds one by default, else Lynae's game map -- `TexEditContext::fileOfRole` leaves out a role
+  `planToggledRoles` flagged. The see-through skirt panel and the clear ID card stay opaque (an opaque shader cannot
+  draw them; the card "pressing into" the skirt was that panel gone solid).
+* **LYNAE9 ON PEPPERMINT: BROWN GLOVES, PALE TIGHTS, A GOLD SWEATER -- TWO SHARED-CODE BUGS AND AN sRGB CODE MAP
+  (2026-10-12).** (1) **One file, several edited roles.** Lynae9 binds one mask (`TMB`) and one code map (`A.dds`) in
+  her lower body (4) AND her jacket (5). `WWMIFixer`'s `editedResourceOf_` / `editedRoleOf_` held ONE edit per
+  resource, the last registered, so the jacket's edits overwrote the lower body's: both edited files were written, and
+  the lower body's CARRIED lines re-bound the raw mask and code map after the fix's texture list. `editedByRole_` /
+  `editedRolesOf_` keep every (resource, role) now. (2) **A toggle chain two roles share.** Her sweater chain
+  (`ResourceTextureJacket`..`D`) is her jacket's diffuse and her props' diffuse; the variant loop let the FIRST role
+  claim every file, so the props drew four of five variants ungraded. A role of the same KIND (`roleKind`) claims it too
+  now; a different kind still does not (the mask-over-diffuse case the rule exists for). (3) **An sRGB code map.**
+  `A.dds` is `BC7_UNORM_SRGB`: the shader reads the DECODED value, truncated -- 250 is 243 (material 3), proved on her
+  own card (a decoded-and-truncated R8 copy renders identically, 1.4 mean pixel difference; rounding to 244 paled the
+  tights, 28.5) -- while the edits wrote the raw bytes to a plain file, material 10. `shaderCodes` decodes first, and
+  `lynaeMaskRedFill` decodes an sRGB mask's G / B. Gloves and tights match Lynae after (1) and (3). **What does NOT match,
+  and should not be chased:** Lynae's props slot draws four passes in two register layouts, and its two glass passes read
+  the diffuse at `ps-t7` (and a holographic foil, `74a761f5`, at `ps-t8`). Lynae9 binds only `ps-t3`, so on Lynae the
+  sweater is HER game texture under the foil -- pink in the menu, green in the overworld (the maintainer's "the green
+  flashes, then turns red"). A flat colour at `ps-t3` changes nothing there; at `ps-t7` / `ps-t8` it recolours the whole
+  sweater. The mod's own art only shows on Peppermint. Found by binding a flat green per register (t0-t8). **The maintainer's
+  decision (2026-10-12): the remap keeps the mod's own sweater art; do not bake Lynae's foil pink into it.**
+* **A RED SATIN DRESS THAT READS METALLIC ON THE SKIN: LYNAE'S LOWER BODY SHADES BY THE NORMAL MAP'S ALPHA (Lynae14,
+  2026-10-12, `Images/Lynae/3_7/Lynae14RedDressShine.png`).** On Lynae the dress is deep satin; on LynaePeppermint it came
+  out lighter and flatter, which reads as glossy. Neither the mask (G) nor the material code is it -- flat probes of both
+  barely moved it. **Her lower-body shader reads the normal map's ALPHA as a shading band** and the skin's does not: a flat
+  grey 120 renders 186 / 173 / 172 / 176 / 185 at alpha 0 / 51 / 72 / 84 / 96, dips to 121 at 102, ramps 148 / 172 / 193
+  at 108 / 114 / 120, and from 128 up renders 213 -- exactly what the skin renders at ANY alpha (211). Her own normal maps
+  use bands near 48 / 72 / 120 / 176 / 240 (240 most); Lynae14 put its fabric at 102 and its fur at 242. `shadeBandBake`
+  (inside `lynaeSheerBake`) scales each lower-diffuse texel, in linear, by the multiplier that lands the skin where she lands
+  for its normal alpha (0.88 ... 0.46 at 102 ... 1.0 from 128; the 102 point closed-loop on the dress's own red). Measured on
+  the dress: median red 126 before, 113 after, 116 on Lynae; fur stays white. Her extra spec highlights (p99 201 vs 163)
+  are the shader's and cannot be baked. **Three wrong turns, in order:** a single ratio from the real dress (confounded by
+  shading and box contents), a per-CODE tone curve from flat greys (it greyed the white fur, because the code was the wrong
+  key), and the flesh test calling saturated red skin (`G >= 0.55 R` added). What settled it was probing the dress's two
+  differing channels (mask G 127 vs 54, normal alpha 102 vs 242) one at a time. **Two copies of one mod loaded at once break
+  her card** (both register on the skeleton buffer the skins share) -- load the original-port and the remap one at a time.
+  And a 3.6 mod can be seen on her at 3.7 only through a port (`vb0`, the bone renumbering, texture hashes) -- this used a
+  scratch `port37.py`; the toggle's saved value in `d3dx_user.ini` overrides an edited default, so make it non-persistent.
+* **A RAINBOW-RIMMED DRESS: THE HIP POUCH DRAWS HER PROPS' MATERIALS AS FOIL -- AND NO EDIT MAY BE AIMED BY THE DIFFUSE
+  (Lynae14, 2026-10-12).** After the band fix above the maintainer still saw "metallic red", and it was a DIFFERENT
+  outfit: their saved toggles (`body = 1`, `skirt = 1`) show a red corset that Lynae14 draws in her PROPS (component 6),
+  not the Santa dress in her lower body that had been calibrated. **Compare against the maintainer's saved toggles**
+  (`d3dx_user.ini`, and set the port copy's to match -- its key differs by folder), and **find the component first**:
+  a flat yellow at the lower diffuse turned the hat and fur yellow and left the corset red. On LynaePeppermint the corset
+  was dark red with blue-violet and green rims. Two causes: (1) her props land on the skin's hip pouch, whose shader draws
+  material 0-4 of the props code map (`ps-t2`) -- every material her props maps use -- as its holographic foil; its own
+  map is flat 0, so the pouch IS that foil. Flat codes 0, 1, 2, 3, 4, 16, 32, 64, 128 and 240 all rimmed; 15 and 255 did
+  not, so `lynaePropsPlainCode` moves every material to 15 and keeps the flags. (2) `lynaePropsGrade` pushed the mod's
+  props diffuse `1.5x` away from Lynae's own -- her foil sweater -- and Lynae14's corset is new art on those UVs, so
+  the extrapolation added an inverted rainbow (the mod's 127/2/14 red came out 28/0/0). It is deleted: **the
+  maintainer's rule (2026-10-12) is that no edit is classified or aimed by the diffuse's colour** (a mod may give her
+  dark or blue skin), and it was what made Lynae9's sweater "pale pastel" look like a grading problem. Without the
+  grade Lynae9's sweater renders paler and peach-pink on the skin (the mod's art through its jacket shader) where the
+  graded build drew it deep red-orange; **the maintainer's decision (2026-10-12): keep it as the mod's art.**
+  **And its MATERIAL (the maintainer, same day: "cycle the sweaters with X").** X (`$LynaeMD1_THaS`) draws the sweater
+  through her props (0, default), her jacket (1) or both (2); Ctrl+X only changes its colour. On Lynae it is a glossy
+  see-through holographic film either way; on the skin the props path came out flat and peach, the jacket path matte,
+  opaque knit. Lynae marks film with FLAGS in the code map -- her own sweater is props code 16 (flag `0x10`), Lynae14's
+  satin corset 0, and Lynae9 paints its jacket sweater 211-226 (flags `0xD`/`0xE`) where her own jacket map uses 0-4.
+  So `lynaePropsPlainCode` keeps a code with flag `0x10` (the pouch draws it as its foil) and moves the rest to 15: the
+  props path now renders a see-through holographic film, a little olive where hers is pink. **The jacket path has no
+  film shader on the skin** -- its film code 49 with its own film mask (A 240, G 96), normal alpha 0 and diffuse alpha
+  240 together only turned the knit salmon -- so those draws are ROUTED THROUGH THE POUCH:
+  `WWMIFixerConfig::drawReroutes` (new) takes the draws of one source component whose texels, in the MOD's own code
+  map under the draw's vertices, mostly carry a flag (`{5, 105, "jacketDetail", 0x10}`), and draws them by a plan entry
+  of their own (`105`: slot 5, the jacket's roles on the pouch's registers, `sameFileSection`). Mechanically it is a
+  second remap target of component 5's graph with its own rename (`...Reroute105...`), a `drawindexed` filter on each
+  copy, and the anchors that find the shared-resource lists by name asking for that name too (`listNames`) -- the
+  first build put the additions nowhere because of it, and the carried `ps-t` lines needed the SOURCE component's
+  `registerRoles`. A component whose map is the game's, or whose draws carry no flag, is untouched: over the 34-mod
+  corpus only Lynae9's `.ini` changed. In game the jacket-path sweater is a glossy see-through film like hers, its rims
+  more violet.
+  **"The texture looks off" (the maintainer, same day) is the FOIL, not the opacity** -- a pass that made the film
+  more see-through (the pouch's own mask values under it) was reverted: on Lynae the sweater's other variants hide the
+  bikini. Her jacket and props passes read HER holographic foil, `74a761f5` (oil-slick swirl with sparkles), at
+  `ps-t4`; the pouch reads its own pastel one, `00e3f13b`, at `ps-t5` (its passes also inherit `4bee4070`, the same art
+  as hers). So `filmFoil` (a fallback download, nothing a mod ships) is bound at the pouch's `ps-t5` for her props and
+  the rerouted jacket draws. **What remains is the pouch shader's own violet fresnel** -- every code, mask channel,
+  normal alpha and diffuse alpha tried leaves it, so it is not a texture's to fix. `wwmiPassLayout.py` on her and the
+  skin's TexDDS dumps (`--starts 274170 301470` / `254433`) is what listed the two foils.
+  **And not a constant's either (2026-10-12).** The pouch's pixel shaders (`12fcca8e31aad1f5`, `4470be479e212ca1`) are
+  deferred G-buffer writers (`o0`-`o6`); the foil (`t5`) is a MATCAP from the view-space normal, scaled by a strength
+  blended between `cb4[119].w` 1 and `cb4[119].z` 4 / `cb4[120].x` 10 and tinted by `cb4[30]` (near white). `cb4` is
+  static material data (`a394978d` in dumps a week apart), and a copy bound as `ps-cb4` for her film draws does take
+  effect -- `cb4[30]` = red turned the clear ID card red -- yet zeroing the foil strength left the sweater's violet
+  exactly as it was, while material 15 removes the violet AND every trace of film (matte knit). So the violet is the
+  foil MATERIAL's deferred shading, chosen by the code the shader writes to the G-buffer: nothing this draw binds
+  reaches it. The one route left is drawing her film with HER pixel shader (a `[CustomShader]`), whose G-buffer
+  output the same lighting pass would then shade as hers. **How the shader code was obtained without restarting the
+  game**: hunting on, `marking_mode = skip`; the overlay prints the selected hash at the top left (`PS <hash>:`,
+  sorted by hash), so the step was found by tiling that line from every frame, then `num3` wrote the ASM into
+  `ShaderFixes` -- moved out at once, since 3DMigoto loads anything there as a replacement on the next reload.
+  **AND THE JACKET PATH IS DRAWN WITH HER SHADER NOW (2026-10-12): `DrawReroute::shader`** (since 2026-10-13
+  `SourceComponent::shader`, on the reroute's plan entry -- any plan entry may carry one). A reroute may carry a pixel
+  shader of its own (HLSL, its constant buffers as 32-bit words, extra lines); the fix writes the `.hlsl` and a
+  `R32G32B32A32_FLOAT` `.buf` per buffer beside the mod's buffers, and turns each rerouted `drawindexed` into
+  `run = CommandList<Name>Draw<n>`: `if <the plan slot's pass> run = CustomShader<Name>Draw<n> else drawindexed = ...` --
+  the slot's OUTLINE pass (`extraPassRegs`) draws it as before, with the slot's own shader. Everything the custom shader
+  does not bind is the target draw's (vertex shader, render targets, the plan's textures), so the plan entry `105` is
+  HER jacket's register order now (`ps-t0` normal, `t1` mask, `t2` code, `t3` diffuse, `t4` foil) and the shader line
+  `ps-t5 = ref ps-t6` hands her shader the character's subsurface ramp (512 x 25), which her pass has at `t5` and the
+  pouch's at `t6`. **With a shader the reroute binds the mod's art as the mod wrote it** -- no `texEdits` entry reaches it
+  (planTexEdits skips the component, the carried re-key's `editedOf` and `bindLine(..., raw)` keep the raw resource, so
+  the mod's `TXX` diffuse toggle still switches). Data: `Lynae/LynaeFilmShader.{h,cpp}` and the prototype's
+  `data/lynaeFilmShader.json`, both from `Tools/Misc/Diagnostics/wwmiShaderData.py` (her `cb4` rows 0-135 -- the rows
+  her shader declares; rows past those differ dump to dump). **Undo removes the shader file too**: `RemoverConfig::shaderKeys`
+  (`vs`/`hs`/`ds`/`gs`/`ps`/`cs`, a value with an extension) are deleted with a fix-block section the way `filename` is,
+  and `RemapService::_rememberReferences` counts them so a sibling `.ini`'s undo cannot delete a shader this run just
+  wrote. (A `cache_shaders = 1` setup writes a compiled `.bin` beside the `.hlsl`, which no undo knows about.) In game the
+  jacket path (X state 1) and "both" (2) match Lynae's sweater; the props path (0) keeps the pouch foil -- her props
+  passes are FORWARD translucent (one render target, several glass passes), so a custom shader in the pouch's deferred
+  draw cannot be one of them. **Three things that cost a round each**: `[CustomShader]` takes HLSL only (an assembly file,
+  or a cached `.bin` beside a stub, renders BLACK); the shader must be captured with every third-party shader mod parked
+  (RabbitFX's patched copy decompiles to assembly only, and is not the game's); and her `cb4` must be bound -- the
+  pouch's own, which her shader indexes differently, is also black. Every `.ini` of the 34-mod corpus but Lynae9's is
+  byte-identical, the prototype matches the compiled fix on Lynae9 / 11 / 14, and a second fix is byte-identical.
+  **THE PROPS PATH IS POST-LIGHTING TRANSLUCENCY, AND THE POUCH DRAW CANNOT HOST IT (2026-10-12).** Her props film
+  (`ib 27e35645`, first index 301470) is drawn nowhere in the base pass. In `FrameAnalysis-Lynae-2026-10-04-232242` it is
+  45/46 (a props-only depth prepass, PS `0f6f8fac` / `2d6d59fe`), 57/58 (film colour into a cleared separate-translucency
+  target `b35f6bd4`, PS `bb718d76` / `9a01e7bd`, forward-lit), 59/60 (a partial G-buffer write, `208e7ead` / `0fc42010`)
+  and 61 (a fullscreen composite, VS `1bf99472` / PS `282f5808`, film over scene colour where it is in front). Gating
+  the MOD's own props draws per pass (`filter_index` on the PS + `if ps != ...` around its `drawindexed`; a
+  `ShaderOverride handling = skip` drops only the game's draw and proves nothing) showed that skipping 45/46, 57/58 or
+  61 each removes the sweater, while 59/60 barely changes it. **Scene colour is already LIT when 57 runs** (`000056-o0`
+  shows the lit character, `000038-o0` a black silhouette), so these are post-lighting passes. Her pass shaders were
+  all captured as HLSL with RabbitFX parked (scratchpad `props_orig/`; `e2cb95b2` decompiles to assembly only), and
+  her props vertex shaders take the SAME 14 vertex attributes as the pouch's (`fd92e896`), so they run on the pouch
+  draw's buffers. A probe replaying 57/58 inside the pouch draw (her VS/PS, her material / light-list buffers from the
+  dump, the pouch's view / primitive / bone buffers by slot, the live exposure captured from compute shader `125288e4`'s
+  `cs-u0`, and her VS lighting inputs `vs-t0..t4` captured by reference from the menu backdrop's VS `c39a55a1`) drew a
+  see-through film without the violet rims, but GREY: it lands before lighting. Doing it properly means drawing after
+  lighting, from a per-frame anchor that exists in every scene, with the mesh fetched by vertex ID (no input layout
+  there) and the per-object buffers snapshotted with `copy` at the pouch draw. That is where it stopped.
+  **So the props path takes HER JACKET's film (the maintainer's choice, 2026-10-12)**: a second reroute,
+  `{6, 106, "propsDetail", 0x10}`, drawn with the same `lynaeFilmShader`, plan `106` on her jacket's register order with
+  the props roles. Her jacket shader reads the code at `t2.x`, which the props' R8 map has. All three X states now
+  render without the violet rims; state 0 is the jacket film, not her pale props glass. Two things it needed, both
+  general: **a mod that binds no code map of its own for the role draws with the GAME's** (Lynae9's `A.dds` replaces
+  her lower-body and jacket maps, `950acc22` / `6d5f71f9`, and leaves the props on `c49bec43`), so
+  `DrawReroute::sourceFlags` holds a 256 x 256 block-majority mask of the source's game map, generated by
+  `Tools/Misc/Diagnostics/wwmiFlagMask.py` (Lynae9's sweater 75% flagged, every other props draw 0% -- the same
+  decision as the full-resolution map). A download cannot be read at parse time, and fetching one there would ignore
+  the run's download mode. And **a shader reroute binds the raw DOWNLOAD**, not the texture edit of it
+  (`resourceFor` prefers `fallbacks_` for such a component -- the props' `Plain` edit had overwritten
+  `resourceOfRole_`). Two reroutes drawn with one shader share its files (keyed by the shader's name), and the
+  section names carry the plan id (`CustomShaderLynaeFilm106Draw0`). The corpus found two more mods taking it,
+  Lynae8 and Lynae11 (their coat lining): in game both render as before but pink-violet without rims, and on Lynae the
+  lining is teal-violet -- that tint is her props pass's, which this option gives up. The same rule
+  removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
+  filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
+  code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),
+  so no other texture can aim it either -- the maintainer chose to drop the ratios. Diagnostics, in order: a flat yellow
+  per resource to find the slot, then per register (`ps-t2` flat removed the rims), then flat codes.
+* **A WAIST THAT SLANTS WHEN SHE SHIFTS HER WEIGHT: SKIRT CHAINS ON THE TARGET'S LEG BONES (Lynae11, 2026-10-12,
+  `Images/Lynae/3_7/LynaePepermintHipsSlanted.png`).** The maintainer reported it twice and the first reading (the ID card
+  clipping) was the wrong part. Her skirt is chains rooted at the waist (front 229-254, sides 241-263 / 256-301, back
+  245-264 / 250-321, centre front 210-212), and the draft had each chain on the skin's nearest bone -- 105 / 107 / 108 / 145
+  / 102 / 144, which on the skin's own model carry 0-24% of that spot while her hips (100 / 101) carry 40-73%. So about
+  42% of the remapped waistline rode bones that follow the legs. Each link now takes the bone that drives the same spot of
+  the skin's own model (nearest skin-identity vertices to the link's own vertices, weight-tallied): 100 / 101 for most,
+  the thigh roots 103 / 106 for the lowest front and side links, 104 for 211-212; both rows (3.6 through the renumbering)
+  and the draft. **Two checks that did not find it**, both worth knowing: `vgSymmetry.py` (the rows are left/right
+  symmetric -- a slant is not always a mirror fault) and a still-frame comparison (her idle cocks the hip either way). The
+  table that did: tally a region's bones on the TARGET's own model against the same region of the remapped mod.
+  **And her "robotic" legs (code 1, white-grey with silver sides on Lynae) have no counterpart on the skin**: all 14 codes
+  the skin's maps use and every mask channel (R 0 / 128, G 0 / 255, B 0, A 255), set on the code-1 texels one at a time,
+  left the legs unchanged on LynaePeppermint -- only the diffuse reaches them. The code-1 ratio of `lynaeSheerBake` was
+  corrected once by the measured remaining gap (0.788 / 0.872 / 0.949, since removed with the flesh test); the angle-dependent grey sides cannot be baked. **The
+  maintainer's decision (2026-10-12): keep the legs as they are -- no baked fake side shading (it would stripe from the side).**
+* **A CYAN COAT LINING THAT IS A PINK-RED FILM ON LYNAE: THE CODE IS A MATERIAL ON ONE SKIN AND PLAIN DIFFUSE ON THE
+  OTHER (Lynae11, 2026-10-12).** Lynae's coat shader draws material 4 of the jacket's `ps-t2` code map (the lining) as a
+  holographic film that renders her cyan lining texture pink-red; LynaePeppermint draws code 4 as plain diffuse, and its
+  OWN film is code 49 (material 1, flags 3 -- found by binding Lynae's map with one code rewritten at a time). Two edits:
+  `lynaeFilmCode` moves every material-4 code to 49 in `jacketDetail`, and `lynaeFilmBake` multiplies the `jacketDiffuse`
+  texels under code 4 by the measured ratio of the two renders, (2.0, 0.89, 0.88). **Code 4 only**: moving code 3 too
+  turned the ice charm pink. Code map chosen as for `lynaeSheerBake`. Checked on Lynae11 and the identity mod; over 34
+  WuWa mods only Lynae -> LynaePeppermint outputs changed, and the prototype is byte-identical (41 files).
+* **A RED-BROWN SKIRT THAT IS BLACK ON LYNAE: A REGISTER THE MOD BINDS ONLY UNDER A TOGGLE (Lynae11, 2026-10-11).**
+  Lynae11 binds its own material-code map (`ps-t2 = test1 / test2`) only `if $Pants != 0` and leaves the register to
+  the GAME in its default outfit. The texture list bound `test1` unconditionally -- laid out for the pants, it coded the
+  default skirt as skin, which LynaePeppermint shades red (a flat cloth code at `ps-t2` turned it black: the probe that
+  settled it). `WWMIFixer::planToggledRoles` now finds a role whose resource is bound, in a component's sections, only
+  on `if` paths that reach none of that section's draws (and on no register a reaching line binds), and binds the
+  SOURCE's own game texture in the list instead, edited like the mod's; the mod's carried conditional lines still bind
+  its file in its branches. A resource the mod ALSO binds with `this =` on a hash is exempt -- it is on for every draw
+  (Lynae3's body diffuse; the first build without this exemption swapped Lynae3's body to the vanilla texture). Over the
+  34-mod corpus it moves Lynae11's code map and Lynae9's hair / bangs (their chain names `$LynaeMD1_TV` 0-3 of a 0-4
+  cycle; at 4 Lynae shows her own hair, and now so does the remap). **Lynae11's ID card clipping into the skirt in
+  motion is NOT this, and is open**: the card is 100% Lynae bone 247 (its own prop bone, 461 vertices, all fully
+  weighted), which the row sends rigidly to LynaePeppermint's pelvis (104) while the skirt rides the skin's swinging
+  skirt bones; it predates the routing change (same in the pre-routing build). **Decided (the maintainer, 2026-10-11):
+  the card stays on the pelvis.** Mapped to the front skirt bone 105 it slid down and off its belt clip even at rest
+  (zoomed A/B on the outfit screen): the skin has NO skirt bone at belt height -- its skirt bones sit at 89-98 cm and the
+  card hangs at 106 -- so any skirt bone drags it. A per-vertex blend (clip on the pelvis, lower edge toward the skirt)
+  would need machinery the bone-to-bone row cannot express, and was declined. Do not retry the skirt mapping.
+* **A WARM FACE ON A COOL, WHITISH BODY: THE TWO SKINS NUMBER SKIN DIFFERENTLY IN THEIR CODE MAPS (Lynae5,
+  2026-10-10).** The body's `ps-t2` "detail" texture is not a detail map: it is an 8-bit MATERIAL CODE per texel
+  (low four bits a material, high four flags; max 67), the `R8_UNORM` map Chisa's pair met too. Asked by the diffuse
+  under each texel, flesh is material **0** on 98% of Lynae's upper and lower body and material **4** on 94% / 82% of
+  LynaePeppermint's -- and each uses the other's number for something small (trims, logos). Carried across unchanged,
+  the body's skin shaded as cloth: whiter, with grey-lavender shadows, beside a face (a different shader) that stayed
+  warm. The original on Lynae and vanilla Peppermint are both warm all over, which is what said "the remap". A hand
+  edit (swap 0 and 4, bind the copy) settled it in one round before any code: thigh saturation 0.072 -> 0.110
+  (original 0.101). Now `lynaeSkinCodeSwap` (`Lynae/LynaeSkinCodes.h`), a `texEdit` on `upperDetail` / `lowerDetail`
+  in BOTH directions -- the swap is its own inverse. NOT on the jacket or props maps: there code 0 is cloth (71% of her
+  jacket), so a legend is per SHADER, not per character. **`TextureFile` could not read these at all**: an 8-bit
+  single-channel `.dds` (legacy luminance or DX10 `R8_UNORM`) is not something Compressonator loads, so `open()`
+  answered "no image" and any edit of such a role did nothing -- it reads them by hand now, as `(v, v, v, 255)`, and
+  writes an R8 source back as R8 while the edit leaves it grey. Mods ship these maps in three forms -- R8 `.dds`, a
+  `.jpg` (Lynae5, 10, 12, 13; WIC-decoded, lossy but the original renders from the same file) and BC7 (Lynae4's 8192 x
+  4096, written back uncompressed at 134 MB, since BCn would move codes). **To render a pre-merged-skeleton 3.6 Lynae
+  mod on her own outfit at 3.7** (the A/B this needed), the `vb0` and texture-hash moves are not enough -- it drew as
+  giant polygons: each vertex's LOCAL bone id has to go local 3.6 -> merged 3.6 (`lynae36VgMaps`) -> merged 3.7
+  (`lynaeRenumbered36To37`) -> local 3.7 (the 3.7 `Metadata.json`'s `vg_map`, a DICT of local -> merged); the
+  session's `orig37legacy.py` did it with every influence mapped.
+* **LEGS AS POINTY STICKS: A COMPONENT THE MOD HIDES STILL OWNS BONES (Lynae4, 2026-10-10).** Lynae4 draws nothing
+  through her components 4-6 -- WWMI Tools writes such a section with `; Draw skipped: No matching custom components
+  found` and its shared-resource lists commented out, keeping only `handling = skip` and the window's
+  `run = CommandListMergeSkeleton`. Her body's leg vertices are still weighted to bones in those windows. The fix remapped
+  the section like any drawing one, but every addition (merge list, blend remap, textures) hangs off the
+  `run = CommandListOverrideSharedResources` that is commented out there, so NOTHING was added: the target slot's window
+  never reached the fix's skeleton, and every vertex on it skinned against a zero matrix -- both legs tapered to a spike
+  at the model's origin, in the menu as much as in the overworld. `readMod` now drops a component whose section skips the
+  game's draw and reaches no `draw*` through any `run =` it can resolve (WWMI's own `\WWMIv1\` lists count as not
+  drawing, any other unresolved call as drawing), so its slot gets the hide section every undrawn slot gets -- which
+  skips the skin's geometry and merges the window. Ten more mods in the corpus have such a section (grep the
+  WWMI Tools comment above); across all 55 test mods only those eleven moved. In game, Lynae4 was the broken one;
+  Lynae12 (two hidden components) looked the same before and after, its hidden windows' bones apparently unused by the rest. **Tell**: every part of one component (or several) converging on ONE point at her feet.
+* **A TOGGLE THAT PUTS A TEXTURE INTO ANOTHER KIND OF SLOT DID NOTHING ON THE REMAP (Lynae3's U, 2026-10-06).** Its
+  `$Wish` binds each part's DIFFUSE into `ps-t2`, which Lynae's shaders read as the hair ramp, the body's detail map and
+  the bangs' shared texture: on her the gold sheen on the hair goes. The fix carried every mod texture line by the
+  TEXTURE's role, so these went to the skin's diffuse register, where the same diffuse already sat -- U changed nothing,
+  while the skin reads `ps-t2` exactly as Lynae does on all four parts. `WWMIFixerConfig::carryByRegisterRole` (opt-in,
+  on for both Lynae directions) carries a line whose texture KIND differs from its register's role on the source
+  (`WWMITextureFacts::registerRoles`) by the REGISTER's role, file unchanged; a register with no role there keeps its
+  line. Only Lynae3's four Wish lines moved across all 19 Lynae mods, and in game U now takes the sheen off the remap
+  as it does on the original. **To see what an old Lynae mod does on her own outfit**, a 3.6 export has to be made to
+  render at 3.7 first: its `vb0`, its bone ids (`lynaeRenumbered36To37`, through Forward / Reverse / VertexVG and the
+  `Blend.buf` index bytes) AND its texture override hashes (older -> current per role) -- with only the first two the
+  mod's meshes draw with the game's textures and look torn. The session's `orig37.py` / `orig37tex.py` did this and
+  are worth lifting into `Tools/` if it is needed again.
+* **`wwmiCheckBlendRemap.py` had two gaps, both fixed.** It looked for a file named exactly `Index.buf`, and two
+  LynaePeppermint mods name theirs `b41c509e-Component1.buf`, so it now also reads the `.ini`'s `[ResourceIndexBuffer]`.
+  And it reported LynaePeppermint3's sheer-cloth `[CustomShader...]` sections as never reaching the blend remapper,
+  because it only followed `run =` downward. A custom shader run from inside a remapped section, after that section's
+  blend remap, draws on the state it set, so a section now also counts when every section that runs it counts. Proved
+  both ways: all five skin mods pass, and a copy with the blend-remap call removed from one section still fails,
+  naming that section and the two custom shaders it runs.
+* **THE SKIN'S SEE-THROUGH SHIRT IS DRAWN BY THE SKIN'S OWN SHEER PASS, ON LYNAE'S LOWER BODY (LynaePeppermint1,
+  2026-10-13).** Her shirt rendered opaque white on Lynae. The skin draws her jacket twice: `efc2690a` (state that,
+  in a depth / stencil dump of her preview, draws NOTHING at all) and `0b6e3ef7`, the sheer pass, which writes the
+  whole shirt into the G-buffer. Three things make it see-through, each found by a probe that failed without it:
+  **(1) it must draw AFTER the body it shows.** It leaves render targets 0, 5 and 6 alone, so they keep the BODY's
+  data under the shirt, and the deferred lighting shows that through it. Lynae draws her jacket slot BEFORE her upper
+  body (the shirt's depth then rejects the body behind it), and her lower body after both, so component 6 goes
+  through her lower-body slot (4), as a second section in the mod's own file (`sameFileSection`). **(2) its stencil
+  bit.** It writes ref 14 through write mask `0x8a` (read off the dump: the background's 128 becomes 10, her body's
+  14 stays). Every draw of the skin carries the 8 bit (refs 10 / 14) and none of Lynae's does (2 / 6); without it
+  the lighting shades the shirt as opaque cloth. **(3) `depth_stencil_state_merge = true`.** Without it, ANY
+  depth / stencil line makes 3DMigoto build the state from defaults, and the default `LESS` test under a reversed-Z
+  buffer rejects every pixel in front of the body: the shirt vanished. 3DMigoto's `stencil_front` order is
+  `<func> <pass op> <depth-fail op> <stencil-fail op>` (probed: `always replace keep keep` works, a replace only in
+  the third position does not). It is `SourceComponent::shader` on plan entry 6, with those lines, the skin's
+  register order (normal, mask, diffuse, code) plus her noise (`99527ecc`, a NEW download -- nothing of Lynae's
+  binds it) and foil (`4bee4070`) as fallback-only roles, and her ramp by `ps-t6 = ref ps-t9` (the same texture,
+  data hash `ecfa79d1`). The jacket mask's repack is gone with it (the skin's shader reads the skin's legend), and
+  the lower-body outline pass (`30ab50e7`) takes each source's diffuse by `srcComponent`. **A thin line remains at
+  the hem over the belly, and the bikini shows a little fainter than on the skin**: the hem line is not the outline
+  (suppressing comp 6's outline left it), and the faintness is Lynae's own upper-body shading underneath. Every
+  shirt input but the G-buffer under it matches the skin's draw (`cb1` / `cb2` / `cb3` compared). Data:
+  `LynaePeppermint/LynaePeppermintSheerShader.{h,cpp}` and the prototype's `data/lynaePeppermintSheerShader.json`
+  (`wwmiShaderData.py`, `cb4` rows 0-140). Across the 34-mod corpus only the five LynaePeppermint mods moved;
+  prototype and compiled fix are identical on three, and a second fix is byte-identical. **Reading a stencil**:
+  `GameView dump --options "dump_rt dump_depth buf txt"` writes each draw's `oD` as `D24_UNORM_S8_UINT`, and the
+  top byte of each 32-bit texel (after a 148-byte header) is the stencil.
 
 <br>
 
@@ -5065,6 +5592,12 @@ first. Read the report's WORDS against the left column before opening any code (
 
 | the report says | what it was | look first at |
 | --- | --- | --- |
+| a mod's toggle does nothing on the remap, and works on its own character | a texture bound into a different KIND of slot on purpose, carried by the texture's role | `carryByRegisterRole`; read the toggle's `ps-t` lines against `registerRoles` |
+| the face does the wrong expression -- the mouth twitches open on a blink -- only on the remap | the two skins number their shape keys differently; the mod's keys stay in the source's order and the game drives them by slot | `Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py <Source> <Target>`: if few keys pair at the same index, set `shapeKeyOrder` |
+| a part's colour flips between the mod's and the skin's from FRAME to frame (eyes) | the pass is drawn with a second vertex shader the config's `passVertexShaders` does not list, so the gated list is `false` on those frames | a menu frame dump: the log's `if vs == ...: false` at that draw and its `VSSetShader ... hash=`; add the shader at the value the other direction gives it |
+| bare skin on the body whiter / cooler than the face, lavender-grey in shadow; the original is warm all over | a material-CODE map (`ps-t2` on WuWa bodies) whose skin code differs between the two skins | tally the codes under flesh-coloured diffuse texels on BOTH skins' game textures; swap them with a `texEdit` (Lynae: 0 <-> 4) |
+| a whole part (both legs) tapering to a spike at the model's origin, in the menu too | a component the MOD hides (draws nothing) still owns bones the rest of the body uses, and its window was never merged | the section must reduce to the hide section (`TextureOverride<Target>Component<N>RemapHide`, with `CommandListMergeWindow`); grep the fixed `.ini` for it |
+| "a second shadow body", only while she MOVES (target past 256 bones) | the fix's skeleton remap run per merge list, so parts of one body drawn a frame apart | `wwmiRemapLatch.py`; run her in the overworld -- turning her in a menu moves no bones |
 | "body all wavy", every part | the game's shape-key offset stream (`vb6`) read by vertex id, then several remapped sections on one draw window | `--shapeKeys`; one remapped section per Exorcist draw per file (the copies) |
 | the bangs wrong, the rest right | component 0 is the BANGS, on hair passes that differ per skin | `slotPasses` -- a LIST of passes per slot |
 | a chain (ribbons, tassel) curled or floating | a chain the target has no bones for, mapped per bone by the finder | `--anchor`; `wwmiBoneTally.py` |

@@ -490,6 +490,8 @@ Below are the supported types of mods
 | LisaStudent | GI | LisaSumeru, SumeruLisa, AkademiyaLisa, LisaAkademiya | Lisa Sumeru mods |
 | Lumine | GI | FemaleTraveler, Hotaru, TravelerFemale, TravelerGirl | Lumine mods |
 | LumineHeaven | GI | AsHeavenAndEarthAreMadeAnewLumine, HeavenLumine, LumineAsHeavenAndEarthAreMadeAnew, LumineSkin, TravelerGirlHeaven | Lumine As Heaven and Earth Are Made Anew mods |
+| Lynae | WuWa |  | Lynae mods |
+| LynaePeppermint | WuWa | LynaeSkin1, PeppermintLynae | Lynae Peppermint skin mods |
 | Mona | GI | BigHat, NoMora | Mona mods |
 | MonaCN | GI | BigHatCN, NoMoraCN | Mona Chinese mods |
 | Neuvillette | GI | ChiefJustice, HydroDragon, HydroSovereign, Iudex, Neuv | Neuvillette mods |

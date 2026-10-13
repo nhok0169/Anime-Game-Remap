@@ -10,21 +10,6 @@
     <includes refid="_ini_fix_builder_data_8h" local="yes">AGRemapCore/data/IniFixBuilderData.h</includes>
     <includes refid="_g_i_m_i_char_fixer_8h" local="yes">AGRemapCore/data/IniFixData/GIMICharFixer.h</includes>
     <incdepgraph>
-      <node id="38">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="80">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="59">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -179,24 +164,6 @@
         <childnode refid="62" relation="include">
         </childnode>
         <childnode refid="70" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="14">
@@ -601,18 +568,6 @@
         <childnode refid="43" relation="include">
         </childnode>
       </node>
-      <node id="36">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-      </node>
       <node id="71">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -625,24 +580,6 @@
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="74" relation="include">
-        </childnode>
-      </node>
-      <node id="35">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -837,6 +774,69 @@
         <childnode refid="83" relation="include">
         </childnode>
       </node>
+      <node id="38">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="80">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="11">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="74">
         <label>Generator.tpp</label>
       </node>
@@ -1004,100 +1004,106 @@
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>the<sp/>head<sp/>loses<sp/>its<sp/>normal<sp/>map;<sp/>body<sp/>and<sp/>dress<sp/>lose<sp/>the<sp/>reflection<sp/>keys<sp/>alone.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NO<sp/>SHIFT,<sp/>unlike<sp/>ganyuTwilight4_4<sp/>--<sp/>by<sp/>5.7<sp/>the<sp/>registers<sp/>stay<sp/>where<sp/>they<sp/>are.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GIMICharFixerConfig::RegRef&gt;<sp/>headRem<sp/>=<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Head&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headRem.push_back({</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemovals<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>headRem},</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Body&quot;</highlight><highlight class="normal">)},</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Dress&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>6.1-era<sp/>defaults<sp/>----</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.swapFaceRegs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcFixCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcTexFxCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>its<sp/>TexFxRemove<sp/>is<sp/>a<sp/>FOLDER<sp/>match</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.moveDrawIndexed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>the<sp/>head<sp/>loses<sp/>its<sp/>normal<sp/>map<sp/>and<sp/>shifts,<sp/>exactly<sp/>as<sp/>in<sp/>ganyuTwilight4_4<sp/>and<sp/>6_1:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ganyu<sp/>reads<sp/>the<sp/>head&apos;s<sp/>diffuse<sp/>on<sp/>ps-t0<sp/>and<sp/>its<sp/>lightmap<sp/>on<sp/>ps-t1<sp/>at<sp/>every<sp/>version.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Body<sp/>and<sp/>dress<sp/>lose<sp/>the<sp/>reflection<sp/>keys<sp/>alone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GIMICharFixerConfig::RegRef&gt;<sp/>headRem<sp/>=<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Head&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headRem.push_back({</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemovals<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>headRem},</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Body&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Dress&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>row<sp/>once<sp/>had<sp/>NO<sp/>shift,<sp/>which<sp/>left<sp/>the<sp/>head&apos;s<sp/>diffuse<sp/>on<sp/>ps-t1,<sp/>its<sp/>lightmap<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ps-t2<sp/>and<sp/>nothing<sp/>on<sp/>ps-t0<sp/>(proven<sp/>2026-10-08<sp/>against<sp/>the<sp/>old<sp/>script<sp/>at<sp/>--version<sp/>5.7,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>which<sp/>binds<sp/>them<sp/>on<sp/>ps-t0<sp/>/<sp/>ps-t1).<sp/>Both<sp/>renames<sp/>in<sp/>ONE<sp/>entry<sp/>--<sp/>see<sp/>ganyuTwilight6_1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemaps<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">}}}}};</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">IniKeywords::TexFxTransparency0</ref>}},</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}},</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}}};</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a98c2bbd162b6936117dfec47c9460492" kindref="member">IniFixBuilderFuncs::ganyuTwilight4_4</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>4.4<sp/>FIX<sp/>for<sp/>GanyuTwilight<sp/>-&gt;<sp/>Ganyu,<sp/>verified<sp/>only<sp/>against<sp/>the<sp/>old<sp/>script<sp/>at</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--version<sp/>4.4<sp/>--fromVersion<sp/>4.4<sp/>--<sp/>the<sp/>game<sp/>cannot<sp/>be<sp/>rolled<sp/>back<sp/>to<sp/>play<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>the<sp/>6.1-era<sp/>defaults<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.swapFaceRegs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcFixCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcTexFxCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>its<sp/>TexFxRemove<sp/>is<sp/>a<sp/>FOLDER<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.moveDrawIndexed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">IniKeywords::TexFxTransparency0</ref>}},</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}},</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}}};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>the<sp/>HEAD<sp/>loses<sp/>its<sp/>normal<sp/>map<sp/>and<sp/>shifts.<sp/>Body<sp/>and<sp/>dress<sp/>lose<sp/>the<sp/>reflection</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>keys<sp/>and<sp/>nothing<sp/>else<sp/>--<sp/>easy<sp/>to<sp/>make<sp/>symmetric<sp/>by<sp/>eye<sp/>and<sp/>wrong.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GIMICharFixerConfig::RegRef&gt;<sp/>headRem<sp/>=<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Head&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headRem.push_back({</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemovals<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>headRem},</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Body&quot;</highlight><highlight class="normal">)},</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Dress&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemaps<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a98c2bbd162b6936117dfec47c9460492" kindref="member">IniFixBuilderFuncs::ganyuTwilight4_4</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>4.4<sp/>FIX<sp/>for<sp/>GanyuTwilight<sp/>-&gt;<sp/>Ganyu,<sp/>verified<sp/>only<sp/>against<sp/>the<sp/>old<sp/>script<sp/>at</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--version<sp/>4.4<sp/>--fromVersion<sp/>4.4<sp/>--<sp/>the<sp/>game<sp/>cannot<sp/>be<sp/>rolled<sp/>back<sp/>to<sp/>play<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>the<sp/>HEAD<sp/>loses<sp/>its<sp/>normal<sp/>map<sp/>and<sp/>shifts.<sp/>Body<sp/>and<sp/>dress<sp/>lose<sp/>the<sp/>reflection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>keys<sp/>and<sp/>nothing<sp/>else<sp/>--<sp/>easy<sp/>to<sp/>make<sp/>symmetric<sp/>by<sp/>eye<sp/>and<sp/>wrong.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GIMICharFixerConfig::RegRef&gt;<sp/>headRem<sp/>=<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Head&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headRem.push_back({</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">});</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>what<sp/>this<sp/>row<sp/>does<sp/>with<sp/>the<sp/>6.1-era<sp/>defaults<sp/>----</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.swapFaceRegs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcFixCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcTexFxCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>its<sp/>TexFxRemove<sp/>is<sp/>a<sp/>FOLDER<sp/>match</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>external<sp/>libraries<sp/>this<sp/>row<sp/>re-issues,<sp/>keyed<sp/>by<sp/>TARGET.<sp/>An<sp/>empty<sp/>list<sp/>means</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>none,<sp/>and<sp/>REPLACES<sp/>the<sp/>template&apos;s<sp/>default<sp/>NNFix.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" kindref="member">IniKeywords::TexFxTransparency0Pre5_0</ref>}},</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}},</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}}};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemovals<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>headRem},</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Body&quot;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>reflectionKeys(</highlight><highlight class="stringliteral">&quot;Dress&quot;</highlight><highlight class="normal">)}};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemaps<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">}},<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}}};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>what<sp/>this<sp/>row<sp/>does<sp/>with<sp/>the<sp/>6.1-era<sp/>defaults<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.swapFaceRegs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcFixCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.removeSrcTexFxCalls<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>its<sp/>TexFxRemove<sp/>is<sp/>a<sp/>FOLDER<sp/>match</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" kindref="member">IniFixBuilderFuncs::ganyuTwilight6_1</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remapped<sp/>onto<sp/>Ganyu<sp/>--<sp/>and<sp/>this<sp/>is<sp/>the<sp/>direction<sp/>that<sp/>LOSES<sp/>a<sp/>normal<sp/>map.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GanyuTwilight<sp/>is<sp/>a<sp/>4.4-era<sp/>model,<sp/>from<sp/>after<sp/>GI<sp/>3.x<sp/>gave<sp/>characters<sp/>a<sp/>normal<sp/>map:</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ps-t0<sp/>normal<sp/>map,<sp/>ps-t1<sp/>diffuse,<sp/>ps-t2<sp/>lightmap.<sp/>Ganyu<sp/>predates<sp/>that<sp/>and<sp/>reads</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ps-t0<sp/>diffuse,<sp/>ps-t1<sp/>lightmap.<sp/>So<sp/>the<sp/>fix<sp/>drops<sp/>the<sp/>normal<sp/>map<sp/>and<sp/>shifts<sp/>the<sp/>other<sp/>two</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>down<sp/>a<sp/>slot.<sp/>See<sp/>GIMICharFixerConfig::objRegRemaps.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>head&apos;s<sp/>normal<sp/>map<sp/>goes<sp/>--<sp/>Ganyu<sp/>has<sp/>no<sp/>slot<sp/>for<sp/>it<sp/>--<sp/>along<sp/>with<sp/>the<sp/>reflection</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>resources<sp/>and<sp/>the<sp/>shared<sp/>IB<sp/>reference,<sp/>exactly<sp/>as<sp/>the<sp/>pure-Python<sp/>row&apos;s</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ReflectionHeadRemove/ReflectionBodyRemove/ReflectionDressRemove<sp/>sets<sp/>do.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemovals<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefHeadDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefHeadLightMap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$CharacterIB&quot;</highlight><highlight class="normal">}},</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ResourceRefBodyDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefBodyLightMap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$CharacterIB&quot;</highlight><highlight class="normal">}},</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ResourceRefDressDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefDressLightMap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$CharacterIB&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...and<sp/>what<sp/>is<sp/>left<sp/>slides<sp/>down.<sp/>Both<sp/>renames<sp/>are<sp/>in<sp/>ONE<sp/>entry<sp/>so<sp/>they<sp/>are<sp/>applied<sp/>in<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>single<sp/>pass<sp/>--<sp/>ps-t1<sp/>-&gt;<sp/>ps-t0<sp/>must<sp/>not<sp/>then<sp/>be<sp/>re-read<sp/>as<sp/>the<sp/>input<sp/>to<sp/>ps-t2<sp/>-&gt;<sp/>ps-t1.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemaps<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">}}}}};</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NNFix<sp/>rather<sp/>than<sp/>ORFix<sp/>on<sp/>the<sp/>head,<sp/>because<sp/>the<sp/>target<sp/>has<sp/>no<sp/>normal<sp/>map<sp/>--<sp/>ORFix<sp/>is<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>normal-map<sp/>one.<sp/>TexFx<sp/>is<sp/>re-issued<sp/>alongside<sp/>it,<sp/>naming<sp/>ps-t0<sp/>as<sp/>the<sp/>diffuse&apos;s<sp/>home<sp/>now</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>that<sp/>the<sp/>shift<sp/>has<sp/>put<sp/>it<sp/>there<sp/>(TN.0<sp/>rather<sp/>than<sp/>TN.1).</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">IniKeywords::NNFixPath</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">IniKeywords::TexFxTransparency0</ref>}}};</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body<sp/>and<sp/>dress<sp/>are<sp/>not<sp/>listed,<sp/>so<sp/>they<sp/>take<sp/>the<sp/>default:<sp/>NNFix<sp/>alone.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>pure-Python<sp/>row<sp/>carries<sp/>IbRemapData/IbDrawIndexedRename<sp/>on<sp/>all<sp/>three<sp/>objects<sp/>plus<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>postModel<sp/>drawindexed<sp/>removal,<sp/>which<sp/>together<sp/>are<sp/>what<sp/>this<sp/>flag<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.moveDrawIndexed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>external<sp/>libraries<sp/>this<sp/>row<sp/>re-issues,<sp/>keyed<sp/>by<sp/>TARGET.<sp/>An<sp/>empty<sp/>list<sp/>means</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>none,<sp/>and<sp/>REPLACES<sp/>the<sp/>template&apos;s<sp/>default<sp/>NNFix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" kindref="member">IniKeywords::TexFxTransparency0Pre5_0</ref>}},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}},</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{}}};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" kindref="member">IniFixBuilderFuncs::ganyuTwilight6_1</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remapped<sp/>onto<sp/>Ganyu<sp/>--<sp/>and<sp/>this<sp/>is<sp/>the<sp/>direction<sp/>that<sp/>LOSES<sp/>a<sp/>normal<sp/>map.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GanyuTwilight<sp/>is<sp/>a<sp/>4.4-era<sp/>model,<sp/>from<sp/>after<sp/>GI<sp/>3.x<sp/>gave<sp/>characters<sp/>a<sp/>normal<sp/>map:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ps-t0<sp/>normal<sp/>map,<sp/>ps-t1<sp/>diffuse,<sp/>ps-t2<sp/>lightmap.<sp/>Ganyu<sp/>predates<sp/>that<sp/>and<sp/>reads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ps-t0<sp/>diffuse,<sp/>ps-t1<sp/>lightmap.<sp/>So<sp/>the<sp/>fix<sp/>drops<sp/>the<sp/>normal<sp/>map<sp/>and<sp/>shifts<sp/>the<sp/>other<sp/>two</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>down<sp/>a<sp/>slot.<sp/>See<sp/>GIMICharFixerConfig::objRegRemaps.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>head&apos;s<sp/>normal<sp/>map<sp/>goes<sp/>--<sp/>Ganyu<sp/>has<sp/>no<sp/>slot<sp/>for<sp/>it<sp/>--<sp/>along<sp/>with<sp/>the<sp/>reflection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>resources<sp/>and<sp/>the<sp/>shared<sp/>IB<sp/>reference,<sp/>exactly<sp/>as<sp/>the<sp/>pure-Python<sp/>row&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ReflectionHeadRemove/ReflectionBodyRemove/ReflectionDressRemove<sp/>sets<sp/>do.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemovals<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefHeadDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefHeadLightMap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$CharacterIB&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ResourceRefBodyDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefBodyLightMap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$CharacterIB&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ResourceRefDressDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ResourceRefDressLightMap&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;$CharacterIB&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...and<sp/>what<sp/>is<sp/>left<sp/>slides<sp/>down.<sp/>Both<sp/>renames<sp/>are<sp/>in<sp/>ONE<sp/>entry<sp/>so<sp/>they<sp/>are<sp/>applied<sp/>in<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>single<sp/>pass<sp/>--<sp/>ps-t1<sp/>-&gt;<sp/>ps-t0<sp/>must<sp/>not<sp/>then<sp/>be<sp/>re-read<sp/>as<sp/>the<sp/>input<sp/>to<sp/>ps-t2<sp/>-&gt;<sp/>ps-t1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objRegRemaps<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">}}}}};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NNFix<sp/>rather<sp/>than<sp/>ORFix<sp/>on<sp/>the<sp/>head,<sp/>because<sp/>the<sp/>target<sp/>has<sp/>no<sp/>normal<sp/>map<sp/>--<sp/>ORFix<sp/>is<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>normal-map<sp/>one.<sp/>TexFx<sp/>is<sp/>re-issued<sp/>alongside<sp/>it,<sp/>naming<sp/>ps-t0<sp/>as<sp/>the<sp/>diffuse&apos;s<sp/>home<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>that<sp/>the<sp/>shift<sp/>has<sp/>put<sp/>it<sp/>there<sp/>(TN.0<sp/>rather<sp/>than<sp/>TN.1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objFixCalls<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">IniKeywords::NNFixPath</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">IniKeywords::TexFxTransparency0</ref>}}};</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer_1a3c7b8ad4a051b630e9b0e9f7b89c3a60" kindref="member">GanyuTwilightFixer::v6_1</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" kindref="member">IniFixBuilderFuncs::ganyuTwilight6_1</ref>();</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body<sp/>and<sp/>dress<sp/>are<sp/>not<sp/>listed,<sp/>so<sp/>they<sp/>take<sp/>the<sp/>default:<sp/>NNFix<sp/>alone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>pure-Python<sp/>row<sp/>carries<sp/>IbRemapData/IbDrawIndexedRename<sp/>on<sp/>all<sp/>three<sp/>objects<sp/>plus<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>postModel<sp/>drawindexed<sp/>removal,<sp/>which<sp/>together<sp/>are<sp/>what<sp/>this<sp/>flag<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.moveDrawIndexed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer_1a3c7b8ad4a051b630e9b0e9f7b89c3a60" kindref="member">GanyuTwilightFixer::v6_1</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" kindref="member">IniFixBuilderFuncs::ganyuTwilight6_1</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp"/>
   </compounddef>

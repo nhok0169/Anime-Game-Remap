@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1_1_rabbit_f_x" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::SourceComponent::RabbitFX</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1_1_rabbit_f_x_1a11319d1a5c0761cc779fed3586045bc9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; AGRemapCore::WWMIFixerConfig::SourceComponent::RabbitFX::gameTags</definition>
+        <argsstring></argsstring>
+        <name>gameTags</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SourceComponent::RabbitFX::gameTags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``ps-t0`` .. ``ps-t3`` -&gt; the tag RabbitFX gives the SOURCE&apos;s own game texture there
+(3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="251" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+RabbitFX on this component, carried across with the SOURCE&apos;s routing
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+RabbitFX patches a character&apos;s pixel shaders to take a mod&apos;s maps
+(``Resource\\RabbitFX\\Diffuse``, ``...Lightmap``, ``...Normalmap``, ...) in place of
+the shader&apos;s first texture samples. Which map replaces which sample is decided per draw
+from the KIND of texture bound at ``ps-t0`` .. ``ps-t3`` when the mod runs
+``CommandList\\RabbitFX\\SetTextures`` -- as of RabbitFX 8.3.2, its ``filter_index``
+1718.3 (a square BC7 of more than 10 mips, or a small square B8G8R8A8 with mips), 1718.4 (a
+square R8 with mips, or a large square BC7 of one mip), 1718.5 (a 1 x 1 B8G8R8A8) or 1718.6
+(a square BC7 of at most 512 and 10 mips). On the target those registers hold other files (the fix&apos;s edits, other
+formats), so the same mod lines route the maps differently. With this set, the
+component keeps the mod&apos;s RabbitFX lines (:cpp:member:`removedRegs` stops removing them
+here), and right after each ``SetTextures`` the routing flags (``x187`` .. ``w187``) are
+pinned to what they are on the SOURCE&apos;s own draw: read off the mod&apos;s own file for the
+role at each register, or :cpp:member:`gameTags` where the mod binds none. Valid only
+where the target slot samples the same roles in the same order as the source&apos;s pass.
+**Default**: none, RabbitFX&apos;s lines are removed as :cpp:member:`removedRegs` says
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="243" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="243" bodyend="252"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1_1_rabbit_f_x_1a11319d1a5c0761cc779fed3586045bc9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent::RabbitFX</scope><name>gameTags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

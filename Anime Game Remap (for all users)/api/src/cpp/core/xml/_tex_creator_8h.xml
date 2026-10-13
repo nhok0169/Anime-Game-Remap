@@ -211,10 +211,6 @@
         <childnode refid="54" relation="include">
         </childnode>
       </node>
-      <node id="51">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
       <node id="3">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
@@ -379,10 +375,6 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="52">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
       <node id="42">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -406,6 +398,14 @@
       <node id="54">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>

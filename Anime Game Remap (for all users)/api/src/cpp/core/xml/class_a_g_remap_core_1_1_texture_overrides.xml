@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_texture_overrides" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextureOverrides</compoundname>
+    <includes refid="_texture_overrides_8h" local="no">TextureOverrides.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override" prot="public">AGRemapCore::TextureOverrides::Override</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption" prot="public">AGRemapCore::TextureOverrides::Adoption</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override" kindref="compound">Override</ref> &gt;</type>
+        <definition>std::vector&lt; TextureOverrides::Override &gt; AGRemapCore::TextureOverrides::collect</definition>
+        <argsstring>(const ModBranches::Templates &amp;templates)</argsstring>
+        <name>collect</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::collect</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">ModBranches::Templates</ref> &amp;</type>
+          <declname>templates</declname>
+        </param>
+        <briefdescription>
+<para>Every <computeroutput>section</computeroutput>_ of &apos;templates&apos; that has both a <computeroutput>hash</computeroutput> and a <computeroutput>this</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>templates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parsed <computeroutput>sections</computeroutput>_ of a <computeroutput>.ini</computeroutput> file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The overrides, in the order of the <computeroutput>sections</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="79" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="43" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1af6a5c7a5053d3d207c956ec439d10b5c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::TextureOverrides::siblingInis</definition>
+        <argsstring>(IniFile *iniFile)</argsstring>
+        <name>siblingInis</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::siblingInis</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The other ``.ini`` files of the folder &apos;iniFile&apos; is in that the game loads: not
+&apos;iniFile&apos; itself, not a ``DISABLED`` one, and not a copy a fix wrote
+(``&lt;name&gt;RemapFix&lt;N&gt;.ini``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The full paths of the other files, sorted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="93" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="96" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a4d945d0c81935f0e958bf288f262f02a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TextureOverrides::isShared</definition>
+        <argsstring>(const std::string &amp;hash)</argsstring>
+        <name>isShared</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::isShared</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether ``HashData`` files &apos;hash&apos; under more than one character :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The components of a skin of several components count as that skin. A texture two
+characters share is drawn by both, so an override of it already applies to either of
+them without any fix -- eg. Amber and AmberCN draw one face diffuse, ``1d064079``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether more than one character draws the texture </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="110" column="25" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="129" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1ad4825fcf4f5e8965360e4dec1fe6b7db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::TextureOverrides::keysOf</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;hash)</argsstring>
+        <name>keysOf</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::keysOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every texture key (``tex_&lt;object&gt;_&lt;role&gt;``) ``HashData`` files &apos;hash&apos; under for the
+character &apos;name&apos;, at any version :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+More than one when the character draws several objects with one texture -- Yelan&apos;s body
+and dress share ``df127976`` -- and an override of that texture recolours all of them
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character&apos;s mod type name, eg. <computeroutput>Yelan</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The keys, each once, in the table&apos;s order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="127" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="162" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1af8167172605f002b6cc2b3f68ab41fbc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption" kindref="compound">Adoption</ref> &gt;</type>
+        <definition>std::optional&lt; TextureOverrides::Adoption &gt; AGRemapCore::TextureOverrides::adopt</definition>
+        <argsstring>(IniFile &amp;sibling, const std::string &amp;root, const ModBranches::Templates &amp;own)</argsstring>
+        <name>adopt</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::adopt</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> &amp;</type>
+          <declname>sibling</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">ModBranches::Templates</ref> &amp;</type>
+          <declname>own</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+&apos;root&apos; of &apos;sibling&apos; as an :cpp:struct:`Adoption`, or ``std::nullopt`` when a `section`_
+it would bring is already named in &apos;own&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A mod may keep its buffers and most objects in one ``.ini`` and one object&apos;s `section`_ in
+another file of the folder; the file that binds the buffers adopts that `section`_ so the
+object is remapped with the rest
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sibling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other <computeroutput>.ini</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ of &apos;sibling&apos; to adopt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>own</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>sections</computeroutput>_ of the file adopting it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="169" column="34" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="255" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Reads a mod&apos;s texture overrides: `sections`_ of the shape ``hash = &lt;a game texture&gt;`` /
+``this = Resource...``, which replace a texture wherever the GAME binds it :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Such an override never reaches a texture the fix binds itself (a download, or any other
+resource of the mod&apos;s), so a parser that fills a slot from downloads has to bind the mod&apos;s
+resource there in its place. The parsers built by :cpp:func:`makeGIMICharParser` and
+:cpp:func:`makeGIMIComponentParser` both read overrides through this class
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="39" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="39" bodyend="170"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1af8167172605f002b6cc2b3f68ab41fbc" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>adopt</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>collect</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1a4d945d0c81935f0e958bf288f262f02a" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>isShared</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1ad4825fcf4f5e8965360e4dec1fe6b7db" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>keysOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1af6a5c7a5053d3d207c956ec439d10b5c" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>siblingInis</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

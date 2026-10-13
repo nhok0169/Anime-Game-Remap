@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <map>
 #include <cstddef>
 #include <functional>
 #include <memory>
@@ -271,6 +272,33 @@ namespace AGRemapCore {
              @endrst
              */
             bool appendedSectionsInCopies = false;
+
+            /**
+             * @brief
+             @rst
+             Raw `sections`_ appended to ONE generated file only, by group -- ``0`` is the mod's own
+             ``.ini``, ``1`` its first copy, and so on. Written after :cpp:member:`appendedSections`,
+             inside the fix's block :raw-html:`<br />` :raw-html:`<br />`
+
+             For content that differs per file: a WWMI copy keeps its own merged skeleton, which only
+             the draws that FILE matches feed, so each copy needs merge-only sections for the target
+             slots that other files draw. **Default**: empty
+             @endrst
+             */
+            std::map<std::size_t, std::string> appendedSectionsPerGroup;
+
+            /**
+             * @brief
+             @rst
+             Whether an appended section (:cpp:member:`appendedSections`, :cpp:member:`appendedSectionsPerGroup`)
+             that the file already declares WORD FOR WORD is left out :raw-html:`<br />` :raw-html:`<br />`
+
+             3DMigoto keeps the first of two sections with one name and warns about the second, so a
+             repeat changes nothing but the warning. A same-named section with different text is kept,
+             so a real conflict still shows. **Default**: ``false``
+             @endrst
+             */
+            bool appendedSectionsDropRepeats = false;
 
             /**
              * @brief

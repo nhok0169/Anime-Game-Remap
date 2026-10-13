@@ -13,28 +13,15 @@
     <includes refid="_reg_branch_add_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h</includes>
     <includes refid="_z3_context_8h" local="yes">AGRemapCore/tools/z3/Z3Context.h</includes>
     <includes refid="_z3_predicate_8h" local="yes">AGRemapCore/tools/z3/Z3Predicate.h</includes>
+    <includedby refid="_texture_overrides_8h" local="yes">include/AGRemapCore/data/IniParseData/TextureOverrides.h</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <incdepgraph>
-      <node id="73">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
-      </node>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="72">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="60">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="44">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -391,18 +378,6 @@
         <childnode refid="73" relation="include">
         </childnode>
       </node>
-      <node id="25">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-      </node>
       <node id="65">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -415,24 +390,6 @@
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="68" relation="include">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
         </childnode>
       </node>
       <node id="21">
@@ -609,6 +566,51 @@
         <childnode refid="46" relation="include">
         </childnode>
       </node>
+      <node id="73">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
+      </node>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="72">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="68">
         <label>Generator.tpp</label>
       </node>
@@ -730,6 +732,24 @@
         <link refid="_mod_branches_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/data/IniParseData/TextureOverrides.h</label>
+        <link refid="_texture_overrides_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
@@ -741,27 +761,39 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="2">
+      <node id="3">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
-      <node id="3">
+      <node id="8">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="4">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
       <node id="5">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
+        <label>src/data/IniParseData/GIMICharParser.cpp</label>
+        <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="6">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
       <node id="7">
+        <label>src/data/IniParseData/TextureOverrides.cpp</label>
+        <link refid="_texture_overrides_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="11">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>

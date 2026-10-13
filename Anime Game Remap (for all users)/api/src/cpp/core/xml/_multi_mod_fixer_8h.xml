@@ -10,21 +10,6 @@
     <includes refid="_base_ini_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</includes>
     <includes local="yes">MultiModFixer.tpp</includes>
     <incdepgraph>
-      <node id="32">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="74">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="73">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="38">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="47">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="53">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -385,18 +370,6 @@
         <childnode refid="73" relation="include">
         </childnode>
       </node>
-      <node id="29">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-      </node>
       <node id="65">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -409,24 +382,6 @@
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="68" relation="include">
-        </childnode>
-      </node>
-      <node id="28">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -602,6 +557,51 @@
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
+      </node>
+      <node id="32">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="74">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="73">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="38">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="29">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="68">
         <label>Generator.tpp</label>

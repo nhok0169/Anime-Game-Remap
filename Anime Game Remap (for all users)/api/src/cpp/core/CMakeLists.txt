@@ -145,6 +145,8 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp
     src/data/IniParseData/Chisa/ChisaParser.cpp
+    src/data/IniParseData/Lynae/LynaeParser.cpp
+    src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp
     src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
     src/data/IniParseData/Sanhua/SanhuaParser.cpp
     src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp

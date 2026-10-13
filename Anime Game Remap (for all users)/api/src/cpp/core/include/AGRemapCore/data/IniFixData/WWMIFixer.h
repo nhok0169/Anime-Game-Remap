@@ -14,6 +14,7 @@
 
 // ##### EndCredits
 
+#include <array>
 #include <cstdint>
 #include <functional>
 #include <map>
@@ -132,6 +133,51 @@ namespace AGRemapCore {
         };
 
         /**
+         * @brief
+         @rst
+         A pixel shader a :cpp:struct:`SourceComponent` is drawn with in place of the target slot's
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         The fix writes the shader and its constant buffers beside the mod's buffers, declares
+         them in its own block (so an undo removes them), and turns each rerouted
+         ``drawindexed`` of the component into a ``run =`` of a ``CustomShader`` section that binds
+         them and makes that draw. Everything the shader does not bind itself is the target
+         draw's: its vertex shader, its render targets and the textures the component's
+         :cpp:member:`plan` entry binds
+         @endrst
+         */
+        struct Shader {
+            /**
+             * @brief The name its files and sections are given, eg. ``LynaeFilm``
+             */
+            std::string name;
+
+            /**
+             * @brief The HLSL source, entry point ``main``
+             */
+            std::string ps;
+
+            /**
+             * @brief
+             @rst
+             Register -> the constant buffer bound there, as its 32-bit words (four to a
+             row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
+             @endrst
+             */
+            std::map<std::string, std::vector<std::uint32_t>> constantBuffers;
+
+            /**
+             * @brief
+             @rst
+             Further lines of the ``CustomShader`` section, as they are written, eg.
+             ``{"ps-t5", "ref ps-t6"}``
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> lines;
+        };
+
+
+        /**
          * @brief How one SOURCE component is drawn on the target
          */
         struct SourceComponent {
@@ -144,6 +190,71 @@ namespace AGRemapCore {
              * @brief The registers its command list binds, in this order
              */
             std::vector<Binding> bindings;
+
+            /**
+             * @brief
+             @rst
+             When another source component also goes through :cpp:member:`slot`, draw this one from the
+             mod's own ``.ini`` as a second section on that draw, instead of from a copy ``.ini``.
+             A copy computes none of the mod's shape-keyed positions -- the shape-key pipeline runs
+             once, in the mod's own file -- so a component of a mod with shape keys drawn from a copy
+             reads an empty position buffer and draws nothing. **Default**: ``false``
+             @endrst
+             */
+            bool sameFileSection = false;
+
+            /**
+             * @brief
+             @rst
+             The SOURCE's own pixel shader, when the target slot's cannot draw what this component
+             is (a material the target has no counterpart for). With one, the component binds the
+             mod's art as the mod wrote it -- no texture edit of the config reaches it, since the
+             edits are for the TARGET's shader. It draws with the shader on the passes the slot's
+             :cpp:member:`slotPasses` name, and as before on any other (an outline pass,
+             :cpp:member:`extraPassRegs`). A :cpp:struct:`DrawReroute`'s ``as`` entry may carry one
+             too. **Default**: none, the target slot's shader
+             @endrst
+             */
+            std::optional<Shader> shader;
+
+            /**
+             * @brief
+             @rst
+             RabbitFX on this component, carried across with the SOURCE's routing
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             RabbitFX patches a character's pixel shaders to take a mod's maps
+             (``Resource\\RabbitFX\\Diffuse``, ``...Lightmap``, ``...Normalmap``, ...) in place of
+             the shader's first texture samples. Which map replaces which sample is decided per draw
+             from the KIND of texture bound at ``ps-t0`` .. ``ps-t3`` when the mod runs
+             ``CommandList\\RabbitFX\\SetTextures`` -- as of RabbitFX 8.3.2, its ``filter_index``
+             1718.3 (a square BC7 of more than 10 mips, or a small square B8G8R8A8 with mips), 1718.4 (a
+             square R8 with mips, or a large square BC7 of one mip), 1718.5 (a 1 x 1 B8G8R8A8) or 1718.6
+             (a square BC7 of at most 512 and 10 mips). On the target those registers hold other files (the fix's edits, other
+             formats), so the same mod lines route the maps differently. With this set, the
+             component keeps the mod's RabbitFX lines (:cpp:member:`removedRegs` stops removing them
+             here), and right after each ``SetTextures`` the routing flags (``x187`` .. ``w187``) are
+             pinned to what they are on the SOURCE's own draw: read off the mod's own file for the
+             role at each register, or :cpp:member:`gameTags` where the mod binds none. Valid only
+             where the target slot samples the same roles in the same order as the source's pass.
+             **Default**: none, RabbitFX's lines are removed as :cpp:member:`removedRegs` says
+             @endrst
+             */
+            struct RabbitFX {
+                /**
+                 * @brief
+                 @rst
+                 ``ps-t0`` .. ``ps-t3`` -> the tag RabbitFX gives the SOURCE's own game texture there
+                 (3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+                 @endrst
+                 */
+                std::map<std::string, int> gameTags;
+            };
+
+            /**
+             * @brief RabbitFX on this component, with the source's routing -- see :cpp:struct:`RabbitFX`
+             */
+            std::optional<RabbitFX> rabbitFX;
         };
 
         /**
@@ -207,6 +318,77 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         The SOURCE's version per ``vb0`` hash, for a character whose skeleton was RENUMBERED
+         between two game versions -- read off the mod's own slot sections and used wherever
+         :cpp:member:`sourceVersion` would be, when the ``.ini`` carries no version of its own
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod carries the bone ids of the version its author exported at, and its ``vb0`` says
+         which version that was. Lynae's 3.7 update moved her ``vb0`` (``0c33d628`` ->
+         ``7e400733``) AND inserted bones into her skeleton, so 71 of her 360 merged ids moved
+         (mostly by one or two); a 3.6 mod read with the 3.7 row puts those vertices on the
+         neighbouring bone. With this, each mod takes the :cpp:class:`VGRemaps` row filed at its own
+         version. Keys are lower case. Empty (the default) keeps :cpp:member:`sourceVersion` for
+         every mod
+         @endrst
+         */
+        std::map<std::string, std::string> sourceVersionByVb0;
+
+        /**
+         * @brief One way the source's merged bone ids have been numbered -- see \ref skeletonNumberings
+         */
+        struct SkeletonNumbering {
+            /**
+             * @brief The version whose :cpp:class:`VGRemaps` row reads ids in this numbering
+             */
+            std::string version;
+
+            /**
+             * @brief
+             @rst
+             Id in this numbering -> the same bone's id in the numbering
+             :cpp:member:`referenceBoneCentroids` is keyed by. An id not listed is the same in both
+             @endrst
+             */
+            std::unordered_map<long long, long long> toReference;
+        };
+
+        /**
+         * @brief
+         @rst
+         Every numbering the source's merged skeleton has had, when a game update RENUMBERED it --
+         the fix asks the mod's own geometry which one its bone ids are in, and reads its blend with
+         the :cpp:class:`VGRemaps` row filed at that numbering's version :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         The ``vb0`` cannot say, which is why :cpp:member:`sourceVersionByVb0` does not decide this:
+         community hash-update tools rewrite a mod's hashes to the new version and leave its bone
+         ids alone, so one of Lynae's 3.7-``vb0`` mods carries her 3.6 numbering. The geometry can:
+         for every vertex whose heaviest bone is an id the numberings disagree on, each reading is
+         scored by the vertex's distance to that bone's centroid on the source's own model
+         (:cpp:member:`referenceBoneCentroids`), and the reading with the smaller median wins --
+         on Lynae's twelve merged mods by a factor of 1.5 to 4, every one the right way
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Not consulted for a legacy mod (see :cpp:member:`sourceVgMaps`), whose ids the maps define.
+         Fewer than two numberings (the default) switches the probe off
+         @endrst
+         */
+        std::vector<SkeletonNumbering> skeletonNumberings;
+
+        /**
+         * @brief
+         @rst
+         The rest-pose centroid of each source bone, keyed by its id in the reference numbering --
+         the mean position of the source model's vertices whose heaviest weight (over half) is that
+         bone. Read by the :cpp:member:`skeletonNumberings` probe
+         @endrst
+         */
+        std::unordered_map<long long, std::array<double, 3>> referenceBoneCentroids;
+
+        /**
+         * @brief
+         @rst
          Per TARGET slot, the pixel shaders that bind that slot's character textures -- read off a
          frame dump of the target (``Tools/Misc/Diagnostics/wwmiDrawTable.py``). A slot's command
          list binds on every one of them and no other pass; a pass binding only globals is not
@@ -261,6 +443,88 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<int, SourceComponent> plan;
+
+        /**
+         * @brief Some draws of one source component, sent through a different target slot
+         */
+        struct DrawReroute {
+            /**
+             * @brief The source component whose draws may go elsewhere
+             */
+            int from = -1;
+            /**
+             * @brief
+             @rst
+             The :cpp:member:`plan` entry the rerouted draws are drawn by -- an id that is not a
+             source slot, eg. ``105``. Its slot and bindings say where they go and what they bind;
+             it is drawn from the mod's own ``.ini`` (give it ``sameFileSection``)
+             @endrst
+             */
+            int as = -1;
+            /**
+             * @brief The role of the material-code map, among ``from``'s textures, that marks the draws
+             */
+            std::string codeRole;
+            /**
+             * @brief
+             @rst
+             The flag bits that mark a texel: a draw goes when more than half of the texels under
+             its vertices carry any of them
+             @endrst
+             */
+            int flags = 0;
+
+            /**
+             * @brief
+             @rst
+             Where a material-code map carries the reroute's :cpp:member:`flags`, cut into
+             ``width x height`` blocks: a block's bit is set when more than half of its texels carry
+             any of them. Bits are row-major, the lowest bit of each byte first
+             @endrst
+             */
+            struct FlagMask {
+                /**
+                 * @brief The number of blocks across
+                 */
+                int width = 0;
+
+                /**
+                 * @brief The number of blocks down
+                 */
+                int height = 0;
+
+                /**
+                 * @brief The blocks, one bit each
+                 */
+                std::vector<std::uint8_t> bits;
+            };
+
+            /**
+             * @brief
+             @rst
+             The SOURCE's own game code map of :cpp:member:`codeRole`, as a :cpp:struct:`FlagMask`,
+             for a mod that binds no code map of its own for that role: such a mod draws with the
+             game's map on its own character, so that map decides which of its draws carry the
+             flags. **Default**: empty, and such a mod's component is left whole
+             @endrst
+             */
+            FlagMask sourceFlags;
+        };
+
+        /**
+         * @brief
+         @rst
+         Draws that go through a different target slot than the rest of their component, chosen by
+         the mod's own material-code map -- never by its colours. Lynae paints a see-through film
+         with flag ``0x10`` and her jacket's shader draws it as one; LynaePeppermint's jacket slot has
+         no film, so those draws go through her hip pouch, whose foil is. A component whose map is
+         not the mod's own is read through :cpp:member:`DrawReroute::sourceFlags`, or left whole
+         without one; a component whose draws carry no such texel is left whole. The rerouted draws are
+         a second copy of the component's sections, renamed, holding only those draws; the
+         component's own copy drops them. **Default**: none
+         @endrst
+         */
+        std::vector<DrawReroute> drawReroutes;
 
         /**
          * @brief
@@ -345,6 +609,46 @@ namespace AGRemapCore {
          * @brief Bytes per vertex of that stream, off the frame dump's ``vb6`` layout. **Default**: ``24``
          */
         int shapeKeyStride = 24;
+
+        /**
+         * @brief
+         @rst
+         The TARGET's original shape-key dispatch height -- its ``Metadata.json``'s
+         ``shapekeys.dispatch_y``, which is its shape-key vertex count / 32 rounded up -- written into a
+         retargeted mod's ``$\WWMIv1\shapekey_dispatch_size_y_original_batch0`` / ``_batch1``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A newer WWMI Tools export loads its keys in batches, and WWMI's
+         ``CommandListLoadShapeKeysBatch`` picks a batch by comparing that value with the draw's
+         ``THREAD_GROUP_COUNT_Y``. Left at the SOURCE's value, nothing matches on the target and the
+         fallback sets ``$shapekey_vertex_count`` to the dispatch size itself, so most of the mod's
+         offsets are never loaded and the body is drawn as spikes (Lynae9 onto LynaePeppermint: 1631
+         where the target dispatches 1854). Only keys the mod already has are rewritten. Empty (the
+         default) leaves them alone
+         @endrst
+         */
+        std::string shapeKeyDispatchSize;
+
+        /**
+         * @brief
+         @rst
+         The order the TARGET numbers its game shape keys in, as the SOURCE key each target slot
+         takes: ``shapeKeyOrder[j]`` is the source key whose data goes in slot ``j``, ``-1`` for a slot
+         that takes none :raw-html:`<br />` :raw-html:`<br />`
+
+         The game drives a character's shape keys -- blinks, mouth shapes, expressions -- by SLOT,
+         and two skins of one character can number the same face keys differently. A mod's shape-key
+         buffers are in the source's numbering, so on the target every expression weight lands on
+         another key: a blink can open the mouth. With this set, the fix writes the mod's
+         ``ResourceShapeKeyOffsetBuffer`` / ``ResourceShapeKeyVertexIdBuffer`` /
+         ``ResourceShapeKeyVertexOffsetBuffer`` again in the target's order and binds the copies in
+         its shape-key lists. Slots past the end of the list -- a mod's own custom keys, which only
+         its ``.ini`` drives -- keep their data and position. A source key no slot takes is kept with
+         its offsets zeroed, so the entry count the mod's ``.ini`` declares still holds. Empty (the
+         default) leaves the shape keys in the source's order
+         @endrst
+         */
+        std::vector<long long> shapeKeyOrder;
 
         /**
          * @brief
@@ -633,6 +937,15 @@ namespace AGRemapCore {
              @endrst
              */
             std::map<std::string, std::string> fileOfRole;
+            /**
+             * @brief
+             @rst
+             The SOURCE character's own game texture for each role a :cpp:member:`TexEdit::sourceGameRoles`
+             names, downloaded for the edit. A filter that grades a mod's texture by how far it
+             strays from the character's own reads the original here
+             @endrst
+             */
+            std::map<std::string, std::string> gameFileOfRole;
         };
         /**
          * @brief An edit the fix makes to one role's texture before binding it
@@ -668,6 +981,16 @@ namespace AGRemapCore {
              @endrst
              */
             bool compress = false;
+            /**
+             * @brief
+             @rst
+             Roles whose SOURCE game texture this edit reads, each downloaded from
+             ``sourceTextures.fallbackTextures`` and handed to the filter in
+             :cpp:member:`TexEditContext::gameFileOfRole`. Nothing binds the download.
+             **Default**: none
+             @endrst
+             */
+            std::vector<std::string> sourceGameRoles;
         };
         /**
          * @brief
@@ -772,6 +1095,63 @@ namespace AGRemapCore {
         // predates it wants another look. Kept out of the doc comment above on purpose: that one
         // is published as the API reference and reads as the present-tense contract.
         bool bindPrevPoseAlways = true;
+
+        /**
+         * @brief
+         @rst
+         Treat a draw whose ``vs-cb3`` carries :cpp:member:`boneDataFilter` while its ``vs-cb4`` does
+         not as one whose skeleton -- the CURRENT pose -- sits in ``vs-cb3``: merge it into the main
+         skeleton and bind the remapped main one there, where the default reads ``vs-cb3`` as the
+         previous pose on every draw :raw-html:`<br />` :raw-html:`<br />`
+
+         WWMI Tools' own template has the same branch (``elif vs-cb3 == marker`` -> ``vs-cb3 = ref
+         ResourceMergedSkeleton``). Some characters draw passes with their skeleton in ``vs-cb3``
+         alone -- Lynae's early depth passes, 11 draws of her dump -- and reading it as the previous
+         pose wrote their depth for last frame's pose: every thin layered part then failed the later
+         passes' equal-depth test and dropped out (her ID card, chest pin and ear cups, first seen on
+         her identity mod). Such a draw also takes no previous pose from
+         :cpp:member:`bindPrevPoseAlways`. **Default**: ``false``, which writes exactly the lines every
+         earlier pair writes
+         @endrst
+         */
+        bool currentPoseInCb3Only = false;
+
+        /**
+         * @brief
+         @rst
+         Make every generated COPY ``.ini`` (a second source component on one target slot) share the
+         mod's skeleton state, on a target past 256 bones :raw-html:`<br />` :raw-html:`<br />`
+
+         Two changes, both found merging LynaePeppermint's coat and jacket onto Lynae's one jacket
+         slot. Each copy gets a merge-only section for every target slot another file draws, since a
+         copy's own merged skeleton is fed only by the draws that file matches and its other windows
+         stayed zero. And the bone-data marker and the shape-key overrides are written in the mod's
+         own file only, since a copy repeating them on the game's hashes drew the whole model as giant
+         polygons. **Default**: ``false``, which keeps ChisaParfait -> Chisa's copies, confirmed in game,
+         exactly as they were
+         @endrst
+         */
+        bool copiesShareSkeleton = false;
+
+        /**
+         * @brief
+         @rst
+         Carry a mod's own texture line that puts a texture into a register of a DIFFERENT kind by the
+         REGISTER's role rather than the texture's :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod's ``ps-tN = Resource...`` line is normally moved to the register where the target reads
+         that texture's role. That is right when the texture plays the role its register holds -- a
+         diffuse at the diffuse register -- and wrong when the author bound it somewhere else on
+         purpose: a toggle that puts each part's diffuse into the slot the source reads its hair ramp
+         or detail map from, to change the shading. Moved by the texture's role, such a line lands on
+         the target's diffuse register, where the same diffuse is already bound, and the toggle does
+         nothing. With this on, a line whose texture kind (``Diffuse``, ``Detail``, ``Ramp``...)
+         differs from its register's role on the source (:cpp:member:`WWMITextureFacts::registerRoles`)
+         goes to the target's register for the REGISTER's role, its file unchanged; a register with no
+         role there keeps its line where it is. **Default**: ``false``
+         @endrst
+         */
+        bool carryByRegisterRole = false;
 
         /**
          * @brief

@@ -36,7 +36,7 @@ The parser for a 4.0-era LisaStudent ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="44" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="92" bodyend="94"/>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="44" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="103" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_student_parser_1a176844c4d324f5656164536d4537fd04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The parser for a 5.4-era LisaStudent ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="53" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="97" bodyend="99"/>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="53" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="108" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_lisa_student_parser_1a2a969dc47e2e159d8fef20f9d9656ad0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -72,7 +72,7 @@ The parser for a 5.7-era LisaStudent ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="62" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="102" bodyend="104"/>
+        <location file="include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h" line="62" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="113" bodyend="115"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="886" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="907" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -44,7 +44,7 @@ Held by ``shared_ptr`` because that is what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="902" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="221" bodyend="231"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="923" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="221" bodyend="231"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -69,7 +69,7 @@ Each row maps a ``(version, mod name)`` pair to one :cpp:class:`IniParseBuilderF
    once, at 4.0
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="883" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="883" bodyend="903"/>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="904" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="904" bodyend="924"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderData</scope><name>IniParseBuilderData</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1a1219c5a152085532d5b891fe6bdb1851" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderData</scope><name>repo</name></member>

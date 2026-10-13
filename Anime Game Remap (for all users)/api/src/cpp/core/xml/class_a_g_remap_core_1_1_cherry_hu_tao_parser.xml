@@ -36,7 +36,7 @@ The parser for a 5.3-era CherryHuTao ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h" line="48" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="45" bodyend="47"/>
+        <location file="include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h" line="48" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="54" bodyend="56"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

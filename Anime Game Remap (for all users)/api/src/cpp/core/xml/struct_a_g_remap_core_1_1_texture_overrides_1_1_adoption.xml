@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextureOverrides::Adoption</compoundname>
+    <includes refid="_texture_overrides_8h" local="no">TextureOverrides.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1ad02cc70b06cbbf39301fe28b8ad26cf9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_mod_branches_1a07b959634d280a514ce91677c3ddc09e" kindref="member">ModBranches::Template</ref> &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::unique_ptr&lt;ModBranches::Template&gt; &gt; &gt; AGRemapCore::TextureOverrides::Adoption::sections</definition>
+        <argsstring></argsstring>
+        <name>sections</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::Adoption::sections</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput><ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1ad02cc70b06cbbf39301fe28b8ad26cf9" kindref="member">sections</ref></computeroutput>_ to add, in the order they were reached, resources renamed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="145" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1af5e813688543bd92fd91ac3fd418abce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; &gt; AGRemapCore::TextureOverrides::Adoption::refs</definition>
+        <argsstring></argsstring>
+        <name>refs</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::Adoption::refs</qualifiedname>
+        <briefdescription>
+<para>Each renamed resource -&gt; every key of its <computeroutput>section</computeroutput>_ (<computeroutput>filename</computeroutput>, and <computeroutput>type</computeroutput> / <computeroutput>format</computeroutput> / <computeroutput>stride</computeroutput> for a buffer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="151" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A `section`_ of another ``.ini`` file, made ready to live in this one :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The `section`_, every `section`_ of that file it names in a value (a ``run =`` list,
+recursively), and the files of every resource they bind -- each resource renamed with
+``RemapRef``, so a fix can declare it again in its own file and an undo removes only the
+declaration
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="141" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="141" bodyend="152"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1af5e813688543bd92fd91ac3fd418abce" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Adoption</scope><name>refs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1ad02cc70b06cbbf39301fe28b8ad26cf9" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Adoption</scope><name>sections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

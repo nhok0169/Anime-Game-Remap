@@ -36,7 +36,7 @@ The fixer for a 6.1-era GanyuTwilight ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="131" bodyend="133"/>
+        <location file="include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="137" bodyend="139"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

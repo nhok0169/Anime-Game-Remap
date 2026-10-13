@@ -841,7 +841,24 @@ the mod on its own card. What it found:
   or a cached `.bin` beside a stub, renders BLACK); the shader must be captured with every third-party shader mod parked
   (RabbitFX's patched copy decompiles to assembly only, and is not the game's); and her `cb4` must be bound -- the
   pouch's own, which her shader indexes differently, is also black. Every `.ini` of the 34-mod corpus but Lynae9's is
-  byte-identical, the prototype matches the compiled fix on Lynae9 / 11 / 14, and a second fix is byte-identical. The same rule
+  byte-identical, the prototype matches the compiled fix on Lynae9 / 11 / 14, and a second fix is byte-identical.
+  **THE PROPS PATH IS POST-LIGHTING TRANSLUCENCY, AND THE POUCH DRAW CANNOT HOST IT (2026-10-12).** Her props film
+  (`ib 27e35645`, first index 301470) is drawn nowhere in the base pass. In `FrameAnalysis-Lynae-2026-10-04-232242` it is
+  45/46 (a props-only depth prepass, PS `0f6f8fac` / `2d6d59fe`), 57/58 (film colour into a cleared separate-translucency
+  target `b35f6bd4`, PS `bb718d76` / `9a01e7bd`, forward-lit), 59/60 (a partial G-buffer write, `208e7ead` / `0fc42010`)
+  and 61 (a fullscreen composite, VS `1bf99472` / PS `282f5808`, film over scene colour where it is in front). Gating
+  the MOD's own props draws per pass (`filter_index` on the PS + `if ps != ...` around its `drawindexed`; a
+  `ShaderOverride handling = skip` drops only the game's draw and proves nothing) showed that skipping 45/46, 57/58 or
+  61 each removes the sweater, while 59/60 barely changes it. **Scene colour is already LIT when 57 runs** (`000056-o0`
+  shows the lit character, `000038-o0` a black silhouette), so these are post-lighting passes. Her pass shaders were
+  all captured as HLSL with RabbitFX parked (scratchpad `props_orig/`; `e2cb95b2` decompiles to assembly only), and
+  her props vertex shaders take the SAME 14 vertex attributes as the pouch's (`fd92e896`), so they run on the pouch
+  draw's buffers. A probe replaying 57/58 inside the pouch draw (her VS/PS, her material / light-list buffers from the
+  dump, the pouch's view / primitive / bone buffers by slot, the live exposure captured from compute shader `125288e4`'s
+  `cs-u0`, and her VS lighting inputs `vs-t0..t4` captured by reference from the menu backdrop's VS `c39a55a1`) drew a
+  see-through film without the violet rims, but GREY: it lands before lighting. Doing it properly means drawing after
+  lighting, from a per-frame anchor that exists in every scene, with the mesh fetched by vertex ID (no input layout
+  there) and the per-object buffers snapshotted with `copy` at the pouch draw. That is where it stopped. The same rule
   removed the stocking ratios' flesh test: without it the code-1 ratio turned Lynae14's white fur blue and its gold
   filigree silver (the test had already turned that gold grey-green, `240,216,184` reads as flesh), and her legs share
   code, flags, normal-alpha band and every mask channel with that fur and gold (Lynae14 paints 88% of its atlas code 1),

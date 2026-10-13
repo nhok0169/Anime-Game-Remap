@@ -135,8 +135,10 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.downloadVersionFolder = "3_7"
     facts.downloadPrefix = "LynaePeppermint"
     facts.fallbackTextures = {role: h for h, role in CurrentRoles.items() if role not in NoFallback}
-    # her see-through jacket pass's noise and foil, which a mod never ships (core's LynaePeppermintTextures)
-    facts.fallbackTextures = {**facts.fallbackTextures, "jacketNoise": "99527ecc", "jacketFoil": "4bee4070"}
+    # her see-through jacket and coat passes' noise and foil, which a mod never ships (core's
+    # LynaePeppermintTextures)
+    facts.fallbackTextures = {**facts.fallbackTextures, "jacketNoise": "99527ecc", "jacketFoil": "4bee4070",
+                              "pouchFoil": "00e3f13b"}
     return facts
 
 
@@ -234,9 +236,11 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                                                    B("ps-t2", "upperDetail"), B("ps-t3", "upperDiffuse")]),
         4: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
                                                    B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse")]),
-        # the coat onto Lynae's jacket (her shader reads detail at t2, diffuse at t3)
+        # the coat onto Lynae's jacket slot, with the skin's own see-through coat pass in her register order
+        # (core's LynaePeppermintFixer)
         5: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
-                                                   B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse")]),
+                                                   B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse"),
+                                                   B("ps-t4", "jacketNoise"), B("ps-t5", "pouchFoil")]),
         # the SEE-THROUGH shirt (and jacket, shoes) onto Lynae's lower body, drawn after the body it shows,
         # with the skin's own sheer pass in her register order (core's LynaePeppermintFixer)
         6: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
@@ -299,8 +303,25 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     after.draws = 2
     after.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"]
     sheer.after = after
+    # ---- and her COAT's see-through pass (4470be47), the same state: her coat is see-through where its mask
+    # says so, over the body (LynaePeppermint2 paints its shirt there). Lynae's jacket slot reads the ramp at
+    # ps-t6 already (data/lynaePeppermintSheerCoatShader.json, core's LynaePeppermintFixer) ----
+    with open(os.path.join(Here, "data", "lynaePeppermintSheerCoatShader.json"), encoding = "utf-8") as f:
+        coatData = json.load(f)
+    coat = FRB.WWMIFixerConfig.Shader()
+    coat.name = coatData["name"]
+    coat.ps = coatData["ps"]
+    coat.constantBuffers = coatData["constantBuffers"]
+    coat.lines = [line for line in sheer.lines if line[0] != "ps-t6"]
+    coat.passes = sheer.passes
+    coatAfter = FRB.WWMIFixerConfig.Shader.After()
+    coatAfter.component = 3
+    coatAfter.draws = 2
+    coatAfter.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t6"]
+    coat.after = coatAfter
     plan = config.plan
     plan[6].shader = sheer
+    plan[5].shader = coat
     plan[3].markLines = bodyMark
     plan[4].markLines = bodyMark
     config.plan = plan
@@ -327,8 +348,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
       return make
 
     E = FRB.WWMIFixerConfig.TexEdit
-    # (not the shirt's: the skin's own shader reads that one, in the skin's legend)
-    config.texEdits = [E(role, "Repack", maskFilter(0)) for role in ("upperMask", "lowerMask", "pouchMask")]
+    # (not the shirt's or the coat's: the skin's own shaders read those, in the skin's legend)
+    config.texEdits = [E(role, "Repack", maskFilter(0)) for role in ("upperMask", "lowerMask")]
 
     # ---- the body's material-code maps (ps-t2) mark skin with material 0 on Lynae and 4 on the skin
     # (low four bits; the high four are flags), so a map carried across unchanged shaded the body's

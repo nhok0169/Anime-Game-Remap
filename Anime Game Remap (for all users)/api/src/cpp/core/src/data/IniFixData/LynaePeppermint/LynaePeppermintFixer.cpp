@@ -21,6 +21,7 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
@@ -152,8 +153,10 @@ namespace AGRemapCore {
             {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}}}},
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}}},
-            // the coat onto Lynae's jacket (her shader reads detail at t2, diffuse at t3)
-            {5, {5, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"}}}},
+            // the coat onto Lynae's jacket slot, through the skin's own see-through coat pass -- see
+            // sheerCoat below. The skin's register order, her noise and the coat's foil are what it reads
+            {5, {5, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"},
+                     {"ps-t4", "jacketNoise"}, {"ps-t5", "pouchFoil"}}}},
             // the shirt is SEE-THROUGH on the skin, and no shader of Lynae's draws that: her jacket's drew
             // it opaque white. The skin's own sheer pass draws it -- see sheerJacket below -- and it has
             // to come AFTER the body it shows: the skin draws her jacket after her upper body, Lynae
@@ -235,7 +238,26 @@ namespace AGRemapCore {
         afterBody.draws = 2;
         afterBody.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
         sheerJacket.after = afterBody;
+
+        // ---- and her COAT is drawn the same way: a solid pass, then a see-through one (4470be47) that
+        // blends over the body wherever the coat's material says so -- in her own frame it leaves 4120
+        // pixels of her body showing through the coat, and a mod may paint a whole garment there
+        // (LynaePeppermint2's shirt is the coat component, and Lynae's jacket shader drew it solid
+        // cyan). The same state as the shirt's, after the same body; Lynae's jacket slot binds the ramp
+        // at ps-t6 already ----
+        WWMIFixerConfig::Shader sheerCoat = lynaePeppermintSheerCoatShader();
+        for (const auto& line : sheerJacket.lines) {
+            if (line.first != "ps-t6") {
+                sheerCoat.lines.push_back(line);
+            }
+        }
+        sheerCoat.passes = sheerJacket.passes;
+        WWMIFixerConfig::Shader::After afterBodyCoat = afterBody;
+        afterBodyCoat.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t6"};
+        sheerCoat.after = afterBodyCoat;
+
         config.plan.at(6).shader = std::move(sheerJacket);
+        config.plan.at(5).shader = std::move(sheerCoat);
 
         // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
         const std::vector<std::pair<std::string, std::string>> bodyMark = {
@@ -263,7 +285,6 @@ namespace AGRemapCore {
         config.texEdits = {
             {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
             {"lowerMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
-            {"pouchMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
 
             // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
             // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender

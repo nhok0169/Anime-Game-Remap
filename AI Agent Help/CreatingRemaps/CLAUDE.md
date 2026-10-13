@@ -1496,6 +1496,26 @@ the mod on its own card. What it found:
   base's on Resonator Outfits (selecting only previews), wait out each card's intro effect (a timed series, keep a
   clean frame) and zoom both the same.
 
+  **AND HER COAT IS SEE-THROUGH TOO: A MOD MAY PAINT A WHOLE GARMENT ONTO IT (2026-10-13).** The maintainer:
+  "in LynaePeppermint2, her shirt in the remap is opaque instead of transparent". That mod's shirt is the skin's
+  COAT component (5), not her shirt (6) -- hiding component 5 took the shirt with it -- and the coat went through
+  Lynae's jacket shader, which draws nothing see-through. The skin draws her coat exactly as her shirt: a solid pass
+  (`12fcca8e`), then a see-through one (`4470be47`, vertex shader `fd92e896`) that inherits the shirt's sheer blend
+  and depth-stencil state, and the two shaders differ only in the block that computes the blended alpha. Her own
+  vanilla frame proves it is used: reading `o3` after each draw (`FrameAnalysis-PepVanilla`, draws 23-26), her solid
+  shirt and coat passes leave the body's pixels alone (alpha 255) and the see-through passes then blend over 13450
+  (shirt) and 4120 (coat) of them. So the coat now takes the shirt's whole treatment with its own shader
+  (`LynaePeppermintSheerCoatShader`, from `wwmiShaderData.py` over `FrameAnalysis-LynaePeppermint-2026-10-04`'s draw
+  31, `cb4` rows 0-152): the same two stencil passes, `Shader::after` on the upper body, her noise at `ps-t4` and the
+  coat's foil (`00e3f13b`, the new `pouchFoil` fallback) at `ps-t5`; Lynae's jacket slot binds the ramp at `ps-t6`
+  already. The coat mask's repack goes with it, as the shirt's did (her shader reads her legend). Card against card,
+  LynaePeppermint2's shirt is the skin's veil over the bikini, LynaePeppermint4's jacket turns translucent as on the
+  skin, and the identity mod and LynaePeppermint1 / 3 look as before; the overworld front, side and back are right.
+  Prototype and compiled identical on all five mods; across the 31-mod corpus only the five LynaePeppermint mods
+  move. **Before routing a skin's component through a target shader, list every pass the skin draws that
+  component's window with** (`grep -a "^0000NN " log.txt` around the window's `DrawIndexed`): a second pass on the
+  same window is a material the target's shader may not have.
+
 <br>
 
 ## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)

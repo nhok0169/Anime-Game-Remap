@@ -1396,6 +1396,21 @@ the mod on its own card. What it found:
   prototype and compiled fix are identical on three, and a second fix is byte-identical. **Reading a stencil**:
   `GameView dump --options "dump_rt dump_depth buf txt"` writes each draw's `oD` as `D24_UNORM_S8_UINT`, and the
   top byte of each 32-bit texel (after a 148-byte header) is the stencil.
+  **The write masks were read off JPG dumps first, and were wrong (2026-10-13).** `dump_rt_dds` gives every
+  target losslessly (`A16B16G16R16F`, `R10G10B10A2`, sRGB `B8G8R8A8`, bitmask, `R16F`, `D24S8`), and the fraction of
+  shirt pixels each CHANNEL changes on says the skin's sheer pass writes RT1 and RT2 colour only (2's alpha is the
+  shading model, so the BODY's stays), RT3 and RT5 whole, RT0 and RT6 not at all -- `mask[1] = 0x7`,
+  `mask[2] = 0x7`, `mask[0] = 0`, `mask[6] = 0` now. **The bikini still shows through fainter than on the skin,
+  and that gap is NOT in the G-buffer**: with those masks every target matches the skin's under the shirt, the
+  skin's own G-buffer holds no bikini there either (white shirt only, colour after independent of colour before),
+  and her deferred lighting pass (`ee3c94cb`, the same shader on both: depth, RT1-3, RT6 and RT5 as inputs, `t5` /
+  `t7`-`t9` 1 x 1 placeholders) still renders a plain white shirt over still-unlit skin at draw 63. The see-through
+  is composited LATER, in the compute / fullscreen passes that light her skin (draws 66-95 of
+  `FrameAnalysis-PepSheerGB`), which a frame dump's `o0` does not show. Ruled out on the way: drawing the upper body
+  with her body shader (`ed4fe222`, worse), her `ps-t10` (`308e6e5e`, bound by her lower body and inherited by the
+  lighting pass: no change), and stencil bit 2 under the shirt (no change). A probe that counts a slot's passes per
+  frame (`$pass = $pass + 1`, reset in `[Present]`) is NOT a way to tell two passes of one vertex shader apart --
+  other draws through that shader bump it, and it broke the picture even with Lynae's own shaders.
 
 <br>
 

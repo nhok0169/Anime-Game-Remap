@@ -187,10 +187,10 @@ namespace AGRemapCore {
 
         config.sourceTextures = lynaePeppermintTextureFacts();
 
-        // ---- the skin's sheer pass, with the state its own draw has (her frame dumps, read through
-        // a depth / stencil dump). It writes only some of the G-buffer -- the targets it leaves (0, 5
-        // and 6) keep the BODY's, which is what the lighting shows through the shirt -- and it marks
-        // its pixels in the stencil: ref 14 written through mask 0x8a (the background's 128 becomes
+        // ---- the skin's sheer pass, with the state its own draw has (her frame dumps, read losslessly
+        // with dump_rt_dds and dump_depth). It writes only some of the G-buffer: nothing of targets 0
+        // and 6, and only the colour of 1 and 2 -- 2's alpha is the shading model, so the BODY's stays
+        // under the shirt -- and it marks its pixels in the stencil: ref 14 written through mask 0x8a (the background's 128 becomes
         // 10, her body's 14 stays 14). Lynae's own draws never set that 8 bit, and without it the
         // lighting shades the shirt as an opaque one. depth_stencil_state_merge keeps the rest of the
         // lower body's state -- its reversed-Z depth test above all: without it the default LESS test
@@ -199,7 +199,7 @@ namespace AGRemapCore {
         WWMIFixerConfig::Shader sheerJacket = lynaePeppermintSheerShader();
         sheerJacket.lines = {
             {"ps-t6", "ref ps-t9"},
-            {"mask[0]", "0"}, {"mask[5]", "0"}, {"mask[6]", "0"},
+            {"mask[0]", "0"}, {"mask[1]", "0x7"}, {"mask[2]", "0x7"}, {"mask[6]", "0"},
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
             {"stencil_ref", "14"},

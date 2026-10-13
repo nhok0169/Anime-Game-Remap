@@ -250,6 +250,9 @@ namespace AGRemapCore {
         afterBody.draws = 2;
         afterBody.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
         sheerJacket.after = afterBody;
+        // only where the pass binds the G-buffer's base colour: the overworld's depth pre-pass draws the
+        // shirt with the game's own pre-pass shader, as any other component
+        sheerJacket.onlyWith = "o3";
 
         // ---- and her COAT is drawn the same way: a solid pass, then a see-through one (4470be47) that
         // blends over the body wherever the coat's material says so -- in her own frame it leaves 4120
@@ -264,9 +267,13 @@ namespace AGRemapCore {
             }
         }
         sheerCoat.passes = sheerJacket.passes;
+        // ...and after her LOWER body as well: the character menu draws the lower body after the upper,
+        // and a coat released between the two found no body marked over the hips and drew opaque there
         WWMIFixerConfig::Shader::After afterBodyCoat = afterBody;
         afterBodyCoat.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t6"};
+        afterBodyCoat.also = {{4, 1}};
         sheerCoat.after = afterBodyCoat;
+        sheerCoat.onlyWith = "o3";
 
         config.plan.at(6).shader = std::move(sheerJacket);
         config.plan.at(5).shader = std::move(sheerCoat);
@@ -286,6 +293,7 @@ namespace AGRemapCore {
             {"rasterizer_state_merge", "true"},
             {"cull", "none"},
         };
+        lowerBody.onlyWith = "o3";
         config.plan.at(4).shader = std::move(lowerBody);
 
         // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
@@ -301,7 +309,12 @@ namespace AGRemapCore {
             {"stencil_back", "always replace keep keep"},
         };
         config.plan.at(3).markLines = bodyMark;
-        config.plan.at(4).markLines = bodyMark;
+        // (the lower body draws two-sided now, so its mark does too, or its inner faces stay unmarked and
+        // the shirt draws opaque over them)
+        std::vector<std::pair<std::string, std::string>> lowerMark = bodyMark;
+        lowerMark.emplace_back("rasterizer_state_merge", "true");
+        lowerMark.emplace_back("cull", "none");
+        config.plan.at(4).markLines = lowerMark;
 
         // In the overworld only, Lynae also draws a black long-sleeved top under her shirt, its own mesh
         // (2679 vertices). The skin's body is slimmer at the neck and arms, so it showed through there as a

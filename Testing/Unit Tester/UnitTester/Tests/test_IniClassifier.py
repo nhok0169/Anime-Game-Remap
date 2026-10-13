@@ -247,14 +247,24 @@ class IniClassifierTest(BaseUnitTest):
         self.assertTrue(stats.isMod)
         self.assertIn(self.raidenId, stats.modType)
 
-    def test_wuwaHashWithNoMarkerAtAll_notClassified(self):
+    # A file that only WATCHES a WuWa character (a help overlay, a skill effect's `$active`) matches its
+    # identifying hash and never uses WWMI's variables: it is that character's file all the same, and the
+    # WWMI fixer carries its sections onto the target (2026-10-13; before, it classified as nothing)
+    def test_wuwaHashWithNoMarkerAtAll_classifiedAsWatcher(self):
         c = FRB.IniClassifier()
         c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
 
         stats = c.classify("hash = cafebabe\n")
 
-        self.assertFalse(stats.isMod)
-        self.compareDict(stats.modType, {})
+        self.assertTrue(stats.isMod)
+        self.assertIn(self.raidenId, stats.modType)
+
+    def test_wuwaHashWithNoMarkerAtAll_checkIsMod(self):
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+
+        self.assertTrue(c.checkIsMod("hash = cafebabe\n"))
+        self.assertFalse(c.checkIsMod("hash = deadbeef\n"))
 
     # ---- tie-breaking / distribution ----
 

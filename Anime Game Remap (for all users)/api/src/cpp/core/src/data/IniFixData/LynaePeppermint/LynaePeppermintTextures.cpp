@@ -52,6 +52,11 @@ namespace AGRemapCore {
             {"e546902d", "upperDiffuse"},
             {"ee1f2bc0", "pouchMask"},
             {"fef651e2", "lowerMask"},
+            // the noise and foil her see-through and lower-body passes read: a mod overriding one by hash
+            // has its own file bound in place of the download
+            {"00e3f13b", "pouchFoil"},
+            {"4bee4070", "jacketFoil"},
+            {"99527ecc", "jacketNoise"},
             // ...and the OLDER generation wwmiHashHistory.py proved from LynaePeppermint2 (a mod
             // shipping the game's own pixels under each)
             {"2b8fb2f2", "lowerDiffuse"},

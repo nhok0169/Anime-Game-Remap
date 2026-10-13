@@ -127,7 +127,9 @@ def thumbprints():
 
 def textureFacts() -> "FRB.WWMITextureFacts":
     facts = FRB.WWMITextureFacts()
-    facts.roles = {**OlderRoles, **CurrentRoles}
+    # (and the noise and foil her see-through and lower-body passes read, so a mod's own copy by hash is bound;
+    # not thumbprinted, as in core's LynaePeppermintTextures)
+    facts.roles = {**OlderRoles, **CurrentRoles, "00e3f13b": "pouchFoil", "4bee4070": "jacketFoil", "99527ecc": "jacketNoise"}
     facts.registerRoles = RegisterRoles
     facts.textureThumbprints = thumbprints()
     facts.downloadGameFolder = "WuWa"
@@ -308,6 +310,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     after.draws = 2
     after.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"]
     sheer.after = after
+    sheer.onlyWith = "o3"                # the depth pre-pass draws it with the game's shader (core's LynaePeppermintFixer)
     # ---- and her COAT's see-through pass (4470be47), the same state: her coat is see-through where its mask
     # says so, over the body (LynaePeppermint2 paints its shirt there). Lynae's jacket slot reads the ramp at
     # ps-t6 already (data/lynaePeppermintSheerCoatShader.json, core's LynaePeppermintFixer) ----
@@ -323,7 +326,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     coatAfter.component = 3
     coatAfter.draws = 2
     coatAfter.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t6"]
+    coatAfter.also = [(4, 1)]            # ...and after the lower body too
     coat.after = coatAfter
+    coat.onlyWith = "o3"
     plan = config.plan
     plan[6].shader = sheer
     plan[5].shader = coat
@@ -340,9 +345,10 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                    ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
                    ("stencil_back", "always replace keep keep"),
                    ("rasterizer_state_merge", "true"), ("cull", "none")]
+    lower.onlyWith = "o3"
     plan[4].shader = lower
     plan[3].markLines = bodyMark
-    plan[4].markLines = bodyMark
+    plan[4].markLines = bodyMark + [("rasterizer_state_merge", "true"), ("cull", "none")]   # two-sided, as the lower body
     config.plan = plan
     # Lynae's overworld-only black top under her shirt, which showed through at the neck and arms
     # (core's LynaePeppermintFixer)

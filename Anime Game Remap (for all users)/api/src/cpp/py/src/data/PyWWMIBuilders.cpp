@@ -196,6 +196,11 @@ component as before. **Default**: ``"o3"``
         )doc"))
         .def_readwrite("carried", &AGRC::WWMIFixerConfig::Shader::After::carried, py::doc(R"doc(
 List[:class:`str`]: The registers a deferred draw takes from the component's own draw, eg. ``"ps-t0"``
+        )doc"))
+        .def_readwrite("also", &AGRC::WWMIFixerConfig::Shader::After::also, py::doc(R"doc(
+List[Tuple[:class:`int`, :class:`int`]]: Further components the draw waits for as well, each with how many
+draws its slot makes in one pass; the draw is made once all of them have drawn there, in whatever order.
+A component the mod does not draw is left out of the count. **Default**: empty
         )doc"));
 
     shader
@@ -217,6 +222,11 @@ List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry
 :attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
 see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
 **Default**: empty, one draw with :attr:`lines`
+        )doc"))
+        .def_readwrite("onlyWith", &AGRC::WWMIFixerConfig::Shader::onlyWith, py::doc(R"doc(
+:class:`str`: An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
+that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:
+``""``, every pass
         )doc"))
         .def_readwrite("after", &AGRC::WWMIFixerConfig::Shader::after, py::doc(R"doc(
 Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws

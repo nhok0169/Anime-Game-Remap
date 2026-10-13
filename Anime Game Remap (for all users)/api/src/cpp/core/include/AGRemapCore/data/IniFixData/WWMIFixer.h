@@ -226,7 +226,28 @@ namespace AGRemapCore {
                  @endrst
                  */
                 std::vector<std::string> carried;
+
+                /**
+                 * @brief
+                 @rst
+                 Further components the draw waits for as well, each with how many draws its slot makes
+                 in one pass: the draw is made once ALL of them (and :cpp:member:`component`) have drawn
+                 there, in whatever order the scene draws them. A component the mod does not draw is left
+                 out of the count
+                 @endrst
+                 */
+                std::vector<std::pair<int, int>> also;
             };
+
+            /**
+             * @brief
+             @rst
+             An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
+             that leaves it unbound (a depth pre-pass) draws the component with the game's own shader, as
+             any other component. Empty, the shader draws on every pass of the slot. **Default**: ``""``
+             @endrst
+             */
+            std::string onlyWith;
 
             /**
              * @brief

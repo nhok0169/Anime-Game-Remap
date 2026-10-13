@@ -130,6 +130,9 @@ namespace AGRemapCore {
             // her jacket's FILM draws (see drawReroutes), through the hip pouch with HER jacket shader:
             // her jacket's register order, her foil at ps-t4
             {105, {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t4", "filmFoil"}}, true}},
+            // ...and her PROPS' film draws, the same way: her props film is a post-lighting translucent pass
+            // that no pre-lighting draw of the skin can host, so it takes her jacket's film
+            {106, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"ps-t4", "filmFoil"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,
@@ -139,10 +142,17 @@ namespace AGRemapCore {
         // pouch's slot -- a deferred pass with her jacket pass's inputs and outputs -- drawn by her own
         // jacket shader with her jacket's material constants, reading the mod's art as it is. Her
         // shader reads the character's subsurface ramp at ps-t5, which the pouch's draw has at ps-t6 ----
+        // Her PROPS mark film the same way (Lynae9's sweater on its other X state): her own props passes
+        // draw it as post-lighting translucency (a depth prepass, a separate translucency target and a
+        // fullscreen composite), which nothing the skin draws before lighting can host, so those draws
+        // take her jacket shader too. Her jacket shader reads the code at t2.x, as the props' R8 map has it ----
         WWMIFixerConfig::DrawReroute filmDraws{5, 105, "jacketDetail", 0x10};
         filmDraws.shader = lynaeFilmShader();
         filmDraws.shader->lines = {{"ps-t5", "ref ps-t6"}};
-        config.drawReroutes = {std::move(filmDraws)};
+        WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};
+        propsFilmDraws.sourceFlags = lynaePropsFilmFlags();   // Lynae9 draws its props with the game's code map
+        propsFilmDraws.shader = filmDraws.shader;
+        config.drawReroutes = {std::move(filmDraws), std::move(propsFilmDraws)};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----
@@ -150,7 +160,7 @@ namespace AGRemapCore {
             {0, {{"bce1512f1c6b82fe", {{"ps-t0", "bangsDiffuse"}}}}},
             {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
             {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}}}}},
-            {5, {{"0fbe7ebba08cd1b0", {{"ps-t0", "propsDiffuse", 6}, {"ps-t0", "jacketDiffuse", 105}}}}},
+            {5, {{"0fbe7ebba08cd1b0", {{"ps-t0", "propsDiffuse", 6}, {"ps-t0", "jacketDiffuse", 105}, {"ps-t0", "propsDiffuse", 106}}}}},
             {6, {{"0fbe7ebba08cd1b0", {{"ps-t0", "jacketDiffuse"}}}}},
             {7, {{"e04f4df80ee6b0ab", {{"ps-t0", "eyeMask"}}}}},
         };

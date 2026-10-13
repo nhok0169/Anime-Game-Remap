@@ -379,6 +379,42 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Where a material-code map carries the reroute's :cpp:member:`flags`, cut into
+             ``width x height`` blocks: a block's bit is set when more than half of its texels carry
+             any of them. Bits are row-major, the lowest bit of each byte first
+             @endrst
+             */
+            struct FlagMask {
+                /**
+                 * @brief The number of blocks across
+                 */
+                int width = 0;
+
+                /**
+                 * @brief The number of blocks down
+                 */
+                int height = 0;
+
+                /**
+                 * @brief The blocks, one bit each
+                 */
+                std::vector<std::uint8_t> bits;
+            };
+
+            /**
+             * @brief
+             @rst
+             The SOURCE's own game code map of :cpp:member:`codeRole`, as a :cpp:struct:`FlagMask`,
+             for a mod that binds no code map of its own for that role: such a mod draws with the
+             game's map on its own character, so that map decides which of its draws carry the
+             flags. **Default**: empty, and such a mod's component is left whole
+             @endrst
+             */
+            FlagMask sourceFlags;
+
+            /**
+             * @brief
+             @rst
              A pixel shader of the reroute's own, which the rerouted draws are drawn with in place of
              the target slot's
              :raw-html:`<br />` :raw-html:`<br />`
@@ -442,7 +478,8 @@ namespace AGRemapCore {
          the mod's own material-code map -- never by its colours. Lynae paints a see-through film
          with flag ``0x10`` and her jacket's shader draws it as one; LynaePeppermint's jacket slot has
          no film, so those draws go through her hip pouch, whose foil is. A component whose map is
-         not the mod's own, or whose draws carry no such texel, is left whole. The rerouted draws are
+         not the mod's own is read through :cpp:member:`DrawReroute::sourceFlags`, or left whole
+         without one; a component whose draws carry no such texel is left whole. The rerouted draws are
          a second copy of the component's sections, renamed, holding only those draws; the
          component's own copy drops them. **Default**: none
          @endrst

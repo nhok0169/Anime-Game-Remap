@@ -25750,6 +25750,40 @@ class WWMIFixerConfig:
         :attr:`WWMIFixerConfig.drawReroutes`
             
         """
+        class FlagMask:
+            """
+            
+            Where a material-code map carries the reroute's :attr:`WWMIFixerConfig.DrawReroute.flags`, cut into
+            ``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
+            Bits are row-major, the lowest bit of each byte first
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def bits(self) -> list[int]:
+                """
+                List[:class:`int`]: The blocks, one bit each
+                """
+            @bits.setter
+            def bits(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+                ...
+            @property
+            def height(self) -> int:
+                """
+                :class:`int`: The number of blocks down
+                """
+            @height.setter
+            def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def width(self) -> int:
+                """
+                :class:`int`: The number of blocks across
+                """
+            @width.setter
+            def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
         class Shader:
             """
             
@@ -25849,6 +25883,17 @@ class WWMIFixerConfig:
             """
         @shader.setter
         def shader(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.DrawReroute.Shader | None) -> None:
+            ...
+        @property
+        def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:
+            """
+            :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
+            :attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
+            role: such a mod draws with the game's map on its own character, so that map decides which of its
+            draws carry the flags. **Default**: empty, and such a mod's component is left whole
+            """
+        @sourceFlags.setter
+        def sourceFlags(self, arg0: WWMIFixerConfig.DrawReroute.FlagMask) -> None:
             ...
     class RegRemoval:
         """
@@ -26176,7 +26221,9 @@ class WWMIFixerConfig:
         """
         List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
         rest of their component, chosen by the mod's own material-code map -- never by its colours. A
-        component whose map is not the mod's own, or whose draws carry no such texel, is left whole.
+        component whose map is not the mod's own is read through
+        :attr:`WWMIFixerConfig.DrawReroute.sourceFlags`, or left whole without one; a component whose draws
+        carry no such texel is left whole.
         **Default**: none
         """
     @drawReroutes.setter

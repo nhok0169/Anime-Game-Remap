@@ -214,6 +214,19 @@ List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` s
 written, eg. ``("ps-t5", "ref ps-t6")``
         )doc"));
 
+    py::class_<AGRC::WWMIFixerConfig::DrawReroute::FlagMask>(drawReroute, "FlagMask", R"doc(
+Where a material-code map carries the reroute's :attr:`WWMIFixerConfig.DrawReroute.flags`, cut into
+``width x height`` blocks: a block's bit is set when more than half of its texels carry any of them.
+Bits are row-major, the lowest bit of each byte first
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("width", &AGRC::WWMIFixerConfig::DrawReroute::FlagMask::width,
+                        py::doc(":class:`int`: The number of blocks across"))
+        .def_readwrite("height", &AGRC::WWMIFixerConfig::DrawReroute::FlagMask::height,
+                        py::doc(":class:`int`: The number of blocks down"))
+        .def_readwrite("bits", &AGRC::WWMIFixerConfig::DrawReroute::FlagMask::bits,
+                        py::doc("List[:class:`int`]: The blocks, one bit each"));
+
     drawReroute
         .def(py::init<>())
         .def(py::init([](int from, int as, std::string codeRole, int flags) {
@@ -230,6 +243,12 @@ not a source slot. Its slot and bindings say where they go and what they bind
         .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
 :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
 its vertices carry any of them
+        )doc"))
+        .def_readwrite("sourceFlags", &AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
+:class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
+:attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
+role: such a mod draws with the game's map on its own character, so that map decides which of its
+draws carry the flags. **Default**: empty, and such a mod's component is left whole
         )doc"))
         .def_readwrite("shader", &AGRC::WWMIFixerConfig::DrawReroute::shader, py::doc(R"doc(
 Optional[:class:`WWMIFixerConfig.DrawReroute.Shader`]: The shader the rerouted draws are drawn with,
@@ -372,7 +391,9 @@ which in a copy follows the source components' numeric order
         .def_readwrite("drawReroutes", &AGRC::WWMIFixerConfig::drawReroutes, py::doc(R"doc(
 List[:class:`WWMIFixerConfig.DrawReroute`]: Draws that go through a different target slot than the
 rest of their component, chosen by the mod's own material-code map -- never by its colours. A
-component whose map is not the mod's own, or whose draws carry no such texel, is left whole.
+component whose map is not the mod's own is read through
+:attr:`WWMIFixerConfig.DrawReroute.sourceFlags`, or left whole without one; a component whose draws
+carry no such texel is left whole.
 **Default**: none
         )doc"))
         .def_readwrite("typeRoles", &AGRC::WWMIFixerConfig::typeRoles, py::doc(R"doc(

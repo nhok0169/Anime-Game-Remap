@@ -36,6 +36,15 @@ namespace AGRemapCore {
      @endrst
      */
     WWMIFixerConfig::DrawReroute::Shader lynaeFilmShader();
+
+    /**
+     * @brief
+     @rst
+     Where Lynae's own props material-code map (``c49bec43``) marks film (flag ``0x10``), as a 256 x 256
+     block mask -- for a mod that draws its props with the game's map
+     @endrst
+     */
+    WWMIFixerConfig::DrawReroute::FlagMask lynaePropsFilmFlags();
 }
 
 #endif

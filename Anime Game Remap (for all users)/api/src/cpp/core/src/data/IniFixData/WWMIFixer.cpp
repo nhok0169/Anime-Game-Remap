@@ -4781,28 +4781,44 @@ namespace AGRemapCore {
 
                         // the MOD's own map: a role it does not bind is the source's own, whose
                         // texels the source's own shader already sorts out
+                        // ...and where the mod binds none, the GAME's map it draws with on its own
+                        // character, which DrawReroute::sourceFlags stands in for
+                        std::optional<std::string> codesPath;
                         const auto resource = resourceOfSlotRole_.find({reroute.codeRole, reroute.from});
-                        if (resource == resourceOfSlotRole_.end()) {
-                            continue;
+                        if (resource != resourceOfSlotRole_.end()) {
+                            const auto file = fileOfResource_.find(StringTools::toLower(resource->second));
+                            if (file != fileOfResource_.end()) {
+                                codesPath = FileService::absPathOfRelPath(file->second, folder);
+                            }
                         }
 
-                        const auto file = fileOfResource_.find(StringTools::toLower(resource->second));
-                        if (file == fileOfResource_.end()) {
+                        const WWMIFixerConfig::DrawReroute::FlagMask& mask = reroute.sourceFlags;
+                        const bool useMask = !codesPath.has_value();
+                        if (useMask && (mask.width <= 0 || mask.height <= 0
+                                        || mask.bits.size() * 8 < static_cast<std::size_t>(mask.width) * static_cast<std::size_t>(mask.height))) {
                             continue;
                         }
 
                         std::set<std::pair<long long, long long>> taken;
                         try {
-                            TextureFile codes(FileService::absPathOfRelPath(file->second, folder));
-                            codes.open();
-                            if (!codes.hasImage() || indexFile_.empty() || texcoordFile_.empty() || positionFile_.empty()) {
+                            std::optional<TextureFile> codes;
+                            if (!useMask) {
+                                codes.emplace(*codesPath);
+                                codes->open();
+                                if (!codes->hasImage()) {
+                                    continue;
+                                }
+                            }
+
+                            if (indexFile_.empty() || texcoordFile_.empty() || positionFile_.empty()) {
                                 continue;
                             }
 
-                            const bool srgb = codes.getGamma().has_value();
-                            const std::vector<std::uint8_t>& px = codes.getPixels();
-                            const long long w = codes.getWidth();
-                            const long long h = codes.getHeight();
+                            const bool srgb = !useMask && codes->getGamma().has_value();
+                            static const std::vector<std::uint8_t> noPixels;
+                            const std::vector<std::uint8_t>& px = useMask ? noPixels : codes->getPixels();
+                            const long long w = useMask ? mask.width : codes->getWidth();
+                            const long long h = useMask ? mask.height : codes->getHeight();
                             const ByteVec index = readWhole(FileService::absPathOfRelPath(indexFile_, folder), "this mod's index buffer");
                             const ByteVec uvRaw = readWhole(FileService::absPathOfRelPath(texcoordFile_, folder), "this mod's texcoords");
                             const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
@@ -4836,6 +4852,14 @@ namespace AGRemapCore {
 
                                     const long long x = std::min(w - 1, static_cast<long long>(uv[0] * w));
                                     const long long y = std::min(h - 1, static_cast<long long>(uv[1] * h));
+                                    if (useMask) {
+                                        const auto bit = static_cast<std::size_t>(y * w + x);
+                                        if (((mask.bits[bit / 8] >> (bit % 8)) & 1) != 0) {
+                                            ++marked;
+                                        }
+                                        continue;
+                                    }
+
                                     const std::size_t at = static_cast<std::size_t>(y * w + x) * 4;
                                     if (at < px.size() && (shaderCode(px[at], srgb) & reroute.flags) != 0) {
                                         ++marked;
@@ -4956,12 +4980,14 @@ namespace AGRemapCore {
                 // ---- WWMIFixerConfig::DrawReroute::shader ----
                 //
                 // Each rerouted draw becomes a `run =` of a list that draws it with the shader on the
-                // plan's passes and as it was on any other (the slot's outline pass draws it too)
+                // plan's passes and as it was on any other (the slot's outline pass draws it too). The
+                // files and the buffer resources go by the shader's NAME, so two reroutes drawn with one
+                // shader share them
                 std::string rerouteShaderSection(int as, const std::pair<long long, long long>& range,
                                                  const std::string& kind = IniKeywords::CommandList) const {
                     const auto& draws = reroutedDraws_.at(as);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
-                    return fixName(kind + rerouteShaders_.at(as)->name + "Draw" + std::to_string(at));
+                    return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at));
                 }
 
                 std::string rerouteShaderFile(const WWMIFixerConfig::DrawReroute::Shader& shader) const {
@@ -4980,7 +5006,7 @@ namespace AGRemapCore {
                 // The shader's source file is named by its `ps =`, which an undo removes with the block.
                 std::string rerouteShaderSections() {
                     std::string out;
-                    std::set<const WWMIFixerConfig::DrawReroute::Shader*> declared;
+                    std::set<std::string> declared;
                     for (const auto& [as, shader] : rerouteShaders_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
                         for (const auto& range : reroutedDraws_.at(as)) {
@@ -5005,7 +5031,7 @@ namespace AGRemapCore {
                             out += SectionText(z3_, custom).keys(lines).str();
                         }
 
-                        if (!declared.insert(shader).second) {
+                        if (!declared.insert(shader->name).second) {
                             continue;
                         }
 
@@ -5023,9 +5049,9 @@ namespace AGRemapCore {
 
                 void writeRerouteShaders() {
                     const std::string folder = ctx_.getIniFile()->getFolder();
-                    std::set<const WWMIFixerConfig::DrawReroute::Shader*> written;
+                    std::set<std::string> written;
                     for (const auto& [as, shader] : rerouteShaders_) {
-                        if (!written.insert(shader).second) {
+                        if (!written.insert(shader->name).second) {
                             continue;
                         }
 
@@ -5500,6 +5526,15 @@ namespace AGRemapCore {
                     auto slotRole = resourceOfSlotRole_.find({role, component});
                     if (slotRole != resourceOfSlotRole_.end()) {
                         return &slotRole->second;
+                    }
+
+                    // a reroute drawn by its own shader reads the download itself, not a texture edit
+                    // of it (see rerouteShaders_)
+                    if (rerouteShaders_.count(component) > 0) {
+                        const auto download = fallbacks_.find(role);
+                        if (download != fallbacks_.end()) {
+                            return &download->second.resource;
+                        }
                     }
 
                     auto shared = resourceOfRole_.find(role);

@@ -291,10 +291,16 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         105: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "jacketNormal"), B("ps-t1", "jacketMask"),
                                                      B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse"),
                                                      B("ps-t4", "filmFoil")]),
+        # ...and her PROPS' film draws the same way: her props film is a post-lighting translucent pass that no
+        # pre-lighting draw of the skin can host, so it takes her jacket's film
+        106: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "propsNormal"), B("ps-t1", "propsMask"),
+                                                     B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse"),
+                                                     B("ps-t4", "filmFoil")]),
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True
     plan[105].sameFileSection = True
+    plan[106].sameFileSection = True
     config.plan = plan
 
     # ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater), and no slot
@@ -310,7 +316,16 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     shader.lines = [("ps-t5", "ref ps-t6")]
     filmDraws = FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)
     filmDraws.shader = shader
-    config.drawReroutes = [filmDraws]
+    # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
+    # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)
+    with open(os.path.join(Here, "data", "lynaePropsFilmFlags.json"), encoding="utf-8") as f:
+        maskData = json.load(f)
+    flags = FRB.WWMIFixerConfig.DrawReroute.FlagMask()
+    flags.width, flags.height, flags.bits = maskData["width"], maskData["height"], maskData["bits"]
+    propsFilmDraws = FRB.WWMIFixerConfig.DrawReroute(6, 106, "propsDetail", 0x10)
+    propsFilmDraws.sourceFlags = flags
+    propsFilmDraws.shader = shader
+    config.drawReroutes = [filmDraws, propsFilmDraws]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----
@@ -318,7 +333,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         0: {"bce1512f1c6b82fe": [B("ps-t0", "bangsDiffuse")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairDiffuse")]},
         3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4)]},
-        5: {"0fbe7ebba08cd1b0": [B("ps-t0", "propsDiffuse", 6), B("ps-t0", "jacketDiffuse", 105)]},
+        5: {"0fbe7ebba08cd1b0": [B("ps-t0", "propsDiffuse", 6), B("ps-t0", "jacketDiffuse", 105), B("ps-t0", "propsDiffuse", 106)]},
         6: {"0fbe7ebba08cd1b0": [B("ps-t0", "jacketDiffuse")]},
         7: {"e04f4df80ee6b0ab": [B("ps-t0", "eyeMask")]},
     }

@@ -1249,6 +1249,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" kind="variable"><name>as</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" kind="variable"><name>codeRole</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" kind="variable"><name>flags</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" kind="variable"><name>sourceFlags</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aa496adee89e51764f167d7b4b8b6f862" kind="variable"><name>shader</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kind="struct"><name>AGRemapCore::IniFixResourceModel::Entry</name>
@@ -1399,6 +1400,11 @@
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config" kind="struct"><name>AGRemapCore::GIMIFixer::FixerConfig</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config_1aebe9fddbfc4f5ff5f2452b11f49ee921" kind="variable"><name>sectionToStr</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kind="struct"><name>AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1a28b21ab41dc87ec9a7fe3363fe0b759f" kind="variable"><name>width</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1aa412df98f495307f2639c8f3ac616b60" kind="variable"><name>height</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1a4fd13381275bf25a66f465cb8ad3ed4d" kind="variable"><name>bits</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk" kind="struct"><name>AGRemapCore::RemapService::FolderWalk</name>
     <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" kind="variable"><name>dirs</name></member>

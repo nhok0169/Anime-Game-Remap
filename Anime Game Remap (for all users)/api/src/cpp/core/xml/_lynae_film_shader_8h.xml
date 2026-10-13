@@ -5,6 +5,7 @@
     <includes refid="_w_w_m_i_fixer_8h" local="yes">AGRemapCore/data/IniFixData/WWMIFixer.h</includes>
     <includedby refid="_lynae_film_shader_8cpp" local="yes">src/data/IniFixData/Lynae/LynaeFilmShader.cpp</includedby>
     <includedby refid="_lynae_fixer_8cpp" local="yes">src/data/IniFixData/Lynae/LynaeFixer.cpp</includedby>
+    <includedby refid="_lynae_props_film_flags_8cpp" local="yes">src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp</includedby>
     <incdepgraph>
       <node id="50">
         <label>Algo.tpp</label>
@@ -1334,6 +1335,8 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/Lynae/LynaeFilmShader.cpp</label>
@@ -1342,6 +1345,10 @@
       <node id="3">
         <label>src/data/IniFixData/Lynae/LynaeFixer.cpp</label>
         <link refid="_lynae_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp</label>
+        <link refid="_lynae_props_film_flags_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
@@ -1373,9 +1380,11 @@
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_shader" kindref="compound">WWMIFixerConfig::DrawReroute::Shader</ref><sp/><ref refid="namespace_a_g_remap_core_1ac0437bcf8e75796e6f4b96c3d169ab51" kindref="member">lynaeFilmShader</ref>();</highlight></codeline>
-<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kindref="compound">WWMIFixerConfig::DrawReroute::FlagMask</ref><sp/><ref refid="namespace_a_g_remap_core_1a4f62cd3bab3775daad0983581b6fdd75" kindref="member">lynaePropsFilmFlags</ref>();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"/>
   </compounddef>

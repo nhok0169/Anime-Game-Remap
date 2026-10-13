@@ -3,6 +3,7 @@
   <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute" kind="struct" language="C++" prot="public">
     <compoundname>AGRemapCore::WWMIFixerConfig::DrawReroute</compoundname>
     <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" prot="public">AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_shader" prot="public">AGRemapCore::WWMIFixerConfig::DrawReroute::Shader</innerclass>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" static="no" mutable="no">
@@ -75,6 +76,26 @@ its vertices carry any of them
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="377" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="377" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kindref="compound">FlagMask</ref></type>
+        <definition>FlagMask AGRemapCore::WWMIFixerConfig::DrawReroute::sourceFlags</definition>
+        <argsstring></argsstring>
+        <name>sourceFlags</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::sourceFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The SOURCE&apos;s own game code map of :cpp:member:`codeRole`, as a :cpp:struct:`FlagMask`,
+for a mod that binds no code map of its own for that role: such a mod draws with the
+game&apos;s map on its own character, so that map decides which of its draws carry the
+flags. **Default**: empty, and such a mod&apos;s component is left whole
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="413" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aa496adee89e51764f167d7b4b8b6f862" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
         <definition>std::optional&lt;Shader&gt; AGRemapCore::WWMIFixerConfig::DrawReroute::shader</definition>
@@ -95,7 +116,7 @@ before on any other (an outline pass, :cpp:member:`extraPassRegs`).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="435" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="435" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="471" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="471" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -103,13 +124,27 @@ before on any other (an outline pass, :cpp:member:`extraPassRegs`).
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="352" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="352" bodyend="436"/>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::WWMIFixerConfig::DrawReroute</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sourceFlags</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</label>
+        <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="352" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="352" bodyend="472"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>codeRole</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>flags</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>from</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aa496adee89e51764f167d7b4b8b6f862" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>shader</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>sourceFlags</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

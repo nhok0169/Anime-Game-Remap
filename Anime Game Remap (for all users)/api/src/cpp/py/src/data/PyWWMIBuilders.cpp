@@ -170,14 +170,35 @@ or ``-1`` for every source drawn through the slot. Needed where two sources merg
 slot, since "the diffuse" is then a different file for each. **Default**: ``-1``
         )doc"));
 
-    py::class_<AGRC::WWMIFixerConfig::Shader>(fixerConfig, "Shader", R"doc(
+    py::class_<AGRC::WWMIFixerConfig::Shader> shader(fixerConfig, "Shader", R"doc(
 A pixel shader a :class:`WWMIFixerConfig.SourceComponent` is drawn with in place of the target slot's.
 The fix writes the shader and its constant buffers beside the mod's buffers, declares them in its own
 block (so an undo removes them), and turns each ``drawindexed`` of the component into a ``run =`` of a
 ``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
 itself is the target draw's: its vertex shader, its render targets and the textures the component's
 :attr:`WWMIFixerConfig.plan` entry binds
+    )doc");
+
+    py::class_<AGRC::WWMIFixerConfig::Shader::After>(shader, "After", R"doc(
+Which draws must come before a :class:`WWMIFixerConfig.Shader`'s component, on a pass -- see
+:attr:`WWMIFixerConfig.Shader.after`
     )doc")
+        .def(py::init<>())
+        .def_readwrite("component", &AGRC::WWMIFixerConfig::Shader::After::component,
+                        py::doc(":class:`int`: The SOURCE component (a key of :attr:`WWMIFixerConfig.plan`) drawn first"))
+        .def_readwrite("draws", &AGRC::WWMIFixerConfig::Shader::After::draws, py::doc(R"doc(
+:class:`int`: How many draws that component's slot makes in one pass; the deferred draw follows the last
+of them. **Default**: ``1``
+        )doc"))
+        .def_readwrite("target", &AGRC::WWMIFixerConfig::Shader::After::target, py::doc(R"doc(
+:class:`str`: The output register that tells one pass from another; a pass leaving it unbound draws the
+component as before. **Default**: ``"o3"``
+        )doc"))
+        .def_readwrite("carried", &AGRC::WWMIFixerConfig::Shader::After::carried, py::doc(R"doc(
+List[:class:`str`]: The registers a deferred draw takes from the component's own draw, eg. ``"ps-t0"``
+        )doc"));
+
+    shader
         .def(py::init<>())
         .def_readwrite("name", &AGRC::WWMIFixerConfig::Shader::name,
                         py::doc(":class:`str`: The name its files and sections are given, eg. ``\"LynaeFilm\"``"))
@@ -196,6 +217,11 @@ List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry
 :attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
 see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
 **Default**: empty, one draw with :attr:`lines`
+        )doc"))
+        .def_readwrite("after", &AGRC::WWMIFixerConfig::Shader::after, py::doc(R"doc(
+Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
+in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first
+blends over whatever is behind the body. **Default**: ``None``
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::SourceComponent> sourceComponent(fixerConfig, "SourceComponent", R"doc(

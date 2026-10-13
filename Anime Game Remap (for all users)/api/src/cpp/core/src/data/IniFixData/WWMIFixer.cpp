@@ -551,6 +551,45 @@ namespace AGRemapCore {
         };
 
 
+        // WWMIFixerConfig::Shader::after: a `run =` of the list right before each `run =` of one of the
+        // anchors -- the cleanup list the section runs once after its draws, so the list runs once per
+        // game draw however many ranges the mod draws the component as
+        class RunBeforeRuns : public BaseRegEdit<> {
+            public:
+                RunBeforeRuns(std::vector<std::string> anchors, std::string list)
+                    : anchors_(std::move(anchors)), list_(std::move(list)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::Run)) {
+                            continue;
+                        }
+
+                        const std::string value(StringTools::strip(item->value));
+                        for (const std::string& anchor : anchors_) {
+                            if (StringTools::equalsIgnoreCase(value, anchor)) {
+                                part.addKVPAt(static_cast<long long>(item->orderIndex), IniKeywords::Run, list_);
+                                break;
+                            }
+                        }
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::vector<std::string> anchors_;
+                std::string list_;
+        };
+
+
         // WWMIFixerConfig::SourceComponent::rabbitFX: a `run =` of the pin list right after each
         // `run = CommandList\RabbitFX\SetTextures`, which sets RabbitFX's routing flags
         class RabbitFXPin : public BaseRegEdit<> {
@@ -5392,6 +5431,31 @@ namespace AGRemapCore {
                         markEdit_ = std::make_unique<MarkDraws>(std::move(markOf));
                         markAdapter_ = std::make_unique<RegPartEdit<>>(markEdit_.get());
                     }
+
+                    // Shader::after: each draw of the component drawn first runs one list, which makes the
+                    // draws held back for it
+                    // (the cleanup list under its own name and under the fix's, which the list renames
+                    // may already have given it)
+                    afterDispatch_.clear();
+                    afterEdits_.clear();
+                    afterAdapters_.clear();
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        (void)as;
+                        if (!shader->after.has_value() || present_.count(shader->after->component) == 0) {
+                            continue;
+                        }
+
+                        const int first = shader->after->component;
+                        if (afterDispatch_.count(first) > 0) {
+                            continue;
+                        }
+
+                        const std::string list = fixName(IniKeywords::CommandList + "DrawAfter" + std::to_string(first));
+                        afterDispatch_[first] = list;
+                        afterEdits_[first] = std::make_unique<RunBeforeRuns>(
+                            std::vector<std::string>{config_.cleanupResourcesList, fixName(config_.cleanupResourcesList)}, list);
+                        afterAdapters_[first] = std::make_unique<RegPartEdit<>>(afterEdits_[first].get());
+                    }
                 }
 
                 // ---- WWMIFixerConfig::SourceComponent::markLines ----
@@ -5438,10 +5502,11 @@ namespace AGRemapCore {
                 }
 
                 std::string rerouteShaderSection(int as, const std::pair<long long, long long>& range,
-                                                 const std::string& kind = IniKeywords::CommandList) const {
+                                                 const std::string& kind = IniKeywords::CommandList,
+                                                 const std::string& suffix = "") const {
                     const std::set<std::pair<long long, long long>> draws = shaderDraws(as);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
-                    return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at));
+                    return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at) + suffix);
                 }
 
                 std::string rerouteShaderFile(const WWMIFixerConfig::Shader& shader) const {
@@ -5471,12 +5536,73 @@ namespace AGRemapCore {
                                 return p == 0 ? custom : custom + "Pass" + std::to_string(p);
                             };
 
-                            SectionText list(z3_, rerouteShaderSection(as, range));
-                            list.open(onPlan);
+                            std::vector<Kvp> runs;
                             for (std::size_t p = 0; p < passCount; ++p) {
-                                list.key(IniKeywords::Run, passName(p));
+                                runs.emplace_back(IniKeywords::Run, passName(p));
                             }
-                            out += list.orElse().key(IniKeywords::DrawIndexed, draw).close().str();
+
+                            SectionText list(z3_, rerouteShaderSection(as, range));
+                            if (!shader->after.has_value() || present_.count(shader->after->component) == 0) {
+                                out += list.open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close().str();
+                            } else {
+                                // Shader::after -- each pass (told apart by the target resource) records which
+                                // of the two came first, and the second makes the draw
+                                const WWMIFixerConfig::Shader::After& after = *shader->after;
+                                const std::string target = after.target;
+                                const std::string frame = "$" + rerouteShaderSection(as, range, "", "Frame");
+                                const std::string count = "$" + rerouteShaderSection(as, range, "", "Count");
+                                const std::string drawn = rerouteShaderSection(as, range, IniKeywords::Resource, "Drawn");
+                                const std::string pending = rerouteShaderSection(as, range, IniKeywords::Resource, "Pending");
+                                const auto carried = [&](const std::string& reg) {
+                                    return rerouteShaderSection(as, range, IniKeywords::Resource, "Carried" + IniNamingTools::getRegTag(reg));
+                                };
+                                const std::vector<Kvp> reset{{frame, "time"}, {drawn, "null"}, {pending, "null"}};
+
+                                std::vector<Kvp> hold{{pending, IniKeywords::Ref + " " + target}, {count, "0"}};
+                                std::vector<Kvp> release;
+                                for (const std::string& reg : after.carried) {
+                                    hold.emplace_back(carried(reg), IniKeywords::Ref + " " + reg);
+                                    release.emplace_back(reg, IniKeywords::Ref + " " + carried(reg));
+                                }
+                                for (const Kvp& run : runs) {
+                                    release.push_back(run);
+                                }
+                                release.emplace_back(pending, "null");
+
+                                out += list.open(frame + " != time").keys(reset).close()
+                                           .open(target + " === null")
+                                               .open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close()
+                                           .orElse()
+                                               .open(onPlan)
+                                                   .open(drawn + " === " + target).keys(runs).key(drawn, "null")
+                                                   .orElse().keys(hold)
+                                                   .close()
+                                               .orElse().key(IniKeywords::DrawIndexed, draw)
+                                               .close()
+                                           .close()
+                                           .str();
+
+                                // what the earlier component's draws run (through the DrawAfter list)
+                                out += SectionText(z3_, rerouteShaderSection(as, range, IniKeywords::CommandList, "After"))
+                                           .open(frame + " != time").keys(reset).close()
+                                           .open(target + " !== null")
+                                               .open(pending + " === " + target)
+                                                   .key(count, count + " + 1")
+                                                   .open(count + " >= " + std::to_string(after.draws)).keys(release).close()
+                                               .orElse().key(drawn, IniKeywords::Ref + " " + target)
+                                               .close()
+                                           .close()
+                                           .str();
+
+                                afterConstants_.emplace_back("global " + frame, "-1");
+                                afterConstants_.emplace_back("global " + count, "0");
+                                for (const std::string& name : {drawn, pending}) {
+                                    out += SectionText(z3_, name).str();
+                                }
+                                for (const std::string& reg : after.carried) {
+                                    out += SectionText(z3_, carried(reg)).str();
+                                }
+                            }
 
                             for (std::size_t p = 0; p < passCount; ++p) {
                                 std::vector<Kvp> lines{{"ps", rerouteShaderFile(*shader)}};
@@ -5507,6 +5633,25 @@ namespace AGRemapCore {
                                               {IniKeywords::Filename, rerouteBufferFile(*shader, entry.first)}})
                                        .str();
                         }
+                    }
+
+                    for (const auto& [first, dispatch] : afterDispatch_) {
+                        SectionText list(z3_, dispatch);
+                        for (const auto& [as, shader] : rerouteShaders_) {
+                            if (shader->after.has_value() && shader->after->component == first) {
+                                for (const auto& range : shaderDraws(as)) {
+                                    list.key(IniKeywords::Run, rerouteShaderSection(as, range, IniKeywords::CommandList, "After"));
+                                }
+                            }
+                        }
+                        out += list.str();
+                    }
+
+                    if (!afterConstants_.empty()) {
+                        // a second [Constants] in a file is merged into the first; inside the fix block
+                        // an undo removes it with the block
+                        out += SectionText(z3_, ConstantsSection).keys(afterConstants_).str();
+                        afterConstants_.clear();
                     }
 
                     for (const auto& [component, lines] : markLines_) {
@@ -5678,6 +5823,10 @@ namespace AGRemapCore {
 
                             if (shapeKeyAdapter_ != nullptr) {
                                 edits.push_back(shapeKeyAdapter_.get());
+                            }
+
+                            if (afterAdapters_.count(component) > 0) {
+                                edits.push_back(afterAdapters_.at(component).get());
                             }
 
                             if (markLines_.count(component) > 0 && markAdapter_ != nullptr) {
@@ -8109,6 +8258,10 @@ namespace AGRemapCore {
                 std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
                 std::unique_ptr<MarkDraws> markEdit_;
                 std::unique_ptr<RegPartEdit<>> markAdapter_;
+                std::map<int, std::string> afterDispatch_;     // a component drawn first -> the list its draws run (Shader::after)
+                std::map<int, std::unique_ptr<RunBeforeRuns>> afterEdits_;
+                std::map<int, std::unique_ptr<RegPartEdit<>>> afterAdapters_;
+                std::vector<Kvp> afterConstants_;              // the variables the Shader::after lists keep
                 std::map<int, const WWMIFixerConfig::Shader*> rerouteShaders_;   // a drawn component -> its plan entry's own shader (SourceComponent::shader)
                 std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
                 std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;

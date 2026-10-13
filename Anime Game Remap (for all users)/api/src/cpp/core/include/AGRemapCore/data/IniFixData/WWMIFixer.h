@@ -185,6 +185,65 @@ namespace AGRemapCore {
              @endrst
              */
             std::vector<std::vector<std::pair<std::string, std::string>>> passes;
+
+            /**
+             * @brief
+             @rst
+             Which draws must come before the component's, on a pass -- see :cpp:member:`after`
+             @endrst
+             */
+            struct After {
+                /**
+                 * @brief The SOURCE component (a key of :cpp:member:`WWMIFixerConfig::plan`) drawn first
+                 */
+                int component = -1;
+
+                /**
+                 * @brief
+                 @rst
+                 How many draws that component's slot makes in one pass; the deferred draw follows the
+                 last of them. **Default**: ``1``
+                 @endrst
+                 */
+                int draws = 1;
+
+                /**
+                 * @brief
+                 @rst
+                 The output register that tells one pass from another: two draws into the same
+                 resource here are one pass. Pick one a pass that should NOT wait (a depth pre-pass)
+                 leaves unbound -- such a pass draws the component as before. **Default**: ``"o3"``
+                 @endrst
+                 */
+                std::string target = "o3";
+
+                /**
+                 * @brief
+                 @rst
+                 The registers a deferred draw takes from the component's own draw (the textures its
+                 plan entry binds, a register the shader's lines read by ``ref``), eg. ``"ps-t0"``.
+                 Everything else is the later draw's
+                 @endrst
+                 */
+                std::vector<std::string> carried;
+            };
+
+            /**
+             * @brief
+             @rst
+             Draw the component only AFTER another component's draws in the same pass, whichever
+             order the game draws the two slots in.
+
+             The game does not keep one order: Lynae's jacket slot draws after her upper body in the
+             character menu and BEFORE it in the overworld. A see-through layer blends over whatever
+             is under it when it draws, so drawn first it blends over her hair and the scene behind
+             her -- and her body, drawn after, loses the depth test under it. Set, the component's
+             draw on a pass binding :cpp:member:`After::target` is held back when the other
+             component has not drawn yet, and made after that component's last draw instead.
+             **Default**: none, drawn where its slot draws
+             @endrst
+             */
+            std::optional<After> after;
         };
 
 

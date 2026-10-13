@@ -25920,7 +25920,60 @@ class WWMIFixerConfig:
         :attr:`WWMIFixerConfig.plan` entry binds
             
         """
+        class After:
+            """
+            
+            Which draws must come before a :class:`WWMIFixerConfig.Shader`'s component, on a pass -- see
+            :attr:`WWMIFixerConfig.Shader.after`
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def carried(self) -> list[str]:
+                """
+                List[:class:`str`]: The registers a deferred draw takes from the component's own draw, eg. ``"ps-t0"``
+                """
+            @carried.setter
+            def carried(self, arg0: collections.abc.Sequence[str]) -> None:
+                ...
+            @property
+            def component(self) -> int:
+                """
+                :class:`int`: The SOURCE component (a key of :attr:`WWMIFixerConfig.plan`) drawn first
+                """
+            @component.setter
+            def component(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def draws(self) -> int:
+                """
+                :class:`int`: How many draws that component's slot makes in one pass; the deferred draw follows the last
+                of them. **Default**: ``1``
+                """
+            @draws.setter
+            def draws(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def target(self) -> str:
+                """
+                :class:`str`: The output register that tells one pass from another; a pass leaving it unbound draws the
+                component as before. **Default**: ``"o3"``
+                """
+            @target.setter
+            def target(self, arg0: str) -> None:
+                ...
         def __init__(self) -> None:
+            ...
+        @property
+        def after(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader.After | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
+            in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first
+            blends over whatever is behind the body. **Default**: ``None``
+            """
+        @after.setter
+        def after(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader.After | None) -> None:
             ...
         @property
         def constantBuffers(self) -> dict[str, list[int]]:

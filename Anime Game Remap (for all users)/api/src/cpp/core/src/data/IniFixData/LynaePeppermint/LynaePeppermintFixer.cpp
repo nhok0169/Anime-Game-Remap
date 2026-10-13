@@ -220,6 +220,16 @@ namespace AGRemapCore {
              {"stencil_front", "equal replace keep keep"}, {"stencil_back", "equal replace keep keep"}},
             {{"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
         };
+        // ...after her upper body, whichever slot the game draws first: in the overworld her jacket slot
+        // draws BEFORE the upper body (the character menu after it), so the shirt blended over her hair,
+        // the coat's back panel and the scene behind her, and the body then lost the depth test under it.
+        // Her upper body makes two G-buffer draws a pass (the second fills what the first leaves where
+        // the coat's stencil is), and the shirt follows the second
+        WWMIFixerConfig::Shader::After afterBody;
+        afterBody.component = 3;
+        afterBody.draws = 2;
+        afterBody.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
+        sheerJacket.after = afterBody;
         config.plan.at(6).shader = std::move(sheerJacket);
 
         // ...and the body it is seen through marks itself (bit 1), where it is the visible surface

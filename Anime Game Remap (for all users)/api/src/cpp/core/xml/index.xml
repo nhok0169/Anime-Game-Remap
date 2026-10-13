@@ -4,6 +4,12 @@
     <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1ad02cc70b06cbbf39301fe28b8ad26cf9" kind="variable"><name>sections</name></member>
     <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1af5e813688543bd92fd91ac3fd418abce" kind="variable"><name>refs</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after" kind="struct"><name>AGRemapCore::WWMIFixerConfig::Shader::After</name>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1a35bf84c5fe071e949f197abd82f0800b" kind="variable"><name>component</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1ad241189af83d7237ddbfe502a145d320" kind="variable"><name>draws</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1a3bf87e0e67b58284b455792a56d84cee" kind="variable"><name>target</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1a9e08977f33d70cfd53b702549e981dc3" kind="variable"><name>carried</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_algo" kind="class"><name>AGRemapCore::Algo</name>
     <member refid="class_a_g_remap_core_1_1_algo_1a10154736912a06c0383a78a421eabe4b" kind="function"><name>merge</name></member>
     <member refid="class_a_g_remap_core_1_1_algo_1a8cdc21c258f4ee56f38e513bd71834f7" kind="function"><name>binarySearch</name></member>
@@ -5686,6 +5692,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" kind="variable"><name>constantBuffers</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" kind="variable"><name>lines</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" kind="variable"><name>passes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" kind="variable"><name>after</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_shape_key_checksums" kind="class"><name>AGRemapCore::ShapeKeyChecksums</name>
     <member refid="class_a_g_remap_core_1_1_shape_key_checksums_1a37a343d90c345ffee70a9bb5f4d91362" kind="function"><name>ShapeKeyChecksums</name></member>

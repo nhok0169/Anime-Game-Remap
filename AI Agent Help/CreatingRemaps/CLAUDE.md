@@ -1456,6 +1456,30 @@ the mod on its own card. What it found:
   small mesh drawn with her face shaders), not hidden here because nothing showed. Whether LynaePeppermint has such a
   mesh of her own is unchecked: wearing her outfit in the overworld was not done.
 
+  **AND IN THE OVERWORLD YOU COULD SEE THROUGH HER BODY: THE GAME DRAWS HER SLOTS IN A DIFFERENT ORDER THERE
+  (2026-10-13).** The maintainer: "you can see through Lynae's body and see her back ponytails; on the original
+  you can't". Every check above was in the character menu, where Lynae's upper body (slot 3) draws before her
+  jacket slot (slot 4, which carries the shirt). In the overworld slot 4 draws FIRST, so the see-through pass
+  blended over whatever was there -- her ponytails, the coat's back panel, the scene -- and her body, drawn after,
+  lost the depth test under the shirt. Read off one log-only dump (draw order by vertex shader), then settled by
+  dumping `o3` / `oD` at chosen points with 3DMigoto's `dump = dump_rt dds o3` command inside the probe's own
+  command lists (75 MB a dump). Three wrong turns worth knowing:
+  - **`o0` does not tell passes apart**: the overworld's pre-pass and G-buffer pass bind the SAME `o0`, so a
+    "drawn in this pass" record from the pre-pass matched in the G-buffer. `o3` (base colour) is unbound in the
+    pre-pass and is the one.
+  - **Her upper body is TWO G-buffer draws a pass** (two pixel shaders, different depth-stencil states): where the
+    coat already wrote its stencil, the first skips and the second fills. A shirt drawn after the first still had
+    the coat's panel under the chest; it has to follow the second.
+  - **A mod may draw the upper body as many toggled ranges in ONE section** (LynaePeppermint3: ten), so the count
+    goes up once per game draw -- right before the section's cleanup list -- not once per `drawindexed`.
+  `WWMIFixerConfig::Shader::after` (`component`, `draws`, `target`, `carried`) does it: on a pass binding the target,
+  each side records which drew first; the shirt drawn first is held back (its textures and the game's `ps-t9`
+  saved) and made after the upper body's last draw. A pass without the target draws as before, and the records
+  reset once a frame on 3DMigoto's `time` (one `[Constants]` of the fix's own). In game: the overworld shows the
+  body under the shirt from the front, sides and below, and the menu is unchanged; LynaePeppermint3 / 4 checked
+  too. Only the five LynaePeppermint `.ini` files move across the 31-mod corpus. **Lesson for every pair: check a
+  see-through or layered part in the OVERWORLD before calling it done** -- draw order is the game's, per scene.
+
 <br>
 
 ## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)

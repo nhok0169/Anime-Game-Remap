@@ -291,6 +291,12 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     bodyMark = [("depth_stencil_state_merge", "true"), ("depth_func", "equal"), ("depth_write_mask", "zero"),
                 ("stencil_enable", "true"), ("stencil_ref", "1"), ("stencil_write_mask", "1"), ("stencil_read_mask", "0xff"),
                 ("stencil_front", "always replace keep keep"), ("stencil_back", "always replace keep keep")]
+    # ...after her upper body's two G-buffer draws, whichever slot the game draws first (core's LynaePeppermintFixer)
+    after = FRB.WWMIFixerConfig.Shader.After()
+    after.component = 3
+    after.draws = 2
+    after.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"]
+    sheer.after = after
     plan = config.plan
     plan[6].shader = sheer
     plan[3].markLines = bodyMark

@@ -991,6 +991,33 @@ the mod on its own card. What it found:
   blend remap, draws on the state it set, so a section now also counts when every section that runs it counts. Proved
   both ways: all five skin mods pass, and a copy with the blend-remap call removed from one section still fails,
   naming that section and the two custom shaders it runs.
+* **THE SKIN'S SEE-THROUGH SHIRT IS DRAWN BY THE SKIN'S OWN SHEER PASS, ON LYNAE'S LOWER BODY (LynaePeppermint1,
+  2026-10-13).** Her shirt rendered opaque white on Lynae. The skin draws her jacket twice: `efc2690a` (state that,
+  in a depth / stencil dump of her preview, draws NOTHING at all) and `0b6e3ef7`, the sheer pass, which writes the
+  whole shirt into the G-buffer. Three things make it see-through, each found by a probe that failed without it:
+  **(1) it must draw AFTER the body it shows.** It leaves render targets 0, 5 and 6 alone, so they keep the BODY's
+  data under the shirt, and the deferred lighting shows that through it. Lynae draws her jacket slot BEFORE her upper
+  body (the shirt's depth then rejects the body behind it), and her lower body after both, so component 6 goes
+  through her lower-body slot (4), as a second section in the mod's own file (`sameFileSection`). **(2) its stencil
+  bit.** It writes ref 14 through write mask `0x8a` (read off the dump: the background's 128 becomes 10, her body's
+  14 stays). Every draw of the skin carries the 8 bit (refs 10 / 14) and none of Lynae's does (2 / 6); without it
+  the lighting shades the shirt as opaque cloth. **(3) `depth_stencil_state_merge = true`.** Without it, ANY
+  depth / stencil line makes 3DMigoto build the state from defaults, and the default `LESS` test under a reversed-Z
+  buffer rejects every pixel in front of the body: the shirt vanished. 3DMigoto's `stencil_front` order is
+  `<func> <pass op> <depth-fail op> <stencil-fail op>` (probed: `always replace keep keep` works, a replace only in
+  the third position does not). It is `SourceComponent::shader` on plan entry 6, with those lines, the skin's
+  register order (normal, mask, diffuse, code) plus her noise (`99527ecc`, a NEW download -- nothing of Lynae's
+  binds it) and foil (`4bee4070`) as fallback-only roles, and her ramp by `ps-t6 = ref ps-t9` (the same texture,
+  data hash `ecfa79d1`). The jacket mask's repack is gone with it (the skin's shader reads the skin's legend), and
+  the lower-body outline pass (`30ab50e7`) takes each source's diffuse by `srcComponent`. **A thin line remains at
+  the hem over the belly, and the bikini shows a little fainter than on the skin**: the hem line is not the outline
+  (suppressing comp 6's outline left it), and the faintness is Lynae's own upper-body shading underneath. Every
+  shirt input but the G-buffer under it matches the skin's draw (`cb1` / `cb2` / `cb3` compared). Data:
+  `LynaePeppermint/LynaePeppermintSheerShader.{h,cpp}` and the prototype's `data/lynaePeppermintSheerShader.json`
+  (`wwmiShaderData.py`, `cb4` rows 0-140). Across the 34-mod corpus only the five LynaePeppermint mods moved;
+  prototype and compiled fix are identical on three, and a second fix is byte-identical. **Reading a stencil**:
+  `GameView dump --options "dump_rt dump_depth buf txt"` writes each draw's `oD` as `D24_UNORM_S8_UINT`, and the
+  top byte of each 32-bit texel (after a 148-byte header) is the stencil.
 
 <br>
 

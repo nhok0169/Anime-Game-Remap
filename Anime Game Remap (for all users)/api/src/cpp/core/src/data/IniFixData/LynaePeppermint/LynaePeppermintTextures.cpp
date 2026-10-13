@@ -105,6 +105,10 @@ namespace AGRemapCore {
             {"jacketDiffuse", "cb051033"},
             {"jacketMask", "ca537274"},
             {"jacketNormal", "9617b922"},
+            // her see-through jacket pass's noise and foil, which a mod never ships: the game's, at the
+            // registers lynaePeppermintSheerShader reads them from
+            {"jacketNoise", "99527ecc"},
+            {"jacketFoil", "4bee4070"},
             {"lowerDetail", "0fa3ab67"},
             {"lowerDiffuse", "16e48d10"},
             {"lowerMask", "fef651e2"},

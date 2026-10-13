@@ -254,13 +254,13 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 5a | **AUDIT the prototype** against every lesson in these files and against every mod a person COULD make -- not only the mods you have | "THE AUDIT GATE" below |
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
 | 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53). **The port is done when it A/Bs identical to the prototype on every mod** (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), the corpus moves only this pair's mods, and the suites pass |
-| 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses | "THE AUDIT GATE" below |
+| 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses. **Fix what it finds in the prototype and the port, then re-run the A/B** | "THE AUDIT GATE" below |
 | 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing | "THE IN-GAME AUDIT" below |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
 | 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
 | 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7, A/B against the reverse prototype included |
-| 11a | **AUDIT the compiled reverse fix** | "THE AUDIT GATE" below |
+| 11a | **AUDIT the compiled reverse fix**, fix what it finds, re-run the A/B | "THE AUDIT GATE" below |
 | 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing | "THE IN-GAME AUDIT" below |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
@@ -286,6 +286,10 @@ What the order is for:
   seam options, the swinging hems, the folded and clipping flaps -- was debugging THAT, over two extra days of
   messages that a correct step 2 would not have needed. So do not move on from a step on "good enough, later
   steps will tell": audit it (2a, 5a, 7a, 9a, 11a), predict how it will behave, and fix it where it is.
+- **The static A/B (compiled fix against the prototype, on every mod) runs every time the fix changes**: once the
+  prototype has been ported (7, 11), and again after finishing the fixes a theoretical audit (7a, 11a) or an in-game
+  epoch (7b, 11b) recommended -- before the next epoch starts. An epoch spent on a compiled fix that has drifted from
+  its prototype tests the wrong thing, and the game agent cannot tell which of the two a fault is in.
 - **Prototype before port, both times.** A rebuild per idea is what the prototype saves (the
   `CppStrategyOverrides` route), and the prototype stays as the ORACLE the compiled fix is A/B'd
   against. Keep it working after the port.
@@ -353,7 +357,8 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
 3. **The game agent reports back every issue of the epoch**, each with the mod, the toggle variant, the scene, the
    angle and a cropped original / remap pair of screenshots. Not a verdict ("looks fine"): a list, which may be
    empty.
-4. **The remap agent fixes them** (prototype, port, A/B, corpus, tests -- the usual loop) and **the game agent
+4. **The remap agent fixes them** (prototype, port, then the static A/B of the compiled fix against the prototype on
+   every mod, the corpus, the tests -- all before the next epoch) and **the game agent
    runs another epoch**, over every mod again, not only the ones that had issues: a fix for one mod moves others.
 5. **Repeat until an epoch finds nothing.** Only then does the maintainer get the final check.
 

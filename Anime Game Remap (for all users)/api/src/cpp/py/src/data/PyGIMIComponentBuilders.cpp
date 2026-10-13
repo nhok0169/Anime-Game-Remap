@@ -238,6 +238,16 @@ List[:class:`float`]: Added to every vertex position of this component as it is 
 ``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
 Neuvillette's, and merged as it is the eyes looked down
         )doc"))
+        .def_readwrite("positionOffsetFade", &AGRC::GIMIMergeFixerConfig::Component::positionOffsetFade, py::doc(R"doc(
+List[:class:`float`]: The ``y`` range over which :attr:`positionOffset` fades to nothing --- full at or
+below ``[0]``, none at or above ``[1]``, linear between. ``[0, 0]`` (the default) applies the whole
+offset to every vertex
+
+For a pair whose two models differ in HEIGHT rather than in origin. Dropping a mod so its soles meet a
+lower target also drops its head, and the GAME draws the FACE for any mod carrying no face mesh of its
+own, so the head must stay put: fade the offset out by the height of the face and the difference is
+taken up through the body. **Default**: ``[0, 0]``
+        )doc"))
         .def_readwrite("offsetOnlyWithGameFace", &AGRC::GIMIMergeFixerConfig::Component::offsetOnlyWithGameFace, py::doc(R"doc(
 :class:`bool`: Whether :attr:`positionOffset` applies only while the mod keeps the GAME's face (not when it skips
 the source's face diffuse and brings its own). ``False`` by default
@@ -564,6 +574,23 @@ A mod's vertices are in its SOURCE's bind pose. A part that must sit inside some
 -- the eyes in a face mesh neither mod carries -- cannot be off by the difference: measure it by
 differencing the target component's own Position buffer against this fix's output for the identity
 mod. **Default**: ``[0, 0, 0]``
+        )doc"))
+        .def_readwrite("positionOffsetFade", &AGRC::GIMIComponentFixerConfig::Component::positionOffsetFade, py::doc(R"doc(
+List[:class:`float`]: The ``y`` range over which :attr:`positionOffset` fades to nothing --- full at or
+below ``[0]``, none at or above ``[1]``, linear between. ``[0, 0]`` (the default) is no fade: every
+vertex takes the whole offset
+
+**A character and a skin of different HEIGHT cannot be matched by a rigid translation.** Lifting a mod
+so its soles meet the target's ground lifts its head too, and the GAME draws the FACE at its own fixed
+place for any mod that carries no face mesh --- Citlali's sole sits 4.5 cm below CitlaliWhisperofStars'
+and her head only 1 cm above, so a whole-model lift put the feet right and left the face 4.5 cm below
+the head. Fading it out by the height of the face anchors the head where the game's face is and takes
+the difference up through the body, which is where two models of one character actually differ. Set
+``[0]`` to the source's sole and ``[1]`` just above its eyes.
+
+This is a DEFORMATION, not a translation: right where the models differ in height, wrong where they
+differ by an ORIGIN (Xiangling and XianglingCheer), which needs the whole model moved and no fade.
+**Default**: ``[0, 0]``
         )doc"))
         .def_readwrite("offsetOnlyWithGameFace", &AGRC::GIMIComponentFixerConfig::Component::offsetOnlyWithGameFace, py::doc(R"doc(
 :class:`bool`: Whether :attr:`positionOffset` applies only while the mod draws with the GAME's face

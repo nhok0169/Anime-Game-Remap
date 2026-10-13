@@ -46,7 +46,7 @@ for p in (APISrc, Finder):
 if (hasattr(os, "add_dll_directory")):
     os.add_dll_directory(os.path.join(APISrc, "FixRaidenBoss2"))
 
-from src.VGRemapFinder.DumpMod import DumpMod     # noqa: E402
+from src.VGRemapFinder.DumpMod import Character, DumpMod     # noqa: E402
 
 
 def centroids(dump: DumpMod):
@@ -79,10 +79,14 @@ def main():
     if (args.hashes):
         dumps = {args.component: DumpMod.fromFrameAnalysis(folder, *args.hashes, name = args.name, silent = True, component = args.component)}
     else:
-        character = DumpMod.fromFolder(folder, name = args.name, silent = True)
-        dumps = character.components if hasattr(character, "components") else {"": character}
+        # Character, NOT DumpMod.fromFolder: that one ends in .single(), which raises on a skin of
+        # several components -- exactly the case --component exists to pick one out of (2026-10-04).
+        character = Character.fromFolder(folder, name = args.name, silent = True)
+        dumps = character.components
         if (args.component):
             dumps = {args.component: dumps[args.component]}
+        elif (len(dumps) == 1):
+            dumps = {"": next(iter(dumps.values()))}
 
     for comp, dump in dumps.items():
         pos = dump.positions

@@ -220,3 +220,27 @@ class GIMIComponentBuildersTest(BaseUnitTest):
         config = FRB.GIMIMergeFixerConfig()
         with self.assertRaises(TypeError):
             config.lightMapEdit = "notCallable"
+
+    # -------------------------------------------------------------------------------------
+    # positionOffsetFade
+    # -------------------------------------------------------------------------------------
+    # NOT COVERED HERE: that the fade actually SCALES the offset. The merged Position buffer is
+    # built by a resource GROUP, which `IniFile.getResources()` does not surface -- this fixture
+    # only ever yields the texture resource, so a test written against it asserts on a buffer that
+    # was never written. It belongs on a RemapService-level harness. The arithmetic is verified on
+    # real mods instead: both Citlali directions' remapped Position buffers were measured before and
+    # after, min and max each moving by exactly the offset with the eyes left within 1 mm of the
+    # source (2026-10-04).
+    def test_positionOffsetFade_defaultsToNoFade(self):
+        for configType in (FRB.GIMIComponentFixerConfig, FRB.GIMIMergeFixerConfig):
+            component = configType.Component()
+            self.assertEqual(list(component.positionOffsetFade), [0.0, 0.0])
+
+            component.positionOffsetFade = [-0.0629, 1.4]
+            self.assertAlmostEqual(component.positionOffsetFade[0], -0.0629, places = 5)
+            self.assertAlmostEqual(component.positionOffsetFade[1], 1.4, places = 5)
+
+    def test_positionOffsetFade_rejectsAWrongLengthSequence(self):
+        component = FRB.GIMIComponentFixerConfig.Component()
+        with self.assertRaises(TypeError):
+            component.positionOffsetFade = [1.0, 2.0, 3.0]

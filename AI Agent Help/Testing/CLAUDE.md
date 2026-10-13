@@ -649,7 +649,7 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction.
 
-> **Current baseline --- Windows, 2026-09-29: 2386 tests, 0 failures, 0 errors, 0 expected
+> **Current baseline --- Windows, 2026-10-04: 2422 tests, 0 failures, 0 errors, 0 expected
 > failures** (`cd "Testing/Unit Tester" && py -3 main.py`, ~45s). It was **2288** on 2026-09-17 and
 > that figure was still written here on the 29th: the 98 arrived with other work and nobody re-read
 > it. **Run it and read the number** rather than trusting this line --- the counts in `core/tests`
@@ -1273,6 +1273,20 @@ in compiler-specific exception names (`class std::out_of_range` vs `St12out_of_r
 order of two entries, and the three Raiden `.ini` files differ only in the ORDER of generated
 sections (the same lines added as removed). Classify before attributing, and restore
 `integrationTestResults.txt` afterwards -- the run rewrites that tracked file.
+
+**Regenerating ONE API docs golden from Windows (2026-10-08).** The whole suite is regenerated on
+Linux (below), but an `APIDocsTests` golden can come from a Windows run: those 17 tests produce the same
+tree on both OSes (the Windows differences are all in `MixedModsTests`' logs). The loop:
+1. Run only that test with the recipe above (`runSuite ApiDocTests.test_<name>`) and confirm it fails the
+   way CI did.
+2. `diff -rq --strip-trailing-cr expected_<test> output_<test>` must list exactly what CI listed, and
+   nothing else.
+3. Copy each changed file from `output_<test>` into the golden, written in the golden's OWN line endings
+   (they are CRLF), and `git rm` the files the output no longer has.
+4. Re-run `diff -rq` until it is empty, then run the whole `ApiDocTests` class (17 tests).
+5. Regenerate `Docs/src/apiExamples.rst` with `Tools/Misc/Docs/genApiExamples.py --write`. Its dry run
+   prints the old -> new line count per example, so exactly one example should move. Check the prose
+   around it still describes the output; the generator keeps the prose untouched.
 
 **Produce and run it on LINUX**, as its README says and as the user asked --- CI is Linux, and a
 golden written on Windows differs in path separators inside logs. From this Windows host that means

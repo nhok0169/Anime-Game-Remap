@@ -6,26 +6,6 @@
     <includedby refid="_if_pred_part_8cpp" local="yes">src/model/iftemplate/IfPredPart.cpp</includedby>
     <includedby refid="_if_pred_tokenizer_8cpp" local="yes">src/tools/parsing/IfPredTokenizer.cpp</includedby>
     <incdepgraph>
-      <node id="20">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="18">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="15">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
       <node id="21">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
@@ -128,6 +108,26 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="20">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="18">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>cstddef</label>
       </node>
@@ -177,13 +177,13 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>src/model/iftemplate/IfPredPart.cpp</label>
-        <link refid="_if_pred_part_8cpp"/>
-      </node>
       <node id="3">
         <label>src/tools/parsing/IfPredTokenizer.cpp</label>
         <link refid="_if_pred_tokenizer_8cpp"/>
+      </node>
+      <node id="2">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_if_pred_tokenizer" prot="public">AGRemapCore::IfPredTokenizer</innerclass>

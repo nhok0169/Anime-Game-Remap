@@ -45,6 +45,10 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="8">
+        <label>src/tools/grapheme/GraphemeIterator.cpp</label>
+        <link refid="_grapheme_iterator_8cpp"/>
+      </node>
       <node id="3">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
@@ -56,10 +60,6 @@
       <node id="5">
         <label>src/tools/StringTools.cpp</label>
         <link refid="_string_tools_8cpp"/>
-      </node>
-      <node id="8">
-        <label>src/tools/grapheme/GraphemeIterator.cpp</label>
-        <link refid="_grapheme_iterator_8cpp"/>
       </node>
       <node id="6">
         <label>src/tools/grapheme/GraphemeRange.cpp</label>

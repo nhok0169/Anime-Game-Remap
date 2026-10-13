@@ -17,6 +17,7 @@
 #include "AGRemapCore/data/IniFixData/RegValChecks.h"
 #include "AGRemapCore/data/IniFixData/SideMeshes.h"
 #include "AGRemapCore/data/IniFixData/TexRegLayout.h"
+#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 
 #include <algorithm>
 #include <array>
@@ -43,7 +44,9 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
+#include "AGRemapCore/model/iniresources/RemapIniResource.h"
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
+#include "AGRemapCore/model/stats/CachedFileStats.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
@@ -479,6 +482,9 @@ namespace AGRemapCore {
                         }
                     }
 
+                    const auto* facts = dynamic_cast<const TextureOverrideFacts*>(parser);
+                    recolourOnly_ = facts != nullptr && facts->isRecolourOnly();
+
                     // Nothing to build without the mod's own files: every edit below is keyed by
                     // what the component draws, which only the split knows.
                     if (!readFiles() || !splitFiles()) {
@@ -889,6 +895,17 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // ...UNLESS IT IS A RECOLOUR (2026-10-07). A mod that only replaces the character's
+                    // textures by hash has no mesh to split and still has something to remap: its
+                    // look is the GAME's model in its textures, and the parser has bound those in place
+                    // of the downloaded ones (TextureOverrideFacts). So the downloads ARE the mesh to
+                    // split, and they are fetched here, ahead of fixResources, because the split reads
+                    // them now. A file whose textures the target draws too, or whose mesh a sibling
+                    // .ini draws, is not a recolour in this sense and still gets nothing.
+                    if (!authored && recolourOnly_) {
+                        authored = fetchDownloads();
+                    }
+
                     if (!authored) {
                         ctx_.log("this .ini authors no mesh of its own -- every buffer it would split is a download -- so"
                                   " there is no geometry to remap");
@@ -896,6 +913,39 @@ namespace AGRemapCore {
                     }
 
                     return authored;
+                }
+
+                // Fetches every download the parser registered for this .ini that is not on disk yet,
+                // into the path its resource section names. fixResources fetches them again later
+                // (each download does not know this one ran), which is the same file.
+                bool fetchDownloads() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    if (iniFile == nullptr) {
+                        return false;
+                    }
+
+                    bool any = false;
+                    for (const std::unique_ptr<IniResource>& resource : iniFile->getFileDownloads()) {
+                        auto* download = dynamic_cast<RemapIniDownload*>(resource.get());
+                        if (download == nullptr || download->download == nullptr) {
+                            continue;
+                        }
+
+                        any = true;
+                        std::error_code error;
+                        if (std::filesystem::exists(FileService::strToPath(download->srcPath), error)) {
+                            continue;
+                        }
+
+                        try {
+                            CachedFileStats scratch;
+                            download->fix(scratch);
+                        } catch (const std::exception& e) {
+                            ctx_.log("could not download " + download->srcPath + " for the recolour: " + e.what());
+                            return false;
+                        }
+                    }
+                    return any;
                 }
 
                 // ---- the split, once, to know what this component draws ----
@@ -985,6 +1035,7 @@ namespace AGRemapCore {
                         }
                         anyAuthoredState = anyAuthoredState || !throughDownload[state];
                     }
+                    anyAuthoredState_ = anyAuthoredState;
 
                     for (std::size_t state = 0; state < states_.size(); ++state) {
                         const std::string blendPath = branches_.pick(files_.blends, files_.blend, states_[state]);
@@ -1838,16 +1889,30 @@ namespace AGRemapCore {
                         return nullptr;
                     }
 
-                    return [offset](const ByteVec& line) {
+                    // A fade takes the offset to nothing by the height of the face -- see
+                    // Component::positionOffsetFade. {0, 0} leaves it a plain translation.
+                    const std::array<float, 2> fade = component_.positionOffsetFade;
+                    const bool fades = (fade[1] > fade[0]);
+
+                    return [offset, fade, fades](const ByteVec& line) {
                         ByteVec out = line;
                         if (out.size() < 3 * sizeof(float)) {
                             return out;
                         }
 
+                        // Scaled by the ORIGINAL height, read before any axis is written back.
+                        float scale = 1.0f;
+                        if (fades) {
+                            float y = 0.0f;
+                            std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
+                            scale = (fade[1] - y) / (fade[1] - fade[0]);
+                            scale = std::min(1.0f, std::max(0.0f, scale));
+                        }
+
                         for (std::size_t axis = 0; axis < 3; ++axis) {
                             float value = 0.0f;
                             std::memcpy(&value, out.data() + axis * sizeof(float), sizeof(float));
-                            value += offset[axis];
+                            value += offset[axis] * scale;
                             std::memcpy(out.data() + axis * sizeof(float), &value, sizeof(float));
                         }
                         return out;
@@ -2049,6 +2114,24 @@ namespace AGRemapCore {
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
+                    // A STATE THROUGH A DOWNLOAD IS NOT DRAWN, SO ITS IB IS `null` (2026-10-11). Beside a
+                    // state of the mod's own, a state that runs through a parser download is never split
+                    // (see the split loop), yet the collect still wrote its index buffer -- as an EMPTY file
+                    // -- and bound it, with the filled `drawindexed = auto` after it: a Bennett mod whose
+                    // body variant only says `handling = skip` drew that empty buffer in the skip branch.
+                    // Bound as `null`, the branch draws nothing of the object, as on the mod's own character.
+                    if (anyAuthoredState_) {
+                        nullDownloadSplits_ = std::make_unique<RegNewVals<>>(
+                            std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                                {IniKeywords::Ib, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(RegNewVals<>::OldValProducer(
+                                    [](const std::string& value, const ModType*) {
+                                        const bool downloadSplit = value.find(IniKeywords::RemapDL) != std::string::npos
+                                            && value.find("RemapIB") != std::string::npos;
+                                        return downloadSplit ? std::string(IniKeywords::Null) : value;
+                                    })))}});
+                        nullDownloadSplitsAdapter_ = std::make_unique<RegPartEdit<>>(nullDownloadSplits_.get());
+                    }
+
                     if (!component_.slotRegisters.empty()) {
                         // Per part -- see RegRestrict and Component::slotRegisters.
                         trimRegisters_ = std::make_unique<RegRestrict<>>(component_.slotRegisters, &isTextureRegister);
@@ -2152,6 +2235,9 @@ namespace AGRemapCore {
                         }
 
                         std::vector<ObjGroupEdit::PartEdit*> slotEdits = {removeReflectionKeysAdapter_.get()};
+                        if (nullDownloadSplitsAdapter_ != nullptr) {
+                            slotEdits.push_back(nullDownloadSplitsAdapter_.get());
+                        }
                         if (removeTexFxAdapter_ != nullptr) {
                             slotEdits.push_back(removeTexFxAdapter_.get());
                         }
@@ -2291,9 +2377,11 @@ namespace AGRemapCore {
 
                 std::vector<std::size_t> stateKept_;            // per states_ entry
                 std::vector<std::vector<std::string>> stateDrawn_;  // per states_ entry: objects this component keeps triangles of
+                bool anyAuthoredState_ = false;                 // some state runs through no parser download
                 std::size_t groupCount_ = 1;
 
                 bool authorsNoMesh_ = false;
+                bool recolourOnly_ = false;
                 bool gaveUp_ = false;
                 GraphGroupRemove<> removeEveryGroup_;
                 std::unique_ptr<SlotRemap> slotRemap_;
@@ -2338,6 +2426,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
+                std::unique_ptr<RegNewVals<>> nullDownloadSplits_;
+                std::unique_ptr<RegPartEdit<>> nullDownloadSplitsAdapter_;
                 std::unique_ptr<RegRestrict<>> trimRegisters_;
                 std::unique_ptr<RegPartEdit<>> trimRegistersAdapter_;
                 std::vector<std::unique_ptr<RegBranchAdd<>>> blendBranchDraws_;          // per .ini group

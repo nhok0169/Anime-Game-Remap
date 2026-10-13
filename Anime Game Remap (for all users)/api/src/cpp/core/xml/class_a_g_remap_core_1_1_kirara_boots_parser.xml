@@ -36,7 +36,7 @@ The parser for a 4.8-era KiraraBoots ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="46" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="68" bodyend="70"/>
+        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="46" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="72" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_kirara_boots_parser_1ab91bef0010f102d712fd85341b5ce05d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The parser for a 5.7-era KiraraBoots ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="55" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="73" bodyend="75"/>
+        <location file="include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h" line="55" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="77" bodyend="79"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

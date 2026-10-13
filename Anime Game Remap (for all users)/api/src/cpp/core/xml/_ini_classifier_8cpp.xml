@@ -10,18 +10,6 @@
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <includes refid="_ini_keywords_8h" local="yes">AGRemapCore/constants/IniKeywords.h</includes>
     <incdepgraph>
-      <node id="30">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="24">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="29">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="22">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="9">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -94,20 +82,6 @@
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="19">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="28">
@@ -220,6 +194,32 @@
         <childnode refid="32" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="24">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="29">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="22">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="31">

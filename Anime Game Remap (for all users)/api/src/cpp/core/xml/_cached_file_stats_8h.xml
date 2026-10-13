@@ -9,6 +9,7 @@
     <includes local="no">unordered_set</includes>
     <includes refid="_file_stats_8h" local="yes">AGRemapCore/model/stats/FileStats.h</includes>
     <includedby refid="_remap_stats_8h" local="yes">include/AGRemapCore/model/stats/RemapStats.h</includedby>
+    <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_cached_file_stats_8cpp" local="yes">src/model/stats/CachedFileStats.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -58,14 +59,6 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
-        <label>include/AGRemapCore/RemapService.h</label>
-        <link refid="_remap_service_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
       <node id="4">
         <label>include/AGRemapCore/RemapServiceCLI.h</label>
         <link refid="_remap_service_c_l_i_8h"/>
@@ -123,6 +116,8 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="52" relation="include">
@@ -169,6 +164,8 @@
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="38" relation="include">
@@ -178,6 +175,8 @@
         <label>include/AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
@@ -288,14 +287,6 @@
         <childnode refid="44" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="5">
-        <label>src/RemapServiceCLI.cpp</label>
-        <link refid="_remap_service_c_l_i_8cpp"/>
-      </node>
       <node id="29">
         <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
         <link refid="_bennett_fixer_8cpp"/>
@@ -332,10 +323,6 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="12">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
       <node id="34">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
@@ -355,10 +342,6 @@
       <node id="45">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
-      </node>
-      <node id="46">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
       <node id="13">
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
@@ -383,14 +366,6 @@
       <node id="38">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
-      </node>
-      <node id="54">
-        <label>src/model/stats/CachedFileStats.cpp</label>
-        <link refid="_cached_file_stats_8cpp"/>
-      </node>
-      <node id="53">
-        <label>src/model/stats/RemapStats.cpp</label>
-        <link refid="_remap_stats_8cpp"/>
       </node>
       <node id="47">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
@@ -419,6 +394,38 @@
       <node id="51">
         <label>src/model/strategies/iniParsers/IniParseDownloadDataInstantiation.cpp</label>
         <link refid="_ini_parse_download_data_instantiation_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/RemapService.h</label>
+        <link refid="_remap_service_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/model/stats/CachedFileStats.cpp</label>
+        <link refid="_cached_file_stats_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/model/stats/RemapStats.cpp</label>
+        <link refid="_remap_stats_8cpp"/>
       </node>
       <node id="44">
         <label>src/tools/DownloadTools.cpp</label>

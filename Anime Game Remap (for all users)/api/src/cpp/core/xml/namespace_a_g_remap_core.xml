@@ -256,6 +256,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_lumine_heaven_fixer" prot="public">AGRemapCore::LumineHeavenFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lumine_heaven_parser" prot="public">AGRemapCore::LumineHeavenParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lumine_parser" prot="public">AGRemapCore::LumineParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lynae_fixer" prot="public">AGRemapCore::LynaeFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lynae_parser" prot="public">AGRemapCore::LynaeParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer" prot="public">AGRemapCore::LynaePeppermintFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_lynae_peppermint_parser" prot="public">AGRemapCore::LynaePeppermintParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_material_band_remap_filter" prot="public">AGRemapCore::MaterialBandRemapFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_branches" prot="public">AGRemapCore::ModBranches</innerclass>
@@ -368,6 +372,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_thumbprint" prot="public">AGRemapCore::TexThumbprint</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_override_facts" prot="public">AGRemapCore::TextureOverrideFacts</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_overrides" prot="public">AGRemapCore::TextureOverrides</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_transparency" prot="public">AGRemapCore::Transparency</innerclass>
@@ -1350,6 +1356,29 @@ WWMI-Assets has neither her nor her skin, so her asset tables (and
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" prot="public">
+          <name>Lynae</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Lynae from WuWa (Wuthering Waves), a WWMI mod type -- see
+:cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+WWMI-Assets has neither her nor her skin, so her asset tables (and
+``Data/Mod Downloads/WuWa/Lynae/3_7``) come from a frame dump. Her merged skeleton passes
+256 bones (401), so a mod of hers carries WWMI&apos;s blend remap
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" prot="public">
+          <name>LynaePeppermint</name>
+          <briefdescription>
+<para>Lynae&apos;s Peppermint skin from WuWa <ndash/> see :cpp:enumerator:<computeroutput>Lynae</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1359,7 +1388,7 @@ The names of the different types of mods this fix will fix from or fix to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="545"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="563"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1938,7 +1967,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1331" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1331" bodyend="1335" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1359" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1359" bodyend="1363" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1986,7 +2015,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2365" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2365" bodyend="2369" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="757" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2455" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2455" bodyend="2459" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="786" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2020,7 +2049,436 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3293" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3293" bodyend="3297" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="502" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3332" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3332" bodyend="3336" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="531" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ad12df2c29ec26175edf9504a673d78d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::lynaeFilmShader</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeFilmShader</name>
+        <qualifiedname>AGRemapCore::lynaeFilmShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Lynae&apos;s jacket pixel shader (``404f5464fdffc665``) and the material constants her jacket&apos;s draw
+reads at ``ps-cb4``, for the draws of a Lynae mod that LynaePeppermint&apos;s slots cannot draw
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Her jacket shader draws a material code carrying flag ``0x10`` as a see-through holographic film.
+No slot of LynaePeppermint has that material; with this shader those draws render as they do on
+Lynae, and the textures they read are the mod&apos;s own, in her jacket&apos;s register order (``ps-t0``
+normal map, ``ps-t1`` mask, ``ps-t2`` material code, ``ps-t3`` diffuse, ``ps-t4`` her foil). Her
+shader also reads the character&apos;s subsurface ramp at ``ps-t5``, which the target&apos;s draw has at
+``ps-t6``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeFilmShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/Lynae/LynaeFilmShader.cpp" bodystart="25" bodyend="104" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h" declline="38" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a4f62cd3bab3775daad0983581b6fdd75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kindref="compound">WWMIFixerConfig::DrawReroute::FlagMask</ref></type>
+        <definition>WWMIFixerConfig::DrawReroute::FlagMask AGRemapCore::lynaePropsFilmFlags</definition>
+        <argsstring>()</argsstring>
+        <name>lynaePropsFilmFlags</name>
+        <qualifiedname>AGRemapCore::lynaePropsFilmFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where Lynae&apos;s own props material-code map (``c49bec43``) marks film (flag ``0x10``), as a 256 x 256
+block mask -- for a mod that draws its props with the game&apos;s map
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp" line="24" column="44" bodyfile="src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp" bodystart="24" bodyend="373" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h" declline="47" declcolumn="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ad6c61d8bba8c2389145b77521b31c090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; long long, long long &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; long long, long long &gt; &amp; AGRemapCore::lynaeRenumbered36To37</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeRenumbered36To37</name>
+        <qualifiedname>AGRemapCore::lynaeRenumbered36To37</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The merged ids Lynae&apos;s 3.7 update renumbered, as ``{3.6 id: 3.7 id}`` -- every id not listed is
+the same in both. See :cpp:member:`WWMIFixerConfig::skeletonNumberings`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" line="24" column="30" bodyfile="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" bodystart="24" bodyend="36" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h" declline="31" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a56a3c8a17ea0a000bfea1217d0a9a2da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt; &amp; AGRemapCore::lynaeBoneCentroids</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeBoneCentroids</name>
+        <qualifiedname>AGRemapCore::lynaeBoneCentroids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Her rest-pose bone centroids in the 3.7 numbering, off ``Data/Mod Downloads/WuWa/Lynae/3_7`` --
+see :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" line="38" column="30" bodyfile="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" bodystart="38" bodyend="153" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h" declline="40" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aac19cae4c7eddf071fd3b87d6b72279f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp;</type>
+        <definition>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp; AGRemapCore::lynae36VgMaps</definition>
+        <argsstring>()</argsstring>
+        <name>lynae36VgMaps</name>
+        <qualifiedname>AGRemapCore::lynae36VgMaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Each component&apos;s local bone -&gt; her 3.6 merged id, for a mod from before WWMI&apos;s merged skeleton
+(every such mod of hers is a 3.6 export) -- see :cpp:member:`WWMIFixerConfig::sourceVgMaps`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" line="155" column="20" bodyfile="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" bodystart="155" bodyend="167" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h" declline="49" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a638300138e7d4cef648e91a8f1014fdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; long long &gt; &amp;</type>
+        <definition>const std::vector&lt; long long &gt; &amp; AGRemapCore::lynaeToPeppermintShapeKeys</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeToPeppermintShapeKeys</name>
+        <qualifiedname>AGRemapCore::lynaeToPeppermintShapeKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For each of LynaePeppermint&apos;s shape-key slots, which of Lynae&apos;s keys it is (``-1``: none) -- see
+:cpp:member:`WWMIFixerConfig::shapeKeyOrder`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" line="172" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkeleton.cpp" bodystart="172" bodyend="182" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h" declline="58" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a82b93d3c2cf7a176fbd56751375b2ace" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::lynaeSkinCodeSwap</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeSkinCodeSwap</name>
+        <qualifiedname>AGRemapCore::lynaeSkinCodeSwap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Swaps the skin code between Lynae&apos;s and LynaePeppermint&apos;s body material-code maps :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Both skins&apos; upper and lower body shaders read an 8-bit code per texel at ``ps-t2``, the low four
+bits a material and the high four flags. Lynae marks bare skin with material 0 and LynaePeppermint
+with material 4, and each uses the other&apos;s number for something small (trims, logos). A code map
+carried across unchanged shades the body&apos;s skin as cloth: whiter, with grey-lavender shadows,
+beside a face that stays warm. Materials 0 and 4 are exchanged and every other bit is kept, so
+the same filter serves both directions :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A map stored in an sRGB format reaches the shader decoded, and the shader truncates the decoded
+value to its code; such a map is decoded the same way first, and every edit of a code map here
+writes the codes the shader would have read
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" line="86" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" bodystart="86" bodyend="103" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h" declline="41" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a51d8be871ff62ebdd71b9e5e03381944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::lynaeMaskRedFill</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeMaskRedFill</name>
+        <qualifiedname>AGRemapCore::lynaeMaskRedFill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sets the red channel of a Lynae lower-body or jacket mask to 255 for LynaePeppermint :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lynae&apos;s own lower-body and jacket masks are ``R = 255`` throughout and her shaders show no use of
+the channel there: a mod that paints ``R = 0`` over a whole outfit renders normally on her.
+LynaePeppermint&apos;s body shaders read ``R = 0`` as a dark material, which turned such an outfit
+dark navy. Writing 255 shows the target what Lynae showed; every other channel is kept
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" line="299" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" bodystart="299" bodyend="314" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h" declline="54" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ab3cd3ce6e4f4cabf265fc49f3a1a0e4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::lynaeSheerBake</definition>
+        <argsstring>(const WWMIFixerConfig::TexEditContext &amp;ctx)</argsstring>
+        <name>lynaeSheerBake</name>
+        <qualifiedname>AGRemapCore::lynaeSheerBake</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context" kindref="compound">WWMIFixerConfig::TexEditContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bakes Lynae&apos;s lower-body shading bands into a lower-body diffuse for LynaePeppermint :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lynae&apos;s lower-body shader reads the normal map&apos;s alpha as a shading band (around 102 a fabric
+renders about a third as bright as from 128 up); LynaePeppermint&apos;s does not, so a satin dress came
+out lighter and glossier. Every texel is scaled, in linear colour, by the measured ratio of the two
+renders at its band. Nothing is decided from the diffuse&apos;s own colour. The normal map is the mod&apos;s
+own ``lowerNormal`` when it binds one by default, otherwise Lynae&apos;s game map
+(``gameFileOfRole``); without either the texture is left as it is
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod being fixed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" line="251" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" bodystart="251" bodyend="258" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h" declline="71" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1af4b3b3b5bb4b908a944e231e9cd1c3a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::lynaeFilmCode</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeFilmCode</name>
+        <qualifiedname>AGRemapCore::lynaeFilmCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Moves Lynae&apos;s coat film code to LynaePeppermint&apos;s in a jacket code map :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lynae&apos;s coat shader draws material 4 of her jacket&apos;s code map (the coat lining) as a holographic
+film; LynaePeppermint&apos;s coat shader draws its own film as code 49 (material 1, flags 3) and code 4 as
+plain diffuse. Every code with material 4 becomes 49
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" line="268" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" bodystart="268" bodyend="281" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h" declline="83" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a7c4b706f21fb411ab932aadc89da0bba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::lynaeFilmBake</definition>
+        <argsstring>(const WWMIFixerConfig::TexEditContext &amp;ctx)</argsstring>
+        <name>lynaeFilmBake</name>
+        <qualifiedname>AGRemapCore::lynaeFilmBake</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_tex_edit_context" kindref="compound">WWMIFixerConfig::TexEditContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tints the texels of a jacket diffuse under Lynae&apos;s coat film code (4) for LynaePeppermint&apos;s film
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lynae&apos;s film renders the cyan lining texture as a pink-red rainbow; LynaePeppermint&apos;s film (see
+:cpp:func:`lynaeFilmCode`) tints its foil by the diffuse, so the lining came out cyan. Those texels
+are multiplied by the measured ratio of the two renders. The code map is chosen as for
+:cpp:func:`lynaeSheerBake`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod being fixed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" line="260" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" bodystart="260" bodyend="266" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h" declline="99" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1abfad3c193b850b0272cfa86fdb0c6dd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
+        <definition>TexEditor::Filter AGRemapCore::lynaePropsPlainCode</definition>
+        <argsstring>()</argsstring>
+        <name>lynaePropsPlainCode</name>
+        <qualifiedname>AGRemapCore::lynaePropsPlainCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Moves Lynae&apos;s plain props materials to LynaePeppermint&apos;s plain hip-pouch material :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lynae&apos;s props go onto LynaePeppermint&apos;s hip pouch, whose shader draws materials 0-4 (all that
+Lynae&apos;s props maps use, with or without flags) as the pouch&apos;s holographic foil: a red satin dress
+(code 0) came out dark red with blue-violet and green rims. Its material 15 is plain. Lynae marks
+her see-through FILM with flag ``0x10`` (her own sweater is 16), and such a code is kept, so the
+film lands on the pouch&apos;s foil; every other code&apos;s material becomes 15 and its flags are kept
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" line="283" column="23" bodyfile="src/data/IniFixData/Lynae/LynaeSkinCodes.cpp" bodystart="283" bodyend="297" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h" declline="113" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ab42fcd953bb895f290b0eb36c44d2fec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::lynaeTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeTextureFacts</name>
+        <qualifiedname>AGRemapCore::lynaeTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What Lynae&apos;s own textures look like -- the hash the game binds each under (the current one and
+every older generation her mods carry), which role each register binds per component, and where
+her game textures are downloaded from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the parser reads them to work out what a mod&apos;s files are, whichever skin
+the mod is being fixed onto
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Lynae/LynaeTextures.cpp" bodystart="20" bodyend="150" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h" declline="34" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a0f9081f911e48caa81c5d665bd579426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::lynaeTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>lynaeTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::lynaeTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of Lynae&apos;s own textures (``Data/Mod Downloads/WuWa/Lynae/3_7``), by hash --
+see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Lynae/LynaeThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/Lynae/LynaeThumbprints.cpp" bodystart="26" bodyend="535" declfile="include/AGRemapCore/data/IniFixData/Lynae/LynaeThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a59f8e9757040a3ad53d7572095849346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::lynaePeppermintSheerShader</definition>
+        <argsstring>()</argsstring>
+        <name>lynaePeppermintSheerShader</name>
+        <qualifiedname>AGRemapCore::lynaePeppermintSheerShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+LynaePeppermint&apos;s see-through jacket pixel shader (``0b6e3ef7b7c30cd3``) and the material constants
+her jacket&apos;s draw reads at ``ps-cb4``, for her shirt, jacket and shoes drawn on Lynae
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The shader writes the shirt into the G-buffer marked as sheer, and the game&apos;s lighting then
+shows the body drawn underneath through it. It reads the mod&apos;s textures in her jacket&apos;s register
+order (``ps-t0`` normal map, ``ps-t1`` mask, ``ps-t2`` diffuse, ``ps-t3`` material code), her
+noise texture at ``ps-t4``, the holographic foil at ``ps-t5`` and the character&apos;s subsurface ramp
+at ``ps-t6``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp" bodystart="25" bodyend="108" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h" declline="37" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a30e0f78222ce636ff3a1de6289c1d9f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp;</type>
+        <definition>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp; AGRemapCore::lynaePeppermintVgMaps</definition>
+        <argsstring>()</argsstring>
+        <name>lynaePeppermintVgMaps</name>
+        <qualifiedname>AGRemapCore::lynaePeppermintVgMaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Each component&apos;s local bone -&gt; LynaePeppermint&apos;s 3.7 merged id, for a mod from before WWMI&apos;s
+merged skeleton -- see :cpp:member:`WWMIFixerConfig::sourceVgMaps`. The skin was never
+renumbered, so this is her 3.7 ``Metadata.json``&apos;s ``vg_map``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp" line="20" column="20" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp" bodystart="20" bodyend="32" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h" declline="30" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ab3c3140fdc2a11c9f157f1db9d06cfe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; long long &gt; &amp;</type>
+        <definition>const std::vector&lt; long long &gt; &amp; AGRemapCore::peppermintToLynaeShapeKeys</definition>
+        <argsstring>()</argsstring>
+        <name>peppermintToLynaeShapeKeys</name>
+        <qualifiedname>AGRemapCore::peppermintToLynaeShapeKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For each of Lynae&apos;s shape-key slots, which of LynaePeppermint&apos;s keys it is (``-1``: none) -- see
+:cpp:member:`WWMIFixerConfig::shapeKeyOrder`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp" line="36" column="23" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp" bodystart="36" bodyend="46" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h" declline="39" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a394283975b16393a3b2ad2d39d6262d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::lynaePeppermintTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>lynaePeppermintTextureFacts</name>
+        <qualifiedname>AGRemapCore::lynaePeppermintTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What LynaePeppermint&apos;s own textures look like -- the hash the game binds each under (the current
+one and the older generation her mods carry), which role each register binds per component, and
+where her game textures are downloaded from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the parser reads them to work out what a mod&apos;s files are, whichever
+character the mod is being fixed onto
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp" bodystart="20" bodyend="127" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h" declline="33" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1afdd4ee63d7a5c304b58a4fc6b6ff30f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::lynaePeppermintTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>lynaePeppermintTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::lynaePeppermintTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of LynaePeppermint&apos;s own textures (``Data/Mod Downloads/WuWa/LynaePeppermint/3_7``),
+by hash -- see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.cpp" bodystart="26" bodyend="535" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.h" declline="32" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
@@ -2042,7 +2500,7 @@ mod&apos;s files are
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" bodystart="20" bodyend="71" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Sanhua/SanhuaTextures.cpp" bodystart="20" bodyend="97" declfile="include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2135,7 +2593,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="5786" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="5786" bodyend="5790" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="825" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="8068" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="8068" bodyend="8072" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1207" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2186,7 +2644,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="343" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="343" bodyend="400" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="278" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="1456" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="1456" bodyend="1513" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="278" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a584e65cf26c955c00926e1dcbcfa8933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2221,7 +2679,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="972" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="972" bodyend="988" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1082" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1082" bodyend="1098" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -2601,7 +3059,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="356" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="213" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="363" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="235" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

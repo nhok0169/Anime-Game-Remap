@@ -326,11 +326,344 @@ NEUVILLETTEMELUSENT" in Creating Remaps):
 * **the part may not ride the chain you think**: Neuvillette3's clipping flap rides his TAIL chain, not the
   front-panel chain the first fix went on -- tally which groups carry the part in EACH mod before tuning it;
 * and before this pair, **hair is simulated**: Chisa's jacket shoulders on ChisaParfait's hair bones swung
-  "like jello".
-Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs from it;
-keep a garment on one component; never put a non-hair part on hair; and check left against right. Then look
-at it IN MOTION -- a timed series of shots through the idle animation, not one frame, since a single pose can
-hide a clip or a fold that the next frame shows.
+  "like jello";
+* **and the converse is NOT a rule, which cost two user reports (Citlali -> CitlaliWhisperofStars,
+  2026-10-04/05): "never take a HAIR part off hair" sounds right and decided nothing.** Citlali's long front
+  locks (groups 25/26 and 31/32, 1112 vertices a side) were moved off the skin's torso bone onto its own front
+  hair, then onto a dress chain, and the clip was identical every time -- see "A CLIP IS NOT A BONE PROBLEM"
+  below, which measures why.
+
+**"Which bone drives the SKIN here" is a THIRD wrong answer, as wrong as "which bone is nearest".**
+`Tools/VGRemapFinder` proposed the shoulder (nearest), the draft's reviewer overrode it to the chest because
+the chest owns most of the skin's vertices at that height ("vertices mode 52%"), and the chest is what shipped.
+Neither question is about the PART. A statistic over whatever geometry happens to surround a point describes
+the SKIN's anatomy, not the source part's job: a hair lock hanging over a chest is surrounded by chest, and is
+still hair.
+
+### THREE FAULTS STACKED ON ONE BRAID, AND EACH FIX EXPOSED THE NEXT (2026-10-05)
+
+Citlali's two long front locks are four-link chains -- `23 -> 24 -> 25 -> 26` and the mirror
+`29 -> 30 -> 31 -> 32` -- hanging from the temple to the chest. Five user reports came out of them,
+and reading the sequence is worth more than any one of the fixes.
+
+**FAULT 1: the chain was CUT ACROSS TWO COMPONENTS.** The rows sent the top two links to the skin's
+Bangs and the bottom two to its Body: one braid, two index spaces, two unrelated bones. Both of the
+first two reports follow from it. *"Clipped to the arms and not free flowing"* -- the bottom two
+links are most of the braid's mass and rode a bone of the BODY, where nothing animates. *"Dislocated
+from her hair"* -- a `VGPushAway` added to clear the arm can only move the half that lives in the
+component it is configured on, so the braid broke at the seam and its lower half stood forward of
+the hair it grows out of. **ONE part belongs on ONE component's bones.** It is the Neuvillette
+lesson -- his capes ripped along a component seam for exactly this reason -- and a hair lock tears
+the same way. All four links now go to the skin's own front lock. The ROOT link (`23` / `29`) was moved onto the Bangs HEAD bone (`0`) on 2026-10-06, so the chain is `0 -> 5 -> 7`: see "A LOCK'S ROOT BELONGS TO THE HEAD".
+
+**FAULT 2: then it was damped, and the damping was a fix that made things worse.**
+`GIMIComponentFixerConfig::Component::splitGroups` shared each lower link's weight with the Bangs'
+head bone, on this argument: bone 7 pivots at y 1.279 and the skin's own lock ends at 1.241, a
+3.8 cm lever, while Citlali's braid runs on to 1.037, 24 cm below it, so the same few degrees of
+hair sim move her tip about six times as far. **The arithmetic is right and the conclusion is
+wrong.** If a bone rotates by theta, a 24 cm lock's tip travels 24.theta where a 4 cm lock's travels
+4.theta -- a longer lock swinging further at the tip is what hair does, not a defect to correct. The
+user's next words were *"stationary, solid with her head"*, which is what 65-80% of the weight on a
+head bone looks like. **Before damping a part, ask what it would look like UNDAMPED on the real
+rig** -- the amplitude ratio that justified it was never evidence of anything being wrong.
+
+**FAULT 3: and what remained under that was a genuine clip, which a push now fixes because the braid
+is whole.** It hangs down the front of the shoulder and the body is drawn through it, so the LOWER
+TWO links of each braid go **out and forward** -- about 6.3 cm sideways and 6.4 forward, both
+sides. Seven things worth copying:
+
+* **AIM IT BY THE TRUE DISTANCE TO THE BODY, NOT ALONG ONE AXIS -- the two disagree, and the axis
+  measure justified a push nearly twice as large as it needed to be for several rounds.** Clearance
+  read as "the braid's z against the body's front z at the same x" says a straight-ahead push is
+  what clears; the real 3-D distance says the opposite, because straight ahead drives the part
+  ACROSS the chest's bulge where it needs the most travel, while round the side it leaves the
+  silhouette sooner. Measured on Citlali: 10.2 cm of lean cleared by **6.5 mm**, and 6.4 cm of lean
+  angled outward clears everywhere. The user's words were "don't you think the braids are leaned a
+  bit too forward" -- they were, and fixing it IMPROVED the margin rather than trading against it.
+  **Neither measure alone is enough**: distance-to-nearest-vertex cannot tell inside from outside,
+  and the axis measure conflates a nearby protrusion with the surface under the part. Use the axis
+  measure per narrow x bin to ask "is it inside", and the 3-D distance to ask "how close".
+
+* **Sideways is worth far more than forward, because a body is much SHALLOWER just outside the bust
+  than in front of it.** Measured on the mod's own body at y 1.10-1.14: the front surface sits at
+  z 0.124-0.149 inside |x| 0.10 and at z 0.015-0.026 outside it. So the first 3 cm of lateral travel
+  carries the braid off the breast entirely and buys about **10 cm** of clearance, where forward
+  travel only ever buys its own length. The almost-purely-forward push that shipped first (1.5 cm
+  sideways against 9.4 forward) cleared the body by **0.4 cm** at its best band and was still being
+  closed by the idle -- three user reports' worth. Angled out, the same push clears by **3.5-10 cm**
+  in every band. **When a part clips a torso, ask where the silhouette ENDS before reaching for more
+  distance**: what a displacement buys is a property of the surface it crosses, not of its size. And
+  the check costs no game time -- bin the mod's own body by height, take the front z per x bin, and
+  compare it to where the part will land.
+* **And that same edge turns a taste question into a measurement.** Told the braids now stood too far
+  out, the answer was not another guess: sweeping `from` and `distance` against the body PER VERTEX
+  (not per band -- a band mean hides the one row of vertices that grazes) showed that bringing a
+  braid back inside |x| 0.105 puts it in front of the bust again, where it needs ~12 cm of forward
+  travel to clear and reads as detached. Her left had room and came in 1.4 cm; her right was already
+  at its minimum, losing its margin at x +0.097, y 1.15 the moment it moved. **A sweep like that
+  costs seconds and answers "how much closer can it come" with a margin attached** -- and it also
+  tells you when the answer is "it cannot", which is worth saying out loud rather than shipping a
+  value that clips again.
+
+* **Which groups the push NAMES is what sets how far up it reaches**, and that matters more than the
+  distance. `VGPushAway` weighs each vertex by its share of the groups it lists, so listing all four
+  links -- including the two at the temple, where the braid's weight blends into the scalp -- gave
+  the FRINGE a share of 0.39 on average at y 1.36-1.40 and 0.66 at 1.32-1.36. At 4 cm that is
+  1.5-2.6 cm and nobody notices; at 6.5 cm it is 2.5-4.6 cm and a user reports her bangs standing
+  off her face. Naming only the lower two moves **nothing above y 1.356**, ramps 0.5 cm at y 1.34 to
+  6.6 cm by y 1.10, and bends the braid from where it leaves the head.
+* **Print the share profile by height before shipping a push.** One table -- vertices per height band
+  against mean and max share, times the distance -- says exactly which parts of the model move and by
+  how much. It is three lines of numpy and it is what would have caught the bangs before the user did.
+* **Measured in game, against the mod shown on Citlali herself**, and the distance was raised only
+  after the direction was right: 2.5 cm and 4 cm of nearly-pure forward each still lost a braid in
+  the shoulder, and so did 6.5 and 9.6 -- which is the clue that more of the same was the wrong axis.
+* **PER SIDE -- after shipping symmetric twice and being told three times.** Her LEFT braid sank
+  into the bodice about 2 cm higher than her right in the same frame, so it takes the larger
+  distance of the two (`VGPushAway::side` makes that one line). Everything measurable off the files says
+  the two are the same part: the MOD's braids are mirror-exact (mean z agreeing to **0.0000** in
+  every height band below y 1.30, share profiles agreeing band for band) and the skin's bones 7 and
+  8 are a mirror PAIR (centroids -0.059 / +0.063, same y 1.279, same 1.241-1.379 span). That is
+  precisely why the symmetric value shipped twice, and it was never evidence about the picture: the
+  asymmetry is in the TARGET's standing idle, which no file here can see. **Mirror-exact inputs do
+  not give a mirror-exact picture -- compare the two sides WITHIN one frame rather than arguing from
+  the buffers.** The usual objection to a per-side value, that it is tuned to the animation it was
+  measured in, is worth stating and then weighing: here it costs nothing, because the skin cannot be
+  worn without owning the character, so the shop preview's idle is the only pose it is ever seen in.
+* **A live tuner has to weight by the SOURCE groups, not by the target bone.** Editing the fixed
+  `*RemapPosition*.buf` and pressing F10 tries a distance in ~20 seconds without a rebuild, but the
+  share must come from the groups the config NAMES. Weighting by the target bone instead -- group 7,
+  which `25, 26` map onto -- silently swept in a 94-vertex strand that reaches 7 from source `28`,
+  and moved 203 vertices the compiled fix does not. Diffing the hand-tuned buffer against the
+  rebuilt one is what caught it, and it is the step that turns a tuned number into a shipped one.
+
+**AND THAT GROUP LIST IS THE ONE THE FIRST PUSH USED: wrong then, right now.** On 2026-10-04 the same
+`{25, 26}` / `{31, 32}` drew "the braid is dislocated from her hair" -- because the chain was still
+cut across two components, so moving the lower links broke the braid at a hard seam. In ONE component
+on ONE chain it is a smooth bend, because the share tapers across the 24 -> 25 blend instead of
+stopping dead at a component boundary. **A field that was wrong under a broken row can be right once
+the row is fixed; re-test it rather than ruling it out from memory.**
+
+**FAULT 6: A LOCK'S ROOT BELONGS TO THE HEAD, AND A THIRD INDEPENDENT MOTION IS WHAT MAKES A
+DESIGNED OVERLAP VISIBLE.** The user's last comparison -- the mod on Citlali beside the remap -- was
+the thing that settled it: on her own character the braid hangs clear of the loose hair, and on the
+skin it is embedded in it. The braid's upper stretch is SANDWICHED, 4 mm from the fringe in front and
+TOUCHING the loose hair behind, and that touch is in the mod's own geometry: it is there on Citlali
+too. **A static interpenetration a mod ships with cannot be measured away, and no displacement
+clears a 4 mm gap from both sides at once** -- every push that cleared the fringe drove the braid
+into the hair and vice versa, which is what several rounds of `from` / `distance` / `fade` were
+really chasing.
+
+What differs on the skin is how many things MOVE independently there. On Citlali the braid, the
+fringe and the loose hair all hang off one skeleton. On the skin the braid rode the lock chain
+(`Bangs 3`), the fringe its own bone, and the loose hair the Body back-hair chains (`108-115`) --
+three independent motions where the mod only ever expected two, so the designed overlap slid open.
+Mapping the root link (`23` / `29`) to the Bangs HEAD bone (`0`) removes the third: the root now
+moves with the scalp it grows out of, and the swing starts one link lower at `24 -> 5`. The source
+weights blend `23` into `24`, so the handover is a gradient, not a hinge -- confirmed in the output,
+where the dominant bone runs `0` at y 1.38-1.42, `0`/`5` at 1.34-1.38, `5` at 1.30-1.34 and `7`
+below 1.26.
+
+* **This is NOT the damping that failed.** That shared 65-80% of the LOWER links' weight with the
+  head and drew "stationary, solid with her head". Only the root moves; every link that hangs free
+  still swings. **Where on the chain a weight change lands decides whether it is right.**
+* **A root pin changes no static position** -- a skinning matrix is the identity at the character's
+  own rest pose -- so every distance in the output is unchanged by it. The measurements that judge
+  it are about WHICH BONE drives each band, not about millimetres.
+* **Ask for the base shot early when a part looks wrong against other parts.** One picture of the
+  mod on its own character showed the braid hanging clear of the hair, which is what identified the
+  relationship that had been broken; no amount of measuring the remap alone would have said what the
+  braid was supposed to look like.
+
+**FAULT 5: A PUSH REACHES UPWARDS INTO WHAT THE PART GROWS OUT OF, AND THAT NEEDED A NEW FIELD.**
+The last report on this braid was that it now cut into her BANGS. A `VGPushAway` weighs each vertex
+by its share of the groups it names, and a share tapers UPWARDS -- so a push sized for the bottom of
+a lock still moves its top by a centimetre or two. Where the part runs alongside something else up
+there, that is enough: Citlali's braid passes her own fringe with **4 mm** to spare, and an 11 cm
+push closed that to **1.0 mm** on her left (her right, on the smaller distance, stayed at 5.4 mm).
+
+* **It is not fixable by `from` or `distance`.** Swept over every candidate that still clears the
+  body, the gap stays 1.0-1.6 mm -- including ones with the lateral component taken to zero. The
+  problem is the push's REACH, and neither field expresses it. `VGPushAway::fade` does:
+  ``{full, none}`` heights, mirroring `positionOffsetFade`, defaulted off so no existing output
+  moves. Citlali's is ``{1.22f, 1.32f}`` -- full through the band the clip is in (y 1.06-1.22), zero
+  by the band the fringe is in (y 1.30-1.38) -- and it restores the gap to 4.0 mm, exactly the
+  no-push baseline, with the body clearance unchanged at 8.1 cm.
+* **A push has TWO ends to check, and the second one is easy to forget.** Everything before this
+  measured what the push was FOR (does the part clear the body). What it also does is move the
+  part's root, into whatever that root sits beside. **Measure both: clearance at the bottom and the
+  gap to the neighbours at the top.**
+* **Predict the parameters on the OUTPUT before building them.** The no-push control and the shipped
+  build share a vertex order, so subtracting gives every vertex's exact displacement, and dividing by
+  the distance recovers its share. From share plus the control positions any ``(from, distance,
+  fade)`` can be replayed against the real geometry in milliseconds. The prediction here said 4.0 mm
+  and 8.1 cm; the build measured 4.0 mm and 8.1 cm. That is worth far more than another in-game round.
+
+**FAULT 4: A SPLIT THAT CUTS THROUGH A BLENDED REGION RIPS, AND ONLY WHEN THE MODEL MOVES.** The
+user reported a "slight dislocation/rip" at the temple that was "only more noticeable when Citlali
+moves -- when she is standing still, you can barely tell". That last clause is the whole diagnosis:
+a static displacement cannot produce a motion-only artifact, so nothing about the push could explain
+it.
+
+On the mod's own mesh the hairline blends smoothly from the scalp (source `91`) into the front lock
+(`21`/`22`/`23`). A split has to give each vertex to ONE component, and in that component it can only
+reference that component's bones -- so the blend is replaced by a hard switch. **104 vertices at
+y 1.355-1.453 exist in BOTH buffers at the same point in space**, bound to `Bangs 3/4/5/6/9` on one
+side and to `Body 7` -- the skin's HEAD -- on the other. Standing still the two copies coincide
+exactly and nothing shows. The moment the hair sim moves the chain bones and the head does not, the
+surface opens.
+
+* **The check is cheap and needs no game.** Index one component's vertices on a 1 mm grid, look up
+  the other's, and report every coincident pair whose DOMINANT bone differs. A pair list that is
+  empty says the seam is safe; 104 pairs all against the head bone names the fault and its height
+  band in one run. Do this on any pair whose components meet in the middle of a part.
+* **`overlapRings` is the field for it, and it already existed** -- "how many rings of its
+  neighbours' triangles it draws as well, so a seam that opens when the skin poses is covered". The
+  band is drawn by BOTH components and ownership does not change, so a gap narrower than the band is
+  hidden by the other side's copy. `bangs.overlapRings = 1` added 179 triangles and the draw call
+  was regenerated to match it (`drawindexed = 6657` against 6657 indices -- check that, because a
+  template that grew a buffer and left the count behind draws a hole).
+* **AND THE BAND IS USELESS WITHOUT `standIns`, which is the half that is easy to miss.** The band
+  is the NEIGHBOUR's triangles, so its vertices carry the neighbour's groups -- here source `91`, the
+  scalp, which the Bangs row does not own. **An unowned weight is DROPPED**, and the vertex
+  renormalises onto whatever groups the component DOES own: the lock chain. So the band covered the
+  gap and then swung with the lock while the hair under it stayed with the head. The user's next
+  report was no longer a rip but "slight misalignment whenever Citlali moves ... that shadow line
+  not aligning" -- **a band without a stand-in does not read as a hole, it reads as a patch that
+  shades or slides against its surroundings**, which is a much harder symptom to attribute.
+  `standIns = {{91, 0}}` maps the scalp onto the Bangs' own head-parented bulk (centroid y 1.435,
+  against Body 7's y 1.433) and the band then moves with exactly what it covers. The objective check
+  is the dominant bone by height: y 1.38-1.42 went from `3:43, 4:31, 9:26` (all lock) to `0:86`.
+  **Set `overlapRings` and `standIns` together, always.**
+* **The fix that suggests itself is the wrong one.** Pinning the lock's root to the head bone closes
+  the same gap by making the root rigid -- the damping mistake of 2026-10-04 wearing a different hat.
+  Habit 53 again: grep the config's own fields before hand-rolling a weight edit.
+* **Set it AFTER any `Component x = bangs;` copy**, or the other component inherits the band.
+
+**AND THE WAY TO CLEAR A SUSPECT PARAMETER IS A CONTROL BUILD, not an argument.** The report landed
+immediately after a push change, so the push was the obvious suspect. Building the fix with
+`distance = 0`, re-fixing, and diffing the two outputs vertex by vertex settles it in minutes:
+nothing above y 1.36 moved, the highest vertex the push touches is y 1.3564 and it moves 1 mm, and
+the Body and Eyes components did not move a single vertex -- while the reported artifact sits at
+y 1.45. **Keep the control's buffers**: they are also the baseline for measuring what any later
+change really did.
+
+**AND ONE THING A PUSH CANNOT FIX, written down so the next report is not chased.** When she BENDS,
+both braids pass through her chest. The skin has no hair bone below y 1.24, so the whole braid hangs
+off a chain parented to the HEAD: bending rotates the torso forward about the hips while the braid
+stays with the head, and the chest sweeps into it. A static displacement cannot follow a pose -- the
+offset a bend needs is not the offset standing needs -- and the Bangs component has no body bone to
+share weight with even if sharing were wanted. On Citlali the same motion is absorbed by her own hair
+sim. **When a target rig simply lacks a bone where the source part hangs, say so and stop**; the
+alternative is a value that fixes one pose and breaks another.
+
+**AND THE MEASUREMENT THAT SENT FOUR ROUNDS IN A CIRCLE WAS TRUE.** The Body carriers tried for the
+lower half -- the torso `56`, the clavicle `9/33`, the shoulder cloth `57/58`, the dress chain
+`70-73` -- are **pixel-identical** when rebound live and reloaded, because the matrix the game
+uploads per bone is `pose * bindInverse`, the IDENTITY at the character's own rest pose. "So the
+carrier does not matter" does not follow from it, and shipping that reasoning cost a round: the
+carrier decides whether the part MOVES, which is the half a still cannot show. **Judge a carrier on
+an idle SERIES, never on a pose-matched still** -- that comparison is built to cancel exactly the
+difference being looked for.
+
+Four methods that did work, and one trap:
+
+* **Ask for the base shot.** The same mod on its own character, side by side, settled in one picture
+  what four rounds of argument could not -- and for a character the maintainer does not own, the
+  outfit shop's default card renders it (`Dawnseer` is Citlali's).
+* **Displace and reload.** Shove the vertices you suspect a long way (``+-0.3`` in x is
+  unmistakable); if nothing moves, they were innocent, and if the part appears somewhere absurd you
+  have found which draw owns it.
+* **Iterate on the mod's own fixed ``*Remap*.buf`` and press F10** -- about 20 seconds against
+  minutes for edit / rebuild / re-fix. Rewriting blend indices, weights or positions in place tries
+  any carrier, damping or push with no build. A/B the compiled fix against it afterwards, and expect
+  a small legitimate difference: the split renormalises the weights of groups that went to another
+  component, so a share read from the SPLIT blend exceeds the share the fix reads from the SOURCE.
+* **Reach for the shared field before inventing a number.** `splitGroups` and `pushAway` both
+  already existed, documented for a coat flap; the work here was choosing between them, not building
+  anything.
+* **The trap: "I cannot see the part" is usually the camera.** The braid is invisible from the front
+  and from most of a 360 sweep in the outfit preview, because the loose hair hangs over it -- read
+  once as "the change made the braid vanish", which cost a round. Confirm a part is gone by
+  displacing it, not by not finding it.
+
+### THE LEVER, AND WHY IT WAS NEVER THE QUESTION HERE (2026-10-04, corrected 2026-10-05)
+
+.. warning::
+   Read the section ABOVE first. The three Body bones below were all chosen to answer "which one
+   moves the part best", and the part was broken in half the whole time, so none of them could have
+   been right and no comparison between them meant anything. Keep the ranking method; do not repeat
+   the claim that any of these rows fixed a report.
+
+**Rank a counterpart-less part's candidates by the DISTANCE FROM THE PART TO THE PIVOT, in ALL THREE
+AXES, then by whether the carrier moves the same WAY, and only then by material.** The lever is why
+the skin's own front lock looks wrong on paper for Citlali's braid -- its last bone sits 24 cm above
+her braid's tip -- and it is also why `Body 70 -> 72`, the front dress chain, looked right: its links
+sit at y 1.189 and 1.095 against the lock's 1.171 and 1.095. **The depth was never checked, and it is
+bad**: those links sit at z 0.126 and 0.152 against the braid's 0.03, a 10 cm lever in the one axis
+nobody looked at. Measure all three.
+
+**And before spending any of that, ask whether the part is wrong at REST, or whether it is CUT.** A
+part that does not move is a carrier question; a part that breaks, tears or stands off from what it
+grows out of is a component question; a part that overlaps a limb while standing still is
+`pushAway` or `splitGroups`. Only the first of those is answered by choosing a different bone.
+
+Prefer, for a hanging part, a bone that barely moves over one that bends, the farther the part hangs
+from it; keep a garment on one component; and check left against right -- the Citlali lock also
+collapsed its LEFT and RIGHT chains onto one centre-line bone at one point, so the two sides could not
+move independently even in principle. Then look at it IN MOTION -- a timed series through the idle
+animation, not one frame.
+
+<br>
+
+## TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES (2026-10-04)
+
+**Reported as "her feet clip into the ground in the overworld", and it is neither the vertex groups nor the
+animation.** A mod's vertices are the SOURCE's, the skinning is the identity at the bind pose, so a remapped
+mod renders at the SOURCE's coordinates -- while the game plants the character by the TARGET's. If the two
+models' soles sit at different heights in model space, the whole remapped model is off by the difference, in
+every pose, for every mod of that pair. Citlali's sole is at y `-0.0629` and CitlaliWhisperofStars' at
+`-0.0178`, so every Citlali mod on the skin stood **4.5 cm low**.
+
+**It is DIRECTIONAL, and fixing one direction implies the mirror.** The same 4.5 cm makes a mod of the skin
+carried back onto Citlali **float**. Neither had been noticed, because a model hovering a few centimetres
+reads as normal unless something on the ground gives it away. Measure it once and set both.
+
+**Measure it, in about a minute, from the two download folders** -- no game and no mod needed:
+
+```bash
+py -3 Tools/Misc/Diagnostics/boneCentroids.py "Data/Mod Downloads/GI/<Source>/<ver>"              # prints "y <min>..<max>"
+py -3 Tools/Misc/Diagnostics/boneCentroids.py "Data/Mod Downloads/GI/<Target>/<ver>" --component Body
+```
+
+The offset is `targetSoleY - sourceSoleY`. Two things make it a measurement rather than a guess:
+
+* **Check WHAT the lowest vertices are before differencing them.** Sort by y, take the lowest few hundred, and
+  print which vertex group dominates them: both of Citlali's and the skin's came back as the matching toe and
+  foot groups (`109/113/133/137` against the skin's `25/29/49/53`), which is what makes the two numbers
+  comparable. A long skirt, a cape hem or a trailing ribbon can hang below the sole and would silently make the
+  difference mean nothing.
+* **Check the sole is a PLANE.** Both of these hold 50+ vertices inside 3 mm of the minimum, so the minimum is
+  the contact surface and not one stray vertex. Where it is not flat, the measurement needs a different idea.
+
+**The library already expresses it, in both templates -- do not build anything.** It is
+`GIMIComponentFixerConfig::Component::positionOffset` for a split and `GIMIMergeFixerConfig::Component::positionOffset`
+for a merge, both added for NeuvilletteMelusent's EYES and both documented in terms of eyes, which is why two
+later sessions did not find them (habit 53: the class you want may already exist under another character's
+problem). Rules for using them this way:
+
+* **Set it on EVERY component, with the same value**, or the model shears apart at its seams. Where one config
+  builds its components by copying (`Component bangs = body;`), set it before the copies and say so in a comment.
+* **Leave `offsetOnlyWithGameFace` false.** That flag exists for the eye case, where the offset is about lining
+  up with whichever face is drawn. A ground plane is about the ground and always applies.
+* **The merge applies it to downloaded geometry too**, which is what you want: a component the mod lacks is
+  fetched from the SKIN's downloads and still has to land on the target's ground. Verified -- the 255 downloaded
+  Eyes vertices inside the merged buffer came out shifted with the rest.
+
+**The acceptance check is one line and needs no game**: the fixed mod's remapped `Position.buf` must now
+bottom out at the TARGET's sole, not the source's. It went `-0.0629 -> -0.0179` forward (target `-0.0178`) and
+`-0.0178 -> -0.0628` back (target `-0.0629`), with min and max both moving by exactly the offset, which is what
+proves the translation uniform.
 
 <br>
 
@@ -358,6 +691,7 @@ and a failure in any of them makes the round worthless anyway.
 | 8 | `grep -ri "NotFound" <mod>` | any reverse lookup that failed -- `HashNotFound`, `ChecksumNotFound` | no hits |
 | 9 | `wwmiFixTwiceSweep.py` / fix the folder a second time | a pass that stops declaring a resource on re-run, and a download that did not land | the second run's output matches the first |
 | 10 | `folderProbe.py <mod>` | the fix inventing folders the mod does not have | no new directories |
+| 11 | the remapped `Position.buf`'s min y | the pair standing on different ground planes -- feet sunk into the ground, or a model floating above it | it bottoms out at the TARGET's sole, not the source's (see "TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES") |
 
 Then the two rules that decide whether any of it means anything:
 
@@ -382,6 +716,50 @@ round wasted: capture the mod from several angles, with its toggles moved (`key 
 mod on its own character, and note everything odd rather than only the thing you went in for. Most
 of the faults the maintainer reported on this pair were already visible in an agent's own earlier
 screenshots.
+
+### A PRE-FLIGHT REPORT HAS TWO DATES: THE ARTIFACT'S AND THE TOOL'S (2026-10-05)
+
+**A failing pre-flight report handed to you, rather than produced by you, is evidence about a run
+--- not about the build.** Check 4 reported four UNBOUND download resources on `BennettAdventure1`,
+a twelve-variant merged master whose fix block held no `Eye` member section at all: the Eye geometry
+fetched and nothing consuming it, which is exactly the fault that check exists for. It cost no
+in-game round and no code change, because **both** halves of the report were out of date:
+
+| what was stale | how it showed |
+| --- | --- |
+| **the artifact** | every file in the mod folder, `BennettAdventureMerged.ini` included, was stamped `2026-09-16 06:02` --- the fix had not run on it in three weeks. Re-fixed from a genuinely unfixed baseline with the current build, the master carries a `[CommandListBennettAdventureEyeABennettEyeARemapFix]` that the old output does not: called from the tail of the Head-slot section, drawing `drawindexed = 828, 9384, 0`, binding the downloaded `BodyA` diffuse and light map |
+| **the tool** | `CONSUMED`, the verdict that makes this exact shape read OK, landed on 2026-10-04 in `385641c6` ("A download the fix READ is not a download the mod binds") and had not reached `master`. The same fresh output reads `FAIL: 4 problem(s)` from `master`'s copy of the checker and `OK: 1 .ini file(s), 0 problem(s)` from that commit's |
+
+So before chasing a report: **`ls -la` the folder it was taken from, and `git log` the tool that
+produced it.** A mod folder parked one level up under `GIMI/` rather than `GIMI/Mods/` is outside
+the set a no-argument run fixes, so its output is as old as the day it was parked; and a
+diagnostic's exemptions are always newer than the diagnostic.
+
+**And re-running the check is not the same as confirming it.** `CONSUMED` asserts that a bound
+merged buffer exists and that the member owning the download draws out of it. It does not assert
+that the vertices are at the offset that draw reads from --- the checker says so itself, and leaves
+the question to the arithmetic of "A mod that is MISSING a whole component" below. On a merged
+master that arithmetic is four questions, each asked **per branch**:
+
+| the question | BennettAdventure1, all 12 branches |
+| --- | --- |
+| merged length / stride == sum of the component counts | `mod + 2495 + 202` matches the merged Position, Blend AND Texcoord on every branch (28785, 26548, 41794, 42274, 28725, 26488, 37440, 36708, 39561, 38779, 36891, 36019) |
+| every component's indices lie inside its own slice | body `[0, mod)`, frontHair `[mod, +2495)`, eye `[mod+2495, +202)` |
+| the appended component's indices are the download's own, shifted by the sum of the ones before it | each branch's eye slice is byte-for-byte `EyeARemapDL.ib + (mod + 2495)` |
+| the downloaded bytes are really in the buffer | the merged Position is the mod's bytes, then the front hair's, then `EyePositionRemapDL`'s, verbatim |
+
+`override_vertex_count = 42274` is the largest of the twelve, as it has to be. And `828, 9384` is
+branch-invariant here --- neither the front hair's vertex count nor the eye's varies --- which is
+why that appended draw correctly sits at section depth instead of inside each `if`: the
+`RegBottomAdd` / `RegBranchAdd` distinction of "FIXING A MERGED MASTER", coming out on the other
+side for once.
+
+**There is no tool for that arithmetic.** `drawFits.py` asks that no draw overruns its buffer and
+`drawCoverage.py` that every member is drawn once per path; the per-branch length and shift checks
+have been written by hand each time this has come up. Forty lines of `.ini`-driven Python would
+make it check 11.
+
+<br>
 
 ## THE AUDIT GATE: after every prototype and every compiled fix (the maintainer's rule, 2026-09-27)
 
@@ -1021,6 +1399,60 @@ the mod on its own card. What it found:
 
 <br>
 
+## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)
+
+**Read this before chasing vertex groups for a report of jagged, torn or stretched triangles.** The first report
+("FischlHighness looks slightly jagged") had a clean blend table, and the cause was a whole drawn object coming
+from the GAME's index buffer: the parser saw an object the mod does not draw, registered the game's `ib` as a
+download, and the fix drew it over the mod's own vertices -- whose order the game's indices do not match. An
+audit then found the same bug in six shapes. All are fixed on every GI template (branch
+`fix-fischl-undrawn-dress`, 2026-10-10/12), and each has a synthetic repro in the 2026-10-10 audit:
+
+| Mod shape | What went wrong | Where it is handled now |
+| --- | --- | --- |
+| an object the mod has no section for, ib skipped | game ib downloaded and drawn (Fischl -> FischlHighness: the dress) | `GIMICharParser::dropUndrawnObjDownloads`, `GIMIComponentParser::findUndrawnSlots` |
+| the skip sits in `CommandList<Char>IB` (every merged master) | the skip test read only the ib section's own lines | both read `handling` with `ModBranches::valsThroughRun`, any branch |
+| a variant that only says `handling = skip` | `drawindexed = auto` filled into the skip branch (Ayaka9/10: shards in 4 of 7) | the classic draw fill skips a `handling = skip` part |
+| a variant that switches the mod off (`$vision`, a vanilla variant) | the target's own model drawn with the source's ib (ShenheFrostFlower, CherryHutao5) | `dropUnneededObjDownloads`: Z3 keeps an ib download only if some state draws without the mod's ib |
+| a skin slot drawn in some variants, skipped in others | the merge used the download for EVERY branch | `GIMIMergeFixer` drops downloads from a slot's ib list when the mod has its own |
+| a state the component fixer never split | an EMPTY split ib bound before `drawindexed = auto` | bound as `ib = null` (`nullDownloadSplits_`) |
+| one object's section in a SIBLING `.ini` | vanilla copies and the game's buffers on the target's hashes | the file that binds the buffers ADOPTS the section (`TextureOverrides::adopt`) |
+
+**The check that names it without the game:** `Tools/Misc/Diagnostics/checkUndrawnDL.py <fixed folder>` -- every
+remapped draw that can use a `Resource...RemapDL` ib in a file whose mod skips its own. It reports the pre-fix
+Fischl output and passes the fixed one. Its `GAME` lines are paths it cannot correlate across sections (a
+`$swapvar` set in one section and tested in another); read those by hand before believing them.
+
+**And when the report is GREEN instead of shards, check the fix call exists before anything else.** A merged
+master whose object section is nothing but `run = CommandList<Obj>`, with the draw left on the shared ib section
+(`moveDrawIndexed` off), got NO `NNFix` at all until 2026-10-11 -- `RegDelimitedAdd` placed only at entry nodes,
+and that path ends at a call's exit. CherryHutao5 on Hu Tao was neon green in every variant; 24 of 245 sweep mods
+had the same gap. The first fix of it then put a SECOND `ORFix` after draws that already had one (Ayaka9's bra),
+which `bareFixCalls.py` catches. See "The fix libraries are involutions" below.
+
+**A mod that is green on its OWN outfit card but right on the remap target is not the remap.** Most older mods
+never call `NNFix` themselves and predate GI 6.x; the remap only fixes its own copy. Prove it once per round with a
+control: undo one mod's fix (`--undo`) and its own card stays green while the target cards go vanilla.
+
+## AN IN-GAME ROUND OVER MANY MODS: the loop that worked for 23 (2026-10-12)
+
+Grouped by remap TARGET outfit, one shop page per group, about two minutes a mod:
+
+1. **Re-fix every live mod with the build under test first** (`FixRaidenBoss7.py -s <folder>`), then `cmp` one
+   fixed `.ini` against the verified sweep output -- the game must show the build you measured.
+2. **Journal your own folder moves** (Overview habit 114). Park the user's loaded mod of the same character
+   while testing, so two mods do not draw over one hash.
+3. **Verify the page by its TITLE before every capture**: crop the outfit name (view `1420,720` to `1860,830`)
+   after each arrow click. The arrows step one outfit at a time and the order is not alphabetical; three
+   captures in this round were taken on the wrong page and looked plausible.
+4. **Capture both cards in one script** (reload, wait for the warning overlay to clear, click base card, shoot,
+   click skin card, shoot, paste side by side). The overlay with ~30 mods loaded takes up to five minutes to
+   clear; a page with three cards (Jean) needs the third card's position.
+5. **Judge the remap TARGET card**; the mod's own card is the control and may be green (above).
+6. **Use `compare`** (mods vs F9 in the same frame) where the remapped model looks like the vanilla one -- it
+   showed LumineHeavenSynth drawing on Lumine when the two cards alone could not.
+7. **Finish with a restore and a `diff` of `Mods` against the listing taken before the first move.**
+
 ## START HERE: which kind of remap request is this (2026-09-20)
 
 This file is long and its sections were written in the order they were learned, not in the order
@@ -1036,14 +1468,20 @@ surprises you.
 | **a texture symptom** --- a hue over everything, one part wearing another's art, blank white, flat green | "A `TextureOverride` BINDS REGISTERS ONLY FOR THE DRAW ITS HASH MATCHES" (parse the mod's own sections into a per-slot table before reasoning), "A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS", "THE FIX LIBRARIES ARE INVOLUTIONS", "WuWa triage: what the in-game symptom says", and "WHEN THE SYMPTOM IS ON A TEXTURE, CROP THE UV ISLAND AND LOOK AT IT" |
 | **"it works on one mod and not another"** | "Triage: a merged mod that works on one variant and not the others", "FIXING A MERGED MASTER", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES", and "CHOOSING TEST MODS: VARY THE STRUCTURE, NOT THE CHARACTER" |
 | **"a part is missing / still the skin's own"** | "A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY", "A TARGET OBJECT SEVERAL COMPONENTS MERGE ONTO IS NOT ONE DRAW", "A mod that is MISSING a whole component" |
+| **"a part clips / hangs wrong / leans"** --- hair, a cape, a tail, anything that hangs | "THREE FAULTS STACKED ON ONE BRAID" and the FAULT 4-6 sections after it, in order. **First ask whether the part's REST pose is already inside the body**: Citlali's braids are modelled 4-11 cm inside hers and her own bones carry them out, so the remap is not what put them there and a displacement is standing in for a bone. Then: which KIND of fault (carrier / component / weighting / `pushAway`), measure clearance in 3-D *and* per narrow x bin (neither alone is enough), and remember a push has TWO ends --- what it clears at the bottom and what its root is driven into at the top |
 | **an undo left something behind** | "Undo is only as complete as what the fix wrote INSIDE its block" |
 | **"in game it looks exactly like the target's own model"** -- the fix seems not to have loaded | DUMP A FRAME AND GREP ITS LOG before touching code ([Overview](../Overview/CLAUDE.md)'s habit 73): it says which of your sections fired, whether the skip took and what drew. On CharlotteHurlock it showed a merge whose members never drew -- "CHARLOTTE <-> CHARLOTTEHURLOCK", point 4 |
-| a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". Both shapes have their own handling now; a watcher file gets only its own sections on the target's hashes |
+| a mod with **no mesh sections** (a texture-only recolour, a toggle or help-menu `.ini`), or a **`namespace_merge.py`** merge (`Master<Char>.ini` + every key under `if $\<Char>\Master\swapvar`) | "A RECOLOUR BY TEXTURE HASH ALONE, ON EVERY GI TEMPLATE" (the decision table for which files draw the source's model and which keep only their own sections), "CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, then "A NAMESPACE-MERGED MOD WRITES EVERYTHING INSIDE ONE `if`". A watcher file gets only its own sections on the target's hashes |
+| **a toggle does nothing on the target, and its variable lives in ANOTHER `.ini` of the folder** (a sibling recolour's `$color`) | "A RECOLOUR'S TOGGLE IS CARRIED". Check the mod's OWN skin first: a key cycling a variable its file never declares logs `Undeclared variable $x` and is dead there too (HuTaoCherry.ini's own `left`) |
+| **3DMigoto logs `Duplicate TextureOverride hash=` for a fixed folder** | Read WHICH files pair up. The mod's own file against its generated copies (the merge mechanism), and two of the author's files that already shared a hash on the source (a watcher beside the mesh), are expected. A texture-only or watcher file duplicating the DRAW hashes (ib / blend / texcoord) is what "A RECOLOUR BY TEXTURE HASH ALONE" fixed -- check the build has it (Overview habit 105) |
+| **3DMigoto logs `missing hash= or valid match options` for a generated section** | An invented section with nothing to match on, which `GIMIParser::addDownloads` no longer writes ("The current build shatters CherryHutao6"). If one reappears, a parser's `objIdentityKVPs` answers nothing for an object the fix still draws |
 | **an outline or TexFx effect looks wrong** on a merged skin | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 6. A carried member's `ps-t69` / `ps-t70` is cleared after its draw; an effect that still looks different on the target is the AUTHOR's, and the maintainer's call (2026-09-24) is to keep it |
 | **black shards / lighting-shaped dark patches** on one object of a component remap, on some mods and not the identity | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 8: the target SLOT decides the pixel shader. Hand-edit that group's `match_first_index` to another slot of the component and reload before theorising; `Component::objSlotIndices` then routes the object for good |
 | **stretched triangles** reaching from one part to another (skirt up to the chest) on a MERGE, on one mod and not the identity, with a vertex group table that looks right | "CHARLOTTE <-> CHARLOTTEHURLOCK", point 9: list the slot sections the MOD declares. A slot it leaves out under a component `handling = skip` was being downloaded and drawn over the mod's own vertices. Comment out that slot's `run =` in the fixed `.ini` and reload to confirm in one step |
 | **the remapped mod is a DIFFERENT COLOUR from the same mod on its own character** (CharlotteHurlock5: turquoise on the skin, red on Charlotte) | Usually NOT a fix bug ([Overview](../Overview/CLAUDE.md)'s habit 80). Open the mod's own diffuse (Pillow reads the `.dds`) and run `reload --mod` on it. If the texture already has the "wrong" colour and the SOURCE's own sections show `Unrecognised entry: resource\gimi\...` / `run = commandlist\gimi\settextures`, the maintainer's old-loader GIMI never binds the mod's textures on its own character. The fix normalises those lines into `ps-t` bindings, so the remap is the first place the author's real colours show. The maintainer's call (2026-09-24): not our problem |
 | **one variant of a merged master shatters** on a COMPONENT remap (the others fine) | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 4: a `.ini` group whose object keeps nothing in a state still bound the SOURCE's raw buffers there. List every generated file's per-`$swapvar` `vb0` / `vb1` / `ib` bindings and the vertex counts behind them before touching code |
+| **hair, a skirt or another part GLOWS flat green** (or wears the wrong texture) on a mod that leaves that part's textures to the game, the rest of the remap fine | The light map is in the diffuse slot. The source PARSER registered its downloads in the plain layout while the fixer drops `ps-t0` and shifts down for a normal-map layout. Fixed for seven skins (#286 and CherryHuTao); see "Where a downloaded texture hangs off: `objDownloadRegs`". **Prove it with one hand edit before touching code**: put the part's diffuse on the register the shader reads and its light map beside it in the fixed `.ini`, then `reload`. A texture override the mod has (`this =`) binds where the download would have gone, so it inherits the same fault |
+| **a part renders flat BLACK, with no detail at all**, after a fix of a mod that had been fixed before | Usually a texture EDIT whose INPUT was gone when the fix ran, so it wrote nothing, and its `filename =` points at a file that does not exist (`check_dangling.py` names it). On CherryHutao6 the input was deleted by the run's own UNDO: the old fix block had declared the mod's sibling textures as plain resources, and an undo deletes every file a resource inside the block names. Put the files back from the user's original and fix again; this build declares such files as `...RemapRef`, which an undo leaves alone |
 | the mod's **mesh file binds no textures** and a SEPARATE `.ini` recolours the skin by texture hash | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 7: the mesh file imports its siblings' `this =` overrides, the recolour file defers to it |
 | a cape or coat **torn / ripped open along a line**, dark lining showing through, on a multi-component skin | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 11: one garment cut between two components whose bones differ. Hide one component's draw to see the seam; count the cut pieces with the split from Python; the fix that held is the whole outfit on ONE component (move the groups in `VGRemapData`), not a moved or covered seam |
 | the eyes **look down / up** on the target but not on the source, on ONE mod | "NEUVILLETTE <-> NEUVILLETTEMELUSENT", point 10's second half: the mod hides the game's face (`handling = skip` on the face diffuse hash) and brings its own, so the eye offset must not apply -- `Component::offsetOnlyWithGameFace` |
@@ -2452,11 +2890,203 @@ carry (texture-only mods, a missing Eye) keeps its downloads, and so does one it
 there the game really does draw the slot over the mod's buffers. CharlotteHurlock2 (no D) was the only
 other mod it changed; 37 other mods / 3272 files did not move. **The prototype-vs-compiled A/B was
 blind to it**, since both share the parser and template (habit 55), so the proof is the
-before-and-after `.ini` diff plus the game. The same session found `GameView reload --mod` reporting
+before-and-after `.ini` diff plus the game. **The CLASSIC template had the same bug until 2026-10-10**
+(`GIMICharParser::dropUndrawnObjDownloads` now): a Fischl mod with no dress section, merged onto
+FischlHighness's body, drew the downloaded dress index buffer as "slightly jagged polygons" -- shards
+through her open jacket -- from its second `.ini` (`<Mod>RemapFix1.ini`). Over 17 classic mod folders it
+changed that one file and nothing else. **Both checks read the skip through `run =` and in any branch
+since 2026-10-11**: a merged master writes `handling = skip` in `CommandList<Char>IB`, and the first
+version of each read only the ib section's own lines, so every merged master still downloaded and drew
+an undrawn object. Over 228 real mods that moved Lisa2 and ShenheFrostFlower3 only (a no-draw section on a
+downloaded ib dropped); a run-skip Bennett mod that used to be remapped as nothing is remapped now.
+**And per STATE since 2026-10-11 (classic template only).** A path can lack an ib for a reason that
+needs none, so `GIMICharParser::dropUnneededObjDownloads` keeps an object's ib download only when Z3
+finds a state with `!ib && (draws || (vb0 && !skip))`, and the classic fixer's draw fill no longer
+writes `drawindexed` into a `handling = skip` branch. That cleared a merged master's skipped variants
+(Ayaka9/10 JKGyaru: shards in 4 of 7) and a variant that switches the mod off (ShenheFrostFlower
+`$vision == 1`, CherryHutao5's vanilla `$swapvar == 0`: the target's own model was drawn with the
+source's downloaded ib). **A mod with no position section of its own is exempt** -- a recolour drawn
+from the downloaded model needs every download, and the first build of this rule dropped LisaStudent1's.
+Z3 knows no toggle's range, so it only ever drops a download no state needs; a leftover on an
+unreachable fall-through stays. The audit's `checkUndrawnDL.py` then reports those paths as `GAME`,
+because it does not correlate conditions across sections. **The merge fixer read a slot's ibs root-first,
+so a download the parser bound at the top of a root answered for every branch** -- CharlotteHurlock1 with
+slot B skipped in one variant merged the GAME's BodyB into all of them. Since 2026-10-11 a slot's ib list
+drops its downloads when it holds any file of the mod's own (the component fixer's `preferAuthored`),
+and the merged ib is byte-identical to the unmodified mod's; nothing else of 245 mods moved. **A mod may
+split its draws across `.ini` files of one folder** (buffers, ib skip and some objects in one; another
+object's section in a second). The second file has no position section, so it was filled from downloads:
+a vanilla copy of every object it does not draw, and the GAME's buffers bound on the target's hashes -- the
+same hashes the first file binds the mod's buffers on. Since 2026-10-11, when a sibling binds the
+character's position buffer, the classic parser keeps only that file's own objects
+(`dropSiblingSuppliedDownloads`), which remaps the split mod whole; the component parser marks such a file
+as nothing to remap, because a merge needs every component's buffers in ONE file -- so on the merge and
+component templates the part that file carries is still not drawn on the target (no synthetic or real mod
+has needed more yet). **Since 2026-10-12 the file that binds the position buffer ADOPTS the sibling's
+section** (`TextureOverrides::adopt`, called by `GIMIComponentParser::adoptSiblingSlots` and
+`GIMICharParser::adoptSiblingObjs`): the section, every command list of the sibling it runs, and each
+resource it binds -- declared again under a `RemapRef` name with ALL its keys (an ib declared with only
+`filename` loses its `format` and is misread; the first build did that). Only for an object this file
+has no section of its own for, and only when no name collides. The sibling then classifies that object
+as nothing (`givenAway_`, asked with the same `adopt` call) so it is not drawn twice, and keeps any other
+section (a toggle watcher). Only the file that binds the buffers adopts: the first build let the sibling
+adopt the main file's slots back. All three repros (CharlotteHurlock merge, Fischl classic, Bennett
+component) now produce buffers byte-identical to their unsplit mods; no real mod of 245 moved. **And the component template bound an EMPTY index buffer for a state it never split** (one that
+runs through a download, beside a state of the mod's own): the collect still wrote that state's split, at
+0 bytes, and bound it under the filled `drawindexed = auto`. Since 2026-10-11 such a binding is `ib = null`
+(`nullDownloadSplits_`, only when an authored state exists -- a recolour drawn from downloads keeps its real
+splits). Across fixes 1-5 the empty bindings in the 245-mod sweep went 58 -> 0. The Charlotte session also found `GameView reload --mod` reporting
 "no warnings" over 47 real ones -- see the Game View guide.
 
 **Namespace-merged mods came out of the same session** -- see "A NAMESPACE-MERGED MOD WRITES
 EVERYTHING INSIDE ONE `if`" below.
+
+<br>
+
+## A RECOLOUR BY TEXTURE HASH ALONE, ON EVERY GI TEMPLATE (2026-10-07)
+
+"CHARLOTTE <-> CHARLOTTEHURLOCK", point 5, made the MERGE (a skin's mod onto its base) handle a mod that is nothing but
+`hash = <a texture> / this = Resource...`. The other two GI templates did not, and a synthetic recolour
+per character (`[TextureOverride<Char>BodyDiffuse] hash = <tex_body_diffuse> / this = ...`) lost its
+texture on **all 48 directions** checked: the classic template (`makeGIMICharParser` /
+`makeGIMICharFixer`) downloaded the source's model and drew it with the GAME's diffuse, and the
+component template (base onto a multi-component skin) gave up with "authors no mesh". With the section
+named after nothing (`[TextureOverrideBodyDiffuse]`, the usual hand-written shape) the file was not
+even FOUND: 0 of 48 classified.
+
+What each piece does now:
+
+- **The classifier votes with texture hashes** that one character alone claims (`GlobalIniClassifiers`,
+  GI only). The shared ones are what `populate()` already drops, so `b0e08915` (the metal map forty
+  characters list) and a face two skins share still identify nobody. Pinned by
+  `IniClassifierPopulation_test`'s `testARecolourClassifiesByItsTextureHash`.
+- **Both parsers bind the override in place of the download** for every object the texture is filed
+  under (`TextureOverrides::keysOf`: Yelan's body and dress share one diffuse, YelanTranquil's Body B
+  and C one atlas), at the register that object's download would have used, so every later register
+  edit of the fixer treats it exactly like a texture the mod bound itself. A role this parser has no
+  download for (a shadow ramp, a metal map) is not carried.
+- **Which files draw the SOURCE's model** (the classic parser's `getSectionTargets`; the merge's rule
+  was already the same shape):
+
+  | the file | gets |
+  | --- | --- |
+  | its own sections bind a mesh or a texture register | what it always got |
+  | only overrides a head / body / dress / extra texture the target does NOT draw too | the source's whole model from downloads, the mod's textures bound, plus an invented `ib` with `handling = skip` and a `VertexLimitRaise` with the source's vertex count (`inventSection`), so the target's own model stops drawing under it |
+  | the same, but a SIBLING `.ini` draws the mesh (CherryHutao6's `textures.ini` beside `HuTaoCherry.ini`) | its own sections only; the mesh file binds the sibling's textures under `...RemapRef` resources |
+  | overrides only the FACE, or only textures the target shares (Amber / AmberCN's face) | its own sections only: the face is a draw of its own on both characters and its override is carried onto the target's face hash with the face section |
+  | overrides nothing of the character (UI icons: Xingqiu3's `XingqiuIcon.ini`), or only watches the position hash | its own sections only |
+
+  The last three rows each used to get a whole vanilla model drawn over the real mod. **A face-only
+  recolour must not bring the outfit** -- Bennett2 ships one face texture per outfit, and drawing
+  vanilla Bennett over BennettAdventure to carry a face was the first version of this.
+- **The component fixer fetches a recolour's downloads itself**, before its split
+  (`GIMIComponentFixerImpl::fetchDownloads`), because the split reads the buffers while the fixer is
+  built and `fixResources` fetches them afterwards. The parser says the file is a recolour through
+  `TextureOverrideFacts`, reached by `dynamic_cast` the way `GIMIComponentParseFacts` is.
+- **Three skins had no slot texture rows**: YelanTranquil (off her `hash.json`), BennettAdventure and
+  CitlaliWhisperofStars (off their frame dumps through `giDrawTable.py`, each value seen in two passes of
+  different register layouts). A skin without `tex_<slot>_<role>` rows remaps a recolour as the plain skin.
+
+**What is still not carried**, and why:
+
+- ~~A recolour's `if $var == n` around its `this =`~~ -- **carried since 2026-10-10** on the classic
+  template; see "A RECOLOUR'S TOGGLE IS CARRIED" below. Still not carried: a condition reading a variable
+  that no sibling `[Key...]` sets and the mesh file does not declare (bound unconditionally, as before),
+  and a toggle on the component / merge templates.
+- (No longer open.) LisaStudent -> Lisa and XianglingCheer -> Xiangling lost the recolour, and every
+  downloaded texture with it, because their parse rows registered downloads in the plain layout while
+  their fixers drop `ps-t0` and shift the rest down. Fixed on `master` with four more skins (#286):
+  see "Where a downloaded texture hangs off: `objDownloadRegs`". A recolour's binding follows the
+  download's register, so it was fixed by the same change.
+- A face-only recolour on the COMPONENT template (base onto a skin) still writes nothing, as before.
+
+**Seen in game (2026-10-07, GameView, shop / Dressing Room previews)** with recolours whose diffuse had R, G, B rotated
+(unmistakable, alpha kept): Amber -> AmberCN (the generic `[TextureOverrideBodyDiffuse]` shape), Yelan -> YelanTranquil
+and CitlaliWhisperofStars -> Citlali each drew the source's outfit on the target in the recolour, matching the mod on its
+own character part for part, with nothing of the target left under it (`compare`). CherryHutao6 (the sibling
+`textures.ini` shape) drew the right geometry where the old build shattered it, but its HEAD and DRESS came out green: the
+parser / fixer layout mismatch above, on a third pair. One hand edit putting the head's diffuse on `ps-t0` and its light
+map on `ps-t1` fixed the head in game, and **CherryHuTao's parser now registers head and dress at `ps-t1` / `ps-t2`**
+(`objDownloadRegs`; every CherryHuTao mod binds normal / diffuse / light map at `ps-t0/1/2` there), after which the remap
+matched the mod on its own skin part for part. It also moved the dress transparency edit off the downloaded LIGHT MAP
+(CherryHutao5); the other 8 CherryHuTao / HuTao corpus folders are byte-identical. **And that folder's old fix block declares the sibling's textures as
+plain resource sections, so the first undo of it deletes them** (the undo rule; the old build does it too) and the texture
+edits that read them then write nothing, which renders BLACK. A fix by this build re-declares them as `...RemapRef`.
+
+**To see in game whether a fix carries a mod's TEXTURE, make the texture unmistakable first.** Load the
+character's own diffuse from `Data/Mod Downloads`, rotate its channels (R, G, B -> B, R, G), keep the
+alpha, and save it with mip maps (`FRB.TextureFile(src, readPillowImg=True).open()`, then `save(img=...,
+compress=False, mipmaps=True)`). The recolour is then obvious at any distance, so "carried" vs "the game's
+texture" is a yes or no on the first screenshot. A subtle tint would need a pixel statistic, and
+Overview warns how easily those mislead. The shop preview gives
+both halves without owning either outfit: the skin card shows the mod on its own character, the base
+card the remap (or the other way round).
+
+**Test this with the decision table above, not with one mod.** The synthetic set
+(`[TextureOverride<Char>BodyDiffuse]` for every character with a `tex_body_diffuse` row, in both naming
+styles) found the classic and component gaps, but every row of the table after the second came from a
+REAL mod in the maintainer's folder: `findTexOnly`-style, list the `.ini` files with a `this =` and no
+`ib` / `vb` line, and the list is icons, face packs, sibling tweaks and watchers far more than recolours.
+
+**"The current build shatters CherryHutao6" was `master`, not this section (2026-10-08).** The commit above
+(`Remap texture-only (this =) mods on every GI template`) sat unmerged on `add-texture-only-remap` (merged since, PR #287) while the
+maintainer's checkout ran it UNCOMMITTED, so a build of `master` still fixed `textures.ini` as a whole
+CherryHuTao mod: downloaded ib / buffers drawn on Hu Tao's hashes over the real fix, the model in shards.
+**Before debugging "the current build", find out which commit that is** -- `git status` in the main checkout
+and the `.pyd`'s timestamp. Two smaller faults survived even the texture-only build, both in shared code and
+both pinned by `core/tests/TextureOnlySibling_test.cpp` (fails on `master` 15 ways, on the texture-only build
+6, passes now):
+
+- **A section invented for a download, with nothing to match on, is no longer written**
+  (`GIMIParser::addDownloads`). Eight skins have no `tex_face_diffuse` row -- Arlecchino, AyakaSpringbloom,
+  CherryHuTao, GanyuTwilight, KleeBlossomingStarlight, ShenheFrostFlower, XianglingCheer, XingqiuBamboo --
+  so every mod of theirs without a face section got `[TextureOverride<Mod>Face<Target>RemapFix] ps-t1 =
+  ...FaceDiffuseRemapDL` and no `hash`: "missing hash= or valid match options" in 3DMigoto's log and a
+  download for nothing. An empty `objIdentityKVPs` answer now means "do not invent".
+- **A generated copy that repeats the mod's own file is not written** (`GIMIFixer::fix`). A file that
+  draws nothing still gets one group per split object, and group 1 rendered only what group 0 had:
+  `texturesRemapFix1.ini` repeated textures.ini's position watcher, and so did copies of CherryHuTao4 /
+  Keqing6-3's masters, Keqing5's lone VertexLimitRaise and NuraThings' mod-manager file.
+
+A/B over 252 folders (the 223-folder corpus plus `GIMI\Mods`), texture-only build against this one, both
+from the same undone copies: 941 `.ini` files fixed on each side, 0 buffers or textures moved, 0 of 599
+RemapBlend files; 218 `.ini` files each lose exactly one hash-less face section and its resource, 108 face
+downloads and 6 copies are gone, nothing is added. In game (shop preview, Hu Tao's base card) CherryHutao6
+draws whole from every side and matches the mod on its own skin card, except the glasses' lenses: silver on
+Hu Tao, red on the skin. Neither build changes that -- the skin draws its lenses in a draw of their own, and
+the fixer merges them into Hu Tao's head draw. `up` / `left` reach the game with `key --vk`. **CherryHutao6's
+own folder must have the four textures before the fix**: copy them from an UNDONE copy, never one an undo of
+the old fix has run over.
+
+**A RECOLOUR'S TOGGLE IS CARRIED (2026-10-10), and the undo bug it exposed.** CherryHutao6's `left` switches
+its own skin card between the white outfit and the black recolour (textures.ini's `$color`); after the fix
+above, Hu Tao stayed black. Two in-game experiments decided the design before any code:
+
+- **A sibling's variable cannot be named by its path.** 3DMigoto names a file with no `namespace =` after its
+  PATH (`d3d11_log.txt`: `Renaming namespace "Mods\BufferValues\ORFix.ini" -> "global\ORFix"` for the
+  ones that declare one), and `if $\Mods\CherryHutao6\...\HuTaoCherry Tweaks by Rain_9\textures.ini\color`
+  is cut at the first space -- `Unrecognised identifier: $\mods\...\hutaocherry`. It would break on any
+  folder move anyway.
+- **A second `[Constants]` in one file is merged**, so a fix block can declare variables of its own. The
+  author's `[KeySwap3]` in HuTaoCherry.ini, which cycles an undeclared `$color` (`Undeclared variable
+  $color` in the log, so dead on its own skin), came alive the moment one was declared.
+
+So `GIMICharParser` keeps the override's `if` (`TextureOverrides::Override::branches`): a toggled override
+keeps the object's download and is bound after it at the top of the section, `ps-tN = <download>` then
+`if $colorRemapRef == 0 / ps-tN = <recolour> / endif`, so every later register shift and texture edit sees
+both. A SIBLING's variable is carried as `$<name>RemapRef`: declared in a `[Constants]` and cycled by a copy
+of the sibling's `[Key...]` (`[KeySwap3RemapRef]`, same key, same `condition` when this file can read its
+variables), handed to the fixer through `TextureOverrideFacts::carriedSections` and written as appended
+sections into every generated copy too, each a namespace of its own. The two copies of the variable stay in
+step because one key under one condition drives both. Seen in game: `left` on Hu Tao's card goes black ->
+white -> black.
+
+**The first real-mod test found that an undo then DELETED THE AUTHOR'S `[Constants]`.** `RemapIniRemover`
+removes by NAME, every span of a name the fix block declared, wherever it sits -- harmless while a fix only
+wrote names of its own, fatal for a section 3DMigoto merges. Outside a boilerplate, `[Constants]` and
+`[Present]` are now the author's (`RemapIniRemover::isMergedSection`). Caught by a fix-refix-undo cycle on a
+real copy, which the unit test now repeats (`testUndoKeepsTheAuthorsConstants`): **run every fix twice and
+undo it once before calling it done** -- the re-fix was where the missing `[Constants]` showed.
 
 <br>
 
@@ -3129,6 +3759,24 @@ character.
 Read this before touching `NNFix`, `ORFix` or `RegDelimitedAdd` anywhere. It is not a
 multi-component fact -- it moved both templates, and it had been wrong for every mod of a shape
 nobody had tested.
+
+**And "once" had a hole: a path can END where a `run =` returns (fixed 2026-10-11).** `editPerPath`
+inserted only at a part's ENTRY node, so a merged master whose section is nothing but
+`run = CommandList<Obj>` -- the list binding `ib`s and textures, the draw left on the shared ib section
+(`moveDrawIndexed` off) -- had its only path end at the call's EXIT node and got NO fix call at all.
+CherryHuTao onto HuTao rendered neon green in every variant; 24 of 245 sweep mods (Jean, Keqing,
+Nilou, Xiangling, Xingqiu, Ningguang, Shenhe, Klee...) gained 85 `NNFix` / 18 `ORFix` lines when an
+exit node was allowed to take the addition at the end of its part. **The first build of that doubled
+16 sections**: after a call to an EXTERNAL list (TexFx) the return edge is invisible to `covered`, so
+the exit added a second call right after the entry's -- `fixCallPaths.py` went 5 -> 21 and back to 5
+once an exit skips a part whose entry inserted or was covered. **And the game found one the checker
+could not**: a merged master that DRAWS in every branch of its CommandList (bind, TexFx, ORFix,
+`drawindexed`) still got a trailing ORFix after the call, because the continuation after an external
+call reads as clean -- Ayaka9's bra turned green on Springbloom Missive. An exit now also requires that
+nothing between the part's entry and its exit draws or took the addition (`regionIsBare`); that changed
+only Ayaka9 and LumineHeavenSynth in the sweep and was confirmed in game. `fixCallPaths.py` counts calls
+BEFORE a draw, so a call placed after every draw is invisible to it. Run it over a sweep
+before and after ANY change to this edit; a count that moves is a finding -- and so is a picture.
 
 The rule used to be "immediately before every `drawindexed`, and once at the end of a path that
 draws nothing". That is right only while **no path draws more than once**, and silently wrong
@@ -8844,6 +9492,37 @@ OBJECT as well as per version. Kirara at 4.0 has three different layouts at once
 carry a normal map and sit a slot higher, the dress sits a slot higher without one), and by 5.7
 her body and dress have moved down while her head has not. KiraraBoots is the exact mirror. Put
 a download on the wrong slot and the shader samples a lightmap as a diffuse; nothing reports it.
+
+**The download registers must be in the layout the FIXER's register edits assume (2026-10-07).**
+A download is inserted in the SOURCE's layout, before the fixer's `objRegRemovals` / `objRegRemaps`
+run. So a parser that puts a downloaded diffuse on `ps-t0`, feeding a fixer that drops `ps-t0` as the
+source's normal map and shifts `ps-t1` / `ps-t2` down, deletes the diffuse and binds the light map
+as the target's diffuse. `lisaStudent5_7` (an anomaly in the pure-Python table, where every other
+LisaStudent row is shifted) and `xianglingCheer5_3` (its pure-Python row WAS shifted, and the port
+dropped it) both did this. **Only a mod missing a whole object reaches this path**, so an A/B over
+complete mods is blind to it: of six real mods only one sub-mod (LisaStudent1's book, which draws
+none of her objects) moved. Test it with a one-section mod, `[TextureOverride<Char><Obj>Diffuse]` +
+`hash =` one texture hash. When deciding which side is wrong, the evidence that settled these two:
+GI-Model-Importer-Assets' `hash.json` (its `texture_hashes` are in register order; LisaStudent's
+4.x labels Diffuse / LightMap / Shadow are the SAME hashes 5.4 relabels NormalMap / Diffuse /
+LightMap), a mod dumped from the game (XianglingCheer3 names each texture's hash), and a normal map's
+mean colour (~(128, 128, 255), or (128, 128, ~5) for a two-channel one) on `ps-t0`. **Four more
+directions had the same mismatch and were fixed the same day, all on the parser side**:
+GanyuTwilight (head only -- her body and dress are modern), CherryHuTao (head and dress),
+KaeyaSailwind (body only) and KiraraBoots (dress: its parser was the one SHIFTED, and every
+KiraraBoots fix row wants it modern). **A dumped `hash.json`'s labels can be one slot off, so read
+the HASHES, not the names**: the dumper assumes a normal map on `ps-t0`, so an object without one
+comes out labelled NormalMap / Diffuse / LightMap over what is really diffuse / lightmap / ramp
+(KiraraBoots' dress: the "NormalMap" is her body's diffuse hash, the "LightMap" a shared ramp), and
+an older dump labels a real normal-map layout Diffuse / LightMap / Shadow (LisaStudent,
+KaeyaSailwind's body). A slot list ending in the shared metal map `b0e08915` at the 4th slot has a
+real normal map; one with `b0e08915` in the 3rd has none. A download FILE named after such a label
+can be mislabelled too -- find a mod that ships the same bytes (md5) and read which register that
+mod binds it on. And a format check settles a name: a diffuse is an sRGB
+BC7 (DXGI 99), a normal map / lightmap linear (98). **Still open**: KiraraBoots' 5.7 parser row
+puts her HEAD and BODY downloads on the modern slots (the pure-Python 5.7 block), while her one
+real mod and the assets repo give both a normal map on `ps-t0`; with no post-5.7 dump to say who
+is right it was left alone.
 
 `faceDownloadVersionFolder` / `faceDownloadPrefix` are the same idea for the face, and exist
 because THREE characters file their face diffuse away from the rest of their assets

@@ -36,7 +36,7 @@ The parser for a 4.0-era KaeyaSailwind ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.h" line="44" column="45" bodyfile="src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp" bodystart="42" bodyend="44"/>
+        <location file="include/AGRemapCore/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.h" line="44" column="45" bodyfile="src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp" bodystart="52" bodyend="54"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

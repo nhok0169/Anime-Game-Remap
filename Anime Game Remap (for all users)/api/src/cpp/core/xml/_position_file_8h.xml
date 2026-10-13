@@ -147,13 +147,13 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>src/model/files/PositionFile.cpp</label>
-        <link refid="_position_file_8cpp"/>
-      </node>
       <node id="3">
         <label>src/model/iniresources/RemapPositionResource.cpp</label>
         <link refid="_remap_position_resource_8cpp"/>
+      </node>
+      <node id="2">
+        <label>src/model/files/PositionFile.cpp</label>
+        <link refid="_position_file_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>

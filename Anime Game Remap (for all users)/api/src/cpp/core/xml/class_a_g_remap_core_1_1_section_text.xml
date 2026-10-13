@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="100" column="23" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="106" column="23" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1aab22d11ff20d76ef4fd2a07a1ec0d6a4" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="101" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="107" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a937276f76e7b599a1a057c745bd2ca42" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="102" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="108" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="108" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a00473beaf8094bb0e7fedb2c3f97ad6e" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt;</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="103" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="109" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_text_1a3c80e1a0a8a71e2457fe086481cadac1" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="104" column="17" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="110" column="17" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="110" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -158,6 +158,20 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/IniSectionText.h" line="62" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="62" bodyend="66"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1a1f083657c80797aba4464bda7f2d1186" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
+        <definition>SectionText &amp; AGRemapCore::SectionText::orElse</definition>
+        <argsstring>()</argsstring>
+        <name>orElse</name>
+        <qualifiedname>AGRemapCore::SectionText::orElse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="69" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="69" bodyend="72"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1aa8ba71c613d14b8a5133f74230e70c50" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
         <definition>SectionText &amp; AGRemapCore::SectionText::prefix</definition>
@@ -174,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="70" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="70" bodyend="73"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="76" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="76" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1ad59ad608e8aa0dd9e4e3ffe9314e5f8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_section_text_1a726847307f8b2dae85f2d761c5b24d28" kindref="member">SectionText</ref> &amp;</type>
@@ -188,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="75" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="75" bodyend="82"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="81" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="81" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_section_text_1afc60841656a5fabaf4922f57a0275210" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>std::string</type>
@@ -202,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionText.h" line="85" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="85" bodyend="97"/>
+        <location file="include/AGRemapCore/model/IniSectionText.h" line="91" column="25" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="91" bodyend="103"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -239,7 +253,7 @@ nothing, so each needs a GI corpus sweep of its own rather than a tidy-up
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/IniSectionText.h" line="47" column="5" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="47" bodyend="105"/>
+    <location file="include/AGRemapCore/model/IniSectionText.h" line="47" column="5" bodyfile="include/AGRemapCore/model/IniSectionText.h" bodystart="47" bodyend="111"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_section_text_1ad59ad608e8aa0dd9e4e3ffe9314e5f8c" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>close</name></member>
       <member refid="class_a_g_remap_core_1_1_section_text_1a3c80e1a0a8a71e2457fe086481cadac1" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>depth_</name></member>
@@ -247,6 +261,7 @@ nothing, so each needs a GI corpus sweep of its own rather than a tidy-up
       <member refid="class_a_g_remap_core_1_1_section_text_1a5bd46d537f7b3cc3c4d5750de9692f59" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>keys</name></member>
       <member refid="class_a_g_remap_core_1_1_section_text_1aab22d11ff20d76ef4fd2a07a1ec0d6a4" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>name_</name></member>
       <member refid="class_a_g_remap_core_1_1_section_text_1a3744a7480755e3a0b9bdc5695f46dce8" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>open</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_text_1a1f083657c80797aba4464bda7f2d1186" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>orElse</name></member>
       <member refid="class_a_g_remap_core_1_1_section_text_1a00473beaf8094bb0e7fedb2c3f97ad6e" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>parts_</name></member>
       <member refid="class_a_g_remap_core_1_1_section_text_1aa8ba71c613d14b8a5133f74230e70c50" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>prefix</name></member>
       <member refid="class_a_g_remap_core_1_1_section_text_1a937276f76e7b599a1a057c745bd2ca42" prot="private" virt="non-virtual"><scope>AGRemapCore::SectionText</scope><name>prefix_</name></member>

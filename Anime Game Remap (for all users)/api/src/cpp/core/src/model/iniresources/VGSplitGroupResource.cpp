@@ -163,6 +163,13 @@ namespace AGRemapCore {
                             share += pushWeights[v][k];
                         }
                     }
+                    // Taken to nothing by height, so a push sized for the bottom of a part does not
+                    // reach the top of it -- see VGPushAway::fade. {0, 0} leaves it unfaded.
+                    if (push.fade[1] > push.fade[0]) {
+                        const float scale = (push.fade[1] - pos[1]) / (push.fade[1] - push.fade[0]);
+                        share *= std::min(1.0f, std::max(0.0f, scale));
+                    }
+
                     const float dx = pos[0] - push.from[0];
                     const float dz = pos[2] - push.from[2];
                     const float len = std::sqrt(dx * dx + dz * dz);

@@ -20,6 +20,16 @@ Everything else, including a failed test, is yours to diagnose and retry. The fi
 message, with the evidence (kept screenshots, `pair`s of base vs remap per mod, the warnings that
 remain and why). Read the tool's README for the command reference. This file is how to use it well.
 
+**A RE-FIX IS NOT A RELOAD, AND THE GAME WILL HAPPILY SHOW YOU YESTERDAY'S BUILD (2026-10-06).**
+Rebuilding and re-running the fix changes the files on disk; 3DMigoto keeps serving what it already
+has until `reload`. On 2026-10-06 that cost a round outright: a push was re-aimed from 10.2 cm of
+forward lean to 6.4, the mod was re-fixed, the change was reported as ready to look at -- and the
+maintainer, looking at the still-resident old buffers, said the braids were pushed forward *even
+more*. **Never say a change is ready to look at until a `reload` has run since the last fix**, and
+when a report contradicts a measurement, check that the game is showing the build you measured
+before doubting the measurement.
+
+
 ## AN ARROW KEY THIS TOOL SENT ARRIVED AS A NUMPAD KEY (fixed 2026-09-27)
 
 `key left`, `key ctrl+left`, `key alt+down` -- every arrow, modified or not -- did **nothing**, in
@@ -72,7 +82,13 @@ colours** -- then "did it switch" is a colour, not a statistic.
    look for a way around the prompt. A registered highest-privilege task was proposed for that and
    refused as unrequested persistence.
    **The helper runs under whichever Python started it, and screenshots need Pillow in THAT one**
-   (2026-09-29). A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
+   (2026-09-29; it happened AGAIN on 2026-10-04 and cost another round trip, so `helper start` now
+   REFUSES an interpreter without Pillow and names the fix. If a capture fails with a bare
+   `ModuleNotFoundError: No module named 'PIL'` anyway, the helper predates that check: `helper stop`
+   then `py -3.9 main.py helper start`. The `helper.json` beside `config.json` in the scratch folder
+   -- `status` prints its path -- records which Python a RUNNING helper is on, which is the one
+   question `helper status` does not answer.)
+   A helper started under the laptop's 3.12, which has no Pillow, drove keys fine and
    failed every capture. Ask for it to be restarted under the Python that has Pillow (`py -3`, 3.9
    there; habit 77 says to check with `py -0`), rather than installing packages into another one.
 3. **Is hunting on?** `status` shows `hunting` per importer. `show_original` (F9, which `compare`
@@ -108,6 +124,13 @@ py -3 main.py mods GIMI restore                                  # at the end: e
 - `scan`'s hint is the commonest first word of a mod's `TextureOverride` sections, and it is only
   a guess, because authors name sections after the base character while building on a skin. The fix
   run's own classification decides which mods are the character's.
+- **`restore` replays the WHOLE journal, including moves from earlier sessions** (2026-10-04). It is
+  not "undo what I did": `mods-journal-GIMI.json` persists, so a restore at the end of your work can
+  LOAD a mod somebody parked days ago. One run came back with 33 mods loaded where the session had
+  started at 32, the extra being a `Yaoyao5Tri` nobody had touched that day. **Record the loaded set
+  before you start** (`mods <IMP> list`) and diff against it afterwards rather than trusting the
+  restore, and park anything it resurrected. A folder you deleted by hand is reported as
+  `could not undo ... (already moved by hand?)`, which is harmless.
 - Moves are renames only. A mod folder on another drive than the importer is refused, because a
   cross-drive move is a copy plus a delete of the maintainer's original.
 - The fix edits the mod IN PLACE (backups and `-u` undo are the API's), the maintainer's own way.
@@ -237,6 +260,26 @@ from sections matching the SOURCE's hashes -- so on the remapped character the t
 whatever key arrives. `d3dx_user.ini` tells you which of the two you have: if the variable does not
 move, the key never arrived; if it moves and nothing renders differently, the condition is false or
 the branch draws nothing.
+
+## `mods only` STOPS HALFWAY WHEN A SAME-NAMED FOLDER IS ALREADY PARKED, AND OTHER TRAPS OF A NEW DAY (2026-10-10)
+
+- **`only` refuses a name clash after it has started moving.** It parks the loaded set one folder at a
+  time, so when one of them already has a namesake in the importer folder (the maintainer had `GIMI/Ayaka7`
+  AND `GIMI/Mods/Ayaka7`) it stops with `... already exists; not overwriting it` with everything before it
+  alphabetically parked and nothing loaded. A test copy named like a parked mod (`--from <x>/CherryHutao6`
+  while `GIMI/CherryHutao6` exists) hits the same wall. Record `mods <IMP> list` first; use an explicit
+  `park <the conflicting mod>` plus `load <copy> --from <folder>`; stage test copies under a distinct name
+  (`CherryHutao6Fixed`); diff `mods list` against the record at the end.
+- **The window can change size between sessions** (3440x1440 one day, 1920x1080 the next). A view
+  coordinate taken from an older screenshot then lands on another control -- one card click stepped the
+  outfit preview to a different character. Take positions from a FRESH screenshot and click with
+  `--space frac`.
+- **After a logoff or reboot the helper is gone** (`helper status` before anything else), and the game
+  may come up wherever the user left it -- a Dressing Room with a skin equipped. Back out without
+  switching what is equipped.
+- **A second `Esc` from a character screen opens the Paimon menu, UID top LEFT.** When a capture might show
+  it, blank the top-left corner of the file with Pillow before reading it, and delete any capture that
+  showed the UID.
 
 ## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
 
@@ -372,6 +415,28 @@ driving it:
   where you started. A parked master's persisted value is dropped from `d3dx_user.ini` at the next
   save (the reload says so in a NOTICE) -- restoring the folder brings the mod back, not the variant.
 
+### Five more things the shop and the character screen do (2026-10-07)
+
+- **Amber's outfit names are the opposite of what the mod types suggest.** In her Dressing Room,
+  **"100% Outrider" is the `Amber` model** (the classic one, equipped on this account), and
+  **"5-Star Outrider" is `AmberCN`**. It is not in the shop at all. Selecting a card previews it; only
+  **Switch** equips, so a remap onto AmberCN is seen by selecting the 5-Star card without switching.
+  Re-select the equipped card before you leave.
+- **Find a character fast with the list's FILTER, not by scrolling.** On the character screen the grid
+  button (bottom left) opens the full list, and its filter takes element + weapon (Pyro + Bow gave Amber
+  alone). Scrolling that list with `scroll` once opened an Ascension Materials panel and once closed the
+  list. Clear the filter (its `Clear` chip) before you leave; it persists.
+- **A "Sold out" outfit card still opens its preview** (Tranquil Banquet), so a skin whose shop run is
+  over is still testable there.
+- **From an outfit preview, X goes to the shop GRID, and X on the grid goes straight to the OVERWORLD**.
+  It does not pass through the Paimon menu. Getting back IN goes through the Paimon menu (`esc`, then the
+  Shop tile), which shows the UID top left. Click through it blind and verify with
+  `screenshot --crop 0.3 0 0.7 0.95 --space frac`. That writes only the crop to disk, so nothing outside
+  it is ever saved.
+- **The first click of a `do` sequence sometimes does not land** (it hit about half the time on the X and
+  the card buttons). Write `move X Y; wait 1; click X Y`, and check the result before the next step. A
+  click that silently missed reads exactly like a click that worked until the next screenshot.
+
 ## Getting a character on screen (WuWa, the maintainer's notes + verified 2026-09-23)
 
 WuWa does not keep a character's base look and skins together in one shop, so **first find out
@@ -431,6 +496,20 @@ Two WuWa specifics about the tool:
   logging OFF in XXMI's settings, which is the maintainer's switch to flip, not yours. Narrow the
   dump with `--options` when the question allows; that also avoids the reload wait, which never sees
   the log go quiet while call logging floods it.
+
+## Navigating the shop and the character screen across a long round (2026-10-12)
+
+- **`click` and `drag` take VIEW coordinates** (the `.view.png` scale, 1 view px = 1.224 full px at 1920 wide).
+  Full-resolution numbers miss: a click meant for the shop's close button at full `(1840, 48)` did nothing.
+- **From an outfit preview, the close button (view `1505,40`) goes to the shop grid, and again to the overworld.**
+  From the overworld `key c` can land on the PAIMON MENU instead of the character screen; its Character tile is
+  at view `414,470`. **The Paimon menu shows the UID top left: black out the top-left 45 x 35 % of any capture
+  before reading it**, and delete one that slipped through.
+- **The character screen's grid button (view `62,822`) lists every owned character.** A party nickname replaces
+  the name ("Alice" is the Traveler), so pick by portrait.
+- **Turn hunting off only when its green line is visible**; `toggle` flips blind, and a `reload` turns it back on.
+- **Read the outfit title after every arrow click** (crop view `1420,720` to `1860,830`) -- see Creating Remaps'
+  "AN IN-GAME ROUND OVER MANY MODS".
 
 ## Rules for driving the game
 

@@ -40,6 +40,8 @@
     <innerdir refid="dir_7d73376d641d75fa42fe2a1657940aff">src/data/IniParseData/LisaStudent</innerdir>
     <innerdir refid="dir_879bc1e101597489e467e64f337e0987">src/data/IniParseData/Lumine</innerdir>
     <innerdir refid="dir_d2896b04746a3982447f76eae4d4a3a9">src/data/IniParseData/LumineHeaven</innerdir>
+    <innerdir refid="dir_41b8046bf98f8aa66a419061b5fcaec4">src/data/IniParseData/Lynae</innerdir>
+    <innerdir refid="dir_f1ba44e78c9ad12fab4d9b6b66c3712b">src/data/IniParseData/LynaePeppermint</innerdir>
     <innerdir refid="dir_8f5bf5a9e6f82f5ebb05da8e603ecbc8">src/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_7354bd2ec5e57e0ae2ee0931671ab40f">src/data/IniParseData/MonaCN</innerdir>
     <innerdir refid="dir_165e623751b8370d6ebcdea880fe6618">src/data/IniParseData/Neuvillette</innerdir>
@@ -65,6 +67,7 @@
     <innerdir refid="dir_213d24b3c6fff506f3a307d486eee033">src/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
     <innerfile refid="_g_i_m_i_component_parser_8cpp">GIMIComponentParser.cpp</innerfile>
+    <innerfile refid="_texture_overrides_8cpp">TextureOverrides.cpp</innerfile>
     <innerfile refid="_w_w_m_i_parser_8cpp">WWMIParser.cpp</innerfile>
     <briefdescription>
     </briefdescription>

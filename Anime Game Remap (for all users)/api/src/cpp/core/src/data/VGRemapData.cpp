@@ -1078,13 +1078,40 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // answers disagreed reviewed by bone position (the reasons are in the draft's Comments). The
         // union of the three rows covers each of Citlali's 142 groups exactly once.
         //
-        // PROPOSED, NOT YET CONFIRMED IN GAME.
+        // HER TWO LONG FRONT LOCKS BELONG TO THE BANGS COMPONENT, WHOLE (2026-10-05, after four wrong
+        // answers). Each lock is a four-link chain -- 23 -> 24 -> 25 -> 26 and the mirror
+        // 29 -> 30 -> 31 -> 32 -- hanging from the temple (y 1.363) to the chest (y 1.037).
+        //
+        // WHAT WAS WRONG FOR A FORTNIGHT: the chain was CUT ACROSS TWO COMPONENTS. Its upper two
+        // links went to the skin's Bangs front-hair chain and its lower two to a bone of the Body,
+        // so the halves were skinned in different index spaces by different bones -- the top riding
+        // the skin's hair physics and the bottom riding whatever the Body bone did. A user reported
+        // exactly what that produces: "the braid is stationary sticking to her body instead of
+        // flowing naturally like hair", and "the braid is dislocated from her hair". It is the same
+        // fault as Neuvillette's capes ripping along a component seam, and the rule written there
+        // holds here: ONE part belongs on ONE component's bones.
+        //
+        // The three Body targets tried for the lower half are all beside the point, and all three
+        // render identically, because a bone's skinning matrix is the IDENTITY at the rest pose --
+        // Body:56 (the torso, from "which bone drives the SKIN here"), Body 70 -> 72 (the front
+        // dress chain, from "minimise the lever") and the clavicle. None of them is hair, so none
+        // of them moves, which is the half of the report no push can answer.
+        //
+        // So the whole lock goes on the skin's own front lock chain, Bangs 3 -> 5 -> 7 (mirror
+        // 4 -> 6 -> 8), four links onto three with the last doubled. The one real objection to that
+        // is amplitude, and it is handled where it belongs rather than by picking a different bone:
+        // the skin's lock stops at y 1.241, 3.8 cm below bone 7's pivot, while Citlali's runs on to
+        // 1.037, 24 cm below it, so the skin's own hair sim moves her tip about six times too far.
+        // GIMIComponentFixerConfig::Component::splitGroups shares the two lower links' weight with
+        // the Bangs' head bone (0), which damps the swing to roughly the travel the skin's own lock
+        // has -- see CitlaliFixer.cpp, where the shares and the measurement are.
+        // The rest is PROPOSED, NOT YET CONFIRMED IN GAME.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Body"},
          VGRemap({
             {0, 106}, {1, 0}, {2, 1}, {3, 104}, {4, 105}, {7, 106}, {8, 107}, {9, 108}, {10, 108}, {11, 112},
-            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115}, {25, 56},
-            {26, 56}, {31, 56}, {32, 56}, {35, 7}, {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
+            {12, 114}, {13, 108}, {14, 110}, {15, 112}, {16, 114}, {17, 109}, {18, 111}, {19, 113}, {20, 115},
+            {35, 7}, {36, 108}, {37, 7}, {38, 109}, {39, 117}, {40, 118}, {41, 74},
             {42, 75}, {43, 2}, {44, 76}, {45, 76}, {46, 79}, {47, 85}, {48, 85}, {49, 127}, {50, 128}, {51, 129},
             {52, 96}, {53, 98}, {54, 100}, {55, 102}, {56, 121}, {57, 97}, {58, 99}, {59, 101}, {60, 103}, {61, 122},
             {62, 88}, {63, 90}, {64, 28}, {65, 8}, {66, 8}, {67, 77}, {68, 80}, {69, 86}, {70, 32}, {71, 32},
@@ -1100,7 +1127,22 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",
           "6.7", ModTypeIdTools::getName(ModTypeId::CitlaliWhisperofStars), "Bangs"},
          VGRemap({
-            {21, 9}, {22, 9}, {23, 3}, {24, 5}, {27, 5}, {28, 7}, {29, 4}, {30, 6}, {33, 6}, {34, 8}
+            // THE LOCK'S ROOT RIDES THE HEAD (0), not the skin's front-lock root (3 / 4). Group 23
+            // owns y 1.34-1.42 outright and 56% of 1.30-1.34 -- the stretch where the braid is
+            // SANDWICHED, 4 mm from the fringe in front and touching the loose hair behind. On
+            // Citlali all three hang off one skeleton and move as a designed unit; here the braid
+            // rides the lock chain, the fringe its own bone and the loose hair the Body back-hair
+            // chains (108-115), so any relative motion closes a gap that was never meant to be
+            // defended, and no displacement can clear both sides of 4 mm. Rooting the top link to
+            // the head puts it on the same bone as the scalp it grows out of, which is what a real
+            // model does with a lock root: the swing starts at 24 -> 5 instead, and the source
+            // weights blend 23 into 24 so the handover is a gradient rather than a hinge.
+            //
+            // This is NOT the damping of 2026-10-04, which shared 65-80% of the LOWER links' weight
+            // with the head and left the braid "stationary, solid with her head". Only the root
+            // moves to the head; every link that hangs free still swings.
+            {21, 9}, {22, 9}, {23, 0}, {24, 5}, {25, 7}, {26, 7}, {27, 5}, {28, 7},
+            {29, 0}, {30, 6}, {31, 8}, {32, 8}, {33, 6}, {34, 8}
          })},
 
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Citlali), "",

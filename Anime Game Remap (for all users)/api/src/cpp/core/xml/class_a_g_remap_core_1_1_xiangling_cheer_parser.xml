@@ -36,7 +36,7 @@ The parser for a 5.3-era XianglingCheer ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/XianglingCheer/XianglingCheerParser.h" line="47" column="45" bodyfile="src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp" bodystart="40" bodyend="42"/>
+        <location file="include/AGRemapCore/data/IniParseData/XianglingCheer/XianglingCheerParser.h" line="47" column="45" bodyfile="src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp" bodystart="49" bodyend="51"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

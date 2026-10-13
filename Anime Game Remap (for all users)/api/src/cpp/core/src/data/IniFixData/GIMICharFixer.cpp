@@ -24,6 +24,7 @@
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/RegDelimitedAddMode.h"
+#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
@@ -218,6 +219,19 @@ namespace AGRemapCore {
                     ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId), toModName_(toModName),
                     config_(std::move(config)) {
                     this->setCtx(&ctx_);
+
+                    // A SIBLING'S TOGGLE, IN EVERY FILE THIS FIX WRITES. A recolour carried from a
+                    // sibling .ini is bound under that file's toggle, which this file can only read
+                    // through a copy it declares and drives itself -- see
+                    // TextureOverrideFacts::carriedSections. A generated copy is a namespace of its own,
+                    // so it needs the declaration too.
+                    if (const auto* facts = dynamic_cast<const TextureOverrideFacts*>(parser)) {
+                        const std::string carried = facts->carriedSections();
+                        if (!carried.empty()) {
+                            this->appendedSections = carried;
+                            this->appendedSectionsInCopies = true;
+                        }
+                    }
 
                     // buildObjMap FIRST -- it is what works out groupCount_, and both collectors
                     // below build one instance per group.
@@ -837,9 +851,23 @@ namespace AGRemapCore {
                     //    dress before its transparency is configured, and TexFx then acts on a
                     //    surface that is already drawn. The original has that bug; matching it
                     //    reproduced it, which is why this deliberately diverges.
+                    //
+                    //    NOT into a branch that says `handling = skip` (2026-10-11). A merged master
+                    //    writes a variant without the object as nothing but that line: the object is
+                    //    drawn on no path of that variant on the mod's own character, so it is drawn on
+                    //    none on the target either. Filled, it drew whatever ib the section bound at its
+                    //    top -- a downloaded one -- over the mod's vertices: shards in 4 of the 7 variants
+                    //    of an Ayaka mod's dress.
                     fillDrawIndexed_ = std::make_unique<RegFillMissing<>>(
                         IniKeywords::DrawIndexed,
-                        RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed, DrawIndexedAuto));
+                        [](RegFillMissing<>::ContentPart& part) {
+                            for (const std::string& handling : part.getVals(IniKeywords::Handling)) {
+                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling), "skip")) {
+                                    return;
+                                }
+                            }
+                            part.addKVP(IniKeywords::DrawIndexed, DrawIndexedAuto);
+                        });
 
                     // 4. Re-issuing the external libraries is per object now -- see the
                     //    objFixCalls loop below, which builds one RegDelimitedAdd per call. The rule

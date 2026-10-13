@@ -12,20 +12,6 @@
     <includes local="no">iostream</includes>
     <includes refid="_grapheme_range_8h" local="yes">AGRemapCore/tools/grapheme/GraphemeRange.h</includes>
     <incdepgraph>
-      <node id="2">
-        <label>AGRemapCore/tools/IntTools.h</label>
-        <link refid="_int_tools_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
       <node id="15">
         <label>AGRemapCore/tools/grapheme/GraphemeIterator.h</label>
         <link refid="_grapheme_iterator_8h"/>
@@ -38,6 +24,20 @@
         <label>AGRemapCore/tools/grapheme/GraphemeRange.h</label>
         <link refid="_grapheme_range_8h"/>
         <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/tools/IntTools.h</label>
+        <link refid="_int_tools_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="1">

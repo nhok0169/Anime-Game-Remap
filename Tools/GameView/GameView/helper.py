@@ -186,6 +186,26 @@ def ping():
     return reply if reply and reply.get("rc") == 0 and "pid" in reply else None
 
 
+def pillowWarning(exe=None):
+    """Whether the interpreter that would run the helper can import Pillow -- None if it can.
+
+    The helper inherits whichever Python started it, and EVERY capture goes through Pillow in
+    THAT one, so a helper on an interpreter without it drives keys perfectly and fails every
+    screenshot with a bare ModuleNotFoundError much later. Twice now that has cost a round trip
+    (2026-09-29, 2026-10-04), so it is checked up front, where the fix is to start it differently."""
+    exe = exe or _sibling(sys.executable, "python.exe")
+    try:
+        done = subprocess.run([exe, "-c", "import PIL"], capture_output=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None                      # cannot tell -- never block the start over that
+    if done.returncode == 0:
+        return None
+    lines = ("{} has no Pillow, so this helper would drive input but FAIL EVERY SCREENSHOT.",
+             "Start it under a Python that has Pillow instead -- `py -0` lists them, and",
+             "`py -3.X main.py helper start` picks one.")
+    return chr(10).join(lines).format(exe)
+
+
 def start(wait=60.0):
     """Start the helper elevated through ShellExecute("runas"): the USER approves the UAC prompt.
     Returns the ping reply, or None if it did not come up (prompt declined or not answered)."""

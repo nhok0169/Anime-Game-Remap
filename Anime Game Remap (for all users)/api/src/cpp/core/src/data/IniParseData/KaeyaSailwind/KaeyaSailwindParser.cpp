@@ -35,6 +35,16 @@ namespace AGRemapCore {
         config.drawnObjs = {"head", "body", "dress"};
         config.texcoordStride = 20;
 
+        // HER BODY'S DIFFUSE AND LIGHTMAP SIT ONE SLOT HIGHER, because ps-t0 is its normal map
+        // (1077694d); her head and dress are on the modern ps-t0 / ps-t1. HashData says so, all
+        // three of her mods bind a normal map there and these very download files on ps-t1 /
+        // ps-t2, and every fix row of hers shifts the body's ps-t1 / ps-t2 down. The pure-Python
+        // table put the body on ps-t0 / ps-t1 after GI-Model-Importer-Assets' 4.x labels, which
+        // are one slot off (Diffuse / LightMap / Shadow for normal map / diffuse / lightmap). Left
+        // there, the shift put the lightmap on ps-t0 beside the downloaded diffuse -- two ps-t0
+        // lines -- and nothing on ps-t1.
+        config.objDownloadRegs = {{"body", "ps-t1", "ps-t2"}};
+
         return makeGIMICharParser(std::move(config));
     }
 

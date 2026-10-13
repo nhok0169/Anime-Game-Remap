@@ -40,6 +40,13 @@ import os
 import re
 import sys
 
+# A mod folder may be named in any script -- a Korean-named folder took the whole run down with a
+# UnicodeEncodeError on the Windows console's code page (2026-10-05), after the scan had finished.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+import sys
+
 Section = re.compile(r"^\[(.+)\]$")
 FixCall = re.compile(r"^run\s*=.*[\\/](NNFix|ORFix)\s*$", re.IGNORECASE)
 Binding = re.compile(r"^ps-t\d+\s*=", re.IGNORECASE)

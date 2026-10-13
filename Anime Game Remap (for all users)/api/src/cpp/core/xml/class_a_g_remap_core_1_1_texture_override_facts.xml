@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_texture_override_facts" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::TextureOverrideFacts</compoundname>
+    <includes refid="_texture_overrides_8h" local="no">TextureOverrides.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_override_facts_1aa4d703d9b69e2d19ea74c5dbbfa3917f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::TextureOverrideFacts::~TextureOverrideFacts</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TextureOverrideFacts</name>
+        <qualifiedname>AGRemapCore::TextureOverrideFacts::~TextureOverrideFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="184" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_override_facts_1a384d202ad8af3e7b030ce901087bf531" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::TextureOverrideFacts::isRecolourOnly</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isRecolourOnly</name>
+        <qualifiedname>AGRemapCore::TextureOverrideFacts::isRecolourOnly</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the ``.ini`` file is a RECOLOUR and nothing else: it draws none of the
+character&apos;s mesh, no other ``.ini`` file beside it does, and it overrides a texture of
+the character that the target does not draw :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Its whole model then comes from downloads, with the mod&apos;s textures bound in place of the
+downloaded ones -- so a fixer that reads the mod&apos;s buffers while it is being built has
+to fetch those downloads first
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="198" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_override_facts_1a4a770ba8bb306011b235bc85ecad375f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::TextureOverrideFacts::carriedSections</definition>
+        <argsstring>() const</argsstring>
+        <name>carriedSections</name>
+        <qualifiedname>AGRemapCore::TextureOverrideFacts::carriedSections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`Sections`_ the fix writes into every ``.ini`` file it generates, so a SIBLING&apos;s toggle
+keeps working there: a ``[Constants]`` declaring a copy of each variable a carried
+recolour&apos;s condition reads, and a copy of each sibling ``[Key...]`` section that cycles
+one, both under the copy&apos;s name :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A file with no ``namespace =`` is named after its PATH, so a variable of one ``.ini``
+cannot be read from another (and a namespace reference stops at the first space of the
+folder&apos;s name). The copy is driven by the same key under the same condition, so the two
+keep in step
+
+**Default**: empty -- nothing to carry
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="216" column="33" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="216" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What a parser from :cpp:func:`makeGIMICharParser` learned about a ``.ini`` file&apos;s texture
+overrides that a fixer needs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser),
+the ``.ini`` file is not a recolour
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="182" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="182" bodyend="219"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_texture_override_facts_1a4a770ba8bb306011b235bc85ecad375f" prot="public" virt="virtual"><scope>AGRemapCore::TextureOverrideFacts</scope><name>carriedSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_override_facts_1a384d202ad8af3e7b030ce901087bf531" prot="public" virt="pure-virtual"><scope>AGRemapCore::TextureOverrideFacts</scope><name>isRecolourOnly</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_override_facts_1aa4d703d9b69e2d19ea74c5dbbfa3917f" prot="public" virt="virtual"><scope>AGRemapCore::TextureOverrideFacts</scope><name>~TextureOverrideFacts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

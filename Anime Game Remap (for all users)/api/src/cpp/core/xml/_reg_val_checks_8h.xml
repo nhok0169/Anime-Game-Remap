@@ -70,6 +70,10 @@
         <label>src/data/IniFixData/Nilou/NilouFixer.cpp</label>
         <link refid="_nilou_fixer_8cpp"/>
       </node>
+      <node id="10">
+        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
+        <link refid="_g_i_m_i_component_parser_8cpp"/>
+      </node>
       <node id="8">
         <label>src/data/IniFixData/RegValChecks.cpp</label>
         <link refid="_reg_val_checks_8cpp"/>
@@ -77,10 +81,6 @@
       <node id="9">
         <label>src/data/IniFixData/TexRegLayout.cpp</label>
         <link refid="_tex_reg_layout_8cpp"/>
-      </node>
-      <node id="10">
-        <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
-        <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_reg_val_checks" prot="public">AGRemapCore::RegValChecks</innerclass>

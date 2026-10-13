@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="58" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="651" bodyend="653"/>
+        <location file="include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitFixer.h" line="58" column="43" bodyfile="src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp" bodystart="662" bodyend="664"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -40,6 +40,8 @@
     <innerdir refid="dir_dfab8aa5ba8cd30bb1663a8cb3a8b8e9">include/AGRemapCore/data/IniParseData/LisaStudent</innerdir>
     <innerdir refid="dir_df14a0b0601f572e0aab30fd6056d1d3">include/AGRemapCore/data/IniParseData/Lumine</innerdir>
     <innerdir refid="dir_3a094d1115296184c92cc59429858b74">include/AGRemapCore/data/IniParseData/LumineHeaven</innerdir>
+    <innerdir refid="dir_659d445bf50682b8ae33bc042de95787">include/AGRemapCore/data/IniParseData/Lynae</innerdir>
+    <innerdir refid="dir_97f4d848a33a89a72d3532b175ba6a5d">include/AGRemapCore/data/IniParseData/LynaePeppermint</innerdir>
     <innerdir refid="dir_504b10f3dae4b02b15cf78dfaec4fd46">include/AGRemapCore/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_2970c4f8f58992fe03449489402f452e">include/AGRemapCore/data/IniParseData/MonaCN</innerdir>
     <innerdir refid="dir_1fde9aebaf50842e760ea057960c63dc">include/AGRemapCore/data/IniParseData/Neuvillette</innerdir>
@@ -65,6 +67,7 @@
     <innerdir refid="dir_00a830b2d0a3714ea23f1ff25ad8c93d">include/AGRemapCore/data/IniParseData/YelanTranquil</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>
     <innerfile refid="_g_i_m_i_component_parser_8h">GIMIComponentParser.h</innerfile>
+    <innerfile refid="_texture_overrides_8h">TextureOverrides.h</innerfile>
     <innerfile refid="_w_w_m_i_parser_8h">WWMIParser.h</innerfile>
     <briefdescription>
     </briefdescription>

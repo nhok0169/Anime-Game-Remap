@@ -460,6 +460,40 @@ static void testHashesOutvoteASectionNameThatDisagrees() {
 }
 
 
+static void testARecolourClassifiesByItsTextureHash() {
+    std::printf("testARecolourClassifiesByItsTextureHash\n");
+
+    AGRC::IniClassifier& classifier = AGRC::GlobalIniClassifiers::classifier();
+
+    // A mod that only replaces a texture, its section named after nothing: before texture hashes
+    // voted, this classified as nothing and was never fixed. bc86882f is Amber's body diffuse.
+    AGRC::IniClassifyStats amber = classifier.classify(
+        "[TextureOverrideBodyDiffuse]\nhash = bc86882f\nthis = ResourceMyBodyDiffuse\n"
+        "[ResourceMyBodyDiffuse]\nfilename = MyBodyDiffuse.dds\n");
+    check(amber.modType.find(static_cast<int>(ModTypeId::Amber)) != amber.modType.end(),
+          "a recolour of Amber's body diffuse, its section named after nothing, classifies as Amber");
+    check(amber.modType.find(static_cast<int>(ModTypeId::AmberCN)) == amber.modType.end(),
+          "...and not as AmberCN");
+
+    // A skin of several components files its slot textures under a COMPONENT's name, and votes with
+    // them. f485d1ea is CitlaliWhisperofStars' Body A diffuse.
+    AGRC::IniClassifyStats whisper = classifier.classify(
+        "[TextureOverrideBodyDiffuse]\nhash = f485d1ea\nthis = ResourceMyBodyDiffuse\n");
+    check(whisper.modType.find(static_cast<int>(ModTypeId::CitlaliWhisperofStars)) != whisper.modType.end(),
+          "a recolour of a multi-component skin's slot texture classifies as the skin");
+    check(whisper.modType.find(static_cast<int>(ModTypeId::Citlali)) == whisper.modType.end(),
+          "...and not as its base character");
+
+    // A texture two characters share identifies neither: 1d064079 is the face Amber and AmberCN
+    // both draw, b0e08915 the metal map forty characters list.
+    for (const char* shared : {"1d064079", "b0e08915"}) {
+        AGRC::IniClassifyStats stats = classifier.classify(
+            std::string("[TextureOverrideTex]\nhash = ") + shared + "\nthis = ResourceMyTex\n");
+        check(stats.modType.empty(), std::string("a shared texture ") + shared + " classifies as nobody");
+    }
+}
+
+
 static void testClassifierIsStillASingleton() {
     std::printf("testClassifierIsStillASingleton\n");
 
@@ -479,6 +513,7 @@ int main() {
     testHiddenSectionsStillClassify();
     testAModTypeIsReachableByItsIbHashAlone();
     testHashesOutvoteASectionNameThatDisagrees();
+    testARecolourClassifiesByItsTextureHash();
     testClassifierIsStillASingleton();
 
     if (failures == 0) {

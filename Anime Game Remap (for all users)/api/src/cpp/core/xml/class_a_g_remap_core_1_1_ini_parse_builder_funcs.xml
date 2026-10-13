@@ -356,7 +356,7 @@ The same three objects as Kaeya; the asymmetry is all on the fix side. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="233" column="45" bodyfile="src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp" bodystart="23" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="233" column="45" bodyfile="src/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.cpp" bodystart="23" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8f3fd51c10e3e4163d5bb85a512170c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -506,7 +506,7 @@ Head and body only, and her downloads bind the diffuse to ``ps-t1`` because
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="320" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="56" bodyend="64"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="320" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="63" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a965947e4ccfeb3487a53d74c717bf1d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -731,7 +731,7 @@ The standard GIMI character shape. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="437" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="23" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="437" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="23" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a29d6a9fd985eedcc12e74228995af0b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -794,7 +794,7 @@ The same three-layout split her base has. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="473" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="40" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="473" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="40" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8f4a396367361d1871ede8e216738ded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -837,7 +837,7 @@ See ``data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="498" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="23" bodyend="42"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="498" column="45" bodyfile="src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp" bodystart="23" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad48f0d06423104df2add0e45e3b8c0b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -858,7 +858,7 @@ Draws ``head``/``body`` only. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="510" column="45" bodyfile="src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp" bodystart="23" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="510" column="45" bodyfile="src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp" bodystart="23" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aedc30a01d309a33aa3a28a6e856a425d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -972,7 +972,7 @@ The parser for a 5.7-era **GanyuTwilight** ``.ini`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="570" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="49" bodyend="51"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="570" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="62" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a74b17e79acb1867c28a6853ba5a9dd1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1015,7 +1015,7 @@ The MIRROR of :cpp:func:`kirara5_7`: here the head and body have moved to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="595" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="56" bodyend="65"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="595" column="45" bodyfile="src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp" bodystart="54" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5eee4b72bf3705fb59ce164a00094b41" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1036,7 +1036,7 @@ re-dumped assets out of their own ``5_4`` folder. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="611" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="67" bodyend="77"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="611" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="74" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1afa731ff64faf335aab4d3cf3d179ea74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1050,7 +1050,7 @@ re-dumped assets out of their own ``5_4`` folder. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="613" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="80" bodyend="89"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="613" column="45" bodyfile="src/data/IniParseData/LisaStudent/LisaStudentParser.cpp" bodystart="87" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aca6552e16c9d3969446cb18e9116c575" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="238" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="238" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="260" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="260" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -186,7 +186,7 @@ than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same ob
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="234" column="13" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="359" bodyend="361"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="256" column="13" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="366" bodyend="368"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -653,7 +653,7 @@ that. Read them through here, never off #resources
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="241" column="18" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="364" bodyend="366"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="263" column="18" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="371" bodyend="373"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -720,7 +720,7 @@ A group of one mod&apos;s buffers, fixed by :cpp:func:`fixVGSplitGroup` -- see t
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="223" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="223" bodyend="242"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="245" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="245" bodyend="264"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_split_group_resource_1a379cdbb292000313b31b99161b90cbf0" prot="protected" virt="virtual"><scope>AGRemapCore::VGSplitGroupResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::VGSplitGroupResource</scope><name>addResource</name></member>

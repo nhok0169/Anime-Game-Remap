@@ -33,6 +33,15 @@ namespace AGRemapCore {
         // 12, where Xiangling herself is 20 -- the pair does not share a stride.
         config.texcoordStride = 12;
 
+        // HER DIFFUSE AND LIGHTMAP SIT ONE SLOT HIGHER, because ps-t0 is her normal map: ps-t0
+        // normal map (2725cfa6 head / 25260201 body), ps-t1 diffuse, ps-t2 lightmap. That is what
+        // the pure-Python download table says at 5.3, what a mod dumped from the game binds
+        // (XianglingCheer3 names those very hashes on those slots), and what both of her fix rows
+        // assume when they drop ps-t0 and shift ps-t1 / ps-t2 down. Left on the default modern
+        // slots, a downloaded diffuse was deleted as the "normal map" and her lightmap landed in
+        // Xiangling's diffuse slot. No normal map is fetched: every fix of hers drops it.
+        config.objDownloadRegs = {{"head", "ps-t1", "ps-t2"}, {"body", "ps-t1", "ps-t2"}};
+
         return makeGIMICharParser(std::move(config));
     }
 

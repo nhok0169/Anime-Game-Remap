@@ -1832,6 +1832,197 @@ mostly download names and section order. Three habits make the zero mean somethi
 
 <br>
 
+**95. A USER'S SUCCESSIVE REJECTIONS ARE A BOX, NOT A QUEUE (2026-10-06).** Tuning one number against
+a series of reports, the obvious move is to fix whichever axis the latest report named. Do that and
+each round rebounds past a limit an earlier round already set. On Citlali's braid: "leaned a bit too
+forward" (10.2 cm forward / 4.6 sideways) led to more sideways, which drew "too much veered to the
+side" at 6.1, which led back to forward, which drew "leaned too forward" again -- and a later round
+shipped **6.3 cm of sideways after 6.1 had already been refused.** **Write every rejection down as a
+CONSTRAINT and satisfy all of them at once**; three reports there bounded it to "forward under 6 cm
+AND sideways under 5", which no single-axis step would ever have found. And when the constraints do
+not leave a solution, say so and name what is being given up rather than oscillating.
+
+**96. WHEN THREE CONSECUTIVE FIXES EACH EXPOSE A NEW SYMPTOM IN THE SAME SMALL REGION, STOP FIXING
+AND RE-DERIVE THE MEASUREMENT (2026-10-06).** Five rounds went: push forward -> hits the fringe ->
+fade it -> settles into the hair -> cover with an overlap band -> shadow line -> give the band a
+stand-in -> clips the bangs. Every one was a real fix for the symptom in view, and every one was
+steered by a clearance measured along ONE AXIS where the question was three-dimensional. **The tell
+is not that a fix fails -- it is that each fix relocates the symptom by a few millimetres.** The
+maintainer named it before the agent did; they should not have had to.
+
+**97. SAY WHEN YOU ARE EXHAUSTED OR GOING IN CIRCLES (2026-10-06).** The maintainer asked for this
+outright: *"let me know when you have exhausted all options or if you think we are going in
+circles."* Keeping a round going because another parameter exists is not diligence when the
+remaining options all sit on one trade-off curve. State which part is a boundary rather than a bug
+(for Citlali: the skin has no hair bone below y 1.24, so a braid hanging off a head-parented chain
+cannot follow a bend), what was traded for what, and what the honest remaining choices are.
+
+**98. WHEN A REPORT CONTRADICTS YOUR MEASUREMENT, CHECK THEY ARE LOOKING AT THE BUILD YOU MEASURED
+(2026-10-06).** A rebuild and a re-fix change the files; the game serves what it already has until
+`reload`. Told the braids were "pushed forward even more" right after a change that cut the lean
+from 10.2 cm to 6.4, the first instinct was to doubt the numbers --- the numbers were right and the
+game was two builds stale. **Never say a change is ready to look at until a reload has run since the
+last fix.** The same shape applies to any artifact: before doubting a measurement, prove the thing
+being looked at is the thing that was measured.
+
+**99. THE CHECKOUT MAY HAVE ANOTHER AGENT IN IT, AND IT WILL LOCK YOUR BUILD OUTPUT (2026-10-06).**
+A build failed with `COPY_FAILED` --- "the process cannot access the file" --- on
+`core.cp39-win_amd64.pyd`, because another session's `gimiCheck.py` run had the module imported.
+`ninja` had succeeded; only the copy into the API package failed, which reads like a broken build
+and is not. Retry the copy in a loop rather than rebuilding, **never kill a python process you did
+not start** (one of them is GameView's elevated helper), and `Get-CimInstance Win32_Process` shows
+whose it is.
+
+**100. `git worktree remove` DEREGISTERS THE WORKTREE BEFORE IT DELETES THE FILES, AND HERE THE
+DELETE FAILS (2026-10-06).** Ten stale agent worktrees under `.claude/worktrees/` each answered
+`error: failed to delete ...: Filename too long` --- a worktree path is already ~110 characters and
+the tree inside reaches `api/extern/Compressonator/...`, well past Windows' 260. **The
+registration is dropped anyway**: the second attempt says `is not a working tree` while every file
+is still on disk, so one failed-looking run had in fact half-removed all ten, and
+`core.longpaths=true` cannot help because git has already given up. What works is to mirror an
+empty directory over each tree with `robocopy <empty> <target> /MIR /R:1 /W:1` (long-path aware)
+and then `Remove-Item`, ~50s each, followed by `git worktree prune`. Before removing any of them:
+**a worktree's BRANCH survives the removal, so only UNCOMMITTED changes can be lost** --- run
+`git -C <wt> status --porcelain` on each, save the diff of every dirty one, and check the app's
+session list that none is still running. Two of the eleven here held uncommitted work --- one of
+them 609 lines, which is why it was left in place --- and neither folder's mtime said so.
+
+**101. COMMIT ONTO A BRANCH WITHOUT TOUCHING THE USER'S CHECKOUT (2026-10-07).** Asked to "commit
+this on a new branch" while the checkout sits on the maintainer's own branch with THEIR uncommitted
+edit in a file the target branch changes, `git switch` refuses, and stashing their work to get past it
+is touching what is not yours. Build the commit with a private index instead, and the working tree and
+current branch never move:
+
+```bash
+export GIT_INDEX_FILE="$(git rev-parse --git-dir)/index-mine"   # a scratch index, never the real one
+git read-tree master                  # start from the base you want, not from HEAD
+git add -- <exactly your files>       # stages from the working tree into the scratch index
+git diff --cached --stat master       # confirm it is ONLY your files
+C=$(git commit-tree "$(git write-tree)" -p master -F msg.txt) && git branch <new> "$C"
+rm -f "$GIT_INDEX_FILE"; unset GIT_INDEX_FILE
+```
+
+Then prove the commit holds what is on disk: `cmp <(git show <new>:"$f" | tr -d '\r') <(tr -d '\r' < "$f")`
+per file. **Do not use `git diff <new> -- <paths>` for that**: a file that is NEW in the commit and
+untracked in the working tree shows as DELETED there, which reads as a lost file and is nothing.
+Later, discarding those same changes from the user's checkout is safe only after the same per-file
+comparison says every one is identical to what was pushed.
+
+**102. `FETCH_HEAD` BELONGS TO ONE WORKTREE, AND TWO FETCHED BRANCHES MAKE IT AMBIGUOUS (2026-10-08).**
+`git fetch origin master <branch>` in the main checkout, then `git merge FETCH_HEAD` inside a worktree,
+fails with `could not open .../worktrees/<name>/FETCH_HEAD` -- each worktree has its own. And with two
+branches fetched it names both. The fetch updates `origin/<branch>` anyway, so **merge `origin/master`
+by name**, and read `git rev-parse --short origin/master` first so the summary can say what was merged.
+For a merge while the user's checkout is busy, a worktree at a SHORT path (`C:\agtx`) avoids habit 100's
+MAX_PATH failure; creating one here takes ~10 minutes, so run it in the background.
+
+**103. COMPARING FIXES OVER DIFFERENT SETS OF FOLDERS: THE GENERATED NAMES DIFFER BY RUN ORDER
+(2026-10-07).** Re-fixing 101 of a corpus's 223 folders with a newer build and comparing against the
+full run reported **2593 files only before, 2593 only after, 257 changed**. That was not a regression:
+the merge and the texture edits suffix generated files with ids that depend on what the run had
+already generated (`..._B8g_By.buf` against `..._B8g_Bi.buf`, `_pr_JQ`, `_GUF_D7_LCo_B`,
+`...RemapTexr_ MAG.dds`), so a run over a different folder set names everything differently. **The tell
+is "only-before" equalling "only-after".** Compare binaries as a per-folder MULTISET of content md5s,
+and for the `.ini` files check that every differing line is a `filename =` line. Here that was 5186 of
+5186 lines over 385 files, with binaries identical in all 101 folders, so the build change moved nothing.
+Normalising the ids with a regex is the other route, but there are at least four shapes, and each one
+the regex missed showed up as a fake difference.
+
+**104. A CHANGE TO WHICH FILES GET DOWNLOADS SHOWS UP IN THE INTEGRATION GOLDENS, AND THE API DOCS PAGE
+WITH THEM (2026-10-08).** The texture-only work made a `.ini` with nothing of its character draw nothing,
+and CI failed `test_iniPath_ForcedModTypeFix`: it forces a KIRARA mod to be fixed as Rosaria, and its
+golden recorded the vanilla Rosaria the old build drew from 17 downloads. **When a change is about
+what a file draws, run the API docs tests before pushing**. They back `Docs/src/apiExamples.rst`, so a
+golden change is also a docs change: regenerate the page with `Tools/Misc/Docs/genApiExamples.py --write`
+and check only the expected example moved. Testing's "Regenerating ONE API docs golden from Windows"
+has the recipe.
+
+**105. "THE CURRENT BUILD" IS WHATEVER THE USER'S LAUNCHER LOADS, AND IT MAY BE NO COMMIT AT ALL
+(2026-10-08).** A report that "the current build" shattered CherryHutao6 described `master`. The
+maintainer's own launcher (`FixRaidenBoss7.py`, which runs the main checkout's `api/src/py`) was running an
+UNCOMMITTED change that already fixed most of it, and an unmerged branch held the same change as a commit.
+`git status` in the main checkout and the `.pyd`'s timestamp settled it, an hour late. Before reproducing
+a report, name the code it came from: the commit (or "main checkout plus uncommitted work"), the `.pyd`
+the launcher imports (`FixRaidenBoss2.core.__file__`) and when it was built. Reproduce with THAT, then
+decide what your branch has to contain. Habit 98 is the converse (the build the user is LOOKING at).
+
+**106. EVERY NEW SECTION NAME A FIX WRITES IS ALSO A CLAIM FOR THE UNDO: FIX, RE-FIX, UNDO, ON A REAL
+COPY (2026-10-10).** `RemapIniRemover` deletes by NAME -- every span of a name the fix block declared,
+wherever it sits. A fix that began writing a `[Constants]` of its own (legal: 3DMigoto merges repeats)
+made every undo delete the AUTHOR'S `[Constants]` too, every variable the mod declared, while the unit
+tests and both remover suites stayed green. One cycle on a real copy caught it: fix; fix again (must be
+byte-identical); undo (must match the pristine text, blank lines aside, with the mod's own files still on
+disk). Run it whenever a change writes a section name no fix wrote before. The re-fix is the step that
+shows it, because a fix undoes first.
+
+**107. SETTLE A 3DMIGOTO BEHAVIOUR WITH A HAND-EDITED COPY IN GAME BEFORE DESIGNING AROUND IT
+(2026-10-10).** Whether one `.ini` can read another's variable decided the whole design of carrying a
+toggle. Two scratch copies, each made by a short script and loaded once, answered it in twenty minutes: a
+path-namespaced reference is cut at the first space (`Unrecognised identifier` in the log), and a second
+`[Constants]` in one file is merged. The guide had recorded "a sibling's variable cannot be named" as an
+argument; the experiment also showed the cheap way round it. Build the variants with a script, load each
+with GameView, and read `log --problems --mod` before looking at pixels.
+
+**108. A CORPUS A/B WITH DOWNLOADS ON: A FOLDER THAT DIFFERS ONLY BY MISSING `RemapDL` FILES IS THE
+NETWORK (2026-10-10).** One side of a 252-folder A/B lost 29 files in Lisa2 -- every one a download -- and
+skipped one more Blend.buf. Its log said `Could not resolve host: github.com` through all six attempts,
+and the folder fixed alone afterwards matched 156 of 156 files. Before attributing a corpus diff, grep that
+side's log for `request failed` and re-run the folders it names.
+
+**109. A BRANCH THAT CHERRY-PICKED A PR'S COMMIT IS REBASED ONTO `master` ONCE THE PR MERGES, DROPPING
+THE PICK (2026-10-10).** `git rebase --onto origin/master <the cherry-pick>` replays only your own commits.
+The conflicts land in the guides, where both sides appended paragraphs: keep both. Rebuild and re-run the
+tests on the rebased tree before pushing -- the rows `master` brought in are code your tests never ran
+against.
+
+**110. A CHANGE TO SHARED FIX CODE IS PROVED BY A SWEEP, NOT BY THE MOD THAT REPORTED IT (2026-10-11).** One
+user report ("Fischl has jagged polygons") turned into six fixes, and three of them changed mods nobody had
+complained about. The method that kept that safe: copy a large set of real mods ONCE into a scratch tree
+(the 2026-10-11 session used 228 real folders plus synthetic repros, textures dropped to keep it at 6.5 GB),
+fix a copy of it with the CURRENT build **before** rebuilding, rebuild, fix a second copy, and hash-compare
+the two per mod folder. Every folder that moved gets read; every folder that did not is proof. Three rules
+fall out of it. **Snapshot the baseline before the rebuild** -- after it, the old output is gone (habit 56).
+**A quick diff of only `.ini` and `.ib` files answers in minutes** what a full 13 GB hash takes an hour to; run
+the full one too, but read the quick one first. **And the build cannot install while any fix run holds the
+`.pyd`**: `build.bat` printed `COPY_FAILED` and the old module kept serving, so list `python.exe` processes
+(`Get-CimInstance Win32_Process -Filter "Name='python.exe'"`) before every build and after any sub-agent.
+
+**111. A DIAGNOSTIC THAT REPORTS ZERO MAY NOT HAVE LOOKED, AND THE ONE THAT WOULD HAVE CAUGHT IT MAY ALREADY BE
+IN THE REPO (2026-10-12).** `fixCallPaths.py` counts fix calls BEFORE a draw, so a build that added an `ORFix`
+AFTER every draw passed it -- and the game found the green bra on Ayaka9. `bareFixCalls.py`, already in
+`Tools/Misc/Diagnostics`, flags exactly that (1 bare call on the bad build, 0 on the fixed one) and nobody ran
+it. `unfixedDraws.py` reports "0 draws checked" on a merged master whose draw sits on the shared ib section --
+a zero that means "did not look", so it could not see the CherryHuTao gap. **Before calling a fix-placement
+change done, run all four call checkers** (`fixCallPaths.py`, `bareFixCalls.py`, `unfixedDraws.py`,
+`checkUndrawnDL.py`) over the sweep, and read the "checked N" line of each before believing its zero.
+
+**112. HAND-EDIT THE FIXED `.ini`, SEE IT IN GAME, THEN CHANGE CODE -- AND MAKE THE CODE REPRODUCE THE HAND EDIT
+BYTE FOR BYTE (2026-10-11).** Both the Fischl shards (comment out one dress draw) and the CherryHuTao green (add
+one `NNFix` per section) were settled by a one-line edit of the generated file and one look in game, before any
+C++ was touched. The edit is then the specification: the rebuilt fix's output was `cmp`-identical to it. This
+is habit 79-80 again, and it held for a bug that turned out to live in a shared placement rule.
+
+**113. A SUB-AGENT AUDIT IS CHEAP AND FINDS THE SHAPES YOU DID NOT THINK OF -- READ ITS REPORT AS A LIST OF
+HYPOTHESES (2026-10-10).** One background agent, asked "where else can this bug happen", built 16 synthetic
+repros and swept 228 mods in about an hour and found six distinct shapes. Every one it called vulnerable was;
+one it called "low impact" was right too. Two costs to plan for: its stuck child processes held the `.pyd`
+(it could not kill them -- the permission check denied it -- so ask the user, never route around it), and it
+kept editing its scratch tree while a later sweep read it, so one synthetic folder changed between two runs
+for a reason that had nothing to do with the build.
+
+**114. KEEP YOUR OWN JOURNAL OF EVERY FOLDER YOU MOVE, AND DIFF `Mods` AGAINST A LISTING TAKEN BEFORE YOU START
+(2026-10-11).** `GameView mods ... restore` replays the WHOLE journal, including moves earlier sessions left
+behind, and it pulled six unrelated mods into `Mods` on a "restore". Take `ls Mods > start.txt` before the first
+move, log each `os.rename` in a scratch journal, restore from it newest-first, and finish with `diff` against
+the listing. Also: a rename of a mod folder can fail with `Access is denied` for a few seconds after a reload
+(the game holds a handle) -- retry with a short wait rather than giving up.
+
+**115. WHEN THE USER ASKS FOR A NEXT STEP, SAY WHAT IS LEFT AFTER IT (2026-10-12).** Fixes 1-6 of one audit, an
+in-game round of 23 mods and a cross-file feature were each requested one at a time. What made that cheap for
+the user was ending each answer with the short list of what remained (the next fix, the in-game check, the
+scratch to delete), so the next request was one line. Write that list from the state on disk, not from memory:
+an "is it done yet" between turns is a request for exactly that.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

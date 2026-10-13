@@ -44,7 +44,9 @@ HISTORY = re.compile(r"20\d\d-\d\d-\d\d|pure[- ]?python (original|implementation
                      r"since removed|FixRaidenBoss[0-9]\.py|\bstill[- ]pure[- ]python", re.IGNORECASE)
 REPO_LINK = re.compile(r"https://(?:github\.com|raw\.githubusercontent\.com)/nhok0169/Anime-Game-Remap/"
                        r"(?:blob/|tree/|raw/|refs/heads/)?([^/\s]+)/([^\s<>`\"]*)")
-NOT_PATHS = {"releases", "actions", "issues", "pulls", "wiki"}
+# GitHub spells a SINGLE pull request "/pull/<n>" and the list "/pulls", so both belong here:
+# without "pull" the <n> is read as a repo path and every PR link is reported missing.
+NOT_PATHS = {"releases", "actions", "issues", "pull", "pulls", "wiki", "commit", "compare", "discussions"}
 
 
 def checkExports() -> list:

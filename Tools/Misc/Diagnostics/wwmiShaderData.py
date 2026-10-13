@@ -1,5 +1,5 @@
 """wwmiShaderData.py: turn a pixel shader captured from the game (3DMigoto's decompiled HLSL) and the constant
-buffers its draw read (a frame dump's ``ps-cbN`` files) into the data a ``WWMIFixerConfig::DrawReroute::Shader``
+buffers its draw read (a frame dump's ``ps-cbN`` files) into the data a ``WWMIFixerConfig::Shader``
 holds -- a generated C++ file for the compiled fix and a JSON file for the Python prototype.
 
     py -3 wwmiShaderData.py --hlsl <hash>-ps_replace.txt --cb ps-cb4=<dump ps-cb4 .buf>:136 \
@@ -73,8 +73,8 @@ def cppText(args, hlsl, cbs):
            "",
            "",
            "namespace AGRemapCore {",
-           "    WWMIFixerConfig::DrawReroute::Shader " + args.func + "() {",
-           "        WWMIFixerConfig::DrawReroute::Shader shader;",
+           "    WWMIFixerConfig::Shader " + args.func + "() {",
+           "        WWMIFixerConfig::Shader shader;",
            '        shader.name = "' + args.name + '";',
            ""]
     for i in range(0, len(hlsl), PIECE):

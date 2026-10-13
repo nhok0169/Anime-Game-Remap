@@ -25784,53 +25784,6 @@ class WWMIFixerConfig:
             @width.setter
             def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
                 ...
-        class Shader:
-            """
-            
-            A pixel shader of the reroute's own, which the rerouted draws are drawn with in place of the target
-            slot's. The fix writes the shader and its constant buffers beside the mod's buffers, declares them in
-            its own block (so an undo removes them), and turns each rerouted ``drawindexed`` into a ``run =`` of a
-            ``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
-            itself is the target draw's: its vertex shader, its render targets and the textures the reroute's
-            :attr:`WWMIFixerConfig.plan` entry binds
-                
-            """
-            def __init__(self) -> None:
-                ...
-            @property
-            def constantBuffers(self) -> dict[str, list[int]]:
-                """
-                Dict[:class:`str`, List[:class:`int`]]: Register -> the constant buffer bound there, as its 32-bit
-                words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buffer
-                """
-            @constantBuffers.setter
-            def constantBuffers(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
-                ...
-            @property
-            def lines(self) -> list[tuple[str, str]]:
-                """
-                List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
-                written, eg. ``("ps-t5", "ref ps-t6")``
-                """
-            @lines.setter
-            def lines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
-                ...
-            @property
-            def name(self) -> str:
-                """
-                :class:`str`: The name its files and sections are given, eg. ``"LynaeFilm"``
-                """
-            @name.setter
-            def name(self, arg0: str) -> None:
-                ...
-            @property
-            def ps(self) -> str:
-                """
-                :class:`str`: The HLSL source, entry point ``main``
-                """
-            @ps.setter
-            def ps(self, arg0: str) -> None:
-                ...
         @typing.overload
         def __init__(self) -> None:
             ...
@@ -25872,19 +25825,6 @@ class WWMIFixerConfig:
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         @property
-        def shader(self) -> FixRaidenBoss2.core.WWMIFixerConfig.DrawReroute.Shader | None:
-            """
-            Optional[:class:`WWMIFixerConfig.DrawReroute.Shader`]: The shader the rerouted draws are drawn with,
-            when the target slot's own cannot draw what they are. With one, the reroute binds the mod's art as the
-            mod wrote it -- no texture edit of the config reaches it, since the edits are for the TARGET's shader.
-            It draws with the shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as
-            before on any other (an outline pass, :attr:`WWMIFixerConfig.extraPassRegs`).
-            **Default**: ``None``, the target slot's shader
-            """
-        @shader.setter
-        def shader(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.DrawReroute.Shader | None) -> None:
-            ...
-        @property
         def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:
             """
             :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
@@ -25924,6 +25864,53 @@ class WWMIFixerConfig:
         @valuePrefix.setter
         def valuePrefix(self, arg0: str) -> None:
             ...
+    class Shader:
+        """
+        
+        A pixel shader a :class:`WWMIFixerConfig.SourceComponent` is drawn with in place of the target slot's.
+        The fix writes the shader and its constant buffers beside the mod's buffers, declares them in its own
+        block (so an undo removes them), and turns each ``drawindexed`` of the component into a ``run =`` of a
+        ``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
+        itself is the target draw's: its vertex shader, its render targets and the textures the component's
+        :attr:`WWMIFixerConfig.plan` entry binds
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def constantBuffers(self) -> dict[str, list[int]]:
+            """
+            Dict[:class:`str`, List[:class:`int`]]: Register -> the constant buffer bound there, as its 32-bit
+            words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buffer
+            """
+        @constantBuffers.setter
+        def constantBuffers(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def lines(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
+            written, eg. ``("ps-t5", "ref ps-t6")``
+            """
+        @lines.setter
+        def lines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: The name its files and sections are given, eg. ``"LynaeFilm"``
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def ps(self) -> str:
+            """
+            :class:`str`: The HLSL source, entry point ``main``
+            """
+        @ps.setter
+        def ps(self, arg0: str) -> None:
+            ...
     class SkeletonNumbering:
         """
         
@@ -25959,6 +25946,29 @@ class WWMIFixerConfig:
         How one SOURCE component is drawn on the target
             
         """
+        class RabbitFX:
+            """
+            
+            RabbitFX on a component, carried across with the SOURCE's routing. RabbitFX patches a character's pixel
+            shaders to take a mod's maps in place of the shader's first texture samples, and decides which map
+            replaces which sample from the KIND of texture bound at ``ps-t0`` .. ``ps-t3`` when the mod runs its
+            ``SetTextures``. With this set, the component keeps the mod's RabbitFX lines and right after each
+            ``SetTextures`` the routing flags (``x187`` .. ``w187``) are pinned to what they are on the SOURCE's own
+            draw: read off the mod's own file for the role at each register, or :attr:`gameTags` where the mod
+            binds none. Valid only where the target slot samples the same roles in the same order as the source's
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def gameTags(self) -> dict[str, int]:
+                """
+                Dict[:class:`str`, :class:`int`]: ``ps-t0`` .. ``ps-t3`` -> the tag RabbitFX (8.3.2) gives the
+                SOURCE's own game texture there (3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+                """
+            @gameTags.setter
+            def gameTags(self, arg0: collections.abc.Mapping[str, typing.SupportsInt | typing.SupportsIndex]) -> None:
+                ...
         @typing.overload
         def __init__(self) -> None:
             ...
@@ -25974,6 +25984,16 @@ class WWMIFixerConfig:
         def bindings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
             ...
         @property
+        def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
+            """
+            Optional[:class:`WWMIFixerConfig.SourceComponent.RabbitFX`]: RabbitFX on this component, carried
+            across with the SOURCE's routing. **Default**: ``None``, RabbitFX's lines are removed as
+            :attr:`WWMIFixerConfig.removedRegs` says
+            """
+        @rabbitFX.setter
+        def rabbitFX(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None) -> None:
+            ...
+        @property
         def sameFileSection(self) -> bool:
             """
             :class:`bool`: When another source component also goes through :attr:`slot`, draw this one from the
@@ -25982,6 +26002,19 @@ class WWMIFixerConfig:
             """
         @sameFileSection.setter
         def sameFileSection(self, arg0: bool) -> None:
+            ...
+        @property
+        def shader(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader`]: The SOURCE's own pixel shader, when the target slot's cannot
+            draw what this component is. With one, the component binds the mod's art as the mod wrote it -- no
+            texture edit of the config reaches it, since the edits are for the TARGET's shader. It draws with the
+            shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as before on any other
+            (an outline pass, :attr:`WWMIFixerConfig.extraPassRegs`). A :class:`WWMIFixerConfig.DrawReroute`'s
+            ``as_`` entry may carry one too. **Default**: ``None``, the target slot's shader
+            """
+        @shader.setter
+        def shader(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader | None) -> None:
             ...
         @property
         def slot(self) -> int:

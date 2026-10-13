@@ -35,7 +35,7 @@ namespace AGRemapCore {
      ``ps-t6``
      @endrst
      */
-    WWMIFixerConfig::DrawReroute::Shader lynaeFilmShader();
+    WWMIFixerConfig::Shader lynaeFilmShader();
 
     /**
      * @brief

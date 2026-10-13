@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIFixerConfig::Shader</compoundname>
+    <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::name</qualifiedname>
+        <briefdescription>
+<para>The name its files and sections are given, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>LynaeFilm</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="153" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ac4f08ccc042dedb1460e9c1ac4de624a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::ps</definition>
+        <argsstring></argsstring>
+        <name>ps</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::ps</qualifiedname>
+        <briefdescription>
+<para>The HLSL source, entry point <computeroutput>main</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="158" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::uint32_t &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::uint32_t&gt; &gt; AGRemapCore::WWMIFixerConfig::Shader::constantBuffers</definition>
+        <argsstring></argsstring>
+        <name>constantBuffers</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::constantBuffers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Register -&gt; the constant buffer bound there, as its 32-bit words (four to a
+row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="167" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMIFixerConfig::Shader::lines</definition>
+        <argsstring></argsstring>
+        <name>lines</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::lines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Further lines of the ``CustomShader`` section, as they are written, eg.
+``{&quot;ps-t5&quot;, &quot;ref ps-t6&quot;}``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="176" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A pixel shader a :cpp:struct:`SourceComponent` is drawn with in place of the target slot&apos;s
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The fix writes the shader and its constant buffers beside the mod&apos;s buffers, declares
+them in its own block (so an undo removes them), and turns each rerouted
+``drawindexed`` of the component into a ``run =`` of a ``CustomShader`` section that binds
+them and makes that draw. Everything the shader does not bind itself is the target
+draw&apos;s: its vertex shader, its render targets and the textures the component&apos;s
+:cpp:member:`plan` entry binds
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="149" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="149" bodyend="177"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>constantBuffers</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>lines</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ac4f08ccc042dedb1460e9c1ac4de624a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>ps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

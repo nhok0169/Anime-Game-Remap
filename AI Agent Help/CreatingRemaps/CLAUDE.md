@@ -532,7 +532,23 @@ code unless said:
   at `ps-t0` is an outline mask -- see the reverse direction below.)
   And looks a mod gets from RabbitFX on Lynae's shaders (Lynae10's suit, Lynae11's lining and stockings) carry only
   partly even with its lines kept (`--keepRabbitFX`): RabbitFX patches the skin's shaders only in part. Both are
-  limitations of the pair, not bugs.
+  limitations of the pair, not bugs. **...except on her lower body, where it now carries (2026-10-13,
+  `SourceComponent::rabbitFX`).** Lynae11's white robotic legs are not her shader's material -- her own lower-body
+  shader drawn as a CustomShader on her own draw gives skin-coloured legs, as does parking RabbitFX -- but RabbitFX's
+  texture swap: its patched shader takes the mod's `Resource\RabbitFX\*` maps in place of its first texture samples,
+  choosing which map replaces which sample from the KIND (`filter_index` 1718.3/.4/.5/.6, by format, squareness and mip
+  count) of what is bound at `ps-t0..t3` when `SetTextures` runs. On the skin those registers hold the fix's edits and
+  other formats, so the same lines route differently: kept as they were, the legs came out white by ACCIDENT (the mask
+  in the normal sample) and the shirt lavender. The fix now keeps the lines on a plan entry with `rabbitFX` and right
+  after each `SetTextures` runs a pass-gated list pinning `x187..w187` to what they are on the source's draw -- read off
+  what that draw really has at each register: the mod's own `ps-tN` line (unless only a toggle sets it), else its
+  `this =` over the game texture there, else the game texture (`gameTags`, read off RabbitFX's own `dump = desc` files).
+  **Read the registers, not the roles**: a first version read each role's resource, which for Lynae10 was the map it
+  hands RabbitFX (never bound at `t0`), pinned (0,0,0,1) where her draw computes (1,0,0,1), and turned the racing suit
+  dark grey. Only her lower body: it lands on the skin's slot 3 with her register order, while her upper body is drawn
+  by a different shader on her and its routing does not carry. Written for RabbitFX **8.3.2** (the 1718.6 LOD branch,
+  `t3` adjustments); a RabbitFX update can change the rule. In game: Lynae11's legs white (gold seams where hers are
+  grey), Lynae10's suit grey with green checks as on her card (closer than without RabbitFX), Lynae8 unchanged.
 * **`mods only` parks EVERY other mod, the maintainer's included**, back to wherever the journal says it came from --
   including another session's scratchpad. Load and park one mod at a time (`load` / `park`), and check `mods list`
   after every round: a stale fixed copy left loaded made a whole round of screenshots two Lynae mods at once.
@@ -819,7 +835,8 @@ the mod on its own card. What it found:
   game**: hunting on, `marking_mode = skip`; the overlay prints the selected hash at the top left (`PS <hash>:`,
   sorted by hash), so the step was found by tiling that line from every frame, then `num3` wrote the ASM into
   `ShaderFixes` -- moved out at once, since 3DMigoto loads anything there as a replacement on the next reload.
-  **AND THE JACKET PATH IS DRAWN WITH HER SHADER NOW (2026-10-12): `DrawReroute::shader`.** A reroute may carry a pixel
+  **AND THE JACKET PATH IS DRAWN WITH HER SHADER NOW (2026-10-12): `DrawReroute::shader`** (since 2026-10-13
+  `SourceComponent::shader`, on the reroute's plan entry -- any plan entry may carry one). A reroute may carry a pixel
   shader of its own (HLSL, its constant buffers as 32-bit words, extra lines); the fix writes the `.hlsl` and a
   `R32G32B32A32_FLOAT` `.buf` per buffer beside the mod's buffers, and turns each rerouted `drawindexed` into
   `run = CommandList<Name>Draw<n>`: `if <the plan slot's pass> run = CustomShader<Name>Draw<n> else drawindexed = ...` --

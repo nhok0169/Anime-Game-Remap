@@ -22,8 +22,8 @@
 
 
 namespace AGRemapCore {
-    WWMIFixerConfig::DrawReroute::Shader lynaeFilmShader() {
-        WWMIFixerConfig::DrawReroute::Shader shader;
+    WWMIFixerConfig::Shader lynaeFilmShader() {
+        WWMIFixerConfig::Shader shader;
         shader.name = "LynaeFilm";
 
         shader.ps += R"hlsl(// Lynae's jacket pass, 404f5464fdffc665 -- decompiled by 3DMigoto

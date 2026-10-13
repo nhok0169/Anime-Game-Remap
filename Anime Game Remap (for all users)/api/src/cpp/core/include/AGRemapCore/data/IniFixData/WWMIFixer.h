@@ -133,6 +133,51 @@ namespace AGRemapCore {
         };
 
         /**
+         * @brief
+         @rst
+         A pixel shader a :cpp:struct:`SourceComponent` is drawn with in place of the target slot's
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         The fix writes the shader and its constant buffers beside the mod's buffers, declares
+         them in its own block (so an undo removes them), and turns each rerouted
+         ``drawindexed`` of the component into a ``run =`` of a ``CustomShader`` section that binds
+         them and makes that draw. Everything the shader does not bind itself is the target
+         draw's: its vertex shader, its render targets and the textures the component's
+         :cpp:member:`plan` entry binds
+         @endrst
+         */
+        struct Shader {
+            /**
+             * @brief The name its files and sections are given, eg. ``LynaeFilm``
+             */
+            std::string name;
+
+            /**
+             * @brief The HLSL source, entry point ``main``
+             */
+            std::string ps;
+
+            /**
+             * @brief
+             @rst
+             Register -> the constant buffer bound there, as its 32-bit words (four to a
+             row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
+             @endrst
+             */
+            std::map<std::string, std::vector<std::uint32_t>> constantBuffers;
+
+            /**
+             * @brief
+             @rst
+             Further lines of the ``CustomShader`` section, as they are written, eg.
+             ``{"ps-t5", "ref ps-t6"}``
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> lines;
+        };
+
+
+        /**
          * @brief How one SOURCE component is drawn on the target
          */
         struct SourceComponent {
@@ -157,6 +202,59 @@ namespace AGRemapCore {
              @endrst
              */
             bool sameFileSection = false;
+
+            /**
+             * @brief
+             @rst
+             The SOURCE's own pixel shader, when the target slot's cannot draw what this component
+             is (a material the target has no counterpart for). With one, the component binds the
+             mod's art as the mod wrote it -- no texture edit of the config reaches it, since the
+             edits are for the TARGET's shader. It draws with the shader on the passes the slot's
+             :cpp:member:`slotPasses` name, and as before on any other (an outline pass,
+             :cpp:member:`extraPassRegs`). A :cpp:struct:`DrawReroute`'s ``as`` entry may carry one
+             too. **Default**: none, the target slot's shader
+             @endrst
+             */
+            std::optional<Shader> shader;
+
+            /**
+             * @brief
+             @rst
+             RabbitFX on this component, carried across with the SOURCE's routing
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             RabbitFX patches a character's pixel shaders to take a mod's maps
+             (``Resource\\RabbitFX\\Diffuse``, ``...Lightmap``, ``...Normalmap``, ...) in place of
+             the shader's first texture samples. Which map replaces which sample is decided per draw
+             from the KIND of texture bound at ``ps-t0`` .. ``ps-t3`` when the mod runs
+             ``CommandList\\RabbitFX\\SetTextures`` -- as of RabbitFX 8.3.2, its ``filter_index``
+             1718.3 (a square BC7 of more than 10 mips, or a small square B8G8R8A8 with mips), 1718.4 (a
+             square R8 with mips, or a large square BC7 of one mip), 1718.5 (a 1 x 1 B8G8R8A8) or 1718.6
+             (a square BC7 of at most 512 and 10 mips). On the target those registers hold other files (the fix's edits, other
+             formats), so the same mod lines route the maps differently. With this set, the
+             component keeps the mod's RabbitFX lines (:cpp:member:`removedRegs` stops removing them
+             here), and right after each ``SetTextures`` the routing flags (``x187`` .. ``w187``) are
+             pinned to what they are on the SOURCE's own draw: read off the mod's own file for the
+             role at each register, or :cpp:member:`gameTags` where the mod binds none. Valid only
+             where the target slot samples the same roles in the same order as the source's pass.
+             **Default**: none, RabbitFX's lines are removed as :cpp:member:`removedRegs` says
+             @endrst
+             */
+            struct RabbitFX {
+                /**
+                 * @brief
+                 @rst
+                 ``ps-t0`` .. ``ps-t3`` -> the tag RabbitFX gives the SOURCE's own game texture there
+                 (3 for 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none)
+                 @endrst
+                 */
+                std::map<std::string, int> gameTags;
+            };
+
+            /**
+             * @brief RabbitFX on this component, with the source's routing -- see :cpp:struct:`RabbitFX`
+             */
+            std::optional<RabbitFX> rabbitFX;
         };
 
         /**
@@ -411,64 +509,6 @@ namespace AGRemapCore {
              @endrst
              */
             FlagMask sourceFlags;
-
-            /**
-             * @brief
-             @rst
-             A pixel shader of the reroute's own, which the rerouted draws are drawn with in place of
-             the target slot's
-             :raw-html:`<br />` :raw-html:`<br />`
-
-             The fix writes the shader and its constant buffers beside the mod's buffers, declares
-             them in its own block (so an undo removes them), and turns each rerouted
-             ``drawindexed`` into a ``run =`` of a ``CustomShader`` section that binds them and makes
-             that draw. Everything the shader does not bind itself is the target draw's: its vertex
-             shader, its render targets and the textures the reroute's :cpp:member:`plan` entry
-             binds
-             @endrst
-             */
-            struct Shader {
-                /**
-                 * @brief The name its files and sections are given, eg. ``LynaeFilm``
-                 */
-                std::string name;
-
-                /**
-                 * @brief The HLSL source, entry point ``main``
-                 */
-                std::string ps;
-
-                /**
-                 * @brief
-                 @rst
-                 Register -> the constant buffer bound there, as its 32-bit words (four to a
-                 row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
-                 @endrst
-                 */
-                std::map<std::string, std::vector<std::uint32_t>> constantBuffers;
-
-                /**
-                 * @brief
-                 @rst
-                 Further lines of the ``CustomShader`` section, as they are written, eg.
-                 ``{"ps-t5", "ref ps-t6"}``
-                 @endrst
-                 */
-                std::vector<std::pair<std::string, std::string>> lines;
-            };
-
-            /**
-             * @brief
-             @rst
-             The shader the rerouted draws are drawn with, when the target slot's own cannot draw
-             what they are. With one, the reroute binds the mod's art as the mod wrote it -- no
-             texture edit of the config reaches it, since the edits are for the TARGET's shader. It
-             draws with the shader on the passes the slot's :cpp:member:`slotPasses` name, and as
-             before on any other (an outline pass, :cpp:member:`extraPassRegs`).
-             **Default**: none, the target slot's shader
-             @endrst
-             */
-            std::optional<Shader> shader;
         };
 
         /**

@@ -146,13 +146,23 @@ namespace AGRemapCore {
         // draw it as post-lighting translucency (a depth prepass, a separate translucency target and a
         // fullscreen composite), which nothing the skin draws before lighting can host, so those draws
         // take her jacket shader too. Her jacket shader reads the code at t2.x, as the props' R8 map has it ----
-        WWMIFixerConfig::DrawReroute filmDraws{5, 105, "jacketDetail", 0x10};
-        filmDraws.shader = lynaeFilmShader();
-        filmDraws.shader->lines = {{"ps-t5", "ref ps-t6"}};
+        WWMIFixerConfig::Shader filmShader = lynaeFilmShader();
+        filmShader.lines = {{"ps-t5", "ref ps-t6"}};
+        config.plan.at(105).shader = filmShader;
+        config.plan.at(106).shader = filmShader;
         WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};
         propsFilmDraws.sourceFlags = lynaePropsFilmFlags();   // Lynae9 draws its props with the game's code map
-        propsFilmDraws.shader = filmDraws.shader;
-        config.drawReroutes = {std::move(filmDraws), std::move(propsFilmDraws)};
+        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws)};
+
+        // ---- RABBITFX ON HER LOWER BODY. A mod may hand its lower-body maps to RabbitFX instead of
+        // binding them (Lynae11's robotic legs: white plastic on Lynae, skin without RabbitFX), and RabbitFX
+        // routes them by the kind of texture at ps-t0..t2 -- which on the skin's slot are other files. Her
+        // lower body lands on the skin's upper-body slot with her register order, so the mod's lines are kept
+        // and the routing pinned to hers (SourceComponent::rabbitFX). Her own game textures there: a square
+        // BC7 normal map with 12 mips (1718.3), a BC3 mask (none), a square R8 code map with 12 mips (1718.4)
+        // and a square BC7 diffuse with 12 mips (1718.3), read off RabbitFX's own `dump = desc` in a frame dump. Her upper body is NOT kept: it is drawn by a
+        // different shader on her and its routing does not carry (Lynae11's shirt turned lavender) ----
+        config.plan.at(4).rabbitFX = WWMIFixerConfig::SourceComponent::RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----

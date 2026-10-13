@@ -496,6 +496,35 @@ namespace AGRemapCore {
         };
 
 
+        // WWMIFixerConfig::SourceComponent::rabbitFX: a `run =` of the pin list right after each
+        // `run = CommandList\RabbitFX\SetTextures`, which sets RabbitFX's routing flags
+        class RabbitFXPin : public BaseRegEdit<> {
+            public:
+                explicit RabbitFXPin(std::string pinList) : pinList_(std::move(pinList)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::Run)
+                                && StringTools::equalsIgnoreCase(StringTools::strip(item->value), "commandlist\\rabbitfx\\settextures")) {
+                            part.addKVPAt(static_cast<long long>(item->orderIndex) + 1, IniKeywords::Run, pinList_);
+                        }
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::string pinList_;
+        };
+
+
         class MirrorTwin : public BaseRegEdit<> {
             public:
                 MirrorTwin(std::string mirrorIndex, std::string mirrorVector, std::string ownIndex,
@@ -1605,9 +1634,11 @@ namespace AGRemapCore {
 
                     readTextures();
                     readReroutes();
+                    readShaders();
                     planTexEdits();
                     planGameTexEdits();
                     planToggledRoles();
+                    readRabbitFX();                     // after the toggles are known, and reading the pre-edit names
                     buildEdits();
                     buildAppended();
 
@@ -4199,8 +4230,21 @@ namespace AGRemapCore {
                                 }));
                         }
 
+                        // the same without RabbitFX's own lines, for a component that keeps them
+                        // (SourceComponent::rabbitFX)
+                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keepRabbitFX;
+                        for (std::size_t i = 0; i < removals.size(); ++i) {
+                            if (!isRabbitFXRemoval(removals[i])) {
+                                keepRabbitFX.push_back(keys[i]);
+                            }
+                        }
+
                         regRemove_ = std::make_unique<RegRemove<>>(std::move(keys));
                         removeAdapter_ = std::make_unique<RegPartEdit<>>(regRemove_.get());
+                        if (!keepRabbitFX.empty()) {
+                            regRemoveKeepRabbitFX_ = std::make_unique<RegRemove<>>(std::move(keepRabbitFX));
+                            removeKeepRabbitFXAdapter_ = std::make_unique<RegPartEdit<>>(regRemoveKeepRabbitFX_.get());
+                        }
                     }
 
                 }
@@ -4373,7 +4417,7 @@ namespace AGRemapCore {
 
                                 const auto at = gameResourceOfRole_.find(binding.role);
                                 if (at != gameResourceOfRole_.end()) {
-                                    gameBindings.push_back(bindLine(binding.role, binding.reg, at->second,
+                                    gameBindings.push_back(bindLine(binding.role, binding.reg, gameResourceFor(binding.role, component),
                                                                     rerouteShaders_.count(component) > 0));
                                 }
                             }
@@ -4882,9 +4926,6 @@ namespace AGRemapCore {
                         // the reroute is a component of its own from here on
                         rerouteFrom_[reroute.as] = reroute.from;
                         reroutedDraws_[reroute.as] = taken;
-                        if (reroute.shader.has_value()) {
-                            rerouteShaders_[reroute.as] = &*reroute.shader;
-                        }
                         present_[reroute.as] = present_.at(reroute.from);
                         drawParts_[reroute.as] = drawParts_[reroute.from];
                         for (const auto& range : taken) {
@@ -4918,6 +4959,309 @@ namespace AGRemapCore {
                         note(std::to_string(taken.size()) + " of " + config_.slotPrefix + std::to_string(reroute.from)
                              + "'s draws carry the " + reroute.codeRole + " flag, and go through target slot "
                              + std::to_string(config_.plan.at(reroute.as).slot) + " instead");
+                    }
+                }
+
+                // ---- WWMIFixerConfig::SourceComponent::rabbitFX ----
+                static bool isRabbitFXRemoval(const WWMIFixerConfig::RegRemoval& removal) {
+                    const std::string reg = StringTools::toLower(removal.reg);
+                    const std::string value = StringTools::toLower(removal.valuePrefix);
+                    return StringTools::startsWith(reg, "resource\\rabbitfx\\")
+                           || (reg == IniKeywords::Run && value.find("rabbitfx") != std::string::npos);
+                }
+
+                // The tag RabbitFX 8.3.2's texture overrides give a texture, from its .dds header: 3 for
+                // filter_index 1718.3, 4 for 1718.4, 5 for 1718.5, 6 for 1718.6, 0 for none. A square BC7
+                // of at most 512 with ONE mip matches both 1718.4 and 1718.6; taken as 1718.6
+                static int rabbitFXTag(const std::string& path) {
+                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
+                    std::array<unsigned char, 148> h{};
+                    if (!in.read(reinterpret_cast<char*>(h.data()), static_cast<std::streamsize>(h.size())) && in.gcount() < 128) {
+                        return 0;
+                    }
+
+                    const auto u32 = [&h](std::size_t at) {
+                        return static_cast<std::uint32_t>(h[at]) | (static_cast<std::uint32_t>(h[at + 1]) << 8)
+                               | (static_cast<std::uint32_t>(h[at + 2]) << 16) | (static_cast<std::uint32_t>(h[at + 3]) << 24);
+                    };
+                    if (u32(0) != 0x20534444u) {                       // "DDS "
+                        return 0;
+                    }
+
+                    const std::uint32_t height = u32(12);
+                    const std::uint32_t width = u32(16);
+                    const std::uint32_t mips = std::max<std::uint32_t>(1, u32(28));
+                    const std::uint32_t fourCC = u32(84);
+                    enum class Kind { Other, BC7, R8, BGRA8 } kind = Kind::Other;
+                    if (fourCC == 0x30315844u) {                       // "DX10"
+                        const std::uint32_t dxgi = u32(128);
+                        if (dxgi >= 97 && dxgi <= 99) {
+                            kind = Kind::BC7;
+                        } else if (dxgi == 60 || dxgi == 61) {
+                            kind = Kind::R8;
+                        } else if (dxgi == 87 || dxgi == 90 || dxgi == 91) {
+                            kind = Kind::BGRA8;
+                        }
+                    } else if (fourCC == 0) {
+                        const std::uint32_t bits = u32(88);
+                        const std::uint32_t red = u32(92);
+                        if (bits == 8 && red == 0xffu) {
+                            kind = Kind::R8;
+                        } else if (bits == 32 && red == 0x00ff0000u) {
+                            kind = Kind::BGRA8;
+                        }
+                    }
+
+                    if (width != height) {
+                        return 0;
+                    }
+                    if (kind == Kind::BC7) {
+                        if (height > 1 && mips > 10) {
+                            return 3;
+                        }
+                        if (height < 513 && mips < 11) {
+                            return 6;
+                        }
+                        return mips == 1 ? 4 : 0;
+                    }
+                    if (kind == Kind::R8) {
+                        return (height > 1 && mips > 1) ? 4 : 0;
+                    }
+                    if (kind == Kind::BGRA8) {
+                        if (height < 512 && mips > 1) {
+                            return 3;
+                        }
+                        return (height == 1 && mips == 1) ? 5 : 0;
+                    }
+                    return 0;
+                }
+
+                // The routing flags RabbitFX's SetTextures sets on the SOURCE's own draw of each
+                // component that keeps RabbitFX, from what that draw has BOUND at ps-t0..t3 -- not
+                // from the maps the mod hands RabbitFX, which it only swaps in afterwards. Per register:
+                // the mod's own `ps-tN` line (unless only a toggle sets it), else the mod's `this`
+                // override of the game texture there, else the game texture itself (gameTags)
+                void readRabbitFX() {
+                    rabbitFXFlags_.clear();
+                    rabbitFXPins_.clear();
+                    rabbitFXPinAdapters_.clear();
+                    if (gaveUp_) {
+                        return;
+                    }
+
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
+
+                    // the mod's `this` overrides: game texture hash -> the resource put in its place
+                    std::map<std::string, std::string> thisOf;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> ref = ModBranches::firstVal(*entry.second, IniKeywords::This);
+                        if (hash.has_value() && ref.has_value()) {
+                            thisOf.emplace(StringTools::toLower(std::string(StringTools::strip(*hash))),
+                                           std::string(StringTools::strip(*ref)));
+                        }
+                    }
+
+                    const auto tagOfResource = [this, &folder](const std::string& resource) -> std::optional<int> {
+                        std::string name(StringTools::strip(resource));
+                        const std::string ref = StringTools::toLower(IniKeywords::Ref) + " ";
+                        if (StringTools::startsWith(StringTools::toLower(name), ref)) {
+                            name = std::string(StringTools::lstrip(name.substr(ref.size())));
+                        }
+                        const auto file = fileOfResource_.find(StringTools::toLower(name));
+                        if (file == fileOfResource_.end()) {
+                            return std::nullopt;
+                        }
+                        return rabbitFXTag(FileService::absPathOfRelPath(file->second, folder));
+                    };
+
+                    for (const auto& [component, planned] : config_.plan) {
+                        if (!planned.rabbitFX.has_value() || present_.count(component) == 0) {
+                            continue;
+                        }
+
+                        const auto alias = rerouteFrom_.find(component);
+                        const int source = alias != rerouteFrom_.end() ? alias->second : component;
+                        if (!callsSetTextures(source)) {
+                            continue;                           // nothing of RabbitFX's to keep or pin
+                        }
+
+                        const auto regs = config_.sourceTextures.registerRoles.find(source);
+                        std::array<int, 4> tags{0, 0, 0, 0};
+                        for (int k = 0; k < 4; ++k) {
+                            const std::string reg = "ps-t" + std::to_string(k);
+                            const auto game = planned.rabbitFX->gameTags.find(reg);
+                            tags[static_cast<std::size_t>(k)] = game != planned.rabbitFX->gameTags.end() ? game->second : 0;
+                            if (regs == config_.sourceTextures.registerRoles.end()) {
+                                continue;
+                            }
+
+                            const auto role = regs->second.find(reg);
+                            if (role == regs->second.end()) {
+                                continue;
+                            }
+
+                            // the mod's own line at this register, in its base state
+                            if (bindsRegister(source, reg) && toggledGame_.count({role->second, source}) == 0) {
+                                const std::string* resource = nullptr;
+                                const auto preEdit = preEditResourceOfSlotRole_.find({role->second, source});
+                                if (preEdit != preEditResourceOfSlotRole_.end()) {
+                                    resource = &preEdit->second;
+                                } else {
+                                    const auto current = resourceOfSlotRole_.find({role->second, source});
+                                    if (current != resourceOfSlotRole_.end()) {
+                                        resource = &current->second;
+                                    }
+                                }
+                                if (resource != nullptr) {
+                                    const std::optional<int> tag = tagOfResource(*resource);
+                                    if (tag.has_value()) {
+                                        tags[static_cast<std::size_t>(k)] = *tag;
+                                        continue;
+                                    }
+                                }
+                            }
+
+                            // ...else the game's texture there, or the mod's `this` in its place
+                            const auto gameHash = config_.sourceTextures.fallbackTextures.find(role->second);
+                            if (gameHash != config_.sourceTextures.fallbackTextures.end()) {
+                                const auto over = thisOf.find(StringTools::toLower(gameHash->second));
+                                if (over != thisOf.end()) {
+                                    const std::optional<int> tag = tagOfResource(over->second);
+                                    if (tag.has_value()) {
+                                        tags[static_cast<std::size_t>(k)] = *tag;
+                                    }
+                                }
+                            }
+                        }
+
+                        // RabbitFX 8.3.2's SetTextures, on those tags. A flag it leaves unwritten keeps
+                        // whatever the last draw left, which no fix can know; it is taken as 0 here
+                        const int full = (tags[0] == 6 || tags[1] == 6) ? 6 : 3;
+                        std::array<int, 4> flags{tags[0] == full ? 1 : 0, tags[1] == full ? 1 : 0,
+                                                 tags[2] == full ? 1 : 0, tags[2] == 4 ? 1 : 0};
+                        if (tags[1] == 5) {
+                            if (tags[2] == full) {
+                                flags[1] = 1;
+                            } else if (tags[3] == full) {
+                                flags[2] = 1;
+                            }
+                        }
+                        rabbitFXFlags_[component] = flags;
+                        auto pin = std::make_unique<RabbitFXPin>(rabbitFXPinList(component));
+                        rabbitFXPinAdapters_[component] = std::make_unique<RegPartEdit<>>(pin.get());
+                        rabbitFXPins_.push_back(std::move(pin));
+                    }
+                }
+
+                // Whether the component's own sections bind `reg` themselves
+                bool bindsRegister(int component, const std::string& reg) const {
+                    const auto sections = present_.find(component);
+                    if (sections == present_.end()) {
+                        return false;
+                    }
+
+                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
+                    for (const std::string& name : sections->second) {
+                        const auto section = templates.find(name);
+                        if (section == templates.end() || section->second == nullptr) {
+                            continue;
+                        }
+                        for (const std::unique_ptr<IfTemplatePart>& part : section->second->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            for (const auto& item : content->items()) {
+                                if (StringTools::equalsIgnoreCase(StringTools::strip(item.key), reg)) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                // Whether the component's own sections run RabbitFX's SetTextures, directly or through
+                // a command list they call
+                bool callsSetTextures(int component) const {
+                    const auto sections = present_.find(component);
+                    if (sections == present_.end()) {
+                        return false;
+                    }
+
+                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
+                    std::vector<std::string> todo(sections->second.begin(), sections->second.end());
+                    std::set<std::string> seen;
+                    while (!todo.empty()) {
+                        const std::string name = todo.back();
+                        todo.pop_back();
+                        if (!seen.insert(StringTools::toLower(name)).second) {
+                            continue;
+                        }
+
+                        const auto section = templates.find(name);
+                        if (section == templates.end() || section->second == nullptr) {
+                            continue;
+                        }
+
+                        for (const std::unique_ptr<IfTemplatePart>& part : section->second->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                if (!StringTools::equalsIgnoreCase(StringTools::strip(item.key), IniKeywords::Run)) {
+                                    continue;
+                                }
+
+                                const std::string value(StringTools::strip(item.value));
+                                if (StringTools::equalsIgnoreCase(value, "commandlist\\rabbitfx\\settextures")) {
+                                    return true;
+                                }
+                                todo.push_back(value);
+                            }
+                        }
+                    }
+
+                    return false;
+                }
+
+                std::string rabbitFXPinList(int component) const {
+                    return fixName(IniKeywords::CommandList + "RabbitFXPin" + std::to_string(component));
+                }
+
+                std::string rabbitFXPinSections() {
+                    std::string out;
+                    for (const auto& [component, flags] : rabbitFXFlags_) {
+                        const int slot = config_.plan.at(component).slot;
+                        out += SectionText(z3_, rabbitFXPinList(component))
+                                   .open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(slot))))
+                                   .keys({{"x187", std::to_string(flags[0])}, {"y187", std::to_string(flags[1])},
+                                          {"z187", std::to_string(flags[2])}, {"w187", std::to_string(flags[3])}})
+                                   .close()
+                                   .str();
+                    }
+                    return out;
+                }
+
+                // Every drawn component whose plan entry carries its own shader (a reroute's `as`
+                // included, which readReroutes has just made present)
+                void readShaders() {
+                    rerouteShaders_.clear();
+                    if (gaveUp_) {
+                        return;
+                    }
+
+                    for (const auto& [component, planned] : config_.plan) {
+                        if (planned.shader.has_value() && present_.count(component) > 0) {
+                            rerouteShaders_[component] = &*planned.shader;
+                        }
                     }
                 }
 
@@ -4964,7 +5308,7 @@ namespace AGRemapCore {
 
                     std::map<std::pair<long long, long long>, std::string> sectionOf;
                     for (const auto& [as, shader] : rerouteShaders_) {
-                        for (const auto& range : reroutedDraws_.at(as)) {
+                        for (const auto& range : shaderDraws(as)) {
                             sectionOf.emplace(range, rerouteShaderSection(as, range));
                         }
                     }
@@ -4977,28 +5321,57 @@ namespace AGRemapCore {
                     }
                 }
 
+                // The source's own game texture of a role, as a component binds it: edited for the
+                // target's shader, or the download itself for a component drawn with its own shader
+                std::string gameResourceFor(const std::string& role, int component) const {
+                    if (rerouteShaders_.count(component) > 0) {
+                        const auto raw = gameFallbacks_.find(role);
+                        if (raw != gameFallbacks_.end()) {
+                            return raw->second.resource;
+                        }
+                    }
+
+                    return gameResourceOfRole_.at(role);
+                }
+
                 // ---- WWMIFixerConfig::DrawReroute::shader ----
                 //
                 // Each rerouted draw becomes a `run =` of a list that draws it with the shader on the
                 // plan's passes and as it was on any other (the slot's outline pass draws it too). The
                 // files and the buffer resources go by the shader's NAME, so two reroutes drawn with one
                 // shader share them
+                // The draws a component with its own shader makes: a reroute's taken ones, or every
+                // draw of the component
+                std::set<std::pair<long long, long long>> shaderDraws(int component) const {
+                    const auto taken = reroutedDraws_.find(component);
+                    if (taken != reroutedDraws_.end()) {
+                        return taken->second;
+                    }
+
+                    std::set<std::pair<long long, long long>> draws;
+                    const auto ranges = drawRanges_.find(component);
+                    if (ranges != drawRanges_.end()) {
+                        draws.insert(ranges->second.begin(), ranges->second.end());
+                    }
+                    return draws;
+                }
+
                 std::string rerouteShaderSection(int as, const std::pair<long long, long long>& range,
                                                  const std::string& kind = IniKeywords::CommandList) const {
-                    const auto& draws = reroutedDraws_.at(as);
+                    const std::set<std::pair<long long, long long>> draws = shaderDraws(as);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
                     return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at));
                 }
 
-                std::string rerouteShaderFile(const WWMIFixerConfig::DrawReroute::Shader& shader) const {
+                std::string rerouteShaderFile(const WWMIFixerConfig::Shader& shader) const {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + ".hlsl");
                 }
 
-                std::string rerouteBufferResource(const WWMIFixerConfig::DrawReroute::Shader& shader, const std::string& reg) const {
+                std::string rerouteBufferResource(const WWMIFixerConfig::Shader& shader, const std::string& reg) const {
                     return fixName(IniKeywords::Resource + shader.name + IniNamingTools::getRegTag(reg));
                 }
 
-                std::string rerouteBufferFile(const WWMIFixerConfig::DrawReroute::Shader& shader, const std::string& reg) const {
+                std::string rerouteBufferFile(const WWMIFixerConfig::Shader& shader, const std::string& reg) const {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + IniNamingTools::getRegTag(reg) + ".buf");
                 }
 
@@ -5009,7 +5382,7 @@ namespace AGRemapCore {
                     std::set<std::string> declared;
                     for (const auto& [as, shader] : rerouteShaders_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
-                        for (const auto& range : reroutedDraws_.at(as)) {
+                        for (const auto& range : shaderDraws(as)) {
                             const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
                             const std::string custom = rerouteShaderSection(as, range, "CustomShader");
                             out += SectionText(z3_, rerouteShaderSection(as, range))
@@ -5175,7 +5548,13 @@ namespace AGRemapCore {
                             const int slot = config_.plan.at(component).slot;
                             const ModObj obj = targetObjOf(component);
                             std::vector<PartEdit*> edits = editsOf_[component];
-                            if (removeAdapter_ != nullptr) {
+                            const bool keepsRabbitFX = rabbitFXFlags_.count(component) > 0;
+                            if (keepsRabbitFX) {
+                                if (removeKeepRabbitFXAdapter_ != nullptr) {
+                                    edits.push_back(removeKeepRabbitFXAdapter_.get());
+                                }
+                                edits.push_back(rabbitFXPinAdapters_.at(component).get());
+                            } else if (removeAdapter_ != nullptr) {
                                 edits.push_back(removeAdapter_.get());
                             }
 
@@ -6129,6 +6508,7 @@ namespace AGRemapCore {
                     }
 
                     out += rerouteShaderSections();
+                    out += rabbitFXPinSections();
 
                     this->appendedSections = std::string(StringTools::rstrip(out));
                     buildCopyMerges();
@@ -6973,7 +7353,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            toggledGame_[{binding.role, component}] = gameResourceOfRole_.at(binding.role);
+                            toggledGame_[{binding.role, component}] = gameResourceFor(binding.role, component);
                             ctx_.log(config_.slotPrefix + std::to_string(component) + " binds its " + binding.role
                                      + " only under a toggle; elsewhere " + source_.name + "'s own is bound, as the game does");
                         }
@@ -7598,7 +7978,7 @@ namespace AGRemapCore {
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
-                std::map<int, const WWMIFixerConfig::DrawReroute::Shader*> rerouteShaders_;   // ...and its own shader, where it has one
+                std::map<int, const WWMIFixerConfig::Shader*> rerouteShaders_;   // a drawn component -> its plan entry's own shader (SourceComponent::shader)
                 std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
                 std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;
                 std::map<int, std::set<std::pair<long long, long long>>> reroutedDraws_;   // ...and those draws, keyed by `as`
@@ -7639,6 +8019,11 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> shapeKeyAdapter_;
                 std::unique_ptr<RegRemove<>> regRemove_;
                 std::unique_ptr<RegPartEdit<>> removeAdapter_;
+                std::unique_ptr<RegRemove<>> regRemoveKeepRabbitFX_;               // regRemove_ without RabbitFX's lines
+                std::unique_ptr<RegPartEdit<>> removeKeepRabbitFXAdapter_;
+                std::map<int, std::array<int, 4>> rabbitFXFlags_;                 // SourceComponent::rabbitFX: component -> the source's x187..w187
+                std::vector<std::unique_ptr<RabbitFXPin>> rabbitFXPins_;
+                std::map<int, std::unique_ptr<RegPartEdit<>>> rabbitFXPinAdapters_;
                 std::map<int, PartEdit*> newValsOf_;
                 std::vector<std::unique_ptr<RegSurroundedAdd<>>> surroundedAdds_;
                 std::vector<std::unique_ptr<GraphPartEdit<>>> graphAdapters_;

@@ -309,13 +309,20 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # Tools/Misc/Diagnostics/wwmiShaderData.py into data/lynaeFilmShader.json) ----
     with open(os.path.join(Here, "data", "lynaeFilmShader.json"), encoding="utf-8") as f:
         filmData = json.load(f)
-    shader = FRB.WWMIFixerConfig.DrawReroute.Shader()
+    shader = FRB.WWMIFixerConfig.Shader()
     shader.name = filmData["name"]
     shader.ps = filmData["ps"]
     shader.constantBuffers = filmData["constantBuffers"]
     shader.lines = [("ps-t5", "ref ps-t6")]
     filmDraws = FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)
-    filmDraws.shader = shader
+    plan = config.plan                   # the shader goes on the reroutes' plan entries
+    plan[105].shader = shader
+    plan[106].shader = shader
+    # RabbitFX on her lower body, routed as on her own draw (core's LynaeFixer)
+    rfx = FRB.WWMIFixerConfig.SourceComponent.RabbitFX()
+    rfx.gameTags = {"ps-t0": 3, "ps-t1": 0, "ps-t2": 4, "ps-t3": 3}
+    plan[4].rabbitFX = rfx
+    config.plan = plan
     # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
     # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)
     with open(os.path.join(Here, "data", "lynaePropsFilmFlags.json"), encoding="utf-8") as f:
@@ -324,7 +331,6 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     flags.width, flags.height, flags.bits = maskData["width"], maskData["height"], maskData["bits"]
     propsFilmDraws = FRB.WWMIFixerConfig.DrawReroute(6, 106, "propsDetail", 0x10)
     propsFilmDraws.sourceFlags = flags
-    propsFilmDraws.shader = shader
     config.drawReroutes = [filmDraws, propsFilmDraws]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second

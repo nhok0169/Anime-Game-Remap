@@ -208,17 +208,22 @@ namespace AGRemapCore {
         WWMIFixerConfig::Shader sheerJacket = lynaePeppermintSheerShader();
         sheerJacket.lines = {
             {"ps-t6", "ref ps-t9"},
-            {"mask[0]", "0"}, {"mask[1]", "0x7"}, {"mask[2]", "0x7"}, {"mask[6]", "0"},
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
             {"stencil_ref", "15"},                 // her 14, plus the body mark (bit 1) to test against
             {"stencil_read_mask", "1"},
             {"stencil_write_mask", "0x8a"},
         };
+        // The render-target masks are the SEE-THROUGH pass's alone. Where the shirt is solid it writes every
+        // target, as her solid jacket pass does there: with the sheer masks, render targets 0 and 6 kept the
+        // scene behind it, and the shirt's edge past her bust came out a translucent band with the sky
+        // showing through, where hers is solid white
         sheerJacket.passes = {
-            {{"blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {"alpha[3]", "ADD ONE ZERO"},
+            {{"mask[0]", "0"}, {"mask[1]", "0x7"}, {"mask[2]", "0x7"}, {"mask[6]", "0"},
+             {"blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {"alpha[3]", "ADD ONE ZERO"},
              {"stencil_front", "equal replace keep keep"}, {"stencil_back", "equal replace keep keep"}},
-            {{"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
+            {{"mask[0]", "0xf"}, {"mask[1]", "0xf"}, {"mask[2]", "0xf"}, {"mask[6]", "0xf"},
+             {"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
         };
         // ...after her upper body, whichever slot the game draws first: in the overworld her jacket slot
         // draws BEFORE the upper body (the character menu after it), so the shirt blended over her hair,

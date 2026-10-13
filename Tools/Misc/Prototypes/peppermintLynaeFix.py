@@ -281,13 +281,15 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     sheer.name = sheerData["name"]
     sheer.ps = sheerData["ps"]
     sheer.constantBuffers = sheerData["constantBuffers"]
-    sheer.lines = [("ps-t6", "ref ps-t9"), ("mask[0]", "0"), ("mask[1]", "0x7"), ("mask[2]", "0x7"), ("mask[6]", "0"),
-                   ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "15"),
-                   ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a")]
-    # blended only over the body, which marks stencil bit 1; opaque everywhere else (core's LynaePeppermintFixer)
-    sheer.passes = [[("blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"), ("alpha[3]", "ADD ONE ZERO"),
+    sheer.lines = [("ps-t6", "ref ps-t9"), ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"),
+                   ("stencil_ref", "15"), ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a")]
+    # blended only over the body, which marks stencil bit 1; opaque everywhere else, writing every render target
+    # there (core's LynaePeppermintFixer)
+    sheer.passes = [[("mask[0]", "0"), ("mask[1]", "0x7"), ("mask[2]", "0x7"), ("mask[6]", "0"),
+                     ("blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"), ("alpha[3]", "ADD ONE ZERO"),
                      ("stencil_front", "equal replace keep keep"), ("stencil_back", "equal replace keep keep")],
-                    [("stencil_front", "not_equal replace keep keep"), ("stencil_back", "not_equal replace keep keep")]]
+                    [("mask[0]", "0xf"), ("mask[1]", "0xf"), ("mask[2]", "0xf"), ("mask[6]", "0xf"),
+                     ("stencil_front", "not_equal replace keep keep"), ("stencil_back", "not_equal replace keep keep")]]
     bodyMark = [("depth_stencil_state_merge", "true"), ("depth_func", "equal"), ("depth_write_mask", "zero"),
                 ("stencil_enable", "true"), ("stencil_ref", "1"), ("stencil_write_mask", "1"), ("stencil_read_mask", "0xff"),
                 ("stencil_front", "always replace keep keep"), ("stencil_back", "always replace keep keep")]

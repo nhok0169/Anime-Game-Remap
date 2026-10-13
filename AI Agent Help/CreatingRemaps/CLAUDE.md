@@ -1480,6 +1480,22 @@ the mod on its own card. What it found:
   too. Only the five LynaePeppermint `.ini` files move across the 31-mod corpus. **Lesson for every pair: check a
   see-through or layered part in the OVERWORLD before calling it done** -- draw order is the game's, per scene.
 
+  **AND THE SHIRT WAS STILL TOO SEE-THROUGH: THE SOLID PASS HAD THE SEE-THROUGH PASS'S WRITE MASKS (2026-10-13).**
+  The maintainer's two screenshots (`Images/LynaePeppermint/3_7/LynaeShirtBase.png`, `LynaeShirtRemap.png`) show what
+  every earlier check missed: on Peppermint the shirt is a white veil with the bikini a faint blue under it, on Lynae
+  the bikini came through in full cyan and the shirt's edge past her bust was a translucent band with the sky behind
+  it. The solid half of the split drew with the SHARED lines, which carried the see-through pass's render-target
+  masks (`mask[0] = 0`, `mask[6] = 0`, RGB only on 1 and 2), so over the background targets 0 and 6 kept the scene
+  and the lighting showed it through. The masks now sit in the see-through pass only and the solid pass writes every
+  target (`0xf`). An explicit `blend = disable` on both passes, tried first, changed nothing. Measured on the
+  Resonator Outfits screen, both cards at the same zoom and a close pose, saturated cyan pixels over the chest:
+  Peppermint 4393, before 5989, after 3035 / 3375; the edge band is solid white in the menu and the overworld.
+  **The two numbers this note gave earlier (0.249 against 0.244 in the base colour, 0.254 against 0.267 lit) said
+  the see-through matched, and it did not**: a contrast over the bikini / skin boundary inside the body cannot see
+  pixels that should be opaque. **Compare a see-through part card against card**: select the skin's card and the
+  base's on Resonator Outfits (selecting only previews), wait out each card's intro effect (a timed series, keep a
+  clean frame) and zoom both the same.
+
 <br>
 
 ## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)

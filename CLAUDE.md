@@ -62,6 +62,15 @@ a remap in game".
 is not necessarily right for a cape, coat tail, flap or skirt -- predict how each such part moves on the
 target's bone (Neuvillette's coat tore on a component seam, swung on the knees, folded on the skirt bones and
 clipped on the pelvis). See Creating Remaps' "THE VERTEX GROUP BEHAVIOUR AUDIT".
+**AND AFTER THE AUDIT OF EACH COMPILED FIX, AN IN-GAME AUDIT BY A GAME SUBAGENT, IN EPOCHS (the maintainer's rule,
+2026-10-13).** The maintainer's final check is simple: in game, every angle of every mod and every toggle variant,
+original against remap, in the character studio and the overworld. LynaePeppermint -> Lynae was rammed through in
+under a day without that, and then cost days of rounds in which the maintainer found nearly every bug -- each one
+visible in a screenshot the agent could have taken. So a game subagent now does that check first: one EPOCH is every
+mod, every toggle, every angle, original (or a `<Mod>Restored` copy if the original is broken) against remap, plus
+the overworld if the skin is owned; it reports every issue, the remap agent fixes them, and it runs another epoch,
+until one finds nothing. Only then does the maintainer look -- to approve, not to find bugs. See Creating Remaps'
+"THE IN-GAME AUDIT".
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones

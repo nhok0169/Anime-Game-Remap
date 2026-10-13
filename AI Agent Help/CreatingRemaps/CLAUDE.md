@@ -236,7 +236,7 @@ the whole corpus -- the two-line change in its report was the only thing that sa
 
 ## THE MAINTAINER'S REMAP PIPELINE, END TO END (2026-09-23)
 
-A new character pair, `char <-> skin`, goes through these thirteen steps in this order. The
+A new character pair, `char <-> skin`, goes through these thirteen steps (and their audits) in this order. The
 maintainer wrote them down so they stop having to re-teach them. Everything later in this file is
 detail for one step or another, and the table under each step says where. **You run all thirteen
 yourself** and hand the maintainer one final check at the end (Overview habit 69).
@@ -253,12 +253,14 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
 | 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
 | 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses | "THE AUDIT GATE" below |
+| 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing | "THE IN-GAME AUDIT" below |
 | 8 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
 | 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
 | 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7 |
 | 11a | **AUDIT the compiled reverse fix** | "THE AUDIT GATE" below |
+| 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing | "THE IN-GAME AUDIT" below |
 | 12 | **Test the API fix on all the mods** | as step 8 |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
@@ -298,10 +300,74 @@ What the order is for:
   (drag left / right AND up / down), every distance (scroll a lot), every toggle, a timed series, the overworld
   where the character is unlocked, and always against the mod on its own character. See [Game View](../GameView/CLAUDE.md)'s
   "Observing a remap in game". Most of Neuvillette's reported faults were in the agent's own screenshots.
-- **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see the next section.
+- **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see "THE AUDIT GATE".
+- **Neither are the in-game audits (7b, 11b)** -- epochs by a game subagent until one finds nothing, so the
+  maintainer's final check is check-and-approve, not bug finding. See the next section.
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
   into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
+
+<br>
+
+## THE IN-GAME AUDIT: epochs run by a game subagent, until one finds nothing (the maintainer's rule, 2026-10-13)
+
+**What the maintainer's final check is, so you know what you are being measured against.** They go in game and
+look at **every angle of every mod and every toggle variant**, comparing **the original against the remap**, in
+**both the character studio (the outfit cards) and the overworld**. That is all. It is simple on purpose: it is a
+check-and-approve step. It is NOT the place where the remap's bugs are found -- every bug they find there is one the
+remap agent could have found with the same tools, and costs them a round of their time and energy.
+
+**Why this exists (LynaePeppermint -> Lynae, 2026-10-04 .. 10-13).** That pipeline was rammed through in under a
+day without thorough in-game checks, and then took days of back-and-forth in which the maintainer found nearly
+every bug: a see-through shirt that was opaque, then too see-through, then see-through to the body's back in the
+overworld only; a black top that showed only in the overworld; a coat drawn solid; a coat's inside drawn black; a
+holographic panel drawn grey. **Every one of them was visible in a screenshot GameView could have taken**, from an
+angle, a toggle, a card or a scene nobody had looked at. The audit below is the maintainer's final check, run by
+an agent, as many times as it takes.
+
+**When:** after the theoretical audit of the compiled fix -- step 7b after 7a (`char -> skin`) and step 11b after
+11a (`skin -> char`) -- and before anything is handed to the maintainer. Steps 8 and 12 ("test on all the mods")
+are part of it, not a substitute for it.
+
+**How:**
+
+1. **Spin up a GAME SUBAGENT** (the Agent tool) whose only job is what the maintainer does at the final check. One
+   game, one driver: while it runs, the remap agent does not touch the game, `WWMI/Mods` / `GIMI/Mods`, or
+   `d3dx.ini`. Hand it: the mod folder, the list of test mods and where each lives, [Game View](../GameView/CLAUDE.md)
+   (it reads that first), the rules (never click anything that spends or sends, never press Enter in the
+   overworld, never show the UID, move anything out of `ShaderFixes` at once, restore every mod and config it
+   moved), and how to select each outfit card (selecting a card only previews it; never "Wear Outfit").
+2. **One EPOCH = every available mod, every toggle variant of each, every angle, original against remap.**
+   - Every angle: turn the model a full circle in steps (drag), look from above and below, near and far
+     (scroll); every toggle the mod's `.ini` declares (`key --vk` for a `vk_...` key), each variant on its own.
+   - Original against remap, the same angle and pose: the mod on the source character's card against the same
+     mod on the target's card ("Compare a see-through part card against card" in the LYNAE section). Cards replay
+     an intro effect, so shoot a TIMED SERIES after every reload or card switch and compare clean frames only.
+   - **If the original is broken** -- the mod renders wrong on its own character (stale hashes after a game
+     update, a mod the game no longer matches, ...) -- **copy it to `<Mod>Restored`, repair that copy** until it
+     renders right on its own character, and compare the remap against the restored original. A broken original
+     compared against a remap says nothing about the remap ("THE MOD LOOKS WRONG ON ITS OWN CHARACTER").
+   - **If the player owns the skin** (it can be worn), check the OVERWORLD too -- draw order, extra meshes and
+     lighting differ there (LynaePeppermint's black top and see-through-to-the-back were overworld-only). If the
+     skin is not owned, the character studio is all there is, and the report says so.
+3. **The game agent reports back every issue of the epoch**, each with the mod, the toggle variant, the scene, the
+   angle and a cropped original / remap pair of screenshots. Not a verdict ("looks fine"): a list, which may be
+   empty.
+4. **The remap agent fixes them** (prototype, port, A/B, corpus, tests -- the usual loop) and **the game agent
+   runs another epoch**, over every mod again, not only the ones that had issues: a fix for one mod moves others.
+5. **Repeat until an epoch finds nothing.** Only then does the maintainer get the final check.
+
+**Tips the LynaePeppermint rounds paid for**, for the game agent and the remap agent alike:
+
+- **Find which draw a part belongs to by painting, not by reasoning**: put `o3.xyz = float3(1,0,0);` before the
+  `return` of a shipped `.hlsl` (or a flat texture on a register) and reload. Four rounds of measurement assumed a
+  grey panel was the coat; painting both of the skin's shaders red said in two reloads it was neither.
+- **A part that looks wrong from one side only is a rasterizer state** before it is a texture: group each draw's
+  `RSSetState` pointer in a frame dump's log by which draws share it (the coat's dark inside, "two-sided").
+- **Draw order is per scene**: the character studio and the overworld draw a character's slots in different
+  orders, so a layered or see-through part has to be seen in both.
+- **A frame dump with textures is huge** (9.4 GB for one card); `--options "dump_rt dds"` is a third of it and
+  enough to read the G-buffer.
 
 <br>
 

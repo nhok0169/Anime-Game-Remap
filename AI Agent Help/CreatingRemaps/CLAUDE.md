@@ -236,9 +236,11 @@ the whole corpus -- the two-line change in its report was the only thing that sa
 
 ## THE MAINTAINER'S REMAP PIPELINE, END TO END (2026-09-23)
 
-A new character pair, `char <-> skin`, goes through these thirteen steps (and their audits) in this order. The
+A new character pair, `char <-> skin`, goes through these steps (and their audits) in this order -- numbered 1 to 13,
+with no 8 or 12 since 2026-10-13: "test the API fix on all the mods" is the in-game audit's job now (7b, 11b), and the
+A/B against the prototype is part of the port step it checks (7, 11). The
 maintainer wrote them down so they stop having to re-teach them. Everything later in this file is
-detail for one step or another, and the table under each step says where. **You run all thirteen
+detail for one step or another, and the table under each step says where. **You run every one of them
 yourself** and hand the maintainer one final check at the end (Overview habit 69).
 
 | # | step | where the detail is |
@@ -251,17 +253,15 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 5 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
 | 5a | **AUDIT the prototype** against every lesson in these files and against every mod a person COULD make -- not only the mods you have | "THE AUDIT GATE" below |
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
-| 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
+| 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53). **The port is done when it A/Bs identical to the prototype on every mod** (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), the corpus moves only this pair's mods, and the suites pass |
 | 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses | "THE AUDIT GATE" below |
 | 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing | "THE IN-GAME AUDIT" below |
-| 8 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
 | 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
-| 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7 |
+| 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7, A/B against the reverse prototype included |
 | 11a | **AUDIT the compiled reverse fix** | "THE AUDIT GATE" below |
 | 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing | "THE IN-GAME AUDIT" below |
-| 12 | **Test the API fix on all the mods** | as step 8 |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
 What the order is for:
@@ -273,7 +273,7 @@ What the order is for:
   otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
   output that changes run to run, not as an error.
 
-- **Every testing step (6, 8, 10, 12) opens with THE PRE-FLIGHT below, not with the game.**
+- **Every testing step (6, 10, and each epoch of 7b / 11b) opens with THE PRE-FLIGHT below, not with the game.**
   The structural checks cost seconds and answer much of what a round would; an in-game round is
   the most expensive unit of work here, and a fix that fails a pre-flight check makes the round
   worthless. Chisa <-> ChisaParfait took two weeks against about a day for a GI pair, and the
@@ -296,7 +296,7 @@ What the order is for:
 - **"Every mod" is the mods the maintainer points you at**, not one that happens to work. An
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
-- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView` -- and diligently: every angle
+- **Steps 6 and 10 happen IN GAME, by you,** (7b and 11b by a game subagent) with `Tools/GameView` -- and diligently: every angle
   (drag left / right AND up / down), every distance (scroll a lot), every toggle, a timed series, the overworld
   where the character is unlocked, and always against the mod on its own character. See [Game View](../GameView/CLAUDE.md)'s
   "Observing a remap in game". Most of Neuvillette's reported faults were in the agent's own screenshots.
@@ -326,8 +326,8 @@ angle, a toggle, a card or a scene nobody had looked at. The audit below is the 
 an agent, as many times as it takes.
 
 **When:** after the theoretical audit of the compiled fix -- step 7b after 7a (`char -> skin`) and step 11b after
-11a (`skin -> char`) -- and before anything is handed to the maintainer. Steps 8 and 12 ("test on all the mods")
-are part of it, not a substitute for it.
+11a (`skin -> char`) -- and before anything is handed to the maintainer. It replaces the old steps 8 and 12 ("test
+the API fix on all the mods"): testing the compiled fix on every mod in game IS the epoch.
 
 **How:**
 

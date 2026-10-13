@@ -45,12 +45,13 @@ enough for Unreal's watchdog to kill it, and turning that logging off is the mai
 bottom of every capture for that, and an image from anywhere else is cropped the same way before it
 is kept or shown. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
-**A NEW `char <-> skin` REMAP HAS A FIXED THIRTEEN-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
+**A NEW `char <-> skin` REMAP HAS A FIXED PIPELINE (STEPS 1-13, NO 8 OR 12 SINCE 2026-10-13), WRITTEN DOWN BY THE MAINTAINER
 (2026-09-23).** In short: downloads -> RemapDraft -> mod data in the API (vertex group remap,
 hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from the library API, noting its gaps -> test it on
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
-(`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
-the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+(`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools), A/B'd identical to the prototype -> the
+audit -> the IN-GAME AUDIT by a game subagent, in epochs, which is where the port is tested on ALL the mods -> the
+same prototype / test / port / audits for `skin -> char` -> README and Sphinx docs.
 **DO THE FIRST THING RIGHT (2026-09-27).** A mistake early in the pipeline costs exponentially more
 later: Neuvillette's torn / folded / clipping coat was one wrong vertex group step, and cost two extra days of
 back-and-forth debugging that a correct RemapDraft would have avoided. **And observe in game diligently** --

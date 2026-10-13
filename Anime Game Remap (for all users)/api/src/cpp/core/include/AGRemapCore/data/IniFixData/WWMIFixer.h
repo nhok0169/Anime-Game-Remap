@@ -174,6 +174,17 @@ namespace AGRemapCore {
              @endrst
              */
             std::vector<std::pair<std::string, std::string>> lines;
+
+            /**
+             * @brief
+             @rst
+             Draw the component once per entry, each with :cpp:member:`lines` and that entry's own lines
+             after them -- a source pass whose draws split by state, eg. a see-through layer blended where
+             the stencil marks a body behind it and drawn opaque everywhere else. **Default**: empty, one
+             draw with :cpp:member:`lines`
+             @endrst
+             */
+            std::vector<std::vector<std::pair<std::string, std::string>>> passes;
         };
 
 
@@ -255,6 +266,18 @@ namespace AGRemapCore {
              * @brief RabbitFX on this component, with the source's routing -- see :cpp:struct:`RabbitFX`
              */
             std::optional<RabbitFX> rabbitFX;
+
+            /**
+             * @brief
+             @rst
+             After each of the component's draws on the passes the slot's :cpp:member:`slotPasses` name, the
+             same draw again with NO pixel shader under these ``CustomShader`` lines -- to mark the pixels
+             the component is the visible surface of in the stencil, eg. ``depth_func = equal`` with a stencil
+             write, for a later draw to test. Nothing is written to the render targets. **Default**: empty,
+             no such draw
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> markLines;
         };
 
         /**

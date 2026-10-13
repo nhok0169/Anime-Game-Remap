@@ -496,6 +496,61 @@ namespace AGRemapCore {
         };
 
 
+        // WWMIFixerConfig::SourceComponent::markLines: a `run =` of the mark list right after each of the
+        // component's draws it knows (applied before RerouteShaderDraws, which then turns the draw itself
+        // into a run and leaves this one after it)
+        class MarkDraws : public BaseRegEdit<> {
+            public:
+                explicit MarkDraws(std::map<std::pair<long long, long long>, std::string> sectionOf)
+                    : sectionOf_(std::move(sectionOf)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::DrawIndexed)) {
+                            continue;
+                        }
+
+                        std::vector<long long> args;
+                        try {
+                            std::string rest(item->value);
+                            std::size_t comma = 0;
+                            while (true) {
+                                comma = rest.find(',');
+                                args.push_back(std::stoll(std::string(StringTools::strip(rest.substr(0, comma)))));
+                                if (comma == std::string::npos) {
+                                    break;
+                                }
+                                rest = rest.substr(comma + 1);
+                            }
+                        } catch (const std::exception&) {
+                            continue;
+                        }
+
+                        if (args.size() != 3 || args[2] != 0) {
+                            continue;
+                        }
+
+                        const auto section = sectionOf_.find({args[0], args[1]});
+                        if (section != sectionOf_.end()) {
+                            part.addKVPAt(static_cast<long long>(item->orderIndex) + 1, IniKeywords::Run, section->second);
+                        }
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::map<std::pair<long long, long long>, std::string> sectionOf_;
+        };
+
+
         // WWMIFixerConfig::SourceComponent::rabbitFX: a `run =` of the pin list right after each
         // `run = CommandList\RabbitFX\SetTextures`, which sets RabbitFX's routing flags
         class RabbitFXPin : public BaseRegEdit<> {
@@ -5258,9 +5313,13 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    markLines_.clear();
                     for (const auto& [component, planned] : config_.plan) {
                         if (planned.shader.has_value() && present_.count(component) > 0) {
                             rerouteShaders_[component] = &*planned.shader;
+                        }
+                        if (!planned.markLines.empty() && present_.count(component) > 0) {
+                            markLines_[component] = &planned.markLines;
                         }
                     }
                 }
@@ -5319,6 +5378,28 @@ namespace AGRemapCore {
                         rerouteShaderEdit_ = std::make_unique<RerouteShaderDraws>(std::move(sectionOf));
                         rerouteShaderAdapter_ = std::make_unique<RegPartEdit<>>(rerouteShaderEdit_.get());
                     }
+
+                    std::map<std::pair<long long, long long>, std::string> markOf;
+                    for (const auto& entry : markLines_) {
+                        for (const auto& range : shaderDraws(entry.first)) {
+                            markOf.emplace(range, markSection(entry.first, range));
+                        }
+                    }
+
+                    markEdit_.reset();
+                    markAdapter_.reset();
+                    if (!markOf.empty()) {
+                        markEdit_ = std::make_unique<MarkDraws>(std::move(markOf));
+                        markAdapter_ = std::make_unique<RegPartEdit<>>(markEdit_.get());
+                    }
+                }
+
+                // ---- WWMIFixerConfig::SourceComponent::markLines ----
+                std::string markSection(int component, const std::pair<long long, long long>& range,
+                                        const std::string& kind = IniKeywords::CommandList) const {
+                    const std::set<std::pair<long long, long long>> draws = shaderDraws(component);
+                    const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
+                    return fixName(kind + "Mark" + std::to_string(component) + "Draw" + std::to_string(at));
                 }
 
                 // The source's own game texture of a role, as a component binds it: edited for the
@@ -5385,23 +5466,34 @@ namespace AGRemapCore {
                         for (const auto& range : shaderDraws(as)) {
                             const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
                             const std::string custom = rerouteShaderSection(as, range, "CustomShader");
-                            out += SectionText(z3_, rerouteShaderSection(as, range))
-                                       .open(onPlan)
-                                       .key(IniKeywords::Run, custom)
-                                       .orElse()
-                                       .key(IniKeywords::DrawIndexed, draw)
-                                       .close()
-                                       .str();
+                            const std::size_t passCount = std::max<std::size_t>(1, shader->passes.size());
+                            const auto passName = [&](std::size_t p) {
+                                return p == 0 ? custom : custom + "Pass" + std::to_string(p);
+                            };
 
-                            std::vector<Kvp> lines{{"ps", rerouteShaderFile(*shader)}};
-                            for (const auto& entry : shader->constantBuffers) {
-                                lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
+                            SectionText list(z3_, rerouteShaderSection(as, range));
+                            list.open(onPlan);
+                            for (std::size_t p = 0; p < passCount; ++p) {
+                                list.key(IniKeywords::Run, passName(p));
                             }
-                            for (const auto& line : shader->lines) {
-                                lines.push_back(line);
+                            out += list.orElse().key(IniKeywords::DrawIndexed, draw).close().str();
+
+                            for (std::size_t p = 0; p < passCount; ++p) {
+                                std::vector<Kvp> lines{{"ps", rerouteShaderFile(*shader)}};
+                                for (const auto& entry : shader->constantBuffers) {
+                                    lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
+                                }
+                                for (const auto& line : shader->lines) {
+                                    lines.push_back(line);
+                                }
+                                if (!shader->passes.empty()) {
+                                    for (const auto& line : shader->passes[p]) {
+                                        lines.push_back(line);
+                                    }
+                                }
+                                lines.emplace_back(IniKeywords::DrawIndexed, draw);
+                                out += SectionText(z3_, passName(p)).keys(lines).str();
                             }
-                            lines.emplace_back(IniKeywords::DrawIndexed, draw);
-                            out += SectionText(z3_, custom).keys(lines).str();
                         }
 
                         if (!declared.insert(shader->name).second) {
@@ -5414,6 +5506,26 @@ namespace AGRemapCore {
                                               {IniKeywords::Format, "DXGI_FORMAT_R32G32B32A32_FLOAT"},
                                               {IniKeywords::Filename, rerouteBufferFile(*shader, entry.first)}})
                                        .str();
+                        }
+                    }
+
+                    for (const auto& [component, lines] : markLines_) {
+                        const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(component).slot)));
+                        for (const auto& range : shaderDraws(component)) {
+                            const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                            const std::string custom = markSection(component, range, "CustomShader");
+                            out += SectionText(z3_, markSection(component, range))
+                                       .open(onPlan)
+                                       .key(IniKeywords::Run, custom)
+                                       .close()
+                                       .str();
+
+                            std::vector<Kvp> keys{{"ps", "null"}};
+                            for (const auto& line : *lines) {
+                                keys.push_back(line);
+                            }
+                            keys.emplace_back(IniKeywords::DrawIndexed, draw);
+                            out += SectionText(z3_, custom).keys(keys).str();
                         }
                     }
 
@@ -5566,6 +5678,10 @@ namespace AGRemapCore {
 
                             if (shapeKeyAdapter_ != nullptr) {
                                 edits.push_back(shapeKeyAdapter_.get());
+                            }
+
+                            if (markLines_.count(component) > 0 && markAdapter_ != nullptr) {
+                                edits.push_back(markAdapter_.get());            // before the reroute: it reads the drawindexed
                             }
 
                             if (rerouteShaders_.count(component) > 0 && rerouteShaderAdapter_ != nullptr) {
@@ -7978,6 +8094,9 @@ namespace AGRemapCore {
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
+                std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
+                std::unique_ptr<MarkDraws> markEdit_;
+                std::unique_ptr<RegPartEdit<>> markAdapter_;
                 std::map<int, const WWMIFixerConfig::Shader*> rerouteShaders_;   // a drawn component -> its plan entry's own shader (SourceComponent::shader)
                 std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
                 std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;

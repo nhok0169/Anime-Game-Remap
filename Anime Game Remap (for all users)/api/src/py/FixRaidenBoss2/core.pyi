@@ -25949,6 +25949,17 @@ class WWMIFixerConfig:
         def name(self, arg0: str) -> None:
             ...
         @property
+        def passes(self) -> list[list[tuple[str, str]]]:
+            """
+            List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
+            :attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
+            see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
+            **Default**: empty, one draw with :attr:`lines`
+            """
+        @passes.setter
+        def passes(self, arg0: collections.abc.Sequence[collections.abc.Sequence[tuple[str, str]]]) -> None:
+            ...
+        @property
         def ps(self) -> str:
             """
             :class:`str`: The HLSL source, entry point ``main``
@@ -26027,6 +26038,18 @@ class WWMIFixerConfig:
             """
         @bindings.setter
         def bindings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
+            ...
+        @property
+        def markLines(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on the passes the slot's
+            :attr:`WWMIFixerConfig.slotPasses` name, the same draw again with NO pixel shader under these
+            ``CustomShader`` lines -- to mark the pixels the component is the visible surface of in the stencil, eg.
+            ``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
+            render targets. **Default**: empty, no such draw
+            """
+        @markLines.setter
+        def markLines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
             ...
         @property
         def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:

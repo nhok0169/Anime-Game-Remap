@@ -192,8 +192,14 @@ namespace AGRemapCore {
         // and 6, and only the colour of 1 and 2 -- 2's alpha is the shading model, so the BODY's stays
         // under the shirt. It ALPHA-BLENDS its base colour (target 3) over the body's by the opacity it
         // writes in that target's alpha: that blend is the see-through (the body's colour under the shirt
-        // depends on what was there before by about a fifth, in her frame and with this). And it marks its
-        // pixels in the stencil: ref 14 written through mask 0x8a (the background's 128 becomes
+        // depends on what was there before by about a fifth, in her frame and with this) -- and ONLY over
+        // her body: her frame has it draw no pixel over the background, her other jacket pass draws the
+        // shirt opaque there, and her hair is not seen through it either. Her body marks itself in the
+        // stencil and Lynae's does not, so the mod's body marks bit 1 (a bit no draw of either character
+        // sets; 16, the first tried, blackened the body -- the lighting reads it) where it is the visible
+        // surface, and the shirt is drawn twice: blended where bit 1 is set, opaque where it is not.
+        // Blended everywhere, the sleeves and edges over the background were a ghostly see-through. And
+        // it marks its pixels in the stencil: ref 14 written through mask 0x8a (the background's 128 becomes
         // 10, her body's 14 stays 14). Lynae's own draws never set that 8 bit, and without it the
         // lighting shades the shirt as an opaque one. depth_stencil_state_merge keeps the rest of the
         // lower body's state -- its reversed-Z depth test above all: without it the default LESS test
@@ -203,15 +209,33 @@ namespace AGRemapCore {
         sheerJacket.lines = {
             {"ps-t6", "ref ps-t9"},
             {"mask[0]", "0"}, {"mask[1]", "0x7"}, {"mask[2]", "0x7"}, {"mask[6]", "0"},
-            {"blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {"alpha[3]", "ADD ONE ZERO"},
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
-            {"stencil_ref", "14"},
+            {"stencil_ref", "15"},                 // her 14, plus the body mark (bit 1) to test against
+            {"stencil_read_mask", "1"},
             {"stencil_write_mask", "0x8a"},
+        };
+        sheerJacket.passes = {
+            {{"blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {"alpha[3]", "ADD ONE ZERO"},
+             {"stencil_front", "equal replace keep keep"}, {"stencil_back", "equal replace keep keep"}},
+            {{"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
+        };
+        config.plan.at(6).shader = std::move(sheerJacket);
+
+        // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
+        const std::vector<std::pair<std::string, std::string>> bodyMark = {
+            {"depth_stencil_state_merge", "true"},
+            {"depth_func", "equal"},
+            {"depth_write_mask", "zero"},
+            {"stencil_enable", "true"},
+            {"stencil_ref", "1"},
+            {"stencil_write_mask", "1"},
+            {"stencil_read_mask", "0xff"},
             {"stencil_front", "always replace keep keep"},
             {"stencil_back", "always replace keep keep"},
         };
-        config.plan.at(6).shader = std::move(sheerJacket);
+        config.plan.at(3).markLines = bodyMark;
+        config.plan.at(4).markLines = bodyMark;
 
         // ---- every BODY mask Lynae's shaders read is repacked into her legend: see maskRepackFilter.
         // Not the shirt's: the skin's own shader reads that one, in the skin's legend ----

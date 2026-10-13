@@ -190,6 +190,12 @@ words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buf
         .def_readwrite("lines", &AGRC::WWMIFixerConfig::Shader::lines, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
 written, eg. ``("ps-t5", "ref ps-t6")``
+        )doc"))
+        .def_readwrite("passes", &AGRC::WWMIFixerConfig::Shader::passes, py::doc(R"doc(
+List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
+:attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
+see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
+**Default**: empty, one draw with :attr:`lines`
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::SourceComponent> sourceComponent(fixerConfig, "SourceComponent", R"doc(
@@ -237,6 +243,13 @@ shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as 
 Optional[:class:`WWMIFixerConfig.SourceComponent.RabbitFX`]: RabbitFX on this component, carried
 across with the SOURCE's routing. **Default**: ``None``, RabbitFX's lines are removed as
 :attr:`WWMIFixerConfig.removedRegs` says
+        )doc"))
+        .def_readwrite("markLines", &AGRC::WWMIFixerConfig::SourceComponent::markLines, py::doc(R"doc(
+List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on the passes the slot's
+:attr:`WWMIFixerConfig.slotPasses` name, the same draw again with NO pixel shader under these
+``CustomShader`` lines -- to mark the pixels the component is the visible surface of in the stencil, eg.
+``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
+render targets. **Default**: empty, no such draw
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::DrawReroute> drawReroute(fixerConfig, "DrawReroute", R"doc(

@@ -1427,6 +1427,18 @@ the mod on its own card. What it found:
   unchanged. Her other targets are not blended (RT1's correlation with what is under it is geometry -- it is the
   same unblended). The probes on the way that did NOT help, kept for the next one: her body shader on the upper
   body, her `ps-t10` (`308e6e5e`), stencil bit 2 under the shirt, RabbitFX parked.
+  **...AND ONLY OVER HER BODY (2026-10-13).** Blended everywhere, the shirt read as too see-through: over the body it
+  let through exactly what hers does (the bikini / bare-skin contrast surviving the shirt: 0.249 against 0.244 in the
+  base colour, 0.254 against 0.267 lit), but her sheer pass draws NO pixel over the background -- her opaque jacket
+  pass draws the shirt there -- while ours made the sleeves and edges a ghostly see-through and showed hair through
+  it. Her body marks itself in the stencil; Lynae's does not. Two template fields do it, both default empty:
+  `SourceComponent::markLines` redraws a component's draws with `ps = null` under the given lines after each of them
+  (Lynae's upper and lower body: `depth_func = equal`, no depth write, stencil bit 1 replaced -- the visible body
+  only), and `Shader::passes` draws a shader component once per entry (the shirt: blended with stencil `equal` on
+  bit 1, opaque with `not_equal`). **Pick the bit by testing it**: bit 16 blackened the whole body (the lighting
+  reads it); bit 1 is set by no draw of either character. Checked in a dump: 28685 shirt pixels over the marked
+  body blended, 5856 over background and unmarked surfaces opaque. Every other pair's output is byte-identical
+  across the 34-mod corpus.
 
 <br>
 

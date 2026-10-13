@@ -282,12 +282,19 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     sheer.ps = sheerData["ps"]
     sheer.constantBuffers = sheerData["constantBuffers"]
     sheer.lines = [("ps-t6", "ref ps-t9"), ("mask[0]", "0"), ("mask[1]", "0x7"), ("mask[2]", "0x7"), ("mask[6]", "0"),
-                   ("blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"), ("alpha[3]", "ADD ONE ZERO"),
-                   ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
-                   ("stencil_write_mask", "0x8a"), ("stencil_front", "always replace keep keep"),
-                   ("stencil_back", "always replace keep keep")]
+                   ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "15"),
+                   ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a")]
+    # blended only over the body, which marks stencil bit 1; opaque everywhere else (core's LynaePeppermintFixer)
+    sheer.passes = [[("blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"), ("alpha[3]", "ADD ONE ZERO"),
+                     ("stencil_front", "equal replace keep keep"), ("stencil_back", "equal replace keep keep")],
+                    [("stencil_front", "not_equal replace keep keep"), ("stencil_back", "not_equal replace keep keep")]]
+    bodyMark = [("depth_stencil_state_merge", "true"), ("depth_func", "equal"), ("depth_write_mask", "zero"),
+                ("stencil_enable", "true"), ("stencil_ref", "1"), ("stencil_write_mask", "1"), ("stencil_read_mask", "0xff"),
+                ("stencil_front", "always replace keep keep"), ("stencil_back", "always replace keep keep")]
     plan = config.plan
     plan[6].shader = sheer
+    plan[3].markLines = bodyMark
+    plan[4].markLines = bodyMark
     config.plan = plan
 
     # ---- her material masks mark the region under a SHEER garment with R = 0 (the bikini under her

@@ -21,6 +21,7 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
@@ -152,7 +153,11 @@ namespace AGRemapCore {
             // face is the same mesh, so its UVs are hers
             {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}}}},
-            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}}},
+            // her lower body through her own lower-body pass -- see lowerBody below. It reads her noise at
+            // ps-t7 and her holographic foil at ps-t8; ps-t4..t6 and the ramp at ps-t9 are the same game
+            // textures on Lynae's lower body
+            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"},
+                     {"ps-t7", "jacketNoise"}, {"ps-t8", "jacketFoil"}}}},
             // the coat onto Lynae's jacket slot, through the skin's own see-through coat pass -- see
             // sheerCoat below. The skin's register order, her noise and the coat's foil are what it reads
             {5, {5, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"},
@@ -266,6 +271,23 @@ namespace AGRemapCore {
         config.plan.at(6).shader = std::move(sheerJacket);
         config.plan.at(5).shader = std::move(sheerCoat);
 
+        // ---- and her LOWER BODY through her own lower-body pass (0a52e215): the holographic parts of her
+        // outfit are a foil only that shader draws, and Lynae's lower-body shader drew them flat grey (a
+        // mod's jacket panel modelled on the lower body). Her body's stencil -- ref 14, which turns the
+        // background's 128 into 14 -- and two-sided, as her own draw is ----
+        WWMIFixerConfig::Shader lowerBody = lynaePeppermintLowerShader();
+        lowerBody.lines = {
+            {"depth_stencil_state_merge", "true"},
+            {"stencil_enable", "true"},
+            {"stencil_ref", "14"},
+            {"stencil_write_mask", "0x8e"},
+            {"stencil_front", "always replace keep keep"},
+            {"stencil_back", "always replace keep keep"},
+            {"rasterizer_state_merge", "true"},
+            {"cull", "none"},
+        };
+        config.plan.at(4).shader = std::move(lowerBody);
+
         // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
         const std::vector<std::pair<std::string, std::string>> bodyMark = {
             {"depth_stencil_state_merge", "true"},
@@ -291,13 +313,12 @@ namespace AGRemapCore {
         // Not the shirt's: the skin's own shader reads that one, in the skin's legend ----
         config.texEdits = {
             {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
-            {"lowerMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
 
             // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
             // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
-            // shadows, under a warm face: see lynaeSkinCodeSwap ----
+            // shadows, under a warm face: see lynaeSkinCodeSwap. Not the lower body's: her own shader reads
+            // that one, in her codes ----
             {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
-            {"lowerDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
         };
 
         // Masks mark regions: a flat one from a mod is replaced by HER game texture

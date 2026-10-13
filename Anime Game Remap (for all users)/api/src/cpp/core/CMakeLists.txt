@@ -130,6 +130,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Lynae/LynaeTextures.cpp
     src/data/IniFixData/Lynae/LynaeThumbprints.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp

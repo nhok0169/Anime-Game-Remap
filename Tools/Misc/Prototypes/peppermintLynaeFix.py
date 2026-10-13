@@ -234,8 +234,11 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         2: FRB.WWMIFixerConfig.SourceComponent(2, [B("ps-t1", "faceDiffuse")]),
         3: FRB.WWMIFixerConfig.SourceComponent(3, [B("ps-t0", "upperNormal"), B("ps-t1", "upperMask"),
                                                    B("ps-t2", "upperDetail"), B("ps-t3", "upperDiffuse")]),
+        # her lower body through her own lower-body pass, which reads her noise at ps-t7 and her holographic foil
+        # at ps-t8 (core's LynaePeppermintFixer); ps-t4..t6 and the ramp at ps-t9 are the same game textures on Lynae
         4: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
-                                                   B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse")]),
+                                                   B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse"),
+                                                   B("ps-t7", "jacketNoise"), B("ps-t8", "jacketFoil")]),
         # the coat onto Lynae's jacket slot, with the skin's own see-through coat pass in her register order
         # (core's LynaePeppermintFixer)
         5: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
@@ -324,6 +327,20 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     plan = config.plan
     plan[6].shader = sheer
     plan[5].shader = coat
+    # ---- and her LOWER BODY through her own lower-body pass (0a52e215): its holographic parts are a foil only that
+    # shader draws (Lynae's lower-body shader drew them flat grey). Her body's stencil (14, which clears the
+    # background's 128) and two-sided, as her own draw (data/lynaePeppermintLowerShader.json) ----
+    with open(os.path.join(Here, "data", "lynaePeppermintLowerShader.json"), encoding = "utf-8") as f:
+        lowerData = json.load(f)
+    lower = FRB.WWMIFixerConfig.Shader()
+    lower.name = lowerData["name"]
+    lower.ps = lowerData["ps"]
+    lower.constantBuffers = lowerData["constantBuffers"]
+    lower.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
+                   ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
+                   ("stencil_back", "always replace keep keep"),
+                   ("rasterizer_state_merge", "true"), ("cull", "none")]
+    plan[4].shader = lower
     plan[3].markLines = bodyMark
     plan[4].markLines = bodyMark
     config.plan = plan
@@ -351,7 +368,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
 
     E = FRB.WWMIFixerConfig.TexEdit
     # (not the shirt's or the coat's: the skin's own shaders read those, in the skin's legend)
-    config.texEdits = [E(role, "Repack", maskFilter(0)) for role in ("upperMask", "lowerMask")]
+    config.texEdits = [E(role, "Repack", maskFilter(0)) for role in ("upperMask",)]
 
     # ---- the body's material-code maps (ps-t2) mark skin with material 0 on Lynae and 4 on the skin
     # (low four bits; the high four are flags), so a map carried across unchanged shaded the body's
@@ -371,7 +388,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
             px[2::4] = red
             tex.setPixels(bytes(px), tex.width, tex.height)
         return run
-    config.texEdits = list(config.texEdits) + [E(role, "SkinCode", skinCodeSwap) for role in ("upperDetail", "lowerDetail")]
+    # (not the lower body's: her own shader reads that one, in her codes)
+    config.texEdits = list(config.texEdits) + [E(role, "SkinCode", skinCodeSwap) for role in ("upperDetail",)]
 
     # Masks mark regions: a flat one from a mod is replaced by HER game texture
     config.flatFallsBackToSource = {"upperMask", "lowerMask", "jacketMask", "pouchMask", "hairMask", "bangsMask"}

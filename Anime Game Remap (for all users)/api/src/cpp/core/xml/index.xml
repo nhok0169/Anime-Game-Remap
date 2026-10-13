@@ -7036,6 +7036,7 @@
     <member refid="namespace_a_g_remap_core_1ab42fcd953bb895f290b0eb36c44d2fec" kind="function"><name>lynaeTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1a0f9081f911e48caa81c5d665bd579426" kind="function"><name>lynaeTextureThumbprints</name></member>
     <member refid="namespace_a_g_remap_core_1a11740e850d7c746f40cc88dcabd3541a" kind="function"><name>lynaePeppermintSheerCoatShader</name></member>
+    <member refid="namespace_a_g_remap_core_1adad4e067b59c0540068e21355725bef2" kind="function"><name>lynaePeppermintLowerShader</name></member>
     <member refid="namespace_a_g_remap_core_1a59f8e9757040a3ad53d7572095849346" kind="function"><name>lynaePeppermintSheerShader</name></member>
     <member refid="namespace_a_g_remap_core_1a30e0f78222ce636ff3a1de6289c1d9f8" kind="function"><name>lynaePeppermintVgMaps</name></member>
     <member refid="namespace_a_g_remap_core_1ab3c3140fdc2a11c9f157f1db9d06cfe8" kind="function"><name>peppermintToLynaeShapeKeys</name></member>
@@ -7497,6 +7498,8 @@
   <compound refid="_lynae_peppermint_fixer_8h" kind="file"><name>LynaePeppermintFixer.h</name>
   </compound>
   <compound refid="_lynae_peppermint_sheer_coat_shader_8h" kind="file"><name>LynaePeppermintSheerCoatShader.h</name>
+  </compound>
+  <compound refid="_lynae_peppermint_lower_shader_8h" kind="file"><name>LynaePeppermintLowerShader.h</name>
   </compound>
   <compound refid="_lynae_peppermint_sheer_shader_8h" kind="file"><name>LynaePeppermintSheerShader.h</name>
   </compound>
@@ -8283,6 +8286,8 @@
   <compound refid="_lynae_peppermint_fixer_8cpp" kind="file"><name>LynaePeppermintFixer.cpp</name>
   </compound>
   <compound refid="_lynae_peppermint_sheer_coat_shader_8cpp" kind="file"><name>LynaePeppermintSheerCoatShader.cpp</name>
+  </compound>
+  <compound refid="_lynae_peppermint_lower_shader_8cpp" kind="file"><name>LynaePeppermintLowerShader.cpp</name>
   </compound>
   <compound refid="_lynae_peppermint_sheer_shader_8cpp" kind="file"><name>LynaePeppermintSheerShader.cpp</name>
   </compound>

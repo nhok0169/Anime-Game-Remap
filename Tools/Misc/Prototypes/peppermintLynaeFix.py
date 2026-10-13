@@ -286,7 +286,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     sheer.ps = sheerData["ps"]
     sheer.constantBuffers = sheerData["constantBuffers"]
     sheer.lines = [("ps-t6", "ref ps-t9"), ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"),
-                   ("stencil_ref", "15"), ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a")]
+                   ("stencil_ref", "15"), ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a"),
+                   # two-sided, as her own shirt and coat draws are (core's LynaePeppermintFixer)
+                   ("rasterizer_state_merge", "true"), ("cull", "none")]
     # blended only over the body, which marks stencil bit 1; opaque everywhere else, writing every render target
     # there (core's LynaePeppermintFixer)
     sheer.passes = [[("mask[0]", "0"), ("mask[1]", "0x7"), ("mask[2]", "0x7"), ("mask[6]", "0"),

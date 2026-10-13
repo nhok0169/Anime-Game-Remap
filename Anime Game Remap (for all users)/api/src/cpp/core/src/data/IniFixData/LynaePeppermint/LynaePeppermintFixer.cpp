@@ -216,6 +216,13 @@ namespace AGRemapCore {
             {"stencil_ref", "15"},                 // her 14, plus the body mark (bit 1) to test against
             {"stencil_read_mask", "1"},
             {"stencil_write_mask", "0x8a"},
+            // TWO-SIDED: her shirt and coat draws use the rasterizer state her hair and effects do, which
+            // Lynae's hair uses too, where Lynae's jacket and body slots cull back faces -- so the coat's
+            // inside was never drawn, and its far wall showed through dark. The merge keeps the rest of
+            // the slot's state: a `cull` alone builds one from defaults, and the defaults' winding turned
+            // every face around (the whole coat came out deep blue)
+            {"rasterizer_state_merge", "true"},
+            {"cull", "none"},
         };
         // The render-target masks are the SEE-THROUGH pass's alone. Where the shirt is solid it writes every
         // target, as her solid jacket pass does there: with the sheer masks, render targets 0 and 6 kept the

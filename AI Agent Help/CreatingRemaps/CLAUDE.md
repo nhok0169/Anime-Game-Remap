@@ -1516,6 +1516,21 @@ the mod on its own card. What it found:
   component's window with** (`grep -a "^0000NN " log.txt` around the window's `DrawIndexed`): a second pass on the
   same window is a material the target's shader may not have.
 
+  **AND THE COAT'S INSIDE WAS DARK: HER SHIRT AND COAT DRAW TWO-SIDED, LYNAE'S SLOTS CULL (2026-10-13).** The
+  maintainer: "the inner texture of the jacket is wrong, there is some black when the original does not". Side-on
+  on the outfit cards, the inside of the hanging coat was a dark navy band on Lynae and light cyan on the skin -- in
+  the old build too, which an earlier look had written off as the coat's own back panel. Tabulating each draw's
+  `RSSetState` pointer in the two vanilla frames says why: three rasterizer states on each skin, and the skin's shirt
+  and coat (draws 23-26) share hers with her HAIR and effects, where Lynae's jacket and upper / lower body share hers
+  with her FACE and body (Lynae's hair takes the other one). So the skin's garments draw both sides and Lynae's slots
+  cull back faces: the coat's inside was never drawn and its far wall showed through. The shaders cannot say this --
+  Lynae's jacket shader reads `SV_IsFrontFace` too. Both sheer shaders now carry `rasterizer_state_merge = true` and
+  `cull = none`; **without the merge, `cull` alone builds a rasterizer state from defaults** (as
+  `depth_stencil_state_merge` does for depth), and the default winding turned every face around -- the whole coat
+  came out deep blue. Settled by one hand edit of the fixed `.ini` before any code. **When a part looks wrong from
+  one side only, compare the two draws' rasterizer states before the textures** (the log's `RSSetState` pointers,
+  grouped by which draws share them).
+
 <br>
 
 ## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)

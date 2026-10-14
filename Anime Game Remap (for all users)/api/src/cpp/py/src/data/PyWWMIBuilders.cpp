@@ -236,10 +236,6 @@ plan entry's own (the source's register layout). **Default**: empty
 :class:`bool`: A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's game
 shader there (RabbitFX patches the game's shaders, never this one). **Default**: ``False``
         )doc"))
-        .def_readwrite("once", &AGRC::WWMIFixerConfig::Shader::once, py::doc(R"doc(
-:class:`bool`: Draw only on the first of the slot's draws in a pass (told apart by :attr:`onlyWith`, or
-``o3``); the others draw nothing for the component. **Default**: ``False``
-        )doc"))
         .def_readwrite("after", &AGRC::WWMIFixerConfig::Shader::after, py::doc(R"doc(
 Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
 in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first

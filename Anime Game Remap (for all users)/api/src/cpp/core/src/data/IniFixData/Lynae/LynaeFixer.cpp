@@ -163,8 +163,9 @@ namespace AGRemapCore {
         // draw's stencil and culling and nothing blended -- the reverse direction's design. Where the
         // skin's slot holds one of her game textures at another register it is bound by `ref`; her lower
         // body's three the skin's upper-body slot lacks are captured off the skin's own lower-body draw,
-        // which comes first in every scene (stashRegs). A slot the skin draws twice draws hers once
-        // (Shader::once). A mod that hands a part's maps to RabbitFX keeps the skin's shader there, which
+        // which comes first in every scene (stashRegs). On a slot the skin draws twice (a solid pass and a
+        // see-through one) hers is drawn on both, the state spelled out so the second repeats the first. A
+        // mod that hands a part's maps to RabbitFX keeps the skin's shader there, which
         // RabbitFX patches (Lynae11) -- with the plan's bindings, which stay the skin's layout ----
         const auto ownState = [](const std::string& stencilRef, const std::string& cull,
                                  std::vector<std::pair<std::string, std::string>> lines) {
@@ -186,7 +187,6 @@ namespace AGRemapCore {
                                      std::vector<std::pair<std::string, std::string>> lines) {
             shader.lines = ownState(stencilRef, cull, std::move(lines));
             shader.onlyWith = "o3";
-            shader.once = true;
             shader.yieldToRabbitFX = true;
             return shader;
         };

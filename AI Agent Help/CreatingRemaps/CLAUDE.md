@@ -1626,6 +1626,33 @@ the mod on its own card. What it found:
   against card the panel has her lilac sheen, and the legs, hips and shorts match her own on the identity mod;
   LynaePeppermint2-4 and the overworld unchanged otherwise.
 
+  **THE FORWARD DIRECTION DRAWS WITH LYNAE'S OWN SHADERS TOO (2026-10-14), AND IT FOUND THAT A CUSTOMSHADER'S
+  BINDINGS OUTLIVE IT.** Drawn with the skin's shaders and her textures edited to approximate her, Lynae's parts came
+  out as the skin's materials (a pink-violet lining where hers is a teal film, a lime tie, a green sheen on her hair,
+  a black skirt gone metallic), so `Lynae -> LynaePeppermint` now reroutes her jacket, hair, bangs, upper and lower body
+  through her own pixel shaders (`Lynae{Upper,Lower,Hair,Bangs}Shader`, `LynaeFilmShader` for the jacket), each with
+  her draw's stencil and culling and nothing blended. Three things came with it, all in `WWMIFixer`:
+  `Shader::registers` (a binding only the shader reads, so a mod that yields to RabbitFX keeps the skin's layout),
+  `WWMIFixerConfig::stashRegs` (her lower body reads three game textures the skin's upper-body slot does not hold; they
+  are captured off the skin's own lower-body draw, which comes first) and `Shader::yieldToRabbitFX`.
+  **`Shader::once` was built and REMOVED the same day**: it drew a slot's second pass as nothing, latched on
+  `(frame, o3)`, and at the studio's farthest zoom the game renders the character TWICE into one `o3` -- the visible
+  render then showed the skin's own textures (brown hair). A shader with its state spelled out repeats the same pixels
+  on a second draw, so nothing needs it.
+  **And Lynae8's bare body rendered BLACK on the skin while every texture, constant and vertex input checked out**,
+  because 3DMigoto restores a CustomShader's shaders and render state but NOT the resources its section assigns.
+  Lynae8's torso skin is component 4 (her lower body, yielding to RabbitFX, so drawn by the skin's own shader) on the
+  SAME skin slot as component 3 (her upper body, drawn by her shader); component 3's custom draws left
+  `ps-cb4 = <her material constants>` and her `ps-t4` / `ps-t5` bound, and component 4's skin shader shaded with them.
+  Every run of a rerouted or marking CustomShader is now wrapped: each `ps-t` / `ps-cb` / `vs-t` / `vs-cb` it assigns
+  is saved before (`ResourceShaderBackup<Reg>`) and put back after (`WWMIFixer::restoringRuns`). **The bisect that
+  found it, worth reusing**: switch the suspect custom shader off (draw renders right -> it is involved), feed it the
+  game's own textures (still wrong -> not the textures), then make it write a LOUD constant (`o3 = 1` there): the black
+  parts stayed black, so they were not its pixels at all, and the question became what it leaves behind. Two things
+  that cost time first: an `.hlsl` patched for a test needs a positive control (paint everything red) before a negative
+  result means anything, and `o2.w` -- the shading byte -- told the two shaders' pixels apart in a frame dump
+  (`gbufSplit`-style: group a draw's pixels by their `o2.w` / `o6` values and paint each group).
+
 <br>
 
 ## A DOWNLOADED INDEX BUFFER OVER THE MOD'S VERTICES: "jagged polygons", "shards", "triangles everywhere" (2026-10-10/12)

@@ -331,7 +331,6 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                     ("stencil_back", "always replace keep keep"),
                     ("rasterizer_state_merge", "true"), ("cull", "back")]
     jacket.onlyWith = "o3"
-    jacket.once = True
     jacket.yieldToRabbitFX = True
     # her register order (detail at t2, diffuse at t3) and her foil, only while her shader draws it
     jacket.registers = [B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse"), B("ps-t4", "filmFoil")]
@@ -355,7 +354,6 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                            ("stencil_back", "always replace keep keep"),
                            ("rasterizer_state_merge", "true"), ("cull", cull)]
         s.onlyWith = "o3"
-        s.once = True
         s.yieldToRabbitFX = True      # a RabbitFX mod keeps the skin's shader, which RabbitFX patches
         return s
 

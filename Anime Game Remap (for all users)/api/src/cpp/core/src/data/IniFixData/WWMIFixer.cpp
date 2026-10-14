@@ -5834,11 +5834,59 @@ namespace AGRemapCore {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + IniNamingTools::getRegTag(reg) + ".buf");
                 }
 
+                // Whether a CustomShader line binds a resource register (`ps-t4`, `ps-cb4`, `vs-t0`, ...)
+                static bool bindsRegister(const std::string& key) {
+                    const std::string k = StringTools::toLower(StringTools::strip(key));
+                    if (k.size() < 4 || k[2] != '-' || (k.compare(0, 2, "ps") != 0 && k.compare(0, 2, "vs") != 0)) {
+                        return false;
+                    }
+                    std::size_t digits = 3;
+                    if (k.compare(3, 2, "cb") == 0) {
+                        digits = 5;
+                    } else if (k[3] == 't') {
+                        digits = 4;
+                    } else {
+                        return false;
+                    }
+                    return digits < k.size() && k.find_first_not_of("0123456789", digits) == std::string::npos;
+                }
+
+                std::string shaderBackup(const std::string& reg) const {
+                    return fixName(IniKeywords::Resource + std::string("ShaderBackup") + IniNamingTools::getRegTag(reg));
+                }
+
+                // A CustomShader's register bindings outlive it: 3DMigoto restores its shaders and render state,
+                // not the resources its section assigns, so a later draw of the same game draw -- another
+                // component on the slot, drawn by the game's shader -- would read them (Lynae8's body on the skin,
+                // shaded with Lynae's material constants, rendered black). Each register the section assigns is
+                // saved before the run and put back after it.
+                std::vector<std::pair<std::string, std::string>> restoringRuns(const std::vector<std::pair<std::string, std::string>>& runs,
+                                                                   const std::vector<std::pair<std::string, std::string>>& lines) {
+                    std::set<std::string> regs;
+                    for (const Kvp& line : lines) {
+                        if (bindsRegister(line.first)) {
+                            regs.insert(StringTools::toLower(StringTools::strip(line.first)));
+                        }
+                    }
+
+                    std::vector<Kvp> result;
+                    for (const std::string& reg : regs) {
+                        result.emplace_back(shaderBackup(reg), IniKeywords::Ref + " " + reg);
+                        shaderBackupRegs_.insert(reg);
+                    }
+                    result.insert(result.end(), runs.begin(), runs.end());
+                    for (const std::string& reg : regs) {
+                        result.emplace_back(reg, IniKeywords::Ref + " " + shaderBackup(reg));
+                    }
+                    return result;
+                }
+
                 // The sections: one CustomShader per rerouted draw, and the shader's constant buffers.
                 // The shader's source file is named by its `ps =`, which an undo removes with the block.
                 std::string rerouteShaderSections() {
                     std::string out;
                     std::set<std::string> declared;
+                    shaderBackupRegs_.clear();
                     for (const auto& [as, shader] : rerouteShaders_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
                         for (const auto& range : shaderDraws(as)) {
@@ -5850,30 +5898,24 @@ namespace AGRemapCore {
                             };
 
                             std::vector<Kvp> runs;
+                            std::vector<Kvp> assigned;
                             for (std::size_t p = 0; p < passCount; ++p) {
                                 runs.emplace_back(IniKeywords::Run, passName(p));
+                                if (!shader->passes.empty()) {
+                                    assigned.insert(assigned.end(), shader->passes[p].begin(), shader->passes[p].end());
+                                }
                             }
+                            for (const auto& entry : shader->constantBuffers) {
+                                assigned.emplace_back(entry.first, "");
+                            }
+                            for (const auto& line : shader->lines) {
+                                assigned.push_back(line);
+                            }
+                            runs = restoringRuns(runs, assigned);
 
                             SectionText list(z3_, rerouteShaderSection(as, range));
                             const std::vector<std::pair<int, int>> waits = awaited(*shader);
-                            if (waits.empty() && shader->once) {
-                                // Shader::once -- the first of the slot's draws in a pass draws the shader,
-                                // the rest nothing
-                                const std::string target = shader->onlyWith.empty() ? std::string("o3") : shader->onlyWith;
-                                const std::string frame = "$" + rerouteShaderSection(as, range, "", "OnceFrame");
-                                const std::string seen = rerouteShaderSection(as, range, IniKeywords::Resource, "OnceSeen");
-                                out += list.open(frame + " != time").key(frame, "time").key(seen, "null").close()
-                                           .open(target + " !== null")
-                                               .open(onPlan)
-                                                   .open(seen + " !== " + target).key(seen, IniKeywords::Ref + " " + target).keys(runs).close()
-                                               .orElse().key(IniKeywords::DrawIndexed, draw)
-                                               .close()
-                                           .orElse().key(IniKeywords::DrawIndexed, draw)
-                                           .close()
-                                           .str();
-                                afterConstants_.emplace_back("global " + frame, "-1");
-                                out += SectionText(z3_, seen).str();
-                            } else if (waits.empty()) {
+                            if (waits.empty()) {
                                 if (shader->onlyWith.empty()) {
                                     out += list.open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close().str();
                                 } else {
@@ -6014,7 +6056,7 @@ namespace AGRemapCore {
                             const std::string custom = markSection(component, range, "CustomShader");
                             out += SectionText(z3_, markSection(component, range))
                                        .open(onPlan)
-                                       .key(IniKeywords::Run, custom)
+                                       .keys(restoringRuns({{IniKeywords::Run, custom}}, *lines))
                                        .close()
                                        .str();
 
@@ -6027,6 +6069,9 @@ namespace AGRemapCore {
                         }
                     }
 
+                    for (const std::string& reg : shaderBackupRegs_) {
+                        out += SectionText(z3_, shaderBackup(reg)).str();
+                    }
                     return out;
                 }
 
@@ -8631,6 +8676,7 @@ namespace AGRemapCore {
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
                 std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
+                std::set<std::string> shaderBackupRegs_;   // the registers a CustomShader run saves and restores (restoringRuns)
                 std::unique_ptr<MarkDraws> markEdit_;
                 std::unique_ptr<RegPartEdit<>> markAdapter_;
                 std::map<int, std::string> afterDispatch_;     // a component drawn first -> the list its draws run (Shader::after)

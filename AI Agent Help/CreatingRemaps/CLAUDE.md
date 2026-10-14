@@ -1631,7 +1631,7 @@ the mod on its own card. What it found:
   out as the skin's materials (a pink-violet lining where hers is a teal film, a lime tie, a green sheen on her hair,
   a black skirt gone metallic), so `Lynae -> LynaePeppermint` now reroutes her jacket, hair, bangs, upper and lower body
   through her own pixel shaders (`Lynae{Upper,Lower,Hair,Bangs}Shader`, `LynaeFilmShader` for the jacket), each with
-  her draw's stencil and culling and nothing blended. Three things came with it, all in `WWMIFixer`:
+  her draw's culling and nothing blended -- and the STENCIL left as the skin's slot sets it (see the last paragraph). Three things came with it, all in `WWMIFixer`:
   `Shader::registers` (a binding only the shader reads, so a mod that yields to RabbitFX keeps the skin's layout),
   `WWMIFixerConfig::stashRegs` (her lower body reads three game textures the skin's upper-body slot does not hold; they
   are captured off the skin's own lower-body draw, which comes first) and `Shader::yieldToRabbitFX`.
@@ -1652,6 +1652,21 @@ the mod on its own card. What it found:
   that cost time first: an `.hlsl` patched for a test needs a positive control (paint everything red) before a negative
   result means anything, and `o2.w` -- the shading byte -- told the two shaders' pixels apart in a frame dump
   (`gbufSplit`-style: group a draw's pixels by their `o2.w` / `o6` values and paint each group).
+  **AND A CUSTOM SHADER MUST NOT WRITE THE STENCIL OVER BITS ANOTHER PASS ALREADY SET (2026-10-14, epoch 3).** Her own
+  shaders were first given "her draw's state": stencil ref 2 through write mask `0xff`, `always replace`. That
+  overwrote the bits the SKIN's depth prepass had already written for those pixels, and the deferred lighting reads
+  them to decide what is sheer: Lynae9's see-through sweater came out opaque salmon, Lynae14's sheer skirt an opaque
+  gown, and Lynae5's headset over the ear vanished. Dropping the stencil lines (the slot's own state stays) fixed all
+  three; blend and culling stay. **Two wrong theories came first, and each had config written and built for it
+  before the test that refuted it**: "her film is finished by translucent passes the skin's deferred draw cannot host" (a reroute of
+  film-coded draws to the skin's shader, `share` thresholds and all -- it helped, because the skin's shader writes
+  no stencil), and "her upper body's second pass is a see-through pass" (its shader is the first with a few lines
+  changed). Both were reverted. The test that settled it was one hand edit: drop the stencil lines from ONE
+  route's custom shader and reload. **When a custom-shader route renders a material wrong and every input matches
+  her own draw, try the render state the route ADDS before theorising about passes.** Still open after it: her
+  coat's back panel on Lynae5 (dark olive where hers is pale iridescent) and, milder, on the identity mod -- one
+  draw, her shader, her foil, her ramp, the mod's textures as the Restored copy binds them, and neither the stencil,
+  the blend / cull lines nor the slot's second pass changes it.
 
 <br>
 

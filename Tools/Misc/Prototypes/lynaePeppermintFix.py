@@ -319,17 +319,13 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     plan[105].shader = shader
     # ---- her JACKET itself through her own jacket shader on the skin's shirt slot: her register order (normal,
     # mask, detail, diffuse, her foil at ps-t4, her ramp at ps-t5 from the slot's t6) and her own draw's state --
-    # stencil 2, one-sided, nothing blended, every target written. The slot's two passes both run it; with the
-    # state spelled out the second draw repeats the first ----
+    # one-sided, nothing blended, every target written, the stencil the skin's slot sets. The slot's two passes
+    # both run it; with the state spelled out the second draw repeats the first ----
     jacket = FRB.WWMIFixerConfig.Shader()
     jacket.name = "LynaeJacket"
     jacket.ps = filmData["ps"]
     jacket.constantBuffers = filmData["constantBuffers"]
-    jacket.lines = [("ps-t5", "ref ps-t6"), ("blend", "disable"),
-                    ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "2"),
-                    ("stencil_write_mask", "0xff"), ("stencil_front", "always replace keep keep"),
-                    ("stencil_back", "always replace keep keep"),
-                    ("rasterizer_state_merge", "true"), ("cull", "back")]
+    jacket.lines = [("ps-t5", "ref ps-t6"), ("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", "back")]
     jacket.onlyWith = "o3"
     jacket.yieldToRabbitFX = True
     # her register order (detail at t2, diffuse at t3) and her foil, only while her shader draws it
@@ -337,31 +333,29 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     plan[5].shader = jacket
 
     # ---- and her hair, bangs, upper and lower body the same way: each with her own shader and constants (her
-    # 3.7 dump, data/lynae*Shader.json), her register order, and her draw's stencil and culling. Where the skin's
+    # 3.7 dump, data/lynae*Shader.json), her register order, and her draw's culling. Where the skin's
     # slot holds one of her game textures at another register it is bound by `ref`; her lower body's three game
     # textures the skin's upper-body slot does not hold are captured off the skin's own lower-body draw
     # (stashRegs), which comes first in every scene ----
-    def ownShader(name, file, ref, cull, extra):
+    # The STENCIL is left as the skin's slot sets it: its depth prepass has already written bits there that the
+    # deferred lighting reads to draw a part sheer, and writing hers over them drew Lynae14's skirt opaque
+    def ownShader(name, file, cull, extra):
         with open(os.path.join(Here, "data", file), encoding="utf-8") as f:
             data = json.load(f)
         s = FRB.WWMIFixerConfig.Shader()
         s.name = name
         s.ps = data["ps"]
         s.constantBuffers = data["constantBuffers"]
-        s.lines = extra + [("blend", "disable"),
-                           ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", ref),
-                           ("stencil_write_mask", "0xff"), ("stencil_front", "always replace keep keep"),
-                           ("stencil_back", "always replace keep keep"),
-                           ("rasterizer_state_merge", "true"), ("cull", cull)]
+        s.lines = extra + [("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", cull)]
         s.onlyWith = "o3"
         s.yieldToRabbitFX = True      # a RabbitFX mod keeps the skin's shader, which RabbitFX patches
         return s
 
-    plan[0].shader = ownShader("LynaeBangs", "lynaeBangsShader.json", "6", "none", [("ps-t6", "ref ps-t7")])
-    plan[1].shader = ownShader("LynaeHair", "lynaeHairShader.json", "2", "none", [("ps-t6", "ref ps-t7")])
-    plan[3].shader = ownShader("LynaeUpper", "lynaeUpperShader.json", "2", "back",
+    plan[0].shader = ownShader("LynaeBangs", "lynaeBangsShader.json", "none", [("ps-t6", "ref ps-t7")])
+    plan[1].shader = ownShader("LynaeHair", "lynaeHairShader.json", "none", [("ps-t6", "ref ps-t7")])
+    plan[3].shader = ownShader("LynaeUpper", "lynaeUpperShader.json", "back",
                                [("ps-t4", "ref ps-t8"), ("ps-t5", "ref ps-t6")])
-    lowerOwn = ownShader("LynaeLower", "lynaeLowerShader.json", "2", "back",
+    lowerOwn = ownShader("LynaeLower", "lynaeLowerShader.json", "back",
                          [("ps-t4", "stash 4 ps-t4"), ("ps-t5", "stash 4 ps-t5"), ("ps-t6", "stash 4 ps-t6")])
     lowerOwn.registers = [B("ps-t7", "filmFoil"), B("ps-t8", "lowerSheer")]
     plan[4].shader = lowerOwn

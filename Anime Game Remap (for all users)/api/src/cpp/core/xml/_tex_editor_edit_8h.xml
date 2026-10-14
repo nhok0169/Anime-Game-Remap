@@ -12,6 +12,21 @@
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <incdepgraph>
+      <node id="17">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="61">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="98">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="65">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="74">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="80">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -602,6 +617,18 @@
         <childnode refid="31" relation="include">
         </childnode>
       </node>
+      <node id="59">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
       <node id="92">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -614,6 +641,32 @@
         <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
         </childnode>
       </node>
       <node id="29">
@@ -853,59 +906,6 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-      </node>
-      <node id="17">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="61">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="98">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="65">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="59">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="60" relation="include">
-        </childnode>
-        <childnode refid="61" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>AGRemapCore/tools/Heading.h</label>
-        <link refid="_heading_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="58">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="59" relation="include">
-        </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-      </node>
-      <node id="74">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="94">
         <label>Generator.tpp</label>

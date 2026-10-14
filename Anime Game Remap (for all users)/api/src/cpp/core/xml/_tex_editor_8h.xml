@@ -335,6 +335,10 @@
         <childnode refid="85" relation="include">
         </childnode>
       </node>
+      <node id="82">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
       <node id="3">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
@@ -398,6 +402,10 @@
       <node id="58">
         <label>src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</label>
         <link refid="_citlali_whisperof_stars_fixer_8cpp"/>
+      </node>
+      <node id="86">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
       </node>
       <node id="11">
         <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
@@ -579,6 +587,10 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
+      <node id="78">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="42">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -622,18 +634,6 @@
       <node id="85">
         <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
         <link refid="_material_band_remap_filter_8cpp"/>
-      </node>
-      <node id="82">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="86">
-        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
-        <link refid="_dark_diffuse_8cpp"/>
-      </node>
-      <node id="78">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>

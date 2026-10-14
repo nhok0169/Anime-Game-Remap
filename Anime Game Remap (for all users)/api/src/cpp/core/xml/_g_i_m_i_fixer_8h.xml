@@ -32,6 +32,24 @@
     <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
     <includedby refid="_ini_fix_builder_8cpp" local="yes">src/model/strategies/iniFixers/IniFixBuilder.cpp</includedby>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="77">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="86">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="76">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="39">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="54">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -530,6 +548,18 @@
         <childnode refid="76" relation="include">
         </childnode>
       </node>
+      <node id="31">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
       <node id="66">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -542,6 +572,32 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -718,62 +774,6 @@
         <childnode refid="56" relation="include">
         </childnode>
       </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="77">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="86">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="76">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="39">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="31">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-      </node>
-      <node id="78">
-        <label>AGRemapCore/tools/Heading.h</label>
-        <link refid="_heading_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="30">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="87">
         <label>GIMIFixer.tpp</label>
       </node>
@@ -938,6 +938,10 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
+      <node id="6">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="7">
         <label>src/model/strategies/iniFixers/GIMIFixerInstantiation.cpp</label>
         <link refid="_g_i_m_i_fixer_instantiation_8cpp"/>
@@ -949,10 +953,6 @@
       <node id="9">
         <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
         <link refid="_ini_fix_builder_8cpp"/>
-      </node>
-      <node id="6">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public">AGRemapCore::GIMIFixer</innerclass>

@@ -498,6 +498,10 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="9">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
       <node id="19">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
@@ -638,6 +642,10 @@
         <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
         <link refid="_lumine_fixer_8cpp"/>
       </node>
+      <node id="63">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
       <node id="47">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
         <link refid="_mona_fixer_8cpp"/>
@@ -686,6 +694,10 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
+      <node id="10">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="57">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -710,6 +722,26 @@
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
+      <node id="84">
+        <label>src/model/buffers/BufDataType.cpp</label>
+        <link refid="_buf_data_type_8cpp"/>
+      </node>
+      <node id="77">
+        <label>src/model/buffers/BufElementType.cpp</label>
+        <link refid="_buf_element_type_8cpp"/>
+      </node>
+      <node id="79">
+        <label>src/model/buffers/BufFloat.cpp</label>
+        <link refid="_buf_float_8cpp"/>
+      </node>
+      <node id="83">
+        <label>src/model/buffers/BufInt.cpp</label>
+        <link refid="_buf_int_8cpp"/>
+      </node>
+      <node id="82">
+        <label>src/model/buffers/BufUnorm.cpp</label>
+        <link refid="_buf_unorm_8cpp"/>
+      </node>
       <node id="97">
         <label>src/model/buffers/InnerLayerOutline.cpp</label>
         <link refid="_inner_layer_outline_8cpp"/>
@@ -721,6 +753,30 @@
       <node id="13">
         <label>src/model/buffers/VGComponentSplit.cpp</label>
         <link refid="_v_g_component_split_8cpp"/>
+      </node>
+      <node id="105">
+        <label>src/model/files/BinaryFile.cpp</label>
+        <link refid="_binary_file_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/model/files/BlendFile.cpp</label>
+        <link refid="_blend_file_8cpp"/>
+      </node>
+      <node id="76">
+        <label>src/model/files/BufFile.cpp</label>
+        <link refid="_buf_file_8cpp"/>
+      </node>
+      <node id="64">
+        <label>src/model/files/IbFile.cpp</label>
+        <link refid="_ib_file_8cpp"/>
+      </node>
+      <node id="66">
+        <label>src/model/files/PositionFile.cpp</label>
+        <link refid="_position_file_8cpp"/>
+      </node>
+      <node id="69">
+        <label>src/model/files/VbFile.cpp</label>
+        <link refid="_vb_file_8cpp"/>
       </node>
       <node id="11">
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
@@ -753,62 +809,6 @@
       <node id="96">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="63">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
-      <node id="10">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="84">
-        <label>src/model/buffers/BufDataType.cpp</label>
-        <link refid="_buf_data_type_8cpp"/>
-      </node>
-      <node id="77">
-        <label>src/model/buffers/BufElementType.cpp</label>
-        <link refid="_buf_element_type_8cpp"/>
-      </node>
-      <node id="79">
-        <label>src/model/buffers/BufFloat.cpp</label>
-        <link refid="_buf_float_8cpp"/>
-      </node>
-      <node id="83">
-        <label>src/model/buffers/BufInt.cpp</label>
-        <link refid="_buf_int_8cpp"/>
-      </node>
-      <node id="82">
-        <label>src/model/buffers/BufUnorm.cpp</label>
-        <link refid="_buf_unorm_8cpp"/>
-      </node>
-      <node id="105">
-        <label>src/model/files/BinaryFile.cpp</label>
-        <link refid="_binary_file_8cpp"/>
-      </node>
-      <node id="14">
-        <label>src/model/files/BlendFile.cpp</label>
-        <link refid="_blend_file_8cpp"/>
-      </node>
-      <node id="76">
-        <label>src/model/files/BufFile.cpp</label>
-        <link refid="_buf_file_8cpp"/>
-      </node>
-      <node id="64">
-        <label>src/model/files/IbFile.cpp</label>
-        <link refid="_ib_file_8cpp"/>
-      </node>
-      <node id="66">
-        <label>src/model/files/PositionFile.cpp</label>
-        <link refid="_position_file_8cpp"/>
-      </node>
-      <node id="69">
-        <label>src/model/files/VbFile.cpp</label>
-        <link refid="_vb_file_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

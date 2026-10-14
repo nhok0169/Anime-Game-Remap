@@ -27,6 +27,14 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="12">
+        <label>include/AGRemapCore/RemapService.h</label>
+        <link refid="_remap_service_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
       <node id="13">
         <label>include/AGRemapCore/RemapServiceCLI.h</label>
         <link refid="_remap_service_c_l_i_8h"/>
@@ -465,6 +473,22 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+      </node>
       <node id="11">
         <label>include/AGRemapCore/view/BaseLogger.h</label>
         <link refid="_base_logger_8h"/>
@@ -486,6 +510,26 @@
         </childnode>
         <childnode refid="87" relation="include">
         </childnode>
+      </node>
+      <node id="85">
+        <label>include/AGRemapCore/view/Logger.h</label>
+        <link refid="_logger_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="88">
+        <label>src/constants/GameTypeId.cpp</label>
+        <link refid="_game_type_id_8cpp"/>
       </node>
       <node id="81">
         <label>src/constants/GlobalIniRemoveBuilders.cpp</label>
@@ -519,6 +563,10 @@
         <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
         <link refid="_lumine_fixer_8cpp"/>
       </node>
+      <node id="69">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
       <node id="49">
         <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
         <link refid="_neuvillette_fixer_8cpp"/>
@@ -526,6 +574,10 @@
       <node id="6">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="50">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
@@ -550,6 +602,14 @@
       <node id="19">
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
       </node>
       <node id="84">
         <label>src/model/iniresources/IniResource.cpp</label>
@@ -578,6 +638,10 @@
       <node id="53">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
       </node>
       <node id="8">
         <label>src/model/strategies/iniFixers/GIMIFixerInstantiation.cpp</label>
@@ -646,70 +710,6 @@
       <node id="83">
         <label>src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp</label>
         <link refid="_remap_ini_remover_instantiation_8cpp"/>
-      </node>
-      <node id="12">
-        <label>include/AGRemapCore/RemapService.h</label>
-        <link refid="_remap_service_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>include/AGRemapCore/tools/Heading.h</label>
-        <link refid="_heading_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="88" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="89" relation="include">
-        </childnode>
-      </node>
-      <node id="85">
-        <label>include/AGRemapCore/view/Logger.h</label>
-        <link refid="_logger_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="86" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="14">
-        <label>src/RemapServiceCLI.cpp</label>
-        <link refid="_remap_service_c_l_i_8cpp"/>
-      </node>
-      <node id="88">
-        <label>src/constants/GameTypeId.cpp</label>
-        <link refid="_game_type_id_8cpp"/>
-      </node>
-      <node id="69">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
-      <node id="7">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="20">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
-      </node>
-      <node id="21">
-        <label>src/model/files/IniFile.cpp</label>
-        <link refid="_ini_file_8cpp"/>
-      </node>
-      <node id="22">
-        <label>src/model/strategies/ModType.cpp</label>
-        <link refid="_mod_type_8cpp"/>
       </node>
       <node id="57">
         <label>src/tools/DownloadTools.cpp</label>

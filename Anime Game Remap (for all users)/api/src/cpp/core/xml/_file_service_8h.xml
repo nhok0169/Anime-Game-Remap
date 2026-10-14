@@ -314,6 +314,14 @@
         <childnode refid="68" relation="include">
         </childnode>
       </node>
+      <node id="38">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
       <node id="4">
         <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
         <link refid="_chisa_fixer_8cpp"/>
@@ -370,6 +378,10 @@
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp</label>
         <link refid="_lynae_peppermint_textures_8cpp"/>
       </node>
+      <node id="42">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
       <node id="20">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
         <link refid="_sanhua_fixer_8cpp"/>
@@ -385,6 +397,10 @@
       <node id="25">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp</label>
         <link refid="_sanhua_exorcist_textures_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="6">
         <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
@@ -417,6 +433,38 @@
       <node id="44">
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
+      <node id="45">
+        <label>src/data/WWMITextureRoles.cpp</label>
+        <link refid="_w_w_m_i_texture_roles_8cpp"/>
+      </node>
+      <node id="46">
+        <label>src/model/IniNamingTools.cpp</label>
+        <link refid="_ini_naming_tools_8cpp"/>
+      </node>
+      <node id="47">
+        <label>src/model/files/BinaryFile.cpp</label>
+        <link refid="_binary_file_8cpp"/>
+      </node>
+      <node id="48">
+        <label>src/model/files/BufFile.cpp</label>
+        <link refid="_buf_file_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/model/files/IniScan.cpp</label>
+        <link refid="_ini_scan_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
       </node>
       <node id="52">
         <label>src/model/iniresources/IniFixResourceModel.cpp</label>
@@ -454,6 +502,10 @@
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
+      <node id="61">
+        <label>src/model/stats/FileStats.cpp</label>
+        <link refid="_file_stats_8cpp"/>
+      </node>
       <node id="62">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
@@ -473,58 +525,6 @@
       <node id="66">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
-      </node>
-      <node id="38">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="39">
-        <label>src/RemapServiceCLI.cpp</label>
-        <link refid="_remap_service_c_l_i_8cpp"/>
-      </node>
-      <node id="42">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
-      <node id="35">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="37">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
-      </node>
-      <node id="45">
-        <label>src/data/WWMITextureRoles.cpp</label>
-        <link refid="_w_w_m_i_texture_roles_8cpp"/>
-      </node>
-      <node id="46">
-        <label>src/model/IniNamingTools.cpp</label>
-        <link refid="_ini_naming_tools_8cpp"/>
-      </node>
-      <node id="47">
-        <label>src/model/files/BinaryFile.cpp</label>
-        <link refid="_binary_file_8cpp"/>
-      </node>
-      <node id="48">
-        <label>src/model/files/BufFile.cpp</label>
-        <link refid="_buf_file_8cpp"/>
-      </node>
-      <node id="49">
-        <label>src/model/files/IniFile.cpp</label>
-        <link refid="_ini_file_8cpp"/>
-      </node>
-      <node id="50">
-        <label>src/model/files/IniScan.cpp</label>
-        <link refid="_ini_scan_8cpp"/>
-      </node>
-      <node id="51">
-        <label>src/model/files/TextureFile.cpp</label>
-        <link refid="_texture_file_8cpp"/>
-      </node>
-      <node id="61">
-        <label>src/model/stats/FileStats.cpp</label>
-        <link refid="_file_stats_8cpp"/>
       </node>
       <node id="67">
         <label>src/tools/files/FileDownload.cpp</label>

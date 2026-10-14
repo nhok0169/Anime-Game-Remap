@@ -320,6 +320,10 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="9">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
       <node id="19">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
@@ -444,6 +448,10 @@
         <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
         <link refid="_lisa_student_fixer_8cpp"/>
       </node>
+      <node id="63">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
       <node id="47">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
         <link refid="_mona_fixer_8cpp"/>
@@ -488,6 +496,10 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
+      <node id="10">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="57">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -503,46 +515,6 @@
       <node id="60">
         <label>src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp</label>
         <link refid="_xingqiu_bamboo_fixer_8cpp"/>
-      </node>
-      <node id="13">
-        <label>src/model/buffers/VGComponentSplit.cpp</label>
-        <link refid="_v_g_component_split_8cpp"/>
-      </node>
-      <node id="11">
-        <label>src/model/iniresources/RemapBlendResource.cpp</label>
-        <link refid="_remap_blend_resource_8cpp"/>
-      </node>
-      <node id="67">
-        <label>src/model/iniresources/RemapPositionResource.cpp</label>
-        <link refid="_remap_position_resource_8cpp"/>
-      </node>
-      <node id="15">
-        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
-        <link refid="_v_g_merge_group_resource_8cpp"/>
-      </node>
-      <node id="16">
-        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
-        <link refid="_v_g_split_group_resource_8cpp"/>
-      </node>
-      <node id="75">
-        <label>src/model/strategies/bufEditors/BaseBufEditor.cpp</label>
-        <link refid="_base_buf_editor_8cpp"/>
-      </node>
-      <node id="74">
-        <label>src/model/strategies/bufEditors/BufEditor.cpp</label>
-        <link refid="_buf_editor_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="63">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
-      <node id="10">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="84">
         <label>src/model/buffers/BufDataType.cpp</label>
@@ -568,6 +540,10 @@
         <label>src/model/buffers/BufUnorm.cpp</label>
         <link refid="_buf_unorm_8cpp"/>
       </node>
+      <node id="13">
+        <label>src/model/buffers/VGComponentSplit.cpp</label>
+        <link refid="_v_g_component_split_8cpp"/>
+      </node>
       <node id="14">
         <label>src/model/files/BlendFile.cpp</label>
         <link refid="_blend_file_8cpp"/>
@@ -587,6 +563,30 @@
       <node id="69">
         <label>src/model/files/VbFile.cpp</label>
         <link refid="_vb_file_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/model/iniresources/RemapBlendResource.cpp</label>
+        <link refid="_remap_blend_resource_8cpp"/>
+      </node>
+      <node id="67">
+        <label>src/model/iniresources/RemapPositionResource.cpp</label>
+        <link refid="_remap_position_resource_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
+        <link refid="_v_g_merge_group_resource_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
+        <link refid="_v_g_split_group_resource_8cpp"/>
+      </node>
+      <node id="75">
+        <label>src/model/strategies/bufEditors/BaseBufEditor.cpp</label>
+        <link refid="_base_buf_editor_8cpp"/>
+      </node>
+      <node id="74">
+        <label>src/model/strategies/bufEditors/BufEditor.cpp</label>
+        <link refid="_buf_editor_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_buf_type" prot="public">AGRemapCore::BufType</innerclass>

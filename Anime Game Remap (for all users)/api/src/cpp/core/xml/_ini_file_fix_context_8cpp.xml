@@ -14,6 +14,33 @@
     <includes refid="_g_i_m_i_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includes>
     <includes refid="_g_i_m_i_parser_8h" local="yes">AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includes>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="144">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="122">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="143">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="141">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="81">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -180,6 +207,32 @@
         <childnode refid="58" relation="include">
         </childnode>
         <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="100">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="87">
@@ -1146,6 +1199,32 @@
         <childnode refid="110" relation="include">
         </childnode>
       </node>
+      <node id="32">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="140">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="141" relation="include">
+        </childnode>
+      </node>
       <node id="67">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -1158,6 +1237,32 @@
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="84">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
         </childnode>
       </node>
       <node id="142">
@@ -1465,111 +1570,6 @@
         </childnode>
         <childnode refid="124" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="144">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="122">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="143">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="141">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="100">
-        <label>AGRemapCore/model/VGRemap.h</label>
-        <link refid="_v_g_remap_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="85">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="32">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-      </node>
-      <node id="140">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="141" relation="include">
-        </childnode>
-      </node>
-      <node id="84">
-        <label>AGRemapCore/tools/Heading.h</label>
-        <link refid="_heading_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="123">
         <label>GIMIFixer.tpp</label>

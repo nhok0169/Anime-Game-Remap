@@ -290,6 +290,30 @@
         <childnode refid="68" relation="include">
         </childnode>
       </node>
+      <node id="38">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/constants/DownloadMode.cpp</label>
+        <link refid="_download_mode_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/constants/GameType.cpp</label>
+        <link refid="_game_type_8cpp"/>
+      </node>
+      <node id="41">
+        <label>src/constants/GameTypeId.cpp</label>
+        <link refid="_game_type_id_8cpp"/>
+      </node>
+      <node id="42">
+        <label>src/constants/IfPredPartType.cpp</label>
+        <link refid="_if_pred_part_type_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
       <node id="4">
         <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
         <link refid="_chisa_fixer_8cpp"/>
@@ -350,9 +374,17 @@
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp</label>
         <link refid="_lynae_peppermint_textures_8cpp"/>
       </node>
+      <node id="47">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
       <node id="48">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/data/IniFixData/RegValChecks.cpp</label>
+        <link refid="_reg_val_checks_8cpp"/>
       </node>
       <node id="20">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
@@ -369,6 +401,18 @@
       <node id="25">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp</label>
         <link refid="_sanhua_exorcist_textures_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/data/IniFixData/SideMeshes.cpp</label>
+        <link refid="_side_meshes_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/data/IniFixData/TexFxLayout.cpp</label>
+        <link refid="_tex_fx_layout_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="6">
         <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
@@ -406,58 +450,6 @@
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
       </node>
-      <node id="57">
-        <label>src/model/files/GIMIApiNormalizer.cpp</label>
-        <link refid="_g_i_m_i_api_normalizer_8cpp"/>
-      </node>
-      <node id="63">
-        <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
-        <link refid="_ini_classifier_8cpp"/>
-      </node>
-      <node id="38">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="39">
-        <label>src/constants/DownloadMode.cpp</label>
-        <link refid="_download_mode_8cpp"/>
-      </node>
-      <node id="40">
-        <label>src/constants/GameType.cpp</label>
-        <link refid="_game_type_8cpp"/>
-      </node>
-      <node id="41">
-        <label>src/constants/GameTypeId.cpp</label>
-        <link refid="_game_type_id_8cpp"/>
-      </node>
-      <node id="42">
-        <label>src/constants/IfPredPartType.cpp</label>
-        <link refid="_if_pred_part_type_8cpp"/>
-      </node>
-      <node id="43">
-        <label>src/constants/ModTypeId.cpp</label>
-        <link refid="_mod_type_id_8cpp"/>
-      </node>
-      <node id="47">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
-      <node id="49">
-        <label>src/data/IniFixData/RegValChecks.cpp</label>
-        <link refid="_reg_val_checks_8cpp"/>
-      </node>
-      <node id="50">
-        <label>src/data/IniFixData/SideMeshes.cpp</label>
-        <link refid="_side_meshes_8cpp"/>
-      </node>
-      <node id="51">
-        <label>src/data/IniFixData/TexFxLayout.cpp</label>
-        <link refid="_tex_fx_layout_8cpp"/>
-      </node>
-      <node id="35">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
       <node id="37">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
@@ -469,6 +461,10 @@
       <node id="56">
         <label>src/model/Version.cpp</label>
         <link refid="_version_8cpp"/>
+      </node>
+      <node id="57">
+        <label>src/model/files/GIMIApiNormalizer.cpp</label>
+        <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
       <node id="58">
         <label>src/model/files/IniFile.cpp</label>
@@ -489,6 +485,10 @@
       <node id="62">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="63">
+        <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
+        <link refid="_ini_classifier_8cpp"/>
       </node>
       <node id="64">
         <label>src/tools/Heading.cpp</label>

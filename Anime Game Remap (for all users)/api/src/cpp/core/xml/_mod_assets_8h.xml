@@ -13,6 +13,24 @@
     <includedby refid="_v_g_remaps_8h" local="yes">include/AGRemapCore/model/assets/VGRemaps.h</includedby>
     <includedby refid="_ini_fix_builder_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includedby>
     <incdepgraph>
+      <node id="7">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/assets/ModAssets.h</label>
         <link refid="_mod_assets_8h"/>
@@ -36,24 +54,6 @@
       <node id="11">
         <label>AGRemapCore/model/assets/Row.h</label>
         <link refid="_row_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
@@ -86,6 +86,14 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="127">
+        <label>include/AGRemapCore/RemapService.h</label>
+        <link refid="_remap_service_8h"/>
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+      </node>
       <node id="128">
         <label>include/AGRemapCore/RemapServiceCLI.h</label>
         <link refid="_remap_service_c_l_i_8h"/>
@@ -1444,9 +1452,53 @@
         <childnode refid="138" relation="include">
         </childnode>
       </node>
+      <node id="129">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/constants/GIBuilder.cpp</label>
+        <link refid="_g_i_builder_8cpp"/>
+      </node>
       <node id="12">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/constants/GlobalModTypes.cpp</label>
+        <link refid="_global_mod_types_8cpp"/>
+      </node>
+      <node id="99">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
+      <node id="142">
+        <label>src/constants/StrategyOverrides.cpp</label>
+        <link refid="_strategy_overrides_8cpp"/>
+      </node>
+      <node id="100">
+        <label>src/constants/WWMIBuilder.cpp</label>
+        <link refid="_w_w_m_i_builder_8cpp"/>
+      </node>
+      <node id="101">
+        <label>src/data/HashData.cpp</label>
+        <link refid="_hash_data_8cpp"/>
+      </node>
+      <node id="102">
+        <label>src/data/IndexCountData.cpp</label>
+        <link refid="_index_count_data_8cpp"/>
+      </node>
+      <node id="103">
+        <label>src/data/IndexData.cpp</label>
+        <link refid="_index_data_8cpp"/>
+      </node>
+      <node id="104">
+        <label>src/data/IniFixBuilderData.cpp</label>
+        <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
       <node id="146">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
@@ -1696,6 +1748,10 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
+      <node id="29">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="187">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -1727,6 +1783,10 @@
       <node id="115">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
+      </node>
+      <node id="116">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
       <node id="31">
         <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
@@ -1956,6 +2016,10 @@
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
       </node>
+      <node id="98">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
       <node id="75">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
@@ -1987,102 +2051,6 @@
       <node id="90">
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
-      </node>
-      <node id="131">
-        <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
-        <link refid="_ini_file_fix_context_8cpp"/>
-      </node>
-      <node id="143">
-        <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
-        <link refid="_ini_fix_builder_8cpp"/>
-      </node>
-      <node id="132">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
-        <link refid="_ini_file_res_edit_context_8cpp"/>
-      </node>
-      <node id="133">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
-        <link refid="_v_g_merge_group_res_builder_8cpp"/>
-      </node>
-      <node id="134">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
-        <link refid="_v_g_split_group_res_builder_8cpp"/>
-      </node>
-      <node id="135">
-        <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
-        <link refid="_ini_file_parse_context_8cpp"/>
-      </node>
-      <node id="144">
-        <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
-        <link refid="_ini_parse_builder_8cpp"/>
-      </node>
-      <node id="124">
-        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
-        <link refid="_ini_file_remove_context_8cpp"/>
-      </node>
-      <node id="127">
-        <label>include/AGRemapCore/RemapService.h</label>
-        <link refid="_remap_service_8h"/>
-        <childnode refid="128" relation="include">
-        </childnode>
-        <childnode refid="129" relation="include">
-        </childnode>
-      </node>
-      <node id="129">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="11">
-        <label>src/RemapServiceCLI.cpp</label>
-        <link refid="_remap_service_c_l_i_8cpp"/>
-      </node>
-      <node id="8">
-        <label>src/constants/GIBuilder.cpp</label>
-        <link refid="_g_i_builder_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/constants/GlobalModTypes.cpp</label>
-        <link refid="_global_mod_types_8cpp"/>
-      </node>
-      <node id="99">
-        <label>src/constants/ModTypeId.cpp</label>
-        <link refid="_mod_type_id_8cpp"/>
-      </node>
-      <node id="142">
-        <label>src/constants/StrategyOverrides.cpp</label>
-        <link refid="_strategy_overrides_8cpp"/>
-      </node>
-      <node id="100">
-        <label>src/constants/WWMIBuilder.cpp</label>
-        <link refid="_w_w_m_i_builder_8cpp"/>
-      </node>
-      <node id="101">
-        <label>src/data/HashData.cpp</label>
-        <link refid="_hash_data_8cpp"/>
-      </node>
-      <node id="102">
-        <label>src/data/IndexCountData.cpp</label>
-        <link refid="_index_count_data_8cpp"/>
-      </node>
-      <node id="103">
-        <label>src/data/IndexData.cpp</label>
-        <link refid="_index_data_8cpp"/>
-      </node>
-      <node id="104">
-        <label>src/data/IniFixBuilderData.cpp</label>
-        <link refid="_ini_fix_builder_data_8cpp"/>
-      </node>
-      <node id="29">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="116">
-        <label>src/data/IniParseBuilderData.cpp</label>
-        <link refid="_ini_parse_builder_data_8cpp"/>
-      </node>
-      <node id="98">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
       <node id="117">
         <label>src/data/IniRemoveBuilderData.cpp</label>
@@ -2123,6 +2091,38 @@
       <node id="5">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="131">
+        <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
+        <link refid="_ini_file_fix_context_8cpp"/>
+      </node>
+      <node id="143">
+        <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
+        <link refid="_ini_fix_builder_8cpp"/>
+      </node>
+      <node id="132">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
+        <link refid="_ini_file_res_edit_context_8cpp"/>
+      </node>
+      <node id="133">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
+        <link refid="_v_g_merge_group_res_builder_8cpp"/>
+      </node>
+      <node id="134">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
+        <link refid="_v_g_split_group_res_builder_8cpp"/>
+      </node>
+      <node id="135">
+        <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
+        <link refid="_ini_file_parse_context_8cpp"/>
+      </node>
+      <node id="144">
+        <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
+        <link refid="_ini_parse_builder_8cpp"/>
+      </node>
+      <node id="124">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>

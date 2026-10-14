@@ -135,21 +135,13 @@
         <label>src/model/iftemplate/IfPredParser.cpp</label>
         <link refid="_if_pred_parser_8cpp"/>
       </node>
-      <node id="6">
-        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
-        <link refid="_if_pred_z3_generator_8cpp"/>
-      </node>
-      <node id="18">
-        <label>src/tools/parsing/FilteredTokenizer.cpp</label>
-        <link refid="_filtered_tokenizer_8cpp"/>
-      </node>
-      <node id="15">
-        <label>src/tools/parsing/IfPredTokenizer.cpp</label>
-        <link refid="_if_pred_tokenizer_8cpp"/>
-      </node>
       <node id="5">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
+        <link refid="_if_pred_z3_generator_8cpp"/>
       </node>
       <node id="11">
         <label>src/model/iftemplate/SympyParser.cpp</label>
@@ -158,6 +150,14 @@
       <node id="19">
         <label>src/tools/parsing/BaseTokenizer.cpp</label>
         <link refid="_base_tokenizer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/tools/parsing/FilteredTokenizer.cpp</label>
+        <link refid="_filtered_tokenizer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/tools/parsing/IfPredTokenizer.cpp</label>
+        <link refid="_if_pred_tokenizer_8cpp"/>
       </node>
       <node id="17">
         <label>src/tools/parsing/SympyTokenizer.cpp</label>

@@ -117,6 +117,30 @@
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
     <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
     <incdepgraph>
+      <node id="46">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="91">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="52">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="105">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="103">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="67">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="98">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -261,6 +285,32 @@
         <childnode refid="74" relation="include">
         </childnode>
         <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -777,6 +827,32 @@
         <childnode refid="95" relation="include">
         </childnode>
       </node>
+      <node id="44">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+      </node>
       <node id="83">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -789,6 +865,24 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
         </childnode>
       </node>
       <node id="104">
@@ -1016,100 +1110,6 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-      </node>
-      <node id="46">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="91">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="52">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="105">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="103">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="28">
-        <label>AGRemapCore/model/VGRemap.h</label>
-        <link refid="_v_g_remap_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="44">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-      </node>
-      <node id="102">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-        <childnode refid="103" relation="include">
-        </childnode>
-      </node>
-      <node id="43">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
-      </node>
-      <node id="67">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>
@@ -1656,9 +1656,45 @@
         <childnode refid="85" relation="include">
         </childnode>
       </node>
+      <node id="86">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="87">
+        <label>src/constants/GIBuilder.cpp</label>
+        <link refid="_g_i_builder_8cpp"/>
+      </node>
       <node id="88">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
+      <node id="89">
+        <label>src/constants/GlobalModTypes.cpp</label>
+        <link refid="_global_mod_types_8cpp"/>
+      </node>
+      <node id="90">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
+      <node id="91">
+        <label>src/constants/WWMIBuilder.cpp</label>
+        <link refid="_w_w_m_i_builder_8cpp"/>
+      </node>
+      <node id="92">
+        <label>src/data/HashData.cpp</label>
+        <link refid="_hash_data_8cpp"/>
+      </node>
+      <node id="93">
+        <label>src/data/IndexCountData.cpp</label>
+        <link refid="_index_count_data_8cpp"/>
+      </node>
+      <node id="94">
+        <label>src/data/IndexData.cpp</label>
+        <link refid="_index_data_8cpp"/>
+      </node>
+      <node id="95">
+        <label>src/data/IniFixBuilderData.cpp</label>
+        <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
       <node id="96">
         <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
@@ -1732,6 +1768,10 @@
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
         <link refid="_sanhua_exorcist_fixer_8cpp"/>
       </node>
+      <node id="16">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="103">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
@@ -1747,6 +1787,10 @@
       <node id="106">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
+      </node>
+      <node id="107">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
       <node id="18">
         <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
@@ -1976,6 +2020,10 @@
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
       </node>
+      <node id="85">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
+      </node>
       <node id="62">
         <label>src/data/IniParseData/Xiangling/XianglingParser.cpp</label>
         <link refid="_xiangling_parser_8cpp"/>
@@ -2008,58 +2056,6 @@
         <label>src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</label>
         <link refid="_yelan_tranquil_parser_8cpp"/>
       </node>
-      <node id="116">
-        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
-        <link refid="_ini_file_remove_context_8cpp"/>
-      </node>
-      <node id="86">
-        <label>src/RemapServiceCLI.cpp</label>
-        <link refid="_remap_service_c_l_i_8cpp"/>
-      </node>
-      <node id="87">
-        <label>src/constants/GIBuilder.cpp</label>
-        <link refid="_g_i_builder_8cpp"/>
-      </node>
-      <node id="89">
-        <label>src/constants/GlobalModTypes.cpp</label>
-        <link refid="_global_mod_types_8cpp"/>
-      </node>
-      <node id="90">
-        <label>src/constants/ModTypeId.cpp</label>
-        <link refid="_mod_type_id_8cpp"/>
-      </node>
-      <node id="91">
-        <label>src/constants/WWMIBuilder.cpp</label>
-        <link refid="_w_w_m_i_builder_8cpp"/>
-      </node>
-      <node id="92">
-        <label>src/data/HashData.cpp</label>
-        <link refid="_hash_data_8cpp"/>
-      </node>
-      <node id="93">
-        <label>src/data/IndexCountData.cpp</label>
-        <link refid="_index_count_data_8cpp"/>
-      </node>
-      <node id="94">
-        <label>src/data/IndexData.cpp</label>
-        <link refid="_index_data_8cpp"/>
-      </node>
-      <node id="95">
-        <label>src/data/IniFixBuilderData.cpp</label>
-        <link refid="_ini_fix_builder_data_8cpp"/>
-      </node>
-      <node id="16">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="107">
-        <label>src/data/IniParseBuilderData.cpp</label>
-        <link refid="_ini_parse_builder_data_8cpp"/>
-      </node>
-      <node id="85">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
-      </node>
       <node id="109">
         <label>src/data/IniRemoveBuilderData.cpp</label>
         <link refid="_ini_remove_builder_data_8cpp"/>
@@ -2087,6 +2083,10 @@
       <node id="115">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="116">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_tools" prot="public">AGRemapCore::ModTypeIdTools</innerclass>

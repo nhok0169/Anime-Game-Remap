@@ -542,6 +542,10 @@
         <childnode refid="112" relation="include">
         </childnode>
       </node>
+      <node id="91">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
       <node id="57">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
@@ -594,6 +598,10 @@
         <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
         <link refid="_citlali_fixer_8cpp"/>
       </node>
+      <node id="31">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
+      </node>
       <node id="61">
         <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
         <link refid="_diluc_fixer_8cpp"/>
@@ -645,6 +653,10 @@
       <node id="69">
         <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/data/IniFixData/JeanShading.cpp</label>
+        <link refid="_jean_shading_8cpp"/>
       </node>
       <node id="70">
         <label>src/data/IniFixData/Kaeya/KaeyaFixer.cpp</label>
@@ -766,6 +778,10 @@
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
+      <node id="25">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="41">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -793,6 +809,10 @@
       <node id="42">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
       </node>
       <node id="44">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
@@ -865,26 +885,6 @@
       <node id="53">
         <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
         <link refid="_transparency_adjust_filter_8cpp"/>
-      </node>
-      <node id="91">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="31">
-        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
-        <link refid="_dark_diffuse_8cpp"/>
-      </node>
-      <node id="35">
-        <label>src/data/IniFixData/JeanShading.cpp</label>
-        <link refid="_jean_shading_8cpp"/>
-      </node>
-      <node id="25">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="43">
-        <label>src/model/files/TextureFile.cpp</label>
-        <link refid="_texture_file_8cpp"/>
       </node>
       <node id="113">
         <label>src/model/textures/Colour.cpp</label>

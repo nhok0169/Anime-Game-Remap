@@ -128,13 +128,13 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
-        <link refid="_if_pred_z3_generator_8cpp"/>
-      </node>
       <node id="2">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
+        <link refid="_if_pred_z3_generator_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_if_pred_z3_generator" prot="public">AGRemapCore::IfPredZ3Generator</innerclass>

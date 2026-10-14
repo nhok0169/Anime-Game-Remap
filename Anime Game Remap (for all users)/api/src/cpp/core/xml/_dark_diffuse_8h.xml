@@ -16,6 +16,10 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
+      </node>
       <node id="3">
         <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
         <link refid="_ganyu_fixer_8cpp"/>
@@ -23,10 +27,6 @@
       <node id="4">
         <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
         <link refid="_ningguang_fixer_8cpp"/>
-      </node>
-      <node id="2">
-        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
-        <link refid="_dark_diffuse_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_dark_diffuse" prot="public">AGRemapCore::DarkDiffuse</innerclass>

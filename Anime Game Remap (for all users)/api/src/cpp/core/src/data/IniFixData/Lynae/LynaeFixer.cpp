@@ -15,10 +15,14 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeBangsShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 
 
@@ -150,6 +154,62 @@ namespace AGRemapCore {
         filmShader.lines = {{"ps-t5", "ref ps-t6"}};
         config.plan.at(105).shader = filmShader;
         config.plan.at(106).shader = filmShader;
+
+        // ---- HER OWN SHADERS ON THE SKIN'S SLOTS (2026-10-14). Drawn with the skin's shaders and her
+        // textures edited to approximate her, her parts came out as the skin's materials: a pink-violet
+        // holographic lining where hers is a teal film, a yellow-green tie, a green sheen on her hair, a
+        // black skirt gone metallic. Each part now draws with her own pixel shader and her own draw's
+        // material constants (her 3.7 dump, through wwmiShaderData.py), in her register order, with her
+        // draw's stencil and culling and nothing blended -- the reverse direction's design. Where the
+        // skin's slot holds one of her game textures at another register it is bound by `ref`; her lower
+        // body's three the skin's upper-body slot lacks are captured off the skin's own lower-body draw,
+        // which comes first in every scene (stashRegs). A slot the skin draws twice draws hers once
+        // (Shader::once). A mod that hands a part's maps to RabbitFX keeps the skin's shader there, which
+        // RabbitFX patches (Lynae11) -- with the plan's bindings, which stay the skin's layout ----
+        const auto ownState = [](const std::string& stencilRef, const std::string& cull,
+                                 std::vector<std::pair<std::string, std::string>> lines) {
+            for (const auto& line : std::vector<std::pair<std::string, std::string>>{
+                     {"blend", "disable"},
+                     {"depth_stencil_state_merge", "true"},
+                     {"stencil_enable", "true"},
+                     {"stencil_ref", stencilRef},
+                     {"stencil_write_mask", "0xff"},
+                     {"stencil_front", "always replace keep keep"},
+                     {"stencil_back", "always replace keep keep"},
+                     {"rasterizer_state_merge", "true"},
+                     {"cull", cull}}) {
+                lines.push_back(line);
+            }
+            return lines;
+        };
+        const auto own = [&ownState](WWMIFixerConfig::Shader shader, const std::string& stencilRef, const std::string& cull,
+                                     std::vector<std::pair<std::string, std::string>> lines) {
+            shader.lines = ownState(stencilRef, cull, std::move(lines));
+            shader.onlyWith = "o3";
+            shader.once = true;
+            shader.yieldToRabbitFX = true;
+            return shader;
+        };
+
+        // her jacket on the skin's jacket slot: her register order (detail at t2, diffuse at t3), her foil
+        WWMIFixerConfig::Shader jacket = own(lynaeFilmShader(), "2", "back", {{"ps-t5", "ref ps-t6"}});
+        jacket.name = "LynaeJacket";
+        jacket.registers = {{"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t4", "filmFoil"}};
+        config.plan.at(5).shader = std::move(jacket);
+
+        // her hair and bangs, two-sided as her own draws are; her bangs mark the stencil 6, as hers do
+        config.plan.at(0).shader = own(lynaeBangsShader(), "6", "none", {{"ps-t6", "ref ps-t7"}});
+        config.plan.at(1).shader = own(lynaeHairShader(), "2", "none", {{"ps-t6", "ref ps-t7"}});
+
+        // her upper body: her foil at t4 and the ramp at t5, both held elsewhere by the skin's slot
+        config.plan.at(3).shader = own(lynaeUpperShader(), "2", "back", {{"ps-t4", "ref ps-t8"}, {"ps-t5", "ref ps-t6"}});
+
+        // her lower body (on the skin's upper-body slot): three game textures off the skin's lower-body draw
+        WWMIFixerConfig::Shader lower = own(lynaeLowerShader(), "2", "back",
+                                            {{"ps-t4", "stash 4 ps-t4"}, {"ps-t5", "stash 4 ps-t5"}, {"ps-t6", "stash 4 ps-t6"}});
+        lower.registers = {{"ps-t7", "filmFoil"}, {"ps-t8", "lowerSheer"}};
+        config.plan.at(4).shader = std::move(lower);
+        config.stashRegs = {{4, {"ps-t4", "ps-t5", "ps-t6"}}};
         WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};
         propsFilmDraws.sourceFlags = lynaePropsFilmFlags();   // Lynae9 draws its props with the game's code map
         config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws)};

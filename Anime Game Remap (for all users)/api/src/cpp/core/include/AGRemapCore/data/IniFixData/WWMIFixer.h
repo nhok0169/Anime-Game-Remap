@@ -252,6 +252,38 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Draw only on the FIRST of the slot's draws in a pass (told apart by :cpp:member:`onlyWith`,
+             or ``o3``): a target slot the game draws twice -- a solid pass and a see-through one --
+             would otherwise run the shader twice, the second time under the see-through draw's state.
+             The other draws draw nothing for the component. **Default**: ``false``
+             @endrst
+             */
+            bool once = false;
+
+            /**
+             * @brief
+             @rst
+             A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's GAME
+             shader there: RabbitFX works by patching the game's shaders, never this one, so a RabbitFX mod
+             drawn with it loses its effect (a mod's robotic legs drawn as skin). **Default**: ``false``
+             @endrst
+             */
+            bool yieldToRabbitFX = false;
+
+            /**
+             * @brief
+             @rst
+             Bindings the component takes only while this shader draws it, after the plan entry's own --
+             a register (or a register's role) the shader reads in the SOURCE's layout. With
+             :cpp:member:`yieldToRabbitFX`, a mod that keeps the target's shader keeps the plan's
+             bindings alone. **Default**: empty
+             @endrst
+             */
+            std::vector<Binding> registers;
+
+            /**
+             * @brief
+             @rst
              Draw the component only AFTER another component's draws in the same pass, whichever
              order the game draws the two slots in.
 
@@ -1027,6 +1059,18 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<std::string> hiddenMeshes;
+
+        /**
+         * @brief
+         @rst
+         Registers to capture off the GAME's draw of a target slot nothing of the mod is drawn through
+         (slot -> registers, eg. ``{4, {"ps-t5", "ps-t6"}}``), on passes that bind ``o3``. A
+         :cpp:member:`Shader::lines` value ``stash <slot> <register>`` binds the capture: a game texture the
+         target binds on another slot, for a shader the source draws with it, without a download. The
+         captured slot has to be drawn before the shader's in every scene
+         @endrst
+         */
+        std::map<int, std::vector<std::string>> stashRegs;
         /**
          * @brief What a texture-edit filter is allowed to know about the mod it is editing
          */

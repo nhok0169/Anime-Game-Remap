@@ -228,6 +228,18 @@ see-through layer blended where the stencil marks a body behind it and drawn opa
 that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:
 ``""``, every pass
         )doc"))
+        .def_readwrite("registers", &AGRC::WWMIFixerConfig::Shader::registers, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.Binding`]: Bindings the component takes only while this shader draws it, after the
+plan entry's own (the source's register layout). **Default**: empty
+        )doc"))
+        .def_readwrite("yieldToRabbitFX", &AGRC::WWMIFixerConfig::Shader::yieldToRabbitFX, py::doc(R"doc(
+:class:`bool`: A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's game
+shader there (RabbitFX patches the game's shaders, never this one). **Default**: ``False``
+        )doc"))
+        .def_readwrite("once", &AGRC::WWMIFixerConfig::Shader::once, py::doc(R"doc(
+:class:`bool`: Draw only on the first of the slot's draws in a pass (told apart by :attr:`onlyWith`, or
+``o3``); the others draw nothing for the component. **Default**: ``False``
+        )doc"))
         .def_readwrite("after", &AGRC::WWMIFixerConfig::Shader::after, py::doc(R"doc(
 Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
 in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first
@@ -583,6 +595,11 @@ of a non-empty map is an error
         .def_readwrite("sharedMeshes", &AGRC::WWMIFixerConfig::sharedMeshes, py::doc(R"doc(
 Dict[:class:`str`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Other meshes the
 character draws, by their own ``vb0`` hash -- ``{mesh hash: {pass: bindings}}``
+        )doc"))
+        .def_readwrite("stashRegs", &AGRC::WWMIFixerConfig::stashRegs, py::doc(R"doc(
+Dict[:class:`int`, List[:class:`str`]]: Registers to capture off the GAME's draw of a target slot nothing of
+the mod is drawn through, on passes that bind ``o3``; a :attr:`Shader.lines` value ``stash <slot> <register>``
+binds the capture. **Default**: empty
         )doc"))
         .def_readwrite("hiddenMeshes", &AGRC::WWMIFixerConfig::hiddenMeshes, py::doc(R"doc(
 List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``

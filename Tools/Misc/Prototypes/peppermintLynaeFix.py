@@ -241,9 +241,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         4: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
                                                    B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse"),
                                                    B("ps-t7", "jacketNoise"), B("ps-t8", "jacketFoil")]),
-        # the coat onto Lynae's jacket slot, with the skin's own see-through coat pass in her register order
-        # (core's LynaePeppermintFixer)
-        5: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
+        # the coat onto Lynae's LOWER body as a second section, like the shirt, with the skin's own see-through
+        # coat pass in her register order (core's LynaePeppermintFixer); her jacket slot is left empty and hidden
+        5: FRB.WWMIFixerConfig.SourceComponent(4, [B("ps-t0", "pouchNormal"), B("ps-t1", "pouchMask"),
                                                    B("ps-t2", "pouchDetail"), B("ps-t3", "pouchDiffuse"),
                                                    B("ps-t4", "jacketNoise"), B("ps-t5", "pouchFoil")]),
         # the SEE-THROUGH shirt (and jacket, shoes) onto Lynae's lower body, drawn after the body it shows,
@@ -255,6 +255,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[6].sameFileSection = True
+    plan[5].sameFileSection = True
     config.plan = plan
 
     # ---- a slot's OTHER passes ----
@@ -269,8 +270,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         # That slot takes TWO sources (the lower body, 4, and the shirt, 6), and "the diffuse" is a
         # different file for each: without srcComponent both land in one list and the last one's wins
         4: {"30ab50e715dce218": [B("ps-t0", "lowerDiffuse", 4), B("ps-t1", "lowerDiffuse", 4),
-                                 B("ps-t0", "jacketDiffuse", 6), B("ps-t1", "jacketDiffuse", 6)]},
-        5: {"f8c96a270bf847dd": [B("ps-t0", "pouchDiffuse")]},
+                                 B("ps-t0", "jacketDiffuse", 6), B("ps-t1", "jacketDiffuse", 6),
+                                 B("ps-t0", "pouchDiffuse", 5), B("ps-t1", "pouchDiffuse", 5)]},
         # her second eye pass SETS its own t0, and it is the eye MASK (a506a70d in her dump's draw of
         # it): the iris the main eye pass reads there would be the wrong role (the forward direction's
         # row, the same shader on both skins)
@@ -312,21 +313,20 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     sheer.after = after
     sheer.onlyWith = "o3"                # the depth pre-pass draws it with the game's shader (core's LynaePeppermintFixer)
     # ---- and her COAT's see-through pass (4470be47), the same state: her coat is see-through where its mask
-    # says so, over the body (LynaePeppermint2 paints its shirt there). Lynae's jacket slot reads the ramp at
-    # ps-t6 already (data/lynaePeppermintSheerCoatShader.json, core's LynaePeppermintFixer) ----
+    # says so, over the body (LynaePeppermint2 paints its shirt there). On the shirt's slot, with the shirt's
+    # state and the ramp from ps-t9 (data/lynaePeppermintSheerCoatShader.json, core's LynaePeppermintFixer) ----
     with open(os.path.join(Here, "data", "lynaePeppermintSheerCoatShader.json"), encoding = "utf-8") as f:
         coatData = json.load(f)
     coat = FRB.WWMIFixerConfig.Shader()
     coat.name = coatData["name"]
     coat.ps = coatData["ps"]
     coat.constantBuffers = coatData["constantBuffers"]
-    coat.lines = [line for line in sheer.lines if line[0] != "ps-t6"]
+    coat.lines = sheer.lines
     coat.passes = sheer.passes
     coatAfter = FRB.WWMIFixerConfig.Shader.After()
     coatAfter.component = 3
     coatAfter.draws = 2
-    coatAfter.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t6"]
-    coatAfter.also = [(4, 1)]            # ...and after the lower body too
+    coatAfter.carried = ["ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"]
     coat.after = coatAfter
     coat.onlyWith = "o3"
     plan = config.plan

@@ -3967,7 +3967,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const WWMIFixerConfig::Binding& binding : planned.second.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned.first)) {
                             assignRole(scan, binding.role, planned.first);
                         }
                     }
@@ -3998,7 +3998,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            for (const WWMIFixerConfig::Binding& binding : entry.second.bindings) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(entry.first)) {
                                 if (resourceOfSlotRole_.count({binding.role, entry.first}) > 0
                                     || resourceOfRole_.count(binding.role) > 0) {
                                     continue;
@@ -4661,7 +4661,7 @@ namespace AGRemapCore {
                         }
 
                         std::vector<Kvp> bindings;
-                        for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                             if (binding.role == IniKeywords::Null) {
                                 bindings.push_back(nullLine(binding.reg));
                                 continue;
@@ -4701,7 +4701,7 @@ namespace AGRemapCore {
                         const auto late = lateBindRegs_.find(component);
                         if (late != lateBindRegs_.end() && !gameResourceOfRole_.empty()) {
                             std::vector<Kvp> gameBindings;
-                            for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                                 if (binding.role == IniKeywords::Null) {
                                     continue;
                                 }
@@ -4803,7 +4803,7 @@ namespace AGRemapCore {
                         // to any, because one file may serve several components.
                         {
                             std::map<std::string, std::string> regOfRole;
-                            for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                                 if (binding.role != IniKeywords::Null) {
                                     regOfRole.emplace(binding.role, binding.reg);
                                 }
@@ -5552,12 +5552,76 @@ namespace AGRemapCore {
                     markLines_.clear();
                     for (const auto& [component, planned] : config_.plan) {
                         if (planned.shader.has_value() && present_.count(component) > 0) {
+                            // Shader::yieldToRabbitFX
+                            if (!shaderUsed(component)) {
+                                ctx_.log("component " + std::to_string(component) + " hands its maps to RabbitFX, so it keeps "
+                                         + toModName_ + "'s own shader rather than " + planned.shader->name);
+                                continue;
+                            }
                             rerouteShaders_[component] = &*planned.shader;
                         }
                         if (!planned.markLines.empty() && present_.count(component) > 0) {
                             markLines_[component] = &planned.markLines;
                         }
                     }
+                }
+
+                // Whether a component's plan entry draws it with its shader -- see Shader::yieldToRabbitFX
+                bool shaderUsed(int component) const {
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end() || !planned->second.shader.has_value()) {
+                        return false;
+                    }
+                    return !(planned->second.shader->yieldToRabbitFX && usesRabbitFX(component));
+                }
+
+                // A component's bindings: its plan entry's, and its shader's while the shader draws it
+                std::vector<WWMIFixerConfig::Binding> bindingsOf(int component) const {
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end()) {
+                        return {};
+                    }
+                    std::vector<WWMIFixerConfig::Binding> result = planned->second.bindings;
+                    if (shaderUsed(component)) {
+                        // a shader's binding takes the register's place in the plan's
+                        for (const WWMIFixerConfig::Binding& extra : planned->second.shader->registers) {
+                            result.erase(std::remove_if(result.begin(), result.end(),
+                                                        [&extra](const WWMIFixerConfig::Binding& b) {
+                                                            return StringTools::equalsIgnoreCase(b.reg, extra.reg);
+                                                        }),
+                                         result.end());
+                            result.push_back(extra);
+                        }
+                    }
+                    return result;
+                }
+
+                // Whether the mod's sections of a component name RabbitFX (its resources or its SetTextures)
+                bool usesRabbitFX(int component) const {
+                    const auto sections = present_.find(component);
+                    IniFile* ini = ctx_.getIniFile();
+                    if (sections == present_.end() || ini == nullptr) {
+                        return false;
+                    }
+
+                    std::istringstream text(ini->getFileTxt());
+                    std::string line;
+                    bool inside = false;
+                    while (std::getline(text, line)) {
+                        const std::string stripped(StringTools::strip(line));
+                        if (!stripped.empty() && stripped.front() == '[') {
+                            const std::size_t close = stripped.find(']');
+                            const std::string name = close == std::string::npos ? "" : stripped.substr(1, close - 1);
+                            inside = std::any_of(sections->second.begin(), sections->second.end(),
+                                                 [&name](const std::string& s) { return StringTools::equalsIgnoreCase(s, name); });
+                            continue;
+                        }
+                        if (inside && !stripped.empty() && stripped.front() != ';'
+                            && StringTools::toLower(stripped).find("rabbitfx") != std::string::npos) {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
 
                 // A reroute's copy keeps only its draws; its source's copy keeps everything else
@@ -5715,6 +5779,37 @@ namespace AGRemapCore {
                     return result;
                 }
 
+                // Whether a shader drawn for this mod binds a capture off the slot (a `stash <slot> ...` line)
+                bool stashRead(int slot) const {
+                    const std::string wanted = "stash " + std::to_string(slot) + " ";
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        (void)as;
+                        for (const auto& line : shader->lines) {
+                            if (StringTools::startsWith(std::string(StringTools::strip(line.second)), wanted)) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                std::string stashResource(int slot, const std::string& reg) const {
+                    return fixName(IniKeywords::Resource + "Stash" + std::to_string(slot) + IniNamingTools::getRegTag(reg));
+                }
+
+                // A Shader line `X = stash <slot> <reg>` binds WWMIFixerConfig::stashRegs' capture
+                std::pair<std::string, std::string> stashLine(const std::pair<std::string, std::string>& line) const {
+                    const std::string value(StringTools::strip(line.second));
+                    std::istringstream words(value);
+                    std::string word;
+                    std::string reg;
+                    int slot = -1;
+                    if (!(words >> word) || word != "stash" || !(words >> slot) || !(words >> reg)) {
+                        return line;
+                    }
+                    return {line.first, IniKeywords::Ref + " " + stashResource(slot, reg)};
+                }
+
                 std::string afterLatch(int component) const {
                     return "$" + fixName("DrawAfter" + std::to_string(component) + "Latch");
                 }
@@ -5761,7 +5856,24 @@ namespace AGRemapCore {
 
                             SectionText list(z3_, rerouteShaderSection(as, range));
                             const std::vector<std::pair<int, int>> waits = awaited(*shader);
-                            if (waits.empty()) {
+                            if (waits.empty() && shader->once) {
+                                // Shader::once -- the first of the slot's draws in a pass draws the shader,
+                                // the rest nothing
+                                const std::string target = shader->onlyWith.empty() ? std::string("o3") : shader->onlyWith;
+                                const std::string frame = "$" + rerouteShaderSection(as, range, "", "OnceFrame");
+                                const std::string seen = rerouteShaderSection(as, range, IniKeywords::Resource, "OnceSeen");
+                                out += list.open(frame + " != time").key(frame, "time").key(seen, "null").close()
+                                           .open(target + " !== null")
+                                               .open(onPlan)
+                                                   .open(seen + " !== " + target).key(seen, IniKeywords::Ref + " " + target).keys(runs).close()
+                                               .orElse().key(IniKeywords::DrawIndexed, draw)
+                                               .close()
+                                           .orElse().key(IniKeywords::DrawIndexed, draw)
+                                           .close()
+                                           .str();
+                                afterConstants_.emplace_back("global " + frame, "-1");
+                                out += SectionText(z3_, seen).str();
+                            } else if (waits.empty()) {
                                 if (shader->onlyWith.empty()) {
                                     out += list.open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close().str();
                                 } else {
@@ -5845,7 +5957,7 @@ namespace AGRemapCore {
                                     lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
                                 }
                                 for (const auto& line : shader->lines) {
-                                    lines.push_back(line);
+                                    lines.push_back(stashLine(line));
                                 }
                                 if (!shader->passes.empty()) {
                                     for (const auto& line : shader->passes[p]) {
@@ -6947,7 +7059,27 @@ namespace AGRemapCore {
                                 .close();
                         }
 
+                        // WWMIFixerConfig::stashRegs: the game's own bindings on this slot, for a shader
+                        // drawn on another
+                        auto stash = config_.stashRegs.find(static_cast<int>(slot));
+                        if (stash != config_.stashRegs.end() && !stashRead(static_cast<int>(slot))) {
+                            stash = config_.stashRegs.end();      // no shader drawn for this mod reads it
+                        }
+                        if (stash != config_.stashRegs.end() && !stash->second.empty()) {
+                            hide.open("o3 !== null");
+                            for (const std::string& reg : stash->second) {
+                                hide.key(stashResource(static_cast<int>(slot), reg), IniKeywords::Ref + " " + reg);
+                            }
+                            hide.close();
+                        }
+
                         out += hide.close().str();
+
+                        if (stash != config_.stashRegs.end()) {
+                            for (const std::string& reg : stash->second) {
+                                out += SectionText(z3_, stashResource(static_cast<int>(slot), reg)).str();
+                            }
+                        }
                     }
 
                     if (legacy_ || targetPast256_) {
@@ -7834,7 +7966,7 @@ namespace AGRemapCore {
                             }
                         }
 
-                        for (const WWMIFixerConfig::Binding& binding : planned->second.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
                             if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0
                                     || fileOfRole_.count(binding.role) == 0) {
                                 continue;
@@ -7938,7 +8070,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const WWMIFixerConfig::Binding& binding : planned->second.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
                             if (binding.role != IniKeywords::Null) {
                                 roles.insert(binding.role);
                             }

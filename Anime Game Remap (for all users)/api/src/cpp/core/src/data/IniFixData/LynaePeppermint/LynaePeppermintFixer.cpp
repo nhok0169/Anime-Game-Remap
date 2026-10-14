@@ -158,10 +158,11 @@ namespace AGRemapCore {
             // textures on Lynae's lower body
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"},
                      {"ps-t7", "jacketNoise"}, {"ps-t8", "jacketFoil"}}}},
-            // the coat onto Lynae's jacket slot, through the skin's own see-through coat pass -- see
-            // sheerCoat below. The skin's register order, her noise and the coat's foil are what it reads
-            {5, {5, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"},
-                     {"ps-t4", "jacketNoise"}, {"ps-t5", "pouchFoil"}}}},
+            // the coat onto Lynae's LOWER body too, as a second section like the shirt, through the skin's
+            // own see-through coat pass -- see sheerCoat below. The skin's register order, her noise and
+            // the coat's foil are what it reads. (Lynae's jacket slot is left with nothing, and hidden)
+            {5, {4, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"},
+                     {"ps-t4", "jacketNoise"}, {"ps-t5", "pouchFoil"}}, true}},
             // the shirt is SEE-THROUGH on the skin, and no shader of Lynae's draws that: her jacket's drew
             // it opaque white. The skin's own sheer pass draws it -- see sheerJacket below -- and it has
             // to come AFTER the body it shows: the skin draws her jacket after her upper body, Lynae
@@ -187,8 +188,8 @@ namespace AGRemapCore {
             // sources (the lower body and the shirt), and "the diffuse" is a different file for each:
             // without srcComponent both land in one list and the last one's wins
             {4, {{"30ab50e715dce218", {{"ps-t0", "lowerDiffuse", 4}, {"ps-t1", "lowerDiffuse", 4},
-                                       {"ps-t0", "jacketDiffuse", 6}, {"ps-t1", "jacketDiffuse", 6}}}}},
-            {5, {{"f8c96a270bf847dd", {{"ps-t0", "pouchDiffuse"}}}}},
+                                       {"ps-t0", "jacketDiffuse", 6}, {"ps-t1", "jacketDiffuse", 6},
+                                       {"ps-t0", "pouchDiffuse", 5}, {"ps-t1", "pouchDiffuse", 5}}}}},
             // her second eye pass SETS its own t0, and it is the eye MASK (a506a70d in her dump)
             {7, {{"e04f4df80ee6b0ab", {{"ps-t0", "eyeMask"}}}}},
         };
@@ -258,20 +259,16 @@ namespace AGRemapCore {
         // blends over the body wherever the coat's material says so -- in her own frame it leaves 4120
         // pixels of her body showing through the coat, and a mod may paint a whole garment there
         // (LynaePeppermint2's shirt is the coat component, and Lynae's jacket shader drew it solid
-        // cyan). The same state as the shirt's, after the same body; Lynae's jacket slot binds the ramp
-        // at ps-t6 already ----
+        // cyan). The same state as the shirt's, on the same slot and after the same body: drawn on her
+        // jacket slot it was released before the lower body in the character menu and drew opaque over
+        // the hips, and released from inside the lower body's own section (After::also) it drew a
+        // saturated blue with dark bands -- the shirt's arrangement, its own section on the lower body's
+        // draw, is the one that renders as the skin does ----
         WWMIFixerConfig::Shader sheerCoat = lynaePeppermintSheerCoatShader();
-        for (const auto& line : sheerJacket.lines) {
-            if (line.first != "ps-t6") {
-                sheerCoat.lines.push_back(line);
-            }
-        }
+        sheerCoat.lines = sheerJacket.lines;
         sheerCoat.passes = sheerJacket.passes;
-        // ...and after her LOWER body as well: the character menu draws the lower body after the upper,
-        // and a coat released between the two found no body marked over the hips and drew opaque there
         WWMIFixerConfig::Shader::After afterBodyCoat = afterBody;
-        afterBodyCoat.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t6"};
-        afterBodyCoat.also = {{4, 1}};
+        afterBodyCoat.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
         sheerCoat.after = afterBodyCoat;
         sheerCoat.onlyWith = "o3";
 

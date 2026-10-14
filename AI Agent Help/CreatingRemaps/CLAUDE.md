@@ -360,6 +360,12 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
 4. **The remap agent fixes them** (prototype, port, then the static A/B of the compiled fix against the prototype on
    every mod, the corpus, the tests -- all before the next epoch) and **the game agent
    runs another epoch**, over every mod again, not only the ones that had issues: a fix for one mod moves others.
+   **The remap agent may use the game too, between epochs** (the maintainer's note, 2026-10-14): to settle what an
+   issue is and to check a fix before handing it back -- hand-edit the fixed `.ini` and reload, paint a suspect
+   shader red, compare the two cards on the issue's mod and angle, take a frame dump. That is what found the
+   LynaePeppermint coat's blue (where it was drawn, not what it was drawn with) in four hand edits. Never while the
+   game agent is running an epoch (one game, one driver), and with the same rules; leave the mods, `d3dx.ini` and
+   the worn outfit as the epoch expects them.
 5. **Repeat until an epoch finds nothing.** Only then does the maintainer get the final check.
 
 **Tips the LynaePeppermint rounds paid for**, for the game agent and the remap agent alike:

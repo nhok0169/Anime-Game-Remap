@@ -5,6 +5,15 @@
     <includes refid="_call_graph_8h" local="yes">AGRemapCore/model/CallGraph.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="27">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="33">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="42">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
@@ -67,6 +76,36 @@
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="18">
@@ -209,42 +248,6 @@
         <childnode refid="40" relation="include">
         </childnode>
       </node>
-      <node id="27">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="33">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="24">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-      </node>
       <node id="1">
         <label>src/model/CallGraphInstantiation.cpp</label>
         <link refid="_call_graph_instantiation_8cpp"/>
@@ -252,9 +255,6 @@
         </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-      </node>
-      <node id="42">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="41">
         <label>IfContentPart.tpp</label>

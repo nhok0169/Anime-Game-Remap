@@ -26,13 +26,13 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
-        <link refid="_gamma_filter_8cpp"/>
-      </node>
       <node id="2">
         <label>src/model/files/TextureFile.cpp</label>
         <link refid="_texture_file_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
+        <link refid="_gamma_filter_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>

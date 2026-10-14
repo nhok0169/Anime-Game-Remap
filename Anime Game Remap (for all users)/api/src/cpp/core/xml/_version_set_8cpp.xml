@@ -5,6 +5,27 @@
     <includes refid="_version_set_8h" local="yes">AGRemapCore/model/VersionSet.h</includes>
     <includes local="no">algorithm</includes>
     <incdepgraph>
+      <node id="15">
+        <label>Cache.tpp</label>
+      </node>
+      <node id="6">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="2">
         <label>AGRemapCore/model/VersionSet.h</label>
         <link refid="_version_set_8h"/>
@@ -53,24 +74,6 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
       <node id="1">
         <label>src/model/VersionSet.cpp</label>
         <link refid="_version_set_8cpp"/>
@@ -78,9 +81,6 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-      </node>
-      <node id="15">
-        <label>Cache.tpp</label>
       </node>
       <node id="16">
         <label>LruCache.tpp</label>

@@ -72,13 +72,13 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="6">
-        <label>src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp</label>
-        <link refid="_reg_surrounded_add_instantiation_8cpp"/>
-      </node>
       <node id="5">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/strategies/iniFixers/graphEdits/RegSurroundedAddInstantiation.cpp</label>
+        <link refid="_reg_surrounded_add_instantiation_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_graph_tools" prot="public">AGRemapCore::GraphTools</innerclass>

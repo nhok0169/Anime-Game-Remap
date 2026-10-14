@@ -134,13 +134,13 @@
         <label>src/model/iftemplate/IfPredParser.cpp</label>
         <link refid="_if_pred_parser_8cpp"/>
       </node>
-      <node id="4">
-        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
-        <link refid="_if_pred_z3_generator_8cpp"/>
-      </node>
       <node id="3">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
+        <link refid="_if_pred_z3_generator_8cpp"/>
       </node>
       <node id="9">
         <label>src/model/iftemplate/SympyParser.cpp</label>

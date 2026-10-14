@@ -16,6 +16,14 @@
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_remap_blend_resource_8cpp" local="yes">src/model/iniresources/RemapBlendResource.cpp</includedby>
     <incdepgraph>
+      <node id="6">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
       <node id="11">
         <label>AGRemapCore/model/buffers/BufDataType.h</label>
         <link refid="_buf_data_type_8h"/>
@@ -224,6 +232,14 @@
         <childnode refid="28" relation="include">
         </childnode>
       </node>
+      <node id="25">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="29">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
@@ -258,22 +274,6 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>AGRemapCore/model/VGRemap.h</label>
-        <link refid="_v_g_remap_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>AGRemapCore/tools/Heading.h</label>
-        <link refid="_heading_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="30">
@@ -342,6 +342,10 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
       <node id="3">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
@@ -350,17 +354,13 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="7">
-        <label>src/model/iniresources/RemapBlendResource.cpp</label>
-        <link refid="_remap_blend_resource_8cpp"/>
-      </node>
-      <node id="5">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
       <node id="6">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/iniresources/RemapBlendResource.cpp</label>
+        <link refid="_remap_blend_resource_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public">AGRemapCore::RemapBlendResource</innerclass>

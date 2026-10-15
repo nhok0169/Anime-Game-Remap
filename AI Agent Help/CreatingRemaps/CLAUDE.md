@@ -1666,6 +1666,20 @@ the mod on its own card. What it found:
   that cost time first: an `.hlsl` patched for a test needs a positive control (paint everything red) before a negative
   result means anything, and `o2.w` -- the shading byte -- told the two shaders' pixels apart in a frame dump
   (`gbufSplit`-style: group a draw's pixels by their `o2.w` / `o6` values and paint each group).
+  **AND 3DMIGOTO'S DECOMPILER WROTE THE WRONG SHADING MODEL INTO EVERY ONE OF THEM (2026-10-15).** An integer bit
+  operation on a constant (`bfi ... cb2[23].w`) decompiles as `(uint)cb2[23].w`, a float-to-int CONVERSION of a value
+  stored as raw bits -- 1 became 0, and every shader generated from the HLSL wrote G-buffer `o2.w` 12 where her own
+  draws write 44. `wwmiShaderData.py` rewrites those casts to `asuint(...)` now; compare `o2.w` of the custom draw
+  and of her own in two frame dumps after generating any shader. **Three open items after epoch 4, each bisected and
+  none explained:** (1) Lynae14's gold filigree glows brighter on the skin -- the G-buffer it writes now matches her
+  own, so the difference is after the draw; (2) Lynae13 with only its pantyhose shows pale blotches at the waist,
+  from her jacket shader's matcap FOIL lookup (a constant foil removes them) -- not the texture roles, code map, mip
+  chain, normal map, sampler slot, `vb6`, stencil, depth bias or vertex shader (her own `6ffcf365`, captured with
+  hunting, changes nothing); (3) LP1's sheer shirt is slightly less frosted. And Lynae11's silver skirt is
+  RabbitFX's: with RabbitFX parked both cards match. **Hunting trap that voided two tests:** with
+  `marking_actions = ... hlsl asm`, a mark writes TWO files (`-vs_replace.txt` and `-vs.txt`), and the second lands a
+  moment later -- watch `ShaderFixes` until it stays empty, or 3DMigoto loads the assembly as a replacement and the
+  routes gated on that shader's hash stop firing (the mod falls back to the target's own outfit).
   **AND A CUSTOM SHADER MUST NOT WRITE THE STENCIL OVER BITS ANOTHER PASS ALREADY SET (2026-10-14, epoch 3).** Her own
   shaders were first given "her draw's state": stencil ref 2 through write mask `0xff`, `always replace`. That
   overwrote the bits the SKIN's depth prepass had already written for those pixels, and the deferred lighting reads

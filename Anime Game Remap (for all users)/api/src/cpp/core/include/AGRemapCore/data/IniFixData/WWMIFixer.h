@@ -379,6 +379,16 @@ namespace AGRemapCore {
              @endrst
              */
             std::vector<std::pair<std::string, std::string>> markLines;
+
+            /**
+             * @brief
+             @rst
+             Passes of the target slot (pixel shader hashes, as in :cpp:member:`slotPasses`) that the
+             component's draws are kept off -- eg. a slot's outline pass, whose shell of an under-layer
+             the target's outline shader draws through the layer over it. **Default**: empty, every pass
+             @endrst
+             */
+            std::vector<std::string> offPasses;
         };
 
         /**

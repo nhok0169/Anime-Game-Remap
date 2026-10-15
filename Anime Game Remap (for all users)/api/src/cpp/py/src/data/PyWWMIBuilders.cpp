@@ -294,6 +294,12 @@ List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on 
 ``CustomShader`` lines -- to mark the pixels the component is the visible surface of in the stencil, eg.
 ``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
 render targets. **Default**: empty, no such draw
+        )doc"))
+        .def_readwrite("offPasses", &AGRC::WWMIFixerConfig::SourceComponent::offPasses, py::doc(R"doc(
+List[:class:`str`]: Passes of the target slot (pixel shader hashes, as in
+:attr:`WWMIFixerConfig.slotPasses`) that the component's draws are kept off -- eg. a slot's outline
+pass, whose shell of an under-layer the target's outline shader draws through the layer over it.
+**Default**: empty, every pass
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::DrawReroute> drawReroute(fixerConfig, "DrawReroute", R"doc(
@@ -331,7 +337,7 @@ not a source slot. Its slot and bindings say where they go and what they bind
 :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
 its vertices carry any of them
         )doc"))
-        .def_readwrite("sourceFlags", &AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
+        .def_readwrite("sourceFlags",&AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
 :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
 :attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
 role: such a mod draws with the game's map on its own character, so that map decides which of its

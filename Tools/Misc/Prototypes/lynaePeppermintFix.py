@@ -370,6 +370,10 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     rfx.gameTags = {"ps-t0": 3, "ps-t1": 0, "ps-t2": 4, "ps-t3": 3}
     plan[4].rabbitFX = rfx
     plan[104].rabbitFX = rfx
+    # her lower body is kept off the slot's outline pass, whose shell of her tights shows through her
+    # shorts in lime (core's LynaeFixer)
+    plan[4].offPasses = ["f8c96a270bf847dd"]
+    plan[104].offPasses = ["f8c96a270bf847dd"]
     config.plan = plan
     # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
     # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)

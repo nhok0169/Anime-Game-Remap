@@ -1695,6 +1695,21 @@ the mod on its own card. What it found:
   coat's back panel on Lynae5 (dark olive where hers is pale iridescent) and, milder, on the identity mod -- one
   draw, her shader, her foil, her ramp, the mod's textures as the Restored copy binds them, and neither the stencil,
   the blend / cull lines nor the slot's second pass changes it.
+  **LYNAE9'S LIME SHORTS WERE THE SLOT'S OUTLINE PASS, NOT ANY SHADER OF HERS (2026-10-15).** Under her skirt the
+  shorts rendered lime on the skin's card and dark on hers. Six theories went first, each built on a shot where
+  the hair or the camera angle happened to hide the shorts -- most expensively, a per-triangle split of her lower
+  body by the `0x80` flag, built, compiled and shot, which "removed" the lime only because the hair covered it,
+  and turned her tights pale (the tights carry `0x80` too). It was reverted. What found it: **a low-angle shot
+  that shows the part every time** (drag the camera up after turning), then **painting every custom shader a
+  different colour** (the lime stayed unpainted, so it was a draw on the slot's own shader), then **one
+  `dump_rt jpg` frame dump** (53 MB) and tracking the lime pixels of the dump's FINAL frame back through the
+  draws: draw 78 (her body) wrote the shorts dark, and draw 83 -- `f8c96a27`, the skin's upper-body slot's
+  OUTLINE pass, where her lower body falls back to the skin's shader -- wrote `o3 = (114, 114, 3)` over them.
+  The skin's outline shell of her tights pokes through the shorts, in the outline shader's colour; `t0` does not
+  change it, and her own card shows no outline there. `SourceComponent::offPasses` (new) keeps a component's
+  draws off the passes it names (`if vs != ...` around each draw, in a list of the fix's own); plans 4 and 104
+  name `f8c96a27`. **Probe the pixel where it ends, not where the screenshot was**: the idle pose moves between
+  a screenshot and a dump, so map the lime off the dump's own last frame.
 
 <br>
 

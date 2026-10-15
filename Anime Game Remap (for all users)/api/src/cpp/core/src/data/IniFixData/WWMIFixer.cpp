@@ -5686,6 +5686,28 @@ namespace AGRemapCore {
                         }
                     }
 
+                    offEdits_.clear();
+                    offAdapters_.clear();
+                    for (const auto& [component, planned] : config_.plan) {
+                        if (planned.offPasses.empty() || rerouteShaders_.count(component) > 0 || present_.count(component) == 0) {
+                            continue;
+                        }
+
+                        std::map<std::pair<long long, long long>, std::string> runOf;
+                        for (const auto& range : shaderDraws(component)) {
+                            const Kvp run = offDraw(component, range);
+                            if (run.first == IniKeywords::Run) {
+                                runOf.emplace(range, run.second);
+                            }
+                        }
+
+                        if (!runOf.empty()) {
+                            auto edit = std::make_unique<RerouteShaderDraws>(std::move(runOf));
+                            offAdapters_[component] = std::make_unique<RegPartEdit<>>(edit.get());
+                            offEdits_.push_back(std::move(edit));
+                        }
+                    }
+
                     markEdit_.reset();
                     markAdapter_.reset();
                     if (!markOf.empty()) {
@@ -5892,6 +5914,7 @@ namespace AGRemapCore {
                         for (const auto& range : shaderDraws(as)) {
                             const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
                             const std::string custom = rerouteShaderSection(as, range, "CustomShader");
+                            const Kvp fallback = offDraw(as, range);
                             const std::size_t passCount = std::max<std::size_t>(1, shader->passes.size());
                             const auto passName = [&](std::size_t p) {
                                 return p == 0 ? custom : custom + "Pass" + std::to_string(p);
@@ -5917,11 +5940,11 @@ namespace AGRemapCore {
                             const std::vector<std::pair<int, int>> waits = awaited(*shader);
                             if (waits.empty()) {
                                 if (shader->onlyWith.empty()) {
-                                    out += list.open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close().str();
+                                    out += list.open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close().str();
                                 } else {
                                     out += list.open(shader->onlyWith + " !== null")
-                                                   .open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close()
-                                               .orElse().key(IniKeywords::DrawIndexed, draw)
+                                                   .open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close()
+                                               .orElse().key(fallback.first, fallback.second)
                                                .close()
                                                .str();
                                 }
@@ -5959,16 +5982,16 @@ namespace AGRemapCore {
                                 list.open(frame + " != time").keys(reset).close()
                                     .open(target + " === null");
                                 if (shader->onlyWith.empty()) {
-                                    list.open(onPlan).keys(runs).orElse().key(IniKeywords::DrawIndexed, draw).close();
+                                    list.open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close();
                                 } else {
-                                    list.key(IniKeywords::DrawIndexed, draw);
+                                    list.key(fallback.first, fallback.second);
                                 }
                                 out += list.orElse()
                                                .open(onPlan)
                                                    .open(ready).keys(runs)
                                                    .orElse().keys(hold)
                                                    .close()
-                                               .orElse().key(IniKeywords::DrawIndexed, draw)
+                                               .orElse().key(fallback.first, fallback.second)
                                                .close()
                                            .close()
                                            .str();
@@ -6071,6 +6094,10 @@ namespace AGRemapCore {
 
                     for (const std::string& reg : shaderBackupRegs_) {
                         out += SectionText(z3_, shaderBackup(reg)).str();
+                    }
+
+                    for (const auto& [name, gated] : offLists_) {
+                        out += SectionText(z3_, name).open(gated.first).key(IniKeywords::DrawIndexed, gated.second).close().str();
                     }
                     return out;
                 }
@@ -6233,6 +6260,10 @@ namespace AGRemapCore {
 
                             if (rerouteShaders_.count(component) > 0 && rerouteShaderAdapter_ != nullptr) {
                                 edits.push_back(rerouteShaderAdapter_.get());   // last: every anchor above reads the draw
+                            }
+
+                            if (offAdapters_.count(component) > 0) {
+                                edits.push_back(offAdapters_.at(component).get());   // SourceComponent::offPasses
                             }
 
                             perGroup[g].edits[obj] = std::move(edits);
@@ -6635,6 +6666,46 @@ namespace AGRemapCore {
 
                 std::string passCondition(const std::string& pass) {
                     return passCondition(std::vector<std::string>{pass});
+                }
+
+                // The `.ini` condition true on a draw of none of 'passes' -- see SourceComponent::offPasses
+                std::string passNotCondition(const std::vector<std::string>& passes) {
+                    passFilter("");
+                    const std::string reg = config_.passVertexShaders.empty() ? "ps" : "vs";
+                    std::vector<std::string> named;
+                    std::string out;
+                    for (const std::string& pass : passes) {
+                        for (const std::string& tagged : taggedFor(pass)) {
+                            if (std::find(named.begin(), named.end(), tagged) != named.end()) {
+                                continue;
+                            }
+
+                            named.push_back(tagged);
+                            out += (out.empty() ? "" : " && ") + reg + " != " + passFilters_[tagged];
+                        }
+                    }
+
+                    return out;
+                }
+
+                // A component's draw, kept off the passes its SourceComponent::offPasses names: a `run =` of a
+                // list that draws it only off them (its section written by rerouteShaderSections)
+                Kvp offDraw(int component, const std::pair<long long, long long>& range) {
+                    const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end() || planned->second.offPasses.empty()) {
+                        return {IniKeywords::DrawIndexed, draw};
+                    }
+
+                    const std::string condition = passNotCondition(planned->second.offPasses);
+                    if (condition.empty()) {
+                        return {IniKeywords::DrawIndexed, draw};
+                    }
+
+                    const std::string name = fixName(IniKeywords::CommandList + "OffPass" + std::to_string(component) + "Draw"
+                                                     + std::to_string(range.first) + "_" + std::to_string(range.second));
+                    offLists_[name] = {condition, draw};
+                    return {IniKeywords::Run, name};
                 }
 
                 std::string passFilter(const std::string& pass) {
@@ -8687,6 +8758,10 @@ namespace AGRemapCore {
                 std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
                 std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;
                 std::map<int, std::set<std::pair<long long, long long>>> reroutedDraws_;   // ...and those draws, keyed by `as`
+                // SourceComponent::offPasses: list name -> (condition, draw), and the edits that run them
+                std::map<std::string, std::pair<std::string, std::string>> offLists_;
+                std::vector<std::unique_ptr<RerouteShaderDraws>> offEdits_;
+                std::map<int, std::unique_ptr<RegPartEdit<>>> offAdapters_;
                 std::vector<std::unique_ptr<RegRemove<>>> rerouteRemoves_;
 
                 // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.

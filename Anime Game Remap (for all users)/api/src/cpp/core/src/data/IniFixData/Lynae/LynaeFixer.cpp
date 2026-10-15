@@ -229,6 +229,12 @@ namespace AGRemapCore {
         config.plan.at(4).rabbitFX = WWMIFixerConfig::SourceComponent::RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
         config.plan.at(104).rabbitFX = config.plan.at(4).rabbitFX;
 
+        // ---- HER LOWER BODY IS KEPT OFF THE SLOT'S OUTLINE PASS (f8c96a27). The skin's outline shader draws
+        // the shell of her tights through the shorts over them, lime (Lynae9, 2026-10-15: a frame dump put
+        // the lime on that pass, and her own card shows no outline there) ----
+        config.plan.at(4).offPasses = {"f8c96a270bf847dd"};
+        config.plan.at(104).offPasses = {"f8c96a270bf847dd"};
+
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----
         config.extraPassRegs = {

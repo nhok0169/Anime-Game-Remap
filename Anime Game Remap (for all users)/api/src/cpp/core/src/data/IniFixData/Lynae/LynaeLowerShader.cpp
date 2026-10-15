@@ -412,13 +412,13 @@ void main(
   r6.y = dot(r15.xyz, r15.xyz);
   r6.y = sqrt(r6.y);
   r6.y = saturate(cb1[0].w * r6.y);
-  if (2 == 0) r6.w = 0; else if (2+16 < 32) {   r6.w = (uint)cb1[1].w << (32-(2 + 16)); r6.w = (uint)r6.w >> (32-2);  } else r6.w = (uint)cb1[1].w >> 16;
+  if (2 == 0) r6.w = 0; else if (2+16 < 32) {   r6.w = asuint(cb1[1].w) << (32-(2 + 16)); r6.w = (uint)r6.w >> (32-2);  } else r6.w = asuint(cb1[1].w) >> 16;
   r6.w = (uint)r6.w;
   r15.xy = cmp(r6.ww >= float2(0.899999976,1.89999998));
   r15.xy = r15.xy ? float2(1,1) : 0;
   r18.xy = cmp(float2(1.10000002,2.0999999) >= r6.ww);
-  r18.xy = r18.xy ? flo)hlsl";
-        shader.ps += R"hlsl(at2(1,1) : 0;
+  r18.xy = r18.xy ?)hlsl";
+        shader.ps += R"hlsl( float2(1,1) : 0;
   r15.xy = min(r18.xy, r15.xy);
   r6.w = 0.5 * r15.x;
   r15.x = -r15.x * 0.5 + 1;
@@ -798,9 +798,9 @@ void main(
   } else {
     r14.z = 1;
   }
-  r15.xy = -r1.xy * cb0[135].zw + float2(1,1);
- )hlsl";
-        shader.ps += R"hlsl( r14.w = r15.y + r15.y;
+  r15.xy = -r1.xy * cb0[135].zw + float2(1,1)hlsl";
+        shader.ps += R"hlsl();
+  r14.w = r15.y + r15.y;
   r15.x = r15.x * 2 + -0.0500000007;
   r15.x = -cb0[148].z * 0.300000012 + r15.x;
   r15.x = r1.y * cb0[135].w + r15.x;
@@ -1142,7 +1142,7 @@ void main(
     o1.xy = r3.xy * float2(0.5,0.5) + float2(0.5,0.5);
     r1.xyz = saturate(r1.xyz);
     o2.xyz = sqrt(r1.xyz);
-    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r2.w = (((uint)cb2[23].w << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
+    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r2.w = ((asuint(cb2[23].w) << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
     r2.w = (uint)r2.w;
     o2.w = 0.00392156886 * r2.w;
     r2.x = saturate(r2.x);
@@ -1176,8 +1176,8 @@ void main(
     bitmask.w = ((~(-1 << 4)) << 0) & 0xffffffff;  r0.w = (((uint)r1.w << 0) & bitmask.w) | ((uint)r0.w & ~bitmask.w);
     r0.w = (uint)r0.w;
     r2.z = 0.00392156886 * r0.w;
-    r0.w = dot(float3(1,1,1), abs(r)hlsl";
-        shader.ps += R"hlsl(8.xyz));
+    r0.w = dot(float3(1,1,1),)hlsl";
+        shader.ps += R"hlsl( abs(r8.xyz));
     r3.xy = r8.xy / r0.ww;
     r3.zw = float2(1,1) + -abs(r3.yx);
     r4.xy = cmp(r3.xy >= float2(0,0));
@@ -1189,7 +1189,7 @@ void main(
     r3.xy = r0.ww * r3.zw + r3.xy;
     o1.xy = r3.xy * float2(0.5,0.5) + float2(0.5,0.5);
     o2.xyz = sqrt(r1.xyz);
-    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.w = (((uint)cb2[23].w << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
+    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.w = ((asuint(cb2[23].w) << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
     r0.w = (uint)r0.w;
     o2.w = 0.00392156886 * r0.w;
     r2.y = 0.941176474;

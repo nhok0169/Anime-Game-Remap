@@ -14,6 +14,17 @@ Capturing the HLSL: 3DMigoto's hunting mode marks the selected shader into ``Sha
 hlsl``). Capture it with every third-party shader mod (RabbitFX, ...) parked: a patched shader is not the game's,
 and one decompiles to assembly only. Move the file OUT of ``ShaderFixes`` straight away, or 3DMigoto loads it as a
 replacement. The assembly comment block 3DMigoto appends is dropped here, and so is its dated first line.
+
+The DECOMPILER IS REPAIRED on the way: an integer bit operation on a constant-buffer value (``bfi``, ``ubfe`` ...
+``cb2[23].w`` in the assembly) comes out as ``(uint)cb2[23].w`` -- a float-to-integer CONVERSION, which turns a
+value stored as raw integer bits (1, printed as the float 1.4e-45) into 0 -- where the assembly reads the bits.
+Every such cast becomes ``asuint(...)``. Without it Lynae's shaders wrote the wrong shading model into the
+G-buffer (``o2.w`` 12 where her own draw writes 44), and the deferred lighting shaded every part of hers with
+the wrong model: a glow on gold, whiter gauze, flat lime on some materials.
+
+    py -3 wwmiShaderData.py --from-json <old .json> --func ... --header ... --label ... --cpp <out> --json <out>
+
+rebuilds both files from an earlier JSON (its HLSL repaired, its buffers kept) when the capture is gone.
 """
 import argparse, json, os, re, struct
 
@@ -48,6 +59,14 @@ def readHlsl(path, label):
     if ")" + DELIM + '"' in body:
         raise SystemExit("the shader holds the raw-string delimiter")
     return "// " + label + " -- decompiled by 3DMigoto\n" + body + "\n"
+
+
+CB_CAST = re.compile(r"\((?:uint|int)\)(cb\d+\[\d+\]\.[xyzw]+)")
+
+
+def repairCasts(hlsl):
+    """An integer read of a constant-buffer value is its raw bits (``asuint``), not a conversion."""
+    return CB_CAST.sub(r"asuint(\1)", hlsl)
 
 
 def readCb(spec):
@@ -95,9 +114,10 @@ def cppText(args, hlsl, cbs):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--hlsl", required=True)
+    p.add_argument("--hlsl")
+    p.add_argument("--from-json", dest="fromJson")
     p.add_argument("--cb", action="append", default=[])
-    p.add_argument("--name", required=True)
+    p.add_argument("--name")
     p.add_argument("--func", required=True)
     p.add_argument("--header", required=True)
     p.add_argument("--label", required=True)
@@ -105,8 +125,16 @@ def main():
     p.add_argument("--json")
     args = p.parse_args()
 
-    hlsl = readHlsl(args.hlsl, args.label)
-    cbs = [readCb(spec) for spec in args.cb]
+    if args.fromJson:
+        old = json.load(open(args.fromJson, encoding="utf-8"))
+        hlsl = repairCasts(old["ps"])
+        cbs = list(old["constantBuffers"].items())
+        args.name = args.name or old["name"]
+    else:
+        if not args.hlsl or not args.name:
+            raise SystemExit("--hlsl and --name are needed without --from-json")
+        hlsl = repairCasts(readHlsl(args.hlsl, args.label))
+        cbs = [readCb(spec) for spec in args.cb]
     if args.cpp:
         open(args.cpp, "wb").write(cppText(args, hlsl, cbs).replace("\n", "\r\n").encode("utf-8"))
         print("wrote", args.cpp)

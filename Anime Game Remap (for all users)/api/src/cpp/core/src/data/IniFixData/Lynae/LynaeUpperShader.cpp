@@ -256,7 +256,7 @@ void main(
   r5.x = dot(r13.xyz, r13.xyz);
   r5.x = sqrt(r5.x);
   r5.x = saturate(cb1[0].w * r5.x);
-  if (2 == 0) r6.y = 0; else if (2+16 < 32) {   r6.y = (uint)cb1[1].w << (32-(2 + 16)); r6.y = (uint)r6.y >> (32-2);  } else r6.y = (uint)cb1[1].w >> 16;
+  if (2 == 0) r6.y = 0; else if (2+16 < 32) {   r6.y = asuint(cb1[1].w) << (32-(2 + 16)); r6.y = (uint)r6.y >> (32-2);  } else r6.y = asuint(cb1[1].w) >> 16;
   r6.y = (uint)r6.y;
   r7.zw = cmp(r6.yy >= float2(0.899999976,1.89999998));
   r7.zw = r7.zw ? float2(1,1) : 0;
@@ -435,8 +435,8 @@ void main(
   r16.xyz = r13.xxx * r16.xyz + r0.yyy;
   r0.y = -1 + r7.z;
   r0.y = cb4[100].x * r0.y + 1;
-  r17.xyzw = r13.yyyy * float4(-1.111)hlsl";
-        shader.ps += R"hlsl(11116,-0.0305555575,-0.635555625,0.024444446) + float4(1,0.0425000004,1.03999996,-0.0399999991);
+  r17.xyzw = r13.yyyy * float4(-1)hlsl";
+        shader.ps += R"hlsl(.11111116,-0.0305555575,-0.635555625,0.024444446) + float4(1,0.0425000004,1.03999996,-0.0399999991);
   r0.z = r17.x * r17.x;
   r0.y = -9.27999973 * r0.y;
   r0.y = exp2(r0.y);
@@ -610,7 +610,7 @@ void main(
     o1.xy = r1.xy * float2(0.5,0.5) + float2(0.5,0.5);
     r2.xyz = saturate(r2.xyz);
     o2.xyz = sqrt(r2.xyz);
-    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r1.x = (((uint)cb2[23].w << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
+    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r1.x = ((asuint(cb2[23].w) << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
     r1.x = (uint)r1.x;
     o2.w = 0.00392156886 * r1.x;
     r1.x = saturate(cb4[128].y);
@@ -692,7 +692,7 @@ void main(
     o1.xy = r0.xy * float2(0.5,0.5) + float2(0.5,0.5);
     r2.xyz = saturate(r2.xyz);
     o2.xyz = sqrt(r2.xyz);
-    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.x = (((uint)cb2[23].w << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
+    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.x = ((asuint(cb2[23].w) << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
     r0.x = (uint)r0.x;
     o2.w = 0.00392156886 * r0.x;
     o6.x = cb4[128].y;

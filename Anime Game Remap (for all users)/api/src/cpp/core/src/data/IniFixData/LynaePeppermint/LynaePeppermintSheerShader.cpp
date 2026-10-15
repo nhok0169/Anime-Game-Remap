@@ -306,7 +306,7 @@ void main(
   r10.w = dot(r14.xyz, r14.xyz);
   r10.w = sqrt(r10.w);
   r10.w = saturate(cb1[0].w * r10.w);
-  if (2 == 0) r12.x = 0; else if (2+16 < 32) {   r12.x = (uint)cb1[1].w << (32-(2 + 16)); r12.x = (uint)r12.x >> (32-2);  } else r12.x = (uint)cb1[1].w >> 16;
+  if (2 == 0) r12.x = 0; else if (2+16 < 32) {   r12.x = asuint(cb1[1].w) << (32-(2 + 16)); r12.x = (uint)r12.x >> (32-2);  } else r12.x = asuint(cb1[1].w) >> 16;
   r12.x = (uint)r12.x;
   r14.xy = cmp(r12.xx >= float2(0.899999976,1.89999998));
   r14.xy = r14.xy ? float2(1,1) : 0;
@@ -428,8 +428,8 @@ void main(
   r13.w = r14.y * 2 + -1;
   r13.w = r13.w * r13.w;
   r13.w = r13.w * r13.w;
-  r16.w)hlsl";
-        shader.ps += R"hlsl( = r16.y + r16.z;
+  r)hlsl";
+        shader.ps += R"hlsl(16.w = r16.y + r16.z;
   r17.x = 1 + -r16.y;
   r16.w = -r17.x * r16.z + r16.w;
   r16.y = r16.y + -r16.z;
@@ -737,7 +737,7 @@ void main(
     o1.xy = r3.xy * float2(0.5,0.5) + float2(0.5,0.5);
     r2.xyz = saturate(r2.xyz);
     o2.xyz = sqrt(r2.xyz);
-    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r1.w = (((uint)cb2[23].w << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
+    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r1.w = ((asuint(cb2[23].w) << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
     r1.w = (uint)r1.w;
     o2.w = 0.00392156886 * r1.w;
     r1.w = r0.y * 255 + 0.5;
@@ -793,8 +793,8 @@ void main(
     r0.xz = r7.yz / r0.xx;
     r3.xy = float2(1,1) + -abs(r0.zx);
     r3.zw = cmp(r0.xz >= float2(0,0));
-    r3.zw = r3.zw ? floa)hlsl";
-        shader.ps += R"hlsl(t2(0.5,0.5) : float2(-0.5,-0.5);
+    r3.zw = r3.zw )hlsl";
+        shader.ps += R"hlsl(? float2(0.5,0.5) : float2(-0.5,-0.5);
     r3.xy = r3.zw * r3.xy;
     r0.w = cmp(0 >= r7.w);
     r0.w = r0.w ? 1.000000 : 0;
@@ -803,7 +803,7 @@ void main(
     o1.xy = r0.xz * float2(0.5,0.5) + float2(0.5,0.5);
     r2.xyz = saturate(r2.xyz);
     o2.xyz = sqrt(r2.xyz);
-    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.x = (((uint)cb2[23].w << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
+    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.x = ((asuint(cb2[23].w) << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
     r0.x = (uint)r0.x;
     o2.w = 0.00392156886 * r0.x;
     o6.x = cb4[135].z;

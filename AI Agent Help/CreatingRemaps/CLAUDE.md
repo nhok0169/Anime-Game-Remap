@@ -367,7 +367,8 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
    game agent is running an epoch (one game, one driver), and with the same rules; leave the mods, `d3dx.ini` and
    the worn outfit as the epoch expects them.
    **Fix EVERY issue an epoch flags before the next one, not the headline ones** (the maintainer, 2026-10-14). An
-   epoch costs hours of game time, and each item left for "the next epoch to re-measure" buys one more. On
+   epoch is EXPENSIVE: on LynaePeppermint a game agent took 3-4 hours (up to ~8) to verify ~20 mods, during which
+   nothing else can use the game -- and each item left for "the next epoch to re-measure" buys another one. On
    LynaePeppermint epochs 2-4 each carried 8-10 small items forward (a tint, a frosting, a pale ornament) while
    the big ones were chased, and two of those "small residuals" turned out to have one real cause (the reverse
    upper body drawn by the target's shader: a flat bikini, a pale starfish and seam lines on bare skin, gone

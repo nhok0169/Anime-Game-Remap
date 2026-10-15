@@ -22,6 +22,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
@@ -292,6 +293,25 @@ namespace AGRemapCore {
         };
         lowerBody.onlyWith = "o3";
         config.plan.at(4).shader = std::move(lowerBody);
+
+        // ---- and her UPPER BODY through her own upper-body pass (ed4fe222). Drawn by Lynae's upper-body
+        // shader with her maps edited to approximate her, her materials came out as Lynae's: a satin bikini
+        // flat purple, a gold starfish pale cream, the seams of the shirt showing on bare skin with it off.
+        // Her register order is Lynae's slot's (normal, mask, code, diffuse, the ramp at ps-t6); her noise
+        // (ps-t4) and foil (ps-t5) are the game's, bound only while her shader draws. Her body's stencil, as
+        // her lower body: the shirt's see-through pass tests those bits ----
+        WWMIFixerConfig::Shader upperBody = lynaePeppermintUpperShader();
+        upperBody.lines = {
+            {"depth_stencil_state_merge", "true"},
+            {"stencil_enable", "true"},
+            {"stencil_ref", "14"},
+            {"stencil_write_mask", "0x8e"},
+            {"stencil_front", "always replace keep keep"},
+            {"stencil_back", "always replace keep keep"},
+        };
+        upperBody.registers = {{"ps-t4", "jacketNoise"}, {"ps-t5", "upperFoil"}};
+        upperBody.onlyWith = "o3";
+        config.plan.at(3).shader = std::move(upperBody);
 
         // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
         const std::vector<std::pair<std::string, std::string>> bodyMark = {

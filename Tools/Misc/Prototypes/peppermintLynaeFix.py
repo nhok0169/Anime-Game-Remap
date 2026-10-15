@@ -129,7 +129,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts = FRB.WWMITextureFacts()
     # (and the noise and foil her see-through and lower-body passes read, so a mod's own copy by hash is bound;
     # not thumbprinted, as in core's LynaePeppermintTextures)
-    facts.roles = {**OlderRoles, **CurrentRoles, "00e3f13b": "pouchFoil", "4bee4070": "jacketFoil", "99527ecc": "jacketNoise"}
+    facts.roles = {**OlderRoles, **CurrentRoles, "00e3f13b": "pouchFoil", "4bee4070": "jacketFoil", "99527ecc": "jacketNoise",
+                   "9934ca23": "upperFoil"}
     facts.registerRoles = RegisterRoles
     facts.textureThumbprints = thumbprints()
     facts.downloadGameFolder = "WuWa"
@@ -140,7 +141,7 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     # her see-through jacket and coat passes' noise and foil, which a mod never ships (core's
     # LynaePeppermintTextures)
     facts.fallbackTextures = {**facts.fallbackTextures, "jacketNoise": "99527ecc", "jacketFoil": "4bee4070",
-                              "pouchFoil": "00e3f13b"}
+                              "pouchFoil": "00e3f13b", "upperFoil": "9934ca23"}
     return facts
 
 
@@ -347,6 +348,23 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                    ("rasterizer_state_merge", "true"), ("cull", "none")]
     lower.onlyWith = "o3"
     plan[4].shader = lower
+    # ---- and her UPPER BODY through her own upper-body pass (ed4fe222): drawn by Lynae's upper-body shader with her
+    # maps edited to approximate her, her materials came out as Lynae's (a satin bikini flat, a gold starfish pale,
+    # seams of the shirt showing on bare skin). Her register order is Lynae's slot's (normal, mask, code, diffuse,
+    # the ramp at ps-t6); her noise (ps-t4) and foil (ps-t5) are the game's and bound only while her shader draws.
+    # Her body's stencil, as her lower body (data/lynaePeppermintUpperShader.json, core's LynaePeppermintFixer) ----
+    with open(os.path.join(Here, "data", "lynaePeppermintUpperShader.json"), encoding = "utf-8") as f:
+        upperData = json.load(f)
+    upper = FRB.WWMIFixerConfig.Shader()
+    upper.name = upperData["name"]
+    upper.ps = upperData["ps"]
+    upper.constantBuffers = upperData["constantBuffers"]
+    upper.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
+                   ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
+                   ("stencil_back", "always replace keep keep")]
+    upper.registers = [B("ps-t4", "jacketNoise"), B("ps-t5", "upperFoil")]
+    upper.onlyWith = "o3"
+    plan[3].shader = upper
     plan[3].markLines = bodyMark
     plan[4].markLines = bodyMark + [("rasterizer_state_merge", "true"), ("cull", "none")]   # two-sided, as the lower body
     config.plan = plan

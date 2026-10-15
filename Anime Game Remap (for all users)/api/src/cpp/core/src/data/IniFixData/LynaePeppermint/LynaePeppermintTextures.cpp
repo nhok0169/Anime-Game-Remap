@@ -57,6 +57,7 @@ namespace AGRemapCore {
             {"00e3f13b", "pouchFoil"},
             {"4bee4070", "jacketFoil"},
             {"99527ecc", "jacketNoise"},
+            {"9934ca23", "upperFoil"},
             // ...and the OLDER generation wwmiHashHistory.py proved from LynaePeppermint2 (a mod
             // shipping the game's own pixels under each)
             {"2b8fb2f2", "lowerDiffuse"},
@@ -115,6 +116,8 @@ namespace AGRemapCore {
             {"jacketNoise", "99527ecc"},
             {"jacketFoil", "4bee4070"},
             {"pouchFoil", "00e3f13b"},
+            // ...and her upper-body pass's foil, at the register lynaePeppermintUpperShader reads it from
+            {"upperFoil", "9934ca23"},
             {"lowerDetail", "0fa3ab67"},
             {"lowerDiffuse", "16e48d10"},
             {"lowerMask", "fef651e2"},

@@ -366,6 +366,19 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
    LynaePeppermint coat's blue (where it was drawn, not what it was drawn with) in four hand edits. Never while the
    game agent is running an epoch (one game, one driver), and with the same rules; leave the mods, `d3dx.ini` and
    the worn outfit as the epoch expects them.
+   **Fix EVERY issue an epoch flags before the next one, not the headline ones** (the maintainer, 2026-10-14). An
+   epoch costs hours of game time, and each item left for "the next epoch to re-measure" buys one more. On
+   LynaePeppermint epochs 2-4 each carried 8-10 small items forward (a tint, a frosting, a pale ornament) while
+   the big ones were chased, and two of those "small residuals" turned out to have one real cause (the reverse
+   upper body drawn by the target's shader: a flat bikini, a pale starfish and seam lines on bare skin, gone
+   together once her own shader drew it). For each item: reproduce it, find its cause, fix it or prove it is
+   not the remap's (a third-party mod, the Restored copy, toggle state), and say which in the hand-off. Only a
+   cause that is genuinely out of reach is called a limit, with the evidence -- and before the next epoch,
+   re-shoot every flagged item yourself on the new build, so the epoch confirms rather than discovers.
+   **Set toggle state deterministically**, never by key presses: an original and its `Restored` copy keep
+   separate persisted variables, and pressing the same keys on both left them in different states (Lynae14's
+   "topless original vs white top on the remap" was that, not a fault). Rewrite each `global persist $x` to the
+   value wanted in a scratch copy of both, and compare.
 5. **Repeat until an epoch finds nothing.** Only then does the maintainer get the final check.
 
 **Tips the LynaePeppermint rounds paid for**, for the game agent and the remap agent alike:

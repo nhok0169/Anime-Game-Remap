@@ -296,8 +296,12 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         106: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "propsNormal"), B("ps-t1", "propsMask"),
                                                      B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse"),
                                                      B("ps-t4", "filmFoil")]),
+        # ...and her lower body's draws in materials of the MOD's own, on the same slot by the skin's shader
+        104: FRB.WWMIFixerConfig.SourceComponent(3, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
+                                                     B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse")]),
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
+    plan[104].sameFileSection = True
     plan[4].sameFileSection = True
     plan[105].sameFileSection = True
     plan[106].sameFileSection = True
@@ -365,6 +369,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     rfx = FRB.WWMIFixerConfig.SourceComponent.RabbitFX()
     rfx.gameTags = {"ps-t0": 3, "ps-t1": 0, "ps-t2": 4, "ps-t3": 3}
     plan[4].rabbitFX = rfx
+    plan[104].rabbitFX = rfx
     config.plan = plan
     # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
     # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)
@@ -374,14 +379,17 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     flags.width, flags.height, flags.bits = maskData["width"], maskData["height"], maskData["bits"]
     propsFilmDraws = FRB.WWMIFixerConfig.DrawReroute(6, 106, "propsDetail", 0x10)
     propsFilmDraws.sourceFlags = flags
-    config.drawReroutes = [filmDraws, propsFilmDraws]
+    # a lower-body draw in materials her own maps never use (bit 0x80; hers stop at 0x43) came out flat lime under
+    # her shader on the skin's slot (Lynae9's hat brim and shorts) for a reason not found -- every input checked
+    # matches her own draw -- and keeps the skin's shader, which draws them as her card does (core's LynaeFixer)
+    config.drawReroutes = [filmDraws, propsFilmDraws, FRB.WWMIFixerConfig.DrawReroute(4, 104, "lowerDetail", 0x80)]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----
     config.extraPassRegs = {
         0: {"bce1512f1c6b82fe": [B("ps-t0", "bangsDiffuse")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairDiffuse")]},
-        3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4)]},
+        3: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4), B("ps-t0", "lowerDiffuse", 104)]},
         5: {"0fbe7ebba08cd1b0": [B("ps-t0", "propsDiffuse", 6), B("ps-t0", "jacketDiffuse", 105), B("ps-t0", "propsDiffuse", 106)]},
         6: {"0fbe7ebba08cd1b0": [B("ps-t0", "jacketDiffuse")]},
         7: {"e04f4df80ee6b0ab": [B("ps-t0", "eyeMask")]},

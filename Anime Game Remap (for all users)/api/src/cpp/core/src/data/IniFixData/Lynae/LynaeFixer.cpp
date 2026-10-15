@@ -137,6 +137,9 @@ namespace AGRemapCore {
             // ...and her PROPS' film draws, the same way: her props film is a post-lighting translucent pass
             // that no pre-lighting draw of the skin can host, so it takes her jacket's film
             {106, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"ps-t4", "filmFoil"}}, true}},
+            // ...and her lower body's draws in materials of the MOD's own, on the same slot by the skin's shader
+            // (see drawReroutes)
+            {104, {3, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,
@@ -207,7 +210,13 @@ namespace AGRemapCore {
         config.stashRegs = {{4, {"ps-t4", "ps-t5", "ps-t6"}}};
         WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};
         propsFilmDraws.sourceFlags = lynaePropsFilmFlags();   // Lynae9 draws its props with the game's code map
-        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws)};
+        // A lower-body draw painted with materials her own maps never use -- codes with bit 0x80, where hers stop
+        // at 0x43 (Lynae9's hat brim and shorts, codes 235 / 242) -- came out flat lime under her shader on the
+        // skin's slot and dark on her own. Every input the shader reads was checked against her own draw (the
+        // mod's diffuse and code map, cb4, t4-t9, the extra UV sets, the stencil) and none explains it; the skin's
+        // own shader draws those materials as her card does, so such a draw keeps it (plan 104, with plan 4's
+        // RabbitFX routing)
+        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws), {4, 104, "lowerDetail", 0x80}};
 
         // ---- RABBITFX ON HER LOWER BODY. A mod may hand its lower-body maps to RabbitFX instead of
         // binding them (Lynae11's robotic legs: white plastic on Lynae, skin without RabbitFX), and RabbitFX
@@ -218,13 +227,14 @@ namespace AGRemapCore {
         // and a square BC7 diffuse with 12 mips (1718.3), read off RabbitFX's own `dump = desc` in a frame dump. Her upper body is NOT kept: it is drawn by a
         // different shader on her and its routing does not carry (Lynae11's shirt turned lavender) ----
         config.plan.at(4).rabbitFX = WWMIFixerConfig::SourceComponent::RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
+        config.plan.at(104).rabbitFX = config.plan.at(4).rabbitFX;
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----
         config.extraPassRegs = {
             {0, {{"bce1512f1c6b82fe", {{"ps-t0", "bangsDiffuse"}}}}},
             {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
-            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}}}}},
+            {3, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "lowerDiffuse", 104}}}}},
             {5, {{"0fbe7ebba08cd1b0", {{"ps-t0", "propsDiffuse", 6}, {"ps-t0", "jacketDiffuse", 105}, {"ps-t0", "propsDiffuse", 106}}}}},
             {6, {{"0fbe7ebba08cd1b0", {{"ps-t0", "jacketDiffuse"}}}}},
             {7, {{"e04f4df80ee6b0ab", {{"ps-t0", "eyeMask"}}}}},

@@ -1160,6 +1160,7 @@ attributes without this class forwarding them by hand :raw-html:`&lt;br /&gt;` :
         <childnode refid="4" relation="usage">
           <edgelabel>blend</edgelabel>
           <edgelabel>buf</edgelabel>
+          <edgelabel>fileAdd</edgelabel>
           <edgelabel>ini</edgelabel>
           <edgelabel>other</edgelabel>
           <edgelabel>position</edgelabel>

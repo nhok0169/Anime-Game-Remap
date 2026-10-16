@@ -33,9 +33,6 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="10">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
       <node id="1">
         <label>src/tools/hashing/Hash128.cpp</label>
         <link refid="_hash128_8cpp"/>
@@ -43,6 +40,9 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="8">
         <label>array</label>

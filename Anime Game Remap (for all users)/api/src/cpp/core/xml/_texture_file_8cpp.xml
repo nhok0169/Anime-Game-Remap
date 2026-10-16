@@ -140,9 +140,6 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="20">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
       <node id="1">
         <label>src/model/files/TextureFile.cpp</label>
         <link refid="_texture_file_8cpp"/>
@@ -180,6 +177,9 @@
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="23">
         <label>algorithm</label>

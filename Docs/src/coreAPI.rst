@@ -1969,6 +1969,17 @@ RemapTexAddResource
 
 :raw-html:`<br />`
 
+RemapFileAddResource
+--------------------
+
+.. cppattributetable:: AGRemapCore::RemapFileAddResource
+
+.. doxygenclass:: AGRemapCore::RemapFileAddResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RemapTexEditResource
 --------------------
 

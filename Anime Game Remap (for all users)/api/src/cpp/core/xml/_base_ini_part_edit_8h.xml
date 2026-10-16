@@ -562,9 +562,25 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
+      <node id="17">
+        <label>src/data/IniFixData/ModBranches.cpp</label>
+        <link refid="_mod_branches_8cpp"/>
+      </node>
       <node id="8">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/data/IniFixData/TexFxLayout.cpp</label>
+        <link refid="_tex_fx_layout_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/data/IniFixData/TexRegLayout.cpp</label>
+        <link refid="_tex_reg_layout_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="14">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
@@ -581,6 +597,10 @@
       <node id="16">
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/data/IniParseData/WWMIParser.cpp</label>
+        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
       <node id="34">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
@@ -661,26 +681,6 @@
       <node id="75">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
-      </node>
-      <node id="17">
-        <label>src/data/IniFixData/ModBranches.cpp</label>
-        <link refid="_mod_branches_8cpp"/>
-      </node>
-      <node id="33">
-        <label>src/data/IniFixData/TexFxLayout.cpp</label>
-        <link refid="_tex_fx_layout_8cpp"/>
-      </node>
-      <node id="37">
-        <label>src/data/IniFixData/TexRegLayout.cpp</label>
-        <link refid="_tex_reg_layout_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="18">
-        <label>src/data/IniParseData/WWMIParser.cpp</label>
-        <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
       <node id="71">
         <label>src/tools/DownloadTools.cpp</label>

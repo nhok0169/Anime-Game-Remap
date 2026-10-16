@@ -32,14 +32,6 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
-        <label>src/constants/GlobalIniClassifiers.cpp</label>
-        <link refid="_global_ini_classifiers_8cpp"/>
-      </node>
-      <node id="5">
-        <label>src/data/IniParseData/TextureOverrides.cpp</label>
-        <link refid="_texture_overrides_8cpp"/>
-      </node>
       <node id="1">
         <label>include/AGRemapCore/data/HashData.h</label>
         <link refid="_hash_data_8h"/>
@@ -54,6 +46,10 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>src/constants/GlobalIniClassifiers.cpp</label>
+        <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
       <node id="3">
         <label>src/data/HashData.cpp</label>
         <link refid="_hash_data_8cpp"/>
@@ -61,6 +57,10 @@
       <node id="4">
         <label>src/data/HashToModObjData.cpp</label>
         <link refid="_hash_to_mod_obj_data_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniParseData/TextureOverrides.cpp</label>
+        <link refid="_texture_overrides_8cpp"/>
       </node>
       <node id="6">
         <label>src/model/assets/Hashes.cpp</label>
@@ -96,7 +96,7 @@
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1_data" kindref="compound">Data</ref><sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespace_a_g_remap_core_1_1_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1_data" kindref="compound">Data</ref><sp/>{</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::vector&lt;std::string&gt;,<sp/>std::string&gt;&gt;&amp;<sp/><ref refid="namespace_a_g_remap_core_1_1_data_1a7f779d0038e3aa9abb64cc0106ab6db0" kindref="member">getHashDataRows</ref>();</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>

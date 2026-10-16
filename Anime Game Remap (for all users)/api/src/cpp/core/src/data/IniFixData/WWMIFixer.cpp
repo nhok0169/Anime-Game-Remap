@@ -84,6 +84,7 @@
 #include <stdexcept>
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/model/iniresources/RemapFileResource.h"
 #include "AGRemapCore/tools/NumTools.h"
 #include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -1783,7 +1784,7 @@ namespace AGRemapCore {
                         writeZeroStream();
                         writeShapeKeyOrder();
                         writeMirrorBuffers();
-                        writeRerouteShaders();
+                        addRerouteShaderFiles();
                         addCreatedTextures();
                         addFallbackDownloads();
                         addTexEdits();
@@ -6174,16 +6175,27 @@ namespace AGRemapCore {
                     return out;
                 }
 
-                void writeRerouteShaders() {
-                    const std::string folder = ctx_.getIniFile()->getFolder();
-                    std::set<std::string> written;
+                // Each shader's source and constant buffers as resources of the .ini file, written by the
+                // service with the rest of its resources (and counted in RemapStats::fileAdd), as
+                // addCreatedTextures does for a texture made from nothing
+                void addRerouteShaderFiles() {
+                    IniFile* ini = ctx_.getIniFile();
+                    const std::string folder = ini->getFolder();
+                    auto add = [&](const std::string& relPath, ByteVec bytes) {
+                        const std::string path = FileService::absPathOfRelPath(relPath, folder);
+                        if (listsSrcPath(ini->getResources(), path)) {
+                            return;
+                        }
+                        ini->getResources().push_back(std::make_unique<RemapFileAddResource>(folder, path, std::move(bytes)));
+                    };
+
+                    std::set<std::string> added;
                     for (const auto& [as, shader] : rerouteShaders_) {
-                        if (!written.insert(shader->name).second) {
+                        if (!added.insert(shader->name).second) {
                             continue;
                         }
 
-                        writeWhole(FileService::absPathOfRelPath(rerouteShaderFile(*shader), folder),
-                                   ByteVec(shader->ps.begin(), shader->ps.end()), "the " + shader->name + " shader");
+                        add(rerouteShaderFile(*shader), ByteVec(shader->ps.begin(), shader->ps.end()));
                         for (const auto& [reg, words] : shader->constantBuffers) {
                             ByteVec bytes;
                             bytes.reserve(words.size() * 4);
@@ -6192,8 +6204,7 @@ namespace AGRemapCore {
                                     bytes.push_back(static_cast<std::uint8_t>((word >> (8 * k)) & 0xFF));
                                 }
                             }
-                            writeWhole(FileService::absPathOfRelPath(rerouteBufferFile(*shader, reg), folder),
-                                       bytes, "the " + shader->name + " shader's " + reg);
+                            add(rerouteBufferFile(*shader, reg), std::move(bytes));
                         }
                     }
                 }

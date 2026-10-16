@@ -65,12 +65,16 @@ row), eg. ``ps-cb4``. Written as a ``R32G32B32A32_FLOAT`` buffer
         <detaileddescription>
 <para><verbatim>embed:rst 
 Further lines of the ``CustomShader`` section, as they are written, eg.
-``{&quot;ps-t5&quot;, &quot;ref ps-t6&quot;}``
+``{&quot;ps-t5&quot;, &quot;ref ps-t6&quot;}``. Two values are resolved first: ``stash &lt;slot&gt; &lt;reg&gt;`` binds
+the capture :cpp:member:`WWMIFixerConfig::stashRegs` makes off that slot, and
+``role &lt;name&gt;`` binds the texture of that role -- the mod&apos;s file, or the source&apos;s own game
+texture from :cpp:member:`WWMITextureFacts::fallbackTextures` (a line whose role has
+neither is left out)
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="176" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="176" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="180" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
@@ -90,7 +94,66 @@ draw with :cpp:member:`lines`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="187" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="187" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="191" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a97dc20e0315e46bb34c998e54ea721a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIFixerConfig::Shader::onlyWith</definition>
+        <argsstring></argsstring>
+        <name>onlyWith</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::onlyWith</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An output register (eg. ``&quot;o3&quot;``) a pass has to bind for the shader to draw there; a pass
+that leaves it unbound (a depth pre-pass) draws the component with the game&apos;s own shader, as
+any other component. Empty, the shader draws on every pass of the slot. **Default**: ``&quot;&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="254" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a9c6af9268cb9c803a08432d3db27c734" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::WWMIFixerConfig::Shader::yieldToRabbitFX</definition>
+        <argsstring></argsstring>
+        <name>yieldToRabbitFX</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::yieldToRabbitFX</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A mod whose sections for the component hand its maps to RabbitFX keeps the target slot&apos;s GAME
+shader there: RabbitFX works by patching the game&apos;s shaders, never this one, so a RabbitFX mod
+drawn with it loses its effect (a mod&apos;s robotic legs drawn as skin). **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="264" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt;</type>
+        <definition>std::vector&lt;Binding&gt; AGRemapCore::WWMIFixerConfig::Shader::registers</definition>
+        <argsstring></argsstring>
+        <name>registers</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::registers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bindings the component takes only while this shader draws it, after the plan entry&apos;s own --
+a register (or a register&apos;s role) the shader reads in the SOURCE&apos;s layout. With
+:cpp:member:`yieldToRabbitFX`, a mod that keeps the target&apos;s shader keeps the plan&apos;s
+bindings alone. **Default**: empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="275" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="275" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after" kindref="compound">After</ref> &gt;</type>
@@ -116,7 +179,7 @@ component has not drawn yet, and made after that component&apos;s last draw inst
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="246" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="246" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="292" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="292" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -134,14 +197,17 @@ draw&apos;s: its vertex shader, its render targets and the textures the componen
 :cpp:member:`plan` entry binds
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="149" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="149" bodyend="247"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="149" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="149" bodyend="293"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>after</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>constantBuffers</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>lines</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a97dc20e0315e46bb34c998e54ea721a6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>onlyWith</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>passes</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ac4f08ccc042dedb1460e9c1ac4de624a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>ps</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>registers</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a9c6af9268cb9c803a08432d3db27c734" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>yieldToRabbitFX</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

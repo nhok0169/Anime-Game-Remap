@@ -593,7 +593,7 @@ landing on one target slot written into a further ``.ini`` file. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="299" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="126" bodyend="128"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="299" column="43" bodyfile="src/data/IniFixData/Sanhua/SanhuaFixer.cpp" bodystart="168" bodyend="170"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a189f1be27493d65a6104e270520c0abc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -612,7 +612,7 @@ the reverse of :cpp:func:`sanhuaExorcist2_5`, built by :cpp:func:`makeWWMIFixer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="309" column="43" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp" bodystart="160" bodyend="162"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="309" column="43" bodyfile="src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp" bodystart="178" bodyend="180"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaa6b31d53e03aa1ef898b453a8bf872c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -657,7 +657,7 @@ mod with the vertex group row of the skeleton numbering its own geometry is in, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="336" column="43" bodyfile="src/data/IniFixData/Lynae/LynaeFixer.cpp" bodystart="32" bodyend="270"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="336" column="43" bodyfile="src/data/IniFixData/Lynae/LynaeFixer.cpp" bodystart="36" bodyend="344"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a80e49ce4240005be9347d8b7de03eb70" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -679,7 +679,7 @@ in a generated copy ``.ini``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="349" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="70" bodyend="276"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="349" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="73" bodyend="406"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>

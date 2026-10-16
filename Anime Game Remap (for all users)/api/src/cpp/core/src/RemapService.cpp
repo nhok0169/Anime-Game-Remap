@@ -32,6 +32,7 @@
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 #include "AGRemapCore/model/iniresources/RemapPositionResource.h"
+#include "AGRemapCore/model/iniresources/RemapFileResource.h"
 #include "AGRemapCore/model/iniresources/RemapTexResource.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -239,6 +240,7 @@ namespace AGRemapCore {
 
         _reportSkippedAsset("newly added " + FileTypes::Texture + " files", stats.texAdd.skippedByMods, stats.texAdd);
         _reportSkippedAsset("editted " + FileTypes::Texture + " files", stats.texEdit.skippedByMods, stats.texEdit);
+        _reportSkippedAsset("newly added shader and buffer files", stats.fileAdd.skippedByMods, stats.fileAdd);
 
         // The .ini files are the one bucket reported flat rather than grouped by mod folder -- a
         // skipped .ini file IS the thing that failed, so there is no inner list to group.
@@ -288,6 +290,10 @@ namespace AGRemapCore {
         const std::size_t removedTextures = stats.texAdd.removed.size();
         const std::size_t foundAddTextures = fixedAddTextures + skippedAddTextures;
 
+        const std::size_t fixedAddFiles = stats.fileAdd.fixed.size();
+        const std::size_t skippedAddFiles = stats.fileAdd.skipped.size();
+        const std::size_t foundAddFiles = fixedAddFiles + skippedAddFiles;
+
         const std::size_t fixedEditTextures = stats.texEdit.fixed.size();
         const std::size_t skippedEditTextures = stats.texEdit.skipped.size();
         const std::size_t removedEditTextures = stats.texEdit.removed.size();
@@ -323,6 +329,12 @@ namespace AGRemapCore {
                                 + " files that were attempted to be created in the found mods, created "
                                 + num(fixedAddTextures) + " " + FileTypes::Texture + " files and skipped "
                                 + num(skippedAddTextures) + " " + FileTypes::Texture + " files");
+            }
+
+            if (foundAddFiles > 0) {
+                lines.push_back("Out of the " + num(foundAddFiles)
+                                + " shader and buffer files that were attempted to be created in the found mods, created "
+                                + num(fixedAddFiles) + " files and skipped " + num(skippedAddFiles) + " files");
             }
 
             if (foundEditTextures > 0) {
@@ -744,7 +756,8 @@ namespace AGRemapCore {
         for (const FileStats* bucket : {static_cast<const FileStats*>(&stats.blend), static_cast<const FileStats*>(&stats.position),
                                         static_cast<const FileStats*>(&stats.texcoord), static_cast<const FileStats*>(&stats.buf),
                                         static_cast<const FileStats*>(&stats.other), static_cast<const FileStats*>(&stats.texEdit),
-                                        static_cast<const FileStats*>(&stats.texAdd), static_cast<const FileStats*>(&stats.download)}) {
+                                        static_cast<const FileStats*>(&stats.texAdd), static_cast<const FileStats*>(&stats.fileAdd),
+                                        static_cast<const FileStats*>(&stats.download)}) {
             if (bucket->fixed.count(path) > 0) {
                 return true;
             }
@@ -1181,6 +1194,10 @@ namespace AGRemapCore {
 
         if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
             return texAdd->fix();
+        }
+
+        if (RemapFileAddResource* fileAdd = dynamic_cast<RemapFileAddResource*>(&resource)) {
+            return fileAdd->fix();
         }
 
         if (RemapTexEditResource* texEdit = dynamic_cast<RemapTexEditResource*>(&resource)) {

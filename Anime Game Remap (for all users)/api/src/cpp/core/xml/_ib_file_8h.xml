@@ -179,18 +179,6 @@
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="6">
-        <label>src/model/buffers/VGComponentSplit.cpp</label>
-        <link refid="_v_g_component_split_8cpp"/>
-      </node>
-      <node id="8">
-        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
-        <link refid="_v_g_merge_group_resource_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
-        <link refid="_v_g_split_group_resource_8cpp"/>
-      </node>
       <node id="4">
         <label>src/data/IniFixData/ModBranches.cpp</label>
         <link refid="_mod_branches_8cpp"/>
@@ -199,9 +187,21 @@
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
+      <node id="6">
+        <label>src/model/buffers/VGComponentSplit.cpp</label>
+        <link refid="_v_g_component_split_8cpp"/>
+      </node>
       <node id="7">
         <label>src/model/files/IbFile.cpp</label>
         <link refid="_ib_file_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/iniresources/VGMergeGroupResource.cpp</label>
+        <link refid="_v_g_merge_group_resource_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
+        <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_ib_file" prot="public">AGRemapCore::IbFile</innerclass>

@@ -3,10 +3,13 @@
   <compounddef id="dir_c201e0d3ae39a4f2e32bf198c2eaf82d" kind="dir">
     <compoundname>include/AGRemapCore/data/IniFixData/LynaePeppermint</compoundname>
     <innerfile refid="_lynae_peppermint_fixer_8h">LynaePeppermintFixer.h</innerfile>
+    <innerfile refid="_lynae_peppermint_lower_shader_8h">LynaePeppermintLowerShader.h</innerfile>
+    <innerfile refid="_lynae_peppermint_sheer_coat_shader_8h">LynaePeppermintSheerCoatShader.h</innerfile>
     <innerfile refid="_lynae_peppermint_sheer_shader_8h">LynaePeppermintSheerShader.h</innerfile>
     <innerfile refid="_lynae_peppermint_skeleton_8h">LynaePeppermintSkeleton.h</innerfile>
     <innerfile refid="_lynae_peppermint_textures_8h">LynaePeppermintTextures.h</innerfile>
     <innerfile refid="_lynae_peppermint_thumbprints_8h">LynaePeppermintThumbprints.h</innerfile>
+    <innerfile refid="_lynae_peppermint_upper_shader_8h">LynaePeppermintUpperShader.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

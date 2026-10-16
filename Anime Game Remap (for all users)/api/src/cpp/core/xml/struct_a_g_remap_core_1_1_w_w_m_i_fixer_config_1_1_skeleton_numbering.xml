@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="344" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="344" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="482" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="482" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1a3eb40ea1b4b92441eb148aa5774d9568" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; long long, long long &gt;</type>
@@ -35,7 +35,7 @@ Id in this numbering -&gt; the same bone&apos;s id in the numbering
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="353" column="32" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="353" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="491" column="32" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="491" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -43,7 +43,7 @@ Id in this numbering -&gt; the same bone&apos;s id in the numbering
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="340" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="340" bodyend="354"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="478" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="478" bodyend="492"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1a3eb40ea1b4b92441eb148aa5774d9568" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SkeletonNumbering</scope><name>toReference</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_skeleton_numbering_1ab34b75dc35c90fc88b1799e104c472ab" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SkeletonNumbering</scope><name>version</name></member>

@@ -3,10 +3,13 @@
   <compounddef id="dir_5d692d694cb04d09a60e093908182114" kind="dir">
     <compoundname>src/data/IniFixData/LynaePeppermint</compoundname>
     <innerfile refid="_lynae_peppermint_fixer_8cpp">LynaePeppermintFixer.cpp</innerfile>
+    <innerfile refid="_lynae_peppermint_lower_shader_8cpp">LynaePeppermintLowerShader.cpp</innerfile>
+    <innerfile refid="_lynae_peppermint_sheer_coat_shader_8cpp">LynaePeppermintSheerCoatShader.cpp</innerfile>
     <innerfile refid="_lynae_peppermint_sheer_shader_8cpp">LynaePeppermintSheerShader.cpp</innerfile>
     <innerfile refid="_lynae_peppermint_skeleton_8cpp">LynaePeppermintSkeleton.cpp</innerfile>
     <innerfile refid="_lynae_peppermint_textures_8cpp">LynaePeppermintTextures.cpp</innerfile>
     <innerfile refid="_lynae_peppermint_thumbprints_8cpp">LynaePeppermintThumbprints.cpp</innerfile>
+    <innerfile refid="_lynae_peppermint_upper_shader_8cpp">LynaePeppermintUpperShader.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

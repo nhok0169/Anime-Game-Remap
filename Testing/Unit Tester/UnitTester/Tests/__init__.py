@@ -9,6 +9,7 @@ from .test_IniGroupedResource import IniGroupedResourceTest, RemapIniGroupedReso
 from .test_RemapIniResource import RemapIniResourceTest, RemapIniDownloadTest
 from .test_RemapBlendResource import RemapBlendResourceTest
 from .test_RemapTexAddResource import RemapTexAddResourceTest
+from .test_RemapFileAddResource import RemapFileAddResourceTest
 from .test_IniGraphGroup import IniGraphGroupTest
 from .test_BaseBufEditor import BaseBufEditorTest
 from .test_BaseSLR1Parser import SLR1ParserTest
@@ -182,7 +183,7 @@ __all__ += ["CppColourReplaceFilterTest", "CppTransparencyAdjustFilterTest", "Cp
 __all__ += ["CppTexEditorTest", "TexEditorTest", "CppTexCreatorTest", "TexCreatorTest"]
 __all__ += ["FileStatsTest", "CachedFileStatsTest", "RemapStatsTest", "FileDownloadTest"]
 __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "RemapIniGroupedResourceTest"]
-__all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest"]
+__all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest", "RemapFileAddResourceTest"]
 __all__ += ["IniGraphGroupTest"]
 __all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
 __all__ += ["IniParseBuilderTest", "IniFixBuilderTest", "IniRemoveBuilderTest"]

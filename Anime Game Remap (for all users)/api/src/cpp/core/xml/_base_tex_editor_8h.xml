@@ -150,13 +150,37 @@
         </childnode>
       </node>
       <node id="80">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h</label>
-        <link refid="_lynae_film_shader_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeBangsShader.h</label>
+        <link refid="_lynae_bangs_shader_8h"/>
         <childnode refid="81" relation="include">
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+      </node>
+      <node id="82">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h</label>
+        <link refid="_lynae_film_shader_8h"/>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h</label>
+        <link refid="_lynae_hair_shader_8h"/>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h</label>
+        <link refid="_lynae_lower_shader_8h"/>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
       <node id="75">
@@ -169,12 +193,44 @@
         <childnode refid="78" relation="include">
         </childnode>
       </node>
-      <node id="83">
+      <node id="89">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h</label>
+        <link refid="_lynae_upper_shader_8h"/>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="91">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h</label>
+        <link refid="_lynae_peppermint_lower_shader_8h"/>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h</label>
+        <link refid="_lynae_peppermint_sheer_coat_shader_8h"/>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="95">
         <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h</label>
         <link refid="_lynae_peppermint_sheer_shader_8h"/>
         <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="84" relation="include">
+        <childnode refid="96" relation="include">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h</label>
+        <link refid="_lynae_peppermint_upper_shader_8h"/>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
         </childnode>
       </node>
       <node id="79">
@@ -182,21 +238,35 @@
         <link refid="_w_w_m_i_fixer_8h"/>
         <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
-        </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
         <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
@@ -248,7 +318,7 @@
         </childnode>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -300,13 +370,13 @@
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
@@ -326,10 +396,10 @@
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="103">
         <label>include/AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h</label>
         <link refid="_material_band_remap_filter_8h"/>
         <childnode refid="60" relation="include">
@@ -344,8 +414,12 @@
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
+      </node>
+      <node id="54">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
       </node>
       <node id="6">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
@@ -395,11 +469,11 @@
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="85">
+      <node id="99">
         <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
         <link refid="_chisa_fixer_8cpp"/>
       </node>
-      <node id="86">
+      <node id="100">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
         <link refid="_chisa_parfait_fixer_8cpp"/>
       </node>
@@ -410,6 +484,10 @@
       <node id="70">
         <label>src/data/IniFixData/CitlaliWhisperofStars/CitlaliWhisperofStarsFixer.cpp</label>
         <link refid="_citlali_whisperof_stars_fixer_8cpp"/>
+      </node>
+      <node id="105">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
       </node>
       <node id="14">
         <label>src/data/IniFixData/Diluc/DilucFixer.cpp</label>
@@ -512,6 +590,10 @@
         <link refid="_lumine_heaven_fixer_8cpp"/>
       </node>
       <node id="81">
+        <label>src/data/IniFixData/Lynae/LynaeBangsShader.cpp</label>
+        <link refid="_lynae_bangs_shader_8cpp"/>
+      </node>
+      <node id="83">
         <label>src/data/IniFixData/Lynae/LynaeFilmShader.cpp</label>
         <link refid="_lynae_film_shader_8cpp"/>
       </node>
@@ -519,7 +601,15 @@
         <label>src/data/IniFixData/Lynae/LynaeFixer.cpp</label>
         <link refid="_lynae_fixer_8cpp"/>
       </node>
-      <node id="82">
+      <node id="86">
+        <label>src/data/IniFixData/Lynae/LynaeHairShader.cpp</label>
+        <link refid="_lynae_hair_shader_8cpp"/>
+      </node>
+      <node id="88">
+        <label>src/data/IniFixData/Lynae/LynaeLowerShader.cpp</label>
+        <link refid="_lynae_lower_shader_8cpp"/>
+      </node>
+      <node id="84">
         <label>src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp</label>
         <link refid="_lynae_props_film_flags_8cpp"/>
       </node>
@@ -527,13 +617,29 @@
         <label>src/data/IniFixData/Lynae/LynaeSkinCodes.cpp</label>
         <link refid="_lynae_skin_codes_8cpp"/>
       </node>
+      <node id="90">
+        <label>src/data/IniFixData/Lynae/LynaeUpperShader.cpp</label>
+        <link refid="_lynae_upper_shader_8cpp"/>
+      </node>
       <node id="78">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</label>
         <link refid="_lynae_peppermint_fixer_8cpp"/>
       </node>
-      <node id="84">
+      <node id="92">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp</label>
+        <link refid="_lynae_peppermint_lower_shader_8cpp"/>
+      </node>
+      <node id="94">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp</label>
+        <link refid="_lynae_peppermint_sheer_coat_shader_8cpp"/>
+      </node>
+      <node id="96">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp</label>
         <link refid="_lynae_peppermint_sheer_shader_8cpp"/>
+      </node>
+      <node id="98">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
+        <link refid="_lynae_peppermint_upper_shader_8cpp"/>
       </node>
       <node id="35">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
@@ -575,11 +681,11 @@
         <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
         <link refid="_rosaria_c_n_fixer_8cpp"/>
       </node>
-      <node id="87">
+      <node id="101">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
         <link refid="_sanhua_fixer_8cpp"/>
       </node>
-      <node id="88">
+      <node id="102">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
         <link refid="_sanhua_exorcist_fixer_8cpp"/>
       </node>
@@ -590,6 +696,10 @@
       <node id="44">
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="45">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
@@ -631,7 +741,7 @@
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="93">
+      <node id="107">
         <label>src/model/strategies/texEditors/BaseTexEditor.cpp</label>
         <link refid="_base_tex_editor_8cpp"/>
       </node>
@@ -639,25 +749,13 @@
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
-      <node id="92">
+      <node id="106">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>
-      <node id="90">
+      <node id="104">
         <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
         <link refid="_material_band_remap_filter_8cpp"/>
-      </node>
-      <node id="54">
-        <label>src/RemapService.cpp</label>
-        <link refid="_remap_service_8cpp"/>
-      </node>
-      <node id="91">
-        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
-        <link refid="_dark_diffuse_8cpp"/>
-      </node>
-      <node id="55">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_base_tex_editor" prot="public">AGRemapCore::BaseTexEditor</innerclass>

@@ -259,6 +259,32 @@
         <childnode refid="86" relation="include">
         </childnode>
       </node>
+      <node id="34">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
       <node id="18">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
@@ -827,6 +853,32 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
+      <node id="49">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="106">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+      </node>
       <node id="87">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
@@ -839,6 +891,24 @@
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
         </childnode>
       </node>
       <node id="108">
@@ -1129,76 +1199,6 @@
       </node>
       <node id="107">
         <label>BiMap.tpp</label>
-      </node>
-      <node id="34">
-        <label>AGRemapCore/model/VGRemap.h</label>
-        <link refid="_v_g_remap_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-      </node>
-      <node id="49">
-        <label>AGRemapCore/tools/Algo.h</label>
-        <link refid="_algo_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="50" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-      </node>
-      <node id="106">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="55" relation="include">
-        </childnode>
-        <childnode refid="107" relation="include">
-        </childnode>
-      </node>
-      <node id="48">
-        <label>AGRemapCore/tools/Ranges.h</label>
-        <link refid="_ranges_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="49" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
       </node>
       <node id="71">
         <label>CallGraph.tpp</label>
@@ -1653,7 +1653,7 @@
 <codeline lineno="306"><highlight class="stringliteral"><sp/><sp/>r10.w<sp/>=<sp/>dot(r14.xyz,<sp/>r14.xyz);</highlight></codeline>
 <codeline lineno="307"><highlight class="stringliteral"><sp/><sp/>r10.w<sp/>=<sp/>sqrt(r10.w);</highlight></codeline>
 <codeline lineno="308"><highlight class="stringliteral"><sp/><sp/>r10.w<sp/>=<sp/>saturate(cb1[0].w<sp/>*<sp/>r10.w);</highlight></codeline>
-<codeline lineno="309"><highlight class="stringliteral"><sp/><sp/>if<sp/>(2<sp/>==<sp/>0)<sp/>r12.x<sp/>=<sp/>0;<sp/>else<sp/>if<sp/>(2+16<sp/>&lt;<sp/>32)<sp/>{<sp/><sp/><sp/>r12.x<sp/>=<sp/>(uint)cb1[1].w<sp/>&lt;&lt;<sp/>(32-(2<sp/>+<sp/>16));<sp/>r12.x<sp/>=<sp/>(uint)r12.x<sp/>&gt;&gt;<sp/>(32-2);<sp/><sp/>}<sp/>else<sp/>r12.x<sp/>=<sp/>(uint)cb1[1].w<sp/>&gt;&gt;<sp/>16;</highlight></codeline>
+<codeline lineno="309"><highlight class="stringliteral"><sp/><sp/>if<sp/>(2<sp/>==<sp/>0)<sp/>r12.x<sp/>=<sp/>0;<sp/>else<sp/>if<sp/>(2+16<sp/>&lt;<sp/>32)<sp/>{<sp/><sp/><sp/>r12.x<sp/>=<sp/>asuint(cb1[1].w)<sp/>&lt;&lt;<sp/>(32-(2<sp/>+<sp/>16));<sp/>r12.x<sp/>=<sp/>(uint)r12.x<sp/>&gt;&gt;<sp/>(32-2);<sp/><sp/>}<sp/>else<sp/>r12.x<sp/>=<sp/>asuint(cb1[1].w)<sp/>&gt;&gt;<sp/>16;</highlight></codeline>
 <codeline lineno="310"><highlight class="stringliteral"><sp/><sp/>r12.x<sp/>=<sp/>(uint)r12.x;</highlight></codeline>
 <codeline lineno="311"><highlight class="stringliteral"><sp/><sp/>r14.xy<sp/>=<sp/>cmp(r12.xx<sp/>&gt;=<sp/>float2(0.899999976,1.89999998));</highlight></codeline>
 <codeline lineno="312"><highlight class="stringliteral"><sp/><sp/>r14.xy<sp/>=<sp/>r14.xy<sp/>?<sp/>float2(1,1)<sp/>:<sp/>0;</highlight></codeline>
@@ -1775,8 +1775,8 @@
 <codeline lineno="428"><highlight class="stringliteral"><sp/><sp/>r13.w<sp/>=<sp/>r14.y<sp/>*<sp/>2<sp/>+<sp/>-1;</highlight></codeline>
 <codeline lineno="429"><highlight class="stringliteral"><sp/><sp/>r13.w<sp/>=<sp/>r13.w<sp/>*<sp/>r13.w;</highlight></codeline>
 <codeline lineno="430"><highlight class="stringliteral"><sp/><sp/>r13.w<sp/>=<sp/>r13.w<sp/>*<sp/>r13.w;</highlight></codeline>
-<codeline lineno="431"><highlight class="stringliteral"><sp/><sp/>r16.w)hlsl&quot;;</highlight></codeline>
-<codeline lineno="432"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(<sp/>=<sp/>r16.y<sp/>+<sp/>r16.z;</highlight></codeline>
+<codeline lineno="431"><highlight class="stringliteral"><sp/><sp/>r)hlsl&quot;;</highlight></codeline>
+<codeline lineno="432"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(16.w<sp/>=<sp/>r16.y<sp/>+<sp/>r16.z;</highlight></codeline>
 <codeline lineno="433"><highlight class="stringliteral"><sp/><sp/>r17.x<sp/>=<sp/>1<sp/>+<sp/>-r16.y;</highlight></codeline>
 <codeline lineno="434"><highlight class="stringliteral"><sp/><sp/>r16.w<sp/>=<sp/>-r17.x<sp/>*<sp/>r16.z<sp/>+<sp/>r16.w;</highlight></codeline>
 <codeline lineno="435"><highlight class="stringliteral"><sp/><sp/>r16.y<sp/>=<sp/>r16.y<sp/>+<sp/>-r16.z;</highlight></codeline>
@@ -2084,7 +2084,7 @@
 <codeline lineno="737"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o1.xy<sp/>=<sp/>r3.xy<sp/>*<sp/>float2(0.5,0.5)<sp/>+<sp/>float2(0.5,0.5);</highlight></codeline>
 <codeline lineno="738"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyz<sp/>=<sp/>saturate(r2.xyz);</highlight></codeline>
 <codeline lineno="739"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.xyz<sp/>=<sp/>sqrt(r2.xyz);</highlight></codeline>
-<codeline lineno="740"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.w<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r1.w<sp/>=<sp/>(((uint)cb2[23].w<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.w)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.w);</highlight></codeline>
+<codeline lineno="740"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.w<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r1.w<sp/>=<sp/>((asuint(cb2[23].w)<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.w)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.w);</highlight></codeline>
 <codeline lineno="741"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>(uint)r1.w;</highlight></codeline>
 <codeline lineno="742"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.w<sp/>=<sp/>0.00392156886<sp/>*<sp/>r1.w;</highlight></codeline>
 <codeline lineno="743"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>r0.y<sp/>*<sp/>255<sp/>+<sp/>0.5;</highlight></codeline>
@@ -2140,8 +2140,8 @@
 <codeline lineno="793"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.xz<sp/>=<sp/>r7.yz<sp/>/<sp/>r0.xx;</highlight></codeline>
 <codeline lineno="794"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>float2(1,1)<sp/>+<sp/>-abs(r0.zx);</highlight></codeline>
 <codeline lineno="795"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.zw<sp/>=<sp/>cmp(r0.xz<sp/>&gt;=<sp/>float2(0,0));</highlight></codeline>
-<codeline lineno="796"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.zw<sp/>=<sp/>r3.zw<sp/>?<sp/>floa)hlsl&quot;;</highlight></codeline>
-<codeline lineno="797"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(t2(0.5,0.5)<sp/>:<sp/>float2(-0.5,-0.5);</highlight></codeline>
+<codeline lineno="796"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.zw<sp/>=<sp/>r3.zw<sp/>)hlsl&quot;;</highlight></codeline>
+<codeline lineno="797"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(?<sp/>float2(0.5,0.5)<sp/>:<sp/>float2(-0.5,-0.5);</highlight></codeline>
 <codeline lineno="798"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>r3.zw<sp/>*<sp/>r3.xy;</highlight></codeline>
 <codeline lineno="799"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>cmp(0<sp/>&gt;=<sp/>r7.w);</highlight></codeline>
 <codeline lineno="800"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>r0.w<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
@@ -2150,7 +2150,7 @@
 <codeline lineno="803"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o1.xy<sp/>=<sp/>r0.xz<sp/>*<sp/>float2(0.5,0.5)<sp/>+<sp/>float2(0.5,0.5);</highlight></codeline>
 <codeline lineno="804"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyz<sp/>=<sp/>saturate(r2.xyz);</highlight></codeline>
 <codeline lineno="805"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.xyz<sp/>=<sp/>sqrt(r2.xyz);</highlight></codeline>
-<codeline lineno="806"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.x<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.x<sp/>=<sp/>(((uint)cb2[23].w<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.x)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.x);</highlight></codeline>
+<codeline lineno="806"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.x<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.x<sp/>=<sp/>((asuint(cb2[23].w)<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.x)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.x);</highlight></codeline>
 <codeline lineno="807"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.x<sp/>=<sp/>(uint)r0.x;</highlight></codeline>
 <codeline lineno="808"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.w<sp/>=<sp/>0.00392156886<sp/>*<sp/>r0.x;</highlight></codeline>
 <codeline lineno="809"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o6.x<sp/>=<sp/>cb4[135].z;</highlight></codeline>

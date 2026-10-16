@@ -18,14 +18,14 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
       <node id="1">
         <label>src/tools/hashing/HashInt.cpp</label>
         <link refid="_hash_int_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="3">
         <label>array</label>

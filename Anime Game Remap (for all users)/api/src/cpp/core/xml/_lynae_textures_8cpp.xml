@@ -89,6 +89,24 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
+      <node id="20">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
       <node id="15">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
@@ -219,24 +237,6 @@
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
-        </childnode>
-      </node>
-      <node id="20">
-        <label>AGRemapCore/model/Version.h</label>
-        <link refid="_version_8h"/>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="23">
@@ -414,37 +414,42 @@
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>her<sp/>holographic<sp/>foil,<sp/>which<sp/>her<sp/>jacket<sp/>and<sp/>props<sp/>passes<sp/>read<sp/>at<sp/>ps-t4<sp/>(and<sp/>her<sp/>props&apos;<sp/>glass</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>passes<sp/>at<sp/>t7<sp/>/<sp/>t8):<sp/>nothing<sp/>a<sp/>mod<sp/>ships,<sp/>bound<sp/>where<sp/>the<sp/>skin&apos;s<sp/>pouch<sp/>reads<sp/>its<sp/>own<sp/>foil</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;filmFoil&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;74a761f5&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;997e0a9a&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;48947f0c&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0f19cf16&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e28662e9&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;265d844d&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bfa33038&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;694d3d7f&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairShadeRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d7c56e9e&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b2ef1928&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;6d5f71f9&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f94bbcf4&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d2ef0438&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0eacd18a&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;950acc22&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1998df83&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;94d7281e&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0f5d6c08&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerSheer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d63a624a&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c49bec43&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c3375aee&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4f1d5285&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cecc13eb&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c5784ddf&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;179ec8b9&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d5dfa096&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;739ef6e9&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"></highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>facts;</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>her<sp/>lighting<sp/>ramp<sp/>(512<sp/>x<sp/>25,<sp/>one<sp/>row<sp/>a<sp/>material):<sp/>the<sp/>game<sp/>fills<sp/>ONE<sp/>texture<sp/>(ecfa79d1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>the<sp/>ramp<sp/>of<sp/>the<sp/>character<sp/>on<sp/>screen,<sp/>so<sp/>on<sp/>the<sp/>skin&apos;s<sp/>slots<sp/>that<sp/>register<sp/>holds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>skin&apos;s<sp/>ramp,<sp/>whose<sp/>film<sp/>row<sp/>is<sp/>cream<sp/>where<sp/>hers<sp/>is<sp/>dark-to-teal.<sp/>Her<sp/>shaders<sp/>read<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>through<sp/>`role<sp/>ramp`<sp/>lines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ramp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3a40da92&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;997e0a9a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bangsStrand&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;48947f0c&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;faceDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0f19cf16&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;faceMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e28662e9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;265d844d&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bfa33038&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;694d3d7f&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairShadeRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d7c56e9e&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hairStrand&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b2ef1928&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;6d5f71f9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;f94bbcf4&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d2ef0438&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;jacketNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0eacd18a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;950acc22&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1998df83&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;94d7281e&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0f5d6c08&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;lowerSheer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d63a624a&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c49bec43&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c3375aee&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4f1d5285&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;propsNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cecc13eb&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c5784ddf&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperDiffuse&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;179ec8b9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperMask&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d5dfa096&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;upperNormal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;739ef6e9&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>facts;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniFixData/Lynae/LynaeTextures.cpp"/>
   </compounddef>

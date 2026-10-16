@@ -92,9 +92,6 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="19">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
       <node id="1">
         <label>src/data/IniFixData/JeanShading.cpp</label>
         <link refid="_jean_shading_8cpp"/>
@@ -108,6 +105,9 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="3">
         <label>algorithm</label>

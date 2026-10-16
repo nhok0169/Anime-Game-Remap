@@ -356,6 +356,7 @@ add_library(AGRemapCore STATIC
     src/model/iniresources/RemapIniResource.cpp
     src/model/iniresources/RemapBlendResource.cpp
     src/model/iniresources/RemapTexResource.cpp
+    src/model/iniresources/RemapFileResource.cpp
     src/RemapService.cpp
     src/RemapServiceCLI.cpp
     src/RemapServiceCLIErrors.cpp

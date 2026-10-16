@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Lynae/LynaeFixer.cpp" bodystart="273" bodyend="275"/>
+        <location file="include/AGRemapCore/data/IniFixData/Lynae/LynaeFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Lynae/LynaeFixer.cpp" bodystart="347" bodyend="349"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

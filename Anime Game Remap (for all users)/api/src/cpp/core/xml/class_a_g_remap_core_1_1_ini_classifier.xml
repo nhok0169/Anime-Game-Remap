@@ -347,7 +347,7 @@ the result&apos;s ``modType`` -- ties are all included, sorted in ascending orde
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="71" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="96" bodyend="155"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="71" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="96" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a94808d984d60f7eec58bf82a79eab07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -398,7 +398,7 @@ Cheaper than :cpp:func:`classify` when only this yes/no answer is needed -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="73" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="157" bodyend="164"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="73" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="163" bodyend="170"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac51ea2ac54ab2153943faeb6cc8b4bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -430,7 +430,7 @@ tie-breaking #modTypeIdDistribution pass and can stop reading partway through th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="86" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="166" bodyend="191"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="86" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="172" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a8e32ea373f491d44e901d12332f2aa55" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -503,7 +503,7 @@ Cheaper than :cpp:func:`classify` when only these yes/no answers are needed -- s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="88" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="193" bodyend="200"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="88" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="200" bodyend="207"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac40a32694a490029d27039154d6b0d57" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -576,7 +576,7 @@ reading -- it stops (without reading any further lines) the moment ``stats.isMod
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="105" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="202" bodyend="228"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="105" column="18" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="209" bodyend="236"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a97fd5d0e4221b234c2ede6b61bba55d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -637,7 +637,7 @@ already registered in #modTypes, or if ``modType.gameTypeId`` isn&apos;t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="123" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="509" bodyend="573"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="123" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="529" bodyend="593"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac98b7208907ada1e218b2eb90be8c004" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -686,7 +686,7 @@ already registered in #modTypes, or if ``modType.gameTypeId`` isn&apos;t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="140" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="575" bodyend="625"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="140" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="595" bodyend="645"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a9603ef1e7819c57507374522cce4973a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref></type>
@@ -726,7 +726,7 @@ already registered in #modTypes, or if ``modType.gameTypeId`` isn&apos;t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="151" column="35" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="627" bodyend="629"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="151" column="35" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="647" bodyend="649"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a11e767c0c4f9c226f9c9947fd0c6c6cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -842,7 +842,7 @@ work to whichever subfunction below applies:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="339" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="230" bodyend="295"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="339" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="238" bodyend="303"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a5b84330a143409b44db6ca1cf0b7aa6c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -906,7 +906,7 @@ the last one, where it takes the ``reset`` transition instead
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="371" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="297" bodyend="371"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="371" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="305" bodyend="379"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1af9341384b3aa6a01a9c8a742c891db9c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -944,7 +944,37 @@ clears #savedWuWaModTypeIds
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="388" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="373" bodyend="391"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="388" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="393" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1aacfca07ffbdd6da33a5405617bd0bf4d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniClassifier::acceptUnmarkedWuWa</definition>
+        <argsstring>(IniClassifyStats &amp;stats)</argsstring>
+        <name>acceptUnmarkedWuWa</name>
+        <qualifiedname>AGRemapCore::IniClassifier::acceptUnmarkedWuWa</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_classify_stats" kindref="compound">IniClassifyStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Counts the WuWa hashes a file matched but never confirmed with the <computeroutput>$\WWMIv1</computeroutput> marker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A file that only WATCHES a WuWa character (a help overlay, a skill effect&apos;s <computeroutput>$active</computeroutput>) matches its identifying hash and never uses WWMI&apos;s variables; it is that character&apos;s file all the same. Called once a file&apos;s lines are read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant stats to mutate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="399" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="381" bodyend="391"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1ac43e6ba304255cbb47c2d492c6b994e9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1043,7 +1073,7 @@ associated :cpp:enum:`ModTypeId` (see #acceptModTypeIds) is passed to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="443" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="393" bodyend="507"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="454" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="413" bodyend="527"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a47f97987b8ee1c07990a31d60bb95d9a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1075,7 +1105,7 @@ Increases #modTypeIdDistribution&apos;s count for ``modTypeId`` by 1, for a matc
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="454" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="631" bodyend="633"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="465" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="651" bodyend="653"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classifier_1a3975c033c329810a6277a48bb03ae14b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1106,7 +1136,7 @@ Increases #modTypeIdDistribution&apos;s count for ``modTypeId`` by 2, for a matc
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="464" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="635" bodyend="637"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="475" column="26" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="655" bodyend="657"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1176,9 +1206,10 @@ Class to help classify the type of mod given the mod&apos;s .ini files
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="42" column="5" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="42" bodyend="465"/>
+    <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" line="42" column="5" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h" bodystart="42" bodyend="476"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_classifier_1a83d3c8d46aa615438594a29cf95b718a" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>acceptModTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classifier_1aacfca07ffbdd6da33a5405617bd0bf4d" prot="protected" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>acceptUnmarkedWuWa</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_classifier_1a97fd5d0e4221b234c2ede6b61bba55d0" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>addGIModType</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac98b7208907ada1e218b2eb90be8c004" prot="public" virt="virtual"><scope>AGRemapCore::IniClassifier</scope><name>addWuWaModType</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_classifier_1ab59eb1bc76a6d2e948fee1a7c47985cc" prot="protected" virt="non-virtual"><scope>AGRemapCore::IniClassifier</scope><name>checkHasTextureOverride</name></member>

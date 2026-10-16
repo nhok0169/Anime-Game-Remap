@@ -25,6 +25,7 @@ void PyRemapStats::clear() {
     ini.clear();
     texEdit.clear();
     texAdd.clear();
+    fileAdd.clear();
     download.clear();
 }
 
@@ -66,6 +67,11 @@ The file stats for the overall remap process
 
         .def_readwrite("texAdd", &PyRemapStats::texAdd, py::doc(R"doc(
 :class:`FileStats`: Stats about whether a brand new texture file created by this software has been created/removed
+        )doc"))
+
+        .def_readwrite("fileAdd", &PyRemapStats::fileAdd, py::doc(R"doc(
+:class:`FileStats`: Stats about whether a brand new non-texture file created by this software (a custom shader's
+source, the constant buffer it reads -- :class:`RemapFileAddResource`) has been created/removed
         )doc"))
 
         .def_readwrite("download", &PyRemapStats::download, py::doc(R"doc(

@@ -34,6 +34,28 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="19">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="22">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
@@ -102,37 +124,6 @@
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="24">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="23">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="20">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="19">
-        <label>AGRemapCore/tools/BiMap.h</label>
-        <link refid="_bi_map_8h"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>AGRemapCore/tools/Heading.h</label>
-        <link refid="_heading_8h"/>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
       <node id="1">
         <label>src/constants/GameTypeId.cpp</label>
         <link refid="_game_type_id_8cpp"/>
@@ -146,6 +137,15 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
+      </node>
+      <node id="24">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="23">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="20">
+        <label>BiMap.tpp</label>
       </node>
       <node id="26">
         <label>cstddef</label>

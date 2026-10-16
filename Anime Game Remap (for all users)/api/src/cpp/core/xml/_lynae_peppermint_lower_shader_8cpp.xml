@@ -7,27 +7,6 @@
     <includes local="no">string</includes>
     <includes local="no">vector</includes>
     <incdepgraph>
-      <node id="51">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="110">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="96">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="95">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="56">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="109">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="107">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="112">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -1200,6 +1179,27 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
+      <node id="51">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="110">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="96">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="95">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="56">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="107">
+        <label>BiMap.tpp</label>
+      </node>
       <node id="71">
         <label>CallGraph.tpp</label>
       </node>
@@ -1569,7 +1569,7 @@
 <codeline lineno="222"><highlight class="stringliteral"><sp/><sp/>r7.x<sp/>=<sp/>dot(r11.xyz,<sp/>r11.xyz);</highlight></codeline>
 <codeline lineno="223"><highlight class="stringliteral"><sp/><sp/>r7.x<sp/>=<sp/>sqrt(r7.x);</highlight></codeline>
 <codeline lineno="224"><highlight class="stringliteral"><sp/><sp/>r7.x<sp/>=<sp/>saturate(cb1[0].w<sp/>*<sp/>r7.x);</highlight></codeline>
-<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/>if<sp/>(2<sp/>==<sp/>0)<sp/>r10.w<sp/>=<sp/>0;<sp/>else<sp/>if<sp/>(2+16<sp/>&lt;<sp/>32)<sp/>{<sp/><sp/><sp/>r10.w<sp/>=<sp/>(uint)cb1[1].w<sp/>&lt;&lt;<sp/>(32-(2<sp/>+<sp/>16));<sp/>r10.w<sp/>=<sp/>(uint)r10.w<sp/>&gt;&gt;<sp/>(32-2);<sp/><sp/>}<sp/>else<sp/>r10.w<sp/>=<sp/>(uint)cb1[1].w<sp/>&gt;&gt;<sp/>16;</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/>if<sp/>(2<sp/>==<sp/>0)<sp/>r10.w<sp/>=<sp/>0;<sp/>else<sp/>if<sp/>(2+16<sp/>&lt;<sp/>32)<sp/>{<sp/><sp/><sp/>r10.w<sp/>=<sp/>asuint(cb1[1].w)<sp/>&lt;&lt;<sp/>(32-(2<sp/>+<sp/>16));<sp/>r10.w<sp/>=<sp/>(uint)r10.w<sp/>&gt;&gt;<sp/>(32-2);<sp/><sp/>}<sp/>else<sp/>r10.w<sp/>=<sp/>asuint(cb1[1].w)<sp/>&gt;&gt;<sp/>16;</highlight></codeline>
 <codeline lineno="226"><highlight class="stringliteral"><sp/><sp/>r10.w<sp/>=<sp/>(uint)r10.w;</highlight></codeline>
 <codeline lineno="227"><highlight class="stringliteral"><sp/><sp/>r11.xy<sp/>=<sp/>cmp(r10.ww<sp/>&gt;=<sp/>float2(0.899999976,1.89999998));</highlight></codeline>
 <codeline lineno="228"><highlight class="stringliteral"><sp/><sp/>r11.xy<sp/>=<sp/>r11.xy<sp/>?<sp/>float2(1,1)<sp/>:<sp/>0;</highlight></codeline>
@@ -1774,8 +1774,8 @@
 <codeline lineno="427"><highlight class="stringliteral"><sp/><sp/>r14.w<sp/>=<sp/>cb4[115].x<sp/>+<sp/>-cb4[114].z;</highlight></codeline>
 <codeline lineno="428"><highlight class="stringliteral"><sp/><sp/>r14.w<sp/>=<sp/>r13.w<sp/>*<sp/>r14.w<sp/>+<sp/>cb4[114].z;</highlight></codeline>
 <codeline lineno="429"><highlight class="stringliteral"><sp/><sp/>r16.y<sp/>=<sp/>cb4[115].x<sp/>+<sp/>-r14.w;</highlight></codeline>
-<codeline lineno="430"><highlight class="stringliteral"><sp/><sp/>r17.z<sp/>=<sp/>r16.y<sp/>*<sp/>r1)hlsl&quot;;</highlight></codeline>
-<codeline lineno="431"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(5.w<sp/>+<sp/>r14.w;</highlight></codeline>
+<codeline lineno="430"><highlight class="stringliteral"><sp/><sp/>r17.z<sp/>=<sp/>r16.y<sp/>)hlsl&quot;;</highlight></codeline>
+<codeline lineno="431"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(*<sp/>r15.w<sp/>+<sp/>r14.w;</highlight></codeline>
 <codeline lineno="432"><highlight class="stringliteral"><sp/><sp/>r14.w<sp/>=<sp/>cb4[115].w<sp/>+<sp/>-cb4[115].y;</highlight></codeline>
 <codeline lineno="433"><highlight class="stringliteral"><sp/><sp/>r14.w<sp/>=<sp/>r13.w<sp/>*<sp/>r14.w<sp/>+<sp/>cb4[115].y;</highlight></codeline>
 <codeline lineno="434"><highlight class="stringliteral"><sp/><sp/>r16.y<sp/>=<sp/>cb4[115].w<sp/>+<sp/>-r14.w;</highlight></codeline>
@@ -2142,8 +2142,8 @@
 <codeline lineno="795"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>min(1,<sp/>r2.x);</highlight></codeline>
 <codeline lineno="796"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>-0.333000004<sp/>+<sp/>r2.x;</highlight></codeline>
 <codeline lineno="797"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>cmp(r2.x<sp/>&gt;=<sp/>0.000667000015);</highlight></codeline>
-<codeline lineno="798"><highlight class="stringliteral"><sp/><sp/>r2.x)hlsl&quot;;</highlight></codeline>
-<codeline lineno="799"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(<sp/>=<sp/>r2.x<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="798"><highlight class="stringliteral"><sp/><sp/>)hlsl&quot;;</highlight></codeline>
+<codeline lineno="799"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(r2.x<sp/>=<sp/>r2.x<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
 <codeline lineno="800"><highlight class="stringliteral"><sp/><sp/>r14.xyz<sp/>=<sp/>max(float3(0,0,0),<sp/>r24.xyz);</highlight></codeline>
 <codeline lineno="801"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>dot(r14.xyz,<sp/>float3(0.300000012,0.589999974,0.109999999));</highlight></codeline>
 <codeline lineno="802"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>max(r11.w,<sp/>r2.y);</highlight></codeline>
@@ -2445,7 +2445,7 @@
 <codeline lineno="1098"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o1.xy<sp/>=<sp/>r0.xy<sp/>*<sp/>float2(0.5,0.5)<sp/>+<sp/>float2(0.5,0.5);</highlight></codeline>
 <codeline lineno="1099"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.xyw<sp/>=<sp/>saturate(r1.xyw);</highlight></codeline>
 <codeline lineno="1100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.xyz<sp/>=<sp/>sqrt(r1.xyw);</highlight></codeline>
-<codeline lineno="1101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.x<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.x<sp/>=<sp/>(((uint)cb2[23].w<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.x)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.x);</highlight></codeline>
+<codeline lineno="1101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.x<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.x<sp/>=<sp/>((asuint(cb2[23].w)<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.x)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.x);</highlight></codeline>
 <codeline lineno="1102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.x<sp/>=<sp/>(uint)r0.x;</highlight></codeline>
 <codeline lineno="1103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.w<sp/>=<sp/>0.00392156886<sp/>*<sp/>r0.x;</highlight></codeline>
 <codeline lineno="1104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.x<sp/>=<sp/>saturate(cb4[159].w);</highlight></codeline>
@@ -2502,7 +2502,7 @@
 <codeline lineno="1155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r0.ww<sp/>*<sp/>r2.zw<sp/>+<sp/>r2.xy;</highlight></codeline>
 <codeline lineno="1156"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o1.xy<sp/>=<sp/>r2.xy<sp/>*<sp/>float2(0.5,0.5)<sp/>+<sp/>float2(0.5,0.5);</highlight></codeline>
 <codeline lineno="1157"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.xyz<sp/>=<sp/>sqrt(r1.xyw);</highlight></codeline>
-<codeline lineno="1158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.w<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.w<sp/>=<sp/>(((uint)cb2[23].w<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.w)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.w);</highlight></codeline>
+<codeline lineno="1158"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.w<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.w<sp/>=<sp/>((asuint(cb2[23].w)<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.w)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.w);</highlight></codeline>
 <codeline lineno="1159"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>(uint)r0.w;</highlight></codeline>
 <codeline lineno="1160"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o2.w<sp/>=<sp/>0.00392156886<sp/>*<sp/>r0.w;</highlight></codeline>
 <codeline lineno="1161"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.x<sp/>=<sp/>cb4[159].w;</highlight></codeline>

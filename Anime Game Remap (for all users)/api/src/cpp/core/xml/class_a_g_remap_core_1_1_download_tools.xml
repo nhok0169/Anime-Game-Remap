@@ -98,11 +98,16 @@ rather than rediscovering per parser
 <para><verbatim>embed:rst 
 Where every downloadable default part is published -- the same location as the
 `Python`_ package&apos;s ``GithubDownloadFolder`` (``data/FileDownloadData.py``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The environment variable ``AGREMAP_DOWNLOAD_FOLDER``, when set, replaces it for the
+whole run, eg. ``file:///C:/Anime-Game-Remap/Data/Mod%20Downloads`` to fetch from a
+local checkout
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="82" column="38" bodyfile="src/tools/DownloadTools.cpp" bodystart="26" bodyend="30"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="87" column="38" bodyfile="src/tools/DownloadTools.cpp" bodystart="27" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a7e18d2f83d61a2718ca1f04e50c2238d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>long long</type>
@@ -163,7 +168,7 @@ this is a small scan over it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="101" column="30" bodyfile="src/tools/DownloadTools.cpp" bodystart="33" bodyend="43"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="106" column="30" bodyfile="src/tools/DownloadTools.cpp" bodystart="42" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aa959dd4ec5d3bdd374bbcc39b12085c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config" kindref="compound">Download::DownloadConfig</ref></type>
@@ -183,7 +188,7 @@ conversions are the identity because ``K`` and ``V`` already *are* ``std::string
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="113" column="45" bodyfile="src/tools/DownloadTools.cpp" bodystart="46" bodyend="57"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="118" column="45" bodyfile="src/tools/DownloadTools.cpp" bodystart="55" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aca818e2d47978787a7b77f16ba4c0e22" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_download_tools_1a4cbc8f9373ee9b0460d3e777597be382" kindref="member">Download</ref> &gt;</type>
@@ -297,7 +302,7 @@ This is the download-side spelling of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="149" column="36" bodyfile="src/tools/DownloadTools.cpp" bodystart="60" bodyend="70"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="154" column="36" bodyfile="src/tools/DownloadTools.cpp" bodystart="69" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a432a9e7c90eb8771c21631a16b42e807" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -352,7 +357,7 @@ This is the download-side spelling of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="163" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="73" bodyend="76"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="168" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="82" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -396,7 +401,7 @@ This is the download-side spelling of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="179" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="79" bodyend="83"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="184" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="88" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a952e2ba127c82c7a5002485bae278bde" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -441,7 +446,7 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="193" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="86" bodyend="90"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="198" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="95" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -470,7 +475,7 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="202" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="93" bodyend="95"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="207" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="102" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -485,7 +490,7 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="207" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="98" bodyend="100"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="212" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="107" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -519,7 +524,7 @@ Without them the downloaded blend is bound but never drawn from
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="220" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="103" bodyend="110"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="225" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="112" bodyend="119"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -541,7 +546,7 @@ the character&apos;s own ``&lt;Name&gt;Parser.cpp``, which is where somebody add
 looking
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/DownloadTools.h" line="46" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="46" bodyend="221"/>
+    <location file="include/AGRemapCore/tools/DownloadTools.h" line="46" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="46" bodyend="226"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>blendRefKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>bufResourceKVPs</name></member>

@@ -271,6 +271,10 @@
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
         <link refid="_chisa_parfait_fixer_8cpp"/>
       </node>
+      <node id="8">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
+      </node>
       <node id="9">
         <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
         <link refid="_diluc_flamme_fixer_8cpp"/>
@@ -286,6 +290,10 @@
       <node id="12">
         <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
         <link refid="_hu_tao_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/JeanShading.cpp</label>
+        <link refid="_jean_shading_8cpp"/>
       </node>
       <node id="14">
         <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
@@ -319,6 +327,10 @@
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</label>
         <link refid="_lynae_peppermint_fixer_8cpp"/>
       </node>
+      <node id="22">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
       <node id="23">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
@@ -334,6 +346,10 @@
       <node id="26">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
       </node>
       <node id="28">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
@@ -374,22 +390,6 @@
       <node id="37">
         <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
         <link refid="_transparency_adjust_filter_8cpp"/>
-      </node>
-      <node id="8">
-        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
-        <link refid="_dark_diffuse_8cpp"/>
-      </node>
-      <node id="13">
-        <label>src/data/IniFixData/JeanShading.cpp</label>
-        <link refid="_jean_shading_8cpp"/>
-      </node>
-      <node id="22">
-        <label>src/data/IniFixData/WWMIFixer.cpp</label>
-        <link refid="_w_w_m_i_fixer_8cpp"/>
-      </node>
-      <node id="27">
-        <label>src/model/files/TextureFile.cpp</label>
-        <link refid="_texture_file_8cpp"/>
       </node>
       <node id="38">
         <label>src/model/textures/TexThumbprint.cpp</label>

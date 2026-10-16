@@ -1758,6 +1758,23 @@ the mod on its own card. What it found:
   traps: comparing a G-buffer against a dump from an older build, and JPG render targets (linearised, no alpha).
   The Peppermint card replays a paint-splash animation over most captures; take a burst of shots and keep the one
   with the least splash.
+  **A RABBITFX MOD, AND WHICH SHADER DRAWS EACH OF ITS PARTS (2026-10-15).** RabbitFX patches the GAME's shaders
+  by regex (its `ShaderRegexMain` rewrites the first texture reads to its own slots t60-t65, routed by flags
+  `x187`-`w187` it sets from type tags on the textures the draw binds), so it can never patch a custom shader --
+  and a precompiled patched shader (`-ps_regex.bin`) does not load as a `CustomShader` either (the part simply
+  vanished). Which way each part goes was settled card against card on Lynae8, Lynae10 and Lynae11, the three
+  RabbitFX mods: her HAIR and UPPER BODY use her own shaders with the RabbitFX files bound directly (RabbitFX only
+  swaps their textures -- Lynae11's tie came out right only this way), and her JACKET and LOWER BODY keep the
+  skin's RabbitFX-patched shaders (`Shader::yieldToRabbitFX`), because there RabbitFX changes the material too:
+  her jacket's film goes off (Lynae11's lining is pink on her card, and her own film shader drew it teal) and
+  Lynae11's robotic legs render as white plastic (her own lower-body shader drew them as skin). Do not try to
+  derive RabbitFX's routing from its regex by hand: on her own draws t0, t1 and t3 are unbound and the patch still
+  renders colour, which the reading I made could not explain -- test each part in game. The props translucency
+  (Lynae14's hat brim, overskirt and sleeves, every mod's ID card) is a stated limit in `remapGrading.rst`: her
+  card draws that component in a forward translucency pass (`bb718d76` / `9a01e7bd`, a 3-D light volume and seven
+  constant buffers) the skin's frame never schedules, and the skin's own see-through pass blends only over a
+  body, so a brim against the sky cannot be reproduced; drawing her props only in that see-through pass made them
+  vanish over the background, and stencil-splitting the two pouch passes left them looking as before.
 
 <br>
 

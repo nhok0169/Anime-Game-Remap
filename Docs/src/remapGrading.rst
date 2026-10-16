@@ -367,10 +367,18 @@ Grading
        | - Lynae's 3.7 update renumbered her skeleton, and a mod's ``vb0`` hash does not say which
        | numbering it was made in, so each mod is read in the numbering its own geometry fits.
        |
-       | - Her headphones, pin and ID card go onto the skin's hip pouch slot, which has no glass / foil
-       | material: they draw opaque. Her sheer stockings and see-through tops draw opaque too.
+       | - Her parts are drawn on the skin's slots with Lynae's own shaders and material constants, her own
+       | lighting ramp and her holographic foil, so her materials (film, satin, sheer tights, metal) shade as
+       | on her own outfit.
        |
-       | - Effects a mod gets from RabbitFX on Lynae's shaders carry over only in part.
+       | - **Limitation:** Lynae's props component --- her headphones, pin and ID card, and whatever a mod puts
+       | there (one mod's hat brim, overskirt and sleeves) --- is drawn on her own outfit by a translucency pass
+       | that the skin's outfit never runs. On the skin these parts draw opaque: a see-through brim or veil
+       | comes out solid.
+       |
+       | - A mod that hands its textures to RabbitFX keeps its look: her hair and upper body are drawn with
+       | her own shaders and those textures, and her jacket and lower body --- where RabbitFX changes the
+       | material itself, not only the textures --- with the skin's shaders, which RabbitFX patches too.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
      - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its
@@ -381,7 +389,8 @@ Grading
        | Lynae's jacket slot, the second in a generated copy ``.ini`` that shares the mod's skeleton.
        |
        | - The skin marks the cloth under a sheer garment differently from Lynae, so every body mask is
-       | repacked into Lynae's legend. Her see-through shirt and coat draw opaque.
+       | repacked into Lynae's legend. Her see-through shirt and coat are drawn with the skin's own
+       | see-through passes and show the body through them, as on the skin.
        |
        | - The lower body's outline pass is handed the skin's diffuse where Lynae's own pass reads a flat
        | white, so the outline follows the skin's own mask and does not show through her layered thigh

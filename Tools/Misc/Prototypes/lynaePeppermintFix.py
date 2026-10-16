@@ -328,7 +328,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     jacket.constantBuffers = filmData["constantBuffers"]
     jacket.lines = [("ps-t5", "role ramp"), ("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", "back")]
     jacket.onlyWith = "o3"
-    jacket.yieldToRabbitFX = True
+    jacket.yieldToRabbitFX = True     # RabbitFX's patch of her jacket shader turns its film off (core's LynaeFixer)
     # her register order (detail at t2, diffuse at t3) and her foil, only while her shader draws it
     jacket.registers = [B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse"), B("ps-t4", "filmFoil")]
     plan[5].shader = jacket
@@ -349,7 +349,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         s.constantBuffers = data["constantBuffers"]
         s.lines = extra + [("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", cull)]
         s.onlyWith = "o3"
-        s.yieldToRabbitFX = True      # a RabbitFX mod keeps the skin's shader, which RabbitFX patches
+        # a RabbitFX mod's maps are bound directly: RabbitFX only swaps the textures her shader reads
         return s
 
     plan[0].shader = ownShader("LynaeBangs", "lynaeBangsShader.json", "none", [("ps-t6", "role ramp")])
@@ -360,6 +360,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                          [("ps-t4", "stash 4 ps-t4"), ("ps-t5", "stash 4 ps-t5"), ("ps-t6", "stash 4 ps-t6"),
                           ("ps-t9", "role ramp")])
     lowerOwn.registers = [B("ps-t7", "filmFoil"), B("ps-t8", "lowerSheer")]
+    lowerOwn.yieldToRabbitFX = True   # RabbitFX's patch of her lower-body shader changes the material (core's LynaeFixer)
     plan[4].shader = lowerOwn
     config.stashRegs = {4: ["ps-t4", "ps-t5", "ps-t6"]}
     plan[106].shader = shader

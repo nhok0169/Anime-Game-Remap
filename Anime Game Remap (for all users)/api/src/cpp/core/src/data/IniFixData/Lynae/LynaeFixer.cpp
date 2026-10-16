@@ -169,9 +169,15 @@ namespace AGRemapCore {
         // SKIN's ramp -- her shaders bind her own, downloaded (`role ramp`, at t5 / t6 / t9). Her lower
         // body's three the skin's upper-body slot lacks are captured off the skin's own lower-body draw,
         // which comes first in every scene (stashRegs). On a slot the skin draws twice (a solid pass and a
-        // see-through one) hers is drawn on both, the state spelled out so the second repeats the first. A
-        // mod that hands a part's maps to RabbitFX keeps the skin's shader there, which
-        // RabbitFX patches (Lynae11) -- with the plan's bindings, which stay the skin's layout ----
+        // see-through one) hers is drawn on both, the state spelled out so the second repeats the first.
+        // A mod that hands a part's maps to RabbitFX (Lynae11) gets them bound here directly: RabbitFX's
+        // patch of her shaders only swaps the textures they read, so her shader with the same files
+        // renders as her card does. Her JACKET and LOWER BODY are the exceptions: RabbitFX's patch of
+        // those two shaders changes the material, not only the textures -- her jacket's film goes off (a
+        // mod's pink lining stays pink on her card, and her own film shader drew it teal) and Lynae11's
+        // robotic legs render as white plastic (her own lower-body shader drew them as skin) -- so a
+        // RabbitFX jacket or lower body keeps the skin's shader, which RabbitFX patches too, with the
+        // plan's bindings in the skin's layout ----
         const auto ownState = [](const std::string& cull, std::vector<std::pair<std::string, std::string>> lines) {
             for (const auto& line : std::vector<std::pair<std::string, std::string>>{
                      {"blend", "disable"},
@@ -185,13 +191,13 @@ namespace AGRemapCore {
                                      std::vector<std::pair<std::string, std::string>> lines) {
             shader.lines = ownState(cull, std::move(lines));
             shader.onlyWith = "o3";
-            shader.yieldToRabbitFX = true;
             return shader;
         };
 
         // her jacket on the skin's jacket slot: her register order (detail at t2, diffuse at t3), her foil
         WWMIFixerConfig::Shader jacket = own(lynaeFilmShader(), "back", {{"ps-t5", "role ramp"}});
         jacket.name = "LynaeJacket";
+        jacket.yieldToRabbitFX = true;
         jacket.registers = {{"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t4", "filmFoil"}};
         config.plan.at(5).shader = std::move(jacket);
 
@@ -207,6 +213,7 @@ namespace AGRemapCore {
                                             {{"ps-t4", "stash 4 ps-t4"}, {"ps-t5", "stash 4 ps-t5"}, {"ps-t6", "stash 4 ps-t6"},
                                              {"ps-t9", "role ramp"}});
         lower.registers = {{"ps-t7", "filmFoil"}, {"ps-t8", "lowerSheer"}};
+        lower.yieldToRabbitFX = true;
         config.plan.at(4).shader = std::move(lower);
         config.stashRegs = {{4, {"ps-t4", "ps-t5", "ps-t6"}}};
         WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};

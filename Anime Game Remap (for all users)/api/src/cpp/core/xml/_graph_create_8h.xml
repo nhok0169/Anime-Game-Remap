@@ -7,6 +7,7 @@
     <includes local="no">string</includes>
     <includes refid="_base_ini_graph_group_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</includes>
     <includes local="yes">GraphCreate.tpp</includes>
+    <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <incdepgraph>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -728,6 +729,18 @@
         <label>vector</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h</label>
+        <link refid="_graph_create_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/data/IniFixData/WWMIFixer.cpp</label>
+        <link refid="_w_w_m_i_fixer_8cpp"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_graph_create" prot="public">AGRemapCore::GraphCreate</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>

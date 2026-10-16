@@ -1274,6 +1274,43 @@
     <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" kind="variable"><name>value</name></member>
     <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" kind="variable"><name>order</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file" kind="struct"><name>AGRemapCore::FileAddCreate::File</name>
+    <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a844498948a94ec72731a4db60a9381d1" kind="variable"><name>keys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1ac89f7be2fb264de9888939c36ff2a8c4" kind="variable"><name>file</name></member>
+    <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a166510508e80b3f4f95e796d9790d4e4" kind="variable"><name>bytes</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_file_add_create" kind="class"><name>AGRemapCore::FileAddCreate</name>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1ad7084090c09bd3eacd9c5850ed643bfa" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a736fa4540ec630ea31fa6fe2c941958a" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1ac4ce1f3a8c4f8f21738e98b2c8f607c2" kind="typedef"><name>ResEditConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a03202dbe425009d5416b3f0b75e2f5d2" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1acce606883bc71b00f561eaaf6d224326" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a5c15d5eb62ccbc03078ad3395e9197de" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a871838c60f57dc26b97ffa6772284ec6" kind="typedef"><name>CollectedSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" kind="typedef"><name>ResourceFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1aca8bd0bb62edaf444585eb7acb53d845" kind="variable"><name>files</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" kind="variable"><name>resType</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" kind="variable"><name>config</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" kind="variable"><name>resModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" kind="variable"><name>graphReplaceMode</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a662137cca6c4dffa69ce4df906c544d1" kind="variable"><name>sections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a83a0e57361b1c76a188eff2f4b280682" kind="function"><name>FileAddCreate</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1ac7f00065461b965755bfc684f4643c9c" kind="function"><name>getFixResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a7e0cc91b4ac33212dc2bbee35f4d5525" kind="function"><name>buildSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a6a8cc41cc52d012bfd2e020272878449" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a8c2f97c56f0615bf7bcb0743ddef7f6e" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a5f245ec94619f26579001ad7850a0c9f" kind="function"><name>collectResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f" kind="function"><name>getResGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" kind="function"><name>getFixFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" kind="function"><name>renameUncollectedSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_file_download" kind="class"><name>AGRemapCore::FileDownload</name>
     <member refid="class_a_g_remap_core_1_1_file_download_1ab6ff09cb4e4f175816d2bc1d7e6fc422" kind="variable"><name>url</name></member>
     <member refid="class_a_g_remap_core_1_1_file_download_1a213340408fb5c9a6220a260cc1da7f2e" kind="variable"><name>filename</name></member>
@@ -1302,6 +1339,35 @@
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1a7492fac6da0d3d53026f1f4378ee75c7" kind="variable"><name>DisabledPrefix</name></member>
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" kind="variable"><name>OldBackupFilePrefixV3</name></member>
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" kind="variable"><name>OldBackupFilePrefixV4_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_file_ref_add" kind="class"><name>AGRemapCore::FileRefAdd</name>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a45b20b615ea2d631a233cc7c3c862318" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1afd62ab26d08450ab603d848e183960d6" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a3d23d09801d6c8b4312f1beca6ef27d3" kind="typedef"><name>ResEditConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a352bbb95d13f16db5f9136d62ddccfaa" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a9164336bc84440ab530faddb2f804e16" kind="typedef"><name>CollectedSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1af439855d92146e2f7519519da98620f5" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1ae43599b477ea3b286df762342ee43178" kind="typedef"><name>ResourceFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a3b121b03844190d1be3faa6f8f5e5f1d" kind="variable"><name>files</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" kind="variable"><name>resType</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" kind="variable"><name>config</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" kind="variable"><name>resModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" kind="variable"><name>graphReplaceMode</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1adb97b61b865e1e2a4c462e46110d3b8d" kind="function"><name>FileRefAdd</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1aea1ee5918e0661cc88d146d5eb11b5c6" kind="function"><name>getFixResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1ad9639215744332f1526fb7649b23b7f6" kind="function"><name>buildResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" kind="function"><name>getFixFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" kind="function"><name>renameUncollectedSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" kind="function"><name>getResGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan" kind="struct"><name>AGRemapCore::RemapIniRemover::FileScan</name>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan_1a742fc10f32d30725ec567c3af6d22874" kind="variable"><name>sections</name></member>
@@ -4499,7 +4565,6 @@
     <member refid="class_a_g_remap_core_1_1_remap_position_replace_1ae55c86a77c6c4789314ba05abbaed4fb" kind="function"><name>getFixFile</name></member>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
@@ -6112,7 +6177,6 @@
     <member refid="class_a_g_remap_core_1_1_tex_replace_1a2fa260b9a9e8a7493071ce948f6c6f3b" kind="function"><name>subTypedModName</name></member>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
@@ -6610,7 +6674,6 @@
     <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9804f37e7028338bea96549bc9e3c679" kind="function"><name>getFixFile</name></member>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
@@ -7976,6 +8039,8 @@
   </compound>
   <compound refid="_buf_edit_8h" kind="file"><name>BufEdit.h</name>
   </compound>
+  <compound refid="_file_add_edit_8h" kind="file"><name>FileAddEdit.h</name>
+  </compound>
   <compound refid="_position_edit_8h" kind="file"><name>PositionEdit.h</name>
   </compound>
   <compound refid="_res_edit_8h" kind="file"><name>ResEdit.h</name>
@@ -8779,6 +8844,8 @@
   <compound refid="_i_ini_graph_groups_instantiation_8cpp" kind="file"><name>IIniGraphGroupsInstantiation.cpp</name>
   </compound>
   <compound refid="_ini_file_res_edit_context_8cpp" kind="file"><name>IniFileResEditContext.cpp</name>
+  </compound>
+  <compound refid="_file_add_edit_instantiation_8cpp" kind="file"><name>FileAddEditInstantiation.cpp</name>
   </compound>
   <compound refid="_res_edit_instantiation_8cpp" kind="file"><name>ResEditInstantiation.cpp</name>
   </compound>

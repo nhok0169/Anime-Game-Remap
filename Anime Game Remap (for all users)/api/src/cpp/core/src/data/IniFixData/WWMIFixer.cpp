@@ -74,7 +74,9 @@
 #include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
@@ -1784,7 +1786,6 @@ namespace AGRemapCore {
                         writeZeroStream();
                         writeShapeKeyOrder();
                         writeMirrorBuffers();
-                        addRerouteShaderFiles();
                         addCreatedTextures();
                         addFallbackDownloads();
                         addTexEdits();
@@ -1796,7 +1797,67 @@ namespace AGRemapCore {
                         }
                     }
 
+                    if (!gaveUp_) {
+                        addShaderGraphs(modName);
+                    }
+
                     rebindBlendOverride();
+                }
+
+                // THE CUSTOMSHADER SECTIONS ARE A GRAPH, AND THEIR FILES ARE ITS RESOURCES (2026-10-16).
+                //
+                // Every .ini file the fix writes declares the shaders (they used to ride the appended
+                // text, which every copy carries), so the graph rerouteShaderSections built is added to
+                // each group, and the files it names are collected off it as any other resource is:
+                // `ps-cb4 = Resource...` through FileAddCreate, which builds the buffer's section and
+                // the file, and `ps = <file>.hlsl` -- a register whose value IS the file -- through
+                // FileRefAdd. Both hand the service RemapFileAddResources, so the files are written,
+                // counted and undone with the rest of the mod's resources.
+                //
+                // After the group edits rather than among them: a copy's group exists only once the
+                // slot remap has made it, and the shaders go in every group there is.
+                void addShaderGraphs(const std::string& modName) {
+                    if (shaderGraph_ == nullptr) {
+                        return;
+                    }
+
+                    Fixer::GraphGroups& groups = *this->graphGroups();
+                    IniFile* ini = ctx_.getIniFile();
+                    FileRefAdd<> sourceAdd(shaderSources_, makeResEditConfig());
+
+                    for (std::size_t g = 0; g < groups.size(); ++g) {
+                        const GraphId shaders(g, "", "rerouteShaders");
+                        GraphCreate<>(shaders, shaderGraph_.get()).edit(groups, nullptr, modName);
+
+                        FileAddCreate<> bufferCreate(GraphId(g, "", "rerouteShaderBuffers"), shaderBuffers_, makeResEditConfig());
+                        for (const std::string& reg : shaderBufferRegs_) {
+                            Collector buffers;
+                            buffers.srcRegs[shaders] = reg;
+                            buffers.resEdits = {{"shaderBuffer", &bufferCreate}};
+                            buffers.editFromIni(groups, ini, nullptr, modName);
+                        }
+
+                        Collector sources;
+                        sources.srcRegs[shaders] = "ps";
+                        sources.resEdits = {{"shaderSource", &sourceAdd}};
+                        sources.editFromIni(groups, ini, nullptr, modName);
+                    }
+                }
+
+                // One CustomShader section of shaderGraph_
+                void addShaderSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& keys) {
+                    using Section = GraphCreate<>::Graph::Section;
+                    std::vector<std::unique_ptr<IfTemplatePart>> parts;
+                    parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(keys, 0));
+
+                    IfTemplateRunConfig<std::string, std::string> runConfig{
+                        IniKeywords::Run,
+                        [](const std::string& val) { return val; },
+                        [](const std::string& section) { return section; }
+                    };
+
+                    shaderSections_.push_back(std::make_unique<Section>(std::move(parts), std::move(runConfig), name));
+                    shaderSectionNames_.push_back(name);
                 }
 
                 // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE: `vb4 =
@@ -5978,6 +6039,12 @@ namespace AGRemapCore {
                     std::string out;
                     std::set<std::string> declared;
                     shaderBackupRegs_.clear();
+                    shaderSections_.clear();
+                    shaderSectionNames_.clear();
+                    shaderGraph_.reset();
+                    shaderSources_.clear();
+                    shaderBuffers_.clear();
+                    shaderBufferRegs_.clear();
                     for (const auto& [as, shader] : rerouteShaders_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
                         for (const auto& range : shaderDraws(as)) {
@@ -6103,7 +6170,7 @@ namespace AGRemapCore {
                                     }
                                 }
                                 lines.emplace_back(IniKeywords::DrawIndexed, draw);
-                                out += SectionText(z3_, passName(p)).keys(lines).str();
+                                addShaderSection(passName(p), lines);
                             }
                         }
 
@@ -6111,12 +6178,21 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const auto& entry : shader->constantBuffers) {
-                            out += SectionText(z3_, rerouteBufferResource(*shader, entry.first))
-                                       .keys({{IniKeywords::Type, "Buffer"},
-                                              {IniKeywords::Format, "DXGI_FORMAT_R32G32B32A32_FLOAT"},
-                                              {IniKeywords::Filename, rerouteBufferFile(*shader, entry.first)}})
-                                       .str();
+                        // what the graph's `ps` and `ps-cbN` lines name -- see addShaderGraphs
+                        shaderSources_[rerouteShaderFile(*shader)] = ByteVec(shader->ps.begin(), shader->ps.end());
+                        for (const auto& [reg, words] : shader->constantBuffers) {
+                            ByteVec bytes;
+                            bytes.reserve(words.size() * 4);
+                            for (std::uint32_t word : words) {
+                                for (int k = 0; k < 4; ++k) {
+                                    bytes.push_back(static_cast<std::uint8_t>((word >> (8 * k)) & 0xFF));
+                                }
+                            }
+
+                            shaderBufferRegs_.insert(reg);
+                            shaderBuffers_[rerouteBufferResource(*shader, reg)] = FileAddCreate<>::File{
+                                {{IniKeywords::Type, "Buffer"}, {IniKeywords::Format, "DXGI_FORMAT_R32G32B32A32_FLOAT"}},
+                                rerouteBufferFile(*shader, reg), std::move(bytes)};
                         }
                     }
 
@@ -6161,8 +6237,23 @@ namespace AGRemapCore {
                                 keys.push_back(line);
                             }
                             keys.emplace_back(IniKeywords::DrawIndexed, draw);
-                            out += SectionText(z3_, custom).keys(keys).str();
+                            addShaderSection(custom, keys);
                         }
+                    }
+
+                    if (!shaderSectionNames_.empty()) {
+                        std::unordered_map<std::string, GraphCreate<>::Graph::Section*> sections;
+                        for (const auto& section : shaderSections_) {
+                            sections[section->name] = section.get();
+                        }
+
+                        IfTemplateRunConfig<std::string, std::string> runConfig{
+                            IniKeywords::Run,
+                            [](const std::string& val) { return val; },
+                            [](const std::string& section) { return section; }
+                        };
+                        shaderGraph_ = std::make_unique<GraphCreate<>::Graph>(std::move(sections), shaderSectionNames_,
+                                                                              std::move(runConfig), true, false, &z3_);
                     }
 
                     for (const std::string& reg : shaderBackupRegs_) {
@@ -6173,40 +6264,6 @@ namespace AGRemapCore {
                         out += SectionText(z3_, name).open(gated.first).key(IniKeywords::DrawIndexed, gated.second).close().str();
                     }
                     return out;
-                }
-
-                // Each shader's source and constant buffers as resources of the .ini file, written by the
-                // service with the rest of its resources (and counted in RemapStats::fileAdd), as
-                // addCreatedTextures does for a texture made from nothing
-                void addRerouteShaderFiles() {
-                    IniFile* ini = ctx_.getIniFile();
-                    const std::string folder = ini->getFolder();
-                    auto add = [&](const std::string& relPath, ByteVec bytes) {
-                        const std::string path = FileService::absPathOfRelPath(relPath, folder);
-                        if (listsSrcPath(ini->getResources(), path)) {
-                            return;
-                        }
-                        ini->getResources().push_back(std::make_unique<RemapFileAddResource>(folder, path, std::move(bytes)));
-                    };
-
-                    std::set<std::string> added;
-                    for (const auto& [as, shader] : rerouteShaders_) {
-                        if (!added.insert(shader->name).second) {
-                            continue;
-                        }
-
-                        add(rerouteShaderFile(*shader), ByteVec(shader->ps.begin(), shader->ps.end()));
-                        for (const auto& [reg, words] : shader->constantBuffers) {
-                            ByteVec bytes;
-                            bytes.reserve(words.size() * 4);
-                            for (std::uint32_t word : words) {
-                                for (int k = 0; k < 4; ++k) {
-                                    bytes.push_back(static_cast<std::uint8_t>((word >> (8 * k)) & 0xFF));
-                                }
-                            }
-                            add(rerouteBufferFile(*shader, reg), std::move(bytes));
-                        }
-                    }
                 }
 
                 void buildSlotRemap() {
@@ -8831,6 +8888,12 @@ namespace AGRemapCore {
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
                 std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
                 std::set<std::string> shaderBackupRegs_;   // the registers a CustomShader run saves and restores (restoringRuns)
+                std::vector<std::unique_ptr<GraphCreate<>::Graph::Section>> shaderSections_;   // the CustomShader sections...
+                std::vector<std::string> shaderSectionNames_;                                    // ...in the order they are written
+                std::unique_ptr<GraphCreate<>::Graph> shaderGraph_;                              // ...and their graph, added to every group
+                std::unordered_map<std::string, ByteVec> shaderSources_;                         // a `ps =` file -> its source
+                std::unordered_map<std::string, FileAddCreate<>::File> shaderBuffers_;           // a `ps-cbN =` resource -> its section and file
+                std::set<std::string> shaderBufferRegs_;                                         // ...and the registers that name them
                 std::unique_ptr<MarkDraws> markEdit_;
                 std::unique_ptr<RegPartEdit<>> markAdapter_;
                 std::map<int, std::string> afterDispatch_;     // a component drawn first -> the list its draws run (Shader::after)

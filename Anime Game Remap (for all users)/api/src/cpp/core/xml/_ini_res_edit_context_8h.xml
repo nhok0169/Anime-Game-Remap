@@ -641,6 +641,14 @@
         </childnode>
       </node>
       <node id="22">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h</label>
+        <link refid="_file_add_edit_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
         <link refid="_position_edit_8h"/>
         <childnode refid="4" relation="include">
@@ -659,12 +667,14 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="26">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
         <link refid="_tex_creator_edit_8h"/>
         <childnode refid="4" relation="include">
@@ -672,15 +682,15 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="25">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
-        <childnode refid="24" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="27">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
         <childnode refid="4" relation="include">
@@ -742,7 +752,11 @@
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
-      <node id="26">
+      <node id="23">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp</label>
+        <link refid="_file_add_edit_instantiation_8cpp"/>
+      </node>
+      <node id="28">
         <label>src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp</label>
         <link refid="_res_edit_instantiation_8cpp"/>
       </node>

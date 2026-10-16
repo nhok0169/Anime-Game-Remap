@@ -94,9 +94,11 @@
     <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_tools" prot="public">AGRemapCore::DownloadTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_add_create" prot="public">AGRemapCore::FileAddCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_ref_add" prot="public">AGRemapCore::FileRefAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_service" prot="public">AGRemapCore::FileService</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_stats" prot="public">AGRemapCore::FileStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_suffixes" prot="public">AGRemapCore::FileSuffixes</innerclass>
@@ -2756,7 +2758,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="8931" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="8931" bodyend="8935" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1383" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="8994" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="8994" bodyend="8998" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1383" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

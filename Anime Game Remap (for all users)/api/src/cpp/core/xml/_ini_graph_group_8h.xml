@@ -1704,7 +1704,7 @@
         <childnode refid="139" relation="include">
         </childnode>
       </node>
-      <node id="317">
+      <node id="319">
         <label>include/AGRemapCore/data/IniParseBuilderData.h</label>
         <link refid="_ini_parse_builder_data_8h"/>
         <childnode refid="25" relation="include">
@@ -1809,7 +1809,7 @@
         </childnode>
         <childnode refid="97" relation="include">
         </childnode>
-        <childnode refid="305" relation="include">
+        <childnode refid="307" relation="include">
         </childnode>
         <childnode refid="98" relation="include">
         </childnode>
@@ -1840,121 +1840,121 @@
         <childnode refid="115" relation="include">
         </childnode>
       </node>
-      <node id="318">
+      <node id="320">
         <label>include/AGRemapCore/data/IniParseData/Amber/AmberParser.h</label>
         <link refid="_amber_parser_8h"/>
         <childnode refid="59" relation="include">
         </childnode>
       </node>
-      <node id="319">
+      <node id="321">
         <label>include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h</label>
         <link refid="_amber_c_n_parser_8h"/>
         <childnode refid="60" relation="include">
         </childnode>
       </node>
-      <node id="320">
+      <node id="322">
         <label>include/AGRemapCore/data/IniParseData/Arlecchino/ArlecchinoParser.h</label>
         <link refid="_arlecchino_parser_8h"/>
         <childnode refid="61" relation="include">
         </childnode>
       </node>
-      <node id="321">
+      <node id="323">
         <label>include/AGRemapCore/data/IniParseData/Ayaka/AyakaParser.h</label>
         <link refid="_ayaka_parser_8h"/>
         <childnode refid="62" relation="include">
         </childnode>
       </node>
-      <node id="322">
+      <node id="324">
         <label>include/AGRemapCore/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.h</label>
         <link refid="_ayaka_springbloom_parser_8h"/>
         <childnode refid="63" relation="include">
         </childnode>
       </node>
-      <node id="323">
+      <node id="325">
         <label>include/AGRemapCore/data/IniParseData/Barbara/BarbaraParser.h</label>
         <link refid="_barbara_parser_8h"/>
         <childnode refid="64" relation="include">
         </childnode>
       </node>
-      <node id="324">
+      <node id="326">
         <label>include/AGRemapCore/data/IniParseData/BarbaraSummertime/BarbaraSummertimeParser.h</label>
         <link refid="_barbara_summertime_parser_8h"/>
         <childnode refid="65" relation="include">
         </childnode>
       </node>
-      <node id="325">
+      <node id="327">
         <label>include/AGRemapCore/data/IniParseData/Bennett/BennettParser.h</label>
         <link refid="_bennett_parser_8h"/>
         <childnode refid="66" relation="include">
         </childnode>
       </node>
-      <node id="326">
+      <node id="328">
         <label>include/AGRemapCore/data/IniParseData/BennettAdventure/BennettAdventureParser.h</label>
         <link refid="_bennett_adventure_parser_8h"/>
         <childnode refid="109" relation="include">
         </childnode>
       </node>
-      <node id="327">
+      <node id="329">
         <label>include/AGRemapCore/data/IniParseData/Charlotte/CharlotteParser.h</label>
         <link refid="_charlotte_parser_8h"/>
         <childnode refid="67" relation="include">
         </childnode>
       </node>
-      <node id="328">
+      <node id="330">
         <label>include/AGRemapCore/data/IniParseData/CharlotteHurlock/CharlotteHurlockParser.h</label>
         <link refid="_charlotte_hurlock_parser_8h"/>
         <childnode refid="110" relation="include">
         </childnode>
       </node>
-      <node id="329">
+      <node id="331">
         <label>include/AGRemapCore/data/IniParseData/CherryHuTao/CherryHuTaoParser.h</label>
         <link refid="_cherry_hu_tao_parser_8h"/>
         <childnode refid="68" relation="include">
         </childnode>
       </node>
-      <node id="330">
+      <node id="332">
         <label>include/AGRemapCore/data/IniParseData/Chisa/ChisaParser.h</label>
         <link refid="_chisa_parser_8h"/>
         <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="331">
+      <node id="333">
         <label>include/AGRemapCore/data/IniParseData/ChisaParfait/ChisaParfaitParser.h</label>
         <link refid="_chisa_parfait_parser_8h"/>
         <childnode refid="118" relation="include">
         </childnode>
       </node>
-      <node id="332">
+      <node id="334">
         <label>include/AGRemapCore/data/IniParseData/Citlali/CitlaliParser.h</label>
         <link refid="_citlali_parser_8h"/>
         <childnode refid="69" relation="include">
         </childnode>
       </node>
-      <node id="333">
+      <node id="335">
         <label>include/AGRemapCore/data/IniParseData/CitlaliWhisperofStars/CitlaliWhisperofStarsParser.h</label>
         <link refid="_citlali_whisperof_stars_parser_8h"/>
         <childnode refid="111" relation="include">
         </childnode>
       </node>
-      <node id="334">
+      <node id="336">
         <label>include/AGRemapCore/data/IniParseData/Diluc/DilucParser.h</label>
         <link refid="_diluc_parser_8h"/>
         <childnode refid="70" relation="include">
         </childnode>
       </node>
-      <node id="335">
+      <node id="337">
         <label>include/AGRemapCore/data/IniParseData/DilucFlamme/DilucFlammeParser.h</label>
         <link refid="_diluc_flamme_parser_8h"/>
         <childnode refid="71" relation="include">
         </childnode>
       </node>
-      <node id="336">
+      <node id="338">
         <label>include/AGRemapCore/data/IniParseData/Fischl/FischlParser.h</label>
         <link refid="_fischl_parser_8h"/>
         <childnode refid="72" relation="include">
         </childnode>
       </node>
-      <node id="337">
+      <node id="339">
         <label>include/AGRemapCore/data/IniParseData/FischlHighness/FischlHighnessParser.h</label>
         <link refid="_fischl_highness_parser_8h"/>
         <childnode refid="73" relation="include">
@@ -2086,211 +2086,211 @@
         <childnode refid="115" relation="include">
         </childnode>
       </node>
-      <node id="338">
+      <node id="340">
         <label>include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h</label>
         <link refid="_ganyu_parser_8h"/>
         <childnode refid="74" relation="include">
         </childnode>
       </node>
-      <node id="339">
+      <node id="341">
         <label>include/AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h</label>
         <link refid="_ganyu_twilight_parser_8h"/>
         <childnode refid="75" relation="include">
         </childnode>
       </node>
-      <node id="340">
+      <node id="342">
         <label>include/AGRemapCore/data/IniParseData/HuTao/HuTaoParser.h</label>
         <link refid="_hu_tao_parser_8h"/>
         <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="341">
+      <node id="343">
         <label>include/AGRemapCore/data/IniParseData/Jean/JeanParser.h</label>
         <link refid="_jean_parser_8h"/>
         <childnode refid="77" relation="include">
         </childnode>
       </node>
-      <node id="342">
+      <node id="344">
         <label>include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h</label>
         <link refid="_jean_c_n_parser_8h"/>
         <childnode refid="78" relation="include">
         </childnode>
       </node>
-      <node id="343">
+      <node id="345">
         <label>include/AGRemapCore/data/IniParseData/JeanSea/JeanSeaParser.h</label>
         <link refid="_jean_sea_parser_8h"/>
         <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="344">
+      <node id="346">
         <label>include/AGRemapCore/data/IniParseData/Kaeya/KaeyaParser.h</label>
         <link refid="_kaeya_parser_8h"/>
         <childnode refid="80" relation="include">
         </childnode>
       </node>
-      <node id="345">
+      <node id="347">
         <label>include/AGRemapCore/data/IniParseData/KaeyaSailwind/KaeyaSailwindParser.h</label>
         <link refid="_kaeya_sailwind_parser_8h"/>
         <childnode refid="81" relation="include">
         </childnode>
       </node>
-      <node id="346">
+      <node id="348">
         <label>include/AGRemapCore/data/IniParseData/Keqing/KeqingParser.h</label>
         <link refid="_keqing_parser_8h"/>
         <childnode refid="82" relation="include">
         </childnode>
       </node>
-      <node id="347">
+      <node id="349">
         <label>include/AGRemapCore/data/IniParseData/KeqingOpulent/KeqingOpulentParser.h</label>
         <link refid="_keqing_opulent_parser_8h"/>
         <childnode refid="83" relation="include">
         </childnode>
       </node>
-      <node id="348">
+      <node id="350">
         <label>include/AGRemapCore/data/IniParseData/Kirara/KiraraParser.h</label>
         <link refid="_kirara_parser_8h"/>
         <childnode refid="84" relation="include">
         </childnode>
       </node>
-      <node id="349">
+      <node id="351">
         <label>include/AGRemapCore/data/IniParseData/KiraraBoots/KiraraBootsParser.h</label>
         <link refid="_kirara_boots_parser_8h"/>
         <childnode refid="85" relation="include">
         </childnode>
       </node>
-      <node id="350">
+      <node id="352">
         <label>include/AGRemapCore/data/IniParseData/Klee/KleeParser.h</label>
         <link refid="_klee_parser_8h"/>
         <childnode refid="86" relation="include">
         </childnode>
       </node>
-      <node id="351">
+      <node id="353">
         <label>include/AGRemapCore/data/IniParseData/KleeBlossomingStarlight/KleeBlossomingStarlightParser.h</label>
         <link refid="_klee_blossoming_starlight_parser_8h"/>
         <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="352">
+      <node id="354">
         <label>include/AGRemapCore/data/IniParseData/Lisa/LisaParser.h</label>
         <link refid="_lisa_parser_8h"/>
         <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="353">
+      <node id="355">
         <label>include/AGRemapCore/data/IniParseData/LisaStudent/LisaStudentParser.h</label>
         <link refid="_lisa_student_parser_8h"/>
         <childnode refid="89" relation="include">
         </childnode>
       </node>
-      <node id="354">
+      <node id="356">
         <label>include/AGRemapCore/data/IniParseData/Lumine/LumineParser.h</label>
         <link refid="_lumine_parser_8h"/>
         <childnode refid="90" relation="include">
         </childnode>
       </node>
-      <node id="355">
+      <node id="357">
         <label>include/AGRemapCore/data/IniParseData/LumineHeaven/LumineHeavenParser.h</label>
         <link refid="_lumine_heaven_parser_8h"/>
         <childnode refid="112" relation="include">
         </childnode>
       </node>
-      <node id="356">
+      <node id="358">
         <label>include/AGRemapCore/data/IniParseData/Lynae/LynaeParser.h</label>
         <link refid="_lynae_parser_8h"/>
         <childnode refid="119" relation="include">
         </childnode>
       </node>
-      <node id="357">
+      <node id="359">
         <label>include/AGRemapCore/data/IniParseData/LynaePeppermint/LynaePeppermintParser.h</label>
         <link refid="_lynae_peppermint_parser_8h"/>
         <childnode refid="120" relation="include">
         </childnode>
       </node>
-      <node id="358">
+      <node id="360">
         <label>include/AGRemapCore/data/IniParseData/Mona/MonaParser.h</label>
         <link refid="_mona_parser_8h"/>
         <childnode refid="91" relation="include">
         </childnode>
       </node>
-      <node id="359">
+      <node id="361">
         <label>include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h</label>
         <link refid="_mona_c_n_parser_8h"/>
         <childnode refid="92" relation="include">
         </childnode>
       </node>
-      <node id="360">
+      <node id="362">
         <label>include/AGRemapCore/data/IniParseData/Neuvillette/NeuvilletteParser.h</label>
         <link refid="_neuvillette_parser_8h"/>
         <childnode refid="93" relation="include">
         </childnode>
       </node>
-      <node id="361">
+      <node id="363">
         <label>include/AGRemapCore/data/IniParseData/NeuvilletteMelusent/NeuvilletteMelusentParser.h</label>
         <link refid="_neuvillette_melusent_parser_8h"/>
         <childnode refid="113" relation="include">
         </childnode>
       </node>
-      <node id="362">
+      <node id="364">
         <label>include/AGRemapCore/data/IniParseData/Nilou/NilouParser.h</label>
         <link refid="_nilou_parser_8h"/>
         <childnode refid="94" relation="include">
         </childnode>
       </node>
-      <node id="363">
+      <node id="365">
         <label>include/AGRemapCore/data/IniParseData/NilouBreeze/NilouBreezeParser.h</label>
         <link refid="_nilou_breeze_parser_8h"/>
         <childnode refid="95" relation="include">
         </childnode>
       </node>
-      <node id="364">
+      <node id="366">
         <label>include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h</label>
         <link refid="_ningguang_parser_8h"/>
         <childnode refid="96" relation="include">
         </childnode>
       </node>
-      <node id="365">
+      <node id="367">
         <label>include/AGRemapCore/data/IniParseData/NingguangOrchid/NingguangOrchidParser.h</label>
         <link refid="_ningguang_orchid_parser_8h"/>
         <childnode refid="97" relation="include">
         </childnode>
       </node>
-      <node id="366">
+      <node id="368">
         <label>include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</label>
         <link refid="_raiden_parser_8h"/>
-        <childnode refid="305" relation="include">
+        <childnode refid="307" relation="include">
         </childnode>
       </node>
-      <node id="367">
+      <node id="369">
         <label>include/AGRemapCore/data/IniParseData/Rosaria/RosariaParser.h</label>
         <link refid="_rosaria_parser_8h"/>
         <childnode refid="98" relation="include">
         </childnode>
       </node>
-      <node id="368">
+      <node id="370">
         <label>include/AGRemapCore/data/IniParseData/RosariaCN/RosariaCNParser.h</label>
         <link refid="_rosaria_c_n_parser_8h"/>
         <childnode refid="99" relation="include">
         </childnode>
       </node>
-      <node id="369">
+      <node id="371">
         <label>include/AGRemapCore/data/IniParseData/Sanhua/SanhuaParser.h</label>
         <link refid="_sanhua_parser_8h"/>
         <childnode refid="121" relation="include">
         </childnode>
       </node>
-      <node id="370">
+      <node id="372">
         <label>include/AGRemapCore/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.h</label>
         <link refid="_sanhua_exorcist_parser_8h"/>
         <childnode refid="122" relation="include">
         </childnode>
       </node>
-      <node id="371">
+      <node id="373">
         <label>include/AGRemapCore/data/IniParseData/Shenhe/ShenheParser.h</label>
         <link refid="_shenhe_parser_8h"/>
         <childnode refid="100" relation="include">
         </childnode>
       </node>
-      <node id="372">
+      <node id="374">
         <label>include/AGRemapCore/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.h</label>
         <link refid="_shenhe_frost_flower_parser_8h"/>
         <childnode refid="101" relation="include">
@@ -2316,49 +2316,49 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="373">
+      <node id="375">
         <label>include/AGRemapCore/data/IniParseData/Xiangling/XianglingParser.h</label>
         <link refid="_xiangling_parser_8h"/>
         <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="374">
+      <node id="376">
         <label>include/AGRemapCore/data/IniParseData/XianglingCheer/XianglingCheerParser.h</label>
         <link refid="_xiangling_cheer_parser_8h"/>
         <childnode refid="103" relation="include">
         </childnode>
       </node>
-      <node id="375">
+      <node id="377">
         <label>include/AGRemapCore/data/IniParseData/Xingqiu/XingqiuParser.h</label>
         <link refid="_xingqiu_parser_8h"/>
         <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="376">
+      <node id="378">
         <label>include/AGRemapCore/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.h</label>
         <link refid="_xingqiu_bamboo_parser_8h"/>
         <childnode refid="105" relation="include">
         </childnode>
       </node>
-      <node id="377">
+      <node id="379">
         <label>include/AGRemapCore/data/IniParseData/Yaoyao/YaoyaoParser.h</label>
         <link refid="_yaoyao_parser_8h"/>
         <childnode refid="106" relation="include">
         </childnode>
       </node>
-      <node id="378">
+      <node id="380">
         <label>include/AGRemapCore/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.h</label>
         <link refid="_yaoyao_bamboo_parser_8h"/>
         <childnode refid="114" relation="include">
         </childnode>
       </node>
-      <node id="379">
+      <node id="381">
         <label>include/AGRemapCore/data/IniParseData/Yelan/YelanParser.h</label>
         <link refid="_yelan_parser_8h"/>
         <childnode refid="107" relation="include">
         </childnode>
       </node>
-      <node id="380">
+      <node id="382">
         <label>include/AGRemapCore/data/IniParseData/YelanTranquil/YelanTranquilParser.h</label>
         <link refid="_yelan_tranquil_parser_8h"/>
         <childnode refid="115" relation="include">
@@ -2377,15 +2377,15 @@
         </childnode>
         <childnode refid="273" relation="include">
         </childnode>
-        <childnode refid="315" relation="include">
+        <childnode refid="317" relation="include">
         </childnode>
-        <childnode refid="302" relation="include">
+        <childnode refid="304" relation="include">
+        </childnode>
+        <childnode refid="312" relation="include">
         </childnode>
         <childnode refid="310" relation="include">
         </childnode>
-        <childnode refid="308" relation="include">
-        </childnode>
-        <childnode refid="382" relation="include">
+        <childnode refid="384" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -2711,16 +2711,18 @@
         </childnode>
         <childnode refid="294" relation="include">
         </childnode>
-        <childnode refid="302" relation="include">
+        <childnode refid="304" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="307" relation="include">
+        <childnode refid="309" relation="include">
         </childnode>
       </node>
       <node id="278">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h</label>
         <link refid="_graph_create_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="279">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h</label>
@@ -2803,11 +2805,11 @@
         </childnode>
         <childnode refid="277" relation="include">
         </childnode>
-        <childnode refid="308" relation="include">
+        <childnode refid="310" relation="include">
         </childnode>
-        <childnode refid="309" relation="include">
+        <childnode refid="311" relation="include">
         </childnode>
-        <childnode refid="314" relation="include">
+        <childnode refid="316" relation="include">
         </childnode>
       </node>
       <node id="283">
@@ -2877,6 +2879,14 @@
         </childnode>
       </node>
       <node id="297">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h</label>
+        <link refid="_file_add_edit_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="298" relation="include">
+        </childnode>
+      </node>
+      <node id="299">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
         <link refid="_position_edit_8h"/>
         <childnode refid="149" relation="include">
@@ -2895,12 +2905,14 @@
         </childnode>
         <childnode refid="297" relation="include">
         </childnode>
-        <childnode refid="298" relation="include">
+        <childnode refid="299" relation="include">
         </childnode>
-        <childnode refid="301" relation="include">
+        <childnode refid="300" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
         </childnode>
       </node>
-      <node id="299">
+      <node id="301">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
         <link refid="_tex_creator_edit_8h"/>
         <childnode refid="149" relation="include">
@@ -2908,15 +2920,15 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="298">
+      <node id="300">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
-        <childnode refid="299" relation="include">
+        <childnode refid="301" relation="include">
         </childnode>
-        <childnode refid="300" relation="include">
+        <childnode refid="302" relation="include">
         </childnode>
       </node>
-      <node id="300">
+      <node id="302">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
         <childnode refid="149" relation="include">
@@ -2934,16 +2946,16 @@
         <childnode refid="150" relation="include">
         </childnode>
       </node>
-      <node id="315">
+      <node id="317">
         <label>include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="302" relation="include">
+        <childnode refid="304" relation="include">
         </childnode>
-        <childnode refid="316" relation="include">
+        <childnode refid="318" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -2959,13 +2971,13 @@
         </childnode>
         <childnode refid="153" relation="include">
         </childnode>
-        <childnode refid="381" relation="include">
+        <childnode refid="383" relation="include">
         </childnode>
       </node>
-      <node id="302">
+      <node id="304">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="303" relation="include">
+        <childnode refid="305" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -2973,41 +2985,41 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="305" relation="include">
+        <childnode refid="307" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="306" relation="include">
+        <childnode refid="308" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="157" relation="include">
         </childnode>
       </node>
-      <node id="310">
+      <node id="312">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
-        <childnode refid="302" relation="include">
+        <childnode refid="304" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="305" relation="include">
+        <childnode refid="307" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="311" relation="include">
+        <childnode refid="313" relation="include">
         </childnode>
       </node>
-      <node id="308">
+      <node id="310">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
         <link refid="_ini_file_parse_context_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="305" relation="include">
+        <childnode refid="307" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
@@ -3016,14 +3028,10 @@
         <childnode refid="157" relation="include">
         </childnode>
       </node>
-      <node id="316">
+      <node id="318">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="155" relation="include">
-        </childnode>
-        <childnode refid="317" relation="include">
-        </childnode>
-        <childnode refid="318" relation="include">
         </childnode>
         <childnode refid="319" relation="include">
         </childnode>
@@ -3063,13 +3071,13 @@
         </childnode>
         <childnode refid="337" relation="include">
         </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="108" relation="include">
-        </childnode>
         <childnode refid="338" relation="include">
         </childnode>
         <childnode refid="339" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
         </childnode>
         <childnode refid="340" relation="include">
         </childnode>
@@ -3137,11 +3145,11 @@
         </childnode>
         <childnode refid="372" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
-        </childnode>
         <childnode refid="373" relation="include">
         </childnode>
         <childnode refid="374" relation="include">
+        </childnode>
+        <childnode refid="116" relation="include">
         </childnode>
         <childnode refid="375" relation="include">
         </childnode>
@@ -3155,6 +3163,10 @@
         </childnode>
         <childnode refid="380" relation="include">
         </childnode>
+        <childnode refid="381" relation="include">
+        </childnode>
+        <childnode refid="382" relation="include">
+        </childnode>
         <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
@@ -3166,29 +3178,29 @@
         <childnode refid="157" relation="include">
         </childnode>
       </node>
-      <node id="309">
+      <node id="311">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
         <link refid="_ini_parse_context_8h"/>
-        <childnode refid="302" relation="include">
-        </childnode>
-        <childnode refid="310" relation="include">
-        </childnode>
-        <childnode refid="308" relation="include">
+        <childnode refid="304" relation="include">
         </childnode>
         <childnode refid="312" relation="include">
         </childnode>
+        <childnode refid="310" relation="include">
+        </childnode>
+        <childnode refid="314" relation="include">
+        </childnode>
       </node>
-      <node id="312">
+      <node id="314">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
-        <childnode refid="302" relation="include">
+        <childnode refid="304" relation="include">
         </childnode>
-        <childnode refid="303" relation="include">
+        <childnode refid="305" relation="include">
         </childnode>
-        <childnode refid="313" relation="include">
+        <childnode refid="315" relation="include">
         </childnode>
       </node>
-      <node id="303">
+      <node id="305">
         <label>include/AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
         <childnode refid="8" relation="include">
@@ -3199,7 +3211,7 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="304" relation="include">
+        <childnode refid="306" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -3770,7 +3782,7 @@
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="305">
+      <node id="307">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
@@ -3862,7 +3874,7 @@
         <label>src/data/VertexCountData.cpp</label>
         <link refid="_vertex_count_data_8cpp"/>
       </node>
-      <node id="382">
+      <node id="384">
         <label>src/model/IniGraphGroupInstantiation.cpp</label>
         <link refid="_ini_graph_group_instantiation_8cpp"/>
       </node>
@@ -3894,7 +3906,7 @@
         <label>src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp</label>
         <link refid="_remap_ini_fix_context_instantiation_8cpp"/>
       </node>
-      <node id="307">
+      <node id="309">
         <label>src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEditInstantiation.cpp</label>
         <link refid="_base_ini_graph_group_edit_instantiation_8cpp"/>
       </node>
@@ -3906,7 +3918,7 @@
         <label>src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp</label>
         <link refid="_graph_group_remap_instantiation_8cpp"/>
       </node>
-      <node id="314">
+      <node id="316">
         <label>src/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroupsInstantiation.cpp</label>
         <link refid="_i_ini_graph_groups_instantiation_8cpp"/>
       </node>
@@ -3930,19 +3942,23 @@
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
-      <node id="301">
+      <node id="298">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp</label>
+        <link refid="_file_add_edit_instantiation_8cpp"/>
+      </node>
+      <node id="303">
         <label>src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp</label>
         <link refid="_res_edit_instantiation_8cpp"/>
       </node>
-      <node id="381">
+      <node id="383">
         <label>src/model/strategies/iniParsers/BaseIniParserInstantiation.cpp</label>
         <link refid="_base_ini_parser_instantiation_8cpp"/>
       </node>
-      <node id="306">
+      <node id="308">
         <label>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</label>
         <link refid="_g_i_m_i_parser_instantiation_8cpp"/>
       </node>
-      <node id="311">
+      <node id="313">
         <label>src/model/strategies/iniParsers/GIMISectionClassifierInstantiation.cpp</label>
         <link refid="_g_i_m_i_section_classifier_instantiation_8cpp"/>
       </node>
@@ -3954,7 +3970,7 @@
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="313">
+      <node id="315">
         <label>src/model/strategies/iniParsers/IniParseDownloadDataInstantiation.cpp</label>
         <link refid="_ini_parse_download_data_instantiation_8cpp"/>
       </node>
@@ -3962,7 +3978,7 @@
         <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
         <link refid="_ini_file_remove_context_8cpp"/>
       </node>
-      <node id="304">
+      <node id="306">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>

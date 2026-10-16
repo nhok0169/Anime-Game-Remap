@@ -1939,6 +1939,7 @@ Before writing a helper, find the class:
 | move, copy or drop keys (`this` -> `ps-t1`, `ps-t0` -> two registers, strip `hash`) | `RegRemap` (a list value COPIES a key into several), `RegRemove`, `RegNewVals` |
 | edit, create or rename a texture a register references | `ResRegCollect` + `TexReplace(fixFunc = ...)` / `TexCreate` -- the library names the file, writes the resource section and the undo removes it |
 | a set of buffers that depend on each other | `ResGroupCollect` |
+| write a file the fix knows the bytes of (a `CustomShader`'s `.hlsl`, its constant buffer) | build the sections into a graph (`GraphCreate`), then `ResRegCollect` + `FileAddCreate` for a register naming a `[Resource...]` (`ps-cb4`) or `FileRefAdd` for one whose VALUE is the file (`ps = x.hlsl` -- 3DMigoto takes only a path there; a resource name made the part vanish, tested 2026-10-15). Both hand the service a `RemapFileAddResource`, so the file is counted in `stats.fileAdd` and the undo removes it. `WWMIFixer`'s `addShaderGraphs` is the worked example (2026-10-16) -- and since only a file a section NAMES is created, a shader no draw uses no longer leaves an orphan the undo cannot find |
 | put one graph's roots into another graph (`reg = <root>`, `run = <root>`) | `GraphInherit` |
 | a texture the mod does not ship | the parser's `downloads` |
 | the mod's `$swapvar` toggles around a binding | nothing -- the section graph keeps the `if` structure, so collect/remap the graph instead of re-parsing text |

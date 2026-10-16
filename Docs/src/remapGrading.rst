@@ -378,6 +378,13 @@ Grading
        |
        | - A mod that hands its textures or a glow to RabbitFX keeps its look: her shaders carry RabbitFX's
        | own patch, so each part reads the mod's maps the way RabbitFX routes them on her own outfit.
+       |
+       | - **Limitation:** the bottle she holds is a separate game object, not part of her outfit. The skin's
+       | card shows the skin's own bottle, and a mod that replaces Lynae's (one mod's spray can) is not carried.
+       |
+       | - **Limitation:** a few small colour differences remain against her own outfit --- the lower half of
+       | her tie a little brighter, one mod's sheer pink top a little browner. Her shaders are given the same
+       | textures and constants on both outfits; the difference comes from the skin's frame.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
      - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its
@@ -394,6 +401,11 @@ Grading
        | - The lower body's outline pass is handed the skin's diffuse where Lynae's own pass reads a flat
        | white, so the outline follows the skin's own mask and does not show through her layered thigh
        | overlay.
+       |
+       | - **Limitation:** opaque details on the skin's see-through shirt and coat, where they lie over her
+       | body --- a strap, a bow, a pendant, a sheer bikini top --- come out paler or cooler on Lynae than on
+       | the skin. The see-through pass writes exactly the colour and opacity it writes on the skin (measured
+       | in frame dumps of both); the difference is in how Lynae's frame lights the see-through surface.
        |
        | - Checked in game on five mods, including the character's own model as a mod, from every angle
        | and in every toggle state.

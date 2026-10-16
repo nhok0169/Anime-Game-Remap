@@ -1795,9 +1795,23 @@ the mod on its own card. What it found:
   necklace and bag strap came out pale and half see-through. Painting the see-through shader's output on both cards
   (a ShaderFixes replacement of `0b6e3ef7` on hers, the fix's `.hlsl` on Lynae's) showed it never touches those
   parts on her card: her solid pass `efc2690a` draws them. `passPs` gives a pass its own HLSL; the opaque pass now
-  uses `efc2690a`. **Still open**: over the BODY, LPIdentity's necklace stones stay paler and LP2's bag strap
-  ghostly (the strap is the coat component, whose solid shader `12fcca8e` was never captured). A render-target dump
-  of LP2 on both cards found RT1-RT3 alike at the necklace and RT6 differing (dark outline lines on Lynae's card).
+  uses `efc2690a`. **Over the BODY it is a stated limit now (2026-10-16, `remapGrading.rst`)**: LPIdentity's
+  necklace stones and LP2's strap, bow and starfish stay paler on Lynae's card. On HER card those parts are drawn
+  by the see-through passes only (`0b6e3ef7` shirt, `4470be47` coat -- a per-draw RT diff shows her solid passes
+  `efc2690a` / `12fcca8e` touch nothing over the body), so the reverse already uses the right shader there. What
+  was measured, so nobody repeats it: frame dumps with the pass's output painted into RT3 (`dump_rt jpg`, both
+  cards, the fix's `.hlsl` and a ShaderFixes copy of the game's shader edited alike) give the SAME `o3.w` and the
+  SAME `o3.rgb` on both cards; `ps-cb0..cb4` agree where the shader reads them; the textures are the same downloads
+  (LP2 replaces only the foil). The one input that differs is `TEXCOORD1.xy` / `TEXCOORD4.x`: a LIGHT DIRECTION each
+  vertex shader builds from its own material buffer `vs-cb6` -- the skin's VS (`fd92e896`) reads `cb6[86..90]`
+  (flag 0, so a default 45 degrees), Lynae's (`343a49bd`) reads `cb6[95..99]` (flag 1, 15 degrees plus
+  `cb2[32].z`). Binding the custom draws a `vs-cb6` with the skin's values at Lynae's offsets changed nothing
+  visible, and so did the same swap the other way round for the forward direction's tie (item 20). Alpha-blending
+  RT1 and RT2 too (the fix overwrites them) was marginal. What is left is how Lynae's frame lights the
+  see-through G-buffer. Two traps from this hunt: a lit in-game paint misreads values (a `v5.y` that is identical
+  on both cards looked different under the two cards' lighting -- dump the RT instead), and a VS left SELECTED by
+  hunting is skipped in every later dump (`SKIPPED DUE TO HUNTING` in the dump's log; see the memory note on
+  `marking_mode`).
   The props translucency
   (Lynae14's hat brim, overskirt and sleeves, every mod's ID card) is a stated limit in `remapGrading.rst`: her
   card draws that component in a forward translucency pass (`bb718d76` / `9a01e7bd`, a 3-D light volume and seven

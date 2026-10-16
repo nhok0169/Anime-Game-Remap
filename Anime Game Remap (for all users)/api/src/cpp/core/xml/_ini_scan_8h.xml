@@ -142,6 +142,14 @@
         <childnode refid="46" relation="include">
         </childnode>
       </node>
+      <node id="47">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h</label>
+        <link refid="_lynae_peppermint_solid_shader_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
       <node id="15">
         <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h</label>
         <link refid="_lynae_peppermint_textures_8h"/>
@@ -152,12 +160,12 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="47">
+      <node id="49">
         <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h</label>
         <link refid="_lynae_peppermint_upper_shader_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
       </node>
       <node id="19">
@@ -203,6 +211,8 @@
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
@@ -215,13 +225,13 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
       </node>
-      <node id="50">
+      <node id="52">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -235,7 +245,7 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -255,9 +265,9 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="52" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -265,9 +275,9 @@
         <link refid="_ini_scan_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="54" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -338,11 +348,15 @@
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp</label>
         <link refid="_lynae_peppermint_sheer_shader_8cpp"/>
       </node>
+      <node id="48">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp</label>
+        <link refid="_lynae_peppermint_solid_shader_8cpp"/>
+      </node>
       <node id="17">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp</label>
         <link refid="_lynae_peppermint_textures_8cpp"/>
       </node>
-      <node id="48">
+      <node id="50">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
         <link refid="_lynae_peppermint_upper_shader_8cpp"/>
       </node>
@@ -362,7 +376,7 @@
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp</label>
         <link refid="_sanhua_exorcist_textures_8cpp"/>
       </node>
-      <node id="49">
+      <node id="51">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
@@ -390,11 +404,11 @@
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="51">
+      <node id="53">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="52">
+      <node id="54">
         <label>src/model/files/IniScan.cpp</label>
         <link refid="_ini_scan_8cpp"/>
       </node>

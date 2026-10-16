@@ -172,6 +172,14 @@
         <childnode refid="46" relation="include">
         </childnode>
       </node>
+      <node id="47">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h</label>
+        <link refid="_lynae_peppermint_solid_shader_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
       <node id="15">
         <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h</label>
         <link refid="_lynae_peppermint_textures_8h"/>
@@ -182,12 +190,12 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="47">
+      <node id="49">
         <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h</label>
         <link refid="_lynae_peppermint_upper_shader_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
       </node>
       <node id="19">
@@ -233,6 +241,8 @@
         </childnode>
         <childnode refid="47" relation="include">
         </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
@@ -245,13 +255,13 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
       </node>
-      <node id="50">
+      <node id="52">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -265,7 +275,7 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -285,19 +295,15 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="52" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/tools/StringTools.h</label>
         <link refid="_string_tools_8h"/>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
@@ -323,11 +329,11 @@
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="49" relation="include">
-        </childnode>
         <childnode refid="66" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="68" relation="include">
         </childnode>
@@ -359,28 +365,32 @@
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
       </node>
-      <node id="52">
+      <node id="54">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
-      <node id="53">
+      <node id="55">
         <label>src/constants/DownloadMode.cpp</label>
         <link refid="_download_mode_8cpp"/>
       </node>
-      <node id="54">
+      <node id="56">
         <label>src/constants/GameType.cpp</label>
         <link refid="_game_type_8cpp"/>
       </node>
-      <node id="55">
+      <node id="57">
         <label>src/constants/GameTypeId.cpp</label>
         <link refid="_game_type_id_8cpp"/>
       </node>
-      <node id="56">
+      <node id="58">
         <label>src/constants/IfPredPartType.cpp</label>
         <link refid="_if_pred_part_type_8cpp"/>
       </node>
-      <node id="57">
+      <node id="59">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
@@ -400,15 +410,15 @@
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp</label>
         <link refid="_chisa_parfait_textures_8cpp"/>
       </node>
-      <node id="58">
+      <node id="60">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
-      <node id="59">
+      <node id="61">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
-      <node id="60">
+      <node id="62">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
@@ -464,23 +474,27 @@
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp</label>
         <link refid="_lynae_peppermint_sheer_shader_8cpp"/>
       </node>
+      <node id="48">
+        <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp</label>
+        <link refid="_lynae_peppermint_solid_shader_8cpp"/>
+      </node>
       <node id="17">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp</label>
         <link refid="_lynae_peppermint_textures_8cpp"/>
       </node>
-      <node id="48">
+      <node id="50">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
         <link refid="_lynae_peppermint_upper_shader_8cpp"/>
       </node>
-      <node id="61">
+      <node id="63">
         <label>src/data/IniFixData/ModBranches.cpp</label>
         <link refid="_mod_branches_8cpp"/>
       </node>
-      <node id="62">
+      <node id="64">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="63">
+      <node id="65">
         <label>src/data/IniFixData/RegValChecks.cpp</label>
         <link refid="_reg_val_checks_8cpp"/>
       </node>
@@ -500,15 +514,15 @@
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp</label>
         <link refid="_sanhua_exorcist_textures_8cpp"/>
       </node>
-      <node id="64">
+      <node id="66">
         <label>src/data/IniFixData/SideMeshes.cpp</label>
         <link refid="_side_meshes_8cpp"/>
       </node>
-      <node id="65">
+      <node id="67">
         <label>src/data/IniFixData/TexFxLayout.cpp</label>
         <link refid="_tex_fx_layout_8cpp"/>
       </node>
-      <node id="49">
+      <node id="51">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
@@ -520,11 +534,11 @@
         <label>src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp</label>
         <link refid="_chisa_parfait_parser_8cpp"/>
       </node>
-      <node id="66">
+      <node id="68">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="67">
+      <node id="69">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
@@ -544,67 +558,67 @@
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="68">
+      <node id="70">
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
       </node>
-      <node id="51">
+      <node id="53">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="69">
+      <node id="71">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
       </node>
-      <node id="70">
+      <node id="72">
         <label>src/model/Version.cpp</label>
         <link refid="_version_8cpp"/>
       </node>
-      <node id="71">
+      <node id="73">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
-      <node id="72">
+      <node id="74">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="73">
+      <node id="75">
         <label>src/model/files/IniScan.cpp</label>
         <link refid="_ini_scan_8cpp"/>
       </node>
-      <node id="74">
+      <node id="76">
         <label>src/model/files/TextureFile.cpp</label>
         <link refid="_texture_file_8cpp"/>
       </node>
-      <node id="75">
+      <node id="77">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
       </node>
-      <node id="76">
+      <node id="78">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="77">
+      <node id="79">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
-      <node id="78">
+      <node id="80">
         <label>src/tools/Heading.cpp</label>
         <link refid="_heading_8cpp"/>
       </node>
-      <node id="79">
+      <node id="81">
         <label>src/tools/StringTools.cpp</label>
         <link refid="_string_tools_8cpp"/>
       </node>
-      <node id="80">
+      <node id="82">
         <label>src/tools/files/FileService.cpp</label>
         <link refid="_file_service_8cpp"/>
       </node>
-      <node id="81">
+      <node id="83">
         <label>src/tools/parsing/BaseTokenizer.cpp</label>
         <link refid="_base_tokenizer_8cpp"/>
       </node>
-      <node id="82">
+      <node id="84">
         <label>src/tools/parsing/ParseContext.cpp</label>
         <link refid="_parse_context_8cpp"/>
       </node>

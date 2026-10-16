@@ -376,9 +376,8 @@ Grading
        | that the skin's outfit never runs. On the skin these parts draw opaque: a see-through brim or veil
        | comes out solid.
        |
-       | - A mod that hands its textures to RabbitFX keeps its look: her hair and upper body are drawn with
-       | her own shaders and those textures, and her jacket and lower body --- where RabbitFX changes the
-       | material itself, not only the textures --- with the skin's shaders, which RabbitFX patches too.
+       | - A mod that hands its textures or a glow to RabbitFX keeps its look: her shaders carry RabbitFX's
+       | own patch, so each part reads the mod's maps the way RabbitFX routes them on her own outfit.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
      - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its

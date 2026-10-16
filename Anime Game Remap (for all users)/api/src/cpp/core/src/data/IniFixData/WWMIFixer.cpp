@@ -4710,6 +4710,169 @@ namespace AGRemapCore {
 
                 }
 
+                // A MOD'S OWN `ps-t` LINE UNDER A TOGGLE, ABOVE WHERE THE FIX BINDS (2026-10-16).
+                //
+                // Lynae3's `if $Wish == 1` binds a texture at `ps-t2` -- the upper body's DIFFUSE file, at
+                // her material-code register, on purpose: on her card that is a lace pattern and a maroon
+                // cast over her black jacket. The line sits at the top of the section, and on her card it
+                // is the last word for the draw. Carried into the remapped section it still sits at the
+                // top -- and the fix's texture list for the slot runs after it and binds the role's own
+                // file over it, so the toggle did nothing. The role scan cannot take it either: the file's
+                // own hash names it the diffuse, which it is.
+                //
+                // So every such line -- a `ps-t` binding inside an `if` that closes before the point the
+                // fix's lists go in (the shared-resource override) -- is replayed at the END of the list,
+                // under the same condition, on the register the source register's role takes in this
+                // component's row. A line the mod writes unconditionally is the role scan's (a
+                // default), and one inside the blocks that enclose the insertion point is after it already.
+                struct ToggledRegLine {
+                    std::string condition;
+                    std::string reg;
+                    std::string value;
+                };
+
+                std::vector<ToggledRegLine> toggledRegLinesBefore(int component) const {
+                    std::vector<ToggledRegLine> out;
+                    const auto sections = present_.find(component);
+                    const auto roles = config_.sourceTextures.registerRoles.find(component);
+                    if (sections == present_.end() || roles == config_.sourceTextures.registerRoles.end()) {
+                        return out;
+                    }
+
+                    std::map<std::string, std::string> regOfRole;
+                    for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
+                        if (binding.role != IniKeywords::Null) {
+                            regOfRole.emplace(binding.role, binding.reg);
+                        }
+                    }
+
+                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
+                    const std::vector<std::string> sharedLists = listNames(config_.sharedResourcesList);
+                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
+
+                    // one open `if` chain: the expressions of its branches so far
+                    struct Chain {
+                        std::size_t id = 0;
+                        std::vector<std::string> branches;
+                        bool isElse = false;
+                    };
+                    const auto conditionOf = [](const std::vector<Chain>& chains) {
+                        std::vector<std::string> terms;
+                        for (const Chain& chain : chains) {
+                            for (std::size_t k = 0; k + 1 < chain.branches.size(); ++k) {
+                                terms.push_back("!(" + chain.branches[k] + ")");
+                            }
+                            if (!chain.isElse && !chain.branches.empty()) {
+                                terms.push_back("(" + chain.branches.back() + ")");
+                            } else if (chain.isElse && !chain.branches.empty()) {
+                                terms.push_back("!(" + chain.branches.back() + ")");
+                            }
+                        }
+                        std::string joined;
+                        for (const std::string& term : terms) {
+                            joined += (joined.empty() ? "" : " && ") + term;
+                        }
+                        return joined;
+                    };
+                    const auto exprOf = [](const std::string& src) {
+                        std::string text(StringTools::strip(src));
+                        const std::string lower = StringTools::toLower(text);
+                        for (const std::string& head : {std::string("else if "), std::string("elif "), std::string("if ")}) {
+                            if (StringTools::startsWith(lower, head)) {
+                                return std::string(StringTools::strip(text.substr(head.size())));
+                            }
+                        }
+                        return text;
+                    };
+
+                    for (const std::string& section : sections->second) {
+                        const auto tpl = templates.find(section);
+                        if (tpl == templates.end() || tpl->second == nullptr) {
+                            continue;
+                        }
+
+                        std::vector<Chain> chains;
+                        std::size_t nextChain = 0;
+                        std::vector<std::pair<std::vector<Chain>, ToggledRegLine>> pending;   // (the chains open where it was written, line)
+                        bool reached = false;
+                        for (const auto& part : tpl->second->parts()) {
+                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                                if (pred->type == IfPredPartType::If) {
+                                    chains.push_back(Chain{++nextChain, {exprOf(pred->src)}, false});
+                                } else if (pred->type == IfPredPartType::EndIf) {
+                                    if (!chains.empty()) {
+                                        chains.pop_back();
+                                    }
+                                } else if (!chains.empty()) {
+                                    Chain& chain = chains.back();
+                                    if (pred->type == IfPredPartType::Else) {
+                                        chain.isElse = true;
+                                    } else {
+                                        chain.branches.push_back(exprOf(pred->src));
+                                    }
+                                }
+                                continue;
+                            }
+
+                            const auto* content =
+                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                const std::string key = StringTools::toLower(StringTools::strip(item.key));
+                                if (key == StringTools::toLower(IniKeywords::Run)
+                                        && std::find(sharedLists.begin(), sharedLists.end(), std::string(StringTools::strip(item.value)))
+                                               != sharedLists.end()) {
+                                    // the insertion point: keep what was written in a block that is closed
+                                    // by now, under the chains that closed (the ones still open enclose
+                                    // the fix's lists as well)
+                                    std::set<std::size_t> open;
+                                    for (const Chain& chain : chains) {
+                                        open.insert(chain.id);
+                                    }
+                                    for (auto& [written, line] : pending) {
+                                        std::vector<Chain> closed;
+                                        for (const Chain& chain : written) {
+                                            if (open.count(chain.id) == 0) {
+                                                closed.push_back(chain);
+                                            }
+                                        }
+                                        if (!closed.empty()) {
+                                            line.condition = conditionOf(closed);
+                                            out.push_back(line);
+                                        }
+                                    }
+                                    reached = true;
+                                    break;
+                                }
+
+                                if (!StringTools::startsWith(key, prefix) || chains.empty()) {
+                                    continue;
+                                }
+
+                                const auto role = roles->second.find(key);
+                                if (role == roles->second.end()) {
+                                    continue;
+                                }
+                                const auto reg = regOfRole.find(role->second);
+                                if (reg == regOfRole.end()) {
+                                    continue;
+                                }
+
+                                pending.emplace_back(chains, ToggledRegLine{std::string(), reg->second,
+                                                                            std::string(StringTools::strip(item.value))});
+                            }
+
+                            if (reached) {
+                                break;
+                            }
+                        }
+                    }
+                    return out;
+                }
+
                 // Per drawn source component: the zero stream and its texture command list right
                 // after the shared-resource override. No after-register on the add: `drawindexed`
                 // as one is a MUST fact, and behind a `$draw_x` toggle no draw is certain, which
@@ -4768,12 +4931,13 @@ namespace AGRemapCore {
                         if (!bindings.empty()) {
                             const std::string cmdList = fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                                                 + std::to_string(component) + "Textures");
-                            textureLists_.push_back(
-                                SectionText(z3_, cmdList)
-                                    .open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
-                                    .keys(bindings)
-                                    .close()
-                                    .str());
+                            SectionText list(z3_, cmdList);
+                            list.open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
+                                .keys(bindings);
+                            for (const ToggledRegLine& line : toggledRegLinesBefore(component)) {
+                                list.open(line.condition).key(line.reg, line.value).close();
+                            }
+                            textureLists_.push_back(list.close().str());
                             additions.emplace_back(IniKeywords::Run, cmdList);
                         }
 
@@ -5978,6 +6142,11 @@ namespace AGRemapCore {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + ".hlsl");
                 }
 
+                // A pass's own shader (Shader::passPs), beside the shader's
+                std::string reroutePassShaderFile(const WWMIFixerConfig::Shader& shader, std::size_t pass) const {
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + "Pass" + std::to_string(pass) + ".hlsl");
+                }
+
                 std::string rerouteBufferResource(const WWMIFixerConfig::Shader& shader, const std::string& reg) const {
                     return fixName(IniKeywords::Resource + shader.name + IniNamingTools::getRegTag(reg));
                 }
@@ -6153,7 +6322,8 @@ namespace AGRemapCore {
                             }
 
                             for (std::size_t p = 0; p < passCount; ++p) {
-                                std::vector<Kvp> lines{{"ps", rerouteShaderFile(*shader)}};
+                                const bool ownPs = p < shader->passPs.size() && !shader->passPs[p].empty();
+                                std::vector<Kvp> lines{{"ps", ownPs ? reroutePassShaderFile(*shader, p) : rerouteShaderFile(*shader)}};
                                 for (const auto& entry : shader->constantBuffers) {
                                     lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
                                 }
@@ -6180,6 +6350,11 @@ namespace AGRemapCore {
 
                         // what the graph's `ps` and `ps-cbN` lines name -- see addShaderGraphs
                         shaderSources_[rerouteShaderFile(*shader)] = ByteVec(shader->ps.begin(), shader->ps.end());
+                        for (std::size_t p = 0; p < shader->passPs.size(); ++p) {
+                            if (!shader->passPs[p].empty()) {
+                                shaderSources_[reroutePassShaderFile(*shader, p)] = ByteVec(shader->passPs[p].begin(), shader->passPs[p].end());
+                            }
+                        }
                         for (const auto& [reg, words] : shader->constantBuffers) {
                             ByteVec bytes;
                             bytes.reserve(words.size() * 4);

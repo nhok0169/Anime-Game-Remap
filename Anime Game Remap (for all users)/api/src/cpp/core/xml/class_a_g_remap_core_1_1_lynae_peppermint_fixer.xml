@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="409" bodyend="411"/>
+        <location file="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.h" line="48" column="43" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp" bodystart="414" bodyend="416"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

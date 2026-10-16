@@ -98,7 +98,9 @@ OlderRoles = {
     "8383cbbf": "eyeMask", "cb04a3d7": "eyeDiffuse", "c84b599c": "eyeDiffuse",
 }
 
-# ---- which role each of HER registers binds, per component (her own draws, wwmiPassLayout.py) ----
+# ---- which role each of HER registers binds, per component (her own draws, wwmiPassLayout.py), plus
+# RabbitFX's resource lines only for the parts the skin's shaders draw (face, props, eyes): her own
+# shaders read RabbitFX's maps themselves, by RabbitFX's routing (core's LynaeTextures) ----
 def rabbit(diffuse, mask, normal = None):
     keys = {"Resource\\RabbitFX\\Diffuse": diffuse, "Resource\\RabbitFX\\Lightmap": mask}
     if (normal):
@@ -106,12 +108,12 @@ def rabbit(diffuse, mask, normal = None):
     return keys
 
 RegisterRoles = {
-    0: {"ps-t0": "bangsMask", "ps-t1": "bangsDiffuse", "ps-t4": "hairShadeRamp", "ps-t5": "bangsStrand", **rabbit("bangsDiffuse", "bangsMask")},
-    1: {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t4": "hairShadeRamp", "ps-t5": "hairStrand", **rabbit("hairDiffuse", "hairMask")},
+    0: {"ps-t0": "bangsMask", "ps-t1": "bangsDiffuse", "ps-t4": "hairShadeRamp", "ps-t5": "bangsStrand"},
+    1: {"ps-t0": "hairMask", "ps-t1": "hairDiffuse", "ps-t2": "hairRamp", "ps-t4": "hairShadeRamp", "ps-t5": "hairStrand"},
     2: {"ps-t0": "faceMask", "ps-t1": "faceDiffuse", **rabbit("faceDiffuse", "faceMask")},
-    3: {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t2": "upperDetail", "ps-t3": "upperDiffuse", **rabbit("upperDiffuse", "upperMask", "upperNormal")},
-    4: {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t2": "lowerDetail", "ps-t3": "lowerDiffuse", "ps-t8": "lowerSheer", **rabbit("lowerDiffuse", "lowerMask", "lowerNormal")},
-    5: {"ps-t0": "jacketNormal", "ps-t1": "jacketMask", "ps-t2": "jacketDetail", "ps-t3": "jacketDiffuse", **rabbit("jacketDiffuse", "jacketMask", "jacketNormal")},
+    3: {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t2": "upperDetail", "ps-t3": "upperDiffuse"},
+    4: {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t2": "lowerDetail", "ps-t3": "lowerDiffuse", "ps-t8": "lowerSheer"},
+    5: {"ps-t0": "jacketNormal", "ps-t1": "jacketMask", "ps-t2": "jacketDetail", "ps-t3": "jacketDiffuse"},
     6: {"ps-t0": "propsNormal", "ps-t1": "propsMask", "ps-t2": "propsDetail", "ps-t3": "propsDiffuse", **rabbit("propsDiffuse", "propsMask", "propsNormal")},
     7: {"ps-t0": "eyeIris", "ps-t1": "eyeMask", "ps-t2": "eyeDiffuse", **rabbit("eyeDiffuse", "eyeMask")},
 }
@@ -328,7 +330,6 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     jacket.constantBuffers = filmData["constantBuffers"]
     jacket.lines = [("ps-t5", "role ramp"), ("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", "back")]
     jacket.onlyWith = "o3"
-    jacket.yieldToRabbitFX = True     # RabbitFX's patch of her jacket shader turns its film off (core's LynaeFixer)
     # her register order (detail at t2, diffuse at t3) and her foil, only while her shader draws it
     jacket.registers = [B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse"), B("ps-t4", "filmFoil")]
     plan[5].shader = jacket
@@ -349,7 +350,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         s.constantBuffers = data["constantBuffers"]
         s.lines = extra + [("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", cull)]
         s.onlyWith = "o3"
-        # a RabbitFX mod's maps are bound directly: RabbitFX only swaps the textures her shader reads
+        # a RabbitFX mod's maps are read by the shader itself (generated with --rabbitfx; core's LynaeFixer)
         return s
 
     plan[0].shader = ownShader("LynaeBangs", "lynaeBangsShader.json", "none", [("ps-t6", "role ramp")])
@@ -360,14 +361,14 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                          [("ps-t4", "stash 4 ps-t4"), ("ps-t5", "stash 4 ps-t5"), ("ps-t6", "stash 4 ps-t6"),
                           ("ps-t9", "role ramp")])
     lowerOwn.registers = [B("ps-t7", "filmFoil"), B("ps-t8", "lowerSheer")]
-    lowerOwn.yieldToRabbitFX = True   # RabbitFX's patch of her lower-body shader changes the material (core's LynaeFixer)
     plan[4].shader = lowerOwn
     config.stashRegs = {4: ["ps-t4", "ps-t5", "ps-t6"]}
     plan[106].shader = shader
-    # RabbitFX on her lower body, routed as on her own draw (core's LynaeFixer)
-    rfx = FRB.WWMIFixerConfig.SourceComponent.RabbitFX()
-    rfx.gameTags = {"ps-t0": 3, "ps-t1": 0, "ps-t2": 4, "ps-t3": 3}
-    plan[4].rabbitFX = rfx
+    # RabbitFX on every part her own shaders draw, routed as on her own draws (core's LynaeFixer)
+    for component, tags in {0: (0, 3, 3, 0), 1: (0, 3, 0, 0), 3: (3, 0, 4, 3), 4: (3, 0, 4, 3), 5: (3, 0, 4, 3)}.items():
+        rfx = FRB.WWMIFixerConfig.SourceComponent.RabbitFX()
+        rfx.gameTags = {"ps-t%d" % k: tag for k, tag in enumerate(tags)}
+        plan[component].rabbitFX = rfx
     # her lower body is kept off the slot's outline pass, whose shell of her tights shows through her
     # shorts in lime (core's LynaeFixer)
     plan[4].offPasses = ["f8c96a270bf847dd"]

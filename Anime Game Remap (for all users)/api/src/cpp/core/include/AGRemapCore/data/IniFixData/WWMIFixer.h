@@ -193,6 +193,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Per entry of :cpp:member:`passes`, the HLSL that pass draws with in place of :cpp:member:`ps`
+             -- a source that draws one component with two shaders, eg. a solid one where the part is opaque
+             and a see-through one over a body. An empty entry, or none, keeps :cpp:member:`ps`. Each is
+             written beside :cpp:member:`ps` as a file of its own. **Default**: empty
+             @endrst
+             */
+            std::vector<std::string> passPs;
+
+            /**
+             * @brief
+             @rst
              Which draws must come before the component's, on a pass -- see :cpp:member:`after`
              @endrst
              */

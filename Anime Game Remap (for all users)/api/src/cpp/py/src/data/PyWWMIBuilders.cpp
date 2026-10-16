@@ -223,6 +223,11 @@ List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry
 see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
 **Default**: empty, one draw with :attr:`lines`
         )doc"))
+        .def_readwrite("passPs", &AGRC::WWMIFixerConfig::Shader::passPs, py::doc(R"doc(
+List[:class:`str`]: Per entry of :attr:`passes`, the HLSL that pass draws with in place of :attr:`ps` -- a
+source that draws one component with two shaders, eg. a solid one where the part is opaque and a
+see-through one over a body. An empty entry, or none, keeps :attr:`ps`. **Default**: empty
+        )doc"))
         .def_readwrite("onlyWith", &AGRC::WWMIFixerConfig::Shader::onlyWith, py::doc(R"doc(
 :class:`str`: An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
 that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:

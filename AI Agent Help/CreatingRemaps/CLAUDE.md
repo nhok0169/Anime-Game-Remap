@@ -1769,7 +1769,36 @@ the mod on its own card. What it found:
   her jacket's film goes off (Lynae11's lining is pink on her card, and her own film shader drew it teal) and
   Lynae11's robotic legs render as white plastic (her own lower-body shader drew them as skin). Do not try to
   derive RabbitFX's routing from its regex by hand: on her own draws t0, t1 and t3 are unbound and the patch still
-  renders colour, which the reading I made could not explain -- test each part in game. The props translucency
+  renders colour, which the reading I made could not explain -- test each part in game.
+  **SUPERSEDED (2026-10-16): RABBITFX IS CARRIED INSIDE HER SHADERS NOW, AND THE "UNBOUND" REGISTERS WERE THE MOD'S
+  OWN FILES.** A `dump = desc` file with no `=hash` in its name is a texture 3DMigoto loaded from a mod, not an empty
+  slot -- Lynae11 overrides her t0 / t1 / t3 with its own maps (2048 x 4096, one mip), which RabbitFX does not tag,
+  and its log of `SetTextures` in a frame dump of her card says so: `x187 = 0`, `y187 = 0`, `w187 = 1` on her lower
+  body. RabbitFX does not route by ROLE: there it reads the mod's LIGHTMAP at her normal-map sample and leaves her
+  diffuse alone, which is why "her shader with the files bound by role" drew Lynae11's legs as skin. The yield to
+  the skin's shader lost the rest: epoch 6 found Lynae11's waist glow (Skirt=5 / 9), knee bands, thigh film and
+  skirts, and Lynae10's belt wrong. Now `Tools/Misc/Diagnostics/wwmiRabbitFXSites.py` runs RabbitFX's own
+  `ShaderRegexMain` over a shader's assembly (the game's, or `fxc`'s of the decompiled HLSL -- they agree on her
+  lower body except two cut-out reads only the game's has) and prints its sample sites, and
+  `wwmiShaderData.py --rabbitfx <sites>` writes the patch's selection into the HLSL: each site samples its own
+  texture and the one RabbitFX routes there, and picks by the flags at `IniParams[187]` and which of t60-t65 are
+  bound, plus the glow of `CommandList\RabbitFX\Run` (Lynae3's back strips). The fix keeps the mod's RabbitFX
+  lines and pins the flags to HER textures' tags on every part her shaders draw (`SourceComponent::rabbitFX`); the
+  skin's slot shaders are all RabbitFX-patched, so `SetTextures` binds t60-t65 there. Seen card against card on
+  Lynae11 (default, a, s, Skirt=9), Lynae10 (default, b), Lynae3 and Lynae8, 2026-10-16. RabbitFX's menu tweak is gated on its censor key and is not carried.
+  **AND A MOD'S OWN TOGGLED `ps-t` LINE ABOVE THE FIX'S TEXTURE LIST IS REPLAYED AFTER IT (2026-10-16).** Lynae3's
+  `if $Wish == 1: ps-t2 = <the upper diffuse>` puts a lace pattern on her jacket through her material-code
+  register; carried to the top of the remapped section, the fix's texture list rebound `ps-t2` after it.
+  `toggledRegLinesBefore` re-emits such lines, with their conditions, at the end of the list.
+  **AND THE SKIN'S SHIRT DRAWS ITS OPAQUE PASS WITH HER SOLID SHADER (2026-10-16, `Shader::passPs`).** Away from the
+  body the reverse drew the skin's shirt component opaque with its SEE-THROUGH shader, and her lemon earrings,
+  necklace and bag strap came out pale and half see-through. Painting the see-through shader's output on both cards
+  (a ShaderFixes replacement of `0b6e3ef7` on hers, the fix's `.hlsl` on Lynae's) showed it never touches those
+  parts on her card: her solid pass `efc2690a` draws them. `passPs` gives a pass its own HLSL; the opaque pass now
+  uses `efc2690a`. **Still open**: over the BODY, LPIdentity's necklace stones stay paler and LP2's bag strap
+  ghostly (the strap is the coat component, whose solid shader `12fcca8e` was never captured). A render-target dump
+  of LP2 on both cards found RT1-RT3 alike at the necklace and RT6 differing (dark outline lines on Lynae's card).
+  The props translucency
   (Lynae14's hat brim, overskirt and sleeves, every mod's ID card) is a stated limit in `remapGrading.rst`: her
   card draws that component in a forward translucency pass (`bb718d76` / `9a01e7bd`, a 3-D light volume and seven
   constant buffers) the skin's frame never schedules, and the skin's own see-through pass blends only over a

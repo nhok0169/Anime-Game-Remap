@@ -26093,6 +26093,16 @@ class WWMIFixerConfig:
         def onlyWith(self, arg0: str) -> None:
             ...
         @property
+        def passPs(self) -> list[str]:
+            """
+            List[:class:`str`]: Per entry of :attr:`passes`, the HLSL that pass draws with in place of :attr:`ps` -- a
+            source that draws one component with two shaders, eg. a solid one where the part is opaque and a
+            see-through one over a body. An empty entry, or none, keeps :attr:`ps`. **Default**: empty
+            """
+        @passPs.setter
+        def passPs(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
         def passes(self) -> list[list[tuple[str, str]]]:
             """
             List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with

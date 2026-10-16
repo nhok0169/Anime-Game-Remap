@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="627" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="627" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="638" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="638" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1aa412df98f495307f2639c8f3ac616b60" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="632" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="632" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="643" column="21" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="643" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1a4fd13381275bf25a66f465cb8ad3ed4d" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::uint8_t &gt;</type>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="637" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="637" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="648" column="29" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="648" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -61,7 +61,7 @@ Where a material-code map carries the reroute&apos;s :cpp:member:`flags`, cut in
 any of them. Bits are row-major, the lowest bit of each byte first
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="623" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="623" bodyend="638"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="634" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="634" bodyend="649"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1a4fd13381275bf25a66f465cb8ad3ed4d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</scope><name>bits</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask_1aa412df98f495307f2639c8f3ac616b60" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute::FlagMask</scope><name>height</name></member>

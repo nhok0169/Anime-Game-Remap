@@ -170,10 +170,126 @@ namespace AGRemapCore {
              * @brief
              @rst
              Further lines of the ``CustomShader`` section, as they are written, eg.
-             ``{"ps-t5", "ref ps-t6"}``
+             ``{"ps-t5", "ref ps-t6"}``. Two values are resolved first: ``stash <slot> <reg>`` binds
+             the capture :cpp:member:`WWMIFixerConfig::stashRegs` makes off that slot, and
+             ``role <name>`` binds the texture of that role -- the mod's file, or the source's own game
+             texture from :cpp:member:`WWMITextureFacts::fallbackTextures` (a line whose role has
+             neither is left out)
              @endrst
              */
             std::vector<std::pair<std::string, std::string>> lines;
+
+            /**
+             * @brief
+             @rst
+             Draw the component once per entry, each with :cpp:member:`lines` and that entry's own lines
+             after them -- a source pass whose draws split by state, eg. a see-through layer blended where
+             the stencil marks a body behind it and drawn opaque everywhere else. **Default**: empty, one
+             draw with :cpp:member:`lines`
+             @endrst
+             */
+            std::vector<std::vector<std::pair<std::string, std::string>>> passes;
+
+            /**
+             * @brief
+             @rst
+             Which draws must come before the component's, on a pass -- see :cpp:member:`after`
+             @endrst
+             */
+            struct After {
+                /**
+                 * @brief The SOURCE component (a key of :cpp:member:`WWMIFixerConfig::plan`) drawn first
+                 */
+                int component = -1;
+
+                /**
+                 * @brief
+                 @rst
+                 How many draws that component's slot makes in one pass; the deferred draw follows the
+                 last of them. **Default**: ``1``
+                 @endrst
+                 */
+                int draws = 1;
+
+                /**
+                 * @brief
+                 @rst
+                 The output register that tells one pass from another: two draws into the same
+                 resource here are one pass. Pick one a pass that should NOT wait (a depth pre-pass)
+                 leaves unbound -- such a pass draws the component as before. **Default**: ``"o3"``
+                 @endrst
+                 */
+                std::string target = "o3";
+
+                /**
+                 * @brief
+                 @rst
+                 The registers a deferred draw takes from the component's own draw (the textures its
+                 plan entry binds, a register the shader's lines read by ``ref``), eg. ``"ps-t0"``.
+                 Everything else is the later draw's
+                 @endrst
+                 */
+                std::vector<std::string> carried;
+
+                /**
+                 * @brief
+                 @rst
+                 Further components the draw waits for as well, each with how many draws its slot makes
+                 in one pass: the draw is made once ALL of them (and :cpp:member:`component`) have drawn
+                 there, in whatever order the scene draws them. A component the mod does not draw is left
+                 out of the count
+                 @endrst
+                 */
+                std::vector<std::pair<int, int>> also;
+            };
+
+            /**
+             * @brief
+             @rst
+             An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
+             that leaves it unbound (a depth pre-pass) draws the component with the game's own shader, as
+             any other component. Empty, the shader draws on every pass of the slot. **Default**: ``""``
+             @endrst
+             */
+            std::string onlyWith;
+
+            /**
+             * @brief
+             @rst
+             A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's GAME
+             shader there: RabbitFX works by patching the game's shaders, never this one, so a RabbitFX mod
+             drawn with it loses its effect (a mod's robotic legs drawn as skin). **Default**: ``false``
+             @endrst
+             */
+            bool yieldToRabbitFX = false;
+
+            /**
+             * @brief
+             @rst
+             Bindings the component takes only while this shader draws it, after the plan entry's own --
+             a register (or a register's role) the shader reads in the SOURCE's layout. With
+             :cpp:member:`yieldToRabbitFX`, a mod that keeps the target's shader keeps the plan's
+             bindings alone. **Default**: empty
+             @endrst
+             */
+            std::vector<Binding> registers;
+
+            /**
+             * @brief
+             @rst
+             Draw the component only AFTER another component's draws in the same pass, whichever
+             order the game draws the two slots in.
+
+             The game does not keep one order: Lynae's jacket slot draws after her upper body in the
+             character menu and BEFORE it in the overworld. A see-through layer blends over whatever
+             is under it when it draws, so drawn first it blends over her hair and the scene behind
+             her -- and her body, drawn after, loses the depth test under it. Set, the component's
+             draw on a pass binding :cpp:member:`After::target` is held back when the other
+             component has not drawn yet, and made after that component's last draw instead.
+             **Default**: none, drawn where its slot draws
+             @endrst
+             */
+            std::optional<After> after;
         };
 
 
@@ -255,6 +371,28 @@ namespace AGRemapCore {
              * @brief RabbitFX on this component, with the source's routing -- see :cpp:struct:`RabbitFX`
              */
             std::optional<RabbitFX> rabbitFX;
+
+            /**
+             * @brief
+             @rst
+             After each of the component's draws on the passes the slot's :cpp:member:`slotPasses` name, the
+             same draw again with NO pixel shader under these ``CustomShader`` lines -- to mark the pixels
+             the component is the visible surface of in the stencil, eg. ``depth_func = equal`` with a stencil
+             write, for a later draw to test. Nothing is written to the render targets. **Default**: empty,
+             no such draw
+             @endrst
+             */
+            std::vector<std::pair<std::string, std::string>> markLines;
+
+            /**
+             * @brief
+             @rst
+             Passes of the target slot (pixel shader hashes, as in :cpp:member:`slotPasses`) that the
+             component's draws are kept off -- eg. a slot's outline pass, whose shell of an under-layer
+             the target's outline shader draws through the layer over it. **Default**: empty, every pass
+             @endrst
+             */
+            std::vector<std::string> offPasses;
         };
 
         /**
@@ -832,7 +970,12 @@ namespace AGRemapCore {
          own pixel shader and guards ``ps == ...``; set, the fix tags those vertex shaders instead
          and guards ``vs == ...``, an OR when a pass has several.
 
-         Chisa needs it and Sanhua does not. RabbitFX patches PIXEL shaders and marks each
+         **Every WuWa pair needs this.** The Sanhua pair was the last one without it: of the ten
+         pixel shaders its two configs tagged, NINE run RabbitFX's ``[ShaderRegexMain]`` command
+         list in the 3.7 frame dumps on disk (measured 2026-10-13 --
+         ``Tools/Misc/Diagnostics/wwmiRabbitPatched.py``), so every fixed Sanhua mod had been
+         switching RabbitFX off on its own shaders -- including the face shader it shares with
+         ChisaParfait. RabbitFX patches PIXEL shaders and marks each
          ``filter_index = 1718.1``, and a shader carries one filter_index -- so tagging the same
          pixel shader makes every RabbitFX ``SetTextures`` read ``if ps == 1718.1`` as false, and
          because a ``[ShaderOverride]`` is keyed by shader hash GLOBALLY it does that for any mod
@@ -898,6 +1041,39 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::map<std::string, std::vector<Binding>>> sharedMeshes;
+
+        /**
+         * @brief
+         @rst
+         Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0`` hash: each
+         is skipped while the mod is enabled.
+
+         A character is not only her ``vb0`` mesh, and some of her other meshes belong to the
+         outfit the mod replaces. Lynae draws ``34c0d81d``, a black long-sleeved top under her
+         shirt, in the overworld only -- never in the character menu -- and it pokes through any
+         slimmer body at the neck and arms. Mods made for her skip it themselves; a remapped mod
+         was made for another character and does not.
+
+         Not :cpp:member:`hiddenObjs`, which comments out the MOD's own sections.
+
+         .. warning::
+             The section matches the hash with NO index window, so the mesh is skipped wherever it
+             is drawn while the mod is enabled
+         @endrst
+         */
+        std::vector<std::string> hiddenMeshes;
+
+        /**
+         * @brief
+         @rst
+         Registers to capture off the GAME's draw of a target slot nothing of the mod is drawn through
+         (slot -> registers, eg. ``{4, {"ps-t5", "ps-t6"}}``), on passes that bind ``o3``. A
+         :cpp:member:`Shader::lines` value ``stash <slot> <register>`` binds the capture: a game texture the
+         target binds on another slot, for a shader the source draws with it, without a download. The
+         captured slot has to be drawn before the shader's in every scene
+         @endrst
+         */
+        std::map<int, std::vector<std::string>> stashRegs;
         /**
          * @brief What a texture-edit filter is allowed to know about the mod it is editing
          */

@@ -128,6 +128,12 @@ namespace AGRemapCore {
             readLine(strippedLine, stats, gameTypeIds);
         }
 
+        // A WuWa hash the file never confirmed with '$\WWMIv1': a file that only WATCHES the character (a
+        // help overlay, a skill effect's `$active`) matches its vb0 and draws nothing, so it never uses
+        // WWMI's variables. Its hash is still that character's alone (identifyingHashesOf, unambiguous), so
+        // it classifies -- and the WWMI fixer carries its sections onto the target (2026-10-13)
+        acceptUnmarkedWuWa(stats);
+
         // The most likely ModTypeId(s) are whichever have the highest count in
         // modTypeIdDistribution -- there may be ties, so collect all of them, then sort ascending
         // before adding to stats.
@@ -187,7 +193,8 @@ namespace AGRemapCore {
             }
         }
 
-        return false;
+        acceptUnmarkedWuWa(stats);
+        return stats.isMod;
     }
 
     void IniClassifier::checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds) {
@@ -223,6 +230,7 @@ namespace AGRemapCore {
             }
         }
 
+        acceptUnmarkedWuWa(stats);
         *isFixed = stats.isFixed;
         *isMod = stats.isMod;
     }
@@ -368,6 +376,18 @@ namespace AGRemapCore {
                 stats.isMod = true;
             }
         }
+    }
+
+    void IniClassifier::acceptUnmarkedWuWa(IniClassifyStats& stats) {
+        if (savedWuWaModTypeIds.empty()) {
+            return;
+        }
+
+        for (int modTypeId : savedWuWaModTypeIds) {
+            incModTypeCountByHash(modTypeId);
+        }
+        stats.isMod = true;
+        savedWuWaModTypeIds.clear();
     }
 
     void IniClassifier::markWuWa(IniClassifyStats& stats) {

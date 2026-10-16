@@ -123,13 +123,20 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Chisa/ChisaTextures.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp
     src/data/IniFixData/Lynae/LynaeFixer.cpp
+    src/data/IniFixData/Lynae/LynaeBangsShader.cpp
     src/data/IniFixData/Lynae/LynaeFilmShader.cpp
+    src/data/IniFixData/Lynae/LynaeHairShader.cpp
+    src/data/IniFixData/Lynae/LynaeLowerShader.cpp
     src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp
     src/data/IniFixData/Lynae/LynaeSkeleton.cpp
     src/data/IniFixData/Lynae/LynaeSkinCodes.cpp
     src/data/IniFixData/Lynae/LynaeTextures.cpp
     src/data/IniFixData/Lynae/LynaeThumbprints.cpp
+    src/data/IniFixData/Lynae/LynaeUpperShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp

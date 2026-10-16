@@ -21,6 +21,9 @@
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
@@ -151,9 +154,16 @@ namespace AGRemapCore {
             // face is the same mesh, so its UVs are hers
             {2, {2, {{"ps-t1", "faceDiffuse"}}}},
             {3, {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}}}},
-            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}}},
-            // the coat onto Lynae's jacket (her shader reads detail at t2, diffuse at t3)
-            {5, {5, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"}}}},
+            // her lower body through her own lower-body pass -- see lowerBody below. It reads her noise at
+            // ps-t7 and her holographic foil at ps-t8; ps-t4..t6 and the ramp at ps-t9 are the same game
+            // textures on Lynae's lower body
+            {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"},
+                     {"ps-t7", "jacketNoise"}, {"ps-t8", "jacketFoil"}}}},
+            // the coat onto Lynae's LOWER body too, as a second section like the shirt, through the skin's
+            // own see-through coat pass -- see sheerCoat below. The skin's register order, her noise and
+            // the coat's foil are what it reads. (Lynae's jacket slot is left with nothing, and hidden)
+            {5, {4, {{"ps-t0", "pouchNormal"}, {"ps-t1", "pouchMask"}, {"ps-t2", "pouchDetail"}, {"ps-t3", "pouchDiffuse"},
+                     {"ps-t4", "jacketNoise"}, {"ps-t5", "pouchFoil"}}, true}},
             // the shirt is SEE-THROUGH on the skin, and no shader of Lynae's draws that: her jacket's drew
             // it opaque white. The skin's own sheer pass draws it -- see sheerJacket below -- and it has
             // to come AFTER the body it shows: the skin draws her jacket after her upper body, Lynae
@@ -179,48 +189,168 @@ namespace AGRemapCore {
             // sources (the lower body and the shirt), and "the diffuse" is a different file for each:
             // without srcComponent both land in one list and the last one's wins
             {4, {{"30ab50e715dce218", {{"ps-t0", "lowerDiffuse", 4}, {"ps-t1", "lowerDiffuse", 4},
-                                       {"ps-t0", "jacketDiffuse", 6}, {"ps-t1", "jacketDiffuse", 6}}}}},
-            {5, {{"f8c96a270bf847dd", {{"ps-t0", "pouchDiffuse"}}}}},
+                                       {"ps-t0", "jacketDiffuse", 6}, {"ps-t1", "jacketDiffuse", 6},
+                                       {"ps-t0", "pouchDiffuse", 5}, {"ps-t1", "pouchDiffuse", 5}}}}},
             // her second eye pass SETS its own t0, and it is the eye MASK (a506a70d in her dump)
             {7, {{"e04f4df80ee6b0ab", {{"ps-t0", "eyeMask"}}}}},
         };
 
         config.sourceTextures = lynaePeppermintTextureFacts();
 
-        // ---- the skin's sheer pass, with the state its own draw has (her frame dumps, read through
-        // a depth / stencil dump). It writes only some of the G-buffer -- the targets it leaves (0, 5
-        // and 6) keep the BODY's, which is what the lighting shows through the shirt -- and it marks
-        // its pixels in the stencil: ref 14 written through mask 0x8a (the background's 128 becomes
+        // ---- the skin's sheer pass, with the state its own draw has (her frame dumps, read losslessly
+        // with dump_rt_dds and dump_depth). It writes only some of the G-buffer: nothing of targets 0
+        // and 6, and only the colour of 1 and 2 -- 2's alpha is the shading model, so the BODY's stays
+        // under the shirt. It ALPHA-BLENDS its base colour (target 3) over the body's by the opacity it
+        // writes in that target's alpha: that blend is the see-through (the body's colour under the shirt
+        // depends on what was there before by about a fifth, in her frame and with this) -- and ONLY over
+        // her body: her frame has it draw no pixel over the background, her other jacket pass draws the
+        // shirt opaque there, and her hair is not seen through it either. Her body marks itself in the
+        // stencil and Lynae's does not, so the mod's body marks bit 1 (a bit no draw of either character
+        // sets; 16, the first tried, blackened the body -- the lighting reads it) where it is the visible
+        // surface, and the shirt is drawn twice: blended where bit 1 is set, opaque where it is not.
+        // Blended everywhere, the sleeves and edges over the background were a ghostly see-through. And
+        // it marks its pixels in the stencil: ref 14 written through mask 0x8a (the background's 128 becomes
         // 10, her body's 14 stays 14). Lynae's own draws never set that 8 bit, and without it the
         // lighting shades the shirt as an opaque one. depth_stencil_state_merge keeps the rest of the
         // lower body's state -- its reversed-Z depth test above all: without it the default LESS test
-        // throws away every pixel in front of the body. The ramp the shader reads at ps-t6 is at
-        // ps-t9 on Lynae's lower body (the same texture, 82550cee / 3a40da92) ----
+        // throws away every pixel in front of the body. The shader reads her lighting ramp at ps-t6:
+        // HERS, downloaded -- Lynae's slots hold the same game texture refilled with Lynae's ramp ----
         WWMIFixerConfig::Shader sheerJacket = lynaePeppermintSheerShader();
         sheerJacket.lines = {
-            {"ps-t6", "ref ps-t9"},
-            {"mask[0]", "0"}, {"mask[5]", "0"}, {"mask[6]", "0"},
+            {"ps-t6", "role ramp"},
+            {"depth_stencil_state_merge", "true"},
+            {"stencil_enable", "true"},
+            {"stencil_ref", "15"},                 // her 14, plus the body mark (bit 1) to test against
+            {"stencil_read_mask", "1"},
+            {"stencil_write_mask", "0x8a"},
+            // TWO-SIDED: her shirt and coat draws use the rasterizer state her hair and effects do, which
+            // Lynae's hair uses too, where Lynae's jacket and body slots cull back faces -- so the coat's
+            // inside was never drawn, and its far wall showed through dark. The merge keeps the rest of
+            // the slot's state: a `cull` alone builds one from defaults, and the defaults' winding turned
+            // every face around (the whole coat came out deep blue)
+            {"rasterizer_state_merge", "true"},
+            {"cull", "none"},
+        };
+        // The render-target masks are the SEE-THROUGH pass's alone. Where the shirt is solid it writes every
+        // target, as her solid jacket pass does there: with the sheer masks, render targets 0 and 6 kept the
+        // scene behind it, and the shirt's edge past her bust came out a translucent band with the sky
+        // showing through, where hers is solid white
+        sheerJacket.passes = {
+            {{"mask[0]", "0"}, {"mask[1]", "0x7"}, {"mask[2]", "0x7"}, {"mask[6]", "0"},
+             {"blend[3]", "ADD SRC_ALPHA INV_SRC_ALPHA"}, {"alpha[3]", "ADD ONE ZERO"},
+             {"stencil_front", "equal replace keep keep"}, {"stencil_back", "equal replace keep keep"}},
+            {{"mask[0]", "0xf"}, {"mask[1]", "0xf"}, {"mask[2]", "0xf"}, {"mask[6]", "0xf"},
+             {"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
+        };
+        // ...after her upper body, whichever slot the game draws first: in the overworld her jacket slot
+        // draws BEFORE the upper body (the character menu after it), so the shirt blended over her hair,
+        // the coat's back panel and the scene behind her, and the body then lost the depth test under it.
+        // Her upper body makes two G-buffer draws a pass (the second fills what the first leaves where
+        // the coat's stencil is), and the shirt follows the second
+        WWMIFixerConfig::Shader::After afterBody;
+        afterBody.component = 3;
+        afterBody.draws = 2;
+        afterBody.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
+        sheerJacket.after = afterBody;
+        // only where the pass binds the G-buffer's base colour: the overworld's depth pre-pass draws the
+        // shirt with the game's own pre-pass shader, as any other component
+        sheerJacket.onlyWith = "o3";
+
+        // ---- and her COAT is drawn the same way: a solid pass, then a see-through one (4470be47) that
+        // blends over the body wherever the coat's material says so -- in her own frame it leaves 4120
+        // pixels of her body showing through the coat, and a mod may paint a whole garment there
+        // (LynaePeppermint2's shirt is the coat component, and Lynae's jacket shader drew it solid
+        // cyan). The same state as the shirt's, on the same slot and after the same body: drawn on her
+        // jacket slot it was released before the lower body in the character menu and drew opaque over
+        // the hips, and released from inside the lower body's own section (After::also) it drew a
+        // saturated blue with dark bands -- the shirt's arrangement, its own section on the lower body's
+        // draw, is the one that renders as the skin does ----
+        WWMIFixerConfig::Shader sheerCoat = lynaePeppermintSheerCoatShader();
+        sheerCoat.lines = sheerJacket.lines;
+        sheerCoat.passes = sheerJacket.passes;
+        WWMIFixerConfig::Shader::After afterBodyCoat = afterBody;
+        afterBodyCoat.carried = {"ps-t0", "ps-t1", "ps-t2", "ps-t3", "ps-t4", "ps-t5", "ps-t9"};
+        sheerCoat.after = afterBodyCoat;
+        sheerCoat.onlyWith = "o3";
+
+        config.plan.at(6).shader = std::move(sheerJacket);
+        config.plan.at(5).shader = std::move(sheerCoat);
+
+        // ---- and her LOWER BODY through her own lower-body pass (0a52e215): the holographic parts of her
+        // outfit are a foil only that shader draws, and Lynae's lower-body shader drew them flat grey (a
+        // mod's jacket panel modelled on the lower body). Her body's stencil -- ref 14, which turns the
+        // background's 128 into 14 -- and two-sided, as her own draw is ----
+        WWMIFixerConfig::Shader lowerBody = lynaePeppermintLowerShader();
+        lowerBody.lines = {
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
             {"stencil_ref", "14"},
-            {"stencil_write_mask", "0x8a"},
+            {"stencil_write_mask", "0x8e"},
+            {"stencil_front", "always replace keep keep"},
+            {"stencil_back", "always replace keep keep"},
+            {"rasterizer_state_merge", "true"},
+            {"cull", "none"},
+            {"ps-t9", "role ramp"},
+        };
+        lowerBody.onlyWith = "o3";
+        config.plan.at(4).shader = std::move(lowerBody);
+
+        // ---- and her UPPER BODY through her own upper-body pass (ed4fe222). Drawn by Lynae's upper-body
+        // shader with her maps edited to approximate her, her materials came out as Lynae's: a satin bikini
+        // flat purple, a gold starfish pale cream, the seams of the shirt showing on bare skin with it off.
+        // Her register order is Lynae's slot's (normal, mask, code, diffuse, the ramp at ps-t6); her noise
+        // (ps-t4) and foil (ps-t5) are the game's, bound only while her shader draws. Her body's stencil, as
+        // her lower body: the shirt's see-through pass tests those bits ----
+        WWMIFixerConfig::Shader upperBody = lynaePeppermintUpperShader();
+        upperBody.lines = {
+            {"depth_stencil_state_merge", "true"},
+            {"stencil_enable", "true"},
+            {"stencil_ref", "14"},
+            {"stencil_write_mask", "0x8e"},
+            {"stencil_front", "always replace keep keep"},
+            {"stencil_back", "always replace keep keep"},
+            {"ps-t6", "role ramp"},
+        };
+        upperBody.registers = {{"ps-t4", "jacketNoise"}, {"ps-t5", "upperFoil"}};
+        upperBody.onlyWith = "o3";
+        config.plan.at(3).shader = std::move(upperBody);
+
+        // ...and the body it is seen through marks itself (bit 1), where it is the visible surface
+        const std::vector<std::pair<std::string, std::string>> bodyMark = {
+            {"depth_stencil_state_merge", "true"},
+            {"depth_func", "equal"},
+            {"depth_write_mask", "zero"},
+            {"stencil_enable", "true"},
+            {"stencil_ref", "1"},
+            {"stencil_write_mask", "1"},
+            {"stencil_read_mask", "0xff"},
             {"stencil_front", "always replace keep keep"},
             {"stencil_back", "always replace keep keep"},
         };
-        config.plan.at(6).shader = std::move(sheerJacket);
+        config.plan.at(3).markLines = bodyMark;
+        // (the lower body draws two-sided now, so its mark does too, or its inner faces stay unmarked and
+        // the shirt draws opaque over them)
+        std::vector<std::pair<std::string, std::string>> lowerMark = bodyMark;
+        lowerMark.emplace_back("rasterizer_state_merge", "true");
+        lowerMark.emplace_back("cull", "none");
+        config.plan.at(4).markLines = lowerMark;
+
+        // In the overworld only, Lynae also draws a black long-sleeved top under her shirt, its own mesh
+        // (2679 vertices). The skin's body is slimmer at the neck and arms, so it showed through there as a
+        // black collar and sleeves -- in the character menu it is not drawn at all. 8 of the 14 Lynae mods
+        // skip it themselves (`FixBlackModel.ini`, `[TextureOverrideBlackShirt]`)
+        config.hiddenMeshes = {"34c0d81d"};
 
         // ---- every BODY mask Lynae's shaders read is repacked into her legend: see maskRepackFilter.
         // Not the shirt's: the skin's own shader reads that one, in the skin's legend ----
         config.texEdits = {
             {"upperMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
-            {"lowerMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
-            {"pouchMask", "Repack", [](const WWMIFixerConfig::TexEditContext&) { return maskRepackFilter(); }},
 
             // ---- the body's material-code maps (ps-t2) mark skin with 0 on Lynae and 4 on the skin, so
             // a map carried across unchanged shaded her body's skin as cloth -- whiter, with lavender
-            // shadows, under a warm face: see lynaeSkinCodeSwap ----
+            // shadows, under a warm face: see lynaeSkinCodeSwap. Not the lower body's: her own shader reads
+            // that one, in her codes ----
             {"upperDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
-            {"lowerDetail", "SkinCode", [](const WWMIFixerConfig::TexEditContext&) { return lynaeSkinCodeSwap(); }},
         };
 
         // Masks mark regions: a flat one from a mod is replaced by HER game texture

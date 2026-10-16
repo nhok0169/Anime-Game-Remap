@@ -388,6 +388,17 @@ namespace AGRemapCore {
             virtual void markWuWa(IniClassifyStats& stats);
 
             /**
+             * @brief Counts the WuWa hashes a file matched but never confirmed with the ``$\WWMIv1`` marker
+             *
+             * A file that only WATCHES a WuWa character (a help overlay, a skill effect's ``$active``)
+             * matches its identifying hash and never uses WWMI's variables; it is that character's file
+             * all the same. Called once a file's lines are read.
+             *
+             * @param stats The resultant stats to mutate
+             */
+            virtual void acceptUnmarkedWuWa(IniClassifyStats& stats);
+
+            /**
              * @brief
              @rst
              Reads the name of a `section`_ found from a line in the .ini file, mutating 'stats' with

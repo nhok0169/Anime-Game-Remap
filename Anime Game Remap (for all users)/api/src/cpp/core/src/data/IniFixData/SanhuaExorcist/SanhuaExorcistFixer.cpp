@@ -56,17 +56,35 @@ namespace AGRemapCore {
                 {"0512a7e61d6bd01d"},                       // 6: eyes
             };
 
+            // ...each gated by the VERTEX shaders it is drawn with, never by its own pixel shader:
+            // RabbitFX patches these, and a [ShaderOverride] on one of them takes the filter_index
+            // RabbitFX needs away from it -- see the forward direction's note for the measurement
+            // (2026-10-13; six of Sanhua's seven passes are proven patched, the eye pass unproven
+            // either way). Her hair slot and both bangs passes share one vertex shader, so those
+            // conditions collapse; each slot's list is in its own section, and nothing is routed
+            // onto her bangs slot anyway.
+            config.passVertexShaders = {
+                {"74e23b489034f592", {"a695e6d5f9d489cf"}},                         // her bangs, pass A
+                {"40142ef956eaa957", {"a695e6d5f9d489cf"}},                         // her bangs, pass B
+                {"0f1752e476c3804d", {"a695e6d5f9d489cf"}},                         // hair, both characters
+                {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},     // face, both characters
+                {"d6fb3cbb72191bac", {"0b25e6cbdb8cc86f"}},                         // her arm skin
+                {"32070cff7dedccca", {"ad59bcdcf9ce68fa"}},                         // her body: bodice + skirt
+                {"0512a7e61d6bd01d", {"a79e471015b2a16c"}},                         // eyes, both characters
+            };
+
             // The shaders Sanhua's own direction already tags keep ITS values (a [ShaderOverride] is
             // keyed by shader hash across every loaded .ini, so a mod fixed each way, both installed,
             // must agree); the shaders only this direction tags take values that direction never uses.
+            // The face pair is ChisaParfait's and LynaePeppermint's value, for the same reason across
+            // characters.
             config.filterIndices = {
-                {"0f1752e476c3804d", "3381.91"},   // the hair shader, which both directions tag
-                {"ed1c0f8b2ba08ac4", "3381.93"},   // the face shader
-                {"0512a7e61d6bd01d", "3381.96"},   // the eye shader
-                {"74e23b489034f592", "3381.81"},   // Sanhua's own bangs shaders and body shader: only
-                {"40142ef956eaa957", "3381.82"},   //   this direction tags these, so they take values
-                {"d6fb3cbb72191bac", "3381.83"},   //   the forward direction's numbering never reaches
-                {"32070cff7dedccca", "3381.84"},
+                {"a695e6d5f9d489cf", "3381.91"},    // hair + her bangs, which both directions tag
+                {"7c0b4db32cee62d3", "3381.76"},    // the face, as the other three configs tag it
+                {"4ce754b5b9574b1a", "3381.769"},   //   and its second vertex shader
+                {"a79e471015b2a16c", "3381.96"},    // the eyes, which both directions tag
+                {"0b25e6cbdb8cc86f", "3381.83"},    // her arm skin and body: only this direction tags
+                {"ad59bcdcf9ce68fa", "3381.84"},    //   them, so they keep values the forward never uses
             };
 
             // Source component -> target slot, and the registers each pass reads. Shader families decide

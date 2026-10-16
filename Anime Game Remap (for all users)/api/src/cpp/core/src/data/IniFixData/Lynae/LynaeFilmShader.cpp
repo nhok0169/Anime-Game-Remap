@@ -208,7 +208,7 @@ void main(
   r6.w = dot(r10.xyz, r10.xyz);
   r6.w = sqrt(r6.w);
   r6.w = saturate(cb1[0].w * r6.w);
-  if (2 == 0) r8.w = 0; else if (2+16 < 32) {   r8.w = (uint)cb1[1].w << (32-(2 + 16)); r8.w = (uint)r8.w >> (32-2);  } else r8.w = (uint)cb1[1].w >> 16;
+  if (2 == 0) r8.w = 0; else if (2+16 < 32) {   r8.w = asuint(cb1[1].w) << (32-(2 + 16)); r8.w = (uint)r8.w >> (32-2);  } else r8.w = asuint(cb1[1].w) >> 16;
   r8.w = (uint)r8.w;
   r10.xy = cmp(r8.ww >= float2(0.899999976,1.89999998));
   r10.xy = r10.xy ? float2(1,1) : 0;
@@ -423,9 +423,9 @@ void main(
   r10.w = dot(cb4[107].xyzw, r13.xyzw);
   r4.w = cb4[108].x * r4.w + r10.w;
   r10.w = cmp(2.68220948e-08 >= r11.y);
-  r11.w = log2(r4.z);
-)hlsl";
-        shader.ps += R"hlsl(  r11.w = 0.100000001 * r11.w;
+  r11.w = log2(r4.)hlsl";
+        shader.ps += R"hlsl(z);
+  r11.w = 0.100000001 * r11.w;
   r11.w = exp2(r11.w);
   r11.w = r11.w * -999 + 1000;
   r10.w = r10.w ? 1000 : r11.w;
@@ -657,7 +657,7 @@ void main(
     o1.xy = r0.xy * float2(0.5,0.5) + float2(0.5,0.5);
     r2.xyz = saturate(r2.xyz);
     o2.xyz = sqrt(r2.xyz);
-    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.x = (((uint)cb2[23].w << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
+    bitmask.x = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.x = ((asuint(cb2[23].w) << 5) & bitmask.x) | ((uint)12 & ~bitmask.x);
     r0.x = (uint)r0.x;
     o2.w = 0.00392156886 * r0.x;
     r0.x = saturate(cb4[133].z);
@@ -700,7 +700,7 @@ void main(
     o1.xy = r3.xy * float2(0.5,0.5) + float2(0.5,0.5);
     r2.xyz = saturate(r2.xyz);
     o2.xyz = sqrt(r2.xyz);
-    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.w = (((uint)cb2[23].w << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
+    bitmask.w = ((~(-1 << 3)) << 5) & 0xffffffff;  r0.w = ((asuint(cb2[23].w) << 5) & bitmask.w) | ((uint)12 & ~bitmask.w);
     r0.w = (uint)r0.w;
     o2.w = 0.00392156886 * r0.w;
     r0.x = cb4[133].z;

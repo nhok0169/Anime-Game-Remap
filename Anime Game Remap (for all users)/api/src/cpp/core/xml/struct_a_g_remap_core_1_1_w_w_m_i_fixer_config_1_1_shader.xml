@@ -3,6 +3,7 @@
   <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kind="struct" language="C++" prot="public">
     <compoundname>AGRemapCore::WWMIFixerConfig::Shader</compoundname>
     <includes refid="_w_w_m_i_fixer_8h" local="no">WWMIFixer.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after" prot="public">AGRemapCore::WWMIFixerConfig::Shader::After</innerclass>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -71,6 +72,52 @@ Further lines of the ``CustomShader`` section, as they are written, eg.
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="176" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="176" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; AGRemapCore::WWMIFixerConfig::Shader::passes</definition>
+        <argsstring></argsstring>
+        <name>passes</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::passes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Draw the component once per entry, each with :cpp:member:`lines` and that entry&apos;s own lines
+after them -- a source pass whose draws split by state, eg. a see-through layer blended where
+the stencil marks a body behind it and drawn opaque everywhere else. **Default**: empty, one
+draw with :cpp:member:`lines`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="187" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after" kindref="compound">After</ref> &gt;</type>
+        <definition>std::optional&lt;After&gt; AGRemapCore::WWMIFixerConfig::Shader::after</definition>
+        <argsstring></argsstring>
+        <name>after</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::Shader::after</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Draw the component only AFTER another component&apos;s draws in the same pass, whichever
+order the game draws the two slots in.
+
+The game does not keep one order: Lynae&apos;s jacket slot draws after her upper body in the
+character menu and BEFORE it in the overworld. A see-through layer blends over whatever
+is under it when it draws, so drawn first it blends over her hair and the scene behind
+her -- and her body, drawn after, loses the depth test under it. Set, the component&apos;s
+draw on a pass binding :cpp:member:`After::target` is held back when the other
+component has not drawn yet, and made after that component&apos;s last draw instead.
+**Default**: none, drawn where its slot draws
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="246" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -87,11 +134,13 @@ draw&apos;s: its vertex shader, its render targets and the textures the componen
 :cpp:member:`plan` entry binds
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="149" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="149" bodyend="177"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="149" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="149" bodyend="247"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>after</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>constantBuffers</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>lines</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>passes</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1ac4f08ccc042dedb1460e9c1ac4de624a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::Shader</scope><name>ps</name></member>
     </listofallmembers>
   </compounddef>

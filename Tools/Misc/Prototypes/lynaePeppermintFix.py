@@ -145,7 +145,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.downloadPrefix = "Lynae"
     facts.fallbackTextures = {role: h for h, role in CurrentRoles.items() if role not in NoFallback}
     # her holographic foil (her jacket and props passes read it at ps-t4), bound where the pouch reads its own
-    facts.fallbackTextures = {**facts.fallbackTextures, "filmFoil": "74a761f5"}
+    # ...and her lighting ramp, which the game refills per character on screen (core's LynaeTextures)
+    facts.fallbackTextures = {**facts.fallbackTextures, "filmFoil": "74a761f5", "ramp": "3a40da92"}
     return facts
 
 
@@ -313,15 +314,62 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     shader.name = filmData["name"]
     shader.ps = filmData["ps"]
     shader.constantBuffers = filmData["constantBuffers"]
-    shader.lines = [("ps-t5", "ref ps-t6")]
+    shader.lines = [("ps-t5", "role ramp")]
     filmDraws = FRB.WWMIFixerConfig.DrawReroute(5, 105, "jacketDetail", 0x10)
     plan = config.plan                   # the shader goes on the reroutes' plan entries
     plan[105].shader = shader
+    # ---- her JACKET itself through her own jacket shader on the skin's shirt slot: her register order (normal,
+    # mask, detail, diffuse, her foil at ps-t4, her ramp at ps-t5 from the slot's t6) and her own draw's state --
+    # one-sided, nothing blended, every target written, the stencil the skin's slot sets. The slot's two passes
+    # both run it; with the state spelled out the second draw repeats the first ----
+    jacket = FRB.WWMIFixerConfig.Shader()
+    jacket.name = "LynaeJacket"
+    jacket.ps = filmData["ps"]
+    jacket.constantBuffers = filmData["constantBuffers"]
+    jacket.lines = [("ps-t5", "role ramp"), ("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", "back")]
+    jacket.onlyWith = "o3"
+    jacket.yieldToRabbitFX = True
+    # her register order (detail at t2, diffuse at t3) and her foil, only while her shader draws it
+    jacket.registers = [B("ps-t2", "jacketDetail"), B("ps-t3", "jacketDiffuse"), B("ps-t4", "filmFoil")]
+    plan[5].shader = jacket
+
+    # ---- and her hair, bangs, upper and lower body the same way: each with her own shader and constants (her
+    # 3.7 dump, data/lynae*Shader.json), her register order, and her draw's culling. Where the skin's
+    # slot holds one of her game textures at another register it is bound by `ref`; her lower body's three game
+    # textures the skin's upper-body slot does not hold are captured off the skin's own lower-body draw
+    # (stashRegs), which comes first in every scene ----
+    # The STENCIL is left as the skin's slot sets it: its depth prepass has already written bits there that the
+    # deferred lighting reads to draw a part sheer, and writing hers over them drew Lynae14's skirt opaque
+    def ownShader(name, file, cull, extra):
+        with open(os.path.join(Here, "data", file), encoding="utf-8") as f:
+            data = json.load(f)
+        s = FRB.WWMIFixerConfig.Shader()
+        s.name = name
+        s.ps = data["ps"]
+        s.constantBuffers = data["constantBuffers"]
+        s.lines = extra + [("blend", "disable"), ("rasterizer_state_merge", "true"), ("cull", cull)]
+        s.onlyWith = "o3"
+        s.yieldToRabbitFX = True      # a RabbitFX mod keeps the skin's shader, which RabbitFX patches
+        return s
+
+    plan[0].shader = ownShader("LynaeBangs", "lynaeBangsShader.json", "none", [("ps-t6", "role ramp")])
+    plan[1].shader = ownShader("LynaeHair", "lynaeHairShader.json", "none", [("ps-t6", "role ramp")])
+    plan[3].shader = ownShader("LynaeUpper", "lynaeUpperShader.json", "back",
+                               [("ps-t4", "ref ps-t8"), ("ps-t5", "role ramp")])
+    lowerOwn = ownShader("LynaeLower", "lynaeLowerShader.json", "back",
+                         [("ps-t4", "stash 4 ps-t4"), ("ps-t5", "stash 4 ps-t5"), ("ps-t6", "stash 4 ps-t6"),
+                          ("ps-t9", "role ramp")])
+    lowerOwn.registers = [B("ps-t7", "filmFoil"), B("ps-t8", "lowerSheer")]
+    plan[4].shader = lowerOwn
+    config.stashRegs = {4: ["ps-t4", "ps-t5", "ps-t6"]}
     plan[106].shader = shader
     # RabbitFX on her lower body, routed as on her own draw (core's LynaeFixer)
     rfx = FRB.WWMIFixerConfig.SourceComponent.RabbitFX()
     rfx.gameTags = {"ps-t0": 3, "ps-t1": 0, "ps-t2": 4, "ps-t3": 3}
     plan[4].rabbitFX = rfx
+    # her lower body is kept off the slot's outline pass, whose shell of her tights shows through her
+    # shorts in lime (core's LynaeFixer)
+    plan[4].offPasses = ["f8c96a270bf847dd"]
     config.plan = plan
     # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
     # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)
@@ -331,6 +379,8 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     flags.width, flags.height, flags.bits = maskData["width"], maskData["height"], maskData["bits"]
     propsFilmDraws = FRB.WWMIFixerConfig.DrawReroute(6, 106, "propsDetail", 0x10)
     propsFilmDraws.sourceFlags = flags
+    # (Lynae9's hat brim and shorts went through the skin's shader for a while; their lime was the outline pass, see
+    # offPasses, and the skin's shader drew the hat matte -- core's LynaeFixer)
     config.drawReroutes = [filmDraws, propsFilmDraws]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second

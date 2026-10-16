@@ -25920,7 +25920,60 @@ class WWMIFixerConfig:
         :attr:`WWMIFixerConfig.plan` entry binds
             
         """
+        class After:
+            """
+            
+            Which draws must come before a :class:`WWMIFixerConfig.Shader`'s component, on a pass -- see
+            :attr:`WWMIFixerConfig.Shader.after`
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def carried(self) -> list[str]:
+                """
+                List[:class:`str`]: The registers a deferred draw takes from the component's own draw, eg. ``"ps-t0"``
+                """
+            @carried.setter
+            def carried(self, arg0: collections.abc.Sequence[str]) -> None:
+                ...
+            @property
+            def component(self) -> int:
+                """
+                :class:`int`: The SOURCE component (a key of :attr:`WWMIFixerConfig.plan`) drawn first
+                """
+            @component.setter
+            def component(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def draws(self) -> int:
+                """
+                :class:`int`: How many draws that component's slot makes in one pass; the deferred draw follows the last
+                of them. **Default**: ``1``
+                """
+            @draws.setter
+            def draws(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def target(self) -> str:
+                """
+                :class:`str`: The output register that tells one pass from another; a pass leaving it unbound draws the
+                component as before. **Default**: ``"o3"``
+                """
+            @target.setter
+            def target(self, arg0: str) -> None:
+                ...
         def __init__(self) -> None:
+            ...
+        @property
+        def after(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader.After | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
+            in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first
+            blends over whatever is behind the body. **Default**: ``None``
+            """
+        @after.setter
+        def after(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader.After | None) -> None:
             ...
         @property
         def constantBuffers(self) -> dict[str, list[int]]:
@@ -25947,6 +26000,17 @@ class WWMIFixerConfig:
             """
         @name.setter
         def name(self, arg0: str) -> None:
+            ...
+        @property
+        def passes(self) -> list[list[tuple[str, str]]]:
+            """
+            List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
+            :attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
+            see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
+            **Default**: empty, one draw with :attr:`lines`
+            """
+        @passes.setter
+        def passes(self, arg0: collections.abc.Sequence[collections.abc.Sequence[tuple[str, str]]]) -> None:
             ...
         @property
         def ps(self) -> str:
@@ -26027,6 +26091,18 @@ class WWMIFixerConfig:
             """
         @bindings.setter
         def bindings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
+            ...
+        @property
+        def markLines(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on the passes the slot's
+            :attr:`WWMIFixerConfig.slotPasses` name, the same draw again with NO pixel shader under these
+            ``CustomShader`` lines -- to mark the pixels the component is the visible surface of in the stencil, eg.
+            ``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
+            render targets. **Default**: empty, no such draw
+            """
+        @markLines.setter
+        def markLines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
             ...
         @property
         def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
@@ -26366,6 +26442,15 @@ class WWMIFixerConfig:
         """
     @flatLeftToGame.setter
     def flatLeftToGame(self, arg0: collections.abc.Set[str]) -> None:
+        ...
+    @property
+    def hiddenMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
+        hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
+        """
+    @hiddenMeshes.setter
+    def hiddenMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
     def hiddenObjs(self) -> list[str]:

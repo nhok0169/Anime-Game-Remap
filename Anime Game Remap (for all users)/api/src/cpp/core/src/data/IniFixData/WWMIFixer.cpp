@@ -4014,6 +4014,28 @@ namespace AGRemapCore {
                             }
                         }
 
+                        // ...and a role a shader names in a `role <name>` line: a texture of the
+                        // SOURCE's that no mod ships (her lighting ramp). A reroute's plan entry counts
+                        // when the component it takes draws from is present -- the reroutes themselves
+                        // are read after this
+                        for (const auto& entry : config_.plan) {
+                            bool drawn = present_.count(entry.first) > 0;
+                            for (const auto& reroute : config_.drawReroutes) {
+                                drawn = drawn || (reroute.as == entry.first && present_.count(reroute.from) > 0);
+                            }
+                            if (!drawn) {
+                                continue;
+                            }
+
+                            for (const std::string& role : shaderLineRoles(entry.first)) {
+                                auto fallback = config_.sourceTextures.fallbackTextures.find(role);
+                                if (resourceOfRole_.count(role) == 0
+                                        && fallback != config_.sourceTextures.fallbackTextures.end()) {
+                                    registerFallback(role, fallback->second);
+                                }
+                            }
+                        }
+
                         // ...and the roles only a slot's OTHER passes or a shared mesh bind. The
                         // loop above walks the plan, which is each component's MAIN pass, so a role
                         // bound nowhere else never downloaded: Chisa's accessoryNormal is bound only
@@ -5832,6 +5854,52 @@ namespace AGRemapCore {
                     return {line.first, IniKeywords::Ref + " " + stashResource(slot, reg)};
                 }
 
+                // The role a Shader line `X = role <name>` names, if it is one
+                static std::optional<std::string> lineRole(const std::pair<std::string, std::string>& line) {
+                    std::istringstream words{std::string(StringTools::strip(line.second))};
+                    std::string word;
+                    std::string role;
+                    if (!(words >> word) || word != "role" || !(words >> role)) {
+                        return std::nullopt;
+                    }
+                    return role;
+                }
+
+                // Every role the shader drawing a component names in `role <name>` lines
+                std::vector<std::string> shaderLineRoles(int component) const {
+                    std::vector<std::string> roles;
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end() || !planned->second.shader.has_value()) {
+                        return roles;
+                    }
+                    const WWMIFixerConfig::Shader& shader = *planned->second.shader;
+                    auto collect = [&roles](const std::vector<std::pair<std::string, std::string>>& lines) {
+                        for (const auto& line : lines) {
+                            if (std::optional<std::string> role = lineRole(line)) {
+                                roles.push_back(*role);
+                            }
+                        }
+                    };
+                    collect(shader.lines);
+                    for (const auto& pass : shader.passes) {
+                        collect(pass);
+                    }
+                    return roles;
+                }
+
+                // A Shader line as it is written: a `stash` capture or a `role` resolved to its resource
+                // (a role with no resource -- no file and no download -- keeps the register as the slot has it)
+                std::optional<std::pair<std::string, std::string>> shaderLine(const std::pair<std::string, std::string>& line) const {
+                    if (std::optional<std::string> role = lineRole(line)) {
+                        const std::string* resource = sharedResourceFor(*role);
+                        if (resource == nullptr) {
+                            return std::nullopt;
+                        }
+                        return std::make_pair(line.first, *resource);
+                    }
+                    return stashLine(line);
+                }
+
                 std::string afterLatch(int component) const {
                     return "$" + fixName("DrawAfter" + std::to_string(component) + "Latch");
                 }
@@ -6022,11 +6090,15 @@ namespace AGRemapCore {
                                     lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
                                 }
                                 for (const auto& line : shader->lines) {
-                                    lines.push_back(stashLine(line));
+                                    if (auto written = shaderLine(line)) {
+                                        lines.push_back(*written);
+                                    }
                                 }
                                 if (!shader->passes.empty()) {
                                     for (const auto& line : shader->passes[p]) {
-                                        lines.push_back(line);
+                                        if (auto written = shaderLine(line)) {
+                                            lines.push_back(*written);
+                                        }
                                     }
                                 }
                                 lines.emplace_back(IniKeywords::DrawIndexed, draw);

@@ -118,6 +118,11 @@ namespace AGRemapCore {
             // her holographic foil, which her jacket and props passes read at ps-t4 (and her props' glass
             // passes at t7 / t8): nothing a mod ships, bound where the skin's pouch reads its own foil
             {"filmFoil", "74a761f5"},
+            // her lighting ramp (512 x 25, one row a material): the game fills ONE texture (ecfa79d1)
+            // with the ramp of the character on screen, so on the skin's slots that register holds
+            // the skin's ramp, whose film row is cream where hers is dark-to-teal. Her shaders read it
+            // through `role ramp` lines
+            {"ramp", "3a40da92"},
             {"bangsMask", "997e0a9a"},
             {"bangsStrand", "48947f0c"},
             {"faceDiffuse", "0f19cf16"},

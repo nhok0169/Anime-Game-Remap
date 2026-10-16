@@ -141,7 +141,9 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     # her see-through jacket and coat passes' noise and foil, which a mod never ships (core's
     # LynaePeppermintTextures)
     facts.fallbackTextures = {**facts.fallbackTextures, "jacketNoise": "99527ecc", "jacketFoil": "4bee4070",
-                              "pouchFoil": "00e3f13b", "upperFoil": "9934ca23"}
+                              "pouchFoil": "00e3f13b", "upperFoil": "9934ca23",
+                              # ...and her lighting ramp, refilled per character on screen
+                              "ramp": "82550cee"}
     return facts
 
 
@@ -292,7 +294,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     sheer.name = sheerData["name"]
     sheer.ps = sheerData["ps"]
     sheer.constantBuffers = sheerData["constantBuffers"]
-    sheer.lines = [("ps-t6", "ref ps-t9"), ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"),
+    sheer.lines = [("ps-t6", "role ramp"), ("depth_stencil_state_merge", "true"), ("stencil_enable", "true"),
                    ("stencil_ref", "15"), ("stencil_read_mask", "1"), ("stencil_write_mask", "0x8a"),
                    # two-sided, as her own shirt and coat draws are (core's LynaePeppermintFixer)
                    ("rasterizer_state_merge", "true"), ("cull", "none")]
@@ -345,7 +347,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     lower.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
                    ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
                    ("stencil_back", "always replace keep keep"),
-                   ("rasterizer_state_merge", "true"), ("cull", "none")]
+                   ("rasterizer_state_merge", "true"), ("cull", "none"), ("ps-t9", "role ramp")]
     lower.onlyWith = "o3"
     plan[4].shader = lower
     # ---- and her UPPER BODY through her own upper-body pass (ed4fe222): drawn by Lynae's upper-body shader with her
@@ -361,7 +363,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     upper.constantBuffers = upperData["constantBuffers"]
     upper.lines = [("depth_stencil_state_merge", "true"), ("stencil_enable", "true"), ("stencil_ref", "14"),
                    ("stencil_write_mask", "0x8e"), ("stencil_front", "always replace keep keep"),
-                   ("stencil_back", "always replace keep keep")]
+                   ("stencil_back", "always replace keep keep"), ("ps-t6", "role ramp")]
     upper.registers = [B("ps-t4", "jacketNoise"), B("ps-t5", "upperFoil")]
     upper.onlyWith = "o3"
     plan[3].shader = upper

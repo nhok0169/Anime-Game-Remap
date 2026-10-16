@@ -376,6 +376,10 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
    not the remap's (a third-party mod, the Restored copy, toggle state), and say which in the hand-off. Only a
    cause that is genuinely out of reach is called a limit, with the evidence -- and before the next epoch,
    re-shoot every flagged item yourself on the new build, so the epoch confirms rather than discovers.
+   **Nothing is carried forward as "open"** (the maintainer, 2026-10-15): an item left open is simply flagged
+   again by the next epoch, which then checks nothing new. An item is either fixed, or -- only after every option
+   is exhausted -- a LIMITATION, and a limitation goes in two places: the next epoch's brief (so the game agent
+   knows it and stops re-flagging it) and that remap's row in `Docs/src/remapGrading.rst` (so users see it).
    **Set toggle state deterministically**, never by key presses: an original and its `Restored` copy keep
    separate persisted variables, and pressing the same keys on both left them in different states (Lynae14's
    "topless original vs white top on the remap" was that, not a fault). Rewrite each `global persist $x` to the
@@ -1707,9 +1711,53 @@ the mod on its own card. What it found:
   OUTLINE pass, where her lower body falls back to the skin's shader -- wrote `o3 = (114, 114, 3)` over them.
   The skin's outline shell of her tights pokes through the shorts, in the outline shader's colour; `t0` does not
   change it, and her own card shows no outline there. `SourceComponent::offPasses` (new) keeps a component's
-  draws off the passes it names (`if vs != ...` around each draw, in a list of the fix's own); plans 4 and 104
-  name `f8c96a27`. **Probe the pixel where it ends, not where the screenshot was**: the idle pose moves between
-  a screenshot and a dump, so map the lime off the dump's own last frame.
+  draws off the passes it names (`if vs != ...` around each draw, in a list of the fix's own); plan 4 names
+  `f8c96a27`. **Probe the pixel where it ends, not where the screenshot was**: the idle pose moves between
+  a screenshot and a dump, so map the lime off the dump's own last frame. With the skirt toggled off, the mod's
+  tights have gaps where the skirt covers them -- on her card too (holes to the sky): the author cut them away,
+  and the remap now shows them exactly as hers does. Drawing that pass with HER outline shaders instead (pixel
+  `30ab50e7` and vertex `6a6650a9`, both captured) still filled the gaps olive, so it was dropped. And the
+  `0x80` reroute to the skin's shader (plan 104, for the hat brim and shorts) went with it: their lime was this
+  pass all along, and the skin's shader drew the satin hat matte.
+  **A DOWNLOADED TEXTURE A SHADER READS BY MIP LEVEL MUST CARRY THE GAME'S MIPS -- AND A FRAME DUMP NEVER HAS THEM
+  (2026-10-15).** Lynae14's gold filigree glowed on the skin and Lynae13's pantyhose had pale blotches at the waist,
+  and both had survived two epochs of bisection: every input matched her own draw. The cause was her holographic
+  FOIL (`74a761f5`), a matcap her jacket and lower-body shaders read with `SampleLevel` at a level set by roughness.
+  The game's has **10 mips, prefiltered by the game** (a RabbitFX `.dsc` gives the count); 3DMigoto dumps mip 0
+  only, so the fix's download had one, and a rough surface got the sharp foil where hers gets a soft pastel -- and the
+  mips' ALPHA, which her shader blends toward, is authored per level (168 at mip 0, ~80 at mips 3-5, ~155 at 6-8),
+  which no box filter reproduces (a box-filtered chain changed almost nothing). Five such foils are mipped now
+  (`74a761f5` for Lynae, and `9934ca23` / `4bee4070` / `00e3f13b`, which the skin's shaders read the same way).
+  **How the mips were got**: a temporary mod whose `ShaderOverride` on a draw binding the texture renders each level
+  with `Load(int3(xy, level))` into its own `R8G8B8A8_UNORM_SRGB` target and `dump = dds`s it
+  (`Tools/Misc/Diagnostics/wwmiMipExtract.py` writes the mod and assembles the DDS; mip 0 came out byte-equal to the
+  old download, which is the losslessness check). Three 3DMigoto traps on the way: a resource assigned by `= copy` /
+  `= ref` needs its own `[Resource...]` section or the line is silently ignored; a render target with only a
+  description is never created (give it a blank `.dds` of the right size and `bind_flags = render_target
+  shader_resource`); and `dump = dds <resource>` is what writes DDS, `analyse_options` alone wrote JPG.
+  **What found it after everything else had not**: painting intermediates of her shader as flat colour (`o0 = value`,
+  `o3 = 0`) on BOTH cards -- on the skin as the route's custom shader, on her card as a `ShaderFixes` replacement of
+  her own shader hash -- and walking down the shader until the two pictures differed: the code map and diffuse
+  matched, the foil's UV and level matched, the foil SAMPLE did not. That also showed the blotched tights were drawn
+  by her JACKET shader (the mod puts them in the jacket component), not the lower-body shader being bisected. The
+  replacement trick doubles as the test that the decompiled HLSL itself is right: her own card with it looked as
+  with the game's.
+  **And her LIGHTING RAMP is hers now.** Her shaders read a 512 x 25 ramp (one row a material) that the game keeps
+  in ONE texture (`ecfa79d1`) and refills with the on-screen character's ramp -- `3a40da92` for Lynae, `82550cee` for
+  the skin, constant across every dump -- so the `ref ps-t6` / `ref ps-t7` lines that borrowed it off the skin's slot
+  handed her shaders the SKIN's ramp (its film row is cream where hers is dark-to-teal). Each direction downloads its
+  own (`role ramp` lines, a new `Shader::lines` form resolved like `stash`); LP1's less frosted shirt matched once
+  both landed. **And `AGREMAP_DOWNLOAD_FOLDER`** (a `file://` url to a checkout's `Data/Mod Downloads`) runs a fix
+  against download files not yet merged into master, so a change to them is verified end to end before the merge.
+  Ruled out on the way, each by one in-game A/B, so the next agent need not repeat them: the mod's textures, the
+  material cb4, the stashed `t4`-`t6`, the vertex shader, the cleaned texcoords, the stencil (refs 2, 6 and 10 each
+  turn the sheer skirt opaque), the samplers, the props veil and the card's lighting. **Lynae14's props component**
+  -- its overskirt, a cloth layer, the sleeves, the socks and the hat -- is drawn by her card AFTER lighting as
+  translucency (two draws on a separate target, `2d6d59fe` then `0f6f8fac`, then a composite), which the skin's
+  frame never runs, so the hat brim's dark grey and the ID card's see-through are not reproduced. Two measurement
+  traps: comparing a G-buffer against a dump from an older build, and JPG render targets (linearised, no alpha).
+  The Peppermint card replays a paint-splash animation over most captures; take a burst of shots and keep the one
+  with the least splash.
 
 <br>
 

@@ -118,6 +118,10 @@ namespace AGRemapCore {
             {"pouchFoil", "00e3f13b"},
             // ...and her upper-body pass's foil, at the register lynaePeppermintUpperShader reads it from
             {"upperFoil", "9934ca23"},
+            // ...and her lighting ramp (512 x 25, one row a material): the game fills ONE texture with the
+            // ramp of the character on screen, so on Lynae's slots that register holds LYNAE's. Her shaders
+            // read it through `role ramp` lines
+            {"ramp", "82550cee"},
             {"lowerDetail", "0fa3ab67"},
             {"lowerDiffuse", "16e48d10"},
             {"lowerMask", "fef651e2"},

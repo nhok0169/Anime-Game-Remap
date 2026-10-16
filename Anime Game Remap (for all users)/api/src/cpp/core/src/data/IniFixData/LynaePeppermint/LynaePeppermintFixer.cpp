@@ -213,11 +213,11 @@ namespace AGRemapCore {
         // 10, her body's 14 stays 14). Lynae's own draws never set that 8 bit, and without it the
         // lighting shades the shirt as an opaque one. depth_stencil_state_merge keeps the rest of the
         // lower body's state -- its reversed-Z depth test above all: without it the default LESS test
-        // throws away every pixel in front of the body. The ramp the shader reads at ps-t6 is at
-        // ps-t9 on Lynae's lower body (the same texture, 82550cee / 3a40da92) ----
+        // throws away every pixel in front of the body. The shader reads her lighting ramp at ps-t6:
+        // HERS, downloaded -- Lynae's slots hold the same game texture refilled with Lynae's ramp ----
         WWMIFixerConfig::Shader sheerJacket = lynaePeppermintSheerShader();
         sheerJacket.lines = {
-            {"ps-t6", "ref ps-t9"},
+            {"ps-t6", "role ramp"},
             {"depth_stencil_state_merge", "true"},
             {"stencil_enable", "true"},
             {"stencil_ref", "15"},                 // her 14, plus the body mark (bit 1) to test against
@@ -290,6 +290,7 @@ namespace AGRemapCore {
             {"stencil_back", "always replace keep keep"},
             {"rasterizer_state_merge", "true"},
             {"cull", "none"},
+            {"ps-t9", "role ramp"},
         };
         lowerBody.onlyWith = "o3";
         config.plan.at(4).shader = std::move(lowerBody);
@@ -308,6 +309,7 @@ namespace AGRemapCore {
             {"stencil_write_mask", "0x8e"},
             {"stencil_front", "always replace keep keep"},
             {"stencil_back", "always replace keep keep"},
+            {"ps-t6", "role ramp"},
         };
         upperBody.registers = {{"ps-t4", "jacketNoise"}, {"ps-t5", "upperFoil"}};
         upperBody.onlyWith = "o3";

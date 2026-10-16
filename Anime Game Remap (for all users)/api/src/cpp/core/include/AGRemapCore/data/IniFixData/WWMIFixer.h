@@ -170,7 +170,11 @@ namespace AGRemapCore {
              * @brief
              @rst
              Further lines of the ``CustomShader`` section, as they are written, eg.
-             ``{"ps-t5", "ref ps-t6"}``
+             ``{"ps-t5", "ref ps-t6"}``. Two values are resolved first: ``stash <slot> <reg>`` binds
+             the capture :cpp:member:`WWMIFixerConfig::stashRegs` makes off that slot, and
+             ``role <name>`` binds the texture of that role -- the mod's file, or the source's own game
+             texture from :cpp:member:`WWMITextureFacts::fallbackTextures` (a line whose role has
+             neither is left out)
              @endrst
              */
             std::vector<std::pair<std::string, std::string>> lines;

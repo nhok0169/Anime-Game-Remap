@@ -25926,8 +25926,8 @@ class WWMIFixerConfig:
         @property
         def flags(self) -> int:
             """
-            :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
-            its vertices carry any of them
+            :class:`int`: The flag bits that mark a texel: a draw goes when more than
+            :attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
             """
         @flags.setter
         def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
@@ -25939,6 +25939,16 @@ class WWMIFixerConfig:
             """
         @from_.setter
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def share(self) -> float:
+            """
+            :class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
+            for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
+            among others. **Default**: ``0.5``, more than half
+            """
+        @share.setter
+        def share(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
         def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:

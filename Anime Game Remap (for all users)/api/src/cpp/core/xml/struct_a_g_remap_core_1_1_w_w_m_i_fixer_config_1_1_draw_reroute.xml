@@ -67,8 +67,8 @@ it is drawn from the mod&apos;s own ``.ini`` (give it ``sameFileSection``)
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-The flag bits that mark a texel: a draw goes when more than half of the texels under
-its vertices carry any of them
+The flag bits that mark a texel: a draw goes when more than :cpp:member:`share` of the
+texels under its vertices carry any of them
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
@@ -95,6 +95,26 @@ flags. **Default**: empty, and such a mod&apos;s component is left whole
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="660" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="660" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::WWMIFixerConfig::DrawReroute::share</definition>
+        <argsstring></argsstring>
+        <name>share</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::DrawReroute::share</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the draw to go, eg.
+``0.01`` to take a draw that holds any real amount of the flagged material among others.
+**Default**: ``0.5``, more than half
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="670" column="20" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="670" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>Some draws of one source component, sent through a different target slot. </para>
@@ -114,12 +134,13 @@ flags. **Default**: empty, and such a mod&apos;s component is left whole
         <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="599" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="599" bodyend="661"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="599" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="599" bodyend="671"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>codeRole</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>flags</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ab4437e43918fb4d1941854e63f36c536" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>from</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>share</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>sourceFlags</name></member>
     </listofallmembers>
   </compounddef>

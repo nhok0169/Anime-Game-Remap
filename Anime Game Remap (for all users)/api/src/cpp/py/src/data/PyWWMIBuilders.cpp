@@ -339,8 +339,13 @@ not a source slot. Its slot and bindings say where they go and what they bind
         .def_readwrite("codeRole", &AGRC::WWMIFixerConfig::DrawReroute::codeRole,
                         py::doc(":class:`str`: The role of the material-code map that marks the draws"))
         .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
-:class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
-its vertices carry any of them
+:class:`int`: The flag bits that mark a texel: a draw goes when more than
+:attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
+        )doc"))
+        .def_readwrite("share", &AGRC::WWMIFixerConfig::DrawReroute::share, py::doc(R"doc(
+:class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
+for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
+among others. **Default**: ``0.5``, more than half
         )doc"))
         .def_readwrite("sourceFlags",&AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
 :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of

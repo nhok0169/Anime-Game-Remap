@@ -223,7 +223,12 @@ namespace AGRemapCore {
         // (Lynae9's hat brim and shorts, in codes of bit 0x80 her own maps never use, came out lime here and were
         // sent through the skin's shader for a while. The lime was the slot's outline pass -- see offPasses below
         // -- and the skin's shader drew the hat matte where hers draws it satin, so they are hers again.)
-        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws), {4, 104, "lowerDetail", 0x80}};
+        // A draw goes to plan 104 when ANY real share of it is 0x80 (1%): Lynae9 draws her legs, tights and
+        // shorts in one range whose majority is skin, and with the default (more than half) it stayed on the
+        // outline pass and its tights' shell came through the shorts lime in the overworld (epoch 7)
+        WWMIFixerConfig::DrawReroute tightsDraws{4, 104, "lowerDetail", 0x80};
+        tightsDraws.share = 0.01;
+        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws), std::move(tightsDraws)};
 
         // ---- RABBITFX ON EVERY PART HER OWN SHADERS DRAW. A mod may hand a part's maps to RabbitFX instead of
         // binding them (Lynae11's robotic legs: white plastic on Lynae, skin without RabbitFX), and RabbitFX

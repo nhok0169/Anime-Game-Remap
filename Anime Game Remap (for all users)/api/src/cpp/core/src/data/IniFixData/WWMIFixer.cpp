@@ -5495,7 +5495,8 @@ namespace AGRemapCore {
                                     }
                                 }
 
-                                if (!seen.empty() && marked * 2 > seen.size()) {
+                                if (!seen.empty()
+                                        && static_cast<double>(marked) > reroute.share * static_cast<double>(seen.size())) {
                                     taken.insert(range);
                                 }
                             }

@@ -389,7 +389,9 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     propsFilmDraws.sourceFlags = flags
     # (Lynae9's hat brim and shorts went through the skin's shader for a while; their lime was the outline pass, see
     # offPasses, and the skin's shader drew the hat matte -- core's LynaeFixer)
-    config.drawReroutes = [filmDraws, propsFilmDraws, FRB.WWMIFixerConfig.DrawReroute(4, 104, "lowerDetail", 0x80)]
+    tightsDraws = FRB.WWMIFixerConfig.DrawReroute(4, 104, "lowerDetail", 0x80)
+    tightsDraws.share = 0.01             # any real share of 0x80 in a draw (core's LynaeFixer)
+    config.drawReroutes = [filmDraws, propsFilmDraws, tightsDraws]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----

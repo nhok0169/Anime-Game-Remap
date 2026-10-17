@@ -617,8 +617,8 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The flag bits that mark a texel: a draw goes when more than half of the texels under
-             its vertices carry any of them
+             The flag bits that mark a texel: a draw goes when more than :cpp:member:`share` of the
+             texels under its vertices carry any of them
              @endrst
              */
             int flags = 0;
@@ -658,6 +658,16 @@ namespace AGRemapCore {
              @endrst
              */
             FlagMask sourceFlags;
+
+            /**
+             * @brief
+             @rst
+             The share of a draw's texels that must carry :cpp:member:`flags` for the draw to go, eg.
+             ``0.01`` to take a draw that holds any real amount of the flagged material among others.
+             **Default**: ``0.5``, more than half
+             @endrst
+             */
+            double share = 0.5;
         };
 
         /**

@@ -255,13 +255,13 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
 | 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53). **The port is done when it A/Bs identical to the prototype on every mod** (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), the corpus moves only this pair's mods, and the suites pass |
 | 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses. **Fix what it finds in the prototype and the port, then re-run the A/B** | "THE AUDIT GATE" below |
-| 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing | "THE IN-GAME AUDIT" below |
+| 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing -- **at most 10 epochs**, then stop and hand over | "THE IN-GAME AUDIT" below |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
 | 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
 | 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7, A/B against the reverse prototype included |
 | 11a | **AUDIT the compiled reverse fix**, fix what it finds, re-run the A/B | "THE AUDIT GATE" below |
-| 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing | "THE IN-GAME AUDIT" below |
+| 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing -- **at most 10**, then stop and hand over | "THE IN-GAME AUDIT" below |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
 What the order is for:
@@ -314,6 +314,11 @@ What the order is for:
 <br>
 
 ## THE IN-GAME AUDIT: epochs run by a game subagent, until one finds nothing (the maintainer's rule, 2026-10-13)
+
+**HARD LIMIT: 10 EPOCHS (the maintainer, 2026-10-16).** Count the epochs of a direction from its first; if the 10th
+does not come out clean, STOP -- do not start an 11th. Write up every open item (what it is, what was tried, what is
+left) and hand it to the maintainer, who will check it themselves. The limit exists because Lynae <-> LynaePeppermint
+took several days of epochs, each fixing the last round's items and turning up new ones.
 
 **What the maintainer's final check is, so you know what you are being measured against.** They go in game and
 look at **every angle of every mod and every toggle variant**, comparing **the original against the remap**, in
@@ -1795,7 +1800,27 @@ the mod on its own card. What it found:
   necklace and bag strap came out pale and half see-through. Painting the see-through shader's output on both cards
   (a ShaderFixes replacement of `0b6e3ef7` on hers, the fix's `.hlsl` on Lynae's) showed it never touches those
   parts on her card: her solid pass `efc2690a` draws them. `passPs` gives a pass its own HLSL; the opaque pass now
-  uses `efc2690a`. **Over the BODY it is a stated limit now (2026-10-16, `remapGrading.rst`)**: LPIdentity's
+  uses `efc2690a`.
+  **EPOCH 7 (2026-10-16) FOUND TWO MORE, BOTH FIXED.** *A one-variant texture toggle*: Lynae3 replaces its hair
+  block's textures only `if $Hairs == 1`, in sections named `[TextureOverrideX]` / `[TextureOverrideXX]`, and at
+  `$Hairs = 0` her loose hair draws with the GAME's. `readConditionalBindings` only looked at sections named
+  `TextureOverrideTexture*` and only at toggles of two or more files, so the fix bound the block's textures always and
+  the loose hair's bun came out lime and teal. It now takes any texture override that is not a mesh section, treats one
+  `this` under a condition other than `$object_detected` as a toggle (`singleToggled_`), plans the role's game texture
+  (`planSingleToggles`) and puts it first in the role's copied list. One trap on the way: `IfPredPart::getTestStr()`
+  keeps the line's newline, so the first build compared `"$object_detected\n"` against `"$object_detected"` and turned
+  every `if $object_detected` override into a list. *The lower body's outline*: `offPasses` had taken ALL of her lower
+  body off the skin's upper-body outline pass (`f8c96a27`) for Lynae9's lime tights -- but Lynae2's torn top is dark on
+  her own card only through the outline shell of the fabric under the skin (a per-draw RT diff of her card put the dark
+  patches on her lower-body OUTLINE pass `30ab50e7`, not on the body pass), so the remap drew it pale and see-through.
+  Only the draws her code map flags `0x80` (Lynae9's tights and shorts) stay off the pass now, rerouted to plan 104 (a
+  twin of plan 4 with `offPasses`). Two wrong suspects first, each cleared by an in-game build: stale RabbitFX
+  bindings at `t60..t65` (nulled, no change) and the flat-mask fallback (`flatFallsBackToSource` swaps Lynae2's flat
+  lower mask for her game mask; binding the mod's flat mask instead changed nothing visible, and since it moved 13
+  mods' bindings for no proven gain it was reverted -- ship only the change a fault needs). **When a part regresses between epochs, line up its shots
+  from every epoch first** (`*_<tag>R_<column>.png` are all kept): Lynae2 had lightened in two steps, which pointed at
+  a pass rather than a shader input.
+  **Over the BODY it is a stated limit now (2026-10-16, `remapGrading.rst`)**: LPIdentity's
   necklace stones and LP2's strap, bow and starfish stay paler on Lynae's card. On HER card those parts are drawn
   by the see-through passes only (`0b6e3ef7` shirt, `4470be47` coat -- a per-draw RT diff shows her solid passes
   `efc2690a` / `12fcca8e` touch nothing over the body), so the reverse already uses the right shader there. What

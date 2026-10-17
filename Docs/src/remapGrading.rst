@@ -374,7 +374,8 @@ Grading
        | - **Limitation:** Lynae's props component --- her headphones, pin and ID card, and whatever a mod puts
        | there (one mod's hat brim, overskirt and sleeves) --- is drawn on her own outfit by a translucency pass
        | that the skin's outfit never runs. On the skin these parts draw opaque: a see-through brim or veil
-       | comes out solid.
+       | comes out solid, and a part the mod marks as film comes out dimmer instead (one mod's white belt
+       | flap), or browner and less see-through (one mod's sheer pink top).
        |
        | - A mod that hands its textures or a glow to RabbitFX keeps its look: her shaders carry RabbitFX's
        | own patch, so each part reads the mod's maps the way RabbitFX routes them on her own outfit.
@@ -382,8 +383,8 @@ Grading
        | - **Limitation:** the bottle she holds is a separate game object, not part of her outfit. The skin's
        | card shows the skin's own bottle, and a mod that replaces Lynae's (one mod's spray can) is not carried.
        |
-       | - **Limitation:** a few small colour differences remain against her own outfit --- the lower half of
-       | her tie a little brighter, one mod's sheer pink top a little browner. Her shaders are given the same
+       | - **Limitation:** a small colour difference remains against her own outfit --- the lower half of her
+       | tie is a little brighter. Her shaders are given the same
        | textures and constants on both outfits; the difference comes from the skin's frame.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
@@ -403,7 +404,7 @@ Grading
        | overlay.
        |
        | - **Limitation:** opaque details on the skin's see-through shirt and coat, where they lie over her
-       | body --- a strap, a bow, a pendant, a sheer bikini top --- come out paler or cooler on Lynae than on
+       | body --- a strap, a bow, a pendant, a sheer bikini top --- come out paler, cooler or bluer on Lynae than on
        | the skin. The see-through pass writes exactly the colour and opacity it writes on the skin (measured
        | in frame dumps of both); the difference is in how Lynae's frame lights the see-through surface.
        |

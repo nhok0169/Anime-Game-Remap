@@ -137,6 +137,9 @@ namespace AGRemapCore {
             // ...and her PROPS' film draws, the same way: her props film is a post-lighting translucent pass
             // that no pre-lighting draw of the skin can host, so it takes her jacket's film
             {106, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"ps-t4", "filmFoil"}}, true}},
+            // ...and her lower body's 0x80 draws (tights, shorts), drawn as plan 4 is but kept off the slot's
+            // outline pass (see offPasses below)
+            {104, {3, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,
@@ -212,6 +215,7 @@ namespace AGRemapCore {
                                             {{"ps-t4", "stash 4 ps-t4"}, {"ps-t5", "stash 4 ps-t5"}, {"ps-t6", "stash 4 ps-t6"},
                                              {"ps-t9", "role ramp"}});
         lower.registers = {{"ps-t7", "filmFoil"}, {"ps-t8", "lowerSheer"}};
+        config.plan.at(104).shader = lower;
         config.plan.at(4).shader = std::move(lower);
         config.stashRegs = {{4, {"ps-t4", "ps-t5", "ps-t6"}}};
         WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};
@@ -219,7 +223,7 @@ namespace AGRemapCore {
         // (Lynae9's hat brim and shorts, in codes of bit 0x80 her own maps never use, came out lime here and were
         // sent through the skin's shader for a while. The lime was the slot's outline pass -- see offPasses below
         // -- and the skin's shader drew the hat matte where hers draws it satin, so they are hers again.)
-        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws)};
+        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws), {4, 104, "lowerDetail", 0x80}};
 
         // ---- RABBITFX ON EVERY PART HER OWN SHADERS DRAW. A mod may hand a part's maps to RabbitFX instead of
         // binding them (Lynae11's robotic legs: white plastic on Lynae, skin without RabbitFX), and RabbitFX
@@ -236,11 +240,15 @@ namespace AGRemapCore {
         config.plan.at(3).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
         config.plan.at(4).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
         config.plan.at(5).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
+        config.plan.at(104).rabbitFX = config.plan.at(4).rabbitFX;
 
-        // ---- HER LOWER BODY IS KEPT OFF THE SLOT'S OUTLINE PASS (f8c96a27). The skin's outline shader draws
+        // ---- HER TIGHTS ARE KEPT OFF THE SLOT'S OUTLINE PASS (f8c96a27). The skin's outline shader draws
         // the shell of her tights through the shorts over them, lime (Lynae9, 2026-10-15: a frame dump put
-        // the lime on that pass, and her own card shows no outline there) ----
-        config.plan.at(4).offPasses = {"f8c96a270bf847dd"};
+        // the lime on that pass, and her own card shows no outline there). ONLY the draws her code map flags
+        // 0x80 (Lynae9's tights and shorts), rerouted to plan 104 (2026-10-16): the rest of her lower body
+        // keeps its outline, which some mods draw with -- Lynae2's torn top is dark only through the outline
+        // shell of the fabric under the skin, and with the whole lower body off the pass it came out pale ----
+        config.plan.at(104).offPasses = {"f8c96a270bf847dd"};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----

@@ -299,9 +299,13 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
         106: FRB.WWMIFixerConfig.SourceComponent(5, [B("ps-t0", "propsNormal"), B("ps-t1", "propsMask"),
                                                      B("ps-t2", "propsDetail"), B("ps-t3", "propsDiffuse"),
                                                      B("ps-t4", "filmFoil")]),
+        # ...and her lower body's 0x80 draws (tights, shorts), drawn as 4 is but off the outline pass
+        104: FRB.WWMIFixerConfig.SourceComponent(3, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"),
+                                                     B("ps-t2", "lowerDetail"), B("ps-t3", "lowerDiffuse")]),
     }
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True
+    plan[104].sameFileSection = True
     plan[105].sameFileSection = True
     plan[106].sameFileSection = True
     config.plan = plan
@@ -362,16 +366,18 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
                           ("ps-t9", "role ramp")])
     lowerOwn.registers = [B("ps-t7", "filmFoil"), B("ps-t8", "lowerSheer")]
     plan[4].shader = lowerOwn
+    plan[104].shader = lowerOwn
     config.stashRegs = {4: ["ps-t4", "ps-t5", "ps-t6"]}
     plan[106].shader = shader
     # RabbitFX on every part her own shaders draw, routed as on her own draws (core's LynaeFixer)
-    for component, tags in {0: (0, 3, 3, 0), 1: (0, 3, 0, 0), 3: (3, 0, 4, 3), 4: (3, 0, 4, 3), 5: (3, 0, 4, 3)}.items():
+    for component, tags in {0: (0, 3, 3, 0), 1: (0, 3, 0, 0), 3: (3, 0, 4, 3), 4: (3, 0, 4, 3), 104: (3, 0, 4, 3),
+                            5: (3, 0, 4, 3)}.items():
         rfx = FRB.WWMIFixerConfig.SourceComponent.RabbitFX()
         rfx.gameTags = {"ps-t%d" % k: tag for k, tag in enumerate(tags)}
         plan[component].rabbitFX = rfx
-    # her lower body is kept off the slot's outline pass, whose shell of her tights shows through her
-    # shorts in lime (core's LynaeFixer)
-    plan[4].offPasses = ["f8c96a270bf847dd"]
+    # her TIGHTS (the 0x80 draws, plan 104) are kept off the slot's outline pass, whose shell of them shows
+    # through her shorts in lime; the rest of her lower body keeps its outline (core's LynaeFixer)
+    plan[104].offPasses = ["f8c96a270bf847dd"]
     config.plan = plan
     # her PROPS mark film the same way; a mod that draws them with the game's code map is read through the
     # game map's flag mask (Tools/Misc/Diagnostics/wwmiFlagMask.py -> data/lynaePropsFilmFlags.json)
@@ -383,7 +389,7 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     propsFilmDraws.sourceFlags = flags
     # (Lynae9's hat brim and shorts went through the skin's shader for a while; their lime was the outline pass, see
     # offPasses, and the skin's shader drew the hat matte -- core's LynaeFixer)
-    config.drawReroutes = [filmDraws, propsFilmDraws]
+    config.drawReroutes = [filmDraws, propsFilmDraws, FRB.WWMIFixerConfig.DrawReroute(4, 104, "lowerDetail", 0x80)]
 
     # ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
     # pass sets ps-t0 only ----

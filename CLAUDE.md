@@ -72,6 +72,9 @@ mod, every toggle, every angle, original (or a `<Mod>Restored` copy if the origi
 the overworld if the skin is owned; it reports every issue, the remap agent fixes them, and it runs another epoch,
 until one finds nothing. Only then does the maintainer look -- to approve, not to find bugs. See Creating Remaps'
 "THE IN-GAME AUDIT".
+**HARD LIMIT: 10 EPOCHS PER DIRECTION (the maintainer, 2026-10-16).** If the 10th epoch still is not clean, STOP:
+write up what is open and hand it to the maintainer, who checks it themselves. Lynae <-> LynaePeppermint ran for days
+with new bugs in every round; do not start an 11th.
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones

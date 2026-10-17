@@ -1746,6 +1746,7 @@ namespace AGRemapCore {
                     planTexEdits();
                     planGameTexEdits();
                     planToggledRoles();
+                    planSingleToggles();
                     readRabbitFX();                     // after the toggles are known, and reading the pre-edit names
                     buildEdits();
                     buildAppended();
@@ -2802,23 +2803,50 @@ namespace AGRemapCore {
 
                     const std::string fixSuffix = fixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
+                        // ANY texture override binding by hash, whatever its name (2026-10-16): Lynae3 calls
+                        // its hair overrides [TextureOverrideX] / [TextureOverrideXX], and a mesh section
+                        // (one with match_first_index) is not a texture's override
                         if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, (IniKeywords::TextureOverride + "Texture"))
+                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
                             || isFixSection(entry.first, fixSuffix)) {
                             continue;
                         }
 
                         std::vector<std::string> bound;
+                        bool meshSection = false;
+                        bool realToggle = false;
                         for (const auto& part : entry.second->parts()) {
+                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                                if (pred->type == IfPredPartType::If || pred->type == IfPredPartType::Elif) {
+                                    std::string test = StringTools::toLower(pred->getTestStr());
+                                    test.erase(std::remove_if(test.begin(), test.end(),
+                                                              [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }),
+                                               test.end());
+                                    if (test != "$object_detected" && test != "$object_detected==1") {
+                                        realToggle = true;
+                                    }
+                                }
+
+                                continue;
+                            }
+
                             const auto* content =
                                 dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
 
+                            if (!content->getVals(IniKeywords::MatchFirstIndex).empty()) {
+                                meshSection = true;
+                            }
+
                             for (const std::string& val : content->getVals(IniKeywords::This)) {
                                 bound.push_back(std::string(StringTools::strip(val)));
                             }
+                        }
+
+                        if (meshSection) {
+                            continue;
                         }
 
                         // SEVERAL resources, which is what a toggle is. A section binding ONE
@@ -2832,6 +2860,24 @@ namespace AGRemapCore {
                         // $hair == 0 / this = X / endif`) still binds X unconditionally. That is what
                         // the fix did before this, so nothing regresses -- but a mod that renders
                         // wrong on one toggle with a single-variant role is where to look next.
+                        //
+                        // ...AND IT WAS (2026-10-16): Lynae3 binds its hair block's textures only `if
+                        // $Hairs == 1`, and at `$Hairs = 0` her own hair draws with the GAME's; the fix
+                        // bound the block's textures at both, so the loose hair's bun came out in the
+                        // block's colours. One `this` under any condition other than `$object_detected`
+                        // is a toggle of one variant, and its list binds the role's game texture first
+                        // (singleToggled_, planSingleToggles)
+                        if (bound.size() == 1 && realToggle) {
+                            const std::string key = StringTools::toLower(bound.front());
+                            if (conditionalOwner_.count(key) == 0) {
+                                conditionalOwner_[key] = entry.first;
+                                variantsOf_[entry.first] = bound;
+                                singleToggled_.insert(key);
+                            }
+
+                            continue;
+                        }
+
                         if (bound.size() < 2) {
                             continue;
                         }
@@ -6889,6 +6935,14 @@ namespace AGRemapCore {
                         return direct;
                     }
 
+                    // a one-variant toggle: off, the original draws with the game's texture
+                    if (singleToggled_.count(StringTools::toLower(base)) > 0) {
+                        const auto game = gameResourceOfRole_.find(role);
+                        if (game != gameResourceOfRole_.end()) {
+                            list->addKVPToFront(reg, game->second);
+                        }
+                    }
+
                     list->rebuild();
                     roleLists_.emplace(std::pair<std::string, std::string>{cacheRole, reg}, name);
                     // Their own vector, emitted at the END of buildAppended: textureLists_ is
@@ -8275,6 +8329,41 @@ namespace AGRemapCore {
                 // source's own game texture in the list instead (edited like the mod's would be); the
                 // mod's own conditional lines, carried after the list, still bind its file in the
                 // branches where it does. A section that draws only through `run =` is left alone.
+                // The roles whose file the mod binds with ONE `this` under a toggle (readConditionalBindings)
+                // get the source's own game texture planned: it is what the original draws with while the
+                // toggle is off, and bindLine puts it at the front of the role's copied list
+                void planSingleToggles() {
+                    if (gaveUp_ || singleToggled_.empty() || config_.sourceTextures.downloadCharFolder.empty()) {
+                        return;
+                    }
+
+                    for (const auto& [component, sections] : present_) {
+                        (void)sections;
+                        const auto planned = config_.plan.find(component);
+                        if (planned == config_.plan.end()) {
+                            continue;
+                        }
+
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
+                            if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0) {
+                                continue;
+                            }
+
+                            const std::string* resource = resourceFor(binding.role, component);
+                            if (resource == nullptr) {
+                                continue;
+                            }
+
+                            const auto edited = sourceOfEdited_.find(StringTools::toLower(*resource));
+                            const std::string base =
+                                StringTools::toLower(edited == sourceOfEdited_.end() ? *resource : edited->second);
+                            if (singleToggled_.count(base) > 0) {
+                                planGameResource(binding.role);
+                            }
+                        }
+                    }
+                }
+
                 void planToggledRoles() {
                     if (gaveUp_ || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
@@ -9150,6 +9239,7 @@ namespace AGRemapCore {
 
                 std::unordered_map<std::string, std::string> conditionalOwner_;      // the mod's resource -> the section that binds it behind a condition
                 std::unordered_map<std::string, std::vector<std::string>> variantsOf_;  // that section -> every resource it binds, in order
+                std::set<std::string> singleToggled_;                    // a resource the mod binds with ONE `this` under a real toggle
                 std::unordered_map<std::string, std::pair<std::string, std::vector<std::string>>> regVariantsOf_;  // ...and the same for a toggle written as a register binding: resource -> (label, the group)
                 std::unordered_map<std::string, std::string> fileOfResource_;         // the mod's resource -> the file it names
                 std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it

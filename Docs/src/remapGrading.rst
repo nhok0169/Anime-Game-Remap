@@ -375,7 +375,7 @@ Grading
        | there (one mod's hat brim, overskirt and sleeves) --- is drawn on her own outfit by a translucency pass
        | that the skin's outfit never runs. On the skin these parts draw opaque: a see-through brim or veil
        | comes out solid, and a part the mod marks as film comes out dimmer instead (one mod's white belt
-       | flap), or browner and less see-through (one mod's sheer pink top).
+       | flap, which also reads red and glows), or browner and less see-through (one mod's sheer pink top).
        |
        | - A mod that hands its textures or a glow to RabbitFX keeps its look: her shaders carry RabbitFX's
        | own patch, so each part reads the mod's maps the way RabbitFX routes them on her own outfit.
@@ -383,9 +383,12 @@ Grading
        | - **Limitation:** the bottle she holds is a separate game object, not part of her outfit. The skin's
        | card shows the skin's own bottle, and a mod that replaces Lynae's (one mod's spray can) is not carried.
        |
-       | - **Limitation:** a small colour difference remains against her own outfit --- the lower half of her
-       | tie is a little brighter. Her shaders are given the same
-       | textures and constants on both outfits; the difference comes from the skin's frame.
+       | - **Limitation:** small colour differences remain against her own outfit: the lower half of her tie is
+       | a little brighter on every mod that keeps it, a holographic coat panel can take another hue (one
+       | mod's lilac panel comes out olive, another's aqua grey-green), a small metal accessory comes out a
+       | little lighter (one mod's chest bell), and a sheer black bra seen from below comes out solid. Her
+       | shaders are given the same textures and constants on both outfits; the difference comes from the
+       | skin's frame, and was not traced further.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
      - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its

@@ -1820,6 +1820,15 @@ the mod on its own card. What it found:
   mods' bindings for no proven gain it was reverted -- ship only the change a fault needs). **When a part regresses between epochs, line up its shots
   from every epoch first** (`*_<tag>R_<column>.png` are all kept): Lynae2 had lightened in two steps, which pointed at
   a pass rather than a shader input.
+  **EPOCH 8 (2026-10-17): no regressions, and two dead ends worth not repeating.** *The film foil's mip level*: forcing
+  the hip-pouch film draws (plans 105 / 106) to read her foil at mip 0 changed nothing on Lynae11's belt flap, which
+  stays dark / red -- her props film is the props limitation, not a sampling fault. *Handing her shaders her own light
+  direction*: a `vs-cb6` built from the skin's material buffer with her angle rows moved in looked like it made Lynae1's
+  sheer bra see-through on one shot; repeated twice per condition it SHREDDED the cups and broke the arm's shading
+  (the skin's vertex shaders read other rows of that buffer too). **Repeat a promising single shot before building on
+  it** -- the one good-looking frame was the breakage. Lynae9's top is her props film too (a paint of plan 106 alone
+  covers it). What is left after epoch 8 is written as limitations: small colour shifts (tie, a holographic coat panel,
+  a metal bell, a sheer bra from below) and her props film parts.
   **Over the BODY it is a stated limit now (2026-10-16, `remapGrading.rst`)**: LPIdentity's
   necklace stones and LP2's strap, bow and starfish stay paler on Lynae's card. On HER card those parts are drawn
   by the see-through passes only (`0b6e3ef7` shirt, `4470be47` coat -- a per-draw RT diff shows her solid passes

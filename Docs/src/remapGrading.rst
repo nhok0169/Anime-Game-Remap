@@ -82,6 +82,34 @@ Grading
        |
        | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
        | deform slightly at a joint the matcher guessed wrong.
+   * - | **Changli --> ChangliNymph**
+     - | :greenBold:`4`
+     - | Proposed; the grade is the maintainer's to set. Both characters are ONE mesh drawn as eight
+       | components over a merged skeleton past 256 bones, so the fix writes Wuthering Waves' blend-remap
+       | buffers itself.
+       |
+       | - Changli carries four bone influences a vertex and the skin's shaders read eight, so the remapped
+       | blend is written eight wide.
+       |
+       | - Her skeleton was renumbered twice (1.1 -> 1.2 and 1.3 -> 1.4), and a mod is read in the
+       | numbering its own geometry fits; a mod exported before WWMI's merged skeleton is lifted from each
+       | component's own bone indices.
+       |
+       | - A mod made before her 2.6 update names older texture hashes; those are known by role, so the
+       | mod's own art is carried rather than replaced by the game's.
+       |
+       | - **Limitation:** her chest flame tattoo is not drawn on the skin. Her own outfit cuts its shape
+       | out of a glow texture and draws it as a small dark mark; the skin has no such shader.
+       |
+       | - **Limitation:** the flame feathers on her arm are drawn in their colours but do not glow. Her own
+       | shader lights them from her detail map; the skin's body shader has no input that lights a part, and
+       | the skin's own arm has no feathers.
+       |
+       | - **Limitation:** a mod that draws a component from mesh files of its own (one mod's coat and
+       | tattoo, under ``Meshes/Split`` and ``Meshes/Tattoo``) does not carry those parts yet.
+       |
+       | - A mod whose sections are keyed only on the game's bone-data buffer, with no ``vb0`` section, is
+       | not recognised as hers and is left as it is.
    * - | **Charlotte --> CharlotteHurlock**
      - | :greenBold:`4.5`
      - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of

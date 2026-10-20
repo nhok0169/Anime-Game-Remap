@@ -232,12 +232,26 @@ What the code will not tell you:
   wall of pip output came back; `prepare` now skips the update when `args.help` is set. Test `-h`
   in BOTH states after touching `prepare`.
 * **Test the download decision without the network: load the COMPILED script with
-  `importlib.util.spec_from_file_location`, replace its `pip.main` with a recorder, and call
+  `importlib.util.spec_from_file_location`, replace its `subprocess.run` with a recorder, and call
   `PackageApiRef.prepare` on a hand-made `argparse.Namespace`** (stub `isInstalled`, or
   `importlib.util.find_spec` + `importlib.metadata.version` for the version gate) -- a table of
-  (installed, version, flags) -> pip calls in seconds. A real pip run from an agent shell fails
-  anyway (`CERTIFICATE_VERIFY_FAILED`), and `pip.main` failing does NOT raise: the script falls
-  through to whatever is importable, so a "clean" run says nothing about whether it updated.
+  (installed, version, flags) -> pip calls in seconds. A real pip run from an agent shell failed
+  with `CERTIFICATE_VERIFY_FAILED` on one machine and worked on the other (2026-10-20), and a
+  failing pip does NOT raise (`subprocess.run` without `check`): the script falls through to
+  whatever is importable, so a "clean" run says nothing about whether it updated.
+* **pip is ALWAYS run as `[sys.executable, "-m", "pip", ...]` in a subprocess, never `pip.main`
+  (2026-10-20).** An in-process `pip.main` prints "pip is being invoked by an old script wrapper",
+  and pip 26.2 also leaves an audit hook in the caller that flags EVERY import made after the
+  install. A user on Python 3.14 got 133 `DEPRECATION: Unexpected import of 'FixRaidenBoss2...'`
+  lines, one per API module the script imported, and pip 26.3 turns that into an error
+  (pypa/pip#13842). There were three sites: the script's `PackageApiRef`, the API's
+  `tools/PackageManager.py` and AGRemapUtils' `PipUpdater`. Grep for `pip._internal` before adding a
+  fourth. **The reproduction is cheap and real**: a scratch venv with `pip install -U pip` (>= 26.2),
+  then run the COMPILED script from an empty folder (cwd is the mod folder, so nothing gets fixed),
+  and count `^DEPRECATION` in its output. The previous build (`git show HEAD:<path>`) has to show the
+  warnings in that same venv, or the zero from the new build proves nothing.
+  A pip install's own "Failed to remove contents in a temporary directory" lines come from the
+  user's temp folder permissions (sandboxed shells), not from us.
 * **Renaming one of the script's own options touches seven hand-kept places**, none generated:
   the two enums (`CommandOpts` / `ShortCommandOpts`), `PackageApiRef`, the option tables in
   `api/README.md`, `apiMirror/README.md` and `Docs/src/commandOpts.rst`, the env tables in the

@@ -13,7 +13,7 @@
 
 ##### ExtImports
 import sys
-import pip._internal as pip
+import subprocess
 import importlib
 from typing import  Dict, Optional, List, Callable, Any
 from types import ModuleType
@@ -124,8 +124,11 @@ class PackageManager():
         except ModuleNotFoundError:
             proxyOptions = ["--proxy", self.proxy] if (self.proxy is not None) else []
 
-            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName] + options)
+            # pip runs in its own process: pip.main is not a supported entry point, and an in-process
+            #   pip flags every import made after it returns (https://github.com/pypa/pip/issues/13842)
+            subprocess.run([sys.executable, "-m", "pip", "install", "-U"] + proxyOptions + self.options + installOptions + [installName] + options)
 
+        importlib.invalidate_caches()
         result = importlib.import_module(module)
 
         if (setup is not None):

@@ -138,6 +138,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.cpp
@@ -306,6 +307,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroupsInstantiation.cpp
     src/model/strategies/iniFixers/BaseIniFixerInstantiation.cpp
@@ -356,6 +358,7 @@ add_library(AGRemapCore STATIC
     src/model/iniresources/RemapIniResource.cpp
     src/model/iniresources/RemapBlendResource.cpp
     src/model/iniresources/RemapTexResource.cpp
+    src/model/iniresources/RemapFileResource.cpp
     src/RemapService.cpp
     src/RemapServiceCLI.cpp
     src/RemapServiceCLIErrors.cpp

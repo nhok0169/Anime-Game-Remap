@@ -34,6 +34,7 @@ class PyRemapStats {
         PyFileStats ini;
         PyFileStats texEdit;
         PyFileStats texAdd;
+        PyFileStats fileAdd;
         PyCachedFileStats download;
 
         void clear();

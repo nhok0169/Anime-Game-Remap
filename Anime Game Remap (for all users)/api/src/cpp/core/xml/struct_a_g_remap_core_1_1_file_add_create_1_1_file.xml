@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_file_add_create_1_1_file" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileAddCreate::File</compoundname>
+    <includes refid="_file_add_edit_8h" local="no">FileAddEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a844498948a94ec72731a4db60a9381d1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;K, V&gt; &gt; AGRemapCore::FileAddCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::keys</definition>
+        <argsstring></argsstring>
+        <name>keys</name>
+        <qualifiedname>AGRemapCore::FileAddCreate::File::keys</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>section</computeroutput>_&apos;s <computeroutput>KVPs</computeroutput>_ other than its <computeroutput>filename</computeroutput>, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>type = Buffer</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" line="76" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1ac89f7be2fb264de9888939c36ff2a8c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileAddCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::FileAddCreate::File::file</qualifiedname>
+        <briefdescription>
+<para>The file&apos;s path, relative to the <computeroutput>.ini</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" line="81" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a166510508e80b3f4f95e796d9790d4e4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>std::vector&lt;std::uint8_t&gt; AGRemapCore::FileAddCreate&lt; K, V, KeyHash, KeyEqual &gt;::File::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>AGRemapCore::FileAddCreate::File::bytes</qualifiedname>
+        <briefdescription>
+<para>The file&apos;s contents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" line="86" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One created file and the <computeroutput>section</computeroutput>_ that names it. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" line="72" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h" bodystart="72" bodyend="87"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a166510508e80b3f4f95e796d9790d4e4" prot="public" virt="non-virtual"><scope>AGRemapCore::FileAddCreate::File</scope><name>bytes</name></member>
+      <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1ac89f7be2fb264de9888939c36ff2a8c4" prot="public" virt="non-virtual"><scope>AGRemapCore::FileAddCreate::File</scope><name>file</name></member>
+      <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a844498948a94ec72731a4db60a9381d1" prot="public" virt="non-virtual"><scope>AGRemapCore::FileAddCreate::File</scope><name>keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

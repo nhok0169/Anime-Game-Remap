@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -13957,7 +13957,7 @@ class IniKeywords:
     IndexNotFound: typing.ClassVar[str] = 'IndexNotFound'
     MatchFirstIndex: typing.ClassVar[str] = 'match_first_index'
     MatchIndexCount: typing.ClassVar[str] = 'match_index_count'
-    MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_first_index', 'match_type', 'match_priority', 'hash', 'match_vertex_count'}
+    MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_vertex_count', 'match_first_index', 'hash', 'match_type', 'match_priority'}
     MatchPriority: typing.ClassVar[str] = 'match_priority'
     MatchType: typing.ClassVar[str] = 'match_type'
     MatchVertexCount: typing.ClassVar[str] = 'match_vertex_count'
@@ -20440,6 +20440,68 @@ class RemapBlendResource(RemapIniFixResource):
     @vgRemap.setter
     def vgRemap(self, arg0: VGRemap) -> None:
         ...
+class RemapFileAddResource(RemapIniResource):
+    """
+    
+    This class inherits from :class:`RemapIniResource`
+    
+    Class for adding a brand new file, of contents the fix already knows, used by the overall remap process
+    -- eg. the source of a ``CustomShader`` the fix draws a part with, or the constant buffer that shader reads
+    
+    The non-texture counterpart to :class:`RemapTexAddResource`, counted in :attr:`RemapStats.fileAdd`
+        
+    """
+    def __init__(self, iniFolderPath: str, srcPath: str, bytes: bytes, type: str = 'resourceRemapFileAdd', fixFunc: collections.abc.Callable[[RemapFileAddResource], bool] | None = None) -> None:
+        """
+        Constructs a new file-add resource
+        
+        Parameters
+        ----------
+        iniFolderPath: :class:`str`
+            The path to the folder of the .ini file
+        
+        srcPath: :class:`str`
+            The path of the file to write
+        
+        bytes: :class:`bytes`
+            The file's contents
+        
+        type: :class:`str`
+            The name for the type of resource
+        
+            **Default**: ``"resourceRemapFileAdd"``
+        
+        fixFunc: Optional[Callable[[:class:`RemapFileAddResource`], :class:`bool`]]
+            Custom function for fixing the resource, overriding the default behavior if given
+        
+            **Default**: ``None``
+        """
+    def fix(self) -> bool:
+        """
+        Fixes the resource -- calls the custom 'fixFunc' if set at construction, otherwise writes :attr:`bytes` to
+        ``srcPath``, creating its folder when it is missing
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the file was written
+        """
+    @property
+    def bytes(self) -> bytes:
+        """
+        :class:`bytes`: The contents written to the file
+        """
+    @bytes.setter
+    def bytes(self, arg1: bytes) -> None:
+        ...
+    @property
+    def fixFunc(self) -> collections.abc.Callable[[RemapFileAddResource], bool] | None:
+        """
+        Optional[Callable[[:class:`RemapFileAddResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg1: collections.abc.Callable[[RemapFileAddResource], bool] | None) -> None:
+        ...
 class RemapIniDownload(RemapIniResource):
     """
     
@@ -21055,6 +21117,15 @@ class RemapStats:
         """
     @download.setter
     def download(self, arg0: CachedFileStats) -> None:
+        ...
+    @property
+    def fileAdd(self) -> FileStats:
+        """
+        :class:`FileStats`: Stats about whether a brand new non-texture file created by this software (a custom shader's
+        source, the constant buffer it reads -- :class:`RemapFileAddResource`) has been created/removed
+        """
+    @fileAdd.setter
+    def fileAdd(self, arg0: FileStats) -> None:
         ...
     @property
     def ini(self) -> FileStats:
@@ -25855,8 +25926,8 @@ class WWMIFixerConfig:
         @property
         def flags(self) -> int:
             """
-            :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
-            its vertices carry any of them
+            :class:`int`: The flag bits that mark a texel: a draw goes when more than
+            :attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
             """
         @flags.setter
         def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
@@ -25868,6 +25939,16 @@ class WWMIFixerConfig:
             """
         @from_.setter
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def share(self) -> float:
+            """
+            :class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
+            for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
+            among others. **Default**: ``0.5``, more than half
+            """
+        @share.setter
+        def share(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
         def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:
@@ -25928,6 +26009,16 @@ class WWMIFixerConfig:
                 
             """
             def __init__(self) -> None:
+                ...
+            @property
+            def also(self) -> list[tuple[int, int]]:
+                """
+                List[Tuple[:class:`int`, :class:`int`]]: Further components the draw waits for as well, each with how many
+                draws its slot makes in one pass; the draw is made once all of them have drawn there, in whatever order.
+                A component the mod does not draw is left out of the count. **Default**: empty
+                """
+            @also.setter
+            def also(self, arg0: collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]) -> None:
                 ...
             @property
             def carried(self) -> list[str]:
@@ -26002,6 +26093,26 @@ class WWMIFixerConfig:
         def name(self, arg0: str) -> None:
             ...
         @property
+        def onlyWith(self) -> str:
+            """
+            :class:`str`: An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
+            that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:
+            ``""``, every pass
+            """
+        @onlyWith.setter
+        def onlyWith(self, arg0: str) -> None:
+            ...
+        @property
+        def passPs(self) -> list[str]:
+            """
+            List[:class:`str`]: Per entry of :attr:`passes`, the HLSL that pass draws with in place of :attr:`ps` -- a
+            source that draws one component with two shaders, eg. a solid one where the part is opaque and a
+            see-through one over a body. An empty entry, or none, keeps :attr:`ps`. **Default**: empty
+            """
+        @passPs.setter
+        def passPs(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
         def passes(self) -> list[list[tuple[str, str]]]:
             """
             List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
@@ -26019,6 +26130,24 @@ class WWMIFixerConfig:
             """
         @ps.setter
         def ps(self, arg0: str) -> None:
+            ...
+        @property
+        def registers(self) -> list[WWMIFixerConfig.Binding]:
+            """
+            List[:class:`WWMIFixerConfig.Binding`]: Bindings the component takes only while this shader draws it, after the
+            plan entry's own (the source's register layout). **Default**: empty
+            """
+        @registers.setter
+        def registers(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
+            ...
+        @property
+        def yieldToRabbitFX(self) -> bool:
+            """
+            :class:`bool`: A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's game
+            shader there (RabbitFX patches the game's shaders, never this one). **Default**: ``False``
+            """
+        @yieldToRabbitFX.setter
+        def yieldToRabbitFX(self, arg0: bool) -> None:
             ...
     class SkeletonNumbering:
         """
@@ -26103,6 +26232,17 @@ class WWMIFixerConfig:
             """
         @markLines.setter
         def markLines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def offPasses(self) -> list[str]:
+            """
+            List[:class:`str`]: Passes of the target slot (pixel shader hashes, as in
+            :attr:`WWMIFixerConfig.slotPasses`) that the component's draws are kept off -- eg. a slot's outline
+            pass, whose shell of an under-layer the target's outline shader draws through the layer over it.
+            **Default**: empty, every pass
+            """
+        @offPasses.setter
+        def offPasses(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
         def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
@@ -26653,6 +26793,16 @@ class WWMIFixerConfig:
         """
     @sourceVgMaps.setter
     def sourceVgMaps(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+        ...
+    @property
+    def stashRegs(self) -> dict[int, list[str]]:
+        """
+        Dict[:class:`int`, List[:class:`str`]]: Registers to capture off the GAME's draw of a target slot nothing of
+        the mod is drawn through, on passes that bind ``o3``; a :attr:`Shader.lines` value ``stash <slot> <register>``
+        binds the capture. **Default**: empty
+        """
+    @stashRegs.setter
+    def stashRegs(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]]) -> None:
         ...
     @property
     def targetId(self) -> ModTypeId:

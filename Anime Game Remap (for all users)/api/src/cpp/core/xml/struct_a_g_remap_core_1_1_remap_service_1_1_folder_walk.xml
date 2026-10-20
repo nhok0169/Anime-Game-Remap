@@ -104,7 +104,7 @@ queued
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="621" column="22" bodyfile="src/RemapService.cpp" bodystart="94" bodyend="107"/>
+        <location file="include/AGRemapCore/RemapService.h" line="621" column="22" bodyfile="src/RemapService.cpp" bodystart="95" bodyend="108"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

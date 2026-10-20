@@ -2023,6 +2023,30 @@ the user was ending each answer with the short list of what remained (the next f
 scratch to delete), so the next request was one line. Write that list from the state on disk, not from memory:
 an "is it done yet" between turns is a request for exactly that.
 
+**116. A PROBE SCRIPT THAT EDITS IN PLACE MUST BE SAFE TO FAIL HALFWAY, AND ITS UNDO MUST NOT GUESS (2026-10-17).**
+Two failures in one session, both from reversible probe scripts:
+
+- `probePaint.py` opened a shipped `.hlsl` for writing BEFORE the function that built the painted text raised. That
+  truncated the file to nothing (trap 7 of the root file, in another shape). Build the new content first, write
+  second, and keep a copy of every file a probe touches.
+- `probePaint off` was run with the placeholder arguments from its usage line. It "restored" files to the wrong
+  places, and they had to be moved back by hand.
+
+So: an undo reads what to put back from the journal its `on` wrote, never from its arguments. A tool that deletes an
+artifact and regenerates it checks the generator first. `doxy.sh` deleted `core/xml` before finding that doxygen
+was not on the WSL PATH; it now checks first, and `git checkout` restored the folder.
+
+**117. "CLEAN" IS WHAT A CHECK FOUND, NOT WHAT YOU DID WITH ITS FINDINGS AFTERWARDS (2026-10-17).** Asked "so epoch 8
+is clean?", the honest answer was no: it found no regressions, and its findings had been filed as limitations
+after it ran. Some limitations were measured to be out of reach; for others, two causes had been ruled out and the
+search stopped. Report the two kinds separately. A user who hears "clean" stops looking, and an unproven limitation
+is exactly where they should look.
+
+**118. ONE GOOD-LOOKING RESULT IS A HYPOTHESIS; REPEAT IT BEFORE BUILDING ON IT (2026-10-17).** A light-direction
+change looked like it fixed a sheer part on one in-game shot. Repeated twice per condition, interleaved with the
+control, it shredded the model: the one good frame was the breakage. The same goes for a single frame dump, a
+single A/B mod or a single run of a flaky download.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

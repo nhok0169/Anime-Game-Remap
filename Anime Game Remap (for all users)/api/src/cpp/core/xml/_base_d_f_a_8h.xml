@@ -17,12 +17,6 @@
     <includedby refid="_base_s_l_r1_parser_8h" local="yes">include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</includedby>
     <includedby refid="_base_tokenizer_8h" local="yes">include/AGRemapCore/tools/parsing/BaseTokenizer.h</includedby>
     <incdepgraph>
-      <node id="15">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="13">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="10">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
@@ -66,6 +60,12 @@
       <node id="14">
         <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
         <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="15">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="13">
+        <label>BiMap.tpp</label>
       </node>
       <node id="5">
         <label>cstdint</label>

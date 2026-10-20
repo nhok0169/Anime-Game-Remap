@@ -179,6 +179,7 @@ void initCppVGMergeGroupResource(pybind11::module_ &m);
 void initCppRemapIniDownload(pybind11::module_ &m);
 void initCppRemapBlendResource(pybind11::module_ &m);
 void initCppRemapTexAddResource(pybind11::module_ &m);
+void initCppRemapFileAddResource(pybind11::module_ &m);
 void initCppRemapTexEditResource(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
@@ -390,6 +391,7 @@ PYBIND11_MODULE(core, m) {
     initCppRemapIniDownload(m); // must come after initCppRemapIniResource (registers its base) and initCppFileDownload (constructor takes ownership of a FileDownload instance)
     initCppRemapBlendResource(m); // must come after initCppRemapIniFixResource (registers its base); VGRemap/BufElementType already registered above
     initCppRemapTexAddResource(m); // must come after initCppRemapIniResource (registers its base); CppTexCreator already registered above
+    initCppRemapFileAddResource(m); // must come after initCppRemapIniResource (registers its base)
     initCppRemapTexEditResource(m); // must come after initCppRemapIniResource (registers its base); CppTexEditor likewise
 
     // ----- iniParsers (full replacement of the pure-Python BaseIniParser/GIMIParser pair --

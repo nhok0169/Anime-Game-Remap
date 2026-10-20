@@ -9,6 +9,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1ad241189af83d7237ddbfe502a145d320" kind="variable"><name>draws</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1a3bf87e0e67b58284b455792a56d84cee" kind="variable"><name>target</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1a9e08977f33d70cfd53b702549e981dc3" kind="variable"><name>carried</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1aabb47a351fc35ef90a18960d45bf4e97" kind="variable"><name>also</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_algo" kind="class"><name>AGRemapCore::Algo</name>
     <member refid="class_a_g_remap_core_1_1_algo_1a10154736912a06c0383a78a421eabe4b" kind="function"><name>merge</name></member>
@@ -1262,6 +1263,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" kind="variable"><name>codeRole</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" kind="variable"><name>flags</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" kind="variable"><name>sourceFlags</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" kind="variable"><name>share</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kind="struct"><name>AGRemapCore::IniFixResourceModel::Entry</name>
     <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a204229d0acbf797ef55409251c28355c" kind="variable"><name>fixedPath</name></member>
@@ -1272,6 +1274,43 @@
   <compound refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry" kind="struct"><name>AGRemapCore::TexCache::Entry</name>
     <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1a6190c338f9d066afba70a1a0e21e393d" kind="variable"><name>value</name></member>
     <member refid="struct_a_g_remap_core_1_1_tex_cache_1_1_entry_1ac8d85cacca826a73406ed7bb735fc5a4" kind="variable"><name>order</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file" kind="struct"><name>AGRemapCore::FileAddCreate::File</name>
+    <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a844498948a94ec72731a4db60a9381d1" kind="variable"><name>keys</name></member>
+    <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1ac89f7be2fb264de9888939c36ff2a8c4" kind="variable"><name>file</name></member>
+    <member refid="struct_a_g_remap_core_1_1_file_add_create_1_1_file_1a166510508e80b3f4f95e796d9790d4e4" kind="variable"><name>bytes</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_file_add_create" kind="class"><name>AGRemapCore::FileAddCreate</name>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1ad7084090c09bd3eacd9c5850ed643bfa" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a736fa4540ec630ea31fa6fe2c941958a" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1ac4ce1f3a8c4f8f21738e98b2c8f607c2" kind="typedef"><name>ResEditConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a03202dbe425009d5416b3f0b75e2f5d2" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1acce606883bc71b00f561eaaf6d224326" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a5c15d5eb62ccbc03078ad3395e9197de" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a871838c60f57dc26b97ffa6772284ec6" kind="typedef"><name>CollectedSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a662eb13b6cf6e70206994c21e7d467ef" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" kind="typedef"><name>ResourceFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1aca8bd0bb62edaf444585eb7acb53d845" kind="variable"><name>files</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" kind="variable"><name>resType</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" kind="variable"><name>config</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" kind="variable"><name>resModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" kind="variable"><name>graphReplaceMode</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a662137cca6c4dffa69ce4df906c544d1" kind="variable"><name>sections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a83a0e57361b1c76a188eff2f4b280682" kind="function"><name>FileAddCreate</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1ac7f00065461b965755bfc684f4643c9c" kind="function"><name>getFixResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a7e0cc91b4ac33212dc2bbee35f4d5525" kind="function"><name>buildSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a6a8cc41cc52d012bfd2e020272878449" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_add_create_1a8c2f97c56f0615bf7bcb0743ddef7f6e" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1a5f245ec94619f26579001ad7850a0c9f" kind="function"><name>collectResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f" kind="function"><name>getResGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" kind="function"><name>getFixFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" kind="function"><name>renameUncollectedSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" kind="function"><name>buildResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_file_download" kind="class"><name>AGRemapCore::FileDownload</name>
     <member refid="class_a_g_remap_core_1_1_file_download_1ab6ff09cb4e4f175816d2bc1d7e6fc422" kind="variable"><name>url</name></member>
@@ -1301,6 +1340,35 @@
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1a7492fac6da0d3d53026f1f4378ee75c7" kind="variable"><name>DisabledPrefix</name></member>
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" kind="variable"><name>OldBackupFilePrefixV3</name></member>
     <member refid="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" kind="variable"><name>OldBackupFilePrefixV4_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_file_ref_add" kind="class"><name>AGRemapCore::FileRefAdd</name>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a45b20b615ea2d631a233cc7c3c862318" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1afd62ab26d08450ab603d848e183960d6" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a3d23d09801d6c8b4312f1beca6ef27d3" kind="typedef"><name>ResEditConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a352bbb95d13f16db5f9136d62ddccfaa" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a9164336bc84440ab530faddb2f804e16" kind="typedef"><name>CollectedSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1af439855d92146e2f7519519da98620f5" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1ae43599b477ea3b286df762342ee43178" kind="typedef"><name>ResourceFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1a3b121b03844190d1be3faa6f8f5e5f1d" kind="variable"><name>files</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" kind="variable"><name>resType</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" kind="variable"><name>config</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" kind="variable"><name>resModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" kind="variable"><name>graphReplaceMode</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1adb97b61b865e1e2a4c462e46110d3b8d" kind="function"><name>FileRefAdd</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1aea1ee5918e0661cc88d146d5eb11b5c6" kind="function"><name>getFixResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_file_ref_add_1ad9639215744332f1526fb7649b23b7f6" kind="function"><name>buildResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" kind="function"><name>getFixFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" kind="function"><name>renameUncollectedSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" kind="function"><name>getResGraph</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" kind="function"><name>fileAddGraphId</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan" kind="struct"><name>AGRemapCore::RemapIniRemover::FileScan</name>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan_1a742fc10f32d30725ec567c3af6d22874" kind="variable"><name>sections</name></member>
@@ -2615,6 +2683,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_classifier_1a849d88e536551106a34674e0f9519ea0" kind="function"><name>readLine</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_classifier_1a5b84330a143409b44db6ca1cf0b7aa6c" kind="function"><name>readHash</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_classifier_1af9341384b3aa6a01a9c8a742c891db9c" kind="function"><name>markWuWa</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_classifier_1aacfca07ffbdd6da33a5405617bd0bf4d" kind="function"><name>acceptUnmarkedWuWa</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_classifier_1ac43e6ba304255cbb47c2d492c6b994e9" kind="function"><name>readSectionName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_classifier_1a47f97987b8ee1c07990a31d60bb95d9a" kind="function"><name>incModTypeCountBySectionName</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_classifier_1a3975c033c329810a6277a48bb03ae14b" kind="function"><name>incModTypeCountByHash</name></member>
@@ -4497,7 +4566,6 @@
     <member refid="class_a_g_remap_core_1_1_remap_position_replace_1ae55c86a77c6c4789314ba05abbaed4fb" kind="function"><name>getFixFile</name></member>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
@@ -4956,6 +5024,23 @@
     <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" kind="function"><name>IniFixResource</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1aaef7df8d9956875303f7610d04f8ca10" kind="function"><name>_fix</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_remap_file_add_resource" kind="class"><name>AGRemapCore::RemapFileAddResource</name>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a6f00b35b9b1157a6c083a49d4a7af1d0" kind="variable"><name>bytes</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a6bae390397915dd6338cb9ab9326e4ce" kind="variable"><name>fixFunc</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" kind="variable"><name>type</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" kind="variable"><name>srcPath</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" kind="variable"><name>logger</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a9c1c9a6491f13cfc109833ff98926380" kind="function"><name>RemapFileAddResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1aa61f87523c3e636227b32dc41115cddb" kind="function"><name>srcEncounteredError</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a47e28a2110be747945bdddbd2e394a40" kind="function"><name>srcIsFixed</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1acf6b4a951a703d0d6d3b2736c7b063f2" kind="function"><name>fixEncounteredError</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a061d7383c63a8cff0dd931c1bcd69476" kind="function"><name>fixIsFixed</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a3daf478dd488ce5defa20770d757f8ab" kind="function"><name>fixExists</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1ac9146809d98edac9a045af6480dfa685" kind="function"><name>fix</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" kind="function"><name>hasRequired</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" kind="function"><name>IniResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1ad9d9bdb877ae206985d9ad1f1021d13b" kind="function"><name>_fix</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_remap_ini_download" kind="class"><name>AGRemapCore::RemapIniDownload</name>
     <member refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" kind="variable"><name>download</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" kind="variable"><name>fixFunc</name></member>
@@ -5289,6 +5374,7 @@
     <member refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" kind="variable"><name>ini</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" kind="variable"><name>texEdit</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" kind="variable"><name>texAdd</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_stats_1a9c2326d6b0c6c7727e0f34dbb822ea1f" kind="variable"><name>fileAdd</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" kind="variable"><name>download</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" kind="function"><name>get</name></member>
@@ -5692,6 +5778,10 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a4928e841db694caac65322b96dcdff07" kind="variable"><name>constantBuffers</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a551f6bdaf36f0e5d47001b33e7bb63f3" kind="variable"><name>lines</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a50ccc403e95a5af644f8a57085965309" kind="variable"><name>passes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a2afae4bfae7cf4988ecd8c7e8c23ea0a" kind="variable"><name>passPs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a97dc20e0315e46bb34c998e54ea721a6" kind="variable"><name>onlyWith</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a9c6af9268cb9c803a08432d3db27c734" kind="variable"><name>yieldToRabbitFX</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a64fc798f150c19250d203acd7b2bc269" kind="variable"><name>registers</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a925fa2b98a7c1bedf5d1b88a129bde15" kind="variable"><name>after</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_shape_key_checksums" kind="class"><name>AGRemapCore::ShapeKeyChecksums</name>
@@ -5767,6 +5857,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aa1b6a7a373ca8fc31230b53c3c057f7a" kind="variable"><name>shader</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1adf2525e1ee33b01c71dc5484e35d10c9" kind="variable"><name>rabbitFX</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ad3cbe49caf6f7fa16e8769b31459820d" kind="variable"><name>markLines</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aefde176ccda1450f94e181db5f20c5ac" kind="variable"><name>offPasses</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtBlock</name>
     <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" kind="variable"><name>items</name></member>
@@ -6088,7 +6179,6 @@
     <member refid="class_a_g_remap_core_1_1_tex_replace_1a2fa260b9a9e8a7493071ce948f6c6f3b" kind="function"><name>subTypedModName</name></member>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
@@ -6586,7 +6676,6 @@
     <member refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9804f37e7028338bea96549bc9e3c679" kind="function"><name>getFixFile</name></member>
     <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" kind="function"><name>buildResModels</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" kind="function"><name>buildResModels</name></member>
-    <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" kind="function"><name>buildResModel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kind="function"><name>getFileId</name></member>
     <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" kind="function"><name>collectResourceName</name></member>
@@ -6715,6 +6804,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" kind="variable"><name>sourceTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kind="variable"><name>sharedMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aace2b91797a0810be8047688c88b1789" kind="variable"><name>hiddenMeshes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae3fb103cb7cc035ee51af13e9864eee1" kind="variable"><name>stashRegs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" kind="variable"><name>texEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a20bc04c1e235777e39638dc4fb333d7b" kind="variable"><name>cleanTexcoords</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a50b73594dacea3771f227801d480a4b4" kind="variable"><name>texcoordReg</name></member>
@@ -7021,8 +7111,11 @@
     <member refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kind="function"><name>makeGIMICharFixer</name></member>
     <member refid="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" kind="function"><name>makeGIMIComponentFixer</name></member>
     <member refid="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" kind="function"><name>makeGIMIMergeFixer</name></member>
+    <member refid="namespace_a_g_remap_core_1a725ad2ea6514c2a70bc2dccef27771d5" kind="function"><name>lynaeBangsShader</name></member>
     <member refid="namespace_a_g_remap_core_1ad12df2c29ec26175edf9504a673d78d3" kind="function"><name>lynaeFilmShader</name></member>
     <member refid="namespace_a_g_remap_core_1a4f62cd3bab3775daad0983581b6fdd75" kind="function"><name>lynaePropsFilmFlags</name></member>
+    <member refid="namespace_a_g_remap_core_1ae7f0a0f04f3fa5293c832b5175cf1cf4" kind="function"><name>lynaeHairShader</name></member>
+    <member refid="namespace_a_g_remap_core_1a151251f1ae51400183bab788c718ebf8" kind="function"><name>lynaeLowerShader</name></member>
     <member refid="namespace_a_g_remap_core_1ad6c61d8bba8c2389145b77521b31c090" kind="function"><name>lynaeRenumbered36To37</name></member>
     <member refid="namespace_a_g_remap_core_1a56a3c8a17ea0a000bfea1217d0a9a2da" kind="function"><name>lynaeBoneCentroids</name></member>
     <member refid="namespace_a_g_remap_core_1aac19cae4c7eddf071fd3b87d6b72279f" kind="function"><name>lynae36VgMaps</name></member>
@@ -7035,13 +7128,16 @@
     <member refid="namespace_a_g_remap_core_1abfad3c193b850b0272cfa86fdb0c6dd4" kind="function"><name>lynaePropsPlainCode</name></member>
     <member refid="namespace_a_g_remap_core_1ab42fcd953bb895f290b0eb36c44d2fec" kind="function"><name>lynaeTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1a0f9081f911e48caa81c5d665bd579426" kind="function"><name>lynaeTextureThumbprints</name></member>
-    <member refid="namespace_a_g_remap_core_1a11740e850d7c746f40cc88dcabd3541a" kind="function"><name>lynaePeppermintSheerCoatShader</name></member>
+    <member refid="namespace_a_g_remap_core_1afde444ffed09992f3b386271faa40590" kind="function"><name>lynaeUpperShader</name></member>
     <member refid="namespace_a_g_remap_core_1adad4e067b59c0540068e21355725bef2" kind="function"><name>lynaePeppermintLowerShader</name></member>
+    <member refid="namespace_a_g_remap_core_1a11740e850d7c746f40cc88dcabd3541a" kind="function"><name>lynaePeppermintSheerCoatShader</name></member>
     <member refid="namespace_a_g_remap_core_1a59f8e9757040a3ad53d7572095849346" kind="function"><name>lynaePeppermintSheerShader</name></member>
     <member refid="namespace_a_g_remap_core_1a30e0f78222ce636ff3a1de6289c1d9f8" kind="function"><name>lynaePeppermintVgMaps</name></member>
     <member refid="namespace_a_g_remap_core_1ab3c3140fdc2a11c9f157f1db9d06cfe8" kind="function"><name>peppermintToLynaeShapeKeys</name></member>
+    <member refid="namespace_a_g_remap_core_1a9a199ba7e647c90104332e7b89066376" kind="function"><name>lynaePeppermintSolidShader</name></member>
     <member refid="namespace_a_g_remap_core_1a394283975b16393a3b2ad2d39d6262d9" kind="function"><name>lynaePeppermintTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1afdd4ee63d7a5c304b58a4fc6b6ff30f3" kind="function"><name>lynaePeppermintTextureThumbprints</name></member>
+    <member refid="namespace_a_g_remap_core_1a22eb2e5873cbbbfa907cc347c82615a5" kind="function"><name>lynaePeppermintUpperShader</name></member>
     <member refid="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" kind="function"><name>sanhuaTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1af12ae26e99e06da23b5ca21f45b3b3eb" kind="function"><name>sanhuaTextureThumbprints</name></member>
     <member refid="namespace_a_g_remap_core_1a0b98826622962dae0367d431c7e7a700" kind="function"><name>sanhuaExorcistTextureFacts</name></member>
@@ -7487,9 +7583,15 @@
   </compound>
   <compound refid="_lumine_heaven_fixer_8h" kind="file"><name>LumineHeavenFixer.h</name>
   </compound>
+  <compound refid="_lynae_bangs_shader_8h" kind="file"><name>LynaeBangsShader.h</name>
+  </compound>
   <compound refid="_lynae_film_shader_8h" kind="file"><name>LynaeFilmShader.h</name>
   </compound>
   <compound refid="_lynae_fixer_8h" kind="file"><name>LynaeFixer.h</name>
+  </compound>
+  <compound refid="_lynae_hair_shader_8h" kind="file"><name>LynaeHairShader.h</name>
+  </compound>
+  <compound refid="_lynae_lower_shader_8h" kind="file"><name>LynaeLowerShader.h</name>
   </compound>
   <compound refid="_lynae_skeleton_8h" kind="file"><name>LynaeSkeleton.h</name>
   </compound>
@@ -7499,19 +7601,25 @@
   </compound>
   <compound refid="_lynae_thumbprints_8h" kind="file"><name>LynaeThumbprints.h</name>
   </compound>
+  <compound refid="_lynae_upper_shader_8h" kind="file"><name>LynaeUpperShader.h</name>
+  </compound>
   <compound refid="_lynae_peppermint_fixer_8h" kind="file"><name>LynaePeppermintFixer.h</name>
   </compound>
-  <compound refid="_lynae_peppermint_sheer_coat_shader_8h" kind="file"><name>LynaePeppermintSheerCoatShader.h</name>
-  </compound>
   <compound refid="_lynae_peppermint_lower_shader_8h" kind="file"><name>LynaePeppermintLowerShader.h</name>
+  </compound>
+  <compound refid="_lynae_peppermint_sheer_coat_shader_8h" kind="file"><name>LynaePeppermintSheerCoatShader.h</name>
   </compound>
   <compound refid="_lynae_peppermint_sheer_shader_8h" kind="file"><name>LynaePeppermintSheerShader.h</name>
   </compound>
   <compound refid="_lynae_peppermint_skeleton_8h" kind="file"><name>LynaePeppermintSkeleton.h</name>
   </compound>
+  <compound refid="_lynae_peppermint_solid_shader_8h" kind="file"><name>LynaePeppermintSolidShader.h</name>
+  </compound>
   <compound refid="_lynae_peppermint_textures_8h" kind="file"><name>LynaePeppermintTextures.h</name>
   </compound>
   <compound refid="_lynae_peppermint_thumbprints_8h" kind="file"><name>LynaePeppermintThumbprints.h</name>
+  </compound>
+  <compound refid="_lynae_peppermint_upper_shader_8h" kind="file"><name>LynaePeppermintUpperShader.h</name>
   </compound>
   <compound refid="_mod_branches_8h" kind="file"><name>ModBranches.h</name>
   </compound>
@@ -7852,6 +7960,8 @@
   </compound>
   <compound refid="_remap_blend_resource_8h" kind="file"><name>RemapBlendResource.h</name>
   </compound>
+  <compound refid="_remap_file_resource_8h" kind="file"><name>RemapFileResource.h</name>
+  </compound>
   <compound refid="_remap_ini_resource_8h" kind="file"><name>RemapIniResource.h</name>
   </compound>
   <compound refid="_remap_position_resource_8h" kind="file"><name>RemapPositionResource.h</name>
@@ -7933,6 +8043,8 @@
   <compound refid="_blend_edit_8h" kind="file"><name>BlendEdit.h</name>
   </compound>
   <compound refid="_buf_edit_8h" kind="file"><name>BufEdit.h</name>
+  </compound>
+  <compound refid="_file_add_edit_8h" kind="file"><name>FileAddEdit.h</name>
   </compound>
   <compound refid="_position_edit_8h" kind="file"><name>PositionEdit.h</name>
   </compound>
@@ -8326,9 +8438,15 @@
   </compound>
   <compound refid="_lumine_heaven_fixer_8cpp" kind="file"><name>LumineHeavenFixer.cpp</name>
   </compound>
+  <compound refid="_lynae_bangs_shader_8cpp" kind="file"><name>LynaeBangsShader.cpp</name>
+  </compound>
   <compound refid="_lynae_film_shader_8cpp" kind="file"><name>LynaeFilmShader.cpp</name>
   </compound>
   <compound refid="_lynae_fixer_8cpp" kind="file"><name>LynaeFixer.cpp</name>
+  </compound>
+  <compound refid="_lynae_hair_shader_8cpp" kind="file"><name>LynaeHairShader.cpp</name>
+  </compound>
+  <compound refid="_lynae_lower_shader_8cpp" kind="file"><name>LynaeLowerShader.cpp</name>
   </compound>
   <compound refid="_lynae_props_film_flags_8cpp" kind="file"><name>LynaePropsFilmFlags.cpp</name>
   </compound>
@@ -8340,19 +8458,25 @@
   </compound>
   <compound refid="_lynae_thumbprints_8cpp" kind="file"><name>LynaeThumbprints.cpp</name>
   </compound>
+  <compound refid="_lynae_upper_shader_8cpp" kind="file"><name>LynaeUpperShader.cpp</name>
+  </compound>
   <compound refid="_lynae_peppermint_fixer_8cpp" kind="file"><name>LynaePeppermintFixer.cpp</name>
   </compound>
-  <compound refid="_lynae_peppermint_sheer_coat_shader_8cpp" kind="file"><name>LynaePeppermintSheerCoatShader.cpp</name>
-  </compound>
   <compound refid="_lynae_peppermint_lower_shader_8cpp" kind="file"><name>LynaePeppermintLowerShader.cpp</name>
+  </compound>
+  <compound refid="_lynae_peppermint_sheer_coat_shader_8cpp" kind="file"><name>LynaePeppermintSheerCoatShader.cpp</name>
   </compound>
   <compound refid="_lynae_peppermint_sheer_shader_8cpp" kind="file"><name>LynaePeppermintSheerShader.cpp</name>
   </compound>
   <compound refid="_lynae_peppermint_skeleton_8cpp" kind="file"><name>LynaePeppermintSkeleton.cpp</name>
   </compound>
+  <compound refid="_lynae_peppermint_solid_shader_8cpp" kind="file"><name>LynaePeppermintSolidShader.cpp</name>
+  </compound>
   <compound refid="_lynae_peppermint_textures_8cpp" kind="file"><name>LynaePeppermintTextures.cpp</name>
   </compound>
   <compound refid="_lynae_peppermint_thumbprints_8cpp" kind="file"><name>LynaePeppermintThumbprints.cpp</name>
+  </compound>
+  <compound refid="_lynae_peppermint_upper_shader_8cpp" kind="file"><name>LynaePeppermintUpperShader.cpp</name>
   </compound>
   <compound refid="_mod_branches_8cpp" kind="file"><name>ModBranches.cpp</name>
   </compound>
@@ -8672,6 +8796,8 @@
   </compound>
   <compound refid="_remap_blend_resource_8cpp" kind="file"><name>RemapBlendResource.cpp</name>
   </compound>
+  <compound refid="_remap_file_resource_8cpp" kind="file"><name>RemapFileResource.cpp</name>
+  </compound>
   <compound refid="_remap_ini_resource_8cpp" kind="file"><name>RemapIniResource.cpp</name>
   </compound>
   <compound refid="_remap_position_resource_8cpp" kind="file"><name>RemapPositionResource.cpp</name>
@@ -8725,6 +8851,8 @@
   <compound refid="_i_ini_graph_groups_instantiation_8cpp" kind="file"><name>IIniGraphGroupsInstantiation.cpp</name>
   </compound>
   <compound refid="_ini_file_res_edit_context_8cpp" kind="file"><name>IniFileResEditContext.cpp</name>
+  </compound>
+  <compound refid="_file_add_edit_instantiation_8cpp" kind="file"><name>FileAddEditInstantiation.cpp</name>
   </compound>
   <compound refid="_res_edit_instantiation_8cpp" kind="file"><name>ResEditInstantiation.cpp</name>
   </compound>

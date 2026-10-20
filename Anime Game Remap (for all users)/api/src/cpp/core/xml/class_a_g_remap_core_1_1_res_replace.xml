@@ -261,6 +261,8 @@ graph id)
         <name>buildResModel</name>
         <qualifiedname>AGRemapCore::ResReplace::buildResModel</qualifiedname>
         <reimplements refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f">buildResModel</reimplements>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2">buildResModel</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>resType</declname>
@@ -350,6 +352,7 @@ graph id)
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseResEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1a8c2f97c56f0615bf7bcb0743ddef7f6e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
@@ -508,6 +511,8 @@ argument of \ref buildResGraph)
         <name>getFixResourceName</name>
         <qualifiedname>AGRemapCore::BaseResEdit::getFixResourceName</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_buf_replace_1a60397dfa0dc9c658010dd34b21b8e16d">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1ac7f00065461b965755bfc684f4643c9c">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_ref_add_1aea1ee5918e0661cc88d146d5eb11b5c6">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
@@ -879,6 +884,7 @@ Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
         <argsstring>(const CollectedSections &amp;collectedSections, Context &amp;ctx, GraphGroups &amp;graphGroups, const std::string &amp;modName=&quot;&quot;, const ResourceFilter &amp;resourceFilter={}, bool copySections=false)</argsstring>
         <name>buildResources</name>
         <qualifiedname>AGRemapCore::BaseResEdit::buildResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_ref_add_1ad9639215744332f1526fb7649b23b7f6">buildResources</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_res_replace_1a965c4b36f278faa35693308e6bcfed3a" kindref="member">CollectedSections</ref> &amp;</type>
           <declname>collectedSections</declname>

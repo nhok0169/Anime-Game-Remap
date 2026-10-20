@@ -5,12 +5,6 @@
     <includes refid="_sympy_tokenizer_8h" local="yes">AGRemapCore/tools/parsing/SympyTokenizer.h</includes>
     <includes local="no">vector</includes>
     <incdepgraph>
-      <node id="21">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="19">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="16">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
@@ -134,6 +128,12 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+      </node>
+      <node id="21">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="19">
+        <label>BiMap.tpp</label>
       </node>
       <node id="4">
         <label>cstddef</label>

@@ -4,6 +4,7 @@
     <compoundname>AGRemapCore::RemapIniResource</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_ini_resource" prot="public" virt="non-virtual">AGRemapCore::IniResource</basecompoundref>
     <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public" virt="non-virtual">AGRemapCore::RemapIniResourceMixin</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_file_add_resource" prot="public" virt="non-virtual">AGRemapCore::RemapFileAddResource</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public" virt="non-virtual">AGRemapCore::RemapIniDownload</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_tex_add_resource" prot="public" virt="non-virtual">AGRemapCore::RemapTexAddResource</derivedcompoundref>
     <includes refid="_remap_ini_resource_8h" local="no">RemapIniResource.h</includes>
@@ -108,6 +109,7 @@
         <name>srcEncounteredError</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcEncounteredError</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1aa61f87523c3e636227b32dc41115cddb">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a2e25b1fe9926445f6350ac383dc193c3">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4">srcEncounteredError</reimplementedby>
@@ -144,6 +146,7 @@
         <name>srcIsFixed</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcIsFixed</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a47e28a2110be747945bdddbd2e394a40">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a29fa2ea4330c20878fbe156c0282ae89">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4">srcIsFixed</reimplementedby>
@@ -180,6 +183,7 @@
         <name>fixEncounteredError</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixEncounteredError</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1acf6b4a951a703d0d6d3b2736c7b063f2">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a4de88e85d271cb088fbd77dc1cbc459f">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a324c28bf61ead4aede8b2ab16864f374">fixEncounteredError</reimplementedby>
@@ -216,6 +220,7 @@
         <name>fixIsFixed</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixIsFixed</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a061d7383c63a8cff0dd931c1bcd69476">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a670f70ea23c0af28d1a15896dd7fa181">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970">fixIsFixed</reimplementedby>
@@ -333,6 +338,12 @@ Base class for some resource in a .ini file that&apos;s used by the overall rema
         <link refid="class_a_g_remap_core_1_1_ini_resource"/>
       </node>
       <node id="4">
+        <label>AGRemapCore::RemapFileAddResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_file_add_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
         <label>AGRemapCore::RemapIniDownload</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
         <childnode refid="1" relation="public-inheritance">
@@ -350,7 +361,7 @@ Base class for some resource in a .ini file that&apos;s used by the overall rema
         <label>AGRemapCore::RemapIniResourceMixin</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>AGRemapCore::RemapTexAddResource</label>
         <link refid="class_a_g_remap_core_1_1_remap_tex_add_resource"/>
         <childnode refid="1" relation="public-inheritance">

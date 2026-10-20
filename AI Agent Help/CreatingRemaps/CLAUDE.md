@@ -255,13 +255,13 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
 | 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53). **The port is done when it A/Bs identical to the prototype on every mod** (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), the corpus moves only this pair's mods, and the suites pass |
 | 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses. **Fix what it finds in the prototype and the port, then re-run the A/B** | "THE AUDIT GATE" below |
-| 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing | "THE IN-GAME AUDIT" below |
+| 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing -- **at most 10 epochs**, then stop and hand over | "THE IN-GAME AUDIT" below |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
 | 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
 | 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7, A/B against the reverse prototype included |
 | 11a | **AUDIT the compiled reverse fix**, fix what it finds, re-run the A/B | "THE AUDIT GATE" below |
-| 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing | "THE IN-GAME AUDIT" below |
+| 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing -- **at most 10**, then stop and hand over | "THE IN-GAME AUDIT" below |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
 What the order is for:
@@ -314,6 +314,11 @@ What the order is for:
 <br>
 
 ## THE IN-GAME AUDIT: epochs run by a game subagent, until one finds nothing (the maintainer's rule, 2026-10-13)
+
+**HARD LIMIT: 10 EPOCHS (the maintainer, 2026-10-16).** Count the epochs of a direction from its first; if the 10th
+does not come out clean, STOP -- do not start an 11th. Write up every open item (what it is, what was tried, what is
+left) and hand it to the maintainer, who will check it themselves. The limit exists because Lynae <-> LynaePeppermint
+took several days of epochs, each fixing the last round's items and turning up new ones.
 
 **What the maintainer's final check is, so you know what you are being measured against.** They go in game and
 look at **every angle of every mod and every toggle variant**, comparing **the original against the remap**, in
@@ -397,6 +402,66 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
   orders, so a layered or see-through part has to be seen in both.
 - **A frame dump with textures is huge** (9.4 GB for one card); `--options "dump_rt dds"` is a third of it and
   enough to read the G-buffer.
+
+### RUNNING THE EPOCHS: what eight of them on Lynae taught (2026-10-17)
+
+Lynae <-> LynaePeppermint used eight epochs and was handed over with no regressions and a list of stated limits.
+The items it found are in the LYNAE section. These are the lessons about RUNNING epochs, and they apply to any pair:
+
+- **Be confident before you start one** (the maintainer: "be confident in your fix before you start an epoch").
+  Keep a REGRESSION LIST of every item any earlier epoch flagged and you fixed. Re-shoot all of it on the new build
+  yourself, card against card, before the game agent starts. Build 55 of Lynae moved a draw-routing rule from "any
+  share" to "majority" and brought back epoch 6's lime under Lynae9's skirt. The overworld half of epoch 8, already
+  run on that build, had to be declared void and run again.
+- **Give the game agent the previous epoch's sheets.** The epoch 8 brief carried epoch 7's original / remap twin
+  sheets and asked for a regression check against them. That is how "no regressions" became a finding rather than
+  an impression.
+- **A rule that routes draws by a threshold moves other mods.** `DrawReroute` took a draw when more than half of
+  its texels carried a flag. Lynae9 draws legs, tights and shorts in ONE range that is mostly skin, so the majority
+  rule left her tights where they did not belong. `DrawReroute::share` (`0.01` there) is the knob. After changing
+  any such rule, re-check every mod an earlier fix of that rule was for.
+- **Tell the game agent what is NOT a fault, in the brief.** Otherwise it re-flags these every epoch:
+  - Each card plays its OWN idle pose. A sleeve clipping on one card and not the other, or an arm held
+    differently, is the pose (Lynae10's clip, Lynae11's arm).
+  - Some differences are the mod's design, not the remap (Lynae1's heels).
+  - Every stated limitation already in `remapGrading.rst` goes in the brief too.
+- **A shot that cannot be judged is re-shot, never classified.** Examples: the head out of frame because the mod
+  scales the model (Lynae9's `Size = 1.15`), the wrong scene, or the card's intro effect still playing. Three such
+  shots were the last thing done before the hand-over.
+- **Check the scene before every scripted run.** Several Lynae runs started while the game was still in the
+  overworld, and every studio shot of those runs was useless. Open the studio first and look at a screenshot, then
+  start the script.
+- **Exactly one mod of the character is installed during a run.** The epoch wrappers parked every other `Lynae*`
+  folder, including the maintainer's own LynaePeppermint4. The bare compare script did not, and a stray second
+  mod draws over the one under test. Restore each parked folder afterwards and check `d3dx.ini` against its md5.
+- **A limitation needs a measured cause.** "The props pass does not exist in the skin's frame" was measured and is
+  a limitation. "Two causes ruled out, cause not found" is not: write it in the hand-off as open, with what was
+  tried. The small colour shifts Lynae was handed over with (tie, coat panel, bell, sheer bra from below) are this
+  second kind, and the hand-off says so.
+- **Repeat a promising single shot before building on it.** One frame where Lynae1's sheer bra looked right was
+  the start of a light-direction change that, repeated twice per condition, shredded the model. Compare at least
+  two frames per condition, interleaved.
+- **Ship only the change a fault needs.** Narrowing `flatFallsBackToSource` moved 13 mods' bindings for no visible
+  gain on the item it was aimed at, and was reverted. A change that moves many mods and fixes nothing is a
+  regression risk with no upside.
+
+### A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (the maintainer, 2026-10-16)
+
+From the maintainer's GI experience: **a game's shaders change with updates far faster than its meshes or
+textures**. A fix's custom `.hlsl` is a copy of one game version's shader. When the game rewrites that shader family,
+the copy silently stops matching (G-buffer layout, constant buffers, registers), and every mod fixed with it breaks at
+once. So GI remaps add no new shaders, and add a texture only to fill a register the target reads and the source lacks
+(an invented normal map, say). No TexFx-style extras that push glow or luminosity through a texture's channels.
+
+How to apply it:
+
+1. Prefer the target's OWN shader, reached through registers, texture edits and downloads.
+2. Reach for a custom shader only when a MEASURED fault has no other fix. Say so explicitly when you propose one.
+3. List every shipped shader in the remap's docs as an update risk.
+
+Lynae <-> LynaePeppermint is the counter-example: it ships ten such shaders (her five on the skin's slots, the skin's
+on hers). Whether to make it lighter is the maintainer's call. For the next WuWa pair, try the target's own shaders
+first and record why each custom one was unavoidable.
 
 <br>
 
@@ -1758,6 +1823,95 @@ the mod on its own card. What it found:
   traps: comparing a G-buffer against a dump from an older build, and JPG render targets (linearised, no alpha).
   The Peppermint card replays a paint-splash animation over most captures; take a burst of shots and keep the one
   with the least splash.
+  **A RABBITFX MOD, AND WHICH SHADER DRAWS EACH OF ITS PARTS (2026-10-15).** RabbitFX patches the GAME's shaders
+  by regex (its `ShaderRegexMain` rewrites the first texture reads to its own slots t60-t65, routed by flags
+  `x187`-`w187` it sets from type tags on the textures the draw binds), so it can never patch a custom shader --
+  and a precompiled patched shader (`-ps_regex.bin`) does not load as a `CustomShader` either (the part simply
+  vanished). Which way each part goes was settled card against card on Lynae8, Lynae10 and Lynae11, the three
+  RabbitFX mods: her HAIR and UPPER BODY use her own shaders with the RabbitFX files bound directly (RabbitFX only
+  swaps their textures -- Lynae11's tie came out right only this way), and her JACKET and LOWER BODY keep the
+  skin's RabbitFX-patched shaders (`Shader::yieldToRabbitFX`), because there RabbitFX changes the material too:
+  her jacket's film goes off (Lynae11's lining is pink on her card, and her own film shader drew it teal) and
+  Lynae11's robotic legs render as white plastic (her own lower-body shader drew them as skin). Do not try to
+  derive RabbitFX's routing from its regex by hand: on her own draws t0, t1 and t3 are unbound and the patch still
+  renders colour, which the reading I made could not explain -- test each part in game.
+  **SUPERSEDED (2026-10-16): RABBITFX IS CARRIED INSIDE HER SHADERS NOW, AND THE "UNBOUND" REGISTERS WERE THE MOD'S
+  OWN FILES.** A `dump = desc` file with no `=hash` in its name is a texture 3DMigoto loaded from a mod, not an empty
+  slot -- Lynae11 overrides her t0 / t1 / t3 with its own maps (2048 x 4096, one mip), which RabbitFX does not tag,
+  and its log of `SetTextures` in a frame dump of her card says so: `x187 = 0`, `y187 = 0`, `w187 = 1` on her lower
+  body. RabbitFX does not route by ROLE: there it reads the mod's LIGHTMAP at her normal-map sample and leaves her
+  diffuse alone, which is why "her shader with the files bound by role" drew Lynae11's legs as skin. The yield to
+  the skin's shader lost the rest: epoch 6 found Lynae11's waist glow (Skirt=5 / 9), knee bands, thigh film and
+  skirts, and Lynae10's belt wrong. Now `Tools/Misc/Diagnostics/wwmiRabbitFXSites.py` runs RabbitFX's own
+  `ShaderRegexMain` over a shader's assembly (the game's, or `fxc`'s of the decompiled HLSL -- they agree on her
+  lower body except two cut-out reads only the game's has) and prints its sample sites, and
+  `wwmiShaderData.py --rabbitfx <sites>` writes the patch's selection into the HLSL: each site samples its own
+  texture and the one RabbitFX routes there, and picks by the flags at `IniParams[187]` and which of t60-t65 are
+  bound, plus the glow of `CommandList\RabbitFX\Run` (Lynae3's back strips). The fix keeps the mod's RabbitFX
+  lines and pins the flags to HER textures' tags on every part her shaders draw (`SourceComponent::rabbitFX`); the
+  skin's slot shaders are all RabbitFX-patched, so `SetTextures` binds t60-t65 there. Seen card against card on
+  Lynae11 (default, a, s, Skirt=9), Lynae10 (default, b), Lynae3 and Lynae8, 2026-10-16. RabbitFX's menu tweak is gated on its censor key and is not carried.
+  **AND A MOD'S OWN TOGGLED `ps-t` LINE ABOVE THE FIX'S TEXTURE LIST IS REPLAYED AFTER IT (2026-10-16).** Lynae3's
+  `if $Wish == 1: ps-t2 = <the upper diffuse>` puts a lace pattern on her jacket through her material-code
+  register; carried to the top of the remapped section, the fix's texture list rebound `ps-t2` after it.
+  `toggledRegLinesBefore` re-emits such lines, with their conditions, at the end of the list.
+  **AND THE SKIN'S SHIRT DRAWS ITS OPAQUE PASS WITH HER SOLID SHADER (2026-10-16, `Shader::passPs`).** Away from the
+  body the reverse drew the skin's shirt component opaque with its SEE-THROUGH shader, and her lemon earrings,
+  necklace and bag strap came out pale and half see-through. Painting the see-through shader's output on both cards
+  (a ShaderFixes replacement of `0b6e3ef7` on hers, the fix's `.hlsl` on Lynae's) showed it never touches those
+  parts on her card: her solid pass `efc2690a` draws them. `passPs` gives a pass its own HLSL; the opaque pass now
+  uses `efc2690a`.
+  **EPOCH 7 (2026-10-16) FOUND TWO MORE, BOTH FIXED.** *A one-variant texture toggle*: Lynae3 replaces its hair
+  block's textures only `if $Hairs == 1`, in sections named `[TextureOverrideX]` / `[TextureOverrideXX]`, and at
+  `$Hairs = 0` her loose hair draws with the GAME's. `readConditionalBindings` only looked at sections named
+  `TextureOverrideTexture*` and only at toggles of two or more files, so the fix bound the block's textures always and
+  the loose hair's bun came out lime and teal. It now takes any texture override that is not a mesh section, treats one
+  `this` under a condition other than `$object_detected` as a toggle (`singleToggled_`), plans the role's game texture
+  (`planSingleToggles`) and puts it first in the role's copied list. One trap on the way: `IfPredPart::getTestStr()`
+  keeps the line's newline, so the first build compared `"$object_detected\n"` against `"$object_detected"` and turned
+  every `if $object_detected` override into a list. *The lower body's outline*: `offPasses` had taken ALL of her lower
+  body off the skin's upper-body outline pass (`f8c96a27`) for Lynae9's lime tights -- but Lynae2's torn top is dark on
+  her own card only through the outline shell of the fabric under the skin (a per-draw RT diff of her card put the dark
+  patches on her lower-body OUTLINE pass `30ab50e7`, not on the body pass), so the remap drew it pale and see-through.
+  Only the draws her code map flags `0x80` (Lynae9's tights and shorts) stay off the pass now, rerouted to plan 104 (a
+  twin of plan 4 with `offPasses`). Two wrong suspects first, each cleared by an in-game build: stale RabbitFX
+  bindings at `t60..t65` (nulled, no change) and the flat-mask fallback (`flatFallsBackToSource` swaps Lynae2's flat
+  lower mask for her game mask; binding the mod's flat mask instead changed nothing visible, and since it moved 13
+  mods' bindings for no proven gain it was reverted -- ship only the change a fault needs). **When a part regresses between epochs, line up its shots
+  from every epoch first** (`*_<tag>R_<column>.png` are all kept): Lynae2 had lightened in two steps, which pointed at
+  a pass rather than a shader input.
+  **EPOCH 8 (2026-10-17): no regressions, and two dead ends worth not repeating.** *The film foil's mip level*: forcing
+  the hip-pouch film draws (plans 105 / 106) to read her foil at mip 0 changed nothing on Lynae11's belt flap, which
+  stays dark / red -- her props film is the props limitation, not a sampling fault. *Handing her shaders her own light
+  direction*: a `vs-cb6` built from the skin's material buffer with her angle rows moved in looked like it made Lynae1's
+  sheer bra see-through on one shot; repeated twice per condition it SHREDDED the cups and broke the arm's shading
+  (the skin's vertex shaders read other rows of that buffer too). **Repeat a promising single shot before building on
+  it** -- the one good-looking frame was the breakage. Lynae9's top is her props film too (a paint of plan 106 alone
+  covers it). What is left after epoch 8 is written as limitations: small colour shifts (tie, a holographic coat panel,
+  a metal bell, a sheer bra from below) and her props film parts.
+  **Over the BODY it is a stated limit now (2026-10-16, `remapGrading.rst`)**: LPIdentity's
+  necklace stones and LP2's strap, bow and starfish stay paler on Lynae's card. On HER card those parts are drawn
+  by the see-through passes only (`0b6e3ef7` shirt, `4470be47` coat -- a per-draw RT diff shows her solid passes
+  `efc2690a` / `12fcca8e` touch nothing over the body), so the reverse already uses the right shader there. What
+  was measured, so nobody repeats it: frame dumps with the pass's output painted into RT3 (`dump_rt jpg`, both
+  cards, the fix's `.hlsl` and a ShaderFixes copy of the game's shader edited alike) give the SAME `o3.w` and the
+  SAME `o3.rgb` on both cards; `ps-cb0..cb4` agree where the shader reads them; the textures are the same downloads
+  (LP2 replaces only the foil). The one input that differs is `TEXCOORD1.xy` / `TEXCOORD4.x`: a LIGHT DIRECTION each
+  vertex shader builds from its own material buffer `vs-cb6` -- the skin's VS (`fd92e896`) reads `cb6[86..90]`
+  (flag 0, so a default 45 degrees), Lynae's (`343a49bd`) reads `cb6[95..99]` (flag 1, 15 degrees plus
+  `cb2[32].z`). Binding the custom draws a `vs-cb6` with the skin's values at Lynae's offsets changed nothing
+  visible, and so did the same swap the other way round for the forward direction's tie (item 20). Alpha-blending
+  RT1 and RT2 too (the fix overwrites them) was marginal. What is left is how Lynae's frame lights the
+  see-through G-buffer. Two traps from this hunt: a lit in-game paint misreads values (a `v5.y` that is identical
+  on both cards looked different under the two cards' lighting -- dump the RT instead), and a VS left SELECTED by
+  hunting is skipped in every later dump (`SKIPPED DUE TO HUNTING` in the dump's log; see the memory note on
+  `marking_mode`).
+  The props translucency
+  (Lynae14's hat brim, overskirt and sleeves, every mod's ID card) is a stated limit in `remapGrading.rst`: her
+  card draws that component in a forward translucency pass (`bb718d76` / `9a01e7bd`, a 3-D light volume and seven
+  constant buffers) the skin's frame never schedules, and the skin's own see-through pass blends only over a
+  body, so a brim against the sky cannot be reproduced; drawing her props only in that see-through pass made them
+  vanish over the background, and stencil-splitting the two pouch passes left them looking as before.
 
 <br>
 
@@ -1922,6 +2076,7 @@ Before writing a helper, find the class:
 | move, copy or drop keys (`this` -> `ps-t1`, `ps-t0` -> two registers, strip `hash`) | `RegRemap` (a list value COPIES a key into several), `RegRemove`, `RegNewVals` |
 | edit, create or rename a texture a register references | `ResRegCollect` + `TexReplace(fixFunc = ...)` / `TexCreate` -- the library names the file, writes the resource section and the undo removes it |
 | a set of buffers that depend on each other | `ResGroupCollect` |
+| write a file the fix knows the bytes of (a `CustomShader`'s `.hlsl`, its constant buffer) | build the sections into a graph (`GraphCreate`), then `ResRegCollect` + `FileAddCreate` for a register naming a `[Resource...]` (`ps-cb4`) or `FileRefAdd` for one whose VALUE is the file (`ps = x.hlsl` -- 3DMigoto takes only a path there; a resource name made the part vanish, tested 2026-10-15). Both hand the service a `RemapFileAddResource`, so the file is counted in `stats.fileAdd` and the undo removes it. `WWMIFixer`'s `addShaderGraphs` is the worked example (2026-10-16) -- and since only a file a section NAMES is created, a shader no draw uses no longer leaves an orphan the undo cannot find |
 | put one graph's roots into another graph (`reg = <root>`, `run = <root>`) | `GraphInherit` |
 | a texture the mod does not ship | the parser's `downloads` |
 | the mod's `$swapvar` toggles around a binding | nothing -- the section graph keeps the `if` structure, so collect/remap the graph instead of re-parsing text |

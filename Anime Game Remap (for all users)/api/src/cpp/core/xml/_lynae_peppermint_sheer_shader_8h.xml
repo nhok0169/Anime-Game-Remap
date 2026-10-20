@@ -6,30 +6,6 @@
     <includedby refid="_lynae_peppermint_fixer_8cpp" local="yes">src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</includedby>
     <includedby refid="_lynae_peppermint_sheer_shader_8cpp" local="yes">src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp</includedby>
     <incdepgraph>
-      <node id="50">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="109">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="95">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="55">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="106">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="70">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="111">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -1189,6 +1165,30 @@
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
+      </node>
+      <node id="50">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="95">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="55">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="106">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="70">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="89">
         <label>Generator.tpp</label>

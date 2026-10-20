@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="251" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="251" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="378" column="26" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="378" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -47,7 +47,7 @@ where the target slot samples the same roles in the same order as the source&apo
 **Default**: none, RabbitFX&apos;s lines are removed as :cpp:member:`removedRegs` says
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="243" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="243" bodyend="252"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="370" column="13" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="370" bodyend="379"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1_1_rabbit_f_x_1a11319d1a5c0761cc779fed3586045bc9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent::RabbitFX</scope><name>gameTags</name></member>
     </listofallmembers>

@@ -305,6 +305,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                      ("stencil_front", "equal replace keep keep"), ("stencil_back", "equal replace keep keep")],
                     [("mask[0]", "0xf"), ("mask[1]", "0xf"), ("mask[2]", "0xf"), ("mask[6]", "0xf"),
                      ("stencil_front", "not_equal replace keep keep"), ("stencil_back", "not_equal replace keep keep")]]
+    # ...and that opaque pass with her SOLID jacket shader (core's LynaePeppermintFixer)
+    with open(os.path.join(Here, "data", "lynaePeppermintSolidShader.json"), encoding = "utf-8") as f:
+        sheer.passPs = ["", json.load(f)["ps"]]
     bodyMark = [("depth_stencil_state_merge", "true"), ("depth_func", "equal"), ("depth_write_mask", "zero"),
                 ("stencil_enable", "true"), ("stencil_ref", "1"), ("stencil_write_mask", "1"), ("stencil_read_mask", "0xff"),
                 ("stencil_front", "always replace keep keep"), ("stencil_back", "always replace keep keep")]

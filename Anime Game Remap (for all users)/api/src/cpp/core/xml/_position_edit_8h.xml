@@ -11,18 +11,6 @@
     <includes local="yes">PositionEdit.tpp</includes>
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
     <incdepgraph>
-      <node id="56">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="61">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="70">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="76">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -904,6 +892,18 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
+      </node>
+      <node id="56">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="61">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="70">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="90">
         <label>Generator.tpp</label>

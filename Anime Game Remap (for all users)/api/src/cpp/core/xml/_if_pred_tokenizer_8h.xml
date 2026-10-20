@@ -6,12 +6,6 @@
     <includedby refid="_if_pred_part_8cpp" local="yes">src/model/iftemplate/IfPredPart.cpp</includedby>
     <includedby refid="_if_pred_tokenizer_8cpp" local="yes">src/tools/parsing/IfPredTokenizer.cpp</includedby>
     <incdepgraph>
-      <node id="20">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="18">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="15">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
@@ -127,6 +121,12 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+      </node>
+      <node id="20">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="18">
+        <label>BiMap.tpp</label>
       </node>
       <node id="3">
         <label>cstddef</label>

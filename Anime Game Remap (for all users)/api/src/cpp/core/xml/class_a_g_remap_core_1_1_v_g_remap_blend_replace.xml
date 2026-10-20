@@ -81,7 +81,7 @@ conversion can be hardcoded here
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1aa98a8f46a361e26b0ae278786d491621" prot="public" static="no">
-        <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1a810f194ea8fe1106a4d2ad905b388846" kindref="member">Base::Context</ref></type>
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Base::Context</ref></type>
         <definition>using AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::Context = typename Base::Context</definition>
         <argsstring></argsstring>
         <name>Context</name>
@@ -483,12 +483,13 @@ reports ``0 Blend.buf files`` while the files sit on disk
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h" line="127" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;::buildResModel</definition>
         <argsstring>(const std::string &amp;resType, const std::string &amp;srcPath, const std::string &amp;fixedPath, const std::string &amp;modName, const std::string &amp;fileKey, Context &amp;ctx) override</argsstring>
         <name>buildResModel</name>
         <qualifiedname>AGRemapCore::VGRemapBlendReplace::buildResModel</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplements>
         <param>
           <type>const std::string &amp;</type>
           <declname>resType</declname>
@@ -877,102 +878,13 @@ Builds and saves the resources, given the :cpp:class:`IniSectionGraph` for a res
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="329" column="26"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type>void</type>
-        <definition>void AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;::buildResModel</definition>
-        <argsstring>(const std::string &amp;resType, const std::string &amp;srcPath, const std::string &amp;fixedPath, const std::string &amp;modName, const std::string &amp;fileKey, Context &amp;ctx) override</argsstring>
-        <name>buildResModel</name>
-        <qualifiedname>AGRemapCore::ResReplace::buildResModel</qualifiedname>
-        <reimplements refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f">buildResModel</reimplements>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>resType</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>srcPath</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>fixedPath</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>modName</declname>
-        </param>
-        <param>
-          <type>const std::string &amp;</type>
-          <declname>fileKey</declname>
-        </param>
-        <param>
-          <type><ref refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1aa98a8f46a361e26b0ae278786d491621" kindref="member">Context</ref> &amp;</type>
-          <declname>ctx</declname>
-        </param>
-        <briefdescription>
-<para>Builds an :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource" kindref="compound">IniFixResource</ref></computeroutput> (which carries both paths), and stores it. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>resType</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name for the type of resource </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>srcPath</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The file path to the original resource </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>fixedPath</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The file path to the fixed resource </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>modName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The name of the mod to fix to. Unused by this edit </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>fileKey</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The assigned id for the source file </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>ctx</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The .ini file the resource is being built for </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="507" column="18"/>
-      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>virtual void AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseResEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1a8c2f97c56f0615bf7bcb0743ddef7f6e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
@@ -1274,6 +1186,7 @@ Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
         <argsstring>(const CollectedSections &amp;collectedSections, Context &amp;ctx, GraphGroups &amp;graphGroups, const std::string &amp;modName=&quot;&quot;, const ResourceFilter &amp;resourceFilter={}, bool copySections=false)</argsstring>
         <name>buildResources</name>
         <qualifiedname>AGRemapCore::BaseResEdit::buildResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_ref_add_1ad9639215744332f1526fb7649b23b7f6">buildResources</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_res_replace_1a965c4b36f278faa35693308e6bcfed3a" kindref="member">CollectedSections</ref> &amp;</type>
           <declname>collectedSections</declname>
@@ -1602,8 +1515,7 @@ signal -- the section names, the file on disk, the fix&apos;s own summary line -
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af62b9630363bbef83c2c1ffb6f6ff5b8" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>BaseResEdit</name></member>
-      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResModel</name></member>
-      <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" prot="public" virt="virtual" ambiguityscope="AGRemapCore::RemapBlendReplace::"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2" prot="public" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResModel</name></member>
       <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResModels</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" prot="public" virt="virtual" ambiguityscope="AGRemapCore::BaseResEdit::"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResModels</name></member>
       <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" virt="virtual"><scope>AGRemapCore::VGRemapBlendReplace</scope><name>buildResources</name></member>

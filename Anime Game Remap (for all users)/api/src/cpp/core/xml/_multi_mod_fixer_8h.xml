@@ -10,21 +10,6 @@
     <includes refid="_base_ini_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</includes>
     <includes local="yes">MultiModFixer.tpp</includes>
     <incdepgraph>
-      <node id="32">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="74">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="73">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="38">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="47">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="53">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -602,6 +587,21 @@
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
+      </node>
+      <node id="32">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="74">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="73">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="38">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="47">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="68">
         <label>Generator.tpp</label>

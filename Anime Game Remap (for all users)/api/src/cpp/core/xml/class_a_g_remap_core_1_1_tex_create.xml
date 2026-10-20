@@ -515,6 +515,7 @@ The fixed texture file path -- :cpp:func:`IniNamingTools::getFixedTexFile`
         <argsstring>(const std::string &amp;sectionName, const std::string &amp;modName)=0</argsstring>
         <name>buildSection</name>
         <qualifiedname>AGRemapCore::ResCreate::buildSection</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1a7e0cc91b4ac33212dc2bbee35f4d5525">buildSection</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1a75d5e51afd6bd2d97ccdb512c7a03eb1">buildSection</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
@@ -796,10 +797,13 @@ Retrieves a unique id for a file within a single ``.ini`` file :raw-html:`&lt;br
         <argsstring>(const std::string &amp;resType, const std::string &amp;srcPath, const std::string &amp;fixedPath, const std::string &amp;modName, const std::string &amp;fileKey, Context &amp;ctx)</argsstring>
         <name>buildResModel</name>
         <qualifiedname>AGRemapCore::BaseResEdit::buildResModel</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_position_edit_replace_1ac8dcc5437947d0a46e6e409a63f56f2f">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2">buildResModel</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>resType</declname>
@@ -1040,6 +1044,7 @@ getFixResourceName, or the `section`_&apos;s own name when that reports no chang
         <argsstring>(const CollectedSections &amp;collectedSections, Context &amp;ctx, GraphGroups &amp;graphGroups, const std::string &amp;modName=&quot;&quot;, const ResourceFilter &amp;resourceFilter={}, bool copySections=false)</argsstring>
         <name>buildResources</name>
         <qualifiedname>AGRemapCore::BaseResEdit::buildResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_ref_add_1ad9639215744332f1526fb7649b23b7f6">buildResources</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_res_create_1a871838c60f57dc26b97ffa6772284ec6" kindref="member">CollectedSections</ref> &amp;</type>
           <declname>collectedSections</declname>

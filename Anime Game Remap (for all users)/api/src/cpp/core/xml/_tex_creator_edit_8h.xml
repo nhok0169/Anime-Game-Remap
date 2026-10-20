@@ -12,21 +12,6 @@
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_component_fixer_8cpp" local="yes">src/data/IniFixData/GIMIComponentFixer.cpp</includedby>
     <incdepgraph>
-      <node id="18">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
-      </node>
-      <node id="61">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="98">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="65">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="74">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="80">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -908,6 +893,21 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="61">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="98">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="65">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="74">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="94">
         <label>Generator.tpp</label>

@@ -24,6 +24,7 @@ namespace AGRemapCore {
         ini.clear();
         texEdit.clear();
         texAdd.clear();
+        fileAdd.clear();
         download.clear();
     }
 
@@ -41,6 +42,7 @@ namespace AGRemapCore {
         if (resourceType == "ini") { return &ini; }
         if (resourceType == "texEdit") { return &texEdit; }
         if (resourceType == "texAdd") { return &texAdd; }
+        if (resourceType == "fileAdd") { return &fileAdd; }
 
         // The same two buckets under the names the RESOURCE classes carry.
         //
@@ -55,6 +57,7 @@ namespace AGRemapCore {
         // "RemapTexAdd"), and the remover's names are what the removal half already records under.
         if (resourceType == "resourceRemapTexEdit") { return &texEdit; }
         if (resourceType == "resourceRemapTexAdd") { return &texAdd; }
+        if (resourceType == "resourceRemapFileAdd") { return &fileAdd; }
 
         // And the blend's, for the same reason: the compiled VGRemapBlendReplace names its models
         // "blend", but RemapBlendReplace -- the one a Python-side fix builds its own models through --

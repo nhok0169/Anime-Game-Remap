@@ -91,14 +91,16 @@ namespace AGRemapCore {
         };
 
         // ---- which role each of HER registers binds, per component (her own draws, wwmiPassLayout.py),
-        // plus RabbitFX's resource lines, which a RabbitFX mod sets instead of any ps-t ----
+        // plus RabbitFX's resource lines, which a RabbitFX mod sets instead of any ps-t -- only for the parts
+        // the skin's shaders draw (face, props, eyes): her own shaders read RabbitFX's maps themselves, by
+        // RabbitFX's routing, which is not by role (see the fixer's note on RabbitFX) ----
         facts.registerRoles = {
-            {0, {{"ps-t0", "bangsMask"}, {"ps-t1", "bangsDiffuse"}, {"ps-t4", "hairShadeRamp"}, {"ps-t5", "bangsStrand"}, {"Resource\\RabbitFX\\Diffuse", "bangsDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "bangsMask"}}},
-            {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t4", "hairShadeRamp"}, {"ps-t5", "hairStrand"}, {"Resource\\RabbitFX\\Diffuse", "hairDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "hairMask"}}},
+            {0, {{"ps-t0", "bangsMask"}, {"ps-t1", "bangsDiffuse"}, {"ps-t4", "hairShadeRamp"}, {"ps-t5", "bangsStrand"}}},
+            {1, {{"ps-t0", "hairMask"}, {"ps-t1", "hairDiffuse"}, {"ps-t2", "hairRamp"}, {"ps-t4", "hairShadeRamp"}, {"ps-t5", "hairStrand"}}},
             {2, {{"ps-t0", "faceMask"}, {"ps-t1", "faceDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "faceDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "faceMask"}}},
-            {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "upperDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "upperMask"}, {"Resource\\RabbitFX\\Normalmap", "upperNormal"}}},
-            {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}, {"ps-t8", "lowerSheer"}, {"Resource\\RabbitFX\\Diffuse", "lowerDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "lowerMask"}, {"Resource\\RabbitFX\\Normalmap", "lowerNormal"}}},
-            {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "jacketDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "jacketMask"}, {"Resource\\RabbitFX\\Normalmap", "jacketNormal"}}},
+            {3, {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDetail"}, {"ps-t3", "upperDiffuse"}}},
+            {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}, {"ps-t8", "lowerSheer"}}},
+            {5, {{"ps-t0", "jacketNormal"}, {"ps-t1", "jacketMask"}, {"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}}},
             {6, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "propsDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "propsMask"}, {"Resource\\RabbitFX\\Normalmap", "propsNormal"}}},
             {7, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}, {"Resource\\RabbitFX\\Diffuse", "eyeDiffuse"}, {"Resource\\RabbitFX\\Lightmap", "eyeMask"}}},
         };

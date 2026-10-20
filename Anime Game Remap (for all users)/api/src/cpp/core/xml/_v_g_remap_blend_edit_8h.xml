@@ -15,27 +15,6 @@
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <incdepgraph>
-      <node id="66">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="109">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="122">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="71">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="125">
-        <label>BlendEdit.tpp</label>
-      </node>
-      <node id="85">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="89">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -1301,6 +1280,27 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+      </node>
+      <node id="66">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="122">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="71">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="125">
+        <label>BlendEdit.tpp</label>
+      </node>
+      <node id="85">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="103">
         <label>Generator.tpp</label>

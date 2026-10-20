@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="class_a_g_remap_core_1_1_base_res_edit" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::BaseResEdit</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_file_ref_add" prot="public" virt="non-virtual">AGRemapCore::FileRefAdd&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_create" prot="public" virt="non-virtual">AGRemapCore::ResCreate&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_identity" prot="public" virt="non-virtual">AGRemapCore::ResIdentity&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_res_replace" prot="public" virt="non-virtual">AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
@@ -313,6 +314,7 @@ exists
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseResEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1a8c2f97c56f0615bf7bcb0743ddef7f6e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
@@ -471,6 +473,8 @@ argument of \ref buildResGraph)
         <name>getFixResourceName</name>
         <qualifiedname>AGRemapCore::BaseResEdit::getFixResourceName</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_buf_replace_1a60397dfa0dc9c658010dd34b21b8e16d">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_add_create_1ac7f00065461b965755bfc684f4643c9c">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_ref_add_1aea1ee5918e0661cc88d146d5eb11b5c6">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
@@ -602,10 +606,13 @@ and the fixed resource
         <argsstring>(const std::string &amp;resType, const std::string &amp;srcPath, const std::string &amp;fixedPath, const std::string &amp;modName, const std::string &amp;fileKey, Context &amp;ctx)</argsstring>
         <name>buildResModel</name>
         <qualifiedname>AGRemapCore::BaseResEdit::buildResModel</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_position_edit_replace_1ac8dcc5437947d0a46e6e409a63f56f2f">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_replace_1a13523094851d8903d6effed1852b6a31">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace_1af55f08fc5b17f2adf0888a17439745f2">buildResModel</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>resType</declname>
@@ -945,6 +952,7 @@ Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
         <argsstring>(const CollectedSections &amp;collectedSections, Context &amp;ctx, GraphGroups &amp;graphGroups, const std::string &amp;modName=&quot;&quot;, const ResourceFilter &amp;resourceFilter={}, bool copySections=false)</argsstring>
         <name>buildResources</name>
         <qualifiedname>AGRemapCore::BaseResEdit::buildResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_file_ref_add_1ad9639215744332f1526fb7649b23b7f6">buildResources</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">CollectedSections</ref> &amp;</type>
           <declname>collectedSections</declname>
@@ -1134,76 +1142,88 @@ Base class to construct the necessary parts for a particular resource in a ``.in
         <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_res_edit"/>
       </node>
-      <node id="7">
+      <node id="9">
         <label>AGRemapCore::BufReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_buf_replace"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
-        <label>AGRemapCore::PositionEditReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_position_edit_replace"/>
-        <childnode refid="10" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>AGRemapCore::RemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_remap_blend_replace"/>
-        <childnode refid="6" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>AGRemapCore::RemapPositionReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_remap_position_replace"/>
-        <childnode refid="6" relation="public-inheritance">
+      <node id="4">
+        <label>AGRemapCore::FileAddCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_file_add_create"/>
+        <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
+        <label>AGRemapCore::FileRefAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_file_ref_add"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore::PositionEditReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_position_edit_replace"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore::RemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_remap_blend_replace"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>AGRemapCore::RemapPositionReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_remap_position_replace"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>AGRemapCore::ResCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_create"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="7">
         <label>AGRemapCore::ResIdentity&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_identity"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="8">
         <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_replace"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="5">
         <label>AGRemapCore::TexCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_tex_create"/>
-        <childnode refid="2" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>AGRemapCore::TexCreatorCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_tex_creator_create"/>
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="13">
+      <node id="6">
+        <label>AGRemapCore::TexCreatorCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_tex_creator_create"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
         <label>AGRemapCore::TexEditorReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_tex_editor_replace"/>
-        <childnode refid="12" relation="public-inheritance">
+        <childnode refid="14" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="14">
         <label>AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_tex_replace"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="11">
         <label>AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace"/>
-        <childnode refid="8" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

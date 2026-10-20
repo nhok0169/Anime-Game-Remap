@@ -223,6 +223,11 @@ List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry
 see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
 **Default**: empty, one draw with :attr:`lines`
         )doc"))
+        .def_readwrite("passPs", &AGRC::WWMIFixerConfig::Shader::passPs, py::doc(R"doc(
+List[:class:`str`]: Per entry of :attr:`passes`, the HLSL that pass draws with in place of :attr:`ps` -- a
+source that draws one component with two shaders, eg. a solid one where the part is opaque and a
+see-through one over a body. An empty entry, or none, keeps :attr:`ps`. **Default**: empty
+        )doc"))
         .def_readwrite("onlyWith", &AGRC::WWMIFixerConfig::Shader::onlyWith, py::doc(R"doc(
 :class:`str`: An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
 that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:
@@ -334,8 +339,13 @@ not a source slot. Its slot and bindings say where they go and what they bind
         .def_readwrite("codeRole", &AGRC::WWMIFixerConfig::DrawReroute::codeRole,
                         py::doc(":class:`str`: The role of the material-code map that marks the draws"))
         .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
-:class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
-its vertices carry any of them
+:class:`int`: The flag bits that mark a texel: a draw goes when more than
+:attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
+        )doc"))
+        .def_readwrite("share", &AGRC::WWMIFixerConfig::DrawReroute::share, py::doc(R"doc(
+:class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
+for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
+among others. **Default**: ``0.5``, more than half
         )doc"))
         .def_readwrite("sourceFlags",&AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
 :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of

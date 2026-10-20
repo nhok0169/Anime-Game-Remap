@@ -218,6 +218,7 @@ pybind11_add_module(core
     src/model/iniresources/PyVGMergeGroupResource.cpp
     src/model/iniresources/PyRemapBlendResource.cpp
     src/model/iniresources/PyRemapTexResource.cpp
+    src/model/iniresources/PyRemapFileResource.cpp
 )
 
 # Forces the linker to use response files (.rsp) to bypass Windows command limits

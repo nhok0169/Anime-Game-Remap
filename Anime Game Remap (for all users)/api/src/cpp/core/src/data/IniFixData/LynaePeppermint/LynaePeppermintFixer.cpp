@@ -25,6 +25,7 @@
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h"
+#include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.h"
 #include "AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
@@ -242,6 +243,10 @@ namespace AGRemapCore {
             {{"mask[0]", "0xf"}, {"mask[1]", "0xf"}, {"mask[2]", "0xf"}, {"mask[6]", "0xf"},
              {"stencil_front", "not_equal replace keep keep"}, {"stencil_back", "not_equal replace keep keep"}},
         };
+        // ...and that OPAQUE pass with her SOLID jacket shader (efc2690a), as her own draw does first: drawn with
+        // the see-through one, her lemon earrings, necklace and bag strap came out pale and half see-through --
+        // a paint of the see-through shader's output showed it never touches them on her card (epoch 6)
+        sheerJacket.passPs = {"", lynaePeppermintSolidShader().ps};
         // ...after her upper body, whichever slot the game draws first: in the overworld her jacket slot
         // draws BEFORE the upper body (the character menu after it), so the shirt blended over her hair,
         // the coat's back panel and the scene behind her, and the body then lost the depth test under it.

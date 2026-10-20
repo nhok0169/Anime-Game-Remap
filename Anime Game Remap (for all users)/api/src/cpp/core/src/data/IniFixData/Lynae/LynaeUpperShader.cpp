@@ -80,6 +80,15 @@ cbuffer cb0 : register(b0)
 Texture1D<float4> IniParams : register(t120);
 
 
+Texture2D<float4> t50 : register(t50);
+Texture2D<float4> t51 : register(t51);
+Texture2D<float4> t60 : register(t60);
+Texture2D<float4> t61 : register(t61);
+Texture2D<float4> t62 : register(t62);
+Texture2D<float4> t63 : register(t63);
+Texture2D<float4> t64 : register(t64);
+Texture2D<float4> t65 : register(t65);
+
 void main(
   linear centroid float4 v0 : TEXCOORD10,
   linear centroid float4 v1 : TEXCOORD11,
@@ -99,6 +108,23 @@ void main(
   out float4 o5 : SV_Target5,
   out float4 o6 : SV_Target6)
 {
+  // ---- RabbitFX's routing (see wwmiShaderData.py --rabbitfx) ----
+  float4 rfxF = IniParams.Load(int2(187, 0));
+  int4 rfxT = (int4)rfxF;
+  bool rfxMany = 1.0 < dot(rfxF, 1);
+  uint rfxW, rfxH;
+  t60.GetDimensions(rfxW, rfxH); bool rfxB60 = (rfxW + rfxH) != 0;
+  t61.GetDimensions(rfxW, rfxH); bool rfxB61 = (rfxW + rfxH) != 0;
+  t62.GetDimensions(rfxW, rfxH); bool rfxB62 = (rfxW + rfxH) != 0;
+  t63.GetDimensions(rfxW, rfxH); bool rfxB63 = (rfxW + rfxH) != 0;
+  t64.GetDimensions(rfxW, rfxH); bool rfxB64 = (rfxW + rfxH) != 0;
+  t65.GetDimensions(rfxW, rfxH); bool rfxB65 = (rfxW + rfxH) != 0;
+  int rfxS_t0 = rfxT.x ? (rfxMany ? (rfxB62 ? 62 : 0) : (rfxB60 ? 60 : 0)) : (rfxB61 ? 61 : 0);
+  int rfxS_t1 = rfxT.y ? (rfxB60 ? 60 : 0) : (rfxB61 ? 61 : 0);
+  int rfxS_t2 = rfxT.z ? (rfxB60 ? 60 : 0) : (rfxT.w ? (rfxB63 ? 63 : 0) : 0);
+  int rfxS_t3 = rfxT.w ? (rfxMany ? (rfxB60 ? 60 : 0) : (rfxB63 ? 63 : 0)) : (rfxMany ? (rfxT.x == 0 ? (rfxB62 ? 62 : 0) : -1) : 0);
+  int rfxS_t4 = rfxB61 ? 61 : 0;
+
   float4 r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17;
   uint4 bitmask, uiDest;
   float4 fDest;
@@ -115,7 +141,7 @@ void main(
   r0.w = dot(-r1.xyz, -r1.xyz);
   r0.w = rsqrt(r0.w);
   r3.xyz = -r1.xyz * r0.www;
-  r4.xyz = t0.Sample(s1_s, v2.xy).xyw;
+  r4.xyz = (rfxS_t0 == 60 ? t60.Sample(s1_s, v2.xy) : (rfxS_t0 == 61 ? t61.Sample(s1_s, v2.xy) : (rfxS_t0 == 62 ? t62.Sample(s1_s, v2.xy) : t0.Sample(s1_s, v2.xy)))).xyw;
   r5.xy = r4.xy + r4.xy;
   r4.xy = r4.xy * float2(2,2) + float2(-1,-1);
   r1.w = dot(r4.xy, r4.xy);
@@ -128,7 +154,7 @@ void main(
   r0.xyz = r4.yyy * r0.xyz;
   r0.xyz = r4.xxx * v0.xyz + r0.xyz;
   r0.xyz = r4.www * v1.xyz + r0.xyz;
-  r4.xyw = t1.SampleLevel(s2_s, v2.xy, cb0[149].y).xzw;
+  r4.xyw = (rfxS_t1 == 60 ? t60.SampleLevel(s2_s, v2.xy, cb0[149].y) : (rfxS_t1 == 61 ? t61.SampleLevel(s2_s, v2.xy, cb0[149].y) : t1.SampleLevel(s2_s, v2.xy, cb0[149].y))).xzw;
   r1.w = -0.5 + r4.y;
   r5.xy = cb4[83].ww * r1.ww + float2(0.5,-0.00199997425);
   r1.w = cb4[84].x * r5.y;
@@ -141,7 +167,7 @@ void main(
   r2.w = dot(r0.xyz, r0.xyz);
   r2.w = rsqrt(r2.w);
   r5.yzw = r2.www * r0.xyz;
-  r3.w = t2.SampleLevel(s3_s, v2.xy, cb0[149].y).x;
+  r3.w = (rfxS_t2 == 60 ? t60.SampleLevel(s3_s, v2.xy, cb0[149].y) : (rfxS_t2 == 61 ? t61.SampleLevel(s3_s, v2.xy, cb0[149].y) : (rfxS_t2 == 63 ? t63.SampleLevel(s3_s, v2.xy, cb0[149].y) : t2.SampleLevel(s3_s, v2.xy, cb0[149].y)))).x;
   r3.w = 255.5 * r3.w;
   r3.w = (int)r3.w;
   r4.y = (int)r3.w & 15;
@@ -177,7 +203,7 @@ void main(
   r5.x = saturate(-r5.x * cb4[85].w + 1);
   r10.xyz = float3(1,1,1) + -r9.xyz;
   r9.xyz = r5.xxx * r10.xyz + r9.xyz;
-  r10.xyzw = t3.Sample(s1_s, v2.xy).xyzw;
+  r10.xyzw = (rfxS_t3 == 60 ? t60.Sample(s1_s, v2.xy) : (rfxS_t3 == 62 ? t62.Sample(s1_s, v2.xy) : (rfxS_t3 == 63 ? t63.Sample(s1_s, v2.xy) : t3.Sample(s1_s, v2.xy)))).xyzw;
   r11.xyz = cb4[16].xyz + -r10.xyz;
   r10.xyz = r1.www * r11.xyz + r10.xyz;
   r9.xyz = r10.xyz * r9.xyz;
@@ -203,7 +229,7 @@ void main(
   r6.w = r6.w ? 1.000000 : 0;
   r11.xyz = cb4[18].xyz * r11.xyz + -r12.xyz;
   r11.xyz = r6.www * r11.xyz + r12.xyz;
-  r7.zw = t1.SampleLevel(s1_s, v2.xy, 0).yw;
+  r7.zw = (rfxS_t4 == 61 ? t61.SampleLevel(s1_s, v2.xy, 0) : t1.SampleLevel(s1_s, v2.xy, 0)).yw;
   r12.xyzw = cmp((int4)r4.yyyy == int4(0,1,2,3));
   r12.xyzw = r12.xyzw ? float4(1,1,1,1) : 0;
   r4.y = cmp((int)r4.y == 4);
@@ -374,7 +400,8 @@ void main(
   r0.w = log2(r0.w);
   r0.w = r12.w * r0.w;
   r0.w = exp2(r0.w);
-  r12.z = r8.w * 2 + -1;
+  r12.z =)hlsl";
+        shader.ps += R"hlsl( r8.w * 2 + -1;
   r12.z = r12.z * r12.z;
   r12.z = r12.z * r12.z;
   r12.w = r11.w + r10.w;
@@ -435,8 +462,7 @@ void main(
   r16.xyz = r13.xxx * r16.xyz + r0.yyy;
   r0.y = -1 + r7.z;
   r0.y = cb4[100].x * r0.y + 1;
-  r17.xyzw = r13.yyyy * float4(-1)hlsl";
-        shader.ps += R"hlsl(.11111116,-0.0305555575,-0.635555625,0.024444446) + float4(1,0.0425000004,1.03999996,-0.0399999991);
+  r17.xyzw = r13.yyyy * float4(-1.11111116,-0.0305555575,-0.635555625,0.024444446) + float4(1,0.0425000004,1.03999996,-0.0399999991);
   r0.z = r17.x * r17.x;
   r0.y = -9.27999973 * r0.y;
   r0.y = exp2(r0.y);
@@ -703,6 +729,40 @@ void main(
   o0.xyz = -r0.xyz;
   o0.w = 0;
   o5.xyzw = v8.zzzz;
+  // ---- RabbitFX's glow (CommandList\RabbitFX\Run), see wwmiShaderData.py --rabbitfx ----
+  {
+    float4 rfxIni = IniParams.Load(int2(172, 0));
+    if (rfxIni.y != 0) {
+      uint rfxGW, rfxGH;
+      t51.GetDimensions(rfxGW, rfxGH);
+      if (rfxGW + rfxGH != 0) {
+        float4 rfxMask = t51.Load(int3((int2)(float2(rfxGW, rfxGH) * frac(v2.xy)), 0), int2(1, 1));
+        if (rfxMask.w == 0) rfxMask = t51.Sample(s0_s, v2.xy);
+        if (rfxMask.w < 1.0) discard;
+      }
+      t50.GetDimensions(rfxGW, rfxGH);
+      if (rfxGW + rfxGH != 0) {
+        float4 rfxC = t50.Load(int3((int2)(float2(rfxGW, rfxGH) * frac(v2.xy)), 0), int2(1, 1));
+        if (rfxC.w == 0) rfxC = t50.Sample(s0_s, v2.xy);
+        float4 rfxShift = IniParams.Load(int2(217, 0));
+        if (rfxC.w != 0) {
+          float4 p = (rfxC.y < rfxC.z) ? float4(rfxC.z, rfxC.y, -1.0, 0.666667) : float4(rfxC.y, rfxC.z, 0.0, -0.333333);
+          float4 q = (rfxC.x < p.x) ? float4(p.x, p.y, p.w, rfxC.x) : float4(rfxC.x, p.y, p.z, p.x);
+          float chroma = q.x - min(q.y, q.w);
+          float hue = q.z + (q.w - q.y) / (chroma * 6.0);
+          float shifted = rfxShift.x + abs(hu)hlsl";
+        shader.ps += R"hlsl(e);
+          shifted = (shifted >= -shifted) ? frac(abs(shifted)) : -frac(abs(shifted));
+          float3 rgb = saturate(abs(frac(shifted + float3(1.0, 0.666667, 0.333333)) * 6.0 - 3.0) - 1.0) - 1.0;
+          float value = max(q.x + rfxShift.z, 0.0);
+          float sat = max(chroma / q.x + rfxShift.y, 0.0);
+          float3 colour = (sat * rgb + 1.0) * value;
+          o3.xyz = colour;
+          o0.xyz = colour * rfxC.w * rfxShift.w;
+        }
+      }
+    }
+  }
   return;
 }
 )hlsl";

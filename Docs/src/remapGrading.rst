@@ -367,10 +367,28 @@ Grading
        | - Lynae's 3.7 update renumbered her skeleton, and a mod's ``vb0`` hash does not say which
        | numbering it was made in, so each mod is read in the numbering its own geometry fits.
        |
-       | - Her headphones, pin and ID card go onto the skin's hip pouch slot, which has no glass / foil
-       | material: they draw opaque. Her sheer stockings and see-through tops draw opaque too.
+       | - Her parts are drawn on the skin's slots with Lynae's own shaders and material constants, her own
+       | lighting ramp and her holographic foil, so her materials (film, satin, sheer tights, metal) shade as
+       | on her own outfit.
        |
-       | - Effects a mod gets from RabbitFX on Lynae's shaders carry over only in part.
+       | - **Limitation:** Lynae's props component --- her headphones, pin and ID card, and whatever a mod puts
+       | there (one mod's hat brim, overskirt and sleeves) --- is drawn on her own outfit by a translucency pass
+       | that the skin's outfit never runs. On the skin these parts draw opaque: a see-through brim or veil
+       | comes out solid, and a part the mod marks as film comes out dimmer instead (one mod's white belt
+       | flap, which also reads red and glows), or browner and less see-through (one mod's sheer pink top).
+       |
+       | - A mod that hands its textures or a glow to RabbitFX keeps its look: her shaders carry RabbitFX's
+       | own patch, so each part reads the mod's maps the way RabbitFX routes them on her own outfit.
+       |
+       | - **Limitation:** the bottle she holds is a separate game object, not part of her outfit. The skin's
+       | card shows the skin's own bottle, and a mod that replaces Lynae's (one mod's spray can) is not carried.
+       |
+       | - **Limitation:** small colour differences remain against her own outfit: the lower half of her tie is
+       | a little brighter on every mod that keeps it, a holographic coat panel can take another hue (one
+       | mod's lilac panel comes out olive, another's aqua grey-green), a small metal accessory comes out a
+       | little lighter (one mod's chest bell), and a sheer black bra seen from below comes out solid. Her
+       | shaders are given the same textures and constants on both outfits; the difference comes from the
+       | skin's frame, and was not traced further.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
      - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its
@@ -381,11 +399,17 @@ Grading
        | Lynae's jacket slot, the second in a generated copy ``.ini`` that shares the mod's skeleton.
        |
        | - The skin marks the cloth under a sheer garment differently from Lynae, so every body mask is
-       | repacked into Lynae's legend. Her see-through shirt and coat draw opaque.
+       | repacked into Lynae's legend. Her see-through shirt and coat are drawn with the skin's own
+       | see-through passes and show the body through them, as on the skin.
        |
        | - The lower body's outline pass is handed the skin's diffuse where Lynae's own pass reads a flat
        | white, so the outline follows the skin's own mask and does not show through her layered thigh
        | overlay.
+       |
+       | - **Limitation:** opaque details on the skin's see-through shirt and coat, where they lie over her
+       | body --- a strap, a bow, a pendant, a sheer bikini top --- come out paler, cooler or bluer on Lynae than on
+       | the skin. The see-through pass writes exactly the colour and opacity it writes on the skin (measured
+       | in frame dumps of both); the difference is in how Lynae's frame lights the see-through surface.
        |
        | - Checked in game on five mods, including the character's own model as a mod, from every angle
        | and in every toggle state.

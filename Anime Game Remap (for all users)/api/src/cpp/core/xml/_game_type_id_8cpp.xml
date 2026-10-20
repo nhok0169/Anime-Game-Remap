@@ -8,15 +8,6 @@
     <includes refid="_heading_8h" local="yes">AGRemapCore/tools/Heading.h</includes>
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <incdepgraph>
-      <node id="24">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="23">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="20">
-        <label>BiMap.tpp</label>
-      </node>
       <node id="8">
         <label>AGRemapCore/constants/GameType.h</label>
         <link refid="_game_type_8h"/>
@@ -146,6 +137,15 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
+      </node>
+      <node id="24">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="23">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="20">
+        <label>BiMap.tpp</label>
       </node>
       <node id="26">
         <label>cstddef</label>

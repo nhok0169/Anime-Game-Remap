@@ -85,6 +85,7 @@ inline AGRemapCore::RemapStats toCppRemapStats(const PyRemapStats &py) {
     result.ini = toCppFileStats(py.ini);
     result.texEdit = toCppFileStats(py.texEdit);
     result.texAdd = toCppFileStats(py.texAdd);
+    result.fileAdd = toCppFileStats(py.fileAdd);
     result.download = toCppCachedFileStats(py.download);
     return result;
 }
@@ -154,6 +155,7 @@ inline PyRemapStats fromCppRemapStats(const AGRemapCore::RemapStats &src) {
     result.ini = fromCppFileStats(src.ini);
     result.texEdit = fromCppFileStats(src.texEdit);
     result.texAdd = fromCppFileStats(src.texAdd);
+    result.fileAdd = fromCppFileStats(src.fileAdd);
     result.download = fromCppCachedFileStats(src.download);
     return result;
 }
@@ -180,6 +182,7 @@ inline void copyBackRemapStats(const AGRemapCore::RemapStats &src, PyRemapStats 
     copyBackFileStats(src.ini, dst.ini);
     copyBackFileStats(src.texEdit, dst.texEdit);
     copyBackFileStats(src.texAdd, dst.texAdd);
+    copyBackFileStats(src.fileAdd, dst.fileAdd);
     copyBackCachedFileStats(src.download, dst.download);
 }
 

@@ -117,5 +117,47 @@ the dump's `.dds` like the 53 before it (`179ec8b9` checked identical across the
 The `R8_UNORM` ones are legacy 8-bit luminance `.dds` files, which `TextureFile` cannot decode yet
 (`hasImage` stays false). A fix only fetches and binds them, so nothing here needs the decode.
 
+**`Changli/3_7` and `ChangliNymph/3_7` (2026-10-20)** are WWMI-Assets' `Changli` and `ChangliSkin1` (the
+Laurel Nymph outfit, both last updated there at 2.7), built by `wwmiDownloadFolder.py`, and proved current
+against two character-menu dumps at WuWa 3.7.1 with LOD bias `2` and no Changli mod installed:
+`FrameAnalysis-Changli-2026-10-20-111723` (Light of Embers, the original outfit) and
+`FrameAnalysis-ChangliNymph-2026-10-20-111534` (the Laurel Nymph card selected in Resonator Outfits). Neither
+character moved since 2.7: WWMI Tools' extraction of each dump (`wwmiExtractDump.py --only <vb0>`) rebuilds
+every buffer and `Metadata.json` byte-identical to the asset build (`--check`: 13 identical each), and
+`wwmiCheckDownload.py` finds `Position`, `Vector`, `Color`, `Texcoord` and `Index` among the slots the draws
+bound, 0 unexplained.
+
+| character | `vb0` | `ib` | components | merged skeleton | blend remap | weights |
+| --- | --- | --- | --- | --- | --- | --- |
+| `Changli` | `d14bed8b` | `a1a9a522` (`R32_UINT`) | 8, 69691 vertices | 281 slots, highest bone 275 | component 5 | 4 (8-byte `Blend.buf`) |
+| `ChangliNymph` | `acbfcfec` | `d575b68d` (**`R16_UINT`**) | 8, 64753 vertices | 264 slots, highest bone 263 | component 7 | 8 (16-byte `Blend.buf`) |
+
+Both bind skeleton `cb4` `f02baf77`, and both shape-key checksums match `Metadata.json` (2156 and 1863).
+**ChangliNymph is the first WuWa character under 65536 vertices**, so the game draws her with a 16-bit
+index buffer while `Index.buf` here is `R32_UINT` like every other folder; `wwmiCheckDownload.py` compares
+such a slot widened now (it reported a false FAIL before).
+
+**The textures are WWMI-Assets' (full size, every one of them), under the asset hashes**, the Sanhua shape.
+At LOD bias `2` the game binds different "live" hashes for the same pixels; `<Name>LiveHashes.json` beside
+the version folder maps each asset hash to the live one, paired by pixel correlation off the dumps (22 of
+Changli's 24, 20 of ChangliNymph's 21 -- the file's `_` says which are missing and why). **Changli4** is
+the one installed mod already written against the live hashes. Added beside them, each a byte copy of the
+dump's own `.dds`, are the textures the characters' draws bind that the asset repo lacks and no other
+character's dump (Lynae, LynaePeppermint, Sanhua, SanhuaExorcist, Chisa, ChisaParfait) binds:
+
+| character | added | what |
+| --- | --- | --- |
+| both | `5c290276` | the 512 x 25 `B8G8R8A8_UNORM_SRGB` subsurface lookup nearly every pass of hers binds, somewhere in `ps-t3` - `ps-t7` (Chisa's is `06790f7e`); 3DMigoto writes it as a `.jpg` by default, so it came from a third dump with `analyse_options = dump_tex dds`, `FrameAnalysis-ChangliNymphTexDDS-2026-10-20-112231` |
+| both | `9bb3b36e` | a small `ps-t1` map of the `021a95ef` / `72870d1a` passes, under the extractor's 256 KB floor |
+| `Changli` | `5a9f3650`, `48e4d268` | `ps-t0` of the `705575a2` / `8303f2e4` and `f8c96a27` passes |
+| | `dd9d28ce` | the eye pass's (`e04f4df8`) `ps-t1` |
+| | `2ce995ee` | `ps-t4` of the `7f639abb` / `9d4c7d96` body passes |
+| `ChangliNymph` | `24d13e57` | `ps-t2` of most of her passes |
+| | `a32859fe` | the eye pass's `ps-t1` |
+| | `b4ef021f` | component 4's `ps-t1` at 3.7, which **replaced** the asset's `c4daa4c2` (a different texture, not a rehash: red channel 0.89 correlated). The asset file stays for mods that reference it |
+
+`c0f0b1e1` and `e047ea9c` (Changli, `BC1_UNORM_SRGB`) are bound by no draw of the character-menu frame;
+they are kept from the asset repo with no live hash.
+
 Not yet wired into a parser: `DownloadTools::urlPath` composes `GI/<char>/<version>/...` and needs
 a game folder before a WuWa fixer can fetch these (2026-09-19).

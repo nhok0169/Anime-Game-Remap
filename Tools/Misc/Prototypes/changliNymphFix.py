@@ -23,7 +23,7 @@
 #     4 her legs and skirt (fbe2f2f0) -> slot 4 too, 78%; the second claimant lands in a RemapFix1.ini
 #     5 her coat, shoulder drapes and side sashes -> slot 5, which the skin draws with the SAME shader
 #       (7f639abb); the geometry lies over the skin's shawl (slot 7) and slot 5
-#     7 a 25-vertex chest piece she draws with an emissive shader (bb1c5ba6) -> slot 4, where it lies
+#     7 her 25-vertex chest flame tattoo, drawn with a cut-out emissive shader (bb1c5ba6): NOT drawn (see GAPS)
 #   The skin's sheer dress (3) and shawl (7) take nothing and are skipped by the template.
 #
 # ---- What the library had to gain first (2026-10-20) ----
@@ -37,7 +37,8 @@
 # GAPS this prototype knows about (each is a note for the port, step 7, or for the in-game audit):
 #   * Slot 4's ps-t3 is the skin's UV-mapped glow texture (742c5c7b, shared with her) and her upper / lower
 #     body have no counterpart: bound to an invented flat "no glow" texture until the game says otherwise.
-#   * Her chest piece (7) loses its emissive shader on the skin's lit body shader.
+#   * Her chest tattoo (7) is dropped: the skin has no cut-out shader, and through its lit body shader the quad drew
+#     as a red rectangle (epoch 1). On her own card it is a small dark mark.
 #   * Shape keys: 72 of her 86 face keys are the skin's slots 14-85 by content; the skin's slots 0-13 (two
 #     sets of seven face keys) pair with nothing of hers, and get no offsets (her 72-85 are dropped).
 #   * A mod that draws a component from its OWN mesh buffers (Changli13: [ResourcePositionBuffer.Component5] /
@@ -310,18 +311,14 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
         # the same shader on both: normal at t0, diffuse at t1
         5: SC(5, [B("ps-t0", "coatNormal"), B("ps-t1", "coatDiffuse")]),
         6: SC(6, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
-        # her emissive chest piece: its one texture is the glow map the skin's body reads at t3. The body
-        # shader's normal and mask are UV-mapped, so flat ones stand in at the piece's UVs (the masks share
-        # one legend: R = 255 bare skin, so R 0 is cloth)
-        7: SC(4, [B("ps-t0", "flatNormal"), B("ps-t1", "flatClothMask"), B("ps-t2", "glow"), B("ps-t3", "glow")]),
+        # her chest flame tattoo (7) is NOT drawn: her own shader cuts its shape out of the glow texture's alpha
+        # and draws it as a small dark mark, and the skin has no cut-out shader -- through the skin's body shader
+        # the whole quad drew as a red rectangle on her sternum (in-game audit, epoch 1). Left out, it is dropped
     }
-    # her legs and chest piece share slot 4 with her upper body: drawn from the mod's OWN file, where the
+    # her legs share slot 4 with her upper body: drawn from the mod's OWN file, where the
     # shape-keyed positions are computed (a copy computes none), as Lynae's lower body is
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True
-    plan[7].sameFileSection = True
-    # her chest piece has no outline pass on her own draws
-    plan[7].offPasses = ["f8c96a270bf847dd"]
     config.plan = plan
 
     # ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's second
@@ -329,7 +326,7 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.extraPassRegs = {
         0: {"f8c96a270bf847dd": [B("ps-t0", "bangsOutline")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairOutline")]},
-        4: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4), B("ps-t0", "glow", 7)]},
+        4: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4)]},
         5: {"705575a2e1b4a4b9": [B("ps-t0", "coatOutline")]},
         6: {"e04f4df80ee6b0ab": [B("ps-t1", "eyeHighlight")]},
     }
@@ -337,13 +334,7 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     noGlow = FRB.WWMIFixerConfig.CreatedTexture()
     noGlow.role = "noGlow"
     noGlow.colour = FRB.CppColour(249, 12, 4, 0)
-    def created(role, colour):
-        c = FRB.WWMIFixerConfig.CreatedTexture()
-        c.role, c.colour = role, colour
-        return c
-    # the skin's body normal map averages (126, 127, 47, 102): flat x / y, its own B and A kept
-    config.createdTextures = [noGlow, created("flatNormal", FRB.CppColour(128, 128, 47, 102)),
-                              created("flatClothMask", FRB.CppColour(0, 128, 0, 255))]
+    config.createdTextures = [noGlow]
 
     config.sourceTextures = facts
     config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"}

@@ -3279,8 +3279,36 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // ONE FILE, SEVERAL RESOURCES: the one a section USES names it (2026-10-20). Changli1
+                    // declares `[ResourceTexture19]` on its body diffuse and binds that file only as
+                    // `[Resource-1]`, inside a `$sawpvarA` toggle on the texture's hash; naming the file
+                    // by the first declaration bound the spare and the toggle never reached the target.
+                    std::unordered_set<std::string> usedResources;
+                    if (IniFile* ini = ctx_.getIniFile()) {
+                        for (const auto& tpl : ini->getIfTemplates()) {
+                            if (tpl.second == nullptr) {
+                                continue;
+                            }
+                            for (const auto& part : tpl.second->parts()) {
+                                const auto* content =
+                                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+                                for (const auto& kvp : content->entries()) {
+                                    usedResources.insert(StringTools::toLower(StringTools::strip(
+                                        IniNamingTools::removeRefPrefix(kvp.second)).data()));
+                                }
+                            }
+                        }
+                    }
+
                     for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
-                        scan.resourceOfFile.emplace(entry.second, entry.first);
+                        const auto placed = scan.resourceOfFile.emplace(entry.second, entry.first);
+                        if (!placed.second && usedResources.count(StringTools::toLower(placed.first->second)) == 0
+                                && usedResources.count(StringTools::toLower(entry.first)) > 0) {
+                            placed.first->second = entry.first;
+                        }
                         // ...and the other way, so an edit can reach EVERY variant a toggled role
                         // binds rather than only the one fileOfRole_ resolved to
                         fileOfResource_.emplace(StringTools::toLower(entry.first), entry.second);

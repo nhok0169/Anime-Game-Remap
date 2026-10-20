@@ -106,29 +106,24 @@ namespace AGRemapCore {
             // the same shader on both: normal at t0, diffuse at t1
             {5, {5, {{"ps-t0", "coatNormal"}, {"ps-t1", "coatDiffuse"}}}},
             {6, {6, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
-            // her chest flame tattoo: its one texture is the glow map the skin's body reads at t3. The body
-            // shader's normal and mask are UV-mapped, so flat ones stand in at the tattoo's UVs (the masks
-            // share one legend: R = 255 bare skin, so R 0 is cloth)
-            {7, {4, {{"ps-t0", "flatNormal"}, {"ps-t1", "flatClothMask"}, {"ps-t2", "glow"}, {"ps-t3", "glow"}}, true}},
+            // her chest flame tattoo (7) is NOT drawn: her own shader cuts its shape out of the glow texture's
+            // alpha and draws it as a small dark mark, and the skin has no cut-out shader -- through the
+            // skin's body shader the whole quad drew as a red rectangle on her sternum (in-game audit,
+            // epoch 1). Left out of the plan, it is dropped
         };
-        // her tattoo has no outline pass on her own draws
-        config.plan.at(7).offPasses = {"f8c96a270bf847dd"};
 
         // ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's
         // second pass sets ps-t1 only ----
         config.extraPassRegs = {
             {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsOutline"}}}}},
             {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairOutline"}}}}},
-            {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "glow", 7}}}}},
+            {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}}}}},
             {5, {{"705575a2e1b4a4b9", {{"ps-t0", "coatOutline"}}}}},
             {6, {{"e04f4df80ee6b0ab", {{"ps-t1", "eyeHighlight"}}}}},
         };
 
-        // the skin's body normal map averages (126, 127, 47, 102): flat x / y, its own B and A kept
         config.createdTextures = {
             {"noGlow", Colour(249, 12, 4, 0)},
-            {"flatNormal", Colour(128, 128, 47, 102)},
-            {"flatClothMask", Colour(0, 128, 0, 255)},
         };
 
         config.sourceTextures = changliTextureFacts();

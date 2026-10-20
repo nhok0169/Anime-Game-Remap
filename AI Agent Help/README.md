@@ -88,6 +88,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%A8%F0%9F%94%80%20The%20Recolour%20Carrier-1-%23f59e0b?style=plastic&labelColor=%234c1d95)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%9A%EF%B8%8F%F0%9F%A7%B3%20The%20Toggle%20Ferryman-1-%2314b8a6?style=for-the-badge&labelColor=%23431407)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A9%F0%9F%AA%A1%20The%20Undrawn%20Object%20Mender-1-%2384cc16?style=for-the-badge&labelColor=%237c2d12)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A6%F0%9F%9A%AA%20The%20Pip%20Process%20Splitter-1-%2306b6d4?style=flat-square&labelColor=%231e1b4b)
 
 <br>
 

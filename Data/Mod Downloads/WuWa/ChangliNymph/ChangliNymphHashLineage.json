@@ -1,0 +1,101 @@
+{
+    "_": "ChangliNymph's older texture hashes, from WWMI-Assets' git history (PlayerCharacterData/ChangliSkin1): each old hash, the hash git records it renamed to, the rename's similarity and commit, the old hash's register usage in the TextureUsage.json before that commit, and the role filed in HashData.cpp. Tools/Misc/Diagnostics/wwmiAssetLineage.py --char ChangliNymph --folder ChangliSkin1 --roles <the prototype's roles>.",
+    "2.5": {
+        "529d2b99": {
+            "new": "45938ff1",
+            "similarity": "R084",
+            "commit": "bce4fbe",
+            "components": "0",
+            "role": "bangsDiffuse",
+            "oldUsage": [
+                "0:ps-t0:98cff9d7",
+                "0:ps-t1:98cff9d7",
+                "1:ps-t1:98cff9d7",
+                "2:ps-t1:e5b6a054",
+                "4:ps-t1:98cff9d7",
+                "5:ps-t1:98cff9d7"
+            ]
+        },
+        "6804b3ae": {
+            "new": "8c983968",
+            "similarity": "R090",
+            "commit": "bce4fbe",
+            "components": "0-2",
+            "role": "faceDiffuse",
+            "oldUsage": [
+                "2:ps-t1:d7c55336"
+            ]
+        },
+        "6f7a2dab": {
+            "new": "0484ab73",
+            "similarity": "R087",
+            "commit": "bce4fbe",
+            "components": "1",
+            "role": "hairMap",
+            "oldUsage": [
+                "1:ps-t0:570d5372"
+            ]
+        },
+        "7f7c7b9c": {
+            "new": "edd1df6c",
+            "similarity": "R087",
+            "commit": "bce4fbe",
+            "components": "0",
+            "role": "bangsMap",
+            "oldUsage": [
+                "0:ps-t0:28927357"
+            ]
+        },
+        "91eab4e8": {
+            "new": "0a785985",
+            "similarity": "R097",
+            "commit": "bce4fbe",
+            "components": "1",
+            "role": "hairStrand",
+            "oldUsage": [
+                "1:ps-t2:570d5372"
+            ]
+        },
+        "bfc103ef": {
+            "new": "e5a02d0a",
+            "similarity": "R078",
+            "commit": "bce4fbe",
+            "components": "1",
+            "role": "hairDiffuse",
+            "oldUsage": [
+                "1:ps-t0:98cff9d7",
+                "1:ps-t1:570d5372"
+            ]
+        },
+        "e6947b37": {
+            "new": "b7ea5559",
+            "similarity": "R097",
+            "commit": "bce4fbe",
+            "components": "0",
+            "role": "bangsStrand",
+            "oldUsage": [
+                "0:ps-t2:98cff9d7",
+                "1:ps-t2:98cff9d7",
+                "2:ps-t2:e5b6a054",
+                "4:ps-t2:98cff9d7",
+                "5:ps-t2:98cff9d7"
+            ]
+        },
+        "eb70f116": {
+            "new": "1bc98900",
+            "similarity": "R091",
+            "commit": "bce4fbe",
+            "components": "6",
+            "role": "eyeDiffuse",
+            "oldUsage": [
+                "0:ps-t2:5b320eb9",
+                "2:ps-t2:d693fc35",
+                "6:ps-t2:1c2be6a1"
+            ]
+        }
+    },
+    "notFiled": {
+        "c235c6a7": "the glow ramp, filed under 27 characters in WWMI-Assets: not hers alone",
+        "92c11772": "renamed to 798ec300, a ps-t4 ramp every component shares"
+    }
+}

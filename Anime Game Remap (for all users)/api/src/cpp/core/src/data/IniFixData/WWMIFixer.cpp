@@ -1690,9 +1690,11 @@ namespace AGRemapCore {
 
         // ---- a target whose draws read FEWER influences than the mod carries ----
         //
-        // See WWMIFixerConfig::targetInfluences. Each vertex of the blend the fix has WRITTEN keeps
-        // its `to` heaviest slots (a tie goes to the lower slot), their weights scaled so the vertex's
-        // total is what it was; `vertexVg`, when given, keeps the SAME slots, so its 16-bit ids stay
+        // See WWMIFixerConfig::targetInfluences. Slots of one vertex that name the same bone are
+        // merged first (their weights summed onto the first), since the remap can send two source
+        // bones to one target bone; then each vertex keeps its `to` heaviest slots (a tie goes to the
+        // lower slot), their weights scaled so the vertex's total is what it was. `vertexVg`, when
+        // given, names the bones (its full 16-bit ids) and keeps the SAME slots, so its ids stay
         // paired with those weights. A blend already at the narrower size is left alone, so a buffer
         // several copies share is narrowed once.
         bool narrowPerVertex(RemapBlendResource& resource, const std::string& path, const std::string& vertexVg,
@@ -1742,9 +1744,35 @@ namespace AGRemapCore {
             std::vector<unsigned char> blendOut(vertices * toLine, 0);
             std::vector<unsigned char> vgOut(hasVg ? vertices * to * 2 : 0, 0);
             std::vector<std::size_t> order(from);
+            std::vector<unsigned char> merged(from);
             for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
                 const unsigned char* ids = blend.data() + vertex * fromLine;
-                const unsigned char* weights = ids + from;
+                const unsigned char* raw = ids + from;
+                const auto boneOf = [&](std::size_t k) -> unsigned {
+                    if (hasVg) {
+                        const unsigned char* id = vg.data() + (vertex * from + k) * 2;
+                        return static_cast<unsigned>(id[0]) | (static_cast<unsigned>(id[1]) << 8);
+                    }
+                    return ids[k];
+                };
+
+                // one bone in several slots: its weight is summed onto the first of them
+                for (std::size_t k = 0; k < from; ++k) {
+                    merged[k] = raw[k];
+                }
+                for (std::size_t k = 0; k < from; ++k) {
+                    if (merged[k] == 0) {
+                        continue;
+                    }
+                    for (std::size_t j = k + 1; j < from; ++j) {
+                        if (merged[j] != 0 && boneOf(j) == boneOf(k)) {
+                            merged[k] = static_cast<unsigned char>(std::min(255u, static_cast<unsigned>(merged[k]) + merged[j]));
+                            merged[j] = 0;
+                        }
+                    }
+                }
+                const unsigned char* weights = merged.data();
+
                 for (std::size_t k = 0; k < from; ++k) {
                     order[k] = k;
                 }

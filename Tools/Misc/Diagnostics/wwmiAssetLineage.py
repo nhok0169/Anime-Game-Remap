@@ -19,6 +19,11 @@
 # role at an older version (Changli's 2.5 / 2.6 rows), with the --out JSON as the evidence file.
 #
 #   py -3 wwmiAssetLineage.py --char Changli [--assets <WWMI-Assets checkout>] [--out <json>]
+#   py -3 wwmiAssetLineage.py --char ChangliNymph --folder ChangliSkin1 --roles <json>
+#
+# `--folder` is the character's folder in WWMI-Assets when it is not named as the library names it (a skin);
+# `--roles` a JSON of {hash: role} to use instead of IniFixData/<char>/<char>Textures.cpp (a character whose
+# roles are still only in a prototype).
 #
 
 import argparse
@@ -68,11 +73,17 @@ def main():
     parser = argparse.ArgumentParser(description = "A WuWa character's texture hash lineage from WWMI-Assets' git history")
     parser.add_argument("--char", required = True, help = "the character's folder name in WWMI-Assets and in IniFixData")
     parser.add_argument("--assets", default = DefaultAssets, help = "the WWMI-Assets checkout")
+    parser.add_argument("--folder", default = None, help = "its WWMI-Assets folder, when not --char (a skin: ChangliSkin1)")
+    parser.add_argument("--roles", default = None, help = "a JSON of {hash: role} instead of the IniFixData config")
     parser.add_argument("--out", default = None, help = "write the lineage as JSON here")
     args = parser.parse_args()
 
-    folder = f"PlayerCharacterData/{args.char}"
-    roles = configRoles(args.char)
+    folder = f"PlayerCharacterData/{args.folder or args.char}"
+    if (args.roles):
+        with open(args.roles, encoding = "utf-8") as f:
+            roles = json.load(f)
+    else:
+        roles = configRoles(args.char)
     twins = liveTwins(args.char)
 
     def roleOf(h):

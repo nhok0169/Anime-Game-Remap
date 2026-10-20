@@ -1942,6 +1942,19 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "cb4"}, "f02baf77"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_offsets"}, "a90413a7"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_scale"}, "05d2029d"},
+        // CHANGLINYMPH'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20): WWMI-Assets' ChangliSkin1
+        //   generation from 2.4 to 2.5, each row a rename git records at its "2.6 diff" whose old register in that
+        //   commit's TextureUsage.json is the one its successor's role reads today (wwmiAssetLineage.py). Not
+        //   filed: c235c6a7 (an effect ramp 27 characters share) and 92c11772 (a ramp every component shares).
+        //   Evidence: Data/Mod Downloads/WuWa/ChangliNymph/ChangliNymphHashLineage.json.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsDiffuse"}, "529d2b99"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsMap"}, "7f7c7b9c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsStrand"}, "e6947b37"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "eyeDiffuse"}, "eb70f116"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "faceDiffuse"}, "6804b3ae"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairDiffuse"}, "bfc103ef"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairMap"}, "6f7a2dab"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairStrand"}, "91eab4e8"},
     };
     return rows;
 }

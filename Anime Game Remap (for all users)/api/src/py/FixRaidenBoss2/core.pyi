@@ -26841,11 +26841,12 @@ class WWMIFixerConfig:
     @property
     def targetInfluences(self) -> int:
         """
-        :class:`int`: How many bone influences a vertex the TARGET's draws read, when it is more than the mod's
+        :class:`int`: How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
         own. The fix's remapped ``Blend.buf`` (and, past 256 bones, its ``BlendRemapVertexVG.buf``) is written at
         this many -- the mod's own first, the rest bone 0 with weight 0 -- and the generated section's ``stride``
         and the blend remap's ``weights_per_vertex_count`` follow. A 4-influence character drawn through an
-        8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. **Default**:
+        8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. When it is
+        FEWER, each vertex keeps its heaviest slots, their weights scaled to the same total. **Default**:
         ``0``, the mod's own count
         """
     @targetInfluences.setter

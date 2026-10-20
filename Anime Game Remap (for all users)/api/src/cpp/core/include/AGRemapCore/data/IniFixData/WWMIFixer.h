@@ -1328,7 +1328,7 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         How many bone influences a vertex the TARGET's draws read, when it is more than the mod's
+         How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
          own :raw-html:`<br />` :raw-html:`<br />`
 
          A WWMI blend line is N bone ids then N weights, and the game reads it through the TARGET
@@ -1338,8 +1338,10 @@ namespace AGRemapCore {
          polygons. With this set, the fix's remapped ``Blend.buf`` (and, past 256 bones, its
          ``BlendRemapVertexVG.buf``) is written at this many influences -- the mod's own first, the
          rest bone 0 with weight 0 -- and the generated section's ``stride`` and the blend remap's
-         ``weights_per_vertex_count`` say so. **Default**: ``0``, the mod's own count, which every
-         earlier pair uses
+         ``weights_per_vertex_count`` say so. When it is FEWER than the mod's (an 8-influence skin
+         drawn through Changli's 4-influence shaders), each vertex keeps its heaviest slots, their
+         weights scaled so the vertex's total is unchanged, and ``BlendRemapVertexVG.buf`` keeps the
+         same slots. **Default**: ``0``, the mod's own count, which every earlier pair uses
          @endrst
          */
         std::size_t targetInfluences = 0;

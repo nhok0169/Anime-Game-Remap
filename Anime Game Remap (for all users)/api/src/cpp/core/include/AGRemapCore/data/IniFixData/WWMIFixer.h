@@ -1367,6 +1367,19 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Also look for a second ``.ini`` on the mod's own draws in the FOLDERS BELOW the one being
+         fixed, not only beside it and in the two above it. 3DMigoto loads every ``.ini`` under its
+         ``Mods`` folder, so a mod may keep its mesh in ``mod.ini`` and bind every texture from a
+         ``Textures/textures.ini`` that overrides the same draws -- which on the target never fires,
+         leaving each role to be downloaded from the GAME over the mod's art. Folders whose name starts
+         with ``DISABLED`` are skipped, as the game skips them. **Default**: ``false``
+         @endrst
+         */
+        bool readInisBelow = false;
+
+        /**
+         * @brief
+         @rst
          The command list every slot section runs to bind the mod's buffers; the texture command
          list and the zero stream are added right after it. **Default**:
          ``"CommandListOverrideSharedResources"``

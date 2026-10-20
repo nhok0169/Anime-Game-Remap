@@ -1910,6 +1910,35 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "d14bed8b"},
         {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "59f24b66"},
         {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "277e18c9"},
+        // CHANGLI'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20), so a mod exported before her
+        //   2.6 update -- most of hers -- binds its own art rather than a download of the game's (Changli1's
+        //   whole outfit drew vanilla before these). Her CURRENT and live hashes stay in the fixer config.
+        //   2.5 is the generation WWMI-Assets carried from 1.3 to 2.5, each row a rename git records at its
+        //   "2.6 diff" (83-99% similar) whose old register in that commit's TextureUsage.json is the one its
+        //   successor's role reads today. 2.6 holds the two asset hashes her config knew only as live twins.
+        //   Not filed: 92c11772 (a ramp every component shares), c235c6a7 (an effect ramp 27 characters
+        //   share), 8a125464 (a 2.0 upper-body input no current shader has). Evidence: Data/Mod Downloads/WuWa/Changli/ChangliHashLineage.json.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsDiffuse"}, "d6f4003a"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsMap"}, "8094e3ca"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsOutline"}, "30017835"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsStrand"}, "5fff67ee"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatDiffuse"}, "c02dbf56"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatNormal"}, "f98c7e7c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatOutline"}, "2782d638"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "eyeDiffuse"}, "eb70f116"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "faceDiffuse"}, "225aad5a"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairDiffuse"}, "b54a043e"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairMap"}, "6f7a2dab"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairOutline"}, "e0b2f0d3"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairStrand"}, "1d3ad29f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerDiffuse"}, "a45bfe26"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerMask"}, "998bc53c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerNormal"}, "00e5703f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperDiffuse"}, "a260e7f7"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperMask"}, "dfe134cd"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperNormal"}, "f23483e3"},
+        {{"2.6", ModTypeIdTools::getName(ModTypeId::Changli), "coatOutline"}, "e047ea9c"},
+        {{"2.6", ModTypeIdTools::getName(ModTypeId::Changli), "hairOutline"}, "c0f0b1e1"},
         // ChangliNymph (2.4, the version WWMI-Assets added ChangliSkin1; unchanged since)
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "vb0"}, "acbfcfec"},
         {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "cb4"}, "f02baf77"},

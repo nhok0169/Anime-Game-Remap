@@ -1,0 +1,223 @@
+{
+    "_": "Changli's older texture hashes, from WWMI-Assets' git history (PlayerCharacterData/Changli): each old hash, the hash git records it renamed to, the rename's similarity and commit, the old hash's register usage in the TextureUsage.json before that commit, and the role filed in HashData.cpp. Built by hand from scratch scripts on 2026-10-20.",
+    "2.5": {
+        "00e5703f": {
+            "new": "ee867ac2",
+            "similarity": "R098",
+            "commit": "bce4fbe",
+            "components": "4",
+            "oldUsage": [
+                "4:ps-t0:7b2d107f"
+            ],
+            "role": "lowerNormal"
+        },
+        "1d3ad29f": {
+            "new": "fde34d42",
+            "similarity": "R097",
+            "commit": "bce4fbe",
+            "components": "1",
+            "oldUsage": [
+                "1:ps-t2:570d5372"
+            ],
+            "role": "hairStrand"
+        },
+        "225aad5a": {
+            "new": "a97f587b",
+            "similarity": "R090",
+            "commit": "bce4fbe",
+            "components": "2",
+            "oldUsage": [
+                "2:ps-t1:d7c55336"
+            ],
+            "role": "faceDiffuse"
+        },
+        "2782d638": {
+            "new": "e047ea9c",
+            "similarity": "R099",
+            "commit": "bce4fbe",
+            "components": "5",
+            "oldUsage": [
+                "2:ps-t0:e5b6a054",
+                "5:ps-t0:98cff9d7"
+            ],
+            "role": "coatOutline"
+        },
+        "30017835": {
+            "new": "fcec9218",
+            "similarity": "R099",
+            "commit": "bce4fbe",
+            "components": "0-2",
+            "oldUsage": [
+                "0:ps-t0:98cff9d7"
+            ],
+            "role": "bangsOutline"
+        },
+        "5fff67ee": {
+            "new": "7eb470fc",
+            "similarity": "R097",
+            "commit": "bce4fbe",
+            "components": "0-2-5",
+            "oldUsage": [
+                "0:ps-t2:28927357",
+                "1:ps-t2:98cff9d7",
+                "2:ps-t2:e5b6a054",
+                "3:ps-t2:98cff9d7",
+                "4:ps-t2:98cff9d7",
+                "5:ps-t2:98cff9d7"
+            ],
+            "role": "bangsStrand"
+        },
+        "6f7a2dab": {
+            "new": "0484ab73",
+            "similarity": "R087",
+            "commit": "bce4fbe",
+            "components": "1",
+            "oldUsage": [
+                "1:ps-t0:570d5372"
+            ],
+            "role": "hairMap"
+        },
+        "8094e3ca": {
+            "new": "25e6decf",
+            "similarity": "R087",
+            "commit": "bce4fbe",
+            "components": "0",
+            "oldUsage": [
+                "0:ps-t0:28927357"
+            ],
+            "role": "bangsMap"
+        },
+        "998bc53c": {
+            "new": "4da65048",
+            "similarity": "R099",
+            "commit": "bce4fbe",
+            "components": "4",
+            "oldUsage": [
+                "4:ps-t1:7b2d107f"
+            ],
+            "role": "lowerMask"
+        },
+        "a260e7f7": {
+            "new": "8407b021",
+            "similarity": "R097",
+            "commit": "bce4fbe",
+            "components": "3-6",
+            "oldUsage": [
+                "3:ps-t0:98cff9d7",
+                "3:ps-t2:b1dba32b"
+            ],
+            "role": "upperDiffuse"
+        },
+        "a45bfe26": {
+            "new": "3e6d3c8e",
+            "similarity": "R093",
+            "commit": "bce4fbe",
+            "components": "0-2-4-6",
+            "oldUsage": [
+                "4:ps-t0:98cff9d7",
+                "4:ps-t2:7b2d107f"
+            ],
+            "role": "lowerDiffuse"
+        },
+        "b54a043e": {
+            "new": "9a3f146d",
+            "similarity": "R083",
+            "commit": "bce4fbe",
+            "components": "1",
+            "oldUsage": [
+                "1:ps-t1:570d5372"
+            ],
+            "role": "hairDiffuse"
+        },
+        "c02dbf56": {
+            "new": "258c919f",
+            "similarity": "R096",
+            "commit": "bce4fbe",
+            "components": "5",
+            "oldUsage": [
+                "5:ps-t1:3a17bf19"
+            ],
+            "role": "coatDiffuse"
+        },
+        "d6f4003a": {
+            "new": "89da6405",
+            "similarity": "R084",
+            "commit": "bce4fbe",
+            "components": "0",
+            "oldUsage": [
+                "0:ps-t1:28927357",
+                "1:ps-t1:98cff9d7",
+                "2:ps-t1:e5b6a054",
+                "3:ps-t1:98cff9d7",
+                "4:ps-t1:98cff9d7",
+                "5:ps-t1:98cff9d7"
+            ],
+            "role": "bangsDiffuse"
+        },
+        "dfe134cd": {
+            "new": "3ff7cad2",
+            "similarity": "R099",
+            "commit": "bce4fbe",
+            "components": "3",
+            "oldUsage": [
+                "3:ps-t1:b1dba32b"
+            ],
+            "role": "upperMask"
+        },
+        "e0b2f0d3": {
+            "new": "c0f0b1e1",
+            "similarity": "R099",
+            "commit": "bce4fbe",
+            "components": "1",
+            "oldUsage": [
+                "1:ps-t0:98cff9d7"
+            ],
+            "role": "hairOutline"
+        },
+        "eb70f116": {
+            "new": "1bc98900",
+            "similarity": "R091",
+            "commit": "bce4fbe",
+            "components": "6",
+            "oldUsage": [
+                "6:ps-t2:2dc30f49"
+            ],
+            "role": "eyeDiffuse"
+        },
+        "f23483e3": {
+            "new": "69994531",
+            "similarity": "R087",
+            "commit": "bce4fbe",
+            "components": "3",
+            "oldUsage": [
+                "3:ps-t0:b1dba32b"
+            ],
+            "role": "upperNormal"
+        },
+        "f98c7e7c": {
+            "new": "59b52b44",
+            "similarity": "R098",
+            "commit": "bce4fbe",
+            "components": "5",
+            "oldUsage": [
+                "5:ps-t0:3a17bf19"
+            ],
+            "role": "coatNormal"
+        }
+    },
+    "2.6": {
+        "c0f0b1e1": {
+            "role": "hairOutline",
+            "predecessor": "e0b2f0d3"
+        },
+        "e047ea9c": {
+            "role": "coatOutline",
+            "predecessor": "2782d638"
+        }
+    },
+    "notFiled": {
+        "c235c6a7": "the glow ramp, filed under 27 characters in WWMI-Assets: not hers alone",
+        "92c11772": "renamed to 798ec300, a ps-t4 ramp on every component: not hers alone",
+        "8a125464": "ps-t1 of her 2.0 upper-body shader, deleted at 2.1 with no successor"
+    }
+}

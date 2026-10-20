@@ -58,7 +58,10 @@ namespace AGRemapCore {
             {"880e1a81d913db05", {"a695e6d5f9d489cf"}},
             {"83782bd563d3a6c9", {"a695e6d5f9d489cf"}},
             {"518dadece9a19b08", {"e97b4254e5ed8812"}},
-            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3"}},
+            // the face and eye-highlight shaders are shared, and other frames draw them through a second
+            // vertex shader (the Sanhua, Chisa and Lynae pairs list both): gated on one, the textures
+            // would flicker to the skin's
+            {"ed1c0f8b2ba08ac4", {"7c0b4db32cee62d3", "4ce754b5b9574b1a"}},
             {"d5572b1cbbba07a4", {"cb05fd1251af9a73"}},
             {"14fee50a0ce4ec91", {"e00893f9d07dc9b0"}},
             {"7f639abb370f996d", {"a434a95920c66e51"}},
@@ -66,7 +69,7 @@ namespace AGRemapCore {
             {"43b4972776737988", {"a434a95920c66e51"}},
             {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
             {"705575a2e1b4a4b9", {"7148f95feba974ac"}},
-            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53"}},
+            {"e04f4df80ee6b0ab", {"5fd6e5bb6ff81c53", "a54621ce48ed541b"}},
         };
 
         // ---- ...and every tag NAMED. A shader holds ONE filter_index across every loaded .ini, so the
@@ -80,6 +83,8 @@ namespace AGRemapCore {
             {"e4a3da6d1d1068b9", "3381.731"},
             {"ceff9a81afb1de70", "3381.625"},
             {"5fd6e5bb6ff81c53", "3381.718"},
+            {"4ce754b5b9574b1a", "3381.769"},
+            {"a54621ce48ed541b", "3381.616"},
             {"e00893f9d07dc9b0", "3381.51"},
             {"a434a95920c66e51", "3381.511"},
             {"e97b4254e5ed8812", "3381.512"},
@@ -151,10 +156,13 @@ namespace AGRemapCore {
         config.shapeKeyOrder = changliToNymphShapeKeys();
         config.cleanTexcoords = true;
         config.carryByRegisterRole = true;
+        // Changli13 draws from mod.ini and binds every texture from Textures/textures.ini
+        config.readInisBelow = true;
         // the skin's slots reach bone 263 (264 x 3 float4 = 792), past the 768 default
         config.mergedSkeletonSlots = 1536;
-        // her upper body, legs and tattoo all land on slot 4, so a copy .ini can exist on a target past
-        // 256 bones
+        // INERT for every mod in hand: her slot-4 sources are drawn from the mod's own file
+        // (sameFileSection), so no copy .ini is written. Kept so that a copy, should a mod's shape ever
+        // produce one on this target past 256 bones, shares the mod's skeleton state
         config.copiesShareSkeleton = true;
         // her blend is FOUR influences a vertex and the skin's draws read EIGHT: unwidened, every vertex
         // was read across its neighbour's bytes and the whole model drew as giant polygons in game

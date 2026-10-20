@@ -3624,7 +3624,8 @@ namespace AGRemapCore {
                  * Only a section on one of this file's own draws is read, and only the registers
                  * WWMITextureFacts::registerRoles names for that component, so this is the mod
                  * stating a role rather than a guess from a file name. Looked for beside this
-                 * ``.ini`` and in the two folders above it, the files the game loads only.
+                 * ``.ini`` and in the two folders above it -- and with WWMIFixerConfig::readInisBelow,
+                 * in every folder below it -- the files the game loads only.
                  *
                  * @param scan The running scan
                  */
@@ -3647,6 +3648,26 @@ namespace AGRemapCore {
                             break;
                         }
                         dir = parent;
+                    }
+
+                    if (config_.readInisBelow) {
+                        std::error_code error;
+                        std::filesystem::recursive_directory_iterator it(own.parent_path(), error);
+                        for (; !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+                            if (!it->is_directory(error)) {
+                                continue;
+                            }
+
+                            const std::string name = StringTools::toLower(FileService::pathToStr(it->path().filename()));
+                            if (StringTools::startsWith(name, "disabled")) {
+                                it.disable_recursion_pending();
+                                continue;
+                            }
+
+                            for (const std::string& path : loadedInisIn(it->path(), own)) {
+                                inis.push_back(path);
+                            }
+                        }
                     }
 
                     std::size_t found = 0;

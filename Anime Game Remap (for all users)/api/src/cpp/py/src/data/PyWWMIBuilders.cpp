@@ -638,6 +638,11 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
 the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
 ramp or detail slot keeps doing so on the target. **Default**: ``False``
         )doc"))
+        .def_readwrite("readInisBelow", &AGRC::WWMIFixerConfig::readInisBelow, py::doc(R"doc(
+:class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        )doc"))
         .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
 :class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
 state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key

@@ -26657,6 +26657,16 @@ class WWMIFixerConfig:
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
         ...
     @property
+    def readInisBelow(self) -> bool:
+        """
+        :class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+        fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+        above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        """
+    @readInisBelow.setter
+    def readInisBelow(self, arg0: bool) -> None:
+        ...
+    @property
     def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
         """
         Dict[:class:`int`, Tuple[:class:`float`, :class:`float`, :class:`float`]]: The rest-pose centroid of

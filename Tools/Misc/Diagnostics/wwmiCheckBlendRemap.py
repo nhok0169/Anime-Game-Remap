@@ -310,7 +310,11 @@ def check(folder, names, wanted = None):
     # every vertex has to round-trip through it, with no component windows involved at all. A fix
     # that shares one remap between components is doing this, and checking it per component would
     # only ever look at a subset.
-    if (remapCount == 1):
+    # ...but ONE remap selected by ONE component section is WWMI Tools' own shape for a character
+    # with a single component past 256 bones (Changli's component 5, 2026-10-20): it covers that
+    # component and nothing else, and reading it over the whole mesh failed a correct identity mod.
+    selecting = [name for name, draws, res in comps if (res)]
+    if (remapCount == 1 and len(selecting) != 1):
         f = forward.astype(np.int64)
         r = reverse.astype(np.int64)
         live = weights > 0

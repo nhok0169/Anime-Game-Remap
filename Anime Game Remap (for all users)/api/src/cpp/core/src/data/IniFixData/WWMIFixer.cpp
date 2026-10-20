@@ -1633,6 +1633,61 @@ namespace AGRemapCore {
         }
 
 
+        // ---- a target whose draws read more influences than the mod carries ----
+        //
+        // See WWMIFixerConfig::targetInfluences. Pads every vertex of a buffer the fix has WRITTEN
+        // from `from` slots to `to`, in place: `from * idBytes` id bytes then, for a blend line,
+        // `from` weight bytes. The new slots are bone 0 with weight 0, which no shader weighs. A file
+        // already at the wider size is left alone, so a buffer several copies share is widened once.
+        bool widenPerVertex(RemapBlendResource& resource, const std::string& path, std::size_t vertices,
+                            std::size_t from, std::size_t to, std::size_t idBytes, bool hasWeights) {
+            const std::size_t fromLine = from * idBytes + (hasWeights ? from : 0);
+            const std::size_t toLine = to * idBytes + (hasWeights ? to : 0);
+            const std::string name = FileService::pathToStr(FileService::strToPath(path).filename());
+            const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+            if (!size.has_value()) {
+                return bail(resource, "could not read " + name + " to widen it");
+            }
+
+            if (*size == vertices * toLine) {
+                return true;
+            }
+
+            if (*size != vertices * fromLine) {
+                return bail(resource, name + " is " + std::to_string(*size) + " bytes, which is neither "
+                                      + std::to_string(from) + " nor " + std::to_string(to)
+                                      + " influences over " + std::to_string(vertices) + " vertices");
+            }
+
+            std::vector<char> in(static_cast<std::size_t>(*size));
+            {
+                std::ifstream file(FileService::strToPath(path), std::ios::binary);
+                file.read(in.data(), static_cast<std::streamsize>(in.size()));
+                if (!file) {
+                    return bail(resource, "could not read " + name + " to widen it");
+                }
+            }
+
+            std::vector<char> out(vertices * toLine, 0);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                const char* src = in.data() + vertex * fromLine;
+                char* dst = out.data() + vertex * toLine;
+                std::memcpy(dst, src, from * idBytes);
+                if (hasWeights) {
+                    std::memcpy(dst + to * idBytes, src + from * idBytes, from);
+                }
+            }
+
+            std::ofstream file(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
+            file.write(out.data(), static_cast<std::streamsize>(out.size()));
+            if (!file) {
+                return bail(resource, "could not write the widened " + name);
+            }
+
+            return true;
+        }
+
+
         // ---- one WWMI character, out of the library's tables ----
 
         struct Slot {
@@ -2777,7 +2832,10 @@ namespace AGRemapCore {
                                 FileService::absPathOfRelPath(forward, ctx_.getIniFile()->getFolder());
                             const std::string positionPath =
                                 positionBufPath();
-                            blendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            srcBlendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            // ...and what the fix WRITES, which is the target's when its draws read
+                            // more (WWMIFixerConfig::targetInfluences)
+                            blendInfluences_ = std::max(srcBlendInfluences_, config_.targetInfluences);
                             blendStride_ = blendInfluences_ * 2;
                         }
                     }
@@ -6708,7 +6766,39 @@ namespace AGRemapCore {
                             };
                         }
 
-                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), makeResEditConfig(), source, from, to,
+                        // A target whose draws read more influences than the mod carries
+                        // (WWMIFixerConfig::targetInfluences): whatever wrote the blend above, its
+                        // output is then padded to the target's width, and the generated section --
+                        // a copy of the mod's own -- is told the new stride.
+                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig();
+                        if (config_.targetInfluences > srcBlendInfluences_) {
+                            const std::size_t narrow = srcBlendInfluences_;
+                            const std::size_t wide = config_.targetInfluences;
+                            const std::string posPath = positionBufPath();
+                            const std::string vgOut = targetPast256_
+                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
+                                : std::string();
+                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
+                                const std::size_t vertices = blendShape(resource, posPath).vertices;
+                                if (inner) {
+                                    if (!inner(resource)) {
+                                        return false;
+                                    }
+                                } else {
+                                    BlendFile blend = resource.createBlend();
+                                    blend.remap(resource.vgRemap, resource.fixedPath);
+                                }
+
+                                if (!widenPerVertex(resource, resource.fixedPath, vertices, narrow, wide, 1, true)) {
+                                    return false;
+                                }
+
+                                return vgOut.empty() || widenPerVertex(resource, vgOut, vertices, narrow, wide, 2, false);
+                            };
+                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(wide * 2)}};
+                        }
+
+                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), std::move(resConfig), source, from, to,
                                                                           std::move(lift), config_.anchorChains,
                                                                           meshVertexCount_,
                                                                           positionBufPath());
@@ -9187,9 +9277,12 @@ namespace AGRemapCore {
                 // read the other. 182 for ChisaParfait -> Chisa.
                 std::size_t blendRemapBones_ = 0;
 
-                // The mod's own blend line: N ids + N weights, and its byte stride
+                // The blend line the FIX writes: N ids + N weights, and its byte stride -- the mod's
+                // own, unless WWMIFixerConfig::targetInfluences widens it
                 std::size_t blendInfluences_ = 4;
                 std::size_t blendStride_ = 8;
+                // ...and the mod's own N, which the widening starts from
+                std::size_t srcBlendInfluences_ = 4;
                 std::vector<std::string> passOrder_;
 
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;

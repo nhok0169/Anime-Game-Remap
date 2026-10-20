@@ -643,6 +643,14 @@ ramp or detail slot keeps doing so on the target. **Default**: ``False``
 state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key
 overrides in the mod's own file only. **Default**: ``False``
         )doc"))
+        .def_readwrite("targetInfluences", &AGRC::WWMIFixerConfig::targetInfluences, py::doc(R"doc(
+:class:`int`: How many bone influences a vertex the TARGET's draws read, when it is more than the mod's
+own. The fix's remapped ``Blend.buf`` (and, past 256 bones, its ``BlendRemapVertexVG.buf``) is written at
+this many -- the mod's own first, the rest bone 0 with weight 0 -- and the generated section's ``stride``
+and the blend remap's ``weights_per_vertex_count`` follow. A 4-influence character drawn through an
+8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. **Default**:
+``0``, the mod's own count
+        )doc"))
         .def_readwrite("currentPoseInCb3Only", &AGRC::WWMIFixerConfig::currentPoseInCb3Only, py::doc(R"doc(
 :class:`bool`: Treat a draw whose ``vs-cb3`` carries the bone-data marker while its ``vs-cb4`` does not as
 one whose CURRENT pose sits in ``vs-cb3`` -- merged into the main skeleton and bound the remapped main

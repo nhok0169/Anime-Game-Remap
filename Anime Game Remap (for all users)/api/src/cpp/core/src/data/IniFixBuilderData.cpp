@@ -353,11 +353,13 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::LynaePeppermint),
                   "3.7", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniFixBuilderFuncs::lynae3_7()},
 
-                // ===== Changli <-> ChangliNymph (2026-10-20), STUBS =====
+                // ===== Changli <-> ChangliNymph (2026-10-20) =====
+                // Changli -> ChangliNymph is compiled (data/IniFixData/Changli/); the reverse is still a
+                // stub.
                 // ChangliNymph is a 2.4 skin; the reverse sits at 1.4, Changli's current mesh (a row
                 // below it would write a hash the live game no longer binds).
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Changli),
-                  "2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniFixBuilderFuncs::wwmiStub()},
+                  "2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniFixBuilderFuncs::changliNymph2_4()},
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::ChangliNymph),
                   "1.4", ModTypeIdTools::getName(ModTypeId::Changli)}, IniFixBuilderFuncs::wwmiStub()},
 

@@ -770,6 +770,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 1.1 parser for **Changli**, built by :cpp:func:`makeWWMIParser`: eight draw slots on her
+             ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key overrides by a
+             hash of their own. Filed at her oldest mesh, so a mod of any of her three mesh generations
+             is read. See ``data/IniParseData/Changli/ChangliParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory changli1_1();
+
+            /**
+             * @brief
+             @rst
              The 3.5 parser for **ChisaParfait**, built by :cpp:func:`makeWWMIParser`: EIGHT draw
              slots on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key
              overrides by a hash of their own. The version is the SKIN's, which is the one her assets

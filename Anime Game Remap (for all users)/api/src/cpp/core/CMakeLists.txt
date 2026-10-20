@@ -122,6 +122,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Chisa/ChisaFixer.cpp
     src/data/IniFixData/Chisa/ChisaTextures.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp
+    src/data/IniFixData/Changli/ChangliFixer.cpp
+    src/data/IniFixData/Changli/ChangliSkeleton.cpp
+    src/data/IniFixData/Changli/ChangliTextures.cpp
+    src/data/IniFixData/Changli/ChangliThumbprints.cpp
     src/data/IniFixData/Lynae/LynaeFixer.cpp
     src/data/IniFixData/Lynae/LynaeBangsShader.cpp
     src/data/IniFixData/Lynae/LynaeFilmShader.cpp
@@ -153,6 +157,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp
     src/data/IniParseData/Chisa/ChisaParser.cpp
+    src/data/IniParseData/Changli/ChangliParser.cpp
     src/data/IniParseData/Lynae/LynaeParser.cpp
     src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp
     src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp

@@ -40,8 +40,16 @@
 #   * Her chest piece (7) loses its emissive shader on the skin's lit body shader.
 #   * Shape keys: 72 of her 86 face keys are the skin's slots 14-85 by content; the skin's slots 0-13 (two
 #     sets of seven face keys) pair with nothing of hers, and get no offsets (her 72-85 are dropped).
-#   * Only her CURRENT skeleton (1.4 on) is read: a 1.1 / 1.2 mod (Changli2, 3, 7, 8, 12, 14) carries a
-#     renumbered one (the community wwmi_fix_23's ChangLi / Changli_1.4 remaps), not handled yet.
+#   * A mod that draws a component from its OWN mesh buffers (Changli13: [ResourcePositionBuffer.Component5] /
+#     .Component7 and Blend.buf under Meshes/Split and Meshes/Tattoo, each merged into a private skeleton
+#     window -- vg_offset 0, so its ids are that component's LOCAL ones): the template remaps one mesh's blend,
+#     skips these two ("Blend.buf and Position.buf do not agree") and the remapped sections then bind the
+#     RemapBlend files it never wrote. LIBRARY GAP for the port: a blend resource takes the Position.buf its
+#     own shared-resource list binds beside it, and a section whose vg_offset is 0 has its ids lifted through
+#     that component's vg_map. Component 7 is her chest FLAME TATTOO (the Tattoo folder's name says so).
+#   * Old skeletons: 1.1 / 1.2 rows are registered at run time (registerOldRows) and each mod's numbering is
+#     read off its geometry. Every old mod in hand weights no coat bone (ids <= 228), so 1.1 and 1.2 read
+#     alike for them; Changli12's hands pick 1.4 over 1.2 by only 1.98 / 2.12 -- check its fingers in game.
 import argparse
 import json
 import os
@@ -94,14 +102,26 @@ def allRoles():
 
 
 # ---- which role each of HER registers binds, per component (her own draws, wwmiPassLayout.py) ----
+# ...plus RabbitFX's resource names, for a mod that hands its art to RabbitFX by name rather than by
+# register (Changli13's Textures/textures.ini binds its bodies only as Resource\RabbitFX\Diffuse): the
+# Lightmap is the mask, as on every pair so far
+def rabbit(diffuse, mask = None, normal = None):
+    keys = {"Resource\\RabbitFX\\Diffuse": diffuse}
+    if (mask):
+        keys["Resource\\RabbitFX\\Lightmap"] = mask
+    if (normal):
+        keys["Resource\\RabbitFX\\Normalmap"] = normal
+    return keys
+
 RegisterRoles = {
-    0: {"ps-t0": "bangsMap", "ps-t1": "bangsDiffuse", "ps-t2": "bangsStrand"},
-    1: {"ps-t0": "hairMap", "ps-t1": "hairDiffuse", "ps-t2": "hairStrand"},
-    2: {"ps-t0": "faceMask", "ps-t1": "faceDiffuse"},
-    3: {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t2": "upperDiffuse", "ps-t3": "upperDetail", "ps-t4": "upperRamp"},
-    4: {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t2": "lowerDiffuse"},
-    5: {"ps-t0": "coatNormal", "ps-t1": "coatDiffuse"},
-    6: {"ps-t0": "eyeIris", "ps-t1": "eyeMask", "ps-t2": "eyeDiffuse"},
+    0: {"ps-t0": "bangsMap", "ps-t1": "bangsDiffuse", "ps-t2": "bangsStrand", **rabbit("bangsDiffuse")},
+    1: {"ps-t0": "hairMap", "ps-t1": "hairDiffuse", "ps-t2": "hairStrand", **rabbit("hairDiffuse")},
+    2: {"ps-t0": "faceMask", "ps-t1": "faceDiffuse", **rabbit("faceDiffuse", "faceMask")},
+    3: {"ps-t0": "upperNormal", "ps-t1": "upperMask", "ps-t2": "upperDiffuse", "ps-t3": "upperDetail", "ps-t4": "upperRamp",
+        **rabbit("upperDiffuse", "upperMask", "upperNormal")},
+    4: {"ps-t0": "lowerNormal", "ps-t1": "lowerMask", "ps-t2": "lowerDiffuse", **rabbit("lowerDiffuse", "lowerMask", "lowerNormal")},
+    5: {"ps-t0": "coatNormal", "ps-t1": "coatDiffuse", **rabbit("coatDiffuse", None, "coatNormal")},
+    6: {"ps-t0": "eyeIris", "ps-t1": "eyeMask", "ps-t2": "eyeDiffuse", **rabbit("eyeDiffuse", "eyeMask")},
     7: {"ps-t0": "glow"},
 }
 
@@ -136,6 +156,72 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     return facts
 
 
+# ---- her skeleton's renumberings. A mod carries the bone ids of the game version its author exported
+# at, and her merged skeleton was renumbered twice. Both maps are the community wwmi_fix_23's
+# (WWMI_FIX_23.py, the remaps it applies to her mods' Blend.buf): its "fd9483ca" list takes a 1.1 id to
+# 1.2 (only these 39 entries differ from identity; ids 238 and 254 both become 252), and its
+# "060f5303" map takes a 1.2 / 1.3 merged-skeleton id to 1.4, unchanged since ----
+Renumber11To12 = {
+    238: 252, 239: 238, 240: 257, 241: 239, 242: 240, 243: 241, 244: 242, 245: 243, 246: 244, 247: 245,
+    248: 246, 249: 247, 250: 248, 251: 249, 252: 250, 253: 251, 254: 252, 255: 253, 256: 254, 257: 255,
+    258: 256, 259: 258, 260: 259, 261: 260, 262: 261, 263: 262, 264: 263, 265: 264, 266: 265, 267: 266,
+    268: 267, 269: 268, 270: 269, 271: 270, 272: 271, 273: 272, 274: 273, 275: 274, 276: 275,
+}
+Renumber12To14 = {135: 137, 137: 135, 123: 124, 124: 125, 125: 126, 126: 123}
+OldSkeletonSlots = 282      # 1.1's: component 5 one bone wider (vg 229/48, 6 at 277, 7 at 278-281)
+
+
+def toCurrent(version, bone):
+    if (version == "1.1"):
+        bone = Renumber11To12.get(bone, bone)
+    if (version in ("1.1", "1.2")):
+        bone = Renumber12To14.get(bone, bone)
+    return bone
+
+
+def registerOldRows():
+    """The vertex group rows for a mod in her 1.1 or 1.2 numbering, read off the reviewed 1.4 row through
+    each renumbering. GAP for the port: these go into VGRemapData.cpp beside the 1.4 row (Lynae's 3.6 row
+    is the precedent)."""
+    source = FRB.WWMIBuilder.changli()
+    current = source.getVGRemap(DstName, FRB.Version.parse("1.4"), FRB.Version.parse("2.4"))
+    row = dict(current.remap)
+    for version in ("1.1", "1.2"):
+        old = {bone: row.get(toCurrent(version, bone), 0) for bone in range(OldSkeletonSlots)}
+        source.vgRemaps.addRows([([version, SrcName, "", "2.4", DstName, ""], old)])
+
+
+def boneCentroids():
+    """Her rest-pose bone centroids in the current numbering, off the download folder's own buffers"""
+    import numpy as np
+    pos = np.fromfile(os.path.join(Downloads, "ChangliPosition.buf"), np.float32).reshape(-1, 3)
+    blend = np.fromfile(os.path.join(Downloads, "ChangliBlend.buf"), np.uint8).reshape(len(pos), -1)
+    n = blend.shape[1] // 2
+    wide = np.fromfile(os.path.join(Downloads, "ChangliBlendRemapVertexVG.buf"), np.uint16).reshape(len(pos), -1)[:, :n]
+    heaviest = np.argmax(blend[:, n:], axis = 1)
+    bone = wide[np.arange(len(pos)), heaviest].astype(int)
+    strong = blend[np.arange(len(pos)), n + heaviest] > 127
+    result = {}
+    for b in np.unique(bone[strong]):
+        sel = strong & (bone == b)
+        if (sel.sum() >= 3):
+            result[int(b)] = tuple(float(x) for x in pos[sel].mean(axis = 0))
+    return result
+
+
+def currentVgMaps():
+    """Each component's local -> merged map out of her current Metadata.json, for a mod from before WWMI's
+    merged skeleton (Changli10). GAP: a pre-merged-skeleton mod of her 1.1 / 1.2 mesh would need that
+    version's maps, which no source holds; none is in hand."""
+    with open(os.path.join(Downloads, "ChangliMetadata.json"), encoding = "utf-8") as f:
+        meta = json.load(f)
+    maps = {}
+    for k, comp in enumerate(meta["components"]):
+        vg = {int(a): int(b) for a, b in comp["vg_map"].items()}
+        maps[k] = [vg.get(i, 0) for i in range(max(vg) + 1)] if vg else [0]
+    return maps
+
+
 def parserConfig(facts) -> "FRB.WWMIParserConfig":
     config = FRB.WWMIParserConfig()
     config.version = "1.1"             # her oldest mesh: a mod of any of her three generations classifies
@@ -149,6 +235,18 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.version = "2.4"
     config.sourceVersion = "1.4"
     config.sourceVersionByVb0 = {"77975500": "1.1", "5f8aac45": "1.2", "d14bed8b": "1.4"}
+    # ...but the vb0 is not what the BONES are numbered by: the community hash tools rewrite a mod's
+    # hashes and leave its ids (Changli2 / 7 carry 1.2's vb0 over 1.1's vg windows). So the blend's row
+    # is chosen by the mod's own geometry, Lynae's way
+    N = FRB.WWMIFixerConfig.SkeletonNumbering
+    config.skeletonNumberings = [
+        N("1.1", {b: toCurrent("1.1", b) for b in range(OldSkeletonSlots) if toCurrent("1.1", b) != b}),
+        N("1.2", dict(Renumber12To14)),
+        N("1.4", {}),
+    ]
+    config.referenceBoneCentroids = boneCentroids()
+    # a mod from before WWMI's merged skeleton (Changli10) holds each component's LOCAL ids
+    config.sourceVgMaps = currentVgMaps()
 
     # ---- the passes the TARGET draws each slot on (her Laurel Nymph dump, wwmiPassLayout.py) ----
     config.slotPasses = [
@@ -208,9 +306,19 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
         # the same shader on both: normal at t0, diffuse at t1
         5: SC(5, [B("ps-t0", "coatNormal"), B("ps-t1", "coatDiffuse")]),
         6: SC(6, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
-        # her emissive chest piece: its one texture is the glow map the skin's body reads at t3
-        7: SC(4, [B("ps-t2", "glow"), B("ps-t3", "glow")]),
+        # her emissive chest piece: its one texture is the glow map the skin's body reads at t3. The body
+        # shader's normal and mask are UV-mapped, so flat ones stand in at the piece's UVs (the masks share
+        # one legend: R = 255 bare skin, so R 0 is cloth)
+        7: SC(4, [B("ps-t0", "flatNormal"), B("ps-t1", "flatClothMask"), B("ps-t2", "glow"), B("ps-t3", "glow")]),
     }
+    # her legs and chest piece share slot 4 with her upper body: drawn from the mod's OWN file, where the
+    # shape-keyed positions are computed (a copy computes none), as Lynae's lower body is
+    plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
+    plan[4].sameFileSection = True
+    plan[7].sameFileSection = True
+    # her chest piece has no outline pass on her own draws
+    plan[7].offPasses = ["f8c96a270bf847dd"]
+    config.plan = plan
 
     # ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's second
     # pass sets ps-t1 only ----
@@ -225,7 +333,13 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     noGlow = FRB.WWMIFixerConfig.CreatedTexture()
     noGlow.role = "noGlow"
     noGlow.colour = FRB.CppColour(249, 12, 4, 0)
-    config.createdTextures = [noGlow]
+    def created(role, colour):
+        c = FRB.WWMIFixerConfig.CreatedTexture()
+        c.role, c.colour = role, colour
+        return c
+    # the skin's body normal map averages (126, 127, 47, 102): flat x / y, its own B and A kept
+    config.createdTextures = [noGlow, created("flatNormal", FRB.CppColour(128, 128, 47, 102)),
+                              created("flatClothMask", FRB.CppColour(0, 128, 0, 255))]
 
     config.sourceTextures = facts
     config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"}
@@ -283,6 +397,7 @@ def main():
     args = parser.parse_args()
 
     facts = textureFacts()
+    registerOldRows()
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeWWMIParser(parserConfig(facts)))
     FRB.CppStrategyOverrides.setFixer(SrcName, DstName, FRB.makeWWMIFixer(fixerConfig(facts, args.hideShapeKeys, args.noShapeKeyOrder, args.noShapeKeyDispatch)))

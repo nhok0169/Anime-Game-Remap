@@ -136,6 +136,15 @@ namespace AGRemapCore {
          @endrst
          */
         std::size_t texcoordStride = 0;
+
+        /**
+         * @brief
+         @rst
+         Where a widened texcoord line's padding is copied from -- see
+         :cpp:func:`VGComponentMerge::padLines`. ``-1`` (the default) pads with zeros
+         @endrst
+         */
+        long long texcoordPadFrom = -1;
     };
 
     /**

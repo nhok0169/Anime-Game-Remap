@@ -13,6 +13,12 @@
     <includedby refid="_ini_file_remove_context_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h</includedby>
     <includedby refid="_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includedby>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="50">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -474,12 +480,6 @@
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="48">
         <label>IfContentPart.tpp</label>

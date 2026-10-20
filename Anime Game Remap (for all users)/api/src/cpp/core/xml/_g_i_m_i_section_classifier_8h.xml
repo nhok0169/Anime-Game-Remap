@@ -25,6 +25,15 @@
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
     <includedby refid="_g_i_m_i_section_classifier_instantiation_8cpp" local="yes">src/model/strategies/iniParsers/GIMISectionClassifierInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="34">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="39">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="79">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -786,15 +795,6 @@
         </childnode>
         <childnode refid="82" relation="include">
         </childnode>
-      </node>
-      <node id="34">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="39">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="85">
         <label>GIMISectionClassifier.tpp</label>

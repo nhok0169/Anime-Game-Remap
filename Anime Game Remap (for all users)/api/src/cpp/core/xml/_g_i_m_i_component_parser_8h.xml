@@ -16,6 +16,30 @@
     <includedby refid="_yaoyao_bamboo_parser_8cpp" local="yes">src/data/IniParseData/YaoyaoBamboo/YaoyaoBambooParser.cpp</includedby>
     <includedby refid="_yelan_tranquil_parser_8cpp" local="yes">src/data/IniParseData/YelanTranquil/YelanTranquilParser.cpp</includedby>
     <incdepgraph>
+      <node id="47">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="53">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="104">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="99">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -997,30 +1021,6 @@
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-      </node>
-      <node id="47">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="53">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="104">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="87">
         <label>Generator.tpp</label>

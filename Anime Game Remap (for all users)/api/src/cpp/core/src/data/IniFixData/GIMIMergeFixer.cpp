@@ -1845,6 +1845,7 @@ namespace AGRemapCore {
                     VGMergeGroupConfig config;
                     config.ibBytesPerIndex = ibBytesPerIndex_;
                     config.texcoordStride = config_.texcoordStride;
+                    config.texcoordPadFrom = config_.texcoordPadFrom;
 
                     for (const std::string& component : mergeOrder_) {
                         const ComponentFiles* files = componentFiles(component);
@@ -2330,7 +2331,7 @@ namespace AGRemapCore {
                 // binds them (rolesInBranch) rather than its single reading.
                 void appendMemberBindings(std::vector<std::pair<std::string, std::string>>& additions,
                                            const std::pair<std::string, std::string>& member, const SlotFiles*& bound,
-                                           const SlotFiles* inBranch = nullptr) {
+                                           const SlotFiles* inBranch = nullptr, bool withFixCall = true) {
                     const SlotFiles* files = (inBranch != nullptr) ? inBranch : slotFiles(member.first, member.second);
                     const bool ownTextures = (files != nullptr) && (bound != nullptr)
                                               && (!files->diffuseRes.empty() || !files->lightMapRes.empty())
@@ -2363,7 +2364,17 @@ namespace AGRemapCore {
                         additions.emplace_back(targetLightMapReg(), edited);
                     }
 
-                    additions.emplace_back(IniKeywords::Run, fixPath());
+                    if (withFixCall) {
+                        additions.emplace_back(IniKeywords::Run, fixPath());
+                    }
+                }
+
+                // Whether the .ini calls TexFx anywhere -- buildAppendedSections' test, for the restore after
+                // an object's member blocks.
+                bool fileCallsTexFx() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    return iniFile != nullptr
+                           && StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
                 }
 
                 // Whether a slot is drawn in the target's outline pass -- see Slot::outline.
@@ -2757,6 +2768,27 @@ namespace AGRemapCore {
                             block.emplace_back(IniKeywords::DrawIndexed, extras[i]);
                         }
                         flush();
+
+                        // A TEXFX REQUEST IS SERVED WITH WHAT THE SECTION LEFT BOUND (2026-10-20). TexFx's
+                        // transparency colours the sheer pixels in the OUTLINE pass, with a custom shader that
+                        // draws the whole merged ib out of the diffuse bound when the section is done -- and
+                        // after a member that brings its own textures, that is the MEMBER's. Lumine12's Beach
+                        // and Fontaine outfits drew their ribbons and lace out of the skin's Head atlas, black.
+                        // So the object's own set is bound again last, as the author's one draw left it. No fix
+                        // call and no draw: nothing is drawn with it here.
+                        //
+                        // Only after an APPENDED member (bound is then a member's files): a CARRIED member runs
+                        // its own command list and leaves 'bound' unknown. Whether TexFx is served right after
+                        // one has not been seen in game (CharlotteHurlock5, CitlaliWhisper1 and YelanTranquil3
+                        // are that shape), so their output is left as it was.
+                        if (bound != repFiles && bound != &unknown && fileCallsTexFx()) {
+                            RegBottomAdd<>::Additions restore;
+                            const SlotFiles* restoreFrom = bound;
+                            appendMemberBindings(restore, repIt->second, restoreFrom, nullptr, false);
+                            if (!restore.empty()) {
+                                addBottom(std::move(restore), true);
+                            }
+                        }
                     }
 
                     // An object whose members cannot share a draw needs the FIRST member's range

@@ -5,6 +5,15 @@
     <includes refid="_if_pred_parser_8h" local="yes">AGRemapCore/model/iftemplate/IfPredParser.h</includes>
     <includes local="no">utility</includes>
     <incdepgraph>
+      <node id="26">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseSLR1Parser.tpp</label>
+      </node>
+      <node id="24">
+        <label>BiMap.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/model/iftemplate/IfPredParser.h</label>
         <link refid="_if_pred_parser_8h"/>
@@ -212,15 +221,6 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-      </node>
-      <node id="26">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseSLR1Parser.tpp</label>
-      </node>
-      <node id="24">
-        <label>BiMap.tpp</label>
       </node>
       <node id="28">
         <label>IncIdGenerator.tpp</label>

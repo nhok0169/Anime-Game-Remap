@@ -15,6 +15,24 @@
     <includes refid="_ranges_8h" local="yes">AGRemapCore/tools/Ranges.h</includes>
     <includes local="yes">GraphInherit.tpp</includes>
     <incdepgraph>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="71">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="77">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseRegEdit.tpp</label>
+      </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="47">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -658,24 +676,6 @@
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
-      </node>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="71">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="77">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseRegEdit.tpp</label>
-      </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="67">
         <label>Generator.tpp</label>

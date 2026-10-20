@@ -53,7 +53,7 @@ namespace AGRemapCore {
     }
 
 
-    ByteVec VGComponentMerge::padLines(const ByteVec& src, std::size_t lines, std::size_t to) {
+    ByteVec VGComponentMerge::padLines(const ByteVec& src, std::size_t lines, std::size_t to, long long fillFrom) {
         if (lines == 0) {
             return ByteVec();
         }
@@ -71,17 +71,27 @@ namespace AGRemapCore {
             return src;
         }
 
+        const std::size_t pad = to - from;
+        if (fillFrom >= 0 && static_cast<std::size_t>(fillFrom) + pad > from) {
+            throw std::invalid_argument("padding " + std::to_string(pad) + " bytes from offset " + std::to_string(fillFrom)
+                                        + " reaches past the end of a " + std::to_string(from) + "-byte line");
+        }
+
         ByteVec out(lines * to, static_cast<ByteVec::value_type>(0));
         for (std::size_t i = 0; i < lines; ++i) {
-            std::copy(src.begin() + static_cast<std::ptrdiff_t>(i * from),
-                      src.begin() + static_cast<std::ptrdiff_t>((i + 1) * from),
-                      out.begin() + static_cast<std::ptrdiff_t>(i * to));
+            const auto line = src.begin() + static_cast<std::ptrdiff_t>(i * from);
+            const auto dst = out.begin() + static_cast<std::ptrdiff_t>(i * to);
+            std::copy(line, line + static_cast<std::ptrdiff_t>(from), dst);
+            if (fillFrom >= 0) {
+                std::copy(line + static_cast<std::ptrdiff_t>(fillFrom), line + static_cast<std::ptrdiff_t>(fillFrom + static_cast<long long>(pad)),
+                          dst + static_cast<std::ptrdiff_t>(from));
+            }
         }
         return out;
     }
 
 
-    VGComponentMerge::VGComponentMerge(std::vector<Component> components, std::size_t minTexcoordStride) {
+    VGComponentMerge::VGComponentMerge(std::vector<Component> components, std::size_t minTexcoordStride, long long texcoordPadFrom) {
         if (components.empty()) {
             throw std::invalid_argument("a merge needs at least one component");
         }
@@ -131,7 +141,7 @@ namespace AGRemapCore {
             // texcoordStride is 0 only when no component named a texcoord at all -- padding to 0
             // would throw, so the (empty) buffers are simply carried through
             if (texcoordStride != 0) {
-                ByteVec texcoord = padLines(component.texcoord, lines, texcoordStride);
+                ByteVec texcoord = padLines(component.texcoord, lines, texcoordStride, texcoordPadFrom);
                 if (lines != 0 && texcoord.size() != component.texcoord.size()) {
                     ++stats_.paddedComponents;
                 }

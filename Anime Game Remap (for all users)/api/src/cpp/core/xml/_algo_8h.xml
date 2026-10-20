@@ -8,6 +8,9 @@
     <includes local="yes">Algo.tpp</includes>
     <includedby refid="_ranges_8h" local="yes">include/AGRemapCore/tools/Ranges.h</includedby>
     <incdepgraph>
+      <node id="5">
+        <label>Algo.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/tools/Algo.h</label>
         <link refid="_algo_8h"/>
@@ -19,9 +22,6 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>Algo.tpp</label>
       </node>
       <node id="2">
         <label>cstdint</label>

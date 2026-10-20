@@ -34,6 +34,15 @@
     <includedby refid="_mod_branches_8cpp" local="yes">src/data/IniFixData/ModBranches.cpp</includedby>
     <includedby refid="_ini_section_graph_instantiation_8cpp" local="yes">src/model/IniSectionGraphInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="29">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="44">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="50">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -531,15 +540,6 @@
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
-      </node>
-      <node id="29">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="35">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="44">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="65">
         <label>Generator.tpp</label>

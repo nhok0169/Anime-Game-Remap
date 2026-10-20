@@ -137,8 +137,8 @@ Parameters
 components: List[:class:`VGMergeComponent`]
     The source's components; the first takes offset 0
     )doc")
-        .def(py::init<std::vector<AGRC::VGComponentMerge::Component>, std::size_t>(), py::arg("components"),
-             py::arg("minTexcoordStride") = 0, py::doc(R"doc(
+        .def(py::init<std::vector<AGRC::VGComponentMerge::Component>, std::size_t, long long>(), py::arg("components"),
+             py::arg("minTexcoordStride") = 0, py::arg("texcoordPadFrom") = -1, py::doc(R"doc(
 Merges the components, in the order given
 
 Parameters
@@ -147,10 +147,16 @@ components: List[:class:`VGComponentMerge.Component`]
     The source's components; the first takes offset 0
 
 minTexcoordStride: :class:`int`
-    The TARGET's texcoord stride: the merged buffer is at least this wide, every line zero-padded at its end
+    The TARGET's texcoord stride: the merged buffer is at least this wide, every line padded at its end
     :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``0``, the widest component's
+
+texcoordPadFrom: :class:`int`
+    Where a widened line's padding is copied from, as a byte offset into the same line --- see :meth:`padLines`
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``-1``, zeros
              )doc"))
         .def_property_readonly("vertexCount", &AGRC::VGComponentMerge::vertexCount, py::doc(":class:`int`: The merged vertex count"))
         .def_property_readonly("stats", &AGRC::VGComponentMerge::stats, py::doc(":class:`VGComponentMergeStats`: Counts worth reporting"))
@@ -192,8 +198,33 @@ Returns
 Tuple[List[List[:class:`int`]], List[:class:`int`]]
     The remapped indices, and every weighted group that had no entry
         )doc"))
-        .def_static("padLines", [](const py::bytes &src, std::size_t lines, std::size_t to) {
-            return toBytes(AGRC::VGComponentMerge::padLines(fromBytes(src), lines, to));
-        }, py::arg("src"), py::arg("lines"), py::arg("to"),
-           py::doc("A fixed-stride buffer widened, every line zero-padded at the END -- where a missing ``TEXCOORD1`` sits"));
+        .def_static("padLines", [](const py::bytes &src, std::size_t lines, std::size_t to, long long fillFrom) {
+            return toBytes(AGRC::VGComponentMerge::padLines(fromBytes(src), lines, to, fillFrom));
+        }, py::arg("src"), py::arg("lines"), py::arg("to"), py::arg("fillFrom") = -1, py::doc(R"doc(
+A fixed-stride buffer widened, every line padded at the END --- where a missing ``TEXCOORD1`` sits
+
+The padding is zeros, or --- with ``fillFrom`` --- a copy of the line's own bytes from that offset: ``4`` makes a
+12-byte ``COLOR + TEXCOORD0`` line a 20-byte one whose ``TEXCOORD1`` repeats its ``TEXCOORD0``
+
+Parameters
+----------
+src: :class:`bytes`
+    The buffer
+
+lines: :class:`int`
+    Its line count
+
+to: :class:`int`
+    The stride to widen to
+
+fillFrom: :class:`int`
+    The byte offset in each line to copy the padding from :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``-1``, zeros
+
+Raises
+------
+ValueError
+    If ``src`` is not a whole number of lines, is wider than ``to``, or ``fillFrom`` reaches past the end of a line
+        )doc"));
 }

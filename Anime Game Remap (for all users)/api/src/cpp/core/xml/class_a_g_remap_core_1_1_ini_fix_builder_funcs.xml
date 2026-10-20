@@ -2869,7 +2869,7 @@ The SEVENTH merge of a skin of several components onto a target of one, and the 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1479" column="43" bodyfile="src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp" bodystart="111" bodyend="113"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1479" column="43" bodyfile="src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp" bodystart="115" bodyend="117"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -427,6 +427,20 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         A component carrying only ``TEXCOORD0`` is widened to the TARGET's stride with its ``TEXCOORD1`` zero by
+         default, i.e. ``(0, 0)`` -- the atlas corner. A target whose shader reads ``TEXCOORD1`` (Lumine's two-sided dress
+         draws every BACK face through it) then textures the inside of every skirt from that corner. Set to the byte offset of
+         ``TEXCOORD0`` in a line (``4``, after the vertex colour), the padding is a copy of it instead, so a back face shows
+         the same texels as its front -- which is how the source's own one-sided shader drew it :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``-1``, zeros
+         @endrst
+         */
+        long long texcoordPadFrom = -1;
+
+        /**
+         * @brief
+         @rst
          Built per drawn object from that object's own diffuse path: the target's light map band
          table. A GIMI light map's alpha is a material band, and the legend is per skin
          @endrst

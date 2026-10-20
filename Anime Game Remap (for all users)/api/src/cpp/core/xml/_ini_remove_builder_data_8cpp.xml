@@ -9,6 +9,30 @@
     <includes refid="_version_8h" local="yes">AGRemapCore/model/Version.h</includes>
     <includes refid="_row_8h" local="yes">AGRemapCore/model/assets/Row.h</includes>
     <incdepgraph>
+      <node id="51">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="97">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="96">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="57">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="72">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="100">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1002,30 +1026,6 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-      </node>
-      <node id="51">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="97">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="96">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="57">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="72">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="91">
         <label>Generator.tpp</label>

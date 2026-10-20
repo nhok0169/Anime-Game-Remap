@@ -18,6 +18,15 @@
     <includedby refid="_reg_remove_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</includedby>
     <includedby refid="_reg_restrict_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRestrict.h</includedby>
     <incdepgraph>
+      <node id="27">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="33">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="44">
+        <label>BaseRegEdit.tpp</label>
+      </node>
       <node id="5">
         <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
@@ -261,15 +270,6 @@
         </childnode>
         <childnode refid="40" relation="include">
         </childnode>
-      </node>
-      <node id="27">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="33">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="44">
-        <label>BaseRegEdit.tpp</label>
       </node>
       <node id="41">
         <label>IfContentPart.tpp</label>

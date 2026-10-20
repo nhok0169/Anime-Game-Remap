@@ -19,6 +19,12 @@
     <includes local="yes">BaseTrie.tpp</includes>
     <includedby refid="_base_aho_corasick_d_f_a_8h" local="yes">include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</includedby>
     <incdepgraph>
+      <node id="18">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="15">
+        <label>BiMap.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
@@ -78,12 +84,6 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-      </node>
-      <node id="18">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="15">
-        <label>BiMap.tpp</label>
       </node>
       <node id="6">
         <label>cstdint</label>

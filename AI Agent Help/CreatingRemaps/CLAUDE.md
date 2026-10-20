@@ -403,6 +403,66 @@ the API fix on all the mods"): testing the compiled fix on every mod in game IS 
 - **A frame dump with textures is huge** (9.4 GB for one card); `--options "dump_rt dds"` is a third of it and
   enough to read the G-buffer.
 
+### RUNNING THE EPOCHS: what eight of them on Lynae taught (2026-10-17)
+
+Lynae <-> LynaePeppermint used eight epochs and was handed over with no regressions and a list of stated limits.
+The items it found are in the LYNAE section. These are the lessons about RUNNING epochs, and they apply to any pair:
+
+- **Be confident before you start one** (the maintainer: "be confident in your fix before you start an epoch").
+  Keep a REGRESSION LIST of every item any earlier epoch flagged and you fixed. Re-shoot all of it on the new build
+  yourself, card against card, before the game agent starts. Build 55 of Lynae moved a draw-routing rule from "any
+  share" to "majority" and brought back epoch 6's lime under Lynae9's skirt. The overworld half of epoch 8, already
+  run on that build, had to be declared void and run again.
+- **Give the game agent the previous epoch's sheets.** The epoch 8 brief carried epoch 7's original / remap twin
+  sheets and asked for a regression check against them. That is how "no regressions" became a finding rather than
+  an impression.
+- **A rule that routes draws by a threshold moves other mods.** `DrawReroute` took a draw when more than half of
+  its texels carried a flag. Lynae9 draws legs, tights and shorts in ONE range that is mostly skin, so the majority
+  rule left her tights where they did not belong. `DrawReroute::share` (`0.01` there) is the knob. After changing
+  any such rule, re-check every mod an earlier fix of that rule was for.
+- **Tell the game agent what is NOT a fault, in the brief.** Otherwise it re-flags these every epoch:
+  - Each card plays its OWN idle pose. A sleeve clipping on one card and not the other, or an arm held
+    differently, is the pose (Lynae10's clip, Lynae11's arm).
+  - Some differences are the mod's design, not the remap (Lynae1's heels).
+  - Every stated limitation already in `remapGrading.rst` goes in the brief too.
+- **A shot that cannot be judged is re-shot, never classified.** Examples: the head out of frame because the mod
+  scales the model (Lynae9's `Size = 1.15`), the wrong scene, or the card's intro effect still playing. Three such
+  shots were the last thing done before the hand-over.
+- **Check the scene before every scripted run.** Several Lynae runs started while the game was still in the
+  overworld, and every studio shot of those runs was useless. Open the studio first and look at a screenshot, then
+  start the script.
+- **Exactly one mod of the character is installed during a run.** The epoch wrappers parked every other `Lynae*`
+  folder, including the maintainer's own LynaePeppermint4. The bare compare script did not, and a stray second
+  mod draws over the one under test. Restore each parked folder afterwards and check `d3dx.ini` against its md5.
+- **A limitation needs a measured cause.** "The props pass does not exist in the skin's frame" was measured and is
+  a limitation. "Two causes ruled out, cause not found" is not: write it in the hand-off as open, with what was
+  tried. The small colour shifts Lynae was handed over with (tie, coat panel, bell, sheer bra from below) are this
+  second kind, and the hand-off says so.
+- **Repeat a promising single shot before building on it.** One frame where Lynae1's sheer bra looked right was
+  the start of a light-direction change that, repeated twice per condition, shredded the model. Compare at least
+  two frames per condition, interleaved.
+- **Ship only the change a fault needs.** Narrowing `flatFallsBackToSource` moved 13 mods' bindings for no visible
+  gain on the item it was aimed at, and was reverted. A change that moves many mods and fixes nothing is a
+  regression risk with no upside.
+
+### A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (the maintainer, 2026-10-16)
+
+From the maintainer's GI experience: **a game's shaders change with updates far faster than its meshes or
+textures**. A fix's custom `.hlsl` is a copy of one game version's shader. When the game rewrites that shader family,
+the copy silently stops matching (G-buffer layout, constant buffers, registers), and every mod fixed with it breaks at
+once. So GI remaps add no new shaders, and add a texture only to fill a register the target reads and the source lacks
+(an invented normal map, say). No TexFx-style extras that push glow or luminosity through a texture's channels.
+
+How to apply it:
+
+1. Prefer the target's OWN shader, reached through registers, texture edits and downloads.
+2. Reach for a custom shader only when a MEASURED fault has no other fix. Say so explicitly when you propose one.
+3. List every shipped shader in the remap's docs as an update risk.
+
+Lynae <-> LynaePeppermint is the counter-example: it ships ten such shaders (her five on the skin's slots, the skin's
+on hers). Whether to make it lighter is the maintainer's call. For the next WuWa pair, try the target's own shaders
+first and record why each custom one was unavoidable.
+
 <br>
 
 ## THE VERTEX GROUP BEHAVIOUR AUDIT: after the RemapDraft (step 2a, 2026-09-27)

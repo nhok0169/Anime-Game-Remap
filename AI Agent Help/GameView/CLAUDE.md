@@ -551,6 +551,18 @@ This is the maintainer's real account, and the tool presses real keys.
 - **The tool takes the foreground.** Each interactive command focuses the game and then hands focus
   back. While a `do` sequence runs, the maintainer's own keyboard and mouse fight it. Batch steps
   into one `do` so each window of it is short.
+- **The game is the maintainer's to play too (2026-10-17).** In a long session they may pick it up
+  between your rounds (one interrupted a Lynae epoch to collect an echo). Before driving the game
+  after a pause, ask. If a screenshot shows a scene your script did not put there, stop and ask. Never
+  fight them for focus.
+- **"Application Hang Detected": click nothing, and ask.** It is Unreal's watchdog. Either button can
+  end the session and lose state that only the maintainer can judge.
+- **Stopping a script does not stop what it started.** `TaskStop` on a wrapper leaves its child
+  `compare` / `shot` / `main.py` processes running, and they keep moving mods and pressing keys. Kill them by
+  command line, then check `Mods` and the persisted `.ini` lines before the next run.
+- **Look at the scene before a scripted run.** A script written for the character studio, started
+  from the overworld, takes a whole run of useless shots. It can also press keys the overworld
+  treats differently.
 
 ## How `d3d11_log.txt` behaves (read before changing `reload` or `log`)
 

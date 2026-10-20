@@ -75,6 +75,16 @@ until one finds nothing. Only then does the maintainer look -- to approve, not t
 **HARD LIMIT: 10 EPOCHS PER DIRECTION (the maintainer, 2026-10-16).** If the 10th epoch still is not clean, STOP:
 write up what is open and hand it to the maintainer, who checks it themselves. Lynae <-> LynaePeppermint ran for days
 with new bugs in every round; do not start an 11th.
+**"CLEAN" MEANS THE EPOCH FOUND NOTHING -- AND A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (2026-10-17).**
+Filing an epoch's findings as limitations afterwards does not make that epoch clean; say which limitations are
+MEASURED to be out of reach and which only "cause not found", and hand the second kind over as open. Before starting
+an epoch, re-shoot every item fixed in ANY earlier epoch on the new build yourself: one Lynae build brought back an
+epoch-6 fault and voided an epoch run. And from the maintainer's GI experience: **game shaders break on updates far
+faster than meshes or textures**, so a remap reaches for its own `.hlsl` or an extra texture (TexFx-style glow or
+luminosity channels included) only when a measured fault has no other fix, and lists every shipped shader as an
+update risk. Lynae <-> LynaePeppermint ships ten. **The game is also the maintainer's**: ask before driving it in a
+session where they may be playing, and if an "Application Hang Detected" dialog appears, click nothing and ask. See
+Creating Remaps' "RUNNING THE EPOCHS: what eight of them on Lynae taught" and Overview habits 116-118.
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones
@@ -303,7 +313,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (115 as of 2026-10-12), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (118 as of 2026-10-17), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

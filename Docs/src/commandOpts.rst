@@ -233,6 +233,14 @@ Below are the supported types of mods
        | SummerBennett,
        | SummerBenny
      - Bennett Summertime Adventure mods
+   * - **Changli**
+     - WuWa
+     - 
+     - Changli mods
+   * - **ChangliNymph**
+     - WuWa
+     - ChangliLaurelNymph, ChangliSkin1, LaurelNymphChangli, NymphChangli
+     - Changli Laurel Nymph skin mods
    * - **Charlotte**
      - GI
      - 

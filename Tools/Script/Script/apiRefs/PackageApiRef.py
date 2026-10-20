@@ -16,7 +16,8 @@ import importlib
 import importlib.metadata
 import importlib.util
 import re
-import pip._internal as pip
+import subprocess
+import sys
 from typing import Any, List, Optional, Tuple
 ##### EndExtImports
 
@@ -150,7 +151,10 @@ The full list of options is at:
             return
 
         print(f"Getting the latest version of '{self.package}' (pass {CommandOpts.DisableUpdate.value} to skip this)...")
-        pip.main(self.getInstallOptions(args))
+        # pip runs in its own process: pip.main is not a supported entry point, and an in-process pip
+        #   leaves an audit hook behind that flags every import of the API made after it returns
+        #   (https://github.com/pypa/pip/issues/13842, enforced from pip 26.3)
+        subprocess.run([sys.executable, "-m", "pip"] + self.getInstallOptions(args))
 
         # a package installed during this run is not on any import path that was cached before it
         #   arrived, so the caches have to be dropped before the import below can find it

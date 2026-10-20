@@ -1,5 +1,6 @@
 from typing import Optional
-import pip._internal as pip
+import subprocess
+import sys
 
 from .BasePackageUpdater import BasePackageUpdater
 
@@ -12,4 +13,4 @@ class PipUpdater(BasePackageUpdater):
 
     def update(self):
         print(f"Upgrading pip package by the name: {self.packageName}")
-        pip.main(['install', '-U', self.installName])
+        subprocess.run([sys.executable, "-m", "pip", "install", "-U", self.installName])

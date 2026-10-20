@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, October 06, 2026 03:18:01.305 PM UTC
-# Run Hash: 8e110089-9dc5-4286-8180-e49c7c214b9d
+# Datetime Ran: Tuesday, October 20, 2026 05:53:07.488 AM UTC
+# Run Hash: 3b3fa891-0017-43e4-a3cb-1ccefe5111be
 # 
 # *******************************
 # ================
@@ -33,16 +33,16 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 5.0.1
+# Version: 5.0.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, October 06, 2026 03:18:01.305 PM UTC
-# Build Hash: 4fd44ed1-9e36-4807-abf0-08404956ebfd
+# Datetime Compiled: Tuesday, October 20, 2026 05:53:07.488 AM UTC
+# Build Hash: cf75afc7-3b97-4270-9196-978cd43e933a
 #
 # *********************************
 #
 
 
-import os, importlib, importlib.metadata, importlib.util, re, pip._internal as pip, sys, argparse
+import os, importlib, importlib.metadata, importlib.util, re, subprocess, sys, argparse
 
 from typing import Optional, Any, List, Callable, Dict, Tuple
 from enum import Enum
@@ -410,7 +410,10 @@ The full list of options is at:
             return
 
         print(f"Getting the latest version of '{self.package}' (pass {CommandOpts.DisableUpdate.value} to skip this)...")
-        pip.main(self.getInstallOptions(args))
+        # pip runs in its own process: pip.main is not a supported entry point, and an in-process pip
+        #   leaves an audit hook behind that flags every import of the API made after it returns
+        #   (https://github.com/pypa/pip/issues/13842, enforced from pip 26.3)
+        subprocess.run([sys.executable, "-m", "pip"] + self.getInstallOptions(args))
 
         # a package installed during this run is not on any import path that was cached before it
         #   arrived, so the caches have to be dropped before the import below can find it

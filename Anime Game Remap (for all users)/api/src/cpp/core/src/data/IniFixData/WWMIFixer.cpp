@@ -3283,10 +3283,14 @@ namespace AGRemapCore {
                     // declares `[ResourceTexture19]` on its body diffuse and binds that file only as
                     // `[Resource-1]`, inside a `$sawpvarA` toggle on the texture's hash; naming the file
                     // by the first declaration bound the spare and the toggle never reached the target.
+                    // A re-fix parses its own previous output too, whose lists bind the file under the
+                    // name it chose last time: those sections are not the MOD's use, so they are skipped.
                     std::unordered_set<std::string> usedResources;
+                    const std::string ourPrefix = StringTools::toLower(toModName_ + "Remap");
                     if (IniFile* ini = ctx_.getIniFile()) {
                         for (const auto& tpl : ini->getIfTemplates()) {
-                            if (tpl.second == nullptr) {
+                            if (tpl.second == nullptr
+                                    || StringTools::toLower(tpl.first).find(ourPrefix) != std::string::npos) {
                                 continue;
                             }
                             for (const auto& part : tpl.second->parts()) {

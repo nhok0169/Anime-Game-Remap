@@ -38,6 +38,9 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getShapeKey
         // from the frame dumps' Metadata.json
         {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), "", "shapekeys"}, "2020"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "shapekeys"}, "4892"},
+        // Changli (1.2 on: the same sum in the 1.3 and current Metadata.json) and ChangliNymph (2.4)
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "shapekeys"}, "2156"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "shapekeys"}, "1863"},
     };
     return rows;
 }

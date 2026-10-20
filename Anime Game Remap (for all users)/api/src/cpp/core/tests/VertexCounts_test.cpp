@@ -122,7 +122,8 @@ void testPrePopulated() {
     // +1 on 2026-09-27: Yaoyao at 4.0.
     // +1 on 2026-09-29: Lumine at 4.0.
     // +2 on 2026-10-05: Lynae (3.6) and LynaePeppermint (3.7), from their frame dumps.
-    check(counts.size() == 56, "56 rows -- this table's own count, eleven ahead of the Python dict's 43");
+    // +3 on 2026-10-20: Changli at 1.2 and 1.4 (her mesh grew at 1.4) and ChangliNymph at 2.4.
+    check(counts.size() == 59, "59 rows -- this table's own count, sixteen ahead of the Python dict's 43");
 
     // Same depth as Hashes now (3), one shallower than Indices (4).
     check(counts.getTotalIndices() == 3, "3 index columns (version, name, component)");
@@ -153,8 +154,8 @@ void testVersionCoverage() {
     // 2.5, 2.8 and 3.5 are Wuthering Waves' (Sanhua / SanhuaExorcist 2026-09-19, Chisa /
     // ChisaParfait 2026-09-20), on the same number line as GI's -- the two games share it, so a
     // WuWa version can sit between two GI ones and nothing distinguishes them here.
-    const std::set<std::string> expected = {"2.5", "2.8", "3.5", "3.6", "3.7", "4.0", "4.4", "4.6", "4.8", "5.3"};
-    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7");
+    const std::set<std::string> expected = {"1.2", "1.4", "2.4", "2.5", "2.8", "3.5", "3.6", "3.7", "4.0", "4.4", "4.6", "4.8", "5.3"};
+    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus Changli's 1.2 and 1.4 and ChangliNymph's 2.4");
 }
 
 void testLookups() {

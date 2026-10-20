@@ -157,6 +157,8 @@ namespace AGRemapCore {
                 {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniRemoveBuilderFuncs::wwmiStub()},
             };
         }
     }

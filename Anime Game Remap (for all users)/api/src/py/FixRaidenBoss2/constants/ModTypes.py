@@ -95,6 +95,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(bennettadventure).*\]``
 
+    Changli: :class:`ModType`
+        **Changli mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = d14bed8b`` (or her 1.1 / 1.2 meshes' ``77975500`` / ``5f8aac45``) -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
+    ChangliNymph: :class:`ModType`
+        **Changli Laurel Nymph skin mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = acbfcfec`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
+
     Charlotte: :class:`ModType`
         **Charlotte mods** :raw-html:`<br />`
 
@@ -375,6 +385,8 @@ class ModTypes(StrEnum, DeferredEnum):
     BarbaraSummertime = (GIBuilder.barbaraSummerTime, )
     Bennett = (GIBuilder.bennett, )
     BennettAdventure = (GIBuilder.bennettAdventure, )
+    Changli = (WWMIBuilder.changli, )
+    ChangliNymph = (WWMIBuilder.changliNymph, )
     Charlotte = (GIBuilder.charlotte, )
     CharlotteHurlock = (GIBuilder.charlotteHurlock, )
     CherryHuTao = (GIBuilder.cherryHutao, )

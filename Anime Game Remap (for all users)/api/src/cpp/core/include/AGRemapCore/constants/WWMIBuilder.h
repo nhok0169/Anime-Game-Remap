@@ -66,6 +66,16 @@ namespace AGRemapCore {
             static ModType lynaePeppermint();
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Changli
+             */
+            static ModType changli();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for ChangliNymph (WWMI-Assets' ChangliSkin1)
+             */
+            static ModType changliNymph();
+
+            /**
              * @brief Every WuWa :cpp:class:`ModType`, freshly built on each call
              */
             static std::vector<ModType> all();

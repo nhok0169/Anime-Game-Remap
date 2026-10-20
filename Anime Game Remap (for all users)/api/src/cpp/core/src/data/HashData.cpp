@@ -1892,6 +1892,29 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "cb4"}, "f02baf77"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_offsets"}, "44a7eaed"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_scale"}, "f4d1692b"},
+
+        // ===== WuWa: Changli and ChangliNymph (2026-10-20) =====
+        // Changli carries THREE mesh generations, each a mod may still declare (the lineage is the
+        // community wwmi_fix_23 hash_maps.json's old_vs_new / old_vs_new14, the values WWMI-Assets'
+        // Metadata.json at 1.3 and now). 1.1: her launch mesh, known from mods only
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "77975500"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "cb4"}, "f02baf77"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "d8decbca"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "fd9483ca"},
+        // Changli (1.2): rehashed, one bone fewer in component 5 (WWMI-Assets' 1.3 Metadata.json)
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "5f8aac45"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "1ccb8008"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "060f5303"},
+        // Changli (1.4): component 3 grew by 1020 indices; unchanged since, and the 3.7.1 frame dump
+        // binds exactly this mesh
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "d14bed8b"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "59f24b66"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "277e18c9"},
+        // ChangliNymph (2.4, the version WWMI-Assets added ChangliSkin1; unchanged since)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "vb0"}, "acbfcfec"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "cb4"}, "f02baf77"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_offsets"}, "a90413a7"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_scale"}, "05d2029d"},
     };
     return rows;
 }

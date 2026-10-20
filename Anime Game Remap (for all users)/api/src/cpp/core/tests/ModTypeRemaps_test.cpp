@@ -171,6 +171,8 @@ static const std::vector<RemapRow>& expectedRows() {
         {"ChisaParfait", {"Chisa"}, {"Chisa"}},
         {"Lynae", {"LynaePeppermint"}, {"LynaePeppermint"}},
         {"LynaePeppermint", {"Lynae"}, {"Lynae"}},
+        {"Changli", {"ChangliNymph"}, {"ChangliNymph"}},
+        {"ChangliNymph", {"Changli"}, {"Changli"}},
     };
     return rows;
 }
@@ -204,7 +206,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-    check(expectedRows().size() == 63, "the oracle itself still has all 63 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine and LumineHeaven, plus the six WuWa types)");
+    check(expectedRows().size() == 65, "the oracle itself still has all 65 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine and LumineHeaven, plus the eight WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 

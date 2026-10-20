@@ -79,6 +79,34 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getVGOffset
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "257"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "277"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "314"},
+
+        // Changli (1.1): vg_offset as the 1.1-era mods declare it (Changli12, and Changli2 / 7 exported then): component 5 one bone wider
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "0"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "44"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "58"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "59"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "160"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "229"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "277"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "278"},
+        // Changli (1.2): from the 1.3 Metadata.json (vg_offset); unchanged at 1.4
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "0"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "44"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "58"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "59"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "160"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "229"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "276"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "277"},
+        // ChangliNymph (2.4): from Metadata.json (vg_offset)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component0"}, "0"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component1"}, "44"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component2"}, "58"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component3"}, "59"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component4"}, "113"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component5"}, "219"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component6"}, "255"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component7"}, "256"},
     };
     return rows;
 }

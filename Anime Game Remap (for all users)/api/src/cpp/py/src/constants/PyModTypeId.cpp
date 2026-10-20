@@ -168,7 +168,9 @@ The names of the different types of mods this fix will fix from or fix to
         .value("Chisa", AGRC::ModTypeId::Chisa, R"doc(Chisa from WuWa, the second WWMI pair; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin)doc")
         .value("ChisaParfait", AGRC::ModTypeId::ChisaParfait, R"doc(Chisa's Parfait skin from WuWa)doc")
         .value("Lynae", AGRC::ModTypeId::Lynae, R"doc(Lynae from WuWa; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin)doc")
-        .value("LynaePeppermint", AGRC::ModTypeId::LynaePeppermint, R"doc(Lynae's Peppermint skin from WuWa)doc");
+        .value("LynaePeppermint", AGRC::ModTypeId::LynaePeppermint, R"doc(Lynae's Peppermint skin from WuWa)doc")
+        .value("Changli", AGRC::ModTypeId::Changli, R"doc(Changli from WuWa; a mod may carry any of her three mesh generations (1.1, 1.2, 1.4 on))doc")
+        .value("ChangliNymph", AGRC::ModTypeId::ChangliNymph, R"doc(Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1))doc");
 
     // Also bare-named -- no pure-Python 'ModTypeIdTools' class exists to shadow either.
     py::class_<AGRC::ModTypeIdTools>(m, "ModTypeIdTools", R"doc(

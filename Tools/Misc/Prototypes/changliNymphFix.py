@@ -83,11 +83,11 @@ AssetRoles = {
     "05187cd9": "faceMask", "a97f587b": "faceDiffuse",
     "69994531": "upperNormal", "3ff7cad2": "upperMask", "8407b021": "upperDiffuse", "5ed7e436": "upperDetail",
     "ee867ac2": "lowerNormal", "4da65048": "lowerMask", "3e6d3c8e": "lowerDiffuse",
-    "59b52b44": "coatNormal", "258c919f": "coatDiffuse",
+    "59b52b44": "coatNormal", "258c919f": "coatDiffuse", "e047ea9c": "coatOutline", "c0f0b1e1": "hairOutline",
     "21f813ba": "glow",
     "1bc98900": "eyeDiffuse", "8383cbbf": "eyeMask",
 }
-DumpOnlyRoles = {"2ce995ee": "upperRamp", "5a9f3650": "coatOutline", "48e4d268": "hairOutline",
+DumpOnlyRoles = {"2ce995ee": "upperRamp",
                  "dd9d28ce": "eyeHighlight", "6bf7a371": "eyeIris"}
 
 

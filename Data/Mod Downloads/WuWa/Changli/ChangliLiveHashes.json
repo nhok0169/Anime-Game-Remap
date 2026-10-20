@@ -1,6 +1,8 @@
 {
-  "_": "Changli's textures: the hash WWMI-Assets (2.7) and this download folder file them under -> the hash the game binds with its texture quality (LOD bias, ImageDetail) at its maximum, 2. Paired by pixel correlation (1.0000 on every pair but fcec9218, 0.9998 on every channel against a 512 copy the frame had not finished streaming) off a character-menu frame dump at WuWa 3.7.1, FrameAnalysis-Changli-2026-10-20-111723. c0f0b1e1 and e047ea9c are bound by no draw of that frame, so they have no entry. Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live.",
+  "_": "Changli's textures: the hash WWMI-Assets (2.7) and this download folder file them under -> the hash the game binds with its texture quality (LOD bias, ImageDetail) at its maximum, 2. Paired by pixel correlation (1.0000 on every pair but fcec9218, 0.9998 on every channel against a 512 copy the frame had not finished streaming) off a character-menu frame dump at WuWa 3.7.1, FrameAnalysis-Changli-2026-10-20-111723. c0f0b1e1 and e047ea9c (her hair and coat outlines) are bound by no draw of that frame; they are paired with the outline textures the frame does bind by the same correlation, 0.9999 each, against the dump's 512 copies. Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live.",
   "0484ab73": "fcf01372",
+  "c0f0b1e1": "48e4d268",
+  "e047ea9c": "5a9f3650",
   "05187cd9": "e0fa653e",
   "1bc98900": "f0536df1",
   "21f813ba": "742c5c7b",

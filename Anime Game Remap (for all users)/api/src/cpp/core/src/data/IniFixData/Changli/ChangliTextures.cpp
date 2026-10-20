@@ -38,6 +38,7 @@ namespace AGRemapCore {
             {"1061f8d7", "coatNormal"},
             {"59b52b44", "coatNormal"},
             {"5a9f3650", "coatOutline"},
+            {"e047ea9c", "coatOutline"},
             {"1bc98900", "eyeDiffuse"},
             {"f0536df1", "eyeDiffuse"},
             {"dd9d28ce", "eyeHighlight"},
@@ -55,6 +56,7 @@ namespace AGRemapCore {
             {"0484ab73", "hairMap"},
             {"fcf01372", "hairMap"},
             {"48e4d268", "hairOutline"},
+            {"c0f0b1e1", "hairOutline"},
             {"8b0bbdb6", "hairStrand"},
             {"fde34d42", "hairStrand"},
             {"0a1ba232", "lowerDiffuse"},
@@ -115,7 +117,7 @@ namespace AGRemapCore {
             {"bangsOutline", "fcec9218"},
             {"hairDiffuse", "9a3f146d"},
             {"hairStrand", "fde34d42"},
-            {"hairOutline", "48e4d268"},
+            {"hairOutline", "c0f0b1e1"},
             {"faceMask", "05187cd9"},
             {"faceDiffuse", "a97f587b"},
             {"upperNormal", "69994531"},
@@ -128,7 +130,7 @@ namespace AGRemapCore {
             {"lowerDiffuse", "3e6d3c8e"},
             {"coatNormal", "59b52b44"},
             {"coatDiffuse", "258c919f"},
-            {"coatOutline", "5a9f3650"},
+            {"coatOutline", "e047ea9c"},
             {"eyeHighlight", "dd9d28ce"},
         };
 

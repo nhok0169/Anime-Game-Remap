@@ -1,5 +1,5 @@
 {
-    "_": "Changli's older texture hashes, from WWMI-Assets' git history (PlayerCharacterData/Changli): each old hash, the hash git records it renamed to, the rename's similarity and commit, the old hash's register usage in the TextureUsage.json before that commit, and the role filed in HashData.cpp. Built by hand from scratch scripts on 2026-10-20.",
+    "_": "Changli's older texture hashes, from WWMI-Assets' git history (PlayerCharacterData/Changli): each old hash, the hash git records it renamed to, the rename's similarity and commit, the old hash's register usage in the TextureUsage.json before that commit, and the role filed in HashData.cpp. Built by hand from scratch scripts on 2026-10-20. The 2.5 rows' outline successors, c0f0b1e1 and e047ea9c, are her CURRENT asset hashes and sit in the fixer config's roles.",
     "2.5": {
         "00e5703f": {
             "new": "ee867ac2",
@@ -203,16 +203,6 @@
                 "5:ps-t0:3a17bf19"
             ],
             "role": "coatNormal"
-        }
-    },
-    "2.6": {
-        "c0f0b1e1": {
-            "role": "hairOutline",
-            "predecessor": "e0b2f0d3"
-        },
-        "e047ea9c": {
-            "role": "coatOutline",
-            "predecessor": "2782d638"
         }
     },
     "notFiled": {

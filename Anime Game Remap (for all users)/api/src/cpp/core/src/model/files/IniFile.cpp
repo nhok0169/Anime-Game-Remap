@@ -1214,26 +1214,27 @@ namespace AGRemapCore {
     }
 
     bool IniFile::isSectionHeaderLine(const std::string& line) {
+        // 3DMigoto's rule (IniHandler.cpp, ParseIniStream): any line starting with '[' is a header,
+        // closed or not. Requiring a ']' read a mod's malformed header ("[Textrun = ...ORFix" with
+        // the "ureOverride...]" half on the next line) as two KEYS of the section before it, which
+        // then took the next section's hash, skip and draw (Lumine11's Nod Krai outfit, 2026-10-20).
         std::string_view rest = StringTools::lstrip(line);
-        return rest.starts_with('[') && rest.find(']') != std::string_view::npos;
+        return rest.starts_with('[');
     }
 
     std::string IniFile::getSectionNameFromLine(const std::string& line) {
+        // As 3DMigoto: up to the FIRST ']' after the '[', or the rest of the line without one.
         size_t leftPos = line.find('[');
-        size_t rightPos = line.rfind(']');
-        std::string name;
-
-        if (leftPos != std::string::npos && rightPos != std::string::npos && rightPos > leftPos) {
-            name = line.substr(leftPos + 1, rightPos - leftPos - 1);
-        } else if (rightPos != std::string::npos) {
-            name = line.substr(0, rightPos);
-        } else if (leftPos != std::string::npos) {
-            name = line.substr(leftPos + 1);
-        } else {
-            name = line;
+        if (leftPos == std::string::npos) {
+            return trim(line);
         }
 
-        return trim(name);
+        size_t rightPos = line.find(']', leftPos + 1);
+        if (rightPos == std::string::npos) {
+            return trim(line.substr(leftPos + 1));
+        }
+
+        return trim(line.substr(leftPos + 1, rightPos - leftPos - 1));
     }
 
     bool IniFile::isConditionalLine(const std::string& line) {

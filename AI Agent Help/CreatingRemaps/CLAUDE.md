@@ -2016,6 +2016,7 @@ surprises you.
 | the mod **looks wrong on its OWN character**, not only on the remap (WuWa: the game's textures at the mod's UVs, gold smears, a washed-out top) | NOT a remap bug. "THE MOD LOOKS WRONG ON ITS OWN CHARACTER WAS THE LIVE TEXTURE HASHES": dump the BASE outfit in the character menu (check the dump's `vb0` is the right character, since the selected outfit card decides which one draws), compare the hashes it binds with the mod's `[TextureOverrideTextureN]` hashes, then `wwmiTextureFix.py --live` (undo the remap first, fix again after). Prove it with a before/after on a mod whose VISIBLE parts use the changed overrides |
 | on the remap, **some parts render in the GAME's textures** while the mod's own `.ini` binds no textures for them, and another `.ini` of the mod does (a namespaced or RabbitFX file, often one folder up, matching the same `vb0` + `match_first_index`) | "THE MOD LOOKS WRONG ON ITS OWN CHARACTER", its last paragraph: `WWMIFixer::readSameDrawInis` reads those, but only the registers `WWMITextureFacts::registerRoles` names. A new character needs its RabbitFX names there. The tell is `<Source><Role>RemapDL.dds` files beside the mod: each is a role the fix found no file for |
 | a **namespace-merged skin mod** (`Master<Char>.ini` + per-outfit `if $\<Char>\Master\swapvar`) onto its character: a floating face, a shattered model, or one outfit wearing another's textures | "A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER". First compare its `DISABLED*` copy's fix (no `if`) with the live file's; then check every remap binding sits under its file's guard |
+| **one outfit** of a merged mod green / red or drawn wrong, the others right | the same section's Lumine11 paragraph: grep that outfit's `.ini` for a malformed section header (`^\[[^]]*$`); `check_dangling.py` names the outfit |
 | **sheer / transparent parts black** (TexFx) on the target of a merge, right on the source | the same section's TexFx paragraph: the transparency is drawn from the diffuse BOUND when the section ends. Take a `txt`-only frame dump and read the `customshader\texfx` line |
 | the **original mod itself** draws the game's textures or nothing on its own character | restore it first (same section's last paragraph): GIMI's newer texture API on an old loader, a dangling `vb0`, or a region-check master |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
@@ -4141,6 +4142,35 @@ reference. The maintainer's ask: make the original work first, then remap. `GIMI
 a `vb0 = ResourceColumbinaPosition` that named no resource. And the master hid every outfit outside the regions
 `Core/GIMI/Libraries/Region.ini` recognises (`regioncheck = 0` maps to option 18, "off"); the maintainer's copy swaps by
 key (`Alt+9` / `Shift+Alt+9`) instead.
+
+**Then Lumine11 (the long-hair version, same author) came out green and red on ONE outfit -- a malformed SECTION
+HEADER, not a fix library (2026-10-20).** Its Nod Krai outfit carries an editing accident:
+
+```ini
+[Textrun = CommandList\global\ORFix\ORFix
+ureOverrideLumineSkinBangsIB]
+```
+
+3DMigoto opens a section on ANY line starting with `[` and names it up to the first `]` or the end of the line
+(`IniHandler.cpp`, `ParseIniStream`), so it reads a section called `Textrun = ...ORFix` that applies to nothing, and
+the second line is a key of that section. `IniFile` asked for a `]` on the same line too, so both lines were KEYS of
+the Body section above, which then also held the BangsIB section's hash, skip and draw: the remapped Body lost its draw
+into a section with `hash = HashNotFound`, kept bindings outside its guard, and the game drew the body with the
+downloaded normal map where NNFix reads the diffuse -- flat green with red patches, which reads exactly like a doubled
+fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` and `IniScan` follow 3DMigoto's rule now
+(`core/tests/IniFile_SectionHeader_test.cpp`, seen to fail 8 ways against the old rule). Two things that made it quick:
+`check_dangling.py` named the one outfit (two references into files the fix never wrote), and **the region-check
+master shows only the outfit for the region you stand in** -- the screenshot was in Nod-Krai, so it was that outfit,
+and after an F10 reload the region reads 0 until the game re-detects it (to see one outfit there, add its number to
+`$swap_unidentified`'s cycle for the test and put the line back). **When ONE variant of a merged mod is wrong, grep
+its `.ini` for a line starting with `[` that is not a whole header (`^\[[^]]*$`) before reading the fix.**
+**OPEN, and it bit once:** a file fixed by an OLDER build carries that build's copy of the malformed section inside its
+fix block, under the same broken name. The undo deletes fix-block sections by NAME, and under the new rule that name
+also matches the author's line -- so the first re-fix with the new build removed the author's (dead to 3DMigoto,
+so nothing changes in game) section, and with backups kept it overwrote the backup too. The maintainer's files were
+put back from a scratch copy undone with the OLD build. Prove any such repair with an author-text comparison
+(everything before the fix's `; ---------------` marker against the original), and see that it FAILS on the damaged
+copy first.
 
 <br>
 

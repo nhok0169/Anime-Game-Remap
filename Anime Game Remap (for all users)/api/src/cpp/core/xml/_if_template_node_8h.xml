@@ -18,6 +18,12 @@
     <includedby refid="_if_template_tree_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplateTree.h</includedby>
     <includedby refid="_if_template_node_instantiation_8cpp" local="yes">src/model/iftemplate/IfTemplateNodeInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="26">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="32">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="43">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -321,12 +327,6 @@
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
-      </node>
-      <node id="26">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="32">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="40">
         <label>IfContentPart.tpp</label>

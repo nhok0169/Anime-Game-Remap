@@ -116,7 +116,7 @@ namespace AGRemapCore {
             components.push_back(std::move(component));
         }
 
-        VGComponentMerge merge(std::move(components), config.texcoordStride);
+        VGComponentMerge merge(std::move(components), config.texcoordStride, config.texcoordPadFrom);
 
         // A group whose bones have nowhere to go writes a NEGATIVE index and the model kinks there,
         // which nothing downstream reports -- so say so here

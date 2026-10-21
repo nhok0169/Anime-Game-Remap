@@ -8448,6 +8448,20 @@ class GIMIMergeFixerConfig:
     def texRegsByName(self, arg0: bool) -> None:
         ...
     @property
+    def texcoordPadFrom(self) -> int:
+        """
+        :class:`int`: A component carrying only ``TEXCOORD0`` is widened to the TARGET's stride with its ``TEXCOORD1`` zero by
+        default, i.e. ``(0, 0)`` --- the atlas corner. A target whose shader reads ``TEXCOORD1`` (Lumine's two-sided dress
+        draws every BACK face through it) then textures the inside of every skirt from that corner. Set to the byte offset of
+        ``TEXCOORD0`` in a line (``4``, after the vertex colour), the padding is a copy of it instead, so a back face shows
+        the same texels as its front --- which is how the source's own one-sided shader drew it
+        
+        **Default**: ``-1``, zeros
+        """
+    @texcoordPadFrom.setter
+    def texcoordPadFrom(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
     def texcoordStride(self) -> int:
         """
         :class:`int`: The TARGET's texcoord stride: the merged ``Texcoord.buf`` is at least this wide, zero-padded at the end
@@ -24075,9 +24089,33 @@ class VGComponentMerge:
         
     """
     @staticmethod
-    def padLines(src: bytes, lines: typing.SupportsInt | typing.SupportsIndex, to: typing.SupportsInt | typing.SupportsIndex) -> bytes:
+    def padLines(src: bytes, lines: typing.SupportsInt | typing.SupportsIndex, to: typing.SupportsInt | typing.SupportsIndex, fillFrom: typing.SupportsInt | typing.SupportsIndex = -1) -> bytes:
         """
-        A fixed-stride buffer widened, every line zero-padded at the END -- where a missing ``TEXCOORD1`` sits
+        A fixed-stride buffer widened, every line padded at the END --- where a missing ``TEXCOORD1`` sits
+        
+        The padding is zeros, or --- with ``fillFrom`` --- a copy of the line's own bytes from that offset: ``4`` makes a
+        12-byte ``COLOR + TEXCOORD0`` line a 20-byte one whose ``TEXCOORD1`` repeats its ``TEXCOORD0``
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The buffer
+        
+        lines: :class:`int`
+            Its line count
+        
+        to: :class:`int`
+            The stride to widen to
+        
+        fillFrom: :class:`int`
+            The byte offset in each line to copy the padding from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``-1``, zeros
+        
+        Raises
+        ------
+        ValueError
+            If ``src`` is not a whole number of lines, is wider than ``to``, or ``fillFrom`` reaches past the end of a line
         """
     @staticmethod
     def remapIndices(indices: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]], weights: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(4)"]], remap: VGRemap) -> tuple[list[typing.Annotated[list[int], "FixedSize(4)"]], list[int]]:
@@ -24092,7 +24130,7 @@ class VGComponentMerge:
         Tuple[List[List[:class:`int`]], List[:class:`int`]]
             The remapped indices, and every weighted group that had no entry
         """
-    def __init__(self, components: collections.abc.Sequence[VGMergeComponent], minTexcoordStride: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+    def __init__(self, components: collections.abc.Sequence[VGMergeComponent], minTexcoordStride: typing.SupportsInt | typing.SupportsIndex = 0, texcoordPadFrom: typing.SupportsInt | typing.SupportsIndex = -1) -> None:
         """
         Merges the components, in the order given
         
@@ -24102,10 +24140,16 @@ class VGComponentMerge:
             The source's components; the first takes offset 0
         
         minTexcoordStride: :class:`int`
-            The TARGET's texcoord stride: the merged buffer is at least this wide, every line zero-padded at its end
+            The TARGET's texcoord stride: the merged buffer is at least this wide, every line padded at its end
             :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``0``, the widest component's
+        
+        texcoordPadFrom: :class:`int`
+            Where a widened line's padding is copied from, as a byte offset into the same line --- see :meth:`padLines`
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``-1``, zeros
         """
     def mergeIbs(self, members: collections.abc.Sequence[tuple[str, collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]]]) -> list[typing.Annotated[list[int], "FixedSize(3)"]]:
         """
@@ -24740,6 +24784,14 @@ class VGMergeGroupResource(IniGroupedResource, RemapIniResourceMixin):
         """
     @objects.setter
     def objects(self, arg1: collections.abc.Sequence[VGMergeObject]) -> None:
+        ...
+    @property
+    def texcoordPadFrom(self) -> int:
+        """
+        :class:`int`: Where a widened texcoord line's padding is copied from, as a byte offset into the same line --- see :meth:`VGComponentMerge.padLines`. **Default**: ``-1``, zeros
+        """
+    @texcoordPadFrom.setter
+    def texcoordPadFrom(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def texcoordStride(self) -> int:

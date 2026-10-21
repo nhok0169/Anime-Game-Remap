@@ -11,6 +11,9 @@
     <includes local="yes">Cache.tpp</includes>
     <includedby refid="_lru_cache_8h" local="yes">include/AGRemapCore/tools/caches/LruCache.h</includedby>
     <incdepgraph>
+      <node id="8">
+        <label>Cache.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/tools/caches/Cache.h</label>
         <link refid="_cache_8h"/>
@@ -28,9 +31,6 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-      </node>
-      <node id="8">
-        <label>Cache.tpp</label>
       </node>
       <node id="2">
         <label>cstddef</label>

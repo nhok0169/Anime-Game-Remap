@@ -19,6 +19,12 @@
     <includedby refid="_res_reg_collect_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</includedby>
     <includedby refid="_section_iter_data_instantiation_8cpp" local="yes">src/model/SectionIterDataInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="27">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="33">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="46">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -438,12 +444,6 @@
         </childnode>
         <childnode refid="48" relation="include">
         </childnode>
-      </node>
-      <node id="27">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="33">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="41">
         <label>IfContentPart.tpp</label>

@@ -21,6 +21,18 @@
     <includedby refid="_graph_inherit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h</includedby>
     <includedby refid="_base_ini_graph_edit_instantiation_8cpp" local="yes">src/model/strategies/iniFixers/graphEdits/BaseIniGraphEditInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="70">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="45">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="51">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -550,18 +562,6 @@
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-      </node>
-      <node id="30">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="70">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="45">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="66">
         <label>Generator.tpp</label>

@@ -278,6 +278,15 @@ the branch draws nothing.
   while `GIMI/CherryHutao6` exists) hits the same wall. Record `mods <IMP> list` first; use an explicit
   `park <the conflicting mod>` plus `load <copy> --from <folder>`; stage test copies under a distinct name
   (`CherryHutao6Fixed`); diff `mods list` against the record at the end.
+- **`mods <IMP> restore` replays the WHOLE journal, older sessions included** (2026-10-20). After an `only` that stopped
+  on a clash, `restore` put that run's folders back -- and also moved `LumineHeaven3`, parked by some earlier session,
+  from the importer folder INTO `Mods`, then left the journal empty, so nothing recorded what it had done. Before a
+  `restore`, read `mods-journal-<IMP>.json` in GameView's scratch folder; after a surprise, `find <importer> -maxdepth 3
+  -type d -newerct "<time>"` lists every folder a rename touched (a move changes the folder's ctime, not its mtime).
+  For a one-off swap, two plain `mv`s you write down yourself are safer than `only`.
+- **The Dressing Room remembers its last TAB.** `key r` can reopen it on Wind Glider, where a card click previews a glider
+  and every following shot shows the wrong thing; `key w` steps back up to Outfit. Its cards also move with the window:
+  read their positions off a fresh screenshot.
 - **The window can change size between sessions** (3440x1440 one day, 1920x1080 the next). A view
   coordinate taken from an older screenshot then lands on another control -- one card click stepped the
   outfit preview to a different character. Take positions from a FRESH screenshot and click with

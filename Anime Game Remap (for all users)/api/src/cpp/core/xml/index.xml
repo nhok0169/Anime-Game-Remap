@@ -1748,6 +1748,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ad1d10816cdf24046f9d33c0744e7ae5a" kind="variable"><name>targetLayout</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a7e32b3c49bfd1e85edf5900bf6ec7548" kind="variable"><name>texRegsByName</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a68bffe3cae94876e5ad1fd0f7c93cd50" kind="variable"><name>texcoordStride</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a14b6d17f7f4ea9f50815ec299aeaff05" kind="variable"><name>texcoordPadFrom</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ab5d13699a51abbdeb17be08aaaf7d339" kind="variable"><name>lightMapEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1ae851ed67d53c833aa2f6538d4ae69b09" kind="variable"><name>diffuseEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1a490ec76ef342ee114af63d4681e4f0bd" kind="variable"><name>mipmaps</name></member>
@@ -4821,6 +4822,8 @@
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" kind="function"><name>makeFillMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aead95cbdb950e99aca4384e1e3eb19be" kind="function"><name>fillMissingGraph</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac419c260824dbadd77f27967d3ec340a" kind="function"><name>guardedBranchEnd</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a3767628ffcda6c5e8f69cadad414d990" kind="function"><name>guardEndIndex</name></member>
+    <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a6747ff3ce951345fdc0cfc6daca0dcb7" kind="function"><name>addBottomPart</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1afa0f7bec9e81d53b048b902f735df8f5" kind="function"><name>addCover</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5419d05d111d8236f0b5885501831d9a" kind="function"><name>addBottomCover</name></member>
     <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aaded3ba4cce6cef2b6de20023850ceb1" kind="function"><name>editImpl</name></member>
@@ -5169,10 +5172,10 @@
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" kind="function"><name>collectCandidates</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1aa9f02ed83dc8cec0f22997c222518418" kind="function"><name>findTargets</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a57c8318827087188fd8285a567ebd07c" kind="function"><name>collectRemovedResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a64eb5549e636fb3fd263b31136acca80" kind="function"><name>isFixOutput</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1aa40ef812c368a8e377d5bd1afffdf06c" kind="function"><name>buildReferences</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1add3facdaa1e72f89ef258ba9d030767e" kind="function"><name>valToStr</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a3e7d10c937bdfd56831a12511a9bba37" kind="function"><name>isBoilerPlateClose</name></member>
-    <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a924ecdfefb9664b16af9ed39a452e32d" kind="function"><name>isMergedSection</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1ac605ca2256c862c02122f670292e4221" kind="function"><name>hasExt</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a92b508e84c2465dcef79902190933b4d" kind="function"><name>closeOver</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1ab756ebe7c5c45c6b4907d2c668af4836" kind="function"><name>reverse</name></member>
@@ -6456,7 +6459,7 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a3d798af548c9c685e69a84cc97afc071" kind="variable"><name>texcoord_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a9bb71fa1c363ac8499709e4bfa1da4e1" kind="variable"><name>offsets_</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a6fbc2301b3c4c810e608e1a03f3be005" kind="variable"><name>stats_</name></member>
-    <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a4ad95de2e0963b6743a4507cce2f0996" kind="function"><name>VGComponentMerge</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1ac79968f3a378b640069943e6b7166790" kind="function"><name>VGComponentMerge</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a4769176fdede88045d1152dadb0a8041" kind="function"><name>blend</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a2fb5e21a1379627510bee3433730ecdb" kind="function"><name>position</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1af2b2109a436b5da1127fb23560a0554a" kind="function"><name>texcoord</name></member>
@@ -6465,7 +6468,7 @@
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a2755caa7c6758dc1f31f941bb954e85d" kind="function"><name>vertexCount</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a10633ff9ad86c21bcf4be2272279e83f" kind="function"><name>stats</name></member>
     <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a325a2bb114c57b276062381ba3a7cd37" kind="function"><name>remapIndices</name></member>
-    <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1ac4c488006801e3e70eed8a39af2212aa" kind="function"><name>padLines</name></member>
+    <member refid="class_a_g_remap_core_1_1_v_g_component_merge_1a0a0e00d28b5aefddd8ac16c264355817" kind="function"><name>padLines</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats" kind="struct"><name>AGRemapCore::VGComponentMergeStats</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_stats_1a1610575c7ed59ed4e964b53cd47b052f" kind="variable"><name>vertexCount</name></member>
@@ -6568,6 +6571,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a4ccbab3ff1866244490bc874b3bf79ed" kind="variable"><name>objects</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1acfbc3cc67c93d8e5c3f280c86c7e5cb2" kind="variable"><name>ibBytesPerIndex</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1afe3a4a47687c3c4ca25e6d4aa0d007bf" kind="variable"><name>texcoordStride</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1afb41535be9ba0c4d3074a3e6d54edfd2" kind="variable"><name>texcoordPadFrom</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder" kind="class"><name>AGRemapCore::VGMergeGroupResBuilder</name>
     <member refid="class_a_g_remap_core_1_1_v_g_merge_group_res_builder_1a2e999c940a50435fc104969544bf7135" kind="typedef"><name>GraphId</name></member>

@@ -16,6 +16,7 @@
 
 #include <fstream>
 
+#include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
@@ -32,8 +33,9 @@ namespace AGRemapCore {
                 continue;
             }
 
-            if (stripped.front() == '[' && stripped.back() == ']') {
-                sections.push_back(IniScanSection{stripped.substr(1, stripped.size() - 2), {}});
+            // IniFile's header rule, which is 3DMigoto's: '[' opens a section, closed or not.
+            if (stripped.front() == '[') {
+                sections.push_back(IniScanSection{IniFile::getSectionNameFromLine(stripped), {}});
                 continue;
             }
 

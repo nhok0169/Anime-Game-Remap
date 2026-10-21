@@ -263,6 +263,80 @@ void testWholeFixAndBoilerPlateRemoved() {
 }
 
 
+// Only what a fix made is deleted. An AUTHOR's section that shares its name with one inside the
+// fix block stays, lines and files: an older build copied Lumine11's malformed header
+// `[Textrun = ...ORFix` into its block, and the undo deleted the author's by name (2026-10-20).
+void testAuthorSectionSharingAFixNameIsKept() {
+    const std::string author =
+        OrigMod +
+        "\n"
+        "[Textrun = CommandList\\global\\ORFix\\ORFix\n"
+        "ureOverrideFooIB]\n"
+        "hash = " + UnknownHash + "\n"
+        "\n"
+        "[ResourceFooShared]\n"
+        "filename = FooShared.dds\n";
+
+    std::string txt =
+        author +
+        "\n" +
+        RemapHeadingOpen +
+        "\n" +
+        FixBody +
+        "\n"
+        "[Textrun = CommandList\\global\\ORFix\\ORFix\n"
+        "ureOverrideFooIB]\n"
+        "hash = HashNotFound\n"
+        "\n"
+        "[ResourceFooShared]\n"
+        "filename = FooSharedCopy.dds\n"
+        "\n" +
+        RemapHeadingClose;
+
+    Fixture fixture(txt);
+    std::string result = fixture.remover->remove(false, false);
+
+    checkEqual(result, author + "\n",
+               "shared name: the author's copies stay, the fix block's go");
+
+    const std::vector<std::string> texs = collectedNames(*fixture.remover, Remover::ResourceType::Other);
+    const std::vector<std::string> edits = collectedNames(*fixture.remover, Remover::ResourceType::TexEdit);
+    check(!contains(texs, "FooShared.dds") && !contains(edits, "FooShared.dds"),
+          "shared name: the author's file is not collected for deletion");
+    check(collectedNames(*fixture.remover, Remover::ResourceType::Blend)
+              == std::vector<std::string>{"FooTestModRemapBlend.buf"},
+          "shared name: the fix's own files still are");
+}
+
+
+// The other half: a copy outside the block of a section the block holds, named with the remap
+// keyword, IS an older fix's leftover -- even when the name is not '<modName>Remap'-shaped
+// (the Integration Tester's PartiallyFixedRaiden.ini, `ResourceEiBlendsHerRemapBlender...`).
+void testOutsideLeftoverOfABlockSectionIsRemoved() {
+    const std::string leftover =
+        "[ResourceFooHerRemapBlenderCopy]\n"
+        "filename = FooHerRemapBlenderCopy.buf\n"
+        "\n";
+
+    std::string txt =
+        OrigMod +
+        "\n" +
+        leftover +
+        RemapHeadingOpen +
+        "\n" +
+        FixBody +
+        "\n" +
+        leftover +
+        RemapHeadingClose;
+
+    Fixture fixture(txt);
+    std::string result = fixture.remover->remove(false, false);
+
+    checkEqual(result, OrigMod + "\n",
+               "leftover: an outside copy of a block section named with the keyword goes too");
+}
+
+
 
 
 void testAncestorsAndOutsideLeftoversRemoved() {
@@ -1007,6 +1081,8 @@ int main() {
     std::setvbuf(stdout, nullptr, _IONBF, 0);
 
     testWholeFixAndBoilerPlateRemoved();
+    testAuthorSectionSharingAFixNameIsKept();
+    testOutsideLeftoverOfABlockSectionIsRemoved();
     testAncestorsAndOutsideLeftoversRemoved();
     testEverythingInTheBoilerPlateIsATarget();
     testResourceReachedOnlyByVb1IsRemoved();

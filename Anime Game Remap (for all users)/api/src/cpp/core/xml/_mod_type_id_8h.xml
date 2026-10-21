@@ -117,6 +117,30 @@
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
     <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
     <incdepgraph>
+      <node id="46">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="106">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="91">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="52">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="105">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="103">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="67">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="98">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -1086,30 +1110,6 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-      </node>
-      <node id="46">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="106">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="91">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="52">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="105">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="103">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="67">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>Generator.tpp</label>

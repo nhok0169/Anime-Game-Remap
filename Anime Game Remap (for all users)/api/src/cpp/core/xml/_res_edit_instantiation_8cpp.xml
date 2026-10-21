@@ -5,6 +5,18 @@
     <includes refid="_res_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="36">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="76">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="42">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="51">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="57">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -680,18 +692,6 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="36">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="76">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="42">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="51">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="72">
         <label>Generator.tpp</label>

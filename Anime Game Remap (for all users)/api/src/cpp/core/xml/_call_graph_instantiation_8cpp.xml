@@ -5,6 +5,15 @@
     <includes refid="_call_graph_8h" local="yes">AGRemapCore/model/CallGraph.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="27">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="33">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="42">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
@@ -246,15 +255,6 @@
         </childnode>
         <childnode refid="43" relation="include">
         </childnode>
-      </node>
-      <node id="27">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="33">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="42">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="41">
         <label>IfContentPart.tpp</label>

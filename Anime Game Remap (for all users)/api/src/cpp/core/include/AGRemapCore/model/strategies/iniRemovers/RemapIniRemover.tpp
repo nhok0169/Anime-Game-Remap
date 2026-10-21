@@ -726,9 +726,20 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
-    bool RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::isMergedSection(const std::string& name) {
-        const std::string lowered = StringTools::toLower(StringTools::strip(name));
-        return lowered == "constants" || lowered == "present";
+    bool RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::isFixOutput(
+            const SectionSpan& span, const std::vector<std::string>& modNames,
+            const std::unordered_set<std::string>& boilerPlateSections) const {
+        if (span.boilerPlateInd != std::string::npos || nameLooksRemapped(span.name, modNames)) {
+            return true;
+        }
+
+        // A copy of a section the fix block also holds, named with the remap keyword this library
+        // reserves: an older fix's leftover outside its block (a half-undone fix), even when the
+        // name is not shaped '<modName>Remap' -- `ResourceEiBlendsHerRemapBlender...` in the
+        // Integration Tester's PartiallyFixedRaiden.ini. Without the keyword the copy is the
+        // author's (a `[Constants]`, or Lumine11's malformed `[Textrun = ...ORFix`).
+        return boilerPlateSections.count(span.name) != 0 && !remapKeyword.empty()
+            && span.name.find(remapKeyword) != std::string::npos;
     }
 
 
@@ -829,7 +840,27 @@ namespace AGRemapCore {
             iniFolder = ".";
         }
 
-        collectRemovedResources(pool, removedSectionNames_, iniFolder);
+        // ONLY WHAT A FIX MADE IS DELETED, file or line (2026-10-20). The parsed section behind a
+        // name is its FIRST occurrence (sectionIfTemplates keeps the first), so when that one is the
+        // author's -- a name shared with a section inside a fix block -- its `filename =` lines name
+        // the AUTHOR's files, and they are not collected. The fix block's copy still goes, by span.
+        const std::vector<std::string> modNames = ctx_->modTypeNames();
+        std::unordered_set<std::string> firstSeen;
+        std::unordered_set<std::string> authorParsed;
+        for (const SectionSpan& span : scan.sections) {
+            if (firstSeen.insert(span.name).second && !isFixOutput(span, modNames, boilerPlateSections)) {
+                authorParsed.insert(span.name);
+            }
+        }
+
+        std::vector<std::string> resourceNames;
+        for (const std::string& name : removedSectionNames_) {
+            if (!authorParsed.count(name)) {
+                resourceNames.push_back(name);
+            }
+        }
+
+        collectRemovedResources(pool, resourceNames, iniFolder);
 
         // ----- rewrite the file's lines -----
 
@@ -841,13 +872,13 @@ namespace AGRemapCore {
                 continue;
             }
 
-            // A SECTION 3DMIGOTO MERGES IS THE AUTHOR'S TOO (2026-10-08). `[Constants]` and
-            // `[Present]` may appear more than once in one file and 3DMigoto reads them as one, so a
-            // fix declares its own variables in a `[Constants]` of its own (a sibling's toggle,
-            // carried -- see TextureOverrideFacts::carriedSections). By name, that made the
-            // author's `[Constants]` a target as well, and an undo deleted every declaration the mod
-            // had. Outside a boilerplate, such a section is the author's.
-            if (span.boilerPlateInd == std::string::npos && isMergedSection(span.name)) {
+            // A name being removed does not make every occurrence of it the fix's. Twice an undo
+            // deleted the AUTHOR's copy of a name a fix block also held: a fix's own `[Constants]`
+            // (a sibling's toggle, carried -- see TextureOverrideFacts::carriedSections) took the
+            // author's with it (2026-10-08), and an older build's copy of Lumine11's malformed
+            // header `[Textrun = ...ORFix` took the author's line (2026-10-20). Outside a
+            // boilerplate, only a name carrying the remap keyword is a fix's.
+            if (!isFixOutput(span, modNames, boilerPlateSections)) {
                 continue;
             }
 

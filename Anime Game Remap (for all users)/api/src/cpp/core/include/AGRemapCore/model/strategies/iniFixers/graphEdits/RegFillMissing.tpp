@@ -14,6 +14,9 @@
 #ifndef AGRemapCore_RegFillMissing_TPP
 #define AGRemapCore_RegFillMissing_TPP
 
+#include <cstddef>
+#include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
@@ -138,6 +141,81 @@ namespace AGRemapCore {
         }
 
         return (branchEnd != nullptr) ? branchEnd : part;
+    }
+
+    // The same shape answered with a POSITION rather than a content part: the index of the guard's
+    // closing `endif`. guardedBranchEnd needs a content part at the end of the branch, which a guard
+    // ending in a nested block (the `if 1 ... endif` a collect leaves) does not have; a part ADDED at
+    // the bottom of the section goes before this `endif` either way. Found when the merge template's
+    // appended draws for a namespace-merged LumineHeaven mod all landed after their `endif` and drew
+    // on every one of its 18 variants at once (Lumine12, 2026-10-20).
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<std::size_t> RegFillMissing<K, V, KeyHash, KeyEqual>::guardEndIndex(const Section& section) {
+        static const std::unordered_set<std::string> MatchingKeys = {"hash", "match_first_index", "match_priority"};
+
+        const auto& parts = section.parts();
+        if (parts.size() < 3) {
+            return std::nullopt;
+        }
+
+        const auto* root = dynamic_cast<const ContentPart*>(parts.front().get());
+        if (root == nullptr) {
+            return std::nullopt;
+        }
+        for (const K& key : root->getKeys()) {
+            if (MatchingKeys.count(StringTools::toLower(key)) == 0) {
+                return std::nullopt;
+            }
+        }
+
+        const auto* open = dynamic_cast<const IfPredPart*>(parts[1].get());
+        const auto* close = dynamic_cast<const IfPredPart*>(parts.back().get());
+        if (open == nullptr || close == nullptr || open->type != IfPredPartType::If || close->type != IfPredPartType::EndIf) {
+            return std::nullopt;
+        }
+
+        // A guard tests a VARIABLE (`$\<Char>\Master\swapvar == n`). The `if 1 ... endif` a collect wraps a
+        // section's registers in has the same shape and guards nothing: a part added after it is already
+        // inside every path, and moving it in only changed the file (Lumine10's DISABLED copy, 2026-10-20).
+        if (open->getTestStr().find('$') == std::string::npos) {
+            return std::nullopt;
+        }
+
+        int depth = 0;
+        for (std::size_t i = 2; i + 1 < parts.size(); ++i) {
+            const auto* pred = dynamic_cast<const IfPredPart*>(parts[i].get());
+            if (pred == nullptr) {
+                continue;
+            }
+            if (pred->type == IfPredPartType::If) {
+                ++depth;
+            } else if (pred->type == IfPredPartType::EndIf) {
+                if (depth == 0) {
+                    return std::nullopt;     // the guard closed early: something follows it
+                }
+                --depth;
+            } else if (depth == 0) {
+                return std::nullopt;         // an else / elif of the guard itself
+            }
+        }
+
+        return parts.size() - 1;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegFillMissing<K, V, KeyHash, KeyEqual>::ContentPart*
+    RegFillMissing<K, V, KeyHash, KeyEqual>::addBottomPart(Section& section) {
+        const std::optional<std::size_t> guardEnd = guardEndIndex(section);
+        if (!guardEnd.has_value()) {
+            return section.addBottomContentPart();
+        }
+
+        auto owned = std::make_unique<ContentPart>(1);
+        ContentPart* result = owned.get();
+        auto& parts = section.parts();
+        parts.insert(parts.begin() + static_cast<std::ptrdiff_t>(*guardEnd), std::move(owned));
+        section.rebuild();
+        return result;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -400,7 +478,8 @@ namespace AGRemapCore {
                 }
             }
 
-            ContentPart* bottomPart = section->addBottomContentPart();
+            // Inside a namespace-merged section's guard rather than after it -- see guardEndIndex.
+            ContentPart* bottomPart = addBottomPart(*section);
             if (bottomPart != nullptr) {
                 fillMissing(*bottomPart);
             }

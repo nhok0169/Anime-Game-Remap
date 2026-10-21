@@ -24,6 +24,12 @@
     <includedby refid="_g_i_m_i_section_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</includedby>
     <includedby refid="_if_content_part_colour_instantiation_8cpp" local="yes">src/model/iftemplate/IfContentPartColourInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="26">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="32">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
@@ -271,12 +277,6 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-      </node>
-      <node id="26">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="32">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="40">
         <label>IfContentPart.tpp</label>

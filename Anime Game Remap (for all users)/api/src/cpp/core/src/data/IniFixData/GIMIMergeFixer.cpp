@@ -1845,6 +1845,7 @@ namespace AGRemapCore {
                     VGMergeGroupConfig config;
                     config.ibBytesPerIndex = ibBytesPerIndex_;
                     config.texcoordStride = config_.texcoordStride;
+                    config.texcoordPadFrom = config_.texcoordPadFrom;
 
                     for (const std::string& component : mergeOrder_) {
                         const ComponentFiles* files = componentFiles(component);
@@ -2330,7 +2331,7 @@ namespace AGRemapCore {
                 // binds them (rolesInBranch) rather than its single reading.
                 void appendMemberBindings(std::vector<std::pair<std::string, std::string>>& additions,
                                            const std::pair<std::string, std::string>& member, const SlotFiles*& bound,
-                                           const SlotFiles* inBranch = nullptr) {
+                                           const SlotFiles* inBranch = nullptr, bool withFixCall = true) {
                     const SlotFiles* files = (inBranch != nullptr) ? inBranch : slotFiles(member.first, member.second);
                     const bool ownTextures = (files != nullptr) && (bound != nullptr)
                                               && (!files->diffuseRes.empty() || !files->lightMapRes.empty())
@@ -2363,7 +2364,17 @@ namespace AGRemapCore {
                         additions.emplace_back(targetLightMapReg(), edited);
                     }
 
-                    additions.emplace_back(IniKeywords::Run, fixPath());
+                    if (withFixCall) {
+                        additions.emplace_back(IniKeywords::Run, fixPath());
+                    }
+                }
+
+                // Whether the .ini calls TexFx anywhere -- buildAppendedSections' test, for the restore after
+                // an object's member blocks.
+                bool fileCallsTexFx() {
+                    IniFile* iniFile = ctx_.getIniFile();
+                    return iniFile != nullptr
+                           && StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
                 }
 
                 // Whether a slot is drawn in the target's outline pass -- see Slot::outline.
@@ -2757,6 +2768,27 @@ namespace AGRemapCore {
                             block.emplace_back(IniKeywords::DrawIndexed, extras[i]);
                         }
                         flush();
+
+                        // A TEXFX REQUEST IS SERVED WITH WHAT THE SECTION LEFT BOUND (2026-10-20). TexFx's
+                        // transparency colours the sheer pixels in the OUTLINE pass, with a custom shader that
+                        // draws the whole merged ib out of the diffuse bound when the section is done -- and
+                        // after a member that brings its own textures, that is the MEMBER's. Lumine12's Beach
+                        // and Fontaine outfits drew their ribbons and lace out of the skin's Head atlas, black.
+                        // So the object's own set is bound again last, as the author's one draw left it. No fix
+                        // call and no draw: nothing is drawn with it here.
+                        //
+                        // Only after an APPENDED member (bound is then a member's files): a CARRIED member runs
+                        // its own command list and leaves 'bound' unknown. Whether TexFx is served right after
+                        // one has not been seen in game (CharlotteHurlock5, CitlaliWhisper1 and YelanTranquil3
+                        // are that shape), so their output is left as it was.
+                        if (bound != repFiles && bound != &unknown && fileCallsTexFx()) {
+                            RegBottomAdd<>::Additions restore;
+                            const SlotFiles* restoreFrom = bound;
+                            appendMemberBindings(restore, repIt->second, restoreFrom, nullptr, false);
+                            if (!restore.empty()) {
+                                addBottom(std::move(restore), true);
+                            }
+                        }
                     }
 
                     // An object whose members cannot share a draw needs the FIRST member's range
@@ -2837,11 +2869,25 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // Rewritten where the section has them, and filled in (a cover, below) only where
+                    // it has them nowhere. addNewKVPs put a copy in EVERY part lacking them, so a
+                    // namespace-merged master's VertexLimitRaise -- whose overrides sit inside the
+                    // variant's `if` -- got a second, unguarded copy at its root, and 18 variants
+                    // set 18 counts on one hash (Lumine12, 2026-10-21).
                     overrides_ = std::make_unique<RegNewVals<>>(
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {OverrideByteStride, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(positionStride_)))},
                             {OverrideVertexCount, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(maxVertices)))}},
-                        /*addNewKVPs*/ true);
+                        /*addNewKVPs*/ false);
+
+                    strideFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideByteStride,
+                        RegFillMissing<>::makeFillMissing(OverrideByteStride, std::to_string(positionStride_)),
+                        RegFillMissingMode::BottomCover);
+                    vertexCountFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideVertexCount,
+                        RegFillMissing<>::makeFillMissing(OverrideVertexCount, std::to_string(maxVertices)),
+                        RegFillMissingMode::BottomCover);
 
                     blendDraw_ = std::make_unique<RegNewVals<>>(
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
@@ -2893,6 +2939,8 @@ namespace AGRemapCore {
                     addFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(addFixCall_.get());
                     keepOwnFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(keepOwnFixCall_.get());
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
+                    strideFillAdapter_ = std::make_unique<GraphPartEdit<>>(strideFill_.get());
+                    vertexCountFillAdapter_ = std::make_unique<GraphPartEdit<>>(vertexCountFill_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
                     blendSkipFillAdapter_ = std::make_unique<GraphPartEdit<>>(blendSkipFill_.get());
                     blendDrawFillAdapter_ = std::make_unique<GraphPartEdit<>>(blendDrawFill_.get());
@@ -3162,7 +3210,8 @@ namespace AGRemapCore {
                     }
 
                     const ModObj otherObj("", "other");
-                    iniEdits.edits[otherObj] = {renameAdapter_.get(), otherAsset, overridesAdapter_.get()};
+                    iniEdits.edits[otherObj] = {renameAdapter_.get(), otherAsset, overridesAdapter_.get(),
+                                                strideFillAdapter_.get(), vertexCountFillAdapter_.get()};
                     iniEdits.trackKeys[otherObj] = false;
 
                     if (copiesFace()) {
@@ -3301,6 +3350,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegNewVals<>> blendDraw_;
                 std::unique_ptr<RegFillMissing<>> blendSkipFill_;
                 std::unique_ptr<RegFillMissing<>> blendDrawFill_;
+                std::unique_ptr<RegFillMissing<>> strideFill_;
+                std::unique_ptr<RegFillMissing<>> vertexCountFill_;
 
                 std::unique_ptr<GraphPartEdit<>> renameAdapter_;
                 std::unique_ptr<GraphPartEdit<>> renameIbAdapter_;
@@ -3321,6 +3372,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> blendDrawAdapter_;
                 std::unique_ptr<GraphPartEdit<>> blendSkipFillAdapter_;
                 std::unique_ptr<GraphPartEdit<>> blendDrawFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> strideFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> vertexCountFillAdapter_;
 
                 ObjGroupEdit mainEdits_;
         };

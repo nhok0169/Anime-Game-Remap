@@ -49,6 +49,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -132,6 +133,18 @@ int main() {
         AGRC::ByteVec out = AGRC::VGComponentMerge::padLines(src, 2, 5);
         check(out == AGRC::ByteVec({1, 2, 3, 0, 0, 4, 5, 6, 0, 0}), "each line is zero-padded at its end");
         check(AGRC::VGComponentMerge::padLines(src, 2, 3) == src, "a buffer already at the stride is returned as is");
+
+        // fillFrom: the padding copies the line's own bytes -- a 12-byte COLOR + TEXCOORD0 line widened to 20 with
+        // its TEXCOORD1 a copy of its TEXCOORD0 (offset 4), for a two-sided target shader reading TEXCOORD1
+        AGRC::ByteVec copied = AGRC::VGComponentMerge::padLines(src, 2, 5, 1);
+        check(copied == AGRC::ByteVec({1, 2, 3, 2, 3, 4, 5, 6, 5, 6}), "fillFrom copies the bytes at that offset into the padding");
+        bool threw = false;
+        try {
+            AGRC::VGComponentMerge::padLines(src, 2, 5, 2);
+        } catch (const std::invalid_argument&) {
+            threw = true;
+        }
+        check(threw, "a fillFrom that reaches past the end of a line is refused");
     }
 
     // ---- the merge itself ----

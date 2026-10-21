@@ -359,6 +359,15 @@ which land under this prefix. Empty disables the fallback
 of each line, and the copied section declares it --- for a target reading more UV sets than any source component
 carries (Neuvillette's 20 bytes under NeuvilletteMelusent's 12). **Default**: ``0``, the widest component's
         )doc"))
+        .def_readwrite("texcoordPadFrom", &AGRC::GIMIMergeFixerConfig::texcoordPadFrom, py::doc(R"doc(
+:class:`int`: A component carrying only ``TEXCOORD0`` is widened to the TARGET's stride with its ``TEXCOORD1`` zero by
+default, i.e. ``(0, 0)`` --- the atlas corner. A target whose shader reads ``TEXCOORD1`` (Lumine's two-sided dress
+draws every BACK face through it) then textures the inside of every skirt from that corner. Set to the byte offset of
+``TEXCOORD0`` in a line (``4``, after the vertex colour), the padding is a copy of it instead, so a back face shows
+the same texels as its front --- which is how the source's own one-sided shader drew it
+
+**Default**: ``-1``, zeros
+        )doc"))
         .def_readwrite("compressTextures", &AGRC::GIMIMergeFixerConfig::compressTextures, py::doc(R"doc(
 :class:`bool`: Whether edited textures are block-compressed
 

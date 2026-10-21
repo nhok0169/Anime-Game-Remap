@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <functional>
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <unordered_set>
@@ -413,6 +414,37 @@ namespace AGRemapCore {
              * @return The part to fill
              */
             static ContentPart* guardedBranchEnd(Section* section, ContentPart* part);
+
+            /**
+             * @brief
+             @rst
+             For a namespace-merged mod's guarded `section`_ -- a root part of matching settings
+             only (``hash`` / ``match_first_index`` / ``match_priority``), then one ``if ... endif``
+             that closes last, with no ``else`` / ``elif`` of its own -- the index of that closing
+             ``endif`` in the section's parts, which is where a part added at the BOTTOM of the
+             section belongs: the section's own depth is outside the guard, so a part added there
+             runs for every variant of the merge. Empty for any other `section`_
+             @endrst
+             *
+             * @param section The `section`_ to inspect
+             *
+             * @return The index of the guard's closing ``endif``, if the `section`_ has that shape
+             */
+            static std::optional<std::size_t> guardEndIndex(const Section& section);
+
+            /**
+             * @brief
+             @rst
+             Adds a new part at the bottom of 'section' -- inside its guard when it is a guarded
+             `section`_ (see :cpp:func:`guardEndIndex`), at the section's own depth otherwise, which
+             is ``addBottomContentPart``'s placement
+             @endrst
+             *
+             * @param section The `section`_ to add the part to
+             *
+             * @return The new part, or ``nullptr`` if none could be added
+             */
+            static ContentPart* addBottomPart(Section& section);
 
             /**
              * @brief

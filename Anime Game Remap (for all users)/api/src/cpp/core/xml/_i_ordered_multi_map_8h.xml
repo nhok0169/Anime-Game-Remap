@@ -14,6 +14,12 @@
     <includedby refid="_if_content_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfContentPart.h</includedby>
     <includedby refid="_ordered_multi_map_adapter_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</includedby>
     <incdepgraph>
+      <node id="16">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="26">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/tools/Algo.h</label>
         <link refid="_algo_8h"/>
@@ -103,12 +109,6 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-      </node>
-      <node id="16">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="26">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="17">
         <label>Ranges.tpp</label>

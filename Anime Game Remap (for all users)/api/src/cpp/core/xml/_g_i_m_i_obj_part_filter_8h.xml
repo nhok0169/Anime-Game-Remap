@@ -20,6 +20,12 @@
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <incdepgraph>
+      <node id="29">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="48">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -551,12 +557,6 @@
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-      </node>
-      <node id="29">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="35">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="66">
         <label>GIMIObjPartFilter.tpp</label>

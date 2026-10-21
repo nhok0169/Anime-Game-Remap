@@ -5,6 +5,30 @@
     <includes refid="_v_g_remap_data_8h" local="yes">AGRemapCore/data/VGRemapData.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <incdepgraph>
+      <node id="48">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="108">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="54">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="107">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="105">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="69">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="100">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
@@ -994,30 +1018,6 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-      </node>
-      <node id="48">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="108">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="54">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="107">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="105">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="69">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="88">
         <label>Generator.tpp</label>

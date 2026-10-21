@@ -8,6 +8,9 @@
     <includes local="no">vector</includes>
     <includes refid="_texture_file_8h" local="yes">AGRemapCore/model/files/TextureFile.h</includes>
     <incdepgraph>
+      <node id="19">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/data/IniFixData/JeanShading.h</label>
         <link refid="_jean_shading_8h"/>
@@ -105,9 +108,6 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="19">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="3">
         <label>algorithm</label>

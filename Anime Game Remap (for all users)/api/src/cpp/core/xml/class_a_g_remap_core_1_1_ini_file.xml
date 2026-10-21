@@ -250,7 +250,7 @@ the same ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1094" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1094" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1096" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1096" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a29aa39bee6f15ef0d44d0ff7b2c2e9d9" prot="protected" static="no" mutable="no">
         <type>bool</type>
@@ -266,7 +266,7 @@ the same ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1099" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1099" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1101" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a235f0f8de78bb68b2a71207764265b7c" prot="protected" static="no" mutable="no">
         <type>tsl::ordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
@@ -291,7 +291,7 @@ This can hold more than one entry
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1115" column="30" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1115" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1117" column="30" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1117" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -307,7 +307,7 @@ This can hold more than one entry
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1118" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1118" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1120" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1120" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a69d1f50a12d7614c2e55422948f31792" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt;</type>
@@ -321,7 +321,7 @@ This can hold more than one entry
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1119" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1119" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1121" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1121" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a2dd1344f33eb02f068f290691b19d3c2" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &gt; &gt;</type>
@@ -335,7 +335,7 @@ This can hold more than one entry
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1120" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1120" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1122" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1122" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a7d04782a380354a068a3a965f98af0a9" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -350,7 +350,7 @@ This can hold more than one entry
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1122" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1122" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1124" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1124" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1adeaeb08c104a3c7338e6a22f700c1710" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -379,7 +379,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1141" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1141" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1143" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1143" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a59ae43bdee134656d668edd4a4f19476" prot="private" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_ini_file_1a1757b4f51357b1fe8782b38f0d71bd62" kindref="member">ParseData</ref> &gt;</type>
@@ -393,7 +393,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1147" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1147" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1149" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1149" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a7a5c4734a63096bbb6b8f31f7db10117" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; int, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref>&lt;&gt; &gt; &gt;</type>
@@ -407,7 +407,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1160" column="32" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1160" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1162" column="32" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1af114b3d31e6214e9010d0464f934d6f3" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; int, std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt; &gt; &gt; &gt;</type>
@@ -421,7 +421,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1167" column="32" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1167" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1169" column="32" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1169" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a82afbbad21fcf57002a8dd3aea40c636" prot="private" static="no" mutable="no">
         <type>std::optional&lt; std::string &gt;</type>
@@ -435,7 +435,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1192" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1192" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1194" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1194" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a13c621b922645b60297a51707931aea3" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -449,7 +449,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1193" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1193" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1195" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a3651b2257974bc37d03669747e6611ce" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -463,7 +463,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1194" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1194" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1196" column="25" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1196" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1aca9fa159f793b7e3dda8b34d836df2df" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -478,7 +478,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1195" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1195" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1197" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1197" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a26e44ced19cfd6af6e461de6705e26df" prot="private" static="no" mutable="no">
         <type>std::optional&lt; std::unordered_set&lt; int &gt; &gt;</type>
@@ -492,7 +492,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1197" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1197" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1199" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1ac4feb5a99314584eb5c9476f3c3a769a" prot="private" static="no" mutable="no">
         <type>std::optional&lt; std::unordered_set&lt; int &gt; &gt;</type>
@@ -506,7 +506,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1198" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1198" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1200" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a8baf727f5dbdf7bafd38a2a39971294b" prot="private" static="no" mutable="no">
         <type>std::optional&lt; std::unordered_set&lt; int &gt; &gt;</type>
@@ -520,7 +520,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1199" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1199" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1201" column="27" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a16af9b0379f6e87df9f4a1e2a232db30" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
@@ -534,7 +534,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1200" column="32" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1200" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1202" column="32" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1ad0ba624d379cc06c117d13e54ce8df05" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_classifier" kindref="compound">BaseIniClassifier</ref> *</type>
@@ -548,7 +548,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1202" column="31" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1202" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1204" column="31" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1204" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a86c034559dc293dcc165fdc291e5ad39" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -563,7 +563,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1204" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1204" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1206" column="18" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1206" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1a6093fa9413b9e2fa95b3c4b90b82ea03" prot="private" static="no" mutable="no">
         <type>tsl::ordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt; &gt;</type>
@@ -577,7 +577,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1205" column="30" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1205" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1207" column="30" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1207" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_1aa8a4d1dc331994b2a832036a208e17cf" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref></type>
@@ -591,7 +591,7 @@ alone on Windows and a ``CRLF`` file alone on Linux, where translating on write 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1209" column="23" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1209" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1211" column="23" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="1211" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -1120,7 +1120,7 @@ Classifies the .ini file, determining #isMod, #isFixed, and #modTypes -- reads t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="516" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="963" bodyend="1054"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="518" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="963" bodyend="1054"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1aefcd2f18b6dfe1007240a43494768536" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const tsl::ordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt; &gt; &amp;</type>
@@ -1174,7 +1174,7 @@ Retrieves all the :cpp:class:`IfTemplate`\\s for the .ini file, keyed by `sectio
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="548" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1336" bodyend="1341"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="550" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1337" bodyend="1342"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ac058e61a99a2b776d58e5a9ee3809ff3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1201,7 +1201,7 @@ That order is load-bearing rather than cosmetic -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="566" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="465" bodyend="479"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="568" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="465" bodyend="479"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1aafcae9e1d353a0f3f718fb4cefe2e32a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; *</type>
@@ -1230,7 +1230,7 @@ That order is load-bearing rather than cosmetic -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="573" column="24" bodyfile="src/model/files/IniFile.cpp" bodystart="482" bodyend="491"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="575" column="24" bodyfile="src/model/files/IniFile.cpp" bodystart="482" bodyend="491"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a5f3ed1bef8391bd81dade38d4ebc7281" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; *</type>
@@ -1280,7 +1280,7 @@ This file takes ownership; the returned pointer is borrowed and stays valid unti
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="591" column="24" bodyfile="src/model/files/IniFile.cpp" bodystart="494" bodyend="511"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="593" column="24" bodyfile="src/model/files/IniFile.cpp" bodystart="494" bodyend="511"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a6a277a47042b8e51bafe223f308e3ed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1309,7 +1309,7 @@ This file takes ownership; the returned pointer is borrowed and stays valid unti
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="599" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="514" bodyend="520"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="601" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="514" bodyend="520"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1adbbe15bcf1838fb5a93c0e38a46b9855" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt; &amp;</type>
@@ -1330,7 +1330,7 @@ Filled by a parser through :cpp:func:`IniParseContext::addFileDownload`. Emptied
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="611" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="523" bodyend="525"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="613" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="523" bodyend="525"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a40a0da847b675b06baff60c3161f8007" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt; &amp;</type>
@@ -1351,7 +1351,7 @@ Filled by a parser through :cpp:func:`IniParseContext::addFileDownload`. Emptied
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="616" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="528" bodyend="530"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="618" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="528" bodyend="530"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ab0ad1588f58019d4be2f5a11d7a9c2dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -1389,7 +1389,7 @@ no path, or nothing at that path
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="632" column="27" bodyfile="src/model/files/IniFile.cpp" bodystart="533" bodyend="565"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="634" column="27" bodyfile="src/model/files/IniFile.cpp" bodystart="533" bodyend="565"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ad145adbf02328bd3fbe91c2fcc2f44c2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -1437,7 +1437,7 @@ would leave the mod with nothing: the rename done, the write never reached
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="659" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="568" bodyend="581"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="661" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="568" bodyend="581"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a8b04134cdef5a86fa7285ad119c967eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const tsl::ordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &gt; &gt; &amp;</type>
@@ -1455,7 +1455,7 @@ would leave the mod with nothing: the rename done, the write never reached
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="666" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1267" bodyend="1334"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="668" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1268" bodyend="1335"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a0e756b77c6b71dcaa5d1e269bd49766c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1475,7 +1475,7 @@ re-classifying afterwards
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="677" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="99" bodyend="101"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="679" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="99" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ad1c23e4f9963274e40a671745eeb76ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const tsl::ordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt; &amp;</type>
@@ -1503,7 +1503,7 @@ This can hold more than one :cpp:class:`ModType` (see #modTypes)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="696" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="103" bodyend="105"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="698" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="103" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a3c866085ebe536b72cc60833f19ba90e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_ini_file_1a1757b4f51357b1fe8782b38f0d71bd62" kindref="member">ParseData</ref> &gt; &amp;</type>
@@ -1525,7 +1525,7 @@ simply produced nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="709" column="33" bodyfile="src/model/files/IniFile.cpp" bodystart="107" bodyend="109"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="711" column="33" bodyfile="src/model/files/IniFile.cpp" bodystart="107" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a733d303177cf235033bb38df486d9c4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_ini_file_1a1757b4f51357b1fe8782b38f0d71bd62" kindref="member">ParseData</ref> &gt; &amp;</type>
@@ -1543,7 +1543,7 @@ to something that edits them in place
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="718" column="27" bodyfile="src/model/files/IniFile.cpp" bodystart="111" bodyend="113"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="720" column="27" bodyfile="src/model/files/IniFile.cpp" bodystart="111" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1aa46053a44a17440a65114343c5a63e10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1580,7 +1580,7 @@ Clears the text read in from the ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-htm
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="733" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="115" bodyend="127"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="735" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="115" bodyend="127"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a129745e67fc6c40bb96d022c8b78db23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1620,7 +1620,7 @@ classification results (#isMod / #isFixed / #modTypes / #isClassified), the pars
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="751" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="129" bodyend="174"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="753" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="129" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a8724d27f0dcf588154204acff079a3cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file_1a1757b4f51357b1fe8782b38f0d71bd62" kindref="member">ParseData</ref> &amp;</type>
@@ -1688,7 +1688,7 @@ and missing an entry for any mod type skipped at step 4. Move-only, since
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="798" column="23" bodyfile="src/model/files/IniFile.cpp" bodystart="266" bodyend="313"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="800" column="23" bodyfile="src/model/files/IniFile.cpp" bodystart="266" bodyend="313"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a8116eaeb4f57398f6f64b6634b3a8c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::string &gt;</type>
@@ -1785,7 +1785,7 @@ a fixer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="850" column="32" bodyfile="src/model/files/IniFile.cpp" bodystart="315" bodyend="463"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="852" column="32" bodyfile="src/model/files/IniFile.cpp" bodystart="315" bodyend="463"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ab4ca2d66e37c3bfc39a32f6852624fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1943,7 +1943,7 @@ a :cpp:class:`GlobalRemapIniRemover` when this is set, and by the ordinary
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="941" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="726" bodyend="823"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="943" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="726" bodyend="823"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ae353b813d468b62ff13599a4a8fe2add" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt; &amp;</type>
@@ -1971,7 +1971,7 @@ reads them back -- they are for the caller
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="962" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="584" bodyend="586"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="964" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="584" bodyend="586"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1af0db703d52f7cfd68754dfe7ca608ada" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt; &amp;</type>
@@ -1999,7 +1999,7 @@ reads them back -- they are for the caller
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="967" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="589" bodyend="591"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="969" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="589" bodyend="591"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a1e95e1d110e71571f8ef0613daab1813" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &gt; &gt; &amp;</type>
@@ -2034,7 +2034,7 @@ callback touches. Sharing it keeps both alive
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="993" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="594" bodyend="596"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="995" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="594" bodyend="596"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1aad901a9563f2aad711e2a798124cfe6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &gt; &gt; &amp;</type>
@@ -2069,7 +2069,7 @@ callback touches. Sharing it keeps both alive
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="998" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="599" bodyend="601"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1000" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="599" bodyend="601"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a126bcdcfbd7497bceca4a63ed0077382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2095,7 +2095,7 @@ Empties every resource model this ``.ini`` file has built -- #getResources,
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1015" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="604" bodyend="608"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1017" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="604" bodyend="608"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ad55591af3675c6af8da143a51cabba4a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -2125,7 +2125,7 @@ one of those that is an :cpp:class:`IniFixResource` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1035" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="611" bodyend="665"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1037" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="611" bodyend="665"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a83ee0b101c7ffa527cb5fb6665661c72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
@@ -2146,7 +2146,7 @@ stays valid across one (though every predicate built against the old contents do
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1047" column="23" bodyfile="src/model/files/IniFile.cpp" bodystart="668" bodyend="670"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1049" column="23" bodyfile="src/model/files/IniFile.cpp" bodystart="668" bodyend="670"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a951918ac617b966056f8aa47b874cd83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2166,7 +2166,7 @@ Derived from #getFile rather than stored
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1058" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="673" bodyend="681"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1060" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="673" bodyend="681"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1aa9750790525a37e40a65479814606b9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -2183,7 +2183,7 @@ Whether the ``.ini`` file belongs to a mod, as of the last #classify (``ini.isMo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1066" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="684" bodyend="686"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1068" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="684" bodyend="686"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a85695fd91b00ad7e4ec3965c4c281044" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -2206,7 +2206,7 @@ that reason. #setIsFixed exists only for a caller that drives several fixers by 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1080" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="689" bodyend="691"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1082" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="689" bodyend="691"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ab6eb02a677293cb012ee3ffcbe1ab470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2243,7 +2243,7 @@ that reason. #setIsFixed exists only for a caller that drives several fixers by 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1087" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="694" bodyend="696"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1089" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="694" bodyend="696"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -2261,12 +2261,13 @@ that reason. #setIsFixed exists only for a caller that drives several fixers by 
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Whether &apos;line&apos; looks like a ``[SectionName]`` header -- after skipping leading
-whitespace, starts with ``[`` and has a ``]`` somewhere after it :raw-html:`&lt;br /&gt;`
-:raw-html:`&lt;br /&gt;`
+Whether &apos;line&apos; is a `section`_ header -- after skipping leading whitespace, it starts
+with ``[`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The same test as the pattern
-(``re.compile(r&quot;^\s*\[.*\]&quot;)``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+This is 3DMigoto&apos;s own rule: a line that starts with ``[`` opens a new `section`_
+whether or not it has a closing ``]``, so a malformed header such as
+``[Textrun = CommandList\global\ORFix\ORFix`` ends the `section`_ before it rather than
+being read as one of its keys :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
    Public because it is the *definition* of a `section`_ boundary this class parses by,
@@ -2288,7 +2289,7 @@ The same test as the pattern
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="475" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1216" bodyend="1219"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="476" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1216" bodyend="1223"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ae452cb997094150f4ee0f9035e3d4830" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2305,11 +2306,12 @@ The same test as the pattern
         <detaileddescription>
 <para><verbatim>embed:rst 
 Extracts the `section`_ name out of a ``[SectionName]`` header line -- the substring
-between the first ``[`` and the last ``]``, trimmed of surrounding whitespace
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+between the first ``[`` and the first ``]`` after it, trimmed of surrounding whitespace.
+As in 3DMigoto, a header with no ``]`` takes the rest of the line as its name, and
+anything after the ``]`` is ignored :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Falls back to a partial extraction when only one bracket is present, and to the whole
-trimmed line when neither is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Falls back to the whole trimmed line when there is no ``[`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
 
 Public for the same reason as #isSectionHeaderLine -- the name this returns is the key
 #getIfTemplates files that `section`_ under
@@ -2327,7 +2329,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="493" column="32" bodyfile="src/model/files/IniFile.cpp" bodystart="1221" bodyend="1237"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="495" column="32" bodyfile="src/model/files/IniFile.cpp" bodystart="1225" bodyend="1238"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -2351,7 +2353,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1176" column="14" bodyfile="src/model/files/IniFile.cpp" bodystart="176" bodyend="205"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1178" column="14" bodyfile="src/model/files/IniFile.cpp" bodystart="176" bodyend="205"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a0cc737d17e5953911397fdb10572492c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt; &gt; &gt; &amp;</type>
@@ -2373,7 +2375,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1185" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="207" bodyend="252"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1187" column="31" bodyfile="src/model/files/IniFile.cpp" bodystart="207" bodyend="252"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a7d5e3a376b4a6d6ca5cfe3ad89d0ecdb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt;&gt; &gt;</type>
@@ -2395,7 +2397,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1190" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="254" bodyend="264"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1192" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="254" bodyend="264"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ab80042b7a52dd20e23d1ff5c897b4ecb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2413,7 +2415,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1214" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="897" bodyend="941"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1216" column="18" bodyfile="src/model/files/IniFile.cpp" bodystart="897" bodyend="941"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ae8ec8a1ea8844909ab91153d81a702c4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
@@ -2431,7 +2433,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1220" column="27" bodyfile="src/model/files/IniFile.cpp" bodystart="950" bodyend="961"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1222" column="27" bodyfile="src/model/files/IniFile.cpp" bodystart="950" bodyend="961"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -2451,7 +2453,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1225" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1239" bodyend="1261"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1227" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1240" bodyend="1262"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a26d02514ce0c6d14406cad224201f03a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2469,7 +2471,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1235" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1263" bodyend="1265"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1237" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1264" bodyend="1266"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -2499,7 +2501,7 @@ Class to handle ``.ini`` files
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/IniFile.h" line="50" column="5" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="50" bodyend="1236"/>
+    <location file="include/AGRemapCore/model/files/IniFile.h" line="50" column="5" bodyfile="include/AGRemapCore/model/files/IniFile.h" bodystart="50" bodyend="1238"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_file_1a5f3ed1bef8391bd81dade38d4ebc7281" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFile</scope><name>addSection</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_1af114b3d31e6214e9010d0464f934d6f3" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFile</scope><name>builtFixers_</name></member>

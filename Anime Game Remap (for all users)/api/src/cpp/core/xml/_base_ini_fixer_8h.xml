@@ -17,6 +17,21 @@
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
     <includedby refid="_base_ini_fixer_instantiation_8cpp" local="yes">src/model/strategies/iniFixers/BaseIniFixerInstantiation.cpp</includedby>
     <incdepgraph>
+      <node id="31">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="73">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="72">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="37">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -576,21 +591,6 @@
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
-      </node>
-      <node id="31">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="73">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="72">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="37">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="67">
         <label>Generator.tpp</label>

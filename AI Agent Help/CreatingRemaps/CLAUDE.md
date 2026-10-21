@@ -985,6 +985,74 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
+## CHANGLI <-> CHANGLINYMPH (WuWa, compiled both ways 2026-10-20/21)
+
+Downloads `Changli/3_7` and `ChangliNymph/3_7` (with `<Name>LiveHashes.json` and `<Name>HashLineage.json`), the reviewed
+draft `ChangliRemapDraft.xlsx`, and the registration (Changli at 1.1 / 1.2 / 1.4 -- three mesh generations -- and
+ChangliNymph at 2.4). Prototypes: `Tools/Misc/Prototypes/changliNymphFix.py` and `nymphChangliFix.py`, both still the
+oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. Test folders: `WWMI/ChangliTest`,
+`WWMI/ChangliRestored` (the forward's originals repaired to the 3.7 hashes), `WWMI/ChangliNymphTest`,
+`WWMI/ChangliNymphRestored`. What this pair taught, every item a field or a finding the next pair can reuse:
+
+* **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
+  (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
+  blend is read across its neighbour's bytes and the whole model draws as giant polygons.
+  `WWMIFixerConfig::targetInfluences` widens (forward, 4 -> 8) and NARROWS (reverse, 8 -> 4: each vertex keeps its
+  heaviest slots after merging slots that name one bone, weights scaled to the same total; under 1% of the skin's
+  vertices use more than four). Check `Blend.buf` size / `Position.buf` count on BOTH identity mods for every pair.
+* **A mod's older texture hashes are in WWMI-Assets' own git history.** Most Changli mods predate her 2.6 rehash, so
+  the fix downloaded the GAME's texture over their art (Changli1: 13 of its roles). WWMI-Assets keeps
+  `Components-N t=<hash>.dds`, so a rehash is a git RENAME: `Tools/Misc/Diagnostics/wwmiAssetLineage.py --char <Name>
+  [--folder <Skin1>] [--roles <json>]` prints old -> new with the old hash's register usage (the check that the role
+  is right), and the rows go into `HashData.cpp` typed by role at an older version. Hash-level evidence, unlike
+  pixel correlation; a hash several characters share (`c235c6a7`, 27 of them) is not filed, and an "old" hash whose
+  successor is the CURRENT asset hash belongs in the config's roles, not in HashData.
+* **A mod may bind its textures from an `.ini` in a SUBFOLDER** (`Textures/textures.ini` on the same draws).
+  `WWMIFixerConfig::readInisBelow` (default off) reads those too; the old search looked beside and above only.
+* **One texture file, two resource sections: name it by the one a section USES.** Changli1 declares
+  `[ResourceTexture19]` on its body diffuse and binds that file only as `[Resource-1]` inside a `$sawpvarA` toggle,
+  so taking the first declaration lost the toggle. And the "used" scan must skip this pair's OWN previous fix
+  sections, or a re-fix in place reads its last output as the mod's use -- which only a fix-twice comparison
+  (pre-flight item 9) catches; the clean A/B undoes first and cannot.
+* **A part drawn by a CUT-OUT emissive shader has no counterpart on a lit body shader.** Her 25-vertex chest tattoo
+  is cut out of a glow texture's alpha and drawn as a small dark mark; through the skin's body shader the whole quad
+  drew as a red rectangle. Proven by commenting out its one draw; it is left out of the plan (`plan` without a row
+  drops a component).
+* **Alpha means different things on different shaders.** Measured over both characters' own diffuses: every opaque
+  shader keeps diffuse alpha at or below ~120; the skin's two see-through shaders carry it to 255 as opacity. On
+  Changli's shaders alpha above her own range LIGHTS the part (a paint test with a flat alpha-255 texture lit the
+  dress bright green), so the reverse clamps the see-through parts' alpha to 117 (ChisaParfait -> Chisa's edit).
+  Translucency itself is out of reach without a shader, and stays a limitation.
+* **Before calling a part's glow missing, ask whether the TARGET can glow there at all.** Changli's arm feathers
+  light from her upper-body detail map's alpha; the skin's body shader showed no input a texture can drive (its
+  t3 at alpha 255 everywhere lit nothing) and the skin's own arm has no feathers -- a measured limitation.
+* **Before calling something a difference, look at the SAME spot on the original.** Changli's base card shows red
+  flame streamers by her right hand; four paint tests and four mesh probes showed they are no part of the remapped
+  mesh -- and then the skin's own card turned out to show streamers there too. Not a difference; it had been
+  written up as a limitation for an hour. (Of the four probes, skipping two scene meshes blanked the whole frame.)
+* **What a see-through shader CUTS AWAY, an opaque one draws.** The skin's fine gold chains are thin quads of a gold
+  line on grey whose alpha is 0; on Changli the grey drew too, as dark cords across her chest and a loose strip at
+  her hip. The dress edit now pads every fully transparent texel with its nearest visible neighbour's colour (a
+  deterministic left / right / up / down pass rule, so the C++ frontier walk and the prototype's numpy passes write
+  the same bytes) before clamping the alpha: the chains draw as thin gold straps.
+* **Some skin mods are WWMI "BETA-2" exports with no merged skeleton** (no `vg_offset` lines): their blend holds
+  each component's LOCAL ids. Without `sourceVgMaps` the fixer leaves the `.ini` alone and says so only to a
+  logger -- the stats still count it fixed. Set `sourceVgMaps` from the source's `Metadata.json` for every
+  direction whose source has mods of that shape.
+* **Restored originals for older meshes cannot be made by a hash swap.** Changli 1.1 / 1.2 mods differ from 1.4
+  in index windows and bone windows too, so five originals had no reference at 3.7 and were checked for integrity
+  only. Say so in the hand-off rather than building an upgrade remap for references.
+* **In-game mechanics that cost a round each:** 3DMigoto persists a `global persist` toggle in `d3dx_user.ini` and
+  that value OVERRIDES an edit of the `.ini` -- strip the mod's lines there before every reload; GameView's
+  `mods <IMP> only` aborts halfway when its journal holds an origin in a deleted scratch folder (use `park` /
+  `load` one at a time until it is fixed); and the Claude desktop app steals focus from the game, so every
+  reload has to be proven by the picture.
+
+Open: Changli13 draws its coat and tattoo from mesh files of their own (`Meshes/Split`, `Meshes/Tattoo`), which the
+WWMI fixer does not handle yet (a session card proposes it); Changli3 keys its sections on the bone-data buffer only
+and is not classified; the overworld was not checked in either direction (the skins were never WORN -- that is the
+maintainer's call).
+
 ## LYNAE <-> LYNAEPEPPERMINT (WuWa, compiled both ways 2026-10-06)
 
 Downloads `Lynae/3_7` and `LynaePeppermint/3_7` (merged), the reviewed draft `LynaeRemapDraft.xlsx`, and the

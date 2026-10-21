@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <utility>
 #include <vector>
 
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h"
@@ -34,9 +35,80 @@ namespace AGRemapCore {
         // or below 117, and above it the part lights up -- the sheer dress's gold embroidery and bodice drew
         // glowing and orange. Clamped to her ceiling, RGB untouched. The gamma stays on: this is a colour
         // texture, written uncompressed without the source's sRGB flag (ChisaParfait -> Chisa, the same edit).
+        //
+        // ...and a texel her own shader shows NOT AT ALL (alpha 0: the quads of her fine gold chains are a gold
+        // line on grey, the grey cut away) is drawn by Changli's opaque shaders, so the chains drew as dark grey
+        // cords. Each fully transparent texel takes the colour of the nearest visible one (edge padding), one pass
+        // at a time: a hidden texel next to a visible one AS OF THE PREVIOUS PASS takes the colour of its first
+        // visible neighbour in the order left, right, up, down -- the same rule, step for step, as the prototype,
+        // so the two write the same bytes.
+        void padHidden(std::vector<std::uint8_t>& px, std::size_t w, std::size_t h) {
+            // visible[i]: 0 hidden, 1 visible; queued marks a hidden texel already a candidate of this pass
+            std::vector<std::uint8_t> visible(w * h, 0);
+            std::vector<std::size_t> frontier;
+            for (std::size_t i = 0; i < w * h; ++i) {
+                if (px[i * 4 + 3] != 0) {
+                    visible[i] = 1;
+                    frontier.push_back(i);
+                }
+            }
+
+            std::vector<std::uint8_t> queued(w * h, 0);
+            std::vector<std::size_t> candidates;
+            std::vector<std::pair<std::size_t, std::size_t>> taken;     // (texel, its source)
+            while (!frontier.empty()) {
+                // the hidden neighbours of the texels the previous pass made visible
+                candidates.clear();
+                for (std::size_t f : frontier) {
+                    const std::size_t x = f % w;
+                    const std::size_t y = f / w;
+                    const std::size_t around[4] = {x > 0 ? f - 1 : f, x + 1 < w ? f + 1 : f,
+                                                   y > 0 ? f - w : f, y + 1 < h ? f + w : f};
+                    for (std::size_t n : around) {
+                        if (n != f && !visible[n] && !queued[n]) {
+                            queued[n] = 1;
+                            candidates.push_back(n);
+                        }
+                    }
+                }
+
+                // each takes its first visible neighbour, judged as of the previous pass (nothing is applied
+                // until every candidate has chosen), in the order left, right, up, down
+                taken.clear();
+                for (std::size_t i : candidates) {
+                    queued[i] = 0;
+                    const std::size_t x = i % w;
+                    const std::size_t y = i / w;
+                    std::size_t from = i;
+                    if (x > 0 && visible[i - 1]) {
+                        from = i - 1;
+                    } else if (x + 1 < w && visible[i + 1]) {
+                        from = i + 1;
+                    } else if (y > 0 && visible[i - w]) {
+                        from = i - w;
+                    } else if (y + 1 < h && visible[i + w]) {
+                        from = i + w;
+                    }
+                    taken.emplace_back(i, from);
+                }
+
+                frontier.clear();
+                for (const auto& [i, from] : taken) {
+                    px[i * 4] = px[from * 4];
+                    px[i * 4 + 1] = px[from * 4 + 1];
+                    px[i * 4 + 2] = px[from * 4 + 2];
+                }
+                for (const auto& entry : taken) {
+                    visible[entry.first] = 1;
+                    frontier.push_back(entry.first);
+                }
+            }
+        }
+
         TexEditor::Filter alphaClampFilter() {
             return [](TextureFile& tex) {
                 std::vector<std::uint8_t> px = tex.getPixels();
+                padHidden(px, tex.getWidth(), tex.getHeight());
                 for (std::size_t i = 3; i < px.size(); i += 4) {
                     px[i] = std::min(px[i], ChangliDiffuseAlphaMax);
                 }

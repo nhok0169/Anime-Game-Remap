@@ -282,11 +282,41 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     # at or below 117 (every one: upper, legs, coat), and above it lights the part -- the sheer dress's gold
     # embroidery and bodice drew glowing and orange (in-game check 1). Clamped to her ceiling; RGB untouched,
     # and the gamma stays on because this is a colour texture (ChisaParfait -> Chisa, the same edit) ----
+    # ...and a texel her own shader shows NOT AT ALL (alpha 0: the quads of her fine gold chains are a gold line
+    # on grey, the grey cut away) is drawn on Changli's opaque shaders, so the chains drew as dark grey cords:
+    # each fully transparent texel takes the colour of the nearest visible one (edge padding), so a chain quad
+    # draws gold (in-game audit, reverse epoch 1)
     def alphaClamp(ctx):
         def run(tex):
-            px = bytearray(tex.getPixels())
-            px[3::4] = bytes(min(a, ChangliDiffuseAlphaMax) for a in px[3::4])
-            tex.setPixels(bytes(px), tex.width, tex.height)
+            import numpy as np
+            w, h = tex.width, tex.height
+            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).copy()
+            # one pass at a time, every hidden texel next to a visible one (as of the previous pass) takes
+            # the colour of its first visible neighbour in the order left, right, up, down -- the same rule,
+            # step for step, as ChangliNymphFixer.cpp's padHidden, so the two write the same bytes
+            visible = px[..., 3] != 0
+            if visible.any():
+                rgb = px[..., :3]
+                while True:
+                    prevVis = visible.copy()
+                    prevRgb = rgb.copy()
+                    todo = ~prevVis
+                    taken = np.zeros_like(todo)
+                    for dy, dx in ((0, -1), (0, 1), (-1, 0), (1, 0)):
+                        srcVis = np.zeros_like(prevVis)
+                        srcRgb = np.zeros_like(prevRgb)
+                        ys = slice(max(dy, 0), h + min(dy, 0)); yd = slice(max(-dy, 0), h + min(-dy, 0))
+                        xs = slice(max(dx, 0), w + min(dx, 0)); xd = slice(max(-dx, 0), w + min(-dx, 0))
+                        srcVis[yd, xd] = prevVis[ys, xs]
+                        srcRgb[yd, xd] = prevRgb[ys, xs]
+                        m = todo & srcVis & ~taken
+                        rgb[m] = srcRgb[m]
+                        taken |= m
+                    if not taken.any():
+                        break
+                    visible |= taken
+            px[..., 3] = np.minimum(px[..., 3], ChangliDiffuseAlphaMax)
+            tex.setPixels(px.tobytes(), w, h)
         return run
     E = FRB.WWMIFixerConfig.TexEdit
     config.texEdits = [E(role, "AlphaClamp", alphaClamp) for role in ("sheerDiffuse", "shawlDiffuse")]

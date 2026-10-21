@@ -4164,13 +4164,17 @@ master shows only the outfit for the region you stand in** -- the screenshot was
 and after an F10 reload the region reads 0 until the game re-detects it (to see one outfit there, add its number to
 `$swap_unidentified`'s cycle for the test and put the line back). **When ONE variant of a merged mod is wrong, grep
 its `.ini` for a line starting with `[` that is not a whole header (`^\[[^]]*$`) before reading the fix.**
-**OPEN, and it bit once:** a file fixed by an OLDER build carries that build's copy of the malformed section inside its
-fix block, under the same broken name. The undo deletes fix-block sections by NAME, and under the new rule that name
-also matches the author's line -- so the first re-fix with the new build removed the author's (dead to 3DMigoto,
-so nothing changes in game) section, and with backups kept it overwrote the backup too. The maintainer's files were
-put back from a scratch copy undone with the OLD build. Prove any such repair with an author-text comparison
-(everything before the fix's `; ---------------` marker against the original), and see that it FAILS on the damaged
-copy first.
+**And the undo took the author's line with it, once -- fixed the same day.** A file fixed by an OLDER build carries
+that build's copy of the malformed section inside its fix block, under the same broken name, and `RemapIniRemover`
+deleted every OCCURRENCE of a name it had chosen -- so the first re-fix with the new build removed the author's copy
+too, and with backups kept it overwrote the backup. The maintainer's rule: **the undo deletes only what a fix made** --
+anything inside a fix block, and outside one only a section whose OWN name carries the remap keyword
+(`RemapIniRemover::isFixOutput`; it replaces the `[Constants]` / `[Present]` special case, which was the same bug in
+2026-10-08). Nor is a file collected for deletion when the parsed section behind a name is the author's (the FIRST
+occurrence wins in `sectionIfTemplates`). `RemapIniRemover_test`'s `testAuthorSectionSharingAFixNameIsKept` fails both
+ways against the old remover. The maintainer's files were put back from a scratch copy undone with the OLD build;
+prove any such repair with an author-text comparison (everything before the fix's `; ---------------` marker against
+the original), and see that it FAILS on the damaged copy first.
 
 <br>
 

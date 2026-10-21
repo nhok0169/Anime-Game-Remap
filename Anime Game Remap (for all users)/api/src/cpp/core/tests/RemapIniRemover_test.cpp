@@ -263,6 +263,52 @@ void testWholeFixAndBoilerPlateRemoved() {
 }
 
 
+// Only what a fix made is deleted. An AUTHOR's section that shares its name with one inside the
+// fix block stays, lines and files: an older build copied Lumine11's malformed header
+// `[Textrun = ...ORFix` into its block, and the undo deleted the author's by name (2026-10-20).
+void testAuthorSectionSharingAFixNameIsKept() {
+    const std::string author =
+        OrigMod +
+        "\n"
+        "[Textrun = CommandList\\global\\ORFix\\ORFix\n"
+        "ureOverrideFooIB]\n"
+        "hash = " + UnknownHash + "\n"
+        "\n"
+        "[ResourceFooShared]\n"
+        "filename = FooShared.dds\n";
+
+    std::string txt =
+        author +
+        "\n" +
+        RemapHeadingOpen +
+        "\n" +
+        FixBody +
+        "\n"
+        "[Textrun = CommandList\\global\\ORFix\\ORFix\n"
+        "ureOverrideFooIB]\n"
+        "hash = HashNotFound\n"
+        "\n"
+        "[ResourceFooShared]\n"
+        "filename = FooSharedCopy.dds\n"
+        "\n" +
+        RemapHeadingClose;
+
+    Fixture fixture(txt);
+    std::string result = fixture.remover->remove(false, false);
+
+    checkEqual(result, author + "\n",
+               "shared name: the author's copies stay, the fix block's go");
+
+    const std::vector<std::string> texs = collectedNames(*fixture.remover, Remover::ResourceType::Other);
+    const std::vector<std::string> edits = collectedNames(*fixture.remover, Remover::ResourceType::TexEdit);
+    check(!contains(texs, "FooShared.dds") && !contains(edits, "FooShared.dds"),
+          "shared name: the author's file is not collected for deletion");
+    check(collectedNames(*fixture.remover, Remover::ResourceType::Blend)
+              == std::vector<std::string>{"FooTestModRemapBlend.buf"},
+          "shared name: the fix's own files still are");
+}
+
+
 
 
 void testAncestorsAndOutsideLeftoversRemoved() {
@@ -1007,6 +1053,7 @@ int main() {
     std::setvbuf(stdout, nullptr, _IONBF, 0);
 
     testWholeFixAndBoilerPlateRemoved();
+    testAuthorSectionSharingAFixNameIsKept();
     testAncestorsAndOutsideLeftoversRemoved();
     testEverythingInTheBoilerPlateIsATarget();
     testResourceReachedOnlyByVb1IsRemoved();

@@ -36,7 +36,7 @@
 //   * a condition on a variable nothing can drive here is not carried: the recolour is bound
 //     unconditionally, as before
 //   * an undo keeps the author's own `[Constants]`: the fix writes one too, and the remover used to
-//     delete every section of a name the fix had written (RemapIniRemover::isMergedSection)
+//     delete every section of a name the fix had written (RemapIniRemover::isFixOutput)
 //
 // Needs the full static lib. Build AGRemapCore first ("cd cbuild && ninja AGRemapCore"), then
 // compile and link as described in RemapService_fix_test.cpp.

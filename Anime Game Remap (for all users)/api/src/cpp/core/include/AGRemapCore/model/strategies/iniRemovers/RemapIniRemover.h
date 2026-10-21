@@ -792,19 +792,14 @@ namespace AGRemapCore {
             void collectRemovedResources(const std::unordered_map<std::string, Section*>& pool,
                                           const std::vector<std::string>& removedNames, const std::string& iniFolder);
 
-            // Whether 'path' ends with 'ext', ignoring case -- see classifyResource's own note.
-            /**
-             * @brief
-             @rst
-             Whether 3DMigoto reads every `section`_ called 'name' in one file as one section --
-             ``[Constants]`` and ``[Present]`` -- so a fix may write one of its own beside the
-             author's. Outside a fix's boilerplate, such a section is never removed
-             @endrst
-             *
-             * @param name The `section`_'s name
-             */
-            static bool isMergedSection(const std::string& name);
+            // Whether this one OCCURRENCE is a fix's own output: it sits inside a boilerplate region,
+            // or its own name carries the remap keyword (nameLooksRemapped). Only such an occurrence
+            // is ever deleted. A name being chosen is not enough -- an author's section may share
+            // its name with one inside a fix block (a merged `[Constants]`, or an older fix's copy
+            // of a malformed header), and the author's copy stays.
+            bool isFixOutput(const SectionSpan& span, const std::vector<std::string>& modNames) const;
 
+            // Whether 'path' ends with 'ext', ignoring case -- see classifyResource's own note.
             static bool hasExt(const std::string& path, const std::string& ext);
 
             // Who references whom, within 'pool' -- the edge relation the removal set closes over,

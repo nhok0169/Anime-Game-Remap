@@ -129,6 +129,10 @@ Grading
        |
        | - **Limitation:** her fine gold body chains are cut out of thin strips on her own outfit; on Changli the
        | whole strip draws, so they come out as thin gold-brown cords rather than fine chains (darker on the back).
+       |
+       | - Her side panels are modelled facing sideways, and her own idle swings the right one round to face the
+       | front. Changli's idle does not, so seen from straight in front that panel is a thin line on Changli; it
+       | hangs broad beside her thigh from every side.
    * - | **Charlotte --> CharlotteHurlock**
      - | :greenBold:`4.5`
      - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of

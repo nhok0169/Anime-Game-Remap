@@ -987,6 +987,22 @@
     <member refid="class_a_g_remap_core_1_1_call_graph_1afac9340fe42a5635e89959ecadeb5b97" kind="function"><name>rootNodes</name></member>
     <member refid="class_a_g_remap_core_1_1_call_graph_1af2e011ac9dc642227e8fd244cbb8c3b8" kind="function"><name>exitNodeOf</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_changli_fixer" kind="class"><name>AGRemapCore::ChangliFixer</name>
+    <member refid="class_a_g_remap_core_1_1_changli_fixer_1a165367c0c3ed62cc78e6814a0e01f89b" kind="function"><name>ChangliFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_fixer_1a7b4d11128df7cf8673c98b131ddf124e" kind="function"><name>nymph2_4</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_changli_nymph_fixer" kind="class"><name>AGRemapCore::ChangliNymphFixer</name>
+    <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1af813676449c62b3048129099e4497104" kind="function"><name>ChangliNymphFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1a9359ccaadf1056990e0cf7ace04d0f61" kind="function"><name>changli1_4</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_changli_nymph_parser" kind="class"><name>AGRemapCore::ChangliNymphParser</name>
+    <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1aef0deab3ecfcc332f08c8371681494cd" kind="function"><name>ChangliNymphParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1a94b36ae9332b85155bb6486c08aeb0b0" kind="function"><name>v2_4</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_changli_parser" kind="class"><name>AGRemapCore::ChangliParser</name>
+    <member refid="class_a_g_remap_core_1_1_changli_parser_1abd1a003746c228a0ec4d6ea18160d4a9" kind="function"><name>ChangliParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_changli_parser_1a7a41d7e2e45ff2d4e58d3f4e2f48691a" kind="function"><name>v1_1</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_charlotte_fixer" kind="class"><name>AGRemapCore::CharlotteFixer</name>
     <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a280ad1997868f928fd32353ca2900924" kind="function"><name>CharlotteFixer</name></member>
     <member refid="class_a_g_remap_core_1_1_charlotte_fixer_1a6a4e7aa265b0433b63511b2d6185302e" kind="function"><name>body6_7</name></member>
@@ -6814,7 +6830,9 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a218bdf8da9a3f36e39f2cf24c07d6f52" kind="variable"><name>bindPrevPoseAlways</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a9e840a2a04df1d7ee959311972bc05c8" kind="variable"><name>currentPoseInCb3Only</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aad50308989e68adbc5ebe9bc7fdf59d2" kind="variable"><name>copiesShareSkeleton</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1acd92d34432b2d135674dc203db8f732b" kind="variable"><name>targetInfluences</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a1cc922c578f9fe9352d8f309cb135b59" kind="variable"><name>carryByRegisterRole</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abd9234be98537d813b89c373e0a8d49e" kind="variable"><name>readInisBelow</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aaf8a9b191d52f166a43769f463dcd2d1" kind="variable"><name>sharedResourcesList</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac3568a3d33275a379c64c149daef2061" kind="variable"><name>cleanupResourcesList</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1abe6af6d31e4c2a78b4c4924470c86b91" kind="variable"><name>slotPrefix</name></member>
@@ -7254,6 +7272,8 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d130354270013131103345245300253307156125377337124" kind="namespace"><name>AGRemapCore::@130354270013131103345245300253307156125377337124</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d133237006112332350164077234343333370257146144136" kind="namespace"><name>AGRemapCore::@133237006112332350164077234343333370257146144136</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d133302164035243174220122030050333045230164141122" kind="namespace"><name>AGRemapCore::@133302164035243174220122030050333045230164141122</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d134314006174047210021016320115306162147163361270" kind="namespace"><name>AGRemapCore::@134314006174047210021016320115306162147163361270</name>
@@ -7507,6 +7527,22 @@
   </compound>
   <compound refid="_bennett_adventure_fixer_8h" kind="file"><name>BennettAdventureFixer.h</name>
   </compound>
+  <compound refid="_changli_fixer_8h" kind="file"><name>ChangliFixer.h</name>
+  </compound>
+  <compound refid="_changli_skeleton_8h" kind="file"><name>ChangliSkeleton.h</name>
+  </compound>
+  <compound refid="_changli_textures_8h" kind="file"><name>ChangliTextures.h</name>
+  </compound>
+  <compound refid="_changli_thumbprints_8h" kind="file"><name>ChangliThumbprints.h</name>
+  </compound>
+  <compound refid="_changli_nymph_fixer_8h" kind="file"><name>ChangliNymphFixer.h</name>
+  </compound>
+  <compound refid="_changli_nymph_skeleton_8h" kind="file"><name>ChangliNymphSkeleton.h</name>
+  </compound>
+  <compound refid="_changli_nymph_textures_8h" kind="file"><name>ChangliNymphTextures.h</name>
+  </compound>
+  <compound refid="_changli_nymph_thumbprints_8h" kind="file"><name>ChangliNymphThumbprints.h</name>
+  </compound>
   <compound refid="_charlotte_fixer_8h" kind="file"><name>CharlotteFixer.h</name>
   </compound>
   <compound refid="_charlotte_hurlock_fixer_8h" kind="file"><name>CharlotteHurlockFixer.h</name>
@@ -7706,6 +7742,10 @@
   <compound refid="_bennett_parser_8h" kind="file"><name>BennettParser.h</name>
   </compound>
   <compound refid="_bennett_adventure_parser_8h" kind="file"><name>BennettAdventureParser.h</name>
+  </compound>
+  <compound refid="_changli_parser_8h" kind="file"><name>ChangliParser.h</name>
+  </compound>
+  <compound refid="_changli_nymph_parser_8h" kind="file"><name>ChangliNymphParser.h</name>
   </compound>
   <compound refid="_charlotte_parser_8h" kind="file"><name>CharlotteParser.h</name>
   </compound>
@@ -8362,6 +8402,22 @@
   </compound>
   <compound refid="_bennett_adventure_fixer_8cpp" kind="file"><name>BennettAdventureFixer.cpp</name>
   </compound>
+  <compound refid="_changli_fixer_8cpp" kind="file"><name>ChangliFixer.cpp</name>
+  </compound>
+  <compound refid="_changli_skeleton_8cpp" kind="file"><name>ChangliSkeleton.cpp</name>
+  </compound>
+  <compound refid="_changli_textures_8cpp" kind="file"><name>ChangliTextures.cpp</name>
+  </compound>
+  <compound refid="_changli_thumbprints_8cpp" kind="file"><name>ChangliThumbprints.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_fixer_8cpp" kind="file"><name>ChangliNymphFixer.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_skeleton_8cpp" kind="file"><name>ChangliNymphSkeleton.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_textures_8cpp" kind="file"><name>ChangliNymphTextures.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_thumbprints_8cpp" kind="file"><name>ChangliNymphThumbprints.cpp</name>
+  </compound>
   <compound refid="_charlotte_fixer_8cpp" kind="file"><name>CharlotteFixer.cpp</name>
   </compound>
   <compound refid="_charlotte_hurlock_fixer_8cpp" kind="file"><name>CharlotteHurlockFixer.cpp</name>
@@ -8563,6 +8619,10 @@
   <compound refid="_bennett_parser_8cpp" kind="file"><name>BennettParser.cpp</name>
   </compound>
   <compound refid="_bennett_adventure_parser_8cpp" kind="file"><name>BennettAdventureParser.cpp</name>
+  </compound>
+  <compound refid="_changli_parser_8cpp" kind="file"><name>ChangliParser.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_parser_8cpp" kind="file"><name>ChangliNymphParser.cpp</name>
   </compound>
   <compound refid="_charlotte_parser_8cpp" kind="file"><name>CharlotteParser.cpp</name>
   </compound>
@@ -9095,6 +9155,22 @@
   <compound refid="dir_9da8a69756c8d6e8bdd968d668b94d0c" kind="dir"><name>src/model/buffers</name>
   </compound>
   <compound refid="dir_ebbefd75dbc2fc9d34e8472fb840add5" kind="dir"><name>include/AGRemapCore/tools/caches</name>
+  </compound>
+  <compound refid="dir_760e16159b2b5581c94d71b74eb280a2" kind="dir"><name>include/AGRemapCore/data/IniFixData/Changli</name>
+  </compound>
+  <compound refid="dir_49a6dab1cbc6aacc737204e6ab93e74b" kind="dir"><name>include/AGRemapCore/data/IniParseData/Changli</name>
+  </compound>
+  <compound refid="dir_122d05555e927dbafb3083c1b4e445f5" kind="dir"><name>src/data/IniFixData/Changli</name>
+  </compound>
+  <compound refid="dir_fa797d4494307d4fcf83d09ff0ad601c" kind="dir"><name>src/data/IniParseData/Changli</name>
+  </compound>
+  <compound refid="dir_a8ccd5bb2b000446af1be204e67db7a7" kind="dir"><name>include/AGRemapCore/data/IniFixData/ChangliNymph</name>
+  </compound>
+  <compound refid="dir_b04afde4e55a1851a08609d5379b22e8" kind="dir"><name>include/AGRemapCore/data/IniParseData/ChangliNymph</name>
+  </compound>
+  <compound refid="dir_e118653704c8b6853f5ff6b5713f0d35" kind="dir"><name>src/data/IniFixData/ChangliNymph</name>
+  </compound>
+  <compound refid="dir_3306c37527ceaa4a80e6466fe7a72d1a" kind="dir"><name>src/data/IniParseData/ChangliNymph</name>
   </compound>
   <compound refid="dir_35242caf10d3b703dc2211b9e8db10bb" kind="dir"><name>include/AGRemapCore/data/IniFixData/Charlotte</name>
   </compound>

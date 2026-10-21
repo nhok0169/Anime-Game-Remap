@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_changli_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChangliParser</compoundname>
+    <includes refid="_changli_parser_8h" local="no">ChangliParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_parser_1abd1a003746c228a0ec4d6ea18160d4a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChangliParser::ChangliParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChangliParser</name>
+        <qualifiedname>AGRemapCore::ChangliParser::ChangliParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Changli/ChangliParser.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_parser_1a7a41d7e2e45ff2d4e58d3f4e2f48691a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::ChangliParser::v1_1</definition>
+        <argsstring>()</argsstring>
+        <name>v1_1</name>
+        <qualifiedname>AGRemapCore::ChangliParser::v1_1</qualifiedname>
+        <briefdescription>
+<para>The 1.1 parser <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2e3a3e8d898e0d650e6d1632c9154f97" kindref="member">IniParseBuilderFuncs::changli1_1</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/Changli/ChangliParser.h" line="40" column="45" bodyfile="src/data/IniParseData/Changli/ChangliParser.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Changli&apos;s own ``.ini`` parsers, through :cpp:func:`makeWWMIParser`: eight draw slots on her
+``vb0`` hash, the bone-data override and the two shape-key overrides by their own hashes. Pair
+this with :cpp:class:`ChangliFixer`
+
+.. note::
+    Filed at 1.1, her oldest mesh: the library files her 1.2 and 1.4 hashes too, so a mod of any
+    of her three mesh generations is read
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Changli/ChangliParser.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Changli/ChangliParser.h" bodystart="33" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_changli_parser_1abd1a003746c228a0ec4d6ea18160d4a9" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliParser</scope><name>ChangliParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_changli_parser_1a7a41d7e2e45ff2d4e58d3f4e2f48691a" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliParser</scope><name>v1_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

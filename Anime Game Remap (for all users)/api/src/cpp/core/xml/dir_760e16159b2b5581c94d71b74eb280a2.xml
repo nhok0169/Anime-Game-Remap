@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_760e16159b2b5581c94d71b74eb280a2" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniFixData/Changli</compoundname>
+    <innerfile refid="_changli_fixer_8h">ChangliFixer.h</innerfile>
+    <innerfile refid="_changli_skeleton_8h">ChangliSkeleton.h</innerfile>
+    <innerfile refid="_changli_textures_8h">ChangliTextures.h</innerfile>
+    <innerfile refid="_changli_thumbprints_8h">ChangliThumbprints.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Changli/"/>
+  </compounddef>
+</doxygen>

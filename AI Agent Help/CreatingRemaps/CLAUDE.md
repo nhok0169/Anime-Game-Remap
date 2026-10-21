@@ -1035,6 +1035,15 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   her hip. The dress edit now pads every fully transparent texel with its nearest visible neighbour's colour (a
   deterministic left / right / up / down pass rule, so the C++ frontier walk and the prototype's numpy passes write
   the same bytes) before clamping the alpha: the chains draw as thin gold straps.
+* **Before re-routing a part that "hangs wrong", measure how it is MODELLED.** Two epochs reported her right side
+  panel edge-on from the front where the skin's card shows it broad, and three carriers (her right panel, her right
+  thigh, her pelvis) changed nothing. The panel's plane normal in the mod's own mesh is along x: both side panels
+  are modelled facing SIDEWAYS, and the skin's idle swings the right one to the front while Changli's does not. A
+  pose difference, not a row; the mapping went back to the mirror of the left. Two more things it showed: the
+  bones the report names may not be the ones that carry the part (the veil's own chain is a fraction of the panel's
+  weight -- tally the weights of the vertices in the region first), and a mod that HIDES the component (its
+  `drawindexed` commented out) leaves those vertices' ids untouched, which is right, so an unchanged blend there is
+  not a missed remap.
 * **Some skin mods are WWMI "BETA-2" exports with no merged skeleton** (no `vg_offset` lines): their blend holds
   each component's LOCAL ids. Without `sourceVgMaps` the fixer leaves the `.ini` alone and says so only to a
   logger -- the stats still count it fixed. Set `sourceVgMaps` from the source's `Metadata.json` for every

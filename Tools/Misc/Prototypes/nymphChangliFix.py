@@ -67,6 +67,8 @@ LiveHashes = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "ChangliNymph",
 B = FRB.WWMIFixerConfig.Binding
 # the highest diffuse alpha any of Changli's own body / coat diffuses carries (measured on her 3_7 downloads)
 ChangliDiffuseAlphaMax = 117
+# below this alpha a texel of her see-through parts is three-quarters see-through or more on her own shader: treated as hidden
+SeeThroughHidden = 64
 
 
 # ---- her textures by the hash WWMI-Assets (ChangliSkin1, 2.7) and the download folder file them under;
@@ -282,8 +284,8 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     # at or below 117 (every one: upper, legs, coat), and above it lights the part -- the sheer dress's gold
     # embroidery and bodice drew glowing and orange (in-game check 1). Clamped to her ceiling; RGB untouched,
     # and the gamma stays on because this is a colour texture (ChisaParfait -> Chisa, the same edit) ----
-    # ...and a texel her own shader shows NOT AT ALL (alpha 0: the quads of her fine gold chains are a gold line
-    # on grey, the grey cut away) is drawn on Changli's opaque shaders, so the chains drew as dark grey cords:
+    # ...and a texel her own shader all but cuts away (alpha below SeeThroughHidden: the quads of her fine gold
+    # chains are a gold line on grey, the grey invisible) is drawn on Changli's opaque shaders, so the chains drew as dark grey cords:
     # each fully transparent texel takes the colour of the nearest visible one (edge padding), so a chain quad
     # draws gold (in-game audit, reverse epoch 1)
     def alphaClamp(ctx):
@@ -294,7 +296,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
             # one pass at a time, every hidden texel next to a visible one (as of the previous pass) takes
             # the colour of its first visible neighbour in the order left, right, up, down -- the same rule,
             # step for step, as ChangliNymphFixer.cpp's padHidden, so the two write the same bytes
-            visible = px[..., 3] != 0
+            visible = px[..., 3] >= SeeThroughHidden
             if visible.any():
                 rgb = px[..., :3]
                 while True:

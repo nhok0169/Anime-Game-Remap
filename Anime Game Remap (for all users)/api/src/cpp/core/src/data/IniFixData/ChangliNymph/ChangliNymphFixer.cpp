@@ -30,14 +30,18 @@ namespace AGRemapCore {
         // The highest diffuse alpha any of Changli's own body / coat diffuses carries (her 3_7 downloads)
         constexpr std::uint8_t ChangliDiffuseAlphaMax = 117;
 
+        // Below this alpha a texel of her see-through parts is three-quarters see-through or more on her own
+        // shader: treated as hidden by padHidden
+        constexpr std::uint8_t SeeThroughHidden = 64;
+
         // Her see-through parts' diffuse ALPHA is opacity on their own shaders (mean 165 on the sheer dress,
         // 221 on the shawl, up to 255); on Changli's opaque shaders alpha is a scalar her own diffuses keep at
         // or below 117, and above it the part lights up -- the sheer dress's gold embroidery and bodice drew
         // glowing and orange. Clamped to her ceiling, RGB untouched. The gamma stays on: this is a colour
         // texture, written uncompressed without the source's sRGB flag (ChisaParfait -> Chisa, the same edit).
         //
-        // ...and a texel her own shader shows NOT AT ALL (alpha 0: the quads of her fine gold chains are a gold
-        // line on grey, the grey cut away) is drawn by Changli's opaque shaders, so the chains drew as dark grey
+        // ...and a texel her own shader all but cuts away (alpha below SeeThroughHidden: the quads of her fine gold
+        // chains are a gold line on grey, the grey invisible) is drawn by Changli's opaque shaders, so the chains drew as dark grey
         // cords. Each fully transparent texel takes the colour of the nearest visible one (edge padding), one pass
         // at a time: a hidden texel next to a visible one AS OF THE PREVIOUS PASS takes the colour of its first
         // visible neighbour in the order left, right, up, down -- the same rule, step for step, as the prototype,
@@ -47,7 +51,7 @@ namespace AGRemapCore {
             std::vector<std::uint8_t> visible(w * h, 0);
             std::vector<std::size_t> frontier;
             for (std::size_t i = 0; i < w * h; ++i) {
-                if (px[i * 4 + 3] != 0) {
+                if (px[i * 4 + 3] >= SeeThroughHidden) {
                     visible[i] = 1;
                     frontier.push_back(i);
                 }

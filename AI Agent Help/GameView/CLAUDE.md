@@ -296,7 +296,14 @@ the branch draws nothing.
   switching what is equipped.
 - **A second `Esc` from a character screen opens the Paimon menu, UID top LEFT.** When a capture might show
   it, blank the top-left corner of the file with Pillow before reading it, and delete any capture that
-  showed the UID.
+  showed the UID. After the all-characters grid (below), ONE `Esc` landed there (2026-10-21).
+- **The character screen reads `E` / `Q` as next / previous character -- inside a mod's `Alt+E` too**
+  (2026-10-21). YelanTranquil3's transparency toggle is `Alt+E`: the toggle fired AND the screen moved on to the
+  next character, so the shot showed someone else. Press `Q` to step back, or toggle in the overworld.
+- **Picking a character from the character screen's ALL-CHARACTERS GRID (bottom-left button) can put her in the
+  PARTY** (2026-10-21): it swapped Yelan in for Sandrone in slot 3 and made her active. Take an overworld shot of
+  the party first, and tell the maintainer if it changed -- party setup is theirs. The grid also reorders
+  (recently viewed first), so read positions off a fresh screenshot every time.
 
 ## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
 

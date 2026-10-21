@@ -2869,11 +2869,25 @@ namespace AGRemapCore {
                         }
                     }
 
+                    // Rewritten where the section has them, and filled in (a cover, below) only where
+                    // it has them nowhere. addNewKVPs put a copy in EVERY part lacking them, so a
+                    // namespace-merged master's VertexLimitRaise -- whose overrides sit inside the
+                    // variant's `if` -- got a second, unguarded copy at its root, and 18 variants
+                    // set 18 counts on one hash (Lumine12, 2026-10-21).
                     overrides_ = std::make_unique<RegNewVals<>>(
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {OverrideByteStride, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(positionStride_)))},
                             {OverrideVertexCount, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(maxVertices)))}},
-                        /*addNewKVPs*/ true);
+                        /*addNewKVPs*/ false);
+
+                    strideFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideByteStride,
+                        RegFillMissing<>::makeFillMissing(OverrideByteStride, std::to_string(positionStride_)),
+                        RegFillMissingMode::BottomCover);
+                    vertexCountFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideVertexCount,
+                        RegFillMissing<>::makeFillMissing(OverrideVertexCount, std::to_string(maxVertices)),
+                        RegFillMissingMode::BottomCover);
 
                     blendDraw_ = std::make_unique<RegNewVals<>>(
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
@@ -2925,6 +2939,8 @@ namespace AGRemapCore {
                     addFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(addFixCall_.get());
                     keepOwnFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(keepOwnFixCall_.get());
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
+                    strideFillAdapter_ = std::make_unique<GraphPartEdit<>>(strideFill_.get());
+                    vertexCountFillAdapter_ = std::make_unique<GraphPartEdit<>>(vertexCountFill_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
                     blendSkipFillAdapter_ = std::make_unique<GraphPartEdit<>>(blendSkipFill_.get());
                     blendDrawFillAdapter_ = std::make_unique<GraphPartEdit<>>(blendDrawFill_.get());
@@ -3194,7 +3210,8 @@ namespace AGRemapCore {
                     }
 
                     const ModObj otherObj("", "other");
-                    iniEdits.edits[otherObj] = {renameAdapter_.get(), otherAsset, overridesAdapter_.get()};
+                    iniEdits.edits[otherObj] = {renameAdapter_.get(), otherAsset, overridesAdapter_.get(),
+                                                strideFillAdapter_.get(), vertexCountFillAdapter_.get()};
                     iniEdits.trackKeys[otherObj] = false;
 
                     if (copiesFace()) {
@@ -3333,6 +3350,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegNewVals<>> blendDraw_;
                 std::unique_ptr<RegFillMissing<>> blendSkipFill_;
                 std::unique_ptr<RegFillMissing<>> blendDrawFill_;
+                std::unique_ptr<RegFillMissing<>> strideFill_;
+                std::unique_ptr<RegFillMissing<>> vertexCountFill_;
 
                 std::unique_ptr<GraphPartEdit<>> renameAdapter_;
                 std::unique_ptr<GraphPartEdit<>> renameIbAdapter_;
@@ -3353,6 +3372,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> blendDrawAdapter_;
                 std::unique_ptr<GraphPartEdit<>> blendSkipFillAdapter_;
                 std::unique_ptr<GraphPartEdit<>> blendDrawFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> strideFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> vertexCountFillAdapter_;
 
                 ObjGroupEdit mainEdits_;
         };

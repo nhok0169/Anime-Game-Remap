@@ -4121,9 +4121,14 @@ rebinding the body's diffuse made them white. **For any TexFx fault on a merge, 
 
 Two more for this pair: Lumine's two-sided dress shader textures back faces through `TEXCOORD1`, which the merge used to
 pad with zeros (the atlas corner) -- `GIMIMergeFixerConfig::texcoordPadFrom = 4` copies `TEXCOORD0` instead; and the
-skin's merged-master VertexLimitRaise sections get their `override_*` keys both at the root (unguarded) and inside the
-guard. That is harmless on the maintainer's old loader, which rejects those keys; on a newer loader 18 outfits put 18
-counts on one hash, so it is OPEN.
+skin's merged-master VertexLimitRaise sections got their `override_*` keys both at the root (unguarded) and inside the
+guard. Harmless on the maintainer's old loader, which rejects those keys (the vertex-limit raise is a GI 4.4-era fix
+and stale now, the maintainer's words), but on a newer loader 18 outfits put 18 counts on one hash. FIXED 2026-10-21 in
+BOTH multi-component templates: the overrides were a `RegNewVals` with `addNewKVPs`, which adds a key to EVERY part
+lacking it -- the bare root included. They are rewritten where the section has them and FILLED only where it has them
+nowhere (`RegFillMissing` `BottomCover`, guard-aware, the blend `draw` line's pattern), so one copy, inside the guard.
+The component template had the same duplicate on a 48-variant Yelan -> YelanTranquil master. Not the hide-original
+comment (`;RemapFixHideOrig -->`): that switches off the AUTHOR's lines; both copies here were the fix's own.
 
 **Acceptance, all reusable:** the de-namespaced control above (`unNamespace.py` + `abByHash.py`): identical but for the
 `if 1` wrapper and that VertexLimitRaise duplicate (`abNorm.py` in that session's scratchpad normalised the wrapper away);

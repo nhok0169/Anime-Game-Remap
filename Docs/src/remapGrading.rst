@@ -125,10 +125,8 @@ Grading
        | - **Limitation:** her sheer dress and shawl are see-through on her own outfit, and Changli has no
        | see-through shader, so they are drawn opaque, and a mod's transparency toggles on them change little.
        | Their texture's transparency channel is clamped to Changli's own range, or her shader would make
-       | the dress's gold embroidery glow.
-       |
-       | - **Limitation:** the floating flame feathers by Changli's right hand are a game effect of her own
-       | outfit, not part of her model, so they stay beside a skin mod remapped onto her.
+       | the dress's gold embroidery glow, and what her outfit cuts away entirely is filled with the colour
+       | beside it, so her fine gold chains come out as thin gold straps rather than dark cords.
    * - | **Charlotte --> CharlotteHurlock**
      - | :greenBold:`4.5`
      - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of

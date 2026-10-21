@@ -313,7 +313,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (118 as of 2026-10-17), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (122 as of 2026-10-21), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -1275,6 +1275,19 @@ useful parts of that, all general:
 - **A user's successive rejections are a BOX, not a queue** (Overview habit 95), and **when three
   consecutive fixes each relocate the symptom by millimetres, re-derive the measurement** (habit 96).
 - **Say when it is a boundary rather than a bug** (habit 97). The maintainer asked for that directly.
+
+**THE UNDO DELETES ONLY WHAT A FIX MADE, AND A `.ini` IS READ THE WAY 3DMIGOTO READS IT (2026-10-20/21).** One
+outfit of Lumine11 (a namespace-merged LumineHeaven mod) rendered green and red on Lumine: its author's malformed
+header `[Textrun = ...ORFix` / `ureOverride...]` is a dead section to 3DMigoto and was two keys of the section above
+to our parser. The parser follows 3DMigoto's rule now, and **3DMigoto's `IniHandler.cpp` is the spec for any parse
+question** (Overview habit 120). Re-fixing that mod then deleted the author's line, because the remover deleted
+every occurrence of a name its fix block held; the maintainer's rule is that **outside a fix block only a name
+carrying the reserved `Remap` keyword is the fix's** (habit 121). That change passed a 92-folder sweep and failed
+four Integration Tester goldens in CI -- **run the Integration Tester AND a sweep before pushing fix or undo code**
+(habit 119; `Tools/Misc/Diagnostics/regressBuilds.py`), and re-check moved folders with downloads ON (habit 122).
+The merge template's fixes for a namespace-merged skin mod (slot lookup, draws inside the variant guard, a doubled
+fix call after TexFx, black TexFx parts, the duplicate vertex-limit overrides in both multi-component templates)
+are in Creating Remaps' "A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER".
 
 **FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
 2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own

@@ -2047,6 +2047,44 @@ change looked like it fixed a sheer part on one in-game shot. Repeated twice per
 control, it shredded the model: the one good frame was the breakage. The same goes for a single frame dump, a
 single A/B mod or a single run of a flaky download.
 
+**119. A SWEEP OVER REAL MODS IS NOT THE INTEGRATION TESTER -- RUN BOTH BEFORE PUSHING SHARED FIX OR UNDO CODE
+(2026-10-21).** An undo change passed a 92-folder sweep (every folder byte-identical), every remover suite and
+the Unit Tester, and failed four API docs goldens in CI on its first push. The goldens' `PartiallyFixedRaiden.ini`
+is a HAND-WRITTEN half-undone fix -- leftover fix sections outside the block, named with the keyword but not in the
+`<modName>Remap` shape -- a shape no real library holds, so no sweep could have shown it. Run the Integration
+Tester locally before pushing anything that changes what a fix or an undo writes: Testing's "Running it on
+WINDOWS, for a quick check" recipe passes all 17 `APIDocsTests` against the Linux goldens; the 7 `MixedModsTests` differ in path
+separators, compiler exception names and section ORDER only -- classify by checking that each `.ini` diff adds
+exactly the lines it removes rather than by assuming. The sweep itself is
+`Tools/Misc/Diagnostics/regressBuilds.py` (habit 110 is its method).
+
+**120. WHEN THE QUESTION IS WHAT 3DMIGOTO DOES WITH A LINE, READ 3DMIGOTO -- NOT OUR PARSER (2026-10-20).**
+`IniFile` counted a line as a section header only with a `]` on it; 3DMigoto (`DirectX11/IniHandler.cpp`,
+`ParseIniStream` / `ParseIniSectionLine`, github `bo3b/3Dmigoto`) opens a section on ANY line starting with `[`
+and names it up to the first `]` or the end of the line. One author's malformed header (Lumine11) was a dead
+section to the game and two keys of the section above to us, and the remap rendered flat green. The game's own
+log says what it made of a file -- `d3d11_log.txt` printed `Unknown section in d3dx.ini: [Textrun = ...]` and
+`Malformed line` for it. For any rule about reading a `.ini` (headers, comments, `if` nesting, duplicate
+sections), 3DMigoto's source is the spec: match it, and pin it with a test that fails against the old rule.
+
+**121. THE UNDO OWNS ONLY WHAT A FIX WROTE -- THE MAINTAINER'S RULE (2026-10-21).** Inside a fix block, everything;
+outside one, only a section whose name carries the reserved `Remap` keyword -- `<modName>Remap`-shaped, or a copy
+of a section the block holds (`RemapIniRemover::isFixOutput`). Deleting every occurrence of a NAME the block
+holds took an author's `[Constants]` once and Lumine11's malformed header the next time. Any change to the
+remover is tested both ways: an author section sharing a name with a block section STAYS, an older fix's leftover
+copy GOES -- and the files follow the same rule (an author section's `filename =` is never collected for
+deletion). And when a repair touches the maintainer's files, prove it by comparing the author's text (everything
+before the fix's `; ---------------` marker) against the original, after seeing that comparison FAIL on the
+damaged copy.
+
+**122. DOWNLOADS ON AND DOWNLOADS OFF ARE DIFFERENT FIXES (2026-10-21).** A sweep runs with
+`downloadMode = "disabled"` so it does not depend on the network, which is not what a user runs. YelanTranquil3
+moved in such a sweep and was byte-identical to `master` with downloads on: a downloaded component takes a
+different path through the merge (carried through its own command list instead of appended). And downloads OFF
+drew that mod as a floating face, on `master` too -- the merged buffers are never written while the `.ini` still
+names them (4 dangling references; open). Before calling a moved folder a user-visible change, re-fix it with
+`--download normal`; before calling a bug a regression, reproduce it with the `master` build in the same mode.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

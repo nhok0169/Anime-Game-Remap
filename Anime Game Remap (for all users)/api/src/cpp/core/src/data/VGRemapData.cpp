@@ -2078,8 +2078,11 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
 
         // Her side-veil chains do not go to the draft's coat sashes (258 / 259, 263 / 264): those swing free, and the
         // veil peeled off her hip and hung in mid-air (reverse in-game audit, epoch 2). The left one (249-251) goes to
-        // Changli's left dress side panel (104 / 105); the right one (240-242) to her right thigh (173), because her
-        // right panel (92 / 93, the buckle side) is turned in her idle and the veil hung edge-on there (epoch 3).
+        // Changli's dress side panels, mirror for mirror: the left one (249-251) to 104 / 105, the right one (240-242)
+        // to 92 / 93. Seen from straight in front, her right side panel is edge-on on Changli and broad on the skin's
+        // own card (epochs 3 and 4). That is the pose, not this row: both panels are modelled facing sideways, and
+        // the skin's idle swings the right one round to face front, which Changli's does not. Her right thigh (173)
+        // for both chains, and her pelvis (170) for the veil, left it edge-on just the same.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "",
           "1.4", ModTypeIdTools::getName(ModTypeId::Changli), ""},
          VGRemap({
@@ -2107,7 +2110,7 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {210, 130}, {211, 75}, {212, 118}, {213, 115}, {214, 117}, {215, 114}, {216, 116}, {217, 113}, {218, 112}, {219, 0},
             {220, 0}, {221, 0}, {222, 0}, {223, 0}, {224, 85}, {225, 74}, {226, 73}, {227, 72}, {228, 0}, {229, 244},
             {230, 245}, {231, 0}, {232, 0}, {233, 0}, {234, 0}, {235, 0}, {236, 0}, {237, 0}, {238, 261}, {239, 260},
-            {240, 173}, {241, 173}, {242, 173}, {243, 0}, {244, 0}, {245, 0}, {246, 0}, {247, 266}, {248, 265}, {249, 104},
+            {240, 92}, {241, 93}, {242, 93}, {243, 0}, {244, 0}, {245, 0}, {246, 0}, {247, 266}, {248, 265}, {249, 104},
             {250, 105}, {251, 105}, {252, 0}, {253, 0}, {254, 0}, {255, 0}, {256, 0}, {257, 239}, {258, 270}, {259, 271},
             {260, 0}, {261, 240}, {262, 273}, {263, 274}
          })},

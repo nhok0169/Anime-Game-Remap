@@ -727,8 +727,19 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
     bool RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::isFixOutput(
-            const SectionSpan& span, const std::vector<std::string>& modNames) const {
-        return span.boilerPlateInd != std::string::npos || nameLooksRemapped(span.name, modNames);
+            const SectionSpan& span, const std::vector<std::string>& modNames,
+            const std::unordered_set<std::string>& boilerPlateSections) const {
+        if (span.boilerPlateInd != std::string::npos || nameLooksRemapped(span.name, modNames)) {
+            return true;
+        }
+
+        // A copy of a section the fix block also holds, named with the remap keyword this library
+        // reserves: an older fix's leftover outside its block (a half-undone fix), even when the
+        // name is not shaped '<modName>Remap' -- `ResourceEiBlendsHerRemapBlender...` in the
+        // Integration Tester's PartiallyFixedRaiden.ini. Without the keyword the copy is the
+        // author's (a `[Constants]`, or Lumine11's malformed `[Textrun = ...ORFix`).
+        return boilerPlateSections.count(span.name) != 0 && !remapKeyword.empty()
+            && span.name.find(remapKeyword) != std::string::npos;
     }
 
 
@@ -837,7 +848,7 @@ namespace AGRemapCore {
         std::unordered_set<std::string> firstSeen;
         std::unordered_set<std::string> authorParsed;
         for (const SectionSpan& span : scan.sections) {
-            if (firstSeen.insert(span.name).second && !isFixOutput(span, modNames)) {
+            if (firstSeen.insert(span.name).second && !isFixOutput(span, modNames, boilerPlateSections)) {
                 authorParsed.insert(span.name);
             }
         }
@@ -867,7 +878,7 @@ namespace AGRemapCore {
             // author's with it (2026-10-08), and an older build's copy of Lumine11's malformed
             // header `[Textrun = ...ORFix` took the author's line (2026-10-20). Outside a
             // boilerplate, only a name carrying the remap keyword is a fix's.
-            if (!isFixOutput(span, modNames)) {
+            if (!isFixOutput(span, modNames, boilerPlateSections)) {
                 continue;
             }
 

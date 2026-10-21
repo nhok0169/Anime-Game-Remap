@@ -309,6 +309,34 @@ void testAuthorSectionSharingAFixNameIsKept() {
 }
 
 
+// The other half: a copy outside the block of a section the block holds, named with the remap
+// keyword, IS an older fix's leftover -- even when the name is not '<modName>Remap'-shaped
+// (the Integration Tester's PartiallyFixedRaiden.ini, `ResourceEiBlendsHerRemapBlender...`).
+void testOutsideLeftoverOfABlockSectionIsRemoved() {
+    const std::string leftover =
+        "[ResourceFooHerRemapBlenderCopy]\n"
+        "filename = FooHerRemapBlenderCopy.buf\n"
+        "\n";
+
+    std::string txt =
+        OrigMod +
+        "\n" +
+        leftover +
+        RemapHeadingOpen +
+        "\n" +
+        FixBody +
+        "\n" +
+        leftover +
+        RemapHeadingClose;
+
+    Fixture fixture(txt);
+    std::string result = fixture.remover->remove(false, false);
+
+    checkEqual(result, OrigMod + "\n",
+               "leftover: an outside copy of a block section named with the keyword goes too");
+}
+
+
 
 
 void testAncestorsAndOutsideLeftoversRemoved() {
@@ -1054,6 +1082,7 @@ int main() {
 
     testWholeFixAndBoilerPlateRemoved();
     testAuthorSectionSharingAFixNameIsKept();
+    testOutsideLeftoverOfABlockSectionIsRemoved();
     testAncestorsAndOutsideLeftoversRemoved();
     testEverythingInTheBoilerPlateIsATarget();
     testResourceReachedOnlyByVb1IsRemoved();

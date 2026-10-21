@@ -4173,9 +4173,11 @@ its `.ini` for a line starting with `[` that is not a whole header (`^\[[^]]*$`)
 that build's copy of the malformed section inside its fix block, under the same broken name, and `RemapIniRemover`
 deleted every OCCURRENCE of a name it had chosen -- so the first re-fix with the new build removed the author's copy
 too, and with backups kept it overwrote the backup. The maintainer's rule: **the undo deletes only what a fix made** --
-anything inside a fix block, and outside one only a section whose OWN name carries the remap keyword
-(`RemapIniRemover::isFixOutput`; it replaces the `[Constants]` / `[Present]` special case, which was the same bug in
-2026-10-08). Nor is a file collected for deletion when the parsed section behind a name is the author's (the FIRST
+anything inside a fix block, and outside one only a section whose OWN name looks remapped, or a COPY of a section the
+block holds whose name contains the reserved `Remap` keyword -- an older fix's leftover, like the Integration Tester's
+`ResourceEiBlendsHerRemapBlender...` in `PartiallyFixedRaiden.ini`, which the first version of this rule kept and four
+API docs goldens caught in CI (`RemapIniRemover::isFixOutput`; it replaces the `[Constants]` / `[Present]` special
+case, which was the same bug in 2026-10-08). Nor is a file collected for deletion when the parsed section behind a name is the author's (the FIRST
 occurrence wins in `sectionIfTemplates`). `RemapIniRemover_test`'s `testAuthorSectionSharingAFixNameIsKept` fails both
 ways against the old remover. The maintainer's files were put back from a scratch copy undone with the OLD build;
 prove any such repair with an author-text comparison (everything before the fix's `; ---------------` marker against

@@ -5172,7 +5172,7 @@
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" kind="function"><name>collectCandidates</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1aa9f02ed83dc8cec0f22997c222518418" kind="function"><name>findTargets</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a57c8318827087188fd8285a567ebd07c" kind="function"><name>collectRemovedResources</name></member>
-    <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a18cba7ebf1201ec43c5e86e92923bbe1" kind="function"><name>isFixOutput</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a64eb5549e636fb3fd263b31136acca80" kind="function"><name>isFixOutput</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1aa40ef812c368a8e377d5bd1afffdf06c" kind="function"><name>buildReferences</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1add3facdaa1e72f89ef258ba9d030767e" kind="function"><name>valToStr</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a3e7d10c937bdfd56831a12511a9bba37" kind="function"><name>isBoilerPlateClose</name></member>

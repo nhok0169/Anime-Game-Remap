@@ -793,11 +793,14 @@ namespace AGRemapCore {
                                           const std::vector<std::string>& removedNames, const std::string& iniFolder);
 
             // Whether this one OCCURRENCE is a fix's own output: it sits inside a boilerplate region,
-            // or its own name carries the remap keyword (nameLooksRemapped). Only such an occurrence
-            // is ever deleted. A name being chosen is not enough -- an author's section may share
-            // its name with one inside a fix block (a merged `[Constants]`, or an older fix's copy
-            // of a malformed header), and the author's copy stays.
-            bool isFixOutput(const SectionSpan& span, const std::vector<std::string>& modNames) const;
+            // its own name looks remapped (nameLooksRemapped), or it is a copy of a section in
+            // 'boilerPlateSections' whose name holds the remap keyword (an older fix's leftover
+            // outside its block). Only such an occurrence is ever deleted. A name being chosen is
+            // not enough -- an author's section may share its name with one inside a fix block (a
+            // merged `[Constants]`, or an older fix's copy of a malformed header), and the author's
+            // copy stays.
+            bool isFixOutput(const SectionSpan& span, const std::vector<std::string>& modNames,
+                             const std::unordered_set<std::string>& boilerPlateSections) const;
 
             // Whether 'path' ends with 'ext', ignoring case -- see classifyResource's own note.
             static bool hasExt(const std::string& path, const std::string& ext);

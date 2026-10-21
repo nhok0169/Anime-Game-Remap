@@ -155,11 +155,11 @@ namespace AGRemapCore {
                 {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniParseBuilderFuncs::lynaePeppermint3_7()},
 
                 // ===== Changli and ChangliNymph (2026-10-20) =====
-                // Changli's parser is compiled (data/IniParseData/Changli/); ChangliNymph's is still a
-                // stub. Changli sits at 1.1, her oldest mesh generation, so a mod of any of her three
-                // classifies and parses.
+                // Both parsers are compiled: data/IniParseData/Changli/ and data/IniParseData/ChangliNymph/.
+                // Changli sits at 1.1, her oldest mesh generation, so a mod of any of her three classifies
+                // and parses.
                 {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli)}, IniParseBuilderFuncs::changli1_1()},
-                {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniParseBuilderFuncs::wwmiStub()},
+                {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniParseBuilderFuncs::changliNymph2_4()},
 
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a

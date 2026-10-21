@@ -110,6 +110,25 @@ Grading
        |
        | - A mod whose sections are keyed only on the game's bone-data buffer, with no ``vb0`` section, is
        | not recognised as hers and is left as it is.
+   * - | **ChangliNymph --> Changli**
+     - | :greenBold:`4`
+     - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its mirror
+       | image.
+       |
+       | - The skin carries eight bone influences a vertex and Changli's shaders read four, so each vertex
+       | keeps its four heaviest, their weights scaled to the same total (under one percent of the skin's
+       | vertices use more than four).
+       |
+       | - Her body is drawn through Changli's legs slot, whose shader reads the same three textures; her
+       | skirt and shawl through Changli's coat slot, the skirt's own shader.
+       |
+       | - **Limitation:** her sheer dress and shawl are see-through on her own outfit, and Changli has no
+       | see-through shader, so they are drawn opaque, and a mod's transparency toggles on them change little.
+       | Their texture's transparency channel is clamped to Changli's own range, or her shader would make
+       | the dress's gold embroidery glow.
+       |
+       | - **Limitation:** the floating flame feathers by Changli's right hand are a game effect of her own
+       | outfit, not part of her model, so they stay beside a skin mod remapped onto her.
    * - | **Charlotte --> CharlotteHurlock**
      - | :greenBold:`4.5`
      - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of

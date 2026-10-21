@@ -65,6 +65,8 @@ DstName = "Changli"
 Downloads = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "ChangliNymph", "3_7")
 LiveHashes = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "ChangliNymph", "ChangliNymphLiveHashes.json")
 B = FRB.WWMIFixerConfig.Binding
+# the highest diffuse alpha any of Changli's own body / coat diffuses carries (measured on her 3_7 downloads)
+ChangliDiffuseAlphaMax = 117
 
 
 # ---- her textures by the hash WWMI-Assets (ChangliSkin1, 2.7) and the download folder file them under;
@@ -274,6 +276,20 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
 
     config.sourceTextures = facts
     config.flatFallsBackToSource = {"bodyMask", "faceMask"}
+
+    # ---- her see-through parts' diffuse ALPHA is opacity (mean 165 on the sheer dress, 221 on the shawl,
+    # up to 255) on their own shaders; on Changli's opaque shaders alpha is a scalar her own diffuses keep
+    # at or below 117 (every one: upper, legs, coat), and above it lights the part -- the sheer dress's gold
+    # embroidery and bodice drew glowing and orange (in-game check 1). Clamped to her ceiling; RGB untouched,
+    # and the gamma stays on because this is a colour texture (ChisaParfait -> Chisa, the same edit) ----
+    def alphaClamp(ctx):
+        def run(tex):
+            px = bytearray(tex.getPixels())
+            px[3::4] = bytes(min(a, ChangliDiffuseAlphaMax) for a in px[3::4])
+            tex.setPixels(bytes(px), tex.width, tex.height)
+        return run
+    E = FRB.WWMIFixerConfig.TexEdit
+    config.texEdits = [E(role, "AlphaClamp", alphaClamp) for role in ("sheerDiffuse", "shawlDiffuse")]
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
     R = FRB.WWMIFixerConfig.RegRemoval

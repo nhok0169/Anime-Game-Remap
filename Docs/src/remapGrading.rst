@@ -98,6 +98,10 @@ Grading
        | - A mod made before her 2.6 update names older texture hashes; those are known by role, so the
        | mod's own art is carried rather than replaced by the game's.
        |
+       | - Her coat, shoulder drapes and side sashes (and whatever a mod puts in their place) are drawn
+       | through the skin's body, lit by its body shader. The skin's skirt, which draws them with her own
+       | coat's shader in the character menu, cuts them away in the overworld.
+       |
        | - **Limitation:** her chest flame tattoo is not drawn on the skin. Her own outfit cuts its shape
        | out of a glow texture and draws it as a small dark mark; the skin has no such shader.
        |

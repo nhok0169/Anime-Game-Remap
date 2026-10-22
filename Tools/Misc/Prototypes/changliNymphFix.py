@@ -308,8 +308,11 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
         # the skin's t3 is its glow map (see GAPS)
         3: SC(4, [B("ps-t0", "upperNormal"), B("ps-t1", "upperMask"), B("ps-t2", "upperDiffuse"), B("ps-t3", "noGlow")]),
         4: SC(4, [B("ps-t0", "lowerNormal"), B("ps-t1", "lowerMask"), B("ps-t2", "lowerDiffuse"), B("ps-t3", "noGlow")]),
-        # the same shader on both: normal at t0, diffuse at t1
-        5: SC(5, [B("ps-t0", "coatNormal"), B("ps-t1", "coatDiffuse")]),
+        # her coat, drapes and sashes go through the skin's BODY slot, in the body shader's layout with a flat
+        # cloth mask: the skin's skirt slot (5) draws with the same shader as her coat in the character menu,
+        # but in the overworld with a G-buffer shader whose skirt material cuts away whatever the skirt is not
+        # -- every part of hers drawn there vanished outside the menu (Changli4's robe, 2026-10-22)
+        5: SC(4, [B("ps-t0", "coatNormal"), B("ps-t1", "flatClothMask"), B("ps-t2", "coatDiffuse"), B("ps-t3", "noGlow")]),
         6: SC(6, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
         # her chest flame tattoo (7) is NOT drawn: her own shader cuts its shape out of the glow texture's alpha
         # and draws it as a small dark mark, and the skin has no cut-out shader -- through the skin's body shader
@@ -319,6 +322,7 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     # shape-keyed positions are computed (a copy computes none), as Lynae's lower body is
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True
+    plan[5].sameFileSection = True
     config.plan = plan
 
     # ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's second
@@ -326,15 +330,18 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.extraPassRegs = {
         0: {"f8c96a270bf847dd": [B("ps-t0", "bangsOutline")]},
         1: {"f8c96a270bf847dd": [B("ps-t0", "hairOutline")]},
-        4: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4)]},
-        5: {"705575a2e1b4a4b9": [B("ps-t0", "coatOutline")]},
+        4: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4), B("ps-t0", "coatOutline", 5)]},
         6: {"e04f4df80ee6b0ab": [B("ps-t1", "eyeHighlight")]},
     }
 
     noGlow = FRB.WWMIFixerConfig.CreatedTexture()
     noGlow.role = "noGlow"
     noGlow.colour = FRB.CppColour(249, 12, 4, 0)
-    config.createdTextures = [noGlow]
+    # cloth in her mask legend, which the skin's body shader reads as hers (her upper body binds her own mask)
+    flatClothMask = FRB.WWMIFixerConfig.CreatedTexture()
+    flatClothMask.role = "flatClothMask"
+    flatClothMask.colour = FRB.CppColour(0, 128, 0, 255)
+    config.createdTextures = [noGlow, flatClothMask]
 
     config.sourceTextures = facts
     config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"}

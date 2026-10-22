@@ -25,8 +25,9 @@ namespace AGRemapCore {
     // family, off character-menu dumps at 3.7.1): bangs, hair, face and eyes are the same mesh and the
     // same shaders on both -> the same slot; her upper body (9d4c7d96), legs and skirt (fbe2f2f0) and her
     // chest flame tattoo (bb1c5ba6) -> the skin's body slot 4 (14fee50a); her coat, shoulder drapes and
-    // side sashes -> slot 5, which the skin draws with the same shader (7f639abb). The skin's sheer dress
-    // (3) and shawl (7) take nothing and are skipped.
+    // side sashes -> slot 4 as well: the skin's skirt slot 5 draws them with the same shader (7f639abb) in
+    // the character menu, but cuts them away in the overworld (see the plan). The skin's sheer dress (3),
+    // skirt (5) and shawl (7) take nothing and are skipped.
     IniFixBuilder::Factory IniFixBuilderFuncs::changliNymph2_4() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::ChangliNymph;
@@ -103,8 +104,11 @@ namespace AGRemapCore {
             // her legs and her tattoo share slot 4 with her upper body: drawn from the mod's OWN file, where
             // the shape-keyed positions are computed (a copy computes none), as Lynae's lower body is
             {4, {4, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDiffuse"}, {"ps-t3", "noGlow"}}, true}},
-            // the same shader on both: normal at t0, diffuse at t1
-            {5, {5, {{"ps-t0", "coatNormal"}, {"ps-t1", "coatDiffuse"}}}},
+            // her coat, drapes and sashes go through the skin's BODY slot, in the body shader's layout with a
+            // flat cloth mask: the skin's skirt slot (5) draws with the same shader as her coat in the
+            // character menu, but in the overworld with a G-buffer shader whose skirt material cuts away
+            // whatever the skirt is not -- every part of hers drawn there vanished outside the menu
+            {5, {4, {{"ps-t0", "coatNormal"}, {"ps-t1", "flatClothMask"}, {"ps-t2", "coatDiffuse"}, {"ps-t3", "noGlow"}}, true}},
             {6, {6, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
             // her chest flame tattoo (7) is NOT drawn: her own shader cuts its shape out of the glow texture's
             // alpha and draws it as a small dark mark, and the skin has no cut-out shader -- through the
@@ -117,13 +121,14 @@ namespace AGRemapCore {
         config.extraPassRegs = {
             {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsOutline"}}}}},
             {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairOutline"}}}}},
-            {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}}}}},
-            {5, {{"705575a2e1b4a4b9", {{"ps-t0", "coatOutline"}}}}},
+            {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "coatOutline", 5}}}}},
             {6, {{"e04f4df80ee6b0ab", {{"ps-t1", "eyeHighlight"}}}}},
         };
 
         config.createdTextures = {
             {"noGlow", Colour(249, 12, 4, 0)},
+            // cloth in her mask legend, which the skin's body shader reads as hers (her upper body binds her own)
+            {"flatClothMask", Colour(0, 128, 0, 255)},
         };
 
         config.sourceTextures = changliTextureFacts();

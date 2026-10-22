@@ -994,6 +994,22 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
 `WWMI/ChangliRestored` (the forward's originals repaired to the 3.7 hashes), `WWMI/ChangliNymphTest`,
 `WWMI/ChangliNymphRestored`. What this pair taught, every item a field or a finding the next pair can reuse:
 
+* **A slot that draws right in the character menu can cut the part away in the OVERWORLD -- audit there.**
+  Both forward epochs passed in the menu; the maintainer then found Changli4's robe missing on the worn skin in the
+  overworld, and so was everything of hers the fix drew through the skin's skirt slot (5): her coat, drapes and
+  sashes, the identity mod's included. The skin draws that slot with a different pixel shader outside the menu
+  (`804a1759` against the menu's `7f639abb`, the same vertex shader), a G-buffer variant patched by RabbitFX, and
+  its skirt material discards whatever it is not: a copy of the material's `cb4` with `cb4[84].x = 0` bound for the
+  robe's draw brought it back. Textures (`t0`-`t4`, a white `t2`), vertex colours, UVs, the blend, the skeleton,
+  the glow and `vb5` were each ruled out by a proven reload first. The fix routes source 5 through the BODY slot
+  (`flatClothMask`, Changli's cloth code, at `t1`); the skirt slot is hidden with its bones merged. Two mechanics
+  that cost hours: the menu and overworld passes of a slot can share their VERTEX shader, so the template's
+  vs-gated passes cannot tell them apart (nor can `o3`: the menu is deferred too), and a pixel-shader tag would
+  collide with RabbitFX's `1718.1`. To read a game shader, hunting mode's mark (numpad 3 / 6) writes it to
+  `ShaderFixes` -- step in ascending hash order, read each file name, and move every file OUT at once.
+* **Prove every reload with a visible change, and give a restored buffer a NEW timestamp.** 3DMigoto kept serving an
+  `Index.buf` restored with `cp -p` (the old mtime): two tests in a row read stale geometry. Collapse a small part
+  (a wristband's triangles) as the proof, and `touch` every file you put back.
 * **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
   (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
   blend is read across its neighbour's bytes and the whole model draws as giant polygons.

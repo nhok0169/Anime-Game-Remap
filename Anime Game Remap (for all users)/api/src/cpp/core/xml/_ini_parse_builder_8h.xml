@@ -1908,6 +1908,8 @@
         </childnode>
         <childnode refid="217" relation="include">
         </childnode>
+        <childnode refid="218" relation="include">
+        </childnode>
         <childnode refid="205" relation="include">
         </childnode>
       </node>
@@ -1924,7 +1926,7 @@
         </childnode>
         <childnode refid="207" relation="include">
         </childnode>
-        <childnode refid="218" relation="include">
+        <childnode refid="219" relation="include">
         </childnode>
         <childnode refid="149" relation="include">
         </childnode>
@@ -1932,25 +1934,25 @@
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
-        <childnode refid="220" relation="include">
+        <childnode refid="221" relation="include">
         </childnode>
         <childnode refid="134" relation="include">
         </childnode>
         <childnode refid="150" relation="include">
         </childnode>
-        <childnode refid="212" relation="include">
-        </childnode>
         <childnode refid="213" relation="include">
+        </childnode>
+        <childnode refid="214" relation="include">
         </childnode>
         <childnode refid="205" relation="include">
         </childnode>
       </node>
-      <node id="218">
+      <node id="219">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
         <link refid="_v_g_remap_blend_edit_8h"/>
-        <childnode refid="219" relation="include">
-        </childnode>
         <childnode refid="220" relation="include">
+        </childnode>
+        <childnode refid="221" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -2171,7 +2173,7 @@
         <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
         <link refid="_citlali_fixer_8cpp"/>
       </node>
-      <node id="219">
+      <node id="220">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
@@ -2255,7 +2257,7 @@
         <label>src/data/IniFixData/NeuvilletteMelusent/NeuvilletteMelusentFixer.cpp</label>
         <link refid="_neuvillette_melusent_fixer_8cpp"/>
       </node>
-      <node id="220">
+      <node id="221">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
@@ -2588,10 +2590,14 @@
         <link refid="_ini_file_8cpp"/>
       </node>
       <node id="212">
+        <label>src/model/files/IniScan.cpp</label>
+        <link refid="_ini_scan_8cpp"/>
+      </node>
+      <node id="213">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="213">
+      <node id="214">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
@@ -2599,19 +2605,19 @@
         <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
         <link refid="_ini_fix_builder_8cpp"/>
       </node>
-      <node id="214">
+      <node id="215">
         <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
         <link refid="_ini_file_res_edit_context_8cpp"/>
       </node>
-      <node id="215">
+      <node id="216">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGMergeGroupResBuilder.cpp</label>
         <link refid="_v_g_merge_group_res_builder_8cpp"/>
       </node>
-      <node id="216">
+      <node id="217">
         <label>src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp</label>
         <link refid="_v_g_split_group_res_builder_8cpp"/>
       </node>
-      <node id="217">
+      <node id="218">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>

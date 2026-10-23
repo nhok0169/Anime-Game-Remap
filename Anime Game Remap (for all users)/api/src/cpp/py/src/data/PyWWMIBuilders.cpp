@@ -617,6 +617,11 @@ binds the capture. **Default**: empty
 List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
 hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
         )doc"))
+        .def_readwrite("meshCounterparts", &AGRC::WWMIFixerConfig::meshCounterparts, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash,
+mapped to the TARGET's mesh that plays the same part: each such section is copied into the fix's block
+on the target's hash. **Default**: empty
+        )doc"))
         .def_readwrite("texEdits", &AGRC::WWMIFixerConfig::texEdits,
                         py::doc("List[:class:`WWMIFixerConfig.TexEdit`]: Edits the fix makes to a role's texture before binding it"))
         .def_readwrite("cleanTexcoords", &AGRC::WWMIFixerConfig::cleanTexcoords, py::doc(R"doc(
@@ -638,10 +643,24 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
 the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
 ramp or detail slot keeps doing so on the target. **Default**: ``False``
         )doc"))
+        .def_readwrite("readInisBelow", &AGRC::WWMIFixerConfig::readInisBelow, py::doc(R"doc(
+:class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        )doc"))
         .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
 :class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
 state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key
 overrides in the mod's own file only. **Default**: ``False``
+        )doc"))
+        .def_readwrite("targetInfluences", &AGRC::WWMIFixerConfig::targetInfluences, py::doc(R"doc(
+:class:`int`: How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
+own. The fix's remapped ``Blend.buf`` (and, past 256 bones, its ``BlendRemapVertexVG.buf``) is written at
+this many -- the mod's own first, the rest bone 0 with weight 0 -- and the generated section's ``stride``
+and the blend remap's ``weights_per_vertex_count`` follow. A 4-influence character drawn through an
+8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. When it is
+FEWER, each vertex keeps its heaviest slots, their weights scaled to the same total. **Default**:
+``0``, the mod's own count
         )doc"))
         .def_readwrite("currentPoseInCb3Only", &AGRC::WWMIFixerConfig::currentPoseInCb3Only, py::doc(R"doc(
 :class:`bool`: Treat a draw whose ``vs-cb3`` carries the bone-data marker while its ``vs-cb4`` does not as

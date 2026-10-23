@@ -28,5 +28,7 @@ Creates new :class:`ModType` objects for WuWa (Wuthering Waves) mods -- the WWMI
         .def_static("chisaParfait", &AGRC::WWMIBuilder::chisaParfait, py::doc(R"doc(Creates the :class:`ModType` for ChisaParfait)doc"))
         .def_static("lynae", &AGRC::WWMIBuilder::lynae, py::doc(R"doc(Creates the :class:`ModType` for Lynae)doc"))
         .def_static("lynaePeppermint", &AGRC::WWMIBuilder::lynaePeppermint, py::doc(R"doc(Creates the :class:`ModType` for LynaePeppermint)doc"))
+        .def_static("changli", &AGRC::WWMIBuilder::changli, py::doc(R"doc(Creates the :class:`ModType` for Changli)doc"))
+        .def_static("changliNymph", &AGRC::WWMIBuilder::changliNymph, py::doc(R"doc(Creates the :class:`ModType` for ChangliNymph (WWMI-Assets' ChangliSkin1))doc"))
         .def_static("all", &AGRC::WWMIBuilder::all, py::doc(R"doc(Every WuWa :class:`ModType`, freshly built on each call)doc"));
 }

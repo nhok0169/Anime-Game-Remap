@@ -1087,6 +1087,25 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash, and the TARGET's mesh
+         that plays the same part -- ``{source mesh hash: target mesh hash}``.
+
+         Every section of the mod whose ``hash`` is a key is copied into the fix's block with the
+         hash swapped for the target's, so what the mod does to that part of the outfit -- skip it,
+         or mark when it is drawn -- happens on the target too. Changli draws her blindfold as its
+         own mesh (``baaa6262``), the Laurel Nymph skin draws hers as another (``646aa163``), and
+         several Changli mods hide the blindfold with a ``handling = skip`` section on the first
+         hash; without the copy that blindfold showed on every remap of them.
+
+         Only the hash is changed: the copy keeps the section's every other line, so a condition or
+         a variable it sets means what it meant on the source
+         @endrst
+         */
+        std::map<std::string, std::string> meshCounterparts;
+
+        /**
+         * @brief
+         @rst
          Registers to capture off the GAME's draw of a target slot nothing of the mod is drawn through
          (slot -> registers, eg. ``{4, {"ps-t5", "ps-t6"}}``), on passes that bind ``o3``. A
          :cpp:member:`Shader::lines` value ``stash <slot> <register>`` binds the capture: a game texture the
@@ -1328,6 +1347,27 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
+         own :raw-html:`<br />` :raw-html:`<br />`
+
+         A WWMI blend line is N bone ids then N weights, and the game reads it through the TARGET
+         draw's input layout. Changli's is four ``R8G8B8A8`` (8 bytes a vertex) and her Laurel Nymph
+         skin's eight ``R8`` of each (16), so a 4-influence blend drawn through the skin's shaders
+         had every vertex read across its neighbour's bytes and drew the whole model as giant
+         polygons. With this set, the fix's remapped ``Blend.buf`` (and, past 256 bones, its
+         ``BlendRemapVertexVG.buf``) is written at this many influences -- the mod's own first, the
+         rest bone 0 with weight 0 -- and the generated section's ``stride`` and the blend remap's
+         ``weights_per_vertex_count`` say so. When it is FEWER than the mod's (an 8-influence skin
+         drawn through Changli's 4-influence shaders), each vertex keeps its heaviest slots, their
+         weights scaled so the vertex's total is unchanged, and ``BlendRemapVertexVG.buf`` keeps the
+         same slots. **Default**: ``0``, the mod's own count, which every earlier pair uses
+         @endrst
+         */
+        std::size_t targetInfluences = 0;
+
+        /**
+         * @brief
+         @rst
          Carry a mod's own texture line that puts a texture into a register of a DIFFERENT kind by the
          REGISTER's role rather than the texture's :raw-html:`<br />` :raw-html:`<br />`
 
@@ -1344,6 +1384,19 @@ namespace AGRemapCore {
          @endrst
          */
         bool carryByRegisterRole = false;
+
+        /**
+         * @brief
+         @rst
+         Also look for a second ``.ini`` on the mod's own draws in the FOLDERS BELOW the one being
+         fixed, not only beside it and in the two above it. 3DMigoto loads every ``.ini`` under its
+         ``Mods`` folder, so a mod may keep its mesh in ``mod.ini`` and bind every texture from a
+         ``Textures/textures.ini`` that overrides the same draws -- which on the target never fires,
+         leaving each role to be downloaded from the GAME over the mod's art. Folders whose name starts
+         with ``DISABLED`` are skipped, as the game skips them. **Default**: ``false``
+         @endrst
+         */
+        bool readInisBelow = false;
 
         /**
          * @brief

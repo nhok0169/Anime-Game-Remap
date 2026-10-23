@@ -133,6 +133,9 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait), ""}, 69411},
         {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae), ""}, 75828},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), ""}, 71603},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), ""}, 69517},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), ""}, 69691},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), ""}, 64753},
     };
 
     return rows;

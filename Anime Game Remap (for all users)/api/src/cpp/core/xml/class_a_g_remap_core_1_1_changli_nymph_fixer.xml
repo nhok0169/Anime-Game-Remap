@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_changli_nymph_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChangliNymphFixer</compoundname>
+    <includes refid="_changli_nymph_fixer_8h" local="no">ChangliNymphFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_nymph_fixer_1af813676449c62b3048129099e4497104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChangliNymphFixer::ChangliNymphFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChangliNymphFixer</name>
+        <qualifiedname>AGRemapCore::ChangliNymphFixer::ChangliNymphFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h" line="33" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_nymph_fixer_1a9359ccaadf1056990e0cf7ace04d0f61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ChangliNymphFixer::changli1_4</definition>
+        <argsstring>()</argsstring>
+        <name>changli1_4</name>
+        <qualifiedname>AGRemapCore::ChangliNymphFixer::changli1_4</qualifiedname>
+        <briefdescription>
+<para><computeroutput>ChangliNymph -&gt; Changli</computeroutput> at game version <computeroutput>1.4</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a23a904e42df1d250c6ab4449f3817230" kindref="member">IniFixBuilderFuncs::changli1_4</ref></computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h" line="39" column="43" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp" bodystart="295" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+ChangliNymph&apos;s (Changli&apos;s Laurel Nymph skin&apos;s) own ``.ini`` fixers, through :cpp:func:`makeWWMIFixer`.
+Pair this with :cpp:class:`ChangliNymphParser`
+
+Her blend is EIGHT influences a vertex and Changli&apos;s draws read four, so the fix keeps each vertex&apos;s
+four heaviest (:cpp:member:`WWMIFixerConfig::targetInfluences`)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h" bodystart="31" bodyend="40"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1a9359ccaadf1056990e0cf7ace04d0f61" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphFixer</scope><name>changli1_4</name></member>
+      <member refid="class_a_g_remap_core_1_1_changli_nymph_fixer_1af813676449c62b3048129099e4497104" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphFixer</scope><name>ChangliNymphFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

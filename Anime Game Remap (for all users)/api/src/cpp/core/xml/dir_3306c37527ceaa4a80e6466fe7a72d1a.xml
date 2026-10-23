@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3306c37527ceaa4a80e6466fe7a72d1a" kind="dir">
+    <compoundname>src/data/IniParseData/ChangliNymph</compoundname>
+    <innerfile refid="_changli_nymph_parser_8cpp">ChangliNymphParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/ChangliNymph/"/>
+  </compounddef>
+</doxygen>

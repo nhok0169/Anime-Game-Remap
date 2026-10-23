@@ -351,6 +351,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             ``Changli -> ChangliNymph`` at game version ``2.4``, built by :cpp:func:`makeWWMIFixer`.
+             See ``data/IniFixData/Changli/ChangliFixer.cpp``
+
+             Filed at 2.4, the skin's version and the one whose hashes it writes. Her blend carries four
+             influences a vertex and the skin's draws read eight, so the fix writes it eight wide; and a
+             mod is read with the vertex group row of the skeleton numbering its own geometry is in (1.1,
+             1.2 or 1.4)
+             @endrst
+             */
+            static IniFixBuilder::Factory changliNymph2_4();
+
+            /**
+             * @brief
+             @rst
+             ``ChangliNymph -> Changli`` at game version ``1.4``, built by :cpp:func:`makeWWMIFixer`.
+             See ``data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp``
+
+             Filed at 1.4, the version of Changli's live ``vb0`` and of her skeleton's numbering. The
+             skin's blend carries eight influences a vertex and Changli's draws read four, so the fix
+             keeps each vertex's four heaviest; her see-through parts are drawn opaque, their diffuse
+             alpha clamped to Changli's range
+             @endrst
+             */
+            static IniFixBuilder::Factory changli1_4();
+
+            /**
+             * @brief
+             @rst
              ``ChisaParfait -> Chisa`` at game version ``2.8``, built by :cpp:func:`makeWWMIFixer`.
              The FIRST fix onto a target past 256 merged bones, so it writes WWMI's own blend remap.
              See ``data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp``

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_changli_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChangliFixer</compoundname>
+    <includes refid="_changli_fixer_8h" local="no">ChangliFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_fixer_1a165367c0c3ed62cc78e6814a0e01f89b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChangliFixer::ChangliFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChangliFixer</name>
+        <qualifiedname>AGRemapCore::ChangliFixer::ChangliFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h" line="39" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_fixer_1a7b4d11128df7cf8673c98b131ddf124e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ChangliFixer::nymph2_4</definition>
+        <argsstring>()</argsstring>
+        <name>nymph2_4</name>
+        <qualifiedname>AGRemapCore::ChangliFixer::nymph2_4</qualifiedname>
+        <briefdescription>
+<para><computeroutput>Changli -&gt; ChangliNymph</computeroutput> at game version <computeroutput>2.4</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad3f22535e6c2226420fa27bfdf00ef58" kindref="member">IniFixBuilderFuncs::changliNymph2_4</ref></computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Changli/ChangliFixer.cpp" bodystart="192" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Changli&apos;s own ``.ini`` fixers, through :cpp:func:`makeWWMIFixer`. Pair this with
+:cpp:class:`ChangliParser`
+
+What she needs that the earlier Wuthering Waves characters do not, each of it a field of
+:cpp:class:`WWMIFixerConfig` rather than anything of hers:
+
+* her blend is FOUR influences a vertex and her Laurel Nymph skin&apos;s draws read EIGHT, so the fix
+  writes its blend at the target&apos;s width (:cpp:member:`WWMIFixerConfig::targetInfluences`)
+* her skeleton was renumbered twice (1.1 -&gt; 1.2, 1.3 -&gt; 1.4), so a mod is read with the vertex
+  group row of the numbering its own geometry is in
+  (:cpp:member:`WWMIFixerConfig::skeletonNumberings`)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h" line="37" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h" bodystart="37" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_changli_fixer_1a165367c0c3ed62cc78e6814a0e01f89b" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliFixer</scope><name>ChangliFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_changli_fixer_1a7b4d11128df7cf8673c98b131ddf124e" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliFixer</scope><name>nymph2_4</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

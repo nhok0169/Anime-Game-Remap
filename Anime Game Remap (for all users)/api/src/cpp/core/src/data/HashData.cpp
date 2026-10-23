@@ -1892,6 +1892,69 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "cb4"}, "f02baf77"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_offsets"}, "44a7eaed"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_scale"}, "f4d1692b"},
+
+        // ===== WuWa: Changli and ChangliNymph (2026-10-20) =====
+        // Changli carries THREE mesh generations, each a mod may still declare (the lineage is the
+        // community wwmi_fix_23 hash_maps.json's old_vs_new / old_vs_new14, the values WWMI-Assets'
+        // Metadata.json at 1.3 and now). 1.1: her launch mesh, known from mods only
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "77975500"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "cb4"}, "f02baf77"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "d8decbca"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "fd9483ca"},
+        // Changli (1.2): rehashed, one bone fewer in component 5 (WWMI-Assets' 1.3 Metadata.json)
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "5f8aac45"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "1ccb8008"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "060f5303"},
+        // Changli (1.4): component 3 grew by 1020 indices; unchanged since, and the 3.7.1 frame dump
+        // binds exactly this mesh
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "d14bed8b"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "59f24b66"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "277e18c9"},
+        // CHANGLI'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20), so a mod exported before her
+        //   2.6 update -- most of hers -- binds its own art rather than a download of the game's (Changli1's
+        //   whole outfit drew vanilla before these). Her CURRENT and live hashes stay in the fixer config.
+        //   2.5 is the generation WWMI-Assets carried from 1.3 to 2.5, each row a rename git records at its
+        //   "2.6 diff" (83-99% similar) whose old register in that commit's TextureUsage.json is the one its
+        //   successor's role reads today. Its two outline successors are current, so they are in the config.
+        //   Not filed: 92c11772 (a ramp every component shares), c235c6a7 (an effect ramp 27 characters
+        //   share), 8a125464 (a 2.0 upper-body input no current shader has). Evidence: Data/Mod Downloads/WuWa/Changli/ChangliHashLineage.json.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsDiffuse"}, "d6f4003a"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsMap"}, "8094e3ca"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsOutline"}, "30017835"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsStrand"}, "5fff67ee"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatDiffuse"}, "c02dbf56"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatNormal"}, "f98c7e7c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatOutline"}, "2782d638"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "eyeDiffuse"}, "eb70f116"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "faceDiffuse"}, "225aad5a"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairDiffuse"}, "b54a043e"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairMap"}, "6f7a2dab"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairOutline"}, "e0b2f0d3"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairStrand"}, "1d3ad29f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerDiffuse"}, "a45bfe26"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerMask"}, "998bc53c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerNormal"}, "00e5703f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperDiffuse"}, "a260e7f7"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperMask"}, "dfe134cd"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperNormal"}, "f23483e3"},
+        // ChangliNymph (2.4, the version WWMI-Assets added ChangliSkin1; unchanged since)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "vb0"}, "acbfcfec"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "cb4"}, "f02baf77"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_offsets"}, "a90413a7"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_scale"}, "05d2029d"},
+        // CHANGLINYMPH'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20): WWMI-Assets' ChangliSkin1
+        //   generation from 2.4 to 2.5, each row a rename git records at its "2.6 diff" whose old register in that
+        //   commit's TextureUsage.json is the one its successor's role reads today (wwmiAssetLineage.py). Not
+        //   filed: c235c6a7 (an effect ramp 27 characters share) and 92c11772 (a ramp every component shares).
+        //   Evidence: Data/Mod Downloads/WuWa/ChangliNymph/ChangliNymphHashLineage.json.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsDiffuse"}, "529d2b99"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsMap"}, "7f7c7b9c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsStrand"}, "e6947b37"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "eyeDiffuse"}, "eb70f116"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "faceDiffuse"}, "6804b3ae"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairDiffuse"}, "bfc103ef"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairMap"}, "6f7a2dab"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairStrand"}, "91eab4e8"},
     };
     return rows;
 }

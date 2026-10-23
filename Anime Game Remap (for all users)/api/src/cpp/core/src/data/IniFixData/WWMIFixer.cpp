@@ -1633,6 +1633,200 @@ namespace AGRemapCore {
         }
 
 
+        // ---- a target whose draws read more influences than the mod carries ----
+        //
+        // See WWMIFixerConfig::targetInfluences. Pads every vertex of a buffer the fix has WRITTEN
+        // from `from` slots to `to`, in place: `from * idBytes` id bytes then, for a blend line,
+        // `from` weight bytes. The new slots are bone 0 with weight 0, which no shader weighs. A file
+        // already at the wider size is left alone, so a buffer several copies share is widened once.
+        bool widenPerVertex(RemapBlendResource& resource, const std::string& path, std::size_t vertices,
+                            std::size_t from, std::size_t to, std::size_t idBytes, bool hasWeights) {
+            const std::size_t fromLine = from * idBytes + (hasWeights ? from : 0);
+            const std::size_t toLine = to * idBytes + (hasWeights ? to : 0);
+            const std::string name = FileService::pathToStr(FileService::strToPath(path).filename());
+            const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+            if (!size.has_value()) {
+                return bail(resource, "could not read " + name + " to widen it");
+            }
+
+            if (*size == vertices * toLine) {
+                return true;
+            }
+
+            if (*size != vertices * fromLine) {
+                return bail(resource, name + " is " + std::to_string(*size) + " bytes, which is neither "
+                                      + std::to_string(from) + " nor " + std::to_string(to)
+                                      + " influences over " + std::to_string(vertices) + " vertices");
+            }
+
+            std::vector<char> in(static_cast<std::size_t>(*size));
+            {
+                std::ifstream file(FileService::strToPath(path), std::ios::binary);
+                file.read(in.data(), static_cast<std::streamsize>(in.size()));
+                if (!file) {
+                    return bail(resource, "could not read " + name + " to widen it");
+                }
+            }
+
+            std::vector<char> out(vertices * toLine, 0);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                const char* src = in.data() + vertex * fromLine;
+                char* dst = out.data() + vertex * toLine;
+                std::memcpy(dst, src, from * idBytes);
+                if (hasWeights) {
+                    std::memcpy(dst + to * idBytes, src + from * idBytes, from);
+                }
+            }
+
+            std::ofstream file(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
+            file.write(out.data(), static_cast<std::streamsize>(out.size()));
+            if (!file) {
+                return bail(resource, "could not write the widened " + name);
+            }
+
+            return true;
+        }
+
+
+        // ---- a target whose draws read FEWER influences than the mod carries ----
+        //
+        // See WWMIFixerConfig::targetInfluences. Slots of one vertex that name the same bone are
+        // merged first (their weights summed onto the first), since the remap can send two source
+        // bones to one target bone; then each vertex keeps its `to` heaviest slots (a tie goes to the
+        // lower slot), their weights scaled so the vertex's total is what it was. `vertexVg`, when
+        // given, names the bones (its full 16-bit ids) and keeps the SAME slots, so its ids stay
+        // paired with those weights. A blend already at the narrower size is left alone, so a buffer
+        // several copies share is narrowed once.
+        bool narrowPerVertex(RemapBlendResource& resource, const std::string& path, const std::string& vertexVg,
+                             std::size_t vertices, std::size_t from, std::size_t to) {
+            const std::size_t fromLine = from * 2;
+            const std::size_t toLine = to * 2;
+            const std::string name = FileService::pathToStr(FileService::strToPath(path).filename());
+            const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+            if (!size.has_value()) {
+                return bail(resource, "could not read " + name + " to narrow it");
+            }
+
+            if (*size == vertices * toLine) {
+                return true;
+            }
+
+            if (*size != vertices * fromLine) {
+                return bail(resource, name + " is " + std::to_string(*size) + " bytes, which is neither "
+                                      + std::to_string(from) + " nor " + std::to_string(to)
+                                      + " influences over " + std::to_string(vertices) + " vertices");
+            }
+
+            const auto readAll = [&](const std::string& file, std::vector<unsigned char>& bytes) {
+                const std::optional<std::uintmax_t> fileSize = FileService::fileSize(file);
+                if (!fileSize.has_value()) {
+                    return false;
+                }
+                bytes.resize(static_cast<std::size_t>(*fileSize));
+                std::ifstream in(FileService::strToPath(file), std::ios::binary);
+                in.read(reinterpret_cast<char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                return static_cast<bool>(in);
+            };
+
+            std::vector<unsigned char> blend;
+            if (!readAll(path, blend)) {
+                return bail(resource, "could not read " + name + " to narrow it");
+            }
+
+            std::vector<unsigned char> vg;
+            const bool hasVg = !vertexVg.empty();
+            const std::string vgName = hasVg ? FileService::pathToStr(FileService::strToPath(vertexVg).filename()) : "";
+            if (hasVg && (!readAll(vertexVg, vg) || vg.size() != vertices * from * 2)) {
+                return bail(resource, "could not read " + vgName + " at " + std::to_string(from)
+                                      + " influences over " + std::to_string(vertices) + " vertices to narrow it");
+            }
+
+            std::vector<unsigned char> blendOut(vertices * toLine, 0);
+            std::vector<unsigned char> vgOut(hasVg ? vertices * to * 2 : 0, 0);
+            std::vector<std::size_t> order(from);
+            std::vector<unsigned char> merged(from);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                const unsigned char* ids = blend.data() + vertex * fromLine;
+                const unsigned char* raw = ids + from;
+                const auto boneOf = [&](std::size_t k) -> unsigned {
+                    if (hasVg) {
+                        const unsigned char* id = vg.data() + (vertex * from + k) * 2;
+                        return static_cast<unsigned>(id[0]) | (static_cast<unsigned>(id[1]) << 8);
+                    }
+                    return ids[k];
+                };
+
+                // one bone in several slots: its weight is summed onto the first of them
+                for (std::size_t k = 0; k < from; ++k) {
+                    merged[k] = raw[k];
+                }
+                for (std::size_t k = 0; k < from; ++k) {
+                    if (merged[k] == 0) {
+                        continue;
+                    }
+                    for (std::size_t j = k + 1; j < from; ++j) {
+                        if (merged[j] != 0 && boneOf(j) == boneOf(k)) {
+                            merged[k] = static_cast<unsigned char>(std::min(255u, static_cast<unsigned>(merged[k]) + merged[j]));
+                            merged[j] = 0;
+                        }
+                    }
+                }
+                const unsigned char* weights = merged.data();
+
+                for (std::size_t k = 0; k < from; ++k) {
+                    order[k] = k;
+                }
+                std::stable_sort(order.begin(), order.end(),
+                                 [weights](std::size_t a, std::size_t b) { return weights[a] > weights[b]; });
+
+                unsigned total = 0;
+                unsigned kept = 0;
+                for (std::size_t k = 0; k < from; ++k) {
+                    total += weights[k];
+                }
+                for (std::size_t k = 0; k < to; ++k) {
+                    kept += weights[order[k]];
+                }
+
+                // scaled so the total is kept; the rounding remainder goes to the heaviest slot
+                std::vector<unsigned> scaled(to, 0);
+                unsigned scaledSum = 0;
+                for (std::size_t k = 0; k < to; ++k) {
+                    scaled[k] = kept == 0 ? weights[order[k]]
+                                          : (weights[order[k]] * total + kept / 2) / kept;
+                    scaledSum += scaled[k];
+                }
+                if (kept != 0 && scaledSum != total) {
+                    scaled[0] = static_cast<unsigned>(static_cast<int>(scaled[0]) + static_cast<int>(total) - static_cast<int>(scaledSum));
+                }
+
+                unsigned char* dst = blendOut.data() + vertex * toLine;
+                for (std::size_t k = 0; k < to; ++k) {
+                    dst[k] = ids[order[k]];
+                    dst[to + k] = static_cast<unsigned char>(std::min(255u, scaled[k]));
+                    if (hasVg) {
+                        std::memcpy(vgOut.data() + (vertex * to + k) * 2, vg.data() + (vertex * from + order[k]) * 2, 2);
+                    }
+                }
+            }
+
+            const auto writeAll = [](const std::string& file, const std::vector<unsigned char>& bytes) {
+                std::ofstream out(FileService::strToPath(file), std::ios::binary | std::ios::trunc);
+                out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                return static_cast<bool>(out);
+            };
+
+            if (!writeAll(path, blendOut)) {
+                return bail(resource, "could not write the narrowed " + name);
+            }
+            if (hasVg && !writeAll(vertexVg, vgOut)) {
+                return bail(resource, "could not write the narrowed " + vgName);
+            }
+
+            return true;
+        }
+
+
         // ---- one WWMI character, out of the library's tables ----
 
         struct Slot {
@@ -2777,7 +2971,11 @@ namespace AGRemapCore {
                                 FileService::absPathOfRelPath(forward, ctx_.getIniFile()->getFolder());
                             const std::string positionPath =
                                 positionBufPath();
-                            blendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            srcBlendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            // ...and what the fix WRITES, which is the target's when its draws read
+                            // a different number (WWMIFixerConfig::targetInfluences)
+                            blendInfluences_ = config_.targetInfluences != 0 ? config_.targetInfluences
+                                                                             : srcBlendInfluences_;
                             blendStride_ = blendInfluences_ * 2;
                         }
                     }
@@ -3081,8 +3279,40 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // ONE FILE, SEVERAL RESOURCES: the one a section USES names it (2026-10-20). Changli1
+                    // declares `[ResourceTexture19]` on its body diffuse and binds that file only as
+                    // `[Resource-1]`, inside a `$sawpvarA` toggle on the texture's hash; naming the file
+                    // by the first declaration bound the spare and the toggle never reached the target.
+                    // A re-fix parses its own previous output too, whose lists bind the file under the
+                    // name it chose last time: those sections are not the MOD's use, so they are skipped.
+                    std::unordered_set<std::string> usedResources;
+                    const std::string ourPrefix = StringTools::toLower(toModName_ + "Remap");
+                    if (IniFile* ini = ctx_.getIniFile()) {
+                        for (const auto& tpl : ini->getIfTemplates()) {
+                            if (tpl.second == nullptr
+                                    || StringTools::toLower(tpl.first).find(ourPrefix) != std::string::npos) {
+                                continue;
+                            }
+                            for (const auto& part : tpl.second->parts()) {
+                                const auto* content =
+                                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+                                for (const auto& kvp : content->entries()) {
+                                    usedResources.insert(StringTools::toLower(StringTools::strip(
+                                        IniNamingTools::removeRefPrefix(kvp.second)).data()));
+                                }
+                            }
+                        }
+                    }
+
                     for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
-                        scan.resourceOfFile.emplace(entry.second, entry.first);
+                        const auto placed = scan.resourceOfFile.emplace(entry.second, entry.first);
+                        if (!placed.second && usedResources.count(StringTools::toLower(placed.first->second)) == 0
+                                && usedResources.count(StringTools::toLower(entry.first)) > 0) {
+                            placed.first->second = entry.first;
+                        }
                         // ...and the other way, so an edit can reach EVERY variant a toggled role
                         // binds rather than only the one fileOfRole_ resolved to
                         fileOfResource_.emplace(StringTools::toLower(entry.first), entry.second);
@@ -3566,7 +3796,8 @@ namespace AGRemapCore {
                  * Only a section on one of this file's own draws is read, and only the registers
                  * WWMITextureFacts::registerRoles names for that component, so this is the mod
                  * stating a role rather than a guess from a file name. Looked for beside this
-                 * ``.ini`` and in the two folders above it, the files the game loads only.
+                 * ``.ini`` and in the two folders above it -- and with WWMIFixerConfig::readInisBelow,
+                 * in every folder below it -- the files the game loads only.
                  *
                  * @param scan The running scan
                  */
@@ -3589,6 +3820,26 @@ namespace AGRemapCore {
                             break;
                         }
                         dir = parent;
+                    }
+
+                    if (config_.readInisBelow) {
+                        std::error_code error;
+                        std::filesystem::recursive_directory_iterator it(own.parent_path(), error);
+                        for (; !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+                            if (!it->is_directory(error)) {
+                                continue;
+                            }
+
+                            const std::string name = StringTools::toLower(FileService::pathToStr(it->path().filename()));
+                            if (StringTools::startsWith(name, "disabled")) {
+                                it.disable_recursion_pending();
+                                continue;
+                            }
+
+                            for (const std::string& path : loadedInisIn(it->path(), own)) {
+                                inis.push_back(path);
+                            }
+                        }
                     }
 
                     std::size_t found = 0;
@@ -6708,7 +6959,61 @@ namespace AGRemapCore {
                             };
                         }
 
-                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), makeResEditConfig(), source, from, to,
+                        // A target whose draws read more influences than the mod carries
+                        // (WWMIFixerConfig::targetInfluences): whatever wrote the blend above, its
+                        // output is then padded to the target's width, and the generated section --
+                        // a copy of the mod's own -- is told the new stride.
+                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig();
+                        if (config_.targetInfluences != 0 && config_.targetInfluences < srcBlendInfluences_) {
+                            // ...or FEWER: each vertex keeps its heaviest slots
+                            const std::size_t wide = srcBlendInfluences_;
+                            const std::size_t narrow = config_.targetInfluences;
+                            const std::string posPath = positionBufPath();
+                            const std::string vgOut = targetPast256_
+                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
+                                : std::string();
+                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
+                                const std::size_t vertices = blendShape(resource, posPath).vertices;
+                                if (inner) {
+                                    if (!inner(resource)) {
+                                        return false;
+                                    }
+                                } else {
+                                    BlendFile blend = resource.createBlend();
+                                    blend.remap(resource.vgRemap, resource.fixedPath);
+                                }
+
+                                return narrowPerVertex(resource, resource.fixedPath, vgOut, vertices, wide, narrow);
+                            };
+                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(narrow * 2)}};
+                        } else if (config_.targetInfluences > srcBlendInfluences_) {
+                            const std::size_t narrow = srcBlendInfluences_;
+                            const std::size_t wide = config_.targetInfluences;
+                            const std::string posPath = positionBufPath();
+                            const std::string vgOut = targetPast256_
+                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
+                                : std::string();
+                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
+                                const std::size_t vertices = blendShape(resource, posPath).vertices;
+                                if (inner) {
+                                    if (!inner(resource)) {
+                                        return false;
+                                    }
+                                } else {
+                                    BlendFile blend = resource.createBlend();
+                                    blend.remap(resource.vgRemap, resource.fixedPath);
+                                }
+
+                                if (!widenPerVertex(resource, resource.fixedPath, vertices, narrow, wide, 1, true)) {
+                                    return false;
+                                }
+
+                                return vgOut.empty() || widenPerVertex(resource, vgOut, vertices, narrow, wide, 2, false);
+                            };
+                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(wide * 2)}};
+                        }
+
+                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), std::move(resConfig), source, from, to,
                                                                           std::move(lift), config_.anchorChains,
                                                                           meshVertexCount_,
                                                                           positionBufPath());
@@ -6952,6 +7257,67 @@ namespace AGRemapCore {
                     // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
                     roleListTexts_.push_back(renderIfTemplate(*list) + "\n");
                     return {std::string(IniKeywords::Run), name};
+                }
+
+                // The mod's own sections on another mesh of the source, copied onto the target's mesh
+                // that plays the same part -- see WWMIFixerConfig::meshCounterparts
+                std::string meshCounterpartSections() const {
+                    if (config_.meshCounterparts.empty()) {
+                        return "";
+                    }
+
+                    std::map<std::string, std::string> counterparts;
+                    for (const auto& [from, to] : config_.meshCounterparts) {
+                        counterparts.emplace(StringTools::toLower(from), to);
+                    }
+
+                    const std::string ownSuffix = StringTools::toLower(fixName(""));
+                    std::string out;
+                    for (const auto& [name, tpl] : ctx_.getIniFile()->getIfTemplates()) {
+                        if (tpl == nullptr || StringTools::endsWithIgnoreCase(name, ownSuffix)) {
+                            continue;
+                        }
+
+                        std::string target;
+                        for (const std::unique_ptr<IfTemplatePart>& part : tpl->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                if (!StringTools::equalsIgnoreCase(StringTools::strip(item.key), IniKeywords::Hash)) {
+                                    continue;
+                                }
+
+                                const auto found = counterparts.find(StringTools::toLower(std::string(StringTools::strip(item.value))));
+                                if (found != counterparts.end()) {
+                                    target = found->second;
+                                }
+                            }
+                        }
+
+                        if (target.empty()) {
+                            continue;
+                        }
+
+                        std::unique_ptr<IfTemplate<std::string, std::string>> copy = tpl->deepcopy();
+                        copy->name = fixName(name);
+                        copy->prefix = "; " + name + " of the mod, on " + toModName_ + "'s counterpart of that mesh";
+                        for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
+                            auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
+                            if (content != nullptr) {
+                                RegNewVals<>({{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(target)}})
+                                    .edit(*content, copy->name);
+                            }
+                        }
+
+                        copy->rebuild();
+                        // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
+                        out += renderIfTemplate(*copy) + "\n\n";
+                    }
+
+                    return out;
                 }
 
                 const std::string* sharedResourceFor(const std::string& role) const {
@@ -7622,6 +7988,8 @@ namespace AGRemapCore {
                                    .close()
                                    .str();
                     }
+
+                    out += meshCounterpartSections();
 
                     if (texcoordSection_.has_value()) {
                         out += *texcoordSection_;
@@ -9187,9 +9555,12 @@ namespace AGRemapCore {
                 // read the other. 182 for ChisaParfait -> Chisa.
                 std::size_t blendRemapBones_ = 0;
 
-                // The mod's own blend line: N ids + N weights, and its byte stride
+                // The blend line the FIX writes: N ids + N weights, and its byte stride -- the mod's
+                // own, unless WWMIFixerConfig::targetInfluences widens it
                 std::size_t blendInfluences_ = 4;
                 std::size_t blendStride_ = 8;
+                // ...and the mod's own N, which the widening starts from
+                std::size_t srcBlendInfluences_ = 4;
                 std::vector<std::string> passOrder_;
 
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;

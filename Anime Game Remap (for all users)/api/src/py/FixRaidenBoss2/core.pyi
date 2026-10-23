@@ -16054,6 +16054,10 @@ class ModTypeId:
       Lynae : Lynae from WuWa; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin
     
       LynaePeppermint : Lynae's Peppermint skin from WuWa
+    
+      Changli : Changli from WuWa; a mod may carry any of her three mesh generations (1.1, 1.2, 1.4 on)
+    
+      ChangliNymph : Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1)
     """
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
@@ -16068,6 +16072,8 @@ class ModTypeId:
     BennettAdventureBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBang: 11>
     BennettAdventureBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBody: 10>
     BennettAdventureEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureEye: 12>
+    Changli: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Changli: 88>
+    ChangliNymph: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChangliNymph: 89>
     Charlotte: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Charlotte: 13>
     CharlotteHurlock: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlock: 14>
     CharlotteHurlockBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockBangs: 16>
@@ -16143,7 +16149,7 @@ class ModTypeId:
     YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 80>
     YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 79>
     YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 81>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Lumine': <ModTypeId.Lumine: 45>, 'LumineHeaven': <ModTypeId.LumineHeaven: 46>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 47>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 48>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 49>, 'Mona': <ModTypeId.Mona: 50>, 'MonaCN': <ModTypeId.MonaCN: 51>, 'Neuvillette': <ModTypeId.Neuvillette: 52>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 53>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 54>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 55>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 56>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 57>, 'Nilou': <ModTypeId.Nilou: 58>, 'NilouBreeze': <ModTypeId.NilouBreeze: 59>, 'Ningguang': <ModTypeId.Ningguang: 60>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 61>, 'Raiden': <ModTypeId.Raiden: 62>, 'RaidenBoss': <ModTypeId.RaidenBoss: 63>, 'Rosaria': <ModTypeId.Rosaria: 64>, 'RosariaCN': <ModTypeId.RosariaCN: 65>, 'Shenhe': <ModTypeId.Shenhe: 66>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 67>, 'Xiangling': <ModTypeId.Xiangling: 68>, 'XianglingCheer': <ModTypeId.XianglingCheer: 69>, 'Xingqiu': <ModTypeId.Xingqiu: 70>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 71>, 'Yaoyao': <ModTypeId.Yaoyao: 72>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 73>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 74>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 75>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 76>, 'Yelan': <ModTypeId.Yelan: 77>, 'YelanTranquil': <ModTypeId.YelanTranquil: 78>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 79>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 80>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 81>, 'Sanhua': <ModTypeId.Sanhua: 82>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 83>, 'Chisa': <ModTypeId.Chisa: 84>, 'ChisaParfait': <ModTypeId.ChisaParfait: 85>, 'Lynae': <ModTypeId.Lynae: 86>, 'LynaePeppermint': <ModTypeId.LynaePeppermint: 87>}
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Lumine': <ModTypeId.Lumine: 45>, 'LumineHeaven': <ModTypeId.LumineHeaven: 46>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 47>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 48>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 49>, 'Mona': <ModTypeId.Mona: 50>, 'MonaCN': <ModTypeId.MonaCN: 51>, 'Neuvillette': <ModTypeId.Neuvillette: 52>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 53>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 54>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 55>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 56>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 57>, 'Nilou': <ModTypeId.Nilou: 58>, 'NilouBreeze': <ModTypeId.NilouBreeze: 59>, 'Ningguang': <ModTypeId.Ningguang: 60>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 61>, 'Raiden': <ModTypeId.Raiden: 62>, 'RaidenBoss': <ModTypeId.RaidenBoss: 63>, 'Rosaria': <ModTypeId.Rosaria: 64>, 'RosariaCN': <ModTypeId.RosariaCN: 65>, 'Shenhe': <ModTypeId.Shenhe: 66>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 67>, 'Xiangling': <ModTypeId.Xiangling: 68>, 'XianglingCheer': <ModTypeId.XianglingCheer: 69>, 'Xingqiu': <ModTypeId.Xingqiu: 70>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 71>, 'Yaoyao': <ModTypeId.Yaoyao: 72>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 73>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 74>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 75>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 76>, 'Yelan': <ModTypeId.Yelan: 77>, 'YelanTranquil': <ModTypeId.YelanTranquil: 78>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 79>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 80>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 81>, 'Sanhua': <ModTypeId.Sanhua: 82>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 83>, 'Chisa': <ModTypeId.Chisa: 84>, 'ChisaParfait': <ModTypeId.ChisaParfait: 85>, 'Lynae': <ModTypeId.Lynae: 86>, 'LynaePeppermint': <ModTypeId.LynaePeppermint: 87>, 'Changli': <ModTypeId.Changli: 88>, 'ChangliNymph': <ModTypeId.ChangliNymph: 89>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -25791,6 +25797,16 @@ class WWMIBuilder:
         Every WuWa :class:`ModType`, freshly built on each call
         """
     @staticmethod
+    def changli() -> ModType:
+        """
+        Creates the :class:`ModType` for Changli
+        """
+    @staticmethod
+    def changliNymph() -> ModType:
+        """
+        Creates the :class:`ModType` for ChangliNymph (WWMI-Assets' ChangliSkin1)
+        """
+    @staticmethod
     def chisa() -> ModType:
         """
         Creates the :class:`ModType` for Chisa
@@ -26662,6 +26678,16 @@ class WWMIFixerConfig:
     def mergedSkeletonSlots(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
+    def meshCounterparts(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash,
+        mapped to the TARGET's mesh that plays the same part: each such section is copied into the fix's block
+        on the target's hash. **Default**: empty
+        """
+    @meshCounterparts.setter
+    def meshCounterparts(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
+    @property
     def mirroredComponents(self) -> set[int]:
         """
         Set[:class:`int`]: Source components drawn a second time, wound the other way with their normals
@@ -26691,6 +26717,16 @@ class WWMIFixerConfig:
         """
     @plan.setter
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
+        ...
+    @property
+    def readInisBelow(self) -> bool:
+        """
+        :class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+        fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+        above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        """
+    @readInisBelow.setter
+    def readInisBelow(self, arg0: bool) -> None:
         ...
     @property
     def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
@@ -26863,6 +26899,20 @@ class WWMIFixerConfig:
         """
     @targetId.setter
     def targetId(self, arg0: ModTypeId) -> None:
+        ...
+    @property
+    def targetInfluences(self) -> int:
+        """
+        :class:`int`: How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
+        own. The fix's remapped ``Blend.buf`` (and, past 256 bones, its ``BlendRemapVertexVG.buf``) is written at
+        this many -- the mod's own first, the rest bone 0 with weight 0 -- and the generated section's ``stride``
+        and the blend remap's ``weights_per_vertex_count`` follow. A 4-influence character drawn through an
+        8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. When it is
+        FEWER, each vertex keeps its heaviest slots, their weights scaled to the same total. **Default**:
+        ``0``, the mod's own count
+        """
+    @targetInfluences.setter
+    def targetInfluences(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def targetLabels(self) -> dict[int, str]:

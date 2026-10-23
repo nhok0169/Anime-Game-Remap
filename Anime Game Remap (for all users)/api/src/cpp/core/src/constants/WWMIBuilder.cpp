@@ -128,6 +128,14 @@ namespace AGRemapCore {
         return makeWWMIModType(ModTypeId::LynaePeppermint, {"LynaeSkin1", "PeppermintLynae"});
     }
 
+    ModType WWMIBuilder::changli() {
+        return makeWWMIModType(ModTypeId::Changli);
+    }
+
+    ModType WWMIBuilder::changliNymph() {
+        return makeWWMIModType(ModTypeId::ChangliNymph, {"ChangliSkin1", "NymphChangli", "ChangliLaurelNymph", "LaurelNymphChangli"});
+    }
+
     std::vector<ModType> WWMIBuilder::all() {
         return {
             sanhua(),
@@ -136,6 +144,8 @@ namespace AGRemapCore {
             chisaParfait(),
             lynae(),
             lynaePeppermint(),
+            changli(),
+            changliNymph(),
         };
     }
 }

@@ -11,6 +11,8 @@
     <innerdir refid="dir_f50db978cf27bf6ebc2731f38393c974">include/AGRemapCore/data/IniFixData/BarbaraSummertime</innerdir>
     <innerdir refid="dir_16e2ada0df804d4b8299437d530df2c0">include/AGRemapCore/data/IniFixData/Bennett</innerdir>
     <innerdir refid="dir_9c5117e60e9d0cd2686bba5891e06b92">include/AGRemapCore/data/IniFixData/BennettAdventure</innerdir>
+    <innerdir refid="dir_760e16159b2b5581c94d71b74eb280a2">include/AGRemapCore/data/IniFixData/Changli</innerdir>
+    <innerdir refid="dir_a8ccd5bb2b000446af1be204e67db7a7">include/AGRemapCore/data/IniFixData/ChangliNymph</innerdir>
     <innerdir refid="dir_35242caf10d3b703dc2211b9e8db10bb">include/AGRemapCore/data/IniFixData/Charlotte</innerdir>
     <innerdir refid="dir_a110576e1f4f6e9d91923ce94eaa3fe7">include/AGRemapCore/data/IniFixData/CharlotteHurlock</innerdir>
     <innerdir refid="dir_d1b567bca0b06600843b7d9f38f46df1">include/AGRemapCore/data/IniFixData/CherryHuTao</innerdir>

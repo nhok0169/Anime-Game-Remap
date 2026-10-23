@@ -461,6 +461,8 @@ Below are the supported types of mods
 | BarbaraSummertime | GI | BarbaraBikini, HealerSummertime, IdolSummertime | Barbara Summer mods |
 | Bennett | GI | Benny | Bennett mods |
 | BennettAdventure | GI | AdventureBennett, AdventureBenny, BennettNatlan, BennettSummer, BennyAdventure, BennyNatlan, BennySummer, NatlanBennett, NatlanBenny, SummerBennett, SummerBenny | Bennett Summertime Adventure mods |
+| Changli | WuWa |  | Changli mods |
+| ChangliNymph | WuWa | ChangliLaurelNymph, ChangliSkin1, LaurelNymphChangli, NymphChangli | Changli Laurel Nymph skin mods |
 | Charlotte | GI |  | Charlotte mods |
 | CharlotteHurlock | GI | HurlockCharlotte | Charlotte Hurlock mods |
 | CherryHuTao | GI | 77thDirectoroftheWangshengFuneralParlorCherry, 77thDirectoroftheWangshengFuneralParlorLanternRite, Cherry77thDirectoroftheWangshengFuneralParlor, CherryQiqiKidnapper, HutaoCherry, HutaoLanternRite, HutaoSnowLaden, LanternRite77thDirectoroftheWangshengFuneralParlor, LanternRiteHutao, LanternRiteQiqiKidnapper, QiqiKidnapperCherry, QiqiKidnapperLanternRite, SnowLadenHutao | Hu Tao Lantern Rite mods |

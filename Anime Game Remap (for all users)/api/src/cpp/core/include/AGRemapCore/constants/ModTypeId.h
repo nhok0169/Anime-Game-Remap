@@ -559,7 +559,25 @@ namespace AGRemapCore {
         /**
          * @brief Lynae's Peppermint skin from WuWa -- see :cpp:enumerator:`Lynae`
          */
-        LynaePeppermint
+        LynaePeppermint,
+
+        /**
+         * @brief
+         @rst
+         Changli from WuWa (Wuthering Waves), a WWMI mod type -- see
+         :cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`<br />` :raw-html:`<br />`
+
+         Her mesh has three generations a mod may carry: ``77975500`` (1.1), ``5f8aac45`` (1.2, the
+         same index windows with one bone fewer) and ``d14bed8b`` (1.4 on, component 3 grown by
+         1020 indices)
+         @endrst
+         */
+        Changli,
+
+        /**
+         * @brief Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1) -- see :cpp:enumerator:`Changli`
+         */
+        ChangliNymph
     };
 
     /**

@@ -132,8 +132,10 @@ void testPrePopulated() {
     // +2 on 2026-10-05: Lynae <-> LynaePeppermint, one row each way in the merged skeleton.
     // +1 the same day: Lynae -> LynaePeppermint again for a mod exported at 3.6, before her 3.7
     //    update renumbered her skeleton.
-    check(Data::getVGRemapDataRows().size() == 102,
-          "102 rows -- this table's own count, 50 ahead of the Python builder's 52");
+    // +2 on 2026-10-20: Changli <-> ChangliNymph, one row each way in the merged skeleton.
+    // +2 the same day: Changli -> ChangliNymph again for a mod exported in her 1.1 or 1.2 numbering.
+    check(Data::getVGRemapDataRows().size() == 106,
+          "106 rows -- this table's own count, 54 ahead of the Python builder's 52");
 }
 
 void testRealLookups() {

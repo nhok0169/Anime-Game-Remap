@@ -284,6 +284,12 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::LynaePeppermint):
                 return ModTypeId::LynaePeppermint;
 
+            case static_cast<int>(ModTypeId::Changli):
+                return ModTypeId::Changli;
+
+            case static_cast<int>(ModTypeId::ChangliNymph):
+                return ModTypeId::ChangliNymph;
+
             default:
                 return std::nullopt;
         }
@@ -557,6 +563,12 @@ namespace AGRemapCore {
             case ModTypeId::LynaePeppermint:
                 return "LynaePeppermint";
 
+            case ModTypeId::Changli:
+                return "Changli";
+
+            case ModTypeId::ChangliNymph:
+                return "ChangliNymph";
+
             default:
                 return "";
         }
@@ -815,6 +827,12 @@ namespace AGRemapCore {
 
             case ModTypeId::LynaePeppermint:
                 return {ModTypeId::Lynae};
+
+            case ModTypeId::Changli:
+                return {ModTypeId::ChangliNymph};
+
+            case ModTypeId::ChangliNymph:
+                return {ModTypeId::Changli};
             // Every remaining ModTypeId remaps onto nothing. That covers the two boss ids
             // (RaidenBoss, ArlecchinoBoss), which are only ever remap *targets* -- GIBuilder has
             // no factory for either.

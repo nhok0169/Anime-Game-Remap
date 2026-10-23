@@ -227,6 +227,19 @@ at the same index) -- `WWMIFixerConfig::shapeKeyOrder` rewrites a mod's shape-ke
 `Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py`; check it for every WuWa pair. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LYNAE <-> LYNAEPEPPERMINT".
 
+**CHANGLI <-> CHANGLINYMPH IS COMPILED BOTH WAYS (2026-10-20/21), THE FOURTH WUWA PAIR, AND THE FIRST WHOSE TWO
+CHARACTERS READ A DIFFERENT BLEND WIDTH.** Changli writes four influences a vertex and her skin eight, and the game reads
+the blend through the TARGET's layout: `WWMIFixerConfig::targetInfluences` widens and NARROWS (heaviest slots, a repeated
+bone merged). Her older mods name texture hashes from before her 2.6 rehash, and WWMI-Assets' own git history records
+each rehash as a rename (`Tools/Misc/Diagnostics/wwmiAssetLineage.py`; the rows go into `HashData` typed by role). A file
+two resource sections declare is named by the one a section USES (and a re-fix must skip its own previous sections, which
+only a fix-twice comparison catches); `readInisBelow` reads an `.ini` in a mod's subfolder. And alpha MEANS different
+things per shader: on the skin's see-through shaders it is opacity (up to 255), on Changli's opaque ones a scalar that
+lights the part above ~117 -- so the reverse clamps it, and pads the texels the skin's shader cuts away, or her fine gold
+chains draw as dark cords. Limits: her chest tattoo (a cut-out shader) is not drawn on the skin, her arm feathers do not
+glow there, the skin's sheer parts are opaque on her, and one mod's own-mesh components are open (a session card). See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHANGLI <-> CHANGLINYMPH".
+
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
 component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);

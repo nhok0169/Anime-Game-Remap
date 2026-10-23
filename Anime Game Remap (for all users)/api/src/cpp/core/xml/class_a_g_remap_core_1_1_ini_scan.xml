@@ -45,7 +45,7 @@ starts with ``[`` and ends with ``]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniScan.h" line="94" column="32" bodyfile="src/model/files/IniScan.cpp" bodystart="25" bodyend="54"/>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="94" column="32" bodyfile="src/model/files/IniScan.cpp" bodystart="26" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_scan_1ac9f0c2268150c3124b208adcf3f10e29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -90,7 +90,7 @@ The first value in &apos;section&apos; under &apos;key&apos;, compared exactly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniScan.h" line="107" column="34" bodyfile="src/model/files/IniScan.cpp" bodystart="57" bodyend="65"/>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="107" column="34" bodyfile="src/model/files/IniScan.cpp" bodystart="59" bodyend="67"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

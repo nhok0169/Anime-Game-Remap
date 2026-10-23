@@ -23,6 +23,36 @@
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
+      <node id="75">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
+      </node>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="119">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="103">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="74">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="102">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="36">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="118">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="116">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="62">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="122">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -1302,36 +1332,6 @@
         </childnode>
         <childnode refid="130" relation="include">
         </childnode>
-      </node>
-      <node id="75">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
-      </node>
-      <node id="30">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="119">
-        <label>BaseAhoCorasickDFA.tpp</label>
-      </node>
-      <node id="103">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="74">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="102">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="36">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="118">
-        <label>BaseTrie.tpp</label>
-      </node>
-      <node id="116">
-        <label>BiMap.tpp</label>
-      </node>
-      <node id="62">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="70">
         <label>Generator.tpp</label>

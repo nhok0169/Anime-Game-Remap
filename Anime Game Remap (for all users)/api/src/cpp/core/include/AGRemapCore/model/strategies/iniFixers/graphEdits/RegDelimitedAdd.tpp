@@ -285,6 +285,22 @@ namespace AGRemapCore {
                     continue;
                 }
 
+                // A CALL'S CONTINUATION FOLLOWS THE CALLING PART ITSELF. Its own delimiters have run
+                // by the time control leaves the part, and with an internal callee that reaches the
+                // exit through the callee's nodes. An EXTERNAL callee (TexFx) leaves the exit with no
+                // predecessor in this analysis, so it stayed clean however the part had drawn, and
+                // the next part's draw took a second call -- which NNFix, an involution, undoes
+                // (LumineHeaven -> Lumine, a namespace-merged mod's appended member, 2026-10-20).
+                if (node.isExit) {
+                    const Node entry{node.part, false};
+                    auto entryIt = clean.find(entry);
+                    if (entryIt != clean.end() && (!entryIt->second || nodeDelimits(entry))) {
+                        clean[node] = false;
+                        changed = true;
+                        continue;
+                    }
+                }
+
                 auto backIt = backwardEdges.find(node);
                 if (backIt == backwardEdges.end() || backIt->second.empty()) {
                     continue;

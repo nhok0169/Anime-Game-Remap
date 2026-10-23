@@ -555,7 +555,7 @@
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>components.push_back(std::move(component));</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge" kindref="compound">VGComponentMerge</ref><sp/>merge(std::move(components),<sp/>config.texcoordStride);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_v_g_component_merge" kindref="compound">VGComponentMerge</ref><sp/>merge(std::move(components),<sp/>config.texcoordStride,<sp/>config.texcoordPadFrom);</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"></highlight></codeline>
 <codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>group<sp/>whose<sp/>bones<sp/>have<sp/>nowhere<sp/>to<sp/>go<sp/>writes<sp/>a<sp/>NEGATIVE<sp/>index<sp/>and<sp/>the<sp/>model<sp/>kinks<sp/>there,</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>which<sp/>nothing<sp/>downstream<sp/>reports<sp/>--<sp/>so<sp/>say<sp/>so<sp/>here</highlight><highlight class="normal"></highlight></codeline>

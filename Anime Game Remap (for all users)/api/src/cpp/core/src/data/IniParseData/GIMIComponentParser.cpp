@@ -127,7 +127,21 @@ namespace AGRemapCore {
                                 // match_first_index this component knows. Resolved here rather than
                                 // by the classifier, which would have to reverse-look it up in a
                                 // table these rows are deliberately not in.
-                                const std::vector<std::string> indexVals = kvps->getVals(IniKeywords::MatchFirstIndex);
+                                std::vector<std::string> indexVals = kvps->getVals(IniKeywords::MatchFirstIndex);
+
+                                // A namespace-merged mod (namespace_merge.py) writes the hash at the top of
+                                // the section and the match_first_index inside its
+                                // `if $\<Char>\Master\swapvar == n`, so the part that holds the hash has no
+                                // index. Take it from the SAME section's other parts -- GIMISectionClassifier's
+                                // rule, which this lookup never had: every slot of such a skin mod resolved to
+                                // the component's hash-only object, and the merge carried the skin's raw
+                                // buffers onto the target (Lumine12, 2026-10-20).
+                                if (indexVals.empty() && section != nullptr) {
+                                    std::optional<std::string> index = ModBranches::firstVal(*section, IniKeywords::MatchFirstIndex);
+                                    if (index.has_value()) {
+                                        indexVals.push_back(*index);
+                                    }
+                                }
                                 if (indexVals.empty()) {
                                     return result;
                                 }
@@ -808,9 +822,16 @@ namespace AGRemapCore {
                         IniKeywords::Vb0, IniKeywords::Vb1, "vb2", IniKeywords::Ib, IniKeywords::DrawIndexed,
                         "draw", "ps-t0", "ps-t1", "ps-t2", "ps-t3"};
 
+                    // NOR THE FACE'S OWN SECTIONS AT ALL (2026-10-20), for the same reason: a face
+                    // recolour written with `ps-t` lines rather than `this` (Lumine12's
+                    // Face Texture/Lumine.ini) drew the whole skin from downloads, outside the merged
+                    // master's outfit switch, over every outfit at once.
                     std::unordered_set<std::string> visited;
                     std::vector<std::string> toVisit;
                     for (const auto& entry : this->sectionTargets()) {
+                        if (entry.first == FaceObj) {
+                            continue;
+                        }
                         toVisit.insert(toVisit.end(), entry.second.begin(), entry.second.end());
                     }
 

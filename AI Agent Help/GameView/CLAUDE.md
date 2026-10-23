@@ -278,6 +278,15 @@ the branch draws nothing.
   while `GIMI/CherryHutao6` exists) hits the same wall. Record `mods <IMP> list` first; use an explicit
   `park <the conflicting mod>` plus `load <copy> --from <folder>`; stage test copies under a distinct name
   (`CherryHutao6Fixed`); diff `mods list` against the record at the end.
+- **`mods <IMP> restore` replays the WHOLE journal, older sessions included** (2026-10-20). After an `only` that stopped
+  on a clash, `restore` put that run's folders back -- and also moved `LumineHeaven3`, parked by some earlier session,
+  from the importer folder INTO `Mods`, then left the journal empty, so nothing recorded what it had done. Before a
+  `restore`, read `mods-journal-<IMP>.json` in GameView's scratch folder; after a surprise, `find <importer> -maxdepth 3
+  -type d -newerct "<time>"` lists every folder a rename touched (a move changes the folder's ctime, not its mtime).
+  For a one-off swap, two plain `mv`s you write down yourself are safer than `only`.
+- **The Dressing Room remembers its last TAB.** `key r` can reopen it on Wind Glider, where a card click previews a glider
+  and every following shot shows the wrong thing; `key w` steps back up to Outfit. Its cards also move with the window:
+  read their positions off a fresh screenshot.
 - **The window can change size between sessions** (3440x1440 one day, 1920x1080 the next). A view
   coordinate taken from an older screenshot then lands on another control -- one card click stepped the
   outfit preview to a different character. Take positions from a FRESH screenshot and click with
@@ -287,7 +296,14 @@ the branch draws nothing.
   switching what is equipped.
 - **A second `Esc` from a character screen opens the Paimon menu, UID top LEFT.** When a capture might show
   it, blank the top-left corner of the file with Pillow before reading it, and delete any capture that
-  showed the UID.
+  showed the UID. After the all-characters grid (below), ONE `Esc` landed there (2026-10-21).
+- **The character screen reads `E` / `Q` as next / previous character -- inside a mod's `Alt+E` too**
+  (2026-10-21). YelanTranquil3's transparency toggle is `Alt+E`: the toggle fired AND the screen moved on to the
+  next character, so the shot showed someone else. Press `Q` to step back, or toggle in the overworld.
+- **Picking a character from the character screen's ALL-CHARACTERS GRID (bottom-left button) can put her in the
+  PARTY** (2026-10-21): it swapped Yelan in for Sandrone in slot 3 and made her active. Take an overworld shot of
+  the party first, and tell the maintainer if it changed -- party setup is theirs. The grid also reorders
+  (recently viewed first), so read positions off a fresh screenshot every time.
 
 ## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
 

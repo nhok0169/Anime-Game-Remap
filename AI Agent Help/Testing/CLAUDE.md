@@ -1200,6 +1200,13 @@ py -3 -m pip uninstall FixRaidenBoss2      # both -- see the shadowing warning b
 
 ## Integration Tester (`Testing/Integration Tester`)
 
+### RUN IT BEFORE PUSHING A CHANGE TO WHAT A FIX OR AN UNDO WRITES (2026-10-21)
+
+A change to `RemapIniRemover` passed a 92-folder sweep of real mods, every remover suite and the Unit Tester,
+then failed four `APIDocsTests` in CI: their fixture is a hand-written half-undone fix, a shape no real mod
+library has. The Windows recipe further down ("Running it on WINDOWS, for a quick check") is two minutes; Overview's habit 119 says
+how to read its 7 known Windows-only `MixedModsTests` differences.
+
 ### THE CHECKED-IN RESULTS FILE WILL LIE TO YOU (2026-09-28)
 
 `integrationTestResults.txt` is tracked, and `Tools/Misc/Linux/integrationTest.sh` used to grep it

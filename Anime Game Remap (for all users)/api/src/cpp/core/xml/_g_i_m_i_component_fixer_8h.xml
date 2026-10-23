@@ -21,6 +21,21 @@
     <includedby refid="_yaoyao_fixer_8cpp" local="yes">src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</includedby>
     <includedby refid="_yelan_fixer_8cpp" local="yes">src/data/IniFixData/Yelan/YelanFixer.cpp</includedby>
     <incdepgraph>
+      <node id="54">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="94">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="93">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="59">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="74">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -898,21 +913,6 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-      </node>
-      <node id="54">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="94">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="93">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="59">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="88">
         <label>Generator.tpp</label>

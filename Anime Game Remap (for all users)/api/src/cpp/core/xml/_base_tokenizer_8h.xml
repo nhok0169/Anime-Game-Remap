@@ -14,6 +14,12 @@
     <includedby refid="_filtered_tokenizer_8h" local="yes">include/AGRemapCore/tools/parsing/FilteredTokenizer.h</includedby>
     <includedby refid="_base_tokenizer_8cpp" local="yes">src/tools/parsing/BaseTokenizer.cpp</includedby>
     <incdepgraph>
+      <node id="18">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="16">
+        <label>BiMap.tpp</label>
+      </node>
       <node id="13">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
@@ -105,12 +111,6 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="18">
-        <label>BaseDFA.tpp</label>
-      </node>
-      <node id="16">
-        <label>BiMap.tpp</label>
       </node>
       <node id="2">
         <label>cstddef</label>

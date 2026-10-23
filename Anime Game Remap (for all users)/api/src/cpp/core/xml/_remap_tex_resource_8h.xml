@@ -14,6 +14,9 @@
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_remap_tex_resource_8cpp" local="yes">src/model/iniresources/RemapTexResource.cpp</includedby>
     <incdepgraph>
+      <node id="16">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
       <node id="4">
         <label>AGRemapCore/model/files/TexCache.h</label>
         <link refid="_tex_cache_8h"/>
@@ -237,9 +240,6 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-      </node>
-      <node id="16">
-        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
       </node>
       <node id="15">
         <label>array</label>

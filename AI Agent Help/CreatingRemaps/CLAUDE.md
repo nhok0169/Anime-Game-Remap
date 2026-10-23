@@ -2123,6 +2123,10 @@ surprises you.
 | two configs of one pair **disagree about a slot's layout** (normal map or not) | "A TexFx call follows the TARGET's layout", the YelanTranquil slot C paragraph, and [Overview](../Overview/CLAUDE.md)'s habit 86: trace both through ORFix before "fixing" either |
 | the mod **looks wrong on its OWN character**, not only on the remap (WuWa: the game's textures at the mod's UVs, gold smears, a washed-out top) | NOT a remap bug. "THE MOD LOOKS WRONG ON ITS OWN CHARACTER WAS THE LIVE TEXTURE HASHES": dump the BASE outfit in the character menu (check the dump's `vb0` is the right character, since the selected outfit card decides which one draws), compare the hashes it binds with the mod's `[TextureOverrideTextureN]` hashes, then `wwmiTextureFix.py --live` (undo the remap first, fix again after). Prove it with a before/after on a mod whose VISIBLE parts use the changed overrides |
 | on the remap, **some parts render in the GAME's textures** while the mod's own `.ini` binds no textures for them, and another `.ini` of the mod does (a namespaced or RabbitFX file, often one folder up, matching the same `vb0` + `match_first_index`) | "THE MOD LOOKS WRONG ON ITS OWN CHARACTER", its last paragraph: `WWMIFixer::readSameDrawInis` reads those, but only the registers `WWMITextureFacts::registerRoles` names. A new character needs its RabbitFX names there. The tell is `<Source><Role>RemapDL.dds` files beside the mod: each is a role the fix found no file for |
+| a **namespace-merged skin mod** (`Master<Char>.ini` + per-outfit `if $\<Char>\Master\swapvar`) onto its character: a floating face, a shattered model, or one outfit wearing another's textures | "A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER". First compare its `DISABLED*` copy's fix (no `if`) with the live file's; then check every remap binding sits under its file's guard |
+| **one outfit** of a merged mod green / red or drawn wrong, the others right | the same section's Lumine11 paragraph: grep that outfit's `.ini` for a malformed section header (`^\[[^]]*$`); `check_dangling.py` names the outfit |
+| **sheer / transparent parts black** (TexFx) on the target of a merge, right on the source | the same section's TexFx paragraph: the transparency is drawn from the diffuse BOUND when the section ends. Take a `txt`-only frame dump and read the `customshader\texfx` line |
+| the **original mod itself** draws the game's textures or nothing on its own character | restore it first (same section's last paragraph): GIMI's newer texture API on an old loader, a dangling `vb0`, or a region-check master |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Five things hold whichever row you are on, and each has cost a session:
@@ -4180,6 +4184,114 @@ normal-map layout under ORFix, and that is NOT a bug:
   `diffuseEdits` / `lightMapEdit` ONLY on a normal-map component. The plain slot C bound the mod's raw head diffuse and
   light map, losing the band legend and the alpha-1 head that were confirmed in game.
 - **That gap is real for the next pair**: a plain component whose objects need a texture edit gets none, silently.
+
+## A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER: THE MERGE TEMPLATE'S FOUR GAPS, AND WHY TEXFX WENT BLACK (Lumine12, 2026-10-20)
+
+The section above fixed the namespace shape for the CLASSIC template. The MERGE template (a multi-component skin onto
+its one-mesh character: LumineHeaven -> Lumine, YelanTranquil -> Yelan, ...) had never seen one, and Lumine12 -- 18
+LumineHeaven outfits behind one `namespace_merge.py` master -- found every gap at once. In game, in order: a floating
+face and no body; then a shattered model; then the right outfit with another outfit's textures; then black sheer parts.
+
+1. **The slot was never found.** `GIMIComponentParser`'s slot lookup read `match_first_index` only from the part that
+   holds the `hash`, which in this shape has none, so every slot fell back to the component's hash-only object and the
+   merge carried the skin's raw buffers onto the target. The author's `DISABLED*` copies (same mod, no `if`) merged
+   correctly in the same run -- that is how the shape was confirmed as the cause. Now: the classifier's rule, the index
+   from the same section's other parts.
+2. **Appended draws landed outside the guard.** A member block (`RegBottomAdd`) and a missing-draw fill
+   (`RegFillMissing` BottomCover) are added at the section's own depth -- which here is AFTER the outfit's `endif`, so
+   all 18 outfits drew their members every frame. Four outfits that draw nothing in their own body section (they rely on
+   `drawindexed = auto` in the whole-ib section) took the fill first, which also hid the guard from the member blocks.
+   Both now go before the guard's `endif` (`RegFillMissing::guardEndIndex`); a guard must test a VARIABLE, because a
+   collect's `if 1 ... endif` has the same shape and moving parts into it only changed output (Lumine10's `DISABLED`
+   copy, caught by the regression).
+3. **A part with an external call AND a draw got a second fix call after it.** `RegDelimitedAdd`'s per-path analysis
+   splits such a part into an entry and an exit node, and an EXTERNAL callee (TexFx) gave the exit no predecessor, so it
+   stayed "clean" and the next draw took another NNFix -- an involution. The exit now inherits its own entry's state.
+4. **A face recolour written with `ps-t` lines counted as a mesh mod**, so the face file downloaded and drew the whole
+   skin, unguarded, over every outfit. `targetsBindSomething` now skips the face object's sections, as it already
+   skipped a face `this =`.
+
+**Then the sheer parts were black, and it was TexFx being served the wrong texture.** TexFx transparency colours the
+sheer pixels in the OUTLINE pass: the request (`$use_default_shader = 0`) is served by `CustomShaderTransparencyDefault`
+drawing `drawindexed = auto` -- the whole merged ib -- out of whatever diffuse the section left BOUND. After a member
+that brings its own textures, that is the member's: Beach's ribbons and Fontaine's lace sampled the Head atlas. The
+merge now binds the object's own set again after the member blocks when the file calls TexFx (no draw, no fix call).
+Only after APPENDED members: after a CARRIED one (a `run =` of the member's own command list) what is bound is that
+list's business, and the per-path fix-call pass then also added an `ORFix` after the rebind, which changes what a
+normal-map target serves TexFx with -- CharlotteHurlock5 and CitlaliWhisper1 are that shape and stay as master writes
+them. OPEN: whether TexFx is served right after a carried member has not been looked at in game. YelanTranquil3 (an
+appended Body member in its Bang section) does take the rebind; that one is the verified shape but was not seen in game.
+How it was found, in the order that worked: a hand edit removing the TexFx line made the parts opaque (so TexFx);
+switching `T.0` to `T.1` changed nothing (so not the layout); a `txt`-only frame dump (5.5 MB) showed the request set on
+the body's outline draw and the custom shader drawing 66633 indices with `ps-t0` = the Head diffuse; one more hand edit
+rebinding the body's diffuse made them white. **For any TexFx fault on a merge, read the frame log for the
+`customshader\texfx\...` line and the bindings in force at it before touching the layout.**
+
+Two more for this pair: Lumine's two-sided dress shader textures back faces through `TEXCOORD1`, which the merge used to
+pad with zeros (the atlas corner) -- `GIMIMergeFixerConfig::texcoordPadFrom = 4` copies `TEXCOORD0` instead; and the
+skin's merged-master VertexLimitRaise sections got their `override_*` keys both at the root (unguarded) and inside the
+guard. Harmless on the maintainer's old loader, which rejects those keys (the vertex-limit raise is a GI 4.4-era fix
+and stale now, the maintainer's words), but on a newer loader 18 outfits put 18 counts on one hash. FIXED 2026-10-21 in
+BOTH multi-component templates: the overrides were a `RegNewVals` with `addNewKVPs`, which adds a key to EVERY part
+lacking it -- the bare root included. They are rewritten where the section has them and FILLED only where it has them
+nowhere (`RegFillMissing` `BottomCover`, guard-aware, the blend `draw` line's pattern), so one copy, inside the guard.
+The component template had the same duplicate on a 48-variant Yelan -> YelanTranquil master. Not the hide-original
+comment (`;RemapFixHideOrig -->`): that switches off the AUTHOR's lines; both copies here were the fix's own.
+
+**Acceptance, all reusable:** the de-namespaced control above (`unNamespace.py` + `abByHash.py`): identical but for the
+`if 1` wrapper and that VertexLimitRaise duplicate (`abNorm.py` in that session's scratchpad normalised the wrapper away);
+`Tools/Misc/Diagnostics/fixCallPaths.py` and `bareFixCalls.py` (0 and 0; the first proved to catch the double call by
+injecting it by hand); a guard check -- every binding and draw of a remap block under its file's `swapvar` guard; three
+`core/tests` (`RegBottomAdd_Guarded_test`, `RegDelimitedAdd_PerPath_test`'s case 7, `VGComponentMerge_test`'s
+`fillFrom`), each seen to FAIL against a library built from the old headers; a regression of 91 mod folders -- every
+merge-direction skin mod, every TexFx mod and every namespace-merged mod -- fixed with master and with the new build and
+compared file by file; and all 19 outfit states swept in the Dressing Room on both cards.
+
+**And restore the original before judging the remap.** Lumine12's author bound 14 outfits' textures through GIMI's
+newer API (`Resource\GIMI\... = ref`, `run = CommandList\GIMI\SetTextures`), which the maintainer's old-loader GIMI
+rejects -- those outfits drew the GAME's textures on the skin card, so every remap comparison was against a broken
+reference. The maintainer's ask: make the original work first, then remap. `GIMIApiNormalizer`'s own rule converts it
+(normal map present: `ps-t0/1/2` + ORFix, else `ps-t0/1` + NNFix), written to the files of a COPY; it also commented out
+a `vb0 = ResourceColumbinaPosition` that named no resource. And the master hid every outfit outside the regions
+`Core/GIMI/Libraries/Region.ini` recognises (`regioncheck = 0` maps to option 18, "off"); the maintainer's copy swaps by
+key (`Alt+9` / `Shift+Alt+9`) instead.
+
+**Then Lumine11 (the long-hair version, same author) came out green and red on ONE outfit -- a malformed SECTION
+HEADER, not a fix library (2026-10-20).** Its Nod Krai outfit carries an editing accident:
+
+```ini
+[Textrun = CommandList\global\ORFix\ORFix
+ureOverrideLumineSkinBangsIB]
+```
+
+3DMigoto opens a section on ANY line starting with `[` and names it up to the first `]` or the end of the line
+(`IniHandler.cpp`, `ParseIniStream`), so it reads a section called `Textrun = ...ORFix` that applies to nothing, and
+the second line is a key of that section. `IniFile` asked for a `]` on the same line too, so both lines were KEYS of
+the Body section above, which then also held the BangsIB section's hash, skip and draw: the remapped Body lost its draw
+into a section with `hash = HashNotFound`, kept bindings outside its guard, and the game drew the body with the
+downloaded normal map where NNFix reads the diffuse -- flat green with red patches, which reads exactly like a doubled
+fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` and `IniScan` follow 3DMigoto's rule now
+(`core/tests/IniFile_SectionHeader_test.cpp`, seen to fail 8 ways against the old rule). Two things that made it quick:
+`check_dangling.py` named the one outfit (two references into files the fix never wrote), and **the region-check
+master shows only the outfit for the region you stand in** -- the screenshot was in Nod-Krai, so it was that outfit,
+and after an F10 reload the region reads 0 until the game re-detects it (to see one outfit there, add its number to
+`$swap_unidentified`'s cycle for the test and put the line back). **When ONE variant of a merged mod is wrong, grep
+its `.ini` for a line starting with `[` that is not a whole header (`^\[[^]]*$`) before reading the fix.**
+**And the undo took the author's line with it, once -- fixed the same day.** A file fixed by an OLDER build carries
+that build's copy of the malformed section inside its fix block, under the same broken name, and `RemapIniRemover`
+deleted every OCCURRENCE of a name it had chosen -- so the first re-fix with the new build removed the author's copy
+too, and with backups kept it overwrote the backup. The maintainer's rule: **the undo deletes only what a fix made** --
+anything inside a fix block, and outside one only a section whose OWN name looks remapped, or a COPY of a section the
+block holds whose name contains the reserved `Remap` keyword -- an older fix's leftover, like the Integration Tester's
+`ResourceEiBlendsHerRemapBlender...` in `PartiallyFixedRaiden.ini`, which the first version of this rule kept and four
+API docs goldens caught in CI (`RemapIniRemover::isFixOutput`; it replaces the `[Constants]` / `[Present]` special
+case, which was the same bug in 2026-10-08). Nor is a file collected for deletion when the parsed section behind a name is the author's (the FIRST
+occurrence wins in `sectionIfTemplates`). `RemapIniRemover_test`'s `testAuthorSectionSharingAFixNameIsKept` fails both
+ways against the old remover. The maintainer's files were put back from a scratch copy undone with the OLD build;
+prove any such repair with an author-text comparison (everything before the fix's `; ---------------` marker against
+the original), and see that it FAILS on the damaged copy first.
+
+<br>
 
 ## LUMINE <-> LUMINEHEAVEN (2026-09-29): the seventh component pair, compiled both ways
 

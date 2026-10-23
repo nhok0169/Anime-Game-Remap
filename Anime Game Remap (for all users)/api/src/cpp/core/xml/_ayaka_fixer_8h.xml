@@ -5,6 +5,21 @@
     <includes refid="_ini_fix_builder_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includes>
     <includedby refid="_ayaka_fixer_8cpp" local="yes">src/data/IniFixData/Ayaka/AyakaFixer.cpp</includedby>
     <incdepgraph>
+      <node id="37">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="79">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="78">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="43">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="52">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="58">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -638,21 +653,6 @@
         </childnode>
         <childnode refid="60" relation="include">
         </childnode>
-      </node>
-      <node id="37">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="79">
-        <label>BaseIniFixer.tpp</label>
-      </node>
-      <node id="78">
-        <label>BaseIniParser.tpp</label>
-      </node>
-      <node id="43">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="52">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="73">
         <label>Generator.tpp</label>

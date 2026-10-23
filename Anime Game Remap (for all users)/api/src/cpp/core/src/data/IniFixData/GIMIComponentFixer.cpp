@@ -2092,7 +2092,20 @@ namespace AGRemapCore {
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {OverrideByteStride, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(files_.positionStride)))},
                             {OverrideVertexCount, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(keptVertices_)))}},
-                        /*addNewKVPs*/ true);
+                        /*addNewKVPs*/ false);
+
+                    // Rewritten where the section has them, filled in only where it has them nowhere
+                    // -- see GIMIMergeFixer's overrides_: addNewKVPs put a second, unguarded copy at
+                    // the root of a namespace-merged master's VertexLimitRaise (a 48-variant Yelan
+                    // mod, 2026-10-21).
+                    strideFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideByteStride,
+                        RegFillMissing<>::makeFillMissing(OverrideByteStride, std::to_string(files_.positionStride)),
+                        RegFillMissingMode::BottomCover);
+                    vertexCountFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideVertexCount,
+                        RegFillMissing<>::makeFillMissing(OverrideVertexCount, std::to_string(keptVertices_)),
+                        RegFillMissingMode::BottomCover);
 
                     // A cut component draws only the vertices it kept.
                     blendDraw_ = std::make_unique<RegNewVals<>>(
@@ -2112,6 +2125,8 @@ namespace AGRemapCore {
                     addFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(addFixCall_.get());
                     normalBackAdapter_ = std::make_unique<RegPartEdit<>>(normalBack_.get());
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
+                    strideFillAdapter_ = std::make_unique<GraphPartEdit<>>(strideFill_.get());
+                    vertexCountFillAdapter_ = std::make_unique<GraphPartEdit<>>(vertexCountFill_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
                     // A STATE THROUGH A DOWNLOAD IS NOT DRAWN, SO ITS IB IS `null` (2026-10-11). Beside a
@@ -2306,7 +2321,8 @@ namespace AGRemapCore {
                         }
                         iniEdits.trackKeys[TexcoordObj] = false;
 
-                        iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get(), overridesAdapter_.get()};
+                        iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get(), overridesAdapter_.get(),
+                                                    strideFillAdapter_.get(), vertexCountFillAdapter_.get()};
                         iniEdits.trackKeys[OtherObj] = false;
 
                         if (component_.face) {
@@ -2425,6 +2441,10 @@ namespace AGRemapCore {
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
+                std::unique_ptr<RegFillMissing<>> strideFill_;
+                std::unique_ptr<RegFillMissing<>> vertexCountFill_;
+                std::unique_ptr<GraphPartEdit<>> strideFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> vertexCountFillAdapter_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
                 std::unique_ptr<RegNewVals<>> nullDownloadSplits_;
                 std::unique_ptr<RegPartEdit<>> nullDownloadSplitsAdapter_;

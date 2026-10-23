@@ -5,6 +5,15 @@
     <includes refid="_g_i_m_i_section_classifier_8h" local="yes">AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="35">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="40">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="80">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -774,15 +783,6 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-      </node>
-      <node id="35">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="40">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="86">
         <label>GIMISectionClassifier.tpp</label>

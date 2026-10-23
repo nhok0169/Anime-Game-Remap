@@ -9,6 +9,21 @@
     <includes local="yes">AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.tpp</includes>
     <includedby refid="_g_i_m_i_merge_fixer_8cpp" local="yes">src/data/IniFixData/GIMIMergeFixer.cpp</includedby>
     <incdepgraph>
+      <node id="72">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.tpp</label>
+      </node>
+      <node id="31">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="71">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="37">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -552,21 +567,6 @@
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
-      </node>
-      <node id="72">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.tpp</label>
-      </node>
-      <node id="31">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="71">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="37">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="67">
         <label>Generator.tpp</label>

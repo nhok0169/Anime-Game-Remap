@@ -84,6 +84,10 @@ namespace AGRemapCore {
             // Lumine's Texcoord is 20 bytes a vertex (a second UV set); every one of the skin's components carries 12.
             // The merge pads each line at its end up to her width, and the copied section declares it.
             config.texcoordStride = 20;
+            // ...and her dress shader is two-sided, texturing every BACK face through that second UV set. Zero,
+            // it sampled the atlas corner and the inside of every skirt came out dark red-brown (Lumine12's cream
+            // and white dresses, 2026-10-20); a copy of TEXCOORD0 shows the inside the skin shows.
+            config.texcoordPadFrom = 4;
 
             // The face graph is left alone: the two skins draw DIFFERENT face meshes, and a face atlas does not carry
             // across them -- see LumineFixer. On Lumine her own face is drawn.

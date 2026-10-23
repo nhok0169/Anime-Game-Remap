@@ -13,6 +13,24 @@
     <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <includes refid="_file_service_8h" local="yes">AGRemapCore/tools/files/FileService.h</includes>
     <incdepgraph>
+      <node id="74">
+        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
+      </node>
+      <node id="29">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="73">
+        <label>BaseIniGraphEdit.tpp</label>
+      </node>
+      <node id="92">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="61">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="45">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -978,24 +996,6 @@
         </childnode>
         <childnode refid="102" relation="include">
         </childnode>
-      </node>
-      <node id="74">
-        <label>AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.tpp</label>
-      </node>
-      <node id="29">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="73">
-        <label>BaseIniGraphEdit.tpp</label>
-      </node>
-      <node id="92">
-        <label>BaseIniGraphGroupEdit.tpp</label>
-      </node>
-      <node id="35">
-        <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="61">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="69">
         <label>Generator.tpp</label>

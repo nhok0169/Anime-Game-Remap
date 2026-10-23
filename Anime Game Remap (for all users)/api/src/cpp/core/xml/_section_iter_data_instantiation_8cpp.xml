@@ -5,6 +5,12 @@
     <includes refid="_section_iter_data_8h" local="yes">AGRemapCore/model/SectionIterData.h</includes>
     <includes local="no">string</includes>
     <incdepgraph>
+      <node id="28">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="34">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
       <node id="47">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -432,12 +438,6 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="28">
-        <label>Algo.tpp</label>
-      </node>
-      <node id="34">
-        <label>BaseOrderedMultiMap.tpp</label>
       </node>
       <node id="42">
         <label>IfContentPart.tpp</label>

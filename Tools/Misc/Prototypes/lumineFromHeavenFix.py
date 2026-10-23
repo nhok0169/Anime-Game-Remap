@@ -186,6 +186,9 @@ def fixerConfig(headAlpha = None, headHairBand = None, splitHair = True) -> "FRB
     # Lumine's Texcoord is 20 bytes a vertex (a second UV set); every one of the skin's components carries 12. The
     # merge pads each line at its end up to her width, and the copied section declares it.
     config.texcoordStride = 20
+    # her dress shader is two-sided and textures BACK faces through TEXCOORD1: a copy of TEXCOORD0, not zeros
+    # (the atlas corner, which made the inside of every skirt dark red-brown) -- LumineHeavenFixer.cpp
+    config.texcoordPadFrom = 4
 
     # The face graph is left alone: see the header.
     config.faceReg = ""

@@ -2987,6 +2987,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaa6b31d53e03aa1ef898b453a8bf872c" kind="function"><name>chisaParfait3_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a8ec611eed564054a2c9f03064793325e" kind="function"><name>lynaePeppermint3_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a80e49ce4240005be9347d8b7de03eb70" kind="function"><name>lynae3_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad3f22535e6c2226420fa27bfdf00ef58" kind="function"><name>changliNymph2_4</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a23a904e42df1d250c6ab4449f3817230" kind="function"><name>changli1_4</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a06a2e72cdccb9e4e657036e98d215551" kind="function"><name>chisa2_8</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" kind="function"><name>rosaria4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a62d47ce9fcabbec4612623328d3656ac" kind="function"><name>rosariaCN4_0</name></member>
@@ -3377,6 +3379,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2588e3e99d6d57c360b69e78a4adad83" kind="function"><name>chisa2_8</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7328b988ba22c4b9e28d0d6265ad67a8" kind="function"><name>lynae3_6</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a551f9dbb6070acd33d2ff6b82906471f" kind="function"><name>lynaePeppermint3_7</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2e3a3e8d898e0d650e6d1632c9154f97" kind="function"><name>changli1_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8363d8bfd870a246ca5545b8cbe47a58" kind="function"><name>changliNymph2_4</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a91f650c56e6961895d3a45fa7ea0181f" kind="function"><name>chisaParfait3_5</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7d30d1abce22b6dc5f644d8ff225e123" kind="function"><name>yelanTranquil5_7</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8e18205ea433a4d25c6fe6c663dbe376" kind="function"><name>citlaliWhisperofStars6_7</name></member>
@@ -6783,6 +6787,8 @@
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a070107d2c55014c7f7f993220a885522" kind="function"><name>chisaParfait</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a31da644d2914a2aa573fe8cc5abc52b2" kind="function"><name>lynae</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a43c1e9e9cc3e35b247d72bf31f512faf" kind="function"><name>lynaePeppermint</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1af6fad25716485097f40c182865b6c22a" kind="function"><name>changli</name></member>
+    <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a2327edafd5c7bcc953df049dd451e9a7" kind="function"><name>changliNymph</name></member>
     <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" kind="function"><name>all</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" kind="struct"><name>AGRemapCore::WWMIFixerConfig</name>
@@ -6820,6 +6826,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a8599cd1301b993083ca14752d9af5dba" kind="variable"><name>sourceTextures</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aba0800fd4efa4fb7b4a5685016eae81a" kind="variable"><name>sharedMeshes</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1aace2b91797a0810be8047688c88b1789" kind="variable"><name>hiddenMeshes</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ac8ceb33336024339edd32f10c5f8f295" kind="variable"><name>meshCounterparts</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1ae3fb103cb7cc035ee51af13e9864eee1" kind="variable"><name>stashRegs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a62d26bafb7e13dbe52bb960ee5d03d34" kind="variable"><name>texEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1a20bc04c1e235777e39638dc4fb333d7b" kind="variable"><name>cleanTexcoords</name></member>
@@ -7102,6 +7109,8 @@
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faf43a1e165e9727c43bb91ed166a41652" kind="enumvalue"><name>ChisaParfait</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa29702222d1b962c86754a163d60aadc7" kind="enumvalue"><name>Lynae</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5b653cfd63645150f17bd9d5bee7aac0" kind="enumvalue"><name>LynaePeppermint</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa79b5eb2841be66447f211bc6f1bd347c" kind="enumvalue"><name>Changli</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2460f2d9a5fd6ddc63af261e35f2ea3e" kind="enumvalue"><name>ChangliNymph</name></member>
     <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" kind="enum"><name>RegDelimitedAddMode</name></member>
     <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ead74510f2e2306921c80274d079e2981a" kind="enumvalue"><name>PerSegment</name></member>
     <member refid="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274ea123b82aabcae3a4cf39fdc4bf4108bb2" kind="enumvalue"><name>PerPath</name></member>
@@ -7122,6 +7131,16 @@
     <member refid="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" kind="typedef"><name>OrderedMultiMapSqrtAdapter</name></member>
     <member refid="namespace_a_g_remap_core_1ae342200be5432178d9b17ba9be0979ce" kind="variable"><name>GITransition</name></member>
     <member refid="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" kind="variable"><name>WuWaTransition</name></member>
+    <member refid="namespace_a_g_remap_core_1a1531dda1a1f8168d3490fd50c9764a20" kind="function"><name>changliRenumbered11To14</name></member>
+    <member refid="namespace_a_g_remap_core_1ad9fcf520e5fa27c7698a27299372a32d" kind="function"><name>changliRenumbered12To14</name></member>
+    <member refid="namespace_a_g_remap_core_1aa81caef4daa50c44f00f030d656e2252" kind="function"><name>changliBoneCentroids</name></member>
+    <member refid="namespace_a_g_remap_core_1a975681bb87d21c2f130134045b37fdbe" kind="function"><name>changliVgMaps</name></member>
+    <member refid="namespace_a_g_remap_core_1a79ea0feb0fbf62d2b06624a5ec4dfbc7" kind="function"><name>changliToNymphShapeKeys</name></member>
+    <member refid="namespace_a_g_remap_core_1a6271ab9cbf6269a4f61a14aeefaeb6a5" kind="function"><name>changliTextureFacts</name></member>
+    <member refid="namespace_a_g_remap_core_1afde70595a402f7f8d7ae7a744de2ae76" kind="function"><name>changliTextureThumbprints</name></member>
+    <member refid="namespace_a_g_remap_core_1ad117dd906fbce3b1b8de42749e14d308" kind="function"><name>changliNymphVgMaps</name></member>
+    <member refid="namespace_a_g_remap_core_1a6dfd990d66521ff77ae245a6a0ae39a9" kind="function"><name>changliNymphTextureFacts</name></member>
+    <member refid="namespace_a_g_remap_core_1a340378ff651518da079a8e4c9b64a492" kind="function"><name>changliNymphTextureThumbprints</name></member>
     <member refid="namespace_a_g_remap_core_1af9d959b1e6776f8f06ff2455c63126f9" kind="function"><name>chisaTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1a70652c43e2725b050dc97264ae17feac" kind="function"><name>chisaTextureThumbprints</name></member>
     <member refid="namespace_a_g_remap_core_1a66ac73a4903d46330b30894074995498" kind="function"><name>chisaParfaitTextureFacts</name></member>

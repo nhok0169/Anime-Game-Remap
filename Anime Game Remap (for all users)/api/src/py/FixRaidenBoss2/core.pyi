@@ -26626,6 +26626,16 @@ class WWMIFixerConfig:
     def mergedSkeletonSlots(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
+    def meshCounterparts(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash,
+        mapped to the TARGET's mesh that plays the same part: each such section is copied into the fix's block
+        on the target's hash. **Default**: empty
+        """
+    @meshCounterparts.setter
+    def meshCounterparts(self, arg0: collections.abc.Mapping[str, str]) -> None:
+        ...
+    @property
     def mirroredComponents(self) -> set[int]:
         """
         Set[:class:`int`]: Source components drawn a second time, wound the other way with their normals

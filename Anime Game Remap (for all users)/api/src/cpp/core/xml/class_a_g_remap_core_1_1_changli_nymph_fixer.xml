@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h" line="39" column="43" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp" bodystart="211" bodyend="213"/>
+        <location file="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h" line="39" column="43" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp" bodystart="287" bodyend="289"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

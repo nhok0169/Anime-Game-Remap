@@ -65,6 +65,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_cache" prot="public">AGRemapCore::Cache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cached_file_stats" prot="public">AGRemapCore::CachedFileStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_changli_fixer" prot="public">AGRemapCore::ChangliFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_changli_nymph_fixer" prot="public">AGRemapCore::ChangliNymphFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_changli_nymph_parser" prot="public">AGRemapCore::ChangliNymphParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_changli_parser" prot="public">AGRemapCore::ChangliParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_charlotte_fixer" prot="public">AGRemapCore::CharlotteFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_charlotte_hurlock_fixer" prot="public">AGRemapCore::CharlotteHurlockFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_charlotte_hurlock_parser" prot="public">AGRemapCore::CharlotteHurlockParser</innerclass>
@@ -1382,6 +1386,29 @@ WWMI-Assets has neither her nor her skin, so her asset tables (and
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa79b5eb2841be66447f211bc6f1bd347c" prot="public">
+          <name>Changli</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Changli from WuWa (Wuthering Waves), a WWMI mod type -- see
+:cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Her mesh has three generations a mod may carry: ``77975500`` (1.1), ``5f8aac45`` (1.2, the
+same index windows with one bone fewer) and ``d14bed8b`` (1.4 on, component 3 grown by
+1020 indices)
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2460f2d9a5fd6ddc63af261e35f2ea3e" prot="public">
+          <name>ChangliNymph</name>
+          <briefdescription>
+<para>Changli&apos;s Laurel Nymph skin from WuWa (WWMI-Assets&apos; ChangliSkin1) <ndash/> see :cpp:enumerator:<computeroutput>Changli</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1391,7 +1418,7 @@ The names of the different types of mods this fix will fix from or fix to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="563"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="581"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1839,6 +1866,196 @@ in an :cpp:class:`OrderedMultiMapAdapter`
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a1531dda1a1f8168d3490fd50c9764a20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; long long, long long &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; long long, long long &gt; &amp; AGRemapCore::changliRenumbered11To14</definition>
+        <argsstring>()</argsstring>
+        <name>changliRenumbered11To14</name>
+        <qualifiedname>AGRemapCore::changliRenumbered11To14</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The merged ids of Changli&apos;s 1.1 skeleton that her later updates renumbered, as
+``{1.1 id: 1.4 id}`` -- every id not listed is the same in both. See
+:cpp:member:`WWMIFixerConfig::skeletonNumberings`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliSkeleton.cpp" line="22" column="30" bodyfile="src/data/IniFixData/Changli/ChangliSkeleton.cpp" bodystart="22" bodyend="31" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ad9fcf520e5fa27c7698a27299372a32d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; long long, long long &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; long long, long long &gt; &amp; AGRemapCore::changliRenumbered12To14</definition>
+        <argsstring>()</argsstring>
+        <name>changliRenumbered12To14</name>
+        <qualifiedname>AGRemapCore::changliRenumbered12To14</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The merged ids of her 1.2 / 1.3 skeleton that her 1.4 update renumbered, as ``{1.2 id: 1.4 id}``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliSkeleton.cpp" line="33" column="30" bodyfile="src/data/IniFixData/Changli/ChangliSkeleton.cpp" bodystart="33" bodyend="38" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h" declline="40" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aa81caef4daa50c44f00f030d656e2252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; long long, std::array&lt; double, 3 &gt; &gt; &amp; AGRemapCore::changliBoneCentroids</definition>
+        <argsstring>()</argsstring>
+        <name>changliBoneCentroids</name>
+        <qualifiedname>AGRemapCore::changliBoneCentroids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Her rest-pose bone centroids in the 1.4 numbering, off ``Data/Mod Downloads/WuWa/Changli/3_7`` --
+see :cpp:member:`WWMIFixerConfig::referenceBoneCentroids`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliSkeleton.cpp" line="40" column="30" bodyfile="src/data/IniFixData/Changli/ChangliSkeleton.cpp" bodystart="40" bodyend="114" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h" declline="49" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a975681bb87d21c2f130134045b37fdbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp;</type>
+        <definition>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp; AGRemapCore::changliVgMaps</definition>
+        <argsstring>()</argsstring>
+        <name>changliVgMaps</name>
+        <qualifiedname>AGRemapCore::changliVgMaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Each component&apos;s local bone -&gt; her current merged id, for a mod from before WWMI&apos;s merged skeleton
+-- see :cpp:member:`WWMIFixerConfig::sourceVgMaps`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliSkeleton.cpp" line="116" column="20" bodyfile="src/data/IniFixData/Changli/ChangliSkeleton.cpp" bodystart="116" bodyend="128" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h" declline="58" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a79ea0feb0fbf62d2b06624a5ec4dfbc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; long long &gt; &amp;</type>
+        <definition>const std::vector&lt; long long &gt; &amp; AGRemapCore::changliToNymphShapeKeys</definition>
+        <argsstring>()</argsstring>
+        <name>changliToNymphShapeKeys</name>
+        <qualifiedname>AGRemapCore::changliToNymphShapeKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+For each of ChangliNymph&apos;s shape-key slots, which of Changli&apos;s keys it is (``-1``: none) -- see
+:cpp:member:`WWMIFixerConfig::shapeKeyOrder`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliSkeleton.cpp" line="130" column="23" bodyfile="src/data/IniFixData/Changli/ChangliSkeleton.cpp" bodystart="130" bodyend="139" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h" declline="67" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a6271ab9cbf6269a4f61a14aeefaeb6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::changliTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>changliTextureFacts</name>
+        <qualifiedname>AGRemapCore::changliTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What Changli&apos;s own textures look like -- the hashes the game binds each under (WWMI-Assets&apos; and the
+live ones the game binds at its highest texture quality), which role each register binds per
+component, and where her game textures are downloaded from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the parser reads them to work out what a mod&apos;s files are, whichever skin
+the mod is being fixed onto
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Changli/ChangliTextures.cpp" bodystart="20" bodyend="141" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliTextures.h" declline="34" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1afde70595a402f7f8d7ae7a744de2ae76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::changliTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>changliTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::changliTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of Changli&apos;s own textures (``Data/Mod Downloads/WuWa/Changli/3_7``), by hash --
+see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/Changli/ChangliThumbprints.cpp" bodystart="26" bodyend="553" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ad117dd906fbce3b1b8de42749e14d308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp;</type>
+        <definition>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp; AGRemapCore::changliNymphVgMaps</definition>
+        <argsstring>()</argsstring>
+        <name>changliNymphVgMaps</name>
+        <qualifiedname>AGRemapCore::changliNymphVgMaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Each of ChangliNymph&apos;s components&apos; local bone -&gt; her merged id, for a mod from before WWMI&apos;s merged
+skeleton -- see :cpp:member:`WWMIFixerConfig::sourceVgMaps`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.cpp" line="20" column="20" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.cpp" bodystart="20" bodyend="58" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.h" declline="29" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a6dfd990d66521ff77ae245a6a0ae39a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
+        <definition>WWMITextureFacts AGRemapCore::changliNymphTextureFacts</definition>
+        <argsstring>()</argsstring>
+        <name>changliNymphTextureFacts</name>
+        <qualifiedname>AGRemapCore::changliNymphTextureFacts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What ChangliNymph&apos;s (Changli&apos;s Laurel Nymph skin&apos;s) own textures look like -- the hashes the game binds each under (WWMI-Assets&apos; and the
+live ones the game binds at its highest texture quality), which role each register binds per
+component, and where her game textures are downloaded from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Hers, not the remap&apos;s: the parser reads them to work out what a mod&apos;s files are, whichever skin
+the mod is being fixed onto
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="115" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a340378ff651518da079a8e4c9b64a492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp; AGRemapCore::changliNymphTextureThumbprints</definition>
+        <argsstring>()</argsstring>
+        <name>changliNymphTextureThumbprints</name>
+        <qualifiedname>AGRemapCore::changliNymphTextureThumbprints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The thumbprints of ChangliNymph&apos;s own textures (``Data/Mod Downloads/WuWa/ChangliNymph/3_7``), by hash --
+see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
+``Tools/Misc/Diagnostics/wwmiTextureThumbs.py``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.cpp" bodystart="26" bodyend="481" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af9d959b1e6776f8f06ff2455c63126f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
         <definition>WWMITextureFacts AGRemapCore::chisaTextureFacts</definition>
@@ -2780,7 +2997,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="9260" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="9260" bodyend="9264" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1404" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="9631" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="9631" bodyend="9635" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1457" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

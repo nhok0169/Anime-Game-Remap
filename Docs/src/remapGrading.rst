@@ -141,6 +141,10 @@ Grading
        | - Her side panels are modelled facing sideways, and her own idle swings the right one round to face the
        | front. Changli's idle does not, so seen from straight in front that panel is a thin line on Changli; it
        | hangs broad beside her thigh from every side.
+       |
+       | - Her blindfold is Changli's own (a separate mesh with other UVs), recoloured to the skin's white lace:
+       | the fix downloads that recoloured texture. It has no lace pattern or gold laurel, which Changli's
+       | blindfold has no room for. A mod that hides or watches her blindfold does the same to Changli's.
    * - | **Charlotte --> CharlotteHurlock**
      - | :greenBold:`4.5`
      - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of

@@ -151,6 +151,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     files = {**AssetRoles, **DumpOnlyRoles}
     facts.fallbackTextures = {role: h for h, role in files.items()
                               if role not in NoFallback and os.path.isfile(os.path.join(Downloads, f"ChangliNymphTexture{h}.dds"))}
+    # not a game texture: Changli's own blindfold diffuse in the skin's white lace (changliNymphBlindfold.py)
+    facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnChangli"}
     return facts
 
 
@@ -209,6 +211,12 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         "705575a2e1b4a4b9": ["3e22b125329523fa", "7148f95feba974ac"],
         "e04f4df80ee6b0ab": ["5fd6e5bb6ff81c53", "a54621ce48ed541b"],
     }
+
+    # ---- the blindfold: Changli draws her own, black cloth on another mesh. The skin's is white lace, so
+    # hers takes a recoloured copy of her own diffuse (the meshes' UVs differ, so the skin's cannot be bound
+    # there), and a mod's own section on the skin's blindfold acts on hers too ----
+    config.sharedMeshes = {"baaa6262": {"7f639abb370f996d": [B("ps-t1", "blindfold")]}}
+    config.meshCounterparts = {"646aa163": "baaa6262"}
 
     # ---- and every tag NAMED: the values the forward direction and the other pairs already give a
     # shader, and 3381.521 up for the vertex shaders only Changli's own draws use ----

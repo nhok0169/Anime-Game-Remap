@@ -1021,6 +1021,10 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   runs it) -- bind the register on the mesh's `vb0` section instead; and the game's diffuse is `BC7_UNORM_SRGB`,
   so a preview written as plain RGBA renders washed out -- write through `CppTextureFile`, which pre-corrects the
   gamma. The skin's lace is also semi-transparent (alpha ~150-200), so it stays grey until made opaque.
+  The REVERSE is the same two fields the other way (`646aa163 -> baaa6262`; Changli's own diffuse `b53e6c59`
+  repainted in the lace's white, folds kept, at `ps-t1` of her pass `7f639abb`). Her texture's alpha tops out at
+  127 and is not opacity, so it is left alone. No skin mod hides the blindfold, so the copy was proved on a
+  synthetic one (ChangliNymph1 plus a `handling = skip` on `646aa163`).
 * **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
   (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
   blend is read across its neighbour's bytes and the whole model draws as giant polygons.

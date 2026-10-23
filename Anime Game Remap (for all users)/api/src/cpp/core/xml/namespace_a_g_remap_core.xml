@@ -2035,7 +2035,7 @@ the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="115" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="118" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a340378ff651518da079a8e4c9b64a492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>

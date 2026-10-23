@@ -109,6 +109,9 @@ namespace AGRemapCore {
             {"sheerNormal", "46328db0"},
             {"skirtDiffuse", "ccc37f56"},
             {"skirtNormal", "8c630ed4"},
+            // not a game texture: Changli's own blindfold diffuse in the skin's white lace
+            // (Tools/Misc/Prototypes/changliNymphBlindfold.py)
+            {"blindfold", "BlindfoldOnChangli"},
         };
 
         return facts;

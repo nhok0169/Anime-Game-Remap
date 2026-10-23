@@ -154,6 +154,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.downloadPrefix = "Changli"
     files = {**AssetRoles, **DumpOnlyRoles}
     facts.fallbackTextures = {role: h for h, role in files.items() if role not in NoFallback}
+    # not a game texture: the skin's own blindfold diffuse in her black (changliNymphBlindfold.py)
+    facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnNymph"}
     return facts
 
 
@@ -277,7 +279,14 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
         "f8c96a270bf847dd": ["6a6650a9db8983ce", "e4a3da6d1d1068b9"],
         "705575a2e1b4a4b9": ["7148f95feba974ac"],
         "e04f4df80ee6b0ab": ["5fd6e5bb6ff81c53", "a54621ce48ed541b"],
+        "57661bc080f261c6": ["a434a95920c66e51"],
     }
+
+    # ---- her blindfold: the skin draws its own, white lace on another mesh. Changli's is black, so the
+    # skin's takes a recoloured copy of its own diffuse (the meshes' UVs differ, so hers cannot be bound
+    # there), and a mod's own section on her blindfold acts on the skin's too ----
+    config.sharedMeshes = {"646aa163": {"57661bc080f261c6": [B("ps-t1", "blindfold")]}}
+    config.meshCounterparts = {"baaa6262": "646aa163"}
 
     # ---- and every tag NAMED. A shader holds ONE filter_index across every loaded .ini, so the shaders
     # other pairs already tag keep their values (Sanhua's hair .91, Chisa's face .76 and outlines .73 /

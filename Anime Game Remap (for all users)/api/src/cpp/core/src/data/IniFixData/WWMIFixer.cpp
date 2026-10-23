@@ -7259,6 +7259,67 @@ namespace AGRemapCore {
                     return {std::string(IniKeywords::Run), name};
                 }
 
+                // The mod's own sections on another mesh of the source, copied onto the target's mesh
+                // that plays the same part -- see WWMIFixerConfig::meshCounterparts
+                std::string meshCounterpartSections() const {
+                    if (config_.meshCounterparts.empty()) {
+                        return "";
+                    }
+
+                    std::map<std::string, std::string> counterparts;
+                    for (const auto& [from, to] : config_.meshCounterparts) {
+                        counterparts.emplace(StringTools::toLower(from), to);
+                    }
+
+                    const std::string ownSuffix = StringTools::toLower(fixName(""));
+                    std::string out;
+                    for (const auto& [name, tpl] : ctx_.getIniFile()->getIfTemplates()) {
+                        if (tpl == nullptr || StringTools::endsWithIgnoreCase(name, ownSuffix)) {
+                            continue;
+                        }
+
+                        std::string target;
+                        for (const std::unique_ptr<IfTemplatePart>& part : tpl->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                if (!StringTools::equalsIgnoreCase(StringTools::strip(item.key), IniKeywords::Hash)) {
+                                    continue;
+                                }
+
+                                const auto found = counterparts.find(StringTools::toLower(std::string(StringTools::strip(item.value))));
+                                if (found != counterparts.end()) {
+                                    target = found->second;
+                                }
+                            }
+                        }
+
+                        if (target.empty()) {
+                            continue;
+                        }
+
+                        std::unique_ptr<IfTemplate<std::string, std::string>> copy = tpl->deepcopy();
+                        copy->name = fixName(name);
+                        copy->prefix = "; " + name + " of the mod, on " + toModName_ + "'s counterpart of that mesh";
+                        for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
+                            auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
+                            if (content != nullptr) {
+                                RegNewVals<>({{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(target)}})
+                                    .edit(*content, copy->name);
+                            }
+                        }
+
+                        copy->rebuild();
+                        // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
+                        out += renderIfTemplate(*copy) + "\n\n";
+                    }
+
+                    return out;
+                }
+
                 const std::string* sharedResourceFor(const std::string& role) const {
                     for (const auto& entry : present_) {
                         const std::string* resource = resourceFor(role, entry.first);
@@ -7927,6 +7988,8 @@ namespace AGRemapCore {
                                    .close()
                                    .str();
                     }
+
+                    out += meshCounterpartSections();
 
                     if (texcoordSection_.has_value()) {
                         out += *texcoordSection_;

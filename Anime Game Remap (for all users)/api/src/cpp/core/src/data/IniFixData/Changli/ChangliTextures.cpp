@@ -132,6 +132,9 @@ namespace AGRemapCore {
             {"coatDiffuse", "258c919f"},
             {"coatOutline", "e047ea9c"},
             {"eyeHighlight", "dd9d28ce"},
+            // not a game texture: the skin's own blindfold diffuse in her black
+            // (Tools/Misc/Prototypes/changliNymphBlindfold.py)
+            {"blindfold", "BlindfoldOnNymph"},
         };
 
         return facts;

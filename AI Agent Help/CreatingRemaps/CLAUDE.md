@@ -1010,6 +1010,17 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
 * **Prove every reload with a visible change, and give a restored buffer a NEW timestamp.** 3DMigoto kept serving an
   `Index.buf` restored with `cp -p` (the old mtime): two tests in a row read stale geometry. Collapse a small part
   (a wristband's triangles) as the proof, and `touch` every file you put back.
+* **A part the character draws as its OWN mesh is outside every remapped section -- her blindfold was.** Changli's
+  blindfold is `vb0 baaa6262` and the skin's `646aa163` (597 against 159 vertices, other UVs), so the skin showed its
+  white lace under every mod, and Changli6 / 7 / 13's `handling = skip` on `baaa6262` hid nothing. Two config fields:
+  `sharedMeshes` binds a recoloured copy of the SKIN's own diffuse (hers cannot be bound: the UVs differ;
+  `Tools/Misc/Prototypes/changliNymphBlindfold.py`, a download like any fallback), and the new `meshCounterparts`
+  copies every mod section on her mesh's hash onto the skin's (Changli8's `$cover` watcher comes too). Found by a
+  log-only overworld dump, an `ib` skip that did NOT hide it (the `ib` changes per frame) and a `vb0` skip that did.
+  Two traps: a `this =` texture override never fires on a VANILLA draw under WWMI (only a mod's `CheckTextureOverride`
+  runs it) -- bind the register on the mesh's `vb0` section instead; and the game's diffuse is `BC7_UNORM_SRGB`,
+  so a preview written as plain RGBA renders washed out -- write through `CppTextureFile`, which pre-corrects the
+  gamma. The skin's lace is also semi-transparent (alpha ~150-200), so it stays grey until made opaque.
 * **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
   (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
   blend is read across its neighbour's bytes and the whole model draws as giant polygons.

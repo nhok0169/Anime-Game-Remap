@@ -1087,6 +1087,25 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash, and the TARGET's mesh
+         that plays the same part -- ``{source mesh hash: target mesh hash}``.
+
+         Every section of the mod whose ``hash`` is a key is copied into the fix's block with the
+         hash swapped for the target's, so what the mod does to that part of the outfit -- skip it,
+         or mark when it is drawn -- happens on the target too. Changli draws her blindfold as its
+         own mesh (``baaa6262``), the Laurel Nymph skin draws hers as another (``646aa163``), and
+         several Changli mods hide the blindfold with a ``handling = skip`` section on the first
+         hash; without the copy that blindfold showed on every remap of them.
+
+         Only the hash is changed: the copy keeps the section's every other line, so a condition or
+         a variable it sets means what it meant on the source
+         @endrst
+         */
+        std::map<std::string, std::string> meshCounterparts;
+
+        /**
+         * @brief
+         @rst
          Registers to capture off the GAME's draw of a target slot nothing of the mod is drawn through
          (slot -> registers, eg. ``{4, {"ps-t5", "ps-t6"}}``), on passes that bind ``o3``. A
          :cpp:member:`Shader::lines` value ``stash <slot> <register>`` binds the capture: a game texture the

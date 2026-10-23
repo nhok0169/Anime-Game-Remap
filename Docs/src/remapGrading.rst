@@ -102,6 +102,10 @@ Grading
        | through the skin's body, lit by its body shader. The skin's skirt, which draws them with her own
        | coat's shader in the character menu, cuts them away in the overworld.
        |
+       | - Her blindfold is the skin's own (a separate mesh with other UVs), recoloured to her black with
+       | its gold laurel kept: the fix downloads that recoloured texture. A mod that hides or watches her
+       | blindfold does the same to the skin's.
+       |
        | - **Limitation:** her chest flame tattoo is not drawn on the skin. Her own outfit cuts its shape
        | out of a glow texture and draws it as a small dark mark; the skin has no such shader.
        |

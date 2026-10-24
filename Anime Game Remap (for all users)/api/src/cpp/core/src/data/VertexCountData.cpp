@@ -124,6 +124,12 @@ const std::vector<std::pair<std::vector<std::string>, int>>& getVertexCountDataR
         // single vertex count.
         {{"4.0", ModTypeIdTools::getName(ModTypeId::Lumine), ""}, 12022},
 
+        // ===== Aether (2026-10-24) =====
+        // The game's own model, counted off Data/Mod Downloads/GI/Aether/4_0's Position.buf
+        // (515840 bytes / 40). No row for AetherHeaven: a skin of several components has no
+        // single vertex count.
+        {{"4.0", ModTypeIdTools::getName(ModTypeId::Aether), ""}, 12896},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The whole mesh, every draw slot together -- Metadata.json's 'vertex_count', and what a
         // WWMI mod declares as $mesh_vertex_count.

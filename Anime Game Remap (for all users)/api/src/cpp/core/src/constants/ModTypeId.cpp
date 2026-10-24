@@ -20,6 +20,21 @@ namespace AGRemapCore {
 
     std::optional<ModTypeId> ModTypeIdTools::getEnum(int value) {
         switch (value) {
+            case static_cast<int>(ModTypeId::Aether):
+                return ModTypeId::Aether;
+
+            case static_cast<int>(ModTypeId::AetherHeaven):
+                return ModTypeId::AetherHeaven;
+
+            case static_cast<int>(ModTypeId::AetherHeavenMain):
+                return ModTypeId::AetherHeavenMain;
+
+            case static_cast<int>(ModTypeId::AetherHeavenBang):
+                return ModTypeId::AetherHeavenBang;
+
+            case static_cast<int>(ModTypeId::AetherHeavenEye):
+                return ModTypeId::AetherHeavenEye;
+
             case static_cast<int>(ModTypeId::Amber):
                 return ModTypeId::Amber;
 
@@ -297,6 +312,21 @@ namespace AGRemapCore {
 
     std::string ModTypeIdTools::getName(ModTypeId value) {
         switch (value) {
+            case ModTypeId::Aether:
+                return "Aether";
+
+            case ModTypeId::AetherHeaven:
+                return "AetherHeaven";
+
+            case ModTypeId::AetherHeavenMain:
+                return "AetherHeavenMain";
+
+            case ModTypeId::AetherHeavenBang:
+                return "AetherHeavenBang";
+
+            case ModTypeId::AetherHeavenEye:
+                return "AetherHeavenEye";
+
             case ModTypeId::Amber:
                 return "Amber";
 
@@ -619,6 +649,14 @@ namespace AGRemapCore {
         // A switch rather than a static map so that adding a ModTypeId and forgetting its targets
         // is at least visible here in one place, next to getName's own switch over the same enum.
         switch (value) {
+            // As Lumine: the targets are the skin's three COMPONENT ids, not the skin itself.
+            // AetherHeaven remaps back onto plain Aether, who is one mesh.
+            case ModTypeId::Aether:
+                return {ModTypeId::AetherHeavenMain, ModTypeId::AetherHeavenBang, ModTypeId::AetherHeavenEye};
+
+            case ModTypeId::AetherHeaven:
+                return {ModTypeId::Aether};
+
             case ModTypeId::Amber:
                 return {ModTypeId::AmberCN};
 
@@ -859,6 +897,9 @@ namespace AGRemapCore {
             case ModTypeId::NeuvilletteMelusent:
                 return {ModTypeId::NeuvilletteMelusentMain, ModTypeId::NeuvilletteMelusentCoat, ModTypeId::NeuvilletteMelusentBang, ModTypeId::NeuvilletteMelusentEye};
 
+            case ModTypeId::AetherHeaven:
+                return {ModTypeId::AetherHeavenMain, ModTypeId::AetherHeavenBang, ModTypeId::AetherHeavenEye};
+
             case ModTypeId::LumineHeaven:
                 return {ModTypeId::LumineHeavenMain, ModTypeId::LumineHeavenBang, ModTypeId::LumineHeavenEye};
 
@@ -893,6 +934,15 @@ namespace AGRemapCore {
         // overlapping names ("amber" must not match "ambercn"), and IniClassifier's own maximal
         // match already does that. See core/tests/IniClassifierPopulation_test.cpp.
         switch (value) {
+            // His mods name their sections after the asset repo's 'TravelerBoy' as often as after him
+            case ModTypeId::Aether:
+                return {"aether", "travelerboy"};
+
+            // The skin's mods in hand (AetherHeaven1-2) name their sections 'AetherSkin...' and
+            // 'AetherHeavenEarthAnew...'
+            case ModTypeId::AetherHeaven:
+                return {"aetherheaven", "aetherskin"};
+
             case ModTypeId::Amber:
                 return {"amber"};
 

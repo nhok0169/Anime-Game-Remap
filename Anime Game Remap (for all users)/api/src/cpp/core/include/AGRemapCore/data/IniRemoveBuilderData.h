@@ -59,6 +59,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The remover for the ``aether4_0`` row -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory aether4_0();
+
+            /**
+             * @brief
+             @rst
+             The remover for the ``aetherHeaven4_0`` row -- returns
+             :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
+             @endrst
+             */
+            static IniRemoveBuilder::Factory aetherHeaven4_0();
+
+            /**
+             * @brief
+             @rst
              The remover for the ``amber4_0`` row -- returns
              :cpp:func:`IniRemoveBuilder::defaultFactory`, see this class's own warning
              @endrst

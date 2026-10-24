@@ -128,11 +128,12 @@ namespace AGRemapCore {
             // epoch 1). Left out of the plan, it is dropped
         };
 
-        // ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's
-        // second pass sets ps-t1 only ----
+        // ---- a slot's OTHER passes: the outlines take a colour map at ps-t0, the eye's second pass sets
+        // ps-t1 only. The skin feeds its outline pass the DIFFUSE and darkens it; her own dedicated outline
+        // maps are ~30% darker already, so bound there they came out black around the hair (Changli9) ----
         config.extraPassRegs = {
-            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsOutline"}}}}},
-            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairOutline"}}}}},
+            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsDiffuse"}}}}},
+            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
             {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "coatOutline", 5}}}}},
             {6, {{"e04f4df80ee6b0ab", {{"ps-t1", "eyeHighlight"}}}}},
         };

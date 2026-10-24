@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/model/buffers/BufUnorm.h"
 
+#include <cmath>
 #include <memory>
 #include <utility>
 #include <variant>
@@ -44,8 +45,14 @@ namespace AGRemapCore {
     }
 
     ByteVec BufUnorm::encode(const BufValue& src) const {
-        double value = toDouble(src);
-        unsigned long long result = static_cast<unsigned long long>(value * static_cast<double>(maxValue_));
+        // Rounded to the nearest step, as D3D converts a float to UNORM. Truncating lost a value
+        // that arrives as dump TEXT: 3dmigoto prints 126/255 as 0.494117677, which times 255 is
+        // 125.99999..., so a frame dump read through VbFile::readDumpStr wrote a vertex colour
+        // of 125 where the game's buffer holds 126 (one of the 256 UNORM8 values; decode ->
+        // encode was exact either way).
+        double scaled = std::floor(toDouble(src) * static_cast<double>(maxValue_) + 0.5);
+        double maxValue = static_cast<double>(maxValue_);
+        unsigned long long result = (scaled <= 0) ? 0ULL : ((scaled >= maxValue) ? maxValue_ : static_cast<unsigned long long>(scaled));
         return BufBaseInt::encode(result);
     }
 

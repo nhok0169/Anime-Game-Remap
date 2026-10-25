@@ -1533,9 +1533,10 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // renders of every bone ('Reviewed:' in the draft's Comments) and audited for how each will MOVE ('Behaviour:').
         // His head stays on the skin's main head (4); his side locks go root onto root to the skin's Bang side locks
         // (13/14, 15/16), his ahoge to Bang:8/9, his braid link for link to the skin's braid, his eyes to its Eye. Both
-        // his back cape chains per side hang from the skin's upper torso (50) for their top two links and ride that side's
-        // back COAT chain for the rest (78-80 / 79-81) -- on the coat chain's top links, which meet at the skin's centre
-        // seam, his cape's two panels closed over the split between them (epoch 1, 2026-10-25);
+        // his back cape chains per side ride that side's back COAT chain at the inner root (74 / 75) and the last two links
+        // (78-80 / 79-81), and the skin's upper torso (50) between: every link on the coat chain closed his cape's two
+        // panels over the split between them (epoch 1), every top link on the torso opened it far wider than on his own
+        // card (epoch 2); the inner roots on the chain give his narrow slit (2026-10-25);
         // his scarf is one chain onto the front-left coat chain (58 -> 60 -> 62). Every finger is its exact counterpart.
         // The union of the rows covers each of Aether's 91 groups exactly once. PROPOSED, not confirmed in game.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
@@ -1544,7 +1545,7 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {2, 4}, {7, 113}, {8, 114}, {9, 116}, {10, 115}, {11, 50}, {14, 98}, {15, 48}, {16, 25}, {17, 56},
             {18, 3}, {19, 2}, {20, 28}, {21, 45}, {22, 49}, {23, 5}, {24, 22}, {25, 26}, {26, 62}, {27, 81},
             {28, 80}, {29, 0}, {30, 1}, {31, 23}, {32, 55}, {33, 6}, {34, 29}, {35, 50}, {36, 50}, {37, 46},
-            {38, 47}, {39, 24}, {40, 50}, {41, 50}, {42, 50}, {43, 50}, {44, 50}, {45, 50}, {46, 50}, {47, 78},
+            {38, 47}, {39, 24}, {40, 50}, {41, 50}, {42, 74}, {43, 75}, {44, 50}, {45, 50}, {46, 50}, {47, 78},
             {48, 78}, {49, 80}, {50, 50}, {51, 50}, {52, 50}, {53, 79}, {54, 79}, {55, 81}, {56, 27}, {57, 31},
             {58, 30}, {59, 36}, {60, 33}, {61, 39}, {62, 42}, {63, 43}, {64, 32}, {65, 34}, {66, 35}, {67, 37},
             {68, 38}, {69, 40}, {70, 41}, {71, 44}, {72, 8}, {73, 7}, {74, 13}, {75, 10}, {76, 16}, {77, 19},
@@ -1567,7 +1568,9 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // ===== from AetherHeaven @ 1.0 (2026-10-24) =====
         // The reverse, one row per SOURCE component (main 120 groups, Bang 17, Eye 2), from the same draft. The skin's
         // coat has no counterpart on him: its front panels ride his pelvis then his thighs, its side panels and its
-        // one-sided left back drape his OUTER cape chains, its back coat chains his INNER ones; its forelocks ride his head,
+        // one-sided left back drape his OUTER cape chains; its back coat chains -- the centre back panel -- his upper torso
+        // (11): on his INNER cape chains, which part in his idle, the panel hung off to his right (reverse epoch 1,
+        // 2026-10-25); its forelocks ride his head,
         // its side locks his; its braid his braid; cuffs his forearms, straps his clavicle, buckles and hip pieces his
         // spine and pelvis. PROPOSED, not confirmed in game.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "",
@@ -1580,8 +1583,8 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {40, 69}, {41, 70}, {42, 62}, {43, 63}, {44, 71}, {45, 21}, {46, 37}, {47, 38}, {48, 15}, {49, 22},
             {50, 11}, {51, 32}, {52, 32}, {53, 14}, {54, 14}, {55, 32}, {56, 17}, {57, 32}, {58, 14}, {59, 14},
             {60, 16}, {61, 15}, {62, 16}, {63, 15}, {64, 16}, {65, 15}, {66, 44}, {67, 50}, {68, 45}, {69, 51},
-            {70, 48}, {71, 54}, {72, 28}, {73, 27}, {74, 42}, {75, 43}, {76, 46}, {77, 52}, {78, 47}, {79, 53},
-            {80, 49}, {81, 55}, {82, 33}, {83, 34}, {84, 56}, {85, 56}, {86, 90}, {87, 30}, {88, 18}, {89, 19},
+            {70, 48}, {71, 54}, {72, 28}, {73, 27}, {74, 11}, {75, 11}, {76, 11}, {77, 11}, {78, 11}, {79, 11},
+            {80, 11}, {81, 11}, {82, 33}, {83, 34}, {84, 56}, {85, 56}, {86, 90}, {87, 30}, {88, 18}, {89, 19},
             {90, 89}, {91, 89}, {92, 31}, {93, 37}, {94, 2}, {95, 2}, {96, 23}, {97, 20}, {98, 14}, {99, 44},
             {100, 45}, {101, 45}, {102, 48}, {103, 28}, {104, 28}, {105, 33}, {106, 33}, {107, 33}, {108, 11}, {109, 39},
             {110, 38}, {111, 31}, {112, 37}, {113, 7}, {114, 8}, {115, 10}, {116, 9}, {117, 9}, {118, 10}, {119, 9}

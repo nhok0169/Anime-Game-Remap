@@ -255,12 +255,15 @@ def main():
     parser.add_argument("--noInnerOutlineAxis", action = "store_true", help = "an A/B: a triangle facing the vertical axis is NOT taken for an inner layer")
     parser.add_argument("--innerOutline", default = "body", help = "comma-separated source objects whose INNER layers lose their outline (Yaoyao's fix; empty for none)")
     parser.add_argument("--noBetweenBands", action = "store_true", help = "an A/B: leave light map bands 150-175 where they are")
+    parser.add_argument("--coolHueMargin", type = int, default = 4, help = "a texel is cool when blue >= red + this (default 4; negative takes in neutral greys / whites)")
     parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None, help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
+    global CoolHueMargin
+    CoolHueMargin = args.coolHueMargin
     global InnerOutlineAxis, CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin
     CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = args.coolGlowGainFull, args.coolGlowGainTop, args.coolGlowDarkMargin
     InnerOutlineAxis = not args.noInnerOutlineAxis

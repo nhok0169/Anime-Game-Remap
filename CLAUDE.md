@@ -240,6 +240,16 @@ chains draw as dark cords. Limits: her chest tattoo (a cut-out shader) is not dr
 glow there, the skin's sheer parts are opaque on her, and one mod's own-mesh components are open (a session card). See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHANGLI <-> CHANGLINYMPH".
 
+**AETHER <-> AETHERHEAVEN IS COMPILED BOTH WAYS (2026-10-25), LUMINE'S TWIN, AND ITS DRAPES TOOK MOST OF THE EPOCHS.**
+Four shared-code findings: a slot section that only says `handling = skip` is a hidden slot (the merge drew the skin's
+bangs on a mod hiding them); two drawn objects reading one diffuse get an edited file each (Aether9's glows went out);
+the merge template has `pushAway` now (`GIMIMergeFixerConfig::Component::pushAway`, sharing `VGPushAway::displacement`);
+and a band move can be gated by the diffuse's HUE -- his shader keeps a surface's hue in shade where the skin's
+multiplies a tinted ramp row. A cape between two wrong bones is a `splitGroups` SHARE (60 / 40), and a drape MODELLED
+splayed out needs a displacement rather than a bone: hand-edit the fixed `RemapPosition.buf` to prove it first. Judge
+drape from full-size crops in a strip across rounds, never a sheet thumbnail. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "AETHER <-> AETHERHEAVEN".
+
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
 component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);
@@ -443,7 +453,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FIFTY-SIX characters are real now (Lumine / LumineHeaven, 2026-09-29; count them with
+**FIFTY-EIGHT GI characters are real now (Aether / AetherHeaven, 2026-10-25; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -612,11 +622,11 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FIFTY-SIX CHARACTERS (verified end-to-end, and every one of them in
+**THE FIX IS LIVE FOR FIFTY-EIGHT GI CHARACTERS (verified end-to-end, and every one of them in
 game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
-has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
+has.** Real fixers and parsers exist for **Aether, AetherHeaven, Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
 Barbara, BarbaraSummertime, Bennett, BennettAdventure, Charlotte, CharlotteHurlock, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent, Lumine, LumineHeaven,
@@ -627,7 +637,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-six.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-eight.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check

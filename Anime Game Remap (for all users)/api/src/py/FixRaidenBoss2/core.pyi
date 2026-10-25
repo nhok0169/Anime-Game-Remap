@@ -8111,6 +8111,16 @@ class GIMIMergeFixerConfig:
         def positionOffsetFade(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(2)"]) -> None:
             ...
         @property
+        def pushAway(self) -> list[...]:
+            """
+            List[:class:`VGPushAway`]: Cloth of this component pushed horizontally, by its weight share on the push's SOURCE
+            groups, before it is merged --- for a part the source's own bones carry somewhere at rest that no target bone takes
+            it. Empty by default
+            """
+        @pushAway.setter
+        def pushAway(self, arg0: collections.abc.Sequence[...]) -> None:
+            ...
+        @property
         def slots(self) -> list[GIMIMergeFixerConfig.Slot]:
             """
             List[:class:`GIMIMergeFixerConfig.Slot`]: The component's draw slots

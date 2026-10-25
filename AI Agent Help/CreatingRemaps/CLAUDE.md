@@ -985,6 +985,65 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
+## AETHER <-> AETHERHEAVEN (2026-10-24/25): the Lumine pair's twin, and four shared-code findings
+
+Downloads `Aether/4_0` and `AetherHeaven/6_3` (built from Dressing Room frame dumps; the skin is not owned, so there
+is no overworld test), `Data/RemapDrafts/AetherRemapDraft.xlsx`, prototypes `aetherHeavenFix.py` /
+`aetherFromHeavenFix.py` (still the oracles; `Tools/Misc/Diagnostics/abAether.py [--reverse]` A/Bs them), synthetic
+mods `aetherSynth.py` / `aetherHeavenSynth.py`, compiled `AetherFixer` / `AetherHeavenFixer`. The shape is Lumine's
+with one object fewer (no dress). What it found, in the order it cost:
+
+1. **A slot section that only says `handling = skip` is a HIDDEN slot** (`GIMIComponentParser`, `GIMIMergeFixer`).
+   It counted as drawn, so the merge downloaded the game's index buffer for it and drew the skin's own bangs on a mod
+   that hides them (AetherHeavenSynthNoBang). Found by a synthetic mod, as most merge gaps are.
+2. **Two drawn objects reading ONE diffuse get a file each** (`GIMIComponentFixer`, via `TexReplace::modObj`). Aether9
+   draws his head and body from one atlas; the head's alpha-1 edit and the body's glow-keeping edit were written to one
+   file and every glow on his body went out. Only when objects share a diffuse, so no other output moved.
+3. **A shade is a HUE question on this pair, not a band question.** His shader keeps a surface's own hue in shade; the
+   skin's multiplies it by a tinted ramp row (warm on 126 / 255, cool on 0). A single band move fixed a blue-grey mane
+   and a lilac cape and broke a cream cape and blonde hair, so the move is gated by the diffuse: a texel bluer than red
+   by 4 moves to 0 (`MaterialBandRemapFilter`'s gate). White trousers stay a little warm -- including neutrals made
+   them more orange -- and that is a measured limitation.
+4. **A cape between two wrong answers is a weight SHARE.** On the skin's back-coat chain his cape's panels closed over
+   their split (the chain's top links meet at the skin's centre seam); on its torso they kept the gap they are MODELLED
+   with, far wider than his card once his own cape chains pull it in. `splitGroups` at 60 / 40 gives his slit; 70 / 30
+   overlapped the panels and closed a cloak's slit. Bracket in game, then interpolate.
+5. **A part MODELLED splayed out needs a displacement, not a bone.** AetherHeaven's one-sided left back drape (the
+   circle emblem, groups 99-104) rests out to his left and the skin's simulated bones swing it to the middle. On his
+   outer cape chain, his inner one, or his torso it hung off to his left -- so the merge template has `pushAway` now
+   (`GIMIMergeFixerConfig::Component::pushAway`, the component template's `VGPushAway`, one shared
+   `VGPushAway::displacement`), and the drape is pulled 9 cm in at its hem. **Try it as a hand edit of the fixed
+   `RemapPosition.buf` first**: scaling the drape's vertices by their remapped weight share took minutes and showed the
+   idea worked before any C++ was written.
+
+Three things about the in-game loop, all learned the expensive way here:
+
+- **What a part IS decides which bones to try.** Three rounds moved the skin's back-coat chains for a fault that was
+  the separate drape beside them; one look at which groups dominate the region (a 5 x 5 grid of the back by dominant
+  bone) named it.
+- **Judge a drape fix from crops at full size, never a sheet thumbnail**, and put every round's crop in one strip. A
+  "narrow slit" read off a small sheet sent the game agent a fix that was not there, and the theory invented for its
+  "no change" (a 3DMigoto cache by folder path) was disproved by the agent comparing checksums. Staging each round
+  under fresh folder names is still cheap, but it was not the cause.
+- **A restored copy of a mod on old hashes needs its hashes updated too** (Aether10 is 4.0: ib `b603af2f` -> 4.3's
+  `8ed7c5f0`, draw `609d4578` -> `e9786a5f`); `restore.py` adds the fix calls only, and a copy rebuilt without the hash
+  update renders its ORIGINAL shattered on his own card.
+
+Limitations, measured: a glowing eye painted in his body atlas shows white on the skin (its Eye shader does not colour a
+glow; the texels keep alpha 255); white cloth shades slightly warmer and cream slightly cooler than on his card; a mod
+drawing an object only through its ib section's `drawindexed = auto` loses that object on the skin. Fixing Aether3 writes
+a different number of UNREFERENCED files depending on the folder's name (the `.ini` is identical and undo removes them):
+cosmetic, cause not found.
+
+**Handed to the maintainer OPEN after forward epoch 6 / reverse epoch 4 (2026-10-25), not clean**: the cape hem a
+touch higher and its slit a touch narrower than on his card (Aether3's cloak slit nearly closed), Aether2's cloak a
+little wider; on the reverse the emblem drape about one emblem-width off, its pendant on the other knee from the front,
+and the coat's outer hem panels flaring wider (his outer cape chains; the torso made them no better). All drape that
+follows each card's own idle; none measured out of reach. A faint teal see-through edge on Aether5's elemental coat,
+seen on the skin card right after a card switch in three of six epochs, cause not found.
+
+<br>
+
 ## CHANGLI <-> CHANGLINYMPH (WuWa, compiled both ways 2026-10-20/21)
 
 Downloads `Changli/3_7` and `ChangliNymph/3_7` (with `<Name>LiveHashes.json` and `<Name>HashLineage.json`), the reviewed

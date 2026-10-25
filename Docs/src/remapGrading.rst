@@ -26,6 +26,45 @@ Grading
    * - Remap
      - Grading
      - Notes
+   * - | **Aether --> AetherHeaven**
+     - | :greenBold:`4.4`
+     - | Proposed; the grade is the maintainer's to set. Aether is ONE mesh (``head``, ``body``) and AetherHeaven is
+       | THREE components (an unnamed main mesh, ``Bang``, ``Eye``), so the mod is split per component and each
+       | part's blend weights are remapped through its own row.
+       |
+       | - The skin draws its OWN face, and a face texture cannot be moved from his face to the skin's: on the
+       | skin, a mod that repaints his face shows the skin's face instead.
+       |
+       | - His back cape hangs half from the skin's back coat chain and half from its upper torso, so it keeps
+       | his narrow centre slit; its hem can sit a little higher than on his own outfit.
+       |
+       | - A cool-coloured surface (a white or blue-grey mane, a lilac cape) keeps its cool shade; a warm one
+       | shades as on his own outfit.
+       |
+       | - **Limitation:** a glowing eye painted into his body texture (a mask's eye, say) shows white on the
+       | skin: the skin's eye shader does not colour a glow.
+       |
+       | - **Limitation:** white cloth shades a little warmer (peach-white) in shadow than on his own outfit, and
+       | cream cloth a little cooler.
+       |
+       | - **Limitation:** a mod that gives an object no section of its own, drawing it only through its index
+       | buffer's ``drawindexed = auto``, has that object missing on the skin.
+   * - | **AetherHeaven --> Aether**
+     - | :greenBold:`4.3`
+     - | Proposed; the grade is the maintainer's to set. The inverse: the skin's main mesh, ``Bang`` and ``Eye``
+       | merged onto his one mesh -- the bangs, the eyes and the hair of the main mesh onto his ``head``, the rest
+       | onto his ``body``.
+       |
+       | - His own face is drawn, for the same reason as the other way round: a mod repainting the skin's face
+       | keeps his face on him.
+       |
+       | - The coat's long emblem drape at the back rides his cape chain and is pulled in towards his middle, as
+       | the skin's own bones carry it; the coat's outer hem panels flare a little wider than on the skin.
+       |
+       | - A mod that hides the skin's bangs shows no bangs on him either.
+       |
+       | - A mod that binds a slot's textures in the game's own register order is read by the textures' names, and
+       | the missing ones are fetched from the game.
    * - | **Amber <--> AmberCN**
      - | :greenBold:`5.0`
      - |

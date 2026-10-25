@@ -36,7 +36,7 @@ Grading
        | skin, a mod that repaints his face shows the skin's face instead.
        |
        | - His back cape hangs half from the skin's back coat chain and half from its upper torso, so it keeps
-       | his narrow centre slit; its hem can sit a little higher than on his own outfit.
+       | his centre slit (a cloak's too); its hem sits a little higher than on his own outfit, its corners a touch out.
        |
        | - A cool-coloured surface (a white or blue-grey mane, a lilac cape) keeps its cool shade; a warm one
        | shades as on his own outfit.
@@ -59,7 +59,10 @@ Grading
        | keeps his face on him.
        |
        | - The coat's long emblem drape at the back rides his cape chain and is pulled in towards his middle, as
-       | the skin's own bones carry it; the coat's outer hem panels flare a little wider than on the skin.
+       | the skin's own bones carry it, its pendant where the skin's hangs; its emblem sits a little to his right.
+       |
+       | - The coat's hem flares a little wider than on the skin, front and back: its panels are modelled for the
+       | skin's own simulated bones, and his bones carry them apart.
        |
        | - A mod that hides the skin's bangs shows no bangs on him either.
        |

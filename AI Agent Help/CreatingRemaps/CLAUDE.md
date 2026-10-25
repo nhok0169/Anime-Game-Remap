@@ -1035,12 +1035,16 @@ drawing an object only through its ib section's `drawindexed = auto` loses that 
 a different number of UNREFERENCED files depending on the folder's name (the `.ini` is identical and undo removes them):
 cosmetic, cause not found.
 
-**Handed to the maintainer OPEN after forward epoch 6 / reverse epoch 4 (2026-10-25), not clean**: the cape hem a
-touch higher and its slit a touch narrower than on his card (Aether3's cloak slit nearly closed), Aether2's cloak a
-little wider; on the reverse the emblem drape about one emblem-width off, its pendant on the other knee from the front,
-and the coat's outer hem panels flaring wider (his outer cape chains; the torso made them no better). All drape that
-follows each card's own idle; none measured out of reach. A faint teal see-through edge on Aether5's elemental coat,
-seen on the skin card right after a card switch in three of six epochs, cause not found.
+**Handed to the maintainer OPEN after forward epoch 7 / reverse epoch 6 (2026-10-25), not clean.** Forward: the cape
+(50 / 50 share) opens its slit like his card, a cloak's included; its hem ends a little higher and its corners flare a
+touch -- the lowest links' own share (30%, 15%) changed nothing visible. Reverse: the emblem drape (7 cm pull) puts its
+pendant where the skin's hangs, the emblem a little to his right (ending the pull's ramp lower changed nothing); the
+coat's hem flares wider front and back. Side panels (66-73) and front panels (58-65) are pulled in 8 cm at the hem
+(`AetherHeavenFixer`); the front pull MOVED the front panels 3-7 cm in the buffer and changed nothing the game
+agent could see, so what flares is not those panels and its cause is not found. A faint teal see-through edge on
+Aether5's elemental coat, seen on the skin card right after a card switch in three of seven epochs and never on a
+re-shoot, cause not found. **Read the agent's strips, not your own single frames**: twice a pull that looked right
+in one of my shots changed nothing across the agent's timed series.
 
 <br>
 

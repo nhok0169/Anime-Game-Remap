@@ -95,7 +95,7 @@ CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = 64, 192, 12     # Lumine
 
 
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body",), carryFace = False,
-                mirrored = (), mirrorBackedReach = 0.01, coolGlow = 60, coolGlowGain = 2.2, bangSeam = True) -> "FRB.GIMIComponentFixerConfig":
+                mirrored = (), mirrorBackedReach = 0.01, coolGlow = 60, coolGlowGain = 2.2, bangSeam = True, betweenBands = True) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body"]
@@ -177,6 +177,16 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
     config.unremappedSlots = []
 
     config.lightMapEdit = None
+    if (betweenBands):
+        # A band BETWEEN his pale cloth (126-128) and the skin's gold (178-181): his shader shades 150-175 like his pale
+        # cloth and the skin's shades it from a WARM ramp row. Aether8 paints its white trousers on 163: on the skin
+        # their shaded side came out peach where his own card shades them lavender, and with 160-170 moved to 126
+        # (only that) they matched his card. Neither bands 0 / 78 / 128 / 255, the light map's R, nor the invented
+        # normal map was it (each tested alone on the same mod, 2026-10-24). His vanilla atlases hold 0.01% there.
+        Band = FRB.CppMaterialBandRemapFilter.Band
+        bands = [Band(150, 175, 126)]
+        config.lightMapEdit = lambda diffusePath: FRB.CppMaterialBandRemapFilter(bands, diffusePath)
+        config.lightMapObjs = ["head", "body"]
     if (headHairBand is not None):
         # EXPERIMENT (Lumine rejected it in game): his head atlas is all band 254-255, the skin's hair is on band 0.
         Band = FRB.CppMaterialBandRemapFilter.Band
@@ -232,6 +242,7 @@ def main():
     parser.add_argument("--noHeadAlpha", action = "store_true", help = "leave the head diffuse's alpha alone (the A/B for the edit)")
     parser.add_argument("--noInnerOutlineAxis", action = "store_true", help = "an A/B: a triangle facing the vertical axis is NOT taken for an inner layer")
     parser.add_argument("--innerOutline", default = "body", help = "comma-separated source objects whose INNER layers lose their outline (Yaoyao's fix; empty for none)")
+    parser.add_argument("--noBetweenBands", action = "store_true", help = "an A/B: leave light map bands 150-175 where they are")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
@@ -244,7 +255,7 @@ def main():
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha,
                          [o for o in args.innerOutline.split(",") if o], args.carryFace,
                          [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach,
-                         args.coolGlow, args.coolGlowGain, not args.noBangSeam)
+                         args.coolGlow, args.coolGlowGain, not args.noBangSeam, not args.noBetweenBands)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

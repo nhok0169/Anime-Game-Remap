@@ -23,6 +23,7 @@
 #include "AGRemapCore/data/IniFixData/GIMIComponentFixer.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 
 
 namespace AGRemapCore {
@@ -74,6 +75,18 @@ namespace AGRemapCore {
             const int height = texFile.getHeight();
             texFile.setPixels(std::move(pixels), width, height);
         }
+
+
+        // ---- a light map band BETWEEN his pale cloth and the skin's gold (2026-10-24) ----
+        //
+        // His shader shades a band of 150-175 like his pale cloth (126-128); the skin's shades it from a WARM ramp row.
+        // Aether8 paints its white trousers on 163, and on the skin their shaded side came out peach where his own card
+        // shades them lavender; with 160-170 moved to 126 -- that alone -- they matched his card. Neither bands 0 / 78 /
+        // 128 / 255, the light map's R channel, nor the invented normal map was it, each tested alone on that mod. His
+        // vanilla atlases hold 0.01% of their texels there, so the move barely touches his own model.
+        const std::vector<MaterialBandRemapFilter::Band> BetweenBands = {
+            {150, 175, 126},
+        };
 
 
         void alphaOne(TextureFile& texFile) {
@@ -186,7 +199,8 @@ namespace AGRemapCore {
             config.sideMeshes = {"ib_face", "ib_headupper"};
 
             config.diffuseEdits = {{"head", &alphaOne}, {"body", &clearCoolGlow}};
-            config.lightMapEdit = nullptr;
+            config.lightMapEdit = MaterialBandRemapFilter::lightMapEdit(BetweenBands);
+            config.lightMapObjs = {"head", "body"};
             config.compressTextures = false;
 
             return config;

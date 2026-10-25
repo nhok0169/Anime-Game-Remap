@@ -891,6 +891,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The parser for a 4.0-era **Aether** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body``, both on the plain layout. See
+             ``data/IniParseData/Aether/AetherParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory aether4_0();
+
+            /**
+             * @brief
+             @rst
              The parser for a 6.3-era **LumineHeaven** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
              A skin of three components -- an unnamed main mesh, a Bang and an Eye. See

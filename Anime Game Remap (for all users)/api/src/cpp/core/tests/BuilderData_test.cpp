@@ -112,7 +112,7 @@ void testTableShape() {
     // tables (63/132/51 against a real 64/135/53) because rows had been added without them. If one
     // fails, PRINT the size before believing the arithmetic in the message -- the count is the
     // measurement and the prose is the story about it.
-    check(IniParseBuilderData::repo()->size() == 77, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one, CitlaliWhisperofStars' 6.7 one, Charlotte's 4.0 one, CharlotteHurlock's 6.7 one, Neuvillette's 4.0 one, NeuvilletteMelusent's 6.3 one, Yaoyao's 4.0 one, YaoyaoBamboo's 6.3 one, Lumine's 4.0 one and LumineHeaven's 6.3 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5), and two more (Lynae at 3.6, LynaePeppermint at 3.7), and two more (Changli at 1.1, ChangliNymph at 2.4)");
+    check(IniParseBuilderData::repo()->size() == 78, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one, CitlaliWhisperofStars' 6.7 one, Charlotte's 4.0 one, CharlotteHurlock's 6.7 one, Neuvillette's 4.0 one, NeuvilletteMelusent's 6.3 one, Yaoyao's 4.0 one, YaoyaoBamboo's 6.3 one, Lumine's 4.0 one and LumineHeaven's 6.3 one, Aether's 4.0 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5), and two more (Lynae at 3.6, LynaePeppermint at 3.7), and two more (Changli at 1.1, ChangliNymph at 2.4)");
     // Counted by toVersion straight out of IniFixBuilderData.cpp on 2026-09-13: 78 historical rows
     // (the 73 Python ones fanned out per target mod, which is what replaced the pure-Python
     // MultiModFixer -- Jean/JeanCN/JeanSea carry TWO each) plus 46 at 6.1 that are this port's own,
@@ -130,8 +130,9 @@ void testTableShape() {
     // +4 on 2026-09-29: Lumine's three per-component rows at 6.3 and the LumineHeaven merge back.
     // +2 on 2026-10-05: Lynae <-> LynaePeppermint, both directions stubs (toVersion 3.7).
     // +2 on 2026-10-20: Changli <-> ChangliNymph, both directions stubs (toVersion 2.4 / 1.4).
-    check(IniFixBuilderData::repo()->size() == 156,
-          "the fix table has 156 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7, the CharlotteHurlock merge back, Neuvillette's four at 6.3, the NeuvilletteMelusent merge back, Yaoyao's three at 6.3, the YaoyaoBamboo merge back, Lumine's three at 6.3, the LumineHeaven merge back and the two Lynae stubs and the two Changli stubs");
+    // +3 on 2026-10-24: Aether's three per-component rows at 6.3.
+    check(IniFixBuilderData::repo()->size() == 159,
+          "the fix table has 159 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7, the CharlotteHurlock merge back, Neuvillette's four at 6.3, the NeuvilletteMelusent merge back, Yaoyao's three at 6.3, the YaoyaoBamboo merge back, Lumine's three at 6.3, the LumineHeaven merge back and the two Lynae stubs and the two Changli stubs and Aether's three at 6.3");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
     check(IniRemoveBuilderData::repo()->size() == 67, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, Lumine and LumineHeaven, Aether and AetherHeaven, plus the eight WuWa stubs)");

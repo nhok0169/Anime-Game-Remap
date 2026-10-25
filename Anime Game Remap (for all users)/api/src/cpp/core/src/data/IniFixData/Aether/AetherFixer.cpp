@@ -84,8 +84,30 @@ namespace AGRemapCore {
         // shades them lavender; with 160-170 moved to 126 -- that alone -- they matched his card. Neither bands 0 / 78 /
         // 128 / 255, the light map's R channel, nor the invented normal map was it, each tested alone on that mod. His
         // vanilla atlases hold 0.01% of their texels there, so the move barely touches his own model.
+        //
+        // ---- and a COOL texel on his pale cloth, between or hair band onto the skin's band 0 (2026-10-25) ----
+        //
+        // His shader keeps a surface's own hue in shade; the skin's multiplies it by a tinted ramp row -- warm on 126
+        // and 255, cool on 0. So a warm surface (his cream cape, blonde hair) shades right where it is, and a cool one
+        // went peach: Aether10's blue-grey mane on 255, a lilac cape on 126 (SynthRecolour). On 0 both matched his
+        // card, and moving the warm ones too turned Aether7's cream cape lavender and flattened his blonde hair. Cool is
+        // bluer than red by a margin, so a neutral grey or white stays put. The first band a texel matches wins, so the
+        // gated bands lead.
+        const int CoolHueMargin = 4;
+
+        bool isCool(int red, int green, int blue) {
+            (void)green;
+            return blue >= red + CoolHueMargin;
+        }
+
+        // (the band typed: a bare 0 also converts to the predicate, which picks the other constructor)
+        const std::uint8_t CoolBand = 0;
+
         const std::vector<MaterialBandRemapFilter::Band> BetweenBands = {
-            {150, 175, 126},
+            MaterialBandRemapFilter::Band(118, 135, CoolBand, &isCool),
+            MaterialBandRemapFilter::Band(150, 175, CoolBand, &isCool),
+            MaterialBandRemapFilter::Band(240, 255, CoolBand, &isCool),
+            MaterialBandRemapFilter::Band(150, 175, 126),
         };
 
 

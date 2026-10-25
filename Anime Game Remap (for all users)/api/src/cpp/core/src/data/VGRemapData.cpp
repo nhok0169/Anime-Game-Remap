@@ -1533,7 +1533,9 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // renders of every bone ('Reviewed:' in the draft's Comments) and audited for how each will MOVE ('Behaviour:').
         // His head stays on the skin's main head (4); his side locks go root onto root to the skin's Bang side locks
         // (13/14, 15/16), his ahoge to Bang:8/9, his braid link for link to the skin's braid, his eyes to its Eye. Both
-        // his back cape chains per side ride that side's back COAT chain (74-80 / 75-81), roots on the upper torso (50);
+        // his back cape chains per side hang from the skin's upper torso (50) for their top two links and ride that side's
+        // back COAT chain for the rest (78-80 / 79-81) -- on the coat chain's top links, which meet at the skin's centre
+        // seam, his cape's two panels closed over the split between them (epoch 1, 2026-10-25);
         // his scarf is one chain onto the front-left coat chain (58 -> 60 -> 62). Every finger is its exact counterpart.
         // The union of the rows covers each of Aether's 91 groups exactly once. PROPOSED, not confirmed in game.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
@@ -1542,8 +1544,8 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {2, 4}, {7, 113}, {8, 114}, {9, 116}, {10, 115}, {11, 50}, {14, 98}, {15, 48}, {16, 25}, {17, 56},
             {18, 3}, {19, 2}, {20, 28}, {21, 45}, {22, 49}, {23, 5}, {24, 22}, {25, 26}, {26, 62}, {27, 81},
             {28, 80}, {29, 0}, {30, 1}, {31, 23}, {32, 55}, {33, 6}, {34, 29}, {35, 50}, {36, 50}, {37, 46},
-            {38, 47}, {39, 24}, {40, 50}, {41, 50}, {42, 74}, {43, 75}, {44, 74}, {45, 76}, {46, 76}, {47, 78},
-            {48, 78}, {49, 80}, {50, 75}, {51, 77}, {52, 77}, {53, 79}, {54, 79}, {55, 81}, {56, 27}, {57, 31},
+            {38, 47}, {39, 24}, {40, 50}, {41, 50}, {42, 50}, {43, 50}, {44, 50}, {45, 50}, {46, 50}, {47, 78},
+            {48, 78}, {49, 80}, {50, 50}, {51, 50}, {52, 50}, {53, 79}, {54, 79}, {55, 81}, {56, 27}, {57, 31},
             {58, 30}, {59, 36}, {60, 33}, {61, 39}, {62, 42}, {63, 43}, {64, 32}, {65, 34}, {66, 35}, {67, 37},
             {68, 38}, {69, 40}, {70, 41}, {71, 44}, {72, 8}, {73, 7}, {74, 13}, {75, 10}, {76, 16}, {77, 19},
             {78, 20}, {79, 9}, {80, 11}, {81, 12}, {82, 14}, {83, 15}, {84, 17}, {85, 18}, {86, 21}, {87, 60},

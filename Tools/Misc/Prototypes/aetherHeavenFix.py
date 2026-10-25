@@ -65,6 +65,9 @@ if (hasattr(os, "add_dll_directory")):
 
 import FixRaidenBoss2 as FRB     # noqa: E402
 
+# a light map texel counts as COOL when its diffuse is this much bluer than red -- see fixerConfig's coolBands
+CoolHueMargin = 4
+
 SrcName = "Aether"
 Skin = "AetherHeaven"
 
@@ -95,7 +98,7 @@ CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = 64, 192, 12     # Lumine
 
 
 def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body",), carryFace = False,
-                mirrored = (), mirrorBackedReach = 0.01, coolGlow = 60, coolGlowGain = 2.2, bangSeam = True, betweenBands = True) -> "FRB.GIMIComponentFixerConfig":
+                mirrored = (), mirrorBackedReach = 0.01, coolGlow = 60, coolGlowGain = 2.2, bangSeam = True, betweenBands = True, coolBands = True) -> "FRB.GIMIComponentFixerConfig":
     config = FRB.GIMIComponentFixerConfig()
     config.targetSkin = Skin
     config.drawnObjs = ["head", "body"]
@@ -185,6 +188,15 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
         # normal map was it (each tested alone on the same mod, 2026-10-24). His vanilla atlases hold 0.01% there.
         Band = FRB.CppMaterialBandRemapFilter.Band
         bands = [Band(150, 175, 126)]
+        if (coolBands):
+            # A COOL texel on his pale cloth, between or hair band onto the skin's band 0 (2026-10-25). His shader keeps
+            # a surface's own hue in shade; the skin's multiplies it by a tinted ramp row -- warm on 126 and 255, cool
+            # on 0. So a warm surface (his cream cape, blonde hair) shades right where it is, and a cool one went peach:
+            # Aether10's blue-grey mane on 255, a lilac cape on 126 (SynthRecolour). On 0 both matched his card, and
+            # moving the warm ones too turned his cream cape lavender (Aether7) and flattened his blonde hair. Cool is
+            # bluer than red by a margin, so a neutral grey or white stays put. First match wins: the gated bands lead.
+            cool = lambda red, green, blue: blue >= red + CoolHueMargin
+            bands = [Band(118, 135, 0, cool), Band(150, 175, 0, cool), Band(240, 255, 0, cool)] + bands
         config.lightMapEdit = lambda diffusePath: FRB.CppMaterialBandRemapFilter(bands, diffusePath)
         config.lightMapObjs = ["head", "body"]
     if (headHairBand is not None):
@@ -243,6 +255,7 @@ def main():
     parser.add_argument("--noInnerOutlineAxis", action = "store_true", help = "an A/B: a triangle facing the vertical axis is NOT taken for an inner layer")
     parser.add_argument("--innerOutline", default = "body", help = "comma-separated source objects whose INNER layers lose their outline (Yaoyao's fix; empty for none)")
     parser.add_argument("--noBetweenBands", action = "store_true", help = "an A/B: leave light map bands 150-175 where they are")
+    parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
@@ -255,7 +268,7 @@ def main():
     config = fixerConfig(None if args.headHairBand < 0 else args.headHairBand, not args.noHeadAlpha,
                          [o for o in args.innerOutline.split(",") if o], args.carryFace,
                          [o for o in args.mirror.split(",") if o and o != "none"], args.mirrorBackedReach,
-                         args.coolGlow, args.coolGlowGain, not args.noBangSeam, not args.noBetweenBands)
+                         args.coolGlow, args.coolGlowGain, not args.noBangSeam, not args.noBetweenBands, not args.noCoolBands)
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMICharParser(parserConfig()))
     for component in config.components:

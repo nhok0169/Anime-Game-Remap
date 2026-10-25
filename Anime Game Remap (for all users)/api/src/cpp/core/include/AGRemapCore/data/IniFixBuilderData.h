@@ -1529,6 +1529,19 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory lumineHeavenToLumine6_3();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **AetherHeaven onto Aether** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A merge of a skin of several components onto a target of one, and the inverse of
+             :cpp:func:`aetherHeavenMain6_3` and its siblings. See
+             ``data/IniFixData/AetherHeaven/AetherHeavenFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory aetherHeavenToAether6_3();
+
     };
 
     /**

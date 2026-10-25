@@ -225,6 +225,12 @@ namespace AGRemapCore {
                 // where the skin's assets are.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven)},
                  IniParseBuilderFuncs::lumineHeaven6_3()},
+
+                // ===== AetherHeaven (2026-10-24) =====
+                // Built by makeGIMIComponentParser, the reverse of the three Aether rows. At 6.3, where the skin's
+                // assets are.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven)},
+                 IniParseBuilderFuncs::aetherHeaven6_3()},
             };
         }
     }

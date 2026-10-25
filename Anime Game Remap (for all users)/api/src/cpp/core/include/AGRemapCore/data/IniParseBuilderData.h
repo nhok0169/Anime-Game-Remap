@@ -910,6 +910,17 @@ namespace AGRemapCore {
              */
             static IniParseBuilder::Factory lumineHeaven6_3();
 
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **AetherHeaven** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+             ``data/IniParseData/AetherHeaven/AetherHeavenParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory aetherHeaven6_3();
+
     };
 
     /**

@@ -7,7 +7,9 @@
 # (Lumine point 9), so the binaries are compared as a multiset of md5s and the .ini files by their text with those
 # suffixes normalised. Each side runs in its own process, so neither sees the other's overrides.
 #
-#   py -3 abAether.py <work folder> <mod folder> [<mod folder> ...] [--download disabled]
+#   py -3 abAether.py <work folder> <mod folder> [<mod folder> ...] [--download disabled] [--reverse]
+#
+# --reverse A/Bs the compiled AetherHeaven -> Aether fix against aetherFromHeavenFix.py instead.
 #
 # Prints SAME / DIFF per mod and exits 1 on any DIFF; a DIFF keeps both copies to read.
 #
@@ -22,6 +24,7 @@ import sys
 Here = os.path.dirname(os.path.abspath(__file__))
 Repo = os.environ.get("AG_REMAP_REPO") or os.path.abspath(os.path.join(Here, "..", "..", ".."))
 Prototype = os.path.join(Repo, "Tools", "Misc", "Prototypes", "aetherHeavenFix.py")
+ReversePrototype = os.path.join(Repo, "Tools", "Misc", "Prototypes", "aetherFromHeavenFix.py")
 
 Compiled = r'''
 import os, sys
@@ -61,7 +64,9 @@ def main():
     parser.add_argument("mods", nargs = "+")
     parser.add_argument("--download", default = "default")
     parser.add_argument("--protoArg", action = "append", default = [], help = "an extra prototype flag (eg. --noHeadAlpha) -- to prove the A/B can FAIL")
+    parser.add_argument("--reverse", action = "store_true", help = "AetherHeaven -> Aether: A/B against aetherFromHeavenFix.py instead")
     args = parser.parse_args()
+    prototype = ReversePrototype if args.reverse else Prototype
     env = {**os.environ, "AG_REMAP_REPO": Repo, "PYTHONIOENCODING": "utf-8"}
     bad = 0
     for mod in args.mods:
@@ -70,7 +75,7 @@ def main():
         for d in (a, b):
             shutil.rmtree(d, ignore_errors = True)
             shutil.copytree(mod, d)
-        protoArgs = [sys.executable, Prototype, a] + ([] if args.download == "default" else ["--download", args.download]) + args.protoArg
+        protoArgs = [sys.executable, prototype, a] + ([] if args.download == "default" else ["--download", args.download]) + args.protoArg
         ra = subprocess.run(protoArgs, capture_output = True, text = True, env = env, encoding = "utf-8", errors = "replace")
         rb = subprocess.run([sys.executable, "-c", Compiled, Repo, b, args.download], capture_output = True, text = True, env = env, encoding = "utf-8", errors = "replace")
         fa, fb = tree(a), tree(b)

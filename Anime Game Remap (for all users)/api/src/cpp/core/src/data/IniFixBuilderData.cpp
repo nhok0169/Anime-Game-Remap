@@ -491,6 +491,12 @@ namespace AGRemapCore {
                   "6.3", ModTypeIdTools::getName(ModTypeId::Lumine)},
                  IniFixBuilderFuncs::lumineHeavenToLumine6_3()},
 
+                // ===== AetherHeaven @ toVersion 6.3 (2026-10-24) =====
+                // The merge back: ONE row, the skin's components folded onto Aether's one mesh.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::Aether)},
+                 IniFixBuilderFuncs::aetherHeavenToAether6_3()},
+
                 // ===== Keqing @ toVersion 6.1 =====
                 //
                 // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)

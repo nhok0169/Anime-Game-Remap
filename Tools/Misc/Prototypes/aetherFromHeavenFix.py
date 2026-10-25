@@ -85,6 +85,12 @@ DrapePull = 0.07
 # how far the coat's side panels are pulled in at the hem -- see fixerConfig; 0 off
 SidePull = 0.08
 
+# the height the drape's pull fades to nothing at -- see fixerConfig
+DrapeFadeTop = 1.15
+
+# how far the coat's front panels are pulled in at the hem -- see fixerConfig; 0 off
+FrontPull = 0.08
+
 SplitSlots = [("Head#hair", "Head", [(0, 40)], "head")]
 
 
@@ -158,18 +164,23 @@ def fixerConfig(headAlpha = None, headHairBand = None, bodyBand = None, splitHai
             push.side = -1
             push.from_ = [-3.0, 0.0, -0.15]
             push.distance = DrapePull
-            push.fade = [0.4, 1.15]
+            push.fade = [0.4, DrapeFadeTop]
             component.pushAway = [push]
         if (name == "" and SidePull > 0):
             # ...and the coat's side panels (66 / 68 / 70 / 72 on his left, 67 / 69 / 71 / 73 on his right) 8 cm in at the hem:
             # on his outer cape chains they flared wider than on the skin (reverse epochs 1-4); 4 cm still flared.
             pushes = list(component.pushAway)
-            for groups, side in (([66, 68, 70, 72], -1), ([67, 69, 71, 73], 1)):
+            panels = [([66, 68, 70, 72], -1, SidePull), ([67, 69, 71, 73], 1, SidePull)]
+            if (FrontPull > 0):
+                # ...and its front panels (58 / 60 / 62 / 64 his left, 59 / 61 / 63 / 65 his right) 8 cm, on his pelvis and
+                # thighs, which part in his idle: the coat's front flared wide where the skin's hangs straight (epoch 5)
+                panels += [([58, 60, 62, 64], -1, FrontPull), ([59, 61, 63, 65], 1, FrontPull)]
+            for groups, side, distance in panels:
                 sidePush = FRB.VGPushAway()
                 sidePush.groups = groups
                 sidePush.side = side
                 sidePush.from_ = [3.0 * side, 0.0, 0.0]
-                sidePush.distance = SidePull
+                sidePush.distance = distance
                 sidePush.fade = [0.4, 1.0]
                 pushes.append(sidePush)
             component.pushAway = pushes
@@ -245,13 +256,17 @@ def main():
     parser.add_argument("--noSplitHair", action = "store_true", help = "an A/B: keep the main Head slot whole (on --headTo)")
     parser.add_argument("--drapePull", type = float, default = 0.07, help = "how far the skin's left back drape is pulled in at its hem (default 0.07, with --sidePull 0.08; 0 off)")
     parser.add_argument("--sidePull", type = float, default = 0.08, help = "how far the coat's side panels are pulled in at the hem (default 0.08; 0 off)")
+    parser.add_argument("--drapeFadeTop", type = float, default = 1.15, help = "the height the drape's pull fades to nothing at (default 1.15)")
+    parser.add_argument("--frontPull", type = float, default = 0.08, help = "how far the coat's front panels are pulled in at the hem (default 0.08; 0 off)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
     Slots[0] = Slots[0][:4] + (args.headTo,) + Slots[0][5:]
-    global DrapePull, SidePull
+    global DrapePull, SidePull, DrapeFadeTop, FrontPull
+    FrontPull = args.frontPull
+    DrapeFadeTop = args.drapeFadeTop
     DrapePull = args.drapePull
     SidePull = args.sidePull
 

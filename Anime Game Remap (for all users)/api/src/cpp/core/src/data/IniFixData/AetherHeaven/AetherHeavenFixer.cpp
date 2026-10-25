@@ -65,9 +65,11 @@ namespace AGRemapCore {
             main.pushAway = {drapePull};
 
             // ...and the coat's side panels (66 / 68 / 70 / 72 on his left, 67 / 69 / 71 / 73 on his right) 8 cm in at the
-            // hem: on his outer cape chains they flared wider than on the skin (reverse epochs 1-4); 4 cm still flared.
+            // hem: on his outer cape chains they flared wider than on the skin (reverse epochs 1-4); 4 cm still flared. Its
+            // front panels (58 / 60 / 62 / 64, 59 / 61 / 63 / 65) as well: on his pelvis and thighs, which part in his idle,
+            // the coat's front flared wide where the skin's hangs straight (reverse epoch 5).
             for (const auto& [groups, side] : std::vector<std::pair<std::vector<long long>, int>>{
-                     {{66, 68, 70, 72}, -1}, {{67, 69, 71, 73}, 1}}) {
+                     {{66, 68, 70, 72}, -1}, {{67, 69, 71, 73}, 1}, {{58, 60, 62, 64}, -1}, {{59, 61, 63, 65}, 1}}) {
                 VGPushAway sidePull{};
                 sidePull.groups = groups;
                 sidePull.side = side;

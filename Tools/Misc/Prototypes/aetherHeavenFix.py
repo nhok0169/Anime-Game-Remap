@@ -67,6 +67,8 @@ import FixRaidenBoss2 as FRB     # noqa: E402
 
 # the share of each back-cape link on the skin's back coat chain -- see fixerConfig; -1 for the plain row
 CapeChainShare = 0.5
+# EXPERIMENT: the lowest cape links' own share (49 / 28 / 55 / 27); -1 the same as CapeChainShare
+CapeTipShare = -1.0
 
 # a light map texel counts as COOL when its diffuse is this much bluer than red -- see fixerConfig's coolBands
 CoolHueMargin = 4
@@ -136,7 +138,9 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
     if (capeShare >= 0):
         chain = {42: 74, 44: 74, 43: 75, 50: 75, 45: 76, 46: 76, 51: 77, 52: 77,
                  47: 78, 48: 78, 53: 79, 54: 79, 49: 80, 28: 80, 55: 81, 27: 81}
-        main.splitGroups = {g: [(b, capeShare), (50, 1.0 - capeShare)] for g, b in chain.items()}
+        tips = {49, 28, 55, 27}
+        share = lambda g: CapeTipShare if (g in tips and CapeTipShare >= 0) else capeShare
+        main.splitGroups = {g: [(b, share(g)), (50, 1.0 - share(g))] for g, b in chain.items()}
 
     bang = FRB.GIMIComponentFixerConfig.Component()
     bang.name = "Bang"
@@ -271,13 +275,15 @@ def main():
     parser.add_argument("--noBetweenBands", action = "store_true", help = "an A/B: leave light map bands 150-175 where they are")
     parser.add_argument("--coolHueMargin", type = int, default = 4, help = "a texel is cool when blue >= red + this (default 4; negative takes in neutral greys / whites)")
     parser.add_argument("--capeChainShare", type = float, default = 0.5, help = "each back-cape link's share on the skin's back coat chain, the rest on its torso (default 0.5; -1 the plain vertex group row)")
+    parser.add_argument("--capeTipShare", type = float, default = -1.0, help = "an A/B: the lowest cape links' share on the coat chain (default -1, as --capeChainShare)")
     parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None, help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
-    global CoolHueMargin, CapeChainShare
+    global CoolHueMargin, CapeChainShare, CapeTipShare
+    CapeTipShare = args.capeTipShare
     CoolHueMargin = args.coolHueMargin
     CapeChainShare = args.capeChainShare
     global InnerOutlineAxis, CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin

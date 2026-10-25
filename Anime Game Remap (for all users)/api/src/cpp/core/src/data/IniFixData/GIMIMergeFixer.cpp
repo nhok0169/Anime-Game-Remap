@@ -757,6 +757,13 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
+                                    // A section that only hides its slot (GIMIComponentParseFacts::isSlotUndrawn)
+                                    // is no member: carried, it put its skip and no ib on the target object's
+                                    // draw, which then drew the GAME's index buffer at the slot's count.
+                                    if (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name)) {
+                                        continue;
+                                    }
+
                                     // The layout is read off the MOD, not assumed from the
                                     // config: a mod may bind its objects differently, and a slot
                                     // with a ps-t2 is the three-register normal-map layout.

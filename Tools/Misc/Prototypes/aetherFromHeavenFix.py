@@ -80,7 +80,10 @@ ModTypeNames = {"": "AetherHeavenMain", "Bang": "AetherHeavenBang", "Eye": "Aeth
 
 # (name, split from, bands, to): the hair of the main Head slot onto his head -- see the header
 # how far the skin's left back drape is pulled in at its hem -- see fixerConfig; 0 off
-DrapePull = 0.09
+DrapePull = 0.07
+
+# how far the coat's side panels are pulled in at the hem -- see fixerConfig; 0 off
+SidePull = 0.08
 
 SplitSlots = [("Head#hair", "Head", [(0, 40)], "head")]
 
@@ -148,8 +151,8 @@ def fixerConfig(headAlpha = None, headHairBand = None, bodyBand = None, splitHai
             # The skin's one-sided LEFT BACK DRAPE (99 -> 104, shoulder to shin, with the circle emblem) is MODELLED
             # splayed out to his left, and the skin's simulated bones swing it to the middle of its back. On his left
             # inner cape chain it hung off to his left; on his torso further still (reverse epochs 1-3, 2026-10-25). So it
-            # is pulled in, more the lower it hangs: full at its hem (y 0.4), nothing at its root (y 1.15). 0.08 and 0.11
-            # left its pendant either side of where the original's hangs.
+            # is pulled in, more the lower it hangs: full at its hem (y 0.4), nothing at its root (y 1.15). 7 cm, with the
+            # side panels pulled in too (below), put its emblem and pendant where the original's hang (2026-10-25).
             push = FRB.VGPushAway()
             push.groups = [99, 100, 101, 102, 103, 104]
             push.side = -1
@@ -157,6 +160,19 @@ def fixerConfig(headAlpha = None, headHairBand = None, bodyBand = None, splitHai
             push.distance = DrapePull
             push.fade = [0.4, 1.15]
             component.pushAway = [push]
+        if (name == "" and SidePull > 0):
+            # ...and the coat's side panels (66 / 68 / 70 / 72 on his left, 67 / 69 / 71 / 73 on his right) 8 cm in at the hem:
+            # on his outer cape chains they flared wider than on the skin (reverse epochs 1-4); 4 cm still flared.
+            pushes = list(component.pushAway)
+            for groups, side in (([66, 68, 70, 72], -1), ([67, 69, 71, 73], 1)):
+                sidePush = FRB.VGPushAway()
+                sidePush.groups = groups
+                sidePush.side = side
+                sidePush.from_ = [3.0 * side, 0.0, 0.0]
+                sidePush.distance = SidePull
+                sidePush.fade = [0.4, 1.0]
+                pushes.append(sidePush)
+            component.pushAway = pushes
 
         slots = []
         for comp, slotName, index, layout, to, indexCount, donor in Slots:
@@ -227,15 +243,17 @@ def main():
     parser.add_argument("--bodyBand", type = int, default = None, help = "an A/B: move the light maps' 170-190 onto this band")
     parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
     parser.add_argument("--noSplitHair", action = "store_true", help = "an A/B: keep the main Head slot whole (on --headTo)")
-    parser.add_argument("--drapePull", type = float, default = 0.09, help = "how far the skin's left back drape is pulled in at its hem (default 0.09: 0.08 / 0.11 left its pendant either side of the original's; 0 off)")
+    parser.add_argument("--drapePull", type = float, default = 0.07, help = "how far the skin's left back drape is pulled in at its hem (default 0.07, with --sidePull 0.08; 0 off)")
+    parser.add_argument("--sidePull", type = float, default = 0.08, help = "how far the coat's side panels are pulled in at the hem (default 0.08; 0 off)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
     Slots[0] = Slots[0][:4] + (args.headTo,) + Slots[0][5:]
-    global DrapePull
+    global DrapePull, SidePull
     DrapePull = args.drapePull
+    SidePull = args.sidePull
 
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMIComponentParser(parserConfig()))

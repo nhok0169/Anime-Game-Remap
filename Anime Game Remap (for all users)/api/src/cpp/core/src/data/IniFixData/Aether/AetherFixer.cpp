@@ -156,12 +156,13 @@ namespace AGRemapCore {
             main.texcoordStride = 12;       // AetherHeavenTexcoord.buf: 317052 / 26421
             main.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
 
-            // His back cape, link for link, SHARED between the skin's back coat chain (60%) and its upper torso (50)
+            // His back cape, link for link, SHARED between the skin's back coat chain (50%) and its upper torso (50)
             // (three in-game rounds, 2026-10-25). On the chain alone his cape's two panels closed over the split
             // between them -- its top links meet at the skin's centre seam; on the torso alone they kept the gap they
             // are MODELLED with, far wider than his own card shows once his cape chains have pulled it in.
-            // (70 / 30 overlapped the panels below the waist and closed a cloak's slit, epoch 5)
-            const double CapeChainShare = 0.6;
+            // (70 / 30 overlapped the panels below the waist, epoch 5; 60 / 40 left a cloak's slit a hairline, epoch 6;
+            // 40 / 60 opened the cape wider than his card)
+            const double CapeChainShare = 0.5;
             const std::vector<std::pair<long long, long long>> capeChain = {
                 {42, 74}, {44, 74}, {43, 75}, {50, 75}, {45, 76}, {46, 76}, {51, 77}, {52, 77},
                 {47, 78}, {48, 78}, {53, 79}, {54, 79}, {49, 80}, {28, 80}, {55, 81}, {27, 81}};

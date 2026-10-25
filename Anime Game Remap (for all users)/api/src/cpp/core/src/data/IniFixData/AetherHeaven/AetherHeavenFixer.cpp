@@ -14,6 +14,7 @@
 #include "AGRemapCore/data/IniFixData/AetherHeaven/AetherHeavenFixer.h"
 
 #include <utility>
+#include <vector>
 
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/constants/ModTypeId.h"
@@ -59,9 +60,22 @@ namespace AGRemapCore {
             drapePull.groups = {99, 100, 101, 102, 103, 104};
             drapePull.side = -1;
             drapePull.from = {-3.0f, 0.0f, -0.15f};
-            drapePull.distance = 0.09f;      // 0.08 and 0.11 left its pendant either side of the original's
+            drapePull.distance = 0.07f;      // with the side panels below, emblem and pendant where the original's hang
             drapePull.fade = {0.4f, 1.15f};
             main.pushAway = {drapePull};
+
+            // ...and the coat's side panels (66 / 68 / 70 / 72 on his left, 67 / 69 / 71 / 73 on his right) 8 cm in at the
+            // hem: on his outer cape chains they flared wider than on the skin (reverse epochs 1-4); 4 cm still flared.
+            for (const auto& [groups, side] : std::vector<std::pair<std::vector<long long>, int>>{
+                     {{66, 68, 70, 72}, -1}, {{67, 69, 71, 73}, 1}}) {
+                VGPushAway sidePull{};
+                sidePull.groups = groups;
+                sidePull.side = side;
+                sidePull.from = {3.0f * static_cast<float>(side), 0.0f, 0.0f};
+                sidePull.distance = 0.08f;
+                sidePull.fade = {0.4f, 1.0f};
+                main.pushAway.push_back(std::move(sidePull));
+            }
 
             GIMIMergeFixerConfig::Component bang{};
             bang.name = "Bang";

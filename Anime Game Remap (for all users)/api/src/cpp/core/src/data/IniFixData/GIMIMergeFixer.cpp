@@ -1868,6 +1868,13 @@ namespace AGRemapCore {
                         entry.positionPath = branches_.pick(files->positions, files->position, local);
                         entry.texcoordPath = branches_.pick(files->texcoords, files->texcoord, local);
 
+                        // A component's pushes -- see Component::pushAway.
+                        for (const GIMIMergeFixerConfig::Component& c : config_.components) {
+                            if (c.name == component) {
+                                entry.pushAway = c.pushAway;
+                            }
+                        }
+
                         // A component moved to the target's height -- see Component::positionOffset.
                         for (const GIMIMergeFixerConfig::Component& c : config_.components) {
                             if (c.name != component || c.positionOffset == std::array<float, 3>{0.0f, 0.0f, 0.0f}

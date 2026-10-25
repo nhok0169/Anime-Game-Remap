@@ -21,6 +21,7 @@
 
 #include "AGRemapCore/model/buffers/BufValue.h"
 #include "AGRemapCore/model/buffers/VGComponentMerge.h"
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 
 namespace AGRemapCore {
@@ -61,6 +62,16 @@ namespace AGRemapCore {
          @endrst
          */
         std::function<ByteVec(const ByteVec&)> positionLineEdit;
+
+        /**
+         * @brief
+         @rst
+         Pushes of this component's vertices by their weight share on the pushes' SOURCE groups, read off this
+         component's own blend and positions before :cpp:member:`positionLineEdit` -- see
+         :cpp:member:`GIMIMergeFixerConfig::Component::pushAway`. Empty by default
+         @endrst
+         */
+        std::vector<VGPushAway> pushAway;
     };
 
     /**

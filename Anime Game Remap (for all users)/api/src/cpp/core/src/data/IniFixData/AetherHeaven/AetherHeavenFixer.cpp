@@ -51,6 +51,18 @@ namespace AGRemapCore {
             main.slots.push_back(std::move(hair));
             main.vertexCount = 26421;
 
+            // The skin's one-sided LEFT BACK DRAPE (99 -> 104, shoulder to shin, with the circle emblem) is MODELLED
+            // splayed out to his left, and the skin's simulated bones swing it to the middle of its back. On his left
+            // inner cape chain it hung off to his left; on his torso further still (reverse epochs 1-3, 2026-10-25).
+            // So it is pulled in, more the lower it hangs: the whole pull at its hem (y 0.4), none at its root (1.15).
+            VGPushAway drapePull{};
+            drapePull.groups = {99, 100, 101, 102, 103, 104};
+            drapePull.side = -1;
+            drapePull.from = {-3.0f, 0.0f, -0.15f};
+            drapePull.distance = 0.09f;      // 0.08 and 0.11 left its pendant either side of the original's
+            drapePull.fade = {0.4f, 1.15f};
+            main.pushAway = {drapePull};
+
             GIMIMergeFixerConfig::Component bang{};
             bang.name = "Bang";
             bang.modTypeName = ModTypeIdTools::getName(ModTypeId::AetherHeavenBang);

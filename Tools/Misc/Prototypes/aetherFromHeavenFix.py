@@ -79,6 +79,9 @@ Components = {"": (26421, 12), "Bang": (3193, 12), "Eye": (400, 12)}
 ModTypeNames = {"": "AetherHeavenMain", "Bang": "AetherHeavenBang", "Eye": "AetherHeavenEye"}
 
 # (name, split from, bands, to): the hair of the main Head slot onto his head -- see the header
+# how far the skin's left back drape is pulled in at its hem -- see fixerConfig; 0 off
+DrapePull = 0.09
+
 SplitSlots = [("Head#hair", "Head", [(0, 40)], "head")]
 
 
@@ -141,6 +144,19 @@ def fixerConfig(headAlpha = None, headHairBand = None, bodyBand = None, splitHai
         component.name = name
         component.modTypeName = ModTypeNames[name]
         component.vertexCount = vertexCount
+        if (name == "" and DrapePull > 0):
+            # The skin's one-sided LEFT BACK DRAPE (99 -> 104, shoulder to shin, with the circle emblem) is MODELLED
+            # splayed out to his left, and the skin's simulated bones swing it to the middle of its back. On his left
+            # inner cape chain it hung off to his left; on his torso further still (reverse epochs 1-3, 2026-10-25). So it
+            # is pulled in, more the lower it hangs: full at its hem (y 0.4), nothing at its root (y 1.15). 0.08 and 0.11
+            # left its pendant either side of where the original's hangs.
+            push = FRB.VGPushAway()
+            push.groups = [99, 100, 101, 102, 103, 104]
+            push.side = -1
+            push.from_ = [-3.0, 0.0, -0.15]
+            push.distance = DrapePull
+            push.fade = [0.4, 1.15]
+            component.pushAway = [push]
 
         slots = []
         for comp, slotName, index, layout, to, indexCount, donor in Slots:
@@ -211,12 +227,15 @@ def main():
     parser.add_argument("--bodyBand", type = int, default = None, help = "an A/B: move the light maps' 170-190 onto this band")
     parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
     parser.add_argument("--noSplitHair", action = "store_true", help = "an A/B: keep the main Head slot whole (on --headTo)")
+    parser.add_argument("--drapePull", type = float, default = 0.09, help = "how far the skin's left back drape is pulled in at its hem (default 0.09: 0.08 / 0.11 left its pendant either side of the original's; 0 off)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
     Slots[0] = Slots[0][:4] + (args.headTo,) + Slots[0][5:]
+    global DrapePull
+    DrapePull = args.drapePull
 
     FRB.CppStrategyOverrides.clear()
     FRB.CppStrategyOverrides.setParser(SrcName, FRB.makeGIMIComponentParser(parserConfig()))

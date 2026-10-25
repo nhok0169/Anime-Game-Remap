@@ -82,6 +82,17 @@ namespace AGRemapCore {
          @endrst
          */
         std::array<float, 2> fade = {0.0f, 0.0f};
+
+        /**
+         * @brief
+         @rst
+         How far this push moves ONE vertex: ``{dx, 0, dz}`` for a vertex at 'pos' with the four bone weights and
+         SOURCE group indices of its blend line -- :cpp:member:`side`, :cpp:member:`fade` and the vertex's share of
+         :cpp:member:`groups` applied. ``{0, 0, 0}`` for a vertex the push does not reach
+         @endrst
+         */
+        std::array<float, 3> displacement(const float pos[3], const std::array<double, 4>& weights,
+                                          const std::array<long long, 4>& indices) const;
     };
 
     struct VGSplitGroupConfig {

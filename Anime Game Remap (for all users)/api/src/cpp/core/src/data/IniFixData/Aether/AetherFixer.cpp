@@ -156,6 +156,18 @@ namespace AGRemapCore {
             main.texcoordStride = 12;       // AetherHeavenTexcoord.buf: 317052 / 26421
             main.slotRegisters = {"ps-t0", "ps-t1", "ps-t2"};
 
+            // His back cape, link for link, SHARED between the skin's back coat chain (70%) and its upper torso (50)
+            // (three in-game rounds, 2026-10-25). On the chain alone his cape's two panels closed over the split
+            // between them -- its top links meet at the skin's centre seam; on the torso alone they kept the gap they
+            // are MODELLED with, far wider than his own card shows once his cape chains have pulled it in.
+            const double CapeChainShare = 0.7;
+            const std::vector<std::pair<long long, long long>> capeChain = {
+                {42, 74}, {44, 74}, {43, 75}, {50, 75}, {45, 76}, {46, 76}, {51, 77}, {52, 77},
+                {47, 78}, {48, 78}, {53, 79}, {54, 79}, {49, 80}, {28, 80}, {55, 81}, {27, 81}};
+            for (const auto& [group, chainBone] : capeChain) {
+                main.splitGroups[group] = {{chainBone, CapeChainShare}, {50, 1.0 - CapeChainShare}};
+            }
+
             // NO component carries the face. The skin draws its OWN face meshes (013d13f1 / 3d359360; his are
             // 3e0837e2 / 3ff23b6d) with its own face atlas -- Lumine's lesson: a face atlas does not move between two
             // face meshes, and on the skin the skin's own face with his eyes (the Eye component) is drawn.

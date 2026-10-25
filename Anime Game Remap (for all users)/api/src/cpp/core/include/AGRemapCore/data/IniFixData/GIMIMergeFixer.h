@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 
@@ -281,6 +282,19 @@ namespace AGRemapCore {
              @endrst
              */
             bool offsetOnlyWithGameFace = false;
+
+            /**
+             * @brief
+             @rst
+             Cloth of this component pushed HORIZONTALLY, by its weight share on the push's SOURCE groups, before it
+             is merged -- see :cpp:class:`VGPushAway`, and ``GIMIComponentFixerConfig::Component::pushAway`` for the
+             other direction. For a part the source's own bones carry somewhere at rest that no target bone takes it:
+             AetherHeaven's one-sided left back drape is modelled splayed out to his left and the skin's simulated
+             bones swing it to the middle of its back; on any of Aether's bones it hung off to his left.
+             **Default**: empty
+             @endrst
+             */
+            std::vector<VGPushAway> pushAway;
         };
 
         /**

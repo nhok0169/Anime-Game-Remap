@@ -238,6 +238,11 @@ List[:class:`float`]: Added to every vertex position of this component as it is 
 ``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
 Neuvillette's, and merged as it is the eyes looked down
         )doc"))
+        .def_readwrite("pushAway", &AGRC::GIMIMergeFixerConfig::Component::pushAway, py::doc(R"doc(
+List[:class:`VGPushAway`]: Cloth of this component pushed horizontally, by its weight share on the push's SOURCE
+groups, before it is merged --- for a part the source's own bones carry somewhere at rest that no target bone takes
+it. Empty by default
+        )doc"))
         .def_readwrite("positionOffsetFade", &AGRC::GIMIMergeFixerConfig::Component::positionOffsetFade, py::doc(R"doc(
 List[:class:`float`]: The ``y`` range over which :attr:`positionOffset` fades to nothing --- full at or
 below ``[0]``, none at or above ``[1]``, linear between. ``[0, 0]`` (the default) applies the whole

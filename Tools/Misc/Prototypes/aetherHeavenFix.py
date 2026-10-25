@@ -65,6 +65,9 @@ if (hasattr(os, "add_dll_directory")):
 
 import FixRaidenBoss2 as FRB     # noqa: E402
 
+# the share of each back-cape link on the skin's back coat chain -- see fixerConfig; -1 for the plain row
+CapeChainShare = 0.7
+
 # a light map texel counts as COOL when its diffuse is this much bluer than red -- see fixerConfig's coolBands
 CoolHueMargin = 4
 
@@ -123,6 +126,15 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
     main.face = carryFace            # the skin's face is drawn: see the header
     main.texcoordStride = 12         # AetherHeavenTexcoord.buf: 317052 / 26421
     main.slotRegisters = ["ps-t0", "ps-t1", "ps-t2"]
+    # His back cape, link for link, SHARED between the skin's back coat chain (CapeChainShare) and its upper torso (50)
+    # (2026-10-25, three in-game rounds). On the chain alone his cape's two panels closed over the split between them:
+    # its top links meet at the skin's centre seam. On the torso alone they kept the gap they are MODELLED with, which
+    # is far wider than his own card shows once his cape chains have pulled it in. 70 / 30 gives his narrow slit.
+    capeShare = CapeChainShare
+    if (capeShare >= 0):
+        chain = {42: 74, 44: 74, 43: 75, 50: 75, 45: 76, 46: 76, 51: 77, 52: 77,
+                 47: 78, 48: 78, 53: 79, 54: 79, 49: 80, 28: 80, 55: 81, 27: 81}
+        main.splitGroups = {g: [(b, capeShare), (50, 1.0 - capeShare)] for g, b in chain.items()}
 
     bang = FRB.GIMIComponentFixerConfig.Component()
     bang.name = "Bang"
@@ -256,14 +268,16 @@ def main():
     parser.add_argument("--innerOutline", default = "body", help = "comma-separated source objects whose INNER layers lose their outline (Yaoyao's fix; empty for none)")
     parser.add_argument("--noBetweenBands", action = "store_true", help = "an A/B: leave light map bands 150-175 where they are")
     parser.add_argument("--coolHueMargin", type = int, default = 4, help = "a texel is cool when blue >= red + this (default 4; negative takes in neutral greys / whites)")
+    parser.add_argument("--capeChainShare", type = float, default = 0.7, help = "each back-cape link's share on the skin's back coat chain, the rest on its torso (default 0.7; -1 the plain vertex group row)")
     parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None, help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
-    global CoolHueMargin
+    global CoolHueMargin, CapeChainShare
     CoolHueMargin = args.coolHueMargin
+    CapeChainShare = args.capeChainShare
     global InnerOutlineAxis, CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin
     CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = args.coolGlowGainFull, args.coolGlowGainTop, args.coolGlowDarkMargin
     InnerOutlineAxis = not args.noInnerOutlineAxis

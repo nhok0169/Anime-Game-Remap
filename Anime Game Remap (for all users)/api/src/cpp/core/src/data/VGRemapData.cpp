@@ -1567,12 +1567,11 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
 
         // ===== from AetherHeaven @ 1.0 (2026-10-24) =====
         // The reverse, one row per SOURCE component (main 120 groups, Bang 17, Eye 2), from the same draft. The skin's
-        // coat has no counterpart on him: its front panels ride his pelvis then his thighs, its side panels and its
-        // one-sided left back drape his OUTER cape chains; its back coat chains -- the centre back panel -- his upper torso
-        // (11): on his INNER cape chains, which part in his idle, the panel hung off to his right (reverse epoch 1,
-        // 2026-10-25); its forelocks ride his head,
-        // its side locks his; its braid his braid; cuffs his forearms, straps his clavicle, buckles and hip pieces his
-        // spine and pelvis. PROPOSED, not confirmed in game.
+        // coat has no counterpart on him: its front panels ride his pelvis then his thighs, its side panels his OUTER
+        // cape chains; its back coat chains his upper torso (11); its one-sided left back drape (the circle emblem) his
+        // LEFT INNER cape chain, pulled in towards his middle (see AetherHeavenFixer) -- on his outer chain it swung off
+        // to his left (reverse epochs 1-3, 2026-10-25); its forelocks ride his head, its side locks his; its braid his
+        // braid; cuffs his forearms, straps his clavicle, buckles and hip pieces his spine and pelvis. Checked in game.
         {{"1.0", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "",
           "6.3", ModTypeIdTools::getName(ModTypeId::Aether), ""},
          VGRemap({
@@ -1585,8 +1584,8 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {60, 16}, {61, 15}, {62, 16}, {63, 15}, {64, 16}, {65, 15}, {66, 44}, {67, 50}, {68, 45}, {69, 51},
             {70, 48}, {71, 54}, {72, 28}, {73, 27}, {74, 11}, {75, 11}, {76, 11}, {77, 11}, {78, 11}, {79, 11},
             {80, 11}, {81, 11}, {82, 33}, {83, 34}, {84, 56}, {85, 56}, {86, 90}, {87, 30}, {88, 18}, {89, 19},
-            {90, 89}, {91, 89}, {92, 31}, {93, 37}, {94, 2}, {95, 2}, {96, 23}, {97, 20}, {98, 14}, {99, 44},
-            {100, 45}, {101, 45}, {102, 48}, {103, 28}, {104, 28}, {105, 33}, {106, 33}, {107, 33}, {108, 11}, {109, 39},
+            {90, 89}, {91, 89}, {92, 31}, {93, 37}, {94, 2}, {95, 2}, {96, 23}, {97, 20}, {98, 14}, {99, 42},
+            {100, 46}, {101, 46}, {102, 47}, {103, 49}, {104, 49}, {105, 33}, {106, 33}, {107, 33}, {108, 11}, {109, 39},
             {110, 38}, {111, 31}, {112, 37}, {113, 7}, {114, 8}, {115, 10}, {116, 9}, {117, 9}, {118, 10}, {119, 9}
          })},
 

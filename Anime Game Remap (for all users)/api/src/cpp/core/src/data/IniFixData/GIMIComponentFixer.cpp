@@ -1191,6 +1191,20 @@ namespace AGRemapCore {
                     return nullptr;
                 }
 
+                // Whether another drawn object reads the same diffuse file as 'name'
+                bool sharesDiffuse(const std::string& name, const std::string& diffuse) const {
+                    if (diffuse.empty()) {
+                        return false;
+                    }
+                    for (const std::string& other : drawn_) {
+                        const ModObjectFiles* otherFiles = (other == name) ? nullptr : objectFiles(other);
+                        if (otherFiles != nullptr && StringTools::equalsIgnoreCase(otherFiles->diffuse, diffuse)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
                 GraphId slotGraph(std::size_t group) const {
                     return GraphId(group, "", component_.slot);
                 }
@@ -1260,6 +1274,15 @@ namespace AGRemapCore {
                                 GraphId(group, "", component_.slot + "RemapTexDiffuse"),
                                 TexEditor({entry.second}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
+
+                            // TWO OBJECTS ON ONE DIFFUSE (2026-10-24): Aether9 draws his head and body from
+                            // one atlas, and the head's edit (alpha 1 all over) and the body's (glows kept)
+                            // were written to ONE file -- the head's won, and every glow on his body went
+                            // out. The file is named per object then (TexReplace::modObj); only then, so a
+                            // mod whose objects read their own textures keeps the names it always had.
+                            if (files != nullptr && sharesDiffuse(name, files->diffuse)) {
+                                replace->modObj = name;
+                            }
 
                             auto collect = std::make_unique<Collector>();
                             collect->srcRegs = {{slot, diffuseReg}};

@@ -2085,6 +2085,52 @@ drew that mod as a floating face, on `master` too -- the merged buffers are neve
 names them (4 dangling references; open). Before calling a moved folder a user-visible change, re-fix it with
 `--download normal`; before calling a bug a regression, reproduce it with the `master` build in the same mode.
 
+**123. THE CHECKOUT AND GIT'S STASH ARE SHARED: NEVER STASH, `checkout --`, `clean` OR `reset` THE
+WHOLE TREE (2026-10-26).** The maintainer's main checkout is worked on by several agent sessions at
+once, and the stash is per REPOSITORY -- one stack, shared by every session and every worktree. Two
+incidents on a single small task, both silent until someone re-read a file:
+1. A bare `git stash`, run to get a "before" snapshot of ONE file, swept up about 20 files of other
+   agents' uncommitted work (a whole deprecated-fixer chain and its tests, deleted in their tree) and
+   the run ended with it still stashed. The tree looked reverted and nothing reported it; what gave it
+   away was re-grepping a file known to have been edited. `git stash pop stash@{0}` restored it exactly.
+2. A path-scoped `git stash push --keep-index -- <file>` followed by `git stash pop` applied an
+   unrelated, months-old stash (`add-lisa`) and conflicted `LICENSE`: a pop takes the TOP of a stack
+   other sessions also push to, so "my stash" is not necessarily what comes back.
+Nothing was lost either time, and that was luck plus re-checking, not safety. So: to see what a file
+was, `git show HEAD:<path>` into a scratch file; to tell whether a failure is yours, grep the failing
+test for the names you touched (Testing). If you truly must stash, push only your exact paths, run
+`git stash list` before AND after, pop in the same tool call, and never leave one across a turn. Leave
+every entry that is not yours alone -- there has been an `add-lisa` entry for a long time; do not pop or
+drop it. The same goes for `git checkout -- <dir>`, `git clean` and `git reset`: they destroy other
+sessions' uncommitted work, so name the exact files you wrote (this session used `checkout --` only on
+four XML files its own splice had just written). Testing's older "stash to get a clean baseline" recipe
+is qualified for exactly this reason.
+
+**124. A BACKGROUND SUB-AGENT THAT CAN RUN BUILDS AND GIT IS NOT THE READ-ONLY AUDITOR OF HABIT 113
+(2026-10-26).** Delegating "update `api.rst`, regenerate `core.pyi`, verify the docs" to a background
+general-purpose agent produced: the unrequested `git stash` of habit 123 (it wanted a before/after
+warning count); a "completed" notification that arrived while the build it had started was still
+running as an orphaned `cmake`/`ninja`/`link` chain (the agent flipped between completed and running
+for most of an hour, each "completed" meaning only "my turn ended"); an edit outside its brief
+(`__init__.py` imports -- correct, but only visible by reading the diff); and a summary that mixed what
+it had verified with what it had assumed. Build and git-state work is a handful of commands once you
+have the recipe (Documentation's "Refreshing the committed artifacts"), so do it yourself. If you do
+delegate: put the prohibitions in the prompt (no `git stash`/`checkout`/`reset`/`clean`, no starting a
+build, no edits outside the named files -- report a diff instead), and afterwards re-check the world
+yourself rather than relay the report: `git status`, `git stash list`, the file it says it changed, and
+`Get-Process` for `cmake|ninja|link|cl|doxygen|python`. Never start a second build against the same
+`cbuild/` while one is alive (Building's hygiene rule 1).
+
+**125. SEARCH FROM THE SUBTREE, NOT FROM `core` OR THE CPP ROOT (2026-10-26).** A `Grep` or `Glob` rooted at
+`api/src/cpp` or `api/src/cpp/core` hits the tool's 20-second limit and returns an ERROR with no partial
+results -- which is easy to misread as "no matches". `core/xml` is 67 MB in 1784 generated files, against
+about 11 MB for `core/include`, `core/src` and `core/tests` together; `py/src` and each of those three are
+instant (found by elimination: `core` times out, `py` does not, the three source dirs do not -- the
+cause was not isolated further). Search the source directories you mean, several calls in one message,
+and treat a timeout as an error. The same instinct applies to this guide set itself: it is about 28,000
+lines of dated narrative, so `Grep` it for your symbol names (count mode over `AI Agent Help/`, then
+`-C 3` on the hits) and read the whole section of each hit, rather than reading top to bottom.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

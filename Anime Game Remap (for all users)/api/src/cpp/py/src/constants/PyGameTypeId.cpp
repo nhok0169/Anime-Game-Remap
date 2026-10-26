@@ -30,7 +30,8 @@ void initCppGameTypeId(pybind11::module_ &m) {
 The names of the different supported games
     )doc")
         .value("GI", AGRC::GameTypeId::GI, R"doc(Genshin Impact)doc")
-        .value("WuWa", AGRC::GameTypeId::WuWa, R"doc(Wuthering Waves)doc");
+        .value("WuWa", AGRC::GameTypeId::WuWa, R"doc(Wuthering Waves)doc")
+        .value("ZZZ", AGRC::GameTypeId::ZZZ, R"doc(Zenless Zone Zero)doc");
 
     // Also bare-named -- no pure-Python 'GameTypeIdTools' class exists to shadow either.
     py::class_<AGRC::GameTypeIdTools>(m, "GameTypeIdTools", R"doc(

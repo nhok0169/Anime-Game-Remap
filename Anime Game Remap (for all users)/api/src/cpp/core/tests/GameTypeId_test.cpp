@@ -85,14 +85,20 @@ void checkFinds(const std::string& txt, GameTypeId expected, const std::string& 
 void testGetAllIsEveryGameInDeclarationOrder() {
     const std::vector<GameTypeId>& all = GameTypeIdTools::getAll();
 
-    check(all.size() == 2, "getAll: both of the declared games are listed");
-    check(all.size() == 2 && all[0] == GameTypeId::GI && all[1] == GameTypeId::WuWa,
+    check(all.size() == 3, "getAll: every one of the declared games is listed");
+    check(all.size() == 3 && all[0] == GameTypeId::GI && all[1] == GameTypeId::WuWa && all[2] == GameTypeId::ZZZ,
           "getAll: in GameTypeId's own declaration order, not a hash order");
+
+    // GI and WuWa are filed by int value in the classifier's "game:<value>" DFA edges, so a new game
+    // is appended: inserting one earlier would silently renumber the others.
+    check(static_cast<int>(GameTypeId::GI) == 0 && static_cast<int>(GameTypeId::WuWa) == 1 && static_cast<int>(GameTypeId::ZZZ) == 2,
+          "GameTypeId: the existing games keep their values and a new game is appended");
 }
 
 void testNamesAndAliases() {
     check(GameTypeIdTools::getName(GameTypeId::GI) == "GI", "getName: GI");
     check(GameTypeIdTools::getName(GameTypeId::WuWa) == "WuWa", "getName: WuWa");
+    check(GameTypeIdTools::getName(GameTypeId::ZZZ) == "ZZZ", "getName: ZZZ");
 
     const std::vector<std::string>& giAliases = GameTypeIdTools::getAliases(GameTypeId::GI);
     check(std::find(giAliases.begin(), giAliases.end(), "Genshin") != giAliases.end(),
@@ -103,6 +109,10 @@ void testNamesAndAliases() {
     const std::vector<std::string>& wuwaAliases = GameTypeIdTools::getAliases(GameTypeId::WuWa);
     check(std::find(wuwaAliases.begin(), wuwaAliases.end(), "WutheringWaves") != wuwaAliases.end(),
           "getAliases: WuWa answers to WutheringWaves");
+
+    const std::vector<std::string>& zzzAliases = GameTypeIdTools::getAliases(GameTypeId::ZZZ);
+    check(std::find(zzzAliases.begin(), zzzAliases.end(), "ZenlessZoneZero") != zzzAliases.end(),
+          "getAliases: ZZZ answers to ZenlessZoneZero");
 
     // A name is never repeated in its own alias list -- getHelpStr prints both, and a game whose
     // help text read "name: GI / aliases: GI" would be the tell that the two came apart.
@@ -129,6 +139,8 @@ void testFindByNameNormalizesLikeModTypeIdToolsDoes() {
     checkFinds("GENSHIN", GameTypeId::GI, "findByName: uppercase alias");
     checkFinds("  WuWa  ", GameTypeId::WuWa, "findByName: surrounding whitespace is stripped");
     checkFinds("wUtHeRiNgWaVeS", GameTypeId::WuWa, "findByName: mixed case alias");
+    checkFinds("zzz", GameTypeId::ZZZ, "findByName: lowercase ZZZ");
+    checkFinds("  zEnLeSsZoNeZeRo ", GameTypeId::ZZZ, "findByName: mixed case alias with surrounding whitespace");
 }
 
 void testFindByNameRefusesToGuess() {
@@ -141,6 +153,8 @@ void testFindByNameRefusesToGuess() {
 void testGetEnumStillValidates() {
     check(GameTypeIdTools::getEnum(static_cast<int>(GameTypeId::GI)) == GameTypeId::GI,
           "getEnum: a declared value converts");
+    check(GameTypeIdTools::getEnum(static_cast<int>(GameTypeId::ZZZ)) == GameTypeId::ZZZ,
+          "getEnum: the newest declared value converts too");
     check(!GameTypeIdTools::getEnum(999999).has_value(),
           "getEnum: an undeclared value does not");
 }

@@ -125,6 +125,31 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Registers a ZZZ mod type into #stateDFA :raw-html:`<br />` :raw-html:`<br />`
+
+             Classifies exactly like :cpp:func:`addGIModType` -- a ZZZ .ini file is identified by its
+             hashes and its `section`_ keywords the same way a GI one is -- except that the game is
+             :cpp:enumerator:`GameTypeId::ZZZ`. The mod type is filed under that game, so
+             registering it never disturbs a GI mod type, including when the same hash or keyword
+             is registered for both games: a .ini file using it is then classified as both
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
+             already registered in #modTypes, or if ``modType.gameTypeId`` isn't
+             :cpp:enumerator:`GameTypeId::ZZZ`
+             @endrst
+             *
+             * @param modType The mod type to register
+             * @param hashes The hashes that identify 'modType'
+             * @param sectionKeywords The `section`_ keywords that identify 'modType'
+             *
+             * @return Whether 'modType' was newly registered
+             */
+            virtual bool addZZZModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords);
+
+            /**
+             * @brief
+             @rst
              Registers a WuWa mod type into #stateDFA :raw-html:`<br />` :raw-html:`<br />`
 
              Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
@@ -304,6 +329,26 @@ namespace AGRemapCore {
              * @brief Sets #stateDFA to its initial state (see the constructor's doc comment)
              */
             void setupStateDFA();
+
+            /**
+             * @brief
+             @rst
+             The registration :cpp:func:`addGIModType` and :cpp:func:`addZZZModType` share: wires a
+             mod type that is identified by hashes and `section`_ keywords into #stateDFA, for
+             whichever game it belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+             Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
+             already registered in #modTypes, or if ``modType.gameTypeId`` isn't 'gameTypeId'
+             @endrst
+             *
+             * @param gameTypeId The game 'modType' must belong to
+             * @param modType The mod type to register
+             * @param hashes The hashes that identify 'modType'
+             * @param sectionKeywords The `section`_ keywords that identify 'modType'
+             *
+             * @return Whether 'modType' was newly registered
+             */
+            bool addHashAndSectionModType(GameTypeId gameTypeId, const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords);
 
             /**
              * @brief

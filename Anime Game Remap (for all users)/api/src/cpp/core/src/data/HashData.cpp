@@ -1668,6 +1668,73 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.3", "LumineHeaven", "ib_face"}, "15825079"},
         {{"6.3", "LumineHeaven", "ib_headupper"}, "82d9b411"},
 
+        // ===== Aether and AetherHeaven (2026-10-24) =====
+        //
+        // Aether's rows follow the assets repo's history of TravelerBoy's hash.json, exactly Lumine's: the first dump
+        // (2022-07) is the 4.0 row, the draw_vb moved at "THE GREAT 4.1 HASH FIX" and the ib at "GREAT 4.3 Hash fix",
+        // and no texture ever moved. A frame dump of his default outfit in the character menu's Dressing Room
+        // (FrameAnalysis-Aether-2026-10-24-164115) draws every hash here, and its buffers and textures are
+        // byte-identical to the asset folder's. Head and body draw on the PLAIN shader; the MetalMap / ShadowRamp
+        // hashes his hash.json lists are shared assets and are not filed.
+        {{"4.0", "Aether", "draw_vb"}, "609d4578"},
+        {{"4.0", "Aether", "position_vb"}, "c77e380b"},
+        {{"4.0", "Aether", "blend_vb"}, "4dfdf2be"},
+        {{"4.0", "Aether", "texcoord_vb"}, "517e5e7e"},
+        {{"4.0", "Aether", "ib"}, "b603af2f"},
+        {{"4.0", "Aether", "tex_head_diffuse"}, "cab5aa1f"},
+        {{"4.0", "Aether", "tex_head_lightmap"}, "74453385"},
+        {{"4.0", "Aether", "tex_body_diffuse"}, "1f7b5c39"},
+        {{"4.0", "Aether", "tex_body_lightmap"}, "104c1472"},
+        {{"4.0", "Aether", "tex_face_diffuse"}, "50c169e8"},
+        {{"4.1", "Aether", "draw_vb"}, "e9786a5f"},
+        {{"4.3", "Aether", "ib"}, "8ed7c5f0"},
+
+        // His SIDE MESHES -- unskinned draws that are no mod object -- for a mod that hides one by hash (see
+        // GIMIComponentFixerConfig::sideMeshes). Read off the same dump: the face (4416 indices, the jaw-to-brow mesh)
+        // and the head-upper (2814). The 48-vertex eyebrows share one vertex buffer (2cfd04ad) with the skin's own, under
+        // a different ib (3fc06416 here, a5a65960 there); nothing reads an eyebrow row, so neither is filed.
+        {{"4.0", "Aether", "ib_face"}, "3e0837e2"},
+        {{"4.0", "Aether", "ib_headupper"}, "3ff23b6d"},
+
+        // AetherHeaven (6.3, "As Heaven and Earth Are Made Anew") draws an UNNAMED main mesh (Head / Body on one index
+        // buffer -- filed under AetherHeavenMain), a Bang and an Eye, each skinned and with its own buffers: the
+        // LumineHeaven shape. No asset repo has it: every value here was read off a frame dump of the skin's preview in
+        // the character menu's Dressing Room (FrameAnalysis-AetherHeaven-2026-10-24-164142), and matches both real mods
+        // of it (AetherHeaven1-2). Both of the main mesh's objects draw on the NORMAL-MAP shader (light map, normal
+        // map, diffuse at ps-t0..2), filed as tex_<slot>_<role> for a texture-only recolour. The Bang draws with the
+        // Head's textures; the Eye has its own shader and textures (47b6d152 light map / a35f0697 diffuse), which have
+        // no tex_<object>_<kind> slot here and are not filed. The face diffuse b921d262 is the skin's own (Aether's is
+        // 50c169e8), drawn on face meshes of its own; as LumineHeaven's it is filed under every component.
+        {{"6.3", "AetherHeavenMain", "draw_vb"}, "6e146318"},
+        {{"6.3", "AetherHeavenMain", "position_vb"}, "fdc93092"},
+        {{"6.3", "AetherHeavenMain", "blend_vb"}, "f120aef4"},
+        {{"6.3", "AetherHeavenMain", "texcoord_vb"}, "be7e7751"},
+        {{"6.3", "AetherHeavenMain", "ib"}, "0f0ec0e1"},
+        {{"6.3", "AetherHeavenMain", "tex_head_diffuse"}, "f1e5a10f"},
+        {{"6.3", "AetherHeavenMain", "tex_head_lightmap"}, "8783ca4b"},
+        {{"6.3", "AetherHeavenMain", "tex_head_normalmap"}, "ec0f27a8"},
+        {{"6.3", "AetherHeavenMain", "tex_body_diffuse"}, "25876a2b"},
+        {{"6.3", "AetherHeavenMain", "tex_body_lightmap"}, "e28395c3"},
+        {{"6.3", "AetherHeavenMain", "tex_body_normalmap"}, "6429c2d8"},
+        {{"6.3", "AetherHeavenMain", "tex_face_diffuse"}, "b921d262"},
+        {{"6.3", "AetherHeavenBang", "draw_vb"}, "43436212"},
+        {{"6.3", "AetherHeavenBang", "position_vb"}, "e20142c0"},
+        {{"6.3", "AetherHeavenBang", "blend_vb"}, "fbccccec"},
+        {{"6.3", "AetherHeavenBang", "texcoord_vb"}, "0b64d1c0"},
+        {{"6.3", "AetherHeavenBang", "ib"}, "7653eed7"},
+        {{"6.3", "AetherHeavenBang", "tex_face_diffuse"}, "b921d262"},
+        {{"6.3", "AetherHeavenEye", "draw_vb"}, "87bc97df"},
+        {{"6.3", "AetherHeavenEye", "position_vb"}, "d35f7205"},
+        {{"6.3", "AetherHeavenEye", "blend_vb"}, "21e796a3"},
+        {{"6.3", "AetherHeavenEye", "texcoord_vb"}, "9dfc88d8"},
+        {{"6.3", "AetherHeavenEye", "ib"}, "1f5715d9"},
+        {{"6.3", "AetherHeavenEye", "tex_face_diffuse"}, "b921d262"},
+
+        // The skin's own side meshes, filed under the skin as a whole (no component draws them): the face (6210
+        // indices) and the head-upper (3888).
+        {{"6.3", "AetherHeaven", "ib_face"}, "013d13f1"},
+        {{"6.3", "AetherHeaven", "ib_headupper"}, "3d359360"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},

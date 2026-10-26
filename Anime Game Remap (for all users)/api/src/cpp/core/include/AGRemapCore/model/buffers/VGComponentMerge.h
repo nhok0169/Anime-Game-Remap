@@ -45,6 +45,17 @@ namespace AGRemapCore {
          @endrst
          */
         VGRemap remap;
+
+        /**
+         * @brief
+         @rst
+         SHARED groups: a source group of this component whose weight is spread over several TARGET bones,
+         ``{source group: [(target bone, share), ...]}``, in place of :cpp:member:`remap`'s one bone -- the merge
+         counterpart of :cpp:member:`VGComponentSpec::splitGroups`. Each influence on such a group becomes one per
+         bone of the share, equal bones merged and the 4 largest kept, renormalised. Empty by default
+         @endrst
+         */
+        std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
     };
 
     /**

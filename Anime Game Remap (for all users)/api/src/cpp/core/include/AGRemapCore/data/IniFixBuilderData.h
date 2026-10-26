@@ -1419,6 +1419,29 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory lumineHeavenEye6_3();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **Aether onto AetherHeaven's main mesh** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A skin of THREE components whose main mesh is unnamed. One fixer per target component, all
+             three built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Aether/AetherFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory aetherHeavenMain6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Aether onto AetherHeaven's Bang** -- see :cpp:func:`aetherHeavenMain6_3`
+             */
+            static IniFixBuilder::Factory aetherHeavenBang6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Aether onto AetherHeaven's Eye** -- see :cpp:func:`aetherHeavenMain6_3`
+             */
+            static IniFixBuilder::Factory aetherHeavenEye6_3();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**
@@ -1505,6 +1528,19 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory lumineHeavenToLumine6_3();
+
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **AetherHeaven onto Aether** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A merge of a skin of several components onto a target of one, and the inverse of
+             :cpp:func:`aetherHeavenMain6_3` and its siblings. See
+             ``data/IniFixData/AetherHeaven/AetherHeavenFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory aetherHeavenToAether6_3();
 
     };
 

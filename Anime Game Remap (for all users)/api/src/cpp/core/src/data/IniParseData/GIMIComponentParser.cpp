@@ -915,10 +915,49 @@ namespace AGRemapCore {
                             continue;
                         }
 
+                        // Whether the component's index buffer section draws for itself (`drawindexed = auto`):
+                        // then a slot section binding no ib still draws the GAME's index buffer, as on the
+                        // mod's own character, and keeps its download.
+                        bool ibDraws = false;
+                        for (const std::string& name : *ibSections) {
+                            if (!branches.valsThroughRun(templates, name, IniKeywords::DrawIndexed).empty()) {
+                                ibDraws = true;
+                                break;
+                            }
+                        }
+
                         for (const GIMIComponentParserConfig::Slot& slot : component.slots) {
                             const ModObj modObj(component.name, slot.name);
-                            if (sectionsOf(modObj) != nullptr) {
-                                continue;
+                            const std::vector<std::string>* slotSections = sectionsOf(modObj);
+
+                            // A SLOT SECTION THAT ONLY SKIPS IS A HIDDEN SLOT (2026-10-24): an author removing
+                            // the skin's bangs writes the slot's section with `handling = skip` and nothing it
+                            // draws. It used to count as drawn, so the game's index buffer was downloaded for it
+                            // and the skin's own bangs were drawn on the target (AetherHeavenSynthNoBang).
+                            if (slotSections != nullptr) {
+                                if (ibDraws) {
+                                    continue;
+                                }
+                                bool draws = false;
+                                bool slotSkips = false;
+                                for (const std::string& name : *slotSections) {
+                                    for (const BranchVal& ib : branches.valsThroughRun(templates, name, IniKeywords::Ib)) {
+                                        if (!StringTools::equalsIgnoreCase(StringTools::strip(ib.val), IniKeywords::Null)) {
+                                            draws = true;
+                                        }
+                                    }
+                                    if (!branches.valsThroughRun(templates, name, IniKeywords::DrawIndexed).empty()) {
+                                        draws = true;
+                                    }
+                                    for (const BranchVal& handling : branches.valsThroughRun(templates, name, IniKeywords::Handling)) {
+                                        if (StringTools::equalsIgnoreCase(StringTools::strip(handling.val), "skip")) {
+                                            slotSkips = true;
+                                        }
+                                    }
+                                }
+                                if (draws || !slotSkips) {
+                                    continue;
+                                }
                             }
                             this->downloads.erase(modObj);
                             undrawnSlots_.insert(modObj);

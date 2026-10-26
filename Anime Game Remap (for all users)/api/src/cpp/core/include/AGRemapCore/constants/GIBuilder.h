@@ -30,6 +30,16 @@ namespace AGRemapCore {
         public:
 
             /**
+             * @brief Creates the :cpp:class:`ModType` for Aether
+             */
+            static ModType aether();
+
+            /**
+             * @brief Creates the :cpp:class:`ModType` for AetherHeaven
+             */
+            static ModType aetherHeaven();
+
+            /**
              * @brief Creates the :cpp:class:`ModType` for Amber
              */
             static ModType amber();

@@ -1001,20 +1001,49 @@ with one object fewer (no dress). What it found, in the order it cost:
    file and every glow on his body went out. Only when objects share a diffuse, so no other output moved.
 3. **A shade is a HUE question on this pair, not a band question.** His shader keeps a surface's own hue in shade; the
    skin's multiplies it by a tinted ramp row (warm on 126 / 255, cool on 0). A single band move fixed a blue-grey mane
-   and a lilac cape and broke a cream cape and blonde hair, so the move is gated by the diffuse: a texel bluer than red
-   by 4 moves to 0 (`MaterialBandRemapFilter`'s gate). White trousers stay a little warm -- including neutrals made
-   them more orange -- and that is a measured limitation.
+   and a lilac cape and broke a cream cape and blonde hair, so the move is gated by the diffuse: a texel that is NOT
+   warm (red - blue < 4) moves to 0 (`MaterialBandRemapFilter`'s gate). The first gate took only texels BLUER than red
+   and left neutral greys on the warm row -- Aether10's grey-white mane (red - blue 0-3) shaded khaki with peach
+   blotches (forward epoch 8). **Histogram red - blue of the texels on the moved bands, split by moved / kept, before
+   choosing a gate** (`hueStats.py`-style: it named the mane's 19 000 neutral texels in one run). What remains is the
+   RAMP: his card tints a white mane lavender-pink and no skin band does -- swept 0 / 40 / 78 / 100 / 178 / 210 on
+   Aether10, the closest within ~8 RGB of his mid-tone, and the skin's ramp ends in a peach transition column on most
+   rows, which is where the last peach shows. White trousers stay a little warm; both are measured limitations.
 4. **A cape between two wrong answers is a weight SHARE.** On the skin's back-coat chain his cape's panels closed over
    their split (the chain's top links meet at the skin's centre seam); on its torso they kept the gap they are MODELLED
-   with, far wider than his card once his own cape chains pull it in. `splitGroups` at 60 / 40 gives his slit; 70 / 30
-   overlapped the panels and closed a cloak's slit. Bracket in game, then interpolate.
+   with, far wider than his card once his own cape chains pull it in. `splitGroups` at 50 / 50 gives his slit near the
+   top; 70 / 30 overlapped the panels and closed a cloak's slit. Bracket in game, then interpolate. **And a slit that is
+   a V on his card is a share PLUS a push**: the share keeps the slit parallel, so the inner lower links (46 / 47 / 49,
+   52 / 53 / 55) are pushed apart at the hem (`VGPushAway`, fade 0.6 -> 1.0) -- which also opens Aether8's coat tails,
+   which ride those links. 5 cm left Aether7 and Aether8 narrow; at 8 cm the game agent measured the identity and synth
+   capes about 3x his gap at the hem (gap / cape width) while Aether7 and Aether8 matched: the forward direction's last
+   open item, handed over.
 5. **A part MODELLED splayed out needs a displacement, not a bone.** AetherHeaven's one-sided left back drape (the
    circle emblem, groups 99-104) rests out to his left and the skin's simulated bones swing it to the middle. On his
    outer cape chain, his inner one, or his torso it hung off to his left -- so the merge template has `pushAway` now
    (`GIMIMergeFixerConfig::Component::pushAway`, the component template's `VGPushAway`, one shared
-   `VGPushAway::displacement`), and the drape is pulled 9 cm in at its hem. **Try it as a hand edit of the fixed
+   `VGPushAway::displacement`), and the drape is pulled 17 cm in at its hem. **Try it as a hand edit of the fixed
    `RemapPosition.buf` first**: scaling the drape's vertices by their remapped weight share took minutes and showed the
-   idea worked before any C++ was written.
+   idea worked before any C++ was written. Its bones are a SHARE of both his inner cape chains (the merge has
+   `splitGroups` now too, `GIMIMergeFixerConfig::Component::splitGroups`): on the left chain alone it twisted with that
+   chain in his idle. **The test for "centred" is what shows THROUGH the circle emblem**: on the skin's card the dark
+   gap between the legs, on his at 13 cm still the white of his left coat panel.
+6. **A light map toggled against SEVERAL diffuses needs an edit per diffuse** (`GIMIComponentFixerConfig::lightMapPerDiffuse`,
+   opt-in). Aether5's hair key binds a grey diffuse beside the SAME light map as the blonde one, and a diffuse-gated band
+   move decided from the blonde kept the grey hair on the warm band. Each distinct diffuse an object's section binds now
+   gets its own copy of the light map, bound in the branches that bind that diffuse (the variants' own diffuses too).
+7. **An eye a shader cannot colour goes on the mesh that can.** The skin's Eye component draws on a plain eye shader
+   that turns an elemental eye mod's glowing cyan iris white; his eye groups (0 / 1) on the skin's main HEAD bone glow
+   as on his card and ordinary eyes are unchanged. The Eye row is EMPTY, so its fixer still hides the skin's own eye.
+8. **In a merged master, a member's textures follow the branch its ib came from** (`GIMIMergeFixer`). A variant without
+   eyes borrowed the other variant's eye ib (`pick()` answers with a lone candidate) but read its textures strictly for
+   its own branch, found none, and drew the borrowed eyes with the body's atlas -- a garbled iris the game agent missed
+   for an epoch. Found only by the synthetic merged master.
+9. **When pulling one set of panels changes nothing, throw candidates aside.** The reverse coat's flared hem sat on
+   several bone sets at once: side and front pulls each moved their panels 3-7 cm in the buffer and changed nothing the
+   agent could see. Moving each candidate set 30 cm sideways in the fixed `RemapPosition.buf` (`dispTest.py`-style)
+   showed which sets carry the flare in one reload, and ONE radial pull of every coat group (58-81, 7 cm towards his
+   axis) replaced them.
 
 Three things about the in-game loop, all learned the expensive way here:
 
@@ -1029,8 +1058,8 @@ Three things about the in-game loop, all learned the expensive way here:
   `8ed7c5f0`, draw `609d4578` -> `e9786a5f`); `restore.py` adds the fix calls only, and a copy rebuilt without the hash
   update renders its ORIGINAL shattered on his own card.
 
-Limitations, measured: a glowing eye painted in his body atlas shows white on the skin (its Eye shader does not colour a
-glow; the texels keep alpha 255); white cloth shades slightly warmer and cream slightly cooler than on his card; a mod
+Limitations, measured: white cloth and a white mane shade slightly warmer / more neutral, and cream slightly cooler,
+than on his card (the ramp, point 3); a mod
 drawing an object only through its ib section's `drawindexed = auto` loses that object on the skin. Fixing Aether3 writes
 a different number of UNREFERENCED files depending on the folder's name (the `.ini` is identical and undo removes them):
 cosmetic, cause not found.

@@ -9071,6 +9071,47 @@ no WuWa type had ever been registered. All three entry points now `setCurrentSta
 lesson is the one habit 1 keeps teaching: a code path that has never had data is untested, whatever
 its test suite says.
 
+**A NEW GAME COMES BEFORE ITS FIRST `ModTypeId` (2026-10-26, ZZZ -- the third, after `GI` and
+`WuWa`).** `IniClassifier::addZZZModType` needed a `GameTypeId::ZZZ` to check a mod type against, and
+a game is entered in eight places. In order:
+
+1. `constants/GameTypeId.h` -- **append** the enumerator. The classifier files a game by its int in
+   its `game:<value>` DFA edges (`GI` = 0, `WuWa` = 1, `ZZZ` = 2), so inserting one earlier renumbers
+   the others. `test_GameTypeId.py` pins the three values;
+2. `constants/GameTypeId.cpp` -- `getEnum`'s switch (a value with no case answers `nullopt`, so a game
+   missing here round-trips through an int as "no game at all");
+3. `constants/GameType.cpp` -- the ONE name/alias table. `getName`, `getAliases`, `getAll()`'s order
+   and the search DFA are all derived from it, so there is nothing else to keep in step. The first
+   name is the game's name, the rest are aliases (`ZZZ`: `ZenlessZoneZero`);
+4. `py/src/constants/PyGameTypeId.cpp` -- the `.value(...)`;
+5. the classifier's `addXxxModType`. A game identified the way GI is (hashes and section keywords)
+   is a one-line wrapper over `IniClassifier::addHashAndSectionModType(gameTypeId, ...)`, which
+   `addGIModType` and `addZZZModType` both call -- the whole DFA wiring, including the collision
+   handling for two types sharing a hash or keyword, is written once and parameterised on the game.
+   A game with a marker of its own (WuWa's `$\WWMIv1`) needs state wiring of its own instead;
+6. **`GlobalIniClassifiers.cpp`'s `populate()`, which is NOT done for ZZZ yet and will bite the first
+   ZZZ `ModType`**: it sends every non-WuWa mod type to `addGIModType` with a hard-coded
+   `ModTypeIdData(GameTypeId::GI, ...)`, so a ZZZ type registered in `GlobalModTypes` would be filed
+   as a GI one and classify without complaint. Add a branch that calls `addZZZModType` with the type's
+   own game before registering one. Nothing today can exercise it -- there is no ZZZ `ModTypeId` --
+   which is why it is a note and not code;
+7. the three hand-kept **Game Types** tables -- `api/README.md`, `apiMirror/README.md` (identical to
+   each other) and `Docs/src/commandOpts.rst`. `--game ZZZ` parses the moment step 3 lands, and
+   `GameTypes.getHelpStr()` (the CLI's `--help`) prints from `getAll()`, so only these three can go
+   stale;
+8. the suites that pin the list: `test_GameTypeId.py` and `core/tests/GameTypeId_test.cpp` assert
+   `getAll()`'s exact contents (the second hard-codes a count -- and nothing builds it).
+
+**Two things the game filter does not do, both found by actually running them rather than by
+reading, and both older than ZZZ -- ZZZ only made the second one reachable.** `classify(text,
+gameTypeIds)` filters SECTION KEYWORDS only: `readHash` is never handed the filter, so a hash
+registered for GI still classifies a file under `{ZZZ}`. And for a keyword filed under more than one
+game, the filter decides whether the keyword is *eligible* but then every game it is filed under is
+counted, so `{ZZZ}` on a keyword both GI and ZZZ registered returns the GI type as well. Until ZZZ
+nothing but GI had keywords, so the second could not happen. Neither is pinned by a test, on purpose:
+whether a filtered classify may return a mod type of a game that was not asked for is a decision for
+the maintainer, not something to fix in passing.
+
 **AND THE COUNTS ARE NOT THE ONLY HARDCODED THING: THREE SUITES PIN THE EXACT SET OF VERSIONS A
 TABLE COVERS** (2026-09-20, registering Chisa at 2.8 and ChisaParfait at 3.5 -- the first pair whose
 two halves sit at DIFFERENT versions, since the maintainer files each character at the version it was

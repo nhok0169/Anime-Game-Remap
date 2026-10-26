@@ -641,6 +641,8 @@ Below are the supported types of games
        | GenshinImpact
    * - **WuWa**
      - | WutheringWaves
+   * - **ZZZ**
+     - | ZenlessZoneZero
 
 
 :raw-html:`<br />`

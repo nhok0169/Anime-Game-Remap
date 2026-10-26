@@ -1124,6 +1124,16 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   repainted in the lace's white, folds kept, at `ps-t1` of her pass `7f639abb`). Her texture's alpha tops out at
   127 and is not opacity, so it is left alone. No skin mod hides the blindfold, so the copy was proved on a
   synthetic one (ChangliNymph1 plus a `handling = skip` on `646aa163`).
+* **The eyes draw through a SECOND vertex shader in the overworld (`c32a6985`, the menu's is `ceff9a81`), on both
+  of Changli's outfits -- and the eye pass listed only the menu's.** Changli6's purple eyes (its alternate-hair
+  variant) came out the game's amber outside the menu. Lynae's pair already listed both (tag `3381.615`, shared).
+  A red probe at each register on the overworld draw named `ps-t2` the colour; and read the MOD's textures before
+  calling a colour wrong -- Changli6's eye for its normal hair IS the game's amber, so only the alternate hair shows it.
+* **An outline pass's `ps-t0` is a COLOUR the shader darkens, and the two outfits feed it different things.** Changli's
+  own outline draw binds a dedicated outline map (~30% darker than her diffuse); the skin's binds its DIFFUSE. Bound
+  to the skin's pass, her outline map was darkened twice: a near-black edge round Changli9's long hair, read as "a
+  second shadow ghost". `wwmiPassLayout.py` on both menu dumps shows it (`sets ps-t0` and what it holds); turning the
+  remap's outline draw off proved the pass, and binding the hair / bangs DIFFUSE there is the fix.
 * **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
   (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
   blend is read across its neighbour's bytes and the whole model draws as giant polygons.
@@ -9159,6 +9169,47 @@ run every GI mod walked after a WuWa mod. Invisible for the whole life of the C+
 no WuWa type had ever been registered. All three entry points now `setCurrentStateId("start")`. The
 lesson is the one habit 1 keeps teaching: a code path that has never had data is untested, whatever
 its test suite says.
+
+**A NEW GAME COMES BEFORE ITS FIRST `ModTypeId` (2026-10-26, ZZZ -- the third, after `GI` and
+`WuWa`).** `IniClassifier::addZZZModType` needed a `GameTypeId::ZZZ` to check a mod type against, and
+a game is entered in eight places. In order:
+
+1. `constants/GameTypeId.h` -- **append** the enumerator. The classifier files a game by its int in
+   its `game:<value>` DFA edges (`GI` = 0, `WuWa` = 1, `ZZZ` = 2), so inserting one earlier renumbers
+   the others. `test_GameTypeId.py` pins the three values;
+2. `constants/GameTypeId.cpp` -- `getEnum`'s switch (a value with no case answers `nullopt`, so a game
+   missing here round-trips through an int as "no game at all");
+3. `constants/GameType.cpp` -- the ONE name/alias table. `getName`, `getAliases`, `getAll()`'s order
+   and the search DFA are all derived from it, so there is nothing else to keep in step. The first
+   name is the game's name, the rest are aliases (`ZZZ`: `ZenlessZoneZero`);
+4. `py/src/constants/PyGameTypeId.cpp` -- the `.value(...)`;
+5. the classifier's `addXxxModType`. A game identified the way GI is (hashes and section keywords)
+   is a one-line wrapper over `IniClassifier::addHashAndSectionModType(gameTypeId, ...)`, which
+   `addGIModType` and `addZZZModType` both call -- the whole DFA wiring, including the collision
+   handling for two types sharing a hash or keyword, is written once and parameterised on the game.
+   A game with a marker of its own (WuWa's `$\WWMIv1`) needs state wiring of its own instead;
+6. **`GlobalIniClassifiers.cpp`'s `populate()`, which is NOT done for ZZZ yet and will bite the first
+   ZZZ `ModType`**: it sends every non-WuWa mod type to `addGIModType` with a hard-coded
+   `ModTypeIdData(GameTypeId::GI, ...)`, so a ZZZ type registered in `GlobalModTypes` would be filed
+   as a GI one and classify without complaint. Add a branch that calls `addZZZModType` with the type's
+   own game before registering one. Nothing today can exercise it -- there is no ZZZ `ModTypeId` --
+   which is why it is a note and not code;
+7. the three hand-kept **Game Types** tables -- `api/README.md`, `apiMirror/README.md` (identical to
+   each other) and `Docs/src/commandOpts.rst`. `--game ZZZ` parses the moment step 3 lands, and
+   `GameTypes.getHelpStr()` (the CLI's `--help`) prints from `getAll()`, so only these three can go
+   stale;
+8. the suites that pin the list: `test_GameTypeId.py` and `core/tests/GameTypeId_test.cpp` assert
+   `getAll()`'s exact contents (the second hard-codes a count -- and nothing builds it).
+
+**Two things the game filter does not do, both found by actually running them rather than by
+reading, and both older than ZZZ -- ZZZ only made the second one reachable.** `classify(text,
+gameTypeIds)` filters SECTION KEYWORDS only: `readHash` is never handed the filter, so a hash
+registered for GI still classifies a file under `{ZZZ}`. And for a keyword filed under more than one
+game, the filter decides whether the keyword is *eligible* but then every game it is filed under is
+counted, so `{ZZZ}` on a keyword both GI and ZZZ registered returns the GI type as well. Until ZZZ
+nothing but GI had keywords, so the second could not happen. Neither is pinned by a test, on purpose:
+whether a filtered classify may return a mod type of a game that was not asked for is a decision for
+the maintainer, not something to fix in passing.
 
 **AND THE COUNTS ARE NOT THE ONLY HARDCODED THING: THREE SUITES PIN THE EXACT SET OF VERSIONS A
 TABLE COVERS** (2026-09-20, registering Chisa at 2.8 and ChisaParfait at 3.5 -- the first pair whose

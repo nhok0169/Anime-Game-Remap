@@ -533,6 +533,7 @@ Below are the supported types of games
 | --- | --- |
 | GI | Genshin, GenshinImpact |
 | WuWa | WutheringWaves |
+| ZZZ | ZenlessZoneZero |
 
 <br>
 

@@ -85,6 +85,12 @@ class RemapServiceCLITest(BaseUnitTest):
                          {int(FRB.GameTypeId.GI), int(FRB.GameTypeId.WuWa)})
         self.assertFalse(cli.hasErrorsBeforeFix)
 
+    def test_zzzNamesAndAliasesConvert(self):
+        cli = self.makeCLI(gameTypes = ["ZZZ", " ZenlessZoneZero "])
+
+        self.assertEqual(cli.service.gameTypeIds, {int(FRB.GameTypeId.ZZZ)})
+        self.assertFalse(cli.hasErrorsBeforeFix)
+
     def test_namingNoGamesMeansEveryGame(self):
         # None and [] are the SAME answer -- an argument parser produces one or the other for "the
         # user left the option off", and neither can mean "no games at all".

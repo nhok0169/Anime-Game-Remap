@@ -9149,10 +9149,13 @@ class GameTypeId:
       GI : Genshin Impact
     
       WuWa : Wuthering Waves
+    
+      ZZZ : Zenless Zone Zero
     """
     GI: typing.ClassVar[GameTypeId]  # value = <GameTypeId.GI: 0>
     WuWa: typing.ClassVar[GameTypeId]  # value = <GameTypeId.WuWa: 1>
-    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>}
+    ZZZ: typing.ClassVar[GameTypeId]  # value = <GameTypeId.ZZZ: 2>
+    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>, 'ZZZ': <GameTypeId.ZZZ: 2>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -12786,6 +12789,34 @@ class IniClassifier(BaseIniClassifier):
         
         hashes: Set[:class:`str`]
             The hashes that identify 'modType'
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'modType' was newly registered
+        """
+    def addZZZModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str], sectionKeywords: collections.abc.Set[str]) -> bool:
+        """
+        Registers a ZZZ mod type into the classifier
+        
+        Classifies exactly like :meth:`addGIModType` -- a ZZZ .ini file is identified by its hashes and its
+        section keywords the same way a GI one is -- except that the game is :attr:`GameTypeId.ZZZ`. The mod
+        type is filed under that game, so registering it never disturbs a GI mod type, including when the
+        same hash or keyword is registered for both games: a .ini file using it is then classified as both
+        
+        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
+        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.ZZZ`
+        
+        Parameters
+        ----------
+        modType: :class:`ModTypeIdData`
+            The mod type to register
+        
+        hashes: Set[:class:`str`]
+            The hashes that identify 'modType'
+        
+        sectionKeywords: Set[:class:`str`]
+            The section keywords that identify 'modType'
         
         Returns
         -------

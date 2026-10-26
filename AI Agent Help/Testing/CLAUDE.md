@@ -800,6 +800,18 @@ untracked), and the rebuilt `.pyd` deliberately stays in place because it is git
 still a valid baseline, since the restored Python never imports the classes only the new binary has.
 Compare the `Ran N` line first: the delta should be exactly the tests you added.
 
+> **READ THIS BEFORE USING THAT RECIPE (2026-10-26): it is only safe when you are the sole writer in
+> the checkout, and on the maintainer's main checkout you usually are not.** `git stash push -u`
+> takes EVERYONE's uncommitted work -- other sessions' edits and deletions included -- and the stash is
+> one stack per repository, shared by every session. A bare `git stash` sweeping about 20 other
+> agents' files, and a later `stash pop` that returned an unrelated old entry and conflicted `LICENSE`,
+> both happened on one small task (Overview habit 123). Prefer the two checks that touch nothing:
+> **grep the failing test for the names you changed** (below), or `git show HEAD:<file>` the thing you
+> suspect into a scratch file and diff. When neither settles it, check `git status` for files that are
+> not yours first -- if there are any, do not stash; ask. And note what the recipe cannot do even when
+> it is safe: the suite's own count moves under you when other agents commit tests, so compare the
+> failing test's NAME, not the totals.
+
 ## Deleting or renaming an exported class: the four places the suite cannot see
 
 Every one of these was missed in a single 2026-09-05 change that deleted `remapService.py` and
@@ -1606,8 +1618,23 @@ Copy `libcurl.dll` and `utf8proc.dll` next to `test.exe`, and pass a scratch fol
 It needs the network for its real HTTPS check, and takes about 20 s, most of it the retry back-off it tests.
 **Run the `.exe` from the PowerShell tool, not from the `.bat` that built it:** from a `.bat` in the
 session scratchpad, `test.exe` reported `9009` ("is not recognized") although it had just been built
-there. Run directly, the same binary passed. `cbuild` is a junction on the laptop, so a plain `find` under
+there. Run directly, the same binary passed. **A second, cheaper fix, found 2026-10-26: call it
+`.\test.exe` inside the `.bat`.** The bare name gave `9009` from a script that had just compiled and
+linked the file without error (the folder listing showed a fresh `.exe`), and `.\name.exe` ran it
+first try; this machine evidently does not search the current directory for a bare command (the
+setting was not checked). The tell that it is THIS and not a missing compiler is that the log shows the
+source file name echoed by `cl` and a fresh `.exe` on disk. A genuinely missing `vcvarsall.bat` is the
+top-level `CLAUDE.md`'s `COMPILE_EXIT=9009`; by that note it prints no compile output at all (inferred
+from it, not reproduced here). `cbuild` is a junction on the laptop, so a plain `find` under
 it sees nothing; use `find -L`.
+
+**Some standalone tests print only their failures, so "0 PASS lines" is normal and proves nothing
+either way (2026-10-26).** `IniClassifierPopulation_test.cpp` prints a section name per test, `FAILED:`
+lines when something is wrong, and `All tests passed.` -- no per-check lines at all. A `grep -c PASS`
+over its log says 0 and looks like a run that checked nothing. Read what it does print instead: its
+section names (12 ran) and the one count it reports (`57 mod types checked, 0 unreachable`). That test
+is also the strongest check of a classifier refactor, since it classifies the whole real registered
+population, not a hand-made two-type fixture.
 
 **And the cheap way to decide whether a failure is yours** without paying for a second build:
 `grep` the failing test file for the names you touched. `IniNamingTools_test.cpp` mentions no

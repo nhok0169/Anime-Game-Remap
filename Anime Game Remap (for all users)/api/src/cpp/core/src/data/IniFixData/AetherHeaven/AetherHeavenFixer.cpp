@@ -60,9 +60,9 @@ namespace AGRemapCore {
             drapePull.groups = {99, 100, 101, 102, 103, 104};
             drapePull.side = -1;
             drapePull.from = {-3.0f, 0.0f, -0.15f};
-            // 0.13 puts the emblem over the gap between his legs, where the skin's own card hangs it, and covers that gap
-            // (reverse epoch 7: at 0.07 it hung over his left leg and his trousers showed beside it; 0.10 still left of it)
-            drapePull.distance = 0.13f;
+            // 0.17 puts the emblem over the gap between his legs, the dark gap showing in its circle as on the skin's own
+            // card (reverse epochs 7-9: at 0.07 it hung over his left leg, at 0.13 still over his left coat panel)
+            drapePull.distance = 0.17f;
             drapePull.fade = {0.4f, 1.15f};
             main.pushAway = {drapePull};
 

@@ -2209,7 +2209,23 @@ namespace AGRemapCore {
                                         ctx_.log("the '" + members[i].first + " " + members[i].second
                                                   + "' slot is drawn per branch, so it stays in the outline pass");
                                     }
-                                    inBranch.push_back(rolesInBranch(*files, local));
+                                    // THE TEXTURES FOLLOW THE IB (2026-10-26). A member with no ib in this
+                                    // branch takes another branch's -- pick() answers with a lone candidate
+                                    // whatever its condition -- and its textures have to come from THAT branch:
+                                    // read strictly for this one they are none, so the member drew on whatever
+                                    // the member before it left bound (HSynthMerged's variant without eyes drew
+                                    // its borrowed eyes with the body's atlas, reverse epoch 9).
+                                    std::optional<Z3Predicate> texQuery = local;
+                                    for (const BranchVal& candidate : files->ibs) {
+                                        if (candidate.val == path) {
+                                            if (local.has_value() && candidate.query.has_value()
+                                                    && !branches_.compatible(*local, *candidate.query)) {
+                                                texQuery = candidate.query;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    inBranch.push_back(rolesInBranch(*files, texQuery));
                                     appendMemberBindings(additions, members[i], bound, &inBranch.back());
                                 }
 

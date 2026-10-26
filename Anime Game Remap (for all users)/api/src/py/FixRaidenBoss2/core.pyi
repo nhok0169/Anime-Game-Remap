@@ -7513,6 +7513,15 @@ class GIMIComponentFixerConfig:
     def lightMapObjs(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def lightMapPerDiffuse(self) -> bool:
+        """
+        :class:`bool`: Whether a light map bound beside several diffuses (eg. a hair colour toggle that swaps only the
+        diffuse) gets one :attr:`lightMapEdit` per diffuse, each bound where its diffuse is. **Default**: ``False``
+        """
+    @lightMapPerDiffuse.setter
+    def lightMapPerDiffuse(self, arg0: bool) -> None:
+        ...
+    @property
     def mipmaps(self) -> bool:
         """
         :class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``
@@ -8127,6 +8136,15 @@ class GIMIMergeFixerConfig:
             """
         @slots.setter
         def slots(self, arg0: collections.abc.Sequence[GIMIMergeFixerConfig.Slot]) -> None:
+            ...
+        @property
+        def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Shared groups of this component, ``{source group:
+            [(target bone, share), ...]}`` in place of its reverse row's one bone. Empty by default
+            """
+        @splitGroups.setter
+        def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
             ...
         @property
         def vertexCount(self) -> int:

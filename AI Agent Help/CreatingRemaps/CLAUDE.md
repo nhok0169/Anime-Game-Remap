@@ -1025,6 +1025,16 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   repainted in the lace's white, folds kept, at `ps-t1` of her pass `7f639abb`). Her texture's alpha tops out at
   127 and is not opacity, so it is left alone. No skin mod hides the blindfold, so the copy was proved on a
   synthetic one (ChangliNymph1 plus a `handling = skip` on `646aa163`).
+* **The eyes draw through a SECOND vertex shader in the overworld (`c32a6985`, the menu's is `ceff9a81`), on both
+  of Changli's outfits -- and the eye pass listed only the menu's.** Changli6's purple eyes (its alternate-hair
+  variant) came out the game's amber outside the menu. Lynae's pair already listed both (tag `3381.615`, shared).
+  A red probe at each register on the overworld draw named `ps-t2` the colour; and read the MOD's textures before
+  calling a colour wrong -- Changli6's eye for its normal hair IS the game's amber, so only the alternate hair shows it.
+* **An outline pass's `ps-t0` is a COLOUR the shader darkens, and the two outfits feed it different things.** Changli's
+  own outline draw binds a dedicated outline map (~30% darker than her diffuse); the skin's binds its DIFFUSE. Bound
+  to the skin's pass, her outline map was darkened twice: a near-black edge round Changli9's long hair, read as "a
+  second shadow ghost". `wwmiPassLayout.py` on both menu dumps shows it (`sets ps-t0` and what it holds); turning the
+  remap's outline draw off proved the pass, and binding the hair / bangs DIFFUSE there is the fix.
 * **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
   (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
   blend is read across its neighbour's bytes and the whole model draws as giant polygons.

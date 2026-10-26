@@ -205,7 +205,9 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         "9d4c7d9618ef7f45": ["6e5d4bc00bc160ee"],
         "fbe2f2f061949559": ["3b36d7d284d20522"],
         "7f639abb370f996d": ["3ba352c448cd29cc", "a434a95920c66e51"],
-        "5616e4de7d4e70ef": ["ceff9a81afb1de70"],
+        # the eyes draw through a second vertex shader outside the character menu (as Lynae's do): gated on the
+        # menu's alone, the overworld eyes took the game's textures
+        "5616e4de7d4e70ef": ["ceff9a81afb1de70", "c32a69851757154a"],
         "bb1c5ba6e1be6395": ["488d2eb256ff8c71"],
         "f8c96a270bf847dd": ["6a6650a9db8983ce", "e4a3da6d1d1068b9"],
         "705575a2e1b4a4b9": ["3e22b125329523fa", "7148f95feba974ac"],
@@ -227,6 +229,7 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
         "6a6650a9db8983ce": "3381.73",
         "e4a3da6d1d1068b9": "3381.731",
         "ceff9a81afb1de70": "3381.625",
+        "c32a69851757154a": "3381.615",
         "5fd6e5bb6ff81c53": "3381.718",
         "a54621ce48ed541b": "3381.616",
         "a434a95920c66e51": "3381.511",

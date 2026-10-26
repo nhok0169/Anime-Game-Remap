@@ -66,7 +66,9 @@ namespace AGRemapCore {
             {"d5572b1cbbba07a4", {"cb05fd1251af9a73"}},
             {"14fee50a0ce4ec91", {"e00893f9d07dc9b0"}},
             {"7f639abb370f996d", {"a434a95920c66e51"}},
-            {"5616e4de7d4e70ef", {"ceff9a81afb1de70"}},
+            // the eyes draw through a second vertex shader outside the character menu (as Lynae's do): gated
+            // on the menu's alone, the overworld eyes took the game's textures
+            {"5616e4de7d4e70ef", {"ceff9a81afb1de70", "c32a69851757154a"}},
             {"43b4972776737988", {"a434a95920c66e51"}},
             {"f8c96a270bf847dd", {"6a6650a9db8983ce", "e4a3da6d1d1068b9"}},
             {"705575a2e1b4a4b9", {"7148f95feba974ac"}},
@@ -92,6 +94,7 @@ namespace AGRemapCore {
             {"6a6650a9db8983ce", "3381.73"},
             {"e4a3da6d1d1068b9", "3381.731"},
             {"ceff9a81afb1de70", "3381.625"},
+            {"c32a69851757154a", "3381.615"},
             {"5fd6e5bb6ff81c53", "3381.718"},
             {"4ce754b5b9574b1a", "3381.769"},
             {"a54621ce48ed541b", "3381.616"},
@@ -125,11 +128,12 @@ namespace AGRemapCore {
             // epoch 1). Left out of the plan, it is dropped
         };
 
-        // ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's
-        // second pass sets ps-t1 only ----
+        // ---- a slot's OTHER passes: the outlines take a colour map at ps-t0, the eye's second pass sets
+        // ps-t1 only. The skin feeds its outline pass the DIFFUSE and darkens it; her own dedicated outline
+        // maps are ~30% darker already, so bound there they came out black around the hair (Changli9) ----
         config.extraPassRegs = {
-            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsOutline"}}}}},
-            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairOutline"}}}}},
+            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsDiffuse"}}}}},
+            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
             {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "coatOutline", 5}}}}},
             {6, {{"e04f4df80ee6b0ab", {{"ps-t1", "eyeHighlight"}}}}},
         };

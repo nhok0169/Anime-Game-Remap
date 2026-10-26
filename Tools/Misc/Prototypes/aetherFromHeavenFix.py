@@ -83,13 +83,17 @@ ModTypeNames = {"": "AetherHeavenMain", "Bang": "AetherHeavenBang", "Eye": "Aeth
 DrapePull = 0.07
 
 # how far the coat's side panels are pulled in at the hem -- see fixerConfig; 0 off
-SidePull = 0.08
+SidePull = 0.0
 
 # the height the drape's pull fades to nothing at -- see fixerConfig
 DrapeFadeTop = 1.15
 
 # how far the coat's front panels are pulled in at the hem -- see fixerConfig; 0 off
-FrontPull = 0.08
+FrontPull = 0.0
+
+# how far every coat panel (and the drape's lowest links) is pulled in towards his axis at the hem -- see fixerConfig
+CoatRadial = 0.07
+CoatRadialExtra = [103, 104]
 
 SplitSlots = [("Head#hair", "Head", [(0, 40)], "head")]
 
@@ -184,6 +188,19 @@ def fixerConfig(headAlpha = None, headHairBand = None, bodyBand = None, splitHai
                 sidePush.fade = [0.4, 1.0]
                 pushes.append(sidePush)
             component.pushAway = pushes
+        if (name == "" and CoatRadial > 0):
+            # Every coat panel (front 58-65, side 66-73, back 74-81, and the drape's lowest links 103 / 104) pulled in
+            # towards his body's axis, more the lower it hangs. The skin's coat is MODELLED wider than its own simulated
+            # bones let it hang, and on his bones it keeps that width: its hem flared all round (reverse epochs 1-6). Which
+            # bones carried the flare was found by throwing each candidate set aside in game (2026-10-25); the flare sat on
+            # several at once, so pulling one set at a time (side panels, front panels) changed nothing visible. 7 cm.
+            radial = FRB.VGPushAway()
+            radial.groups = list(range(58, 82)) + (CoatRadialExtra or [])
+            radial.side = 0
+            radial.from_ = [0.0, 0.0, 0.0]
+            radial.distance = -CoatRadial
+            radial.fade = [0.4, 1.0]
+            component.pushAway = list(component.pushAway) + [radial]
 
         slots = []
         for comp, slotName, index, layout, to, indexCount, donor in Slots:
@@ -255,16 +272,20 @@ def main():
     parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
     parser.add_argument("--noSplitHair", action = "store_true", help = "an A/B: keep the main Head slot whole (on --headTo)")
     parser.add_argument("--drapePull", type = float, default = 0.07, help = "how far the skin's left back drape is pulled in at its hem (default 0.07, with --sidePull 0.08; 0 off)")
-    parser.add_argument("--sidePull", type = float, default = 0.08, help = "how far the coat's side panels are pulled in at the hem (default 0.08; 0 off)")
+    parser.add_argument("--sidePull", type = float, default = 0.0, help = "an A/B: pull the coat's side panels in sideways at the hem by this much (default 0; --coatRadial replaced it)")
     parser.add_argument("--drapeFadeTop", type = float, default = 1.15, help = "the height the drape's pull fades to nothing at (default 1.15)")
-    parser.add_argument("--frontPull", type = float, default = 0.08, help = "how far the coat's front panels are pulled in at the hem (default 0.08; 0 off)")
+    parser.add_argument("--frontPull", type = float, default = 0.0, help = "an A/B: pull the coat's front panels in sideways at the hem by this much (default 0; --coatRadial replaced it)")
+    parser.add_argument("--coatRadial", type = float, default = 0.07, help = "how far every coat panel is pulled in towards his axis at the hem (default 0.07; 0 off)")
+    parser.add_argument("--coatRadialExtra", default = "103,104", help = "more source groups for --coatRadial, comma-separated (default the drape's lowest links, 103,104)")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None,
                         help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
     Slots[0] = Slots[0][:4] + (args.headTo,) + Slots[0][5:]
-    global DrapePull, SidePull, DrapeFadeTop, FrontPull
+    global DrapePull, SidePull, DrapeFadeTop, FrontPull, CoatRadial, CoatRadialExtra
+    CoatRadial = args.coatRadial
+    CoatRadialExtra = [int(g) for g in args.coatRadialExtra.split(",") if g]
     FrontPull = args.frontPull
     DrapeFadeTop = args.drapeFadeTop
     DrapePull = args.drapePull

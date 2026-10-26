@@ -49,7 +49,8 @@ namespace AGRemapCore {
         std::array<float, 3> from{0.0f, 0.0f, 0.0f};
 
         /**
-         * @brief How far a vertex wholly on :cpp:member:`groups` moves, in model units
+         * @brief How far a vertex wholly on :cpp:member:`groups` moves, in model units -- negative pulls it TOWARDS
+         *      :cpp:member:`from` instead (eg. cloth modelled wider than the target lets it hang, pulled in towards the body's axis)
          */
         float distance = 0.0f;
 

@@ -64,20 +64,22 @@ namespace AGRemapCore {
             drapePull.fade = {0.4f, 1.15f};
             main.pushAway = {drapePull};
 
-            // ...and the coat's side panels (66 / 68 / 70 / 72 on his left, 67 / 69 / 71 / 73 on his right) 8 cm in at the
-            // hem: on his outer cape chains they flared wider than on the skin (reverse epochs 1-4); 4 cm still flared. Its
-            // front panels (58 / 60 / 62 / 64, 59 / 61 / 63 / 65) as well: on his pelvis and thighs, which part in his idle,
-            // the coat's front flared wide where the skin's hangs straight (reverse epoch 5).
-            for (const auto& [groups, side] : std::vector<std::pair<std::vector<long long>, int>>{
-                     {{66, 68, 70, 72}, -1}, {{67, 69, 71, 73}, 1}, {{58, 60, 62, 64}, -1}, {{59, 61, 63, 65}, 1}}) {
-                VGPushAway sidePull{};
-                sidePull.groups = groups;
-                sidePull.side = side;
-                sidePull.from = {3.0f * static_cast<float>(side), 0.0f, 0.0f};
-                sidePull.distance = 0.08f;
-                sidePull.fade = {0.4f, 1.0f};
-                main.pushAway.push_back(std::move(sidePull));
+            // ...and every coat panel (front 58-65, side 66-73, back 74-81, and the drape's lowest links 103 / 104) pulled in
+            // towards his body's axis, more the lower it hangs. The skin's coat is MODELLED wider than its own simulated
+            // bones let it hang, and on his bones it keeps that width: its hem flared all round (reverse epochs 1-6). Which
+            // bones carried the flare was found by throwing each candidate set aside in game; it sat on several at once, so
+            // pulling one set at a time (side panels, front panels) changed nothing visible.
+            VGPushAway coatPull{};
+            for (long long group = 58; group <= 81; ++group) {
+                coatPull.groups.push_back(group);
             }
+            coatPull.groups.push_back(103);
+            coatPull.groups.push_back(104);
+            coatPull.side = 0;
+            coatPull.from = {0.0f, 0.0f, 0.0f};
+            coatPull.distance = -0.07f;     // negative: towards 'from'
+            coatPull.fade = {0.4f, 1.0f};
+            main.pushAway.push_back(std::move(coatPull));
 
             GIMIMergeFixerConfig::Component bang{};
             bang.name = "Bang";

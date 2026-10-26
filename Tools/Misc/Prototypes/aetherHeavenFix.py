@@ -69,6 +69,8 @@ import FixRaidenBoss2 as FRB     # noqa: E402
 CapeChainShare = 0.5
 # EXPERIMENT: the lowest cape links' own share (49 / 28 / 55 / 27); -1 the same as CapeChainShare
 CapeTipShare = -1.0
+# EXPERIMENT: how far the cape's outer lower links are pulled in sideways at the hem; 0 off
+CapeCornerPull = 0.0
 
 # a light map texel counts as COOL when its diffuse is this much bluer than red -- see fixerConfig's coolBands
 CoolHueMargin = 4
@@ -141,6 +143,18 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
         tips = {49, 28, 55, 27}
         share = lambda g: CapeTipShare if (g in tips and CapeTipShare >= 0) else capeShare
         main.splitGroups = {g: [(b, share(g)), (50, 1.0 - share(g))] for g, b in chain.items()}
+    if (CapeCornerPull > 0):
+        # EXPERIMENT: the cape's outer lower links (48 / 28 his left, 54 / 27 his right) pulled in sideways at the hem
+        pushes = []
+        for groups, side in (([48, 28], -1), ([54, 27], 1)):
+            push = FRB.VGPushAway()
+            push.groups = groups
+            push.side = side
+            push.from_ = [3.0 * side, 0.0, 0.0]
+            push.distance = CapeCornerPull
+            push.fade = [0.55, 0.9]
+            pushes.append(push)
+        main.pushAway = list(main.pushAway) + pushes
 
     bang = FRB.GIMIComponentFixerConfig.Component()
     bang.name = "Bang"
@@ -276,13 +290,15 @@ def main():
     parser.add_argument("--coolHueMargin", type = int, default = 4, help = "a texel is cool when blue >= red + this (default 4; negative takes in neutral greys / whites)")
     parser.add_argument("--capeChainShare", type = float, default = 0.5, help = "each back-cape link's share on the skin's back coat chain, the rest on its torso (default 0.5; -1 the plain vertex group row)")
     parser.add_argument("--capeTipShare", type = float, default = -1.0, help = "an A/B: the lowest cape links' share on the coat chain (default -1, as --capeChainShare)")
+    parser.add_argument("--capeCornerPull", type = float, default = 0.0, help = "an A/B: pull the cape's outer lower links in sideways at the hem (default 0, off)")
     parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None, help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
-    global CoolHueMargin, CapeChainShare, CapeTipShare
+    global CoolHueMargin, CapeChainShare, CapeTipShare, CapeCornerPull
+    CapeCornerPull = args.capeCornerPull
     CapeTipShare = args.capeTipShare
     CoolHueMargin = args.coolHueMargin
     CapeChainShare = args.capeChainShare

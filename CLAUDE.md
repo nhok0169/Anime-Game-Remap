@@ -326,12 +326,28 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (122 as of 2026-10-21), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (125 as of 2026-10-26), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
 will conclude there is no coverage when there is), when a divergence from the old script is *not*
 a bug, and how to prove a refactor changed nothing.
+
+**Three of the newest habits are about not damaging other people's work, and apply before your first
+git command (2026-10-26).** The maintainer's checkout is worked on by several agent sessions at once.
+**Habit 123: git's stash is one stack per repository, shared by all of them -- never `git stash`,
+`checkout -- <dir>`, `clean` or `reset` the whole tree** (a bare stash swept up about 20 other agents'
+uncommitted files, and a later pop returned someone else's months-old stash; Testing's older "stash for a
+clean baseline" recipe is now qualified for this). **Habit 124: a background sub-agent that can run
+builds and git is not a read-only auditor** -- prohibit those in its prompt, and re-check `git status`,
+`git stash list` and running processes yourself afterwards. **Habit 125: search `core/include`,
+`core/src`, `core/tests` and `py/src`, never `core` or the cpp root** -- `core/xml` is 67 MB and makes
+`Grep`/`Glob` time out with an error that reads like "no matches". Separately, a request to add a
+**new game** (a fourth `GameTypeId`, like ZZZ was) has an eight-step checklist, including the one step
+nothing tests, in [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A NEW GAME COMES
+BEFORE ITS FIRST `ModTypeId`"; and refreshing `core.pyi`/`core/xml` after a binding change is a
+splice-only recipe, in [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "Refreshing the
+committed artifacts".
 
 **EVERY DOC COMMENT AND DOCSTRING IS PUBLISHED, AND THE SITE'S READER IS A NEW API USER (2026-10-01).** Doxygen
 comments in `core/`, pybind11 `R"(...)"` docstrings and Python docstrings all render on the Read the Docs site,

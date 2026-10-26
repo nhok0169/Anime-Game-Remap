@@ -276,7 +276,12 @@ file by hand.
     block is replaced as well. `--run <scratch>` generates without touching `core/xml`. Then
     `<scratch>/xml --apply <Class> <Header.h>` copies those compounds' files and splices only their
     index blocks. Run with no names, it lists what differs: **438 compounds** on 2026-09-18, of
-    which two were the session's.
+    which two were the session's. **A namespace-level enum, enumerator, variable or function is in
+    the `AGRemapCore` compound (`namespace_a_g_remap_core.xml`), not under your class or header** --
+    name it too, and find it by grepping the generated tree for your new symbol rather than by
+    filtering the listing on your class names (2026-10-26: that filter hid it). The whole recipe,
+    including which of the resulting files to revert, is Documentation's "Refreshing the committed
+    artifacts".
   - Judge a Doxygen run by its log, not its exit code: piping `doxygen Doxyfile` through
     PowerShell's `Select-String` reported a non-zero exit while the same run redirected to a file
     exited 0. Redirect to a log and grep it for `warning:` lines mentioning *your* file.
@@ -810,6 +815,26 @@ Two habits that avoid it:
   "the build finished" --- a killed build has no errors either. If the log's last line is a
   `Building CXX object`, re-run the build; ninja will pick up where it stopped.
 
+**Waiting for one, and telling slow from stuck (2026-10-26).** Three things observed in one long session:
+- **How to wait.** A harness that blocks `Start-Sleep` and sleeping poll loops gives you two ways:
+  launch with `run_in_background` and carry on when its completion notification arrives, or load
+  `Monitor` (via `ToolSearch`) and watch for the process to exit. `ScheduleWakeup` was NOT a reliable
+  timer: a wakeup requested for ~25 minutes fired after about 25 seconds, repeatedly, so a loop of them
+  just burns turns. And **take elapsed time from `date`, never from a wakeup's label or your own
+  arithmetic** -- the same session decided a link had been "stalled for 40 minutes" when `date` said it
+  had run 10.
+- **A link that crawls under memory pressure is not hung.** With ~12 concurrent agent sessions on a
+  16 GB machine (1.6 GB free) `link.exe` of the `core` module gained about 0.06 CPU-seconds per five
+  minutes and still finished by itself after roughly 40 minutes. Before killing anything,
+  check free RAM (`Get-CimInstance Win32_OperatingSystem`: `FreePhysicalMemory`) and sample the
+  process's CPU a few minutes apart against `date`; killing and re-running only joins the same queue and
+  throws the progress away. This is the slow cousin of "a build that runs out of compiler heap is RAM,
+  not code" above.
+- **A sub-agent that "finished" may have left the build running.** Its task notification fires when its
+  TURN ends, not when the `cmake`/`ninja`/`link` chain it started does; see Overview habit 124. Check
+  `Get-Process` for those names, and do not start a second build against the same `cbuild/` (hygiene
+  rule 1 below).
+
 When only `AGRemapCore.lib` is needed (a standalone `core/tests/*.cpp` run, or a pure-core change
 you are not yet testing from Python), build just that target --- it is a fraction of the time:
 
@@ -1301,7 +1326,9 @@ If you also need the stub by hand:
 PYTHONPATH=<api/src/py> py -3 -m pybind11_stubgen FixRaidenBoss2.core -o <api/src/py> --root-suffix ""
 ```
 **Run that from Bash, not PowerShell** — PowerShell swallows the empty-string argument and
-stubgen fails with `--root-suffix: expected one argument`. Check `pybind11.__version__` is 3.0.4
+stubgen fails with `--root-suffix: expected one argument`. (From PowerShell 5.1 write it
+`"--root-suffix="` instead and it works -- verified 2026-10-26; Documentation's "Refreshing the
+committed artifacts" is the whole recipe, from build to rendered HTML.) Check `pybind11.__version__` is 3.0.4
 first or the regenerated stub churns against the committed one. **Generate into a scratch folder
 rather than `<api/src/py>`, then splice only your classes** with `Tools/Misc/Docs/pyiSplice.py` ---
 the module you built contains every other agent's bindings too (Overview's habit 50).

@@ -91,13 +91,15 @@ namespace AGRemapCore {
         // and 255, cool on 0. So a warm surface (his cream cape, blonde hair) shades right where it is, and a cool one
         // went peach: Aether10's blue-grey mane on 255, a lilac cape on 126 (SynthRecolour). On 0 both matched his
         // card, and moving the warm ones too turned Aether7's cream cape lavender and flattened his blonde hair. Cool is
-        // bluer than red by a margin, so a neutral grey or white stays put. The first band a texel matches wins, so the
-        // gated bands lead.
-        const int CoolHueMargin = 4;
+        // NOT warm: a neutral grey or white goes too (forward epoch 8: Aether10's grey-white mane, red - blue 0-3 on band
+        // 255, shaded khaki with peach blotches where his card shades it lavender-grey; on 0 it matched, and his blonde
+        // hair and cream capes, red - blue 20 and up, did not move). The first band a texel matches wins, so the gated
+        // bands lead.
+        const int WarmHueMargin = 4;
 
         bool isCool(int red, int green, int blue) {
             (void)green;
-            return blue >= red + CoolHueMargin;
+            return red - blue < WarmHueMargin;
         }
 
         // (the band typed: a bare 0 also converts to the predicate, which picks the other constructor)
@@ -168,6 +170,19 @@ namespace AGRemapCore {
                 {47, 78}, {48, 78}, {53, 79}, {54, 79}, {49, 80}, {28, 80}, {55, 81}, {27, 81}};
             for (const auto& [group, chainBone] : capeChain) {
                 main.splitGroups[group] = {{chainBone, CapeChainShare}, {50, 1.0 - CapeChainShare}};
+            }
+
+            // ...and its INNER lower links (46 / 47 / 49 his left, 52 / 53 / 55 his right) pushed apart sideways at the hem,
+            // none of it at the waist: on his card the slit between the panels opens into a V towards the hem, on the
+            // shared links it stayed a narrow parallel slit (forward epoch 8, the identity mod, Aether7 and Aether8's coat tails)
+            for (const auto& [groups, side] : std::vector<std::pair<std::vector<long long>, int>>{{{46, 47, 49}, -1}, {{52, 53, 55}, 1}}) {
+                VGPushAway slitOpen{};
+                slitOpen.groups = groups;
+                slitOpen.side = side;
+                slitOpen.from = {-3.0f * side, 0.0f, 0.0f};
+                slitOpen.distance = 0.05f;
+                slitOpen.fade = {0.6f, 1.0f};
+                main.pushAway.push_back(slitOpen);
             }
 
             // NO component carries the face. The skin draws its OWN face meshes (013d13f1 / 3d359360; his are

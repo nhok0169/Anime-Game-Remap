@@ -80,7 +80,7 @@ ModTypeNames = {"": "AetherHeavenMain", "Bang": "AetherHeavenBang", "Eye": "Aeth
 
 # (name, split from, bands, to): the hair of the main Head slot onto his head -- see the header
 # how far the skin's left back drape is pulled in at its hem -- see fixerConfig; 0 off
-DrapePull = 0.07
+DrapePull = 0.13
 
 # how far the coat's side panels are pulled in at the hem -- see fixerConfig; 0 off
 SidePull = 0.0
@@ -271,7 +271,7 @@ def main():
     parser.add_argument("--bodyBand", type = int, default = None, help = "an A/B: move the light maps' 170-190 onto this band")
     parser.add_argument("--headTo", default = "body", help = "the object the main Head slot lands on (default `body`; `head` for the A/B)")
     parser.add_argument("--noSplitHair", action = "store_true", help = "an A/B: keep the main Head slot whole (on --headTo)")
-    parser.add_argument("--drapePull", type = float, default = 0.07, help = "how far the skin's left back drape is pulled in at its hem (default 0.07, with --sidePull 0.08; 0 off)")
+    parser.add_argument("--drapePull", type = float, default = 0.13, help = "how far the skin's left back drape is pulled in at its hem (default 0.07, with --sidePull 0.08; 0 off)")
     parser.add_argument("--sidePull", type = float, default = 0.0, help = "an A/B: pull the coat's side panels in sideways at the hem by this much (default 0; --coatRadial replaced it)")
     parser.add_argument("--drapeFadeTop", type = float, default = 1.15, help = "the height the drape's pull fades to nothing at (default 1.15)")
     parser.add_argument("--frontPull", type = float, default = 0.0, help = "an A/B: pull the coat's front panels in sideways at the hem by this much (default 0; --coatRadial replaced it)")

@@ -71,9 +71,12 @@ CapeChainShare = 0.5
 CapeTipShare = -1.0
 # EXPERIMENT: how far the cape's outer lower links are pulled in sideways at the hem; 0 off
 CapeCornerPull = 0.0
+# how far the cape's INNER lower links are pushed apart sideways at the hem (opens the slit into a V, as on his card); 0 off
+CapeSlitOpen = 0.05
+CapeSlitFade = [0.6, 1.0]
 
 # a light map texel counts as COOL when its diffuse is this much bluer than red -- see fixerConfig's coolBands
-CoolHueMargin = 4
+CoolHueMargin = -3
 
 SrcName = "Aether"
 Skin = "AetherHeaven"
@@ -153,6 +156,18 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
             push.from_ = [3.0 * side, 0.0, 0.0]
             push.distance = CapeCornerPull
             push.fade = [0.55, 0.9]
+            pushes.append(push)
+        main.pushAway = list(main.pushAway) + pushes
+    if (CapeSlitOpen > 0):
+        # EXPERIMENT: the cape's inner lower links (46 / 47 / 49 his left, 52 / 53 / 55 his right) pushed apart at the hem
+        pushes = []
+        for groups, side in (([46, 47, 49], -1), ([52, 53, 55], 1)):
+            push = FRB.VGPushAway()
+            push.groups = groups
+            push.side = side
+            push.from_ = [-3.0 * side, 0.0, 0.0]
+            push.distance = CapeSlitOpen
+            push.fade = list(CapeSlitFade)
             pushes.append(push)
         main.pushAway = list(main.pushAway) + pushes
 
@@ -287,18 +302,23 @@ def main():
     parser.add_argument("--noInnerOutlineAxis", action = "store_true", help = "an A/B: a triangle facing the vertical axis is NOT taken for an inner layer")
     parser.add_argument("--innerOutline", default = "body", help = "comma-separated source objects whose INNER layers lose their outline (Yaoyao's fix; empty for none)")
     parser.add_argument("--noBetweenBands", action = "store_true", help = "an A/B: leave light map bands 150-175 where they are")
-    parser.add_argument("--coolHueMargin", type = int, default = 4, help = "a texel is cool when blue >= red + this (default 4; negative takes in neutral greys / whites)")
+    parser.add_argument("--coolHueMargin", type = int, default = -3, help = "a texel is cool when blue >= red + this (default -3: anything not warm, neutral greys / whites included)")
     parser.add_argument("--capeChainShare", type = float, default = 0.5, help = "each back-cape link's share on the skin's back coat chain, the rest on its torso (default 0.5; -1 the plain vertex group row)")
     parser.add_argument("--capeTipShare", type = float, default = -1.0, help = "an A/B: the lowest cape links' share on the coat chain (default -1, as --capeChainShare)")
     parser.add_argument("--capeCornerPull", type = float, default = 0.0, help = "an A/B: pull the cape's outer lower links in sideways at the hem (default 0, off)")
+    parser.add_argument("--capeSlitOpen", type = float, default = 0.05, help = "how far the cape's inner lower links are pushed apart sideways at the hem, opening the slit into a V (default 0.05; 0 off)")
+    parser.add_argument("--capeSlitFadeFull", type = float, default = 0.6, help = "--capeSlitOpen is whole at or below this height")
+    parser.add_argument("--capeSlitFadeNone", type = float, default = 1.0, help = "--capeSlitOpen is gone at or above this height")
     parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
     parser.add_argument("--noBangSeam", action = "store_true", help = "an A/B: no overlap ring / stand-in where his side locks meet his head")
     parser.add_argument("--keepBackups", action = "store_true", help = "keep the .ini backups the API makes")
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None, help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
-    global CoolHueMargin, CapeChainShare, CapeTipShare, CapeCornerPull
+    global CoolHueMargin, CapeChainShare, CapeTipShare, CapeCornerPull, CapeSlitOpen, CapeSlitFade
     CapeCornerPull = args.capeCornerPull
+    CapeSlitOpen = args.capeSlitOpen
+    CapeSlitFade = [args.capeSlitFadeFull, args.capeSlitFadeNone]
     CapeTipShare = args.capeTipShare
     CoolHueMargin = args.coolHueMargin
     CapeChainShare = args.capeChainShare

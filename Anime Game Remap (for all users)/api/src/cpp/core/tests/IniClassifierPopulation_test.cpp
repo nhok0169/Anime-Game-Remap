@@ -104,6 +104,8 @@ struct KeywordRow {
 
 static const std::vector<KeywordRow>& expectedRows() {
     static const std::vector<KeywordRow> rows = {
+        {"Aether", {"aether", "travelerboy"}},
+        {"AetherHeaven", {"aetherheaven", "aetherskin"}},
         {"Amber", {"amber"}},
         {"AmberCN", {"ambercn"}},
         {"Arlecchino", {"arlecchino"}},
@@ -188,7 +190,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryKeywordRowMatchesPython() {
     std::printf("testEveryKeywordRowMatchesPython\n");
 
-    check(expectedRows().size() == 57, "the oracle itself still has all 57 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine and LumineHeaven)");
+    check(expectedRows().size() == 59, "the oracle itself still has all 59 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven)");
 
     for (const KeywordRow& row : expectedRows()) {
         checkKeywords(ModTypeIdTools::getSectionKeywords(idOf(row.name)), row.keywords,
@@ -219,7 +221,8 @@ static void testTargetOnlyIdsHaveNoKeywords() {
 
     // The WuWa ids are built and classifiable, but by hash, not by name (2026-09-19).
     for (ModTypeId wuwa : {ModTypeId::Sanhua, ModTypeId::SanhuaExorcist, ModTypeId::Chisa, ModTypeId::ChisaParfait,
-                           ModTypeId::Lynae, ModTypeId::LynaePeppermint}) {
+                           ModTypeId::Lynae, ModTypeId::LynaePeppermint,
+                           ModTypeId::Changli, ModTypeId::ChangliNymph}) {
         check(ModTypeIdTools::getSectionKeywords(wuwa).empty(),
               ModTypeIdTools::getName(wuwa) + " has no keywords -- a WWMI .ini never names a section after the character");
     }
@@ -238,7 +241,11 @@ static void testWuWaTypesClassifyByVb0Hash() {
                           Case{"Chisa", ModTypeId::Chisa, "afa1587c"}, Case{"ChisaParfait", ModTypeId::ChisaParfait, "e611d493"},
                           // Lynae by BOTH her vb0s: 3.7 moved it, and most of her mods carry the older one
                           Case{"Lynae", ModTypeId::Lynae, "0c33d628"}, Case{"Lynae", ModTypeId::Lynae, "7e400733"},
-                          Case{"LynaePeppermint", ModTypeId::LynaePeppermint, "ebbfa346"}}) {
+                          Case{"LynaePeppermint", ModTypeId::LynaePeppermint, "ebbfa346"},
+                          // Changli by all THREE of her mesh generations' vb0s (1.1, 1.2, 1.4 on)
+                          Case{"Changli", ModTypeId::Changli, "77975500"}, Case{"Changli", ModTypeId::Changli, "5f8aac45"},
+                          Case{"Changli", ModTypeId::Changli, "d14bed8b"},
+                          Case{"ChangliNymph", ModTypeId::ChangliNymph, "acbfcfec"}}) {
         std::string ini = std::string("[Constants]\nglobal $required_wwmi_version = 0.91\n\n[CommandListRegisterMod]\n$\\WWMIv1\\required_wwmi_version = $required_wwmi_version\n\n")
                           + "[TextureOverrideComponent0]\nhash = " + c.vb0 + "\nmatch_first_index = 0\n";
         AGRC::IniClassifyStats stats = classifier.classify(ini);
@@ -286,6 +293,8 @@ static void testMaximalMatchDisambiguatesOverlappingNames() {
         {"[TextureOverrideYaoYaoRainlitHead]", ModTypeId::YaoyaoBamboo, ModTypeId::Yaoyao},
         {"[TextureOverrideLumineHeavenBody]", ModTypeId::LumineHeaven, ModTypeId::Lumine},
         {"[TextureOverrideLumineSkinBodyA]", ModTypeId::LumineHeaven, ModTypeId::Lumine},
+        {"[TextureOverrideAetherSkinBodyA]", ModTypeId::AetherHeaven, ModTypeId::Aether},
+        {"[TextureOverrideAetherHeavenEarthAnewHead]", ModTypeId::AetherHeaven, ModTypeId::Aether},
         {"[TextureOverrideNingguangOrchidBody]", ModTypeId::NingguangOrchid, ModTypeId::Ningguang},
     };
 

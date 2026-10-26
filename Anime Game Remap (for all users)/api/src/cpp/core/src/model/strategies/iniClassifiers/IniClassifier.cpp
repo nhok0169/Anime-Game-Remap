@@ -25,7 +25,7 @@
 namespace AGRemapCore {
     namespace {
         // Section-name keyword matching is case-insensitive, so both ends go through here: what
-        // addGIModType registers, and what readSectionName looks up. Lowering only one side matches
+        // addHashAndSectionModType registers, and what readSectionName looks up. Lowering only one side matches
         // nothing -- and does it silently, since an unmatched keyword just means "not this mod
         // type". Lowered by grapheme through StringTools, so a non-ASCII keyword or section name
         // is folded the same way on both ends too.
@@ -37,7 +37,9 @@ namespace AGRemapCore {
 
     // "game:<GameTypeId>" DFA transition names, keyed off GameTypeId's underlying int value rather
     // than the game's name, so they stay in sync if GameTypeId's enumerators are ever renamed.
-    static const std::string GITransition = "game:" + std::to_string(static_cast<int>(GameTypeId::GI));
+    // WuWa's is the only one held here: it is also read outside registration (markWuWa and the
+    // constructor's start state). The games identified by hashes and section keywords build theirs
+    // inside addHashAndSectionModType.
     static const std::string WuWaTransition = "game:" + std::to_string(static_cast<int>(GameTypeId::WuWa));
 
     IniClassifier::IniClassifier(bool checkHasTextureOverride): checkHasTextureOverride(checkHasTextureOverride) {
@@ -128,6 +130,12 @@ namespace AGRemapCore {
             readLine(strippedLine, stats, gameTypeIds);
         }
 
+        // A WuWa hash the file never confirmed with '$\WWMIv1': a file that only WATCHES the character (a
+        // help overlay, a skill effect's `$active`) matches its vb0 and draws nothing, so it never uses
+        // WWMI's variables. Its hash is still that character's alone (identifyingHashesOf, unambiguous), so
+        // it classifies -- and the WWMI fixer carries its sections onto the target (2026-10-13)
+        acceptUnmarkedWuWa(stats);
+
         // The most likely ModTypeId(s) are whichever have the highest count in
         // modTypeIdDistribution -- there may be ties, so collect all of them, then sort ascending
         // before adding to stats.
@@ -187,7 +195,8 @@ namespace AGRemapCore {
             }
         }
 
-        return false;
+        acceptUnmarkedWuWa(stats);
+        return stats.isMod;
     }
 
     void IniClassifier::checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds) {
@@ -223,6 +232,7 @@ namespace AGRemapCore {
             }
         }
 
+        acceptUnmarkedWuWa(stats);
         *isFixed = stats.isFixed;
         *isMod = stats.isMod;
     }
@@ -370,6 +380,18 @@ namespace AGRemapCore {
         }
     }
 
+    void IniClassifier::acceptUnmarkedWuWa(IniClassifyStats& stats) {
+        if (savedWuWaModTypeIds.empty()) {
+            return;
+        }
+
+        for (int modTypeId : savedWuWaModTypeIds) {
+            incModTypeCountByHash(modTypeId);
+        }
+        stats.isMod = true;
+        savedWuWaModTypeIds.clear();
+    }
+
     void IniClassifier::markWuWa(IniClassifyStats& stats) {
         if (stateDFA.getCurrentStateId() != "start") {
             return;
@@ -458,8 +480,8 @@ namespace AGRemapCore {
             };
         }
 
-        // addGIModType lowered the keyword when it registered it, so 'lowerSectionName' is what it
-        // has to be matched against.
+        // addHashAndSectionModType lowered the keyword when it registered it, so 'lowerSectionName'
+        // is what it has to be matched against.
         auto [matchedKeywordPtr, matchedGameTypeIdsPtr] = sectionKeywordsDFA.getMaximalPtr(lowerSectionName, pred);
 
         if (matchedKeywordPtr == nullptr) {
@@ -468,9 +490,9 @@ namespace AGRemapCore {
 
         // Position stateDFA on the matched keyword's "sectionName:<keyword>" state, mirroring
         // readHash's initial "hash:<hash>" transition -- required for the "game:<GameTypeId>"
-        // transitions below to have a chance of landing on an accept state (see addGIModType's
-        // wiring: "start" --sectionName:<keyword>--> sectionName:<keyword> --game:<GameTypeId>-->
-        // accept<ModTypeId>).
+        // transitions below to have a chance of landing on an accept state (see
+        // addHashAndSectionModType's wiring: "start" --sectionName:<keyword>--> sectionName:<keyword>
+        // --game:<GameTypeId>--> accept<ModTypeId>).
         std::string newState;
         bool isAccept;
         bool taken;
@@ -507,12 +529,27 @@ namespace AGRemapCore {
     }
 
     bool IniClassifier::addGIModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords) {
+        return addHashAndSectionModType(GameTypeId::GI, modType, hashes, sectionKeywords);
+    }
+
+    bool IniClassifier::addZZZModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords) {
+        return addHashAndSectionModType(GameTypeId::ZZZ, modType, hashes, sectionKeywords);
+    }
+
+    bool IniClassifier::addHashAndSectionModType(GameTypeId gameTypeId, const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords) {
+        const int gameTypeIdInt = static_cast<int>(gameTypeId);
+
+        // The "game:<GameTypeId>" edge every accept state below hangs off. Built from the game
+        // being registered rather than held in a per-game constant, so a game that is identified
+        // the same way (GI, ZZZ) cannot register against another game's edge.
+        const std::string gameTransition = "game:" + std::to_string(gameTypeIdInt);
+
         // ----- checks -----
         if (modTypes.find(modType.modTypeId) != modTypes.end()) {
             return false;
         }
 
-        if (modType.gameTypeId != static_cast<int>(GameTypeId::GI)) {
+        if (modType.gameTypeId != gameTypeIdInt) {
             return false;
         }
 
@@ -524,21 +561,21 @@ namespace AGRemapCore {
         acceptModTypeIds[acceptStateId].insert(modType.modTypeId);
 
         for (const std::string& hash : hashes) {
-            hashGameTypeIds[hash].insert(static_cast<int>(GameTypeId::GI));
+            hashGameTypeIds[hash].insert(gameTypeIdInt);
 
             std::string foundHashStateId = "foundHash:" + hash;
             stateDFA.addKeywordTransition("start", "hash:" + hash, foundHashStateId);
 
             // Another ModTypeIdData may have already registered this same hash under the same
-            // GameTypeId -- foundHashStateId --GITransition--> already exists in that case, and
+            // GameTypeId -- foundHashStateId --gameTransition--> already exists in that case, and
             // overwriting it would orphan that ModTypeIdData's accept state for this hash. Instead,
             // leave the existing transition alone and just also associate this ModTypeId with
             // whichever accept state it already leads to.
-            if (!stateDFA.hasKeywordTransition(foundHashStateId, GITransition)) {
-                stateDFA.addKeywordTransition(foundHashStateId, GITransition, acceptStateId);
+            if (!stateDFA.hasKeywordTransition(foundHashStateId, gameTransition)) {
+                stateDFA.addKeywordTransition(foundHashStateId, gameTransition, acceptStateId);
                 stateDFA.addKeywordTransition(acceptStateId, "prev:hash:" + hash, foundHashStateId);
             } else {
-                std::string existingAcceptStateId = *stateDFA.getKeywordToState(foundHashStateId, GITransition);
+                std::string existingAcceptStateId = *stateDFA.getKeywordToState(foundHashStateId, gameTransition);
                 acceptModTypeIds[existingAcceptStateId].insert(modType.modTypeId);
             }
         }
@@ -546,7 +583,7 @@ namespace AGRemapCore {
         stateDFA.addKeywordTransition(acceptStateId, "reset", "start");
 
         std::unordered_set<int> gameTypeIdSet;
-        gameTypeIdSet.insert(static_cast<int>(GameTypeId::GI));
+        gameTypeIdSet.insert(gameTypeIdInt);
 
         for (const std::string& rawKeyword : sectionKeywords) {
             // Lowered once, here, so every downstream use of it -- the match DFA, the
@@ -554,17 +591,17 @@ namespace AGRemapCore {
             std::string keyword = toLower(rawKeyword);
 
             sectionKeywordsDFA.add(keyword, gameTypeIdSet);
-            keywordGameTypeIds[keyword].insert(static_cast<int>(GameTypeId::GI));
+            keywordGameTypeIds[keyword].insert(gameTypeIdInt);
 
             std::string sectionNameStateId = "sectionName:" + keyword;
             stateDFA.addKeywordTransition("start", sectionNameStateId, sectionNameStateId);
 
             // Same collision as above, but for 2 ModTypeIdDatas sharing the same section keyword.
-            if (!stateDFA.hasKeywordTransition(sectionNameStateId, GITransition)) {
-                stateDFA.addKeywordTransition(sectionNameStateId, GITransition, acceptStateId);
+            if (!stateDFA.hasKeywordTransition(sectionNameStateId, gameTransition)) {
+                stateDFA.addKeywordTransition(sectionNameStateId, gameTransition, acceptStateId);
                 stateDFA.addKeywordTransition(acceptStateId, "prev:sectionName:" + keyword, sectionNameStateId);
             } else {
-                std::string existingAcceptStateId = *stateDFA.getKeywordToState(sectionNameStateId, GITransition);
+                std::string existingAcceptStateId = *stateDFA.getKeywordToState(sectionNameStateId, gameTransition);
                 acceptModTypeIds[existingAcceptStateId].insert(modType.modTypeId);
             }
         }

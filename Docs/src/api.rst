@@ -2025,6 +2025,17 @@ RemapTexAddResource
 
 :raw-html:`<br />`
 
+RemapFileAddResource
+====================
+
+.. attributetable:: FixRaidenBoss2.RemapFileAddResource
+
+.. autoclass:: FixRaidenBoss2.RemapFileAddResource
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RemapTexEditResource
 ====================
 

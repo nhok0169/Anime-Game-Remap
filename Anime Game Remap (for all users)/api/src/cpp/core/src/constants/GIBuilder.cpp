@@ -150,11 +150,19 @@ namespace AGRemapCore {
                            // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
-                           // single shared ModDataAssets::vgRemaps, so all 57 GI mod types share one
+                           // single shared ModDataAssets::vgRemaps, so all 59 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
                            nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
         }
+    }
+
+    ModType GIBuilder::aether() {
+        return makeGIModType(ModTypeId::Aether, {"TravelerBoy", "MaleTraveler", "TravelerMale", "Sora"});
+    }
+
+    ModType GIBuilder::aetherHeaven() {
+        return makeGIModType(ModTypeId::AetherHeaven, {"AetherSkin", "HeavenAether", "AetherAsHeavenAndEarthAreMadeAnew", "AsHeavenAndEarthAreMadeAnewAether", "TravelerBoyHeaven"});
     }
 
     ModType GIBuilder::amber() {
@@ -390,6 +398,8 @@ namespace AGRemapCore {
         // (RaidenBoss, ArlecchinoBoss) are remap *targets* only and have no factory here, so
         // iterating the enum would try to build mod types that do not exist.
         return {
+            aether(),
+            aetherHeaven(),
             amber(),
             amberCN(),
             ayaka(),

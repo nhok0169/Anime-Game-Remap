@@ -386,6 +386,12 @@ namespace AGRemapCore {
             std::string diffuse;
             std::string lightMap;
 
+            // EVERY diffuse the object's section binds, over all branches, as (resource name lowercase, file),
+            // first branch first, and the register it is bound at -- see
+            // GIMIComponentFixerConfig::lightMapPerDiffuse. Filled only when that is set.
+            std::vector<std::pair<std::string, std::string>> diffuseResources;
+            std::string diffuseReg;
+
             // The TexFx mask the object's section binds at ps-t69, if any -- see
             // GIMIComponentFixerConfig::Component::texFxBlend.
             std::string texFxMask;
@@ -781,7 +787,7 @@ namespace AGRemapCore {
                             }
 
                             if (config_.texRegsByName && !ownFixCall) {
-                                std::string byNameDiffuse, byNameLightMap;
+                                std::string byNameDiffuse, byNameLightMap, byNameDiffuseReg;
                                 bool anyNormalMap = false;
                                 bool namesTrusted = true;
                                 for (const std::string& reg : {DiffuseReg, LightMapReg, ShiftedLightMapReg}) {
@@ -798,6 +804,7 @@ namespace AGRemapCore {
                                     } else if (RegValChecks::isDiffuse(file)) {
                                         namesTrusted = namesTrusted && byNameDiffuse.empty();
                                         byNameDiffuse = file;
+                                        byNameDiffuseReg = reg;
                                     } else {
                                         namesTrusted = false;
                                     }
@@ -808,6 +815,20 @@ namespace AGRemapCore {
                                     objFiles.normalMapLayout = anyNormalMap;
                                     objFiles.diffuse = byNameDiffuse;
                                     objFiles.lightMap = byNameLightMap;
+                                    objFiles.diffuseReg = byNameDiffuseReg;
+                                }
+                            }
+
+                            if (config_.lightMapPerDiffuse && !objFiles.diffuse.empty()) {
+                                if (objFiles.diffuseReg.empty()) {
+                                    objFiles.diffuseReg = objFiles.normalMapLayout ? ShiftedDiffuseReg : DiffuseReg;
+                                }
+                                for (const BranchVal& raw : branches_.valsThroughRun(templates, sectionName, objFiles.diffuseReg)) {
+                                    const std::string resource = ModBranches::resourceOf(raw.val);
+                                    const std::string file = fileOf(resource);
+                                    if (!file.empty()) {
+                                        objFiles.diffuseResources.emplace_back(StringTools::toLower(resource), file);
+                                    }
                                 }
                             }
                             objects[obj] = std::move(objFiles);
@@ -1191,6 +1212,20 @@ namespace AGRemapCore {
                     return nullptr;
                 }
 
+                // Whether another drawn object reads the same diffuse file as 'name'
+                bool sharesDiffuse(const std::string& name, const std::string& diffuse) const {
+                    if (diffuse.empty()) {
+                        return false;
+                    }
+                    for (const std::string& other : drawn_) {
+                        const ModObjectFiles* otherFiles = (other == name) ? nullptr : objectFiles(other);
+                        if (otherFiles != nullptr && StringTools::equalsIgnoreCase(otherFiles->diffuse, diffuse)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
                 GraphId slotGraph(std::size_t group) const {
                     return GraphId(group, "", component_.slot);
                 }
@@ -1261,6 +1296,15 @@ namespace AGRemapCore {
                                 TexEditor({entry.second}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
+                            // TWO OBJECTS ON ONE DIFFUSE (2026-10-24): Aether9 draws his head and body from
+                            // one atlas, and the head's edit (alpha 1 all over) and the body's (glows kept)
+                            // were written to ONE file -- the head's won, and every glow on his body went
+                            // out. The file is named per object then (TexReplace::modObj); only then, so a
+                            // mod whose objects read their own textures keeps the names it always had.
+                            if (files != nullptr && sharesDiffuse(name, files->diffuse)) {
+                                replace->modObj = name;
+                            }
+
                             auto collect = std::make_unique<Collector>();
                             collect->srcRegs = {{slot, diffuseReg}};
                             collect->resEdits = {{"diffuse", replace.get()}};
@@ -1278,18 +1322,72 @@ namespace AGRemapCore {
                                 != config_.lightMapObjs.end();
 
                         if (config_.lightMapEdit && files != nullptr && editThisObj) {
-                            TexEditor::Filter filter = config_.lightMapEdit(files->diffuse);
-                            if (filter) {
+                            // ONE EDIT PER DIFFUSE (2026-10-26) -- see GIMIComponentFixerConfig::lightMapPerDiffuse.
+                            // Aether5's hair key binds a grey diffuse beside the same light map as the blonde one,
+                            // and the bands chosen for the blonde kept the grey on the skin's warm band.
+                            std::vector<std::string> diffuseFiles{files->diffuse};
+                            for (const auto& entry : files->diffuseResources) {
+                                const bool seen = std::any_of(diffuseFiles.begin(), diffuseFiles.end(),
+                                    [&](const std::string& f) { return StringTools::equalsIgnoreCase(f, entry.second); });
+                                if (!seen) {
+                                    diffuseFiles.push_back(entry.second);
+                                }
+                            }
+
+                            const std::string diffuseReg = files->diffuseReg;
+                            const auto* resources = &files->diffuseResources;
+
+                            // The resources a part binds at the diffuse register that name 'file'
+                            const auto partDiffuseIs = [resources, diffuseReg](const auto& iterData, const std::string& file) {
+                                for (const auto& val : iterData.part->getValsWithInds(diffuseReg, true, std::nullopt)) {
+                                    const std::string resource = StringTools::toLower(ModBranches::resourceOf(val.second));
+                                    for (const auto& entry : *resources) {
+                                        if (entry.first == resource && StringTools::equalsIgnoreCase(entry.second, file)) {
+                                            return true;
+                                        }
+                                    }
+                                }
+                                return false;
+                            };
+
+                            for (std::size_t i = 0; i < diffuseFiles.size(); ++i) {
+                                TexEditor::Filter filter = config_.lightMapEdit(diffuseFiles[i]);
+                                if (!filter) {
+                                    continue;
+                                }
+
+                                const std::string suffix = (i == 0) ? std::string() : ("Diffuse" + std::to_string(i));
                                 auto replace = std::make_unique<TexEditorReplace<>>(
-                                    GraphId(group, "", component_.slot + "RemapTexLightMap"),
+                                    GraphId(group, "", component_.slot + "RemapTexLightMap" + suffix),
                                     TexEditor({filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
-                                    "resourceRemapTexEdit", std::string("LightMap"));
+                                    "resourceRemapTexEdit", std::string("LightMap") + suffix);
+                                if (i > 0) {
+                                    replace->modObj = name + "LightMap" + std::to_string(i);
+                                }
 
                                 auto collect = std::make_unique<Collector>();
                                 collect->srcRegs = {{slot, lightMapReg}};
                                 collect->resEdits = {{"lightMap", replace.get()}};
 
-                                texGroupEdits_.push_back(collect.get());
+                                // the first diffuse's edit takes every part binding none of the others
+                                if (diffuseFiles.size() > 1) {
+                                    std::vector<std::string> others(diffuseFiles.begin() + 1, diffuseFiles.end());
+                                    const std::string own = diffuseFiles[i];
+                                    collect->resPredicates[slot] = [partDiffuseIs, others, own, i](const std::string&, const std::string&, const auto& iterData) {
+                                        if (i > 0) {
+                                            return partDiffuseIs(iterData, own);
+                                        }
+                                        return std::none_of(others.begin(), others.end(),
+                                            [&](const std::string& other) { return partDiffuseIs(iterData, other); });
+                                    };
+                                }
+
+                                // ahead of the diffuse edits when the predicate reads the diffuse, which they rename
+                                if (diffuseFiles.size() > 1) {
+                                    texGroupEdits_.insert(texGroupEdits_.begin(), collect.get());
+                                } else {
+                                    texGroupEdits_.push_back(collect.get());
+                                }
                                 texReplaces_.push_back(std::move(replace));
                                 texCollects_.push_back(std::move(collect));
                             }
@@ -2092,7 +2190,20 @@ namespace AGRemapCore {
                         std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
                             {OverrideByteStride, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(files_.positionStride)))},
                             {OverrideVertexCount, RegNewVals<>::NewValSpec(RegNewVals<>::NewVal(std::to_string(keptVertices_)))}},
-                        /*addNewKVPs*/ true);
+                        /*addNewKVPs*/ false);
+
+                    // Rewritten where the section has them, filled in only where it has them nowhere
+                    // -- see GIMIMergeFixer's overrides_: addNewKVPs put a second, unguarded copy at
+                    // the root of a namespace-merged master's VertexLimitRaise (a 48-variant Yelan
+                    // mod, 2026-10-21).
+                    strideFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideByteStride,
+                        RegFillMissing<>::makeFillMissing(OverrideByteStride, std::to_string(files_.positionStride)),
+                        RegFillMissingMode::BottomCover);
+                    vertexCountFill_ = std::make_unique<RegFillMissing<>>(
+                        OverrideVertexCount,
+                        RegFillMissing<>::makeFillMissing(OverrideVertexCount, std::to_string(keptVertices_)),
+                        RegFillMissingMode::BottomCover);
 
                     // A cut component draws only the vertices it kept.
                     blendDraw_ = std::make_unique<RegNewVals<>>(
@@ -2112,6 +2223,8 @@ namespace AGRemapCore {
                     addFixCallAdapter_ = std::make_unique<GraphPartEdit<>>(addFixCall_.get());
                     normalBackAdapter_ = std::make_unique<RegPartEdit<>>(normalBack_.get());
                     overridesAdapter_ = std::make_unique<RegPartEdit<>>(overrides_.get());
+                    strideFillAdapter_ = std::make_unique<GraphPartEdit<>>(strideFill_.get());
+                    vertexCountFillAdapter_ = std::make_unique<GraphPartEdit<>>(vertexCountFill_.get());
                     blendDrawAdapter_ = std::make_unique<RegPartEdit<>>(blendDraw_.get());
 
                     // A STATE THROUGH A DOWNLOAD IS NOT DRAWN, SO ITS IB IS `null` (2026-10-11). Beside a
@@ -2306,7 +2419,8 @@ namespace AGRemapCore {
                         }
                         iniEdits.trackKeys[TexcoordObj] = false;
 
-                        iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get(), overridesAdapter_.get()};
+                        iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get(), overridesAdapter_.get(),
+                                                    strideFillAdapter_.get(), vertexCountFillAdapter_.get()};
                         iniEdits.trackKeys[OtherObj] = false;
 
                         if (component_.face) {
@@ -2425,6 +2539,10 @@ namespace AGRemapCore {
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegRemap<>> normalBack_;
                 std::unique_ptr<RegNewVals<>> overrides_;
+                std::unique_ptr<RegFillMissing<>> strideFill_;
+                std::unique_ptr<RegFillMissing<>> vertexCountFill_;
+                std::unique_ptr<GraphPartEdit<>> strideFillAdapter_;
+                std::unique_ptr<GraphPartEdit<>> vertexCountFillAdapter_;
                 std::unique_ptr<RegNewVals<>> blendDraw_;
                 std::unique_ptr<RegNewVals<>> nullDownloadSplits_;
                 std::unique_ptr<RegPartEdit<>> nullDownloadSplitsAdapter_;

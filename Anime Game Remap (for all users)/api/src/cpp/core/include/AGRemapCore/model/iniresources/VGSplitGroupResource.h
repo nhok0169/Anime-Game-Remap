@@ -49,7 +49,8 @@ namespace AGRemapCore {
         std::array<float, 3> from{0.0f, 0.0f, 0.0f};
 
         /**
-         * @brief How far a vertex wholly on :cpp:member:`groups` moves, in model units
+         * @brief How far a vertex wholly on :cpp:member:`groups` moves, in model units -- negative pulls it TOWARDS
+         *      :cpp:member:`from` instead (eg. cloth modelled wider than the target lets it hang, pulled in towards the body's axis)
          */
         float distance = 0.0f;
 
@@ -82,6 +83,17 @@ namespace AGRemapCore {
          @endrst
          */
         std::array<float, 2> fade = {0.0f, 0.0f};
+
+        /**
+         * @brief
+         @rst
+         How far this push moves ONE vertex: ``{dx, 0, dz}`` for a vertex at 'pos' with the four bone weights and
+         SOURCE group indices of its blend line -- :cpp:member:`side`, :cpp:member:`fade` and the vertex's share of
+         :cpp:member:`groups` applied. ``{0, 0, 0}`` for a vertex the push does not reach
+         @endrst
+         */
+        std::array<float, 3> displacement(const float pos[3], const std::array<double, 4>& weights,
+                                          const std::array<long long, 4>& indices) const;
     };
 
     struct VGSplitGroupConfig {

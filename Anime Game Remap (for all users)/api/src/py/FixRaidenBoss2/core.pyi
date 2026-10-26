@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -7513,6 +7513,15 @@ class GIMIComponentFixerConfig:
     def lightMapObjs(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def lightMapPerDiffuse(self) -> bool:
+        """
+        :class:`bool`: Whether a light map bound beside several diffuses (eg. a hair colour toggle that swaps only the
+        diffuse) gets one :attr:`lightMapEdit` per diffuse, each bound where its diffuse is. **Default**: ``False``
+        """
+    @lightMapPerDiffuse.setter
+    def lightMapPerDiffuse(self, arg0: bool) -> None:
+        ...
+    @property
     def mipmaps(self) -> bool:
         """
         :class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``
@@ -8111,12 +8120,31 @@ class GIMIMergeFixerConfig:
         def positionOffsetFade(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(2)"]) -> None:
             ...
         @property
+        def pushAway(self) -> list[...]:
+            """
+            List[:class:`VGPushAway`]: Cloth of this component pushed horizontally, by its weight share on the push's SOURCE
+            groups, before it is merged --- for a part the source's own bones carry somewhere at rest that no target bone takes
+            it. Empty by default
+            """
+        @pushAway.setter
+        def pushAway(self, arg0: collections.abc.Sequence[...]) -> None:
+            ...
+        @property
         def slots(self) -> list[GIMIMergeFixerConfig.Slot]:
             """
             List[:class:`GIMIMergeFixerConfig.Slot`]: The component's draw slots
             """
         @slots.setter
         def slots(self, arg0: collections.abc.Sequence[GIMIMergeFixerConfig.Slot]) -> None:
+            ...
+        @property
+        def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Shared groups of this component, ``{source group:
+            [(target bone, share), ...]}`` in place of its reverse row's one bone. Empty by default
+            """
+        @splitGroups.setter
+        def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
             ...
         @property
         def vertexCount(self) -> int:
@@ -8446,6 +8474,20 @@ class GIMIMergeFixerConfig:
         """
     @texRegsByName.setter
     def texRegsByName(self, arg0: bool) -> None:
+        ...
+    @property
+    def texcoordPadFrom(self) -> int:
+        """
+        :class:`int`: A component carrying only ``TEXCOORD0`` is widened to the TARGET's stride with its ``TEXCOORD1`` zero by
+        default, i.e. ``(0, 0)`` --- the atlas corner. A target whose shader reads ``TEXCOORD1`` (Lumine's two-sided dress
+        draws every BACK face through it) then textures the inside of every skirt from that corner. Set to the byte offset of
+        ``TEXCOORD0`` in a line (``4``, after the vertex colour), the padding is a copy of it instead, so a back face shows
+        the same texels as its front --- which is how the source's own one-sided shader drew it
+        
+        **Default**: ``-1``, zeros
+        """
+    @texcoordPadFrom.setter
+    def texcoordPadFrom(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def texcoordStride(self) -> int:
@@ -9107,10 +9149,13 @@ class GameTypeId:
       GI : Genshin Impact
     
       WuWa : Wuthering Waves
+    
+      ZZZ : Zenless Zone Zero
     """
     GI: typing.ClassVar[GameTypeId]  # value = <GameTypeId.GI: 0>
     WuWa: typing.ClassVar[GameTypeId]  # value = <GameTypeId.WuWa: 1>
-    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>}
+    ZZZ: typing.ClassVar[GameTypeId]  # value = <GameTypeId.ZZZ: 2>
+    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>, 'ZZZ': <GameTypeId.ZZZ: 2>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -12750,6 +12795,34 @@ class IniClassifier(BaseIniClassifier):
         :class:`bool`
             Whether 'modType' was newly registered
         """
+    def addZZZModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str], sectionKeywords: collections.abc.Set[str]) -> bool:
+        """
+        Registers a ZZZ mod type into the classifier
+        
+        Classifies exactly like :meth:`addGIModType` -- a ZZZ .ini file is identified by its hashes and its
+        section keywords the same way a GI one is -- except that the game is :attr:`GameTypeId.ZZZ`. The mod
+        type is filed under that game, so registering it never disturbs a GI mod type, including when the
+        same hash or keyword is registered for both games: a .ini file using it is then classified as both
+        
+        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
+        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.ZZZ`
+        
+        Parameters
+        ----------
+        modType: :class:`ModTypeIdData`
+            The mod type to register
+        
+        hashes: Set[:class:`str`]
+            The hashes that identify 'modType'
+        
+        sectionKeywords: Set[:class:`str`]
+            The section keywords that identify 'modType'
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'modType' was newly registered
+        """
     def getModType(self, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> ModTypeIdData:
         """
         Retrieves the registered :class:`ModTypeIdData` for a :class:`ModTypeId`
@@ -13957,7 +14030,7 @@ class IniKeywords:
     IndexNotFound: typing.ClassVar[str] = 'IndexNotFound'
     MatchFirstIndex: typing.ClassVar[str] = 'match_first_index'
     MatchIndexCount: typing.ClassVar[str] = 'match_index_count'
-    MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_first_index', 'match_type', 'match_priority', 'hash', 'match_vertex_count'}
+    MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_vertex_count', 'match_first_index', 'hash', 'match_type', 'match_priority'}
     MatchPriority: typing.ClassVar[str] = 'match_priority'
     MatchType: typing.ClassVar[str] = 'match_type'
     MatchVertexCount: typing.ClassVar[str] = 'match_vertex_count'
@@ -16040,6 +16113,10 @@ class ModTypeId:
       Lynae : Lynae from WuWa; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin
     
       LynaePeppermint : Lynae's Peppermint skin from WuWa
+    
+      Changli : Changli from WuWa; a mod may carry any of her three mesh generations (1.1, 1.2, 1.4 on)
+    
+      ChangliNymph : Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1)
     """
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
@@ -16054,6 +16131,8 @@ class ModTypeId:
     BennettAdventureBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBang: 11>
     BennettAdventureBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBody: 10>
     BennettAdventureEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureEye: 12>
+    Changli: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Changli: 88>
+    ChangliNymph: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChangliNymph: 89>
     Charlotte: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Charlotte: 13>
     CharlotteHurlock: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlock: 14>
     CharlotteHurlockBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockBangs: 16>
@@ -16129,7 +16208,7 @@ class ModTypeId:
     YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 80>
     YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 79>
     YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 81>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Lumine': <ModTypeId.Lumine: 45>, 'LumineHeaven': <ModTypeId.LumineHeaven: 46>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 47>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 48>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 49>, 'Mona': <ModTypeId.Mona: 50>, 'MonaCN': <ModTypeId.MonaCN: 51>, 'Neuvillette': <ModTypeId.Neuvillette: 52>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 53>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 54>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 55>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 56>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 57>, 'Nilou': <ModTypeId.Nilou: 58>, 'NilouBreeze': <ModTypeId.NilouBreeze: 59>, 'Ningguang': <ModTypeId.Ningguang: 60>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 61>, 'Raiden': <ModTypeId.Raiden: 62>, 'RaidenBoss': <ModTypeId.RaidenBoss: 63>, 'Rosaria': <ModTypeId.Rosaria: 64>, 'RosariaCN': <ModTypeId.RosariaCN: 65>, 'Shenhe': <ModTypeId.Shenhe: 66>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 67>, 'Xiangling': <ModTypeId.Xiangling: 68>, 'XianglingCheer': <ModTypeId.XianglingCheer: 69>, 'Xingqiu': <ModTypeId.Xingqiu: 70>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 71>, 'Yaoyao': <ModTypeId.Yaoyao: 72>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 73>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 74>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 75>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 76>, 'Yelan': <ModTypeId.Yelan: 77>, 'YelanTranquil': <ModTypeId.YelanTranquil: 78>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 79>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 80>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 81>, 'Sanhua': <ModTypeId.Sanhua: 82>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 83>, 'Chisa': <ModTypeId.Chisa: 84>, 'ChisaParfait': <ModTypeId.ChisaParfait: 85>, 'Lynae': <ModTypeId.Lynae: 86>, 'LynaePeppermint': <ModTypeId.LynaePeppermint: 87>}
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Lumine': <ModTypeId.Lumine: 45>, 'LumineHeaven': <ModTypeId.LumineHeaven: 46>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 47>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 48>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 49>, 'Mona': <ModTypeId.Mona: 50>, 'MonaCN': <ModTypeId.MonaCN: 51>, 'Neuvillette': <ModTypeId.Neuvillette: 52>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 53>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 54>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 55>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 56>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 57>, 'Nilou': <ModTypeId.Nilou: 58>, 'NilouBreeze': <ModTypeId.NilouBreeze: 59>, 'Ningguang': <ModTypeId.Ningguang: 60>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 61>, 'Raiden': <ModTypeId.Raiden: 62>, 'RaidenBoss': <ModTypeId.RaidenBoss: 63>, 'Rosaria': <ModTypeId.Rosaria: 64>, 'RosariaCN': <ModTypeId.RosariaCN: 65>, 'Shenhe': <ModTypeId.Shenhe: 66>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 67>, 'Xiangling': <ModTypeId.Xiangling: 68>, 'XianglingCheer': <ModTypeId.XianglingCheer: 69>, 'Xingqiu': <ModTypeId.Xingqiu: 70>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 71>, 'Yaoyao': <ModTypeId.Yaoyao: 72>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 73>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 74>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 75>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 76>, 'Yelan': <ModTypeId.Yelan: 77>, 'YelanTranquil': <ModTypeId.YelanTranquil: 78>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 79>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 80>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 81>, 'Sanhua': <ModTypeId.Sanhua: 82>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 83>, 'Chisa': <ModTypeId.Chisa: 84>, 'ChisaParfait': <ModTypeId.ChisaParfait: 85>, 'Lynae': <ModTypeId.Lynae: 86>, 'LynaePeppermint': <ModTypeId.LynaePeppermint: 87>, 'Changli': <ModTypeId.Changli: 88>, 'ChangliNymph': <ModTypeId.ChangliNymph: 89>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -20440,6 +20519,68 @@ class RemapBlendResource(RemapIniFixResource):
     @vgRemap.setter
     def vgRemap(self, arg0: VGRemap) -> None:
         ...
+class RemapFileAddResource(RemapIniResource):
+    """
+    
+    This class inherits from :class:`RemapIniResource`
+    
+    Class for adding a brand new file, of contents the fix already knows, used by the overall remap process
+    -- eg. the source of a ``CustomShader`` the fix draws a part with, or the constant buffer that shader reads
+    
+    The non-texture counterpart to :class:`RemapTexAddResource`, counted in :attr:`RemapStats.fileAdd`
+        
+    """
+    def __init__(self, iniFolderPath: str, srcPath: str, bytes: bytes, type: str = 'resourceRemapFileAdd', fixFunc: collections.abc.Callable[[RemapFileAddResource], bool] | None = None) -> None:
+        """
+        Constructs a new file-add resource
+        
+        Parameters
+        ----------
+        iniFolderPath: :class:`str`
+            The path to the folder of the .ini file
+        
+        srcPath: :class:`str`
+            The path of the file to write
+        
+        bytes: :class:`bytes`
+            The file's contents
+        
+        type: :class:`str`
+            The name for the type of resource
+        
+            **Default**: ``"resourceRemapFileAdd"``
+        
+        fixFunc: Optional[Callable[[:class:`RemapFileAddResource`], :class:`bool`]]
+            Custom function for fixing the resource, overriding the default behavior if given
+        
+            **Default**: ``None``
+        """
+    def fix(self) -> bool:
+        """
+        Fixes the resource -- calls the custom 'fixFunc' if set at construction, otherwise writes :attr:`bytes` to
+        ``srcPath``, creating its folder when it is missing
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the file was written
+        """
+    @property
+    def bytes(self) -> bytes:
+        """
+        :class:`bytes`: The contents written to the file
+        """
+    @bytes.setter
+    def bytes(self, arg1: bytes) -> None:
+        ...
+    @property
+    def fixFunc(self) -> collections.abc.Callable[[RemapFileAddResource], bool] | None:
+        """
+        Optional[Callable[[:class:`RemapFileAddResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg1: collections.abc.Callable[[RemapFileAddResource], bool] | None) -> None:
+        ...
 class RemapIniDownload(RemapIniResource):
     """
     
@@ -21055,6 +21196,15 @@ class RemapStats:
         """
     @download.setter
     def download(self, arg0: CachedFileStats) -> None:
+        ...
+    @property
+    def fileAdd(self) -> FileStats:
+        """
+        :class:`FileStats`: Stats about whether a brand new non-texture file created by this software (a custom shader's
+        source, the constant buffer it reads -- :class:`RemapFileAddResource`) has been created/removed
+        """
+    @fileAdd.setter
+    def fileAdd(self, arg0: FileStats) -> None:
         ...
     @property
     def ini(self) -> FileStats:
@@ -24004,9 +24154,33 @@ class VGComponentMerge:
         
     """
     @staticmethod
-    def padLines(src: bytes, lines: typing.SupportsInt | typing.SupportsIndex, to: typing.SupportsInt | typing.SupportsIndex) -> bytes:
+    def padLines(src: bytes, lines: typing.SupportsInt | typing.SupportsIndex, to: typing.SupportsInt | typing.SupportsIndex, fillFrom: typing.SupportsInt | typing.SupportsIndex = -1) -> bytes:
         """
-        A fixed-stride buffer widened, every line zero-padded at the END -- where a missing ``TEXCOORD1`` sits
+        A fixed-stride buffer widened, every line padded at the END --- where a missing ``TEXCOORD1`` sits
+        
+        The padding is zeros, or --- with ``fillFrom`` --- a copy of the line's own bytes from that offset: ``4`` makes a
+        12-byte ``COLOR + TEXCOORD0`` line a 20-byte one whose ``TEXCOORD1`` repeats its ``TEXCOORD0``
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The buffer
+        
+        lines: :class:`int`
+            Its line count
+        
+        to: :class:`int`
+            The stride to widen to
+        
+        fillFrom: :class:`int`
+            The byte offset in each line to copy the padding from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``-1``, zeros
+        
+        Raises
+        ------
+        ValueError
+            If ``src`` is not a whole number of lines, is wider than ``to``, or ``fillFrom`` reaches past the end of a line
         """
     @staticmethod
     def remapIndices(indices: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]], weights: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(4)"]], remap: VGRemap) -> tuple[list[typing.Annotated[list[int], "FixedSize(4)"]], list[int]]:
@@ -24021,7 +24195,7 @@ class VGComponentMerge:
         Tuple[List[List[:class:`int`]], List[:class:`int`]]
             The remapped indices, and every weighted group that had no entry
         """
-    def __init__(self, components: collections.abc.Sequence[VGMergeComponent], minTexcoordStride: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+    def __init__(self, components: collections.abc.Sequence[VGMergeComponent], minTexcoordStride: typing.SupportsInt | typing.SupportsIndex = 0, texcoordPadFrom: typing.SupportsInt | typing.SupportsIndex = -1) -> None:
         """
         Merges the components, in the order given
         
@@ -24031,10 +24205,16 @@ class VGComponentMerge:
             The source's components; the first takes offset 0
         
         minTexcoordStride: :class:`int`
-            The TARGET's texcoord stride: the merged buffer is at least this wide, every line zero-padded at its end
+            The TARGET's texcoord stride: the merged buffer is at least this wide, every line padded at its end
             :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``0``, the widest component's
+        
+        texcoordPadFrom: :class:`int`
+            Where a widened line's padding is copied from, as a byte offset into the same line --- see :meth:`padLines`
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``-1``, zeros
         """
     def mergeIbs(self, members: collections.abc.Sequence[tuple[str, collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]]]) -> list[typing.Annotated[list[int], "FixedSize(3)"]]:
         """
@@ -24669,6 +24849,14 @@ class VGMergeGroupResource(IniGroupedResource, RemapIniResourceMixin):
         """
     @objects.setter
     def objects(self, arg1: collections.abc.Sequence[VGMergeObject]) -> None:
+        ...
+    @property
+    def texcoordPadFrom(self) -> int:
+        """
+        :class:`int`: Where a widened texcoord line's padding is copied from, as a byte offset into the same line --- see :meth:`VGComponentMerge.padLines`. **Default**: ``-1``, zeros
+        """
+    @texcoordPadFrom.setter
+    def texcoordPadFrom(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def texcoordStride(self) -> int:
@@ -25668,6 +25856,16 @@ class WWMIBuilder:
         Every WuWa :class:`ModType`, freshly built on each call
         """
     @staticmethod
+    def changli() -> ModType:
+        """
+        Creates the :class:`ModType` for Changli
+        """
+    @staticmethod
+    def changliNymph() -> ModType:
+        """
+        Creates the :class:`ModType` for ChangliNymph (WWMI-Assets' ChangliSkin1)
+        """
+    @staticmethod
     def chisa() -> ModType:
         """
         Creates the :class:`ModType` for Chisa
@@ -25855,8 +26053,8 @@ class WWMIFixerConfig:
         @property
         def flags(self) -> int:
             """
-            :class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
-            its vertices carry any of them
+            :class:`int`: The flag bits that mark a texel: a draw goes when more than
+            :attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
             """
         @flags.setter
         def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
@@ -25868,6 +26066,16 @@ class WWMIFixerConfig:
             """
         @from_.setter
         def from_(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def share(self) -> float:
+            """
+            :class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
+            for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
+            among others. **Default**: ``0.5``, more than half
+            """
+        @share.setter
+        def share(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
             ...
         @property
         def sourceFlags(self) -> WWMIFixerConfig.DrawReroute.FlagMask:
@@ -25920,7 +26128,70 @@ class WWMIFixerConfig:
         :attr:`WWMIFixerConfig.plan` entry binds
             
         """
+        class After:
+            """
+            
+            Which draws must come before a :class:`WWMIFixerConfig.Shader`'s component, on a pass -- see
+            :attr:`WWMIFixerConfig.Shader.after`
+                
+            """
+            def __init__(self) -> None:
+                ...
+            @property
+            def also(self) -> list[tuple[int, int]]:
+                """
+                List[Tuple[:class:`int`, :class:`int`]]: Further components the draw waits for as well, each with how many
+                draws its slot makes in one pass; the draw is made once all of them have drawn there, in whatever order.
+                A component the mod does not draw is left out of the count. **Default**: empty
+                """
+            @also.setter
+            def also(self, arg0: collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]) -> None:
+                ...
+            @property
+            def carried(self) -> list[str]:
+                """
+                List[:class:`str`]: The registers a deferred draw takes from the component's own draw, eg. ``"ps-t0"``
+                """
+            @carried.setter
+            def carried(self, arg0: collections.abc.Sequence[str]) -> None:
+                ...
+            @property
+            def component(self) -> int:
+                """
+                :class:`int`: The SOURCE component (a key of :attr:`WWMIFixerConfig.plan`) drawn first
+                """
+            @component.setter
+            def component(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def draws(self) -> int:
+                """
+                :class:`int`: How many draws that component's slot makes in one pass; the deferred draw follows the last
+                of them. **Default**: ``1``
+                """
+            @draws.setter
+            def draws(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+                ...
+            @property
+            def target(self) -> str:
+                """
+                :class:`str`: The output register that tells one pass from another; a pass leaving it unbound draws the
+                component as before. **Default**: ``"o3"``
+                """
+            @target.setter
+            def target(self, arg0: str) -> None:
+                ...
         def __init__(self) -> None:
+            ...
+        @property
+        def after(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader.After | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
+            in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first
+            blends over whatever is behind the body. **Default**: ``None``
+            """
+        @after.setter
+        def after(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader.After | None) -> None:
             ...
         @property
         def constantBuffers(self) -> dict[str, list[int]]:
@@ -25949,12 +26220,61 @@ class WWMIFixerConfig:
         def name(self, arg0: str) -> None:
             ...
         @property
+        def onlyWith(self) -> str:
+            """
+            :class:`str`: An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
+            that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:
+            ``""``, every pass
+            """
+        @onlyWith.setter
+        def onlyWith(self, arg0: str) -> None:
+            ...
+        @property
+        def passPs(self) -> list[str]:
+            """
+            List[:class:`str`]: Per entry of :attr:`passes`, the HLSL that pass draws with in place of :attr:`ps` -- a
+            source that draws one component with two shaders, eg. a solid one where the part is opaque and a
+            see-through one over a body. An empty entry, or none, keeps :attr:`ps`. **Default**: empty
+            """
+        @passPs.setter
+        def passPs(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
+        @property
+        def passes(self) -> list[list[tuple[str, str]]]:
+            """
+            List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
+            :attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
+            see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
+            **Default**: empty, one draw with :attr:`lines`
+            """
+        @passes.setter
+        def passes(self, arg0: collections.abc.Sequence[collections.abc.Sequence[tuple[str, str]]]) -> None:
+            ...
+        @property
         def ps(self) -> str:
             """
             :class:`str`: The HLSL source, entry point ``main``
             """
         @ps.setter
         def ps(self, arg0: str) -> None:
+            ...
+        @property
+        def registers(self) -> list[WWMIFixerConfig.Binding]:
+            """
+            List[:class:`WWMIFixerConfig.Binding`]: Bindings the component takes only while this shader draws it, after the
+            plan entry's own (the source's register layout). **Default**: empty
+            """
+        @registers.setter
+        def registers(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
+            ...
+        @property
+        def yieldToRabbitFX(self) -> bool:
+            """
+            :class:`bool`: A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's game
+            shader there (RabbitFX patches the game's shaders, never this one). **Default**: ``False``
+            """
+        @yieldToRabbitFX.setter
+        def yieldToRabbitFX(self, arg0: bool) -> None:
             ...
     class SkeletonNumbering:
         """
@@ -26027,6 +26347,29 @@ class WWMIFixerConfig:
             """
         @bindings.setter
         def bindings(self, arg0: collections.abc.Sequence[WWMIFixerConfig.Binding]) -> None:
+            ...
+        @property
+        def markLines(self) -> list[tuple[str, str]]:
+            """
+            List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on the passes the slot's
+            :attr:`WWMIFixerConfig.slotPasses` name, the same draw again with NO pixel shader under these
+            ``CustomShader`` lines -- to mark the pixels the component is the visible surface of in the stencil, eg.
+            ``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
+            render targets. **Default**: empty, no such draw
+            """
+        @markLines.setter
+        def markLines(self, arg0: collections.abc.Sequence[tuple[str, str]]) -> None:
+            ...
+        @property
+        def offPasses(self) -> list[str]:
+            """
+            List[:class:`str`]: Passes of the target slot (pixel shader hashes, as in
+            :attr:`WWMIFixerConfig.slotPasses`) that the component's draws are kept off -- eg. a slot's outline
+            pass, whose shell of an under-layer the target's outline shader draws through the layer over it.
+            **Default**: empty, every pass
+            """
+        @offPasses.setter
+        def offPasses(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
         def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
@@ -26368,6 +26711,15 @@ class WWMIFixerConfig:
     def flatLeftToGame(self, arg0: collections.abc.Set[str]) -> None:
         ...
     @property
+    def hiddenMeshes(self) -> list[str]:
+        """
+        List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
+        hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
+        """
+    @hiddenMeshes.setter
+    def hiddenMeshes(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
     def hiddenObjs(self) -> list[str]:
         """
         List[:class:`str`]: The hash-only mod objects whose sections are commented out of the mod's own text
@@ -26383,6 +26735,16 @@ class WWMIFixerConfig:
         """
     @mergedSkeletonSlots.setter
     def mergedSkeletonSlots(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def meshCounterparts(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash,
+        mapped to the TARGET's mesh that plays the same part: each such section is copied into the fix's block
+        on the target's hash. **Default**: empty
+        """
+    @meshCounterparts.setter
+    def meshCounterparts(self, arg0: collections.abc.Mapping[str, str]) -> None:
         ...
     @property
     def mirroredComponents(self) -> set[int]:
@@ -26414,6 +26776,16 @@ class WWMIFixerConfig:
         """
     @plan.setter
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
+        ...
+    @property
+    def readInisBelow(self) -> bool:
+        """
+        :class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+        fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+        above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        """
+    @readInisBelow.setter
+    def readInisBelow(self, arg0: bool) -> None:
         ...
     @property
     def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
@@ -26570,12 +26942,36 @@ class WWMIFixerConfig:
     def sourceVgMaps(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
         ...
     @property
+    def stashRegs(self) -> dict[int, list[str]]:
+        """
+        Dict[:class:`int`, List[:class:`str`]]: Registers to capture off the GAME's draw of a target slot nothing of
+        the mod is drawn through, on passes that bind ``o3``; a :attr:`Shader.lines` value ``stash <slot> <register>``
+        binds the capture. **Default**: empty
+        """
+    @stashRegs.setter
+    def stashRegs(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[str]]) -> None:
+        ...
+    @property
     def targetId(self) -> ModTypeId:
         """
         :class:`ModTypeId`: The character fixed TO -- whose ``vb0`` hash, slot windows, vertex-group offsets and shape-key checksum the library's WuWa tables hold
         """
     @targetId.setter
     def targetId(self, arg0: ModTypeId) -> None:
+        ...
+    @property
+    def targetInfluences(self) -> int:
+        """
+        :class:`int`: How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
+        own. The fix's remapped ``Blend.buf`` (and, past 256 bones, its ``BlendRemapVertexVG.buf``) is written at
+        this many -- the mod's own first, the rest bone 0 with weight 0 -- and the generated section's ``stride``
+        and the blend remap's ``weights_per_vertex_count`` follow. A 4-influence character drawn through an
+        8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. When it is
+        FEWER, each vertex keeps its heaviest slots, their weights scaled to the same total. **Default**:
+        ``0``, the mod's own count
+        """
+    @targetInfluences.setter
+    def targetInfluences(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def targetLabels(self) -> dict[int, str]:

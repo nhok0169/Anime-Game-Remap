@@ -77,6 +77,34 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getVGCountD
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "20"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "37"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "1"},
+
+        // Changli (1.1): vg_count as the 1.1-era mods declare it (component 5: 48)
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "44"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "14"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "1"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "101"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "69"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "48"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "1"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "4"},
+        // Changli (1.2): from the 1.3 Metadata.json (vg_count); unchanged at 1.4
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "44"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "14"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "1"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "101"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "69"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "47"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "1"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "4"},
+        // ChangliNymph (2.4): from Metadata.json (vg_count)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component0"}, "44"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component1"}, "14"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component2"}, "1"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component3"}, "54"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component4"}, "106"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component5"}, "36"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component6"}, "1"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component7"}, "8"},
     };
     return rows;
 }

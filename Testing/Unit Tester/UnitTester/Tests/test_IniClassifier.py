@@ -21,6 +21,11 @@ class IniClassifierTest(BaseUnitTest):
         super().setUp()
         self.gi = int(FRB.GameTypeId.GI)
         self.wuwa = int(FRB.GameTypeId.WuWa)
+        self.zzz = int(FRB.GameTypeId.ZZZ)
+        # ModTypeId has no ZZZ members yet and the classifier only ever sees the plain int, so the
+        # ZZZ tests use ids of their own -- far from the enum's, so none can be mistaken for a GI one
+        self.zzzAId = 9001
+        self.zzzBId = 9002
         self.amberId = int(FRB.ModTypeId.Amber)
         self.raidenId = int(FRB.ModTypeId.Raiden)
         self.jeanId = int(FRB.ModTypeId.Jean)
@@ -73,6 +78,59 @@ class IniClassifierTest(BaseUnitTest):
     def test_wrongGameTypeId_addWuWaModTypeReturnsFalse(self):
         c = FRB.IniClassifier()
         self.assertFalse(c.addWuWaModType(FRB.ModTypeIdData(self.gi, self.raidenId), {"cafebabe"}))
+
+    # ================================================
+    # ================= addZZZModType ===================
+
+    def test_newModTypeId_addZZZModTypeReturnsTrue(self):
+        c = FRB.IniClassifier()
+        self.assertTrue(c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set()))
+
+    def test_alreadyRegisteredModTypeId_addZZZModTypeReturnsFalse(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        self.assertFalse(c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"anotherhash"}, set()))
+
+    def test_wrongGameTypeId_addZZZModTypeReturnsFalse(self):
+        c = FRB.IniClassifier()
+
+        self.assertFalse(c.addZZZModType(FRB.ModTypeIdData(self.gi, self.zzzAId), {"deadbeef"}, set()))
+        self.assertFalse(c.addZZZModType(FRB.ModTypeIdData(self.wuwa, self.zzzAId), {"deadbeef"}, set()))
+
+    def test_zzzGameTypeId_otherAddMethodsReturnFalse(self):
+        # The game check works in both directions: a ZZZ mod type is not a GI or a WuWa one
+        c = FRB.IniClassifier()
+
+        self.assertFalse(c.addGIModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set()))
+        self.assertFalse(c.addWuWaModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}))
+
+    def test_wrongGameTypeId_nothingRegistered(self):
+        # A rejected registration must leave no trace -- not in the registry, and not in the DFA
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.gi, self.zzzAId), {"deadbeef"}, {"ZzzKeyword"})
+
+        with self.assertRaises(IndexError):
+            c.getModType(self.zzzAId)
+
+        self.compareDict(c.classify("hash = deadbeef\n").modType, {})
+        self.compareDict(c.classify("[TextureOverrideZzzKeyword]\n").modType, {})
+
+    def test_idRegisteredForAnotherGame_addZZZModTypeReturnsFalse(self):
+        # The registry is keyed by the mod type's id alone, whichever game filed it
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.zzzAId), {"deadbeef"}, set())
+
+        self.assertFalse(c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"cafebabe"}, set()))
+
+    def test_registeredZZZModTypeId_getModTypeReturnsIt(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        result = c.getModType(self.zzzAId)
+
+        self.assertEqual(result.gameTypeId, self.zzz)
+        self.assertEqual(result.modTypeId, self.zzzAId)
 
     # ================================================
     # =================== getModType =====================
@@ -247,14 +305,24 @@ class IniClassifierTest(BaseUnitTest):
         self.assertTrue(stats.isMod)
         self.assertIn(self.raidenId, stats.modType)
 
-    def test_wuwaHashWithNoMarkerAtAll_notClassified(self):
+    # A file that only WATCHES a WuWa character (a help overlay, a skill effect's `$active`) matches its
+    # identifying hash and never uses WWMI's variables: it is that character's file all the same, and the
+    # WWMI fixer carries its sections onto the target (2026-10-13; before, it classified as nothing)
+    def test_wuwaHashWithNoMarkerAtAll_classifiedAsWatcher(self):
         c = FRB.IniClassifier()
         c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
 
         stats = c.classify("hash = cafebabe\n")
 
-        self.assertFalse(stats.isMod)
-        self.compareDict(stats.modType, {})
+        self.assertTrue(stats.isMod)
+        self.assertIn(self.raidenId, stats.modType)
+
+    def test_wuwaHashWithNoMarkerAtAll_checkIsMod(self):
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+
+        self.assertTrue(c.checkIsMod("hash = cafebabe\n"))
+        self.assertFalse(c.checkIsMod("hash = deadbeef\n"))
 
     # ---- tie-breaking / distribution ----
 
@@ -388,6 +456,222 @@ class IniClassifierTest(BaseUnitTest):
         stats = c.classify(iniTxt)
 
         self.compareList(list(stats.modType.keys()), [self.jeanId])
+
+    # ---- ZZZ ----
+    # A ZZZ mod type is identified the way a GI one is (hashes and section keywords), filed under
+    # its own game.
+
+    def test_hashMatch_ZZZ_classifiedCorrectly(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.assertTrue(stats.isMod)
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    def test_sectionNameMatch_ZZZ_classifiedCorrectly(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"ZzzKeyword"})
+
+        stats = c.classify("[TextureOverrideZzzKeyword]\n")
+
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    def test_sectionNameMatch_ZZZ_caseInsensitive(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"ZzzKeyword"})
+
+        stats = c.classify("[textureoverridezzzkeyword]\n")
+
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    def test_classifiedZZZModType_carriesTheZZZGame(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.assertEqual(stats.modType[self.zzzAId].gameTypeId, self.zzz)
+
+    def test_ZZZHashNotRegistered_notClassified(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = unrelated\n")
+
+        self.assertFalse(stats.isMod)
+        self.compareDict(stats.modType, {})
+
+    def test_strictlyHigherCount_ZZZ_onlyThatModTypeIdIncluded(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzBId), {"cafebabe"}, set())
+
+        stats = c.classify(["hash = deadbeef\n", "hash = deadbeef\n", "hash = cafebabe\n"])
+
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    def test_twoZZZModTypesShareSameHash_bothClassified(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzBId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.zzzAId, self.zzzBId]))
+
+    def test_twoZZZModTypesShareSameSectionKeyword_bothClassified(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"SharedKeyword"})
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzBId), set(), {"SharedKeyword"})
+
+        stats = c.classify("[TextureOverrideSharedKeyword]\n")
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.zzzAId, self.zzzBId]))
+
+    # ---- ZZZ next to GI: the same text registered for both games ----
+
+    def test_sameHashRegisteredForGIAndZZZ_bothClassified(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.amberId, self.zzzAId]))
+        # each one stays filed under the game it was registered for
+        self.assertEqual(stats.modType[self.amberId].gameTypeId, self.gi)
+        self.assertEqual(stats.modType[self.zzzAId].gameTypeId, self.zzz)
+
+    def test_sameSectionKeywordRegisteredForGIAndZZZ_bothClassified(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"SharedKeyword"})
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"SharedKeyword"})
+
+        stats = c.classify("[TextureOverrideSharedKeyword]\n")
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.amberId, self.zzzAId]))
+
+    def test_differentHashesForGIAndZZZ_eachClassifiesOnlyItself(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"cafebabe"}, set())
+
+        self.compareList(list(c.classify("hash = deadbeef\n").modType.keys()), [self.amberId])
+        self.compareList(list(c.classify("hash = cafebabe\n").modType.keys()), [self.zzzAId])
+
+    # ---- ZZZ and the gameTypeIds filter ----
+
+    def test_gameTypeIdsArg_ZZZKeywordMatchedWhenZZZNamed(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"ZzzKeyword"})
+
+        stats = c.classify("[TextureOverrideZzzKeyword]\n", {FRB.GameTypeId.ZZZ})
+
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    def test_gameTypeIdsArg_ZZZKeywordMatchedWhenSeveralGamesNamed(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"ZzzKeyword"})
+
+        stats = c.classify("[TextureOverrideZzzKeyword]\n", {FRB.GameTypeId.GI, FRB.GameTypeId.ZZZ})
+
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    def test_gameTypeIdsArg_ZZZKeywordExcludedWhenOnlyOtherGamesNamed(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), set(), {"ZzzKeyword"})
+
+        for games in ({FRB.GameTypeId.GI}, {FRB.GameTypeId.WuWa}, {FRB.GameTypeId.GI, FRB.GameTypeId.WuWa}):
+            stats = c.classify("[TextureOverrideZzzKeyword]\n", games)
+            self.compareDict(stats.modType, {})
+
+    def test_gameTypeIdsArg_GIKeywordExcludedWhenOnlyZZZNamed(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[TextureOverrideAmberKeyword]\n", {FRB.GameTypeId.ZZZ})
+
+        self.compareDict(stats.modType, {})
+
+    # ---- ZZZ in an already-fixed .ini ----
+
+    def test_hashInsideRemapNamedSection_ZZZ_notCounted(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        stats = c.classify("[TextureOverrideZzzRemapFix]\nhash = deadbeef\n")
+
+        self.assertNotIn(self.zzzAId, stats.modType)
+
+    def test_alreadyFixedZZZ_classifiesAsTheSourceOnly(self):
+        # The same scenario as an already-fixed Jean: the original section is hidden by a previous
+        # fix and the fix's own section names the target. Only the source may classify.
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"sourcehash"}, set())
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzBId), {"targethash"}, set())
+
+        iniTxt = (
+            ";RemapFixHideOrig -->[TextureOverrideZzzSource]\n"
+            ";RemapFixHideOrig -->hash = sourcehash\n"
+            "\n"
+            "[TextureOverrideZzzTargetRemapFix]\n"
+            "hash = targethash\n"
+        )
+        stats = c.classify(iniTxt)
+
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+        self.assertTrue(stats.isFixed)
+
+    # ---- ZZZ next to WuWa ----
+
+    def test_wuwaFileThenZZZFile_ZZZStillClassified(self):
+        # A WuWa file parks the DFA on its WuWa state for the rest of THAT file; the next
+        # classification has to start over from the beginning, for a ZZZ file as for a GI one.
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        wuwaStats = c.classify("$\\WWMIv1\nhash = cafebabe\n")
+        zzzStats = c.classify("hash = deadbeef\n")
+
+        self.assertIn(self.raidenId, wuwaStats.modType)
+        self.compareList(list(zzzStats.modType.keys()), [self.zzzAId])
+
+    def test_ZZZHashIsNotWuwaConfirmed(self):
+        # A ZZZ hash is counted straight away -- it is not held back waiting for the WWMI marker
+        # the way a WuWa hash is
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.assertTrue(stats.isMod)
+        self.compareList(list(stats.modType.keys()), [self.zzzAId])
+
+    # ---- ZZZ and checkIsMod/clear ----
+
+    def test_hashMatch_ZZZ_checkIsModReturnsTrue(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, set())
+
+        self.assertTrue(c.checkIsMod("hash = deadbeef\n"))
+
+    def test_clear_registeredZZZModTypeForgotten(self):
+        c = FRB.IniClassifier()
+        c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"deadbeef"}, {"ZzzKeyword"})
+
+        c.clear()
+
+        with self.assertRaises(IndexError):
+            c.getModType(self.zzzAId)
+
+        self.compareDict(c.classify("hash = deadbeef\n").modType, {})
+        self.compareDict(c.classify("[TextureOverrideZzzKeyword]\n").modType, {})
+        # and the id is free to be registered again
+        self.assertTrue(c.addZZZModType(FRB.ModTypeIdData(self.zzz, self.zzzAId), {"newhash"}, set()))
 
     # ================================================
     # ==================== checkIsMod ======================

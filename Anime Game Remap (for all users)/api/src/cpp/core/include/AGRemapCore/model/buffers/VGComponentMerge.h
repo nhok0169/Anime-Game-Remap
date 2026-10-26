@@ -45,6 +45,17 @@ namespace AGRemapCore {
          @endrst
          */
         VGRemap remap;
+
+        /**
+         * @brief
+         @rst
+         SHARED groups: a source group of this component whose weight is spread over several TARGET bones,
+         ``{source group: [(target bone, share), ...]}``, in place of :cpp:member:`remap`'s one bone -- the merge
+         counterpart of :cpp:member:`VGComponentSpec::splitGroups`. Each influence on such a group becomes one per
+         bone of the share, equal bones merged and the 4 largest kept, renormalised. Empty by default
+         @endrst
+         */
+        std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
     };
 
     /**
@@ -160,11 +171,17 @@ namespace AGRemapCore {
              NeuvilletteMelusent's 12 -- otherwise reads each vertex's missing ones out of the NEXT
              vertex
              @endrst
+             * @param texcoordPadFrom
+             @rst
+             Where a widened texcoord line's padding is copied from, as a byte offset into the same
+             line -- see #padLines. ``-1`` (the default) pads with zeros
+             @endrst
              *
              * @throw std::invalid_argument If there are no components, two share a name, or a
              *                              buffer is not a whole number of lines for its vertices
              */
-            explicit VGComponentMerge(std::vector<Component> components, std::size_t minTexcoordStride = 0);
+            explicit VGComponentMerge(std::vector<Component> components, std::size_t minTexcoordStride = 0,
+                                      long long texcoordPadFrom = -1);
 
             /**
              * @brief
@@ -188,14 +205,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             A fixed-stride buffer widened, every line zero-padded at the END -- which is where a
-             missing ``TEXCOORD1`` sits, so a component carrying only one UV set lines up with the
-             ones that carry two
+             A fixed-stride buffer widened, every line padded at the END -- which is where a missing
+             ``TEXCOORD1`` sits, so a component carrying only one UV set lines up with the ones that
+             carry two :raw-html:`<br />` :raw-html:`<br />`
+
+             The padding is zeros, or -- with 'fillFrom' -- a copy of the line's own bytes starting
+             at that offset, as many as the padding is wide: ``4`` makes a 12-byte
+             ``COLOR + TEXCOORD0`` line a 20-byte one whose ``TEXCOORD1`` repeats its ``TEXCOORD0``
              @endrst
              *
-             * @throw std::invalid_argument If the source is not a whole number of lines, or is wider than 'to'
+             * @param src The buffer
+             * @param lines Its line count
+             * @param to The stride to widen to
+             * @param fillFrom The byte offset in each line to copy the padding from, or ``-1`` for zeros
+             *
+             * @throw std::invalid_argument If the source is not a whole number of lines, is wider than 'to',
+             *                              or 'fillFrom' reaches past the end of a source line
              */
-            static ByteVec padLines(const ByteVec& src, std::size_t lines, std::size_t to);
+            static ByteVec padLines(const ByteVec& src, std::size_t lines, std::size_t to, long long fillFrom = -1);
 
             /**
              * @brief The merged ``Blend.buf``

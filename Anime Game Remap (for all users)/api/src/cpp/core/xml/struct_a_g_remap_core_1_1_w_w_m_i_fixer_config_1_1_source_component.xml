@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="187" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="187" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="314" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="314" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_binding" kindref="compound">Binding</ref> &gt;</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="192" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="192" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="319" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="319" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1afe886117d0d3c638dfc4255af565313a" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -56,7 +56,7 @@ reads an empty position buffer and draws nothing. **Default**: ``false``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="204" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="204" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="331" column="18" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="331" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aa1b6a7a373ca8fc31230b53c3c057f7a" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">Shader</ref> &gt;</type>
@@ -79,7 +79,7 @@ too. **Default**: none, the target slot&apos;s shader
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="218" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="218" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="345" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="345" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1adf2525e1ee33b01c71dc5484e35d10c9" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1_1_rabbit_f_x" kindref="compound">RabbitFX</ref> &gt;</type>
@@ -94,7 +94,47 @@ too. **Default**: none, the target slot&apos;s shader
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="257" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="257" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="384" column="27" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ad3cbe49caf6f7fa16e8769b31459820d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::WWMIFixerConfig::SourceComponent::markLines</definition>
+        <argsstring></argsstring>
+        <name>markLines</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SourceComponent::markLines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+After each of the component&apos;s draws on the passes the slot&apos;s :cpp:member:`slotPasses` name, the
+same draw again with NO pixel shader under these ``CustomShader`` lines -- to mark the pixels
+the component is the visible surface of in the stencil, eg. ``depth_func = equal`` with a stencil
+write, for a later draw to test. Nothing is written to the render targets. **Default**: empty,
+no such draw
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="396" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aefde176ccda1450f94e181db5f20c5ac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::WWMIFixerConfig::SourceComponent::offPasses</definition>
+        <argsstring></argsstring>
+        <name>offPasses</name>
+        <qualifiedname>AGRemapCore::WWMIFixerConfig::SourceComponent::offPasses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Passes of the target slot (pixel shader hashes, as in :cpp:member:`slotPasses`) that the
+component&apos;s draws are kept off -- eg. a slot&apos;s outline pass, whose shell of an under-layer
+the target&apos;s outline shader draws through the layer over it. **Default**: empty, every pass
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="406" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="406" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -102,9 +142,11 @@ too. **Default**: none, the target slot&apos;s shader
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="183" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="183" bodyend="258"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="310" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="310" bodyend="407"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ab904796798a3d61f734be2c19f33e7f2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>bindings</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ad3cbe49caf6f7fa16e8769b31459820d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>markLines</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aefde176ccda1450f94e181db5f20c5ac" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>offPasses</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1adf2525e1ee33b01c71dc5484e35d10c9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>rabbitFX</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1afe886117d0d3c638dfc4255af565313a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>sameFileSection</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aa1b6a7a373ca8fc31230b53c3c057f7a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::SourceComponent</scope><name>shader</name></member>

@@ -25,6 +25,14 @@ class GameTypeIdTest(BaseUnitTest):
     def test_declaredValue_getEnumReturnsCorrectEnum(self):
         self.assertEqual(FRB.GameTypeIdTools.getEnum(int(FRB.GameTypeId.GI)), FRB.GameTypeId.GI)
         self.assertEqual(FRB.GameTypeIdTools.getEnum(int(FRB.GameTypeId.WuWa)), FRB.GameTypeId.WuWa)
+        self.assertEqual(FRB.GameTypeIdTools.getEnum(int(FRB.GameTypeId.ZZZ)), FRB.GameTypeId.ZZZ)
+
+    def test_existingGames_keepTheirValues(self):
+        # GI and WuWa are filed by their int value (the classifier's "game:<value>" DFA edges), so a
+        # new game has to be appended -- inserting one earlier would renumber the others
+        self.assertEqual(int(FRB.GameTypeId.GI), 0)
+        self.assertEqual(int(FRB.GameTypeId.WuWa), 1)
+        self.assertEqual(int(FRB.GameTypeId.ZZZ), 2)
 
     def test_undeclaredValue_getEnumReturnsNone(self):
         self.assertIsNone(FRB.GameTypeIdTools.getEnum(-999))
@@ -35,7 +43,7 @@ class GameTypeIdTest(BaseUnitTest):
     def test_getAll_returnsEveryGameInDeclarationOrder(self):
         # Declaration order, not a hash order -- the CLI's --help epilog lists the games with this,
         # so it has to read the same way every run.
-        self.assertEqual(FRB.GameTypeIdTools.getAll(), [FRB.GameTypeId.GI, FRB.GameTypeId.WuWa])
+        self.assertEqual(FRB.GameTypeIdTools.getAll(), [FRB.GameTypeId.GI, FRB.GameTypeId.WuWa, FRB.GameTypeId.ZZZ])
 
     # ================================================
     # ================ getName/getAliases ==============
@@ -43,10 +51,12 @@ class GameTypeIdTest(BaseUnitTest):
     def test_declaredValue_getNameReturnsCorrectName(self):
         self.assertEqual(FRB.GameTypeIdTools.getName(FRB.GameTypeId.GI), "GI")
         self.assertEqual(FRB.GameTypeIdTools.getName(FRB.GameTypeId.WuWa), "WuWa")
+        self.assertEqual(FRB.GameTypeIdTools.getName(FRB.GameTypeId.ZZZ), "ZZZ")
 
     def test_getAliases_returnsTheOtherNamesTheGameAnswersTo(self):
         self.assertEqual(set(FRB.GameTypeIdTools.getAliases(FRB.GameTypeId.GI)), {"Genshin", "GenshinImpact"})
         self.assertEqual(set(FRB.GameTypeIdTools.getAliases(FRB.GameTypeId.WuWa)), {"WutheringWaves"})
+        self.assertEqual(set(FRB.GameTypeIdTools.getAliases(FRB.GameTypeId.ZZZ)), {"ZenlessZoneZero"})
 
     def test_getAliases_doesNotRepeatTheGamesOwnName(self):
         for gameTypeId in FRB.GameTypeIdTools.getAll():
@@ -59,16 +69,20 @@ class GameTypeIdTest(BaseUnitTest):
     def test_name_findByNameResolvesIt(self):
         self.assertEqual(FRB.GameTypeIdTools.findByName("GI"), FRB.GameTypeId.GI)
         self.assertEqual(FRB.GameTypeIdTools.findByName("WuWa"), FRB.GameTypeId.WuWa)
+        self.assertEqual(FRB.GameTypeIdTools.findByName("ZZZ"), FRB.GameTypeId.ZZZ)
 
     def test_alias_findByNameResolvesIt(self):
         self.assertEqual(FRB.GameTypeIdTools.findByName("Genshin"), FRB.GameTypeId.GI)
         self.assertEqual(FRB.GameTypeIdTools.findByName("GenshinImpact"), FRB.GameTypeId.GI)
         self.assertEqual(FRB.GameTypeIdTools.findByName("WutheringWaves"), FRB.GameTypeId.WuWa)
+        self.assertEqual(FRB.GameTypeIdTools.findByName("ZenlessZoneZero"), FRB.GameTypeId.ZZZ)
 
     def test_differentCase_findByNameStillResolvesIt(self):
         self.assertEqual(FRB.GameTypeIdTools.findByName("gi"), FRB.GameTypeId.GI)
         self.assertEqual(FRB.GameTypeIdTools.findByName("GENSHIN"), FRB.GameTypeId.GI)
         self.assertEqual(FRB.GameTypeIdTools.findByName("wUtHeRiNgWaVeS"), FRB.GameTypeId.WuWa)
+        self.assertEqual(FRB.GameTypeIdTools.findByName("zzz"), FRB.GameTypeId.ZZZ)
+        self.assertEqual(FRB.GameTypeIdTools.findByName("zEnLeSsZoNeZeRo"), FRB.GameTypeId.ZZZ)
 
     def test_surroundingWhitespace_findByNameStillResolvesIt(self):
         self.assertEqual(FRB.GameTypeIdTools.findByName("  WuWa  "), FRB.GameTypeId.WuWa)

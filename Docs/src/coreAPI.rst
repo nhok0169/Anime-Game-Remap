@@ -893,6 +893,28 @@ BufReplace
 
 :raw-html:`<br />`
 
+FileAddCreate
+-------------
+
+.. cppattributetable:: AGRemapCore::FileAddCreate
+
+.. doxygenclass:: AGRemapCore::FileAddCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FileRefAdd
+----------
+
+.. cppattributetable:: AGRemapCore::FileRefAdd
+
+.. doxygenclass:: AGRemapCore::FileRefAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GraphCreate
 -----------
 
@@ -1964,6 +1986,17 @@ RemapTexAddResource
 .. cppattributetable:: AGRemapCore::RemapTexAddResource
 
 .. doxygenclass:: AGRemapCore::RemapTexAddResource
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapFileAddResource
+--------------------
+
+.. cppattributetable:: AGRemapCore::RemapFileAddResource
+
+.. doxygenclass:: AGRemapCore::RemapFileAddResource
     :members:
     :protected-members:
 

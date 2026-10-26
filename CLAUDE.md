@@ -45,12 +45,13 @@ enough for Unreal's watchdog to kill it, and turning that logging off is the mai
 bottom of every capture for that, and an image from anywhere else is cropped the same way before it
 is kept or shown. See [Game View](AI%20Agent%20Help/GameView/CLAUDE.md).
 
-**A NEW `char <-> skin` REMAP HAS A FIXED THIRTEEN-STEP PIPELINE, WRITTEN DOWN BY THE MAINTAINER
+**A NEW `char <-> skin` REMAP HAS A FIXED PIPELINE (STEPS 1-13, NO 8 OR 12 SINCE 2026-10-13), WRITTEN DOWN BY THE MAINTAINER
 (2026-09-23).** In short: downloads -> RemapDraft -> mod data in the API (vertex group remap,
 hashes, indices, ...) -> identity mods of both -> prototype `char -> skin` from the library API, noting its gaps -> test it on
 a VARIETY of mods -> port it into the API, filling each gap with a new or extended module
-(`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools) -> test the port on ALL
-the mods -> the same prototype / test / port / test for `skin -> char` -> README and Sphinx docs.
+(`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, tools), A/B'd identical to the prototype -> the
+audit -> the IN-GAME AUDIT by a game subagent, in epochs, which is where the port is tested on ALL the mods -> the
+same prototype / test / port / audits for `skin -> char` -> README and Sphinx docs.
 **DO THE FIRST THING RIGHT (2026-09-27).** A mistake early in the pipeline costs exponentially more
 later: Neuvillette's torn / folded / clipping coat was one wrong vertex group step, and cost two extra days of
 back-and-forth debugging that a correct RemapDraft would have avoided. **And observe in game diligently** --
@@ -62,6 +63,32 @@ a remap in game".
 is not necessarily right for a cape, coat tail, flap or skirt -- predict how each such part moves on the
 target's bone (Neuvillette's coat tore on a component seam, swung on the knees, folded on the skirt bones and
 clipped on the pelvis). See Creating Remaps' "THE VERTEX GROUP BEHAVIOUR AUDIT".
+**AND AFTER THE AUDIT OF EACH COMPILED FIX, AN IN-GAME AUDIT BY A GAME SUBAGENT, IN EPOCHS (the maintainer's rule,
+2026-10-13).** The maintainer's final check is simple: in game, every angle of every mod and every toggle variant,
+original against remap, in the character studio and the overworld. LynaePeppermint -> Lynae was rammed through in
+under a day without that, and then cost days of rounds in which the maintainer found nearly every bug -- each one
+visible in a screenshot the agent could have taken. So a game subagent now does that check first: one EPOCH is every
+mod, every toggle, every angle, original (or a `<Mod>Restored` copy if the original is broken) against remap, plus
+the overworld if the skin is owned; it reports every issue, the remap agent fixes them, and it runs another epoch,
+until one finds nothing. Only then does the maintainer look -- to approve, not to find bugs. See Creating Remaps'
+"THE IN-GAME AUDIT".
+**HARD LIMIT: 10 EPOCHS PER DIRECTION (the maintainer, 2026-10-16).** If the 10th epoch still is not clean, STOP:
+write up what is open and hand it to the maintainer, who checks it themselves. Lynae <-> LynaePeppermint ran for days
+with new bugs in every round; do not start an 11th. **Spend the budget on MECHANISMS, not on one number per epoch
+(2026-10-26):** Aether <-> AetherHeaven used all twenty, most on drape magnitudes probed one value at a time. Bracket a
+magnitude yourself between epochs (prototype options, a few variants, `Tools/Misc/Diagnostics/cardSeries.py`), and
+make the game agent report the same NUMBERS every epoch -- its eye called a cape slit fixed that its own metric next
+epoch measured at twice his. See Creating Remaps' "RUNNING THE EPOCHS: what twenty on Aether taught".
+**"CLEAN" MEANS THE EPOCH FOUND NOTHING -- AND A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (2026-10-17).**
+Filing an epoch's findings as limitations afterwards does not make that epoch clean; say which limitations are
+MEASURED to be out of reach and which only "cause not found", and hand the second kind over as open. Before starting
+an epoch, re-shoot every item fixed in ANY earlier epoch on the new build yourself: one Lynae build brought back an
+epoch-6 fault and voided an epoch run. And from the maintainer's GI experience: **game shaders break on updates far
+faster than meshes or textures**, so a remap reaches for its own `.hlsl` or an extra texture (TexFx-style glow or
+luminosity channels included) only when a measured fault has no other fix, and lists every shipped shader as an
+update risk. Lynae <-> LynaePeppermint ships ten. **The game is also the maintainer's**: ask before driving it in a
+session where they may be playing, and if an "Application Hang Detected" dialog appears, click nothing and ask. See
+Creating Remaps' "RUNNING THE EPOCHS: what eight of them on Lynae taught" and Overview habits 116-118.
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones
@@ -204,6 +231,33 @@ at the same index) -- `WWMIFixerConfig::shapeKeyOrder` rewrites a mod's shape-ke
 `Tools/Misc/Diagnostics/wwmiShapeKeyOrder.py`; check it for every WuWa pair. See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "LYNAE <-> LYNAEPEPPERMINT".
 
+**CHANGLI <-> CHANGLINYMPH IS COMPILED BOTH WAYS (2026-10-20/21), THE FOURTH WUWA PAIR, AND THE FIRST WHOSE TWO
+CHARACTERS READ A DIFFERENT BLEND WIDTH.** Changli writes four influences a vertex and her skin eight, and the game reads
+the blend through the TARGET's layout: `WWMIFixerConfig::targetInfluences` widens and NARROWS (heaviest slots, a repeated
+bone merged). Her older mods name texture hashes from before her 2.6 rehash, and WWMI-Assets' own git history records
+each rehash as a rename (`Tools/Misc/Diagnostics/wwmiAssetLineage.py`; the rows go into `HashData` typed by role). A file
+two resource sections declare is named by the one a section USES (and a re-fix must skip its own previous sections, which
+only a fix-twice comparison catches); `readInisBelow` reads an `.ini` in a mod's subfolder. And alpha MEANS different
+things per shader: on the skin's see-through shaders it is opacity (up to 255), on Changli's opaque ones a scalar that
+lights the part above ~117 -- so the reverse clamps it, and pads the texels the skin's shader cuts away, or her fine gold
+chains draw as dark cords. Limits: her chest tattoo (a cut-out shader) is not drawn on the skin, her arm feathers do not
+glow there, the skin's sheer parts are opaque on her, and one mod's own-mesh components are open (a session card). See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHANGLI <-> CHANGLINYMPH".
+
+**AETHER <-> AETHERHEAVEN IS COMPILED BOTH WAYS (2026-10-25), LUMINE'S TWIN, AND ITS DRAPES TOOK MOST OF THE EPOCHS.**
+Four shared-code findings: a slot section that only says `handling = skip` is a hidden slot (the merge drew the skin's
+bangs on a mod hiding them); two drawn objects reading one diffuse get an edited file each (Aether9's glows went out);
+the merge template has `pushAway` now (`GIMIMergeFixerConfig::Component::pushAway`, sharing `VGPushAway::displacement`);
+and a band move can be gated by the diffuse's HUE -- his shader keeps a surface's hue in shade where the skin's
+multiplies a tinted ramp row. A cape between two wrong bones is a `splitGroups` SHARE (60 / 40), and a drape MODELLED
+splayed out needs a displacement rather than a bone: hand-edit the fixed `RemapPosition.buf` to prove it first. Judge
+drape from full-size crops in a strip across rounds, never a sheet thumbnail. **Then (2026-10-26) three more, all
+opt-in or bug-only:** a light map toggled against several diffuses gets a band edit per diffuse
+(`GIMIComponentFixerConfig::lightMapPerDiffuse`), the merge has `splitGroups` too, and in a merged master a member that
+borrows another branch's ib takes THAT branch's textures (a variant without eyes drew them with the body atlas). **Both
+directions stopped at the 10-epoch limit, handed over OPEN.** See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "AETHER <-> AETHERHEAVEN".
+
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --
 SO FOUR SYNTHETIC ONES WERE BUILT, AND TWO OF THEM FOUND LIBRARY BUGS.** The skin's main mesh is an UNNAMED
 component (`""`, filed as `NeuvilletteMelusentMain`), which the merge could not name (`Component::modTypeName`);
@@ -290,12 +344,28 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (115 as of 2026-10-12), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (127 as of 2026-10-26), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
 will conclude there is no coverage when there is), when a divergence from the old script is *not*
 a bug, and how to prove a refactor changed nothing.
+
+**Three of the newest habits are about not damaging other people's work, and apply before your first
+git command (2026-10-26).** The maintainer's checkout is worked on by several agent sessions at once.
+**Habit 123: git's stash is one stack per repository, shared by all of them -- never `git stash`,
+`checkout -- <dir>`, `clean` or `reset` the whole tree** (a bare stash swept up about 20 other agents'
+uncommitted files, and a later pop returned someone else's months-old stash; Testing's older "stash for a
+clean baseline" recipe is now qualified for this). **Habit 124: a background sub-agent that can run
+builds and git is not a read-only auditor** -- prohibit those in its prompt, and re-check `git status`,
+`git stash list` and running processes yourself afterwards. **Habit 125: search `core/include`,
+`core/src`, `core/tests` and `py/src`, never `core` or the cpp root** -- `core/xml` is 67 MB and makes
+`Grep`/`Glob` time out with an error that reads like "no matches". Separately, a request to add a
+**new game** (a fourth `GameTypeId`, like ZZZ was) has an eight-step checklist, including the one step
+nothing tests, in [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "A NEW GAME COMES
+BEFORE ITS FIRST `ModTypeId`"; and refreshing `core.pyi`/`core/xml` after a binding change is a
+splice-only recipe, in [Documentation](AI%20Agent%20Help/Documentation/CLAUDE.md)'s "Refreshing the
+committed artifacts".
 
 **EVERY DOC COMMENT AND DOCSTRING IS PUBLISHED, AND THE SITE'S READER IS A NEW API USER (2026-10-01).** Doxygen
 comments in `core/`, pybind11 `R"(...)"` docstrings and Python docstrings all render on the Read the Docs site,
@@ -407,7 +477,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**FIFTY-SIX characters are real now (Lumine / LumineHeaven, 2026-09-29; count them with
+**FIFTY-EIGHT GI characters are real now (Aether / AetherHeaven, 2026-10-25; count them with
 `ls -d "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/*/"` rather than
 trusting this number -- the written one has been wrong before), in SIX different shapes, and which
 one you have decides almost everything else.** Five of them are below; the sixth is the
@@ -576,11 +646,11 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR FIFTY-SIX CHARACTERS (verified end-to-end, and every one of them in
+**THE FIX IS LIVE FOR FIFTY-EIGHT GI CHARACTERS (verified end-to-end, and every one of them in
 game -- Citlali through her prototype, which the compiled fix is A/B-identical to). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
-has.** Real fixers and parsers exist for **Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
+has.** Real fixers and parsers exist for **Aether, AetherHeaven, Amber, AmberCN, Arlecchino, Ayaka, AyakaSpringbloom,
 Barbara, BarbaraSummertime, Bennett, BennettAdventure, Charlotte, CharlotteHurlock, CherryHuTao, Citlali, Diluc, DilucFlamme, Fischl,
 FischlHighness, Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Kaeya, KaeyaSailwind, Keqing,
 KeqingOpulent, Kirara, KiraraBoots, Klee, KleeBlossomingStarlight, Lisa, LisaStudent, Lumine, LumineHeaven,
@@ -591,7 +661,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-six.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these fifty-eight.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -1253,6 +1323,19 @@ useful parts of that, all general:
   consecutive fixes each relocate the symptom by millimetres, re-derive the measurement** (habit 96).
 - **Say when it is a boundary rather than a bug** (habit 97). The maintainer asked for that directly.
 
+**THE UNDO DELETES ONLY WHAT A FIX MADE, AND A `.ini` IS READ THE WAY 3DMIGOTO READS IT (2026-10-20/21).** One
+outfit of Lumine11 (a namespace-merged LumineHeaven mod) rendered green and red on Lumine: its author's malformed
+header `[Textrun = ...ORFix` / `ureOverride...]` is a dead section to 3DMigoto and was two keys of the section above
+to our parser. The parser follows 3DMigoto's rule now, and **3DMigoto's `IniHandler.cpp` is the spec for any parse
+question** (Overview habit 120). Re-fixing that mod then deleted the author's line, because the remover deleted
+every occurrence of a name its fix block held; the maintainer's rule is that **outside a fix block only a name
+carrying the reserved `Remap` keyword is the fix's** (habit 121). That change passed a 92-folder sweep and failed
+four Integration Tester goldens in CI -- **run the Integration Tester AND a sweep before pushing fix or undo code**
+(habit 119; `Tools/Misc/Diagnostics/regressBuilds.py`), and re-check moved folders with downloads ON (habit 122).
+The merge template's fixes for a namespace-merged skin mod (slot lookup, draws inside the variant guard, a doubled
+fix call after TexFx, black TexFx parts, the duplicate vertex-limit overrides in both multi-component templates)
+are in Creating Remaps' "A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER".
+
 **FOUR THINGS TO READ BEFORE ANY TASK, DEPENDING ON WHICH KIND YOU HAVE (2026-09-14; a third added
 2026-09-20, a fourth 2026-09-22).** They are the lenses the maintainer keeps having to re-teach, and each now has its own
 writing:
@@ -1442,6 +1525,9 @@ installed it prints only the script's own options. **Every other run UPDATES the
 or below `4.6.4` -- the old pure-Python library -- counts as not installed. A change to the script is tested from the
 COMPILED `AGRemap.py` (`ScriptBuilder --env prod`) in a scratch venv, never from `Tools/Script/main.py`,
 which is always the `dev` path -- Tools' "Changing the script: the loop" has the ten-minute recipe.
+**pip is run as a SUBPROCESS (`sys.executable -m pip`), never `pip.main` (2026-10-20)**: an in-process
+pip 26.2+ flags every import made after the install, which gave a Python 3.14 user 133 `DEPRECATION` lines and
+becomes an error in pip 26.3. Tools' loop section has the scratch-venv reproduction.
 
 **THE PUBLISHED DOCS COMPILE NOTHING, SO TWO TRACKED ARTIFACTS *ARE* THE SITE (2026-09-17).** Read the
 Docs installs `Docs/requirements.txt` and runs Sphinx --- no submodules, no CMake, no Doxygen and no pip

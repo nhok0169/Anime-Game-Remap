@@ -261,6 +261,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"4.0", "Lumine", "", "body"}, "6915"},
         {{"4.0", "Lumine", "", "dress"}, "40413"},
 
+        // Aether (2026-10-24): unchanged across every commit of TravelerBoy's hash.json, and in a 6.x frame dump. NO
+        // rows for AetherHeaven's components, as for LumineHeaven's: their slot indices (main Head 0 / Body 31407; Bang
+        // and Eye A 0) belong in the fixer's config.
+        {{"4.0", "Aether", "", "head"}, "0"},
+        {{"4.0", "Aether", "", "body"}, "8874"},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The match_first_index of every draw slot -- a WWMI character's 'components' in
         // Metadata.json, filed as component0, component1, ... under the empty component column,
@@ -318,6 +324,34 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "254433"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "262944"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "299937"},
+
+        // Changli (1.1): 8 draw slots (match_first_index): the 1.3 Metadata.json, which the 1.1 mesh shares
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "0"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "40269"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "58926"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "70830"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "152343"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "198855"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "283461"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "285489"},
+        // Changli (1.4): from Metadata.json; component 3 grew, so slots 4-7 moved
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "0"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "40269"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "58926"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "70830"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "153363"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "199875"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "284481"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "286509"},
+        // ChangliNymph (2.4): from Metadata.json (match_first_index)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component0"}, "0"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component1"}, "40269"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component2"}, "58926"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component3"}, "70830"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component4"}, "85788"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component5"}, "211971"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component6"}, "241923"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component7"}, "243951"},
     };
     return rows;
 }

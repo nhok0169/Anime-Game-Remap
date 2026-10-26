@@ -148,6 +148,7 @@ from .core import RemapIniGroupedResource
 from .core import RemapIniDownload
 from .core import RemapBlendResource
 from .core import RemapTexAddResource
+from .core import RemapFileAddResource
 from .core import RemapTexEditResource
 from .core import FileStats
 from .core import CachedFileStats
@@ -396,7 +397,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
            "ModType",
            "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
-           "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResourceMixin", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource", "RemapTexAddResource", "RemapTexEditResource",
+           "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResourceMixin", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource", "RemapTexAddResource", "RemapFileAddResource", "RemapTexEditResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
            "DownloadData", "BlendDownloadData", "IniGraphGroup", "Model", "VGRemap",

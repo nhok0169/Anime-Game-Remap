@@ -62,10 +62,10 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Encodes the `floating point`_ back to raw bytes
-
-             .. warning::
-                Please make sure 'src' is within the acceptable range for the type
+             Encodes the `floating point`_ back to raw bytes, rounded to the nearest step (as D3D
+             converts a float to a UNORM), so a value printed to 9 significant digits -- a frame
+             dump's text -- encodes back to the integer it came from. A value outside ``[0, 1]``
+             is clamped to that range
              @endrst
              *
              * @param src The floating-point value to encode

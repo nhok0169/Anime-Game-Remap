@@ -10,6 +10,8 @@
     <includes refid="_w_w_m_i_texture_roles_8h" local="yes">AGRemapCore/data/WWMITextureRoles.h</includes>
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
+    <includedby refid="_changli_parser_8cpp" local="yes">src/data/IniParseData/Changli/ChangliParser.cpp</includedby>
+    <includedby refid="_changli_nymph_parser_8cpp" local="yes">src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp</includedby>
     <includedby refid="_chisa_parser_8cpp" local="yes">src/data/IniParseData/Chisa/ChisaParser.cpp</includedby>
     <includedby refid="_chisa_parfait_parser_8cpp" local="yes">src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp</includedby>
     <includedby refid="_lynae_parser_8cpp" local="yes">src/data/IniParseData/Lynae/LynaeParser.cpp</includedby>
@@ -38,9 +40,6 @@
       </node>
       <node id="104">
         <label>BiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="109">
         <label>AGRemapCore/constants/FileExt.h</label>
@@ -1166,6 +1165,9 @@
         <childnode refid="74" relation="include">
         </childnode>
       </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="87">
         <label>Generator.tpp</label>
       </node>
@@ -1319,36 +1321,48 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
       <node id="3">
+        <label>src/data/IniParseData/Changli/ChangliParser.cpp</label>
+        <link refid="_changli_parser_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp</label>
+        <link refid="_changli_nymph_parser_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
         <link refid="_chisa_parser_8cpp"/>
       </node>
-      <node id="4">
+      <node id="6">
         <label>src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp</label>
         <link refid="_chisa_parfait_parser_8cpp"/>
       </node>
-      <node id="5">
+      <node id="7">
         <label>src/data/IniParseData/Lynae/LynaeParser.cpp</label>
         <link refid="_lynae_parser_8cpp"/>
       </node>
-      <node id="6">
+      <node id="8">
         <label>src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp</label>
         <link refid="_lynae_peppermint_parser_8cpp"/>
       </node>
-      <node id="7">
+      <node id="9">
         <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
         <link refid="_sanhua_parser_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>

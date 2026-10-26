@@ -77,6 +77,34 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexCou
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component5"}, "8511"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component6"}, "36993"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "", "component7"}, "1608"},
+
+        // Changli (1.1): 8 draw slots (match_index_count): the 1.3 Metadata.json, which the 1.1 mesh shares
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "40269"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "18657"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "11904"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "81513"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "46512"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "84606"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "2028"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "102"},
+        // Changli (1.4): from Metadata.json (match_index_count)
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component0"}, "40269"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component1"}, "18657"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component2"}, "11904"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component3"}, "82533"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component4"}, "46512"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component5"}, "84606"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component6"}, "2028"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "", "component7"}, "102"},
+        // ChangliNymph (2.4): from Metadata.json (match_index_count)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component0"}, "40269"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component1"}, "18657"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component2"}, "11904"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component3"}, "14958"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component4"}, "126183"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component5"}, "29952"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component6"}, "2028"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "", "component7"}, "34692"},
     };
     return rows;
 }

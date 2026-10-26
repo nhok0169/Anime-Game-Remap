@@ -13,11 +13,17 @@
 
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
 
+#include <cstddef>
+#include <iterator>
 #include <memory>
 #include <optional>
+#include <string>
+#include <type_traits>
+#include <vector>
 
 #include "AGRemapCore/constants/IfPredPartType.h"
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
 
 #include <utility>
@@ -72,6 +78,13 @@ namespace AGRemapCore {
                 }
             }
 
+            // A NAMESPACE-MERGED SECTION is guarded as a whole by `if $\<Char>\Master\swapvar == n`, and
+            // its own depth is outside that guard: a block appended there draws on every variant of the
+            // merge. It takes the block inside the guard instead, one level deeper, before the guard's
+            // `endif` -- see RegFillMissing::guardEndIndex (Lumine12, 2026-10-20).
+            const std::optional<std::size_t> guardEnd = RegFillMissing<K, V, KeyHash, KeyEqual>::guardEndIndex(*section);
+            const int depth = guardEnd.has_value() ? 1 : 0;
+
             // A CONDITION: a new `if` ... `endif` block of its own, appended at the section's depth
             // and built the way ResGroupCollect builds its `if 1` blocks -- parts, then rebuild().
             if (!condition.empty()) {
@@ -83,11 +96,22 @@ namespace AGRemapCore {
                 }
 
                 auto& parts = section->parts();
-                parts.push_back(std::make_unique<IfPredPart>(
+                std::vector<typename std::remove_reference_t<decltype(parts)>::value_type> block;
+                block.push_back(std::make_unique<IfPredPart>(
                     IfPredPartTypeTools::getName(IfPredPartType::If) + " " + condition, IfPredPartType::If, *z3Ctx));
-                parts.push_back(std::make_unique<ContentPart>(additions, 1));
-                parts.push_back(std::make_unique<IfPredPart>(
+                block.push_back(std::make_unique<ContentPart>(additions, depth + 1));
+                block.push_back(std::make_unique<IfPredPart>(
                     IfPredPartTypeTools::getName(IfPredPartType::EndIf), IfPredPartType::EndIf, *z3Ctx));
+
+                auto at = guardEnd.has_value() ? parts.begin() + static_cast<std::ptrdiff_t>(*guardEnd) : parts.end();
+                parts.insert(at, std::make_move_iterator(block.begin()), std::make_move_iterator(block.end()));
+                section->rebuild();
+                continue;
+            }
+
+            if (guardEnd.has_value()) {
+                auto& parts = section->parts();
+                parts.insert(parts.begin() + static_cast<std::ptrdiff_t>(*guardEnd), std::make_unique<ContentPart>(additions, depth));
                 section->rebuild();
                 continue;
             }

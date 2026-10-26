@@ -177,5 +177,8 @@ isBuilt: :class:`bool`
                       }, py::doc("List[:class:`VGMergeObject`]: The target's drawn objects"))
         .def_property("texcoordStride", [](const PyVGMergeGroupResource &self) { return self.config.texcoordStride; },
                       [](PyVGMergeGroupResource &self, std::size_t stride) { self.config.texcoordStride = stride; },
-                      py::doc(":class:`int`: The TARGET's texcoord stride, the floor of the merged buffer's. **Default**: ``0``, the widest component's"));
+                      py::doc(":class:`int`: The TARGET's texcoord stride, the floor of the merged buffer's. **Default**: ``0``, the widest component's"))
+        .def_property("texcoordPadFrom", [](const PyVGMergeGroupResource &self) { return self.config.texcoordPadFrom; },
+                      [](PyVGMergeGroupResource &self, long long from) { self.config.texcoordPadFrom = from; },
+                      py::doc(":class:`int`: Where a widened texcoord line's padding is copied from, as a byte offset into the same line --- see :meth:`VGComponentMerge.padLines`. **Default**: ``-1``, zeros"));
 }

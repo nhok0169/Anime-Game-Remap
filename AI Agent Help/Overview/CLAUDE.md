@@ -2023,6 +2023,131 @@ the user was ending each answer with the short list of what remained (the next f
 scratch to delete), so the next request was one line. Write that list from the state on disk, not from memory:
 an "is it done yet" between turns is a request for exactly that.
 
+**116. A PROBE SCRIPT THAT EDITS IN PLACE MUST BE SAFE TO FAIL HALFWAY, AND ITS UNDO MUST NOT GUESS (2026-10-17).**
+Two failures in one session, both from reversible probe scripts:
+
+- `probePaint.py` opened a shipped `.hlsl` for writing BEFORE the function that built the painted text raised. That
+  truncated the file to nothing (trap 7 of the root file, in another shape). Build the new content first, write
+  second, and keep a copy of every file a probe touches.
+- `probePaint off` was run with the placeholder arguments from its usage line. It "restored" files to the wrong
+  places, and they had to be moved back by hand.
+
+So: an undo reads what to put back from the journal its `on` wrote, never from its arguments. A tool that deletes an
+artifact and regenerates it checks the generator first. `doxy.sh` deleted `core/xml` before finding that doxygen
+was not on the WSL PATH; it now checks first, and `git checkout` restored the folder.
+
+**117. "CLEAN" IS WHAT A CHECK FOUND, NOT WHAT YOU DID WITH ITS FINDINGS AFTERWARDS (2026-10-17).** Asked "so epoch 8
+is clean?", the honest answer was no: it found no regressions, and its findings had been filed as limitations
+after it ran. Some limitations were measured to be out of reach; for others, two causes had been ruled out and the
+search stopped. Report the two kinds separately. A user who hears "clean" stops looking, and an unproven limitation
+is exactly where they should look.
+
+**118. ONE GOOD-LOOKING RESULT IS A HYPOTHESIS; REPEAT IT BEFORE BUILDING ON IT (2026-10-17).** A light-direction
+change looked like it fixed a sheer part on one in-game shot. Repeated twice per condition, interleaved with the
+control, it shredded the model: the one good frame was the breakage. The same goes for a single frame dump, a
+single A/B mod or a single run of a flaky download.
+
+**119. A SWEEP OVER REAL MODS IS NOT THE INTEGRATION TESTER -- RUN BOTH BEFORE PUSHING SHARED FIX OR UNDO CODE
+(2026-10-21).** An undo change passed a 92-folder sweep (every folder byte-identical), every remover suite and
+the Unit Tester, and failed four API docs goldens in CI on its first push. The goldens' `PartiallyFixedRaiden.ini`
+is a HAND-WRITTEN half-undone fix -- leftover fix sections outside the block, named with the keyword but not in the
+`<modName>Remap` shape -- a shape no real library holds, so no sweep could have shown it. Run the Integration
+Tester locally before pushing anything that changes what a fix or an undo writes: Testing's "Running it on
+WINDOWS, for a quick check" recipe passes all 17 `APIDocsTests` against the Linux goldens; the 7 `MixedModsTests` differ in path
+separators, compiler exception names and section ORDER only -- classify by checking that each `.ini` diff adds
+exactly the lines it removes rather than by assuming. The sweep itself is
+`Tools/Misc/Diagnostics/regressBuilds.py` (habit 110 is its method).
+
+**120. WHEN THE QUESTION IS WHAT 3DMIGOTO DOES WITH A LINE, READ 3DMIGOTO -- NOT OUR PARSER (2026-10-20).**
+`IniFile` counted a line as a section header only with a `]` on it; 3DMigoto (`DirectX11/IniHandler.cpp`,
+`ParseIniStream` / `ParseIniSectionLine`, github `bo3b/3Dmigoto`) opens a section on ANY line starting with `[`
+and names it up to the first `]` or the end of the line. One author's malformed header (Lumine11) was a dead
+section to the game and two keys of the section above to us, and the remap rendered flat green. The game's own
+log says what it made of a file -- `d3d11_log.txt` printed `Unknown section in d3dx.ini: [Textrun = ...]` and
+`Malformed line` for it. For any rule about reading a `.ini` (headers, comments, `if` nesting, duplicate
+sections), 3DMigoto's source is the spec: match it, and pin it with a test that fails against the old rule.
+
+**121. THE UNDO OWNS ONLY WHAT A FIX WROTE -- THE MAINTAINER'S RULE (2026-10-21).** Inside a fix block, everything;
+outside one, only a section whose name carries the reserved `Remap` keyword -- `<modName>Remap`-shaped, or a copy
+of a section the block holds (`RemapIniRemover::isFixOutput`). Deleting every occurrence of a NAME the block
+holds took an author's `[Constants]` once and Lumine11's malformed header the next time. Any change to the
+remover is tested both ways: an author section sharing a name with a block section STAYS, an older fix's leftover
+copy GOES -- and the files follow the same rule (an author section's `filename =` is never collected for
+deletion). And when a repair touches the maintainer's files, prove it by comparing the author's text (everything
+before the fix's `; ---------------` marker) against the original, after seeing that comparison FAIL on the
+damaged copy.
+
+**122. DOWNLOADS ON AND DOWNLOADS OFF ARE DIFFERENT FIXES (2026-10-21).** A sweep runs with
+`downloadMode = "disabled"` so it does not depend on the network, which is not what a user runs. YelanTranquil3
+moved in such a sweep and was byte-identical to `master` with downloads on: a downloaded component takes a
+different path through the merge (carried through its own command list instead of appended). And downloads OFF
+drew that mod as a floating face, on `master` too -- the merged buffers are never written while the `.ini` still
+names them (4 dangling references; open). Before calling a moved folder a user-visible change, re-fix it with
+`--download normal`; before calling a bug a regression, reproduce it with the `master` build in the same mode.
+
+**123. THE CHECKOUT AND GIT'S STASH ARE SHARED: NEVER STASH, `checkout --`, `clean` OR `reset` THE
+WHOLE TREE (2026-10-26).** The maintainer's main checkout is worked on by several agent sessions at
+once, and the stash is per REPOSITORY -- one stack, shared by every session and every worktree. Two
+incidents on a single small task, both silent until someone re-read a file:
+1. A bare `git stash`, run to get a "before" snapshot of ONE file, swept up about 20 files of other
+   agents' uncommitted work (a whole deprecated-fixer chain and its tests, deleted in their tree) and
+   the run ended with it still stashed. The tree looked reverted and nothing reported it; what gave it
+   away was re-grepping a file known to have been edited. `git stash pop stash@{0}` restored it exactly.
+2. A path-scoped `git stash push --keep-index -- <file>` followed by `git stash pop` applied an
+   unrelated, months-old stash (`add-lisa`) and conflicted `LICENSE`: a pop takes the TOP of a stack
+   other sessions also push to, so "my stash" is not necessarily what comes back.
+Nothing was lost either time, and that was luck plus re-checking, not safety. So: to see what a file
+was, `git show HEAD:<path>` into a scratch file; to tell whether a failure is yours, grep the failing
+test for the names you touched (Testing). If you truly must stash, push only your exact paths, run
+`git stash list` before AND after, pop in the same tool call, and never leave one across a turn. Leave
+every entry that is not yours alone -- there has been an `add-lisa` entry for a long time; do not pop or
+drop it. The same goes for `git checkout -- <dir>`, `git clean` and `git reset`: they destroy other
+sessions' uncommitted work, so name the exact files you wrote (this session used `checkout --` only on
+four XML files its own splice had just written). Testing's older "stash to get a clean baseline" recipe
+is qualified for exactly this reason.
+
+**124. A BACKGROUND SUB-AGENT THAT CAN RUN BUILDS AND GIT IS NOT THE READ-ONLY AUDITOR OF HABIT 113
+(2026-10-26).** Delegating "update `api.rst`, regenerate `core.pyi`, verify the docs" to a background
+general-purpose agent produced: the unrequested `git stash` of habit 123 (it wanted a before/after
+warning count); a "completed" notification that arrived while the build it had started was still
+running as an orphaned `cmake`/`ninja`/`link` chain (the agent flipped between completed and running
+for most of an hour, each "completed" meaning only "my turn ended"); an edit outside its brief
+(`__init__.py` imports -- correct, but only visible by reading the diff); and a summary that mixed what
+it had verified with what it had assumed. Build and git-state work is a handful of commands once you
+have the recipe (Documentation's "Refreshing the committed artifacts"), so do it yourself. If you do
+delegate: put the prohibitions in the prompt (no `git stash`/`checkout`/`reset`/`clean`, no starting a
+build, no edits outside the named files -- report a diff instead), and afterwards re-check the world
+yourself rather than relay the report: `git status`, `git stash list`, the file it says it changed, and
+`Get-Process` for `cmake|ninja|link|cl|doxygen|python`. Never start a second build against the same
+`cbuild/` while one is alive (Building's hygiene rule 1).
+
+**125. SEARCH FROM THE SUBTREE, NOT FROM `core` OR THE CPP ROOT (2026-10-26).** A `Grep` or `Glob` rooted at
+`api/src/cpp` or `api/src/cpp/core` hits the tool's 20-second limit and returns an ERROR with no partial
+results -- which is easy to misread as "no matches". `core/xml` is 67 MB in 1784 generated files, against
+about 11 MB for `core/include`, `core/src` and `core/tests` together; `py/src` and each of those three are
+instant (found by elimination: `core` times out, `py` does not, the three source dirs do not -- the
+cause was not isolated further). Search the source directories you mean, several calls in one message,
+and treat a timeout as an error. The same instinct applies to this guide set itself: it is about 28,000
+lines of dated narrative, so `Grep` it for your symbol names (count mode over `AI Agent Help/`, then
+`-C 3` on the hits) and read the whole section of each hit, rather than reading top to bottom.
+
+**126. A NEW FIELD COMPUTED BEFORE THE LAST PASS THAT REWRITES ITS INPUTS IS INERT -- PRINT WHAT THE NEW CODE
+SEES, NOT WHETHER IT RAN (2026-10-26).** `GIMIComponentFixerConfig::lightMapPerDiffuse` built cleanly, A/B'd
+identical to its prototype, and changed nothing: the list of diffuses it gathered was filled where the positional
+reading of an object's textures is made, and the by-NAME reading a few lines later -- which is what Aether's config
+uses -- cleared it. The prototype shared the bug, so the A/B was blind (habit 56). Wrapping the lightMapEdit callback
+in Python to log what it was asked for showed the toggled diffuse was never requested; ONE rebuild with an env-gated
+`std::fprintf(stderr, ...)` of the list's SIZE per object (`0 resources` on every object) named the cause. In a
+reader that several passes refine (positional -> by name -> per branch), compute derived data after the last of
+them, and print counts of what the new code received before debugging what it did with it.
+
+**127. TWO RESOURCE EDITS OF ONE SOURCE NEED DIFFERENT `resSubType`S, NOT JUST DIFFERENT GRAPH IDS (2026-10-26).**
+A `TexReplace` / `TexEditorReplace` names its fixed resource SECTION from the source resource and its subtype
+(`...<Component>LightMapRemapTex.<n>`); the `GraphId` and `modObj` only reach the FILE name. Two edits of one light
+map with the same subtype wrote two files and ONE section, so every branch bound the same edited copy and the run
+reported nothing. Give each edit its own subtype (`"LightMap" + suffix`), then read the fixed `.ini`'s resource
+sections, not just the files on disk, to see that each branch binds its own.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

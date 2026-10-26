@@ -27,6 +27,8 @@ namespace AGRemapCore {
     // rather than collapsed into a single shared function so that any one of them can later be
     // pointed somewhere else independently, and so the table below reads exactly like the
     // pure-Python original's.
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::aether4_0() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::aetherHeaven4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::amber4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::amberCN4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::ayaka4_0() { return IniRemoveBuilder::defaultFactory(); }
@@ -92,6 +94,8 @@ namespace AGRemapCore {
         std::vector<Row<std::string, IniRemoveBuilder::Factory>> buildRows() {
             return {
                 // ===== 4.0 =====
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Aether)}, IniRemoveBuilderFuncs::aether4_0()},
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::AetherHeaven)}, IniRemoveBuilderFuncs::aetherHeaven4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Amber)}, IniRemoveBuilderFuncs::amber4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniRemoveBuilderFuncs::amberCN4_0()},
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniRemoveBuilderFuncs::ayaka4_0()},
@@ -157,6 +161,8 @@ namespace AGRemapCore {
                 {{"3.5", ModTypeIdTools::getName(ModTypeId::ChisaParfait)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli)}, IniRemoveBuilderFuncs::wwmiStub()},
+                {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniRemoveBuilderFuncs::wwmiStub()},
             };
         }
     }

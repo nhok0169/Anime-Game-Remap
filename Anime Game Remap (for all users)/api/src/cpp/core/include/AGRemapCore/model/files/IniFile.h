@@ -455,12 +455,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether 'line' looks like a ``[SectionName]`` header -- after skipping leading
-             whitespace, starts with ``[`` and has a ``]`` somewhere after it :raw-html:`<br />`
-             :raw-html:`<br />`
+             Whether 'line' is a `section`_ header -- after skipping leading whitespace, it starts
+             with ``[`` :raw-html:`<br />` :raw-html:`<br />`
 
-             The same test as the pattern
-             (``re.compile(r"^\s*\[.*\]")``) :raw-html:`<br />` :raw-html:`<br />`
+             This is 3DMigoto's own rule: a line that starts with ``[`` opens a new `section`_
+             whether or not it has a closing ``]``, so a malformed header such as
+             ``[Textrun = CommandList\global\ORFix\ORFix`` ends the `section`_ before it rather than
+             being read as one of its keys :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 Public because it is the *definition* of a `section`_ boundary this class parses by,
@@ -478,11 +479,12 @@ namespace AGRemapCore {
              * @brief
              @rst
              Extracts the `section`_ name out of a ``[SectionName]`` header line -- the substring
-             between the first ``[`` and the last ``]``, trimmed of surrounding whitespace
-             :raw-html:`<br />` :raw-html:`<br />`
+             between the first ``[`` and the first ``]`` after it, trimmed of surrounding whitespace.
+             As in 3DMigoto, a header with no ``]`` takes the rest of the line as its name, and
+             anything after the ``]`` is ignored :raw-html:`<br />` :raw-html:`<br />`
 
-             Falls back to a partial extraction when only one bracket is present, and to the whole
-             trimmed line when neither is :raw-html:`<br />` :raw-html:`<br />`
+             Falls back to the whole trimmed line when there is no ``[`` :raw-html:`<br />`
+             :raw-html:`<br />`
 
              Public for the same reason as #isSectionHeaderLine -- the name this returns is the key
              #getIfTemplates files that `section`_ under

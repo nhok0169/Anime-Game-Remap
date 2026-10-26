@@ -31,6 +31,7 @@ namespace AGRemapCore {
             static const std::vector<std::pair<GameTypeId, std::vector<std::string>>> data = {
                 {GameTypeId::GI, {"GI", "Genshin", "GenshinImpact"}},
                 {GameTypeId::WuWa, {"WuWa", "WutheringWaves"}},
+                {GameTypeId::ZZZ, {"ZZZ", "ZenlessZoneZero"}},
             };
 
             return data;

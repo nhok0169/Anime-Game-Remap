@@ -770,6 +770,27 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 1.1 parser for **Changli**, built by :cpp:func:`makeWWMIParser`: eight draw slots on her
+             ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key overrides by a
+             hash of their own. Filed at her oldest mesh, so a mod of any of her three mesh generations
+             is read. See ``data/IniParseData/Changli/ChangliParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory changli1_1();
+
+            /**
+             * @brief
+             @rst
+             The 2.4 parser for **ChangliNymph**, built by :cpp:func:`makeWWMIParser`: eight draw slots
+             on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key overrides
+             by a hash of their own. See ``data/IniParseData/ChangliNymph/ChangliNymphParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory changliNymph2_4();
+
+            /**
+             * @brief
+             @rst
              The 3.5 parser for **ChisaParfait**, built by :cpp:func:`makeWWMIParser`: EIGHT draw
              slots on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key
              overrides by a hash of their own. The version is the SKIN's, which is the one her assets
@@ -870,6 +891,17 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The parser for a 4.0-era **Aether** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head`` / ``body``, both on the plain layout. See
+             ``data/IniParseData/Aether/AetherParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory aether4_0();
+
+            /**
+             * @brief
+             @rst
              The parser for a 6.3-era **LumineHeaven** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
 
              A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
@@ -877,6 +909,17 @@ namespace AGRemapCore {
              @endrst
              */
             static IniParseBuilder::Factory lumineHeaven6_3();
+
+            /**
+             * @brief
+             @rst
+             The parser for a 6.3-era **AetherHeaven** ``.ini`` file :raw-html:`<br />` :raw-html:`<br />`
+
+             A skin of three components -- an unnamed main mesh, a Bang and an Eye. See
+             ``data/IniParseData/AetherHeaven/AetherHeavenParser.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory aetherHeaven6_3();
 
     };
 

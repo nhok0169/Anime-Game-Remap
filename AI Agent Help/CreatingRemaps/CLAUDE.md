@@ -236,9 +236,11 @@ the whole corpus -- the two-line change in its report was the only thing that sa
 
 ## THE MAINTAINER'S REMAP PIPELINE, END TO END (2026-09-23)
 
-A new character pair, `char <-> skin`, goes through these thirteen steps in this order. The
+A new character pair, `char <-> skin`, goes through these steps (and their audits) in this order -- numbered 1 to 13,
+with no 8 or 12 since 2026-10-13: "test the API fix on all the mods" is the in-game audit's job now (7b, 11b), and the
+A/B against the prototype is part of the port step it checks (7, 11). The
 maintainer wrote them down so they stop having to re-teach them. Everything later in this file is
-detail for one step or another, and the table under each step says where. **You run all thirteen
+detail for one step or another, and the table under each step says where. **You run every one of them
 yourself** and hand the maintainer one final check at the end (Overview habit 69).
 
 | # | step | where the detail is |
@@ -251,15 +253,15 @@ yourself** and hand the maintainer one final check at the end (Overview habit 69
 | 5 | **Prototype `char -> skin`** under `Tools/Misc/Prototypes/`, using as much of the library API as possible, with **every gap noted** in a comment where the custom code lives | "The loop changed" and "A prototype is built FROM the library" |
 | 5a | **AUDIT the prototype** against every lesson in these files and against every mod a person COULD make -- not only the mods you have | "THE AUDIT GATE" below |
 | 6 | **Test the prototype on a variety of mods** so it does not overfit | the identity mod first, then "CHOOSING TEST MODS". In game: [Game View](../GameView/CLAUDE.md)'s every-mod loop (`mods ... only <mod> --from <folder>`) |
-| 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53) |
-| 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses | "THE AUDIT GATE" below |
-| 8 | **Test the API fix on all the mods** | A/B against the prototype (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), then in game with Game View |
+| 7 | **Add the `char -> skin` fix to the API**, filling each gap the prototype found by creating or editing modules (`GraphGroupEdit`, `RegEdit`, `GraphEdit`, `IniResource`, `ResEdit`, the tools modules, ...) | the template sections for the character's SHAPE (the `START HERE` table below). A new module ships with its whole surface: core + binding + tests + Sphinx. Grep the family for an existing class to EXTEND first (Overview habit 53). **The port is done when it A/Bs identical to the prototype on every mod** (`--ab`, `abWWMI.py`, `abCitlaliRev.py`-style), the corpus moves only this pair's mods, and the suites pass |
+| 7a | **AUDIT the compiled fix** the same way -- the port is new code, and a template option that exists in one template may not exist in the one this direction uses. **Fix what it finds in the prototype and the port, then re-run the A/B** | "THE AUDIT GATE" below |
+| 7b | **IN-GAME AUDIT of `char -> skin`**: a game subagent checks every mod, every toggle variant, every angle, original against remap, in the character studio (and the overworld when the skin is owned) -- one EPOCH -- reports every issue, you fix them, and it runs another epoch, until an epoch finds nothing -- **at most 10 epochs**, then stop and hand over | "THE IN-GAME AUDIT" below |
 | 9 | **Prototype `skin -> char`**, library first again | as step 5. It is its own prototype, not step 5 run backwards: the reverse direction of every pair so far needed a different template (split vs merge, `makeGIMIComponentFixer` vs `makeGIMIMergeFixer`) |
 | 9a | **AUDIT the reverse prototype** -- including everything the FORWARD direction of this pair needed | "THE AUDIT GATE" below |
 | 10 | **Test it on a variety of mods** | as step 6 |
-| 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7 |
-| 11a | **AUDIT the compiled reverse fix** | "THE AUDIT GATE" below |
-| 12 | **Test the API fix on all the mods** | as step 8 |
+| 11 | **Add the `skin -> char` fix to the API**, filling its gaps | as step 7, A/B against the reverse prototype included |
+| 11a | **AUDIT the compiled reverse fix**, fix what it finds, re-run the A/B | "THE AUDIT GATE" below |
+| 11b | **IN-GAME AUDIT of `skin -> char`**, epochs until one finds nothing -- **at most 10**, then stop and hand over | "THE IN-GAME AUDIT" below |
 | 13 | **Document it**: README tables and the Sphinx docs | "Closing out a remap" and `Tools/Misc/Diagnostics/checkModTypeTables.py` (not done until it prints `ALL FOUR AGREE WITH THE LIBRARY`), plus regenerated `core/xml` / `core.pyi` for any new class |
 
 What the order is for:
@@ -271,7 +273,7 @@ What the order is for:
   otherwise hit 404s -- which surface as dangling `...RemapDL` references and a light map band
   output that changes run to run, not as an error.
 
-- **Every testing step (6, 8, 10, 12) opens with THE PRE-FLIGHT below, not with the game.**
+- **Every testing step (6, 10, and each epoch of 7b / 11b) opens with THE PRE-FLIGHT below, not with the game.**
   The structural checks cost seconds and answer much of what a round would; an in-game round is
   the most expensive unit of work here, and a fix that fails a pre-flight check makes the round
   worthless. Chisa <-> ChisaParfait took two weeks against about a day for a GI pair, and the
@@ -284,6 +286,10 @@ What the order is for:
   seam options, the swinging hems, the folded and clipping flaps -- was debugging THAT, over two extra days of
   messages that a correct step 2 would not have needed. So do not move on from a step on "good enough, later
   steps will tell": audit it (2a, 5a, 7a, 9a, 11a), predict how it will behave, and fix it where it is.
+- **The static A/B (compiled fix against the prototype, on every mod) runs every time the fix changes**: once the
+  prototype has been ported (7, 11), and again after finishing the fixes a theoretical audit (7a, 11a) or an in-game
+  epoch (7b, 11b) recommended -- before the next epoch starts. An epoch spent on a compiled fix that has drifted from
+  its prototype tests the wrong thing, and the game agent cannot tell which of the two a fault is in.
 - **Prototype before port, both times.** A rebuild per idea is what the prototype saves (the
   `CppStrategyOverrides` route), and the prototype stays as the ORACLE the compiled fix is A/B'd
   against. Keep it working after the port.
@@ -294,14 +300,200 @@ What the order is for:
 - **"Every mod" is the mods the maintainer points you at**, not one that happens to work. An
   overfit fix passing one mod is the most common way a remap came back broken (see the Yelan,
   Bennett and Citlali sections).
-- **Steps 6, 8, 10 and 12 happen IN GAME, by you,** with `Tools/GameView` -- and diligently: every angle
+- **Steps 6 and 10 happen IN GAME, by you,** (7b and 11b by a game subagent) with `Tools/GameView` -- and diligently: every angle
   (drag left / right AND up / down), every distance (scroll a lot), every toggle, a timed series, the overworld
   where the character is unlocked, and always against the mod on its own character. See [Game View](../GameView/CLAUDE.md)'s
   "Observing a remap in game". Most of Neuvillette's reported faults were in the agent's own screenshots.
-- **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see the next section.
+- **The audits (5a, 7a, 9a, 11a) are not optional and not a skim** -- see "THE AUDIT GATE".
+- **Neither are the in-game audits (7b, 11b)** -- epochs by a game subagent until one finds nothing, so the
+  maintainer's final check is check-and-approve, not bug finding. See the next section.
 - **Test mods the maintainer hands you as downloaded archives** go in with `Tools/ModInstaller`
   (`<archive folder> <mods folder> <Name>` -> `<Name>1`, `<Name>2`, ...; `.zip`, `.rar`, `.7z`),
   into whichever folder they name -- then `mods ... --from` that folder drives the every-mod loop.
+
+<br>
+
+## THE IN-GAME AUDIT: epochs run by a game subagent, until one finds nothing (the maintainer's rule, 2026-10-13)
+
+**HARD LIMIT: 10 EPOCHS (the maintainer, 2026-10-16).** Count the epochs of a direction from its first; if the 10th
+does not come out clean, STOP -- do not start an 11th. Write up every open item (what it is, what was tried, what is
+left) and hand it to the maintainer, who will check it themselves. The limit exists because Lynae <-> LynaePeppermint
+took several days of epochs, each fixing the last round's items and turning up new ones.
+
+**What the maintainer's final check is, so you know what you are being measured against.** They go in game and
+look at **every angle of every mod and every toggle variant**, comparing **the original against the remap**, in
+**both the character studio (the outfit cards) and the overworld**. That is all. It is simple on purpose: it is a
+check-and-approve step. It is NOT the place where the remap's bugs are found -- every bug they find there is one the
+remap agent could have found with the same tools, and costs them a round of their time and energy.
+
+**Why this exists (LynaePeppermint -> Lynae, 2026-10-04 .. 10-13).** That pipeline was rammed through in under a
+day without thorough in-game checks, and then took days of back-and-forth in which the maintainer found nearly
+every bug: a see-through shirt that was opaque, then too see-through, then see-through to the body's back in the
+overworld only; a black top that showed only in the overworld; a coat drawn solid; a coat's inside drawn black; a
+holographic panel drawn grey. **Every one of them was visible in a screenshot GameView could have taken**, from an
+angle, a toggle, a card or a scene nobody had looked at. The audit below is the maintainer's final check, run by
+an agent, as many times as it takes.
+
+**When:** after the theoretical audit of the compiled fix -- step 7b after 7a (`char -> skin`) and step 11b after
+11a (`skin -> char`) -- and before anything is handed to the maintainer. It replaces the old steps 8 and 12 ("test
+the API fix on all the mods"): testing the compiled fix on every mod in game IS the epoch.
+
+**How:**
+
+1. **Spin up a GAME SUBAGENT** (the Agent tool) whose only job is what the maintainer does at the final check. One
+   game, one driver: while it runs, the remap agent does not touch the game, `WWMI/Mods` / `GIMI/Mods`, or
+   `d3dx.ini`. Hand it: the mod folder, the list of test mods and where each lives, [Game View](../GameView/CLAUDE.md)
+   (it reads that first), the rules (never click anything that spends or sends, never press Enter in the
+   overworld, never show the UID, move anything out of `ShaderFixes` at once, restore every mod and config it
+   moved), and how to select each outfit card (selecting a card only previews it; never "Wear Outfit").
+2. **One EPOCH = every available mod, every toggle variant of each, every angle, original against remap.**
+   - Every angle: turn the model a full circle in steps (drag), look from above and below, near and far
+     (scroll); every toggle the mod's `.ini` declares (`key --vk` for a `vk_...` key), each variant on its own.
+   - Original against remap, the same angle and pose: the mod on the source character's card against the same
+     mod on the target's card ("Compare a see-through part card against card" in the LYNAE section). Cards replay
+     an intro effect, so shoot a TIMED SERIES after every reload or card switch and compare clean frames only.
+   - **If the original is broken** -- the mod renders wrong on its own character (stale hashes after a game
+     update, a mod the game no longer matches, ...) -- **copy it to `<Mod>Restored`, repair that copy** until it
+     renders right on its own character, and compare the remap against the restored original. A broken original
+     compared against a remap says nothing about the remap ("THE MOD LOOKS WRONG ON ITS OWN CHARACTER").
+   - **If the player owns the skin** (it can be worn), check the OVERWORLD too -- draw order, extra meshes and
+     lighting differ there (LynaePeppermint's black top and see-through-to-the-back were overworld-only). If the
+     skin is not owned, the character studio is all there is, and the report says so.
+3. **The game agent reports back every issue of the epoch**, each with the mod, the toggle variant, the scene, the
+   angle and a cropped original / remap pair of screenshots. Not a verdict ("looks fine"): a list, which may be
+   empty.
+4. **The remap agent fixes them** (prototype, port, then the static A/B of the compiled fix against the prototype on
+   every mod, the corpus, the tests -- all before the next epoch) and **the game agent
+   runs another epoch**, over every mod again, not only the ones that had issues: a fix for one mod moves others.
+   **The remap agent may use the game too, between epochs** (the maintainer's note, 2026-10-14): to settle what an
+   issue is and to check a fix before handing it back -- hand-edit the fixed `.ini` and reload, paint a suspect
+   shader red, compare the two cards on the issue's mod and angle, take a frame dump. That is what found the
+   LynaePeppermint coat's blue (where it was drawn, not what it was drawn with) in four hand edits. Never while the
+   game agent is running an epoch (one game, one driver), and with the same rules; leave the mods, `d3dx.ini` and
+   the worn outfit as the epoch expects them.
+   **Fix EVERY issue an epoch flags before the next one, not the headline ones** (the maintainer, 2026-10-14). An
+   epoch is EXPENSIVE: on LynaePeppermint a game agent took 3-4 hours (up to ~8) to verify ~20 mods, during which
+   nothing else can use the game -- and each item left for "the next epoch to re-measure" buys another one. On
+   LynaePeppermint epochs 2-4 each carried 8-10 small items forward (a tint, a frosting, a pale ornament) while
+   the big ones were chased, and two of those "small residuals" turned out to have one real cause (the reverse
+   upper body drawn by the target's shader: a flat bikini, a pale starfish and seam lines on bare skin, gone
+   together once her own shader drew it). For each item: reproduce it, find its cause, fix it or prove it is
+   not the remap's (a third-party mod, the Restored copy, toggle state), and say which in the hand-off. Only a
+   cause that is genuinely out of reach is called a limit, with the evidence -- and before the next epoch,
+   re-shoot every flagged item yourself on the new build, so the epoch confirms rather than discovers.
+   **Nothing is carried forward as "open"** (the maintainer, 2026-10-15): an item left open is simply flagged
+   again by the next epoch, which then checks nothing new. An item is either fixed, or -- only after every option
+   is exhausted -- a LIMITATION, and a limitation goes in two places: the next epoch's brief (so the game agent
+   knows it and stops re-flagging it) and that remap's row in `Docs/src/remapGrading.rst` (so users see it).
+   **Set toggle state deterministically**, never by key presses: an original and its `Restored` copy keep
+   separate persisted variables, and pressing the same keys on both left them in different states (Lynae14's
+   "topless original vs white top on the remap" was that, not a fault). Rewrite each `global persist $x` to the
+   value wanted in a scratch copy of both, and compare.
+5. **Repeat until an epoch finds nothing.** Only then does the maintainer get the final check.
+
+**Tips the LynaePeppermint rounds paid for**, for the game agent and the remap agent alike:
+
+- **Find which draw a part belongs to by painting, not by reasoning**: put `o3.xyz = float3(1,0,0);` before the
+  `return` of a shipped `.hlsl` (or a flat texture on a register) and reload. Four rounds of measurement assumed a
+  grey panel was the coat; painting both of the skin's shaders red said in two reloads it was neither.
+- **A part that looks wrong from one side only is a rasterizer state** before it is a texture: group each draw's
+  `RSSetState` pointer in a frame dump's log by which draws share it (the coat's dark inside, "two-sided").
+- **Draw order is per scene**: the character studio and the overworld draw a character's slots in different
+  orders, so a layered or see-through part has to be seen in both.
+- **A frame dump with textures is huge** (9.4 GB for one card); `--options "dump_rt dds"` is a third of it and
+  enough to read the G-buffer.
+
+### RUNNING THE EPOCHS: what eight of them on Lynae taught (2026-10-17)
+
+Lynae <-> LynaePeppermint used eight epochs and was handed over with no regressions and a list of stated limits.
+The items it found are in the LYNAE section. These are the lessons about RUNNING epochs, and they apply to any pair:
+
+- **Be confident before you start one** (the maintainer: "be confident in your fix before you start an epoch").
+  Keep a REGRESSION LIST of every item any earlier epoch flagged and you fixed. Re-shoot all of it on the new build
+  yourself, card against card, before the game agent starts. Build 55 of Lynae moved a draw-routing rule from "any
+  share" to "majority" and brought back epoch 6's lime under Lynae9's skirt. The overworld half of epoch 8, already
+  run on that build, had to be declared void and run again.
+- **Give the game agent the previous epoch's sheets.** The epoch 8 brief carried epoch 7's original / remap twin
+  sheets and asked for a regression check against them. That is how "no regressions" became a finding rather than
+  an impression.
+- **A rule that routes draws by a threshold moves other mods.** `DrawReroute` took a draw when more than half of
+  its texels carried a flag. Lynae9 draws legs, tights and shorts in ONE range that is mostly skin, so the majority
+  rule left her tights where they did not belong. `DrawReroute::share` (`0.01` there) is the knob. After changing
+  any such rule, re-check every mod an earlier fix of that rule was for.
+- **Tell the game agent what is NOT a fault, in the brief.** Otherwise it re-flags these every epoch:
+  - Each card plays its OWN idle pose. A sleeve clipping on one card and not the other, or an arm held
+    differently, is the pose (Lynae10's clip, Lynae11's arm).
+  - Some differences are the mod's design, not the remap (Lynae1's heels).
+  - Every stated limitation already in `remapGrading.rst` goes in the brief too.
+- **A shot that cannot be judged is re-shot, never classified.** Examples: the head out of frame because the mod
+  scales the model (Lynae9's `Size = 1.15`), the wrong scene, or the card's intro effect still playing. Three such
+  shots were the last thing done before the hand-over.
+- **Check the scene before every scripted run.** Several Lynae runs started while the game was still in the
+  overworld, and every studio shot of those runs was useless. Open the studio first and look at a screenshot, then
+  start the script.
+- **Exactly one mod of the character is installed during a run.** The epoch wrappers parked every other `Lynae*`
+  folder, including the maintainer's own LynaePeppermint4. The bare compare script did not, and a stray second
+  mod draws over the one under test. Restore each parked folder afterwards and check `d3dx.ini` against its md5.
+- **A limitation needs a measured cause.** "The props pass does not exist in the skin's frame" was measured and is
+  a limitation. "Two causes ruled out, cause not found" is not: write it in the hand-off as open, with what was
+  tried. The small colour shifts Lynae was handed over with (tie, coat panel, bell, sheer bra from below) are this
+  second kind, and the hand-off says so.
+- **Repeat a promising single shot before building on it.** One frame where Lynae1's sheer bra looked right was
+  the start of a light-direction change that, repeated twice per condition, shredded the model. Compare at least
+  two frames per condition, interleaved.
+- **Ship only the change a fault needs.** Narrowing `flatFallsBackToSource` moved 13 mods' bindings for no visible
+  gain on the item it was aimed at, and was reverted. A change that moves many mods and fixes nothing is a
+  regression risk with no upside.
+
+### RUNNING THE EPOCHS: what twenty on Aether taught (2026-10-26)
+
+Aether <-> AetherHeaven used all ten epochs in BOTH directions and was handed over open. Most of the budget went on
+drape MAGNITUDES (how far a pull, how big a share), one value per epoch. The lessons, for any pair:
+
+- **Ask the game agent for NUMBERS, and the same numbers every epoch.** Its eye said the cape slit was FIXED at a
+  5 cm push; the next epoch it measured the gap as a fraction of the cape width at 85% / 95% of the cape's height and
+  the same build's numbers were twice his. Put the metric in the brief -- gap / width at fixed heights for drape,
+  low-saturation mid-tone RGB of a part for shade, the background showing through a hole (an emblem's circle) for
+  position -- with the previous epoch's remap as a third row, so a change is read as a number moving.
+- **Bracket a magnitude BETWEEN epochs, yourself, never one value per epoch.** Make the magnitude a prototype option
+  (`--capeSlitOpen`, `--drapePull`, `--drapeShare`, `--coolBand`), build two or three variants into fresh folder
+  names (`mkvariants`-style), and shoot them on both cards in one sitting (`Tools/Misc/Diagnostics/cardSeries.py`).
+  An epoch then confirms a choice instead of probing one. The drape went 7 -> 13 -> 17 cm across three epochs and the
+  last overshot; one bracketed sitting would have shown all three.
+- **When the last epoch overshoots, hand over the better-tested value, not the latest.** Revert to what an epoch
+  measured as closer, say which in-between value is untried, and re-stage fixed copies from the FINAL build (a
+  `...Final` staging folder) so what the maintainer looks at matches the code.
+- **An epoch spent on a STRUCTURAL fix is worth more than one spent on a number.** The epochs that moved the most were
+  the ones that found a mechanism: a gate that skipped neutrals, a light map shared across toggled diffuses, an eye on
+  a shader that cannot glow, a merged variant drawing on another variant's ib. Before a tuning epoch, re-read the open
+  items for a mechanism you have not ruled out (throw candidate bones aside in the fixed `RemapPosition.buf`, render a
+  histogram of the texels a gate moves -- `bandHueStats.py`).
+- **Make the agent shoot NEAR FACE of every variant of a synthetic merged master.** The variant-without-eyes bug was in
+  the shots of an epoch and went unreported; it was a shared-code bug in the merge, and only the synthetic master had it.
+- **A toggle that swaps only one texture is a variant of the FIX, not just of the mod.** Before an epoch, list for each
+  object every (diffuse, light map) pair its branches bind: Aether5's hair key bound a grey diffuse with the blonde's
+  light map, and the band move -- decided from the blonde -- was wrong for the grey until
+  `GIMIComponentFixerConfig::lightMapPerDiffuse`.
+- **Before handing over:** restore the maintainer's mods (`mods GIMI load <names>`, then `reload`) and grep the restored
+  folders for `RemapFix` to prove they are unfixed; update the memory and the docs; push only when asked.
+
+### A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (the maintainer, 2026-10-16)
+
+From the maintainer's GI experience: **a game's shaders change with updates far faster than its meshes or
+textures**. A fix's custom `.hlsl` is a copy of one game version's shader. When the game rewrites that shader family,
+the copy silently stops matching (G-buffer layout, constant buffers, registers), and every mod fixed with it breaks at
+once. So GI remaps add no new shaders, and add a texture only to fill a register the target reads and the source lacks
+(an invented normal map, say). No TexFx-style extras that push glow or luminosity through a texture's channels.
+
+How to apply it:
+
+1. Prefer the target's OWN shader, reached through registers, texture edits and downloads.
+2. Reach for a custom shader only when a MEASURED fault has no other fix. Say so explicitly when you propose one.
+3. List every shipped shader in the remap's docs as an update risk.
+
+Lynae <-> LynaePeppermint is the counter-example: it ships ten such shaders (her five on the skin's slots, the skin's
+on hers). Whether to make it lighter is the maintainer's call. For the next WuWa pair, try the target's own shaders
+first and record why each custom one was unavoidable.
 
 <br>
 
@@ -824,6 +1016,223 @@ feature -- colours, every part, the face -- not against "does it look plausible"
 target's default outfit looks plausible. Say what you checked and what you did not.
 
 <br>
+
+## AETHER <-> AETHERHEAVEN (2026-10-24/26): the Lumine pair's twin, and six shared-code findings
+
+Downloads `Aether/4_0` and `AetherHeaven/6_3` (built from Dressing Room frame dumps; the skin is not owned, so there
+is no overworld test), `Data/RemapDrafts/AetherRemapDraft.xlsx`, prototypes `aetherHeavenFix.py` /
+`aetherFromHeavenFix.py` (still the oracles; `Tools/Misc/Diagnostics/abAether.py [--reverse]` A/Bs them), synthetic
+mods `aetherSynth.py` / `aetherHeavenSynth.py`, compiled `AetherFixer` / `AetherHeavenFixer`. The shape is Lumine's
+with one object fewer (no dress). What it found, in the order it cost:
+
+1. **A slot section that only says `handling = skip` is a HIDDEN slot** (`GIMIComponentParser`, `GIMIMergeFixer`).
+   It counted as drawn, so the merge downloaded the game's index buffer for it and drew the skin's own bangs on a mod
+   that hides them (AetherHeavenSynthNoBang). Found by a synthetic mod, as most merge gaps are.
+2. **Two drawn objects reading ONE diffuse get a file each** (`GIMIComponentFixer`, via `TexReplace::modObj`). Aether9
+   draws his head and body from one atlas; the head's alpha-1 edit and the body's glow-keeping edit were written to one
+   file and every glow on his body went out. Only when objects share a diffuse, so no other output moved.
+3. **A shade is a HUE question on this pair, not a band question.** His shader keeps a surface's own hue in shade; the
+   skin's multiplies it by a tinted ramp row (warm on 126 / 255, cool on 0). A single band move fixed a blue-grey mane
+   and a lilac cape and broke a cream cape and blonde hair, so the move is gated by the diffuse: a texel that is NOT
+   warm (red - blue < 4) moves to 0 (`MaterialBandRemapFilter`'s gate). The first gate took only texels BLUER than red
+   and left neutral greys on the warm row -- Aether10's grey-white mane (red - blue 0-3) shaded khaki with peach
+   blotches (forward epoch 8). **Histogram red - blue of the texels on the moved bands, split by moved / kept, before
+   choosing a gate** (`hueStats.py`-style: it named the mane's 19 000 neutral texels in one run). What remains is the
+   RAMP: his card tints a white mane lavender-pink and no skin band does -- swept 0 / 40 / 78 / 100 / 178 / 210 on
+   Aether10, the closest within ~8 RGB of his mid-tone, and the skin's ramp ends in a peach transition column on most
+   rows, which is where the last peach shows. White trousers stay a little warm; both are measured limitations.
+4. **A cape between two wrong answers is a weight SHARE.** On the skin's back-coat chain his cape's panels closed over
+   their split (the chain's top links meet at the skin's centre seam); on its torso they kept the gap they are MODELLED
+   with, far wider than his card once his own cape chains pull it in. `splitGroups` at 50 / 50 gives his slit near the
+   top; 70 / 30 overlapped the panels and closed a cloak's slit. Bracket in game, then interpolate. **And a slit that is
+   a V on his card is a share PLUS a push**: the share keeps the slit parallel, so the inner lower links (46 / 47 / 49,
+   52 / 53 / 55) are pushed apart at the hem (`VGPushAway`, fade 0.6 -> 1.0) -- which also opens Aether8's coat tails,
+   which ride those links. 5 cm left Aether7 and Aether8 narrow; at 8 cm the game agent measured the identity and synth
+   capes about 3x his gap at the hem (gap / cape width) while Aether7 and Aether8 matched: the forward direction's last
+   open item, handed over.
+5. **A part MODELLED splayed out needs a displacement, not a bone.** AetherHeaven's one-sided left back drape (the
+   circle emblem, groups 99-104) rests out to his left and the skin's simulated bones swing it to the middle. On his
+   outer cape chain, his inner one, or his torso it hung off to his left -- so the merge template has `pushAway` now
+   (`GIMIMergeFixerConfig::Component::pushAway`, the component template's `VGPushAway`, one shared
+   `VGPushAway::displacement`), and the drape is pulled 13 cm in at its hem. **Try it as a hand edit of the fixed
+   `RemapPosition.buf` first**: scaling the drape's vertices by their remapped weight share took minutes and showed the
+   idea worked before any C++ was written. Its bones are a SHARE of both his inner cape chains (the merge has
+   `splitGroups` now too, `GIMIMergeFixerConfig::Component::splitGroups`): on the left chain alone it twisted with that
+   chain in his idle. **The test for "centred" is what shows THROUGH the circle emblem**: on the skin's card the dark
+   gap between the legs, on his at 13 cm still the white of his left coat panel -- and at 17 cm it overshot to his
+   right and took the crystal pendant onto his right leg, so it stays at 13 with the in-between untried.
+6. **A light map toggled against SEVERAL diffuses needs an edit per diffuse** (`GIMIComponentFixerConfig::lightMapPerDiffuse`,
+   opt-in). Aether5's hair key binds a grey diffuse beside the SAME light map as the blonde one, and a diffuse-gated band
+   move decided from the blonde kept the grey hair on the warm band. Each distinct diffuse an object's section binds now
+   gets its own copy of the light map, bound in the branches that bind that diffuse (the variants' own diffuses too).
+7. **An eye a shader cannot colour goes on the mesh that can.** The skin's Eye component draws on a plain eye shader
+   that turns an elemental eye mod's glowing cyan iris white; his eye groups (0 / 1) on the skin's main HEAD bone glow
+   as on his card and ordinary eyes are unchanged. The Eye row is EMPTY, so its fixer still hides the skin's own eye.
+8. **In a merged master, a member's textures follow the branch its ib came from** (`GIMIMergeFixer`). A variant without
+   eyes borrowed the other variant's eye ib (`pick()` answers with a lone candidate) but read its textures strictly for
+   its own branch, found none, and drew the borrowed eyes with the body's atlas -- a garbled iris the game agent missed
+   for an epoch. Found only by the synthetic merged master.
+9. **When pulling one set of panels changes nothing, throw candidates aside.** The reverse coat's flared hem sat on
+   several bone sets at once: side and front pulls each moved their panels 3-7 cm in the buffer and changed nothing the
+   agent could see. Moving each candidate set 30 cm sideways in the fixed `RemapPosition.buf` (`dispTest.py`-style)
+   showed which sets carry the flare in one reload, and ONE radial pull of every coat group (58-81, 7 cm towards his
+   axis) replaced them.
+
+Three things about the in-game loop, all learned the expensive way here:
+
+- **What a part IS decides which bones to try.** Three rounds moved the skin's back-coat chains for a fault that was
+  the separate drape beside them; one look at which groups dominate the region (a 5 x 5 grid of the back by dominant
+  bone) named it.
+- **Judge a drape fix from crops at full size, never a sheet thumbnail**, and put every round's crop in one strip. A
+  "narrow slit" read off a small sheet sent the game agent a fix that was not there, and the theory invented for its
+  "no change" (a 3DMigoto cache by folder path) was disproved by the agent comparing checksums. Staging each round
+  under fresh folder names is still cheap, but it was not the cause.
+- **A restored copy of a mod on old hashes needs its hashes updated too** (Aether10 is 4.0: ib `b603af2f` -> 4.3's
+  `8ed7c5f0`, draw `609d4578` -> `e9786a5f`); `restore.py` adds the fix calls only, and a copy rebuilt without the hash
+  update renders its ORIGINAL shattered on his own card.
+
+Limitations, measured: white cloth and a white mane shade slightly warmer / more neutral, and cream slightly cooler,
+than on his card (the ramp, point 3); a mod
+drawing an object only through its ib section's `drawindexed = auto` loses that object on the skin. Fixing Aether3 writes
+a different number of UNREFERENCED files depending on the folder's name (the `.ini` is identical and undo removes them):
+cosmetic, cause not found.
+
+**STOPPED AT THE 10-EPOCH LIMIT IN BOTH DIRECTIONS (2026-10-26) and handed to the maintainer OPEN.** What is open,
+and which kind it is:
+
+- *Measured out of reach* (the skin's ramp, point 3): a white mane, white hair and white trousers shade neutral or
+  slightly warm where his card tints them lavender-pink; Aether7's cream cape shaded panel slightly cooler.
+- *Tuning, not found*: the forward cape slit at 8 cm is about 3x his gap at the hem on the identity and synthetic
+  capes and opens high on Aether7 (5 cm was narrow on Aether7 / Aether8); the reverse drape at 13 cm sits a little
+  left of his spine (17 cm overshot right).
+- *Cause not found*: the reverse coat's back hem -- a navy lining strip down the left panel's outer edge, his trousers
+  between the centre and right panels, more ragged tips -- and its front edges' blue lining band; on Aether1 the inner
+  face of the back flap behind his left leg shows an orange gradient on the skin card; on HSynthNoBang his bare scalp
+  is brown where the skin's is dark red (his own head mesh, probably).
+
+**Read the agent's strips and numbers, not your own single frames**: three times a change that looked right in one
+of my shots was measured wrong across the agent's timed series (and once the agent's eye said FIXED where its own
+measurement next epoch said 2x).
+
+<br>
+
+## CHANGLI <-> CHANGLINYMPH (WuWa, compiled both ways 2026-10-20/21)
+
+Downloads `Changli/3_7` and `ChangliNymph/3_7` (with `<Name>LiveHashes.json` and `<Name>HashLineage.json`), the reviewed
+draft `ChangliRemapDraft.xlsx`, and the registration (Changli at 1.1 / 1.2 / 1.4 -- three mesh generations -- and
+ChangliNymph at 2.4). Prototypes: `Tools/Misc/Prototypes/changliNymphFix.py` and `nymphChangliFix.py`, both still the
+oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. Test folders: `WWMI/ChangliTest`,
+`WWMI/ChangliRestored` (the forward's originals repaired to the 3.7 hashes), `WWMI/ChangliNymphTest`,
+`WWMI/ChangliNymphRestored`. What this pair taught, every item a field or a finding the next pair can reuse:
+
+* **A slot that draws right in the character menu can cut the part away in the OVERWORLD -- audit there.**
+  Both forward epochs passed in the menu; the maintainer then found Changli4's robe missing on the worn skin in the
+  overworld, and so was everything of hers the fix drew through the skin's skirt slot (5): her coat, drapes and
+  sashes, the identity mod's included. The skin draws that slot with a different pixel shader outside the menu
+  (`804a1759` against the menu's `7f639abb`, the same vertex shader), a G-buffer variant patched by RabbitFX, and
+  its skirt material discards whatever it is not: a copy of the material's `cb4` with `cb4[84].x = 0` bound for the
+  robe's draw brought it back. Textures (`t0`-`t4`, a white `t2`), vertex colours, UVs, the blend, the skeleton,
+  the glow and `vb5` were each ruled out by a proven reload first. The fix routes source 5 through the BODY slot
+  (`flatClothMask`, Changli's cloth code, at `t1`); the skirt slot is hidden with its bones merged. Two mechanics
+  that cost hours: the menu and overworld passes of a slot can share their VERTEX shader, so the template's
+  vs-gated passes cannot tell them apart (nor can `o3`: the menu is deferred too), and a pixel-shader tag would
+  collide with RabbitFX's `1718.1`. To read a game shader, hunting mode's mark (numpad 3 / 6) writes it to
+  `ShaderFixes` -- step in ascending hash order, read each file name, and move every file OUT at once.
+* **Prove every reload with a visible change, and give a restored buffer a NEW timestamp.** 3DMigoto kept serving an
+  `Index.buf` restored with `cp -p` (the old mtime): two tests in a row read stale geometry. Collapse a small part
+  (a wristband's triangles) as the proof, and `touch` every file you put back.
+* **A part the character draws as its OWN mesh is outside every remapped section -- her blindfold was.** Changli's
+  blindfold is `vb0 baaa6262` and the skin's `646aa163` (597 against 159 vertices, other UVs), so the skin showed its
+  white lace under every mod, and Changli6 / 7 / 13's `handling = skip` on `baaa6262` hid nothing. Two config fields:
+  `sharedMeshes` binds a recoloured copy of the SKIN's own diffuse (hers cannot be bound: the UVs differ;
+  `Tools/Misc/Prototypes/changliNymphBlindfold.py`, a download like any fallback), and the new `meshCounterparts`
+  copies every mod section on her mesh's hash onto the skin's (Changli8's `$cover` watcher comes too). Found by a
+  log-only overworld dump, an `ib` skip that did NOT hide it (the `ib` changes per frame) and a `vb0` skip that did.
+  Two traps: a `this =` texture override never fires on a VANILLA draw under WWMI (only a mod's `CheckTextureOverride`
+  runs it) -- bind the register on the mesh's `vb0` section instead; and the game's diffuse is `BC7_UNORM_SRGB`,
+  so a preview written as plain RGBA renders washed out -- write through `CppTextureFile`, which pre-corrects the
+  gamma. The skin's lace is also semi-transparent (alpha ~150-200), so it stays grey until made opaque.
+  The REVERSE is the same two fields the other way (`646aa163 -> baaa6262`; Changli's own diffuse `b53e6c59`
+  repainted in the lace's white, folds kept, at `ps-t1` of her pass `7f639abb`). Her texture's alpha tops out at
+  127 and is not opacity, so it is left alone. No skin mod hides the blindfold, so the copy was proved on a
+  synthetic one (ChangliNymph1 plus a `handling = skip` on `646aa163`).
+* **The eyes draw through a SECOND vertex shader in the overworld (`c32a6985`, the menu's is `ceff9a81`), on both
+  of Changli's outfits -- and the eye pass listed only the menu's.** Changli6's purple eyes (its alternate-hair
+  variant) came out the game's amber outside the menu. Lynae's pair already listed both (tag `3381.615`, shared).
+  A red probe at each register on the overworld draw named `ps-t2` the colour; and read the MOD's textures before
+  calling a colour wrong -- Changli6's eye for its normal hair IS the game's amber, so only the alternate hair shows it.
+* **An outline pass's `ps-t0` is a COLOUR the shader darkens, and the two outfits feed it different things.** Changli's
+  own outline draw binds a dedicated outline map (~30% darker than her diffuse); the skin's binds its DIFFUSE. Bound
+  to the skin's pass, her outline map was darkened twice: a near-black edge round Changli9's long hair, read as "a
+  second shadow ghost". `wwmiPassLayout.py` on both menu dumps shows it (`sets ps-t0` and what it holds); turning the
+  remap's outline draw off proved the pass, and binding the hair / bangs DIFFUSE there is the fix.
+* **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
+  (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
+  blend is read across its neighbour's bytes and the whole model draws as giant polygons.
+  `WWMIFixerConfig::targetInfluences` widens (forward, 4 -> 8) and NARROWS (reverse, 8 -> 4: each vertex keeps its
+  heaviest slots after merging slots that name one bone, weights scaled to the same total; under 1% of the skin's
+  vertices use more than four). Check `Blend.buf` size / `Position.buf` count on BOTH identity mods for every pair.
+* **A mod's older texture hashes are in WWMI-Assets' own git history.** Most Changli mods predate her 2.6 rehash, so
+  the fix downloaded the GAME's texture over their art (Changli1: 13 of its roles). WWMI-Assets keeps
+  `Components-N t=<hash>.dds`, so a rehash is a git RENAME: `Tools/Misc/Diagnostics/wwmiAssetLineage.py --char <Name>
+  [--folder <Skin1>] [--roles <json>]` prints old -> new with the old hash's register usage (the check that the role
+  is right), and the rows go into `HashData.cpp` typed by role at an older version. Hash-level evidence, unlike
+  pixel correlation; a hash several characters share (`c235c6a7`, 27 of them) is not filed, and an "old" hash whose
+  successor is the CURRENT asset hash belongs in the config's roles, not in HashData.
+* **A mod may bind its textures from an `.ini` in a SUBFOLDER** (`Textures/textures.ini` on the same draws).
+  `WWMIFixerConfig::readInisBelow` (default off) reads those too; the old search looked beside and above only.
+* **One texture file, two resource sections: name it by the one a section USES.** Changli1 declares
+  `[ResourceTexture19]` on its body diffuse and binds that file only as `[Resource-1]` inside a `$sawpvarA` toggle,
+  so taking the first declaration lost the toggle. And the "used" scan must skip this pair's OWN previous fix
+  sections, or a re-fix in place reads its last output as the mod's use -- which only a fix-twice comparison
+  (pre-flight item 9) catches; the clean A/B undoes first and cannot.
+* **A part drawn by a CUT-OUT emissive shader has no counterpart on a lit body shader.** Her 25-vertex chest tattoo
+  is cut out of a glow texture's alpha and drawn as a small dark mark; through the skin's body shader the whole quad
+  drew as a red rectangle. Proven by commenting out its one draw; it is left out of the plan (`plan` without a row
+  drops a component).
+* **Alpha means different things on different shaders.** Measured over both characters' own diffuses: every opaque
+  shader keeps diffuse alpha at or below ~120; the skin's two see-through shaders carry it to 255 as opacity. On
+  Changli's shaders alpha above her own range LIGHTS the part (a paint test with a flat alpha-255 texture lit the
+  dress bright green), so the reverse clamps the see-through parts' alpha to 117 (ChisaParfait -> Chisa's edit).
+  Translucency itself is out of reach without a shader, and stays a limitation.
+* **Before calling a part's glow missing, ask whether the TARGET can glow there at all.** Changli's arm feathers
+  light from her upper-body detail map's alpha; the skin's body shader showed no input a texture can drive (its
+  t3 at alpha 255 everywhere lit nothing) and the skin's own arm has no feathers -- a measured limitation.
+* **Before calling something a difference, look at the SAME spot on the original.** Changli's base card shows red
+  flame streamers by her right hand; four paint tests and four mesh probes showed they are no part of the remapped
+  mesh -- and then the skin's own card turned out to show streamers there too. Not a difference; it had been
+  written up as a limitation for an hour. (Of the four probes, skipping two scene meshes blanked the whole frame.)
+* **What a see-through shader CUTS AWAY, an opaque one draws.** The skin's fine gold chains are thin quads of a gold
+  line on grey whose alpha is 0; on Changli the grey drew too, as dark cords across her chest and a loose strip at
+  her hip. The dress edit now pads every fully transparent texel with its nearest visible neighbour's colour (a
+  deterministic left / right / up / down pass rule, so the C++ frontier walk and the prototype's numpy passes write
+  the same bytes) before clamping the alpha: the chains draw as thin gold straps.
+* **Before re-routing a part that "hangs wrong", measure how it is MODELLED.** Two epochs reported her right side
+  panel edge-on from the front where the skin's card shows it broad, and three carriers (her right panel, her right
+  thigh, her pelvis) changed nothing. The panel's plane normal in the mod's own mesh is along x: both side panels
+  are modelled facing SIDEWAYS, and the skin's idle swings the right one to the front while Changli's does not. A
+  pose difference, not a row; the mapping went back to the mirror of the left. Two more things it showed: the
+  bones the report names may not be the ones that carry the part (the veil's own chain is a fraction of the panel's
+  weight -- tally the weights of the vertices in the region first), and a mod that HIDES the component (its
+  `drawindexed` commented out) leaves those vertices' ids untouched, which is right, so an unchanged blend there is
+  not a missed remap.
+* **Some skin mods are WWMI "BETA-2" exports with no merged skeleton** (no `vg_offset` lines): their blend holds
+  each component's LOCAL ids. Without `sourceVgMaps` the fixer leaves the `.ini` alone and says so only to a
+  logger -- the stats still count it fixed. Set `sourceVgMaps` from the source's `Metadata.json` for every
+  direction whose source has mods of that shape.
+* **Restored originals for older meshes cannot be made by a hash swap.** Changli 1.1 / 1.2 mods differ from 1.4
+  in index windows and bone windows too, so five originals had no reference at 3.7 and were checked for integrity
+  only. Say so in the hand-off rather than building an upgrade remap for references.
+* **In-game mechanics that cost a round each:** 3DMigoto persists a `global persist` toggle in `d3dx_user.ini` and
+  that value OVERRIDES an edit of the `.ini` -- strip the mod's lines there before every reload; GameView's
+  `mods <IMP> only` aborts halfway when its journal holds an origin in a deleted scratch folder (use `park` /
+  `load` one at a time until it is fixed); and the Claude desktop app steals focus from the game, so every
+  reload has to be proven by the picture.
+
+Open: Changli13 draws its coat and tattoo from mesh files of their own (`Meshes/Split`, `Meshes/Tattoo`), which the
+WWMI fixer does not handle yet (a session card proposes it); Changli3 keys its sections on the bone-data buffer only
+and is not classified; the overworld was not checked in either direction (the skins were never WORN -- that is the
+maintainer's call).
 
 ## LYNAE <-> LYNAEPEPPERMINT (WuWa, compiled both ways 2026-10-06)
 
@@ -1396,6 +1805,362 @@ the mod on its own card. What it found:
   prototype and compiled fix are identical on three, and a second fix is byte-identical. **Reading a stencil**:
   `GameView dump --options "dump_rt dump_depth buf txt"` writes each draw's `oD` as `D24_UNORM_S8_UINT`, and the
   top byte of each 32-bit texel (after a 148-byte header) is the stencil.
+  **The write masks were read off JPG dumps first, and were wrong (2026-10-13).** `dump_rt_dds` gives every
+  target losslessly (`A16B16G16R16F`, `R10G10B10A2`, sRGB `B8G8R8A8`, bitmask, `R16F`, `D24S8`), and the fraction of
+  shirt pixels each CHANNEL changes on says the skin's sheer pass writes RT1 and RT2 colour only (2's alpha is the
+  shading model, so the BODY's stays), RT3 and RT5 whole, RT0 and RT6 not at all -- `mask[1] = 0x7`,
+  `mask[2] = 0x7`, `mask[0] = 0`, `mask[6] = 0` now. **The bikini still shows through fainter than on the skin,
+  and that gap is NOT in the G-buffer**: with those masks every target matches the skin's under the shirt, the
+  skin's own G-buffer holds no bikini there either (white shirt only, colour after independent of colour before),
+  and her deferred lighting pass (`ee3c94cb`, the same shader on both: depth, RT1-3, RT6 and RT5 as inputs, `t5` /
+  `t7`-`t9` 1 x 1 placeholders) still renders a plain white shirt over still-unlit skin at draw 63. The see-through
+  is composited LATER, in the compute / fullscreen passes that light her skin (draws 66-95 of
+  `FrameAnalysis-PepSheerGB`), which a frame dump's `o0` does not show. Ruled out on the way: drawing the upper body
+  with her body shader (`ed4fe222`, worse), her `ps-t10` (`308e6e5e`, bound by her lower body and inherited by the
+  lighting pass: no change), and stencil bit 2 under the shirt (no change). A probe that counts a slot's passes per
+  frame (`$pass = $pass + 1`, reset in `[Present]`) is NOT a way to tell two passes of one vertex shader apart --
+  other draws through that shader bump it, and it broke the picture even with Lynae's own shaders.
+  **THE SEE-THROUGH IS AN ALPHA BLEND OF THE BASE COLOUR, AND THE DUMPS THAT HID IT WERE SKIPPING HER BODY
+  (2026-10-13).** The bikini showed through fainter on Lynae, and every dump of the skin taken after a hunting
+  session rendered her skin unlit and her shirt opaque -- vanilla or modded, lossless or not, RabbitFX or not.
+  **Cause: hunting's `marking_mode = skip`.** GameView turns hunting ON to take a dump, and the shader still
+  selected from the last hunting session -- here her body shader `ed4fe222`, marked to capture it -- is then not
+  drawn at all: her body draw wrote no colour and no depth, so the G-buffer under the shirt was empty. **Before
+  trusting a dump, check that the draws you study write something** (a draw with zero changed pixels in every
+  target is a skipped draw), or take it with `marking_mode = original` for the dump and put `skip` back after.
+  With valid dumps her sheer pass's base colour (RT3, the sRGB target) depends on the colour under it while ours
+  did not: it ALPHA-BLENDS that target by the opacity it writes in the target's alpha. `blend[3] = ADD SRC_ALPHA
+  INV_SRC_ALPHA` and `alpha[3] = ADD ONE ZERO` reproduce it (the same estimate of the factor on her frame and on
+  ours, against a known blend), and in game the bikini shows through on LynaePeppermint1 and the identity mod as
+  on the skin; LynaePeppermint2 shows it too, a little less, at a different pose; LynaePeppermint4's jacket is
+  unchanged. Her other targets are not blended (RT1's correlation with what is under it is geometry -- it is the
+  same unblended). The probes on the way that did NOT help, kept for the next one: her body shader on the upper
+  body, her `ps-t10` (`308e6e5e`), stencil bit 2 under the shirt, RabbitFX parked.
+  **...AND ONLY OVER HER BODY (2026-10-13).** Blended everywhere, the shirt read as too see-through: over the body it
+  let through exactly what hers does (the bikini / bare-skin contrast surviving the shirt: 0.249 against 0.244 in the
+  base colour, 0.254 against 0.267 lit), but her sheer pass draws NO pixel over the background -- her opaque jacket
+  pass draws the shirt there -- while ours made the sleeves and edges a ghostly see-through and showed hair through
+  it. Her body marks itself in the stencil; Lynae's does not. Two template fields do it, both default empty:
+  `SourceComponent::markLines` redraws a component's draws with `ps = null` under the given lines after each of them
+  (Lynae's upper and lower body: `depth_func = equal`, no depth write, stencil bit 1 replaced -- the visible body
+  only), and `Shader::passes` draws a shader component once per entry (the shirt: blended with stencil `equal` on
+  bit 1, opaque with `not_equal`). **Pick the bit by testing it**: bit 16 blackened the whole body (the lighting
+  reads it); bit 1 is set by no draw of either character. Checked in a dump: 28685 shirt pixels over the marked
+  body blended, 5856 over background and unmarked surfaces opaque. Every other pair's output is byte-identical
+  across the 34-mod corpus.
+
+  **A BLACK COLLAR AND SLEEVES, IN THE OVERWORLD ONLY, WERE A MESH OF LYNAE'S THE MOD DOES NOT REPLACE (2026-10-13).**
+  Every check above was in the character menu. In the overworld her neck and upper arms rendered pure black, with
+  hard polygon edges, and nothing in the fix caused it: hiding EVERY remapped draw and the stencil marks left a black
+  long-sleeved top standing on its own. It is `34c0d81d`, a separate WWMI object of hers (2679 vertices, its own
+  skeleton and shape keys) drawn under her shirt, in the overworld and never in the menu. The skin's body is slimmer
+  at the neck and arms, so it shows through there. **8 of the 14 Lynae mods skip it themselves** (`FixBlackModel.ini`,
+  `[TextureOverrideBlackShirt]`), and a remapped mod was made for another character and does not. The new
+  `WWMIFixerConfig::hiddenMeshes` lists such meshes by `vb0` hash and skips each while the mod is enabled (not
+  `hiddenObjs`, which comments out the MOD's sections). Found by: per-component hiding in game, then a log-only dump
+  (`--options "dump_cb buf"`, 51 MB, with `marking_mode = original`) listing the draws beside hers -- `34c0d81d` sits
+  right before her body in both the pre-pass and the G-buffer pass -- then one `handling = skip` by hand. **For any
+  WuWa target, collect the hashes her own mods skip** (`handling = skip` with no index window, over every mod of
+  hers on disk): that list names her extra meshes before the overworld does. Lynae's also has `957ea5bd` (3 mods; a
+  small mesh drawn with her face shaders), not hidden here because nothing showed. Whether LynaePeppermint has such a
+  mesh of her own is unchecked: wearing her outfit in the overworld was not done.
+
+  **AND IN THE OVERWORLD YOU COULD SEE THROUGH HER BODY: THE GAME DRAWS HER SLOTS IN A DIFFERENT ORDER THERE
+  (2026-10-13).** The maintainer: "you can see through Lynae's body and see her back ponytails; on the original
+  you can't". Every check above was in the character menu, where Lynae's upper body (slot 3) draws before her
+  jacket slot (slot 4, which carries the shirt). In the overworld slot 4 draws FIRST, so the see-through pass
+  blended over whatever was there -- her ponytails, the coat's back panel, the scene -- and her body, drawn after,
+  lost the depth test under the shirt. Read off one log-only dump (draw order by vertex shader), then settled by
+  dumping `o3` / `oD` at chosen points with 3DMigoto's `dump = dump_rt dds o3` command inside the probe's own
+  command lists (75 MB a dump). Three wrong turns worth knowing:
+  - **`o0` does not tell passes apart**: the overworld's pre-pass and G-buffer pass bind the SAME `o0`, so a
+    "drawn in this pass" record from the pre-pass matched in the G-buffer. `o3` (base colour) is unbound in the
+    pre-pass and is the one.
+  - **Her upper body is TWO G-buffer draws a pass** (two pixel shaders, different depth-stencil states): where the
+    coat already wrote its stencil, the first skips and the second fills. A shirt drawn after the first still had
+    the coat's panel under the chest; it has to follow the second.
+  - **A mod may draw the upper body as many toggled ranges in ONE section** (LynaePeppermint3: ten), so the count
+    goes up once per game draw -- right before the section's cleanup list -- not once per `drawindexed`.
+  `WWMIFixerConfig::Shader::after` (`component`, `draws`, `target`, `carried`) does it: on a pass binding the target,
+  each side records which drew first; the shirt drawn first is held back (its textures and the game's `ps-t9`
+  saved) and made after the upper body's last draw. A pass without the target draws as before, and the records
+  reset once a frame on 3DMigoto's `time` (one `[Constants]` of the fix's own). In game: the overworld shows the
+  body under the shirt from the front, sides and below, and the menu is unchanged; LynaePeppermint3 / 4 checked
+  too. Only the five LynaePeppermint `.ini` files move across the 31-mod corpus. **Lesson for every pair: check a
+  see-through or layered part in the OVERWORLD before calling it done** -- draw order is the game's, per scene.
+
+  **AND THE SHIRT WAS STILL TOO SEE-THROUGH: THE SOLID PASS HAD THE SEE-THROUGH PASS'S WRITE MASKS (2026-10-13).**
+  The maintainer's two screenshots (`Images/LynaePeppermint/3_7/LynaeShirtBase.png`, `LynaeShirtRemap.png`) show what
+  every earlier check missed: on Peppermint the shirt is a white veil with the bikini a faint blue under it, on Lynae
+  the bikini came through in full cyan and the shirt's edge past her bust was a translucent band with the sky behind
+  it. The solid half of the split drew with the SHARED lines, which carried the see-through pass's render-target
+  masks (`mask[0] = 0`, `mask[6] = 0`, RGB only on 1 and 2), so over the background targets 0 and 6 kept the scene
+  and the lighting showed it through. The masks now sit in the see-through pass only and the solid pass writes every
+  target (`0xf`). An explicit `blend = disable` on both passes, tried first, changed nothing. Measured on the
+  Resonator Outfits screen, both cards at the same zoom and a close pose, saturated cyan pixels over the chest:
+  Peppermint 4393, before 5989, after 3035 / 3375; the edge band is solid white in the menu and the overworld.
+  **The two numbers this note gave earlier (0.249 against 0.244 in the base colour, 0.254 against 0.267 lit) said
+  the see-through matched, and it did not**: a contrast over the bikini / skin boundary inside the body cannot see
+  pixels that should be opaque. **Compare a see-through part card against card**: select the skin's card and the
+  base's on Resonator Outfits (selecting only previews), wait out each card's intro effect (a timed series, keep a
+  clean frame) and zoom both the same.
+
+  **AND HER COAT IS SEE-THROUGH TOO: A MOD MAY PAINT A WHOLE GARMENT ONTO IT (2026-10-13).** The maintainer:
+  "in LynaePeppermint2, her shirt in the remap is opaque instead of transparent". That mod's shirt is the skin's
+  COAT component (5), not her shirt (6) -- hiding component 5 took the shirt with it -- and the coat went through
+  Lynae's jacket shader, which draws nothing see-through. The skin draws her coat exactly as her shirt: a solid pass
+  (`12fcca8e`), then a see-through one (`4470be47`, vertex shader `fd92e896`) that inherits the shirt's sheer blend
+  and depth-stencil state, and the two shaders differ only in the block that computes the blended alpha. Her own
+  vanilla frame proves it is used: reading `o3` after each draw (`FrameAnalysis-PepVanilla`, draws 23-26), her solid
+  shirt and coat passes leave the body's pixels alone (alpha 255) and the see-through passes then blend over 13450
+  (shirt) and 4120 (coat) of them. So the coat now takes the shirt's whole treatment with its own shader
+  (`LynaePeppermintSheerCoatShader`, from `wwmiShaderData.py` over `FrameAnalysis-LynaePeppermint-2026-10-04`'s draw
+  31, `cb4` rows 0-152): the same two stencil passes, `Shader::after` on the upper body, her noise at `ps-t4` and the
+  coat's foil (`00e3f13b`, the new `pouchFoil` fallback) at `ps-t5`; Lynae's jacket slot binds the ramp at `ps-t6`
+  already. The coat mask's repack goes with it, as the shirt's did (her shader reads her legend). Card against card,
+  LynaePeppermint2's shirt is the skin's veil over the bikini, LynaePeppermint4's jacket turns translucent as on the
+  skin, and the identity mod and LynaePeppermint1 / 3 look as before; the overworld front, side and back are right.
+  Prototype and compiled identical on all five mods; across the 31-mod corpus only the five LynaePeppermint mods
+  move. **Before routing a skin's component through a target shader, list every pass the skin draws that
+  component's window with** (`grep -a "^0000NN " log.txt` around the window's `DrawIndexed`): a second pass on the
+  same window is a material the target's shader may not have.
+
+  **AND THE COAT'S INSIDE WAS DARK: HER SHIRT AND COAT DRAW TWO-SIDED, LYNAE'S SLOTS CULL (2026-10-13).** The
+  maintainer: "the inner texture of the jacket is wrong, there is some black when the original does not". Side-on
+  on the outfit cards, the inside of the hanging coat was a dark navy band on Lynae and light cyan on the skin -- in
+  the old build too, which an earlier look had written off as the coat's own back panel. Tabulating each draw's
+  `RSSetState` pointer in the two vanilla frames says why: three rasterizer states on each skin, and the skin's shirt
+  and coat (draws 23-26) share hers with her HAIR and effects, where Lynae's jacket and upper / lower body share hers
+  with her FACE and body (Lynae's hair takes the other one). So the skin's garments draw both sides and Lynae's slots
+  cull back faces: the coat's inside was never drawn and its far wall showed through. The shaders cannot say this --
+  Lynae's jacket shader reads `SV_IsFrontFace` too. Both sheer shaders now carry `rasterizer_state_merge = true` and
+  `cull = none`; **without the merge, `cull` alone builds a rasterizer state from defaults** (as
+  `depth_stencil_state_merge` does for depth), and the default winding turned every face around -- the whole coat
+  came out deep blue. Settled by one hand edit of the fixed `.ini` before any code. **When a part looks wrong from
+  one side only, compare the two draws' rasterizer states before the textures** (the log's `RSSetState` pointers,
+  grouped by which draws share them).
+
+  **AND A MOD'S HOLOGRAPHIC JACKET PANEL WAS GREY: ITS PART IS THE LOWER BODY, AND ONLY HER LOWER-BODY SHADER HAS
+  THE FOIL (2026-10-13).** The maintainer: on LynaePeppermint1 "the top part of the jacket (the shiny part)" had a
+  brownish / darkish hue. It was not the coat change it seemed to follow -- the build before it renders it the same
+  grey -- and not the coat at all: painting the base colour red in BOTH of the skin's shipped shaders left the panel
+  grey, and rendering a frame dump's `o3` after each draw put it in Lynae's lower-body draw. The mod models it on the
+  skin's LOWER BODY (component 4). Her lower-body shader (`0a52e215`) reads a holographic foil at `ps-t8`
+  (`4bee4070`) and her noise at `ps-t7`; Lynae's has no foil, so every holographic part of that component came out
+  flat. Ruled out on the way, each by one test: RabbitFX (parked, the skin's own panel kept its sheen), the
+  downloads' formats (identical to the game's), the coat's sheer stencil bit, the shading byte `o2.w` (the shader
+  reads it from the game's `cb2[23].w`, 1 on the skin's draws, 0 on Lynae's) and the draw order. **Paint the
+  suspect shader before measuring it**: a red `o3` says in one reload which draw a part belongs to, and four rounds
+  of measurement had assumed the panel was the coat. The lower body now goes through her own pass, captured with
+  hunting (RabbitFX parked) and generated by `wwmiShaderData.py` (`cb4` rows 0-161, the vanilla dump's draw 20):
+  her register order, the noise and foil as fallback roles, her body's stencil (ref 14 through `0x8e`) and two-sided
+  as her draw is. Its mask repack and skin-code swap are gone with it (her shader reads her legend and codes). Card
+  against card the panel has her lilac sheen, and the legs, hips and shorts match her own on the identity mod;
+  LynaePeppermint2-4 and the overworld unchanged otherwise.
+
+  **THE FORWARD DIRECTION DRAWS WITH LYNAE'S OWN SHADERS TOO (2026-10-14), AND IT FOUND THAT A CUSTOMSHADER'S
+  BINDINGS OUTLIVE IT.** Drawn with the skin's shaders and her textures edited to approximate her, Lynae's parts came
+  out as the skin's materials (a pink-violet lining where hers is a teal film, a lime tie, a green sheen on her hair,
+  a black skirt gone metallic), so `Lynae -> LynaePeppermint` now reroutes her jacket, hair, bangs, upper and lower body
+  through her own pixel shaders (`Lynae{Upper,Lower,Hair,Bangs}Shader`, `LynaeFilmShader` for the jacket), each with
+  her draw's culling and nothing blended -- and the STENCIL left as the skin's slot sets it (see the last paragraph). Three things came with it, all in `WWMIFixer`:
+  `Shader::registers` (a binding only the shader reads, so a mod that yields to RabbitFX keeps the skin's layout),
+  `WWMIFixerConfig::stashRegs` (her lower body reads three game textures the skin's upper-body slot does not hold; they
+  are captured off the skin's own lower-body draw, which comes first) and `Shader::yieldToRabbitFX`.
+  **`Shader::once` was built and REMOVED the same day**: it drew a slot's second pass as nothing, latched on
+  `(frame, o3)`, and at the studio's farthest zoom the game renders the character TWICE into one `o3` -- the visible
+  render then showed the skin's own textures (brown hair). A shader with its state spelled out repeats the same pixels
+  on a second draw, so nothing needs it.
+  **And Lynae8's bare body rendered BLACK on the skin while every texture, constant and vertex input checked out**,
+  because 3DMigoto restores a CustomShader's shaders and render state but NOT the resources its section assigns.
+  Lynae8's torso skin is component 4 (her lower body, yielding to RabbitFX, so drawn by the skin's own shader) on the
+  SAME skin slot as component 3 (her upper body, drawn by her shader); component 3's custom draws left
+  `ps-cb4 = <her material constants>` and her `ps-t4` / `ps-t5` bound, and component 4's skin shader shaded with them.
+  Every run of a rerouted or marking CustomShader is now wrapped: each `ps-t` / `ps-cb` / `vs-t` / `vs-cb` it assigns
+  is saved before (`ResourceShaderBackup<Reg>`) and put back after (`WWMIFixer::restoringRuns`). **The bisect that
+  found it, worth reusing**: switch the suspect custom shader off (draw renders right -> it is involved), feed it the
+  game's own textures (still wrong -> not the textures), then make it write a LOUD constant (`o3 = 1` there): the black
+  parts stayed black, so they were not its pixels at all, and the question became what it leaves behind. Two things
+  that cost time first: an `.hlsl` patched for a test needs a positive control (paint everything red) before a negative
+  result means anything, and `o2.w` -- the shading byte -- told the two shaders' pixels apart in a frame dump
+  (`gbufSplit`-style: group a draw's pixels by their `o2.w` / `o6` values and paint each group).
+  **AND 3DMIGOTO'S DECOMPILER WROTE THE WRONG SHADING MODEL INTO EVERY ONE OF THEM (2026-10-15).** An integer bit
+  operation on a constant (`bfi ... cb2[23].w`) decompiles as `(uint)cb2[23].w`, a float-to-int CONVERSION of a value
+  stored as raw bits -- 1 became 0, and every shader generated from the HLSL wrote G-buffer `o2.w` 12 where her own
+  draws write 44. `wwmiShaderData.py` rewrites those casts to `asuint(...)` now; compare `o2.w` of the custom draw
+  and of her own in two frame dumps after generating any shader. **Three open items after epoch 4, each bisected and
+  none explained:** (1) Lynae14's gold filigree glows brighter on the skin -- the G-buffer it writes now matches her
+  own, so the difference is after the draw; (2) Lynae13 with only its pantyhose shows pale blotches at the waist,
+  from her jacket shader's matcap FOIL lookup (a constant foil removes them) -- not the texture roles, code map, mip
+  chain, normal map, sampler slot, `vb6`, stencil, depth bias or vertex shader (her own `6ffcf365`, captured with
+  hunting, changes nothing); (3) LP1's sheer shirt is slightly less frosted. And Lynae11's silver skirt is
+  RabbitFX's: with RabbitFX parked both cards match. **Hunting trap that voided two tests:** with
+  `marking_actions = ... hlsl asm`, a mark writes TWO files (`-vs_replace.txt` and `-vs.txt`), and the second lands a
+  moment later -- watch `ShaderFixes` until it stays empty, or 3DMigoto loads the assembly as a replacement and the
+  routes gated on that shader's hash stop firing (the mod falls back to the target's own outfit).
+  **AND A CUSTOM SHADER MUST NOT WRITE THE STENCIL OVER BITS ANOTHER PASS ALREADY SET (2026-10-14, epoch 3).** Her own
+  shaders were first given "her draw's state": stencil ref 2 through write mask `0xff`, `always replace`. That
+  overwrote the bits the SKIN's depth prepass had already written for those pixels, and the deferred lighting reads
+  them to decide what is sheer: Lynae9's see-through sweater came out opaque salmon, Lynae14's sheer skirt an opaque
+  gown, and Lynae5's headset over the ear vanished. Dropping the stencil lines (the slot's own state stays) fixed all
+  three; blend and culling stay. **Two wrong theories came first, and each had config written and built for it
+  before the test that refuted it**: "her film is finished by translucent passes the skin's deferred draw cannot host" (a reroute of
+  film-coded draws to the skin's shader, `share` thresholds and all -- it helped, because the skin's shader writes
+  no stencil), and "her upper body's second pass is a see-through pass" (its shader is the first with a few lines
+  changed). Both were reverted. The test that settled it was one hand edit: drop the stencil lines from ONE
+  route's custom shader and reload. **When a custom-shader route renders a material wrong and every input matches
+  her own draw, try the render state the route ADDS before theorising about passes.** Still open after it: her
+  coat's back panel on Lynae5 (dark olive where hers is pale iridescent) and, milder, on the identity mod -- one
+  draw, her shader, her foil, her ramp, the mod's textures as the Restored copy binds them, and neither the stencil,
+  the blend / cull lines nor the slot's second pass changes it.
+  **LYNAE9'S LIME SHORTS WERE THE SLOT'S OUTLINE PASS, NOT ANY SHADER OF HERS (2026-10-15).** Under her skirt the
+  shorts rendered lime on the skin's card and dark on hers. Six theories went first, each built on a shot where
+  the hair or the camera angle happened to hide the shorts -- most expensively, a per-triangle split of her lower
+  body by the `0x80` flag, built, compiled and shot, which "removed" the lime only because the hair covered it,
+  and turned her tights pale (the tights carry `0x80` too). It was reverted. What found it: **a low-angle shot
+  that shows the part every time** (drag the camera up after turning), then **painting every custom shader a
+  different colour** (the lime stayed unpainted, so it was a draw on the slot's own shader), then **one
+  `dump_rt jpg` frame dump** (53 MB) and tracking the lime pixels of the dump's FINAL frame back through the
+  draws: draw 78 (her body) wrote the shorts dark, and draw 83 -- `f8c96a27`, the skin's upper-body slot's
+  OUTLINE pass, where her lower body falls back to the skin's shader -- wrote `o3 = (114, 114, 3)` over them.
+  The skin's outline shell of her tights pokes through the shorts, in the outline shader's colour; `t0` does not
+  change it, and her own card shows no outline there. `SourceComponent::offPasses` (new) keeps a component's
+  draws off the passes it names (`if vs != ...` around each draw, in a list of the fix's own); plan 4 names
+  `f8c96a27`. **Probe the pixel where it ends, not where the screenshot was**: the idle pose moves between
+  a screenshot and a dump, so map the lime off the dump's own last frame. With the skirt toggled off, the mod's
+  tights have gaps where the skirt covers them -- on her card too (holes to the sky): the author cut them away,
+  and the remap now shows them exactly as hers does. Drawing that pass with HER outline shaders instead (pixel
+  `30ab50e7` and vertex `6a6650a9`, both captured) still filled the gaps olive, so it was dropped. And the
+  `0x80` reroute to the skin's shader (plan 104, for the hat brim and shorts) went with it: their lime was this
+  pass all along, and the skin's shader drew the satin hat matte.
+  **A DOWNLOADED TEXTURE A SHADER READS BY MIP LEVEL MUST CARRY THE GAME'S MIPS -- AND A FRAME DUMP NEVER HAS THEM
+  (2026-10-15).** Lynae14's gold filigree glowed on the skin and Lynae13's pantyhose had pale blotches at the waist,
+  and both had survived two epochs of bisection: every input matched her own draw. The cause was her holographic
+  FOIL (`74a761f5`), a matcap her jacket and lower-body shaders read with `SampleLevel` at a level set by roughness.
+  The game's has **10 mips, prefiltered by the game** (a RabbitFX `.dsc` gives the count); 3DMigoto dumps mip 0
+  only, so the fix's download had one, and a rough surface got the sharp foil where hers gets a soft pastel -- and the
+  mips' ALPHA, which her shader blends toward, is authored per level (168 at mip 0, ~80 at mips 3-5, ~155 at 6-8),
+  which no box filter reproduces (a box-filtered chain changed almost nothing). Five such foils are mipped now
+  (`74a761f5` for Lynae, and `9934ca23` / `4bee4070` / `00e3f13b`, which the skin's shaders read the same way).
+  **How the mips were got**: a temporary mod whose `ShaderOverride` on a draw binding the texture renders each level
+  with `Load(int3(xy, level))` into its own `R8G8B8A8_UNORM_SRGB` target and `dump = dds`s it
+  (`Tools/Misc/Diagnostics/wwmiMipExtract.py` writes the mod and assembles the DDS; mip 0 came out byte-equal to the
+  old download, which is the losslessness check). Three 3DMigoto traps on the way: a resource assigned by `= copy` /
+  `= ref` needs its own `[Resource...]` section or the line is silently ignored; a render target with only a
+  description is never created (give it a blank `.dds` of the right size and `bind_flags = render_target
+  shader_resource`); and `dump = dds <resource>` is what writes DDS, `analyse_options` alone wrote JPG.
+  **What found it after everything else had not**: painting intermediates of her shader as flat colour (`o0 = value`,
+  `o3 = 0`) on BOTH cards -- on the skin as the route's custom shader, on her card as a `ShaderFixes` replacement of
+  her own shader hash -- and walking down the shader until the two pictures differed: the code map and diffuse
+  matched, the foil's UV and level matched, the foil SAMPLE did not. That also showed the blotched tights were drawn
+  by her JACKET shader (the mod puts them in the jacket component), not the lower-body shader being bisected. The
+  replacement trick doubles as the test that the decompiled HLSL itself is right: her own card with it looked as
+  with the game's.
+  **And her LIGHTING RAMP is hers now.** Her shaders read a 512 x 25 ramp (one row a material) that the game keeps
+  in ONE texture (`ecfa79d1`) and refills with the on-screen character's ramp -- `3a40da92` for Lynae, `82550cee` for
+  the skin, constant across every dump -- so the `ref ps-t6` / `ref ps-t7` lines that borrowed it off the skin's slot
+  handed her shaders the SKIN's ramp (its film row is cream where hers is dark-to-teal). Each direction downloads its
+  own (`role ramp` lines, a new `Shader::lines` form resolved like `stash`); LP1's less frosted shirt matched once
+  both landed. **And `AGREMAP_DOWNLOAD_FOLDER`** (a `file://` url to a checkout's `Data/Mod Downloads`) runs a fix
+  against download files not yet merged into master, so a change to them is verified end to end before the merge.
+  Ruled out on the way, each by one in-game A/B, so the next agent need not repeat them: the mod's textures, the
+  material cb4, the stashed `t4`-`t6`, the vertex shader, the cleaned texcoords, the stencil (refs 2, 6 and 10 each
+  turn the sheer skirt opaque), the samplers, the props veil and the card's lighting. **Lynae14's props component**
+  -- its overskirt, a cloth layer, the sleeves, the socks and the hat -- is drawn by her card AFTER lighting as
+  translucency (two draws on a separate target, `2d6d59fe` then `0f6f8fac`, then a composite), which the skin's
+  frame never runs, so the hat brim's dark grey and the ID card's see-through are not reproduced. Two measurement
+  traps: comparing a G-buffer against a dump from an older build, and JPG render targets (linearised, no alpha).
+  The Peppermint card replays a paint-splash animation over most captures; take a burst of shots and keep the one
+  with the least splash.
+  **A RABBITFX MOD, AND WHICH SHADER DRAWS EACH OF ITS PARTS (2026-10-15).** RabbitFX patches the GAME's shaders
+  by regex (its `ShaderRegexMain` rewrites the first texture reads to its own slots t60-t65, routed by flags
+  `x187`-`w187` it sets from type tags on the textures the draw binds), so it can never patch a custom shader --
+  and a precompiled patched shader (`-ps_regex.bin`) does not load as a `CustomShader` either (the part simply
+  vanished). Which way each part goes was settled card against card on Lynae8, Lynae10 and Lynae11, the three
+  RabbitFX mods: her HAIR and UPPER BODY use her own shaders with the RabbitFX files bound directly (RabbitFX only
+  swaps their textures -- Lynae11's tie came out right only this way), and her JACKET and LOWER BODY keep the
+  skin's RabbitFX-patched shaders (`Shader::yieldToRabbitFX`), because there RabbitFX changes the material too:
+  her jacket's film goes off (Lynae11's lining is pink on her card, and her own film shader drew it teal) and
+  Lynae11's robotic legs render as white plastic (her own lower-body shader drew them as skin). Do not try to
+  derive RabbitFX's routing from its regex by hand: on her own draws t0, t1 and t3 are unbound and the patch still
+  renders colour, which the reading I made could not explain -- test each part in game.
+  **SUPERSEDED (2026-10-16): RABBITFX IS CARRIED INSIDE HER SHADERS NOW, AND THE "UNBOUND" REGISTERS WERE THE MOD'S
+  OWN FILES.** A `dump = desc` file with no `=hash` in its name is a texture 3DMigoto loaded from a mod, not an empty
+  slot -- Lynae11 overrides her t0 / t1 / t3 with its own maps (2048 x 4096, one mip), which RabbitFX does not tag,
+  and its log of `SetTextures` in a frame dump of her card says so: `x187 = 0`, `y187 = 0`, `w187 = 1` on her lower
+  body. RabbitFX does not route by ROLE: there it reads the mod's LIGHTMAP at her normal-map sample and leaves her
+  diffuse alone, which is why "her shader with the files bound by role" drew Lynae11's legs as skin. The yield to
+  the skin's shader lost the rest: epoch 6 found Lynae11's waist glow (Skirt=5 / 9), knee bands, thigh film and
+  skirts, and Lynae10's belt wrong. Now `Tools/Misc/Diagnostics/wwmiRabbitFXSites.py` runs RabbitFX's own
+  `ShaderRegexMain` over a shader's assembly (the game's, or `fxc`'s of the decompiled HLSL -- they agree on her
+  lower body except two cut-out reads only the game's has) and prints its sample sites, and
+  `wwmiShaderData.py --rabbitfx <sites>` writes the patch's selection into the HLSL: each site samples its own
+  texture and the one RabbitFX routes there, and picks by the flags at `IniParams[187]` and which of t60-t65 are
+  bound, plus the glow of `CommandList\RabbitFX\Run` (Lynae3's back strips). The fix keeps the mod's RabbitFX
+  lines and pins the flags to HER textures' tags on every part her shaders draw (`SourceComponent::rabbitFX`); the
+  skin's slot shaders are all RabbitFX-patched, so `SetTextures` binds t60-t65 there. Seen card against card on
+  Lynae11 (default, a, s, Skirt=9), Lynae10 (default, b), Lynae3 and Lynae8, 2026-10-16. RabbitFX's menu tweak is gated on its censor key and is not carried.
+  **AND A MOD'S OWN TOGGLED `ps-t` LINE ABOVE THE FIX'S TEXTURE LIST IS REPLAYED AFTER IT (2026-10-16).** Lynae3's
+  `if $Wish == 1: ps-t2 = <the upper diffuse>` puts a lace pattern on her jacket through her material-code
+  register; carried to the top of the remapped section, the fix's texture list rebound `ps-t2` after it.
+  `toggledRegLinesBefore` re-emits such lines, with their conditions, at the end of the list.
+  **AND THE SKIN'S SHIRT DRAWS ITS OPAQUE PASS WITH HER SOLID SHADER (2026-10-16, `Shader::passPs`).** Away from the
+  body the reverse drew the skin's shirt component opaque with its SEE-THROUGH shader, and her lemon earrings,
+  necklace and bag strap came out pale and half see-through. Painting the see-through shader's output on both cards
+  (a ShaderFixes replacement of `0b6e3ef7` on hers, the fix's `.hlsl` on Lynae's) showed it never touches those
+  parts on her card: her solid pass `efc2690a` draws them. `passPs` gives a pass its own HLSL; the opaque pass now
+  uses `efc2690a`.
+  **EPOCH 7 (2026-10-16) FOUND TWO MORE, BOTH FIXED.** *A one-variant texture toggle*: Lynae3 replaces its hair
+  block's textures only `if $Hairs == 1`, in sections named `[TextureOverrideX]` / `[TextureOverrideXX]`, and at
+  `$Hairs = 0` her loose hair draws with the GAME's. `readConditionalBindings` only looked at sections named
+  `TextureOverrideTexture*` and only at toggles of two or more files, so the fix bound the block's textures always and
+  the loose hair's bun came out lime and teal. It now takes any texture override that is not a mesh section, treats one
+  `this` under a condition other than `$object_detected` as a toggle (`singleToggled_`), plans the role's game texture
+  (`planSingleToggles`) and puts it first in the role's copied list. One trap on the way: `IfPredPart::getTestStr()`
+  keeps the line's newline, so the first build compared `"$object_detected\n"` against `"$object_detected"` and turned
+  every `if $object_detected` override into a list. *The lower body's outline*: `offPasses` had taken ALL of her lower
+  body off the skin's upper-body outline pass (`f8c96a27`) for Lynae9's lime tights -- but Lynae2's torn top is dark on
+  her own card only through the outline shell of the fabric under the skin (a per-draw RT diff of her card put the dark
+  patches on her lower-body OUTLINE pass `30ab50e7`, not on the body pass), so the remap drew it pale and see-through.
+  Only the draws her code map flags `0x80` (Lynae9's tights and shorts) stay off the pass now, rerouted to plan 104 (a
+  twin of plan 4 with `offPasses`). Two wrong suspects first, each cleared by an in-game build: stale RabbitFX
+  bindings at `t60..t65` (nulled, no change) and the flat-mask fallback (`flatFallsBackToSource` swaps Lynae2's flat
+  lower mask for her game mask; binding the mod's flat mask instead changed nothing visible, and since it moved 13
+  mods' bindings for no proven gain it was reverted -- ship only the change a fault needs). **When a part regresses between epochs, line up its shots
+  from every epoch first** (`*_<tag>R_<column>.png` are all kept): Lynae2 had lightened in two steps, which pointed at
+  a pass rather than a shader input.
+  **EPOCH 8 (2026-10-17): no regressions, and two dead ends worth not repeating.** *The film foil's mip level*: forcing
+  the hip-pouch film draws (plans 105 / 106) to read her foil at mip 0 changed nothing on Lynae11's belt flap, which
+  stays dark / red -- her props film is the props limitation, not a sampling fault. *Handing her shaders her own light
+  direction*: a `vs-cb6` built from the skin's material buffer with her angle rows moved in looked like it made Lynae1's
+  sheer bra see-through on one shot; repeated twice per condition it SHREDDED the cups and broke the arm's shading
+  (the skin's vertex shaders read other rows of that buffer too). **Repeat a promising single shot before building on
+  it** -- the one good-looking frame was the breakage. Lynae9's top is her props film too (a paint of plan 106 alone
+  covers it). What is left after epoch 8 is written as limitations: small colour shifts (tie, a holographic coat panel,
+  a metal bell, a sheer bra from below) and her props film parts.
+  **Over the BODY it is a stated limit now (2026-10-16, `remapGrading.rst`)**: LPIdentity's
+  necklace stones and LP2's strap, bow and starfish stay paler on Lynae's card. On HER card those parts are drawn
+  by the see-through passes only (`0b6e3ef7` shirt, `4470be47` coat -- a per-draw RT diff shows her solid passes
+  `efc2690a` / `12fcca8e` touch nothing over the body), so the reverse already uses the right shader there. What
+  was measured, so nobody repeats it: frame dumps with the pass's output painted into RT3 (`dump_rt jpg`, both
+  cards, the fix's `.hlsl` and a ShaderFixes copy of the game's shader edited alike) give the SAME `o3.w` and the
+  SAME `o3.rgb` on both cards; `ps-cb0..cb4` agree where the shader reads them; the textures are the same downloads
+  (LP2 replaces only the foil). The one input that differs is `TEXCOORD1.xy` / `TEXCOORD4.x`: a LIGHT DIRECTION each
+  vertex shader builds from its own material buffer `vs-cb6` -- the skin's VS (`fd92e896`) reads `cb6[86..90]`
+  (flag 0, so a default 45 degrees), Lynae's (`343a49bd`) reads `cb6[95..99]` (flag 1, 15 degrees plus
+  `cb2[32].z`). Binding the custom draws a `vs-cb6` with the skin's values at Lynae's offsets changed nothing
+  visible, and so did the same swap the other way round for the forward direction's tie (item 20). Alpha-blending
+  RT1 and RT2 too (the fix overwrites them) was marginal. What is left is how Lynae's frame lights the
+  see-through G-buffer. Two traps from this hunt: a lit in-game paint misreads values (a `v5.y` that is identical
+  on both cards looked different under the two cards' lighting -- dump the RT instead), and a VS left SELECTED by
+  hunting is skipped in every later dump (`SKIPPED DUE TO HUNTING` in the dump's log; see the memory note on
+  `marking_mode`).
+  The props translucency
+  (Lynae14's hat brim, overskirt and sleeves, every mod's ID card) is a stated limit in `remapGrading.rst`: her
+  card draws that component in a forward translucency pass (`bb718d76` / `9a01e7bd`, a 3-D light volume and seven
+  constant buffers) the skin's frame never schedules, and the skin's own see-through pass blends only over a
+  body, so a brim against the sky cannot be reproduced; drawing her props only in that see-through pass made them
+  vanish over the background, and stencil-splitting the two pouch passes left them looking as before.
 
 <br>
 
@@ -1499,6 +2264,10 @@ surprises you.
 | two configs of one pair **disagree about a slot's layout** (normal map or not) | "A TexFx call follows the TARGET's layout", the YelanTranquil slot C paragraph, and [Overview](../Overview/CLAUDE.md)'s habit 86: trace both through ORFix before "fixing" either |
 | the mod **looks wrong on its OWN character**, not only on the remap (WuWa: the game's textures at the mod's UVs, gold smears, a washed-out top) | NOT a remap bug. "THE MOD LOOKS WRONG ON ITS OWN CHARACTER WAS THE LIVE TEXTURE HASHES": dump the BASE outfit in the character menu (check the dump's `vb0` is the right character, since the selected outfit card decides which one draws), compare the hashes it binds with the mod's `[TextureOverrideTextureN]` hashes, then `wwmiTextureFix.py --live` (undo the remap first, fix again after). Prove it with a before/after on a mod whose VISIBLE parts use the changed overrides |
 | on the remap, **some parts render in the GAME's textures** while the mod's own `.ini` binds no textures for them, and another `.ini` of the mod does (a namespaced or RabbitFX file, often one folder up, matching the same `vb0` + `match_first_index`) | "THE MOD LOOKS WRONG ON ITS OWN CHARACTER", its last paragraph: `WWMIFixer::readSameDrawInis` reads those, but only the registers `WWMITextureFacts::registerRoles` names. A new character needs its RabbitFX names there. The tell is `<Source><Role>RemapDL.dds` files beside the mod: each is a role the fix found no file for |
+| a **namespace-merged skin mod** (`Master<Char>.ini` + per-outfit `if $\<Char>\Master\swapvar`) onto its character: a floating face, a shattered model, or one outfit wearing another's textures | "A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER". First compare its `DISABLED*` copy's fix (no `if`) with the live file's; then check every remap binding sits under its file's guard |
+| **one outfit** of a merged mod green / red or drawn wrong, the others right | the same section's Lumine11 paragraph: grep that outfit's `.ini` for a malformed section header (`^\[[^]]*$`); `check_dangling.py` names the outfit |
+| **sheer / transparent parts black** (TexFx) on the target of a merge, right on the source | the same section's TexFx paragraph: the transparency is drawn from the diffuse BOUND when the section ends. Take a `txt`-only frame dump and read the `customshader\texfx` line |
+| the **original mod itself** draws the game's textures or nothing on its own character | restore it first (same section's last paragraph): GIMI's newer texture API on an old loader, a dangling `vb0`, or a region-check master |
 | the remap **works and you are finishing up** | "Verifying", then "Closing out a remap" --- five files and a regenerated `core/xml`, and the vertex-group draft's `Credits` sheet |
 
 Five things hold whichever row you are on, and each has cost a session:
@@ -1560,6 +2329,7 @@ Before writing a helper, find the class:
 | move, copy or drop keys (`this` -> `ps-t1`, `ps-t0` -> two registers, strip `hash`) | `RegRemap` (a list value COPIES a key into several), `RegRemove`, `RegNewVals` |
 | edit, create or rename a texture a register references | `ResRegCollect` + `TexReplace(fixFunc = ...)` / `TexCreate` -- the library names the file, writes the resource section and the undo removes it |
 | a set of buffers that depend on each other | `ResGroupCollect` |
+| write a file the fix knows the bytes of (a `CustomShader`'s `.hlsl`, its constant buffer) | build the sections into a graph (`GraphCreate`), then `ResRegCollect` + `FileAddCreate` for a register naming a `[Resource...]` (`ps-cb4`) or `FileRefAdd` for one whose VALUE is the file (`ps = x.hlsl` -- 3DMigoto takes only a path there; a resource name made the part vanish, tested 2026-10-15). Both hand the service a `RemapFileAddResource`, so the file is counted in `stats.fileAdd` and the undo removes it. `WWMIFixer`'s `addShaderGraphs` is the worked example (2026-10-16) -- and since only a file a section NAMES is created, a shader no draw uses no longer leaves an orphan the undo cannot find |
 | put one graph's roots into another graph (`reg = <root>`, `run = <root>`) | `GraphInherit` |
 | a texture the mod does not ship | the parser's `downloads` |
 | the mod's `$swapvar` toggles around a binding | nothing -- the section graph keeps the `if` structure, so collect/remap the graph instead of re-parsing text |
@@ -3555,6 +4325,114 @@ normal-map layout under ORFix, and that is NOT a bug:
   `diffuseEdits` / `lightMapEdit` ONLY on a normal-map component. The plain slot C bound the mod's raw head diffuse and
   light map, losing the band legend and the alpha-1 head that were confirmed in game.
 - **That gap is real for the next pair**: a plain component whose objects need a texture edit gets none, silently.
+
+## A NAMESPACE-MERGED SKIN MOD ONTO ITS CHARACTER: THE MERGE TEMPLATE'S FOUR GAPS, AND WHY TEXFX WENT BLACK (Lumine12, 2026-10-20)
+
+The section above fixed the namespace shape for the CLASSIC template. The MERGE template (a multi-component skin onto
+its one-mesh character: LumineHeaven -> Lumine, YelanTranquil -> Yelan, ...) had never seen one, and Lumine12 -- 18
+LumineHeaven outfits behind one `namespace_merge.py` master -- found every gap at once. In game, in order: a floating
+face and no body; then a shattered model; then the right outfit with another outfit's textures; then black sheer parts.
+
+1. **The slot was never found.** `GIMIComponentParser`'s slot lookup read `match_first_index` only from the part that
+   holds the `hash`, which in this shape has none, so every slot fell back to the component's hash-only object and the
+   merge carried the skin's raw buffers onto the target. The author's `DISABLED*` copies (same mod, no `if`) merged
+   correctly in the same run -- that is how the shape was confirmed as the cause. Now: the classifier's rule, the index
+   from the same section's other parts.
+2. **Appended draws landed outside the guard.** A member block (`RegBottomAdd`) and a missing-draw fill
+   (`RegFillMissing` BottomCover) are added at the section's own depth -- which here is AFTER the outfit's `endif`, so
+   all 18 outfits drew their members every frame. Four outfits that draw nothing in their own body section (they rely on
+   `drawindexed = auto` in the whole-ib section) took the fill first, which also hid the guard from the member blocks.
+   Both now go before the guard's `endif` (`RegFillMissing::guardEndIndex`); a guard must test a VARIABLE, because a
+   collect's `if 1 ... endif` has the same shape and moving parts into it only changed output (Lumine10's `DISABLED`
+   copy, caught by the regression).
+3. **A part with an external call AND a draw got a second fix call after it.** `RegDelimitedAdd`'s per-path analysis
+   splits such a part into an entry and an exit node, and an EXTERNAL callee (TexFx) gave the exit no predecessor, so it
+   stayed "clean" and the next draw took another NNFix -- an involution. The exit now inherits its own entry's state.
+4. **A face recolour written with `ps-t` lines counted as a mesh mod**, so the face file downloaded and drew the whole
+   skin, unguarded, over every outfit. `targetsBindSomething` now skips the face object's sections, as it already
+   skipped a face `this =`.
+
+**Then the sheer parts were black, and it was TexFx being served the wrong texture.** TexFx transparency colours the
+sheer pixels in the OUTLINE pass: the request (`$use_default_shader = 0`) is served by `CustomShaderTransparencyDefault`
+drawing `drawindexed = auto` -- the whole merged ib -- out of whatever diffuse the section left BOUND. After a member
+that brings its own textures, that is the member's: Beach's ribbons and Fontaine's lace sampled the Head atlas. The
+merge now binds the object's own set again after the member blocks when the file calls TexFx (no draw, no fix call).
+Only after APPENDED members: after a CARRIED one (a `run =` of the member's own command list) what is bound is that
+list's business, and the per-path fix-call pass then also added an `ORFix` after the rebind, which changes what a
+normal-map target serves TexFx with -- CharlotteHurlock5 and CitlaliWhisper1 are that shape and stay as master writes
+them. OPEN: whether TexFx is served right after a carried member has not been looked at in game. YelanTranquil3 (an
+appended Body member in its Bang section) does take the rebind; that one is the verified shape but was not seen in game.
+How it was found, in the order that worked: a hand edit removing the TexFx line made the parts opaque (so TexFx);
+switching `T.0` to `T.1` changed nothing (so not the layout); a `txt`-only frame dump (5.5 MB) showed the request set on
+the body's outline draw and the custom shader drawing 66633 indices with `ps-t0` = the Head diffuse; one more hand edit
+rebinding the body's diffuse made them white. **For any TexFx fault on a merge, read the frame log for the
+`customshader\texfx\...` line and the bindings in force at it before touching the layout.**
+
+Two more for this pair: Lumine's two-sided dress shader textures back faces through `TEXCOORD1`, which the merge used to
+pad with zeros (the atlas corner) -- `GIMIMergeFixerConfig::texcoordPadFrom = 4` copies `TEXCOORD0` instead; and the
+skin's merged-master VertexLimitRaise sections got their `override_*` keys both at the root (unguarded) and inside the
+guard. Harmless on the maintainer's old loader, which rejects those keys (the vertex-limit raise is a GI 4.4-era fix
+and stale now, the maintainer's words), but on a newer loader 18 outfits put 18 counts on one hash. FIXED 2026-10-21 in
+BOTH multi-component templates: the overrides were a `RegNewVals` with `addNewKVPs`, which adds a key to EVERY part
+lacking it -- the bare root included. They are rewritten where the section has them and FILLED only where it has them
+nowhere (`RegFillMissing` `BottomCover`, guard-aware, the blend `draw` line's pattern), so one copy, inside the guard.
+The component template had the same duplicate on a 48-variant Yelan -> YelanTranquil master. Not the hide-original
+comment (`;RemapFixHideOrig -->`): that switches off the AUTHOR's lines; both copies here were the fix's own.
+
+**Acceptance, all reusable:** the de-namespaced control above (`unNamespace.py` + `abByHash.py`): identical but for the
+`if 1` wrapper and that VertexLimitRaise duplicate (`abNorm.py` in that session's scratchpad normalised the wrapper away);
+`Tools/Misc/Diagnostics/fixCallPaths.py` and `bareFixCalls.py` (0 and 0; the first proved to catch the double call by
+injecting it by hand); a guard check -- every binding and draw of a remap block under its file's `swapvar` guard; three
+`core/tests` (`RegBottomAdd_Guarded_test`, `RegDelimitedAdd_PerPath_test`'s case 7, `VGComponentMerge_test`'s
+`fillFrom`), each seen to FAIL against a library built from the old headers; a regression of 91 mod folders -- every
+merge-direction skin mod, every TexFx mod and every namespace-merged mod -- fixed with master and with the new build and
+compared file by file; and all 19 outfit states swept in the Dressing Room on both cards.
+
+**And restore the original before judging the remap.** Lumine12's author bound 14 outfits' textures through GIMI's
+newer API (`Resource\GIMI\... = ref`, `run = CommandList\GIMI\SetTextures`), which the maintainer's old-loader GIMI
+rejects -- those outfits drew the GAME's textures on the skin card, so every remap comparison was against a broken
+reference. The maintainer's ask: make the original work first, then remap. `GIMIApiNormalizer`'s own rule converts it
+(normal map present: `ps-t0/1/2` + ORFix, else `ps-t0/1` + NNFix), written to the files of a COPY; it also commented out
+a `vb0 = ResourceColumbinaPosition` that named no resource. And the master hid every outfit outside the regions
+`Core/GIMI/Libraries/Region.ini` recognises (`regioncheck = 0` maps to option 18, "off"); the maintainer's copy swaps by
+key (`Alt+9` / `Shift+Alt+9`) instead.
+
+**Then Lumine11 (the long-hair version, same author) came out green and red on ONE outfit -- a malformed SECTION
+HEADER, not a fix library (2026-10-20).** Its Nod Krai outfit carries an editing accident:
+
+```ini
+[Textrun = CommandList\global\ORFix\ORFix
+ureOverrideLumineSkinBangsIB]
+```
+
+3DMigoto opens a section on ANY line starting with `[` and names it up to the first `]` or the end of the line
+(`IniHandler.cpp`, `ParseIniStream`), so it reads a section called `Textrun = ...ORFix` that applies to nothing, and
+the second line is a key of that section. `IniFile` asked for a `]` on the same line too, so both lines were KEYS of
+the Body section above, which then also held the BangsIB section's hash, skip and draw: the remapped Body lost its draw
+into a section with `hash = HashNotFound`, kept bindings outside its guard, and the game drew the body with the
+downloaded normal map where NNFix reads the diffuse -- flat green with red patches, which reads exactly like a doubled
+fix call. `IniFile::isSectionHeaderLine` / `getSectionNameFromLine` and `IniScan` follow 3DMigoto's rule now
+(`core/tests/IniFile_SectionHeader_test.cpp`, seen to fail 8 ways against the old rule). Two things that made it quick:
+`check_dangling.py` named the one outfit (two references into files the fix never wrote), and **the region-check
+master shows only the outfit for the region you stand in** -- the screenshot was in Nod-Krai, so it was that outfit,
+and after an F10 reload the region reads 0 until the game re-detects it (to see one outfit there, add its number to
+`$swap_unidentified`'s cycle for the test and put the line back). **When ONE variant of a merged mod is wrong, grep
+its `.ini` for a line starting with `[` that is not a whole header (`^\[[^]]*$`) before reading the fix.**
+**And the undo took the author's line with it, once -- fixed the same day.** A file fixed by an OLDER build carries
+that build's copy of the malformed section inside its fix block, under the same broken name, and `RemapIniRemover`
+deleted every OCCURRENCE of a name it had chosen -- so the first re-fix with the new build removed the author's copy
+too, and with backups kept it overwrote the backup. The maintainer's rule: **the undo deletes only what a fix made** --
+anything inside a fix block, and outside one only a section whose OWN name looks remapped, or a COPY of a section the
+block holds whose name contains the reserved `Remap` keyword -- an older fix's leftover, like the Integration Tester's
+`ResourceEiBlendsHerRemapBlender...` in `PartiallyFixedRaiden.ini`, which the first version of this rule kept and four
+API docs goldens caught in CI (`RemapIniRemover::isFixOutput`; it replaces the `[Constants]` / `[Present]` special
+case, which was the same bug in 2026-10-08). Nor is a file collected for deletion when the parsed section behind a name is the author's (the FIRST
+occurrence wins in `sectionIfTemplates`). `RemapIniRemover_test`'s `testAuthorSectionSharingAFixNameIsKept` fails both
+ways against the old remover. The maintainer's files were put back from a scratch copy undone with the OLD build;
+prove any such repair with an author-text comparison (everything before the fix's `; ---------------` marker against
+the original), and see that it FAILS on the damaged copy first.
+
+<br>
 
 ## LUMINE <-> LUMINEHEAVEN (2026-09-29): the seventh component pair, compiled both ways
 
@@ -8189,6 +9067,46 @@ semantically and every generated file by CONTENT. Pass `--noDownload` --- see ha
 
 <br>
 
+## A PAIR THAT TAGS PIXEL SHADERS SWITCHES RABBITFX OFF FOR EVERYONE (2026-10-13)
+
+A WuWa fix tags the shaders of the passes it binds on, so its texture lists can ask `if <reg> ==
+<filter>`. Tag the **pixel** shader and RabbitFX loses the `filter_index = 1718.1` its own
+`[ShaderRegexMain]` set on it -- 3dmigoto keys a `[ShaderOverride]` by shader hash across every
+loaded `.ini` and a shader holds one index -- so `CommandList\RabbitFX\Run` and `SetTextures`,
+both gated `if ps == 1718.1`, stop firing **for every mod drawing with that shader**, not only the
+remapped one. `WWMIFixerConfig::passVertexShaders` is the answer and all four Chisa / Lynae configs
+use it; the Sanhua pair did not, and nine of the ten pixel shaders it tagged turned out to be
+RabbitFX's.
+
+**The question "does RabbitFX patch this pass" is answered off the dumps already on disk, not in
+game.** A frame dump names every resource a command list bound after that list, so a file
+`000057.0-[ShaderRegex_RabbitFX_Main]-ps-t0.dsc` says draw 57 ran RabbitFX's regex command list,
+and the draw's own files carry `-vs=<hash>-ps=<hash>`.
+`Tools/Misc/Diagnostics/wwmiRabbitPatched.py` reads both out of every dump and reports which of a
+config's tagged shaders are RabbitFX's, plus the vertex shaders each pass is drawn with -- which is
+the `passVertexShaders` map itself. **Presence is proof, absence is not**: all but one of RabbitFX's
+regexes have their dump lines commented out, so a patched pass can leave no trace (the eye pass is
+exactly that case, and is gated by vertex shader anyway now).
+
+Three things to get right when moving a pair over:
+
+* **A value shared with another character must match it.** The face vertex shaders
+  `7c0b4db32cee62d3` / `4ce754b5b9574b1a` are ChisaParfait's and LynaePeppermint's as well as the
+  Sanhua pair's, and they carry `3381.76` / `3381.769` there. `Tools/Misc/Diagnostics/wwmiShaderTags.py`
+  over the fixed mods is the check.
+* **Name every value rather than deriving it.** `filterBase`/`filterStep` number the shaders in
+  map-iteration order, so adding a pass renumbers every shader after it and breaks the agreement
+  between the two directions silently.
+* **Several passes may share one vertex shader** -- Sanhua's hair slot and both her bangs passes do
+  -- and their conditions then collapse into one. That is only safe while those passes bind the same
+  roles, which is why the template dedupes the OR rather than hiding the collision.
+
+And the fixed mods on disk keep whatever they were fixed with: after a change like this, every mod
+in the maintainer's library still carries the old tags until it is fixed again. `grep -rl "ps ==
+3381"` over the WWMI folder is the list.
+
+<br>
+
 ## Adding a `ModTypeId`: every place it enters (2026-09-13)
 
 Missed one and the build is fine, the tests are fine, and the type quietly does not exist. In
@@ -8283,6 +9201,47 @@ run every GI mod walked after a WuWa mod. Invisible for the whole life of the C+
 no WuWa type had ever been registered. All three entry points now `setCurrentStateId("start")`. The
 lesson is the one habit 1 keeps teaching: a code path that has never had data is untested, whatever
 its test suite says.
+
+**A NEW GAME COMES BEFORE ITS FIRST `ModTypeId` (2026-10-26, ZZZ -- the third, after `GI` and
+`WuWa`).** `IniClassifier::addZZZModType` needed a `GameTypeId::ZZZ` to check a mod type against, and
+a game is entered in eight places. In order:
+
+1. `constants/GameTypeId.h` -- **append** the enumerator. The classifier files a game by its int in
+   its `game:<value>` DFA edges (`GI` = 0, `WuWa` = 1, `ZZZ` = 2), so inserting one earlier renumbers
+   the others. `test_GameTypeId.py` pins the three values;
+2. `constants/GameTypeId.cpp` -- `getEnum`'s switch (a value with no case answers `nullopt`, so a game
+   missing here round-trips through an int as "no game at all");
+3. `constants/GameType.cpp` -- the ONE name/alias table. `getName`, `getAliases`, `getAll()`'s order
+   and the search DFA are all derived from it, so there is nothing else to keep in step. The first
+   name is the game's name, the rest are aliases (`ZZZ`: `ZenlessZoneZero`);
+4. `py/src/constants/PyGameTypeId.cpp` -- the `.value(...)`;
+5. the classifier's `addXxxModType`. A game identified the way GI is (hashes and section keywords)
+   is a one-line wrapper over `IniClassifier::addHashAndSectionModType(gameTypeId, ...)`, which
+   `addGIModType` and `addZZZModType` both call -- the whole DFA wiring, including the collision
+   handling for two types sharing a hash or keyword, is written once and parameterised on the game.
+   A game with a marker of its own (WuWa's `$\WWMIv1`) needs state wiring of its own instead;
+6. **`GlobalIniClassifiers.cpp`'s `populate()`, which is NOT done for ZZZ yet and will bite the first
+   ZZZ `ModType`**: it sends every non-WuWa mod type to `addGIModType` with a hard-coded
+   `ModTypeIdData(GameTypeId::GI, ...)`, so a ZZZ type registered in `GlobalModTypes` would be filed
+   as a GI one and classify without complaint. Add a branch that calls `addZZZModType` with the type's
+   own game before registering one. Nothing today can exercise it -- there is no ZZZ `ModTypeId` --
+   which is why it is a note and not code;
+7. the three hand-kept **Game Types** tables -- `api/README.md`, `apiMirror/README.md` (identical to
+   each other) and `Docs/src/commandOpts.rst`. `--game ZZZ` parses the moment step 3 lands, and
+   `GameTypes.getHelpStr()` (the CLI's `--help`) prints from `getAll()`, so only these three can go
+   stale;
+8. the suites that pin the list: `test_GameTypeId.py` and `core/tests/GameTypeId_test.cpp` assert
+   `getAll()`'s exact contents (the second hard-codes a count -- and nothing builds it).
+
+**Two things the game filter does not do, both found by actually running them rather than by
+reading, and both older than ZZZ -- ZZZ only made the second one reachable.** `classify(text,
+gameTypeIds)` filters SECTION KEYWORDS only: `readHash` is never handed the filter, so a hash
+registered for GI still classifies a file under `{ZZZ}`. And for a keyword filed under more than one
+game, the filter decides whether the keyword is *eligible* but then every game it is filed under is
+counted, so `{ZZZ}` on a keyword both GI and ZZZ registered returns the GI type as well. Until ZZZ
+nothing but GI had keywords, so the second could not happen. Neither is pinned by a test, on purpose:
+whether a filtered classify may return a mod type of a game that was not asked for is a decision for
+the maintainer, not something to fix in passing.
 
 **AND THE COUNTS ARE NOT THE ONLY HARDCODED THING: THREE SUITES PIN THE EXACT SET OF VERSIONS A
 TABLE COVERS** (2026-09-20, registering Chisa at 2.8 and ChisaParfait at 3.5 -- the first pair whose

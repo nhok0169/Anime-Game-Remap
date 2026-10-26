@@ -15,6 +15,10 @@
 #               it is not the raw `vb4` (47.7% of ChisaParfait's bytes differ from it)
 #   ShapeKey*   rebuilt sparse from the dense per-vertex offset stream
 #
+# A character under 65536 vertices is drawn with an R16_UINT index buffer while every download
+# folder's Index.buf is R32_UINT, so such an `ib` slot is also compared widened to 32 bits (the dump's
+# `.txt` beside the `.buf` names the format). Until 2026-10-20 that case was a false FAIL.
+#
 # It also prints which slot each buffer came from and that slot's hash, which is what a `HashData`
 # row needs -- on ChisaParfait at 3.7 that is `vb0=95ecef77` (the row that moved), `vb1=d3e7581e`,
 # `vb2=c21e0513`, `vb3=ee32541e`, `ib=65023833`.
@@ -23,9 +27,11 @@
 #
 
 import argparse
+import array
 import hashlib
 import os
 import re
+import sys
 
 # what is derived rather than bound, and why -- reported, not counted as a failure
 Derived = {"Blend.buf": "the extractor remaps each component's local bone ids into the merged skeleton",
@@ -59,8 +65,34 @@ def slotsOfObject(dump: str, vb0: str):
         match = re.match(r"^(\d{6})-(vb\d|ib)=([0-9a-f]{8})[^-]*-", name)
         if (match is None or match.group(1) not in calls or not name.endswith(".buf")):
             continue
-        byDigest.setdefault(digestOf(os.path.join(dump, name)), set()).add((match.group(2), match.group(3)))
+        path = os.path.join(dump, name)
+        byDigest.setdefault(digestOf(path), set()).add((match.group(2), match.group(3)))
+        if (match.group(2) == "ib" and isR16Index(path)):
+            byDigest.setdefault(widenedDigestOf(path), set()).add(("ib", match.group(3) + " (R16_UINT, widened)"))
     return len(calls), byDigest
+
+
+def isR16Index(bufPath: str) -> bool:
+    """whether the dump's `.txt` beside an index buffer says the game bound it as R16_UINT"""
+    txtPath = bufPath[:-len(".buf")] + ".txt"
+    if (not os.path.isfile(txtPath)):
+        return False
+    with open(txtPath, "r", encoding = "utf-8", errors = "replace") as handle:
+        return any(re.match(r"^format:\s*DXGI_FORMAT_R16_UINT\s*$", line) for line in handle.readlines()[:8])
+
+
+def widenedDigestOf(path: str) -> str:
+    """md5 of a 16-bit index buffer rewritten as R32_UINT, the format every download folder's Index.buf
+    is in. A character under 65536 vertices is drawn with a 16-bit index buffer (ChangliNymph at 3.7)."""
+    indices = array.array("H")
+    with open(path, "rb") as handle:
+        indices.frombytes(handle.read())
+    if (sys.byteorder != "little"):
+        indices.byteswap()
+    widened = array.array("I", indices)
+    if (sys.byteorder != "little"):
+        widened.byteswap()
+    return hashlib.md5(widened.tobytes()).hexdigest()
 
 
 def main():

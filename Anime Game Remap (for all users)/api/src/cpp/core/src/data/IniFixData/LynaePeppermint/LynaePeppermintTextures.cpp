@@ -52,6 +52,12 @@ namespace AGRemapCore {
             {"e546902d", "upperDiffuse"},
             {"ee1f2bc0", "pouchMask"},
             {"fef651e2", "lowerMask"},
+            // the noise and foil her see-through and lower-body passes read: a mod overriding one by hash
+            // has its own file bound in place of the download
+            {"00e3f13b", "pouchFoil"},
+            {"4bee4070", "jacketFoil"},
+            {"99527ecc", "jacketNoise"},
+            {"9934ca23", "upperFoil"},
             // ...and the OLDER generation wwmiHashHistory.py proved from LynaePeppermint2 (a mod
             // shipping the game's own pixels under each)
             {"2b8fb2f2", "lowerDiffuse"},
@@ -105,10 +111,17 @@ namespace AGRemapCore {
             {"jacketDiffuse", "cb051033"},
             {"jacketMask", "ca537274"},
             {"jacketNormal", "9617b922"},
-            // her see-through jacket pass's noise and foil, which a mod never ships: the game's, at the
-            // registers lynaePeppermintSheerShader reads them from
+            // her see-through jacket and coat passes' noise and foil, which a mod never ships: the game's,
+            // at the registers lynaePeppermintSheerShader / lynaePeppermintSheerCoatShader read them from
             {"jacketNoise", "99527ecc"},
             {"jacketFoil", "4bee4070"},
+            {"pouchFoil", "00e3f13b"},
+            // ...and her upper-body pass's foil, at the register lynaePeppermintUpperShader reads it from
+            {"upperFoil", "9934ca23"},
+            // ...and her lighting ramp (512 x 25, one row a material): the game fills ONE texture with the
+            // ramp of the character on screen, so on Lynae's slots that register holds LYNAE's. Her shaders
+            // read it through `role ramp` lines
+            {"ramp", "82550cee"},
             {"lowerDetail", "0fa3ab67"},
             {"lowerDiffuse", "16e48d10"},
             {"lowerMask", "fef651e2"},

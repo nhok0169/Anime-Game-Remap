@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_file_add_resource" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapFileAddResource</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniResource</basecompoundref>
+    <includes refid="_remap_file_resource_8h" local="no">RemapFileResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_file_add_resource_1a6f00b35b9b1157a6c083a49d4a7af1d0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>std::vector&lt;std::uint8_t&gt; AGRemapCore::RemapFileAddResource::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::bytes</qualifiedname>
+        <briefdescription>
+<para>The contents written to the file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="58" column="25" bodyfile="include/AGRemapCore/model/iniresources/RemapFileResource.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_file_add_resource_1a6bae390397915dd6338cb9ab9326e4ce" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a9c1c9a6491f13cfc109833ff98926380" kindref="member">RemapFileAddResource</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(RemapFileAddResource&amp;)&gt; AGRemapCore::RemapFileAddResource::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::fixFunc</qualifiedname>
+        <briefdescription>
+<para>A replacement for <ref refid="class_a_g_remap_core_1_1_remap_file_add_resource_1ad9d9bdb877ae206985d9ad1f1021d13b" kindref="member">_fix</ref>, or an empty <computeroutput>std::function</computeroutput> for the default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="63" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapFileResource.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResource::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>AGRemapCore::IniResource::type</qualifiedname>
+        <briefdescription>
+<para>The name for the type of resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="63" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResource::srcPath</definition>
+        <argsstring></argsstring>
+        <name>srcPath</name>
+        <qualifiedname>AGRemapCore::IniResource::srcPath</qualifiedname>
+        <briefdescription>
+<para>The full file path to the resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="68" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseLogger&gt; AGRemapCore::IniResource::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>AGRemapCore::IniResource::logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where this resource reports progress and problems, or ``nullptr`` for nowhere
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Set by whoever registers the resource (see
+:cpp:func:`IniResEditContext::logger`), rather than passed to a ``fix``. It lives here,
+on the base, for two reasons :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* every ``fix`` in this hierarchy is declared per concrete leaf with its own signature
+  (see this class&apos;s own note on why there is no generic one), and each leaf also carries
+  a ``fixFunc`` letting a caller replace that fix wholesale. Threading a view through as
+  a *parameter* would mean either denying it to those custom fixes -- the case where
+  narration matters most -- or reshaping every one of those ``std::function`` typedefs,
+  each of which is pinned by a `pybind11`_ binding
+* a plain :cpp:class:`AGRemapCore::IniResource` is what actually gets registered today, not one of
+  the ``Remap`` subclasses, so a view attached only to those would reach nothing
+
+:raw-html:`&lt;br /&gt;`
+
+A ``shared_ptr``, so a :cpp:class:`AGRemapCore::BaseLogger` subclass defined in `Python`_ stays alive
+for exactly as long as this resource holds it
+
+.. note::
+   :cpp:class:`AGRemapCore::IniGroupedResource` is **not** an :cpp:class:`AGRemapCore::IniResource` -- it is its
+   own root -- so it carries its own copy of this member rather than inheriting one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="99" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1a9c1c9a6491f13cfc109833ff98926380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapFileAddResource::RemapFileAddResource</definition>
+        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, std::vector&lt; std::uint8_t &gt; bytes, std::string type=&quot;resourceRemapFileAdd&quot;, std::function&lt; bool(RemapFileAddResource &amp;)&gt; fixFunc=nullptr)</argsstring>
+        <name>RemapFileAddResource</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::RemapFileAddResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::uint8_t &gt;</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+          <defval>&quot;resourceRemapFileAdd&quot;</defval>
+        </param>
+        <param>
+          <type>std::function&lt; bool(RemapFileAddResource &amp;)&gt;</type>
+          <declname>fixFunc</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder of the <computeroutput>.ini</computeroutput> file that references the file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path of the file to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file&apos;s contents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type of resource. <bold>Default</bold>: <computeroutput>"resourceRemapFileAdd"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A replacement for <ref refid="class_a_g_remap_core_1_1_remap_file_add_resource_1ad9d9bdb877ae206985d9ad1f1021d13b" kindref="member">_fix</ref>, or an empty <computeroutput>std::function</computeroutput> for the default </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="52" column="13" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1aa61f87523c3e636227b32dc41115cddb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::srcEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623">srcEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="65" column="18" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1a47e28a2110be747945bdddbd2e394a40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::srcIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027">srcIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="66" column="18" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1acf6b4a951a703d0d6d3b2736c7b063f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::fixEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49">fixEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="67" column="18" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1a061d7383c63a8cff0dd931c1bcd69476" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::fixIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd">fixIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="68" column="18" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1a3daf478dd488ce5defa20770d757f8ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::fixExists</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixExists</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::fixExists</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d">fixExists</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource already exists on disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource already exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="69" column="18" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1ac9146809d98edac9a045af6480dfa685" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::fix</definition>
+        <argsstring>()</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::fix</qualifiedname>
+        <briefdescription>
+<para>Writes the file <ndash/> through <ref refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a6bae390397915dd6338cb9ab9326e4ce" kindref="member">fixFunc</ref> when one is given. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the file was written </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="76" column="18" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="65" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResource::hasRequired</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasRequired</name>
+        <qualifiedname>AGRemapCore::RemapIniResource::hasRequired</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1">hasRequired</reimplements>
+        <briefdescription>
+<para>Determines whether all the necessary data has been collected to fix this resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether all the required data is gathered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="114" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniResource::IniResource</definition>
+        <argsstring>(std::string type, const std::string &amp;iniFolderPath, const std::string &amp;srcPath)</argsstring>
+        <name>IniResource</name>
+        <qualifiedname>AGRemapCore::RemapIniResource::IniResource</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource (resolved to an absolute path against &apos;iniFolderPath&apos;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="112" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="22" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_file_add_resource_1ad9d9bdb877ae206985d9ad1f1021d13b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapFileAddResource::_fix</definition>
+        <argsstring>()</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::RemapFileAddResource::_fix</qualifiedname>
+        <briefdescription>
+<para>Writes <ref refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a6f00b35b9b1157a6c083a49d4a7af1d0" kindref="member">bytes</ref> to the resource&apos;s path, creating its folder when it is missing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the whole file was written </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="84" column="26" bodyfile="src/model/iniresources/RemapFileResource.cpp" bodystart="51" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`AGRemapCore::RemapIniResource`
+
+Class for adding a brand new file, of contents the fix already knows, used by the overall remap
+process -- eg. the source of a ``CustomShader`` the fix draws a part with, or the constant buffer
+that shader reads :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The non-texture counterpart to :cpp:class:`AGRemapCore::RemapTexAddResource`: an add has only the
+one path, which is both what it writes and what it is counted under in
+:cpp:member:`RemapStats::fileAdd`
+
+.. note::
+   #_fix returns ``true`` on success
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapFileAddResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_file_add_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapFileAddResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_file_add_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/RemapFileResource.h" line="43" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapFileResource.h" bodystart="43" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1ad9d9bdb877ae206985d9ad1f1021d13b" prot="protected" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a6f00b35b9b1157a6c083a49d4a7af1d0" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>bytes</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1ac9146809d98edac9a045af6480dfa685" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1acf6b4a951a703d0d6d3b2736c7b063f2" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a3daf478dd488ce5defa20770d757f8ab" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a6bae390397915dd6338cb9ab9326e4ce" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>fixFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a061d7383c63a8cff0dd931c1bcd69476" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>logger</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a9c1c9a6491f13cfc109833ff98926380" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>RemapFileAddResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1aa61f87523c3e636227b32dc41115cddb" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a47e28a2110be747945bdddbd2e394a40" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>srcPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>~IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapFileAddResource</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

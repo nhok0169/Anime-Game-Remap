@@ -28,6 +28,35 @@
 #include "AGRemapCore/view/BaseLogger.h"
 
 namespace AGRemapCore {
+
+    std::array<float, 3> VGPushAway::displacement(const float pos[3], const std::array<double, 4>& weights,
+                                                  const std::array<long long, 4>& indices) const {
+        if ((side > 0 && pos[0] <= 0.0f) || (side < 0 && pos[0] >= 0.0f)) {
+            return {0.0f, 0.0f, 0.0f};
+        }
+        double share = 0.0;
+        for (std::size_t k = 0; k < 4; ++k) {
+            if (std::find(groups.begin(), groups.end(), indices[k]) != groups.end()) {
+                share += weights[k];
+            }
+        }
+        // Taken to nothing by height, so a push sized for the bottom of a part does not reach the top of it --
+        // see fade. {0, 0} leaves it unfaded.
+        if (fade[1] > fade[0]) {
+            const float scale = (fade[1] - pos[1]) / (fade[1] - fade[0]);
+            share *= std::min(1.0f, std::max(0.0f, scale));
+        }
+
+        const float dx = pos[0] - from[0];
+        const float dz = pos[2] - from[2];
+        const float len = std::sqrt(dx * dx + dz * dz);
+        if (share <= 0.0 || len <= 1e-6f) {
+            return {0.0f, 0.0f, 0.0f};
+        }
+        const float amount = static_cast<float>(share) * distance / len;
+        return {dx * amount, 0.0f, dz * amount};
+    }
+
     namespace {
         constexpr const char* BlendType = "blend";
         constexpr const char* PositionType = "position";
@@ -154,31 +183,9 @@ namespace AGRemapCore {
                 float pos[3];
                 std::memcpy(pos, positions.data() + v * stride, sizeof(pos));
                 for (const VGPushAway& push : config.pushAway) {
-                    if ((push.side > 0 && pos[0] <= 0.0f) || (push.side < 0 && pos[0] >= 0.0f)) {
-                        continue;
-                    }
-                    double share = 0.0;
-                    for (std::size_t k = 0; k < 4; ++k) {
-                        if (std::find(push.groups.begin(), push.groups.end(), pushIndices[v][k]) != push.groups.end()) {
-                            share += pushWeights[v][k];
-                        }
-                    }
-                    // Taken to nothing by height, so a push sized for the bottom of a part does not
-                    // reach the top of it -- see VGPushAway::fade. {0, 0} leaves it unfaded.
-                    if (push.fade[1] > push.fade[0]) {
-                        const float scale = (push.fade[1] - pos[1]) / (push.fade[1] - push.fade[0]);
-                        share *= std::min(1.0f, std::max(0.0f, scale));
-                    }
-
-                    const float dx = pos[0] - push.from[0];
-                    const float dz = pos[2] - push.from[2];
-                    const float len = std::sqrt(dx * dx + dz * dz);
-                    if (share <= 0.0 || len <= 1e-6f) {
-                        continue;
-                    }
-                    const float amount = static_cast<float>(share) * push.distance / len;
-                    pushes[v][0] += dx * amount;
-                    pushes[v][2] += dz * amount;
+                    const std::array<float, 3> moved = push.displacement(pos, pushWeights[v], pushIndices[v]);
+                    pushes[v][0] += moved[0];
+                    pushes[v][2] += moved[2];
                 }
             }
         };

@@ -122,7 +122,9 @@ void testPrePopulated() {
     // +1 on 2026-09-27: Yaoyao at 4.0.
     // +1 on 2026-09-29: Lumine at 4.0.
     // +2 on 2026-10-05: Lynae (3.6) and LynaePeppermint (3.7), from their frame dumps.
-    check(counts.size() == 56, "56 rows -- this table's own count, eleven ahead of the Python dict's 43");
+    // +3 on 2026-10-20: Changli at 1.2 and 1.4 (her mesh grew at 1.4) and ChangliNymph at 2.4.
+    // +1 on 2026-10-24: Aether at 4.0.
+    check(counts.size() == 60, "60 rows -- this table's own count, seventeen ahead of the Python dict's 43");
 
     // Same depth as Hashes now (3), one shallower than Indices (4).
     check(counts.getTotalIndices() == 3, "3 index columns (version, name, component)");
@@ -153,8 +155,8 @@ void testVersionCoverage() {
     // 2.5, 2.8 and 3.5 are Wuthering Waves' (Sanhua / SanhuaExorcist 2026-09-19, Chisa /
     // ChisaParfait 2026-09-20), on the same number line as GI's -- the two games share it, so a
     // WuWa version can sit between two GI ones and nothing distinguishes them here.
-    const std::set<std::string> expected = {"2.5", "2.8", "3.5", "3.6", "3.7", "4.0", "4.4", "4.6", "4.8", "5.3"};
-    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7");
+    const std::set<std::string> expected = {"1.2", "1.4", "2.4", "2.5", "2.8", "3.5", "3.6", "3.7", "4.0", "4.4", "4.6", "4.8", "5.3"};
+    check(versions == expected, "covers exactly the 5 versions the Python dict lists, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus Changli's 1.2 and 1.4 and ChangliNymph's 2.4");
 }
 
 void testLookups() {
@@ -234,10 +236,10 @@ void testModTypeAttribute() {
     check(amber.vertexCounts != nullptr && amber.vertexCounts->size() > 0, "GIBuilder mod types get populated vertexCounts");
     check(amber.vertexCounts != jean.vertexCounts, "and each GI mod type gets its own");
 
-    // Almost every GI mod type has a row of its own -- 50 rows against 57 GI mod types, the seven
+    // Almost every GI mod type has a row of its own -- 51 rows against 59 GI mod types, the eight
     // exceptions being YelanTranquil, BennettAdventure, CitlaliWhisperofStars, CharlotteHurlock,
-    // NeuvilletteMelusent, YaoyaoBamboo and LumineHeaven, skins of several components that ship no
-    // single vertex count of their own (measured 2026-09-29).
+    // NeuvilletteMelusent, YaoyaoBamboo, LumineHeaven and AetherHeaven, skins of several components
+    // that ship no single vertex count of their own (measured 2026-10-24).
     check(amber.vertexCounts->get({amber.name, ""}, std::nullopt, false).has_value(), "Amber has a row");
     check(jean.vertexCounts->get({jean.name, ""}, std::nullopt, false).has_value(), "Jean has a row");
 }

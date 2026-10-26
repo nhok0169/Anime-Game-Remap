@@ -297,6 +297,31 @@ namespace {
     }
 
 
+    // ---- 7. a part that calls an EXTERNAL list AND draws, then another draw ----
+    void testExternalCallThenDraw() {
+        std::printf("\ntestExternalCallThenDraw\n");
+
+        // A merge's representative draw makes a TexFx request in the same part it draws in, and a member
+        // is drawn after it (Lumine12's Beach outfit on Lumine, 2026-10-20). The continuation after the
+        // external call had no predecessor in the analysis, stayed "clean", and the member's draw took a
+        // SECOND call -- which NNFix, an involution, undoes.
+        std::vector<RawPart> raw{
+            {0, kvps({{"ps-t0", "Diffuse"}, {"ps-t1", "LightMap"}, {"ps-t69", "ResourceTexfxmap"},
+                      {AGRC::IniKeywords::Run, "CommandList\\TexFx\\T.0"}, {AGRC::IniKeywords::DrawIndexed, "65013, 0, 0"}})},
+            {1, std::string("if $member == 1")},
+            {2, kvps({{AGRC::IniKeywords::DrawIndexed, "1620, 65013, 0"}})},
+            {3, std::string("endif")}};
+
+        std::unique_ptr<Section> section = Section::build(raw, runConfig(), "Body");
+        runEdit(*section, AGRC::RegDelimitedAddMode::PerPath);
+
+        if (countFixCalls(*section) != 1) {
+            std::printf("       what it produced:\n%s\n", render(*section).c_str());
+        }
+        check(countFixCalls(*section) == 1, "a part that calls an external list and draws covers the draws after it");
+    }
+
+
     // ---- 6. the draw in a CALLEE: the call must follow the path, not the section ----
     void testDrawInCalledSection() {
         std::printf("\ntestDrawInCalledSection\n");
@@ -334,6 +359,7 @@ int main() {
     testUndelimitedPath();
     testExternalCall();
     testDrawInCalledSection();
+    testExternalCallThenDraw();
 
     std::printf("\n");
     if (failures == 0) {

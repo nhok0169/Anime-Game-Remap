@@ -34,7 +34,12 @@ namespace AGRemapCore {
         /**
          * @brief Wuthering Waves
          */
-        WuWa
+        WuWa,
+
+        /**
+         * @brief Zenless Zone Zero
+         */
+        ZZZ
     };
 
     /**

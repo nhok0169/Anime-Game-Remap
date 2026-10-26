@@ -155,6 +155,25 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </inbodydescription>
         <location file="include/AGRemapCore/model/stats/RemapStats.h" line="109" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="109" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a9c2326d6b0c6c7727e0f34dbb822ea1f" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::fileAdd</definition>
+        <argsstring></argsstring>
+        <name>fileAdd</name>
+        <qualifiedname>AGRemapCore::RemapStats::fileAdd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether a brand new non-texture file created by this software (a custom
+shader&apos;s source, the constant buffer it reads -- :cpp:class:`RemapFileAddResource`) has
+been created/removed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="119" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref></type>
         <definition>CachedFileStats AGRemapCore::RemapStats::download</definition>
@@ -168,7 +187,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="114" column="29" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="114" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="124" column="29" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="124" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -185,7 +204,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="119" column="18" bodyfile="src/model/stats/RemapStats.cpp" bodystart="18" bodyend="28"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="129" column="18" bodyfile="src/model/stats/RemapStats.cpp" bodystart="18" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref> *</type>
@@ -228,7 +247,7 @@ case it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="141" column="23" bodyfile="src/model/stats/RemapStats.cpp" bodystart="30" bodyend="70"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="151" column="23" bodyfile="src/model/stats/RemapStats.cpp" bodystart="31" bodyend="73"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -255,6 +274,7 @@ The file stats for the overall remap process
         <childnode refid="2" relation="usage">
           <edgelabel>blend</edgelabel>
           <edgelabel>buf</edgelabel>
+          <edgelabel>fileAdd</edgelabel>
           <edgelabel>ini</edgelabel>
           <edgelabel>other</edgelabel>
           <edgelabel>position</edgelabel>
@@ -267,12 +287,13 @@ The file stats for the overall remap process
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/stats/RemapStats.h" line="31" column="5" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="31" bodyend="142"/>
+    <location file="include/AGRemapCore/model/stats/RemapStats.h" line="31" column="5" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="31" bodyend="152"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>blend</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>buf</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>download</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a9c2326d6b0c6c7727e0f34dbb822ea1f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>fileAdd</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>get</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>ini</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>other</name></member>

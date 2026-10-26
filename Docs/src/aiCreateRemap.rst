@@ -108,7 +108,7 @@ Here is an example of what to prompt:
 
         Then I want you to get the required downloads.
 
-        [ I don't have the assets for <characterName>, so you need to get the framedump for them first ]
+        To get the up to date models, you may need to do a framedump first
 
         [ For info on how to operate the repo, you can check the CLAUDE.md file over here:
           <file location to the root CLAUDE.md file of your cloned instance of AGRemap> ]
@@ -144,7 +144,7 @@ After, tell `CLAUDE`_ to continue with the remap pipeline. They will then plow t
 :raw-html:`<br />`
 
 .. warning::
-    This step can take a long time (several hours)
+    This step can take a very long time (about 1-2 days)
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -164,15 +164,12 @@ For each of those downloaded mods, run the launcher to the AGRemap API while sup
 
 Then verify that the mod remaps properly in the game.
 
-Keep track of what issues you have found for all the mods.
-Then in a single prompt, list all the issues you have found for each mod.
-
-Repeat this step checking step, based on the method above, until all of your mods are perfectly remapped.
-
 :raw-html:`<br />`
 
 .. warning::
-    This step can take a very long time (several hours to maybe several days)
+    This step can vary in time (1 hour to maybe 1 day, depending if `CLAUDE`_ missed some very tiny details that is hard to find)
+
+    Typically most remap mistakes should be already be found in the previous step using a student (generator)/teacher (discriminator) model, similar to the `GAN model`_, running for several epochs.
 
 .. tip::
     Sometimes, `CLAUDE`_ may be unable to properly find the affected area you are talking from your description about due to its limited game viewing capabilities through only screenshots.
@@ -224,4 +221,5 @@ We will be reviewing your remap. Once it is approved, we will merge it into the 
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _WWMI Assets: https://github.com/SpectrumQT/WWMI-Assets
 .. _AGRemaps root CLAUDE.md: https://github.com/nhok0169/Anime-Game-Remap/blob/master/CLAUDE.md
-.. _agremap's root claude.md: https://github.com/nhok0169/Anime-Game-Remap/blob/master/CLAUDE.md
+.. _agremap's root claude.md: https://github.com/nhok0169/Anime-Game-Remap/blob/master/CLAUDE.
+.. _GAN model: https://en.wikipedia.org/wiki/Generative_adversarial_network

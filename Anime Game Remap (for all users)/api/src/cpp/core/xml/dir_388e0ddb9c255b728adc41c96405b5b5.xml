@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits</compoundname>
     <innerfile refid="_blend_edit_8h">BlendEdit.h</innerfile>
     <innerfile refid="_buf_edit_8h">BufEdit.h</innerfile>
+    <innerfile refid="_file_add_edit_8h">FileAddEdit.h</innerfile>
     <innerfile refid="_position_edit_8h">PositionEdit.h</innerfile>
     <innerfile refid="_res_edit_8h">ResEdit.h</innerfile>
     <innerfile refid="_tex_creator_edit_8h">TexCreatorEdit.h</innerfile>

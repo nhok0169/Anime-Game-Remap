@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="192" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="192" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="201" column="32" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -186,7 +186,7 @@ than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same ob
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="188" column="13" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="167" bodyend="169"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="197" column="13" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="167" bodyend="169"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1ad9484a31db82da19d581cae76f33ce3d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -441,6 +441,7 @@ that. Read them through here, never off #resources
         <name>srcEncounteredError</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcEncounteredError</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1aa61f87523c3e636227b32dc41115cddb">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a2e25b1fe9926445f6350ac383dc193c3">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4">srcEncounteredError</reimplementedby>
@@ -477,6 +478,7 @@ that. Read them through here, never off #resources
         <name>srcIsFixed</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcIsFixed</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a47e28a2110be747945bdddbd2e394a40">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a29fa2ea4330c20878fbe156c0282ae89">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4">srcIsFixed</reimplementedby>
@@ -513,6 +515,7 @@ that. Read them through here, never off #resources
         <name>fixEncounteredError</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixEncounteredError</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1acf6b4a951a703d0d6d3b2736c7b063f2">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a4de88e85d271cb088fbd77dc1cbc459f">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a324c28bf61ead4aede8b2ab16864f374">fixEncounteredError</reimplementedby>
@@ -549,6 +552,7 @@ that. Read them through here, never off #resources
         <name>fixIsFixed</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixIsFixed</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a061d7383c63a8cff0dd931c1bcd69476">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_position_resource_1a670f70ea23c0af28d1a15896dd7fa181">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970">fixIsFixed</reimplementedby>
@@ -584,6 +588,7 @@ that. Read them through here, never off #resources
         <argsstring>(const RemapStats &amp;stats) const</argsstring>
         <name>fixExists</name>
         <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixExists</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_file_add_resource_1a3daf478dd488ce5defa20770d757f8ab">fixExists</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9">fixExists</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db">fixExists</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_resource_1a490ee356d15c7c5b896d949d90e91153">fixExists</reimplementedby>
@@ -653,7 +658,7 @@ that. Read them through here, never off #resources
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="195" column="18" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="172" bodyend="174"/>
+        <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="204" column="18" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="172" bodyend="174"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -720,7 +725,7 @@ A group of one mod&apos;s buffers, fixed by :cpp:func:`fixVGMergeGroup` -- see t
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="177" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="177" bodyend="196"/>
+    <location file="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" line="186" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" bodystart="186" bodyend="205"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_merge_group_resource_1a0d11b77152476bbf6f327f4c936bb0a5" prot="protected" virt="virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::VGMergeGroupResource</scope><name>addResource</name></member>

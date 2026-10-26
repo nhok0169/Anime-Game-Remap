@@ -351,6 +351,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             ``Changli -> ChangliNymph`` at game version ``2.4``, built by :cpp:func:`makeWWMIFixer`.
+             See ``data/IniFixData/Changli/ChangliFixer.cpp``
+
+             Filed at 2.4, the skin's version and the one whose hashes it writes. Her blend carries four
+             influences a vertex and the skin's draws read eight, so the fix writes it eight wide; and a
+             mod is read with the vertex group row of the skeleton numbering its own geometry is in (1.1,
+             1.2 or 1.4)
+             @endrst
+             */
+            static IniFixBuilder::Factory changliNymph2_4();
+
+            /**
+             * @brief
+             @rst
+             ``ChangliNymph -> Changli`` at game version ``1.4``, built by :cpp:func:`makeWWMIFixer`.
+             See ``data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp``
+
+             Filed at 1.4, the version of Changli's live ``vb0`` and of her skeleton's numbering. The
+             skin's blend carries eight influences a vertex and Changli's draws read four, so the fix
+             keeps each vertex's four heaviest; her see-through parts are drawn opaque, their diffuse
+             alpha clamped to Changli's range
+             @endrst
+             */
+            static IniFixBuilder::Factory changli1_4();
+
+            /**
+             * @brief
+             @rst
              ``ChisaParfait -> Chisa`` at game version ``2.8``, built by :cpp:func:`makeWWMIFixer`.
              The FIRST fix onto a target past 256 merged bones, so it writes WWMI's own blend remap.
              See ``data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp``
@@ -1391,6 +1419,29 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory lumineHeavenEye6_3();
 
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **Aether onto AetherHeaven's main mesh** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A skin of THREE components whose main mesh is unnamed. One fixer per target component, all
+             three built from one :cpp:class:`GIMIComponentFixerConfig`. See
+             ``data/IniFixData/Aether/AetherFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory aetherHeavenMain6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Aether onto AetherHeaven's Bang** -- see :cpp:func:`aetherHeavenMain6_3`
+             */
+            static IniFixBuilder::Factory aetherHeavenBang6_3();
+
+            /**
+             * @brief The 6.3 fix remapping **Aether onto AetherHeaven's Eye** -- see :cpp:func:`aetherHeavenMain6_3`
+             */
+            static IniFixBuilder::Factory aetherHeavenEye6_3();
+
             static IniFixBuilder::Factory yelanTranquilBody6_1();
 
             /**
@@ -1477,6 +1528,19 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory lumineHeavenToLumine6_3();
+
+            /**
+             * @brief
+             @rst
+             The 6.3 fix remapping **AetherHeaven onto Aether** :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A merge of a skin of several components onto a target of one, and the inverse of
+             :cpp:func:`aetherHeavenMain6_3` and its siblings. See
+             ``data/IniFixData/AetherHeaven/AetherHeavenFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory aetherHeavenToAether6_3();
 
     };
 

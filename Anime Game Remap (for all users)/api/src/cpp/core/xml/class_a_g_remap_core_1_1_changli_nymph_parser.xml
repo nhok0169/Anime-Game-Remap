@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_changli_nymph_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ChangliNymphParser</compoundname>
+    <includes refid="_changli_nymph_parser_8h" local="no">ChangliNymphParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_nymph_parser_1aef0deab3ecfcc332f08c8371681494cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ChangliNymphParser::ChangliNymphParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ChangliNymphParser</name>
+        <qualifiedname>AGRemapCore::ChangliNymphParser::ChangliNymphParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="31" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_changli_nymph_parser_1a94b36ae9332b85155bb6486c08aeb0b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::ChangliNymphParser::v2_4</definition>
+        <argsstring>()</argsstring>
+        <name>v2_4</name>
+        <qualifiedname>AGRemapCore::ChangliNymphParser::v2_4</qualifiedname>
+        <briefdescription>
+<para>The 2.4 parser <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8363d8bfd870a246ca5545b8cbe47a58" kindref="member">IniParseBuilderFuncs::changliNymph2_4</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="36" column="45" bodyfile="src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+ChangliNymph&apos;s (Changli&apos;s Laurel Nymph skin&apos;s) own ``.ini`` parsers, through
+:cpp:func:`makeWWMIParser`: eight draw slots on her ``vb0`` hash, the bone-data override and the two
+shape-key overrides by their own hashes. Pair this with :cpp:class:`ChangliNymphFixer`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" line="29" column="5" bodyfile="include/AGRemapCore/data/IniParseData/ChangliNymph/ChangliNymphParser.h" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1aef0deab3ecfcc332f08c8371681494cd" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphParser</scope><name>ChangliNymphParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_changli_nymph_parser_1a94b36ae9332b85155bb6486c08aeb0b0" prot="public" virt="non-virtual"><scope>AGRemapCore::ChangliNymphParser</scope><name>v2_4</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

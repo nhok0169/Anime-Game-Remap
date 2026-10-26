@@ -154,6 +154,13 @@ namespace AGRemapCore {
                 {{"3.6", ModTypeIdTools::getName(ModTypeId::Lynae)}, IniParseBuilderFuncs::lynae3_6()},
                 {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniParseBuilderFuncs::lynaePeppermint3_7()},
 
+                // ===== Changli and ChangliNymph (2026-10-20) =====
+                // Both parsers are compiled: data/IniParseData/Changli/ and data/IniParseData/ChangliNymph/.
+                // Changli sits at 1.1, her oldest mesh generation, so a mod of any of her three classifies
+                // and parses.
+                {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli)}, IniParseBuilderFuncs::changli1_1()},
+                {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniParseBuilderFuncs::changliNymph2_4()},
+
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a
                 // Texcoord of stride 12.
@@ -209,11 +216,21 @@ namespace AGRemapCore {
                 // Three drawn objects off one mesh, all plain. At 4.0, where her downloads are.
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Lumine)}, IniParseBuilderFuncs::lumine4_0()},
 
+                // ===== Aether (2026-10-24) =====
+                // Two drawn objects off one mesh, both plain. At 4.0, where his downloads are.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Aether)}, IniParseBuilderFuncs::aether4_0()},
+
                 // ===== LumineHeaven (2026-09-29) =====
                 // The seventh row built by makeGIMIComponentParser, the reverse of the three Lumine rows. At 6.3,
                 // where the skin's assets are.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven)},
                  IniParseBuilderFuncs::lumineHeaven6_3()},
+
+                // ===== AetherHeaven (2026-10-24) =====
+                // Built by makeGIMIComponentParser, the reverse of the three Aether rows. At 6.3, where the skin's
+                // assets are.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven)},
+                 IniParseBuilderFuncs::aetherHeaven6_3()},
             };
         }
     }

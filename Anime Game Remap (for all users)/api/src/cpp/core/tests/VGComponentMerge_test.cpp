@@ -49,6 +49,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -132,6 +133,18 @@ int main() {
         AGRC::ByteVec out = AGRC::VGComponentMerge::padLines(src, 2, 5);
         check(out == AGRC::ByteVec({1, 2, 3, 0, 0, 4, 5, 6, 0, 0}), "each line is zero-padded at its end");
         check(AGRC::VGComponentMerge::padLines(src, 2, 3) == src, "a buffer already at the stride is returned as is");
+
+        // fillFrom: the padding copies the line's own bytes -- a 12-byte COLOR + TEXCOORD0 line widened to 20 with
+        // its TEXCOORD1 a copy of its TEXCOORD0 (offset 4), for a two-sided target shader reading TEXCOORD1
+        AGRC::ByteVec copied = AGRC::VGComponentMerge::padLines(src, 2, 5, 1);
+        check(copied == AGRC::ByteVec({1, 2, 3, 2, 3, 4, 5, 6, 5, 6}), "fillFrom copies the bytes at that offset into the padding");
+        bool threw = false;
+        try {
+            AGRC::VGComponentMerge::padLines(src, 2, 5, 2);
+        } catch (const std::invalid_argument&) {
+            threw = true;
+        }
+        check(threw, "a fillFrom that reaches past the end of a line is refused");
     }
 
     // ---- the merge itself ----
@@ -213,6 +226,32 @@ int main() {
         narrow.push_back(makeComponent("Body", {{0, 10}}, {{1.0, 0.0, 0.0, 0.0}}, {{0, 0, 0, 0}}, 40, 4, 0xAA));
         check(AGRC::VGComponentMerge(std::move(narrow), 2).stats().texcoordStride == 4,
               "a target narrower than the widest component changes nothing -- it is a floor, never a cut");
+    }
+
+    // ---- a SHARED group spreads its weight over several target bones (VGMergeComponentSpec::splitGroups) ----
+    {
+        std::vector<AGRC::VGComponentMerge::Component> components;
+        AGRC::VGComponentMerge::Component body = makeComponent("Body", {{5, 42}, {6, 43}, {7, 9}},
+            {{1.0, 0.0, 0.0, 0.0}, {0.5, 0.5, 0.0, 0.0}, {1.0, 0.0, 0.0, 0.0}},
+            {{5, 0, 0, 0}, {5, 6, 0, 0}, {7, 0, 0, 0}}, 40, 4, 0);
+        body.spec.splitGroups = {{5, {{42, 0.5}, {43, 0.5}}}};
+        components.push_back(std::move(body));
+        AGRC::VGComponentMerge merge(std::move(components));
+
+        const auto weightOf = [&merge](std::size_t line, std::size_t k) {
+            float value = 0.0f;
+            std::memcpy(&value, merge.blend().data() + line * 32 + k * 4, sizeof(value));
+            return value;
+        };
+
+        check(indicesOf(merge.blend(), 0) == std::vector<long long>({42, 43, 0, 0})
+                  && weightOf(0, 0) == 0.5f && weightOf(0, 1) == 0.5f,
+              "a vertex wholly on a shared group goes half to each bone of the share");
+        check(indicesOf(merge.blend(), 1) == std::vector<long long>({43, 42, 0, 0})
+                  && weightOf(1, 0) == 0.75f && weightOf(1, 1) == 0.25f,
+              "a share landing on a bone the vertex already has merges into it, heaviest first");
+        check(indicesOf(merge.blend(), 2) == std::vector<long long>({9, 0, 0, 0}) && weightOf(2, 0) == 1.0f,
+              "a vertex on no shared group keeps its row's bone");
     }
 
     std::cout << (failures == 0 ? "\nALL PASSED\n" : "\n" + std::to_string(failures) + " FAILED\n");

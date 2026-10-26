@@ -35,6 +35,38 @@ namespace AGRemapCore {
      */
     enum class ModTypeId {
         /**
+         * @brief Aether (the male Traveler) from GI -- the asset repo's ``TravelerBoy``, and what his mods name their sections
+         */
+        Aether,
+
+        /**
+         * @brief Aether outfit skin (As Heaven and Earth Are Made Anew) from GI -- THREE skinned components (an unnamed main mesh, Bang, Eye)
+         */
+        AetherHeaven,
+
+        /**
+         * @brief
+         @rst
+         AetherHeaven's MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+         :raw-html:`<br />` :raw-html:`<br />`
+         The :cpp:enumerator:`LumineHeavenMain` arrangement: the skin's own dump leaves this component UNNAMED
+         (``AetherHeavenHead.ib``, ``AetherHeavenPosition.buf``), so its component name -- in the vertex-group table
+         and the download file names -- is the empty string, and only this fix-target id carries ``Main``
+         @endrst
+         */
+        AetherHeavenMain,
+
+        /**
+         * @brief AetherHeaven's ``Bang`` component, as a fix target -- see :cpp:enumerator:`AetherHeavenMain`
+         */
+        AetherHeavenBang,
+
+        /**
+         * @brief AetherHeaven's ``Eye`` component, as a fix target -- see :cpp:enumerator:`AetherHeavenMain`
+         */
+        AetherHeavenEye,
+
+        /**
          * @brief Amber from GI
          */
         Amber,
@@ -559,7 +591,25 @@ namespace AGRemapCore {
         /**
          * @brief Lynae's Peppermint skin from WuWa -- see :cpp:enumerator:`Lynae`
          */
-        LynaePeppermint
+        LynaePeppermint,
+
+        /**
+         * @brief
+         @rst
+         Changli from WuWa (Wuthering Waves), a WWMI mod type -- see
+         :cpp:enumerator:`Sanhua` for what a WWMI mod type is :raw-html:`<br />` :raw-html:`<br />`
+
+         Her mesh has three generations a mod may carry: ``77975500`` (1.1), ``5f8aac45`` (1.2, the
+         same index windows with one bone fewer) and ``d14bed8b`` (1.4 on, component 3 grown by
+         1020 indices)
+         @endrst
+         */
+        Changli,
+
+        /**
+         * @brief Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1) -- see :cpp:enumerator:`Changli`
+         */
+        ChangliNymph
     };
 
     /**

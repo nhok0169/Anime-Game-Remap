@@ -94,6 +94,36 @@
         </inbodydescription>
         <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="66" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="127" bodyend="129"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1af6fad25716485097f40c182865b6c22a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::WWMIBuilder::changli</definition>
+        <argsstring>()</argsstring>
+        <name>changli</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::changli</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Changli. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="71" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a2327edafd5c7bcc953df049dd451e9a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::WWMIBuilder::changliNymph</definition>
+        <argsstring>()</argsstring>
+        <name>changliNymph</name>
+        <qualifiedname>AGRemapCore::WWMIBuilder::changliNymph</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for ChangliNymph (WWMI-Assets&apos; ChangliSkin1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="76" column="28" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
         <definition>std::vector&lt; ModType &gt; AGRemapCore::WWMIBuilder::all</definition>
@@ -107,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="71" column="32" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="131" bodyend="140"/>
+        <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="81" column="32" bodyfile="src/constants/WWMIBuilder.cpp" bodystart="139" bodyend="150"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -125,9 +155,11 @@ each direction come from the builder data tables (``IniParseBuilderData`` /
 ``IniFixBuilderData``); a direction with no WWMI fix written yet has a stub row there
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/WWMIBuilder.h" bodystart="36" bodyend="72"/>
+    <location file="include/AGRemapCore/constants/WWMIBuilder.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/WWMIBuilder.h" bodystart="36" bodyend="82"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a7f3fb64146cda2ed4b9f8726371be2e9" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>all</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1af6fad25716485097f40c182865b6c22a" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>changli</name></member>
+      <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a2327edafd5c7bcc953df049dd451e9a7" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>changliNymph</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1acdbad7c71c4f3e030e7b4bdf09b84e06" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>chisa</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a070107d2c55014c7f7f993220a885522" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>chisaParfait</name></member>
       <member refid="class_a_g_remap_core_1_1_w_w_m_i_builder_1a31da644d2914a2aa573fe8cc5abc52b2" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBuilder</scope><name>lynae</name></member>

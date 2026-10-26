@@ -170,14 +170,40 @@ or ``-1`` for every source drawn through the slot. Needed where two sources merg
 slot, since "the diffuse" is then a different file for each. **Default**: ``-1``
         )doc"));
 
-    py::class_<AGRC::WWMIFixerConfig::Shader>(fixerConfig, "Shader", R"doc(
+    py::class_<AGRC::WWMIFixerConfig::Shader> shader(fixerConfig, "Shader", R"doc(
 A pixel shader a :class:`WWMIFixerConfig.SourceComponent` is drawn with in place of the target slot's.
 The fix writes the shader and its constant buffers beside the mod's buffers, declares them in its own
 block (so an undo removes them), and turns each ``drawindexed`` of the component into a ``run =`` of a
 ``CustomShader`` section that binds them and makes that draw. Everything the shader does not bind
 itself is the target draw's: its vertex shader, its render targets and the textures the component's
 :attr:`WWMIFixerConfig.plan` entry binds
+    )doc");
+
+    py::class_<AGRC::WWMIFixerConfig::Shader::After>(shader, "After", R"doc(
+Which draws must come before a :class:`WWMIFixerConfig.Shader`'s component, on a pass -- see
+:attr:`WWMIFixerConfig.Shader.after`
     )doc")
+        .def(py::init<>())
+        .def_readwrite("component", &AGRC::WWMIFixerConfig::Shader::After::component,
+                        py::doc(":class:`int`: The SOURCE component (a key of :attr:`WWMIFixerConfig.plan`) drawn first"))
+        .def_readwrite("draws", &AGRC::WWMIFixerConfig::Shader::After::draws, py::doc(R"doc(
+:class:`int`: How many draws that component's slot makes in one pass; the deferred draw follows the last
+of them. **Default**: ``1``
+        )doc"))
+        .def_readwrite("target", &AGRC::WWMIFixerConfig::Shader::After::target, py::doc(R"doc(
+:class:`str`: The output register that tells one pass from another; a pass leaving it unbound draws the
+component as before. **Default**: ``"o3"``
+        )doc"))
+        .def_readwrite("carried", &AGRC::WWMIFixerConfig::Shader::After::carried, py::doc(R"doc(
+List[:class:`str`]: The registers a deferred draw takes from the component's own draw, eg. ``"ps-t0"``
+        )doc"))
+        .def_readwrite("also", &AGRC::WWMIFixerConfig::Shader::After::also, py::doc(R"doc(
+List[Tuple[:class:`int`, :class:`int`]]: Further components the draw waits for as well, each with how many
+draws its slot makes in one pass; the draw is made once all of them have drawn there, in whatever order.
+A component the mod does not draw is left out of the count. **Default**: empty
+        )doc"));
+
+    shader
         .def(py::init<>())
         .def_readwrite("name", &AGRC::WWMIFixerConfig::Shader::name,
                         py::doc(":class:`str`: The name its files and sections are given, eg. ``\"LynaeFilm\"``"))
@@ -190,6 +216,35 @@ words (four to a row), eg. ``"ps-cb4"``. Written as a ``R32G32B32A32_FLOAT`` buf
         .def_readwrite("lines", &AGRC::WWMIFixerConfig::Shader::lines, py::doc(R"doc(
 List[Tuple[:class:`str`, :class:`str`]]: Further lines of the ``CustomShader`` section, as they are
 written, eg. ``("ps-t5", "ref ps-t6")``
+        )doc"))
+        .def_readwrite("passes", &AGRC::WWMIFixerConfig::Shader::passes, py::doc(R"doc(
+List[List[Tuple[:class:`str`, :class:`str`]]]: Draw the component once per entry, each with
+:attr:`lines` and that entry's own lines after them -- a source pass whose draws split by state, eg. a
+see-through layer blended where the stencil marks a body behind it and drawn opaque everywhere else.
+**Default**: empty, one draw with :attr:`lines`
+        )doc"))
+        .def_readwrite("passPs", &AGRC::WWMIFixerConfig::Shader::passPs, py::doc(R"doc(
+List[:class:`str`]: Per entry of :attr:`passes`, the HLSL that pass draws with in place of :attr:`ps` -- a
+source that draws one component with two shaders, eg. a solid one where the part is opaque and a
+see-through one over a body. An empty entry, or none, keeps :attr:`ps`. **Default**: empty
+        )doc"))
+        .def_readwrite("onlyWith", &AGRC::WWMIFixerConfig::Shader::onlyWith, py::doc(R"doc(
+:class:`str`: An output register (eg. ``"o3"``) a pass has to bind for the shader to draw there; a pass
+that leaves it unbound (a depth pre-pass) draws the component with the game's own shader. **Default**:
+``""``, every pass
+        )doc"))
+        .def_readwrite("registers", &AGRC::WWMIFixerConfig::Shader::registers, py::doc(R"doc(
+List[:class:`WWMIFixerConfig.Binding`]: Bindings the component takes only while this shader draws it, after the
+plan entry's own (the source's register layout). **Default**: empty
+        )doc"))
+        .def_readwrite("yieldToRabbitFX", &AGRC::WWMIFixerConfig::Shader::yieldToRabbitFX, py::doc(R"doc(
+:class:`bool`: A mod whose sections for the component hand its maps to RabbitFX keeps the target slot's game
+shader there (RabbitFX patches the game's shaders, never this one). **Default**: ``False``
+        )doc"))
+        .def_readwrite("after", &AGRC::WWMIFixerConfig::Shader::after, py::doc(R"doc(
+Optional[:class:`WWMIFixerConfig.Shader.After`]: Draw the component only after another component's draws
+in the same pass, whichever order the game draws the two slots in -- a see-through layer drawn first
+blends over whatever is behind the body. **Default**: ``None``
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::SourceComponent> sourceComponent(fixerConfig, "SourceComponent", R"doc(
@@ -237,6 +292,19 @@ shader on the passes the slot's :attr:`WWMIFixerConfig.slotPasses` name, and as 
 Optional[:class:`WWMIFixerConfig.SourceComponent.RabbitFX`]: RabbitFX on this component, carried
 across with the SOURCE's routing. **Default**: ``None``, RabbitFX's lines are removed as
 :attr:`WWMIFixerConfig.removedRegs` says
+        )doc"))
+        .def_readwrite("markLines", &AGRC::WWMIFixerConfig::SourceComponent::markLines, py::doc(R"doc(
+List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on the passes the slot's
+:attr:`WWMIFixerConfig.slotPasses` name, the same draw again with NO pixel shader under these
+``CustomShader`` lines -- to mark the pixels the component is the visible surface of in the stencil, eg.
+``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
+render targets. **Default**: empty, no such draw
+        )doc"))
+        .def_readwrite("offPasses", &AGRC::WWMIFixerConfig::SourceComponent::offPasses, py::doc(R"doc(
+List[:class:`str`]: Passes of the target slot (pixel shader hashes, as in
+:attr:`WWMIFixerConfig.slotPasses`) that the component's draws are kept off -- eg. a slot's outline
+pass, whose shell of an under-layer the target's outline shader draws through the layer over it.
+**Default**: empty, every pass
         )doc"));
 
     py::class_<AGRC::WWMIFixerConfig::DrawReroute> drawReroute(fixerConfig, "DrawReroute", R"doc(
@@ -271,10 +339,15 @@ not a source slot. Its slot and bindings say where they go and what they bind
         .def_readwrite("codeRole", &AGRC::WWMIFixerConfig::DrawReroute::codeRole,
                         py::doc(":class:`str`: The role of the material-code map that marks the draws"))
         .def_readwrite("flags", &AGRC::WWMIFixerConfig::DrawReroute::flags, py::doc(R"doc(
-:class:`int`: The flag bits that mark a texel: a draw goes when more than half of the texels under
-its vertices carry any of them
+:class:`int`: The flag bits that mark a texel: a draw goes when more than
+:attr:`WWMIFixerConfig.DrawReroute.share` of the texels under its vertices carry any of them
         )doc"))
-        .def_readwrite("sourceFlags", &AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
+        .def_readwrite("share", &AGRC::WWMIFixerConfig::DrawReroute::share, py::doc(R"doc(
+:class:`float`: The share of a draw's texels that must carry :attr:`WWMIFixerConfig.DrawReroute.flags`
+for the draw to go, eg. ``0.01`` to take a draw that holds any real amount of the flagged material
+among others. **Default**: ``0.5``, more than half
+        )doc"))
+        .def_readwrite("sourceFlags",&AGRC::WWMIFixerConfig::DrawReroute::sourceFlags, py::doc(R"doc(
 :class:`WWMIFixerConfig.DrawReroute.FlagMask`: The SOURCE's own game code map of
 :attr:`WWMIFixerConfig.DrawReroute.codeRole`, for a mod that binds no code map of its own for that
 role: such a mod draws with the game's map on its own character, so that map decides which of its
@@ -535,6 +608,20 @@ of a non-empty map is an error
 Dict[:class:`str`, Dict[:class:`str`, List[:class:`WWMIFixerConfig.Binding`]]]: Other meshes the
 character draws, by their own ``vb0`` hash -- ``{mesh hash: {pass: bindings}}``
         )doc"))
+        .def_readwrite("stashRegs", &AGRC::WWMIFixerConfig::stashRegs, py::doc(R"doc(
+Dict[:class:`int`, List[:class:`str`]]: Registers to capture off the GAME's draw of a target slot nothing of
+the mod is drawn through, on passes that bind ``o3``; a :attr:`Shader.lines` value ``stash <slot> <register>``
+binds the capture. **Default**: empty
+        )doc"))
+        .def_readwrite("hiddenMeshes", &AGRC::WWMIFixerConfig::hiddenMeshes, py::doc(R"doc(
+List[:class:`str`]: Other meshes the TARGET draws that a mod of her replaces, by their own ``vb0``
+hash: each is skipped while the mod is enabled (no index window, so wherever it is drawn)
+        )doc"))
+        .def_readwrite("meshCounterparts", &AGRC::WWMIFixerConfig::meshCounterparts, py::doc(R"doc(
+Dict[:class:`str`, :class:`str`]: Other meshes of the SOURCE a mod's own sections match by ``vb0`` hash,
+mapped to the TARGET's mesh that plays the same part: each such section is copied into the fix's block
+on the target's hash. **Default**: empty
+        )doc"))
         .def_readwrite("texEdits", &AGRC::WWMIFixerConfig::texEdits,
                         py::doc("List[:class:`WWMIFixerConfig.TexEdit`]: Edits the fix makes to a role's texture before binding it"))
         .def_readwrite("cleanTexcoords", &AGRC::WWMIFixerConfig::cleanTexcoords, py::doc(R"doc(
@@ -556,10 +643,24 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
 the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
 ramp or detail slot keeps doing so on the target. **Default**: ``False``
         )doc"))
+        .def_readwrite("readInisBelow", &AGRC::WWMIFixerConfig::readInisBelow, py::doc(R"doc(
+:class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        )doc"))
         .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
 :class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton
 state: merge-only sections for the slots other files draw, and the bone-data marker and shape-key
 overrides in the mod's own file only. **Default**: ``False``
+        )doc"))
+        .def_readwrite("targetInfluences", &AGRC::WWMIFixerConfig::targetInfluences, py::doc(R"doc(
+:class:`int`: How many bone influences a vertex the TARGET's draws read, when it differs from the mod's
+own. The fix's remapped ``Blend.buf`` (and, past 256 bones, its ``BlendRemapVertexVG.buf``) is written at
+this many -- the mod's own first, the rest bone 0 with weight 0 -- and the generated section's ``stride``
+and the blend remap's ``weights_per_vertex_count`` follow. A 4-influence character drawn through an
+8-influence skin's shaders otherwise has every vertex read across its neighbour's bytes. When it is
+FEWER, each vertex keeps its heaviest slots, their weights scaled to the same total. **Default**:
+``0``, the mod's own count
         )doc"))
         .def_readwrite("currentPoseInCb3Only", &AGRC::WWMIFixerConfig::currentPoseInCb3Only, py::doc(R"doc(
 :class:`bool`: Treat a draw whose ``vs-cb3`` carries the bone-data marker while its ``vs-cb4`` does not as

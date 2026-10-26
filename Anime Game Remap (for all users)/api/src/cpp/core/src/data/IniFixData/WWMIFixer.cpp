@@ -18,6 +18,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <cctype>
 #include <fstream>
 #include <functional>
 #include <map>
@@ -73,7 +74,9 @@
 #include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
@@ -83,6 +86,7 @@
 #include <stdexcept>
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
+#include "AGRemapCore/model/iniresources/RemapFileResource.h"
 #include "AGRemapCore/tools/NumTools.h"
 #include "AGRemapCore/tools/ListTools.h"
 #include "AGRemapCore/tools/StringTools.h"
@@ -493,6 +497,106 @@ namespace AGRemapCore {
 
             private:
                 std::map<std::pair<long long, long long>, std::string> sectionOf_;
+        };
+
+
+        // WWMIFixerConfig::SourceComponent::markLines: a `run =` of the mark list right after each of the
+        // component's draws it knows (applied before RerouteShaderDraws, which then turns the draw itself
+        // into a run and leaves this one after it)
+        class MarkDraws : public BaseRegEdit<> {
+            public:
+                explicit MarkDraws(std::map<std::pair<long long, long long>, std::string> sectionOf)
+                    : sectionOf_(std::move(sectionOf)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::DrawIndexed)) {
+                            continue;
+                        }
+
+                        std::vector<long long> args;
+                        try {
+                            std::string rest(item->value);
+                            std::size_t comma = 0;
+                            while (true) {
+                                comma = rest.find(',');
+                                args.push_back(std::stoll(std::string(StringTools::strip(rest.substr(0, comma)))));
+                                if (comma == std::string::npos) {
+                                    break;
+                                }
+                                rest = rest.substr(comma + 1);
+                            }
+                        } catch (const std::exception&) {
+                            continue;
+                        }
+
+                        if (args.size() != 3 || args[2] != 0) {
+                            continue;
+                        }
+
+                        const auto section = sectionOf_.find({args[0], args[1]});
+                        if (section != sectionOf_.end()) {
+                            part.addKVPAt(static_cast<long long>(item->orderIndex) + 1, IniKeywords::Run, section->second);
+                        }
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::map<std::pair<long long, long long>, std::string> sectionOf_;
+        };
+
+
+        // WWMIFixerConfig::Shader::after: a `run =` of the list right before each `run =` of one of the
+        // anchors -- the cleanup list the section runs once after its draws, so the list runs once per
+        // game draw however many ranges the mod draws the component as
+        class RunBeforeRuns : public BaseRegEdit<> {
+            public:
+                RunBeforeRuns(std::vector<std::string> anchors, std::string list, std::string latch = "")
+                    : anchors_(std::move(anchors)), list_(std::move(list)), latch_(std::move(latch)) {}
+
+                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
+                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
+                    (void)sectionName;
+                    (void)modType;
+                    (void)modName;
+                    (void)partRanges;
+
+                    const std::vector<ContentPart::Item> items = part.items();
+                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
+                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::Run)) {
+                            continue;
+                        }
+
+                        const std::string value(StringTools::strip(item->value));
+                        for (const std::string& anchor : anchors_) {
+                            if (StringTools::equalsIgnoreCase(value, anchor)) {
+                                // (the latch makes the list run once per GAME draw however many of the
+                                // mod's sections match it; `post` clears it once the draw is made)
+                                if (!latch_.empty()) {
+                                    part.addKVPAt(static_cast<long long>(item->orderIndex), "post " + latch_, "0");
+                                }
+                                part.addKVPAt(static_cast<long long>(item->orderIndex), IniKeywords::Run, list_);
+                                break;
+                            }
+                        }
+                    }
+
+                    return part;
+                }
+
+            private:
+                std::vector<std::string> anchors_;
+                std::string list_;
+                std::string latch_;
         };
 
 
@@ -1529,6 +1633,200 @@ namespace AGRemapCore {
         }
 
 
+        // ---- a target whose draws read more influences than the mod carries ----
+        //
+        // See WWMIFixerConfig::targetInfluences. Pads every vertex of a buffer the fix has WRITTEN
+        // from `from` slots to `to`, in place: `from * idBytes` id bytes then, for a blend line,
+        // `from` weight bytes. The new slots are bone 0 with weight 0, which no shader weighs. A file
+        // already at the wider size is left alone, so a buffer several copies share is widened once.
+        bool widenPerVertex(RemapBlendResource& resource, const std::string& path, std::size_t vertices,
+                            std::size_t from, std::size_t to, std::size_t idBytes, bool hasWeights) {
+            const std::size_t fromLine = from * idBytes + (hasWeights ? from : 0);
+            const std::size_t toLine = to * idBytes + (hasWeights ? to : 0);
+            const std::string name = FileService::pathToStr(FileService::strToPath(path).filename());
+            const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+            if (!size.has_value()) {
+                return bail(resource, "could not read " + name + " to widen it");
+            }
+
+            if (*size == vertices * toLine) {
+                return true;
+            }
+
+            if (*size != vertices * fromLine) {
+                return bail(resource, name + " is " + std::to_string(*size) + " bytes, which is neither "
+                                      + std::to_string(from) + " nor " + std::to_string(to)
+                                      + " influences over " + std::to_string(vertices) + " vertices");
+            }
+
+            std::vector<char> in(static_cast<std::size_t>(*size));
+            {
+                std::ifstream file(FileService::strToPath(path), std::ios::binary);
+                file.read(in.data(), static_cast<std::streamsize>(in.size()));
+                if (!file) {
+                    return bail(resource, "could not read " + name + " to widen it");
+                }
+            }
+
+            std::vector<char> out(vertices * toLine, 0);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                const char* src = in.data() + vertex * fromLine;
+                char* dst = out.data() + vertex * toLine;
+                std::memcpy(dst, src, from * idBytes);
+                if (hasWeights) {
+                    std::memcpy(dst + to * idBytes, src + from * idBytes, from);
+                }
+            }
+
+            std::ofstream file(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
+            file.write(out.data(), static_cast<std::streamsize>(out.size()));
+            if (!file) {
+                return bail(resource, "could not write the widened " + name);
+            }
+
+            return true;
+        }
+
+
+        // ---- a target whose draws read FEWER influences than the mod carries ----
+        //
+        // See WWMIFixerConfig::targetInfluences. Slots of one vertex that name the same bone are
+        // merged first (their weights summed onto the first), since the remap can send two source
+        // bones to one target bone; then each vertex keeps its `to` heaviest slots (a tie goes to the
+        // lower slot), their weights scaled so the vertex's total is what it was. `vertexVg`, when
+        // given, names the bones (its full 16-bit ids) and keeps the SAME slots, so its ids stay
+        // paired with those weights. A blend already at the narrower size is left alone, so a buffer
+        // several copies share is narrowed once.
+        bool narrowPerVertex(RemapBlendResource& resource, const std::string& path, const std::string& vertexVg,
+                             std::size_t vertices, std::size_t from, std::size_t to) {
+            const std::size_t fromLine = from * 2;
+            const std::size_t toLine = to * 2;
+            const std::string name = FileService::pathToStr(FileService::strToPath(path).filename());
+            const std::optional<std::uintmax_t> size = FileService::fileSize(path);
+            if (!size.has_value()) {
+                return bail(resource, "could not read " + name + " to narrow it");
+            }
+
+            if (*size == vertices * toLine) {
+                return true;
+            }
+
+            if (*size != vertices * fromLine) {
+                return bail(resource, name + " is " + std::to_string(*size) + " bytes, which is neither "
+                                      + std::to_string(from) + " nor " + std::to_string(to)
+                                      + " influences over " + std::to_string(vertices) + " vertices");
+            }
+
+            const auto readAll = [&](const std::string& file, std::vector<unsigned char>& bytes) {
+                const std::optional<std::uintmax_t> fileSize = FileService::fileSize(file);
+                if (!fileSize.has_value()) {
+                    return false;
+                }
+                bytes.resize(static_cast<std::size_t>(*fileSize));
+                std::ifstream in(FileService::strToPath(file), std::ios::binary);
+                in.read(reinterpret_cast<char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                return static_cast<bool>(in);
+            };
+
+            std::vector<unsigned char> blend;
+            if (!readAll(path, blend)) {
+                return bail(resource, "could not read " + name + " to narrow it");
+            }
+
+            std::vector<unsigned char> vg;
+            const bool hasVg = !vertexVg.empty();
+            const std::string vgName = hasVg ? FileService::pathToStr(FileService::strToPath(vertexVg).filename()) : "";
+            if (hasVg && (!readAll(vertexVg, vg) || vg.size() != vertices * from * 2)) {
+                return bail(resource, "could not read " + vgName + " at " + std::to_string(from)
+                                      + " influences over " + std::to_string(vertices) + " vertices to narrow it");
+            }
+
+            std::vector<unsigned char> blendOut(vertices * toLine, 0);
+            std::vector<unsigned char> vgOut(hasVg ? vertices * to * 2 : 0, 0);
+            std::vector<std::size_t> order(from);
+            std::vector<unsigned char> merged(from);
+            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
+                const unsigned char* ids = blend.data() + vertex * fromLine;
+                const unsigned char* raw = ids + from;
+                const auto boneOf = [&](std::size_t k) -> unsigned {
+                    if (hasVg) {
+                        const unsigned char* id = vg.data() + (vertex * from + k) * 2;
+                        return static_cast<unsigned>(id[0]) | (static_cast<unsigned>(id[1]) << 8);
+                    }
+                    return ids[k];
+                };
+
+                // one bone in several slots: its weight is summed onto the first of them
+                for (std::size_t k = 0; k < from; ++k) {
+                    merged[k] = raw[k];
+                }
+                for (std::size_t k = 0; k < from; ++k) {
+                    if (merged[k] == 0) {
+                        continue;
+                    }
+                    for (std::size_t j = k + 1; j < from; ++j) {
+                        if (merged[j] != 0 && boneOf(j) == boneOf(k)) {
+                            merged[k] = static_cast<unsigned char>(std::min(255u, static_cast<unsigned>(merged[k]) + merged[j]));
+                            merged[j] = 0;
+                        }
+                    }
+                }
+                const unsigned char* weights = merged.data();
+
+                for (std::size_t k = 0; k < from; ++k) {
+                    order[k] = k;
+                }
+                std::stable_sort(order.begin(), order.end(),
+                                 [weights](std::size_t a, std::size_t b) { return weights[a] > weights[b]; });
+
+                unsigned total = 0;
+                unsigned kept = 0;
+                for (std::size_t k = 0; k < from; ++k) {
+                    total += weights[k];
+                }
+                for (std::size_t k = 0; k < to; ++k) {
+                    kept += weights[order[k]];
+                }
+
+                // scaled so the total is kept; the rounding remainder goes to the heaviest slot
+                std::vector<unsigned> scaled(to, 0);
+                unsigned scaledSum = 0;
+                for (std::size_t k = 0; k < to; ++k) {
+                    scaled[k] = kept == 0 ? weights[order[k]]
+                                          : (weights[order[k]] * total + kept / 2) / kept;
+                    scaledSum += scaled[k];
+                }
+                if (kept != 0 && scaledSum != total) {
+                    scaled[0] = static_cast<unsigned>(static_cast<int>(scaled[0]) + static_cast<int>(total) - static_cast<int>(scaledSum));
+                }
+
+                unsigned char* dst = blendOut.data() + vertex * toLine;
+                for (std::size_t k = 0; k < to; ++k) {
+                    dst[k] = ids[order[k]];
+                    dst[to + k] = static_cast<unsigned char>(std::min(255u, scaled[k]));
+                    if (hasVg) {
+                        std::memcpy(vgOut.data() + (vertex * to + k) * 2, vg.data() + (vertex * from + order[k]) * 2, 2);
+                    }
+                }
+            }
+
+            const auto writeAll = [](const std::string& file, const std::vector<unsigned char>& bytes) {
+                std::ofstream out(FileService::strToPath(file), std::ios::binary | std::ios::trunc);
+                out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                return static_cast<bool>(out);
+            };
+
+            if (!writeAll(path, blendOut)) {
+                return bail(resource, "could not write the narrowed " + name);
+            }
+            if (hasVg && !writeAll(vertexVg, vgOut)) {
+                return bail(resource, "could not write the narrowed " + vgName);
+            }
+
+            return true;
+        }
+
+
         // ---- one WWMI character, out of the library's tables ----
 
         struct Slot {
@@ -1623,12 +1921,16 @@ namespace AGRemapCore {
                     this->copyPreamble = config_.copyPreamble;
 
                     std::string error;
-                    if (!readCharacters(error) || !readMod(error)) {
+                    const bool characters = readCharacters(error);
+                    if (!characters || !readMod(error)) {
+                        giveUp();
+                        if (characters && buildWatcher()) {
+                            return;
+                        }
+
                         if (!error.empty()) {
                             ctx_.log(error + " -- so this .ini is left alone");
                         }
-
-                        giveUp();
                         return;
                     }
 
@@ -1638,6 +1940,7 @@ namespace AGRemapCore {
                     planTexEdits();
                     planGameTexEdits();
                     planToggledRoles();
+                    planSingleToggles();
                     readRabbitFX();                     // after the toggles are known, and reading the pre-edit names
                     buildEdits();
                     buildAppended();
@@ -1678,7 +1981,6 @@ namespace AGRemapCore {
                         writeZeroStream();
                         writeShapeKeyOrder();
                         writeMirrorBuffers();
-                        writeRerouteShaders();
                         addCreatedTextures();
                         addFallbackDownloads();
                         addTexEdits();
@@ -1690,7 +1992,67 @@ namespace AGRemapCore {
                         }
                     }
 
+                    if (!gaveUp_) {
+                        addShaderGraphs(modName);
+                    }
+
                     rebindBlendOverride();
+                }
+
+                // THE CUSTOMSHADER SECTIONS ARE A GRAPH, AND THEIR FILES ARE ITS RESOURCES (2026-10-16).
+                //
+                // Every .ini file the fix writes declares the shaders (they used to ride the appended
+                // text, which every copy carries), so the graph rerouteShaderSections built is added to
+                // each group, and the files it names are collected off it as any other resource is:
+                // `ps-cb4 = Resource...` through FileAddCreate, which builds the buffer's section and
+                // the file, and `ps = <file>.hlsl` -- a register whose value IS the file -- through
+                // FileRefAdd. Both hand the service RemapFileAddResources, so the files are written,
+                // counted and undone with the rest of the mod's resources.
+                //
+                // After the group edits rather than among them: a copy's group exists only once the
+                // slot remap has made it, and the shaders go in every group there is.
+                void addShaderGraphs(const std::string& modName) {
+                    if (shaderGraph_ == nullptr) {
+                        return;
+                    }
+
+                    Fixer::GraphGroups& groups = *this->graphGroups();
+                    IniFile* ini = ctx_.getIniFile();
+                    FileRefAdd<> sourceAdd(shaderSources_, makeResEditConfig());
+
+                    for (std::size_t g = 0; g < groups.size(); ++g) {
+                        const GraphId shaders(g, "", "rerouteShaders");
+                        GraphCreate<>(shaders, shaderGraph_.get()).edit(groups, nullptr, modName);
+
+                        FileAddCreate<> bufferCreate(GraphId(g, "", "rerouteShaderBuffers"), shaderBuffers_, makeResEditConfig());
+                        for (const std::string& reg : shaderBufferRegs_) {
+                            Collector buffers;
+                            buffers.srcRegs[shaders] = reg;
+                            buffers.resEdits = {{"shaderBuffer", &bufferCreate}};
+                            buffers.editFromIni(groups, ini, nullptr, modName);
+                        }
+
+                        Collector sources;
+                        sources.srcRegs[shaders] = "ps";
+                        sources.resEdits = {{"shaderSource", &sourceAdd}};
+                        sources.editFromIni(groups, ini, nullptr, modName);
+                    }
+                }
+
+                // One CustomShader section of shaderGraph_
+                void addShaderSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& keys) {
+                    using Section = GraphCreate<>::Graph::Section;
+                    std::vector<std::unique_ptr<IfTemplatePart>> parts;
+                    parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(keys, 0));
+
+                    IfTemplateRunConfig<std::string, std::string> runConfig{
+                        IniKeywords::Run,
+                        [](const std::string& val) { return val; },
+                        [](const std::string& section) { return section; }
+                    };
+
+                    shaderSections_.push_back(std::make_unique<Section>(std::move(parts), std::move(runConfig), name));
+                    shaderSectionNames_.push_back(name);
                 }
 
                 // A MOD OF A CHARACTER PAST 256 BONES BINDS THE BLEND REGISTER TWICE: `vb4 =
@@ -1785,6 +2147,95 @@ namespace AGRemapCore {
                     FixerConfig config{};
                     config.sectionToStr = &renderIfTemplate;
                     return config;
+                }
+
+                // A FILE THAT ONLY WATCHES THE SOURCE (2026-10-13). A help overlay, a key menu or a skill
+                // effect's recolour sits beside the mesh and matches the source's vb0 only to set a variable
+                // while she is on screen (`$active = 1`, `$\CECChange\activeVB = 1`): no index window, nothing
+                // drawn. The fixer used to leave it alone, so on the target it never fired -- Lynae1's F5
+                // help image and skill-effect recolour, Lynae13's and Lynae14's key help. Each such section
+                // is copied, under the fix's name, onto the TARGET's vb0, and nothing is drawn or
+                // downloaded: what the GI merge's buildWatcher does. A file that also draws a component is
+                // not a watcher (readMod found it), and its own watching sections ride along as written.
+                bool buildWatcher() {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr || target_.vb0Hash.empty()) {
+                        return false;
+                    }
+
+                    std::vector<std::string> watching;
+                    for (const auto& entry : ini->getIfTemplates()) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                        if (hash.has_value() && !index.has_value() && isSourceVb0(StringTools::toLower(std::string(StringTools::strip(*hash))))) {
+                            watching.push_back(entry.first);
+                        }
+                    }
+                    if (watching.empty()) {
+                        return false;
+                    }
+
+                    // the sections as the author wrote them, off the file's text: the header renamed, the
+                    // hash line pointed at the target
+                    // (a section's trailing blank and comment lines go: they introduce whatever follows it)
+                    std::string out;
+                    std::vector<std::string> section;
+                    const auto flush = [&]() {
+                        while (!section.empty()) {
+                            const std::string last(StringTools::strip(section.back()));
+                            if (!last.empty() && last.front() != ';') {
+                                break;
+                            }
+                            section.pop_back();
+                        }
+                        for (const std::string& kept : section) {
+                            out += kept + "\n";
+                        }
+                        section.clear();
+                    };
+
+                    std::istringstream text(ini->getFileTxt());
+                    std::string line;
+                    bool inWatched = false;
+                    while (std::getline(text, line)) {
+                        if (!line.empty() && line.back() == '\r') {
+                            line.pop_back();
+                        }
+                        const std::string stripped(StringTools::strip(line));
+                        if (!stripped.empty() && stripped.front() == '[') {
+                            flush();
+                            const std::size_t close = stripped.find(']');
+                            const std::string name = close == std::string::npos ? "" : stripped.substr(1, close - 1);
+                            inWatched = std::any_of(watching.begin(), watching.end(), [&name](const std::string& w) {
+                                return StringTools::equalsIgnoreCase(w, name);
+                            });
+                            if (inWatched) {
+                                out += "\n";
+                                section.push_back("[" + fixName(name) + "]");
+                            }
+                            continue;
+                        }
+                        if (!inWatched) {
+                            continue;
+                        }
+
+                        const std::size_t eq = stripped.find('=');
+                        if (eq != std::string::npos
+                            && StringTools::equalsIgnoreCase(StringTools::strip(stripped.substr(0, eq)), IniKeywords::Hash)) {
+                            section.push_back(IniKeywords::Hash + " = " + target_.vb0Hash);
+                            continue;
+                        }
+                        section.push_back(line);
+                    }
+                    flush();
+
+                    this->appendedSections = std::string(StringTools::strip(out));
+                    ctx_.log("only watches " + source_.name + ", so its " + std::to_string(watching.size())
+                             + " watching section(s) are carried onto " + toModName_ + "'s vb0 and nothing is drawn");
+                    return true;
                 }
 
                 // Gives up: the fixer writes NOTHING (see GraphGroupRemove and GIMIComponentFixerImpl).
@@ -2520,7 +2971,11 @@ namespace AGRemapCore {
                                 FileService::absPathOfRelPath(forward, ctx_.getIniFile()->getFolder());
                             const std::string positionPath =
                                 positionBufPath();
-                            blendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            srcBlendInfluences_ = wwmiBlendInfluences(blendPath, meshVertexCount_, positionPath);
+                            // ...and what the fix WRITES, which is the target's when its draws read
+                            // a different number (WWMIFixerConfig::targetInfluences)
+                            blendInfluences_ = config_.targetInfluences != 0 ? config_.targetInfluences
+                                                                             : srcBlendInfluences_;
                             blendStride_ = blendInfluences_ * 2;
                         }
                     }
@@ -2546,23 +3001,50 @@ namespace AGRemapCore {
 
                     const std::string fixSuffix = fixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
+                        // ANY texture override binding by hash, whatever its name (2026-10-16): Lynae3 calls
+                        // its hair overrides [TextureOverrideX] / [TextureOverrideXX], and a mesh section
+                        // (one with match_first_index) is not a texture's override
                         if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, (IniKeywords::TextureOverride + "Texture"))
+                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
                             || isFixSection(entry.first, fixSuffix)) {
                             continue;
                         }
 
                         std::vector<std::string> bound;
+                        bool meshSection = false;
+                        bool realToggle = false;
                         for (const auto& part : entry.second->parts()) {
+                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                                if (pred->type == IfPredPartType::If || pred->type == IfPredPartType::Elif) {
+                                    std::string test = StringTools::toLower(pred->getTestStr());
+                                    test.erase(std::remove_if(test.begin(), test.end(),
+                                                              [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }),
+                                               test.end());
+                                    if (test != "$object_detected" && test != "$object_detected==1") {
+                                        realToggle = true;
+                                    }
+                                }
+
+                                continue;
+                            }
+
                             const auto* content =
                                 dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
                             if (content == nullptr) {
                                 continue;
                             }
 
+                            if (!content->getVals(IniKeywords::MatchFirstIndex).empty()) {
+                                meshSection = true;
+                            }
+
                             for (const std::string& val : content->getVals(IniKeywords::This)) {
                                 bound.push_back(std::string(StringTools::strip(val)));
                             }
+                        }
+
+                        if (meshSection) {
+                            continue;
                         }
 
                         // SEVERAL resources, which is what a toggle is. A section binding ONE
@@ -2576,6 +3058,24 @@ namespace AGRemapCore {
                         // $hair == 0 / this = X / endif`) still binds X unconditionally. That is what
                         // the fix did before this, so nothing regresses -- but a mod that renders
                         // wrong on one toggle with a single-variant role is where to look next.
+                        //
+                        // ...AND IT WAS (2026-10-16): Lynae3 binds its hair block's textures only `if
+                        // $Hairs == 1`, and at `$Hairs = 0` her own hair draws with the GAME's; the fix
+                        // bound the block's textures at both, so the loose hair's bun came out in the
+                        // block's colours. One `this` under any condition other than `$object_detected`
+                        // is a toggle of one variant, and its list binds the role's game texture first
+                        // (singleToggled_, planSingleToggles)
+                        if (bound.size() == 1 && realToggle) {
+                            const std::string key = StringTools::toLower(bound.front());
+                            if (conditionalOwner_.count(key) == 0) {
+                                conditionalOwner_[key] = entry.first;
+                                variantsOf_[entry.first] = bound;
+                                singleToggled_.insert(key);
+                            }
+
+                            continue;
+                        }
+
                         if (bound.size() < 2) {
                             continue;
                         }
@@ -2779,8 +3279,40 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // ONE FILE, SEVERAL RESOURCES: the one a section USES names it (2026-10-20). Changli1
+                    // declares `[ResourceTexture19]` on its body diffuse and binds that file only as
+                    // `[Resource-1]`, inside a `$sawpvarA` toggle on the texture's hash; naming the file
+                    // by the first declaration bound the spare and the toggle never reached the target.
+                    // A re-fix parses its own previous output too, whose lists bind the file under the
+                    // name it chose last time: those sections are not the MOD's use, so they are skipped.
+                    std::unordered_set<std::string> usedResources;
+                    const std::string ourPrefix = StringTools::toLower(toModName_ + "Remap");
+                    if (IniFile* ini = ctx_.getIniFile()) {
+                        for (const auto& tpl : ini->getIfTemplates()) {
+                            if (tpl.second == nullptr
+                                    || StringTools::toLower(tpl.first).find(ourPrefix) != std::string::npos) {
+                                continue;
+                            }
+                            for (const auto& part : tpl.second->parts()) {
+                                const auto* content =
+                                    dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                                if (content == nullptr) {
+                                    continue;
+                                }
+                                for (const auto& kvp : content->entries()) {
+                                    usedResources.insert(StringTools::toLower(StringTools::strip(
+                                        IniNamingTools::removeRefPrefix(kvp.second)).data()));
+                                }
+                            }
+                        }
+                    }
+
                     for (const auto& entry : scan.roles->resourcesOf(scan.iniPath)) {
-                        scan.resourceOfFile.emplace(entry.second, entry.first);
+                        const auto placed = scan.resourceOfFile.emplace(entry.second, entry.first);
+                        if (!placed.second && usedResources.count(StringTools::toLower(placed.first->second)) == 0
+                                && usedResources.count(StringTools::toLower(entry.first)) > 0) {
+                            placed.first->second = entry.first;
+                        }
                         // ...and the other way, so an edit can reach EVERY variant a toggled role
                         // binds rather than only the one fileOfRole_ resolved to
                         fileOfResource_.emplace(StringTools::toLower(entry.first), entry.second);
@@ -3017,6 +3549,103 @@ namespace AGRemapCore {
                     rejectedForRole_.emplace(StringTools::toLower(resource->second), role);
                 }
 
+                // The name an edit of the mod's OWN texture is written under is per role, so two mesh .ini files in one
+                // folder (an outfit pack: two variants sharing one Textures folder) wrote their edits to the
+                // same files, and whichever was fixed last drew in both. When another .ini the game loads
+                // there overrides one of the hashes this one draws a mesh of (a section with
+                // `match_first_index`), this file's edits are tagged with its own name. A lone mod and a
+                // folder whose other files only watch or recolour keep the plain names; a DISABLED variant
+                // is not loaded, so the enabled file keeps its names and the disabled one tags its own.
+                // (Edits of downloads, created textures and downloads are the same bytes from every file.)
+                const std::string& editFileTag() {
+                    if (editTagDone_) {
+                        return editTag_;
+                    }
+                    editTagDone_ = true;
+
+                    const std::string self = ctx_.getIniFile()->getFile().value_or("");
+                    if (self.empty()) {
+                        return editTag_;
+                    }
+
+                    const std::set<std::string> own = meshHashesIn(self);
+                    if (own.empty()) {
+                        return editTag_;
+                    }
+
+                    bool shared = false;
+                    for (const std::string& other : siblingInis(self)) {
+                        for (const std::string& hash : meshHashesIn(other)) {
+                            if (own.count(hash) > 0) {
+                                shared = true;
+                                break;
+                            }
+                        }
+                        if (shared) {
+                            break;
+                        }
+                    }
+                    if (!shared) {
+                        return editTag_;
+                    }
+
+                    // the file's name, letters and digits only
+                    const std::string stem = FileService::pathToStr(FileService::strToPath(self).stem());
+                    for (const char c : stem) {
+                        if (std::isalnum(static_cast<unsigned char>(c))) {
+                            editTag_ += c;
+                        }
+                    }
+                    if (editTag_.empty()) {
+                        editTag_ = "Ini";
+                    }
+                    editTag_[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(editTag_[0])));
+                    ctx_.log("another .ini in this folder draws the same mesh: this file's texture edits are tagged "
+                             + editTag_);
+                    return editTag_;
+                }
+
+                // The hashes of the sections of an .ini that draw a mesh (they carry `match_first_index`),
+                // read off the raw text
+                static std::set<std::string> meshHashesIn(const std::string& path) {
+                    std::set<std::string> result;
+                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
+                    if (!in) {
+                        return result;
+                    }
+
+                    std::string line;
+                    std::string hash;
+                    bool indexed = false;
+                    const auto flush = [&]() {
+                        if (indexed && !hash.empty()) {
+                            result.insert(hash);
+                        }
+                        hash.clear();
+                        indexed = false;
+                    };
+                    while (std::getline(in, line)) {
+                        const std::string trimmed = StringTools::toLower(std::string(StringTools::strip(line)));
+                        if (!trimmed.empty() && trimmed.front() == '[') {
+                            flush();
+                            continue;
+                        }
+                        const std::size_t eq = trimmed.find('=');
+                        if (eq == std::string::npos) {
+                            continue;
+                        }
+                        const std::string key(StringTools::strip(trimmed.substr(0, eq)));
+                        const std::string value(StringTools::strip(trimmed.substr(eq + 1)));
+                        if (key == "hash") {
+                            hash = value;
+                        } else if (key == "match_first_index") {
+                            indexed = true;
+                        }
+                    }
+                    flush();
+                    return result;
+                }
+
                 /**
                  * @brief
                  @rst
@@ -3167,7 +3796,8 @@ namespace AGRemapCore {
                  * Only a section on one of this file's own draws is read, and only the registers
                  * WWMITextureFacts::registerRoles names for that component, so this is the mod
                  * stating a role rather than a guess from a file name. Looked for beside this
-                 * ``.ini`` and in the two folders above it, the files the game loads only.
+                 * ``.ini`` and in the two folders above it -- and with WWMIFixerConfig::readInisBelow,
+                 * in every folder below it -- the files the game loads only.
                  *
                  * @param scan The running scan
                  */
@@ -3190,6 +3820,26 @@ namespace AGRemapCore {
                             break;
                         }
                         dir = parent;
+                    }
+
+                    if (config_.readInisBelow) {
+                        std::error_code error;
+                        std::filesystem::recursive_directory_iterator it(own.parent_path(), error);
+                        for (; !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+                            if (!it->is_directory(error)) {
+                                continue;
+                            }
+
+                            const std::string name = StringTools::toLower(FileService::pathToStr(it->path().filename()));
+                            if (StringTools::startsWith(name, "disabled")) {
+                                it.disable_recursion_pending();
+                                continue;
+                            }
+
+                            for (const std::string& path : loadedInisIn(it->path(), own)) {
+                                inis.push_back(path);
+                            }
+                        }
                     }
 
                     std::size_t found = 0;
@@ -3676,7 +4326,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const WWMIFixerConfig::Binding& binding : planned.second.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned.first)) {
                             assignRole(scan, binding.role, planned.first);
                         }
                     }
@@ -3707,7 +4357,7 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            for (const WWMIFixerConfig::Binding& binding : entry.second.bindings) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(entry.first)) {
                                 if (resourceOfSlotRole_.count({binding.role, entry.first}) > 0
                                     || resourceOfRole_.count(binding.role) > 0) {
                                     continue;
@@ -3720,6 +4370,28 @@ namespace AGRemapCore {
                                 }
 
                                 registerFallback(binding.role, fallback->second);
+                            }
+                        }
+
+                        // ...and a role a shader names in a `role <name>` line: a texture of the
+                        // SOURCE's that no mod ships (her lighting ramp). A reroute's plan entry counts
+                        // when the component it takes draws from is present -- the reroutes themselves
+                        // are read after this
+                        for (const auto& entry : config_.plan) {
+                            bool drawn = present_.count(entry.first) > 0;
+                            for (const auto& reroute : config_.drawReroutes) {
+                                drawn = drawn || (reroute.as == entry.first && present_.count(reroute.from) > 0);
+                            }
+                            if (!drawn) {
+                                continue;
+                            }
+
+                            for (const std::string& role : shaderLineRoles(entry.first)) {
+                                auto fallback = config_.sourceTextures.fallbackTextures.find(role);
+                                if (resourceOfRole_.count(role) == 0
+                                        && fallback != config_.sourceTextures.fallbackTextures.end()) {
+                                    registerFallback(role, fallback->second);
+                                }
                             }
                         }
 
@@ -4335,6 +5007,169 @@ namespace AGRemapCore {
 
                 }
 
+                // A MOD'S OWN `ps-t` LINE UNDER A TOGGLE, ABOVE WHERE THE FIX BINDS (2026-10-16).
+                //
+                // Lynae3's `if $Wish == 1` binds a texture at `ps-t2` -- the upper body's DIFFUSE file, at
+                // her material-code register, on purpose: on her card that is a lace pattern and a maroon
+                // cast over her black jacket. The line sits at the top of the section, and on her card it
+                // is the last word for the draw. Carried into the remapped section it still sits at the
+                // top -- and the fix's texture list for the slot runs after it and binds the role's own
+                // file over it, so the toggle did nothing. The role scan cannot take it either: the file's
+                // own hash names it the diffuse, which it is.
+                //
+                // So every such line -- a `ps-t` binding inside an `if` that closes before the point the
+                // fix's lists go in (the shared-resource override) -- is replayed at the END of the list,
+                // under the same condition, on the register the source register's role takes in this
+                // component's row. A line the mod writes unconditionally is the role scan's (a
+                // default), and one inside the blocks that enclose the insertion point is after it already.
+                struct ToggledRegLine {
+                    std::string condition;
+                    std::string reg;
+                    std::string value;
+                };
+
+                std::vector<ToggledRegLine> toggledRegLinesBefore(int component) const {
+                    std::vector<ToggledRegLine> out;
+                    const auto sections = present_.find(component);
+                    const auto roles = config_.sourceTextures.registerRoles.find(component);
+                    if (sections == present_.end() || roles == config_.sourceTextures.registerRoles.end()) {
+                        return out;
+                    }
+
+                    std::map<std::string, std::string> regOfRole;
+                    for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
+                        if (binding.role != IniKeywords::Null) {
+                            regOfRole.emplace(binding.role, binding.reg);
+                        }
+                    }
+
+                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
+                    const std::vector<std::string> sharedLists = listNames(config_.sharedResourcesList);
+                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
+
+                    // one open `if` chain: the expressions of its branches so far
+                    struct Chain {
+                        std::size_t id = 0;
+                        std::vector<std::string> branches;
+                        bool isElse = false;
+                    };
+                    const auto conditionOf = [](const std::vector<Chain>& chains) {
+                        std::vector<std::string> terms;
+                        for (const Chain& chain : chains) {
+                            for (std::size_t k = 0; k + 1 < chain.branches.size(); ++k) {
+                                terms.push_back("!(" + chain.branches[k] + ")");
+                            }
+                            if (!chain.isElse && !chain.branches.empty()) {
+                                terms.push_back("(" + chain.branches.back() + ")");
+                            } else if (chain.isElse && !chain.branches.empty()) {
+                                terms.push_back("!(" + chain.branches.back() + ")");
+                            }
+                        }
+                        std::string joined;
+                        for (const std::string& term : terms) {
+                            joined += (joined.empty() ? "" : " && ") + term;
+                        }
+                        return joined;
+                    };
+                    const auto exprOf = [](const std::string& src) {
+                        std::string text(StringTools::strip(src));
+                        const std::string lower = StringTools::toLower(text);
+                        for (const std::string& head : {std::string("else if "), std::string("elif "), std::string("if ")}) {
+                            if (StringTools::startsWith(lower, head)) {
+                                return std::string(StringTools::strip(text.substr(head.size())));
+                            }
+                        }
+                        return text;
+                    };
+
+                    for (const std::string& section : sections->second) {
+                        const auto tpl = templates.find(section);
+                        if (tpl == templates.end() || tpl->second == nullptr) {
+                            continue;
+                        }
+
+                        std::vector<Chain> chains;
+                        std::size_t nextChain = 0;
+                        std::vector<std::pair<std::vector<Chain>, ToggledRegLine>> pending;   // (the chains open where it was written, line)
+                        bool reached = false;
+                        for (const auto& part : tpl->second->parts()) {
+                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                                if (pred->type == IfPredPartType::If) {
+                                    chains.push_back(Chain{++nextChain, {exprOf(pred->src)}, false});
+                                } else if (pred->type == IfPredPartType::EndIf) {
+                                    if (!chains.empty()) {
+                                        chains.pop_back();
+                                    }
+                                } else if (!chains.empty()) {
+                                    Chain& chain = chains.back();
+                                    if (pred->type == IfPredPartType::Else) {
+                                        chain.isElse = true;
+                                    } else {
+                                        chain.branches.push_back(exprOf(pred->src));
+                                    }
+                                }
+                                continue;
+                            }
+
+                            const auto* content =
+                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                const std::string key = StringTools::toLower(StringTools::strip(item.key));
+                                if (key == StringTools::toLower(IniKeywords::Run)
+                                        && std::find(sharedLists.begin(), sharedLists.end(), std::string(StringTools::strip(item.value)))
+                                               != sharedLists.end()) {
+                                    // the insertion point: keep what was written in a block that is closed
+                                    // by now, under the chains that closed (the ones still open enclose
+                                    // the fix's lists as well)
+                                    std::set<std::size_t> open;
+                                    for (const Chain& chain : chains) {
+                                        open.insert(chain.id);
+                                    }
+                                    for (auto& [written, line] : pending) {
+                                        std::vector<Chain> closed;
+                                        for (const Chain& chain : written) {
+                                            if (open.count(chain.id) == 0) {
+                                                closed.push_back(chain);
+                                            }
+                                        }
+                                        if (!closed.empty()) {
+                                            line.condition = conditionOf(closed);
+                                            out.push_back(line);
+                                        }
+                                    }
+                                    reached = true;
+                                    break;
+                                }
+
+                                if (!StringTools::startsWith(key, prefix) || chains.empty()) {
+                                    continue;
+                                }
+
+                                const auto role = roles->second.find(key);
+                                if (role == roles->second.end()) {
+                                    continue;
+                                }
+                                const auto reg = regOfRole.find(role->second);
+                                if (reg == regOfRole.end()) {
+                                    continue;
+                                }
+
+                                pending.emplace_back(chains, ToggledRegLine{std::string(), reg->second,
+                                                                            std::string(StringTools::strip(item.value))});
+                            }
+
+                            if (reached) {
+                                break;
+                            }
+                        }
+                    }
+                    return out;
+                }
+
                 // Per drawn source component: the zero stream and its texture command list right
                 // after the shared-resource override. No after-register on the add: `drawindexed`
                 // as one is a MUST fact, and behind a `$draw_x` toggle no draw is certain, which
@@ -4370,7 +5205,7 @@ namespace AGRemapCore {
                         }
 
                         std::vector<Kvp> bindings;
-                        for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                             if (binding.role == IniKeywords::Null) {
                                 bindings.push_back(nullLine(binding.reg));
                                 continue;
@@ -4393,12 +5228,13 @@ namespace AGRemapCore {
                         if (!bindings.empty()) {
                             const std::string cmdList = fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                                                 + std::to_string(component) + "Textures");
-                            textureLists_.push_back(
-                                SectionText(z3_, cmdList)
-                                    .open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
-                                    .keys(bindings)
-                                    .close()
-                                    .str());
+                            SectionText list(z3_, cmdList);
+                            list.open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
+                                .keys(bindings);
+                            for (const ToggledRegLine& line : toggledRegLinesBefore(component)) {
+                                list.open(line.condition).key(line.reg, line.value).close();
+                            }
+                            textureLists_.push_back(list.close().str());
                             additions.emplace_back(IniKeywords::Run, cmdList);
                         }
 
@@ -4410,7 +5246,7 @@ namespace AGRemapCore {
                         const auto late = lateBindRegs_.find(component);
                         if (late != lateBindRegs_.end() && !gameResourceOfRole_.empty()) {
                             std::vector<Kvp> gameBindings;
-                            for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                                 if (binding.role == IniKeywords::Null) {
                                     continue;
                                 }
@@ -4512,7 +5348,7 @@ namespace AGRemapCore {
                         // to any, because one file may serve several components.
                         {
                             std::map<std::string, std::string> regOfRole;
-                            for (const WWMIFixerConfig::Binding& binding : planned.bindings) {
+                            for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                                 if (binding.role != IniKeywords::Null) {
                                     regOfRole.emplace(binding.role, binding.reg);
                                 }
@@ -4910,7 +5746,8 @@ namespace AGRemapCore {
                                     }
                                 }
 
-                                if (!seen.empty() && marked * 2 > seen.size()) {
+                                if (!seen.empty()
+                                        && static_cast<double>(marked) > reroute.share * static_cast<double>(seen.size())) {
                                     taken.insert(range);
                                 }
                             }
@@ -5258,11 +6095,79 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    markLines_.clear();
                     for (const auto& [component, planned] : config_.plan) {
                         if (planned.shader.has_value() && present_.count(component) > 0) {
+                            // Shader::yieldToRabbitFX
+                            if (!shaderUsed(component)) {
+                                ctx_.log("component " + std::to_string(component) + " hands its maps to RabbitFX, so it keeps "
+                                         + toModName_ + "'s own shader rather than " + planned.shader->name);
+                                continue;
+                            }
                             rerouteShaders_[component] = &*planned.shader;
                         }
+                        if (!planned.markLines.empty() && present_.count(component) > 0) {
+                            markLines_[component] = &planned.markLines;
+                        }
                     }
+                }
+
+                // Whether a component's plan entry draws it with its shader -- see Shader::yieldToRabbitFX
+                bool shaderUsed(int component) const {
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end() || !planned->second.shader.has_value()) {
+                        return false;
+                    }
+                    return !(planned->second.shader->yieldToRabbitFX && usesRabbitFX(component));
+                }
+
+                // A component's bindings: its plan entry's, and its shader's while the shader draws it
+                std::vector<WWMIFixerConfig::Binding> bindingsOf(int component) const {
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end()) {
+                        return {};
+                    }
+                    std::vector<WWMIFixerConfig::Binding> result = planned->second.bindings;
+                    if (shaderUsed(component)) {
+                        // a shader's binding takes the register's place in the plan's
+                        for (const WWMIFixerConfig::Binding& extra : planned->second.shader->registers) {
+                            result.erase(std::remove_if(result.begin(), result.end(),
+                                                        [&extra](const WWMIFixerConfig::Binding& b) {
+                                                            return StringTools::equalsIgnoreCase(b.reg, extra.reg);
+                                                        }),
+                                         result.end());
+                            result.push_back(extra);
+                        }
+                    }
+                    return result;
+                }
+
+                // Whether the mod's sections of a component name RabbitFX (its resources or its SetTextures)
+                bool usesRabbitFX(int component) const {
+                    const auto sections = present_.find(component);
+                    IniFile* ini = ctx_.getIniFile();
+                    if (sections == present_.end() || ini == nullptr) {
+                        return false;
+                    }
+
+                    std::istringstream text(ini->getFileTxt());
+                    std::string line;
+                    bool inside = false;
+                    while (std::getline(text, line)) {
+                        const std::string stripped(StringTools::strip(line));
+                        if (!stripped.empty() && stripped.front() == '[') {
+                            const std::size_t close = stripped.find(']');
+                            const std::string name = close == std::string::npos ? "" : stripped.substr(1, close - 1);
+                            inside = std::any_of(sections->second.begin(), sections->second.end(),
+                                                 [&name](const std::string& s) { return StringTools::equalsIgnoreCase(s, name); });
+                            continue;
+                        }
+                        if (inside && !stripped.empty() && stripped.front() != ';'
+                            && StringTools::toLower(stripped).find("rabbitfx") != std::string::npos) {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
 
                 // A reroute's copy keeps only its draws; its source's copy keeps everything else
@@ -5319,6 +6224,74 @@ namespace AGRemapCore {
                         rerouteShaderEdit_ = std::make_unique<RerouteShaderDraws>(std::move(sectionOf));
                         rerouteShaderAdapter_ = std::make_unique<RegPartEdit<>>(rerouteShaderEdit_.get());
                     }
+
+                    std::map<std::pair<long long, long long>, std::string> markOf;
+                    for (const auto& entry : markLines_) {
+                        for (const auto& range : shaderDraws(entry.first)) {
+                            markOf.emplace(range, markSection(entry.first, range));
+                        }
+                    }
+
+                    offEdits_.clear();
+                    offAdapters_.clear();
+                    for (const auto& [component, planned] : config_.plan) {
+                        if (planned.offPasses.empty() || rerouteShaders_.count(component) > 0 || present_.count(component) == 0) {
+                            continue;
+                        }
+
+                        std::map<std::pair<long long, long long>, std::string> runOf;
+                        for (const auto& range : shaderDraws(component)) {
+                            const Kvp run = offDraw(component, range);
+                            if (run.first == IniKeywords::Run) {
+                                runOf.emplace(range, run.second);
+                            }
+                        }
+
+                        if (!runOf.empty()) {
+                            auto edit = std::make_unique<RerouteShaderDraws>(std::move(runOf));
+                            offAdapters_[component] = std::make_unique<RegPartEdit<>>(edit.get());
+                            offEdits_.push_back(std::move(edit));
+                        }
+                    }
+
+                    markEdit_.reset();
+                    markAdapter_.reset();
+                    if (!markOf.empty()) {
+                        markEdit_ = std::make_unique<MarkDraws>(std::move(markOf));
+                        markAdapter_ = std::make_unique<RegPartEdit<>>(markEdit_.get());
+                    }
+
+                    // Shader::after: each draw of the component drawn first runs one list, which makes the
+                    // draws held back for it
+                    // (the cleanup list under its own name and under the fix's, which the list renames
+                    // may already have given it)
+                    afterDispatch_.clear();
+                    afterEdits_.clear();
+                    afterAdapters_.clear();
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        (void)as;
+                        for (const auto& [first, draws] : awaited(*shader)) {
+                            (void)draws;
+                            if (afterDispatch_.count(first) > 0) {
+                                continue;
+                            }
+
+                            const std::string list = fixName(IniKeywords::CommandList + "DrawAfter" + std::to_string(first));
+                            afterDispatch_[first] = list;
+                            afterEdits_[first] = std::make_unique<RunBeforeRuns>(
+                                std::vector<std::string>{config_.cleanupResourcesList, fixName(config_.cleanupResourcesList)}, list,
+                                afterLatch(first));
+                            afterAdapters_[first] = std::make_unique<RegPartEdit<>>(afterEdits_[first].get());
+                        }
+                    }
+                }
+
+                // ---- WWMIFixerConfig::SourceComponent::markLines ----
+                std::string markSection(int component, const std::pair<long long, long long>& range,
+                                        const std::string& kind = IniKeywords::CommandList) const {
+                    const std::set<std::pair<long long, long long>> draws = shaderDraws(component);
+                    const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
+                    return fixName(kind + "Mark" + std::to_string(component) + "Draw" + std::to_string(at));
                 }
 
                 // The source's own game texture of a role, as a component binds it: edited for the
@@ -5356,15 +6329,120 @@ namespace AGRemapCore {
                     return draws;
                 }
 
+                // Shader::after: the components a shader waits for that the mod draws, with their draws a pass
+                std::vector<std::pair<int, int>> awaited(const WWMIFixerConfig::Shader& shader) const {
+                    std::vector<std::pair<int, int>> result;
+                    if (!shader.after.has_value()) {
+                        return result;
+                    }
+
+                    if (present_.count(shader.after->component) > 0) {
+                        result.emplace_back(shader.after->component, shader.after->draws);
+                    }
+                    for (const auto& wait : shader.after->also) {
+                        if (present_.count(wait.first) > 0) {
+                            result.push_back(wait);
+                        }
+                    }
+                    return result;
+                }
+
+                // Whether a shader drawn for this mod binds a capture off the slot (a `stash <slot> ...` line)
+                bool stashRead(int slot) const {
+                    const std::string wanted = "stash " + std::to_string(slot) + " ";
+                    for (const auto& [as, shader] : rerouteShaders_) {
+                        (void)as;
+                        for (const auto& line : shader->lines) {
+                            if (StringTools::startsWith(std::string(StringTools::strip(line.second)), wanted)) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                std::string stashResource(int slot, const std::string& reg) const {
+                    return fixName(IniKeywords::Resource + "Stash" + std::to_string(slot) + IniNamingTools::getRegTag(reg));
+                }
+
+                // A Shader line `X = stash <slot> <reg>` binds WWMIFixerConfig::stashRegs' capture
+                std::pair<std::string, std::string> stashLine(const std::pair<std::string, std::string>& line) const {
+                    const std::string value(StringTools::strip(line.second));
+                    std::istringstream words(value);
+                    std::string word;
+                    std::string reg;
+                    int slot = -1;
+                    if (!(words >> word) || word != "stash" || !(words >> slot) || !(words >> reg)) {
+                        return line;
+                    }
+                    return {line.first, IniKeywords::Ref + " " + stashResource(slot, reg)};
+                }
+
+                // The role a Shader line `X = role <name>` names, if it is one
+                static std::optional<std::string> lineRole(const std::pair<std::string, std::string>& line) {
+                    std::istringstream words{std::string(StringTools::strip(line.second))};
+                    std::string word;
+                    std::string role;
+                    if (!(words >> word) || word != "role" || !(words >> role)) {
+                        return std::nullopt;
+                    }
+                    return role;
+                }
+
+                // Every role the shader drawing a component names in `role <name>` lines
+                std::vector<std::string> shaderLineRoles(int component) const {
+                    std::vector<std::string> roles;
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end() || !planned->second.shader.has_value()) {
+                        return roles;
+                    }
+                    const WWMIFixerConfig::Shader& shader = *planned->second.shader;
+                    auto collect = [&roles](const std::vector<std::pair<std::string, std::string>>& lines) {
+                        for (const auto& line : lines) {
+                            if (std::optional<std::string> role = lineRole(line)) {
+                                roles.push_back(*role);
+                            }
+                        }
+                    };
+                    collect(shader.lines);
+                    for (const auto& pass : shader.passes) {
+                        collect(pass);
+                    }
+                    return roles;
+                }
+
+                // A Shader line as it is written: a `stash` capture or a `role` resolved to its resource
+                // (a role with no resource -- no file and no download -- keeps the register as the slot has it)
+                std::optional<std::pair<std::string, std::string>> shaderLine(const std::pair<std::string, std::string>& line) const {
+                    if (std::optional<std::string> role = lineRole(line)) {
+                        const std::string* resource = sharedResourceFor(*role);
+                        if (resource == nullptr) {
+                            return std::nullopt;
+                        }
+                        return std::make_pair(line.first, *resource);
+                    }
+                    return stashLine(line);
+                }
+
+                std::string afterLatch(int component) const {
+                    return "$" + fixName("DrawAfter" + std::to_string(component) + "Latch");
+                }
+
                 std::string rerouteShaderSection(int as, const std::pair<long long, long long>& range,
-                                                 const std::string& kind = IniKeywords::CommandList) const {
+                                                 const std::string& kind = IniKeywords::CommandList,
+                                                 const std::string& suffix = "") const {
                     const std::set<std::pair<long long, long long>> draws = shaderDraws(as);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
-                    return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at));
+                    return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at) + suffix);
                 }
 
                 std::string rerouteShaderFile(const WWMIFixerConfig::Shader& shader) const {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + ".hlsl");
+                }
+
+                // A pass's own shader (Shader::passPs), beside the shader's
+                std::string reroutePassShaderFile(const WWMIFixerConfig::Shader& shader, std::size_t pass) const {
+                    return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + "Pass" + std::to_string(pass) + ".hlsl");
                 }
 
                 std::string rerouteBufferResource(const WWMIFixerConfig::Shader& shader, const std::string& reg) const {
@@ -5375,61 +6453,206 @@ namespace AGRemapCore {
                     return modFile(meshFolder_, toModName_ + IniKeywords::Remap + shader.name + IniNamingTools::getRegTag(reg) + ".buf");
                 }
 
+                // Whether a CustomShader line binds a resource register (`ps-t4`, `ps-cb4`, `vs-t0`, ...)
+                static bool bindsRegister(const std::string& key) {
+                    const std::string k = StringTools::toLower(StringTools::strip(key));
+                    if (k.size() < 4 || k[2] != '-' || (k.compare(0, 2, "ps") != 0 && k.compare(0, 2, "vs") != 0)) {
+                        return false;
+                    }
+                    std::size_t digits = 3;
+                    if (k.compare(3, 2, "cb") == 0) {
+                        digits = 5;
+                    } else if (k[3] == 't') {
+                        digits = 4;
+                    } else {
+                        return false;
+                    }
+                    return digits < k.size() && k.find_first_not_of("0123456789", digits) == std::string::npos;
+                }
+
+                std::string shaderBackup(const std::string& reg) const {
+                    return fixName(IniKeywords::Resource + std::string("ShaderBackup") + IniNamingTools::getRegTag(reg));
+                }
+
+                // A CustomShader's register bindings outlive it: 3DMigoto restores its shaders and render state,
+                // not the resources its section assigns, so a later draw of the same game draw -- another
+                // component on the slot, drawn by the game's shader -- would read them (Lynae8's body on the skin,
+                // shaded with Lynae's material constants, rendered black). Each register the section assigns is
+                // saved before the run and put back after it.
+                std::vector<std::pair<std::string, std::string>> restoringRuns(const std::vector<std::pair<std::string, std::string>>& runs,
+                                                                   const std::vector<std::pair<std::string, std::string>>& lines) {
+                    std::set<std::string> regs;
+                    for (const Kvp& line : lines) {
+                        if (bindsRegister(line.first)) {
+                            regs.insert(StringTools::toLower(StringTools::strip(line.first)));
+                        }
+                    }
+
+                    std::vector<Kvp> result;
+                    for (const std::string& reg : regs) {
+                        result.emplace_back(shaderBackup(reg), IniKeywords::Ref + " " + reg);
+                        shaderBackupRegs_.insert(reg);
+                    }
+                    result.insert(result.end(), runs.begin(), runs.end());
+                    for (const std::string& reg : regs) {
+                        result.emplace_back(reg, IniKeywords::Ref + " " + shaderBackup(reg));
+                    }
+                    return result;
+                }
+
                 // The sections: one CustomShader per rerouted draw, and the shader's constant buffers.
                 // The shader's source file is named by its `ps =`, which an undo removes with the block.
                 std::string rerouteShaderSections() {
                     std::string out;
                     std::set<std::string> declared;
+                    shaderBackupRegs_.clear();
+                    shaderSections_.clear();
+                    shaderSectionNames_.clear();
+                    shaderGraph_.reset();
+                    shaderSources_.clear();
+                    shaderBuffers_.clear();
+                    shaderBufferRegs_.clear();
                     for (const auto& [as, shader] : rerouteShaders_) {
                         const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(as).slot)));
                         for (const auto& range : shaderDraws(as)) {
                             const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
                             const std::string custom = rerouteShaderSection(as, range, "CustomShader");
-                            out += SectionText(z3_, rerouteShaderSection(as, range))
-                                       .open(onPlan)
-                                       .key(IniKeywords::Run, custom)
-                                       .orElse()
-                                       .key(IniKeywords::DrawIndexed, draw)
-                                       .close()
-                                       .str();
+                            const Kvp fallback = offDraw(as, range);
+                            const std::size_t passCount = std::max<std::size_t>(1, shader->passes.size());
+                            const auto passName = [&](std::size_t p) {
+                                return p == 0 ? custom : custom + "Pass" + std::to_string(p);
+                            };
 
-                            std::vector<Kvp> lines{{"ps", rerouteShaderFile(*shader)}};
+                            std::vector<Kvp> runs;
+                            std::vector<Kvp> assigned;
+                            for (std::size_t p = 0; p < passCount; ++p) {
+                                runs.emplace_back(IniKeywords::Run, passName(p));
+                                if (!shader->passes.empty()) {
+                                    assigned.insert(assigned.end(), shader->passes[p].begin(), shader->passes[p].end());
+                                }
+                            }
                             for (const auto& entry : shader->constantBuffers) {
-                                lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
+                                assigned.emplace_back(entry.first, "");
                             }
                             for (const auto& line : shader->lines) {
-                                lines.push_back(line);
+                                assigned.push_back(line);
                             }
-                            lines.emplace_back(IniKeywords::DrawIndexed, draw);
-                            out += SectionText(z3_, custom).keys(lines).str();
+                            runs = restoringRuns(runs, assigned);
+
+                            SectionText list(z3_, rerouteShaderSection(as, range));
+                            const std::vector<std::pair<int, int>> waits = awaited(*shader);
+                            if (waits.empty()) {
+                                if (shader->onlyWith.empty()) {
+                                    out += list.open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close().str();
+                                } else {
+                                    out += list.open(shader->onlyWith + " !== null")
+                                                   .open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close()
+                                               .orElse().key(fallback.first, fallback.second)
+                                               .close()
+                                               .str();
+                                }
+                            } else {
+                                // Shader::after -- in each pass (told apart by the target resource) every
+                                // awaited component's game draw counts once; the draw is made by whichever
+                                // comes last, the deferred draw itself or the last awaited one
+                                const WWMIFixerConfig::Shader::After& after = *shader->after;
+                                const std::string target = after.target;
+                                int total = 0;
+                                for (const auto& wait : waits) {
+                                    total += wait.second;
+                                }
+                                const std::string frame = "$" + rerouteShaderSection(as, range, "", "Frame");
+                                const std::string count = "$" + rerouteShaderSection(as, range, "", "Count");
+                                const std::string seen = rerouteShaderSection(as, range, IniKeywords::Resource, "Seen");
+                                const std::string pending = rerouteShaderSection(as, range, IniKeywords::Resource, "Pending");
+                                const auto carried = [&](const std::string& reg) {
+                                    return rerouteShaderSection(as, range, IniKeywords::Resource, "Carried" + IniNamingTools::getRegTag(reg));
+                                };
+                                const std::vector<Kvp> reset{{frame, "time"}, {seen, "null"}, {pending, "null"}, {count, "0"}};
+                                const std::string ready = seen + " === " + target + " && " + count + " >= " + std::to_string(total);
+
+                                std::vector<Kvp> hold{{pending, IniKeywords::Ref + " " + target}};
+                                std::vector<Kvp> release;
+                                for (const std::string& reg : after.carried) {
+                                    hold.emplace_back(carried(reg), IniKeywords::Ref + " " + reg);
+                                    release.emplace_back(reg, IniKeywords::Ref + " " + carried(reg));
+                                }
+                                for (const Kvp& run : runs) {
+                                    release.push_back(run);
+                                }
+                                release.emplace_back(pending, "null");
+
+                                list.open(frame + " != time").keys(reset).close()
+                                    .open(target + " === null");
+                                if (shader->onlyWith.empty()) {
+                                    list.open(onPlan).keys(runs).orElse().key(fallback.first, fallback.second).close();
+                                } else {
+                                    list.key(fallback.first, fallback.second);
+                                }
+                                out += list.orElse()
+                                               .open(onPlan)
+                                                   .open(ready).keys(runs)
+                                                   .orElse().keys(hold)
+                                                   .close()
+                                               .orElse().key(fallback.first, fallback.second)
+                                               .close()
+                                           .close()
+                                           .str();
+
+                                // what each awaited component's game draws run (through its DrawAfter list)
+                                out += SectionText(z3_, rerouteShaderSection(as, range, IniKeywords::CommandList, "After"))
+                                           .open(frame + " != time").keys(reset).close()
+                                           .open(target + " !== null")
+                                               .open(seen + " !== " + target).key(seen, IniKeywords::Ref + " " + target).key(count, "0").close()
+                                               .key(count, count + " + 1")
+                                               .open(pending + " === " + target + " && " + count + " >= " + std::to_string(total)).keys(release).close()
+                                           .close()
+                                           .str();
+
+                                afterConstants_.emplace_back("global " + frame, "-1");
+                                afterConstants_.emplace_back("global " + count, "0");
+                                for (const std::string& name : {seen, pending}) {
+                                    out += SectionText(z3_, name).str();
+                                }
+                                for (const std::string& reg : after.carried) {
+                                    out += SectionText(z3_, carried(reg)).str();
+                                }
+                            }
+
+                            for (std::size_t p = 0; p < passCount; ++p) {
+                                const bool ownPs = p < shader->passPs.size() && !shader->passPs[p].empty();
+                                std::vector<Kvp> lines{{"ps", ownPs ? reroutePassShaderFile(*shader, p) : rerouteShaderFile(*shader)}};
+                                for (const auto& entry : shader->constantBuffers) {
+                                    lines.emplace_back(entry.first, rerouteBufferResource(*shader, entry.first));
+                                }
+                                for (const auto& line : shader->lines) {
+                                    if (auto written = shaderLine(line)) {
+                                        lines.push_back(*written);
+                                    }
+                                }
+                                if (!shader->passes.empty()) {
+                                    for (const auto& line : shader->passes[p]) {
+                                        if (auto written = shaderLine(line)) {
+                                            lines.push_back(*written);
+                                        }
+                                    }
+                                }
+                                lines.emplace_back(IniKeywords::DrawIndexed, draw);
+                                addShaderSection(passName(p), lines);
+                            }
                         }
 
                         if (!declared.insert(shader->name).second) {
                             continue;
                         }
 
-                        for (const auto& entry : shader->constantBuffers) {
-                            out += SectionText(z3_, rerouteBufferResource(*shader, entry.first))
-                                       .keys({{IniKeywords::Type, "Buffer"},
-                                              {IniKeywords::Format, "DXGI_FORMAT_R32G32B32A32_FLOAT"},
-                                              {IniKeywords::Filename, rerouteBufferFile(*shader, entry.first)}})
-                                       .str();
+                        // what the graph's `ps` and `ps-cbN` lines name -- see addShaderGraphs
+                        shaderSources_[rerouteShaderFile(*shader)] = ByteVec(shader->ps.begin(), shader->ps.end());
+                        for (std::size_t p = 0; p < shader->passPs.size(); ++p) {
+                            if (!shader->passPs[p].empty()) {
+                                shaderSources_[reroutePassShaderFile(*shader, p)] = ByteVec(shader->passPs[p].begin(), shader->passPs[p].end());
+                            }
                         }
-                    }
-
-                    return out;
-                }
-
-                void writeRerouteShaders() {
-                    const std::string folder = ctx_.getIniFile()->getFolder();
-                    std::set<std::string> written;
-                    for (const auto& [as, shader] : rerouteShaders_) {
-                        if (!written.insert(shader->name).second) {
-                            continue;
-                        }
-
-                        writeWhole(FileService::absPathOfRelPath(rerouteShaderFile(*shader), folder),
-                                   ByteVec(shader->ps.begin(), shader->ps.end()), "the " + shader->name + " shader");
                         for (const auto& [reg, words] : shader->constantBuffers) {
                             ByteVec bytes;
                             bytes.reserve(words.size() * 4);
@@ -5438,10 +6661,82 @@ namespace AGRemapCore {
                                     bytes.push_back(static_cast<std::uint8_t>((word >> (8 * k)) & 0xFF));
                                 }
                             }
-                            writeWhole(FileService::absPathOfRelPath(rerouteBufferFile(*shader, reg), folder),
-                                       bytes, "the " + shader->name + " shader's " + reg);
+
+                            shaderBufferRegs_.insert(reg);
+                            shaderBuffers_[rerouteBufferResource(*shader, reg)] = FileAddCreate<>::File{
+                                {{IniKeywords::Type, "Buffer"}, {IniKeywords::Format, "DXGI_FORMAT_R32G32B32A32_FLOAT"}},
+                                rerouteBufferFile(*shader, reg), std::move(bytes)};
                         }
                     }
+
+                    for (const auto& [first, dispatch] : afterDispatch_) {
+                        std::vector<Kvp> afterRuns;
+                        for (const auto& [as, shader] : rerouteShaders_) {
+                            for (const auto& wait : awaited(*shader)) {
+                                if (wait.first != first) {
+                                    continue;
+                                }
+                                for (const auto& range : shaderDraws(as)) {
+                                    afterRuns.emplace_back(IniKeywords::Run, rerouteShaderSection(as, range, IniKeywords::CommandList, "After"));
+                                }
+                            }
+                        }
+
+                        const std::string latch = afterLatch(first);
+                        afterConstants_.emplace_back("global " + latch, "0");
+                        out += SectionText(z3_, dispatch).open(latch + " == 0").key(latch, "1").keys(afterRuns).close().str();
+                    }
+
+                    if (!afterConstants_.empty()) {
+                        // a second [Constants] in a file is merged into the first; inside the fix block
+                        // an undo removes it with the block
+                        out += SectionText(z3_, ConstantsSection).keys(afterConstants_).str();
+                        afterConstants_.clear();
+                    }
+
+                    for (const auto& [component, lines] : markLines_) {
+                        const std::string onPlan = passCondition(config_.slotPasses.at(static_cast<std::size_t>(config_.plan.at(component).slot)));
+                        for (const auto& range : shaderDraws(component)) {
+                            const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                            const std::string custom = markSection(component, range, "CustomShader");
+                            out += SectionText(z3_, markSection(component, range))
+                                       .open(onPlan)
+                                       .keys(restoringRuns({{IniKeywords::Run, custom}}, *lines))
+                                       .close()
+                                       .str();
+
+                            std::vector<Kvp> keys{{"ps", "null"}};
+                            for (const auto& line : *lines) {
+                                keys.push_back(line);
+                            }
+                            keys.emplace_back(IniKeywords::DrawIndexed, draw);
+                            addShaderSection(custom, keys);
+                        }
+                    }
+
+                    if (!shaderSectionNames_.empty()) {
+                        std::unordered_map<std::string, GraphCreate<>::Graph::Section*> sections;
+                        for (const auto& section : shaderSections_) {
+                            sections[section->name] = section.get();
+                        }
+
+                        IfTemplateRunConfig<std::string, std::string> runConfig{
+                            IniKeywords::Run,
+                            [](const std::string& val) { return val; },
+                            [](const std::string& section) { return section; }
+                        };
+                        shaderGraph_ = std::make_unique<GraphCreate<>::Graph>(std::move(sections), shaderSectionNames_,
+                                                                              std::move(runConfig), true, false, &z3_);
+                    }
+
+                    for (const std::string& reg : shaderBackupRegs_) {
+                        out += SectionText(z3_, shaderBackup(reg)).str();
+                    }
+
+                    for (const auto& [name, gated] : offLists_) {
+                        out += SectionText(z3_, name).open(gated.first).key(IniKeywords::DrawIndexed, gated.second).close().str();
+                    }
+                    return out;
                 }
 
                 void buildSlotRemap() {
@@ -5568,8 +6863,20 @@ namespace AGRemapCore {
                                 edits.push_back(shapeKeyAdapter_.get());
                             }
 
+                            if (afterAdapters_.count(component) > 0) {
+                                edits.push_back(afterAdapters_.at(component).get());
+                            }
+
+                            if (markLines_.count(component) > 0 && markAdapter_ != nullptr) {
+                                edits.push_back(markAdapter_.get());            // before the reroute: it reads the drawindexed
+                            }
+
                             if (rerouteShaders_.count(component) > 0 && rerouteShaderAdapter_ != nullptr) {
                                 edits.push_back(rerouteShaderAdapter_.get());   // last: every anchor above reads the draw
+                            }
+
+                            if (offAdapters_.count(component) > 0) {
+                                edits.push_back(offAdapters_.at(component).get());   // SourceComponent::offPasses
                             }
 
                             perGroup[g].edits[obj] = std::move(edits);
@@ -5652,7 +6959,61 @@ namespace AGRemapCore {
                             };
                         }
 
-                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), makeResEditConfig(), source, from, to,
+                        // A target whose draws read more influences than the mod carries
+                        // (WWMIFixerConfig::targetInfluences): whatever wrote the blend above, its
+                        // output is then padded to the target's width, and the generated section --
+                        // a copy of the mod's own -- is told the new stride.
+                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig();
+                        if (config_.targetInfluences != 0 && config_.targetInfluences < srcBlendInfluences_) {
+                            // ...or FEWER: each vertex keeps its heaviest slots
+                            const std::size_t wide = srcBlendInfluences_;
+                            const std::size_t narrow = config_.targetInfluences;
+                            const std::string posPath = positionBufPath();
+                            const std::string vgOut = targetPast256_
+                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
+                                : std::string();
+                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
+                                const std::size_t vertices = blendShape(resource, posPath).vertices;
+                                if (inner) {
+                                    if (!inner(resource)) {
+                                        return false;
+                                    }
+                                } else {
+                                    BlendFile blend = resource.createBlend();
+                                    blend.remap(resource.vgRemap, resource.fixedPath);
+                                }
+
+                                return narrowPerVertex(resource, resource.fixedPath, vgOut, vertices, wide, narrow);
+                            };
+                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(narrow * 2)}};
+                        } else if (config_.targetInfluences > srcBlendInfluences_) {
+                            const std::size_t narrow = srcBlendInfluences_;
+                            const std::size_t wide = config_.targetInfluences;
+                            const std::string posPath = positionBufPath();
+                            const std::string vgOut = targetPast256_
+                                ? FileService::absPathOfRelPath(blendRemapFile("VertexVG"), ctx_.getIniFile()->getFolder())
+                                : std::string();
+                            lift = [inner = std::move(lift), posPath, vgOut, narrow, wide](RemapBlendResource& resource) {
+                                const std::size_t vertices = blendShape(resource, posPath).vertices;
+                                if (inner) {
+                                    if (!inner(resource)) {
+                                        return false;
+                                    }
+                                } else {
+                                    BlendFile blend = resource.createBlend();
+                                    blend.remap(resource.vgRemap, resource.fixedPath);
+                                }
+
+                                if (!widenPerVertex(resource, resource.fixedPath, vertices, narrow, wide, 1, true)) {
+                                    return false;
+                                }
+
+                                return vgOut.empty() || widenPerVertex(resource, vgOut, vertices, narrow, wide, 2, false);
+                            };
+                            resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(wide * 2)}};
+                        }
+
+                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), std::move(resConfig), source, from, to,
                                                                           std::move(lift), config_.anchorChains,
                                                                           meshVertexCount_,
                                                                           positionBufPath());
@@ -5880,6 +7241,14 @@ namespace AGRemapCore {
                         return direct;
                     }
 
+                    // a one-variant toggle: off, the original draws with the game's texture
+                    if (singleToggled_.count(StringTools::toLower(base)) > 0) {
+                        const auto game = gameResourceOfRole_.find(role);
+                        if (game != gameResourceOfRole_.end()) {
+                            list->addKVPToFront(reg, game->second);
+                        }
+                    }
+
                     list->rebuild();
                     roleLists_.emplace(std::pair<std::string, std::string>{cacheRole, reg}, name);
                     // Their own vector, emitted at the END of buildAppended: textureLists_ is
@@ -5888,6 +7257,67 @@ namespace AGRemapCore {
                     // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
                     roleListTexts_.push_back(renderIfTemplate(*list) + "\n");
                     return {std::string(IniKeywords::Run), name};
+                }
+
+                // The mod's own sections on another mesh of the source, copied onto the target's mesh
+                // that plays the same part -- see WWMIFixerConfig::meshCounterparts
+                std::string meshCounterpartSections() const {
+                    if (config_.meshCounterparts.empty()) {
+                        return "";
+                    }
+
+                    std::map<std::string, std::string> counterparts;
+                    for (const auto& [from, to] : config_.meshCounterparts) {
+                        counterparts.emplace(StringTools::toLower(from), to);
+                    }
+
+                    const std::string ownSuffix = StringTools::toLower(fixName(""));
+                    std::string out;
+                    for (const auto& [name, tpl] : ctx_.getIniFile()->getIfTemplates()) {
+                        if (tpl == nullptr || StringTools::endsWithIgnoreCase(name, ownSuffix)) {
+                            continue;
+                        }
+
+                        std::string target;
+                        for (const std::unique_ptr<IfTemplatePart>& part : tpl->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                if (!StringTools::equalsIgnoreCase(StringTools::strip(item.key), IniKeywords::Hash)) {
+                                    continue;
+                                }
+
+                                const auto found = counterparts.find(StringTools::toLower(std::string(StringTools::strip(item.value))));
+                                if (found != counterparts.end()) {
+                                    target = found->second;
+                                }
+                            }
+                        }
+
+                        if (target.empty()) {
+                            continue;
+                        }
+
+                        std::unique_ptr<IfTemplate<std::string, std::string>> copy = tpl->deepcopy();
+                        copy->name = fixName(name);
+                        copy->prefix = "; " + name + " of the mod, on " + toModName_ + "'s counterpart of that mesh";
+                        for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
+                            auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
+                            if (content != nullptr) {
+                                RegNewVals<>({{std::string(IniKeywords::Hash), RegNewVals<>::NewVal(target)}})
+                                    .edit(*content, copy->name);
+                            }
+                        }
+
+                        copy->rebuild();
+                        // `renderIfTemplate` returns no trailing newline; the consumer adds the blank line
+                        out += renderIfTemplate(*copy) + "\n\n";
+                    }
+
+                    return out;
                 }
 
                 const std::string* sharedResourceFor(const std::string& role) const {
@@ -5972,6 +7402,46 @@ namespace AGRemapCore {
 
                 std::string passCondition(const std::string& pass) {
                     return passCondition(std::vector<std::string>{pass});
+                }
+
+                // The `.ini` condition true on a draw of none of 'passes' -- see SourceComponent::offPasses
+                std::string passNotCondition(const std::vector<std::string>& passes) {
+                    passFilter("");
+                    const std::string reg = config_.passVertexShaders.empty() ? "ps" : "vs";
+                    std::vector<std::string> named;
+                    std::string out;
+                    for (const std::string& pass : passes) {
+                        for (const std::string& tagged : taggedFor(pass)) {
+                            if (std::find(named.begin(), named.end(), tagged) != named.end()) {
+                                continue;
+                            }
+
+                            named.push_back(tagged);
+                            out += (out.empty() ? "" : " && ") + reg + " != " + passFilters_[tagged];
+                        }
+                    }
+
+                    return out;
+                }
+
+                // A component's draw, kept off the passes its SourceComponent::offPasses names: a `run =` of a
+                // list that draws it only off them (its section written by rerouteShaderSections)
+                Kvp offDraw(int component, const std::pair<long long, long long>& range) {
+                    const std::string draw = std::to_string(range.first) + ", " + std::to_string(range.second) + ", 0";
+                    const auto planned = config_.plan.find(component);
+                    if (planned == config_.plan.end() || planned->second.offPasses.empty()) {
+                        return {IniKeywords::DrawIndexed, draw};
+                    }
+
+                    const std::string condition = passNotCondition(planned->second.offPasses);
+                    if (condition.empty()) {
+                        return {IniKeywords::DrawIndexed, draw};
+                    }
+
+                    const std::string name = fixName(IniKeywords::CommandList + "OffPass" + std::to_string(component) + "Draw"
+                                                     + std::to_string(range.first) + "_" + std::to_string(range.second));
+                    offLists_[name] = {condition, draw};
+                    return {IniKeywords::Run, name};
                 }
 
                 std::string passFilter(const std::string& pass) {
@@ -6441,7 +7911,27 @@ namespace AGRemapCore {
                                 .close();
                         }
 
+                        // WWMIFixerConfig::stashRegs: the game's own bindings on this slot, for a shader
+                        // drawn on another
+                        auto stash = config_.stashRegs.find(static_cast<int>(slot));
+                        if (stash != config_.stashRegs.end() && !stashRead(static_cast<int>(slot))) {
+                            stash = config_.stashRegs.end();      // no shader drawn for this mod reads it
+                        }
+                        if (stash != config_.stashRegs.end() && !stash->second.empty()) {
+                            hide.open("o3 !== null");
+                            for (const std::string& reg : stash->second) {
+                                hide.key(stashResource(static_cast<int>(slot), reg), IniKeywords::Ref + " " + reg);
+                            }
+                            hide.close();
+                        }
+
                         out += hide.close().str();
+
+                        if (stash != config_.stashRegs.end()) {
+                            for (const std::string& reg : stash->second) {
+                                out += SectionText(z3_, stashResource(static_cast<int>(slot), reg)).str();
+                            }
+                        }
                     }
 
                     if (legacy_ || targetPast256_) {
@@ -6486,6 +7976,20 @@ namespace AGRemapCore {
 
                         ++meshNum;
                     }
+
+                    // The target's meshes the mod replaces -- see WWMIFixerConfig::hiddenMeshes
+                    for (std::size_t i = 0; i < config_.hiddenMeshes.size(); ++i) {
+                        out += SectionText(z3_, fixName(IniKeywords::TextureOverride + toModName_
+                                                        + "HiddenMesh" + std::to_string(i)))
+                                   .prefix("; a mesh of " + toModName_ + "'s own outfit the mod replaces: skipped")
+                                   .key(IniKeywords::Hash, config_.hiddenMeshes[i])
+                                   .open("$mod_enabled")
+                                   .key(IniKeywords::Handling, "skip")
+                                   .close()
+                                   .str();
+                    }
+
+                    out += meshCounterpartSections();
 
                     if (texcoordSection_.has_value()) {
                         out += *texcoordSection_;
@@ -7012,7 +8516,7 @@ namespace AGRemapCore {
                         const std::string fixedRel =
                             modFile(textureFolder_,
                                     config_.sourceTextures.downloadPrefix + TextTools::capitalize(edit.role)
-                                    + edit.name + IniKeywords::RemapTex + FileExt::DDS);
+                                    + edit.name + editFileTag() + IniKeywords::RemapTex + FileExt::DDS);
                         plannedEdits_.push_back(PlannedEdit{&edit, source, fixedRel});
 
                         // every binding of the role follows the edited file
@@ -7079,7 +8583,7 @@ namespace AGRemapCore {
                                             modFile(textureFolder_,
                                                     config_.sourceTextures.downloadPrefix
                                                     + TextTools::capitalize(edit.role) + edit.name + suffix
-                                                    + IniKeywords::RemapTex + FileExt::DDS);
+                                                    + editFileTag() + IniKeywords::RemapTex + FileExt::DDS);
                                         const std::string variantResource =
                                             fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
                                                     + IniKeywords::RemapTex);
@@ -7194,6 +8698,41 @@ namespace AGRemapCore {
                 // source's own game texture in the list instead (edited like the mod's would be); the
                 // mod's own conditional lines, carried after the list, still bind its file in the
                 // branches where it does. A section that draws only through `run =` is left alone.
+                // The roles whose file the mod binds with ONE `this` under a toggle (readConditionalBindings)
+                // get the source's own game texture planned: it is what the original draws with while the
+                // toggle is off, and bindLine puts it at the front of the role's copied list
+                void planSingleToggles() {
+                    if (gaveUp_ || singleToggled_.empty() || config_.sourceTextures.downloadCharFolder.empty()) {
+                        return;
+                    }
+
+                    for (const auto& [component, sections] : present_) {
+                        (void)sections;
+                        const auto planned = config_.plan.find(component);
+                        if (planned == config_.plan.end()) {
+                            continue;
+                        }
+
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
+                            if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0) {
+                                continue;
+                            }
+
+                            const std::string* resource = resourceFor(binding.role, component);
+                            if (resource == nullptr) {
+                                continue;
+                            }
+
+                            const auto edited = sourceOfEdited_.find(StringTools::toLower(*resource));
+                            const std::string base =
+                                StringTools::toLower(edited == sourceOfEdited_.end() ? *resource : edited->second);
+                            if (singleToggled_.count(base) > 0) {
+                                planGameResource(binding.role);
+                            }
+                        }
+                    }
+                }
+
                 void planToggledRoles() {
                     if (gaveUp_ || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
@@ -7316,7 +8855,7 @@ namespace AGRemapCore {
                             }
                         }
 
-                        for (const WWMIFixerConfig::Binding& binding : planned->second.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
                             if (binding.role == IniKeywords::Null || leftToGame_.count(binding.role) > 0
                                     || fileOfRole_.count(binding.role) == 0) {
                                 continue;
@@ -7420,7 +8959,7 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        for (const WWMIFixerConfig::Binding& binding : planned->second.bindings) {
+                        for (const WWMIFixerConfig::Binding& binding : bindingsOf(planned->first)) {
                             if (binding.role != IniKeywords::Null) {
                                 roles.insert(binding.role);
                             }
@@ -7928,6 +9467,8 @@ namespace AGRemapCore {
                 std::string toModName_;
                 WWMIFixerConfig config_;
                 bool gaveUp_ = false;
+                bool editTagDone_ = false;
+                std::string editTag_;
                 GraphGroupRemove<> removeEveryGroup_;
 
                 std::optional<ModType> targetType_;
@@ -7978,10 +9519,28 @@ namespace AGRemapCore {
                 std::map<int, std::vector<std::pair<long long, long long>>> drawRanges_;   // source component -> its (index count, first index) draws
                 std::map<int, std::set<std::size_t>> drawParts_;      // ...and which PARTS those draws sit in -- see mirroredSet()
                 std::map<int, int> rerouteFrom_;                      // WWMIFixerConfig::DrawReroute: its `as` -> its `from`, for a reroute that took draws
+                std::map<int, const std::vector<std::pair<std::string, std::string>>*> markLines_;   // a drawn component -> SourceComponent::markLines
+                std::set<std::string> shaderBackupRegs_;   // the registers a CustomShader run saves and restores (restoringRuns)
+                std::vector<std::unique_ptr<GraphCreate<>::Graph::Section>> shaderSections_;   // the CustomShader sections...
+                std::vector<std::string> shaderSectionNames_;                                    // ...in the order they are written
+                std::unique_ptr<GraphCreate<>::Graph> shaderGraph_;                              // ...and their graph, added to every group
+                std::unordered_map<std::string, ByteVec> shaderSources_;                         // a `ps =` file -> its source
+                std::unordered_map<std::string, FileAddCreate<>::File> shaderBuffers_;           // a `ps-cbN =` resource -> its section and file
+                std::set<std::string> shaderBufferRegs_;                                         // ...and the registers that name them
+                std::unique_ptr<MarkDraws> markEdit_;
+                std::unique_ptr<RegPartEdit<>> markAdapter_;
+                std::map<int, std::string> afterDispatch_;     // a component drawn first -> the list its draws run (Shader::after)
+                std::map<int, std::unique_ptr<RunBeforeRuns>> afterEdits_;
+                std::map<int, std::unique_ptr<RegPartEdit<>>> afterAdapters_;
+                std::vector<Kvp> afterConstants_;              // the variables the Shader::after lists keep
                 std::map<int, const WWMIFixerConfig::Shader*> rerouteShaders_;   // a drawn component -> its plan entry's own shader (SourceComponent::shader)
                 std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
                 std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;
                 std::map<int, std::set<std::pair<long long, long long>>> reroutedDraws_;   // ...and those draws, keyed by `as`
+                // SourceComponent::offPasses: list name -> (condition, draw), and the edits that run them
+                std::map<std::string, std::pair<std::string, std::string>> offLists_;
+                std::vector<std::unique_ptr<RerouteShaderDraws>> offEdits_;
+                std::map<int, std::unique_ptr<RegPartEdit<>>> offAdapters_;
                 std::vector<std::unique_ptr<RegRemove<>>> rerouteRemoves_;
 
                 // Whether the TARGET's merged skeleton passes what an 8-bit blend index can name.
@@ -7996,9 +9555,12 @@ namespace AGRemapCore {
                 // read the other. 182 for ChisaParfait -> Chisa.
                 std::size_t blendRemapBones_ = 0;
 
-                // The mod's own blend line: N ids + N weights, and its byte stride
+                // The blend line the FIX writes: N ids + N weights, and its byte stride -- the mod's
+                // own, unless WWMIFixerConfig::targetInfluences widens it
                 std::size_t blendInfluences_ = 4;
                 std::size_t blendStride_ = 8;
+                // ...and the mod's own N, which the widening starts from
+                std::size_t srcBlendInfluences_ = 4;
                 std::vector<std::string> passOrder_;
 
                 std::unique_ptr<GraphGroupRemap<>> slotRemap_;
@@ -8049,6 +9611,7 @@ namespace AGRemapCore {
 
                 std::unordered_map<std::string, std::string> conditionalOwner_;      // the mod's resource -> the section that binds it behind a condition
                 std::unordered_map<std::string, std::vector<std::string>> variantsOf_;  // that section -> every resource it binds, in order
+                std::set<std::string> singleToggled_;                    // a resource the mod binds with ONE `this` under a real toggle
                 std::unordered_map<std::string, std::pair<std::string, std::vector<std::string>>> regVariantsOf_;  // ...and the same for a toggle written as a register binding: resource -> (label, the group)
                 std::unordered_map<std::string, std::string> fileOfResource_;         // the mod's resource -> the file it names
                 std::unordered_map<std::string, std::string> editedResourceOf_;       // the mod's resource -> the edited copy of it

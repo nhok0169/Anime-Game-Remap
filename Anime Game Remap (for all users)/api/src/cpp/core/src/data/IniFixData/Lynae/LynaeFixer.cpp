@@ -15,10 +15,14 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeBangsShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkeleton.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h"
 #include "AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h"
+#include "AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
 
 
@@ -133,6 +137,9 @@ namespace AGRemapCore {
             // ...and her PROPS' film draws, the same way: her props film is a post-lighting translucent pass
             // that no pre-lighting draw of the skin can host, so it takes her jacket's film
             {106, {5, {{"ps-t0", "propsNormal"}, {"ps-t1", "propsMask"}, {"ps-t2", "propsDetail"}, {"ps-t3", "propsDiffuse"}, {"ps-t4", "filmFoil"}}, true}},
+            // ...and her lower body's 0x80 draws (tights, shorts), drawn as plan 4 is but kept off the slot's
+            // outline pass (see offPasses below)
+            {104, {3, {{"ps-t0", "lowerNormal"}, {"ps-t1", "lowerMask"}, {"ps-t2", "lowerDetail"}, {"ps-t3", "lowerDiffuse"}}, true}},
         };
 
         // ---- her jacket shader draws a code with flag 0x10 as a see-through film (Lynae9's sweater,
@@ -141,28 +148,112 @@ namespace AGRemapCore {
         // holographic sheen where hers is a soft see-through film). Those draws go through the hip
         // pouch's slot -- a deferred pass with her jacket pass's inputs and outputs -- drawn by her own
         // jacket shader with her jacket's material constants, reading the mod's art as it is. Her
-        // shader reads the character's subsurface ramp at ps-t5, which the pouch's draw has at ps-t6 ----
+        // shader reads her lighting ramp at ps-t5 (see the ramp below) ----
         // Her PROPS mark film the same way (Lynae9's sweater on its other X state): her own props passes
         // draw it as post-lighting translucency (a depth prepass, a separate translucency target and a
         // fullscreen composite), which nothing the skin draws before lighting can host, so those draws
         // take her jacket shader too. Her jacket shader reads the code at t2.x, as the props' R8 map has it ----
         WWMIFixerConfig::Shader filmShader = lynaeFilmShader();
-        filmShader.lines = {{"ps-t5", "ref ps-t6"}};
+        filmShader.lines = {{"ps-t5", "role ramp"}};
         config.plan.at(105).shader = filmShader;
         config.plan.at(106).shader = filmShader;
+
+        // ---- HER OWN SHADERS ON THE SKIN'S SLOTS (2026-10-14). Drawn with the skin's shaders and her
+        // textures edited to approximate her, her parts came out as the skin's materials: a pink-violet
+        // holographic lining where hers is a teal film, a yellow-green tie, a green sheen on her hair, a
+        // black skirt gone metallic. Each part now draws with her own pixel shader and her own draw's
+        // material constants (her 3.7 dump, through wwmiShaderData.py), in her register order, with her
+        // draw's culling and nothing blended. The STENCIL is left as the skin's slot sets it: the skin's depth
+        // prepass has already written bits there that the deferred lighting reads to draw a part sheer, and
+        // writing hers over them (ref 2, mask 0xff) drew Lynae14's sheer skirt opaque. Where the
+        // skin's slot holds one of her game textures at another register it is bound by `ref`. Her
+        // LIGHTING RAMP is not one of them, though the skin's slot has a texture of the same name there:
+        // the game refills that one texture with the ramp of the character on screen, so a `ref` read the
+        // SKIN's ramp -- her shaders bind her own, downloaded (`role ramp`, at t5 / t6 / t9). Her lower
+        // body's three the skin's upper-body slot lacks are captured off the skin's own lower-body draw,
+        // which comes first in every scene (stashRegs). On a slot the skin draws twice (a solid pass and a
+        // see-through one) hers is drawn on both, the state spelled out so the second repeats the first.
+        // A mod that hands a part's maps to RabbitFX (Lynae8 / 10 / 11's SetTextures, Lynae3's glow) is
+        // carried by her shaders themselves: each was generated with RabbitFX's patch written into it
+        // (wwmiShaderData.py --rabbitfx, its sites read by wwmiRabbitFXSites.py), so on the skin's slot it
+        // reads the mod's maps at ps-t60..t65 where RabbitFX's patch of HER game shader reads them, by
+        // the same routing flags -- pinned to hers below (SourceComponent::rabbitFX). Routed by hand
+        // instead (binding the maps by role name), her jacket's film went off and Lynae11's legs drew as
+        // skin, because RabbitFX does not route by role: on her lower body it reads the mod's LIGHTMAP
+        // at her normal-map sample, and leaves her diffuse alone unless the mod hands it a Materialmap ----
+        const auto ownState = [](const std::string& cull, std::vector<std::pair<std::string, std::string>> lines) {
+            for (const auto& line : std::vector<std::pair<std::string, std::string>>{
+                     {"blend", "disable"},
+                     {"rasterizer_state_merge", "true"},
+                     {"cull", cull}}) {
+                lines.push_back(line);
+            }
+            return lines;
+        };
+        const auto own = [&ownState](WWMIFixerConfig::Shader shader, const std::string& cull,
+                                     std::vector<std::pair<std::string, std::string>> lines) {
+            shader.lines = ownState(cull, std::move(lines));
+            shader.onlyWith = "o3";
+            return shader;
+        };
+
+        // her jacket on the skin's jacket slot: her register order (detail at t2, diffuse at t3), her foil
+        WWMIFixerConfig::Shader jacket = own(lynaeFilmShader(), "back", {{"ps-t5", "role ramp"}});
+        jacket.name = "LynaeJacket";
+        jacket.registers = {{"ps-t2", "jacketDetail"}, {"ps-t3", "jacketDiffuse"}, {"ps-t4", "filmFoil"}};
+        config.plan.at(5).shader = std::move(jacket);
+
+        // her hair and bangs, two-sided as her own draws are
+        config.plan.at(0).shader = own(lynaeBangsShader(), "none", {{"ps-t6", "role ramp"}});
+        config.plan.at(1).shader = own(lynaeHairShader(), "none", {{"ps-t6", "role ramp"}});
+
+        // her upper body: her matcap at t4 (a texture both skins share, at t8 on the skin's slot) and her ramp at t5
+        config.plan.at(3).shader = own(lynaeUpperShader(), "back", {{"ps-t4", "ref ps-t8"}, {"ps-t5", "role ramp"}});
+
+        // her lower body (on the skin's upper-body slot): three game textures off the skin's lower-body draw
+        WWMIFixerConfig::Shader lower = own(lynaeLowerShader(), "back",
+                                            {{"ps-t4", "stash 4 ps-t4"}, {"ps-t5", "stash 4 ps-t5"}, {"ps-t6", "stash 4 ps-t6"},
+                                             {"ps-t9", "role ramp"}});
+        lower.registers = {{"ps-t7", "filmFoil"}, {"ps-t8", "lowerSheer"}};
+        config.plan.at(104).shader = lower;
+        config.plan.at(4).shader = std::move(lower);
+        config.stashRegs = {{4, {"ps-t4", "ps-t5", "ps-t6"}}};
         WWMIFixerConfig::DrawReroute propsFilmDraws{6, 106, "propsDetail", 0x10};
         propsFilmDraws.sourceFlags = lynaePropsFilmFlags();   // Lynae9 draws its props with the game's code map
-        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws)};
+        // (Lynae9's hat brim and shorts, in codes of bit 0x80 her own maps never use, came out lime here and were
+        // sent through the skin's shader for a while. The lime was the slot's outline pass -- see offPasses below
+        // -- and the skin's shader drew the hat matte where hers draws it satin, so they are hers again.)
+        // A draw goes to plan 104 when ANY real share of it is 0x80 (1%): Lynae9 draws her legs, tights and
+        // shorts in one range whose majority is skin, and with the default (more than half) it stayed on the
+        // outline pass and its tights' shell came through the shorts lime in the overworld (epoch 7)
+        WWMIFixerConfig::DrawReroute tightsDraws{4, 104, "lowerDetail", 0x80};
+        tightsDraws.share = 0.01;
+        config.drawReroutes = {{5, 105, "jacketDetail", 0x10}, std::move(propsFilmDraws), std::move(tightsDraws)};
 
-        // ---- RABBITFX ON HER LOWER BODY. A mod may hand its lower-body maps to RabbitFX instead of
+        // ---- RABBITFX ON EVERY PART HER OWN SHADERS DRAW. A mod may hand a part's maps to RabbitFX instead of
         // binding them (Lynae11's robotic legs: white plastic on Lynae, skin without RabbitFX), and RabbitFX
-        // routes them by the kind of texture at ps-t0..t2 -- which on the skin's slot are other files. Her
-        // lower body lands on the skin's upper-body slot with her register order, so the mod's lines are kept
-        // and the routing pinned to hers (SourceComponent::rabbitFX). Her own game textures there: a square
-        // BC7 normal map with 12 mips (1718.3), a BC3 mask (none), a square R8 code map with 12 mips (1718.4)
-        // and a square BC7 diffuse with 12 mips (1718.3), read off RabbitFX's own `dump = desc` in a frame dump. Her upper body is NOT kept: it is drawn by a
-        // different shader on her and its routing does not carry (Lynae11's shirt turned lavender) ----
-        config.plan.at(4).rabbitFX = WWMIFixerConfig::SourceComponent::RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
+        // routes them by the kind of texture at ps-t0..t3 -- which on the skin's slot are other files. So the
+        // mod's RabbitFX lines are kept and the routing pinned to hers (SourceComponent::rabbitFX), for her
+        // shaders' RabbitFX sites to read. Her own game textures there (a vanilla dump's, at Ultra High: the
+        // 2048 BC7 maps are typeless with 12 mips): a BC7 normal map or diffuse is 3 (1718.3), a BC3 mask
+        // none, an R8 code map 4 (1718.4), a square B8G8R8A8 map under 512 3 (the bangs' 128 x 128 strand
+        // map), anything else none. Read off RabbitFX's own `dump = desc` (a frame dump of Lynae11 on her card
+        // logs the flags it set: x187 0 / y187 0 / w187 1 on her lower body, where the mod's own files sit) ----
+        using RabbitFX = WWMIFixerConfig::SourceComponent::RabbitFX;
+        config.plan.at(0).rabbitFX = RabbitFX{{{"ps-t0", 0}, {"ps-t1", 3}, {"ps-t2", 3}, {"ps-t3", 0}}};
+        config.plan.at(1).rabbitFX = RabbitFX{{{"ps-t0", 0}, {"ps-t1", 3}, {"ps-t2", 0}, {"ps-t3", 0}}};
+        config.plan.at(3).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
+        config.plan.at(4).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
+        config.plan.at(5).rabbitFX = RabbitFX{{{"ps-t0", 3}, {"ps-t1", 0}, {"ps-t2", 4}, {"ps-t3", 3}}};
+        config.plan.at(104).rabbitFX = config.plan.at(4).rabbitFX;
+
+        // ---- HER TIGHTS ARE KEPT OFF THE SLOT'S OUTLINE PASS (f8c96a27). The skin's outline shader draws
+        // the shell of her tights through the shorts over them, lime (Lynae9, 2026-10-15: a frame dump put
+        // the lime on that pass, and her own card shows no outline there). ONLY the draws her code map flags
+        // 0x80 (Lynae9's tights and shorts), rerouted to plan 104 (2026-10-16): the rest of her lower body
+        // keeps its outline, which some mods draw with -- Lynae2's torn top is dark only through the outline
+        // shell of the fabric under the skin, and with the whole lower body off the pass it came out pale ----
+        config.plan.at(104).offPasses = {"f8c96a270bf847dd"};
 
         // ---- a slot's OTHER passes: the outlines take the slot's diffuse at ps-t0; the eye's second
         // pass sets ps-t0 only ----

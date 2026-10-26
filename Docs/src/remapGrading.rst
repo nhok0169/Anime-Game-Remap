@@ -26,6 +26,50 @@ Grading
    * - Remap
      - Grading
      - Notes
+   * - | **Aether --> AetherHeaven**
+     - | :greenBold:`4.4`
+     - | Proposed; the grade is the maintainer's to set. Aether is ONE mesh (``head``, ``body``) and AetherHeaven is
+       | THREE components (an unnamed main mesh, ``Bang``, ``Eye``), so the mod is split per component and each
+       | part's blend weights are remapped through its own row.
+       |
+       | - The skin draws its OWN face, and a face texture cannot be moved from his face to the skin's: on the
+       | skin, a mod that repaints his face shows the skin's face instead.
+       |
+       | - His back cape hangs half from the skin's back coat chain and half from its upper torso, and its centre
+       | slit opens towards the hem as on his own outfit (a cloak's too); on some capes it opens wider than his.
+       |
+       | - A cool or white surface (a white or blue-grey mane, a lilac cape) keeps a cool shade; a warm one shades
+       | as on his own outfit. A hair colour toggle that swaps only the texture is shaded by its own colour.
+       |
+       | - His eyes are drawn on the skin's head, so a glowing eye (a mask's elemental eye, say) glows on the skin.
+       |
+       | - **Limitation:** white hair and white cloth shade neutral or a little warm in shadow where his own outfit
+       | tints them lavender, and cream cloth a little cooler: the skin's shading has no lavender tone to give.
+       |
+       | - **Limitation:** a mod that gives an object no section of its own, drawing it only through its index
+       | buffer's ``drawindexed = auto``, has that object missing on the skin.
+   * - | **AetherHeaven --> Aether**
+     - | :greenBold:`4.3`
+     - | Proposed; the grade is the maintainer's to set. The inverse: the skin's main mesh, ``Bang`` and ``Eye``
+       | merged onto his one mesh -- the bangs, the eyes and the hair of the main mesh onto his ``head``, the rest
+       | onto his ``body``.
+       |
+       | - His own face is drawn, for the same reason as the other way round: a mod repainting the skin's face
+       | keeps his face on him.
+       |
+       | - The coat's long emblem drape at the back rides both of his cape chains and is pulled in towards his
+       | middle, as the skin's own bones carry it, its pendant where the skin's hangs; its emblem sits a little to
+       | his left.
+       |
+       | - The coat's hem at the back is a little more ragged than on the skin, with its lining showing at one edge
+       | and a narrow gap between two panels: its panels are modelled for the skin's own simulated bones.
+       |
+       | - A merged mod's variant that lacks the eyes shows the eyes of the variant that has them.
+       |
+       | - A mod that hides the skin's bangs shows no bangs on him either.
+       |
+       | - A mod that binds a slot's textures in the game's own register order is read by the textures' names, and
+       | the missing ones are fetched from the game.
    * - | **Amber <--> AmberCN**
      - | :greenBold:`5.0`
      - |
@@ -82,6 +126,69 @@ Grading
        |
        | - The vertex group rows are proposals from geometry matching, not a hand-made draft, so a pose may
        | deform slightly at a joint the matcher guessed wrong.
+   * - | **Changli --> ChangliNymph**
+     - | :greenBold:`4`
+     - | Proposed; the grade is the maintainer's to set. Both characters are ONE mesh drawn as eight
+       | components over a merged skeleton past 256 bones, so the fix writes Wuthering Waves' blend-remap
+       | buffers itself.
+       |
+       | - Changli carries four bone influences a vertex and the skin's shaders read eight, so the remapped
+       | blend is written eight wide.
+       |
+       | - Her skeleton was renumbered twice (1.1 -> 1.2 and 1.3 -> 1.4), and a mod is read in the
+       | numbering its own geometry fits; a mod exported before WWMI's merged skeleton is lifted from each
+       | component's own bone indices.
+       |
+       | - A mod made before her 2.6 update names older texture hashes; those are known by role, so the
+       | mod's own art is carried rather than replaced by the game's.
+       |
+       | - Her coat, shoulder drapes and side sashes (and whatever a mod puts in their place) are drawn
+       | through the skin's body, lit by its body shader. The skin's skirt, which draws them with her own
+       | coat's shader in the character menu, cuts them away in the overworld.
+       |
+       | - Her blindfold is the skin's own (a separate mesh with other UVs), recoloured to her black with
+       | its gold laurel kept: the fix downloads that recoloured texture. A mod that hides or watches her
+       | blindfold does the same to the skin's.
+       |
+       | - **Limitation:** her chest flame tattoo is not drawn on the skin. Her own outfit cuts its shape
+       | out of a glow texture and draws it as a small dark mark; the skin has no such shader.
+       |
+       | - **Limitation:** the flame feathers on her arm are drawn in their colours but do not glow. Her own
+       | shader lights them from her detail map; the skin's body shader has no input that lights a part, and
+       | the skin's own arm has no feathers.
+       |
+       | - **Limitation:** a mod that draws a component from mesh files of its own (one mod's coat and
+       | tattoo, under ``Meshes/Split`` and ``Meshes/Tattoo``) does not carry those parts yet.
+       |
+       | - A mod whose sections are keyed only on the game's bone-data buffer, with no ``vb0`` section, is
+       | not recognised as hers and is left as it is.
+   * - | **ChangliNymph --> Changli**
+     - | :greenBold:`4`
+     - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its mirror
+       | image.
+       |
+       | - The skin carries eight bone influences a vertex and Changli's shaders read four, so each vertex
+       | keeps its four heaviest, their weights scaled to the same total (under one percent of the skin's
+       | vertices use more than four).
+       |
+       | - Her body is drawn through Changli's legs slot, whose shader reads the same three textures; her
+       | skirt and shawl through Changli's coat slot, the skirt's own shader.
+       |
+       | - **Limitation:** her sheer dress and shawl are see-through on her own outfit, and Changli has no
+       | see-through shader, so they are drawn opaque, and a mod's transparency toggles on them change little.
+       | Their texture's transparency channel is clamped to Changli's own range, or her shader would make
+       | the dress's gold embroidery glow, and what her outfit cuts away is filled with the colour beside it.
+       |
+       | - **Limitation:** her fine gold body chains are cut out of thin strips on her own outfit; on Changli the
+       | whole strip draws, so they come out as thin gold-brown cords rather than fine chains (darker on the back).
+       |
+       | - Her side panels are modelled facing sideways, and her own idle swings the right one round to face the
+       | front. Changli's idle does not, so seen from straight in front that panel is a thin line on Changli; it
+       | hangs broad beside her thigh from every side.
+       |
+       | - Her blindfold is Changli's own (a separate mesh with other UVs), recoloured to the skin's white lace:
+       | the fix downloads that recoloured texture. It has no lace pattern or gold laurel, which Changli's
+       | blindfold has no room for. A mod that hides or watches her blindfold does the same to Changli's.
    * - | **Charlotte --> CharlotteHurlock**
      - | :greenBold:`4.5`
      - | Charlotte is ONE mesh (``head`` and ``body``) and CharlotteHurlock is FOUR components (``Body`` of
@@ -367,10 +474,28 @@ Grading
        | - Lynae's 3.7 update renumbered her skeleton, and a mod's ``vb0`` hash does not say which
        | numbering it was made in, so each mod is read in the numbering its own geometry fits.
        |
-       | - Her headphones, pin and ID card go onto the skin's hip pouch slot, which has no glass / foil
-       | material: they draw opaque. Her sheer stockings and see-through tops draw opaque too.
+       | - Her parts are drawn on the skin's slots with Lynae's own shaders and material constants, her own
+       | lighting ramp and her holographic foil, so her materials (film, satin, sheer tights, metal) shade as
+       | on her own outfit.
        |
-       | - Effects a mod gets from RabbitFX on Lynae's shaders carry over only in part.
+       | - **Limitation:** Lynae's props component --- her headphones, pin and ID card, and whatever a mod puts
+       | there (one mod's hat brim, overskirt and sleeves) --- is drawn on her own outfit by a translucency pass
+       | that the skin's outfit never runs. On the skin these parts draw opaque: a see-through brim or veil
+       | comes out solid, and a part the mod marks as film comes out dimmer instead (one mod's white belt
+       | flap, which also reads red and glows), or browner and less see-through (one mod's sheer pink top).
+       |
+       | - A mod that hands its textures or a glow to RabbitFX keeps its look: her shaders carry RabbitFX's
+       | own patch, so each part reads the mod's maps the way RabbitFX routes them on her own outfit.
+       |
+       | - **Limitation:** the bottle she holds is a separate game object, not part of her outfit. The skin's
+       | card shows the skin's own bottle, and a mod that replaces Lynae's (one mod's spray can) is not carried.
+       |
+       | - **Limitation:** small colour differences remain against her own outfit: the lower half of her tie is
+       | a little brighter on every mod that keeps it, a holographic coat panel can take another hue (one
+       | mod's lilac panel comes out olive, another's aqua grey-green), a small metal accessory comes out a
+       | little lighter (one mod's chest bell), and a sheer black bra seen from below comes out solid. Her
+       | shaders are given the same textures and constants on both outfits; the difference comes from the
+       | skin's frame, and was not traced further.
    * - | **LynaePeppermint --> Lynae**
      - | :greenBold:`4`
      - | Proposed; the grade is the maintainer's to set. The inverse of the pair above, and NOT its
@@ -381,11 +506,17 @@ Grading
        | Lynae's jacket slot, the second in a generated copy ``.ini`` that shares the mod's skeleton.
        |
        | - The skin marks the cloth under a sheer garment differently from Lynae, so every body mask is
-       | repacked into Lynae's legend. Her see-through shirt and coat draw opaque.
+       | repacked into Lynae's legend. Her see-through shirt and coat are drawn with the skin's own
+       | see-through passes and show the body through them, as on the skin.
        |
        | - The lower body's outline pass is handed the skin's diffuse where Lynae's own pass reads a flat
        | white, so the outline follows the skin's own mask and does not show through her layered thigh
        | overlay.
+       |
+       | - **Limitation:** opaque details on the skin's see-through shirt and coat, where they lie over her
+       | body --- a strap, a bow, a pendant, a sheer bikini top --- come out paler, cooler or bluer on Lynae than on
+       | the skin. The see-through pass writes exactly the colour and opacity it writes on the skin (measured
+       | in frame dumps of both); the difference is in how Lynae's frame lights the see-through surface.
        |
        | - Checked in game on five mods, including the character's own model as a mod, from every angle
        | and in every toggle state.

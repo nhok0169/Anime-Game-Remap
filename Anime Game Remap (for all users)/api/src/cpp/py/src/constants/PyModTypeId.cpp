@@ -33,6 +33,12 @@ The names of the different types of mods this fix will fix from or fix to
 .. tip::
     A mod type's name is :meth:`ModTypeIdTools.getName`
     )doc")
+        .value("Aether", AGRC::ModTypeId::Aether, R"doc(Aether (the male Traveler) from GI)doc")
+        .value("AetherHeaven", AGRC::ModTypeId::AetherHeaven, R"doc(Aether outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye))doc")
+        .value("AetherHeavenMain", AGRC::ModTypeId::AetherHeavenMain, R"doc(AetherHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("AetherHeavenBang", AGRC::ModTypeId::AetherHeavenBang, R"doc(AetherHeaven's Bang component, as a fix target)doc")
+        .value("AetherHeavenEye", AGRC::ModTypeId::AetherHeavenEye, R"doc(AetherHeaven's Eye component, as a fix target)doc")
+
         .value("Amber", AGRC::ModTypeId::Amber, R"doc(Amber from GI)doc")
 
         .value("AmberCN", AGRC::ModTypeId::AmberCN, R"doc(Amber Chinese version from GI)doc")
@@ -168,7 +174,9 @@ The names of the different types of mods this fix will fix from or fix to
         .value("Chisa", AGRC::ModTypeId::Chisa, R"doc(Chisa from WuWa, the second WWMI pair; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin)doc")
         .value("ChisaParfait", AGRC::ModTypeId::ChisaParfait, R"doc(Chisa's Parfait skin from WuWa)doc")
         .value("Lynae", AGRC::ModTypeId::Lynae, R"doc(Lynae from WuWa; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin)doc")
-        .value("LynaePeppermint", AGRC::ModTypeId::LynaePeppermint, R"doc(Lynae's Peppermint skin from WuWa)doc");
+        .value("LynaePeppermint", AGRC::ModTypeId::LynaePeppermint, R"doc(Lynae's Peppermint skin from WuWa)doc")
+        .value("Changli", AGRC::ModTypeId::Changli, R"doc(Changli from WuWa; a mod may carry any of her three mesh generations (1.1, 1.2, 1.4 on))doc")
+        .value("ChangliNymph", AGRC::ModTypeId::ChangliNymph, R"doc(Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1))doc");
 
     // Also bare-named -- no pure-Python 'ModTypeIdTools' class exists to shadow either.
     py::class_<AGRC::ModTypeIdTools>(m, "ModTypeIdTools", R"doc(

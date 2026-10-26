@@ -149,6 +149,14 @@ py -3 main.py mods GIMI restore                                  # at the end: e
   ~90 moves from earlier sessions (every Chisa folder, Lynae5, ...). It came out right only because
   they netted to zero. When you moved only a few folders, undo them with explicit `park` / `load`
   and compare `ls Mods` against the listing you took at the start.
+- **`park` sends a mod back to WHEREVER it came from, which can be a dead session's scratch folder**
+  (2026-10-13). `park SanhuaExorcist3` moved the maintainer's installed mod to
+  `%TEMP%\claude\...\<another session id>\scratchpad\ex\before\SanhuaExorcist3`, because that is
+  where an earlier agent had loaded it from, and `load <name>` then could not find it: it is not under
+  the importer any more. Nothing is lost -- `mods-journal-<IMP>.json`'s last entries name the exact
+  destination, and `load <name> --from <that folder>` puts it back. **Read the park's own output line**
+  (it prints the destination) rather than `tail`ing it away, and if a mod you parked is the
+  maintainer's live one, put it back by `--from` before you finish.
 - **A before/after of a mod's OLD state** is one `load --from`: keep the pristine copy in scratch,
   `park` the updated one, `load <name> --from <scratch>`, `compare`, and `park` it again (it goes back
   to scratch). That pair is what showed the Sanhua hash restoration worked, and that one of the mods
@@ -270,6 +278,15 @@ the branch draws nothing.
   while `GIMI/CherryHutao6` exists) hits the same wall. Record `mods <IMP> list` first; use an explicit
   `park <the conflicting mod>` plus `load <copy> --from <folder>`; stage test copies under a distinct name
   (`CherryHutao6Fixed`); diff `mods list` against the record at the end.
+- **`mods <IMP> restore` replays the WHOLE journal, older sessions included** (2026-10-20). After an `only` that stopped
+  on a clash, `restore` put that run's folders back -- and also moved `LumineHeaven3`, parked by some earlier session,
+  from the importer folder INTO `Mods`, then left the journal empty, so nothing recorded what it had done. Before a
+  `restore`, read `mods-journal-<IMP>.json` in GameView's scratch folder; after a surprise, `find <importer> -maxdepth 3
+  -type d -newerct "<time>"` lists every folder a rename touched (a move changes the folder's ctime, not its mtime).
+  For a one-off swap, two plain `mv`s you write down yourself are safer than `only`.
+- **The Dressing Room remembers its last TAB.** `key r` can reopen it on Wind Glider, where a card click previews a glider
+  and every following shot shows the wrong thing; `key w` steps back up to Outfit. Its cards also move with the window:
+  read their positions off a fresh screenshot.
 - **The window can change size between sessions** (3440x1440 one day, 1920x1080 the next). A view
   coordinate taken from an older screenshot then lands on another control -- one card click stepped the
   outfit preview to a different character. Take positions from a FRESH screenshot and click with
@@ -279,7 +296,14 @@ the branch draws nothing.
   switching what is equipped.
 - **A second `Esc` from a character screen opens the Paimon menu, UID top LEFT.** When a capture might show
   it, blank the top-left corner of the file with Pillow before reading it, and delete any capture that
-  showed the UID.
+  showed the UID. After the all-characters grid (below), ONE `Esc` landed there (2026-10-21).
+- **The character screen reads `E` / `Q` as next / previous character -- inside a mod's `Alt+E` too**
+  (2026-10-21). YelanTranquil3's transparency toggle is `Alt+E`: the toggle fired AND the screen moved on to the
+  next character, so the shot showed someone else. Press `Q` to step back, or toggle in the overworld.
+- **Picking a character from the character screen's ALL-CHARACTERS GRID (bottom-left button) can put her in the
+  PARTY** (2026-10-21): it swapped Yelan in for Sandrone in slot 3 and made her active. Take an overworld shot of
+  the party first, and tell the maintainer if it changed -- party setup is theirs. The grid also reorders
+  (recently viewed first), so read positions off a fresh screenshot every time.
 
 ## ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING (2026-10-01)
 
@@ -482,6 +506,12 @@ Two WuWa specifics about the tool:
   is `2`, so a reload silently puts hunting back to soft-off. The natural order --- fix the mod,
   `reload`, `compare` --- therefore produces two IDENTICAL halves every time, which reads exactly
   like a mod that does not draw. Toggle **after** the reload, not before.
+- **The log stays EMPTY even with `calls = 1`, because XXMI's WWMI logging is off at the launcher**
+  (2026-10-13). Setting `[Logging] calls = 1` in `d3dx.ini` and reloading left `d3d11_log.txt` at
+  0.0 MB, so the "ASK THE LOG WHICH SHADERS A THIRD-PARTY MOD IS PATCHING" route below needs the
+  maintainer to flip XXMI's own switch first -- ask, or answer the question from the frame dumps
+  instead (`Tools/Misc/Diagnostics/wwmiRabbitPatched.py` reads which shaders ran a RabbitFX regex
+  command list out of the dumps already on disk).
 - **`reload --mod`'s "no warnings" is an empty check here.** It reads `d3d11_log.txt`, and WWMI's
   call logging is off --- which it must stay for any run measured in minutes (110 GB in 40 of
   them). The one exception is deliberate and lasts SECONDS: "ASK THE LOG WHICH SHADERS A
@@ -537,6 +567,18 @@ This is the maintainer's real account, and the tool presses real keys.
 - **The tool takes the foreground.** Each interactive command focuses the game and then hands focus
   back. While a `do` sequence runs, the maintainer's own keyboard and mouse fight it. Batch steps
   into one `do` so each window of it is short.
+- **The game is the maintainer's to play too (2026-10-17).** In a long session they may pick it up
+  between your rounds (one interrupted a Lynae epoch to collect an echo). Before driving the game
+  after a pause, ask. If a screenshot shows a scene your script did not put there, stop and ask. Never
+  fight them for focus.
+- **"Application Hang Detected": click nothing, and ask.** It is Unreal's watchdog. Either button can
+  end the session and lose state that only the maintainer can judge.
+- **Stopping a script does not stop what it started.** `TaskStop` on a wrapper leaves its child
+  `compare` / `shot` / `main.py` processes running, and they keep moving mods and pressing keys. Kill them by
+  command line, then check `Mods` and the persisted `.ini` lines before the next run.
+- **Look at the scene before a scripted run.** A script written for the character studio, started
+  from the overworld, takes a whole run of useless shots. It can also press keys the overworld
+  treats differently.
 
 ## How `d3d11_log.txt` behaves (read before changing `reload` or `log`)
 

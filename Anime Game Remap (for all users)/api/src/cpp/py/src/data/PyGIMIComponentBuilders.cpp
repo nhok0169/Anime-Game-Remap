@@ -238,6 +238,15 @@ List[:class:`float`]: Added to every vertex position of this component as it is 
 ``[0, 0, 0]`` (the default) writes the mod's own. NeuvilletteMelusent's Eye sits 1.24 cm lower than
 Neuvillette's, and merged as it is the eyes looked down
         )doc"))
+        .def_readwrite("pushAway", &AGRC::GIMIMergeFixerConfig::Component::pushAway, py::doc(R"doc(
+List[:class:`VGPushAway`]: Cloth of this component pushed horizontally, by its weight share on the push's SOURCE
+groups, before it is merged --- for a part the source's own bones carry somewhere at rest that no target bone takes
+it. Empty by default
+        )doc"))
+        .def_readwrite("splitGroups", &AGRC::GIMIMergeFixerConfig::Component::splitGroups, py::doc(R"doc(
+Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Shared groups of this component, ``{source group:
+[(target bone, share), ...]}`` in place of its reverse row's one bone. Empty by default
+        )doc"))
         .def_readwrite("positionOffsetFade", &AGRC::GIMIMergeFixerConfig::Component::positionOffsetFade, py::doc(R"doc(
 List[:class:`float`]: The ``y`` range over which :attr:`positionOffset` fades to nothing --- full at or
 below ``[0]``, none at or above ``[1]``, linear between. ``[0, 0]`` (the default) applies the whole
@@ -358,6 +367,15 @@ which land under this prefix. Empty disables the fallback
 :class:`int`: The TARGET's texcoord stride: the merged ``Texcoord.buf`` is at least this wide, zero-padded at the end
 of each line, and the copied section declares it --- for a target reading more UV sets than any source component
 carries (Neuvillette's 20 bytes under NeuvilletteMelusent's 12). **Default**: ``0``, the widest component's
+        )doc"))
+        .def_readwrite("texcoordPadFrom", &AGRC::GIMIMergeFixerConfig::texcoordPadFrom, py::doc(R"doc(
+:class:`int`: A component carrying only ``TEXCOORD0`` is widened to the TARGET's stride with its ``TEXCOORD1`` zero by
+default, i.e. ``(0, 0)`` --- the atlas corner. A target whose shader reads ``TEXCOORD1`` (Lumine's two-sided dress
+draws every BACK face through it) then textures the inside of every skirt from that corner. Set to the byte offset of
+``TEXCOORD0`` in a line (``4``, after the vertex colour), the padding is a copy of it instead, so a back face shows
+the same texels as its front --- which is how the source's own one-sided shader drew it
+
+**Default**: ``-1``, zeros
         )doc"))
         .def_readwrite("compressTextures", &AGRC::GIMIMergeFixerConfig::compressTextures, py::doc(R"doc(
 :class:`bool`: Whether edited textures are block-compressed
@@ -674,6 +692,10 @@ place; returning ``None`` leaves that object's light map alone
         .def_readwrite("lightMapObjs", &AGRC::GIMIComponentFixerConfig::lightMapObjs, py::doc(R"doc(
 List[:class:`str`]: The SOURCE objects :attr:`lightMapEdit` applies to, or empty for every object ---
 a band number means a different material on each object
+        )doc"))
+        .def_readwrite("lightMapPerDiffuse", &AGRC::GIMIComponentFixerConfig::lightMapPerDiffuse, py::doc(R"doc(
+:class:`bool`: Whether a light map bound beside several diffuses (eg. a hair colour toggle that swaps only the
+diffuse) gets one :attr:`lightMapEdit` per diffuse, each bound where its diffuse is. **Default**: ``False``
         )doc"))
         .def_readwrite("flatNormal", &AGRC::GIMIComponentFixerConfig::flatNormal,
                         py::doc(":class:`CppColour`: The flat normal map created for a normal-map slot, sRGB pre-corrected. **Default**: ``(55, 55, 255, 255)``"))

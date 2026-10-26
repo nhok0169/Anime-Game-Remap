@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/tools/DownloadTools.h"
 
+#include <cstdlib>
 #include <utility>
 
 #include "AGRemapCore/constants/IniKeywords.h"
@@ -24,8 +25,16 @@
 namespace AGRemapCore {
 
     const std::string& DownloadTools::downloadFolder() {
-        static const std::string folder =
-            "https://github.com/nhok0169/Anime-Game-Remap/raw/master/Data/Mod%20Downloads";
+        // AGREMAP_DOWNLOAD_FOLDER replaces the published location for the whole run -- a file:// url
+        // to a checkout's Data/Mod Downloads tests a download file before it is merged into master,
+        // where every fetch of a new file would otherwise 404
+        static const std::string folder = []() -> std::string {
+            const char* value = std::getenv("AGREMAP_DOWNLOAD_FOLDER");
+            if (value != nullptr && *value != '\0') {
+                return value;
+            }
+            return "https://github.com/nhok0169/Anime-Game-Remap/raw/master/Data/Mod%20Downloads";
+        }();
         return folder;
     }
 

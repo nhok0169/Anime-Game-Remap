@@ -109,6 +109,16 @@ namespace AGRemapCore {
             FileStats texAdd;
 
             /**
+             * @brief
+             @rst
+             Stats about whether a brand new non-texture file created by this software (a custom
+             shader's source, the constant buffer it reads -- :cpp:class:`RemapFileAddResource`) has
+             been created/removed
+             @endrst
+             */
+            FileStats fileAdd;
+
+            /**
              * @brief Stats about whether some downloaded mod files have been recently downloaded/removed
              */
             CachedFileStats download;

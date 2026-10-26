@@ -1668,6 +1668,73 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"6.3", "LumineHeaven", "ib_face"}, "15825079"},
         {{"6.3", "LumineHeaven", "ib_headupper"}, "82d9b411"},
 
+        // ===== Aether and AetherHeaven (2026-10-24) =====
+        //
+        // Aether's rows follow the assets repo's history of TravelerBoy's hash.json, exactly Lumine's: the first dump
+        // (2022-07) is the 4.0 row, the draw_vb moved at "THE GREAT 4.1 HASH FIX" and the ib at "GREAT 4.3 Hash fix",
+        // and no texture ever moved. A frame dump of his default outfit in the character menu's Dressing Room
+        // (FrameAnalysis-Aether-2026-10-24-164115) draws every hash here, and its buffers and textures are
+        // byte-identical to the asset folder's. Head and body draw on the PLAIN shader; the MetalMap / ShadowRamp
+        // hashes his hash.json lists are shared assets and are not filed.
+        {{"4.0", "Aether", "draw_vb"}, "609d4578"},
+        {{"4.0", "Aether", "position_vb"}, "c77e380b"},
+        {{"4.0", "Aether", "blend_vb"}, "4dfdf2be"},
+        {{"4.0", "Aether", "texcoord_vb"}, "517e5e7e"},
+        {{"4.0", "Aether", "ib"}, "b603af2f"},
+        {{"4.0", "Aether", "tex_head_diffuse"}, "cab5aa1f"},
+        {{"4.0", "Aether", "tex_head_lightmap"}, "74453385"},
+        {{"4.0", "Aether", "tex_body_diffuse"}, "1f7b5c39"},
+        {{"4.0", "Aether", "tex_body_lightmap"}, "104c1472"},
+        {{"4.0", "Aether", "tex_face_diffuse"}, "50c169e8"},
+        {{"4.1", "Aether", "draw_vb"}, "e9786a5f"},
+        {{"4.3", "Aether", "ib"}, "8ed7c5f0"},
+
+        // His SIDE MESHES -- unskinned draws that are no mod object -- for a mod that hides one by hash (see
+        // GIMIComponentFixerConfig::sideMeshes). Read off the same dump: the face (4416 indices, the jaw-to-brow mesh)
+        // and the head-upper (2814). The 48-vertex eyebrows share one vertex buffer (2cfd04ad) with the skin's own, under
+        // a different ib (3fc06416 here, a5a65960 there); nothing reads an eyebrow row, so neither is filed.
+        {{"4.0", "Aether", "ib_face"}, "3e0837e2"},
+        {{"4.0", "Aether", "ib_headupper"}, "3ff23b6d"},
+
+        // AetherHeaven (6.3, "As Heaven and Earth Are Made Anew") draws an UNNAMED main mesh (Head / Body on one index
+        // buffer -- filed under AetherHeavenMain), a Bang and an Eye, each skinned and with its own buffers: the
+        // LumineHeaven shape. No asset repo has it: every value here was read off a frame dump of the skin's preview in
+        // the character menu's Dressing Room (FrameAnalysis-AetherHeaven-2026-10-24-164142), and matches both real mods
+        // of it (AetherHeaven1-2). Both of the main mesh's objects draw on the NORMAL-MAP shader (light map, normal
+        // map, diffuse at ps-t0..2), filed as tex_<slot>_<role> for a texture-only recolour. The Bang draws with the
+        // Head's textures; the Eye has its own shader and textures (47b6d152 light map / a35f0697 diffuse), which have
+        // no tex_<object>_<kind> slot here and are not filed. The face diffuse b921d262 is the skin's own (Aether's is
+        // 50c169e8), drawn on face meshes of its own; as LumineHeaven's it is filed under every component.
+        {{"6.3", "AetherHeavenMain", "draw_vb"}, "6e146318"},
+        {{"6.3", "AetherHeavenMain", "position_vb"}, "fdc93092"},
+        {{"6.3", "AetherHeavenMain", "blend_vb"}, "f120aef4"},
+        {{"6.3", "AetherHeavenMain", "texcoord_vb"}, "be7e7751"},
+        {{"6.3", "AetherHeavenMain", "ib"}, "0f0ec0e1"},
+        {{"6.3", "AetherHeavenMain", "tex_head_diffuse"}, "f1e5a10f"},
+        {{"6.3", "AetherHeavenMain", "tex_head_lightmap"}, "8783ca4b"},
+        {{"6.3", "AetherHeavenMain", "tex_head_normalmap"}, "ec0f27a8"},
+        {{"6.3", "AetherHeavenMain", "tex_body_diffuse"}, "25876a2b"},
+        {{"6.3", "AetherHeavenMain", "tex_body_lightmap"}, "e28395c3"},
+        {{"6.3", "AetherHeavenMain", "tex_body_normalmap"}, "6429c2d8"},
+        {{"6.3", "AetherHeavenMain", "tex_face_diffuse"}, "b921d262"},
+        {{"6.3", "AetherHeavenBang", "draw_vb"}, "43436212"},
+        {{"6.3", "AetherHeavenBang", "position_vb"}, "e20142c0"},
+        {{"6.3", "AetherHeavenBang", "blend_vb"}, "fbccccec"},
+        {{"6.3", "AetherHeavenBang", "texcoord_vb"}, "0b64d1c0"},
+        {{"6.3", "AetherHeavenBang", "ib"}, "7653eed7"},
+        {{"6.3", "AetherHeavenBang", "tex_face_diffuse"}, "b921d262"},
+        {{"6.3", "AetherHeavenEye", "draw_vb"}, "87bc97df"},
+        {{"6.3", "AetherHeavenEye", "position_vb"}, "d35f7205"},
+        {{"6.3", "AetherHeavenEye", "blend_vb"}, "21e796a3"},
+        {{"6.3", "AetherHeavenEye", "texcoord_vb"}, "9dfc88d8"},
+        {{"6.3", "AetherHeavenEye", "ib"}, "1f5715d9"},
+        {{"6.3", "AetherHeavenEye", "tex_face_diffuse"}, "b921d262"},
+
+        // The skin's own side meshes, filed under the skin as a whole (no component draws them): the face (6210
+        // indices) and the head-upper (3888).
+        {{"6.3", "AetherHeaven", "ib_face"}, "013d13f1"},
+        {{"6.3", "AetherHeaven", "ib_headupper"}, "3d359360"},
+
         // ===== version 5.4 =====
         // LisaStudent
         {{"5.4", "LisaStudent", "tex_head_normalmap"}, "a64a57de"},
@@ -1892,6 +1959,69 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "cb4"}, "f02baf77"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_offsets"}, "44a7eaed"},
         {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint), "shapekey_scale"}, "f4d1692b"},
+
+        // ===== WuWa: Changli and ChangliNymph (2026-10-20) =====
+        // Changli carries THREE mesh generations, each a mod may still declare (the lineage is the
+        // community wwmi_fix_23 hash_maps.json's old_vs_new / old_vs_new14, the values WWMI-Assets'
+        // Metadata.json at 1.3 and now). 1.1: her launch mesh, known from mods only
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "77975500"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "cb4"}, "f02baf77"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "d8decbca"},
+        {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "fd9483ca"},
+        // Changli (1.2): rehashed, one bone fewer in component 5 (WWMI-Assets' 1.3 Metadata.json)
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "5f8aac45"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "1ccb8008"},
+        {{"1.2", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "060f5303"},
+        // Changli (1.4): component 3 grew by 1020 indices; unchanged since, and the 3.7.1 frame dump
+        // binds exactly this mesh
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "vb0"}, "d14bed8b"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_offsets"}, "59f24b66"},
+        {{"1.4", ModTypeIdTools::getName(ModTypeId::Changli), "shapekey_scale"}, "277e18c9"},
+        // CHANGLI'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20), so a mod exported before her
+        //   2.6 update -- most of hers -- binds its own art rather than a download of the game's (Changli1's
+        //   whole outfit drew vanilla before these). Her CURRENT and live hashes stay in the fixer config.
+        //   2.5 is the generation WWMI-Assets carried from 1.3 to 2.5, each row a rename git records at its
+        //   "2.6 diff" (83-99% similar) whose old register in that commit's TextureUsage.json is the one its
+        //   successor's role reads today. Its two outline successors are current, so they are in the config.
+        //   Not filed: 92c11772 (a ramp every component shares), c235c6a7 (an effect ramp 27 characters
+        //   share), 8a125464 (a 2.0 upper-body input no current shader has). Evidence: Data/Mod Downloads/WuWa/Changli/ChangliHashLineage.json.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsDiffuse"}, "d6f4003a"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsMap"}, "8094e3ca"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsOutline"}, "30017835"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "bangsStrand"}, "5fff67ee"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatDiffuse"}, "c02dbf56"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatNormal"}, "f98c7e7c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "coatOutline"}, "2782d638"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "eyeDiffuse"}, "eb70f116"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "faceDiffuse"}, "225aad5a"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairDiffuse"}, "b54a043e"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairMap"}, "6f7a2dab"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairOutline"}, "e0b2f0d3"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "hairStrand"}, "1d3ad29f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerDiffuse"}, "a45bfe26"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerMask"}, "998bc53c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "lowerNormal"}, "00e5703f"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperDiffuse"}, "a260e7f7"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperMask"}, "dfe134cd"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::Changli), "upperNormal"}, "f23483e3"},
+        // ChangliNymph (2.4, the version WWMI-Assets added ChangliSkin1; unchanged since)
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "vb0"}, "acbfcfec"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "cb4"}, "f02baf77"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_offsets"}, "a90413a7"},
+        {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "shapekey_scale"}, "05d2029d"},
+        // CHANGLINYMPH'S OLDER TEXTURES, TYPED BY THE ROLE EACH PLAYS (2026-10-20): WWMI-Assets' ChangliSkin1
+        //   generation from 2.4 to 2.5, each row a rename git records at its "2.6 diff" whose old register in that
+        //   commit's TextureUsage.json is the one its successor's role reads today (wwmiAssetLineage.py). Not
+        //   filed: c235c6a7 (an effect ramp 27 characters share) and 92c11772 (a ramp every component shares).
+        //   Evidence: Data/Mod Downloads/WuWa/ChangliNymph/ChangliNymphHashLineage.json.
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsDiffuse"}, "529d2b99"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsMap"}, "7f7c7b9c"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "bangsStrand"}, "e6947b37"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "eyeDiffuse"}, "eb70f116"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "faceDiffuse"}, "6804b3ae"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairDiffuse"}, "bfc103ef"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairMap"}, "6f7a2dab"},
+        {{"2.5", ModTypeIdTools::getName(ModTypeId::ChangliNymph), "hairStrand"}, "91eab4e8"},
     };
     return rows;
 }

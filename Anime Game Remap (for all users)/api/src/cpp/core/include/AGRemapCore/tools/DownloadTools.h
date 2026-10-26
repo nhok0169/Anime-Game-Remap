@@ -77,6 +77,11 @@ namespace AGRemapCore {
              @rst
              Where every downloadable default part is published -- the same location as the
              `Python`_ package's ``GithubDownloadFolder`` (``data/FileDownloadData.py``)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The environment variable ``AGREMAP_DOWNLOAD_FOLDER``, when set, replaces it for the
+             whole run, eg. ``file:///C:/Anime-Game-Remap/Data/Mod%20Downloads`` to fetch from a
+             local checkout
              @endrst
              */
             static const std::string& downloadFolder();

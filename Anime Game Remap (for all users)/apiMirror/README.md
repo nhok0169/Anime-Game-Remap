@@ -30,7 +30,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 |   |   |
 |---|---|
-| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Maintainer)* | [![@albertgold](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](https://discord.com/users/367087171154214914) |
+| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Maintainer)* | [![@albertgold](https://img.shields.io/badge/%40albertgold-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/367087171154214914) |
 | **[NK](https://github.com/nhok0169)** *(Original Author)* | [![@nhok0169](https://img.shields.io/badge/%40nhok0169-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/277117247523389450) |
 | [![The Council](https://raw.githubusercontent.com/nhok0169/Anime-Game-Remap/refs/heads/master/Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeMini.svg)](https://github.com/nhok0169/Anime-Game-Remap/blob/master/AI%20Agent%20Help/README.md) *(Maintainer Team)* | [![The Council Badge](https://raw.githubusercontent.com/nhok0169/Anime-Game-Remap/refs/heads/master/Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg)](https://github.com/nhok0169/Anime-Game-Remap/blob/master/AI%20Agent%20Help/README.md) |
 
@@ -452,6 +452,8 @@ Below are the supported types of mods
 
 | Name | Game | Aliases | Description |
 | --- | --- | --- | ---|
+| Aether | GI | MaleTraveler, Sora, TravelerBoy, TravelerMale | Aether mods |
+| AetherHeaven | GI | AetherAsHeavenAndEarthAreMadeAnew, AetherSkin, AsHeavenAndEarthAreMadeAnewAether, HeavenAether, TravelerBoyHeaven | Aether As Heaven and Earth Are Made Anew mods |
 | Amber | GI | BaronBunny, ColleisBestie | Amber mods |
 | AmberCN | GI | BaronBunnyCN, ColleisBestieCN | Amber Chinese mods |
 | Arlecchino | GI | Father, Harlequin, Knave, Perrie, Peruere | Arlecchino mods |
@@ -461,6 +463,8 @@ Below are the supported types of mods
 | BarbaraSummertime | GI | BarbaraBikini, HealerSummertime, IdolSummertime | Barbara Summer mods |
 | Bennett | GI | Benny | Bennett mods |
 | BennettAdventure | GI | AdventureBennett, AdventureBenny, BennettNatlan, BennettSummer, BennyAdventure, BennyNatlan, BennySummer, NatlanBennett, NatlanBenny, SummerBennett, SummerBenny | Bennett Summertime Adventure mods |
+| Changli | WuWa |  | Changli mods |
+| ChangliNymph | WuWa | ChangliLaurelNymph, ChangliSkin1, LaurelNymphChangli, NymphChangli | Changli Laurel Nymph skin mods |
 | Charlotte | GI |  | Charlotte mods |
 | CharlotteHurlock | GI | HurlockCharlotte | Charlotte Hurlock mods |
 | CherryHuTao | GI | 77thDirectoroftheWangshengFuneralParlorCherry, 77thDirectoroftheWangshengFuneralParlorLanternRite, Cherry77thDirectoroftheWangshengFuneralParlor, CherryQiqiKidnapper, HutaoCherry, HutaoLanternRite, HutaoSnowLaden, LanternRite77thDirectoroftheWangshengFuneralParlor, LanternRiteHutao, LanternRiteQiqiKidnapper, QiqiKidnapperCherry, QiqiKidnapperLanternRite, SnowLadenHutao | Hu Tao Lantern Rite mods |
@@ -529,6 +533,7 @@ Below are the supported types of games
 | --- | --- |
 | GI | Genshin, GenshinImpact |
 | WuWa | WutheringWaves |
+| ZZZ | ZenlessZoneZero |
 
 <br>
 

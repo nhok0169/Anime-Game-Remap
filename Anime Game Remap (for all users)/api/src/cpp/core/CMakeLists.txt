@@ -122,15 +122,31 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Chisa/ChisaFixer.cpp
     src/data/IniFixData/Chisa/ChisaTextures.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp
+    src/data/IniFixData/Changli/ChangliFixer.cpp
+    src/data/IniFixData/Changli/ChangliSkeleton.cpp
+    src/data/IniFixData/Changli/ChangliTextures.cpp
+    src/data/IniFixData/Changli/ChangliThumbprints.cpp
+    src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp
+    src/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.cpp
+    src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp
+    src/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.cpp
     src/data/IniFixData/Lynae/LynaeFixer.cpp
+    src/data/IniFixData/Lynae/LynaeBangsShader.cpp
     src/data/IniFixData/Lynae/LynaeFilmShader.cpp
+    src/data/IniFixData/Lynae/LynaeHairShader.cpp
+    src/data/IniFixData/Lynae/LynaeLowerShader.cpp
     src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp
     src/data/IniFixData/Lynae/LynaeSkeleton.cpp
     src/data/IniFixData/Lynae/LynaeSkinCodes.cpp
     src/data/IniFixData/Lynae/LynaeTextures.cpp
     src/data/IniFixData/Lynae/LynaeThumbprints.cpp
+    src/data/IniFixData/Lynae/LynaeUpperShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp
+    src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintSkeleton.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp
     src/data/IniFixData/LynaePeppermint/LynaePeppermintThumbprints.cpp
@@ -145,6 +161,8 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Sanhua/SanhuaThumbprints.cpp
     src/data/IniParseData/WWMIParser.cpp
     src/data/IniParseData/Chisa/ChisaParser.cpp
+    src/data/IniParseData/Changli/ChangliParser.cpp
+    src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp
     src/data/IniParseData/Lynae/LynaeParser.cpp
     src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp
     src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp
@@ -180,6 +198,10 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/YaoyaoBamboo/YaoyaoBambooFixer.cpp
     src/data/IniParseData/Lumine/LumineParser.cpp
     src/data/IniFixData/Lumine/LumineFixer.cpp
+    src/data/IniParseData/Aether/AetherParser.cpp
+    src/data/IniFixData/Aether/AetherFixer.cpp
+    src/data/IniParseData/AetherHeaven/AetherHeavenParser.cpp
+    src/data/IniFixData/AetherHeaven/AetherHeavenFixer.cpp
     src/data/IniParseData/LumineHeaven/LumineHeavenParser.cpp
     src/data/IniFixData/LumineHeaven/LumineHeavenFixer.cpp
     src/model/strategies/iniFixers/graphGroupEdits/VGSplitGroupResBuilder.cpp
@@ -299,6 +321,7 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemapInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/GraphGroupEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEditInstantiation.cpp
     src/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroupsInstantiation.cpp
     src/model/strategies/iniFixers/BaseIniFixerInstantiation.cpp
@@ -349,6 +372,7 @@ add_library(AGRemapCore STATIC
     src/model/iniresources/RemapIniResource.cpp
     src/model/iniresources/RemapBlendResource.cpp
     src/model/iniresources/RemapTexResource.cpp
+    src/model/iniresources/RemapFileResource.cpp
     src/RemapService.cpp
     src/RemapServiceCLI.cpp
     src/RemapServiceCLIErrors.cpp

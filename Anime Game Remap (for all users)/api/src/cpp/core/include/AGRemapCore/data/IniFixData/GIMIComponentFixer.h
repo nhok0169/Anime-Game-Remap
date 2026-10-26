@@ -616,6 +616,23 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Whether a light map bound beside SEVERAL diffuses gets one :cpp:member:`lightMapEdit` per diffuse
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod may toggle an object's diffuse and keep its light map -- a hair colour key binding a second
+         diffuse with the same light map in each branch. A diffuse-gated band move decided from the first
+         diffuse alone then applies to the other's texels too: a grey hair recolour keeps the bands chosen
+         for the blonde hair under it. With this set, each distinct diffuse the object's section binds gets
+         its own edited copy of the light map, bound in the branches that bind that diffuse; a part binding
+         no diffuse keeps the first one's. Objects whose bindings go by name (:cpp:member:`texRegsByName`)
+         keep the single edit. **Default**: ``false``
+         @endrst
+         */
+        bool lightMapPerDiffuse = false;
+
+        /**
+         * @brief
+         @rst
          The flat normal map created for a normal-map slot, pre-corrected for the sRGB header the
          game reads it under (``127 -> 55``). **Default**: ``(55, 55, 255, 255)``, 1024 x 1024
          @endrst

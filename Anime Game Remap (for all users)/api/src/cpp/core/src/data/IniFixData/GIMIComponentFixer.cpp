@@ -386,6 +386,12 @@ namespace AGRemapCore {
             std::string diffuse;
             std::string lightMap;
 
+            // EVERY diffuse the object's section binds, over all branches, as (resource name lowercase, file),
+            // first branch first, and the register it is bound at -- see
+            // GIMIComponentFixerConfig::lightMapPerDiffuse. Filled only when that is set.
+            std::vector<std::pair<std::string, std::string>> diffuseResources;
+            std::string diffuseReg;
+
             // The TexFx mask the object's section binds at ps-t69, if any -- see
             // GIMIComponentFixerConfig::Component::texFxBlend.
             std::string texFxMask;
@@ -781,7 +787,7 @@ namespace AGRemapCore {
                             }
 
                             if (config_.texRegsByName && !ownFixCall) {
-                                std::string byNameDiffuse, byNameLightMap;
+                                std::string byNameDiffuse, byNameLightMap, byNameDiffuseReg;
                                 bool anyNormalMap = false;
                                 bool namesTrusted = true;
                                 for (const std::string& reg : {DiffuseReg, LightMapReg, ShiftedLightMapReg}) {
@@ -798,6 +804,7 @@ namespace AGRemapCore {
                                     } else if (RegValChecks::isDiffuse(file)) {
                                         namesTrusted = namesTrusted && byNameDiffuse.empty();
                                         byNameDiffuse = file;
+                                        byNameDiffuseReg = reg;
                                     } else {
                                         namesTrusted = false;
                                     }
@@ -808,6 +815,20 @@ namespace AGRemapCore {
                                     objFiles.normalMapLayout = anyNormalMap;
                                     objFiles.diffuse = byNameDiffuse;
                                     objFiles.lightMap = byNameLightMap;
+                                    objFiles.diffuseReg = byNameDiffuseReg;
+                                }
+                            }
+
+                            if (config_.lightMapPerDiffuse && !objFiles.diffuse.empty()) {
+                                if (objFiles.diffuseReg.empty()) {
+                                    objFiles.diffuseReg = objFiles.normalMapLayout ? ShiftedDiffuseReg : DiffuseReg;
+                                }
+                                for (const BranchVal& raw : branches_.valsThroughRun(templates, sectionName, objFiles.diffuseReg)) {
+                                    const std::string resource = ModBranches::resourceOf(raw.val);
+                                    const std::string file = fileOf(resource);
+                                    if (!file.empty()) {
+                                        objFiles.diffuseResources.emplace_back(StringTools::toLower(resource), file);
+                                    }
                                 }
                             }
                             objects[obj] = std::move(objFiles);
@@ -1301,18 +1322,72 @@ namespace AGRemapCore {
                                 != config_.lightMapObjs.end();
 
                         if (config_.lightMapEdit && files != nullptr && editThisObj) {
-                            TexEditor::Filter filter = config_.lightMapEdit(files->diffuse);
-                            if (filter) {
+                            // ONE EDIT PER DIFFUSE (2026-10-26) -- see GIMIComponentFixerConfig::lightMapPerDiffuse.
+                            // Aether5's hair key binds a grey diffuse beside the same light map as the blonde one,
+                            // and the bands chosen for the blonde kept the grey on the skin's warm band.
+                            std::vector<std::string> diffuseFiles{files->diffuse};
+                            for (const auto& entry : files->diffuseResources) {
+                                const bool seen = std::any_of(diffuseFiles.begin(), diffuseFiles.end(),
+                                    [&](const std::string& f) { return StringTools::equalsIgnoreCase(f, entry.second); });
+                                if (!seen) {
+                                    diffuseFiles.push_back(entry.second);
+                                }
+                            }
+
+                            const std::string diffuseReg = files->diffuseReg;
+                            const auto* resources = &files->diffuseResources;
+
+                            // The resources a part binds at the diffuse register that name 'file'
+                            const auto partDiffuseIs = [resources, diffuseReg](const auto& iterData, const std::string& file) {
+                                for (const auto& val : iterData.part->getValsWithInds(diffuseReg, true, std::nullopt)) {
+                                    const std::string resource = StringTools::toLower(ModBranches::resourceOf(val.second));
+                                    for (const auto& entry : *resources) {
+                                        if (entry.first == resource && StringTools::equalsIgnoreCase(entry.second, file)) {
+                                            return true;
+                                        }
+                                    }
+                                }
+                                return false;
+                            };
+
+                            for (std::size_t i = 0; i < diffuseFiles.size(); ++i) {
+                                TexEditor::Filter filter = config_.lightMapEdit(diffuseFiles[i]);
+                                if (!filter) {
+                                    continue;
+                                }
+
+                                const std::string suffix = (i == 0) ? std::string() : ("Diffuse" + std::to_string(i));
                                 auto replace = std::make_unique<TexEditorReplace<>>(
-                                    GraphId(group, "", component_.slot + "RemapTexLightMap"),
+                                    GraphId(group, "", component_.slot + "RemapTexLightMap" + suffix),
                                     TexEditor({filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
-                                    "resourceRemapTexEdit", std::string("LightMap"));
+                                    "resourceRemapTexEdit", std::string("LightMap") + suffix);
+                                if (i > 0) {
+                                    replace->modObj = name + "LightMap" + std::to_string(i);
+                                }
 
                                 auto collect = std::make_unique<Collector>();
                                 collect->srcRegs = {{slot, lightMapReg}};
                                 collect->resEdits = {{"lightMap", replace.get()}};
 
-                                texGroupEdits_.push_back(collect.get());
+                                // the first diffuse's edit takes every part binding none of the others
+                                if (diffuseFiles.size() > 1) {
+                                    std::vector<std::string> others(diffuseFiles.begin() + 1, diffuseFiles.end());
+                                    const std::string own = diffuseFiles[i];
+                                    collect->resPredicates[slot] = [partDiffuseIs, others, own, i](const std::string&, const std::string&, const auto& iterData) {
+                                        if (i > 0) {
+                                            return partDiffuseIs(iterData, own);
+                                        }
+                                        return std::none_of(others.begin(), others.end(),
+                                            [&](const std::string& other) { return partDiffuseIs(iterData, other); });
+                                    };
+                                }
+
+                                // ahead of the diffuse edits when the predicate reads the diffuse, which they rename
+                                if (diffuseFiles.size() > 1) {
+                                    texGroupEdits_.insert(texGroupEdits_.begin(), collect.get());
+                                } else {
+                                    texGroupEdits_.push_back(collect.get());
+                                }
                                 texReplaces_.push_back(std::move(replace));
                                 texCollects_.push_back(std::move(collect));
                             }

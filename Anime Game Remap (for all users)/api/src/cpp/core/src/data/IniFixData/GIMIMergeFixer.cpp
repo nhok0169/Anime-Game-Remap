@@ -1872,6 +1872,7 @@ namespace AGRemapCore {
                         for (const GIMIMergeFixerConfig::Component& c : config_.components) {
                             if (c.name == component) {
                                 entry.pushAway = c.pushAway;
+                                entry.spec.splitGroups = c.splitGroups;
                             }
                         }
 

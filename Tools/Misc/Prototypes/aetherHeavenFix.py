@@ -72,11 +72,13 @@ CapeTipShare = -1.0
 # EXPERIMENT: how far the cape's outer lower links are pulled in sideways at the hem; 0 off
 CapeCornerPull = 0.0
 # how far the cape's INNER lower links are pushed apart sideways at the hem (opens the slit into a V, as on his card); 0 off
-CapeSlitOpen = 0.05
+CapeSlitOpen = 0.08
 CapeSlitFade = [0.6, 1.0]
 
 # a light map texel counts as COOL when its diffuse is this much bluer than red -- see fixerConfig's coolBands
 CoolHueMargin = -3
+# EXPERIMENT: the skin's band a cool texel goes to (see fixerConfig's coolBands)
+CoolBand = 0
 
 SrcName = "Aether"
 Skin = "AetherHeaven"
@@ -243,9 +245,11 @@ def fixerConfig(headHairBand = None, headAlphaOne = True, innerOutline = ("body"
             # moving the warm ones too turned his cream cape lavender (Aether7) and flattened his blonde hair. Cool is
             # bluer than red by a margin, so a neutral grey or white stays put. First match wins: the gated bands lead.
             cool = lambda red, green, blue: blue >= red + CoolHueMargin
-            bands = [Band(118, 135, 0, cool), Band(150, 175, 0, cool), Band(240, 255, 0, cool)] + bands
+            bands = [Band(118, 135, CoolBand, cool), Band(150, 175, CoolBand, cool), Band(240, 255, CoolBand, cool)] + bands
         config.lightMapEdit = lambda diffusePath: FRB.CppMaterialBandRemapFilter(bands, diffusePath)
         config.lightMapObjs = ["head", "body"]
+        # a hair colour key swapping only the diffuse gets its own light map (Aether5, forward epoch 9)
+        config.lightMapPerDiffuse = True
     if (headHairBand is not None):
         # EXPERIMENT (Lumine rejected it in game): his head atlas is all band 254-255, the skin's hair is on band 0.
         Band = FRB.CppMaterialBandRemapFilter.Band
@@ -306,7 +310,8 @@ def main():
     parser.add_argument("--capeChainShare", type = float, default = 0.5, help = "each back-cape link's share on the skin's back coat chain, the rest on its torso (default 0.5; -1 the plain vertex group row)")
     parser.add_argument("--capeTipShare", type = float, default = -1.0, help = "an A/B: the lowest cape links' share on the coat chain (default -1, as --capeChainShare)")
     parser.add_argument("--capeCornerPull", type = float, default = 0.0, help = "an A/B: pull the cape's outer lower links in sideways at the hem (default 0, off)")
-    parser.add_argument("--capeSlitOpen", type = float, default = 0.05, help = "how far the cape's inner lower links are pushed apart sideways at the hem, opening the slit into a V (default 0.05; 0 off)")
+    parser.add_argument("--coolBand", type = int, default = 0, help = "an A/B: the skin's light map band a cool texel goes to (default 0)")
+    parser.add_argument("--capeSlitOpen", type = float, default = 0.08, help = "how far the cape's inner lower links are pushed apart sideways at the hem, opening the slit into a V (default 0.08; 0 off)")
     parser.add_argument("--capeSlitFadeFull", type = float, default = 0.6, help = "--capeSlitOpen is whole at or below this height")
     parser.add_argument("--capeSlitFadeNone", type = float, default = 1.0, help = "--capeSlitOpen is gone at or above this height")
     parser.add_argument("--noCoolBands", action = "store_true", help = "an A/B: leave cool texels on bands 118-135 / 150-175 / 240-255 (no move onto the skin's 0)")
@@ -315,12 +320,13 @@ def main():
     parser.add_argument("--verbose", action = "store_true", help = "attach the API's logger")
     parser.add_argument("--download", default = None, help = "the API's downloadMode, eg. `disabled` -- omit for the API's own default")
     args = parser.parse_args()
-    global CoolHueMargin, CapeChainShare, CapeTipShare, CapeCornerPull, CapeSlitOpen, CapeSlitFade
+    global CoolBand, CoolHueMargin, CapeChainShare, CapeTipShare, CapeCornerPull, CapeSlitOpen, CapeSlitFade
     CapeCornerPull = args.capeCornerPull
     CapeSlitOpen = args.capeSlitOpen
     CapeSlitFade = [args.capeSlitFadeFull, args.capeSlitFadeNone]
     CapeTipShare = args.capeTipShare
     CoolHueMargin = args.coolHueMargin
+    CoolBand = args.coolBand
     CapeChainShare = args.capeChainShare
     global InnerOutlineAxis, CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin
     CoolGlowGainFull, CoolGlowGainTop, CoolGlowDarkMargin = args.coolGlowGainFull, args.coolGlowGainTop, args.coolGlowDarkMargin

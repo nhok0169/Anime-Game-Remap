@@ -180,7 +180,7 @@ namespace AGRemapCore {
                 slitOpen.groups = groups;
                 slitOpen.side = side;
                 slitOpen.from = {-3.0f * side, 0.0f, 0.0f};
-                slitOpen.distance = 0.05f;
+                slitOpen.distance = 0.08f;      // 5 cm left Aether7's cape and Aether8's coat tails narrower than his (epoch 9)
                 slitOpen.fade = {0.6f, 1.0f};
                 main.pushAway.push_back(slitOpen);
             }
@@ -253,6 +253,9 @@ namespace AGRemapCore {
             config.diffuseEdits = {{"head", &alphaOne}, {"body", &clearCoolGlow}};
             config.lightMapEdit = MaterialBandRemapFilter::lightMapEdit(BetweenBands);
             config.lightMapObjs = {"head", "body"};
+            // the band moves read the diffuse: a hair colour key swapping only the diffuse gets its own light map
+            // (Aether5's grey hair kept the blonde's warm bands, forward epoch 9)
+            config.lightMapPerDiffuse = true;
             config.compressTextures = false;
 
             return config;

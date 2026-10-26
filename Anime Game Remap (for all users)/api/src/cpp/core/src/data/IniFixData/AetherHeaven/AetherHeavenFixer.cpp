@@ -66,6 +66,15 @@ namespace AGRemapCore {
             drapePull.fade = {0.4f, 1.15f};
             main.pushAway = {drapePull};
 
+            // ...and each drape link rides BOTH of his inner cape chains, half each -- its row's left link and the mirror
+            // on his right -- so it hangs from the middle of his back: on the left chain alone it hung left of his spine
+            // and twisted with that chain in his idle (reverse epoch 8)
+            const std::vector<std::pair<long long, std::pair<long long, long long>>> drapeChains = {
+                {99, {42, 43}}, {100, {46, 52}}, {101, {46, 52}}, {102, {47, 53}}, {103, {49, 55}}, {104, {49, 55}}};
+            for (const auto& [group, chains] : drapeChains) {
+                main.splitGroups[group] = {{chains.first, 0.5}, {chains.second, 0.5}};
+            }
+
             // ...and every coat panel (front 58-65, side 66-73, back 74-81, and the drape's lowest links 103 / 104) pulled in
             // towards his body's axis, more the lower it hangs. The skin's coat is MODELLED wider than its own simulated
             // bones let it hang, and on his bones it keeps that width: its hem flared all round (reverse epochs 1-6). Which

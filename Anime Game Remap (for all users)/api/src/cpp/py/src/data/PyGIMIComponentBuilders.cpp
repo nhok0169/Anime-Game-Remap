@@ -243,6 +243,10 @@ List[:class:`VGPushAway`]: Cloth of this component pushed horizontally, by its w
 groups, before it is merged --- for a part the source's own bones carry somewhere at rest that no target bone takes
 it. Empty by default
         )doc"))
+        .def_readwrite("splitGroups", &AGRC::GIMIMergeFixerConfig::Component::splitGroups, py::doc(R"doc(
+Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Shared groups of this component, ``{source group:
+[(target bone, share), ...]}`` in place of its reverse row's one bone. Empty by default
+        )doc"))
         .def_readwrite("positionOffsetFade", &AGRC::GIMIMergeFixerConfig::Component::positionOffsetFade, py::doc(R"doc(
 List[:class:`float`]: The ``y`` range over which :attr:`positionOffset` fades to nothing --- full at or
 below ``[0]``, none at or above ``[1]``, linear between. ``[0, 0]`` (the default) applies the whole
@@ -688,6 +692,10 @@ place; returning ``None`` leaves that object's light map alone
         .def_readwrite("lightMapObjs", &AGRC::GIMIComponentFixerConfig::lightMapObjs, py::doc(R"doc(
 List[:class:`str`]: The SOURCE objects :attr:`lightMapEdit` applies to, or empty for every object ---
 a band number means a different material on each object
+        )doc"))
+        .def_readwrite("lightMapPerDiffuse", &AGRC::GIMIComponentFixerConfig::lightMapPerDiffuse, py::doc(R"doc(
+:class:`bool`: Whether a light map bound beside several diffuses (eg. a hair colour toggle that swaps only the
+diffuse) gets one :attr:`lightMapEdit` per diffuse, each bound where its diffuse is. **Default**: ``False``
         )doc"))
         .def_readwrite("flatNormal", &AGRC::GIMIComponentFixerConfig::flatNormal,
                         py::doc(":class:`CppColour`: The flat normal map created for a normal-map slot, sRGB pre-corrected. **Default**: ``(55, 55, 255, 255)``"))

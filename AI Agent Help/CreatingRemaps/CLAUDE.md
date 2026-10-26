@@ -985,7 +985,7 @@ target's default outfit looks plausible. Say what you checked and what you did n
 
 <br>
 
-## AETHER <-> AETHERHEAVEN (2026-10-24/25): the Lumine pair's twin, and four shared-code findings
+## AETHER <-> AETHERHEAVEN (2026-10-24/26): the Lumine pair's twin, and six shared-code findings
 
 Downloads `Aether/4_0` and `AetherHeaven/6_3` (built from Dressing Room frame dumps; the skin is not owned, so there
 is no overworld test), `Data/RemapDrafts/AetherRemapDraft.xlsx`, prototypes `aetherHeavenFix.py` /
@@ -1022,12 +1022,13 @@ with one object fewer (no dress). What it found, in the order it cost:
    circle emblem, groups 99-104) rests out to his left and the skin's simulated bones swing it to the middle. On his
    outer cape chain, his inner one, or his torso it hung off to his left -- so the merge template has `pushAway` now
    (`GIMIMergeFixerConfig::Component::pushAway`, the component template's `VGPushAway`, one shared
-   `VGPushAway::displacement`), and the drape is pulled 17 cm in at its hem. **Try it as a hand edit of the fixed
+   `VGPushAway::displacement`), and the drape is pulled 13 cm in at its hem. **Try it as a hand edit of the fixed
    `RemapPosition.buf` first**: scaling the drape's vertices by their remapped weight share took minutes and showed the
    idea worked before any C++ was written. Its bones are a SHARE of both his inner cape chains (the merge has
    `splitGroups` now too, `GIMIMergeFixerConfig::Component::splitGroups`): on the left chain alone it twisted with that
    chain in his idle. **The test for "centred" is what shows THROUGH the circle emblem**: on the skin's card the dark
-   gap between the legs, on his at 13 cm still the white of his left coat panel.
+   gap between the legs, on his at 13 cm still the white of his left coat panel -- and at 17 cm it overshot to his
+   right and took the crystal pendant onto his right leg, so it stays at 13 with the in-between untried.
 6. **A light map toggled against SEVERAL diffuses needs an edit per diffuse** (`GIMIComponentFixerConfig::lightMapPerDiffuse`,
    opt-in). Aether5's hair key binds a grey diffuse beside the SAME light map as the blonde one, and a diffuse-gated band
    move decided from the blonde kept the grey hair on the warm band. Each distinct diffuse an object's section binds now
@@ -1064,16 +1065,22 @@ drawing an object only through its ib section's `drawindexed = auto` loses that 
 a different number of UNREFERENCED files depending on the folder's name (the `.ini` is identical and undo removes them):
 cosmetic, cause not found.
 
-**Handed to the maintainer OPEN after forward epoch 7 / reverse epoch 6 (2026-10-25), not clean.** Forward: the cape
-(50 / 50 share) opens its slit like his card, a cloak's included; its hem ends a little higher and its corners flare a
-touch -- the lowest links' own share (30%, 15%) changed nothing visible. Reverse: the emblem drape (7 cm pull) puts its
-pendant where the skin's hangs, the emblem a little to his right (ending the pull's ramp lower changed nothing); the
-coat's hem flares wider front and back. Side panels (66-73) and front panels (58-65) are pulled in 8 cm at the hem
-(`AetherHeavenFixer`); the front pull MOVED the front panels 3-7 cm in the buffer and changed nothing the game
-agent could see, so what flares is not those panels and its cause is not found. A faint teal see-through edge on
-Aether5's elemental coat, seen on the skin card right after a card switch in three of seven epochs and never on a
-re-shoot, cause not found. **Read the agent's strips, not your own single frames**: twice a pull that looked right
-in one of my shots changed nothing across the agent's timed series.
+**STOPPED AT THE 10-EPOCH LIMIT IN BOTH DIRECTIONS (2026-10-26) and handed to the maintainer OPEN.** What is open,
+and which kind it is:
+
+- *Measured out of reach* (the skin's ramp, point 3): a white mane, white hair and white trousers shade neutral or
+  slightly warm where his card tints them lavender-pink; Aether7's cream cape shaded panel slightly cooler.
+- *Tuning, not found*: the forward cape slit at 8 cm is about 3x his gap at the hem on the identity and synthetic
+  capes and opens high on Aether7 (5 cm was narrow on Aether7 / Aether8); the reverse drape at 13 cm sits a little
+  left of his spine (17 cm overshot right).
+- *Cause not found*: the reverse coat's back hem -- a navy lining strip down the left panel's outer edge, his trousers
+  between the centre and right panels, more ragged tips -- and its front edges' blue lining band; on Aether1 the inner
+  face of the back flap behind his left leg shows an orange gradient on the skin card; on HSynthNoBang his bare scalp
+  is brown where the skin's is dark red (his own head mesh, probably).
+
+**Read the agent's strips and numbers, not your own single frames**: three times a change that looked right in one
+of my shots was measured wrong across the agent's timed series (and once the agent's eye said FIXED where its own
+measurement next epoch said 2x).
 
 <br>
 

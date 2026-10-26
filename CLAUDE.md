@@ -247,7 +247,11 @@ the merge template has `pushAway` now (`GIMIMergeFixerConfig::Component::pushAwa
 and a band move can be gated by the diffuse's HUE -- his shader keeps a surface's hue in shade where the skin's
 multiplies a tinted ramp row. A cape between two wrong bones is a `splitGroups` SHARE (60 / 40), and a drape MODELLED
 splayed out needs a displacement rather than a bone: hand-edit the fixed `RemapPosition.buf` to prove it first. Judge
-drape from full-size crops in a strip across rounds, never a sheet thumbnail. See
+drape from full-size crops in a strip across rounds, never a sheet thumbnail. **Then (2026-10-26) three more, all
+opt-in or bug-only:** a light map toggled against several diffuses gets a band edit per diffuse
+(`GIMIComponentFixerConfig::lightMapPerDiffuse`), the merge has `splitGroups` too, and in a merged master a member that
+borrows another branch's ib takes THAT branch's textures (a variant without eyes drew them with the body atlas). **Both
+directions stopped at the 10-epoch limit, handed over OPEN.** See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "AETHER <-> AETHERHEAVEN".
 
 **NEUVILLETTE <-> NEUVILLETTEMELUSENT IS COMPILED BOTH WAYS (2026-09-25), AND THE SKIN HAS ONE REAL MOD --

@@ -35,17 +35,16 @@ Grading
        | - The skin draws its OWN face, and a face texture cannot be moved from his face to the skin's: on the
        | skin, a mod that repaints his face shows the skin's face instead.
        |
-       | - His back cape hangs half from the skin's back coat chain and half from its upper torso, so it keeps
-       | his centre slit (a cloak's too); its hem sits a little higher than on his own outfit, its corners a touch out.
+       | - His back cape hangs half from the skin's back coat chain and half from its upper torso, and its centre
+       | slit opens towards the hem as on his own outfit (a cloak's too); on some capes it opens wider than his.
        |
-       | - A cool-coloured surface (a white or blue-grey mane, a lilac cape) keeps its cool shade; a warm one
-       | shades as on his own outfit.
+       | - A cool or white surface (a white or blue-grey mane, a lilac cape) keeps a cool shade; a warm one shades
+       | as on his own outfit. A hair colour toggle that swaps only the texture is shaded by its own colour.
        |
-       | - **Limitation:** a glowing eye painted into his body texture (a mask's eye, say) shows white on the
-       | skin: the skin's eye shader does not colour a glow.
+       | - His eyes are drawn on the skin's head, so a glowing eye (a mask's elemental eye, say) glows on the skin.
        |
-       | - **Limitation:** white cloth shades a little warmer (peach-white) in shadow than on his own outfit, and
-       | cream cloth a little cooler.
+       | - **Limitation:** white hair and white cloth shade neutral or a little warm in shadow where his own outfit
+       | tints them lavender, and cream cloth a little cooler: the skin's shading has no lavender tone to give.
        |
        | - **Limitation:** a mod that gives an object no section of its own, drawing it only through its index
        | buffer's ``drawindexed = auto``, has that object missing on the skin.
@@ -58,11 +57,14 @@ Grading
        | - His own face is drawn, for the same reason as the other way round: a mod repainting the skin's face
        | keeps his face on him.
        |
-       | - The coat's long emblem drape at the back rides his cape chain and is pulled in towards his middle, as
-       | the skin's own bones carry it, its pendant where the skin's hangs; its emblem sits a little to his right.
+       | - The coat's long emblem drape at the back rides both of his cape chains and is pulled in towards his
+       | middle, as the skin's own bones carry it, its pendant where the skin's hangs; its emblem sits a little to
+       | his left.
        |
-       | - The coat's hem flares a little wider than on the skin, front and back: its panels are modelled for the
-       | skin's own simulated bones, and his bones carry them apart.
+       | - The coat's hem at the back is a little more ragged than on the skin, with its lining showing at one edge
+       | and a narrow gap between two panels: its panels are modelled for the skin's own simulated bones.
+       |
+       | - A merged mod's variant that lacks the eyes shows the eyes of the variant that has them.
        |
        | - A mod that hides the skin's bangs shows no bangs on him either.
        |

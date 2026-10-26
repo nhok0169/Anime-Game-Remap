@@ -74,7 +74,11 @@ until one finds nothing. Only then does the maintainer look -- to approve, not t
 "THE IN-GAME AUDIT".
 **HARD LIMIT: 10 EPOCHS PER DIRECTION (the maintainer, 2026-10-16).** If the 10th epoch still is not clean, STOP:
 write up what is open and hand it to the maintainer, who checks it themselves. Lynae <-> LynaePeppermint ran for days
-with new bugs in every round; do not start an 11th.
+with new bugs in every round; do not start an 11th. **Spend the budget on MECHANISMS, not on one number per epoch
+(2026-10-26):** Aether <-> AetherHeaven used all twenty, most on drape magnitudes probed one value at a time. Bracket a
+magnitude yourself between epochs (prototype options, a few variants, `Tools/Misc/Diagnostics/cardSeries.py`), and
+make the game agent report the same NUMBERS every epoch -- its eye called a cape slit fixed that its own metric next
+epoch measured at twice his. See Creating Remaps' "RUNNING THE EPOCHS: what twenty on Aether taught".
 **"CLEAN" MEANS THE EPOCH FOUND NOTHING -- AND A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (2026-10-17).**
 Filing an epoch's findings as limitations afterwards does not make that epoch clean; say which limitations are
 MEASURED to be out of reach and which only "cause not found", and hand the second kind over as open. Before starting
@@ -340,7 +344,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (125 as of 2026-10-26), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (127 as of 2026-10-26), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

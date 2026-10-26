@@ -2131,6 +2131,23 @@ and treat a timeout as an error. The same instinct applies to this guide set its
 lines of dated narrative, so `Grep` it for your symbol names (count mode over `AI Agent Help/`, then
 `-C 3` on the hits) and read the whole section of each hit, rather than reading top to bottom.
 
+**126. A NEW FIELD COMPUTED BEFORE THE LAST PASS THAT REWRITES ITS INPUTS IS INERT -- PRINT WHAT THE NEW CODE
+SEES, NOT WHETHER IT RAN (2026-10-26).** `GIMIComponentFixerConfig::lightMapPerDiffuse` built cleanly, A/B'd
+identical to its prototype, and changed nothing: the list of diffuses it gathered was filled where the positional
+reading of an object's textures is made, and the by-NAME reading a few lines later -- which is what Aether's config
+uses -- cleared it. The prototype shared the bug, so the A/B was blind (habit 56). Wrapping the lightMapEdit callback
+in Python to log what it was asked for showed the toggled diffuse was never requested; ONE rebuild with an env-gated
+`std::fprintf(stderr, ...)` of the list's SIZE per object (`0 resources` on every object) named the cause. In a
+reader that several passes refine (positional -> by name -> per branch), compute derived data after the last of
+them, and print counts of what the new code received before debugging what it did with it.
+
+**127. TWO RESOURCE EDITS OF ONE SOURCE NEED DIFFERENT `resSubType`S, NOT JUST DIFFERENT GRAPH IDS (2026-10-26).**
+A `TexReplace` / `TexEditorReplace` names its fixed resource SECTION from the source resource and its subtype
+(`...<Component>LightMapRemapTex.<n>`); the `GraphId` and `modObj` only reach the FILE name. Two edits of one light
+map with the same subtype wrote two files and ONE section, so every branch bound the same edited copy and the run
+reported nothing. Give each edit its own subtype (`"LightMap" + suffix`), then read the fixed `.ini`'s resource
+sections, not just the files on disk, to see that each branch binds its own.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

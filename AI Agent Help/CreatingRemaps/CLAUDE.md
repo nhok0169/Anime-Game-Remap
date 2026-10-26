@@ -445,6 +445,38 @@ The items it found are in the LYNAE section. These are the lessons about RUNNING
   gain on the item it was aimed at, and was reverted. A change that moves many mods and fixes nothing is a
   regression risk with no upside.
 
+### RUNNING THE EPOCHS: what twenty on Aether taught (2026-10-26)
+
+Aether <-> AetherHeaven used all ten epochs in BOTH directions and was handed over open. Most of the budget went on
+drape MAGNITUDES (how far a pull, how big a share), one value per epoch. The lessons, for any pair:
+
+- **Ask the game agent for NUMBERS, and the same numbers every epoch.** Its eye said the cape slit was FIXED at a
+  5 cm push; the next epoch it measured the gap as a fraction of the cape width at 85% / 95% of the cape's height and
+  the same build's numbers were twice his. Put the metric in the brief -- gap / width at fixed heights for drape,
+  low-saturation mid-tone RGB of a part for shade, the background showing through a hole (an emblem's circle) for
+  position -- with the previous epoch's remap as a third row, so a change is read as a number moving.
+- **Bracket a magnitude BETWEEN epochs, yourself, never one value per epoch.** Make the magnitude a prototype option
+  (`--capeSlitOpen`, `--drapePull`, `--drapeShare`, `--coolBand`), build two or three variants into fresh folder
+  names (`mkvariants`-style), and shoot them on both cards in one sitting (`Tools/Misc/Diagnostics/cardSeries.py`).
+  An epoch then confirms a choice instead of probing one. The drape went 7 -> 13 -> 17 cm across three epochs and the
+  last overshot; one bracketed sitting would have shown all three.
+- **When the last epoch overshoots, hand over the better-tested value, not the latest.** Revert to what an epoch
+  measured as closer, say which in-between value is untried, and re-stage fixed copies from the FINAL build (a
+  `...Final` staging folder) so what the maintainer looks at matches the code.
+- **An epoch spent on a STRUCTURAL fix is worth more than one spent on a number.** The epochs that moved the most were
+  the ones that found a mechanism: a gate that skipped neutrals, a light map shared across toggled diffuses, an eye on
+  a shader that cannot glow, a merged variant drawing on another variant's ib. Before a tuning epoch, re-read the open
+  items for a mechanism you have not ruled out (throw candidate bones aside in the fixed `RemapPosition.buf`, render a
+  histogram of the texels a gate moves -- `bandHueStats.py`).
+- **Make the agent shoot NEAR FACE of every variant of a synthetic merged master.** The variant-without-eyes bug was in
+  the shots of an epoch and went unreported; it was a shared-code bug in the merge, and only the synthetic master had it.
+- **A toggle that swaps only one texture is a variant of the FIX, not just of the mod.** Before an epoch, list for each
+  object every (diffuse, light map) pair its branches bind: Aether5's hair key bound a grey diffuse with the blonde's
+  light map, and the band move -- decided from the blonde -- was wrong for the grey until
+  `GIMIComponentFixerConfig::lightMapPerDiffuse`.
+- **Before handing over:** restore the maintainer's mods (`mods GIMI load <names>`, then `reload`) and grep the restored
+  folders for `RemapFix` to prove they are unfixed; update the memory and the docs; push only when asked.
+
 ### A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (the maintainer, 2026-10-16)
 
 From the maintainer's GI experience: **a game's shaders change with updates far faster than its meshes or

@@ -221,9 +221,10 @@ namespace AGRemapCore {
             bang.overlapRings = 1;
             bang.standIns = {{2, 0}};
 
-            // His eyes (vertex groups 0 / 1) are in his HEAD object. The skin draws its Eye on the PLAIN shader 95aa6cdb
-            // with a diffuse / light map at ps-t0 / ps-t1 under NNFix. His eyes and the skin's coincide within 0.7 mm
-            // (vertex-group centroids): no position offset.
+            // His eyes (vertex groups 0 / 1) are in his HEAD object, and go to the MAIN mesh's head (VGRemapData): the
+            // skin's Eye shader (the PLAIN 95aa6cdb) draws an elemental eye's glowing iris white. The Eye's row is empty,
+            // so this fixer draws nothing of his and hides the skin's own eye; it stays configured for that hide, and the
+            // TexFx guards it owns.
             GIMIComponentFixerConfig::Component eye{};
             eye.name = "Eye";
             eye.modTypeName = ModTypeIdTools::getName(ModTypeId::AetherHeavenEye);

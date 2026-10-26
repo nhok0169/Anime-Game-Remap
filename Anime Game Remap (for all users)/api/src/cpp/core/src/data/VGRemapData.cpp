@@ -1532,7 +1532,10 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         // Tools/VGRemapFinder's proposal, reviewed row by row for the KIND of part on both models from front / side
         // renders of every bone ('Reviewed:' in the draft's Comments) and audited for how each will MOVE ('Behaviour:').
         // His head stays on the skin's main head (4); his side locks go root onto root to the skin's Bang side locks
-        // (13/14, 15/16), his ahoge to Bang:8/9, his braid link for link to the skin's braid, his eyes to its Eye. Both
+        // (13/14, 15/16), his ahoge to Bang:8/9, his braid link for link to the skin's braid, his eyes to its main HEAD (4): on its Eye component the skin's
+        // eye shader drew an elemental eye mod's glowing cyan iris white / grey (forward epoch 8, Aether5), on the main mesh
+        // it glows as on his card, and ordinary eyes are unchanged. The Eye row is left EMPTY, so its fixer still hides
+        // the skin's own eye. Both
         // his back cape chains per side ride that side's back COAT chain at the inner root (74 / 75) and the last two links
         // (78-80 / 79-81), and the skin's upper torso (50) between: every link on the coat chain closed his cape's two
         // panels over the split between them (epoch 1), every top link on the torso opened it far wider than on his own
@@ -1542,7 +1545,7 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
           "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven), ""},
          VGRemap({
-            {2, 4}, {7, 113}, {8, 114}, {9, 116}, {10, 115}, {11, 50}, {14, 98}, {15, 48}, {16, 25}, {17, 56},
+            {0, 4}, {1, 4}, {2, 4}, {7, 113}, {8, 114}, {9, 116}, {10, 115}, {11, 50}, {14, 98}, {15, 48}, {16, 25}, {17, 56},
             {18, 3}, {19, 2}, {20, 28}, {21, 45}, {22, 49}, {23, 5}, {24, 22}, {25, 26}, {26, 62}, {27, 81},
             {28, 80}, {29, 0}, {30, 1}, {31, 23}, {32, 55}, {33, 6}, {34, 29}, {35, 50}, {36, 50}, {37, 46},
             {38, 47}, {39, 24}, {40, 50}, {41, 50}, {42, 74}, {43, 75}, {44, 50}, {45, 50}, {46, 50}, {47, 78},
@@ -1562,7 +1565,6 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
         {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
           "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "Eye"},
          VGRemap({
-            {0, 1}, {1, 0}
          })},
 
         // ===== from AetherHeaven @ 1.0 (2026-10-24) =====

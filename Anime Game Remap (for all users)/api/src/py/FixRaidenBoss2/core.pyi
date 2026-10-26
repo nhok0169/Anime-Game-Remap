@@ -6159,6 +6159,16 @@ class GIBuilder:
         
     """
     @staticmethod
+    def aether() -> ModType:
+        """
+        Creates the :class:`ModType` for Aether
+        """
+    @staticmethod
+    def aetherHeaven() -> ModType:
+        """
+        Creates the :class:`ModType` for AetherHeaven, the skin of three components; its component ids are fix targets only and have no factory
+        """
+    @staticmethod
     def amber() -> ModType:
         """
         Creates the :class:`ModType` for Amber
@@ -15938,6 +15948,16 @@ class ModTypeId:
     
     Members:
     
+      Aether : Aether (the male Traveler) from GI
+    
+      AetherHeaven : Aether outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye)
+    
+      AetherHeavenMain : AetherHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes
+    
+      AetherHeavenBang : AetherHeaven's Bang component, as a fix target
+    
+      AetherHeavenEye : AetherHeaven's Eye component, as a fix target
+    
       Amber : Amber from GI
     
       AmberCN : Amber Chinese version from GI
@@ -16118,6 +16138,11 @@ class ModTypeId:
     
       ChangliNymph : Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1)
     """
+    Aether: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Aether: 0>
+    AetherHeaven: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeaven: 1>
+    AetherHeavenBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenBang: 3>
+    AetherHeavenEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenEye: 4>
+    AetherHeavenMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenMain: 2>
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
     Arlecchino: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Arlecchino: 4>

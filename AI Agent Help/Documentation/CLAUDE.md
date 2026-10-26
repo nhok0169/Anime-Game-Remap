@@ -539,6 +539,15 @@ AGREMAP_DOCS_STUBS=force py -3 -m sphinx -b html -E --keep-going src build/html
 `force` makes the stand-ins be used even though the real modules are right there. If the page you
 care about renders under that, it will render on the site.
 
+**A NEW CHARACTER WITHOUT ITS STUB ENTRIES BREAKS THE WHOLE SITE, NOT ONE PAGE (2026-10-26).** The pure-Python
+`ModTypes` enum calls `GIBuilder.<name>()` at import, so a remap that adds a character to `ModTypes` and a
+`ModTypeId` / `GIBuilder` factory in C++ but not to `core.pyi` makes `import FixRaidenBoss2` raise
+`AttributeError: type object 'GIBuilder' has no attribute '<name>'` under the stand-ins -- and Read the Docs fails
+outright (Aether / AetherHeaven did, after the branch merged). Run the command above before pushing any branch that
+adds a character, and splice the missing names (step 2 of "REFRESHING THE COMMITTED ARTIFACTS": a member-name
+comparison against a scratch stub lists them; on Windows, put the docs venv at a SHORT path such as
+`%TEMP%\agrdocs`, or pip fails on `MAX_PATH` inside `sphinxcontrib`).
+
 Two things were wrong in `.readthedocs.yaml` before this, and each one is fatal on a branch that
 carries the C++ API --- which since 2026-09-18 is **every** branch that matters: `development` was merged
 into the default branch that day, and it was renamed from `nhok0169` to `master`. Before that merge

@@ -228,6 +228,32 @@ int main() {
               "a target narrower than the widest component changes nothing -- it is a floor, never a cut");
     }
 
+    // ---- a SHARED group spreads its weight over several target bones (VGMergeComponentSpec::splitGroups) ----
+    {
+        std::vector<AGRC::VGComponentMerge::Component> components;
+        AGRC::VGComponentMerge::Component body = makeComponent("Body", {{5, 42}, {6, 43}, {7, 9}},
+            {{1.0, 0.0, 0.0, 0.0}, {0.5, 0.5, 0.0, 0.0}, {1.0, 0.0, 0.0, 0.0}},
+            {{5, 0, 0, 0}, {5, 6, 0, 0}, {7, 0, 0, 0}}, 40, 4, 0);
+        body.spec.splitGroups = {{5, {{42, 0.5}, {43, 0.5}}}};
+        components.push_back(std::move(body));
+        AGRC::VGComponentMerge merge(std::move(components));
+
+        const auto weightOf = [&merge](std::size_t line, std::size_t k) {
+            float value = 0.0f;
+            std::memcpy(&value, merge.blend().data() + line * 32 + k * 4, sizeof(value));
+            return value;
+        };
+
+        check(indicesOf(merge.blend(), 0) == std::vector<long long>({42, 43, 0, 0})
+                  && weightOf(0, 0) == 0.5f && weightOf(0, 1) == 0.5f,
+              "a vertex wholly on a shared group goes half to each bone of the share");
+        check(indicesOf(merge.blend(), 1) == std::vector<long long>({43, 42, 0, 0})
+                  && weightOf(1, 0) == 0.75f && weightOf(1, 1) == 0.25f,
+              "a share landing on a bone the vertex already has merges into it, heaviest first");
+        check(indicesOf(merge.blend(), 2) == std::vector<long long>({9, 0, 0, 0}) && weightOf(2, 0) == 1.0f,
+              "a vertex on no shared group keeps its row's bone");
+    }
+
     std::cout << (failures == 0 ? "\nALL PASSED\n" : "\n" + std::to_string(failures) + " FAILED\n");
     return failures == 0 ? 0 : 1;
 }

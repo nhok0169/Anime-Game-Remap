@@ -25,6 +25,10 @@ def hashesOf(name):
         # ...and its textures: a recolour's texture-hash sections are copied onto them
         for obj in e.get("texture_hashes", []):
             out[e["component_name"]].update(h for _, _, h in obj)
+    # the sword's textures, which no Hash.json lists: HashData files them with the outfit (Body / Dress),
+    # whose fixer carries a weapon recolour onto the skin's
+    out.setdefault("Body" if name == "Miyabi" else "Dress", set()).update(
+        {"718d7915", "b73ed7e7", "e1603ca5"} if name == "Miyabi" else {"e1215530", "9d2adcc5", "4659445f"})
     return out
 
 

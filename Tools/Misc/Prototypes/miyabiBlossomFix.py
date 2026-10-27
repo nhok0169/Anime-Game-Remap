@@ -348,10 +348,18 @@ def bandEdit(comp: str):
     def edit(texFile) -> None:
         pixels = np.array(texFile.img.convert("RGBA"))
         red = pixels[..., 0].astype(np.int16)
-        nearest = np.abs(red[..., None] - levels).argmin(axis = -1)
-        pixels[..., 0] = to[nearest]
+        dist = np.abs(red[..., None] - levels)
+        nearest = dist.argmin(axis = -1)
+        # only a texel ON a band moves (within a few levels, for compression); a mod's in-between reds -- a gradient,
+        # anti-aliasing, a level of its own -- keep their value rather than snapping to a band they are not
+        onBand = dist.min(axis = -1) <= BandTolerance
+        moving = onBand & (to[nearest].astype(np.int16) != levels[nearest])
+        pixels[..., 0] = np.where(moving, to[nearest], pixels[..., 0])
         texFile.img = Image.fromarray(pixels, "RGBA")
     return edit
+
+
+BandTolerance = 8
 
 
 def removeRef(value: str) -> str:
@@ -498,17 +506,53 @@ def fallbackSections(ini, comp: str, toName: str) -> str:
     text = []
     for role, Role in TexRoles.items():
         srcHash = texHash(SOURCE, comp, role)
-        if (srcHash.lower() in recoloured):
-            continue
-        name = f"{toName}RemapDL{Role}"
+        name = fallbackName(ini.file, toName, Role)
         file = os.path.join(os.path.dirname(ini.file), name + ".dds")
         moves = bool(BandMoves.get(comp))
         edit = (bandEdit(comp) if (role == "lightmap") else tintCompensation(comp, lightMapFor(ini.file, comp)) if (role == "diffuse" and TintCompensation) else None) if moves else None
         _fallbacks.append((os.path.join(DownloadFolder, f"{srcName(comp)}A{Role}.dds"), file, edit))
-        text.append(f"[TextureOverride{name}]\nhash = {texHash(TARGET, Routes[comp], role)}\nthis = Resource{name}\n\n"
-                    f"[Resource{name}]\nfilename = {name}.dds\n")
+        text.append(f"[Resource{name}]\nfilename = {name}.dds\n")
+        if (srcHash.lower() in recoloured):
+            # the mod recolours it, maybe only under a toggle: its carried copy gets this as its DEFAULT
+            # (defaultRecolours), so a toggle that is off does not leave the skin's own texture at Miyabi's UVs
+            _defaults[(os.path.normcase(ini.file), texHash(TARGET, Routes[comp], role).lower())] = f"Resource{name}"
+            continue
+        text.append(f"[TextureOverride{name}]\nhash = {texHash(TARGET, Routes[comp], role)}\nthis = Resource{name}\n")
         print(f"  {toName}: the mod recolours no {Role} -- the game's {srcName(comp)} {Role} goes on the skin's")
     return "\n".join(text)
+
+
+_defaults = {}   # (ini, target texture hash) -> the fallback resource the carried recolour copies default to
+
+
+def fallbackName(iniPath: str, toName: str, Role: str) -> str:
+    """One name per .ini: two .ini files in one folder writing the same file would have an undo of one delete the
+    other's texture"""
+    stem = re.sub(r"\W", "", os.path.splitext(os.path.basename(iniPath))[0])
+    return f"{toName}RemapDL{Role}{stem}"
+
+
+def defaultRecolours(folder):
+    """GAP 6b: each carried recolour copy (a fix-block section on a target texture hash, with `this =`) first binds
+    the source's game texture, so the mod's own `this` lines -- under a toggle or not -- override a default"""
+    for ini in _inis(folder):
+        key = os.path.normcase(ini)
+        wanted = {h: res for (path, h), res in _defaults.items() if path == key}
+        if (not wanted):
+            continue
+        raw = open(ini, "rb").read().decode("utf-8", errors = "surrogateescape")
+        nl = "\r\n" if ("\r\n" in raw) else "\n"
+        i = raw.find("; --------------- Miyabi Remap")
+        if (i < 0):
+            continue
+        def inject(m):
+            h = re.search(r"^(\s*hash\s*=\s*([0-9a-fA-F]{8})[ \t]*\r?\n)", m.group(2), re.M)
+            if (not h or h.group(2).lower() not in wanted or "RemapFix" not in m.group(1) or not re.search(r"^\s*this\s*=", m.group(2), re.M)):
+                return m.group(0)
+            body = m.group(2)
+            return f"[{m.group(1)}]{nl}" + body[:h.end()] + f"this = {wanted[h.group(2).lower()]}{nl}" + body[h.end():]
+        block = SectionRe.sub(inject, raw[i:])
+        open(ini, "wb").write((raw[:i] + block).encode("utf-8", errors = "surrogateescape"))
 
 
 def writeFallbacks():
@@ -582,7 +626,7 @@ def makeFixer(comp, modType, indices):
             # after it (without it 3DMigoto COPIES the resource rather than referencing it)
             zzmiLightMap = "Resource\\ZZMI\\LightMap"
             stripRef = FRB.RegNewVals({zzmiLightMap: FRB.FromOldVal(lambda old, modType: removeRef(old))})
-            addRef = FRB.RegNewVals({zzmiLightMap: FRB.FromOldVal(lambda old, modType: "ref " + removeRef(old))})
+            addRef = FRB.RegNewVals({zzmiLightMap: FRB.FromOldVal(lambda old, modType: old if (removeRef(old).lower() == "null") else "ref " + removeRef(old))})
             edits.append(FRB.GraphGroupEdit([{OBJ(comp, obj): [stripRef] for obj in objs}]))
             # GAP 10: a `ps-t5 = ref <resource VARIABLE>` (Miyabi9's shared CommandListRunSlotFix, one list for every
             # component) names no file, and editing it per component means rewriting the mod's own list -- left
@@ -656,7 +700,11 @@ def makeFixer(comp, modType, indices):
 
         _alive.extend(edits)
         fixer = FRB.GIMIFixer(parser, graphGroupEdits = edits, modsToFix = [toModName])
-        if (comp in TexPairs and modType.hashes.get([srcName(comp), "ib"], V).lower() in open(ini.file, encoding = "utf-8", errors = "replace").read().lower()):
+        # a section of the mod's own on the component's ib (`hash = ...` line, not a substring: a help overlay or a
+        # commented line naming the hash is no reason to add fallbacks)
+        ownText = open(ini.file, encoding = "utf-8", errors = "replace").read().split("; --------------- Miyabi Remap")[0]
+        drawsComp = re.search(r"^[ \t]*hash[ \t]*=[ \t]*" + modType.hashes.get([srcName(comp), "ib"], V) + r"\b", ownText, re.M | re.I)
+        if (comp in TexPairs and drawsComp):
             fixer.appendedSections = fallbackSections(ini, comp, toModName)
         _alive.append(fixer)
         return fixer
@@ -728,6 +776,95 @@ def addWeaponCopies(folder):
             print(f"  {os.path.relpath(ini, folder)}: {len(copies)} sword texture override(s) carried to the skin's sword")
 
 
+# GAP 18: A BODY MESH DRAWN FROM THE LEGS SLOT GOES BACK TO THE DRESS SLOT. Miyabi1 / 4 / 5 / 6 / 8 pre-skin their
+# Body mesh on the Body pass (`ResourceBodyVB = copy so0`) and draw it from a LEGS section (`ib = <Body ib>`,
+# `vb0 = ResourceBodyVB`). On Miyabi her Body and Legs palettes put the same bone in the same place, so that works;
+# on the skin the DRESS palette (where the Body copy pre-skins) sits ~3.5-4 cm off the BODY palette (which the Legs
+# copy draws in), so the Body mesh drew that far off the body under it (Miyabi6's hip hole). So those draws are
+# moved, with their if-structure and texture lines, into the Dress copy, which reads its own pre-skin; the Legs
+# copy's are zeroed. The Dress slot binds other texture hashes, so the mod's Legs texture overrides are bound there
+# explicitly (`this` -> the role's register). A text pass over the fix block, after the API's fix; the port wants a
+# graph edit that moves draws between two fixers' copies.
+LegsTexRegs = {"012e84e9": "ps-t3", "ebac056e": "ps-t4", "a6ea6d83": "ps-t5", "d5462e37": "ps-t6"}   # Miyabi Legs
+SectionRe = re.compile(r"^\[([^\]]+)\][ \t]*\r?\n(.*?)(?=^\[|^; \*\*\*|\Z)", re.M | re.S)
+
+
+def moveCrossSlotDraws(folder):
+    for ini in _inis(folder):
+        raw = open(ini, "rb").read().decode("utf-8", errors = "surrogateescape")
+        nl = "\r\n" if ("\r\n" in raw) else "\n"
+        i = raw.find("; --------------- Miyabi Remap")
+        if (i < 0 or "; ***** MiyabiBlossomBody *****" not in raw or "; ***** MiyabiBlossomDress *****" not in raw):
+            continue
+        own, block = raw[:i], raw[i:]
+        # the buffers a Body section pre-skins into, and the Legs ib(s)
+        bodyIb, legsIb = "981c1a1e", "d8003df3"
+        written, legsIbs, texLines = set(), set(), []
+        for m in SectionRe.finditer(own):
+            h = re.search(r"^\s*hash\s*=\s*([0-9a-fA-F]{8})", m.group(2), re.M)
+            if (not h):
+                continue
+            h = h.group(1).lower()
+            written |= set(re.findall(r"^\s*(Resource\w+)\s*=\s*(?:copy\s+)?so0\s*$", m.group(2), re.M))
+            if (h == legsIb):
+                legsIbs |= {removeRef(v) for v in re.findall(r"^\s*ib\s*=\s*(.+?)\s*$", m.group(2), re.M)}
+            if (h in LegsTexRegs and re.search(r"^\s*this\s*=", m.group(2), re.M)):
+                body = re.sub(r"^(\s*)this(\s*=)", rf"\g<1>{LegsTexRegs[h]}\2", m.group(2).rstrip(), flags = re.M)
+                # only the structure and the bindings: a `hash =` copied in would re-key the Dress section
+                texLines += [l for l in body.splitlines() if re.match(r"\s*(if|else|elif|endif)\b|\s*ps-t\d+\s*=", l)]
+        if (not written):
+            continue
+        # the Legs copy sections: zero their Body draws, and collect them (with structure and texture lines)
+        a = block.index("; ***** MiyabiBlossomBody *****")
+        legsPart = block[a:]
+        moved, sectionTex = [], []
+        def zero(m):
+            body = m.group(2)
+            if (not re.search(r"^\s*match_first_index\s*=", body, re.M)):
+                return m.group(0)
+            ib = vb0 = None
+            out, keep = [], []
+            for line in body.split(nl):
+                s = line.strip()
+                mi = re.match(r"ib\s*=\s*(.+)$", s)
+                mv = re.match(r"vb0\s*=\s*(.+)$", s)
+                if (mi):
+                    ib = removeRef(mi.group(1))
+                if (mv):
+                    vb0 = removeRef(mv.group(1))
+                isDraw = re.match(r"drawindexed\s*=", s)
+                cross = bool(isDraw and vb0 in written and ib)   # drawn over the Body's pre-skinned vertices
+                tex = re.match(r"(Resource\\ZZMI\\\w+\s*=|run\s*=\s*CommandList\\ZZMI\\SetTextures|ps-t\d+\s*=)", s, re.I)
+                # structure, ib, texture lines, the vertex buffers that name the Body's pre-skin, and the cross
+                # draws, in place (a texture toggle keeps its `if`)
+                pre = re.match(r"vb[03]\s*=\s*(.+)$", s)
+                if (re.match(r"(if|else|elif|endif)\b", s) or mi or cross or tex or (pre and removeRef(pre.group(1)) in written)):
+                    keep.append(line)
+                out.append(line.replace(s, "drawindexed = 0, 0, 0") if cross else line)
+            if (any(re.match(r"\s*(drawindexed|Resource\\ZZMI|run\s*=|ps-t)", l, re.I) for l in keep)):
+                moved.append((any(re.match(r"\s*drawindexed", l) for l in keep), nl.join(keep)))
+            return f"[{m.group(1)}]{nl}" + nl.join(out)
+        legsPart = SectionRe.sub(zero, legsPart)
+        if (not any(draws for draws, _ in moved)):
+            continue
+        moved = [text for _, text in moved]
+        block = block[:a] + legsPart
+        # into the Dress copy's object section, at its end
+        d = block.index("; ***** MiyabiBlossomDress *****")
+        e = block.index("; ***** MiyabiBlossomBody *****")
+        dressPart = block[d:e]
+        target = next((m for m in SectionRe.finditer(dressPart) if re.search(r"^\s*match_first_index\s*=", m.group(2), re.M)), None)
+        if (target is None):
+            print(f"  ! {os.path.basename(ini)}: no Dress object section to move the Body draws into")
+            continue
+        insert = nl.join(["; the Body draws this mod makes from its Legs slot (GAP 18)"] + texLines + moved) + nl
+        end = target.end()
+        dressPart = dressPart[:end].rstrip() + nl + insert + nl + dressPart[end:].lstrip("\r\n")
+        block = block[:d] + dressPart + block[e:]
+        open(ini, "wb").write((own + block).encode("utf-8", errors = "surrogateescape"))
+        print(f"  {os.path.relpath(ini, folder)}: {len(moved)} Legs-slot Body draw section(s) moved to the Dress slot")
+
+
 def runOne(folder, undo = False):
     ids = {int(getattr(FRB.ModTypeId, SOURCE))}
     removeWeaponCopies(folder)
@@ -737,6 +874,8 @@ def runOne(folder, undo = False):
     writeFallbacks()
     if (not undo):
         addWeaponCopies(folder)
+        moveCrossSlotDraws(folder)
+        defaultRecolours(folder)
     stats = service.stats
     print(f"{folder}: ini fixed {len(stats.ini.fixed)}, skipped {len(stats.ini.skipped)}")
     for path, err in stats.ini.skipped.items():

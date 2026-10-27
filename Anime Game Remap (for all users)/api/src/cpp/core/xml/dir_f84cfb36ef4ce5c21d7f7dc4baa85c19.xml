@@ -2,6 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_f84cfb36ef4ce5c21d7f7dc4baa85c19" kind="dir">
     <compoundname>include/AGRemapCore/data/IniParseData</compoundname>
+    <innerdir refid="dir_4ad63b782afbe45f6032ce592360d9fd">include/AGRemapCore/data/IniParseData/Aether</innerdir>
+    <innerdir refid="dir_b557910af2c7fc130747263841b5083c">include/AGRemapCore/data/IniParseData/AetherHeaven</innerdir>
     <innerdir refid="dir_83cda2f89c690c47357dd5e732b16140">include/AGRemapCore/data/IniParseData/Amber</innerdir>
     <innerdir refid="dir_293a34424fcae5426feda7d1fe148afb">include/AGRemapCore/data/IniParseData/AmberCN</innerdir>
     <innerdir refid="dir_724d6b0f2fb59c04eb285d011e556760">include/AGRemapCore/data/IniParseData/Arlecchino</innerdir>

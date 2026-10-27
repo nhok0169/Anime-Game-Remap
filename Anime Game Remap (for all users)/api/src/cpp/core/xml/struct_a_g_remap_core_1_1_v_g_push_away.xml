@@ -43,13 +43,14 @@
         <qualifiedname>AGRemapCore::VGPushAway::distance</qualifiedname>
         <initializer>= 0.0f</initializer>
         <briefdescription>
-<para>How far a vertex wholly on :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_v_g_push_away_1a207b7248972efcd98098c591c25f159d" kindref="member">groups</ref></computeroutput> moves, in model units. </para>
+<para>How far a vertex wholly on :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_v_g_push_away_1a207b7248972efcd98098c591c25f159d" kindref="member">groups</ref></computeroutput> moves, in model units <ndash/> negative pulls it TOWARDS :cpp:member:<computeroutput><ref refid="struct_a_g_remap_core_1_1_v_g_push_away_1ac35866357791eac94910e7a5ee53c4b9" kindref="member">from</ref></computeroutput> instead (eg. </para>
         </briefdescription>
         <detaileddescription>
+<para>cloth modelled wider than the target lets it hang, pulled in towards the body&apos;s axis) </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="54" column="15" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="55" column="15" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_push_away_1ae8041ce3f70f6873248e9840d3d4e8e3" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -67,7 +68,7 @@ Only vertices on this side of x = 0: ``1`` for x &gt; 0, ``-1`` for x &lt; 0, ``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="62" column="13" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="62" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="63" column="13" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_v_g_push_away_1aa546762e7d1f8b847cc7b6ff0ffa5109" prot="public" static="no" mutable="no">
         <type>std::array&lt; float, 2 &gt;</type>
@@ -99,7 +100,41 @@ push stop before it reaches the parting, with no cost to what it was sized for.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="84" column="20" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="84" bodyend="84"/>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="85" column="20" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_v_g_push_away_1a63520e5f31997dd8dcc667fc9f34c5b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::array&lt; float, 3 &gt;</type>
+        <definition>std::array&lt; float, 3 &gt; AGRemapCore::VGPushAway::displacement</definition>
+        <argsstring>(const float pos[3], const std::array&lt; double, 4 &gt; &amp;weights, const std::array&lt; long long, 4 &gt; &amp;indices) const</argsstring>
+        <name>displacement</name>
+        <qualifiedname>AGRemapCore::VGPushAway::displacement</qualifiedname>
+        <param>
+          <type>const float</type>
+          <declname>pos</declname>
+          <array>[3]</array>
+        </param>
+        <param>
+          <type>const std::array&lt; double, 4 &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const std::array&lt; long long, 4 &gt; &amp;</type>
+          <declname>indices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How far this push moves ONE vertex: ``{dx, 0, dz}`` for a vertex at &apos;pos&apos; with the four bone weights and
+SOURCE group indices of its blend line -- :cpp:member:`side`, :cpp:member:`fade` and the vertex&apos;s share of
+:cpp:member:`groups` applied. ``{0, 0, 0}`` for a vertex the push does not reach
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="95" column="20" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="32" bodyend="58"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -112,8 +147,9 @@ cut component gets depends on what the negative-index components keep), and whic
 index buffers take part
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="40" bodyend="85"/>
+    <location file="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" bodystart="40" bodyend="97"/>
     <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a63520e5f31997dd8dcc667fc9f34c5b9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>displacement</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a6135fcd2ba1a4fb58274e604f868154d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>distance</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1aa546762e7d1f8b847cc7b6ff0ffa5109" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>fade</name></member>
       <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ac35866357791eac94910e7a5ee53c4b9" prot="public" virt="non-virtual"><scope>AGRemapCore::VGPushAway</scope><name>from</name></member>

@@ -26313,6 +26313,22 @@ class WWMIFixerConfig:
         def offPasses(self, arg0: collections.abc.Sequence[str]) -> None:
             ...
         @property
+        def overlay(self) -> FixRaidenBoss2.core.WWMIFixerConfig.Shader | None:
+            """
+            Optional[:class:`WWMIFixerConfig.Shader`]: After each of the component's draws on the passes the slot's
+            :attr:`WWMIFixerConfig.slotPasses` name, the same draw again with this shader -- its
+            :attr:`WWMIFixerConfig.Shader.registers`, constant buffers and :attr:`WWMIFixerConfig.Shader.lines` --
+            while the component itself keeps the target slot's shader and its plan bindings. For a part whose surface
+            the target's shader draws right and only the SOURCE's shader can finish, eg. a glow written into the
+            scene-colour target alone (``("mask[1]", "0")`` ... with ``("depth_func", "equal")``). Its
+            :attr:`WWMIFixerConfig.Shader.registers` bind the mod's own files, unedited. Only its ``name``, ``ps``,
+            ``constantBuffers``, ``registers``, ``lines``, ``onlyWith`` and ``yieldToRabbitFX`` are read.
+            **Default**: ``None``, no such draw
+            """
+        @overlay.setter
+        def overlay(self, arg0: FixRaidenBoss2.core.WWMIFixerConfig.Shader | None) -> None:
+            ...
+        @property
         def rabbitFX(self) -> FixRaidenBoss2.core.WWMIFixerConfig.SourceComponent.RabbitFX | None:
             """
             Optional[:class:`WWMIFixerConfig.SourceComponent.RabbitFX`]: RabbitFX on this component, carried

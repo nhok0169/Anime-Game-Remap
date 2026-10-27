@@ -112,6 +112,12 @@ namespace AGRemapCore {
             // not a game texture: Changli's own blindfold diffuse in the skin's white lace
             // (Tools/Misc/Prototypes/changliNymphBlindfold.py)
             {"blindfold", "BlindfoldOnChangli"},
+            // the two game textures her see-through dress and shawl passes read beside the mod's maps, which no
+            // draw of Changli's binds: a matcap (t2) and the dither noise (t3)
+            {"sheerDetail", "24d13e57"},
+            {"sheerNoise", "308e6e5e"},
+            // ...and their subsurface ramp, which Changli's slots hold at a register that differs between passes
+            {"sheerRamp", "5c290276"},
         };
 
         return facts;

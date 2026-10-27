@@ -123,10 +123,14 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/Chisa/ChisaTextures.cpp
     src/data/IniFixData/Chisa/ChisaThumbprints.cpp
     src/data/IniFixData/Changli/ChangliFixer.cpp
+    src/data/IniFixData/Changli/ChangliTattooShader.cpp
+    src/data/IniFixData/Changli/ChangliUpperShader.cpp
     src/data/IniFixData/Changli/ChangliSkeleton.cpp
     src/data/IniFixData/Changli/ChangliTextures.cpp
     src/data/IniFixData/Changli/ChangliThumbprints.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp
+    src/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.cpp
+    src/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.cpp

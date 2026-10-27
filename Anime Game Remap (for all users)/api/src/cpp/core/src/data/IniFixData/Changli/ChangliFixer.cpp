@@ -15,11 +15,49 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
 #include "AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h"
+#include "AGRemapCore/data/IniFixData/Changli/ChangliTattooShader.h"
 #include "AGRemapCore/data/IniFixData/Changli/ChangliTextures.h"
+#include "AGRemapCore/data/IniFixData/Changli/ChangliUpperShader.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
+#include "AGRemapCore/model/files/TextureFile.h"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdint>
+#include <vector>
 
 
 namespace AGRemapCore {
+    namespace {
+        // The skin's outline pass multiplies its ps-t0 by a per-material tint (vs-cb5 / ps-cb2 rows 23-24),
+        // and the skin's bangs material tints far darker than Changli's: (0.713, 0.586, 0.593) against her
+        // (1, 0.823, 0.835) -- the same ratio on every channel, read off two character-menu frame dumps. Her
+        // own outline map is brightened by that ratio in linear light, which puts it back to what her own
+        // material draws (her outline maps peak at ~0.47 linear, so nothing clips). Her long hair is kept
+        // off that pass instead (see the plan).
+        constexpr double BangsOutlineGain = 1.4035;
+
+        TexEditor::Filter outlineGainFilter(double gain) {
+            std::array<std::uint8_t, 256> lut{};
+            for (int v = 0; v < 256; ++v) {
+                double lin = std::min(1.0, std::pow(v / 255.0, 2.2) * gain);
+                lut[v] = static_cast<std::uint8_t>(std::nearbyint(255.0 * std::pow(lin, 1.0 / 2.2)));
+            }
+
+            return [lut](TextureFile& tex) {
+                std::vector<std::uint8_t> px = tex.getPixels();
+                for (std::size_t i = 0; i < px.size(); i += 4) {
+                    px[i] = lut[px[i]];
+                    px[i + 1] = lut[px[i + 1]];
+                    px[i + 2] = lut[px[i + 2]];
+                }
+
+                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
+            };
+        }
+    }
+
     // Transcribed from Tools/Misc/Prototypes/changliNymphFix.py, which stays the oracle this is A/B'd
     // against. Pairing (per-component overlap of the two download folders' Position.buf, and shader
     // family, off character-menu dumps at 3.7.1): bangs, hair, face and eyes are the same mesh and the
@@ -122,18 +160,57 @@ namespace AGRemapCore {
             // whatever the skirt is not -- every part of hers drawn there vanished outside the menu
             {5, {4, {{"ps-t0", "coatNormal"}, {"ps-t1", "flatClothMask"}, {"ps-t2", "coatDiffuse"}, {"ps-t3", "noGlow"}}, true}},
             {6, {6, {{"ps-t0", "eyeIris"}, {"ps-t1", "eyeMask"}, {"ps-t2", "eyeDiffuse"}}}},
-            // her chest flame tattoo (7) is NOT drawn: her own shader cuts its shape out of the glow texture's
-            // alpha and draws it as a small dark mark, and the skin has no cut-out shader -- through the
-            // skin's body shader the whole quad drew as a red rectangle on her sternum (in-game audit,
-            // epoch 1). Left out of the plan, it is dropped
+            // her chest flame tattoo, on the skin's body slot too, drawn by its OWN shader below (through the
+            // skin's body shader the whole quad drew as a red rectangle on her sternum, in-game audit epoch 1)
+            {7, {4, {{"ps-t0", "glow"}}, true}},
         };
 
+        // her long hair is NOT drawn in the skin's outline pass: its layered strands' outline shells show
+        // through the gaps between strands as a second, darker copy of the hair (Changli9's "second shadow
+        // ghost") -- darker on the skin, whose hair outline tint is (0.547, 0.450, 0.457) against her
+        // (1, 0.823, 0.835), but visible even with her own tint restored (in game, 2026-10-24)
+        config.plan.at(1).offPasses = {"f8c96a270bf847dd"};
+
+        // ---- her flame feathers' GLOW, from HER upper-body pass (9d4c7d96) drawn as an emissive OVERLAY. A part
+        // of hers glows where its diffuse's alpha is above 230 (her shader's emissive is a colour times saturate((alpha -
+        // 0.9) / 0.1); a mod's flame feathers carry 240-255, the see-through and white parts other mods paint stay
+        // below 230 -- a cut-off at 117 lit Changli5's shirt and Changli2's stockings white, forward epoch 6),
+        // and the skin's body shader has no input that lights a part (a t3 at alpha 255 lit nothing), so through it
+        // the feathers kept their colours and never glowed. Her shader outright drew the whole upper body dark red,
+        // and drawn over the skin's surface her G-buffer outputs turned the feathers black -- they mean something
+        // else to the skin's lighting -- so the skin's shader draws the surface as before and a copy of hers draws it
+        // again at the same depth, discarding every pixel at or below that alpha and writing only the emissive target: the
+        // part's own diffuse x2, matched to the original's glow on Changli10's feathers (3182 / 4248 yellow pixels
+        // against 3176 / 4430). Its vertex inputs are the skin's body slot's, register for register. A RabbitFX mod
+        // keeps its look. It (and the tattoo below) drops out with the SKIN's camera-near fade -- the skin's per-object
+        // cb2[43] with the skin's own dither -- since her own fade reads her material constants, from a menu dump ----
+        WWMIFixerConfig::Shader upper = changliUpperShader();
+        // (every texture as the mod's file or a download: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
+        upper.registers = {{"ps-t0", "upperNormal"}, {"ps-t1", "upperMask"}, {"ps-t2", "upperDiffuse"},
+                           {"ps-t3", "upperDetail"}, {"ps-t4", "upperRamp"}, {"ps-t5", "upperShared"},
+                           {"ps-t6", "upperSubsurface"}};
+        upper.lines = {{"depth_stencil_state_merge", "true"}, {"depth_func", "equal"},
+                       {"depth_write_mask", "zero"}, {"mask[1]", "0"}, {"mask[2]", "0"}, {"mask[3]", "0"},
+                       {"mask[4]", "0"}, {"mask[5]", "0"}, {"mask[6]", "0"}};
+        upper.onlyWith = "o3";
+        upper.yieldToRabbitFX = true;
+        config.plan.at(3).overlay = std::move(upper);
+
+        // ---- and her chest TATTOO by its own cut-out pass (bb1c5ba6), which discards whatever of the quad the glow
+        // texture's alpha leaves out. Its copy takes the TEXCOORD4 / 5 inputs it does not read (the skin's body
+        // vertex shader writes them, and it read one register early otherwise) and swaps its two constant buffers'
+        // registers (its material at b1, which the fix binds; the skin keeps per-object constants at b2, where her
+        // tattoo draw has them at b1). Its two game textures are downloads, as the overlay's ----
+        WWMIFixerConfig::Shader tattoo = changliTattooShader();
+        tattoo.registers = {{"ps-t0", "glow"}, {"ps-t1", "tattooNoise"}, {"ps-t2", "tattooFlow"}};
+        tattoo.onlyWith = "o3";
+        config.plan.at(7).shader = std::move(tattoo);
+
         // ---- a slot's OTHER passes: the outlines take a colour map at ps-t0, the eye's second pass sets
-        // ps-t1 only. The skin feeds its outline pass the DIFFUSE and darkens it; her own dedicated outline
-        // maps are ~30% darker already, so bound there they came out black around the hair (Changli9) ----
+        // ps-t1 only. The bangs take her own outline map, brightened for the skin's darker outline tint
+        // (outlineGainFilter) ----
         config.extraPassRegs = {
-            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsDiffuse"}}}}},
-            {1, {{"f8c96a270bf847dd", {{"ps-t0", "hairDiffuse"}}}}},
+            {0, {{"f8c96a270bf847dd", {{"ps-t0", "bangsOutline"}}}}},
             {4, {{"f8c96a270bf847dd", {{"ps-t0", "upperDiffuse", 3}, {"ps-t0", "lowerDiffuse", 4}, {"ps-t0", "coatOutline", 5}}}}},
             {6, {{"e04f4df80ee6b0ab", {{"ps-t1", "eyeHighlight"}}}}},
         };
@@ -146,6 +223,12 @@ namespace AGRemapCore {
 
         config.sourceTextures = changliTextureFacts();
         config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
+
+        config.texEdits = {
+            {"bangsOutline", "TintGain", [](const WWMIFixerConfig::TexEditContext&) {
+                 return outlineGainFilter(BangsOutlineGain);
+             }, false},
+        };
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
         config.removedRegs = {

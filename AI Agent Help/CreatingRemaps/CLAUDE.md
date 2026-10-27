@@ -445,6 +445,23 @@ The items it found are in the LYNAE section. These are the lessons about RUNNING
   gain on the item it was aimed at, and was reverted. A change that moves many mods and fixes nothing is a
   regression risk with no upside.
 
+**And what Changli <-> ChangliNymph added (2026-10-25/27), after the maintainer had to repeat the final check twice:**
+
+- **A clean epoch is not one whose findings were filed as limits.** Four limits went to the maintainer that the
+  source's own shaders fixed in a day (Overview habit 123). Before calling an epoch clean, re-ask every limit in the
+  brief and in `remapGrading.rst`: would a game shader fix this?
+- **The overworld is half the check, so make sure the epoch can reach it.** Ask the maintainer up front for "Wear
+  Outfit" on the character's outfits (habit 128). Forward epoch 5 lost its overworld half without it.
+- **Put these checks in every brief.**
+  - The camera-near fade: press the camera into the character and take a timed series.
+  - Every toggle on BOTH cards and in the overworld.
+  - A character swap after every mod load, before any overworld shot (habit 127).
+  - Each item that earlier epochs or the maintainer flagged, as a regression list.
+- **Every "not a fault" line in a brief carries its evidence**, or it comes out (habit 124). "Mode 0 glows like
+  mode 5 in the overworld" was right, but nobody had looked at the original until the maintainer reported it.
+- **Re-fix the maintainer's live copy along with the test copies after each build** (habit 126). Their launcher
+  runs whatever is in `Mods`, not your scratch output.
+
 ### A REMAP ADDS NO SHADER OR TEXTURE IT CAN DO WITHOUT (the maintainer, 2026-10-16)
 
 From the maintainer's GI experience: **a game's shaders change with updates far faster than its meshes or
@@ -462,6 +479,53 @@ How to apply it:
 Lynae <-> LynaePeppermint is the counter-example: it ships ten such shaders (her five on the skin's slots, the skin's
 on hers). Whether to make it lighter is the maintainer's call. For the next WuWa pair, try the target's own shaders
 first and record why each custom one was unavoidable.
+
+**"No shader" means NOT AS THE FIRST FIX -- never "settle for a limitation instead" (the maintainer, 2026-10-25).**
+Asked whether Changli's opaque sheer skirt should stay a documented limitation or take the skin's own see-through
+shader: "if you are backed into a corner with no other options, I rather you change in game shaders, than to back
+out and document it as a limitation." So step 2 above is a duty, not a last resort to avoid: once registers, texture
+edits, downloads and routing are exhausted, a limitation a shader can fix (transparency, a cut-out, a glow the
+target's shader has no channel for) is FIXED with the source's own game shader (`WWMIFixerConfig::Shader` on the
+plan entry, data from `Tools/Misc/Diagnostics/wwmiShaderData.py`), and listed as an update risk. Only a limitation
+no shader can reach (a pose, a mesh the target lacks) stays one. Before closing a pair, re-read its limitations in
+`Docs/src/remapGrading.rst` and ask of each: would the source's own shader fix this?
+
+### COPYING A GAME SHADER ONTO THE OTHER CHARACTER: the checklist (Changli <-> ChangliNymph, 2026-10-25/26)
+
+Four Changli limits were fixed this way: the skin's sheer dress and shawl on Changli, and her tattoo and feather glow
+on the skin. Each item below cost at least one round when it was missed. Go through all of them before the first
+in-game look.
+
+1. **Capture the source's pixel shader** with hunting. Park RabbitFX first. numpad 1/2 step through pixel shaders
+   (ascending hash; the overlay shows the selected one), numpad 3 marks one and writes `<hash>-ps_replace.txt` and
+   `<hash>-ps.txt` to `ShaderFixes`. Move both out AT ONCE: the second lands a moment later, and a file left there
+   replaces the game's shader (the LYNAE section's "Hunting trap"). Turn hunting off when done.
+2. **Read how it does its effect before copying a recipe.** The skin's sheer dress is SCREEN-DOOR: it discards
+   pixels against a per-frame noise, and the game's TAA smooths the dither. It needs no blend and no stencil, and
+   Lynae's blend-over-stencil recipe drew it as shards.
+3. **Match the TARGET draw's vertex outputs, register for register.** Compare the input signature of the two slots'
+   own pixel shaders (in 3DMigoto's comment block). A missing `COLOR0` shifted every later input one register and
+   drew shards along triangle edges; the copy made it a constant. A missing `TEXCOORD4/5` got unused inputs added.
+4. **Match its constant-buffer registers.** Changli's tattoo keeps material at `b2` and per-object data at `b1`, and
+   the skin's body draw has per-object data at `b2`, so the copy swaps them. Diff the two dumps' `cb` files to see
+   which buffer is which.
+5. **Bind every texture as a role or a download, never `ref ps-tN`.** A slot's OVERWORLD pass can be a different
+   pixel shader with a different register layout from the menu's (her upper body `97ce52bf` in the overworld,
+   `9d4c7d96` in the menu, same vertex shader), so a `ref` that is right in the studio is wrong outside it.
+6. **If the whole shader is wrong on the target, copy only the effect.** Changli's full upper-body shader drew the
+   skin's body dark red, because its G-buffer material outputs mean something else to the skin's lighting.
+   `SourceComponent::overlay` keeps the target's shader for the surface and draws the copy again at equal depth,
+   writing only the emissive target. Prove an overlay draws at all with a flat-green `o0` before tuning it.
+7. **Key the effect on what the source's shader keys it on, read from its math.** Her emissive is a colour times
+   `saturate((alpha - 0.9) / 0.1)` of the diffuse alpha, so nothing at or below 230 / 255 glows. A guessed cut-off of
+   117 lit two other mods' shirts and stockings white.
+8. **Carry the CAMERA-NEAR FADE.** Each character reads it from a different place, so a copy never fades on the
+   other one and floats solid while the body dithers out. See "A copied shader's CAMERA-NEAR FADE" in the Changli
+   section for how to find it with a constant-buffer dump of the faded frame.
+9. **Compile every generated shader with `fxc` before the game sees it** (`fxc /T ps_5_0 /E main`, from the Windows
+   Kits). 3DMigoto fails a broken one silently, and the part simply draws the old way.
+10. **List each shipped shader as an update risk** in `remapGrading.rst`, and keep the prototype's JSON and the C++
+    data generated from one source (`wwmiShaderData.py --from-json` rebuilds both after an HLSL patch).
 
 <br>
 
@@ -992,7 +1056,13 @@ draft `ChangliRemapDraft.xlsx`, and the registration (Changli at 1.1 / 1.2 / 1.4
 ChangliNymph at 2.4). Prototypes: `Tools/Misc/Prototypes/changliNymphFix.py` and `nymphChangliFix.py`, both still the
 oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. Test folders: `WWMI/ChangliTest`,
 `WWMI/ChangliRestored` (the forward's originals repaired to the 3.7 hashes), `WWMI/ChangliNymphTest`,
-`WWMI/ChangliNymphRestored`. What this pair taught, every item a field or a finding the next pair can reuse:
+`WWMI/ChangliNymphRestored`. **In-game audit: forward epoch 7 and reverse epoch 8 (2026-10-26) both found nothing**,
+studio and overworld, after the four shader-shaped limits were fixed with game shaders and the camera-near fade was
+carried both ways. **Not faults, checked against the original on her own outfit (2026-10-27):** Changli13's mode 0 is
+an AUTO mode that lights everything (gold hair, glow, tattoo) whenever her blindfold mesh `baaa6262` is drawn, which
+is always in the overworld and never on a studio card -- so overworld mode 0 looks like the last mode and the studio
+shows it plain, on Light of Embers exactly as on the skin; and a WuWa shape-key toggle that works only partly in the
+overworld is a stale shape-key buffer (START HERE's first row). What this pair taught, every item a field or a finding the next pair can reuse:
 
 * **A slot that draws right in the character menu can cut the part away in the OVERWORLD -- audit there.**
   Both forward epochs passed in the menu; the maintainer then found Changli4's robe missing on the worn skin in the
@@ -1030,11 +1100,23 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   variant) came out the game's amber outside the menu. Lynae's pair already listed both (tag `3381.615`, shared).
   A red probe at each register on the overworld draw named `ps-t2` the colour; and read the MOD's textures before
   calling a colour wrong -- Changli6's eye for its normal hair IS the game's amber, so only the alternate hair shows it.
-* **An outline pass's `ps-t0` is a COLOUR the shader darkens, and the two outfits feed it different things.** Changli's
-  own outline draw binds a dedicated outline map (~30% darker than her diffuse); the skin's binds its DIFFUSE. Bound
-  to the skin's pass, her outline map was darkened twice: a near-black edge round Changli9's long hair, read as "a
-  second shadow ghost". `wwmiPassLayout.py` on both menu dumps shows it (`sets ps-t0` and what it holds); turning the
-  remap's outline draw off proved the pass, and binding the hair / bangs DIFFUSE there is the fix.
+* **An outline pass multiplies its `ps-t0` by a per-MATERIAL tint, and the target's tint is not the source's
+  (2026-10-24).** Changli9's long hair showed "a second shadow ghost" on the skin: the outline SHELLS of its layered
+  strands, showing through the gaps between strands. Changli's own material draws them too, tinted (1, 0.82, 0.83), so
+  they read as hair. The skin's hair material tints them (0.55, 0.45, 0.46) and its bangs (0.71, 0.59, 0.59): one ratio
+  on every channel. The tint is `vs-cb5` (= `ps-cb2`) rows 23-24, compared between the two characters' outline draws
+  of one slot in two menu frame dumps (`--options "dump_cb buf txt"`, ~35 MB). Binding the DIFFUSE there instead
+  (the first "fix", a849d576) only turned the ghost dark red. Brightening her outline map by the ratio in linear light
+  (×1.829) made the shells pale, and the maintainer still saw the ghost: so her LONG HAIR is kept off the outline
+  pass (`plan.at(1).offPasses`), which removes it (`ChangliNymphHairOutlineOff.png`: left column off, right on;
+  `ChangliNymphHairFixed.png`). The bangs keep their outline, brightened ×1.4035 (`outlineGainFilter`). When a
+  user says a ghost is still there after a tint fix, remove the shells; matching the tint is not enough for them. How it was settled, worth reusing: the skeleton reached the outline draw (log), so not geometry; binding
+  Changli's own `vs-cb5` / `vs-cb6` there (a hand edit behind a `VK_INSERT` toggle, so both states are shot in ONE
+  pose -- the menu camera turns by different amounts after every reload, and the hair sways) cleared it; painting
+  rows 23-24 green under BOTH materials showed the same shells at the same width, so only the tint differs
+  (`Images/Changli/3_7/ChangliNymphHairOutlineShellGreen.png`, `ChangliNymphHairOutlineTint.png`: left column the
+  old build, right the brightened map). Every WuWa pair with an outline pass: compare the two characters' `vs-cb5`
+  rows 23-24 per slot. The reverse direction (the skin's diffuse on Changli's brighter tint) is not checked yet.
 * **Two characters of one game can have DIFFERENT blend widths.** Changli writes four influences a vertex
   (`R8G8B8A8`), her skin eight; the game reads the blend through the TARGET draw's input layout, so an unconverted
   blend is read across its neighbour's bytes and the whole model draws as giant polygons.
@@ -1057,25 +1139,73 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   (pre-flight item 9) catches; the clean A/B undoes first and cannot.
 * **A part drawn by a CUT-OUT emissive shader has no counterpart on a lit body shader.** Her 25-vertex chest tattoo
   is cut out of a glow texture's alpha and drawn as a small dark mark; through the skin's body shader the whole quad
-  drew as a red rectangle. Proven by commenting out its one draw; it is left out of the plan (`plan` without a row
-  drops a component).
+  drew as a red rectangle. Proven by commenting out its one draw. It was left out of the plan (`plan` without a row
+  drops a component) until 2026-10-25, and is drawn by her own tattoo shader on the skin's body slot now (the
+  shader bullet below).
 * **Alpha means different things on different shaders.** Measured over both characters' own diffuses: every opaque
   shader keeps diffuse alpha at or below ~120; the skin's two see-through shaders carry it to 255 as opacity. On
   Changli's shaders alpha above her own range LIGHTS the part (a paint test with a flat alpha-255 texture lit the
-  dress bright green), so the reverse clamps the see-through parts' alpha to 117 (ChisaParfait -> Chisa's edit).
-  Translucency itself is out of reach without a shader, and stays a limitation.
+  dress bright green), so the reverse USED TO clamp the see-through parts' alpha to 117 (ChisaParfait -> Chisa's
+  edit). Since 2026-10-25 they are drawn by the skin's own see-through shaders instead (below), which read the alpha
+  as opacity, and the clamp is gone.
 * **Before calling a part's glow missing, ask whether the TARGET can glow there at all.** Changli's arm feathers
   light from her upper-body detail map's alpha; the skin's body shader showed no input a texture can drive (its
-  t3 at alpha 255 everywhere lit nothing) and the skin's own arm has no feathers -- a measured limitation.
+  t3 at alpha 255 everywhere lit nothing) and the skin's own arm has no feathers. That was filed as a limitation and
+  is FIXED with her own shader since 2026-10-25 (the shader bullet below) -- the maintainer's rule now is that a
+  limitation a game shader can fix is fixed with one.
 * **Before calling something a difference, look at the SAME spot on the original.** Changli's base card shows red
   flame streamers by her right hand; four paint tests and four mesh probes showed they are no part of the remapped
   mesh -- and then the skin's own card turned out to show streamers there too. Not a difference; it had been
   written up as a limitation for an hour. (Of the four probes, skipping two scene meshes blanked the whole frame.)
-* **What a see-through shader CUTS AWAY, an opaque one draws.** The skin's fine gold chains are thin quads of a gold
-  line on grey whose alpha is 0; on Changli the grey drew too, as dark cords across her chest and a loose strip at
-  her hip. The dress edit now pads every fully transparent texel with its nearest visible neighbour's colour (a
-  deterministic left / right / up / down pass rule, so the C++ frontier walk and the prototype's numpy passes write
-  the same bytes) before clamping the alpha: the chains draw as thin gold straps.
+* **What a see-through shader CUTS AWAY, an opaque one draws -- so draw it with the see-through shader
+  (2026-10-25).** The skin's fine gold chains are thin quads of a gold line on grey whose alpha is 0; through
+  Changli's opaque shaders the grey drew too (dark cords), her sheer dress and shawl drew solid, and ChangliNymph3's
+  ALT 6 / ALT 9 opacity steps changed nothing. A texture pad (each cut-away texel takes its neighbour's colour) hid
+  the cords for a while and then smeared a mod's 0.2 opacity variant, whose real art sits under the cut-off. Both
+  parts now go through the SKIN's own passes (`d5572b1c` dress, `43b49727` shawl, `ChangliNymph{Sheer,Shawl}Shader`
+  on `SourceComponent::shader`), with the pad gone. Four things that made that work, all general:
+  - **Read how the source's shader makes something see-through before copying a recipe.** Lynae's sheer shirt is an
+    alpha BLEND of the base colour over a stencil-marked body; this skin's dress is SCREEN-DOOR: it discards pixels
+    whose opacity is under a per-frame noise threshold (the 64 x 64 noise at `t3`) and the game's TAA resolves the
+    dither. The Lynae state (blend, stencil split, `after`) drew the dress as shards; the dither pass needs none of it.
+  - **A copied pixel shader must match the TARGET draw's vertex shader output signature, register for register.**
+    Changli's upper-body vertex shader writes no `COLOR0`, so every input after it landed one register off and the
+    dress drew as shards along triangle edges. Compare the input signatures of the two slots' own pixel shaders
+    (the comment block 3DMigoto appends) and make the copy fit: the dress's `COLOR0` (0 on every dress vertex) became
+    a constant; Changli's tattoo shader got two unused `TEXCOORD4/5` inputs for the skin's body draw.
+  - **And its constant buffers' registers.** The tattoo shader keeps its material at `b2` and per-object data at
+    `b1`; the skin's body draw has its per-object data at `b2`, so the copy swaps the two registers and the fix binds
+    the material at `ps-cb1`. Diff the dumps: the tattoo draw's `cb1` was byte-identical to the body draw's `cb2`.
+  - **A whole part drawn by the source's shader can come out wrong when only one effect is missing.** Changli's
+    upper body through her own shader on the skin drew dark red: its G-buffer material outputs (a shading-model id
+    from per-object data among them) mean something else to the skin's lighting. Her feathers' glow needs only that
+    shader's glow, so `SourceComponent::overlay` (new) keeps the skin's shader for the surface and draws hers again at
+    equal depth. Three tries to find WHAT to draw: keyed on the detail map's alpha it never fired (the feathers' detail
+    alpha is 0); keyed on the DIFFUSE alpha (her emissive is a colour times saturate((alpha - 0.9) / 0.1), so above 230 --
+    a first cut-off at 117 lit Changli5's shirt and Changli2's stockings white -- and Changli10's feathers carry 240-255,
+    her body 100 -- sample the mod's textures at the part's UVs to find such a key) with all her outputs written, the
+    feathers drew BLACK; with only the emissive target written and her base colour there, nothing (it is near black
+    on the skin). What matches is the part's own diffuse x2 as emissive -- tuned by counting yellow glow pixels on the
+    forearm, card against card (3182 / 4248 against the original's 3176 / 4430). A flat-green `o0` paint test is
+    the way to prove such an overlay draws at all before tuning it.
+  - **A copied shader's CAMERA-NEAR FADE reads the other character's constants, so it never fades (2026-10-26).** When
+    the camera presses into a character in the overworld, the game dithers her out, and each character's shaders take
+    that fade from a DIFFERENT place: the skin's from its per-object constants (`cb2[43]`: x > 0 turns it on, y is the
+    opacity), Changli's from her draw's MATERIAL constants (upper-body slot `cb4[138].x` flag / `cb4[136].w`
+    opacity; the coat's material one component on, `cb4[98].y` / `cb4[97].x`). So on Changli the skin's dress and
+    shawl stayed solid and floating while her body faded (her `cb2[43]` is `(0, 1)`), and on the skin her feather glow
+    and tattoo did (their material constants come from a menu dump, fade off). The reverse copies now bind the skin's
+    material at `b5` and read the fade from her live `b4`; the forward copies take the skin's `cb2[43]` test with the
+    skin's own dither, so they discard where its body does. **Find a fade by dumping the constant buffers in the faded
+    frame and diffing them against a normal one** (`dump --options "dump_cb buf txt"`, the camera inside her head): the
+    rows that move from 1.2 to the fade value and from 0 to 1 name it, and the source shader's discard chain confirms
+    which branch reads them. Check every copied shader in the overworld with the camera clipping the character.
+  The textures those shaders read beside the mod's (a matcap, the dither noise, a shared detail map) are fallback
+  downloads: `ChangliNymphTexture308e6e5e.dds` and `ChangliTexturebb73967a.dds` are NEW files, which 404 from GitHub
+  until merged into `master` (test with `AGREMAP_DOWNLOAD_FOLDER` pointed at the checkout). The four shaders are an
+  update risk, listed in `remapGrading.rst`. Captured with hunting (RabbitFX parked, `marking_actions` writes
+  `<hash>-ps_replace.txt`; the selection steps in ascending hash order and the overlay names the selected hash),
+  generated with `Tools/Misc/Diagnostics/wwmiShaderData.py`.
 * **Before re-routing a part that "hangs wrong", measure how it is MODELLED.** Two epochs reported her right side
   panel edge-on from the front where the skin's card shows it broad, and three carriers (her right panel, her right
   thigh, her pelvis) changed nothing. The panel's plane normal in the mod's own mesh is along x: both side panels
@@ -1098,8 +1228,37 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   `load` one at a time until it is fixed); and the Claude desktop app steals focus from the game, so every
   reload has to be proven by the picture.
 
-Open: Changli13 draws its coat and tattoo from mesh files of their own (`Meshes/Split`, `Meshes/Tattoo`), which the
-WWMI fixer does not handle yet (a session card proposes it); Changli3 keys its sections on the bone-data buffer only
+* **A component drawn from the mod's OWN mesh files (2026-10-24).** Changli13 draws its coat from `Meshes/Split`
+  through `CommandListOverrideSharedResources.Component5` (its own ib, position and 4-influence blend, ids LOCAL to the
+  component's game window, merged into a skeleton of its own at `vg_offset 0`). The remap showed no coat: the blend
+  collect paired that blend with the main mesh and skipped it, leaving `vb4` on a resource nothing declared, and every
+  addition (merge list, textures) anchors on `run = CommandListOverrideSharedResources`, which that section never
+  runs. `WWMIFixer` now finds such a component (`readOwnMeshes`: a `<sharedResourcesList>.<suffix>` list binding an
+  ib other than `ResourceIndexBuffer`), anchors the additions on its list too, and binds a blend of its own written in
+  the target's LOCAL ids (`writeOwnMeshBlends`: local -> `sourceVgMaps` -> row -> `reverseOfRow`, widened to
+  `targetInfluences`; the bytes the BlendRemapper would write, so no compute pass). Only on a target past 256 bones
+  (the path with the fix's merge list). Proven by a hand edit first (in game, card against card), then the compiled
+  blend byte-identical to the hand-made one. A resource name containing `Blend` gets rewritten by the blend rename,
+  hence `ResourceOwnMeshSkin<N>`. The tattoo (`Meshes/Tattoo`, component 7) was dropped by the plan until the
+  tattoo got its own shader (2026-10-25); it is carried now like the coat.
+* **A RabbitFX glow map another `.ini` sets on the same draw is carried (2026-10-24).** Changli13's
+  `Textures/textures.ini` sets `Resource\RabbitFX\GlowMap` per mode (belly flames, arm flames, gold hair) in
+  sections on Changli's own draws, which never fire on the skin, so the remap's `run = CommandList\RabbitFX\Run`
+  had no glow map: every glow mode drew as mode 0. `readSameDrawInis` now lifts each such line with its `if` /
+  `else` chain folded into one condition (`conditionedLines`), into a `CommandList...<N>Glow` list of the fix's
+  own run after the texture list; the textures are declared `...RemapRef`. RabbitFX does draw the glow on the
+  skin's shaders: all six key-4 modes match Changli's card. A condition naming another file's UNQUALIFIED
+  variable would not resolve in the copy; Changli13's are all `$\entei\...` (mod.ini's own namespace).
+  **A texture line that file sets under a condition is carried too**, at the register the slot's plan binds that role
+  and only on the slot's texture-list pass: Changli13 swaps her body to a break-damaged `C3DBreak.dds` while its
+  `$break` is set by a game texture (`c6665890`). That `$break` is textures.ini's own (a file without a namespace
+  cannot be named from another), so the fix copies the state behind every unqualified variable a carried condition
+  reads (`siblingState`): the [Constants] lines, the [Present] statements and the trigger sections that assign it,
+  renamed `$<name><Target>RemapRef`. Proved in game by forcing the flag on in both files and pointing the break
+  texture at a colour-rotated copy: both cards switched identically. The mod's OWN coat-hide on break never fires,
+  on Changli either (mod.ini's `$break` is never set) -- the mod's bug, left alone.
+
+Open: Changli3 keys its sections on the bone-data buffer only
 and is not classified; the overworld was not checked in either direction (the skins were never WORN -- that is the
 maintainer's call).
 
@@ -2095,6 +2254,7 @@ surprises you.
 
 | the request | read, in this order |
 | --- | --- |
+| **WuWa: a SHAPE-KEY toggle (breast size, a body morph) works in the character studio and only PARTLY in the overworld** -- one part grows, the clothing over it does not, and it clips | Not the remap. 3DMigoto sizes the game's shape-key buffer (`override_vertex_count = $mesh_vertex_count` on its hash) only when the game CREATES it; the overworld character keeps a buffer made before the mod was loaded, at the old mod's or the skin's own vertex count, so every mod vertex past it gets no shape-key offset. The studio spawns a fresh preview each time, so it looks right there. Switch party member and back (or move to a new area), then judge. Changli4 on ChangliNymph, 2026-10-27: the buffer held the skin's 64,753 vertices, the open vest (ids 63,722-73,854) stayed unmorphed; after a swap all 85,364 moved. Measured by `dump = ResourceShapeKeyedPosition buf` in the remapped section against `Position.buf`. **After loading or swapping a WuWa mod, swap characters before every overworld shot** |
 | **"add the remap for X -> Y"**, and X and Y are ordinary GI characters | "THE MAINTAINER'S REMAP PIPELINE" above for the order of the whole job and "THE AUDIT GATE" after each prototype and port, then "The loop changed" (prototype, then port), then "Start here: adding a character, in order", then "Most characters are two short files". **Pick the shape from the HASH and INDEX tables, never from the character's name** --- Arlecchino remaps onto a boss and is not the Raiden shape |
 | the target is a **skin of several components** (every GI character from Bennett on) | "Recipe: a classic-shape mod onto a multi-component skin", then [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe. The reverse direction (several components onto one mesh) is "The reverse direction is COMPILED TOO" |
 | a **WuWa** pair | "The next WuWa pair: what a config needs, and how the loop runs", then "WUWA IS COMPILED". A WuWa character is ONE mesh of draw slots on a merged skeleton --- one fix row for the pair, not one per component |

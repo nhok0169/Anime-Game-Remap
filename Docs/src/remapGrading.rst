@@ -106,15 +106,16 @@ Grading
        | its gold laurel kept: the fix downloads that recoloured texture. A mod that hides or watches her
        | blindfold does the same to the skin's.
        |
-       | - **Limitation:** her chest flame tattoo is not drawn on the skin. Her own outfit cuts its shape
-       | out of a glow texture and draws it as a small dark mark; the skin has no such shader.
+       | - Her chest flame tattoo is drawn by her OWN tattoo shader, which cuts its shape out of a glow
+       | texture: the skin has no such shader. A component a mod draws from mesh files of its own (one mod's
+       | coat) is carried too.
        |
-       | - **Limitation:** the flame feathers on her arm are drawn in their colours but do not glow. Her own
-       | shader lights them from her detail map; the skin's body shader has no input that lights a part, and
-       | the skin's own arm has no feathers.
+       | - The flame feathers on her arm glow through her OWN upper-body shader, drawn over the skin's where
+       | the glow lights them: the skin's body shader has no input that lights a part.
        |
-       | - **Limitation:** a mod that draws a component from mesh files of its own (one mod's coat and
-       | tattoo, under ``Meshes/Split`` and ``Meshes/Tattoo``) does not carry those parts yet.
+       | - **Update risk:** two of Changli's game shaders ship with the fix (her tattoo, and her upper body's
+       | glow). A game update that rewrites those shader families can break the tattoo and the feathers' glow
+       | until the fix is updated.
        |
        | - A mod whose sections are keyed only on the game's bone-data buffer, with no ``vb0`` section, is
        | not recognised as hers and is left as it is.
@@ -130,13 +131,12 @@ Grading
        | - Her body is drawn through Changli's legs slot, whose shader reads the same three textures; her
        | skirt and shawl through Changli's coat slot, the skirt's own shader.
        |
-       | - **Limitation:** her sheer dress and shawl are see-through on her own outfit, and Changli has no
-       | see-through shader, so they are drawn opaque, and a mod's transparency toggles on them change little.
-       | Their texture's transparency channel is clamped to Changli's own range, or her shader would make
-       | the dress's gold embroidery glow, and what her outfit cuts away is filled with the colour beside it.
+       | - Her sheer dress (and its skirt panels) and her shawl are drawn by her OWN see-through shaders, as
+       | Changli has none: they are see-through on Changli as on her own outfit, a mod's transparency toggles
+       | on them included, and her fine gold body chains are cut out of their strips as on her outfit.
        |
-       | - **Limitation:** her fine gold body chains are cut out of thin strips on her own outfit; on Changli the
-       | whole strip draws, so they come out as thin gold-brown cords rather than fine chains (darker on the back).
+       | - **Update risk:** two of her game shaders ship with the fix (her sheer dress and her shawl). A game
+       | update that rewrites those shader families can break the dress and shawl until the fix is updated.
        |
        | - Her side panels are modelled facing sideways, and her own idle swings the right one round to face the
        | front. Changli's idle does not, so seen from straight in front that panel is a thin line on Changli; it

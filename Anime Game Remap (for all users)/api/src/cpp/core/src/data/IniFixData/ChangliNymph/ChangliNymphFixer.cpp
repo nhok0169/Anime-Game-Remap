@@ -11,125 +11,28 @@
 
 // ##### EndCredits
 
-#include <algorithm>
-#include <cstdint>
 #include <utility>
 #include <vector>
 
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphFixer.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.h"
+#include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.h"
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.h"
 #include "AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h"
 #include "AGRemapCore/data/IniFixData/WWMIFixer.h"
-#include "AGRemapCore/model/files/TextureFile.h"
 
 
 namespace AGRemapCore {
-    namespace {
-        // The highest diffuse alpha any of Changli's own body / coat diffuses carries (her 3_7 downloads)
-        constexpr std::uint8_t ChangliDiffuseAlphaMax = 117;
-
-        // Below this alpha a texel of her see-through parts is three-quarters see-through or more on her own
-        // shader: treated as hidden by padHidden
-        constexpr std::uint8_t SeeThroughHidden = 64;
-
-        // Her see-through parts' diffuse ALPHA is opacity on their own shaders (mean 165 on the sheer dress,
-        // 221 on the shawl, up to 255); on Changli's opaque shaders alpha is a scalar her own diffuses keep at
-        // or below 117, and above it the part lights up -- the sheer dress's gold embroidery and bodice drew
-        // glowing and orange. Clamped to her ceiling, RGB untouched. The gamma stays on: this is a colour
-        // texture, written uncompressed without the source's sRGB flag (ChisaParfait -> Chisa, the same edit).
-        //
-        // ...and a texel her own shader all but cuts away (alpha below SeeThroughHidden: the quads of her fine gold
-        // chains are a gold line on grey, the grey invisible) is drawn by Changli's opaque shaders, so the chains drew as dark grey
-        // cords. Each fully transparent texel takes the colour of the nearest visible one (edge padding), one pass
-        // at a time: a hidden texel next to a visible one AS OF THE PREVIOUS PASS takes the colour of its first
-        // visible neighbour in the order left, right, up, down -- the same rule, step for step, as the prototype,
-        // so the two write the same bytes.
-        void padHidden(std::vector<std::uint8_t>& px, std::size_t w, std::size_t h) {
-            // visible[i]: 0 hidden, 1 visible; queued marks a hidden texel already a candidate of this pass
-            std::vector<std::uint8_t> visible(w * h, 0);
-            std::vector<std::size_t> frontier;
-            for (std::size_t i = 0; i < w * h; ++i) {
-                if (px[i * 4 + 3] >= SeeThroughHidden) {
-                    visible[i] = 1;
-                    frontier.push_back(i);
-                }
-            }
-
-            std::vector<std::uint8_t> queued(w * h, 0);
-            std::vector<std::size_t> candidates;
-            std::vector<std::pair<std::size_t, std::size_t>> taken;     // (texel, its source)
-            while (!frontier.empty()) {
-                // the hidden neighbours of the texels the previous pass made visible
-                candidates.clear();
-                for (std::size_t f : frontier) {
-                    const std::size_t x = f % w;
-                    const std::size_t y = f / w;
-                    const std::size_t around[4] = {x > 0 ? f - 1 : f, x + 1 < w ? f + 1 : f,
-                                                   y > 0 ? f - w : f, y + 1 < h ? f + w : f};
-                    for (std::size_t n : around) {
-                        if (n != f && !visible[n] && !queued[n]) {
-                            queued[n] = 1;
-                            candidates.push_back(n);
-                        }
-                    }
-                }
-
-                // each takes its first visible neighbour, judged as of the previous pass (nothing is applied
-                // until every candidate has chosen), in the order left, right, up, down
-                taken.clear();
-                for (std::size_t i : candidates) {
-                    queued[i] = 0;
-                    const std::size_t x = i % w;
-                    const std::size_t y = i / w;
-                    std::size_t from = i;
-                    if (x > 0 && visible[i - 1]) {
-                        from = i - 1;
-                    } else if (x + 1 < w && visible[i + 1]) {
-                        from = i + 1;
-                    } else if (y > 0 && visible[i - w]) {
-                        from = i - w;
-                    } else if (y + 1 < h && visible[i + w]) {
-                        from = i + w;
-                    }
-                    taken.emplace_back(i, from);
-                }
-
-                frontier.clear();
-                for (const auto& [i, from] : taken) {
-                    px[i * 4] = px[from * 4];
-                    px[i * 4 + 1] = px[from * 4 + 1];
-                    px[i * 4 + 2] = px[from * 4 + 2];
-                }
-                for (const auto& entry : taken) {
-                    visible[entry.first] = 1;
-                    frontier.push_back(entry.first);
-                }
-            }
-        }
-
-        TexEditor::Filter alphaClampFilter() {
-            return [](TextureFile& tex) {
-                std::vector<std::uint8_t> px = tex.getPixels();
-                padHidden(px, tex.getWidth(), tex.getHeight());
-                for (std::size_t i = 3; i < px.size(); i += 4) {
-                    px[i] = std::min(px[i], ChangliDiffuseAlphaMax);
-                }
-
-                tex.setPixels(std::move(px), tex.getWidth(), tex.getHeight());
-            };
-        }
-    }
-
-
     // Transcribed from Tools/Misc/Prototypes/nymphChangliFix.py, which stays the oracle this is A/B'd against.
     // Pairing (per-component overlap of the two download folders' Position.buf, and the register layout each
     // pass SETS, off the character-menu dumps at 3.7.1): bangs, hair, face and eyes are the same mesh and the
     // same shaders on both -> the same slot; her body (14fee50a) -> Changli's legs slot (fbe2f2f0), whose
     // shader reads normal / mask / diffuse at t0-t2 as hers does; her sheer dress -> Changli's upper body,
-    // drawn opaque (Changli has no see-through shader); her skirt and veils and her shawl -> Changli's coat
-    // slot, the skirt's own shader (7f639abb). Changli's chest tattoo slot takes nothing.
+    // drawn by her own see-through pass (Changli has none); her skirt and veils and her shawl -> Changli's coat
+    // slot, the skirt's own shader (7f639abb), the shawl by its own see-through pass. Changli's chest tattoo
+    // slot takes nothing.
     IniFixBuilder::Factory IniFixBuilderFuncs::changli1_4() {
         WWMIFixerConfig config{};
         config.targetId = ModTypeId::Changli;
@@ -222,6 +125,32 @@ namespace AGRemapCore {
         config.plan.at(3).offPasses = {"f8c96a270bf847dd"};
         config.plan.at(7).offPasses = {"705575a2e1b4a4b9"};
 
+        // ---- her sheer dress and her shawl drawn by HER see-through passes (d5572b1c, 43b49727). Changli has no
+        // see-through shader, and through her opaque ones the dress, its skirt panels (and a mod's opacity toggles
+        // on them), her fine chains and the shawl came out solid. Both passes are SCREEN-DOOR see-through, not a
+        // blend: each pixel whose opacity (the diffuse's alpha) is under a noise threshold that moves every frame
+        // is discarded, and the game's temporal anti-aliasing resolves the dither -- so they draw as opaque
+        // passes, with no blend, stencil or ordering of their own (a blend over a stencil mark of the body, as
+        // Lynae's sheer shirt takes, drew the dress as shards). They read the mod's normal map and diffuse at t0
+        // / t1, a matcap (t2) and the dither noise (t3) no draw of Changli's binds, and the ramp at t4, which
+        // her upper-body and coat slots hold at t6 in the menu (and at t7 in the overworld). Her dress pass reads a COLOR0 her upper-body slot's
+        // vertex shader does not pass (every later input would land one register off: the dress drew as
+        // shards), so its copy takes the dress's own value, 0 on every vertex; her coat slot passes the shawl's. And
+        // both take the overworld's camera-near fade from CHANGLI's material constants, live at b4 (the skin's own
+        // fade is per-object data hers leaves off), with their own material bound at b5 ----
+        WWMIFixerConfig::Shader sheer = changliNymphSheerShader();
+        // (the ramp as a download too: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
+        sheer.registers = {{"ps-t0", "sheerNormal"}, {"ps-t1", "sheerDiffuse"}, {"ps-t2", "sheerDetail"}, {"ps-t3", "sheerNoise"},
+                           {"ps-t4", "sheerRamp"}};
+        sheer.onlyWith = "o3";
+        config.plan.at(3).shader = std::move(sheer);
+
+        WWMIFixerConfig::Shader shawl = changliNymphShawlShader();
+        shawl.registers = {{"ps-t0", "shawlNormal"}, {"ps-t1", "shawlDiffuse"}, {"ps-t2", "sheerDetail"}, {"ps-t3", "sheerNoise"},
+                           {"ps-t4", "sheerRamp"}};
+        shawl.onlyWith = "o3";
+        config.plan.at(7).shader = std::move(shawl);
+
         // ---- a slot's OTHER passes: her outlines bind the part's own DIFFUSE at ps-t0 (Changli binds
         // dedicated outline maps there); the eye's second pass sets ps-t1 only ----
         config.extraPassRegs = {
@@ -239,16 +168,6 @@ namespace AGRemapCore {
 
         config.sourceTextures = changliNymphTextureFacts();
         config.flatFallsBackToSource = {"bodyMask", "faceMask"};
-
-        // ---- her see-through parts' diffuse alpha, clamped to Changli's ceiling (see alphaClampFilter) ----
-        config.texEdits = {
-            {"sheerDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
-                 return alphaClampFilter();
-             }},
-            {"shawlDiffuse", "AlphaClamp", [](const WWMIFixerConfig::TexEditContext&) {
-                 return alphaClampFilter();
-             }},
-        };
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
         config.removedRegs = {

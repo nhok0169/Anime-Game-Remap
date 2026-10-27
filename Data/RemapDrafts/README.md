@@ -81,4 +81,18 @@ Rough work used for helping with finding out Vertex Group Remaps for different m
   chain); her shoulder drapes' roots on the upper arms while the rest rode the skin's shawl (now the shawl's root); a
   breast pair crossed; thigh helpers on the apron chain; and in reverse the skin's halter strap sent to a FACE bone.
   Not checked in game, so the `About` mark stays.
+- **`AetherRemapDraft.xlsx` is Aether <-> AetherHeaven** (2026-10-24, GI 6.3, the Lumine <-> LumineHeaven shape: a
+  one-mesh character onto an unnamed main mesh, a `Bang` and an `Eye`), both directions, from
+  `Data/Mod Downloads/GI/Aether/4_0` and `AetherHeaven/6_3`. Aether is 91 vertex groups, the skin's main mesh 120, its
+  Bang 17 and its Eye 2, every one with vertices. The finder proposed it and it was then **reviewed row by row** against
+  front and side renders of every bone on both models -- 30 forward, 50 reverse and 8 Bang rows changed, each saying
+  `Reviewed:` in column D with the finder's answer kept in brackets, and `Behaviour:` on the parts the other model lacks.
+  What the review found: his head bone on the skin's bang root (now the main mesh's head, the Lumine row's decision); his
+  back cape on the skin's braid, its right root on an upper arm and its left side on the skin's one-sided left back drape
+  (now both cape chains of a side on that side's back coat chain, roots on the upper torso); his white scarf split
+  between a chest ornament and the coat (now one chain onto the front-left coat chain); ten finger bones doubled up in
+  each direction (the hand rigs coincide within 3 mm, so every finger is its exact counterpart); and in reverse the
+  skin's forelocks and a side lock on his EYE bones, its neck pieces, a shoulder strap and the drape root on his braid,
+  its wrist cuffs on his thumbs, a clavicle on his scarf knot, and the coat's right back chain crossing to his left cape.
+  Not checked in game, so the `About` mark stays.
 - Not recorded here: the CN skins (Amber, Rosaria, Jean, Mona), whose remaps came from someone else, and Kirara, Raiden and Arlecchino.

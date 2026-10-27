@@ -33,6 +33,12 @@ The names of the different types of mods this fix will fix from or fix to
 .. tip::
     A mod type's name is :meth:`ModTypeIdTools.getName`
     )doc")
+        .value("Aether", AGRC::ModTypeId::Aether, R"doc(Aether (the male Traveler) from GI)doc")
+        .value("AetherHeaven", AGRC::ModTypeId::AetherHeaven, R"doc(Aether outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye))doc")
+        .value("AetherHeavenMain", AGRC::ModTypeId::AetherHeavenMain, R"doc(AetherHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes)doc")
+        .value("AetherHeavenBang", AGRC::ModTypeId::AetherHeavenBang, R"doc(AetherHeaven's Bang component, as a fix target)doc")
+        .value("AetherHeavenEye", AGRC::ModTypeId::AetherHeavenEye, R"doc(AetherHeaven's Eye component, as a fix target)doc")
+
         .value("Amber", AGRC::ModTypeId::Amber, R"doc(Amber from GI)doc")
 
         .value("AmberCN", AGRC::ModTypeId::AmberCN, R"doc(Amber Chinese version from GI)doc")

@@ -78,6 +78,34 @@ Returns
     Whether 'modType' was newly registered
         )doc"))
 
+        .def("addZZZModType", &AGRC::IniClassifier::addZZZModType, py::arg("modType"), py::arg("hashes"), py::arg("sectionKeywords"), py::doc(R"doc(
+Registers a ZZZ mod type into the classifier
+
+Classifies exactly like :meth:`addGIModType` -- a ZZZ .ini file is identified by its hashes and its
+section keywords the same way a GI one is -- except that the game is :attr:`GameTypeId.ZZZ`. The mod
+type is filed under that game, so registering it never disturbs a GI mod type, including when the
+same hash or keyword is registered for both games: a .ini file using it is then classified as both
+
+Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
+registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.ZZZ`
+
+Parameters
+----------
+modType: :class:`ModTypeIdData`
+    The mod type to register
+
+hashes: Set[:class:`str`]
+    The hashes that identify 'modType'
+
+sectionKeywords: Set[:class:`str`]
+    The section keywords that identify 'modType'
+
+Returns
+-------
+:class:`bool`
+    Whether 'modType' was newly registered
+        )doc"))
+
         .def("addWuWaModType", &AGRC::IniClassifier::addWuWaModType, py::arg("modType"), py::arg("hashes"), py::doc(R"doc(
 Registers a WuWa mod type into the classifier
 

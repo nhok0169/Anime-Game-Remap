@@ -11,6 +11,8 @@
 
 #include "AGRemapCore/model/iniresources/VGMergeGroupResource.h"
 
+#include <array>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
@@ -98,6 +100,23 @@ namespace AGRemapCore {
             BinaryFile positionFile(files.positionPath);
             component.position = positionFile.read();
 
+            // The pushes, from the positions as the mod wrote them -- see VGMergeComponentFiles::pushAway.
+            std::vector<std::array<float, 3>> pushes;
+            if (!files.pushAway.empty() && !component.weights.empty() && component.position.size() % component.weights.size() == 0) {
+                const std::size_t stride = component.position.size() / component.weights.size();
+                pushes.assign(component.weights.size(), {0.0f, 0.0f, 0.0f});
+                for (std::size_t v = 0; v < component.weights.size() && stride >= 3 * sizeof(float); ++v) {
+                    float pos[3];
+                    std::memcpy(pos, component.position.data() + v * stride, sizeof(pos));
+                    for (const VGPushAway& push : files.pushAway) {
+                        const std::array<float, 3> moved = push.displacement(pos, component.weights[v], component.indices[v]);
+                        for (std::size_t k = 0; k < 3; ++k) {
+                            pushes[v][k] += moved[k];
+                        }
+                    }
+                }
+            }
+
             // Line by line -- see VGMergeComponentFiles::positionLineEdit.
             if (files.positionLineEdit && !component.weights.empty() && component.position.size() % component.weights.size() == 0) {
                 const std::size_t stride = component.position.size() / component.weights.size();
@@ -108,6 +127,17 @@ namespace AGRemapCore {
                         throw std::invalid_argument("a position line edit of '" + files.positionPath + "' changed a line's size");
                     }
                     std::copy(edited.begin(), edited.end(), from);
+                }
+            }
+            if (!pushes.empty()) {
+                const std::size_t stride = component.position.size() / component.weights.size();
+                for (std::size_t v = 0; v < pushes.size(); ++v) {
+                    float pos[3];
+                    std::memcpy(pos, component.position.data() + v * stride, sizeof(pos));
+                    for (std::size_t k = 0; k < 3; ++k) {
+                        pos[k] += pushes[v][k];
+                    }
+                    std::memcpy(component.position.data() + v * stride, pos, sizeof(pos));
                 }
             }
             BinaryFile texcoordFile(files.texcoordPath);

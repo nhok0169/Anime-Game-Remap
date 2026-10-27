@@ -261,6 +261,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"4.0", "Lumine", "", "body"}, "6915"},
         {{"4.0", "Lumine", "", "dress"}, "40413"},
 
+        // Aether (2026-10-24): unchanged across every commit of TravelerBoy's hash.json, and in a 6.x frame dump. NO
+        // rows for AetherHeaven's components, as for LumineHeaven's: their slot indices (main Head 0 / Body 31407; Bang
+        // and Eye A 0) belong in the fixer's config.
+        {{"4.0", "Aether", "", "head"}, "0"},
+        {{"4.0", "Aether", "", "body"}, "8874"},
+
         // ===== WuWa: Sanhua and SanhuaExorcist (2026-09-19) =====
         // The match_first_index of every draw slot -- a WWMI character's 'components' in
         // Metadata.json, filed as component0, component1, ... under the empty component column,

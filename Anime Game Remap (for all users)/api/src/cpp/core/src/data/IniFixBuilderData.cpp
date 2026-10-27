@@ -463,6 +463,16 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Lumine),
                   "6.3", ModTypeIdTools::getName(ModTypeId::LumineHeavenEye)}, IniFixBuilderFuncs::lumineHeavenEye6_3()},
 
+                // ===== Aether @ toVersion 6.3 (2026-10-24) =====
+                // THREE rows, one per target component, the Eye LAST -- Lumine's arrangement: its fixer owns the
+                // hidden components and the TexFx guards and has to run after the other two.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeavenMain)}, IniFixBuilderFuncs::aetherHeavenMain6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeavenBang)}, IniFixBuilderFuncs::aetherHeavenBang6_3()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeavenEye)}, IniFixBuilderFuncs::aetherHeavenEye6_3()},
+
                 // ===== NeuvilletteMelusent @ toVersion 6.3 (2026-09-25) =====
                 // The merge back: ONE row, the skin's components folded onto Neuvillette's one mesh.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::NeuvilletteMelusent),
@@ -480,6 +490,12 @@ namespace AGRemapCore {
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven),
                   "6.3", ModTypeIdTools::getName(ModTypeId::Lumine)},
                  IniFixBuilderFuncs::lumineHeavenToLumine6_3()},
+
+                // ===== AetherHeaven @ toVersion 6.3 (2026-10-24) =====
+                // The merge back: ONE row, the skin's components folded onto Aether's one mesh.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven),
+                  "6.3", ModTypeIdTools::getName(ModTypeId::Aether)},
+                 IniFixBuilderFuncs::aetherHeavenToAether6_3()},
 
                 // ===== Keqing @ toVersion 6.1 =====
                 //

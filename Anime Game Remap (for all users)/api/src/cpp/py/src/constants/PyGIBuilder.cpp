@@ -24,6 +24,8 @@ void initCppGIBuilder(pybind11::module_ &m) {
 Creates new :class:`ModType` objects for GI (Genshin Impact) mods
     )doc")
 
+        .def_static("aether", &AGRC::GIBuilder::aether, py::doc(R"doc(Creates the :class:`ModType` for Aether)doc"))
+        .def_static("aetherHeaven", &AGRC::GIBuilder::aetherHeaven, py::doc(R"doc(Creates the :class:`ModType` for AetherHeaven, the skin of three components; its component ids are fix targets only and have no factory)doc"))
         .def_static("amber", &AGRC::GIBuilder::amber, py::doc(R"doc(Creates the :class:`ModType` for Amber)doc"))
         .def_static("amberCN", &AGRC::GIBuilder::amberCN, py::doc(R"doc(Creates the :class:`ModType` for AmberCN)doc"))
         .def_static("ayaka", &AGRC::GIBuilder::ayaka, py::doc(R"doc(Creates the :class:`ModType` for Ayaka)doc"))

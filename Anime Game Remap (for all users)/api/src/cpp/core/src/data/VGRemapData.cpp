@@ -1525,6 +1525,85 @@ const std::vector<std::pair<std::vector<std::string>, VGRemap>>& getVGRemapDataR
             {0, 6}, {1, 5}
          })},
 
+        // ===== from Aether @ 1.0 (2026-10-24) =====
+        // AetherHeaven ("As Heaven and Earth Are Made Anew", 6.3) is THREE skinned components -- an UNNAMED main mesh
+        // (component ""), a Bang and an Eye -- each with its own vertex group index space, so Aether's 91 groups are
+        // split across rows keyed by the target component, the Lumine way. From Data/RemapDrafts/AetherRemapDraft.xlsx:
+        // Tools/VGRemapFinder's proposal, reviewed row by row for the KIND of part on both models from front / side
+        // renders of every bone ('Reviewed:' in the draft's Comments) and audited for how each will MOVE ('Behaviour:').
+        // His head stays on the skin's main head (4); his side locks go root onto root to the skin's Bang side locks
+        // (13/14, 15/16), his ahoge to Bang:8/9, his braid link for link to the skin's braid, his eyes to its main HEAD (4): on its Eye component the skin's
+        // eye shader drew an elemental eye mod's glowing cyan iris white / grey (forward epoch 8, Aether5), on the main mesh
+        // it glows as on his card, and ordinary eyes are unchanged. The Eye row is left EMPTY, so its fixer still hides
+        // the skin's own eye. Both
+        // his back cape chains per side ride that side's back COAT chain at the inner root (74 / 75) and the last two links
+        // (78-80 / 79-81), and the skin's upper torso (50) between: every link on the coat chain closed his cape's two
+        // panels over the split between them (epoch 1), every top link on the torso opened it far wider than on his own
+        // card (epoch 2); the inner roots on the chain give his narrow slit (2026-10-25);
+        // his scarf is one chain onto the front-left coat chain (58 -> 60 -> 62). Every finger is its exact counterpart.
+        // The union of the rows covers each of Aether's 91 groups exactly once. PROPOSED, not confirmed in game.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven), ""},
+         VGRemap({
+            {0, 4}, {1, 4}, {2, 4}, {7, 113}, {8, 114}, {9, 116}, {10, 115}, {11, 50}, {14, 98}, {15, 48}, {16, 25}, {17, 56},
+            {18, 3}, {19, 2}, {20, 28}, {21, 45}, {22, 49}, {23, 5}, {24, 22}, {25, 26}, {26, 62}, {27, 81},
+            {28, 80}, {29, 0}, {30, 1}, {31, 23}, {32, 55}, {33, 6}, {34, 29}, {35, 50}, {36, 50}, {37, 46},
+            {38, 47}, {39, 24}, {40, 50}, {41, 50}, {42, 74}, {43, 75}, {44, 50}, {45, 50}, {46, 50}, {47, 78},
+            {48, 78}, {49, 80}, {50, 50}, {51, 50}, {52, 50}, {53, 79}, {54, 79}, {55, 81}, {56, 27}, {57, 31},
+            {58, 30}, {59, 36}, {60, 33}, {61, 39}, {62, 42}, {63, 43}, {64, 32}, {65, 34}, {66, 35}, {67, 37},
+            {68, 38}, {69, 40}, {70, 41}, {71, 44}, {72, 8}, {73, 7}, {74, 13}, {75, 10}, {76, 16}, {77, 19},
+            {78, 20}, {79, 9}, {80, 11}, {81, 12}, {82, 14}, {83, 15}, {84, 17}, {85, 18}, {86, 21}, {87, 60},
+            {88, 58}, {89, 50}, {90, 86}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "Bang"},
+         VGRemap({
+            {3, 13}, {4, 16}, {5, 15}, {6, 14}, {12, 8}, {13, 9}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::Aether), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "Eye"},
+         VGRemap({
+         })},
+
+        // ===== from AetherHeaven @ 1.0 (2026-10-24) =====
+        // The reverse, one row per SOURCE component (main 120 groups, Bang 17, Eye 2), from the same draft. The skin's
+        // coat has no counterpart on him: its front panels ride his pelvis then his thighs, its side panels his OUTER
+        // cape chains; its back coat chains his upper torso (11); its one-sided left back drape (the circle emblem) his
+        // LEFT INNER cape chain, pulled in towards his middle (see AetherHeavenFixer) -- on his outer chain it swung off
+        // to his left (reverse epochs 1-3, 2026-10-25); its forelocks ride his head, its side locks his; its braid his
+        // braid; cuffs his forearms, straps his clavicle, buckles and hip pieces his spine and pelvis. Checked in game.
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Aether), ""},
+         VGRemap({
+            {0, 29}, {1, 30}, {2, 19}, {3, 18}, {4, 2}, {5, 23}, {6, 33}, {7, 73}, {8, 72}, {9, 79},
+            {10, 75}, {11, 80}, {12, 81}, {13, 74}, {14, 82}, {15, 83}, {16, 76}, {17, 84}, {18, 85}, {19, 77},
+            {20, 78}, {21, 86}, {22, 24}, {23, 31}, {24, 39}, {25, 16}, {26, 25}, {27, 56}, {28, 20}, {29, 34},
+            {30, 58}, {31, 57}, {32, 64}, {33, 60}, {34, 65}, {35, 66}, {36, 59}, {37, 67}, {38, 68}, {39, 61},
+            {40, 69}, {41, 70}, {42, 62}, {43, 63}, {44, 71}, {45, 21}, {46, 37}, {47, 38}, {48, 15}, {49, 22},
+            {50, 11}, {51, 32}, {52, 32}, {53, 14}, {54, 14}, {55, 32}, {56, 17}, {57, 32}, {58, 14}, {59, 14},
+            {60, 16}, {61, 15}, {62, 16}, {63, 15}, {64, 16}, {65, 15}, {66, 44}, {67, 50}, {68, 45}, {69, 51},
+            {70, 48}, {71, 54}, {72, 28}, {73, 27}, {74, 11}, {75, 11}, {76, 11}, {77, 11}, {78, 11}, {79, 11},
+            {80, 11}, {81, 11}, {82, 33}, {83, 34}, {84, 56}, {85, 56}, {86, 90}, {87, 30}, {88, 18}, {89, 19},
+            {90, 89}, {91, 89}, {92, 31}, {93, 37}, {94, 2}, {95, 2}, {96, 23}, {97, 20}, {98, 14}, {99, 42},
+            {100, 46}, {101, 46}, {102, 47}, {103, 49}, {104, 49}, {105, 33}, {106, 33}, {107, 33}, {108, 11}, {109, 39},
+            {110, 38}, {111, 31}, {112, 37}, {113, 7}, {114, 8}, {115, 10}, {116, 9}, {117, 9}, {118, 10}, {119, 9}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "Bang",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Aether), ""},
+         VGRemap({
+            {0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 4}, {5, 5}, {6, 6}, {7, 3}, {8, 12}, {9, 13},
+            {10, 5}, {11, 3}, {12, 3}, {13, 3}, {14, 6}, {15, 5}, {16, 4}
+         })},
+
+        {{"1.0", ModTypeIdTools::getName(ModTypeId::AetherHeaven), "Eye",
+          "6.3", ModTypeIdTools::getName(ModTypeId::Aether), ""},
+         VGRemap({
+            {0, 1}, {1, 0}
+         })},
+
         // ===== WuWa: Sanhua <-> SanhuaExorcist (2026-09-19) =====
         // Both directions from Data/RemapDrafts/SanhuaRemapDraft.xlsx, in WWMI's MERGED skeleton
         // (the space every component's vg_map in Metadata.json maps into, and the space a WWMI

@@ -104,6 +104,8 @@ struct KeywordRow {
 
 static const std::vector<KeywordRow>& expectedRows() {
     static const std::vector<KeywordRow> rows = {
+        {"Aether", {"aether", "travelerboy"}},
+        {"AetherHeaven", {"aetherheaven", "aetherskin"}},
         {"Amber", {"amber"}},
         {"AmberCN", {"ambercn"}},
         {"Arlecchino", {"arlecchino"}},
@@ -188,7 +190,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryKeywordRowMatchesPython() {
     std::printf("testEveryKeywordRowMatchesPython\n");
 
-    check(expectedRows().size() == 57, "the oracle itself still has all 57 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine and LumineHeaven)");
+    check(expectedRows().size() == 59, "the oracle itself still has all 59 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven)");
 
     for (const KeywordRow& row : expectedRows()) {
         checkKeywords(ModTypeIdTools::getSectionKeywords(idOf(row.name)), row.keywords,
@@ -291,6 +293,8 @@ static void testMaximalMatchDisambiguatesOverlappingNames() {
         {"[TextureOverrideYaoYaoRainlitHead]", ModTypeId::YaoyaoBamboo, ModTypeId::Yaoyao},
         {"[TextureOverrideLumineHeavenBody]", ModTypeId::LumineHeaven, ModTypeId::Lumine},
         {"[TextureOverrideLumineSkinBodyA]", ModTypeId::LumineHeaven, ModTypeId::Lumine},
+        {"[TextureOverrideAetherSkinBodyA]", ModTypeId::AetherHeaven, ModTypeId::Aether},
+        {"[TextureOverrideAetherHeavenEarthAnewHead]", ModTypeId::AetherHeaven, ModTypeId::Aether},
         {"[TextureOverrideNingguangOrchidBody]", ModTypeId::NingguangOrchid, ModTypeId::Ningguang},
     };
 

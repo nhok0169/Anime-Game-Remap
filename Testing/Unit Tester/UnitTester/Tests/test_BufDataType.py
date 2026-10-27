@@ -183,6 +183,24 @@ class BufDataTypeTest(BaseUnitTest):
             self.assertEqual(len(encoded), 1)
             self.assertAlmostEqual(dataType.decode(encoded), value, places = 2)
 
+    def test_unorm_dumpTextEncodesBackExactly(self):
+        # 3dmigoto prints a UNORM8 as the float32 of n / 255 to 9 significant digits; every one of
+        # the 256 must encode back to n. Truncating lost 126 ("0.494117677" * 255 = 125.99999...)
+        dataType = FRB.BufUnorm("UNORM8", 1)
+        for n in range(256):
+            text = "%.9g" % struct.unpack("<f", struct.pack("<f", n / 255))[0]
+            self.assertEqual(dataType.encode(float(text)), bytes([n]), text)
+
+    def test_unorm_decodeEncodeIsExact(self):
+        dataType = FRB.BufUnorm("UNORM8", 1)
+        for n in range(256):
+            self.assertEqual(dataType.encode(dataType.decode(bytes([n]))), bytes([n]))
+
+    def test_unorm_clampsOutOfRange(self):
+        dataType = FRB.BufUnorm("UNORM8", 1)
+        self.assertEqual(dataType.encode(-0.25), b"\x00")
+        self.assertEqual(dataType.encode(1.5), b"\xff")
+
     def test_unorm_zeroBytesDecodesToZero(self):
         dataType = FRB.BufUnorm("UNORM8", 1)
         self.assertEqual(dataType.decode(b"\x00"), 0.0)

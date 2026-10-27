@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 
@@ -281,6 +282,32 @@ namespace AGRemapCore {
              @endrst
              */
             bool offsetOnlyWithGameFace = false;
+
+            /**
+             * @brief
+             @rst
+             Cloth of this component pushed HORIZONTALLY, by its weight share on the push's SOURCE groups, before it
+             is merged -- see :cpp:class:`VGPushAway`, and ``GIMIComponentFixerConfig::Component::pushAway`` for the
+             other direction. For a part the source's own bones carry somewhere at rest that no target bone takes it:
+             AetherHeaven's one-sided left back drape is modelled splayed out to his left and the skin's simulated
+             bones swing it to the middle of its back; on any of Aether's bones it hung off to his left.
+             **Default**: empty
+             @endrst
+             */
+            std::vector<VGPushAway> pushAway;
+
+            /**
+             * @brief
+             @rst
+             SHARED groups of this component: ``{source group: [(target bone, share), ...]}`` in place of its reverse
+             row's one bone -- see :cpp:member:`VGMergeComponentSpec::splitGroups`, and
+             ``GIMIComponentFixerConfig::Component::splitGroups`` for the other direction. For a part the source's
+             simulated bones hang at the MIDDLE of a pair the target has one of each side: AetherHeaven's back drape
+             rides both of Aether's inner cape chains, half each, so it stays centred and does not twist with one.
+             **Default**: empty
+             @endrst
+             */
+            std::unordered_map<long long, std::vector<std::pair<long long, double>>> splitGroups;
         };
 
         /**

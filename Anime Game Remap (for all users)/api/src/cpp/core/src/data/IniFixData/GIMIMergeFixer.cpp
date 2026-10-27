@@ -757,6 +757,13 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
+                                    // A section that only hides its slot (GIMIComponentParseFacts::isSlotUndrawn)
+                                    // is no member: carried, it put its skip and no ib on the target object's
+                                    // draw, which then drew the GAME's index buffer at the slot's count.
+                                    if (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name)) {
+                                        continue;
+                                    }
+
                                     // The layout is read off the MOD, not assumed from the
                                     // config: a mod may bind its objects differently, and a slot
                                     // with a ps-t2 is the three-register normal-map layout.
@@ -1861,6 +1868,14 @@ namespace AGRemapCore {
                         entry.positionPath = branches_.pick(files->positions, files->position, local);
                         entry.texcoordPath = branches_.pick(files->texcoords, files->texcoord, local);
 
+                        // A component's pushes -- see Component::pushAway.
+                        for (const GIMIMergeFixerConfig::Component& c : config_.components) {
+                            if (c.name == component) {
+                                entry.pushAway = c.pushAway;
+                                entry.spec.splitGroups = c.splitGroups;
+                            }
+                        }
+
                         // A component moved to the target's height -- see Component::positionOffset.
                         for (const GIMIMergeFixerConfig::Component& c : config_.components) {
                             if (c.name != component || c.positionOffset == std::array<float, 3>{0.0f, 0.0f, 0.0f}
@@ -2194,7 +2209,23 @@ namespace AGRemapCore {
                                         ctx_.log("the '" + members[i].first + " " + members[i].second
                                                   + "' slot is drawn per branch, so it stays in the outline pass");
                                     }
-                                    inBranch.push_back(rolesInBranch(*files, local));
+                                    // THE TEXTURES FOLLOW THE IB (2026-10-26). A member with no ib in this
+                                    // branch takes another branch's -- pick() answers with a lone candidate
+                                    // whatever its condition -- and its textures have to come from THAT branch:
+                                    // read strictly for this one they are none, so the member drew on whatever
+                                    // the member before it left bound (HSynthMerged's variant without eyes drew
+                                    // its borrowed eyes with the body's atlas, reverse epoch 9).
+                                    std::optional<Z3Predicate> texQuery = local;
+                                    for (const BranchVal& candidate : files->ibs) {
+                                        if (candidate.val == path) {
+                                            if (local.has_value() && candidate.query.has_value()
+                                                    && !branches_.compatible(*local, *candidate.query)) {
+                                                texQuery = candidate.query;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    inBranch.push_back(rolesInBranch(*files, texQuery));
                                     appendMemberBindings(additions, members[i], bound, &inBranch.back());
                                 }
 

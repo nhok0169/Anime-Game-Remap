@@ -6159,6 +6159,16 @@ class GIBuilder:
         
     """
     @staticmethod
+    def aether() -> ModType:
+        """
+        Creates the :class:`ModType` for Aether
+        """
+    @staticmethod
+    def aetherHeaven() -> ModType:
+        """
+        Creates the :class:`ModType` for AetherHeaven, the skin of three components; its component ids are fix targets only and have no factory
+        """
+    @staticmethod
     def amber() -> ModType:
         """
         Creates the :class:`ModType` for Amber
@@ -7513,6 +7523,15 @@ class GIMIComponentFixerConfig:
     def lightMapObjs(self, arg0: collections.abc.Sequence[str]) -> None:
         ...
     @property
+    def lightMapPerDiffuse(self) -> bool:
+        """
+        :class:`bool`: Whether a light map bound beside several diffuses (eg. a hair colour toggle that swaps only the
+        diffuse) gets one :attr:`lightMapEdit` per diffuse, each bound where its diffuse is. **Default**: ``False``
+        """
+    @lightMapPerDiffuse.setter
+    def lightMapPerDiffuse(self, arg0: bool) -> None:
+        ...
+    @property
     def mipmaps(self) -> bool:
         """
         :class:`bool`: Whether written textures carry a mip chain. **Default**: ``True``
@@ -8111,12 +8130,31 @@ class GIMIMergeFixerConfig:
         def positionOffsetFade(self, arg0: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(2)"]) -> None:
             ...
         @property
+        def pushAway(self) -> list[...]:
+            """
+            List[:class:`VGPushAway`]: Cloth of this component pushed horizontally, by its weight share on the push's SOURCE
+            groups, before it is merged --- for a part the source's own bones carry somewhere at rest that no target bone takes
+            it. Empty by default
+            """
+        @pushAway.setter
+        def pushAway(self, arg0: collections.abc.Sequence[...]) -> None:
+            ...
+        @property
         def slots(self) -> list[GIMIMergeFixerConfig.Slot]:
             """
             List[:class:`GIMIMergeFixerConfig.Slot`]: The component's draw slots
             """
         @slots.setter
         def slots(self, arg0: collections.abc.Sequence[GIMIMergeFixerConfig.Slot]) -> None:
+            ...
+        @property
+        def splitGroups(self) -> dict[int, list[tuple[int, float]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`float`]]]: Shared groups of this component, ``{source group:
+            [(target bone, share), ...]}`` in place of its reverse row's one bone. Empty by default
+            """
+        @splitGroups.setter
+        def splitGroups(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex]]]) -> None:
             ...
         @property
         def vertexCount(self) -> int:
@@ -9121,10 +9159,13 @@ class GameTypeId:
       GI : Genshin Impact
     
       WuWa : Wuthering Waves
+    
+      ZZZ : Zenless Zone Zero
     """
     GI: typing.ClassVar[GameTypeId]  # value = <GameTypeId.GI: 0>
     WuWa: typing.ClassVar[GameTypeId]  # value = <GameTypeId.WuWa: 1>
-    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>}
+    ZZZ: typing.ClassVar[GameTypeId]  # value = <GameTypeId.ZZZ: 2>
+    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>, 'ZZZ': <GameTypeId.ZZZ: 2>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -12764,6 +12805,34 @@ class IniClassifier(BaseIniClassifier):
         :class:`bool`
             Whether 'modType' was newly registered
         """
+    def addZZZModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str], sectionKeywords: collections.abc.Set[str]) -> bool:
+        """
+        Registers a ZZZ mod type into the classifier
+        
+        Classifies exactly like :meth:`addGIModType` -- a ZZZ .ini file is identified by its hashes and its
+        section keywords the same way a GI one is -- except that the game is :attr:`GameTypeId.ZZZ`. The mod
+        type is filed under that game, so registering it never disturbs a GI mod type, including when the
+        same hash or keyword is registered for both games: a .ini file using it is then classified as both
+        
+        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
+        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.ZZZ`
+        
+        Parameters
+        ----------
+        modType: :class:`ModTypeIdData`
+            The mod type to register
+        
+        hashes: Set[:class:`str`]
+            The hashes that identify 'modType'
+        
+        sectionKeywords: Set[:class:`str`]
+            The section keywords that identify 'modType'
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'modType' was newly registered
+        """
     def getModType(self, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> ModTypeIdData:
         """
         Retrieves the registered :class:`ModTypeIdData` for a :class:`ModTypeId`
@@ -15879,6 +15948,16 @@ class ModTypeId:
     
     Members:
     
+      Aether : Aether (the male Traveler) from GI
+    
+      AetherHeaven : Aether outfit skin (As Heaven and Earth Are Made Anew) from GI -- three skinned components (an unnamed main mesh, Bang, Eye)
+    
+      AetherHeavenMain : AetherHeaven's main mesh (its component name is the empty string), as a fix target -- a skin of several components is fixed one component at a time, and each is a mod type for the tables' purposes
+    
+      AetherHeavenBang : AetherHeaven's Bang component, as a fix target
+    
+      AetherHeavenEye : AetherHeaven's Eye component, as a fix target
+    
       Amber : Amber from GI
     
       AmberCN : Amber Chinese version from GI
@@ -16059,6 +16138,11 @@ class ModTypeId:
     
       ChangliNymph : Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1)
     """
+    Aether: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Aether: 0>
+    AetherHeaven: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeaven: 1>
+    AetherHeavenBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenBang: 3>
+    AetherHeavenEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenEye: 4>
+    AetherHeavenMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenMain: 2>
     Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
     AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
     Arlecchino: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Arlecchino: 4>

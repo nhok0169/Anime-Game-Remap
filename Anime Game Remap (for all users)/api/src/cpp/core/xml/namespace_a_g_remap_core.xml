@@ -505,6 +505,14 @@ Bound to `Python`_ as ``DownloadMode``, the only download mode there is on eithe
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa0745064918b49693cca64d6b6a13d28a" prot="public">
+          <name>ZZZ</name>
+          <briefdescription>
+<para>Zenless Zone Zero. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
 <para>The names of the different supported games. </para>
         </briefdescription>
@@ -512,7 +520,7 @@ Bound to `Python`_ as ``DownloadMode``, the only download mode there is on eithe
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="28" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="28" bodyend="38"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="28" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="28" bodyend="43"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" prot="public" static="no" strong="yes">
         <type></type>
@@ -1606,7 +1614,7 @@ The shape the whole classification path takes its game filter in --
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="57" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="57" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="62" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" prot="public" static="no">
         <type>std::variant&lt; long long, unsigned long long, double &gt;</type>
@@ -1834,21 +1842,6 @@ in an :cpp:class:`OrderedMultiMapAdapter`
       </memberdef>
     </sectiondef>
     <sectiondef kind="var">
-      <memberdef kind="variable" id="namespace_a_g_remap_core_1ae342200be5432178d9b17ba9be0979ce" prot="public" static="yes" mutable="no">
-        <type>const std::string</type>
-        <definition>const std::string AGRemapCore::GITransition</definition>
-        <argsstring></argsstring>
-        <name>GITransition</name>
-        <qualifiedname>AGRemapCore::GITransition</qualifiedname>
-        <initializer>= &quot;game:&quot; + std::to_string(static_cast&lt;int&gt;(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>))</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="40" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="40" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="variable" id="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::WuWaTransition</definition>
@@ -1862,7 +1855,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="41" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="41" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="43" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">

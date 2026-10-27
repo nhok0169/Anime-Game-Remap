@@ -452,6 +452,8 @@ Below are the supported types of mods
 
 | Name | Game | Aliases | Description |
 | --- | --- | --- | ---|
+| Aether | GI | MaleTraveler, Sora, TravelerBoy, TravelerMale | Aether mods |
+| AetherHeaven | GI | AetherAsHeavenAndEarthAreMadeAnew, AetherSkin, AsHeavenAndEarthAreMadeAnewAether, HeavenAether, TravelerBoyHeaven | Aether As Heaven and Earth Are Made Anew mods |
 | Amber | GI | BaronBunny, ColleisBestie | Amber mods |
 | AmberCN | GI | BaronBunnyCN, ColleisBestieCN | Amber Chinese mods |
 | Arlecchino | GI | Father, Harlequin, Knave, Perrie, Peruere | Arlecchino mods |
@@ -531,6 +533,7 @@ Below are the supported types of games
 | --- | --- |
 | GI | Genshin, GenshinImpact |
 | WuWa | WutheringWaves |
+| ZZZ | ZenlessZoneZero |
 
 <br>
 

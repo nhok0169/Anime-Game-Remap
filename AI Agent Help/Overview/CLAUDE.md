@@ -2085,7 +2085,70 @@ drew that mod as a floating face, on `master` too -- the merged buffers are neve
 names them (4 dangling references; open). Before calling a moved folder a user-visible change, re-fix it with
 `--download normal`; before calling a bug a regression, reproduce it with the `master` build in the same mode.
 
-**123. A "LIMITATION" IS A CONCLUSION YOU HAVE TO EARN, AND "IT WOULD NEED A SHADER" IS NOT ONE (2026-10-26).**
+**123. THE CHECKOUT AND GIT'S STASH ARE SHARED: NEVER STASH, `checkout --`, `clean` OR `reset` THE
+WHOLE TREE (2026-10-26).** The maintainer's main checkout is worked on by several agent sessions at
+once, and the stash is per REPOSITORY -- one stack, shared by every session and every worktree. Two
+incidents on a single small task, both silent until someone re-read a file:
+1. A bare `git stash`, run to get a "before" snapshot of ONE file, swept up about 20 files of other
+   agents' uncommitted work (a whole deprecated-fixer chain and its tests, deleted in their tree) and
+   the run ended with it still stashed. The tree looked reverted and nothing reported it; what gave it
+   away was re-grepping a file known to have been edited. `git stash pop stash@{0}` restored it exactly.
+2. A path-scoped `git stash push --keep-index -- <file>` followed by `git stash pop` applied an
+   unrelated, months-old stash (`add-lisa`) and conflicted `LICENSE`: a pop takes the TOP of a stack
+   other sessions also push to, so "my stash" is not necessarily what comes back.
+Nothing was lost either time, and that was luck plus re-checking, not safety. So: to see what a file
+was, `git show HEAD:<path>` into a scratch file; to tell whether a failure is yours, grep the failing
+test for the names you touched (Testing). If you truly must stash, push only your exact paths, run
+`git stash list` before AND after, pop in the same tool call, and never leave one across a turn. Leave
+every entry that is not yours alone -- there has been an `add-lisa` entry for a long time; do not pop or
+drop it. The same goes for `git checkout -- <dir>`, `git clean` and `git reset`: they destroy other
+sessions' uncommitted work, so name the exact files you wrote (this session used `checkout --` only on
+four XML files its own splice had just written). Testing's older "stash to get a clean baseline" recipe
+is qualified for exactly this reason.
+
+**124. A BACKGROUND SUB-AGENT THAT CAN RUN BUILDS AND GIT IS NOT THE READ-ONLY AUDITOR OF HABIT 113
+(2026-10-26).** Delegating "update `api.rst`, regenerate `core.pyi`, verify the docs" to a background
+general-purpose agent produced: the unrequested `git stash` of habit 123 (it wanted a before/after
+warning count); a "completed" notification that arrived while the build it had started was still
+running as an orphaned `cmake`/`ninja`/`link` chain (the agent flipped between completed and running
+for most of an hour, each "completed" meaning only "my turn ended"); an edit outside its brief
+(`__init__.py` imports -- correct, but only visible by reading the diff); and a summary that mixed what
+it had verified with what it had assumed. Build and git-state work is a handful of commands once you
+have the recipe (Documentation's "Refreshing the committed artifacts"), so do it yourself. If you do
+delegate: put the prohibitions in the prompt (no `git stash`/`checkout`/`reset`/`clean`, no starting a
+build, no edits outside the named files -- report a diff instead), and afterwards re-check the world
+yourself rather than relay the report: `git status`, `git stash list`, the file it says it changed, and
+`Get-Process` for `cmake|ninja|link|cl|doxygen|python`. Never start a second build against the same
+`cbuild/` while one is alive (Building's hygiene rule 1).
+
+**125. SEARCH FROM THE SUBTREE, NOT FROM `core` OR THE CPP ROOT (2026-10-26).** A `Grep` or `Glob` rooted at
+`api/src/cpp` or `api/src/cpp/core` hits the tool's 20-second limit and returns an ERROR with no partial
+results -- which is easy to misread as "no matches". `core/xml` is 67 MB in 1784 generated files, against
+about 11 MB for `core/include`, `core/src` and `core/tests` together; `py/src` and each of those three are
+instant (found by elimination: `core` times out, `py` does not, the three source dirs do not -- the
+cause was not isolated further). Search the source directories you mean, several calls in one message,
+and treat a timeout as an error. The same instinct applies to this guide set itself: it is about 28,000
+lines of dated narrative, so `Grep` it for your symbol names (count mode over `AI Agent Help/`, then
+`-C 3` on the hits) and read the whole section of each hit, rather than reading top to bottom.
+
+**126. A NEW FIELD COMPUTED BEFORE THE LAST PASS THAT REWRITES ITS INPUTS IS INERT -- PRINT WHAT THE NEW CODE
+SEES, NOT WHETHER IT RAN (2026-10-26).** `GIMIComponentFixerConfig::lightMapPerDiffuse` built cleanly, A/B'd
+identical to its prototype, and changed nothing: the list of diffuses it gathered was filled where the positional
+reading of an object's textures is made, and the by-NAME reading a few lines later -- which is what Aether's config
+uses -- cleared it. The prototype shared the bug, so the A/B was blind (habit 56). Wrapping the lightMapEdit callback
+in Python to log what it was asked for showed the toggled diffuse was never requested; ONE rebuild with an env-gated
+`std::fprintf(stderr, ...)` of the list's SIZE per object (`0 resources` on every object) named the cause. In a
+reader that several passes refine (positional -> by name -> per branch), compute derived data after the last of
+them, and print counts of what the new code received before debugging what it did with it.
+
+**127. TWO RESOURCE EDITS OF ONE SOURCE NEED DIFFERENT `resSubType`S, NOT JUST DIFFERENT GRAPH IDS (2026-10-26).**
+A `TexReplace` / `TexEditorReplace` names its fixed resource SECTION from the source resource and its subtype
+(`...<Component>LightMapRemapTex.<n>`); the `GraphId` and `modObj` only reach the FILE name. Two edits of one light
+map with the same subtype wrote two files and ONE section, so every branch bound the same edited copy and the run
+reported nothing. Give each edit its own subtype (`"LightMap" + suffix`), then read the fixed `.ini`'s resource
+sections, not just the files on disk, to see that each branch binds its own.
+
+**128. A "LIMITATION" IS A CONCLUSION YOU HAVE TO EARN, AND "IT WOULD NEED A SHADER" IS NOT ONE (2026-10-26).**
 Changli <-> ChangliNymph went to the maintainer's final check with four limits written into `remapGrading.rst`: a
 skirt that would not go see-through, chains drawn as dark cords, a tattoo not drawn, feathers that did not glow.
 All four were fixable with the source's own game shader, and every one was fixed within a day once that was asked
@@ -2094,13 +2157,13 @@ two questions: would the source's own shader fix it, and would a different route
 limit is only something you MEASURED to be out of reach. See Creating Remaps' "A REMAP ADDS NO SHADER OR TEXTURE IT
 CAN DO WITHOUT".
 
-**124. EVERY "NOT A FAULT" IN A BRIEF IS A CLAIM -- VERIFY IT ON THE ORIGINAL BEFORE IT GOES IN (2026-10-27).**
+**129. EVERY "NOT A FAULT" IN A BRIEF IS A CLAIM -- VERIFY IT ON THE ORIGINAL BEFORE IT GOES IN (2026-10-27).**
 An epoch brief told the game agent that Changli13's overworld mode 0 glowing like mode 5 was "the mod's own rule".
 That happened to be right, but nobody had checked it on Changli's own outfit until the maintainer reported it as a
 bug. The game agent believes the brief and stops looking. So for each item in a brief's "not a fault" list, write
 down how it was verified -- the original's shot, the line of the mod's `.ini` -- or take it out.
 
-**125. WHEN THE MAINTAINER REPORTS A BUG, MEASURE IT BEFORE YOU EXPLAIN IT, AND MEASURE THE ORIGINAL TOO
+**130. WHEN THE MAINTAINER REPORTS A BUG, MEASURE IT BEFORE YOU EXPLAIN IT, AND MEASURE THE ORIGINAL TOO
 (2026-10-27).** The last two Changli reports were not remap faults: a stale shape-key buffer and a mod's auto mode.
 Each was settled in under an hour by measurement. For the buffer, a `dump = ResourceShapeKeyedPosition buf` line
 in the remapped section showed the vest's vertices never moved. For the mode, the same mod on the original
@@ -2108,19 +2171,19 @@ outfit showed the same behaviour. Two traps on the way: a frame dump's `vb0=` fi
 captured before the fix's override swaps them, so dump the fix's own resource by name; and a log-only dump
 (`--options log`) shows which sections ran, but no buffer contents.
 
-**126. A FIX TO SHARED REMAP DATA IS NOT DONE UNTIL EVERY COPY THE GAME RUNS IS RE-FIXED (2026-10-26).** After every
+**131. A FIX TO SHARED REMAP DATA IS NOT DONE UNTIL EVERY COPY THE GAME RUNS IS RE-FIXED (2026-10-26).** After every
 build: A/B the prototype against the compiled fix on every test mod (`abWWMI.py`), re-fix every test copy AND the
 maintainer's live copy (they move it between `Mods` and a parked folder, so find it first), and run the dangling-
 reference check on each. A missing file in the output that is also missing from the untouched original is the
 author's; one the original has is yours.
 
-**127. THE GAME HOLDS STATE THAT A RELOAD DOES NOT RESET (2026-10-27).** 3DMigoto resizes or replaces a game
+**132. THE GAME HOLDS STATE THAT A RELOAD DOES NOT RESET (2026-10-27).** 3DMigoto resizes or replaces a game
 resource only when the game CREATES it, and the overworld character is created once. So after you load, swap or
 park a mod, the overworld can show the previous state: a shape-key buffer sized for another mod (only part of the
 mesh morphs), or a blindfold from a mod no longer loaded. Switch party member and back before any overworld shot,
 and write that into every game agent's brief.
 
-**128. ASK FOR EVERY GAME PERMISSION THE EPOCH WILL NEED BEFORE IT STARTS (2026-10-25).** Changli's forward epoch 5
+**133. ASK FOR EVERY GAME PERMISSION THE EPOCH WILL NEED BEFORE IT STARTS (2026-10-25).** Changli's forward epoch 5
 could not check the overworld because the skin was not worn, and "Wear Outfit" had not been cleared. That cost a
 whole epoch. Before launching a game agent, list what it must do that the rules forbid by default -- wear an
 outfit, spend a forte gauge, change the time of day -- and ask the maintainer once, up front.

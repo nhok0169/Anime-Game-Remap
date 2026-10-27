@@ -31,7 +31,7 @@
 //     Hashes/Indices. This is what "nullptr hashes/indices" used to lose:
 //     ModMappedAssets::resolveToAssetNames returns nullopt for a from-name that
 //     is not a key, so an empty map means NO targets, not all of them.
-//   * GlobalModTypes::registerAll() filing all 57 GI ones into ModTypeIdTools, so
+//   * GlobalModTypes::registerAll() filing all 59 GI ones into ModTypeIdTools, so
 //     getModType resolves by id and findByName by name AND by alias.
 //
 // Needs the full static lib. Build AGRemapCore first ("cd cbuild && ninja
@@ -105,6 +105,8 @@ struct RemapRow {
 
 static const std::vector<RemapRow>& expectedRows() {
     static const std::vector<RemapRow> rows = {
+        {"Aether", {"AetherHeavenMain", "AetherHeavenBang", "AetherHeavenEye"}, {"AetherHeavenMain", "AetherHeavenBang", "AetherHeavenEye"}},
+        {"AetherHeaven", {"Aether"}, {"Aether"}},
         {"Amber", {"AmberCN"}, {"AmberCN"}},
         {"AmberCN", {"Amber"}, {"Amber"}},
         {"Arlecchino", {"ArlecchinoBoss"}, {"ArlecchinoBoss"}},
@@ -206,7 +208,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-    check(expectedRows().size() == 65, "the oracle itself still has all 65 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine and LumineHeaven, plus the eight WuWa types)");
+    check(expectedRows().size() == 67, "the oracle itself still has all 67 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven, plus the eight WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 
@@ -250,7 +252,7 @@ static void testBuiltModTypesCarryTheirMap() {
     std::printf("testBuiltModTypesCarryTheirMap\n");
 
     std::vector<AGRC::ModType> built = AGRC::GIBuilder::all();
-    check(built.size() == 57, "GIBuilder::all() builds all 57 mod types");
+    check(built.size() == 59, "GIBuilder::all() builds all 59 mod types");
 
     for (const AGRC::ModType& modType : built) {
         const RemapRow* expected = nullptr;

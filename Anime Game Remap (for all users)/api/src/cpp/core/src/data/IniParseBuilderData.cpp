@@ -216,11 +216,21 @@ namespace AGRemapCore {
                 // Three drawn objects off one mesh, all plain. At 4.0, where her downloads are.
                 {{"4.0", ModTypeIdTools::getName(ModTypeId::Lumine)}, IniParseBuilderFuncs::lumine4_0()},
 
+                // ===== Aether (2026-10-24) =====
+                // Two drawn objects off one mesh, both plain. At 4.0, where his downloads are.
+                {{"4.0", ModTypeIdTools::getName(ModTypeId::Aether)}, IniParseBuilderFuncs::aether4_0()},
+
                 // ===== LumineHeaven (2026-09-29) =====
                 // The seventh row built by makeGIMIComponentParser, the reverse of the three Lumine rows. At 6.3,
                 // where the skin's assets are.
                 {{"6.3", ModTypeIdTools::getName(ModTypeId::LumineHeaven)},
                  IniParseBuilderFuncs::lumineHeaven6_3()},
+
+                // ===== AetherHeaven (2026-10-24) =====
+                // Built by makeGIMIComponentParser, the reverse of the three Aether rows. At 6.3, where the skin's
+                // assets are.
+                {{"6.3", ModTypeIdTools::getName(ModTypeId::AetherHeaven)},
+                 IniParseBuilderFuncs::aetherHeaven6_3()},
             };
         }
     }

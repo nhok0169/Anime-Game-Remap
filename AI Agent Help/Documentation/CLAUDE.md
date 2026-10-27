@@ -405,6 +405,52 @@ down to "the file I already had a reason to be looking at" without verifying the
 how a fix can look like it worked-by-coincidence while the actual bug (in a file you never
 reopened) survives untouched.
 
+## REFRESHING THE COMMITTED ARTIFACTS AFTER A BINDING OR HEADER CHANGE: THE RECIPE THAT KEPT THE DIFF SMALL (2026-10-26)
+
+Measured on a change that added one enumerator, one public method and one protected helper: `core.pyi`
+**+32 / -1** and **6** files under `core/xml`. The obvious route, `main.py -d`, regenerates `core.pyi`
+whole and rewrites every file in `core/xml` -- the last time that was done here, `core.pyi` alone came
+out at +1615 / -357, almost all of it other people's bindings. Everything below is splice-only, and
+none of it touches the shared tree's git state (Overview habit 123).
+
+1. **Build the module without `-d`:** from `Tools/APIBuilder`, after `vcvarsall.bat`,
+   `py -3 -u main.py -i` (`-i` skips the slow install-folder walk, `-u` makes the log live). Verify by the
+   `.pyd`'s timestamp and the log's `BUILD_OK`, not the exit code, and run nothing that imports the API
+   while it builds.
+2. **The stub, into a scratch folder:** `$env:PYTHONPATH = "<api/src/py>"`, then from PowerShell
+   `py -3 -m pybind11_stubgen FixRaidenBoss2.core -o <scratch> "--root-suffix="`. **Write the empty
+   value as `--root-suffix=`:** PowerShell 5.1 drops a bare `""` argument and stubgen dies with
+   `--root-suffix: expected one argument` (Building says "use Bash" for the same trap; this makes
+   PowerShell work too). Then `Tools/Misc/Docs/pyiSplice.py <scratch>/FixRaidenBoss2/core.pyi` with no
+   names: it should list exactly the classes you touched. **`IniKeywords` will be listed every time and is
+   not yours** -- its `MatchKeys` is a `set` printed in hash order. `--show` your classes, check the diff is
+   what you meant (additions only, for an addition), then `--apply` them.
+3. **The XML, into a SHORT scratch folder:** `py -3 Tools/Misc/Docs/doxygenSplice.py --run
+   C:\Users\<you>\AppData\Local\Temp\agrdx` (about a minute, and it never touches `core/xml`; a short path
+   because Doxygen's class file names are long and the agent scratchpad path is already near
+   `MAX_PATH` -- not tested whether it would actually fail there).
+4. **Before you pick compounds, find out which generated files hold your symbol:**
+   `grep -l <NewName> <scratch>/xml/*.xml`. For the enumerator this listed eight files, and **a
+   namespace-level enum, enumerator, variable or free function lives in `namespace_a_g_remap_core.xml`,
+   which `doxygenSplice` calls the compound `AGRemapCore`** -- it does not appear under your class or your
+   header, and a listing filtered by your class names (what I did first) hides it. Splice
+   `AGRemapCore`, the header(s) you edited and the classes in them, in one `--apply`.
+5. **Then revert the listing-only files:** the XML of a `.cpp` (and the file XML of a header) embeds the
+   whole source as a numbered listing, so a few inserted lines renumber everything below them -- about
+   1,400 of 2,300 changed lines here -- and Breathe renders none of it. `git checkout -- <exact paths>` the
+   `.cpp` ones and any class whose header you did not edit; keep the header, class, namespace and
+   `index.xml` ones. `git diff --shortstat` and `--ignore-cr-at-eol` must agree afterwards.
+6. **Prove it rendered, not just that it built:** a full `-E` build into a scratch output and doctree folder
+   (`py -3 -m sphinx -E -b html -d <scratch>\doctrees -W --keep-going src <scratch>\html`, logged to a
+   FILE -- never piped through `tail`, which hides every warning above the last ten lines). Exit `1` is
+   normal with `-W` whenever the baseline has any warning, so read the summary line and the warnings per
+   file; here it was 2 (both intersphinx SSL fetches), none on `api.rst` or `coreAPI.rst`. Then grep
+   `api.html` and `coreAPI.html` for the new symbol and read the paragraph around it: the
+   enumerator rendered as `ZZZ` followed by `Zenless Zone Zero`, and the new protected helper's
+   SIGNATURE appeared in the C++ page (so protected members are listed there; I did not confirm its
+   description rendered, because my one grep for that text matched nothing and the output was already gone).
+7. Delete the scratch folders you made; `git status` should show no untracked files.
+
 ## THE PUBLISHED SITE COMPILES NOTHING, SO `core.pyi` AND `core/xml` *ARE* THE DOCS (2026-09-17)
 
 The site is <https://anime-game-remap.readthedocs.io>, built from `.readthedocs.yaml` at the repo root
@@ -492,6 +538,15 @@ AGREMAP_DOCS_STUBS=force py -3 -m sphinx -b html -E --keep-going src build/html
 
 `force` makes the stand-ins be used even though the real modules are right there. If the page you
 care about renders under that, it will render on the site.
+
+**A NEW CHARACTER WITHOUT ITS STUB ENTRIES BREAKS THE WHOLE SITE, NOT ONE PAGE (2026-10-26).** The pure-Python
+`ModTypes` enum calls `GIBuilder.<name>()` at import, so a remap that adds a character to `ModTypes` and a
+`ModTypeId` / `GIBuilder` factory in C++ but not to `core.pyi` makes `import FixRaidenBoss2` raise
+`AttributeError: type object 'GIBuilder' has no attribute '<name>'` under the stand-ins -- and Read the Docs fails
+outright (Aether / AetherHeaven did, after the branch merged). Run the command above before pushing any branch that
+adds a character, and splice the missing names (step 2 of "REFRESHING THE COMMITTED ARTIFACTS": a member-name
+comparison against a scratch stub lists them; on Windows, put the docs venv at a SHORT path such as
+`%TEMP%\agrdocs`, or pip fails on `MAX_PATH` inside `sphinxcontrib`).
 
 Two things were wrong in `.readthedocs.yaml` before this, and each one is fatal on a branch that
 carries the C++ API --- which since 2026-09-18 is **every** branch that matters: `development` was merged

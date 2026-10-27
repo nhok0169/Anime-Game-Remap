@@ -90,6 +90,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A9%F0%9F%AA%A1%20The%20Undrawn%20Object%20Mender-1-%2384cc16?style=for-the-badge&labelColor=%237c2d12)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A6%F0%9F%9A%AA%20The%20Pip%20Process%20Splitter-1-%2306b6d4?style=flat-square&labelColor=%231e1b4b)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8D%8B%E2%8F%B3%20The%20Epoch%20Warden-1-%23facc15?style=flat-square&labelColor=%230f766e)
+- ![Static Badge](https://img.shields.io/badge/%E2%9A%96%EF%B8%8F%F0%9F%A7%A3%20The%20Drape%20Share%20Balancer-1-%23e879f9?style=plastic&labelColor=%231e1b4b)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A5%F0%9F%8E%AD%20The%20Borrowed%20Shader%20Smith-1-%23f97316?style=plastic&labelColor=%233b0764)
 
 <br>

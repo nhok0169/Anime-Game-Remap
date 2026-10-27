@@ -171,6 +171,14 @@ Below are the supported types of mods
      - Game
      - Aliases
      - Description
+   * - **Aether**
+     - GI
+     - | MaleTraveler, Sora, TravelerBoy, TravelerMale
+     - Aether mods
+   * - **AetherHeaven**
+     - GI
+     - | AetherAsHeavenAndEarthAreMadeAnew, AetherSkin, AsHeavenAndEarthAreMadeAnewAether, HeavenAether, TravelerBoyHeaven
+     - Aether As Heaven and Earth Are Made Anew mods
    * - **Amber**
      - GI
      - | ColleisBestie, 
@@ -633,6 +641,8 @@ Below are the supported types of games
        | GenshinImpact
    * - **WuWa**
      - | WutheringWaves
+   * - **ZZZ**
+     - | ZenlessZoneZero
 
 
 :raw-html:`<br />`

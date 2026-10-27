@@ -46,6 +46,9 @@ namespace AGRemapCore {
             case static_cast<int>(GameTypeId::WuWa):
                 return GameTypeId::WuWa;
 
+            case static_cast<int>(GameTypeId::ZZZ):
+                return GameTypeId::ZZZ;
+
             default:
                 return std::nullopt;
         }

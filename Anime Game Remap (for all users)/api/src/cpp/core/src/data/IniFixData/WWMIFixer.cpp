@@ -855,10 +855,14 @@ namespace AGRemapCore {
                 /** @brief source register (lowered) -> the role the SOURCE reads there, if known */
                 using RegRoleOf = std::function<std::optional<std::string>(const std::string&)>;
 
+                /** @brief register (lowered) -> whether a line binding a file of NO known role may stay there */
+                using KeepUnknown = std::function<bool(const std::string&)>;
+
                 CarriedTexRegs(std::string regPrefix, RoleOf roleOf, RegOf regOf, EditedOf editedOf,
-                               RegRoleOf regRoleOf = nullptr)
+                               RegRoleOf regRoleOf = nullptr, KeepUnknown keepUnknown = nullptr)
                     : regPrefix_(StringTools::toLower(regPrefix)), roleOf_(std::move(roleOf)),
-                      regOf_(std::move(regOf)), editedOf_(std::move(editedOf)), regRoleOf_(std::move(regRoleOf)) {}
+                      regOf_(std::move(regOf)), editedOf_(std::move(editedOf)), regRoleOf_(std::move(regRoleOf)),
+                      keepUnknown_(std::move(keepUnknown)) {}
 
                 ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
                                   const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
@@ -906,7 +910,17 @@ namespace AGRemapCore {
                         // LEFT ALONE rather than dropped. A role the scan does not know is a
                         // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is
                         // one, and the first cut of this edit took it out of two Sanhua mods.
+                        //
+                        // ...UNLESS THE REGISTER IS ONE THE FIX'S OWN LIST BINDS (2026-10-27). This
+                        // line runs after that list and outside its shader gate, so it wins on every
+                        // pass. ChisaParfait4 binds her `.jpg` detail code map at `ps-t2` -- a role
+                        // Chisa has no input for, deliberately unnamed -- AFTER its diffuse, and on
+                        // Chisa `ps-t2` IS the diffuse: the whole body's skin rendered black. See
+                        // `keepUnknown` where this edit is built for which lines may still stay.
                         if (!reg.has_value()) {
+                            if (!role.has_value() && keepUnknown_ && !keepUnknown_(StringTools::toLower(item->key))) {
+                                part.removeKVPAt(static_cast<size_t>(item->orderIndex));
+                            }
                             continue;
                         }
 
@@ -937,6 +951,7 @@ namespace AGRemapCore {
                 RegOf regOf_;
                 EditedOf editedOf_;
                 RegRoleOf regRoleOf_;
+                KeepUnknown keepUnknown_;
         };
 
 
@@ -3181,8 +3196,13 @@ namespace AGRemapCore {
 
                     const std::string fixSuffix = fixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
+                        // ...and a COMMAND LIST the component runs (2026-10-27). ChisaParfait4
+                        // toggles its lower body's diffuse inside `[CommandListComponent4]`, so the
+                        // `$xionzhao == 1` variant was never grouped with the other: it resolved to no
+                        // role and its carried line stayed on the SOURCE's register, `ps-t3`.
                         if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                            || (!StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                                && !StringTools::startsWith(entry.first, IniKeywords::CommandList))
                             || isFixSection(entry.first, fixSuffix)) {
                             continue;
                         }
@@ -6005,8 +6025,46 @@ namespace AGRemapCore {
                                 };
                             }
 
+                            // A FILE OF NO KNOWN ROLE ON A REGISTER THE PLAN BINDS (2026-10-27). The
+                            // fix's list has already bound that register, and the carried line would
+                            // replace it on every pass. It may stay only where the SOURCE reads the same
+                            // KIND of texture there as the target does -- then it is most likely the
+                            // mod's own art the scan could not place (a hashless normal map at `ps-t0`
+                            // on both skins). Where the source reads something else there, or nothing
+                            // this table names (her detail code map at `ps-t2`, which Chisa reads as the
+                            // DIFFUSE), it goes. A component with no source register table keeps every
+                            // such line, which is exactly the behaviour before this existed.
+                            CarriedTexRegs::KeepUnknown keepUnknown = nullptr;
+                            {
+                                const auto alias = rerouteFrom_.find(component);
+                                const auto own = config_.sourceTextures.registerRoles.find(
+                                    alias != rerouteFrom_.end() ? alias->second : component);
+                                if (own != config_.sourceTextures.registerRoles.end()) {
+                                    std::map<std::string, std::string> sourceRoleAt;
+                                    for (const auto& [reg, role] : own->second) {
+                                        sourceRoleAt.emplace(StringTools::toLower(reg), role);
+                                    }
+
+                                    std::map<std::string, std::string> targetRoleAt;
+                                    for (const auto& [role, reg] : regOfRole) {
+                                        targetRoleAt.emplace(StringTools::toLower(reg), role);
+                                    }
+
+                                    keepUnknown = [sourceRoleAt, targetRoleAt](const std::string& reg) {
+                                        const auto target = targetRoleAt.find(reg);
+                                        if (target == targetRoleAt.end()) {
+                                            return true;
+                                        }
+
+                                        const auto source = sourceRoleAt.find(reg);
+                                        return source != sourceRoleAt.end()
+                                            && roleKind(source->second) == roleKind(target->second);
+                                    };
+                                }
+                            }
+
                             auto carried = std::make_unique<CarriedTexRegs>(
-                                config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf);
+                                config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf, keepUnknown);
                             auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
                             editsOf_[component].push_back(adapter.get());
                             carriedEdits_.push_back(std::move(carried));

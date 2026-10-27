@@ -106,6 +106,15 @@ state a reload does not reset; ask for game permissions up front) and Creating R
 ONTO THE OTHER CHARACTER: the checklist"** -- vertex signature, constant-buffer registers, no `ref ps-tN` (the
 overworld's layout differs), effect-only overlays, the source's own cut-off, the camera-near fade, `fxc` before
 the game.
+**CHISAPARFAIT4 RENDERED ITS WHOLE SKIN BLACK ON CHISA (2026-10-27), AND FINDING IT TOOK MINUTES WHILE PROVING IT
+TOOK HOURS.** The cause was one line: a command list the fix copies from the mod runs AFTER the fix's texture list,
+and it bound the mod's `.jpg` detail code map on `ps-t2`, which is Chisa's DIFFUSE. Every pre-flight check passed.
+What found it was reading the remapped section in the order 3DMigoto runs it. What nearly un-found it was the game:
+WuWa **stops rendering while the Claude window has focus**, so a screenshot can be a frozen frame from before the
+change, and `GameView crop` re-cuts the LAST screenshot. Read Overview habits **134-137** (a vague report means go
+and look; prove every probe with A B A B on live frames; hand the maintainer the `AG_REMAP_REPO` command, in
+PowerShell, for a fix that is not merged; read the generated section in execution order) and Creating Remaps'
+"A CARRIED LINE OF NO KNOWN ROLE ON A REGISTER THE PLAN BINDS".
 
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
@@ -368,7 +377,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (133 as of 2026-10-27), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (137 as of 2026-10-27), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
@@ -1317,7 +1326,7 @@ about a day. The domain was not the difference --- how much each in-game round w
 answer was. An in-game round needs the game up, a mod swapped, a reload, a capture and often the
 maintainer; a structural check over the fixed `.ini` costs seconds and names a large share of the
 same faults. [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s **"THE PRE-FLIGHT"**
-is the ten commands to run over EVERY mod first, with what each one has actually caught --- a
+is the eleven checks to run over EVERY mod first (the eleventh, reading each remapped section in execution order, added 2026-10-27), with what each one has actually caught --- a
 dangling `filename =` that made a mod render nothing but its weapon, a texture written and bound
 by nothing while the summary said `editted 4 *.dds files`, a remapped section keeping the three
 lines that undo the remap. Two rules go with it. **The identity mod is the cheapest input and

@@ -2188,6 +2188,45 @@ could not check the overworld because the skin was not worn, and "Wear Outfit" h
 whole epoch. Before launching a game agent, list what it must do that the rules forbid by default -- wear an
 outfit, spend a forte gauge, change the time of day -- and ask the maintainer once, up front.
 
+**134. A VAGUE REPORT ABOUT A MOD IN GAME IS A REQUEST TO GO AND LOOK -- REPRODUCE IT BEFORE ANALYSING
+FILES (2026-10-27).** "People have reported that the textures in the remap for that mod seem incorrect"
+got a round of offline checks first: binding tables, alpha ceilings, variant diffs. Every one came back
+clean, and none of them named the fault. The maintainer's answer was "why don't you look in game and see.
+they don't mention what is wrong because it should be obvious" -- the skin was black from head to foot.
+A report that does not say WHAT is wrong is usually one where the picture says it at a glance. Put the mod
+on the target, take one screenshot beside the same mod on its own character, and let what you see choose
+the instrument. The offline checks are for after you know what you are looking for.
+
+**135. A PROBE IS EVIDENCE ONLY IF YOU CAN SHOW THE STATE CHANGED -- ALTERNATE A B A B, AND JUDGE ONLY LIVE
+FRAMES (2026-10-27).** One ChisaParfait4 round produced, in order: a probe that "fixed" the fault (the
+frame was a `crop` of the PREVIOUS screenshot), a reload that "changed nothing" (the F10 never landed),
+and a fresh load of the FIXED `.ini` that "still showed the bug" (WuWa had stopped rendering when the
+Claude window took the focus, so the capture was a frozen frame from before the change). Each is a
+confident wrong conclusion, and the right one was reached only by swapping the old and new `.ini` four
+times, A B A B, and reading only frames proven live -- two consecutive captures that differ. One
+before/after pair cannot tell a change from a stale frame. Two alternations can, because a stale state
+cannot follow the swap both ways. (The mechanics are in Game View's "When it does not work".)
+
+**136. WHEN YOU HAND THE MAINTAINER A FIX THAT IS NOT MERGED, HAND THEM THE COMMAND THAT RUNS IT
+(2026-10-27).** Habit 91 is about your own tests; this is the same trap reaching the maintainer. The fix
+was built in a worktree and verified; the maintainer re-ran their usual `py -3 FixRaidenBoss7.py -s
+ChisaParfait4`, which loads the MAIN checkout's build, and reported "the skin still appears black" --
+the old build had written the old lines back. So whenever you say "fixed" before the branch is merged
+and the main checkout rebuilt, give the exact command with `AG_REMAP_REPO` pointing at your checkout,
+in the maintainer's shell. They use **PowerShell**, so give
+`$env:AG_REMAP_REPO = "<path>"; py -3 FixRaidenBoss7.py -s <mod>; Remove-Item Env:AG_REMAP_REPO`
+first and the bash form second. And say plainly that their normal command will bring the bug back
+until the merge.
+
+**137. WHEN EVERY CHECK PASSES AND THE PICTURE IS WRONG, READ THE GENERATED SECTION IN THE ORDER 3DMIGOTO
+RUNS IT (2026-10-27).** All ten pre-flight checks passed on ChisaParfait4's black skin, because each
+answers a narrower question: does a file exist, is a section defined, is an alpha in band. The fault was
+one screenful of the fixed `.ini`: the remapped section's `run =` into a command list copied from the mod,
+ending in a `ps-t2 =` line that names the mod's `.jpg` code map, after the fix's own texture list.
+Walk the section top to bottom, step into every `run =` where it appears, and write down what each
+register holds at each `drawindexed`. It costs minutes, it is the only check that sees ORDER, and it names
+the line to probe.
+
 ## "MAKE THIS FASTER": the recipe, and what it has cost to skip a step (2026-09-20)
 
 Four separate speed-ups landed in one day --- startup, the texture decode, the gamma pass, the mod

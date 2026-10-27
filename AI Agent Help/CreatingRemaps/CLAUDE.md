@@ -947,6 +947,7 @@ and a failure in any of them makes the round worthless anyway.
 | 8 | `grep -ri "NotFound" <mod>` | any reverse lookup that failed -- `HashNotFound`, `ChecksumNotFound` | no hits |
 | 9 | `wwmiFixTwiceSweep.py` / fix the folder a second time | a pass that stops declaring a resource on re-run, and a download that did not land | the second run's output matches the first |
 | 10 | `folderProbe.py <mod>` | the fix inventing folders the mod does not have | no new directories |
+| 11 | read each remapped section top to bottom, stepping into every `run =` (by hand; no tool yet) | a line the fix COPIED from the mod -- a carried command list -- rebinding a register after the fix's own texture list and outside its shader gate. ChisaParfait4's `.jpg` code map on Chisa's diffuse register drew the whole skin black while checks 1-10 all passed | every `ps-tN` the draw sees is the role the target reads there |
 | 11 | the remapped `Position.buf`'s min y | the pair standing on different ground planes -- feet sunk into the ground, or a model floating above it | it bottoms out at the TARGET's sole, not the source's (see "TWO SKINS OF ONE CHARACTER MAY STAND ON DIFFERENT GROUND PLANES") |
 
 Then the two rules that decide whether any of it means anything:
@@ -2390,7 +2391,7 @@ surprises you.
 | the target is a **skin of several components** (every GI character from Bennett on) | "Recipe: a classic-shape mod onto a multi-component skin", then [Vertex Group Remaps](../VGRemaps/CLAUDE.md)'s recipe. The reverse direction (several components onto one mesh) is "The reverse direction is COMPILED TOO" |
 | a **WuWa** pair | "The next WuWa pair: what a config needs, and how the loop runs", then "WUWA IS COMPILED". A WuWa character is ONE mesh of draw slots on a merged skeleton --- one fix row for the pair, not one per component |
 | **"the model is warped / kinked / stretched in game"** | [Vertex Group Remaps](../VGRemaps/CLAUDE.md): an unmapped source group becomes a NEGATIVE bone index, and `overrideVgRemap.py --dump` names them. Then "When the blend IS remapped and the model still kinks" |
-| **a texture symptom** --- a hue over everything, one part wearing another's art, blank white, flat green | "A `TextureOverride` BINDS REGISTERS ONLY FOR THE DRAW ITS HASH MATCHES" (parse the mod's own sections into a per-slot table before reasoning), "A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS", "THE FIX LIBRARIES ARE INVOLUTIONS", "WuWa triage: what the in-game symptom says", and "WHEN THE SYMPTOM IS ON A TEXTURE, CROP THE UV ISLAND AND LOOK AT IT" |
+| **a texture symptom** --- a hue over everything, one part wearing another's art, blank white, flat green, a whole skin black | "A CARRIED LINE OF NO KNOWN ROLE ON A REGISTER THE PLAN BINDS" for the last one (read the remapped section in execution order first), "A `TextureOverride` BINDS REGISTERS ONLY FOR THE DRAW ITS HASH MATCHES" (parse the mod's own sections into a per-slot table before reasoning), "A REMAPPED SECTION MAY BIND ONLY WHAT THE TARGET'S SLOT BINDS", "THE FIX LIBRARIES ARE INVOLUTIONS", "WuWa triage: what the in-game symptom says", and "WHEN THE SYMPTOM IS ON A TEXTURE, CROP THE UV ISLAND AND LOOK AT IT" |
 | **"it works on one mod and not another"** | "Triage: a merged mod that works on one variant and not the others", "FIXING A MERGED MASTER", "A MERGED MOD'S DISABLED VARIANTS CARRY STALE HASHES", and "CHOOSING TEST MODS: VARY THE STRUCTURE, NOT THE CHARACTER" |
 | **"a part is missing / still the skin's own"** | "A TARGET COMPONENT NOTHING IS REMAPPED ONTO STILL DRAWS THE SKIN'S OWN GEOMETRY", "A TARGET OBJECT SEVERAL COMPONENTS MERGE ONTO IS NOT ONE DRAW", "A mod that is MISSING a whole component" |
 | **"a part clips / hangs wrong / leans"** --- hair, a cape, a tail, anything that hangs | "THREE FAULTS STACKED ON ONE BRAID" and the FAULT 4-6 sections after it, in order. **First ask whether the part's REST pose is already inside the body**: Citlali's braids are modelled 4-11 cm inside hers and her own bones carry them out, so the remap is not what put them there and a displacement is standing in for a bone. Then: which KIND of fault (carrier / component / weighting / `pushAway`), measure clearance in 3-D *and* per narrow x bin (neither alone is enough), and remember a push has TWO ends --- what it clears at the bottom and what its root is driven into at the top |
@@ -6233,6 +6234,70 @@ Over the 22-mod corpus this moves **one file, by one line**.
 
 <br>
 
+### A CARRIED LINE OF NO KNOWN ROLE ON A REGISTER THE PLAN BINDS: THE BLACK SKIN (2026-10-27)
+
+ChisaParfait4 (a swimsuit) remapped onto Chisa with **every patch of bare skin black** -- arms,
+torso, legs -- while the face, the swimsuit and the skirt were right. The report said only "the
+textures seem incorrect", because on screen it was obvious. Every pre-flight check passed, and so
+did `wwmiBindingAlpha.py`, because none of them asks the question that mattered here.
+
+The mod binds its lower body's textures in its own `[CommandListComponent4]`, which the fix copies
+into the remapped section, where it runs **after** the fix's texture list and **outside** its
+shader gate:
+
+```ini
+if $xionzhao == 1
+    ps-t3 = ResourceTexture40          ; the diffuse, one toggle variant
+endif
+if $xionzhao != 1
+    ps-t3 = ResourceTexturebody2       ; the other
+endif
+ps-t0 = ResourceTexture43              ; normal
+ps-t2 = ResourceTexture39              ; t=15ce7b3b.jpg -- her R8 DETAIL code map
+ps-t1 = ResourceTexture41              ; mask
+```
+
+`15ce7b3b` is ChisaParfait's detail map, the role Chisa's shader has no input for and the config
+deliberately does not name. So `CarriedTexRegs` found no role for it and **left it alone** -- the
+rule written for `ps-t17 = ResourceClothFX` -- on `ps-t2`, which on Chisa's lower pass is the
+DIFFUSE. A near-black code map as the skin's albedo. This file had predicted it two sections up
+("a mod that writes them the other way round would put a detail map on the diffuse register");
+this author writes the detail map after the diffuse.
+
+**The rule now:** a carried line whose file has no known role, on a register the TARGET's plan
+binds for that component, is dropped -- unless the SOURCE's own register table reads the same KIND
+of texture there (then it is most likely the mod's own art the scan could not place, such as a
+hashless normal map at `ps-t0` on both skins). A register the plan does not bind keeps every such
+line, so `ps-t17` survives, and a component with no source register table keeps them all, which
+is the old behaviour. `CarriedTexRegs::KeepUnknown`.
+
+**And the same list hid a second fault: a toggle written inside a COMMAND LIST was not a
+toggle.** `readRegisterVariants` read only `TextureOverride` sections, so `ResourceTexture40` was
+never grouped with `ResourceTexturebody2`. It resolved to no role and stayed on the source's
+`ps-t3` -- on Chisa a shared lighting ramp register -- while the fix's list always drew the other
+variant. Command lists are read now too, so each variant gets its own edit and lands on `ps-t2`.
+
+**What the black actually was:** the WHOLE of component 4 -- her skin, and the belt and arm
+frills drawn with it -- shaded with the code map as its albedo. Hide component 4's draws and a
+black figure is still there underneath, which reads like a second, black bodysuit and is a good way
+to be misled; it is the same black, from the other components' draws of skin under the swimsuit.
+
+**How it was found, which is the reusable part:** the fixed `.ini`'s copied list, read top to
+bottom, named a `.jpg` on the diffuse register. Proving it took far longer than finding it, because
+of two GameView traps (both in [Game View](../GameView/CLAUDE.md) now): `crop` cuts from the LAST
+screenshot and takes no new one, so three "unchanged" probe frames were one stale frame; and **WuWa
+stops rendering while the Claude window has focus**, so a screenshot after a reload can be a frozen
+frame from before it -- a fresh load once "reproduced" the black with the FIXED `.ini` that way. The
+A/B that settled it alternated old and new `.ini` four times and judged only frames proven live
+(two consecutive captures that differ): old black both times, new right both times.
+
+Blast radius, `regressBuilds.py` over the 76-folder WuWa corpus (Chisa, ChisaParfait, Sanhua,
+SanhuaExorcist, Lynae, LynaePeppermint, Changli, ChangliNymph and their identities): **73
+byte-identical**. The three that move are ChisaParfait2 and ChisaParfait4 (the same swimsuit mod,
+each by exactly the two lines above and one new resource section) and ChisaParfait3, which loses
+four carried `.jpg` detail-map lines that a correct binding of the same register overrode on the
+very next line -- so it renders as before.
+
 ### THE TWO DIRECTIONS OF A PAIR MUST AGREE ABOUT EVERY SHADER THEY BOTH TAG (2026-10-03)
 
 The worst defect the audit found, because no single-direction test can see it and it needs two mods
@@ -6678,6 +6743,7 @@ first. Read the report's WORDS against the left column before opening any code (
 | a garment shiny or skin-shaded while the source's is matte, and bare skin fine | the mask repack's skin/cloth split: a code in the source's MATTE band read as skin, or rewritten to a target code that means something else | the source shader's R bands (a hunting-mode dump); `SourceMaskSkinAbove` / `SourceMaskFleshBand` |
 | an accessory (mask, pins, a charm) is simply ABSENT, and its draw IS re-emitted | its bones were matched one at a time and it is smeared through the body -- or it is not a placement problem at all (a floating-bone probe shows nothing ANYWHERE) | `--standIn` a far bone to test placement first; then `--anchor`; the game's per-slot `vs-cb4` is NOT what a WWMI remap skins with |
 | ONE part wearing ANOTHER part's art, on one mod, right after a hash row was filed | the mod aliases one file under every hash it knows, and the new row aimed it at a role it does not serve. The row is right and the aliasing is not | the file's own `Components-<list>` name against the ROLE's component; the guard and its three conditions are below |
+| the remap's WHOLE SKIN (and whatever shares its component) black or near-black, the clothes and face right, on one mod | a command list copied from the mod binds a texture of NO known role -- a detail / code map the target has no input for -- on a register the target reads as the DIFFUSE, after the fix's own list. `CarriedTexRegs` drops such a line now; a black that survives it is the next such register | read the remapped section in execution order; then "A CARRIED LINE OF NO KNOWN ROLE ON A REGISTER THE PLAN BINDS" |
 
 Two things that were suspected and were NOT the cause, each ruled out by reading rather than by
 argument: RabbitFX (its shader patch changes no pixel without a glow map bound through its own

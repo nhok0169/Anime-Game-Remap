@@ -60,6 +60,12 @@
 #   9. TexReplace names an edited file after its source file only, so one file edited two ways collides
 #  10. a light map bound through a resource VARIABLE in a command list every component shares (Miyabi9)
 #      gets no band edit: the port needs a per-component copy of the list, or a band edit of the variable
+#  11. a buffer an ib section BORROWS from another component (a Body texcoord in the Legs section) is not
+#      converted by the component that owns it; the texcoord is cut here by its declared stride
+#  12. the library's names append the tag, which reorders sections of one hash and first index; 3DMigoto runs
+#      them in name order
+#  13. a VertexLimitRaise copy keeps the source's override_byte_stride
+#  14. a copy keeps the source object's match_index_count
 #
 
 
@@ -221,6 +227,54 @@ def texcoordCut(fromStride: int, toStride: int):
     return fix
 
 
+_targetCounts = {}
+
+
+def targetIndexCount(tcomp: str, obj: str) -> int:
+    """GAP 14: the target object's index count, from the target's download folder's hash.json"""
+    if (not _targetCounts):
+        path = os.path.join(os.path.dirname(DownloadFolder), "..", TARGET, "3_2", TARGET + "Hash.json")
+        import json
+        for e in json.load(open(path, encoding = "utf-8")):
+            for i, count in enumerate(e["object_counts"]):
+                _targetCounts[(e["component_name"], "abcdefgh"[i])] = count
+    return _targetCounts[(tcomp, obj)]
+
+
+def orderedName(name: str, fixed: str) -> str:
+    """GAP 12: 'fixed' (the library's <name><tag>) with the tag moved in front of the original name's own part,
+    so the copies of one hash sort among themselves as the originals do"""
+    prefix = "TextureOverride"
+    if (not fixed.startswith(name) or not name.startswith(prefix)):
+        return fixed
+    return prefix + fixed[len(name):] + name[len(prefix):]
+
+
+def declaredStrides(iniPath: str) -> dict:
+    """GAP 11: {resource section: (file, declared stride)} of the .ini, to tell a borrowed texcoord by its stride"""
+    text = open(iniPath, encoding = "utf-8", errors = "replace").read()
+    out = {}
+    for m in re.finditer(r"^\[(Resource[^\]]*)\]\s*\n(.*?)(?=^\[|\Z)", text, re.M | re.S):
+        stride = re.search(r"^\s*stride\s*=\s*(\d+)", m.group(2), re.M)
+        file = re.search(r"^\s*filename\s*=\s*(.+?)\s*$", m.group(2), re.M)
+        if (stride and file):
+            out[m.group(1)] = (os.path.basename(file.group(1).replace("\\", "/")).lower(), int(stride.group(1)))
+    return out
+
+
+def texcoordCutDeclared(declared: dict, toStride: int):
+    """texcoordCut from whatever stride the resource section of the file declares"""
+    byFile = {file: stride for file, stride in declared.values()}
+
+    def fix(resource) -> bool:
+        stride = byFile.get(os.path.basename(resource.srcPath).lower())
+        if (stride is None):
+            print(f"  ! {os.path.basename(resource.srcPath)}: no declared stride; left as it is")
+            return False
+        return texcoordCut(stride, toStride)(resource)
+    return fix
+
+
 def bandEdit(comp: str):
     """GAP 7: THE BAND EDIT on a light map's red channel -- each pixel to its nearest band level, then that band
     moved per BandMoves. Every decision from the ORIGINAL red: the moves may form a permutation"""
@@ -336,7 +390,11 @@ def makeFixer(comp, modType, indices):
         edits = [FRB.GraphGroupRemap(remap = remap)]
 
         # ---- 2. the blend: rebuilt through the vertex group row (GAP 2 filed it under toModName) ----
-        edits.append(FRB.ResRegCollect({(0, *OBJ(comp, "blend")): "vb2"},
+        # wherever the component's sections bind its blend: a mod may run its pre-skin pass (`vb2 = ...` +
+        # `draw = <n>,0`) from the BLEND section or from the POSITION section (Miyabi1 / 4 / 8 / 11 do the
+        # latter for their legs), and a blend left unremapped there skins with Miyabi's bone indices on the
+        # skin's palette, which shatters the model
+        edits.append(FRB.ResRegCollect({(0, *OBJ(comp, kind)): "vb2" for kind in ("blend", "position")},
                                        {"blend": FRB.RemapBlendReplace((0, *OBJ(comp, "RemapBlend")), resType = "blend",
                                                                        fromComp = comp, toComp = tcomp)}))
 
@@ -349,6 +407,20 @@ def makeFixer(comp, modType, indices):
             # ...and the resource section the collect wrote still DECLARES the source's stride: the bytes and
             # the declared stride are two edits (Creating Remaps' "WIDENING A BUFFER IS TWO EDITS")
             edits.append(FRB.GraphGroupEdit([{OBJ(comp, "RemapTexcoord"): [FRB.RegNewVals({"stride": str(toStride)})]}]))
+
+        # ---- 3a. a texcoord an ib section BORROWS from another component (GAP 11): Miyabi1 / 4 / 5 / 8 draw
+        # their Body mesh from the LEGS section (`ib = <Body ib>`, `vb0 = <pre-skinned Body>`, `vb1 = <Body
+        # texcoord>`), so the Legs -> Body copy binds a 24-byte Body texcoord on a slot that reads 20 ----
+        declared = declaredStrides(ini.file)
+        borrowed = lambda reg, name, data: declared.get(removeRef(name), (None, toStride))[1] != toStride
+        # ...and the same for a texcoord the BLEND or POSITION section binds for the draw passes (Miyabi3:
+        # `if DRAW_TYPE == 2 || DRAW_TYPE == 4  vb1 = ResourceBodyTexcoord`)
+        holders = [OBJ(comp, obj) for obj in objs] + [OBJ(comp, "blend"), OBJ(comp, "position")]
+        edits.append(FRB.ResRegCollect({(0, *h): "vb1" for h in holders},
+                                       {"texcoord": FRB.RemapBlendReplace((0, *OBJ(comp, "RemapBorrowedTexcoord")), resType = "texcoord",
+                                                                          fixFunc = texcoordCutDeclared(declared, toStride))},
+                                       resPredicates = {(0, *h): borrowed for h in holders}))
+        edits.append(FRB.GraphGroupEdit([{OBJ(comp, "RemapBorrowedTexcoord"): [FRB.RegNewVals({"stride": str(toStride)})]}]))
 
         # ---- 3b. the light maps, wherever the mod binds them: THE BAND EDIT ----
         if (comp in TexPairs):
@@ -376,15 +448,25 @@ def makeFixer(comp, modType, indices):
             edits.append(FRB.GraphGroupEdit([{OBJ(comp, resName): [tagName] for _, _, resName in lightMapRefs}]))
 
         # ---- 4. names, hashes and slot indices ----
-        rename = FRB.GraphRename(lambda n: naming.getRemapFixName(n, toModName))
+        # GAP 12: the names keep the ORIGINALS' order. 3DMigoto runs the sections of one hash and first index in
+        # name order, and a mod may split one draw over two (Miyabi8's LegsA draws the legs, LegsA2 rebinds vb0 /
+        # vb1 to the Body and draws it). Appending the tag sorts "LegsA<tag>" AFTER "LegsA2<tag>" ('2' < 'M'), so
+        # LegsA then drew the legs' indices over the Body's vertices: shards. The tag goes after "TextureOverride"
+        rename = FRB.GraphRename(lambda n: orderedName(n, naming.getRemapFixName(n, toModName)))
         hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, "HashNotFound")}, toModName, srcName(comp), ini.fromVersion, ini.toVersion)
-        group = {OBJ(comp, "ib"): [FRB.GraphRename(lambda n: naming.getRemapIbName(n, toModName)), hashRemap],
-                 OBJ(comp, "blend"): [FRB.GraphRename(lambda n: naming.getRemapBlendName(n, toModName)), hashRemap],
+        # GAP 13: a VertexLimitRaise's override_byte_stride is the SOURCE component's draw stride (Position 40 +
+        # Texcoord + Blend 32: Miyabi's Body 96), and the target's is its own (the skin's Dress 92)
+        drawStride = FRB.RegNewVals({"override_byte_stride": str(40 + toStride + 32)})
+        group = {OBJ(comp, "ib"): [FRB.GraphRename(lambda n: orderedName(n, naming.getRemapIbName(n, toModName))), hashRemap],
+                 OBJ(comp, "blend"): [FRB.GraphRename(lambda n: orderedName(n, naming.getRemapBlendName(n, toModName))), hashRemap],
                  OBJ(comp, "texcoord"): [rename, hashRemap],
-                 OBJ(comp, "vertexlimit"): [rename, hashRemap],
+                 OBJ(comp, "vertexlimit"): [rename, hashRemap, drawStride],
                  OBJ(comp, "position"): [rename, hashRemap]}
+        # GAP 14: a section that also matches on match_index_count (Miyabi3) names the SOURCE object's count, and the
+        # target object's differs (Miyabi's Body 26925 -> the skin's Dress 24567): unchanged, the copy matches nothing
         for obj in objs:
-            group[OBJ(comp, obj)] = [rename, hashRemap, FRB.RegNewVals({"match_first_index": str(TargetSlots[tcomp][obj])})]
+            group[OBJ(comp, obj)] = [rename, hashRemap, FRB.RegNewVals({"match_first_index": str(TargetSlots[tcomp][obj]),
+                                                                       "match_index_count": str(targetIndexCount(tcomp, obj))})]
         if (comp in TexPairs):
             for role in TexRoles:
                 group[OBJ(comp, f"tex_{role}")] = [rename, hashRemap]

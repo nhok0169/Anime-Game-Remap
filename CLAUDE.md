@@ -407,6 +407,20 @@ as well make you write the prototype without any library." **Before writing any 
 truly lacks something, say so in a comment and keep the custom part minimal.** Creating Remaps'
 "A prototype is built FROM the library" has the need -> class table.
 
+**A FIXER IS A LIST OF EDITS, NOT A PROGRAM (the maintainer, 2026-10-27 -- the SECOND time they have had to say
+it, after the Chisa remap).** The intended shape of every fixer, template or not, is a composition of the
+library's `BaseIniPartEdit`s -- `GraphGroupEdit`s, `GraphEdit`s and `RegEdit`s -- as simple as the Kirara example
+in `Docs/src/apiExamples.rst` (a config of edits handed to `makeGIMICharFixer`) or the old pure-Python fixers in
+`data/IniFixBuilderData.py.txt` (each a list of edits). "I don't expect agents to blow it up to 9600 lines of code
+for a fixer." When a fix needs behaviour the API does not have, **add it to the API as a general edit (or a
+`BufFile` / `TexFilter` / `IniResource` capability) with its full surface -- core, binding, tests, Sphinx -- and
+make the fixer use it**; never an ad-hoc helper, a raw-text pass over the rendered `.ini`, raw-byte buffer code or
+a hand-written `[Section]` string inside the fixer. The templates grew the opposite way -- `WWMIFixer.cpp` 9636
+lines, `GIMIMergeFixer.cpp` 3421, `GIMIComponentFixer.cpp` 2578, `ZZMIFixer.cpp` 1294 with its own section parser,
+texcoord byte cutter, band filter and `groupToStr` text passes -- and are being moved back onto edits. Before any
+new fixer code: name the edit each step is, grep the edit families for it (Overview habit 53), and if it is
+missing, the work item is the EDIT, not the fixer.
+
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11
 `OrderedMultiMap`/`IfContentPart` layer, the Python-side `.ini` graph model and its

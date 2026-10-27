@@ -19,14 +19,16 @@
 
 #include "PyIniGraphGroups.h"
 #include "../../../iftemplate/PyIfContentPart.h"
+#include "../../../iftemplate/PyIfTemplate.h"
 
 
 AGRC::GraphFilter<std::string, std::string>::Predicate toGraphPredicate(const py::object &predicate) {
     if (predicate.is_none()) {
         return nullptr;
     }
-    return [predicate](const std::string &sectionName, const PyIfContentPart &part, std::size_t index) {
-        return predicate(sectionName, py::cast(&part, py::return_value_policy::reference), index).cast<bool>();
+    return [predicate](const PyIfTemplate &section, const PyIfContentPart &part, std::size_t index) {
+        return predicate(py::cast(&section, py::return_value_policy::reference),
+                         py::cast(&part, py::return_value_policy::reference), index).cast<bool>();
     };
 }
 
@@ -67,9 +69,10 @@ Parameters
 graphIds: List[Tuple[:class:`int`, :class:`str`, :class:`str`]]
     The ids of the graphs to filter: the .ini index, the component name and the mod object name
 
-predicate: Optional[Callable[[:class:`str`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]
-    Decides whether one `KVP`_ is kept, given the name of its `section`_, the part holding it and its
-    index within that part. Every decision is made before anything is removed, so the predicate
+predicate: Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]
+    Decides whether one `KVP`_ is kept, given its `section`_ (the whole :class:`IfTemplate`, so the
+    decision can depend on what runs before it in any part), the part holding it and its index within
+    that part. Every decision is made before anything is removed, so the predicate
     always sees the part as it was. ``None`` keeps everything :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -86,7 +89,7 @@ List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to 
 
     cls.def_property("predicate", [](const PyGraphFilter &self) { return self.predicateObj; },
                      [](PyGraphFilter &self, py::object v) { self.predicateObj = std::move(v); }, py::doc(R"doc(
-Optional[Callable[[:class:`str`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ are kept
+Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ are kept
     )doc"));
 
     cls.def("edit", [](PyGraphFilter &self, py::list graphGroups, const py::object &modType, const std::string &modName) {

@@ -49,7 +49,8 @@ namespace AGRemapCore {
         }
 
         std::size_t removed = 0;
-        for (const auto& [name, section] : graph.sections()) {
+        for (const auto& entry : graph.sections()) {
+            Section* section = entry.second;
             if (section == nullptr) {
                 continue;
             }
@@ -64,7 +65,7 @@ namespace AGRemapCore {
                 std::vector<std::size_t> rejected;
                 const std::size_t len = part->size();
                 for (std::size_t i = 0; i < len; ++i) {
-                    if (!predicate(name, *part, i)) {
+                    if (!predicate(*section, *part, i)) {
                         rejected.push_back(i);
                     }
                 }

@@ -27,9 +27,9 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief
  @rst
- Wraps a `Python`_ callable ``(sectionName, part, index) -> bool`` as a
+ Wraps a `Python`_ callable ``(section, part, index) -> bool`` as a
  :cpp:type:`AGRemapCore::GraphFilter::Predicate`. ``None`` gives an empty predicate, which keeps
- everything. The part is passed by reference, so the callable sees the live ``IfContentPart``
+ everything. The section and part are passed by reference, so the callable sees the live ``IfTemplate`` / ``IfContentPart``
  @endrst
  */
 AGRC::GraphFilter<std::string, std::string>::Predicate toGraphPredicate(const py::object &predicate);

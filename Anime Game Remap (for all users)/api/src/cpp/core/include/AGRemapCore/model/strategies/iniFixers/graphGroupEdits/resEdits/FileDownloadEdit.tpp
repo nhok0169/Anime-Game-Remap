@@ -71,10 +71,20 @@ namespace AGRemapCore {
             if (entry.second.file != srcPath) {
                 continue;
             }
-            auto resource = std::make_unique<RemapIniDownload>(ctx.iniFolder(), srcPath,
-                                                               std::make_unique<FileDownload>(entry.second.url, srcPath));
+            // with an edit, the download goes to the raw file and the edit writes the named one from it --
+            // both under the file's key, in that order, so the download is fetched first
+            const File& file = entry.second;
+            const std::string downloaded = file.texEdit.has_value() ? file.rawFile : srcPath;
+            auto resource = std::make_unique<RemapIniDownload>(ctx.iniFolder(), downloaded,
+                                                               std::make_unique<FileDownload>(file.url, downloaded));
             resource->logger = ctx.logger();
             ctx.storeResource(fileKey, std::move(resource));
+
+            if (file.texEdit.has_value()) {
+                auto edit = std::make_unique<RemapTexEditResource>(ctx.iniFolder(), downloaded, srcPath, *file.texEdit);
+                edit->logger = ctx.logger();
+                ctx.storeResource(fileKey, std::move(edit));
+            }
             return;
         }
     }

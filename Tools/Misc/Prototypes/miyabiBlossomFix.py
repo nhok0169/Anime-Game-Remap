@@ -71,6 +71,8 @@
 #      their slots differently; the Body -> Dress copy drops an ib the Legs sections also draw
 #  17. the diffuse is scaled per light map band for the tint difference (THE TINT COMPENSATION); the light map
 #      is found by a scan of the .ini, as no edit pairs one texture with another
+#  19. the source's hair accessories (objects the target never draws) go into the Hair copy by text
+#  20. the Legs copy binds a frozen copy of the source's Legs ps-cb3 per pass (the stockings), by text
 #
 
 
@@ -580,7 +582,18 @@ def makeFixer(comp, modType, indices):
         for other in Routes:
             for obj in compObjs(other):
                 remap[(0, *OBJ(other, obj))] = [(0, *OBJ(other, obj), keepName)] if (other == comp) else []
-        edits = [FRB.GraphGroupRemap(remap = remap)]
+
+        # GAP 18 (a mesh drawn from the Legs slot goes back to the Dress slot): copies of the Legs graphs, filtered
+        # to the lines that move, taken before the remap drops them
+        cross = crossOf(ini, modType)
+        preRemap = []
+        if (cross and comp == "Body"):
+            for obj in SourceSlots["Legs"]:
+                copy = (0, *OBJ("Body", "cross_" + obj))
+                preRemap.append(FRB.GraphCopy((0, *OBJ("Legs", obj)), copy,
+                                              lambda section, part, i, cross = cross: movesWithCross(section, part, i, cross)))
+                remap[copy] = [(*copy, keepName)]
+        edits = preRemap + [FRB.GraphGroupRemap(remap = remap)]
 
         # ---- 2. the blend: rebuilt through the vertex group row (GAP 2 filed it under toModName) ----
         # wherever the component's sections bind its blend: a mod may run its pre-skin pass (`vb2 = ...` +
@@ -698,6 +711,42 @@ def makeFixer(comp, modType, indices):
                 group[OBJ(comp, f"tex_{role}")] = [rename, hashRemap]
         edits.append(FRB.GraphGroupEdit([group]))
 
+        # GAP 18, continued
+        if (cross and comp == "Legs"):
+            # the Legs copies null the ib a cross draw binds: neither the draw nor a later `drawindexed = auto` of the
+            # slot draws the Body there
+            crossIbs = cross[2]
+            nullIb = FRB.RegNewVals({"ib": FRB.FromOldVal(lambda old, modType: "null" if removeRef(old) in crossIbs else old)})
+            edits.append(FRB.GraphGroupEdit([{OBJ("Legs", obj): [nullIb] for obj in SourceSlots["Legs"]}]))
+        if (cross and comp == "Body"):
+            own = ownSections(ini)
+            bodyIb = modType.hashes.get([srcName("Body"), "ib"], V).lower()
+            drawn = sorted((s.name for s in own if (valOf(s, "hash") or "").lower() == bodyIb and valOf(s, "match_first_index") is not None),
+                           key = str.lower)
+            into = orderedName(drawn[0], naming.getRemapFixName(drawn[0], toModName))
+            intoGraph = (0, *OBJ("Body", next(iter(SourceSlots["Body"]))))
+            listPrefix = "CommandList" + toModName + "RemapCross"
+            toList = FRB.GraphRename(lambda n: listPrefix + (n[len("TextureOverride"):] if n.startswith("TextureOverride") else n))
+            onlyInto = lambda data, modType, ini, into = into: FRB.Ranges.createFull() if (data.sectionName == into) else FRB.Ranges.createEmpty()
+            atBottom = lambda graph, kvps, ini, modType, modName: FRB.RegBottomAdd(kvps)
+            listGraphs = []
+            # the mod's own recolours of the Legs textures, bound by register (the roles in the compiled config's order)
+            for role, reg in sorted({"diffuse": "ps-t3", "lightmap": "ps-t5", "materialmap": "ps-t6", "normalmap": "ps-t4"}.items()):
+                h = next(hh for hh, rr in LegsTexRegs.items() if rr == reg)
+                recolours = {s.name: s for s in own if (valOf(s, "hash") or "").lower() == h and valOf(s, "this") is not None}
+                if (not recolours):
+                    continue
+                texGraph = (0, *OBJ("Body", "crossTex_" + role))
+                graph = FRB.IniSectionGraph(recolours, list(recolours))
+                _alive.append(graph)
+                edits += [FRB.GraphCreate(texGraph, graph),
+                          FRB.GraphFilter([texGraph], lambda section, part, i: part.getByInd(i)[0].strip().lower() == "this"),
+                          FRB.GraphGroupEdit([{texGraph[1:]: [FRB.RegRemap({"this": [reg]})]}])]
+                listGraphs.append(texGraph)
+            listGraphs += [(0, *OBJ("Body", "cross_" + obj)) for obj in SourceSlots["Legs"]]
+            edits.append(FRB.GraphGroupEdit([{g[1:]: [toList] for g in listGraphs}]))
+            edits += [FRB.GraphInherit(intoGraph, g, "run", True, partFilter = onlyInto, adder = atBottom) for g in listGraphs]
+
         _alive.extend(edits)
         fixer = FRB.GIMIFixer(parser, graphGroupEdits = edits, modsToFix = [toModName])
         # a section of the mod's own on the component's ib (`hash = ...` line, not a substring: a help overlay or a
@@ -789,91 +838,272 @@ LegsTexRegs = {"012e84e9": "ps-t3", "ebac056e": "ps-t4", "a6ea6d83": "ps-t5", "d
 SectionRe = re.compile(r"^\[([^\]]+)\][ \t]*\r?\n(.*?)(?=^\[|^; \*\*\*|\Z)", re.M | re.S)
 
 
-def moveCrossSlotDraws(folder):
+def kvpsOf(section):
+    return [(k.strip(), v.strip()) for part in section.parts if isinstance(part, FRB.IfContentPart) for k, v in part.entries()]
+
+
+def valOf(section, key):
+    return next((v for k, v in kvpsOf(section) if k.lower() == key.lower()), None)
+
+
+def ownSections(ini):
+    """the mod's own parsed sections: every one but a previous fix's"""
+    fixed = [TARGET + "Remap"] + [TARGET + t + "Remap" for t in Routes.values()]
+    return [s for n, s in ini.getIfTemplates().items() if not any(f in n for f in fixed)]
+
+
+def crossOf(ini, modType):
+    """(written, second-component section names, the ib each cross draw binds) -- or None when nothing moves"""
+    own = ownSections(ini)
+    bodyIb = modType.hashes.get([srcName("Body"), "ib"], V).lower()
+    legsIb = modType.hashes.get([srcName("Legs"), "ib"], V).lower()
+    bodyHashes = {modType.hashes.get([srcName("Body"), k], V).lower() for k in ("blend_vb", "position_vb", "ib", "draw_vb", "texcoord_vb")}
+    written = set()
+    for s in own:
+        h = (valOf(s, "hash") or "").lower()
+        if (h not in bodyHashes):
+            continue
+        for k, v in kvpsOf(s):
+            v = v.lower()
+            if (v in ("so0", "copy so0") or (h == bodyIb and v == "copy vb0")):
+                written.add(k)
+    drawsOwn = any((valOf(s, "hash") or "").lower() == bodyIb and valOf(s, "match_first_index") is not None for s in own)
+    if (not written or not drawsOwn):
+        return None
+    names, crossIbs = set(), set()
+    for s in own:
+        if ((valOf(s, "hash") or "").lower() != legsIb or valOf(s, "match_first_index") is None):
+            continue
+        names.add(s.name)
+        ib = vb0 = None
+        for k, v in kvpsOf(s):
+            if (k.lower() == "ib"):
+                ib = removeRef(v)
+            elif (k.lower() == "vb0"):
+                vb0 = removeRef(v)
+            elif (k.lower() == "drawindexed" and vb0 in written and ib is not None):
+                crossIbs.add(ib)
+    return (written, names, crossIbs) if crossIbs else None
+
+
+def movesWithCross(section, at, atInd, cross):
+    """whether a line of a Legs section moves with the cross draws: an ib, a vb0 / vb3 naming a pre-skin buffer,
+    a texture line, the SetTextures call, and a cross draw itself"""
+    written, names, _ = cross
+    if (section.name not in names):
+        return False
+    ib = vb0 = None
+    for part in section.parts:
+        if (not isinstance(part, FRB.IfContentPart)):
+            continue
+        for i in range(part.size()):
+            k, v = part.getByInd(i)
+            k, v = k.strip(), v.strip()
+            if (k.lower() == "ib"):
+                ib = removeRef(v)
+            elif (k.lower() == "vb0"):
+                vb0 = removeRef(v)
+            if (part is not at or i != atInd):
+                continue
+            preSkin = k.lower() in ("vb0", "vb3") and removeRef(v) in written
+            crossDraw = k.lower() == "drawindexed" and vb0 in written and ib is not None
+            texture = k.lower().startswith("resource\\zzmi\\") or k.lower().startswith("ps-t")
+            setTextures = k.lower() == "run" and v.lower() == "commandlist\\zzmi\\settextures"
+            return k.lower() == "ib" or preSkin or crossDraw or texture or setTextures
+    return False
+
+
+# GAP 19: MIYABI'S HAIR ACCESSORIES. The clasp plate (ib ef64351c) and the gold charms (ib 4b465238) are objects of
+# their own, which the game draws for her BASE outfit only: on the skin every mod lost them. The download folder
+# carries both in the Hair layout, weighted to hair bone 0 (Tools/Misc/Prototypes/zzmiMiyabiExtras.py). The Hair
+# copy's pre-skin draws them after the mod's hair -- stream-out APPENDS, so they land at vertex N, the mod's hair
+# vertex count -- the vertex limit is raised by their count, and the Hair copy's object section draws them FIRST,
+# before the mod's own bindings, so they read the game's hair textures (and any `this` recolour of them) as on the
+# base card, with base vertex N and a texcoord buffer padded with N empty entries. A mod's `handling = skip` on an
+# accessory hash (often under its own toggle) gates the draw. Main and outline passes only (as the game draws
+# them), told apart by a filter_index on their pixel shaders.
+Accessories = (("HairAccessory1", "ef64351c", 72, 240), ("HairAccessory2", "4b465238", 96, 144))
+MainPass, OutlinePass = "51840.1", "51840.2"
+PassShaders = ((MainPass, "a24c103adbe204f1", "MainPS"), (OutlinePass, "a9f95d035488717a", "OutlinePS"))
+# GAP 20: THE FROZEN LEGS ps-cb3. The skin's Body draws have the stocking material switched off in their ps-cb3,
+# and no texture edit switches it on, so the Legs copy binds Miyabi's own Legs table, per pass (the maintainer's
+# choice, 2026-10-27). Rows 29, 30, 97, 102, 105, 120, 124 and 127 change between sessions and scenes and are
+# pinned at their character-menu values -- an update risk.
+Cb3Files = ((MainPass, "LegsMainCb3"), (OutlinePass, "LegsOutlineCb3"))
+
+
+def targetHashes(comp):
+    import json
+    path = os.path.join(os.path.dirname(DownloadFolder), "..", TARGET, "3_2", f"{TARGET}Hash.json")
+    for e in json.load(open(path)):
+        if (e["component_name"] == comp):
+            return {k: (v.lower() if isinstance(v, str) else v) for k, v in e.items()}
+    raise KeyError(comp)
+
+
+def blockBounds(block, comp):
+    """(start, end) of one component's part of the fix block: its heading to its closing star line"""
+    head = f"; ***** {TARGET}{comp} *****"
+    a = block.find(head)
+    if (a < 0):
+        return None
+    m = re.compile(r"^; \*+[ \t]*\r?$", re.M).search(block, a + len(head))
+    return (a, m.start() if m else len(block))
+
+
+def extrasName(toName, thing, ini):
+    stem = re.sub(r"\W", "", os.path.splitext(os.path.basename(ini))[0])
+    return f"{toName}RemapDL{thing}{stem}"
+
+
+def hasHash(body, h):
+    m = re.search(r"^\s*hash\s*=\s*([0-9a-fA-F]{8})", body, re.M)
+    return bool(m) and m.group(1).lower() == h
+
+
+def accessoryGates(own, ibHash, var):
+    """The mod's own sections on an accessory's ib, as lines that clear `var` where they skip it. None when a section
+    skips it with no condition, or draws geometry of its own there (the game's accessory is then not added)"""
+    lines = []
+    for m in SectionRe.finditer(own):
+        if (not hasHash(m.group(2), ibHash)):
+            continue
+        if (re.search(r"^\s*(ib|drawindexed)\s*=", m.group(2), re.M)):
+            print(f"  ! the mod draws its own {ibHash}: the game's accessory is not added")
+            return None
+        depth = 0
+        for line in m.group(2).splitlines():
+            s = line.strip()
+            if (re.match(r"if\b", s)):
+                lines.append("\t" * depth + s); depth += 1
+            elif (re.match(r"(else|elif)\b", s)):
+                lines.append("\t" * (depth - 1) + s)
+            elif (re.match(r"endif\b", s)):
+                depth -= 1; lines.append("\t" * depth + s)
+            elif (re.match(r"handling\s*=\s*skip\b", s)):
+                if (depth == 0):
+                    return None
+                lines.append("\t" * depth + f"{var} = 0")
+    return lines
+
+
+def firstObjectSection(part, ibHash):
+    secs = [m for m in SectionRe.finditer(part) if hasHash(m.group(2), ibHash)
+            and re.search(r"^\s*match_first_index\s*=\s*0\s*$", m.group(2), re.M)]
+    return min(secs, key = lambda m: m.group(1).lower()) if secs else None
+
+
+def insertAfterFirstIndex(part, m, lines, nl):
+    k = m.start(2) + re.search(r"^\s*match_first_index\s*=.*$", m.group(2), re.M).end()
+    return part[:k] + nl + nl.join(lines) + part[k:]
+
+
+def addExtras(folder):
+    hair, body = targetHashes("Hair"), targetHashes("Body")
     for ini in _inis(folder):
         raw = open(ini, "rb").read().decode("utf-8", errors = "surrogateescape")
         nl = "\r\n" if ("\r\n" in raw) else "\n"
         i = raw.find("; --------------- Miyabi Remap")
-        if (i < 0 or "; ***** MiyabiBlossomBody *****" not in raw or "; ***** MiyabiBlossomDress *****" not in raw):
+        if (i < 0):
             continue
         own, block = raw[:i], raw[i:]
-        # the buffers a Body section pre-skins into, and the Legs ib(s)
-        bodyIb, legsIb = "981c1a1e", "d8003df3"
-        written, legsIbs, texLines = set(), set(), []
-        for m in SectionRe.finditer(own):
-            h = re.search(r"^\s*hash\s*=\s*([0-9a-fA-F]{8})", m.group(2), re.M)
-            if (not h):
-                continue
-            h = h.group(1).lower()
-            written |= set(re.findall(r"^\s*(Resource\w+)\s*=\s*(?:copy\s+)?so0\s*$", m.group(2), re.M))
-            # ...or captured at the Body's own draw, from the pre-skinned vb0 it draws with (Miyabi9)
-            if (h == bodyIb):
-                written |= set(re.findall(r"^\s*(Resource\w+)\s*=\s*copy\s+vb0\s*$", m.group(2), re.M))
-            if (h == legsIb):
-                legsIbs |= {removeRef(v) for v in re.findall(r"^\s*ib\s*=\s*(.+?)\s*$", m.group(2), re.M)}
-            if (h in LegsTexRegs and re.search(r"^\s*this\s*=", m.group(2), re.M)):
-                body = re.sub(r"^(\s*)this(\s*=)", rf"\g<1>{LegsTexRegs[h]}\2", m.group(2).rstrip(), flags = re.M)
-                # only the structure and the bindings: a `hash =` copied in would re-key the Dress section
-                texLines += [l for l in body.splitlines() if re.match(r"\s*(if|else|elif|endif)\b|\s*ps-t\d+\s*=", l)]
-        if (not written):
+        copies, added, padN, included = [], {"Body": [], "Hair": []}, None, []
+        did = []
+
+        # ---- GAP 20: the frozen Legs ps-cb3 on the Legs -> Body copy ----
+        bb = blockBounds(block, "Body")
+        if (bb):
+            part = block[bb[0]:bb[1]]
+            res = {idx: "Resource" + extrasName(TARGET + "Body", f, ini) for idx, f in Cb3Files}
+            lines = ["; Miyabi's own Legs material table, per pass (GAP 20)", f"if ps == {MainPass}",
+                     f"\tps-cb3 = {res[MainPass]}", f"else if ps == {OutlinePass}", f"\tps-cb3 = {res[OutlinePass]}", "endif"]
+            def bindCb3(m):
+                if (not hasHash(m.group(2), body["ib"]) or not re.search(r"^\s*match_first_index\s*=", m.group(2), re.M)):
+                    return m.group(0)
+                k = re.search(r"^\s*match_first_index\s*=.*$", m.group(2), re.M).end()
+                return f"[{m.group(1)}]{nl}" + m.group(2)[:k] + nl + nl.join(lines) + m.group(2)[k:]
+            newPart = SectionRe.sub(bindCb3, part)
+            if (newPart != part):
+                for idx, f in Cb3Files:
+                    name = extrasName(TARGET + "Body", f, ini)
+                    copies.append((f"{SOURCE}{f}.buf", name + ".buf"))
+                    added["Body"].append(nl.join([f"[Resource{name}]", "type = Buffer", f"filename = {name}.buf"]))
+                block = block[:bb[0]] + newPart + block[bb[1]:]
+                did.append("frozen Legs cb3")
+
+        # ---- GAP 19: the hair accessories on the Hair copy ----
+        hb = blockBounds(block, "Hair")
+        if (hb):
+            part = block[hb[0]:hb[1]]
+            secs = list(SectionRe.finditer(part))
+            lim = next((m for m in secs if hasHash(m.group(2), hair["draw_vb"])), None)
+            pre = next((m for m in secs if hasHash(m.group(2), hair["blend_vb"])), None)
+            obj = firstObjectSection(part, hair["ib"])
+            n = re.search(r"^\s*override_vertex_count\s*=\s*(\d+)", lim.group(2), re.M) if lim else None
+            if (not (lim and pre and obj and n)):
+                print(f"  ! {os.path.basename(ini)}: no Hair object / pre-skin / vertex limit copy for the accessories")
+            else:
+                n = int(n.group(1))
+                base, preLines, drawLines, locals_ = n, [], [], []
+                for acc, ibHash, verts, idx in Accessories:
+                    var = f"$remap{acc.lower()}"
+                    gate = accessoryGates(own, ibHash, var)
+                    if (gate is None):
+                        continue
+                    names = {kind: extrasName(TARGET + "Hair", acc + kind, ini) for kind in ("Position", "Blend", "Texcoord", "IB")}
+                    for kind, stride in (("Position", 40), ("Blend", 32), ("Texcoord", 20)):
+                        copies.append((f"{SOURCE}{acc}{kind}.buf", names[kind] + ".buf"))
+                        added["Hair"].append(nl.join([f"[Resource{names[kind]}]", "type = Buffer", f"stride = {stride}", f"filename = {names[kind]}.buf"]))
+                    copies.append((f"{SOURCE}{acc}A.ib", names["IB"] + ".ib"))
+                    added["Hair"].append(nl.join([f"[Resource{names['IB']}]", "type = Buffer", "format = DXGI_FORMAT_R32_UINT", f"filename = {names['IB']}.ib"]))
+                    preLines += [f"vb0 = Resource{names['Position']}", f"vb1 = Resource{names['Texcoord']}",
+                                 f"vb2 = Resource{names['Blend']}", f"draw = {verts}, 0"]
+                    locals_.append(f"local {var}")
+                    drawLines += [f"{var} = 1"] + gate + [f"if {var} == 1", f"\tib = Resource{names['IB']}", f"\tdrawindexed = {idx}, 0, {base}", "endif"]
+                    included.append(acc)
+                    base += verts
+                if (preLines):
+                    # the pre-skin: after the mod's hair draw, inside its DRAW_TYPE test
+                    def addPre(m):
+                        out, done = [], False
+                        for line in m.group(2).split(nl):
+                            out.append(line)
+                            if (not done and re.match(r"\s*draw\s*=", line)):
+                                ind = line[:len(line) - len(line.lstrip())]
+                                out += [ind + l for l in preLines]
+                                done = True
+                        return f"[{m.group(1)}]{nl}" + nl.join(out)
+                    part = part[:pre.start()] + addPre(pre) + part[pre.end():]
+                    part = re.sub(rf"(^\s*override_vertex_count\s*=\s*){n}\b", lambda m: m.group(1) + str(base), part, count = 1, flags = re.M)
+                    pad = extrasName(TARGET + "Hair", "AccessoryTexcoord", ini)
+                    bak = f"Resource{TARGET}HairRemapVb1Bak"
+                    lines = (["; Miyabi's hair accessories, which the game draws for her base outfit only (GAP 19)"] + locals_
+                             + [f"if ps == {MainPass} || ps == {OutlinePass}", f"\t{bak} = ref vb1", f"\tvb1 = Resource{pad}"]
+                             + ["\t" + l for l in drawLines] + [f"\tvb1 = {bak}", "endif"])
+                    part = insertAfterFirstIndex(part, firstObjectSection(part, hair["ib"]), lines, nl)
+                    added["Hair"].append(f"[{bak}]")
+                    added["Hair"].append(nl.join([f"[Resource{pad}]", "type = Buffer", "stride = 20", f"filename = {pad}.buf"]))
+                    padN = (pad + ".buf", n)
+                    block = block[:hb[0]] + part + block[hb[1]:]
+                    did.append(f"hair accessories at vertex {n}")
+        if (not did):
             continue
-        # the Legs copy sections: zero their Body draws, and collect them (with structure and texture lines)
-        a = block.index("; ***** MiyabiBlossomBody *****")
-        # only the Legs copies: up to the next component's heading (the Hair's copies follow, and their `ib` and
-        # `ps-t` lines had been swept into the Dress section with the moved draws)
-        nextHead = block.find("; ***** MiyabiBlossom", a + 10)
-        z = nextHead if nextHead > 0 else len(block)
-        legsPart, rest = block[a:z], block[z:]
-        moved, sectionTex = [], []
-        def zero(m):
-            body = m.group(2)
-            if (not re.search(r"^\s*match_first_index\s*=", body, re.M)):
-                return m.group(0)
-            ib = vb0 = None
-            out, keep = [], []
-            for line in body.split(nl):
-                s = line.strip()
-                mi = re.match(r"ib\s*=\s*(.+)$", s)
-                mv = re.match(r"vb0\s*=\s*(.+)$", s)
-                if (mi):
-                    ib = removeRef(mi.group(1))
-                if (mv):
-                    vb0 = removeRef(mv.group(1))
-                isDraw = re.match(r"drawindexed\s*=", s)
-                cross = bool(isDraw and vb0 in written and ib)   # drawn over the Body's pre-skinned vertices
-                tex = re.match(r"(Resource\\ZZMI\\\w+\s*=|run\s*=\s*CommandList\\ZZMI\\SetTextures|ps-t\d+\s*=)", s, re.I)
-                # structure, ib, texture lines, the vertex buffers that name the Body's pre-skin, and the cross
-                # draws, in place (a texture toggle keeps its `if`)
-                pre = re.match(r"vb[03]\s*=\s*(.+)$", s)
-                if (re.match(r"(if|else|elif|endif)\b", s) or mi or cross or tex or (pre and removeRef(pre.group(1)) in written)):
-                    keep.append(line)
-                out.append(line.replace(s, "drawindexed = 0, 0, 0") if cross else line)
-                # ...and unbinds the Body ib, or a later `drawindexed = auto` of the same slot (Miyabi6 / 8's Legs IB
-                # section) draws the Body again, in this copy's pre-skin frame
-                if (cross):
-                    out.append(line[:len(line) - len(line.lstrip())] + "ib = null")
-            if (any(re.match(r"\s*(drawindexed|Resource\\ZZMI|run\s*=|ps-t)", l, re.I) for l in keep)):
-                moved.append((any(re.match(r"\s*drawindexed", l) for l in keep), nl.join(keep)))
-            return f"[{m.group(1)}]{nl}" + nl.join(out)
-        legsPart = SectionRe.sub(zero, legsPart)
-        if (not any(draws for draws, _ in moved)):
-            continue
-        moved = [text for _, text in moved]
-        block = block[:a] + legsPart + rest
-        # into the Dress copy's object section, at its end
-        d = block.index("; ***** MiyabiBlossomDress *****")
-        e = block.index("; ***** MiyabiBlossomBody *****")
-        dressPart = block[d:e]
-        target = next((m for m in SectionRe.finditer(dressPart) if re.search(r"^\s*match_first_index\s*=", m.group(2), re.M)), None)
-        if (target is None):
-            print(f"  ! {os.path.basename(ini)}: no Dress object section to move the Body draws into")
-            continue
-        insert = nl.join(["; the Body draws this mod makes from its Legs slot (GAP 18)"] + texLines + moved) + nl
-        end = target.end()
-        dressPart = dressPart[:end].rstrip() + nl + insert + nl + dressPart[end:].lstrip("\r\n")
-        block = block[:d] + dressPart + block[e:]
+        # the pass filters, once per .ini (the same filter_index everywhere, so repeats across files agree)
+        filt = nl.join(nl.join([f"[ShaderOverride{TARGET}Remap{label}]", f"hash = {h}", f"filter_index = {idx}"]) + nl
+                       for idx, h, label in PassShaders)
+        (added["Hair"] if hb and added["Hair"] else added["Body"]).append(filt.rstrip())
+        for comp in ("Hair", "Body"):
+            bounds = blockBounds(block, comp)
+            if (added[comp] and bounds):
+                block = block[:bounds[1]] + (nl + nl).join(added[comp]) + nl + nl + block[bounds[1]:]
         open(ini, "wb").write((own + block).encode("utf-8", errors = "surrogateescape"))
-        print(f"  {os.path.relpath(ini, folder)}: {len(moved)} Legs-slot Body draw section(s) moved to the Dress slot")
+        dirn = os.path.dirname(ini)
+        for src, dest in copies:
+            shutil.copyfile(os.path.join(DownloadFolder, src), os.path.join(dirn, dest))
+        if (padN):
+            accTc = b"".join(open(os.path.join(DownloadFolder, f"{SOURCE}{a}Texcoord.buf"), "rb").read() for a in included)
+            open(os.path.join(dirn, padN[0]), "wb").write(b"\0" * (20 * padN[1]) + accTc)
+        print(f"  {os.path.relpath(ini, folder)}: {', '.join(did)}")
 
 
 def runOne(folder, undo = False):
@@ -885,8 +1115,10 @@ def runOne(folder, undo = False):
     writeFallbacks()
     if (not undo):
         addWeaponCopies(folder)
-        moveCrossSlotDraws(folder)
         defaultRecolours(folder)
+        # MIYABI_NO_EXTRAS=1: without GAP 19 / 20, to A/B a compiled fix that does not have them yet
+        if (not os.environ.get("MIYABI_NO_EXTRAS")):
+            addExtras(folder)
     stats = service.stats
     print(f"{folder}: ini fixed {len(stats.ini.fixed)}, skipped {len(stats.ini.skipped)}")
     for path, err in stats.ini.skipped.items():

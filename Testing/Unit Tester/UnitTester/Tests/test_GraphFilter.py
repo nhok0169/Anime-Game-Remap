@@ -43,7 +43,7 @@ class GraphFilterTest(BaseUnitTest):
 
     def test_init_setsAttributes(self):
         graphIds = [(0, "comp", "a")]
-        predicate = lambda name, part, ind: True
+        predicate = lambda section, part, ind: True
         edit = FRB.GraphFilter(graphIds, predicate)
 
         self.assertIs(edit.graphIds, graphIds)
@@ -60,17 +60,17 @@ class GraphFilterTest(BaseUnitTest):
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): graph})]
 
         keep = {"ib", "drawindexed"}
-        FRB.GraphFilter([(0, "comp", "a")], lambda name, part, ind: part.getByInd(ind)[0] in keep).edit(graphGroups, None)
+        FRB.GraphFilter([(0, "comp", "a")], lambda section, part, ind: part.getByInd(ind)[0] in keep).edit(graphGroups, None)
 
         root = graphGroups[0].graphs[("comp", "a")].sections["root"]
         self.assertEqual(self._keys(root), [[], None, ["ib", "drawindexed"], None, []])
 
-    def test_edit_predicateSeesTheSectionName(self):
+    def test_edit_predicateSeesTheSection(self):
         graph = self._makeGraph()
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): graph})]
 
         # keep only the child's KVPs
-        FRB.GraphFilter([(0, "comp", "a")], lambda name, part, ind: name == "CommandListChild").edit(graphGroups, None)
+        FRB.GraphFilter([(0, "comp", "a")], lambda section, part, ind: section.name == "CommandListChild").edit(graphGroups, None)
 
         sections = graphGroups[0].graphs[("comp", "a")].sections
         self.assertEqual(self._keys(sections["root"]), [[], None, [], None, []])
@@ -84,7 +84,7 @@ class GraphFilterTest(BaseUnitTest):
         graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([part], name = "root")}, ["root"])
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): graph})]
 
-        def notAfterX(name, part, ind):
+        def notAfterX(section, part, ind):
             return not (part.getByInd(ind)[0] == "drawindexed" and part.getByInd(ind - 1) == ("vb0", "X"))
 
         FRB.GraphFilter([(0, "comp", "a")], notAfterX).edit(graphGroups, None)
@@ -105,7 +105,7 @@ class GraphFilterTest(BaseUnitTest):
         a, b = self._makeGraph(), self._makeGraph()
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): a, ("comp", "b"): b})]
 
-        FRB.GraphFilter([(0, "comp", "a")], lambda name, part, ind: False).edit(graphGroups, None)
+        FRB.GraphFilter([(0, "comp", "a")], lambda section, part, ind: False).edit(graphGroups, None)
 
         self.assertEqual(self._keys(graphGroups[0].graphs[("comp", "b")].sections["root"]),
                          [["hash"], None, ["ib", "drawindexed"], None, ["run"]])
@@ -114,7 +114,7 @@ class GraphFilterTest(BaseUnitTest):
         graph = self._makeGraph()
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): graph})]
 
-        FRB.GraphFilter([(5, "comp", "a"), (0, "comp", "missing")], lambda name, part, ind: False).edit(graphGroups, None)
+        FRB.GraphFilter([(5, "comp", "a"), (0, "comp", "missing")], lambda section, part, ind: False).edit(graphGroups, None)
 
         self.assertEqual(self._keys(graphGroups[0].graphs[("comp", "a")].sections["root"]),
                          [["hash"], None, ["ib", "drawindexed"], None, ["run"]])
@@ -127,7 +127,7 @@ class GraphFilterTest(BaseUnitTest):
         graph = self._makeGraph()
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): graph})]
         graphIds = []
-        edit = FRB.GraphFilter(graphIds, lambda name, part, ind: False)
+        edit = FRB.GraphFilter(graphIds, lambda section, part, ind: False)
 
         graphIds.append((0, "comp", "a"))
         edit.edit(graphGroups, None)

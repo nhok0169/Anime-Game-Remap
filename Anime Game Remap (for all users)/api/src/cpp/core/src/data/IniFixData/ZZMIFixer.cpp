@@ -33,6 +33,11 @@
 #include <vector>
 
 #include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
+#include "AGRemapCore/model/buffers/BufUnorm.h"
+#include "AGRemapCore/model/files/IniScan.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/VGRemap.h"
@@ -46,22 +51,33 @@
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCopy.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphFilter.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphCreate.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemove.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufRestrideEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+#include "AGRemapCore/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.h"
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
+#include "AGRemapCore/tools/TextTools.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
@@ -118,11 +134,7 @@ namespace AGRemapCore {
             if (role == "lightmap") return "LightMap";
             if (role == "materialmap") return "MaterialMap";
             if (role == "normalmap") return "NormalMap";
-            std::string out = role;
-            if (!out.empty()) {
-                out[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(out[0])));
-            }
-            return out;
+            return TextTools::capitalize(role);
         }
 
         // `ref X` -> `X`: a register naming a resource may say `ref`
@@ -151,95 +163,66 @@ namespace AGRemapCore {
                 [](const std::string& file) { return file; }};
         }
 
-        // ---- the mod's own text ----
+        // ---- the mod's own sections ----
 
-        struct RawSection {
-            std::string name;
-            std::string body;
-        };
+        using Template = ModBranches::Template;
 
-        // The mod's own text: what comes before any fix block of this source
-        std::string ownText(const IniFile* ini, const std::string& source) {
+        // The mod's own sections, as the .ini file parsed to them: every one but those a previous fix of
+        // this pair wrote (their names carry `<target><component>Remap`)
+        std::vector<const Template*> ownSections(IniFile* ini, const ZZMIFixerConfig& config) {
+            std::vector<const Template*> out;
             if (ini == nullptr) {
-                return {};
+                return out;
             }
-            const std::string& txt = ini->getFileTxt();
-            const std::size_t at = txt.find("; --------------- " + source + " Remap");
-            return at == std::string::npos ? txt : txt.substr(0, at);
-        }
-
-        std::vector<RawSection> sectionsOf(const std::string& text) {
-            std::vector<RawSection> out;
-            std::istringstream stream(text);
-            std::string line;
-            RawSection* cur = nullptr;
-            while (std::getline(stream, line)) {
-                if (!line.empty() && line.back() == '\r') {
-                    line.pop_back();
-                }
-                const std::string stripped = std::string(StringTools::strip(line));
-                if (stripped.size() > 2 && stripped.front() == '[' && stripped.back() == ']') {
-                    out.push_back({stripped.substr(1, stripped.size() - 2), ""});
-                    cur = &out.back();
-                    continue;
-                }
-                if (cur != nullptr) {
-                    cur->body += line + "\n";
+            std::vector<std::string> fixed = {config.target + IniKeywords::Remap};
+            for (const ZZMIFixerConfig::Component& c : config.components) {
+                fixed.push_back(config.target + c.target + IniKeywords::Remap);
+            }
+            for (const auto& entry : ini->getIfTemplates()) {
+                const bool isFix = std::any_of(fixed.begin(), fixed.end(), [&entry](const std::string& f) {
+                    return entry.first.find(f) != std::string::npos; });
+                if (!isFix && entry.second != nullptr) {
+                    out.push_back(entry.second.get());
                 }
             }
             return out;
         }
 
-        // The value of the first `key = value` line of a section body, or nothing
-        std::optional<std::string> firstValue(const std::string& body, const std::string& key) {
-            std::istringstream stream(body);
-            std::string line;
-            while (std::getline(stream, line)) {
-                const std::size_t eq = line.find('=');
-                if (eq == std::string::npos) {
-                    continue;
-                }
-                if (StringTools::equalsIgnoreCase(std::string(StringTools::strip(line.substr(0, eq))), key)) {
-                    return std::string(StringTools::strip(line.substr(eq + 1)));
-                }
-            }
-            return std::nullopt;
-        }
-
-        std::vector<std::pair<std::string, std::string>> keyValues(const std::string& body) {
+        // A section's KVPs in order, through every branch
+        std::vector<std::pair<std::string, std::string>> kvpsOf(const Template& tpl) {
             std::vector<std::pair<std::string, std::string>> out;
-            std::istringstream stream(body);
-            std::string line;
-            while (std::getline(stream, line)) {
-                const std::size_t eq = line.find('=');
-                if (eq == std::string::npos) {
-                    continue;
+            for (const auto& part : tpl.parts()) {
+                if (const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get())) {
+                    for (const auto& kv : content->entries()) {
+                        out.emplace_back(std::string(StringTools::strip(kv.first)), std::string(StringTools::strip(kv.second)));
+                    }
                 }
-                out.emplace_back(std::string(StringTools::strip(line.substr(0, eq))),
-                                 std::string(StringTools::strip(line.substr(eq + 1))));
             }
             return out;
         }
 
-        std::string lowered(std::string s) {
-            std::transform(s.begin(), s.end(), s.begin(), [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
-            return s;
+        std::optional<std::string> valOf(const Template& tpl, const std::string& key) {
+            return ModBranches::firstValLoose(tpl, key);
+        }
+
+        std::string lowered(const std::string& s) {
+            return StringTools::toLower(s);
         }
 
         // {resource section: (file name, declared stride)} -- a borrowed texcoord is told by its stride
-        std::unordered_map<std::string, std::pair<std::string, int>> declaredStrides(const std::string& text) {
+        std::unordered_map<std::string, std::pair<std::string, int>> declaredStrides(const std::vector<const Template*>& own) {
             std::unordered_map<std::string, std::pair<std::string, int>> out;
-            for (const RawSection& s : sectionsOf(text)) {
-                if (s.name.compare(0, 8, IniKeywords::Resource) != 0) {
+            for (const Template* tpl : own) {
+                if (tpl->name.compare(0, IniKeywords::Resource.size(), IniKeywords::Resource) != 0) {
                     continue;
                 }
-                const std::optional<std::string> stride = firstValue(s.body, "stride");
-                const std::optional<std::string> file = firstValue(s.body, IniKeywords::Filename);
+                const std::optional<std::string> stride = valOf(*tpl, IniKeywords::Stride);
+                const std::optional<std::string> file = valOf(*tpl, IniKeywords::Filename);
                 if (stride.has_value() && file.has_value()) {
                     std::string name = *file;
                     std::replace(name.begin(), name.end(), '\\', '/');
                     name = lowered(name.substr(name.find_last_of('/') == std::string::npos ? 0 : name.find_last_of('/') + 1));
-                    out[s.name] = {name, std::atoi(stride->c_str())};
+                    out[tpl->name] = {name, std::atoi(stride->c_str())};
                 }
             }
             return out;
@@ -247,101 +230,45 @@ namespace AGRemapCore {
 
         // ---- the texcoord rewrite ----
 
-        // A Texcoord.buf rewritten at another stride: ZZZ's 20-byte texcoord is COLOR, TEXCOORD0 (half2),
-        // TEXCOORD1 (float2), TEXCOORD2 (half2); the 24-byte one appends a TEXCOORD3 (half2) that equals
-        // TEXCOORD0 on most vertices -- so narrowing drops it and widening copies TEXCOORD0 into it
-        bool cutTexcoord(const std::string& src, const std::string& dst, int fromStride, int toStride) {
-            std::ifstream in(FileService::strToPath(src), std::ios::binary);
-            if (!in || fromStride <= 0 || toStride <= 0) {
-                return false;
+        // ZZZ's texcoord layouts: 20 bytes is COLOR, TEXCOORD0 (half2), TEXCOORD1 (float2), TEXCOORD2
+        // (half2); 24 appends a TEXCOORD3 (half2) that equals TEXCOORD0 on most vertices -- so narrowing
+        // drops it and widening copies TEXCOORD0 into it (TexcoordFill)
+        std::vector<std::unique_ptr<BufElementType>> texcoordLayout(int stride) {
+            const auto half = []() -> std::unique_ptr<BufDataType> { return std::make_unique<BufFloat16>(); };
+            std::vector<std::unique_ptr<BufElementType>> layout;
+            layout.push_back(BufElementType::repeated("COLOR", 4, []() -> std::unique_ptr<BufDataType> {
+                return std::make_unique<BufUnorm>("UNORM", 1); }, "R8G8B8A8_UNORM"));
+            layout.push_back(BufElementType::repeated("TEXCOORD", 2, half, "R16G16_FLOAT"));
+            layout.push_back(BufElementType::repeated("TEXCOORD1", 2, []() -> std::unique_ptr<BufDataType> {
+                return std::make_unique<BufFloat>(); }, "R32G32_FLOAT"));
+            layout.push_back(BufElementType::repeated("TEXCOORD2", 2, half, "R16G16_FLOAT"));
+            if (stride >= 24) {
+                layout.push_back(BufElementType::repeated("TEXCOORD3", 2, half, "R16G16_FLOAT"));
             }
-            std::vector<char> data((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-            if (data.size() % static_cast<std::size_t>(fromStride) != 0) {
-                return false;
-            }
-            std::vector<char> out;
-            out.reserve(data.size() / fromStride * toStride);
-            for (std::size_t i = 0; i < data.size(); i += fromStride) {
-                if (toStride <= fromStride) {
-                    out.insert(out.end(), data.begin() + i, data.begin() + i + toStride);
-                } else {
-                    out.insert(out.end(), data.begin() + i, data.begin() + i + fromStride);
-                    for (int extra = fromStride; extra < toStride; extra += 4) {
-                        out.insert(out.end(), data.begin() + i + 4, data.begin() + i + 8);
-                    }
-                }
-            }
-            FileService::makeFolderFor(dst);
-            std::ofstream outFile(FileService::strToPath(dst), std::ios::binary);
-            outFile.write(out.data(), static_cast<std::streamsize>(out.size()));
-            return static_cast<bool>(outFile);
+            return layout;
         }
 
-        // A Texcoord.buf rewritten at the target's stride. The source stride is the one the resource
-        // section of the file DECLARES (a texcoord another component's section borrows has its owner's),
-        // or 'fromStride' when the file declares none
-        class TexcoordCutReplace: public RemapBlendReplace<> {
-            public:
-                TexcoordCutReplace(GraphId resModObj, int fromStride, int toStride,
-                                    std::unordered_map<std::string, int> strideOfFile):
-                    RemapBlendReplace<>(std::move(resModObj), resEditConfig(), "texcoord"),
-                    fromStride_(fromStride), toStride_(toStride), strideOfFile_(std::move(strideOfFile)) {}
-
-                void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
-                                    const std::string& modName, const std::string& fileKey, Context& ctx) override {
-                    (void)resType;
-                    (void)modName;
-                    int from = fromStride_;
-                    std::string file = srcPath;
-                    std::replace(file.begin(), file.end(), '\\', '/');
-                    const auto found = strideOfFile_.find(lowered(file.substr(file.find_last_of('/') + 1)));
-                    if (found != strideOfFile_.end()) {
-                        from = found->second;
-                    }
-                    const int to = toStride_;
-                    auto resource = std::make_unique<RemapBlendResource>(
-                        ctx.iniFolder(), srcPath, fixedPath, VGRemap{}, "texcoord",
-                        std::function<bool(RemapBlendResource&)>([from, to](RemapBlendResource& res) {
-                            return cutTexcoord(res.srcPath, res.fixedPath, from, to);
-                        }),
-                        std::vector<std::unique_ptr<BufElementType>>{});
-                    resource->logger = ctx.logger();
-                    ctx.storeResource(fileKey, std::move(resource));
-                }
-
-            private:
-                int fromStride_;
-                int toStride_;
-                std::unordered_map<std::string, int> strideOfFile_;
-        };
+        const std::unordered_map<std::string, std::string> TexcoordFill = {{"TEXCOORD3", "TEXCOORD"}};
 
         // ---- the band edit ----
 
         // A light map's RED channel is a material band: each texel ON a band (within the tolerance) moves
-        // per the component's band moves; a mod's in-between reds (a gradient, anti-aliasing, a level of
-        // its own) keep their value. Every decision from the ORIGINAL red: the moves may be a permutation
+        // per the component's band moves; a mod's in-between reds keep their value. The levels sit further
+        // apart than twice the tolerance, so each band is one range of MaterialBandRemapFilter's, and its
+        // every decision is made from the ORIGINAL red (the moves may be a permutation)
         TexEditor::Filter bandEdit(const ZZMIFixerConfig& config, const std::map<int, int>& moves) {
-            const std::array<int, 5> levels = config.bandLevels;
-            const int tolerance = config.bandTolerance;
-            return [levels, tolerance, moves](TextureFile& texFile) {
-                std::vector<std::uint8_t> pixels = texFile.getPixels();
-                for (std::size_t i = 0; i + 3 < pixels.size(); i += 4) {
-                    const int red = pixels[i];
-                    int best = 0;
-                    for (std::size_t k = 1; k < levels.size(); ++k) {
-                        if (std::abs(red - levels[k]) < std::abs(red - levels[best])) {
-                            best = static_cast<int>(k);
-                        }
-                    }
-                    if (std::abs(red - levels[best]) > tolerance) {
-                        continue;
-                    }
-                    const auto move = moves.find(levels[best]);
-                    if (move != moves.end() && move->second != levels[best]) {
-                        pixels[i] = static_cast<std::uint8_t>(move->second);
-                    }
+            std::vector<MaterialBandRemapFilter::Band> bands;
+            for (int level : config.bandLevels) {
+                const auto move = moves.find(level);
+                if (move == moves.end() || move->second == level) {
+                    continue;
                 }
-                texFile.setPixels(std::move(pixels), texFile.getWidth(), texFile.getHeight());
+                bands.emplace_back(static_cast<std::uint8_t>(std::max(0, level - config.bandTolerance)),
+                                   static_cast<std::uint8_t>(std::min(255, level + config.bandTolerance)),
+                                   static_cast<std::uint8_t>(move->second));
+            }
+            return [bands](TextureFile& texFile) {
+                MaterialBandRemapFilter(bands, "", 0).transform(texFile);
             };
         }
 
@@ -380,31 +307,31 @@ namespace AGRemapCore {
         // {ib resource: ranges} the mod's own sections on 'ibHash' draw, following each section's `ib =`
         // lines in order; a section with no `ib =` of its own draws whatever ib the hash's other sections
         // bound, credited to it when there is exactly one
-        std::unordered_map<std::string, std::vector<DrawRange>> rangesDrawnBy(const std::string& text, const std::string& ibHash) {
-            std::vector<const RawSection*> sections;
-            const std::vector<RawSection> all = sectionsOf(text);
+        std::unordered_map<std::string, std::vector<DrawRange>> rangesDrawnBy(const std::vector<const Template*>& own,
+                                                                             const std::string& ibHash) {
+            std::vector<const Template*> sections;
             std::set<std::string> bound;
-            for (const RawSection& s : all) {
-                const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
+            for (const Template* tpl : own) {
+                const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
                 if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, ibHash)) {
                     continue;
                 }
-                sections.push_back(&s);
-                for (const auto& kv : keyValues(s.body)) {
-                    if (StringTools::equalsIgnoreCase(kv.first, "ib") && !StringTools::equalsIgnoreCase(removeRef(kv.second), "null")) {
+                sections.push_back(tpl);
+                for (const auto& kv : kvpsOf(*tpl)) {
+                    if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Ib) && !StringTools::equalsIgnoreCase(removeRef(kv.second), IniKeywords::Null)) {
                         bound.insert(removeRef(kv.second));
                     }
                 }
             }
             const std::optional<std::string> inherited = bound.size() == 1 ? std::optional<std::string>(*bound.begin()) : std::nullopt;
             std::unordered_map<std::string, std::vector<DrawRange>> out;
-            for (const RawSection* s : sections) {
+            for (const Template* tpl : sections) {
                 std::optional<std::string> cur = inherited;
-                for (const auto& kv : keyValues(s->body)) {
-                    if (StringTools::equalsIgnoreCase(kv.first, "ib")) {
+                for (const auto& kv : kvpsOf(*tpl)) {
+                    if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Ib)) {
                         cur = removeRef(kv.second);
                     } else if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::DrawIndexed) && cur.has_value()
-                               && !StringTools::equalsIgnoreCase(*cur, "null")) {
+                               && !StringTools::equalsIgnoreCase(*cur, IniKeywords::Null)) {
                         out[*cur].push_back(drawRange(kv.second));
                     }
                 }
@@ -412,30 +339,7 @@ namespace AGRemapCore {
             return out;
         }
 
-        std::string newline(const std::string& text) {
-            return text.find("\r\n") != std::string::npos ? "\r\n" : "\n";
-        }
-
-        bool startsWithWord(const std::string& stripped, const char* word) {
-            const std::size_t n = std::strlen(word);
-            return stripped.size() >= n && StringTools::equalsIgnoreCase(stripped.substr(0, n), word)
-                && (stripped.size() == n || !std::isalnum(static_cast<unsigned char>(stripped[n])));
-        }
-
-        bool isStructure(const std::string& stripped) {
-            return startsWithWord(stripped, "if") || startsWithWord(stripped, "else") || startsWithWord(stripped, "elif")
-                || startsWithWord(stripped, "endif");
-        }
-
-        // `key = value` of one stripped line, or nothing
-        std::optional<std::pair<std::string, std::string>> kvOf(const std::string& stripped) {
-            const std::size_t eq = stripped.find('=');
-            if (eq == std::string::npos) {
-                return std::nullopt;
-            }
-            return std::make_pair(std::string(StringTools::strip(stripped.substr(0, eq))),
-                                  std::string(StringTools::strip(stripped.substr(eq + 1))));
-        }
+        // ---- the lines a cross-slot move carries ----
 
         bool isTextureLine(const std::string& key) {
             return (key.size() > ZZMIResource.size() && StringTools::equalsIgnoreCase(key.substr(0, ZZMIResource.size()), ZZMIResource))
@@ -549,7 +453,8 @@ namespace AGRemapCore {
                         }
                     }
 
-                    own_ = ownText(ctx_.getIniFile(), config_.source);
+                    own_ = ownSections(ctx_.getIniFile(), config_);
+                    buildCrossSlotEdits();
                     buildRemap();
                     buildBlendCollect();
                     buildTexcoordCollects();
@@ -558,11 +463,17 @@ namespace AGRemapCore {
                     buildFallbacks();
 
                     this->graphGroupEdits.clear();
+                    for (auto& edit : preRemapEdits_) {
+                        this->graphGroupEdits.push_back(edit.get());
+                    }
                     this->graphGroupEdits.push_back(remap_.get());
                     for (auto& collect : collects_) {
                         this->graphGroupEdits.push_back(collect.get());
                     }
                     for (auto& edit : groupEdits_) {
+                        this->graphGroupEdits.push_back(edit.get());
+                    }
+                    for (auto& edit : crossEdits_) {
                         this->graphGroupEdits.push_back(edit.get());
                     }
 
@@ -581,19 +492,6 @@ namespace AGRemapCore {
                             edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
                         }
                     }
-                }
-
-                // The two passes over this fixer's own rendered block: the recolour defaults and the
-                // cross-slot draws. Text, because each moves lines between sections of TWO fixers' copies
-                std::string groupToStr(std::size_t groupInd) const override {
-                    std::string content = Fixer::groupToStr(groupInd);
-                    if (groupInd != 0 || content.empty()) {
-                        return content;
-                    }
-                    content = injectDefaults(content);
-                    content = zeroCrossSlotDraws(content);
-                    content = insertCrossSlotDraws(content);
-                    return content;
                 }
 
             private:
@@ -632,6 +530,10 @@ namespace AGRemapCore {
                             remap.emplace_back(GraphId(0, "", other.name + "_" + obj), std::move(targets));
                         }
                     }
+                    for (const GraphId& made : crossGraphs_) {
+                        remap.emplace_back(made, std::vector<ObjGroupRemap::RemapTarget>{
+                            ObjGroupRemap::RemapTarget(made, [](const std::string& name) { return name; })});
+                    }
                     remap_ = std::make_unique<ObjGroupRemap>(std::move(remap));
                 }
 
@@ -659,10 +561,6 @@ namespace AGRemapCore {
                     const int fromStride = comp_.srcTexcoordStride;
                     const int toStride = comp_.targetTexcoordStride;
                     std::unordered_map<std::string, int> strideOfFile;
-                    const auto declared = declaredStrides(own_);
-                    for (const auto& entry : declared) {
-                        strideOfFile[entry.second.first] = entry.second.second;
-                    }
 
                     if (fromStride != toStride) {
                         addTexcoordCollect({GraphId(0, "", comp_.name + "_texcoord")}, "RemapTexcoord", fromStride, toStride,
@@ -678,33 +576,38 @@ namespace AGRemapCore {
                     }
                     holders.emplace_back(0, "", comp_.name + "_blend");
                     holders.emplace_back(0, "", comp_.name + "_position");
-                    addTexcoordCollect(holders, "RemapBorrowedTexcoord", fromStride, toStride, strideOfFile, true);
+                    addTexcoordCollect(holders, "RemapBorrowedTexcoord", toStride == 20 ? 24 : 20, toStride, strideOfFile, true);
                 }
 
                 void addTexcoordCollect(const std::vector<GraphId>& graphs, const std::string& resName, int fromStride,
                                          int toStride, std::unordered_map<std::string, int> strideOfFile, bool onlyOtherStrides) {
+                    (void)strideOfFile;
                     const GraphId resGraph(0, "", comp_.name + "_" + resName);
-                    auto replace = std::make_unique<TexcoordCutReplace>(resGraph, fromStride, toStride, strideOfFile);
+                    auto replace = std::make_unique<BufRestrideReplace<>>(resGraph, resEditConfig(), "texcoord",
+                                                                          texcoordLayout(fromStride), texcoordLayout(toStride), TexcoordFill);
                     auto collect = std::make_unique<Collector>();
                     for (const GraphId& graph : graphs) {
                         collect->srcRegs[graph] = IniKeywords::Vb1;
                     }
                     collect->resEdits = {{"texcoord", replace.get()}};
 
-                    if (onlyOtherStrides) {
-                        const auto declared = declaredStrides(own_);
-                        for (const GraphId& graph : graphs) {
-                            collect->resPredicates[graph] = [declared, toStride](const std::string&, const std::string& val,
-                                                                                const Collector::IterData&) {
-                                const auto found = declared.find(removeRef(val));
-                                return found != declared.end() && found->second.second != toStride;
-                            };
-                        }
+                    // a file is rewritten from the stride it DECLARES: the component's own (or none) for its
+                    // own texcoord, the other one for a texcoord it borrows
+                    const auto declared = declaredStrides(own_);
+                    for (const GraphId& graph : graphs) {
+                        collect->resPredicates[graph] = [declared, fromStride, onlyOtherStrides](
+                                const std::string&, const std::string& val, const Collector::IterData&) {
+                            const auto found = declared.find(removeRef(val));
+                            if (onlyOtherStrides) {
+                                return found != declared.end() && found->second.second == fromStride;
+                            }
+                            return found == declared.end() || found->second.second == fromStride;
+                        };
                     }
 
                     // ...and the section the collect writes still DECLARES the source's stride
                     auto stride = std::make_unique<RegNewVals<>>(
-                        std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{{"stride", RegNewVals<>::NewVal(std::to_string(toStride))}});
+                        std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{{IniKeywords::Stride, RegNewVals<>::NewVal(std::to_string(toStride))}});
                     auto adapter = std::make_unique<RegPartEdit<>>(stride.get());
                     ObjGroupEdit::IniEdits iniEdits;
                     iniEdits.edits[resGraph.modObj] = {adapter.get()};
@@ -907,8 +810,8 @@ namespace AGRemapCore {
                     if (!ib.has_value()) {
                         return false;
                     }
-                    for (const RawSection& s : sectionsOf(own_)) {
-                        const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
+                    for (const Template* tpl : own_) {
+                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
                         if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *ib)) {
                             return true;
                         }
@@ -926,17 +829,14 @@ namespace AGRemapCore {
                     std::error_code ec;
                     for (const auto& entry : std::filesystem::recursive_directory_iterator(FileService::strToPath(ini->getFolder()), ec)) {
                         const std::string name = FileService::pathToStr(entry.path().filename());
-                        if (!entry.is_regular_file() || !StringTools::endsWithIgnoreCase(name, ".ini")
-                                || StringTools::startsWith(lowered(name), "disabled")) {
+                        if (!entry.is_regular_file() || !StringTools::endsWithIgnoreCase(name, FileExt::Ini)
+                                || IniNamingTools::isDisabled(name)) {
                             continue;
                         }
-                        std::ifstream in(entry.path(), std::ios::binary);
-                        std::string text((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-                        const std::size_t at = text.find("; --------------- " + config_.source + " Remap");
-                        for (const RawSection& s : sectionsOf(at == std::string::npos ? text : text.substr(0, at))) {
-                            const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
+                        for (const IniScanSection& s : IniScan::scan(FileService::pathToStr(entry.path()))) {
+                            const std::optional<std::string> hash = IniScan::firstVal(s, IniKeywords::Hash);
                             if (hash.has_value() && s.name.find(IniKeywords::Remap) == std::string::npos
-                                    && firstValue(s.body, IniKeywords::This).has_value()) {
+                                    && IniScan::firstVal(s, IniKeywords::This).has_value()) {
                                 found.insert(lowered(*hash));
                             }
                         }
@@ -944,6 +844,29 @@ namespace AGRemapCore {
                     return found;
                 }
 
+                using FixSection = GraphCreate<>::Graph::Section;
+
+                // One section the fix writes itself
+                std::unique_ptr<FixSection> makeSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& kvps) {
+                    std::vector<std::unique_ptr<IfTemplatePart>> parts;
+                    parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, 0));
+                    return std::make_unique<FixSection>(std::move(parts), runConfig(), name);
+                }
+
+                static IfTemplateRunConfig<std::string, std::string> runConfig() {
+                    return IfTemplateRunConfig<std::string, std::string>{
+                        IniKeywords::Run,
+                        [](const std::string& val) { return val; },
+                        [](const std::string& section) { return section; }
+                    };
+                }
+
+                // A role the mod recolours by no hash gets the source's game texture on the target's hash (an
+                // override section of the fix's own, added by GraphCreate). One the mod DOES recolour, maybe only
+                // under a toggle, has each carried copy that recolours bind it FIRST (RegIfTemplateAdd), so a
+                // toggle that is off does not leave the target's texture at the source's UVs. Every one of them
+                // is a download (FileDownloadCreate, behind the `this` naming it); a light map with band moves is
+                // downloaded raw and edited
                 void buildFallbacks() {
                     IniFile* ini = ctx_.getIniFile();
                     if (ini == nullptr || comp_.textures.empty() || !drawsComponent()) {
@@ -951,7 +874,20 @@ namespace AGRemapCore {
                     }
 
                     const std::set<std::string> recoloured = recolouredHashes();
-                    std::string text;
+                    std::unordered_map<std::string, FileDownloadCreate<>::File> downloads;
+                    std::unordered_map<std::string, FixSection*> overrides;
+                    std::vector<std::string> overrideNames;
+                    std::unordered_map<std::string, FixSection*> raws;
+                    std::vector<std::string> rawNames;
+                    std::vector<GraphId> recolourCopies;
+                    ObjGroupEdit::IniEdits defaults;
+
+                    // only a copy that recolours: another section on the hash (a watcher, a `run =`) is left alone
+                    const ObjGroupEdit::PartFilter recolours = [](const ObjGroupEdit::IterData& data, const ModType*, IniFile*) {
+                        const bool hasThis = data.section != nullptr && ModBranches::firstVal(*data.section, IniKeywords::This).has_value();
+                        return hasThis ? ObjGroupEdit::OrderRanges::createFull() : ObjGroupEdit::OrderRanges::createEmpty();
+                    };
+
                     for (const ZZMIFixerConfig::Texture& tex : comp_.textures) {
                         if (!tex.fallback) {
                             continue;
@@ -963,73 +899,74 @@ namespace AGRemapCore {
                         }
 
                         const std::string name = fallbackName(tex.role);
-                        const bool banded = tex.role == LightMapRole && !comp_.bandMoves.empty();
-                        const std::string fileName = name + (banded ? "Raw" : "") + FileExt::DDS;
-                        const std::string url = DownloadTools::downloadFolder() + "/"
+                        const std::string resource = IniKeywords::Resource + name;
+                        FileDownloadCreate<>::File file;
+                        file.file = name + FileExt::DDS;
+                        file.url = DownloadTools::downloadFolder() + "/"
                             + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
                                                      config_.downloadVersionFolder, srcName(), "A" + capitalised(tex.role), FileExt::DDS);
-                        const std::string path = FileService::absPathOfRelPath(fileName, ini->getFolder());
-                        ini->getFileDownloads().push_back(std::make_unique<RemapIniDownload>(
-                            ini->getFolder(), fileName, std::make_unique<FileDownload>(url, fileName)));
-
-                        if (banded) {
-                            // the band edit over the download, which is fetched first (downloads before resources)
-                            ini->getResources().push_back(std::make_unique<RemapTexEditResource>(
-                                ini->getFolder(), path, FileService::absPathOfRelPath(name + FileExt::DDS, ini->getFolder()),
-                                TexEditor({bandEdit(config_, comp_.bandMoves)}, false, true)));
-                            text += "[" + IniKeywords::Resource + name + "Raw]\nfilename = " + name + "Raw" + FileExt::DDS + "\n\n";
+                        if (tex.role == LightMapRole && !comp_.bandMoves.empty()) {
+                            file.texEdit = TexEditor({bandEdit(config_, comp_.bandMoves)}, false, true);
+                            file.rawFile = name + "Raw" + FileExt::DDS;
+                            // the raw download is named by a section too: an undo deletes the files the fix's own
+                            // sections name
+                            const std::string rawName = resource + "Raw";
+                            fallbackSections_.push_back(makeSection(rawName, {{IniKeywords::Filename, file.rawFile}}));
+                            raws[rawName] = fallbackSections_.back().get();
+                            rawNames.push_back(rawName);
                         }
+                        downloads[resource] = std::move(file);
 
-                        text += "[" + IniKeywords::Resource + name + "]\nfilename = " + name + FileExt::DDS + "\n\n";
                         if (recoloured.count(lowered(*srcHash)) > 0) {
-                            // the mod recolours it, maybe only under a toggle: its carried copy gets this as its
-                            // DEFAULT, so a toggle that is off does not leave the target's texture at the source's UVs
-                            defaults_[lowered(*dstHash)] = IniKeywords::Resource + name;
+                            fallbackSections_.push_back(makeSection("", {{IniKeywords::This, resource}}));
+                            defaultAdds_.push_back(std::make_unique<RegIfTemplateAdd<>>(
+                                fallbackSections_.back().get(), RegIfTemplateAdd<>::Position::AfterKey, IniKeywords::Hash));
+                            partEdits_.push_back(std::make_unique<GraphPartEdit<>>(defaultAdds_.back().get()));
+                            const ModObj obj = objOf(comp_.name, "tex_" + tex.role);
+                            defaults.edits[obj] = {partEdits_.back().get()};
+                            defaults.keyFilters[obj] = {recolours};
+                            recolourCopies.emplace_back(0, obj.first, obj.second);
                             continue;
                         }
-                        text += "[" + IniKeywords::TextureOverride + name + "]\nhash = " + *dstHash + "\nthis = "
-                            + IniKeywords::Resource + name + "\n\n";
-                    }
-                    this->appendedSections = text;
-                }
 
-                // ---- the text passes over this fixer's block ----
+                        const std::string sectionName = IniKeywords::TextureOverride + name;
+                        fallbackSections_.push_back(makeSection(sectionName, {{IniKeywords::Hash, *dstHash}, {IniKeywords::This, resource}}));
+                        overrides[sectionName] = fallbackSections_.back().get();
+                        overrideNames.push_back(sectionName);
+                    }
+                    if (downloads.empty()) {
+                        return;
+                    }
 
-                // Each carried recolour copy first binds the fallback, so the mod's own `this` lines -- under a
-                // toggle or not -- override a default
-                std::string injectDefaults(const std::string& content) const {
-                    if (defaults_.empty()) {
-                        return content;
+                    const GraphId fallbackGraph(0, "", comp_.name + "_fallback");
+                    if (!overrides.empty()) {
+                        fallbackGraph_ = std::make_unique<GraphCreate<>::Graph>(overrides, overrideNames, runConfig());
+                        groupEdits_.push_back(std::make_unique<GraphCreate<>>(fallbackGraph, fallbackGraph_.get()));
                     }
-                    const std::string nl = newline(content);
-                    // only a copy that recolours: another section on the hash (a watcher, a `run =`) is left alone
-                    std::set<std::string> recolouring;
-                    for (const RawSection& s : sectionsOf(content)) {
-                        if (firstValue(s.body, IniKeywords::This).has_value()) {
-                            recolouring.insert("[" + std::string(StringTools::strip(s.name)) + "]");
-                        }
+                    if (!raws.empty()) {
+                        rawGraph_ = std::make_unique<GraphCreate<>::Graph>(raws, rawNames, runConfig());
+                        groupEdits_.push_back(std::make_unique<GraphCreate<>>(GraphId(0, "", comp_.name + "_fallbackRaw"), rawGraph_.get()));
                     }
-                    std::istringstream stream(content);
-                    std::string line, out, section;
-                    while (std::getline(stream, line)) {
-                        if (!line.empty() && line.back() == '\r') {
-                            line.pop_back();
-                        }
-                        const std::string stripped = std::string(StringTools::strip(line));
-                        if (stripped.size() > 2 && stripped.front() == '[' && stripped.back() == ']') {
-                            section = stripped;
-                        }
-                        out += line + nl;
-                        const auto kv = kvOf(stripped);
-                        if (kv.has_value() && StringTools::equalsIgnoreCase(kv->first, IniKeywords::Hash)
-                                && section.find(IniKeywords::RemapFix) != std::string::npos && recolouring.count(section) > 0) {
-                            const auto found = defaults_.find(lowered(kv->second));
-                            if (found != defaults_.end()) {
-                                out += IniKeywords::This + " = " + found->second + nl;
-                            }
-                        }
+                    if (!defaults.edits.empty()) {
+                        groupEdits_.push_back(std::make_unique<ObjGroupEdit>(std::vector<ObjGroupEdit::IniEdits>{defaults}));
                     }
-                    return out;
+
+                    auto download = std::make_unique<FileDownloadCreate<>>(GraphId(0, "", comp_.name + "_fallbackDL"), downloads, resEditConfig());
+                    auto collect = std::make_unique<Collector>();
+                    const Collector::ResPredicate isFallback = [downloads](const std::string&, const std::string& val, const Collector::IterData&) {
+                        return downloads.count(removeRef(val)) > 0;
+                    };
+                    std::vector<GraphId> sources = recolourCopies;
+                    if (!overrides.empty()) {
+                        sources.push_back(fallbackGraph);
+                    }
+                    for (const GraphId& source : sources) {
+                        collect->srcRegs[source] = IniKeywords::This;
+                        collect->resPredicates[source] = isFallback;
+                    }
+                    collect->resEdits = {{"download", download.get()}};
+                    resEdits_.push_back(std::move(download));
+                    groupEdits_.push_back(std::move(collect));
                 }
 
                 // Whether the mod draws 'comp' from a section of its own (one with `match_first_index` on its ib):
@@ -1039,10 +976,10 @@ namespace AGRemapCore {
                     if (!ib.has_value()) {
                         return false;
                     }
-                    for (const RawSection& s : sectionsOf(own_)) {
-                        const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
+                    for (const Template* tpl : own_) {
+                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
                         if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *ib)
-                                && firstValue(s.body, IniKeywords::MatchFirstIndex).has_value()) {
+                                && valOf(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
                             return true;
                         }
                     }
@@ -1060,15 +997,15 @@ namespace AGRemapCore {
                             hashes.insert(lowered(*h));
                         }
                     }
-                    for (const RawSection& s : sectionsOf(own_)) {
-                        const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
+                    for (const Template* tpl : own_) {
+                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
                         if (!hash.has_value() || hashes.count(lowered(*hash)) == 0) {
                             continue;
                         }
                         // the stream-out of the pre-skin pass, or (at the component's own draw) the pre-skinned vb0
                         // it draws with
                         const bool ownDraw = lowered(*hash) == lowered(hashOf(config_.source + comp, "ib").value_or(""));
-                        for (const auto& kv : keyValues(s.body)) {
+                        for (const auto& kv : kvpsOf(*tpl)) {
                             const std::string v = lowered(kv.second);
                             if (v == "so0" || v == "copy so0" || (ownDraw && v == "copy vb0")) {
                                 written.insert(kv.first);
@@ -1078,176 +1015,219 @@ namespace AGRemapCore {
                     return written;
                 }
 
-                // A drawn section's lines: the cross draws (made while vb0 is a pre-skin buffer of the other
-                // component) zeroed, or only the lines that move -- structure, ib, texture lines, the
-                // pre-skin vertex buffers and the cross draws, in place
-                static std::string crossLines(const std::string& body, const std::set<std::string>& written, bool zero,
-                                              bool& hasCross, const std::string& nl) {
-                    std::istringstream stream(body);
-                    std::string line, out;
+                // ---- 5. A MESH DRAWN FROM ANOTHER COMPONENT'S SLOT GOES BACK TO ITS OWN (crossSlotDraws) ----
+
+                // What one pair's move is made of, read off the mod's own sections: the buffers the first
+                // component pre-skins into, the second component's drawn sections, and the ib each cross
+                // draw binds (one made while vb0 is such a buffer)
+                struct Cross {
+                    std::set<std::string> written;
+                    std::set<std::string> sectionNames;
+                    std::set<std::string> crossIbs;
+                };
+
+                Cross crossOf(const std::pair<std::string, std::string>& pair) const {
+                    Cross cross;
+                    const std::optional<std::string> secondIb = hashOf(config_.source + pair.second, "ib");
+                    cross.written = preSkinBuffers(pair.first);
+                    if (cross.written.empty() || !secondIb.has_value() || !drawsFromOwnSection(pair.first)) {
+                        return {};
+                    }
+                    for (const Template* tpl : own_) {
+                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                        if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, *secondIb)
+                                || !valOf(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
+                            continue;
+                        }
+                        cross.sectionNames.insert(tpl->name);
+                        std::optional<std::string> ib, vb0;
+                        for (const auto& kv : kvpsOf(*tpl)) {
+                            if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Ib)) {
+                                ib = removeRef(kv.second);
+                            } else if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::Vb0)) {
+                                vb0 = removeRef(kv.second);
+                            } else if (StringTools::equalsIgnoreCase(kv.first, IniKeywords::DrawIndexed)
+                                       && vb0.has_value() && cross.written.count(*vb0) > 0 && ib.has_value()) {
+                                cross.crossIbs.insert(*ib);
+                            }
+                        }
+                    }
+                    return cross;
+                }
+
+                // Whether a line of a second-component section moves with the cross draws: an ib, a vb0 / vb3
+                // naming a pre-skin buffer, a texture line, the SetTextures call, and a cross draw itself
+                static bool movesWithCross(const FixSection& section, const IfContentPart<std::string, std::string>& at,
+                                           std::size_t atInd, const Cross& cross) {
+                    if (cross.sectionNames.count(section.name) == 0) {
+                        return false;
+                    }
                     std::optional<std::string> ib, vb0;
-                    while (std::getline(stream, line)) {
-                        if (!line.empty() && line.back() == '\r') {
-                            line.pop_back();
-                        }
-                        const std::string stripped = std::string(StringTools::strip(line));
-                        const auto kv = kvOf(stripped);
-                        bool cross = false;
-                        bool keep = isStructure(stripped);
-                        if (kv.has_value()) {
-                            if (StringTools::equalsIgnoreCase(kv->first, "ib")) {
-                                ib = removeRef(kv->second);
-                                keep = true;
-                            } else if (StringTools::equalsIgnoreCase(kv->first, IniKeywords::Vb0)) {
-                                vb0 = removeRef(kv->second);
-                            }
-                            const bool preSkin = (StringTools::equalsIgnoreCase(kv->first, IniKeywords::Vb0)
-                                                  || StringTools::equalsIgnoreCase(kv->first, "vb3"))
-                                && written.count(removeRef(kv->second)) > 0;
-                            cross = StringTools::equalsIgnoreCase(kv->first, IniKeywords::DrawIndexed) && vb0.has_value()
-                                && written.count(*vb0) > 0 && ib.has_value();
-                            keep = keep || cross || preSkin || isTextureLine(kv->first) || isSetTextures(*kv);
-                        }
-                        hasCross = hasCross || cross;
-                        if (zero) {
-                            const std::size_t indent = line.find_first_not_of(" \t");
-                            const std::string pad = line.substr(0, indent == std::string::npos ? 0 : indent);
-                            out += (cross ? pad + IniKeywords::DrawIndexed + " = 0, 0, 0" : line) + nl;
-                            // ...and unbinds the Body ib, or a later `drawindexed = auto` of the same slot (a Legs IB
-                            // section) draws the Body again, in this copy's pre-skin frame
-                            if (cross) {
-                                out += pad + "ib = null" + nl;
-                            }
-                        } else if (keep) {
-                            out += line + nl;
-                        }
-                    }
-                    return out;
-                }
-
-                // In the fixer of a pair's SECOND component: zero the draws its copies make over the first's mesh
-                std::string zeroCrossSlotDraws(const std::string& content) const {
-                    for (const auto& pair : config_.crossSlotDraws) {
-                        if (pair.second != comp_.name) {
+                    for (const auto& part : section.parts()) {
+                        const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
+                        if (content == nullptr) {
                             continue;
                         }
-                        // zeroed only where the first component's fixer has a section to move them into
-                        const std::set<std::string> written = preSkinBuffers(pair.first);
-                        if (written.empty() || !drawsFromOwnSection(pair.first)) {
-                            continue;
+                        const std::size_t len = content->size();
+                        for (std::size_t i = 0; i < len; ++i) {
+                            const auto kv = content->getByInd(static_cast<long long>(i));
+                            const std::string key = std::string(StringTools::strip(kv.first));
+                            const std::string value = std::string(StringTools::strip(kv.second));
+                            if (StringTools::equalsIgnoreCase(key, IniKeywords::Ib)) {
+                                ib = removeRef(value);
+                            } else if (StringTools::equalsIgnoreCase(key, IniKeywords::Vb0)) {
+                                vb0 = removeRef(value);
+                            }
+                            if (content != &at || i != atInd) {
+                                continue;
+                            }
+                            const bool preSkin = (StringTools::equalsIgnoreCase(key, IniKeywords::Vb0) || StringTools::equalsIgnoreCase(key, "vb3"))
+                                && cross.written.count(removeRef(value)) > 0;
+                            const bool crossDraw = StringTools::equalsIgnoreCase(key, IniKeywords::DrawIndexed)
+                                && vb0.has_value() && cross.written.count(*vb0) > 0 && ib.has_value();
+                            return StringTools::equalsIgnoreCase(key, IniKeywords::Ib) || preSkin || crossDraw
+                                || isTextureLine(key) || isSetTextures({key, value});
                         }
-                        const std::string nl = newline(content);
-                        std::string out;
-                        for (const RawSection& s : sectionsOf(content)) {
-                            bool hasCross = false;
-                            const bool drawn = firstValue(s.body, IniKeywords::MatchFirstIndex).has_value();
-                            out += "[" + s.name + "]" + nl + (drawn ? crossLines(s.body, written, true, hasCross, nl) : s.body);
-                        }
-                        // keep what precedes the first section (comments)
-                        const std::size_t first = content.find('[');
-                        return (first == std::string::npos ? std::string() : content.substr(0, first)) + out;
                     }
-                    return content;
+                    return false;
                 }
 
-                // In the fixer of a pair's FIRST component: the moved draws, at the end of its object section
-                std::string insertCrossSlotDraws(const std::string& content) const {
+                void buildCrossSlotEdits() {
                     for (const auto& pair : config_.crossSlotDraws) {
+                        const Cross cross = crossOf(pair);
+                        if (cross.crossIbs.empty()) {
+                            continue;
+                        }
+
+                        const ZZMIFixerConfig::Component* second = nullptr;
+                        for (const ZZMIFixerConfig::Component& c : config_.components) {
+                            if (c.name == pair.second) {
+                                second = &c;
+                            }
+                        }
+                        if (second == nullptr) {
+                            continue;
+                        }
+
+                        // the second component's copies: the ib a cross draw binds is nulled, so neither the draw
+                        // nor a later `drawindexed = auto` of the same slot draws the first's mesh there
+                        if (pair.second == comp_.name) {
+                            const std::set<std::string> crossIbs = cross.crossIbs;
+                            auto nullIb = std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                                {IniKeywords::Ib, RegNewVals<>::NewVal(RegNewVals<>::OldValProducer(
+                                    [crossIbs](const std::string& old, const ModType*) {
+                                        return crossIbs.count(removeRef(old)) > 0 ? IniKeywords::Null : old;
+                                    }))}});
+                            partEdits_.push_back(std::make_unique<RegPartEdit<>>(nullIb.get()));
+                            ObjGroupEdit::IniEdits edits;
+                            for (const ZZMIFixerConfig::Slot& slot : second->slots) {
+                                edits.edits[objOf(second->name, slot.name)] = {partEdits_.back().get()};
+                            }
+                            regEdits_.push_back(std::move(nullIb));
+                            crossEdits_.push_back(std::make_unique<ObjGroupEdit>(std::vector<ObjGroupEdit::IniEdits>{edits}));
+                            continue;
+                        }
                         if (pair.first != comp_.name) {
                             continue;
                         }
-                        const std::set<std::string> written = preSkinBuffers(pair.first);
-                        const std::optional<std::string> legsIb = hashOf(config_.source + pair.second, "ib");
-                        if (written.empty() || !legsIb.has_value()) {
-                            continue;
-                        }
-                        const std::string nl = newline(content);
 
-                        // the mod's own texture overrides of the second component's textures (every role the main
-                        // shader reads, the normal map included), bound by register: the moved draws read them
-                        std::string texLines;
-                        for (const ZZMIFixerConfig::Component& c : config_.components) {
-                            if (c.name != pair.second) {
-                                continue;
-                            }
-                            for (const auto& roleReg : config_.roleRegs) {
-                                const std::optional<std::string> h = hashOf(config_.source + c.name, "tex_a_" + roleReg.first);
-                                const auto reg = config_.roleRegs.find(roleReg.first);
-                                if (!h.has_value()) {
-                                    continue;
-                                }
-                                for (const RawSection& s : sectionsOf(own_)) {
-                                    const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
-                                    if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, *h)
-                                            || !firstValue(s.body, IniKeywords::This).has_value()) {
-                                        continue;
-                                    }
-                                    std::istringstream stream(s.body);
-                                    std::string line;
-                                    while (std::getline(stream, line)) {
-                                        if (!line.empty() && line.back() == '\r') {
-                                            line.pop_back();
-                                        }
-                                        const std::string stripped = std::string(StringTools::strip(line));
-                                        const auto kv = kvOf(stripped);
-                                        if (isStructure(stripped)) {
-                                            texLines += line + nl;
-                                        } else if (kv.has_value() && StringTools::equalsIgnoreCase(kv->first, IniKeywords::This)) {
-                                            texLines += line.substr(0, line.find_first_not_of(" \t")) + reg->second + " = " + kv->second + nl;
-                                        }
-                                    }
-                                }
+                        // the first component's copy: the section the moved lines go to is its first drawn one
+                        const std::optional<std::string> firstIb = hashOf(srcName(), "ib");
+                        std::vector<std::string> drawn;
+                        for (const Template* tpl : own_) {
+                            const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                            if (firstIb.has_value() && hash.has_value() && StringTools::equalsIgnoreCase(*hash, *firstIb)
+                                    && valOf(*tpl, IniKeywords::MatchFirstIndex).has_value()) {
+                                drawn.push_back(tpl->name);
                             }
                         }
-
-                        // the second component's drawn sections, in name order (3DMigoto's), with their cross draws
-                        std::vector<RawSection> legs;
-                        for (const RawSection& s : sectionsOf(own_)) {
-                            const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
-                            if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *legsIb)
-                                    && firstValue(s.body, IniKeywords::MatchFirstIndex).has_value()) {
-                                legs.push_back(s);
-                            }
-                        }
-                        std::sort(legs.begin(), legs.end(), [](const RawSection& a, const RawSection& b) {
-                            return lowered(a.name) < lowered(b.name); });
-
-                        std::string moved;
-                        bool anyCross = false;
-                        for (const RawSection& s : legs) {
-                            bool hasCross = false;
-                            const std::string lines = crossLines(s.body, written, false, hasCross, nl);
-                            anyCross = anyCross || hasCross;
-                            moved += lines;
-                        }
-                        if (!anyCross) {
-                            continue;
-                        }
-
-                        // the copy of this component's first drawn section
-                        const std::vector<RawSection> sections = sectionsOf(content);
-                        std::string out;
-                        const std::size_t first = content.find('[');
-                        out = first == std::string::npos ? std::string() : content.substr(0, first);
-                        bool inserted = false;
-                        for (const RawSection& s : sections) {
-                            std::string body = s.body;
-                            if (!inserted && firstValue(s.body, IniKeywords::MatchFirstIndex).has_value()) {
-                                std::string trimmed = std::string(StringTools::rstrip(body));
-                                body = trimmed + nl + "; the draws this mod makes of its " + pair.first + " from its "
-                                    + pair.second + " slot" + nl + texLines + moved + nl;
-                                inserted = true;
-                            }
-                            out += "[" + s.name + "]" + nl + body;
-                        }
-                        if (!inserted) {
+                        if (drawn.empty()) {
                             ctx_.log("the " + pair.first + " draws this mod makes from its " + pair.second
                                      + " slot have no " + pair.first + " section to move into");
-                            return content;
+                            continue;
                         }
-                        return out;
+                        std::sort(drawn.begin(), drawn.end(), [](const std::string& a, const std::string& b) { return lowered(a) < lowered(b); });
+                        const std::string into = orderedName(drawn.front(), IniNamingTools::getRemapFixName(drawn.front(), toModName_));
+                        std::string intoSlot;
+                        for (const ZZMIFixerConfig::Slot& slot : comp_.slots) {
+                            intoSlot = intoSlot.empty() ? slot.name : intoSlot;
+                        }
+                        const GraphId intoGraph(0, "", comp_.name + "_" + intoSlot);
+
+                        const std::string toModName = toModName_;
+                        const std::string listPrefix = "CommandList" + toModName + IniKeywords::Remap + "Cross";
+                        renames_.push_back(std::make_unique<GraphRename<>>([listPrefix](const std::string& n) {
+                            const std::string prefix = IniKeywords::TextureOverride;
+                            return listPrefix + (n.compare(0, prefix.size(), prefix) == 0 ? n.substr(prefix.size()) : n);
+                        }));
+                        partEdits_.push_back(std::make_unique<GraphPartEdit<>>(renames_.back().get()));
+                        GroupPartEdit* toList = partEdits_.back().get();
+                        ObjGroupEdit::IniEdits renameLists;
+
+                        // the moved lines run at the END of that section, at its own depth, and only there
+                        const ObjGroupEdit::PartFilter onlyInto = [into](const ObjGroupEdit::IterData& data, const ModType*, IniFile*) {
+                            return data.sectionName == into ? ObjGroupEdit::OrderRanges::createFull() : ObjGroupEdit::OrderRanges::createEmpty();
+                        };
+                        const GraphInherit<>::Adder atBottom = [](GraphCopy<>::Graph&, const GraphInherit<>::KVPs& kvps, IniFile*,
+                                                                  const ModType*, const std::string&) -> GraphInherit<>::AddEdit {
+                            return std::shared_ptr<GraphInherit<>::GraphEdit>(std::make_shared<RegBottomAdd<>>(kvps));
+                        };
+                        std::vector<GraphId> listGraphs;
+
+                        // 5a. the mod's own recolours of the second component's textures, bound by register: the
+                        // moved draws read them on a slot that binds other texture hashes
+                        for (const auto& roleReg : config_.roleRegs) {
+                            const std::optional<std::string> h = hashOf(config_.source + pair.second, "tex_a_" + roleReg.first);
+                            if (!h.has_value()) {
+                                continue;
+                            }
+                            std::unordered_map<std::string, FixSection*> recolours;
+                            std::vector<std::string> names;
+                            for (const Template* tpl : own_) {
+                                const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                                if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *h) && valOf(*tpl, IniKeywords::This).has_value()) {
+                                    recolours[tpl->name] = const_cast<FixSection*>(tpl);
+                                    names.push_back(tpl->name);
+                                }
+                            }
+                            if (recolours.empty()) {
+                                continue;
+                            }
+                            const GraphId texGraph(0, "", comp_.name + "_crossTex_" + roleReg.first);
+                            crossTexGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(recolours, names, runConfig(), true, true));
+                            crossEdits_.push_back(std::make_unique<GraphCreate<>>(texGraph, crossTexGraphs_.back().get()));
+                            crossEdits_.push_back(std::make_unique<GraphFilter<>>(std::vector<GraphId>{texGraph},
+                                [](const FixSection&, const IfContentPart<std::string, std::string>& part, std::size_t i) {
+                                    return StringTools::equalsIgnoreCase(std::string(StringTools::strip(part.getByInd(static_cast<long long>(i)).first)), IniKeywords::This);
+                                }));
+                            regEdits_.push_back(std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
+                                {IniKeywords::This, RegRemap<>::KeyRemapValue(RemapList<std::string, std::string>{roleReg.second})}}));
+                            partEdits_.push_back(std::make_unique<RegPartEdit<>>(regEdits_.back().get()));
+                            ObjGroupEdit::IniEdits toReg;
+                            toReg.edits[texGraph.modObj] = {partEdits_.back().get()};
+                            crossEdits_.push_back(std::make_unique<ObjGroupEdit>(std::vector<ObjGroupEdit::IniEdits>{toReg}));
+                            renameLists.edits[texGraph.modObj] = {toList};
+                            listGraphs.push_back(texGraph);
+                        }
+
+                        // 5b. the moved lines themselves, a copy of each second-component graph -- taken before the
+                        // remap drops those graphs from this fixer's groups
+                        for (const ZZMIFixerConfig::Slot& slot : second->slots) {
+                            const GraphId copy(0, "", comp_.name + "_cross_" + slot.name);
+                            preRemapEdits_.push_back(std::make_unique<GraphCopy<>>(GraphId(0, "", second->name + "_" + slot.name), copy,
+                                [cross](const FixSection& section, const IfContentPart<std::string, std::string>& part, std::size_t i) {
+                                    return movesWithCross(section, part, i, cross);
+                                }));
+                            crossGraphs_.push_back(copy);
+                            renameLists.edits[copy.modObj] = {toList};
+                            listGraphs.push_back(copy);
+                        }
+
+                        crossEdits_.push_back(std::make_unique<ObjGroupEdit>(std::vector<ObjGroupEdit::IniEdits>{renameLists}));
+                        for (const GraphId& list : listGraphs) {
+                            crossEdits_.push_back(std::make_unique<GraphInherit<>>(intoGraph, list, IniKeywords::Run, true, onlyInto, atBottom));
+                        }
                     }
-                    return content;
                 }
 
                 using GroupPartEdit = ObjGroupEdit::PartEdit;
@@ -1256,9 +1236,13 @@ namespace AGRemapCore {
                 std::string toModName_;
                 ZZMIFixerConfig config_;
                 ZZMIFixerConfig::Component comp_;
-                std::string own_;
+                std::vector<const Template*> own_;
 
                 std::unique_ptr<ObjGroupRemap> remap_;
+                std::vector<std::unique_ptr<Fixer::GroupEdit>> preRemapEdits_;
+                std::vector<std::unique_ptr<Fixer::GroupEdit>> crossEdits_;
+                std::vector<GraphId> crossGraphs_;
+                std::vector<std::unique_ptr<GraphCreate<>::Graph>> crossTexGraphs_;
                 std::vector<std::unique_ptr<Collector>> collects_;
                 std::vector<std::unique_ptr<Collector>> collectsBox_;
                 std::vector<std::unique_ptr<Collector>> groupCollectsAfterStrip_;
@@ -1268,7 +1252,10 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<BaseRegEdit<>>> regEdits_;
                 std::vector<std::unique_ptr<GraphRename<>>> renames_;
                 std::vector<std::unique_ptr<GroupPartEdit>> partEdits_;
-                std::unordered_map<std::string, std::string> defaults_;
+                std::vector<std::unique_ptr<FixSection>> fallbackSections_;
+                std::unique_ptr<GraphCreate<>::Graph> fallbackGraph_;
+                std::unique_ptr<GraphCreate<>::Graph> rawGraph_;
+                std::vector<std::unique_ptr<RegIfTemplateAdd<>>> defaultAdds_;
         };
     }
 

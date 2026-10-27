@@ -90,20 +90,26 @@ namespace AGRemapCore {
             using ContentPart = IfContentPart<K, V, KeyHash, KeyEqual>;
 
             /**
+             * @brief A `section`_ of the graph
+             */
+            using Section = typename Graph::Section;
+
+            /**
              * @brief
              @rst
              Decides whether one `KVP`_ is kept. Takes, in order:
 
-             #. The name of the `section`_ the `KVP`_ is in
-             #. The part holding it -- the whole part, so the decision can depend on the `KVPs`_
-                before it (eg. what ``vb0`` was bound to when a ``drawindexed`` runs)
+             #. The `section`_ the `KVP`_ is in -- the whole `section`_, so the decision can depend on
+                what runs before it, in any part (eg. what ``vb0`` was bound to when a
+                ``drawindexed`` runs)
+             #. The part holding it
              #. The `KVP`_'s index within that part
 
              Every decision is made before anything is removed, so a predicate always sees the
              part as it was
              @endrst
              */
-            using Predicate = std::function<bool(const std::string&, const ContentPart&, std::size_t)>;
+            using Predicate = std::function<bool(const Section&, const ContentPart&, std::size_t)>;
 
             /**
              * @brief The ids of the graphs to filter

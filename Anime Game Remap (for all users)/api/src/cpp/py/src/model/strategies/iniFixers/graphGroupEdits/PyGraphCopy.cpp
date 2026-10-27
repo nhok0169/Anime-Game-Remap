@@ -56,7 +56,7 @@ srcId: Tuple[:class:`int`, :class:`str`, :class:`str`]
 dstId: Tuple[:class:`int`, :class:`str`, :class:`str`]
     The id the copy is stored under
 
-predicate: Optional[Callable[[:class:`str`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]
+predicate: Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]
     Decides which `KVPs`_ of the copy are kept --- see :attr:`GraphFilter.predicate`. ``None`` copies
     the whole graph :raw-html:`<br />` :raw-html:`<br />`
 
@@ -89,7 +89,7 @@ Tuple[:class:`int`, :class:`str`, :class:`str`]: The id the copy is stored under
 
     cls.def_property("predicate", [](const PyGraphCopy &self) { return self.predicateObj; },
                      [](PyGraphCopy &self, py::object v) { self.predicateObj = std::move(v); }, py::doc(R"doc(
-Optional[Callable[[:class:`str`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ of the copy are kept
+Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ of the copy are kept
     )doc"));
 
     cls.def_readwrite("minimal", &PyGraphCopy::minimal, py::doc(R"doc(

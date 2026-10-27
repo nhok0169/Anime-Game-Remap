@@ -22,6 +22,8 @@
 #include <vector>
 
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
+#include "AGRemapCore/model/iniresources/RemapTexResource.h"
+#include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
 
 
@@ -52,8 +54,9 @@ namespace AGRemapCore {
         `section`_
 
      .. note::
-        A download is fetched in the order the resources were collected. Collect it BEFORE an edit
-        that reads the downloaded file (a texture edit over a downloaded light map)
+        A download is fetched in the order the resources were collected. An edit of the downloaded
+        texture itself is ef File::texEdit: a second collect cannot reach a `section`_ this one
+        created
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -88,6 +91,25 @@ namespace AGRemapCore {
                  * @brief Where the file is downloaded from -- see :cpp:func:`DownloadTools::urlPath`
                  */
                 std::string url;
+
+                /**
+                 * @brief
+                 @rst
+                 An edit of the downloaded texture -- eg. a light map's bands moved for the target. Set,
+                 the download goes to ef rawFile and the edit writes ef file from it, so the
+                 `section`_ names the EDITED file. **Default**: none, the download is ef file itself
+                 @endrst
+                 */
+                std::optional<TexEditor> texEdit;
+
+                /**
+                 * @brief
+                 @rst
+                 Where the download goes when there is a ef texEdit, relative to the ``.ini`` file. Name
+                 it ``...RemapDL...`` too: no `section`_ names it, and the undo recognises it by that name
+                 @endrst
+                 */
+                std::string rawFile;
             };
 
             /**

@@ -34,7 +34,7 @@ class GraphCopyTest(BaseUnitTest):
 
     def test_init_setsAttributes(self):
         srcId, dstId = (0, "comp", "a"), (0, "comp", "b")
-        predicate = lambda name, part, ind: True
+        predicate = lambda section, part, ind: True
         edit = FRB.GraphCopy(srcId, dstId, predicate, minimal = False, newPartIds = False)
 
         self.assertIs(edit.srcId, srcId)
@@ -63,7 +63,7 @@ class GraphCopyTest(BaseUnitTest):
     def test_edit_predicate_filtersOnlyTheCopy(self):
         graphGroups = [FRB.IniGraphGroup({("comp", "a"): self._makeGraph()})]
 
-        FRB.GraphCopy((0, "comp", "a"), (0, "comp", "b"), lambda name, part, ind: part.getByInd(ind)[0] != "hash").edit(graphGroups, None)
+        FRB.GraphCopy((0, "comp", "a"), (0, "comp", "b"), lambda section, part, ind: part.getByInd(ind)[0] != "hash").edit(graphGroups, None)
 
         self.assertEqual(self._keys(graphGroups[0].graphs[("comp", "b")].sections["root"]), [[], None, ["ib", "drawindexed"], None])
         self.assertEqual(self._keys(graphGroups[0].graphs[("comp", "a")].sections["root"]), [["hash"], None, ["ib", "drawindexed"], None])

@@ -111,7 +111,12 @@ def zipMemberName(info: zipfile.ZipInfo, encoding: str) -> str:
     Chinese / Japanese / Korean names many mods carry. Recover the raw bytes and try again."""
     if info.flag_bits & 0x800:
         return info.filename
-    raw = info.filename.encode("cp437")
+    try:
+        raw = info.filename.encode("cp437")
+    except UnicodeEncodeError:
+        # not a cp437 decode: Python 3.12+ already took the name from the Info-ZIP Unicode Path
+        # extra field (0x7075), which is UTF-8 by definition
+        return info.filename
     # utf-8 first: it is strict, so a name that decodes as utf-8 almost certainly is utf-8
     for candidate in ["utf-8"] + ([encoding] if encoding else []):
         try:

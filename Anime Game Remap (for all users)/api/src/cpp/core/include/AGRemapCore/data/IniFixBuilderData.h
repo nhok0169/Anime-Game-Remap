@@ -389,6 +389,31 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             ``Miyabi -> MiyabiBlossom`` at game version ``3.2``, onto the skin's ``Dress``: Miyabi's
+             ``Body`` (her outfit), built by :cpp:func:`makeZZMIFixer`. See
+             ``data/IniFixData/Miyabi/MiyabiFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory miyabiBlossomDress3_2();
+
+            /**
+             * @brief ``Miyabi -> MiyabiBlossom`` onto the skin's ``Body``: Miyabi's ``Legs`` -- see :cpp:func:`miyabiBlossomDress3_2`
+             */
+            static IniFixBuilder::Factory miyabiBlossomBody3_2();
+
+            /**
+             * @brief ``Miyabi -> MiyabiBlossom`` onto the skin's ``Hair`` -- see :cpp:func:`miyabiBlossomDress3_2`
+             */
+            static IniFixBuilder::Factory miyabiBlossomHair3_2();
+
+            /**
+             * @brief ``Miyabi -> MiyabiBlossom`` onto the skin's ``HairShadow`` -- see :cpp:func:`miyabiBlossomDress3_2`
+             */
+            static IniFixBuilder::Factory miyabiBlossomHairShadow3_2();
+
+            /**
+             * @brief
+             @rst
              The 4.0 fix remapping **Rosaria onto RosariaCN**
              @endrst
              */

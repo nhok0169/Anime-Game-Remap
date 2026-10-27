@@ -112,7 +112,7 @@ void testTableShape() {
     // tables (63/132/51 against a real 64/135/53) because rows had been added without them. If one
     // fails, PRINT the size before believing the arithmetic in the message -- the count is the
     // measurement and the prose is the story about it.
-    check(IniParseBuilderData::repo()->size() == 79, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one, CitlaliWhisperofStars' 6.7 one, Charlotte's 4.0 one, CharlotteHurlock's 6.7 one, Neuvillette's 4.0 one, NeuvilletteMelusent's 6.3 one, Yaoyao's 4.0 one, YaoyaoBamboo's 6.3 one, Lumine's 4.0 one and LumineHeaven's 6.3 one, Aether's 4.0 one, AetherHeaven's 6.3 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5), and two more (Lynae at 3.6, LynaePeppermint at 3.7), and two more (Changli at 1.1, ChangliNymph at 2.4)");
+    check(IniParseBuilderData::repo()->size() == 80, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row, LisaStudent's 5.4 one, Yelan's 4.0 one, YelanTranquil's 5.7 one, Bennett's 4.0 one, BennettAdventure's 5.7 one, Citlali's 5.3 one, CitlaliWhisperofStars' 6.7 one, Charlotte's 4.0 one, CharlotteHurlock's 6.7 one, Neuvillette's 4.0 one, NeuvilletteMelusent's 6.3 one, Yaoyao's 4.0 one, YaoyaoBamboo's 6.3 one, Lumine's 4.0 one and LumineHeaven's 6.3 one, Aether's 4.0 one, AetherHeaven's 6.3 one, and the four WuWa stubs (Sanhua, SanhuaExorcist at 2.5; Chisa at 2.8, ChisaParfait at 3.5), and two more (Lynae at 3.6, LynaePeppermint at 3.7), and two more (Changli at 1.1, ChangliNymph at 2.4), and ZZZ's first (Miyabi at 3.2)");
     // Counted by toVersion straight out of IniFixBuilderData.cpp on 2026-09-13: 78 historical rows
     // (the 73 Python ones fanned out per target mod, which is what replaced the pure-Python
     // MultiModFixer -- Jean/JeanCN/JeanSea carry TWO each) plus 46 at 6.1 that are this port's own,
@@ -131,11 +131,13 @@ void testTableShape() {
     // +2 on 2026-10-05: Lynae <-> LynaePeppermint, both directions stubs (toVersion 3.7).
     // +2 on 2026-10-20: Changli <-> ChangliNymph, both directions stubs (toVersion 2.4 / 1.4).
     // +3 on 2026-10-24: Aether's three per-component rows at 6.3.
-    check(IniFixBuilderData::repo()->size() == 160,
-          "the fix table has 160 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7, the CharlotteHurlock merge back, Neuvillette's four at 6.3, the NeuvilletteMelusent merge back, Yaoyao's three at 6.3, the YaoyaoBamboo merge back, Lumine's three at 6.3, the LumineHeaven merge back and the two Lynae stubs and the two Changli stubs and Aether's three at 6.3 and the AetherHeaven merge back");
+    // +4 on 2026-10-27: Miyabi's four per-component rows at 3.2, the first ZZZ pair.
+    check(IniFixBuilderData::repo()->size() == 164,
+          "the fix table has 164 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7, the CharlotteHurlock merge back, Neuvillette's four at 6.3, the NeuvilletteMelusent merge back, Yaoyao's three at 6.3, the YaoyaoBamboo merge back, Lumine's three at 6.3, the LumineHeaven merge back and the two Lynae stubs and the two Changli stubs and Aether's three at 6.3 and the AetherHeaven merge back and Miyabi's four at 3.2");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 67, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, Lumine and LumineHeaven, Aether and AetherHeaven, plus the eight WuWa stubs)");
+    // +2 on 2026-10-27: Miyabi and MiyabiBlossom, the first ZZZ rows (stubs, at 3.2).
+    check(IniRemoveBuilderData::repo()->size() == 69, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, Lumine and LumineHeaven, Aether and AetherHeaven, plus the eight WuWa stubs)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");
@@ -169,16 +171,16 @@ void testVersionCoverage() {
     // 6.7 is CitlaliWhisperofStars' (2026-09-22): a skin's assets are filed at the version they
     // shipped in, not at the base character's, so her parse row is the first GI one above 6.1.
     // 6.3 is NeuvilletteMelusent's (2026-09-25), filed where its assets are, as CitlaliWhisperofStars' is.
-    const std::set<std::string> expectedParse = {"1.1", "2.4", "2.5", "2.8", "3.5", "3.6", "3.7", "4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1", "6.3", "6.7"};
+    const std::set<std::string> expectedParse = {"1.1", "2.4", "2.5", "2.8", "3.2", "3.5", "3.6", "3.7", "4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1", "6.3", "6.7"};
 
-    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1, 6.3 and 6.7, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus Changli's 1.1 and ChangliNymph's 2.4");
+    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1, 6.3 and 6.7, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus Changli's 1.1 and ChangliNymph's 2.4, plus ZZZ's 3.2 (Miyabi)");
     check(parseVers.count("5.0") == 0, "and the parse table has no 5.0, matching its Python original");
 
     std::set<std::string> removeVers;
     IniRemoveBuilderData::repo()->forEachEntry([&](const std::vector<std::string>&, const Version& v, const IniRemoveBuilder::Factory&) {
         removeVers.insert(v.toString());
     });
-    check(removeVers == std::set<std::string>{"1.1", "2.4", "2.5", "2.8", "3.5", "3.6", "3.7", "4.0"}, "the remove table sits at the 4.0 baseline, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus 1.1 and 2.4 (Changli, ChangliNymph)");
+    check(removeVers == std::set<std::string>{"1.1", "2.4", "2.5", "2.8", "3.2", "3.5", "3.6", "3.7", "4.0"}, "the remove table sits at the 4.0 baseline, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus 1.1 and 2.4 (Changli, ChangliNymph), plus ZZZ's 3.2 (Miyabi, MiyabiBlossom)");
 }
 
 void testRowsResolve() {

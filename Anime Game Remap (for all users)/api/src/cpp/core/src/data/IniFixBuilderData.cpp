@@ -362,6 +362,18 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::ChangliNymph),
                   "1.4", ModTypeIdTools::getName(ModTypeId::Changli)}, IniFixBuilderFuncs::changli1_4()},
 
+                // ===== Miyabi -> MiyabiBlossom (2026-10-27), the first ZZZ pair =====
+                // One fixer per target COMPONENT, keyed by that component's own mod type, all built by
+                // makeZZMIFixer from data/IniFixData/Miyabi/MiyabiFixer.cpp's config.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Miyabi),
+                  "3.2", ModTypeIdTools::getName(ModTypeId::MiyabiBlossomDress)}, IniFixBuilderFuncs::miyabiBlossomDress3_2()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Miyabi),
+                  "3.2", ModTypeIdTools::getName(ModTypeId::MiyabiBlossomBody)}, IniFixBuilderFuncs::miyabiBlossomBody3_2()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Miyabi),
+                  "3.2", ModTypeIdTools::getName(ModTypeId::MiyabiBlossomHair)}, IniFixBuilderFuncs::miyabiBlossomHair3_2()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Miyabi),
+                  "3.2", ModTypeIdTools::getName(ModTypeId::MiyabiBlossomHairShadow)}, IniFixBuilderFuncs::miyabiBlossomHairShadow3_2()},
+
                 // ===== YelanTranquil @ toVersion 6.1 (2026-09-14) =====
                 //
                 // ONE row where the direction above needs three: a skin of several components onto

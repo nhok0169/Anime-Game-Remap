@@ -87,6 +87,7 @@ namespace AGRemapCore {
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yelan4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::yelanTranquil4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::wwmiStub() { return IniRemoveBuilder::defaultFactory(); }
+    IniRemoveBuilder::Factory IniRemoveBuilderFuncs::zzmiStub() { return IniRemoveBuilder::defaultFactory(); }
 
     namespace {
         // The version index sits at position 0 and the mod name at position 1, matching the
@@ -163,6 +164,10 @@ namespace AGRemapCore {
                 {{"3.7", ModTypeIdTools::getName(ModTypeId::LynaePeppermint)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli)}, IniRemoveBuilderFuncs::wwmiStub()},
                 {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniRemoveBuilderFuncs::wwmiStub()},
+
+                // ===== ZZZ (2026-10-27), STUBS =====
+                {{"3.2", ModTypeIdTools::getName(ModTypeId::Miyabi)}, IniRemoveBuilderFuncs::zzmiStub()},
+                {{"3.2", ModTypeIdTools::getName(ModTypeId::MiyabiBlossom)}, IniRemoveBuilderFuncs::zzmiStub()},
             };
         }
     }

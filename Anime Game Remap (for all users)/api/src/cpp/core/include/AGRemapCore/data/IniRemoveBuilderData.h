@@ -584,6 +584,11 @@ namespace AGRemapCore {
              */
             static IniRemoveBuilder::Factory wwmiStub();
 
+            /**
+             * @brief The remover every ZZZ row points at -- :cpp:func:`IniRemoveBuilder::defaultFactory`
+             */
+            static IniRemoveBuilder::Factory zzmiStub();
+
     };
 
     /**

@@ -609,7 +609,74 @@ namespace AGRemapCore {
         /**
          * @brief Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1) -- see :cpp:enumerator:`Changli`
          */
-        ChangliNymph
+        ChangliNymph,
+
+        /**
+         * @brief
+         @rst
+         Hoshimi Miyabi from ZZZ (Zenless Zone Zero) -- the first ZZZ mod type :raw-html:`<br />` :raw-html:`<br />`
+
+         A ZZMI character is drawn the GIMI way, but EVERY component skins from its own bone palette: Miyabi is
+         a ``Body``, ``Hair``, ``Legs``, ``Face`` and ``HairShadow`` (:cpp:enumerator:`MiyabiBody` and the rest),
+         each with its own buffers and hashes, which is why both she and her skin have component ids
+         @endrst
+         */
+        Miyabi,
+
+        /**
+         * @brief Miyabi's ``Body`` component (her outfit (coat, top, skirt)) -- filed in the asset tables under its own name, as :cpp:enumerator:`YelanTranquilBody` is
+         */
+        MiyabiBody,
+
+        /**
+         * @brief Miyabi's ``Hair`` component (her hair and bangs (objects A and B)) -- filed in the asset tables under its own name, as :cpp:enumerator:`YelanTranquilBody` is
+         */
+        MiyabiHair,
+
+        /**
+         * @brief Miyabi's ``Legs`` component (her bare arms and legs) -- filed in the asset tables under its own name, as :cpp:enumerator:`YelanTranquilBody` is
+         */
+        MiyabiLegs,
+
+        /**
+         * @brief Miyabi's ``Face`` component (her face (objects A, B and C), the SAME mesh and hashes as the skin's) -- filed in the asset tables under its own name, as :cpp:enumerator:`YelanTranquilBody` is
+         */
+        MiyabiFace,
+
+        /**
+         * @brief Miyabi's ``HairShadow`` component (the shadow her bangs cast on her face) -- filed in the asset tables under its own name, as :cpp:enumerator:`YelanTranquilBody` is
+         */
+        MiyabiHairShadow,
+
+        /**
+         * @brief Miyabi's Dignified Blossom skin from ZZZ -- a ``Body``, ``Dress``, ``Hair``, ``Face`` and ``HairShadow``, as :cpp:enumerator:`Miyabi`
+         */
+        MiyabiBlossom,
+
+        /**
+         * @brief MiyabiBlossom's ``Body`` component (the skin's body: bare skin and the under layers) -- see :cpp:enumerator:`MiyabiBody`
+         */
+        MiyabiBlossomBody,
+
+        /**
+         * @brief MiyabiBlossom's ``Dress`` component (the kimono over it) -- see :cpp:enumerator:`MiyabiBody`
+         */
+        MiyabiBlossomDress,
+
+        /**
+         * @brief MiyabiBlossom's ``Hair`` component (the skin's hair (objects A and B), re-cut but on the same 39 hair bones as hers) -- see :cpp:enumerator:`MiyabiBody`
+         */
+        MiyabiBlossomHair,
+
+        /**
+         * @brief MiyabiBlossom's ``Face`` component (the face, the SAME mesh and hashes as Miyabi's) -- see :cpp:enumerator:`MiyabiBody`
+         */
+        MiyabiBlossomFace,
+
+        /**
+         * @brief MiyabiBlossom's ``HairShadow`` component (the bangs' shadow on the face) -- see :cpp:enumerator:`MiyabiBody`
+         */
+        MiyabiBlossomHairShadow
     };
 
     /**

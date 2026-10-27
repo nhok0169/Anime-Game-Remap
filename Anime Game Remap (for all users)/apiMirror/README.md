@@ -496,6 +496,8 @@ Below are the supported types of mods
 | LumineHeaven | GI | AsHeavenAndEarthAreMadeAnewLumine, HeavenLumine, LumineAsHeavenAndEarthAreMadeAnew, LumineSkin, TravelerGirlHeaven | Lumine As Heaven and Earth Are Made Anew mods |
 | Lynae | WuWa |  | Lynae mods |
 | LynaePeppermint | WuWa | LynaeSkin1, PeppermintLynae | Lynae Peppermint skin mods |
+| Miyabi | ZZZ | HoshimiMiyabi, MiyabiHoshimi | Miyabi mods |
+| MiyabiBlossom | ZZZ | BlossomMiyabi, DignifiedBlossomMiyabi, HoshimiMiyabiBlossom, MiyabiDignifiedBlossom, MiyabiSkin | Miyabi Dignified Blossom skin mods |
 | Mona | GI | BigHat, NoMora | Mona mods |
 | MonaCN | GI | BigHatCN, NoMoraCN | Mona Chinese mods |
 | Neuvillette | GI | ChiefJustice, HydroDragon, HydroSovereign, Iudex, Neuv | Neuvillette mods |

@@ -236,6 +236,15 @@ namespace AGRemapCore {
                 // skin but for the shared ones unambiguous() drops. See identifyingHashesOf().
                 std::unordered_set<std::string> hashes = unambiguous(identifyingHashesOf(modType, *modTypeId));
 
+                // A ZZZ mod type is identified the GI way (hashes and section keywords) but filed under its
+                // own game (2026-10-27): before this branch every non-WuWa type was filed as GI.
+                if (modType.gameTypeId == static_cast<int>(GameTypeId::ZZZ)) {
+                    classifier.addZZZModType(ModTypeIdData(static_cast<int>(GameTypeId::ZZZ), modType.modTypeId),
+                                             hashes,
+                                             std::unordered_set<std::string>(keywords.begin(), keywords.end()));
+                    continue;
+                }
+
                 classifier.addGIModType(ModTypeIdData(static_cast<int>(GameTypeId::GI), modType.modTypeId),
                                         hashes,
                                         std::unordered_set<std::string>(keywords.begin(), keywords.end()));

@@ -135,7 +135,8 @@ void testPrePopulated() {
     // +2 on 2026-10-20: Changli <-> ChangliNymph, one row each way in the merged skeleton.
     // +2 the same day: Changli -> ChangliNymph again for a mod exported in her 1.1 or 1.2 numbering.
     // +6 on 2026-10-24: Aether <-> AetherHeaven: all three components each way.
-    check(Data::getVGRemapDataRows().size() == 112,
+    // +10 on 2026-10-27: Miyabi <-> MiyabiBlossom, one row per source component each way (five each).
+    check(Data::getVGRemapDataRows().size() == 122,
           "112 rows -- this table's own count, 60 ahead of the Python builder's 52");
 }
 

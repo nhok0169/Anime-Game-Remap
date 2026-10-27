@@ -176,7 +176,19 @@ The names of the different types of mods this fix will fix from or fix to
         .value("Lynae", AGRC::ModTypeId::Lynae, R"doc(Lynae from WuWa; her asset tables come from a frame dump, since WWMI-Assets has neither her nor her skin)doc")
         .value("LynaePeppermint", AGRC::ModTypeId::LynaePeppermint, R"doc(Lynae's Peppermint skin from WuWa)doc")
         .value("Changli", AGRC::ModTypeId::Changli, R"doc(Changli from WuWa; a mod may carry any of her three mesh generations (1.1, 1.2, 1.4 on))doc")
-        .value("ChangliNymph", AGRC::ModTypeId::ChangliNymph, R"doc(Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1))doc");
+        .value("ChangliNymph", AGRC::ModTypeId::ChangliNymph, R"doc(Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1))doc")
+        .value("Miyabi", AGRC::ModTypeId::Miyabi, R"doc(Hoshimi Miyabi from ZZZ: a Body, Hair, Legs, Face and HairShadow, each with its own bone palette)doc")
+        .value("MiyabiBody", AGRC::ModTypeId::MiyabiBody, R"doc(Miyabi's Body component, as an asset-table name)doc")
+        .value("MiyabiHair", AGRC::ModTypeId::MiyabiHair, R"doc(Miyabi's Hair component, as an asset-table name)doc")
+        .value("MiyabiLegs", AGRC::ModTypeId::MiyabiLegs, R"doc(Miyabi's Legs component, as an asset-table name)doc")
+        .value("MiyabiFace", AGRC::ModTypeId::MiyabiFace, R"doc(Miyabi's Face component, as an asset-table name)doc")
+        .value("MiyabiHairShadow", AGRC::ModTypeId::MiyabiHairShadow, R"doc(Miyabi's HairShadow component, as an asset-table name)doc")
+        .value("MiyabiBlossom", AGRC::ModTypeId::MiyabiBlossom, R"doc(Miyabi's Dignified Blossom skin from ZZZ: a Body, Dress, Hair, Face and HairShadow)doc")
+        .value("MiyabiBlossomBody", AGRC::ModTypeId::MiyabiBlossomBody, R"doc(MiyabiBlossom's Body component, as an asset-table name)doc")
+        .value("MiyabiBlossomDress", AGRC::ModTypeId::MiyabiBlossomDress, R"doc(MiyabiBlossom's Dress component, as an asset-table name)doc")
+        .value("MiyabiBlossomHair", AGRC::ModTypeId::MiyabiBlossomHair, R"doc(MiyabiBlossom's Hair component, as an asset-table name)doc")
+        .value("MiyabiBlossomFace", AGRC::ModTypeId::MiyabiBlossomFace, R"doc(MiyabiBlossom's Face component, as an asset-table name)doc")
+        .value("MiyabiBlossomHairShadow", AGRC::ModTypeId::MiyabiBlossomHairShadow, R"doc(MiyabiBlossom's HairShadow component, as an asset-table name)doc");
 
     // Also bare-named -- no pure-Python 'ModTypeIdTools' class exists to shadow either.
     py::class_<AGRC::ModTypeIdTools>(m, "ModTypeIdTools", R"doc(

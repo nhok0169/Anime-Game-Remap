@@ -77,6 +77,7 @@ from .core import CppGlobalModTypes
 from .core import CppStrategyOverrides
 from .core import GIBuilder
 from .core import WWMIBuilder
+from .core import ZZMIBuilder
 from .core import IniClassifyStats
 from .core import BaseIniClassifier
 from .core import IniClassifier
@@ -379,7 +380,7 @@ __all__ = ["CppListTools", "IntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
-           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "ColourConsts", "FileEncodings", "FilePathConsts", "ImgFormats", "GameTypes", "GIBuilder", "WWMIBuilder", "GlobalClassifiers", "GlobalPackageManager", "BaseModTypeBuilder", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine",
+           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "ColourConsts", "FileEncodings", "FilePathConsts", "ImgFormats", "GameTypes", "GIBuilder", "WWMIBuilder", "ZZMIBuilder", "GlobalClassifiers", "GlobalPackageManager", "BaseModTypeBuilder", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine",
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode", "InvalidGameType",

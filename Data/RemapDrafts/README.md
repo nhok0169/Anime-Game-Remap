@@ -95,4 +95,19 @@ Rough work used for helping with finding out Vertex Group Remaps for different m
   skin's forelocks and a side lock on his EYE bones, its neck pieces, a shoulder strap and the drape root on his braid,
   its wrist cuffs on his thumbs, a clavicle on his scarf knot, and the coat's right back chain crossing to his left cape.
   Not checked in game, so the `About` mark stays.
+- **`MiyabiRemapDraft.xlsx` is the first Zenless Zone Zero pair, Miyabi <-> MiyabiBlossom** (2026-10-27, ZZZ 3.2), from the
+  frame dumps `Data/Mod Downloads/ZZZ/Miyabi/3_2` and `MiyabiBlossom/3_2` were built from. A ZZMI character is GIMI-shaped:
+  every component skins from **its own bone palette** (a separate `vs-t0` per pre-skin draw), so a group is `(component,
+  index)` and there is one sheet per source component. Miyabi is Body 91 / Legs 97 / Hair 39 / Face 6 / HairShadow 39
+  groups, the skin Body 116 / Dress 77 / Hair 39 / Face 6 / HairShadow 39. Hair, Face and HairShadow map by **identity**
+  (the same palette in the same order on both; the face is the same mesh). Every other source component goes **whole to
+  one target component**, Miyabi's Body (her outfit) <-> the skin's Dress and her Legs (bare limbs) <-> the skin's Body,
+  because splitting a component across two draws tears along the seam while allowing it would have brought only 1-17%
+  of the weight within 3 cm. Inside that: a mutual-nearest pair within 1 cm is exact (42 limb pairs, the hands among
+  them, and 14 outfit pairs); the rest is the finder's proposal against that one component; and on skin Body -> Miyabi
+  Legs, 22 torso groups nearest one of her OUTFIT's bones take that bone's twin in Legs (the two palettes hold identical
+  skinning matrices for 43 bones in her dump, so they are the same bones). The welds left are bones the target's
+  palette lacks -- the skin's Body has no shoulder-helper or chest bones under the kimono -- and each says so in its
+  comment. Even one physical bone's two meshes have centroids 1-18 cm apart, so the outfit rows are approximations by
+  nature. Not checked in game, so the `About` mark stays.
 - Not recorded here: the CN skins (Amber, Rosaria, Jean, Mona), whose remaps came from someone else, and Kirara, Raiden and Arlecchino.

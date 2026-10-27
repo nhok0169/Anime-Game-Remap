@@ -40,6 +40,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <optional>
+#include <unordered_set>
 #include <string>
 #include <vector>
 
@@ -142,6 +143,8 @@ static const std::vector<KeywordRow>& expectedRows() {
         {"LisaStudent", {"lisastudent"}},
         {"Lumine", {"lumine", "travelergirl"}},
         {"LumineHeaven", {"lumineheaven", "lumineskin"}},
+        {"Miyabi", {"miyabi"}},
+        {"MiyabiBlossom", {"miyabiblossom", "miyabiskin"}},
         {"Mona", {"mona"}},
         {"MonaCN", {"monacn"}},
         {"Neuvillette", {"neuvillette"}},
@@ -190,7 +193,7 @@ static ModTypeId idOf(const std::string& name) {
 static void testEveryKeywordRowMatchesPython() {
     std::printf("testEveryKeywordRowMatchesPython\n");
 
-    check(expectedRows().size() == 59, "the oracle itself still has all 59 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven)");
+    check(expectedRows().size() == 61, "the oracle itself still has all 61 rows (Miyabi and MiyabiBlossom, the two ZZZ types, plus 43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven)");
 
     for (const KeywordRow& row : expectedRows()) {
         checkKeywords(ModTypeIdTools::getSectionKeywords(idOf(row.name)), row.keywords,
@@ -511,11 +514,44 @@ static void testClassifierIsStillASingleton() {
 }
 
 
+// The first ZZZ types (2026-10-27) are filed under GameTypeId::ZZZ, not GI: before populate() had a ZZZ
+// branch every non-WuWa type went to addGIModType, which still classifies -- so only a GAME-FILTERED
+// classify can tell the two apart. A section keyword is the evidence the game filter governs.
+static void testZZZTypesAreFiledUnderZZZ() {
+    std::printf("testZZZTypesAreFiledUnderZZZ\n");
+
+    AGRC::IniClassifier& classifier = AGRC::GlobalIniClassifiers::classifier();
+    const std::unordered_set<AGRC::GameTypeId> zzz = {AGRC::GameTypeId::ZZZ};
+    const std::unordered_set<AGRC::GameTypeId> gi = {AGRC::GameTypeId::GI};
+
+    struct Case { const char* section; ModTypeId id; };
+    for (const Case& c : {Case{"[TextureOverrideMiyabiBodyA]", ModTypeId::Miyabi},
+                          Case{"[TextureOverrideMiyabiSkinBodyA]", ModTypeId::MiyabiBlossom},
+                          Case{"[TextureOverrideMiyabiBlossomDressA]", ModTypeId::MiyabiBlossom}}) {
+        std::string ini = std::string(c.section) + "\nmatch_first_index = 0\n";
+        AGRC::IniClassifyStats asZZZ = classifier.classify(ini, zzz);
+        check(asZZZ.modType.find(static_cast<int>(c.id)) != asZZZ.modType.end(),
+              std::string(c.section) + " classifies as " + ModTypeIdTools::getName(c.id) + " when asked for ZZZ");
+        AGRC::IniClassifyStats asGI = classifier.classify(ini, gi);
+        check(asGI.modType.find(static_cast<int>(c.id)) == asGI.modType.end(),
+              std::string(c.section) + " is NOT a GI mod type");
+    }
+
+    // And by hash alone: each character's body ib, which only it draws
+    for (const Case& c : {Case{"981c1a1e", ModTypeId::Miyabi}, Case{"a913e9a9", ModTypeId::MiyabiBlossom}}) {
+        AGRC::IniClassifyStats stats = classifier.classify(std::string("[TextureOverrideSomething]\nhash = ") + c.section + "\n");
+        check(stats.modType.find(static_cast<int>(c.id)) != stats.modType.end(),
+              ModTypeIdTools::getName(c.id) + " is reachable by its ib hash " + c.section);
+    }
+}
+
+
 int main() {
     testEveryKeywordRowMatchesPython();
     testTheThreeTwoKeywordModTypes();
     testTargetOnlyIdsHaveNoKeywords();
     testWuWaTypesClassifyByVb0Hash();
+    testZZZTypesAreFiledUnderZZZ();
     testGlobalClassifierArrivesPopulated();
     testMaximalMatchDisambiguatesOverlappingNames();
     testEveryModTypeIsReachable();

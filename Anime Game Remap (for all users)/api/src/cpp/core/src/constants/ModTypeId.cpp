@@ -305,6 +305,42 @@ namespace AGRemapCore {
             case static_cast<int>(ModTypeId::ChangliNymph):
                 return ModTypeId::ChangliNymph;
 
+            case static_cast<int>(ModTypeId::Miyabi):
+                return ModTypeId::Miyabi;
+
+            case static_cast<int>(ModTypeId::MiyabiBody):
+                return ModTypeId::MiyabiBody;
+
+            case static_cast<int>(ModTypeId::MiyabiHair):
+                return ModTypeId::MiyabiHair;
+
+            case static_cast<int>(ModTypeId::MiyabiLegs):
+                return ModTypeId::MiyabiLegs;
+
+            case static_cast<int>(ModTypeId::MiyabiFace):
+                return ModTypeId::MiyabiFace;
+
+            case static_cast<int>(ModTypeId::MiyabiHairShadow):
+                return ModTypeId::MiyabiHairShadow;
+
+            case static_cast<int>(ModTypeId::MiyabiBlossom):
+                return ModTypeId::MiyabiBlossom;
+
+            case static_cast<int>(ModTypeId::MiyabiBlossomBody):
+                return ModTypeId::MiyabiBlossomBody;
+
+            case static_cast<int>(ModTypeId::MiyabiBlossomDress):
+                return ModTypeId::MiyabiBlossomDress;
+
+            case static_cast<int>(ModTypeId::MiyabiBlossomHair):
+                return ModTypeId::MiyabiBlossomHair;
+
+            case static_cast<int>(ModTypeId::MiyabiBlossomFace):
+                return ModTypeId::MiyabiBlossomFace;
+
+            case static_cast<int>(ModTypeId::MiyabiBlossomHairShadow):
+                return ModTypeId::MiyabiBlossomHairShadow;
+
             default:
                 return std::nullopt;
         }
@@ -599,6 +635,42 @@ namespace AGRemapCore {
             case ModTypeId::ChangliNymph:
                 return "ChangliNymph";
 
+            case ModTypeId::Miyabi:
+                return "Miyabi";
+
+            case ModTypeId::MiyabiBody:
+                return "MiyabiBody";
+
+            case ModTypeId::MiyabiHair:
+                return "MiyabiHair";
+
+            case ModTypeId::MiyabiLegs:
+                return "MiyabiLegs";
+
+            case ModTypeId::MiyabiFace:
+                return "MiyabiFace";
+
+            case ModTypeId::MiyabiHairShadow:
+                return "MiyabiHairShadow";
+
+            case ModTypeId::MiyabiBlossom:
+                return "MiyabiBlossom";
+
+            case ModTypeId::MiyabiBlossomBody:
+                return "MiyabiBlossomBody";
+
+            case ModTypeId::MiyabiBlossomDress:
+                return "MiyabiBlossomDress";
+
+            case ModTypeId::MiyabiBlossomHair:
+                return "MiyabiBlossomHair";
+
+            case ModTypeId::MiyabiBlossomFace:
+                return "MiyabiBlossomFace";
+
+            case ModTypeId::MiyabiBlossomHairShadow:
+                return "MiyabiBlossomHairShadow";
+
             default:
                 return "";
         }
@@ -871,6 +943,15 @@ namespace AGRemapCore {
 
             case ModTypeId::ChangliNymph:
                 return {ModTypeId::Changli};
+
+            // ZZZ (2026-10-27): BOTH characters are several components, each skinned from its own bone palette,
+            // so each remaps onto the OTHER's component ids -- and is a remap source under its own component
+            // names too (see ZZMIBuilder's makeRemapMap).
+            case ModTypeId::Miyabi:
+                return {ModTypeId::MiyabiBlossomBody, ModTypeId::MiyabiBlossomDress, ModTypeId::MiyabiBlossomHair, ModTypeId::MiyabiBlossomFace, ModTypeId::MiyabiBlossomHairShadow};
+
+            case ModTypeId::MiyabiBlossom:
+                return {ModTypeId::MiyabiBody, ModTypeId::MiyabiHair, ModTypeId::MiyabiLegs, ModTypeId::MiyabiFace, ModTypeId::MiyabiHairShadow};
             // Every remaining ModTypeId remaps onto nothing. That covers the two boss ids
             // (RaidenBoss, ArlecchinoBoss), which are only ever remap *targets* -- GIBuilder has
             // no factory for either.
@@ -905,6 +986,12 @@ namespace AGRemapCore {
 
             case ModTypeId::YaoyaoBamboo:
                 return {ModTypeId::YaoyaoBambooMain, ModTypeId::YaoyaoBambooBang, ModTypeId::YaoyaoBambooEye};
+
+            case ModTypeId::Miyabi:
+                return {ModTypeId::MiyabiBody, ModTypeId::MiyabiHair, ModTypeId::MiyabiLegs, ModTypeId::MiyabiFace, ModTypeId::MiyabiHairShadow};
+
+            case ModTypeId::MiyabiBlossom:
+                return {ModTypeId::MiyabiBlossomBody, ModTypeId::MiyabiBlossomDress, ModTypeId::MiyabiBlossomHair, ModTypeId::MiyabiBlossomFace, ModTypeId::MiyabiBlossomHairShadow};
 
             // Every other mod type is one mesh. The component ids themselves included -- a
             // component has no components of its own.
@@ -1117,6 +1204,14 @@ namespace AGRemapCore {
 
             case ModTypeId::YelanTranquil:
                 return {"yelantranquil"};
+
+            // ZZZ (2026-10-27). A ZZMI .ini names its sections after the character, as a GIMI one does.
+            case ModTypeId::Miyabi:
+                return {"miyabi"};
+
+            // The skin's mods in hand (MiyabiBlossom3-4) name their sections 'MiyabiSkin...'
+            case ModTypeId::MiyabiBlossom:
+                return {"miyabiblossom", "miyabiskin"};
 
             // The WuWa ids (Sanhua, SanhuaExorcist) have no keywords EITHER, on purpose: a WWMI
             // .ini names its sections [TextureOverrideComponentN], never after the character, so

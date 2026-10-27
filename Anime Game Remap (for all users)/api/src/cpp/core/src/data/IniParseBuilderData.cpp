@@ -161,6 +161,10 @@ namespace AGRemapCore {
                 {{"1.1", ModTypeIdTools::getName(ModTypeId::Changli)}, IniParseBuilderFuncs::changli1_1()},
                 {{"2.4", ModTypeIdTools::getName(ModTypeId::ChangliNymph)}, IniParseBuilderFuncs::changliNymph2_4()},
 
+                // ===== Miyabi (2026-10-27), the first ZZZ character =====
+                // Built by makeZZMIParser from data/IniFixData/Miyabi/MiyabiFixer.cpp's config.
+                {{"3.2", ModTypeIdTools::getName(ModTypeId::Miyabi)}, IniParseBuilderFuncs::miyabi3_2()},
+
                 // ===== Bennett (2026-09-15) =====
                 // Two drawn objects, where every character above has three or four, and a
                 // Texcoord of stride 12.

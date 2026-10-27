@@ -36,7 +36,7 @@ namespace AGRemapCore {
 
         std::optional<VGRemap> vgRemap;
         if (modType != nullptr) {
-            vgRemap = modType->getVGRemap(modName, fromVersion, toVersion, this->fromComp, this->toComp);
+            vgRemap = modType->getVGRemap(rowModName.value_or(modName), fromVersion, toVersion, this->fromComp, this->toComp);
         }
 
         // No remap is a real answer, not a reason to write a plain copy under a remapped name --

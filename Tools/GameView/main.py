@@ -21,7 +21,7 @@ from GameView import capture, keys, migoto, win32  # noqa: E402
 from GameView import config as cfg  # noqa: E402
 from GameView import helper  # noqa: E402
 from GameView.game import (UID_STRIP, GameViewError, Session, findTarget, gameProcesses,  # noqa: E402
-                           hideUid, isBlack, requireTarget)
+                           hideUid, isBlack, requireTarget, uidRects)
 
 # Commands that inject input into, focus, or capture the game window -- the ones that must run
 # ELEVATED when the game is.
@@ -44,7 +44,8 @@ class Context:
         if self._session is None:
             target = requireTarget(self.config, self.importerName, self.window)
             self._session = Session(target, restore=self.restore,
-                                    cropBottom=self.config.get("uidStrip", UID_STRIP))
+                                    cropBottom=self.config.get("uidStrip", UID_STRIP),
+                                    uidRects=uidRects(self.config, target.importer or self.importerName))
         return self._session
 
     @property
@@ -84,7 +85,7 @@ def cmdScreenshot(args, ctx):
         from PIL import Image
         x, y, w, h = win32.virtualScreen()
         image = Image.frombuffer("RGB", (w, h), win32.grabScreen(x, y, w, h), "raw", "BGRX", 0, 1)
-        image = hideUid(image, ctx.config.get("uidStrip", UID_STRIP))
+        image = hideUid(image, ctx.config.get("uidStrip", UID_STRIP), uidRects(ctx.config, ctx.importer))
         method = "blt"
         clientSize = None
     else:
@@ -649,7 +650,9 @@ def buildParser():
     sub = parser.add_subparsers(dest="command", required=True)
 
     target = argparse.ArgumentParser(add_help=False)
-    target.add_argument("-i", "--importer", help="GIMI / WWMI ... (default: whichever game is running)")
+    target.add_argument("-i", "--importer", "-g", "--game",
+                        help="GIMI / WWMI / ZZMI ...: the game to drive and capture, which also picks where "
+                        "the account id is blacked out (default: whichever game is running)")
     target.add_argument("-w", "--window", help="drive any window whose title or exe matches this "
                         "regex instead of a game (for testing the tool itself)")
     target.add_argument("--stay", action="store_true",

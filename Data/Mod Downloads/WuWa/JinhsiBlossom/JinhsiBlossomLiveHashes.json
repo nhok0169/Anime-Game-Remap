@@ -1,0 +1,20 @@
+{
+  "_": "JinhsiBlossom's textures (the Peach Blossom outfit): the hash WWMI-Assets (2.7, PlayerCharacterData/JinshiSkin1) and this download folder file them under -> the hash the game binds with its texture quality (LOD bias, ImageDetail) at its maximum, 2. Paired by pixel correlation over every channel that varies (0.994 - 1.0000 on all 17, each with a margin of over 0.57 to the next candidate) off a character-menu frame dump at WuWa 3.7, FrameAnalysis-JinhsiBlossom-2026-10-27-133642 (the Peach Blossom card selected, no Jinhsi mod installed). Feed it to Tools/Misc/Diagnostics/wwmiTextureFix.py as --live.",
+  "0cf861f8": "8a915c62",
+  "11c042bc": "4d19d516",
+  "2eb74e79": "52f8d8c1",
+  "301efc44": "13074157",
+  "35fc907b": "61645b16",
+  "3973960b": "98c553cf",
+  "3db825ca": "eac2c53a",
+  "420bc474": "e20f864a",
+  "44a33623": "8a791cab",
+  "67787504": "4909768a",
+  "697a05d5": "f73d7577",
+  "83141b71": "9efe040e",
+  "8383cbbf": "a506a70d",
+  "83b787db": "08d30ea7",
+  "913631e7": "ab9067bf",
+  "94e015b4": "c84c7caf",
+  "ec8277c1": "1ddc1957"
+}

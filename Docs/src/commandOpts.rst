@@ -445,6 +445,14 @@ Below are the supported types of mods
      - WuWa
      - LynaeSkin1, PeppermintLynae
      - Lynae Peppermint skin mods
+   * - **Miyabi**
+     - ZZZ
+     - HoshimiMiyabi, MiyabiHoshimi
+     - Miyabi mods
+   * - **MiyabiBlossom**
+     - ZZZ
+     - BlossomMiyabi, DignifiedBlossomMiyabi, HoshimiMiyabiBlossom, MiyabiDignifiedBlossom, MiyabiSkin
+     - Miyabi Dignified Blossom skin mods
    * - **Mona**
      - GI
      - | BigHat, NoMora

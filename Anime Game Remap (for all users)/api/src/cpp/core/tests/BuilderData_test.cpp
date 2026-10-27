@@ -135,7 +135,8 @@ void testTableShape() {
           "the fix table has 160 rows -- 78 historical, the 50 at 6.1 this port added, the four WuWa stubs, Citlali's three at 6.7, the CitlaliWhisperofStars merge back, Charlotte's two at 6.7, the CharlotteHurlock merge back, Neuvillette's four at 6.3, the NeuvilletteMelusent merge back, Yaoyao's three at 6.3, the YaoyaoBamboo merge back, Lumine's three at 6.3, the LumineHeaven merge back and the two Lynae stubs and the two Changli stubs and Aether's three at 6.3 and the AetherHeaven merge back");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
-    check(IniRemoveBuilderData::repo()->size() == 67, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, Lumine and LumineHeaven, Aether and AetherHeaven, plus the eight WuWa stubs)");
+    // +2 on 2026-10-27: Miyabi and MiyabiBlossom, the first ZZZ rows (stubs, at 3.2).
+    check(IniRemoveBuilderData::repo()->size() == 69, "the remove table has one row per mod type (43 GI, plus Yelan, YelanTranquil, Bennett and BennettAdventure, Citlali and CitlaliWhisperofStars, Charlotte and CharlotteHurlock, Neuvillette and NeuvilletteMelusent, Yaoyao and YaoyaoBamboo, Lumine and LumineHeaven, Aether and AetherHeaven, plus the eight WuWa stubs)");
 
     check(IniParseBuilderData::repo()->getTotalIndices() == 2, "the parse table has 2 index columns");
     check(IniParseBuilderData::repo()->getVersionIndexPos() == 0, "with the version at position 0");
@@ -178,7 +179,7 @@ void testVersionCoverage() {
     IniRemoveBuilderData::repo()->forEachEntry([&](const std::vector<std::string>&, const Version& v, const IniRemoveBuilder::Factory&) {
         removeVers.insert(v.toString());
     });
-    check(removeVers == std::set<std::string>{"1.1", "2.4", "2.5", "2.8", "3.5", "3.6", "3.7", "4.0"}, "the remove table sits at the 4.0 baseline, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus 1.1 and 2.4 (Changli, ChangliNymph)");
+    check(removeVers == std::set<std::string>{"1.1", "2.4", "2.5", "2.8", "3.2", "3.5", "3.6", "3.7", "4.0"}, "the remove table sits at the 4.0 baseline, plus WuWa's 2.5, 2.8, 3.5, 3.6 and 3.7, plus 1.1 and 2.4 (Changli, ChangliNymph), plus ZZZ's 3.2 (Miyabi, MiyabiBlossom)");
 }
 
 void testRowsResolve() {

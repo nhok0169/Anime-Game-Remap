@@ -175,6 +175,9 @@ static const std::vector<RemapRow>& expectedRows() {
         {"LynaePeppermint", {"Lynae"}, {"Lynae"}},
         {"Changli", {"ChangliNymph"}, {"ChangliNymph"}},
         {"ChangliNymph", {"Changli"}, {"Changli"}},
+        // ZZZ (2026-10-27): both characters are several components, each onto the OTHER's component ids.
+        {"Miyabi", {"MiyabiBlossomBody", "MiyabiBlossomDress", "MiyabiBlossomHair", "MiyabiBlossomFace", "MiyabiBlossomHairShadow"}, {"MiyabiBlossomBody", "MiyabiBlossomDress", "MiyabiBlossomHair", "MiyabiBlossomFace", "MiyabiBlossomHairShadow"}},
+        {"MiyabiBlossom", {"MiyabiBody", "MiyabiHair", "MiyabiLegs", "MiyabiFace", "MiyabiHairShadow"}, {"MiyabiBody", "MiyabiHair", "MiyabiLegs", "MiyabiFace", "MiyabiHairShadow"}},
     };
     return rows;
 }
@@ -208,7 +211,7 @@ static ModTypeId idOf(const std::string& name) {
 
 static void testEveryRowMatchesPython() {
     std::printf("testEveryRowMatchesPython\n");
-    check(expectedRows().size() == 67, "the oracle itself still has all 67 rows (43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven, plus the eight WuWa types)");
+    check(expectedRows().size() == 69, "the oracle itself still has all 69 rows (Miyabi and MiyabiBlossom, the two ZZZ types, plus 43 plus Yelan, YelanTranquil, Bennett, BennettAdventure, Citlali, CitlaliWhisperofStars, Charlotte, CharlotteHurlock, Neuvillette, NeuvilletteMelusent, Yaoyao, YaoyaoBamboo, Lumine, LumineHeaven, Aether and AetherHeaven, plus the eight WuWa types)");
     for (const RemapRow& row : expectedRows()) {
         ModTypeId id = idOf(row.name);
 

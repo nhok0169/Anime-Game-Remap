@@ -17,7 +17,7 @@ from typing import Set, TYPE_CHECKING, Optional, Type
 
 ##### LocalImports
 from .BaseModTypeBuilder import BaseModTypeBuilder
-from ..core import GIBuilder, WWMIBuilder
+from ..core import GIBuilder, WWMIBuilder, ZZMIBuilder
 from ..tools.Heading import Heading
 from ..tools.Builder import Builder
 from .GlobalClassifiers import GlobalClassifiers
@@ -270,6 +270,16 @@ class ModTypes(StrEnum, DeferredEnum):
 
         Checks if the .ini file contains a section with the character's vertex buffer hash, eg. ``hash = ebbfa346`` -- a WWMI .ini names its sections after the draw slot (``[TextureOverrideComponent0]``) rather than after the character
 
+    Miyabi: :class:`ModType`
+        **Miyabi mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(miyabi).*\]``
+
+    MiyabiBlossom: :class:`ModType`
+        **Miyabi Dignified Blossom skin mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(miyabiblossom|miyabiskin).*\]``
+
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
 
@@ -430,6 +440,8 @@ class ModTypes(StrEnum, DeferredEnum):
     LumineHeaven = (GIBuilder.lumineHeaven, )
     Lynae = (WWMIBuilder.lynae, )
     LynaePeppermint = (WWMIBuilder.lynaePeppermint, )
+    Miyabi = (ZZMIBuilder.miyabi, )
+    MiyabiBlossom = (ZZMIBuilder.miyabiBlossom, )
     Mona = (GIBuilder.mona, )
     MonaCN = (GIBuilder.monaCN, )
     Neuvillette = (GIBuilder.neuvillette, )

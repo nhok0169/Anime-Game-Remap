@@ -18,6 +18,7 @@
 
 #include "AGRemapCore/constants/GIBuilder.h"
 #include "AGRemapCore/constants/WWMIBuilder.h"
+#include "AGRemapCore/constants/ZZMIBuilder.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 
 
@@ -29,6 +30,9 @@ namespace AGRemapCore {
         std::vector<ModType> result = GIBuilder::all();
         std::vector<ModType> wuwa = WWMIBuilder::all();
         result.insert(result.end(), std::make_move_iterator(wuwa.begin()), std::make_move_iterator(wuwa.end()));
+        // ...then ZZZ (2026-10-27)
+        std::vector<ModType> zzz = ZZMIBuilder::all();
+        result.insert(result.end(), std::make_move_iterator(zzz.begin()), std::make_move_iterator(zzz.end()));
         return result;
     }
 

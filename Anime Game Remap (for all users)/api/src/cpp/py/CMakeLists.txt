@@ -84,6 +84,7 @@ pybind11_add_module(core
     src/constants/PyGlobalModTypes.cpp
     src/constants/PyGIBuilder.cpp
     src/constants/PyWWMIBuilder.cpp
+    src/constants/PyZZMIBuilder.cpp
     src/constants/PyStrategyOverrides.cpp
     src/tools/parsing/PyToken.cpp
     src/tools/parsing/PyParseContext.cpp

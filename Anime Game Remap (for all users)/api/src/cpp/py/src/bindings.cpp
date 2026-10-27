@@ -63,6 +63,7 @@ void initCppWWMIBuilders(pybind11::module_ &m);
 void initCppStrategyOverrides(pybind11::module_ &m);
 void initCppGIBuilder(pybind11::module_ &m);
 void initCppWWMIBuilder(pybind11::module_ &m);
+void initCppZZMIBuilder(pybind11::module_ &m);
 void initCppIniClassifyStats(pybind11::module_ &m);
 void initCppBaseIniClassifier(pybind11::module_ &m);
 void initCppIniClassifier(pybind11::module_ &m);
@@ -262,6 +263,7 @@ PYBIND11_MODULE(core, m) {
     initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppWWMIBuilder(m); // same constraints as initCppGIBuilder
+    initCppZZMIBuilder(m); // same constraints as initCppGIBuilder
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);
     initCppIniClassifier(m); // must come after initCppBaseIniClassifier (registers its base)

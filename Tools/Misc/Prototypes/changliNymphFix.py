@@ -156,6 +156,10 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.fallbackTextures = {role: h for h, role in files.items() if role not in NoFallback}
     # not a game texture: the skin's own blindfold diffuse in her black (changliNymphBlindfold.py)
     facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnNymph"}
+    # ...her tattoo's glow texture (the tattoo's own shader cuts its shape out of it), and the game texture her
+    # upper-body shader reads at t5 that no draw of the skin's binds (core's ChangliTextures)
+    facts.fallbackTextures = {**facts.fallbackTextures, "glow": "21f813ba", "upperShared": "bb73967a",
+                              "upperSubsurface": "5c290276", "tattooNoise": "30bf03f4", "tattooFlow": "7a9915c5"}
     return facts
 
 
@@ -326,24 +330,67 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
         # -- every part of hers drawn there vanished outside the menu (Changli4's robe, 2026-10-22)
         5: SC(4, [B("ps-t0", "coatNormal"), B("ps-t1", "flatClothMask"), B("ps-t2", "coatDiffuse"), B("ps-t3", "noGlow")]),
         6: SC(6, [B("ps-t0", "eyeIris"), B("ps-t1", "eyeMask"), B("ps-t2", "eyeDiffuse")]),
-        # her chest flame tattoo (7) is NOT drawn: her own shader cuts its shape out of the glow texture's alpha
-        # and draws it as a small dark mark, and the skin has no cut-out shader -- through the skin's body shader
-        # the whole quad drew as a red rectangle on her sternum (in-game audit, epoch 1). Left out, it is dropped
+        # her chest flame tattoo, on the skin's body slot too, drawn by its OWN shader below (through the skin's
+        # body shader the whole quad drew as a red rectangle on her sternum, in-game audit epoch 1)
+        7: SC(4, [B("ps-t0", "glow")]),
     }
     # her legs share slot 4 with her upper body: drawn from the mod's OWN file, where the
     # shape-keyed positions are computed (a copy computes none), as Lynae's lower body is
     plan = config.plan                   # pybind hands back a copy: edit it, then assign it back
     plan[4].sameFileSection = True
     plan[5].sameFileSection = True
+    # her long hair is NOT drawn in the skin's outline pass: its layered strands' outline shells showed through
+    # the gaps as a second, darker copy of the hair (Changli9's "second shadow ghost"), even with her tint restored
+    plan[1].offPasses = ["f8c96a270bf847dd"]
+    plan[7].sameFileSection = True
+
+    # ---- her flame feathers' GLOW, from HER upper-body pass (9d4c7d96, data/changliUpperShader.json) drawn as an
+    # emissive OVERLAY (core's ChangliFixer): a part of hers glows where its diffuse's alpha is above her opaque range
+    # (230: her emissive is a colour times saturate((alpha - 0.9) / 0.1); a mod's feathers carry 240-255, and a cut-off
+    # at 117 lit Changli5's shirt and Changli2's stockings white), and the skin's body shader has no input that lights a part. Her shader
+    # outright drew the upper body dark red, and over the skin's surface her G-buffer outputs drew the feathers black;
+    # so the skin's shader draws the surface and a copy of hers draws it again at the same depth, discarding every
+    # pixel below that alpha and writing only the emissive target: the part's diffuse x2 (matched to the original's
+    # glow on Changli10's feathers, 3182 / 4248 yellow pixels against 3176 / 4430). A RabbitFX mod keeps its look.
+    # It (and the tattoo below) drops out with the SKIN's camera-near fade, the skin's per-object cb2[43] with its own
+    # dither: her own fade reads her material constants, which come from a menu dump with the fade off ----
+    with open(os.path.join(Here, "data", "changliUpperShader.json"), encoding = "utf-8") as f:
+        upperData = json.load(f)
+    upper = FRB.WWMIFixerConfig.Shader()
+    upper.name = upperData["name"]
+    upper.ps = upperData["ps"]
+    upper.constantBuffers = upperData["constantBuffers"]
+    # (every texture as the mod's file or a download: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
+    upper.registers = [B("ps-t0", "upperNormal"), B("ps-t1", "upperMask"), B("ps-t2", "upperDiffuse"),
+                       B("ps-t3", "upperDetail"), B("ps-t4", "upperRamp"), B("ps-t5", "upperShared"),
+                       B("ps-t6", "upperSubsurface")]
+    upper.lines = [("depth_stencil_state_merge", "true"), ("depth_func", "equal"),
+                   ("depth_write_mask", "zero")] + [(f"mask[{n}]", "0") for n in range(1, 7)]
+    upper.onlyWith = "o3"
+    upper.yieldToRabbitFX = True
+    plan[3].overlay = upper
+
+    # ---- and her chest TATTOO by its own cut-out pass (bb1c5ba6, data/changliTattooShader.json): it discards
+    # whatever of the quad the glow texture's alpha leaves out. Its copy takes the TEXCOORD4 / 5 inputs it does
+    # not read (it reads one register early otherwise: the skin's body vertex shader writes them) and swaps its two
+    # constant buffers' registers (its material at b1, which the fix binds; the skin keeps per-object constants at
+    # b2, where Changli's tattoo draw has them at b1). Its two game textures sit on the skin's body draw at t5 / t4 ----
+    with open(os.path.join(Here, "data", "changliTattooShader.json"), encoding = "utf-8") as f:
+        tattooData = json.load(f)
+    tattoo = FRB.WWMIFixerConfig.Shader()
+    tattoo.name = tattooData["name"]
+    tattoo.ps = tattooData["ps"]
+    tattoo.constantBuffers = tattooData["constantBuffers"]
+    tattoo.registers = [B("ps-t0", "glow"), B("ps-t1", "tattooNoise"), B("ps-t2", "tattooFlow")]
+    tattoo.onlyWith = "o3"
+    plan[7].shader = tattoo
     config.plan = plan
 
     # ---- a slot's OTHER passes: the outlines take an outline / diffuse map at ps-t0, the eye's second
     # pass sets ps-t1 only ----
     config.extraPassRegs = {
-        # the skin feeds its outline pass the DIFFUSE and darkens it; her own outline maps are ~30% darker
-        # already, so bound there they came out black around the hair (Changli9)
-        0: {"f8c96a270bf847dd": [B("ps-t0", "bangsDiffuse")]},
-        1: {"f8c96a270bf847dd": [B("ps-t0", "hairDiffuse")]},
+        # her own outline map, brightened for the skin's darker outline tint (outlineGain below)
+        0: {"f8c96a270bf847dd": [B("ps-t0", "bangsOutline")]},
         4: {"f8c96a270bf847dd": [B("ps-t0", "upperDiffuse", 3), B("ps-t0", "lowerDiffuse", 4), B("ps-t0", "coatOutline", 5)]},
         6: {"e04f4df80ee6b0ab": [B("ps-t1", "eyeHighlight")]},
     }
@@ -359,6 +406,26 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
 
     config.sourceTextures = facts
     config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"}
+
+    # ---- the skin's outline pass multiplies ps-t0 by a material tint (vs-cb5 / ps-cb2 rows 23-24) far darker
+    # than Changli's on the hair and bangs -- (0.547, 0.450, 0.457) and (0.713, 0.586, 0.593) against her
+    # (1, 0.823, 0.835), one ratio on every channel, off two menu frame dumps. Her outline maps bound raw drew
+    # every layered strand's outline shell near black (Changli9's "second shadow ghost"), so they are
+    # brightened by that ratio in linear light, as ChangliFixer.cpp's outlineGainFilter does ----
+    def outlineGain(gain):
+        import numpy as np
+        lut = np.round(255.0 * np.minimum(1.0, (np.arange(256) / 255.0) ** 2.2 * gain) ** (1 / 2.2)).astype(np.uint8)
+
+        def make(ctx):
+            def run(tex):
+                w, h = tex.width, tex.height
+                px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(-1, 4).copy()
+                px[:, :3] = lut[px[:, :3]]
+                tex.setPixels(px.tobytes(), w, h)
+            return run
+        return make
+    E = FRB.WWMIFixerConfig.TexEdit
+    config.texEdits = [E("bangsOutline", "TintGain", outlineGain(1.4035))]
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
     R = FRB.WWMIFixerConfig.RegRemoval

@@ -65,10 +65,6 @@ DstName = "Changli"
 Downloads = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "ChangliNymph", "3_7")
 LiveHashes = os.path.join(Repo, "Data", "Mod Downloads", "WuWa", "ChangliNymph", "ChangliNymphLiveHashes.json")
 B = FRB.WWMIFixerConfig.Binding
-# the highest diffuse alpha any of Changli's own body / coat diffuses carries (measured on her 3_7 downloads)
-ChangliDiffuseAlphaMax = 117
-# below this alpha a texel of her see-through parts is three-quarters see-through or more on her own shader: treated as hidden
-SeeThroughHidden = 64
 
 
 # ---- her textures by the hash WWMI-Assets (ChangliSkin1, 2.7) and the download folder file them under;
@@ -153,6 +149,10 @@ def textureFacts() -> "FRB.WWMITextureFacts":
                               if role not in NoFallback and os.path.isfile(os.path.join(Downloads, f"ChangliNymphTexture{h}.dds"))}
     # not a game texture: Changli's own blindfold diffuse in the skin's white lace (changliNymphBlindfold.py)
     facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnChangli"}
+    # ...and the two game textures her see-through dress pass (d5572b1c) reads at t2 / t3 beside the mod's maps,
+    # which no draw of Changli's binds (core's ChangliNymphTextures)
+    facts.fallbackTextures = {**facts.fallbackTextures, "sheerDetail": "24d13e57", "sheerNoise": "308e6e5e",
+                              "sheerRamp": "5c290276"}
     return facts
 
 
@@ -268,6 +268,44 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     # neither her sheer dress nor her shawl has an outline pass on her own draws
     plan[3].offPasses = ["f8c96a270bf847dd"]
     plan[7].offPasses = ["705575a2e1b4a4b9"]
+
+    # ---- her sheer dress drawn by HER see-through pass (d5572b1c, data/changliNymphSheerShader.json): Changli has
+    # no see-through shader, and drawn by her opaque upper-body one the dress, its skirt panels (and their opacity
+    # toggles) and her fine chains came out solid. Her pass reads normal / diffuse at t0 / t1 in the mod's own
+    # art, two game textures at t2 / t3 and the ramp at t4 (Changli's slot holds the same ramp at t6). It
+    # alpha-blends the base colour (target 3) over the body by the opacity it writes there, only where her
+    # body marks itself (stencil bit 1) and solid elsewhere -- Lynae's sheer shirt (core's ChangliNymphFixer) ----
+    with open(os.path.join(Here, "data", "changliNymphSheerShader.json"), encoding = "utf-8") as f:
+        sheerData = json.load(f)
+    sheer = FRB.WWMIFixerConfig.Shader()
+    sheer.name = sheerData["name"]
+    sheer.ps = sheerData["ps"]
+    sheer.constantBuffers = sheerData["constantBuffers"]
+    # (the ramp as a download too: the target draw's registers cannot be `ref`'d for them: the slot's OVERWORLD pass holds other textures there than the menu's (Changli's keeps bb73967a at t6 and the ramp at t7))
+    sheer.registers = [B("ps-t0", "sheerNormal"), B("ps-t1", "sheerDiffuse"), B("ps-t2", "sheerDetail"),
+                       B("ps-t3", "sheerNoise"), B("ps-t4", "sheerRamp")]
+    # Her pass is SCREEN-DOOR transparency, not a blend: it discards each pixel whose opacity (the diffuse's alpha,
+    # through cb4[90]) falls under a noise threshold (the 64 x 64 noise at t3, offset per frame), and the game's
+    # temporal anti-aliasing resolves the dither into see-through. So it draws as an opaque pass: no blend, no
+    # stencil split and no ordering after the body (a Lynae-style blend over a stencil mark drew the dress as
+    # pale shards and the veils black). The copy (and the shawl's) takes the overworld's camera-near fade from
+    # CHANGLI's material constants, live at b4 -- the skin's own fade reads per-object data hers leaves off -- and
+    # its own material is bound at b5
+    sheer.onlyWith = "o3"
+    plan[3].shader = sheer
+    # ...and her shawl by HER shawl pass (43b49727, data/changliNymphShawlShader.json), the same screen-door
+    # see-through with the same inputs. Changli's coat slot, which it goes through, takes the same vertex inputs as
+    # that pass, COLOR0 included (the shawl's per-vertex material band), and holds the ramp at t6 too
+    with open(os.path.join(Here, "data", "changliNymphShawlShader.json"), encoding = "utf-8") as f:
+        shawlData = json.load(f)
+    shawl = FRB.WWMIFixerConfig.Shader()
+    shawl.name = shawlData["name"]
+    shawl.ps = shawlData["ps"]
+    shawl.constantBuffers = shawlData["constantBuffers"]
+    shawl.registers = [B("ps-t0", "shawlNormal"), B("ps-t1", "shawlDiffuse"), B("ps-t2", "sheerDetail"),
+                       B("ps-t3", "sheerNoise"), B("ps-t4", "sheerRamp")]
+    shawl.onlyWith = "o3"
+    plan[7].shader = shawl
     config.plan = plan
 
     # ---- a slot's OTHER passes: her outlines bind the part's own DIFFUSE at ps-t0 (Changli binds
@@ -290,49 +328,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.sourceTextures = facts
     config.flatFallsBackToSource = {"bodyMask", "faceMask"}
 
-    # ---- her see-through parts' diffuse ALPHA is opacity (mean 165 on the sheer dress, 221 on the shawl,
-    # up to 255) on their own shaders; on Changli's opaque shaders alpha is a scalar her own diffuses keep
-    # at or below 117 (every one: upper, legs, coat), and above it lights the part -- the sheer dress's gold
-    # embroidery and bodice drew glowing and orange (in-game check 1). Clamped to her ceiling; RGB untouched,
-    # and the gamma stays on because this is a colour texture (ChisaParfait -> Chisa, the same edit) ----
-    # ...and a texel her own shader all but cuts away (alpha below SeeThroughHidden: the quads of her fine gold
-    # chains are a gold line on grey, the grey invisible) is drawn on Changli's opaque shaders, so the chains drew as dark grey cords:
-    # each fully transparent texel takes the colour of the nearest visible one (edge padding), so a chain quad
-    # draws gold (in-game audit, reverse epoch 1)
-    def alphaClamp(ctx):
-        def run(tex):
-            import numpy as np
-            w, h = tex.width, tex.height
-            px = np.frombuffer(bytes(tex.getPixels()), np.uint8).reshape(h, w, 4).copy()
-            # one pass at a time, every hidden texel next to a visible one (as of the previous pass) takes
-            # the colour of its first visible neighbour in the order left, right, up, down -- the same rule,
-            # step for step, as ChangliNymphFixer.cpp's padHidden, so the two write the same bytes
-            visible = px[..., 3] >= SeeThroughHidden
-            if visible.any():
-                rgb = px[..., :3]
-                while True:
-                    prevVis = visible.copy()
-                    prevRgb = rgb.copy()
-                    todo = ~prevVis
-                    taken = np.zeros_like(todo)
-                    for dy, dx in ((0, -1), (0, 1), (-1, 0), (1, 0)):
-                        srcVis = np.zeros_like(prevVis)
-                        srcRgb = np.zeros_like(prevRgb)
-                        ys = slice(max(dy, 0), h + min(dy, 0)); yd = slice(max(-dy, 0), h + min(-dy, 0))
-                        xs = slice(max(dx, 0), w + min(dx, 0)); xd = slice(max(-dx, 0), w + min(-dx, 0))
-                        srcVis[yd, xd] = prevVis[ys, xs]
-                        srcRgb[yd, xd] = prevRgb[ys, xs]
-                        m = todo & srcVis & ~taken
-                        rgb[m] = srcRgb[m]
-                        taken |= m
-                    if not taken.any():
-                        break
-                    visible |= taken
-            px[..., 3] = np.minimum(px[..., 3], ChangliDiffuseAlphaMax)
-            tex.setPixels(px.tobytes(), w, h)
-        return run
-    E = FRB.WWMIFixerConfig.TexEdit
-    config.texEdits = [E(role, "AlphaClamp", alphaClamp) for role in ("sheerDiffuse", "shawlDiffuse")]
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
     R = FRB.WWMIFixerConfig.RegRemoval

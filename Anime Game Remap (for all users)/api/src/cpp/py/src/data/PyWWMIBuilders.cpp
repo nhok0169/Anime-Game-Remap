@@ -300,6 +300,17 @@ List[Tuple[:class:`str`, :class:`str`]]: After each of the component's draws on 
 ``("depth_func", "equal")`` with a stencil write, for a later draw to test. Nothing is written to the
 render targets. **Default**: empty, no such draw
         )doc"))
+        .def_readwrite("overlay", &AGRC::WWMIFixerConfig::SourceComponent::overlay, py::doc(R"doc(
+Optional[:class:`WWMIFixerConfig.Shader`]: After each of the component's draws on the passes the slot's
+:attr:`WWMIFixerConfig.slotPasses` name, the same draw again with this shader -- its
+:attr:`WWMIFixerConfig.Shader.registers`, constant buffers and :attr:`WWMIFixerConfig.Shader.lines` --
+while the component itself keeps the target slot's shader and its plan bindings. For a part whose surface
+the target's shader draws right and only the SOURCE's shader can finish, eg. a glow written into the
+scene-colour target alone (``("mask[1]", "0")`` ... with ``("depth_func", "equal")``). Its
+:attr:`WWMIFixerConfig.Shader.registers` bind the mod's own files, unedited. Only its ``name``, ``ps``,
+``constantBuffers``, ``registers``, ``lines``, ``onlyWith`` and ``yieldToRabbitFX`` are read.
+**Default**: ``None``, no such draw
+        )doc"))
         .def_readwrite("offPasses", &AGRC::WWMIFixerConfig::SourceComponent::offPasses, py::doc(R"doc(
 List[:class:`str`]: Passes of the target slot (pixel shader hashes, as in
 :attr:`WWMIFixerConfig.slotPasses`) that the component's draws are kept off -- eg. a slot's outline

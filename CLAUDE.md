@@ -86,9 +86,27 @@ an epoch, re-shoot every item fixed in ANY earlier epoch on the new build yourse
 epoch-6 fault and voided an epoch run. And from the maintainer's GI experience: **game shaders break on updates far
 faster than meshes or textures**, so a remap reaches for its own `.hlsl` or an extra texture (TexFx-style glow or
 luminosity channels included) only when a measured fault has no other fix, and lists every shipped shader as an
-update risk. Lynae <-> LynaePeppermint ships ten. **The game is also the maintainer's**: ask before driving it in a
+update risk. Lynae <-> LynaePeppermint ships ten. **BUT "NO SHADER" MEANS NOT AS THE FIRST FIX, NEVER "DOCUMENT A
+LIMITATION INSTEAD" (the maintainer, 2026-10-25):** "if you are backed into a corner with no other options, I rather
+you change in game shaders, than to back out and document it as a limitation." Once registers, texture edits,
+downloads and routing are exhausted, a fault a shader can fix -- transparency, a cut-out, a glow -- is fixed with the
+source's own game shader (`WWMIFixerConfig::Shader`), and before closing a pair every limitation in
+`Docs/src/remapGrading.rst` is re-asked "would the source's own shader fix this?" (Creating Remaps' "A REMAP ADDS NO
+SHADER OR TEXTURE IT CAN DO WITHOUT"). **The game is also the maintainer's**: ask before driving it in a
 session where they may be playing, and if an "Application Hang Detected" dialog appears, click nothing and ask. See
 Creating Remaps' "RUNNING THE EPOCHS: what eight of them on Lynae taught" and Overview habits 116-118.
+**THE MAINTAINER RAN CHANGLI <-> CHANGLINYMPH'S FINAL CHECK THREE TIMES (2026-10-25/27), AND EVERY EXTRA ROUND WAS
+AVOIDABLE.** Four "limitations" handed over as done were fixed within a day with the source's own game shaders, and
+one epoch never reached the overworld because nobody had asked for "Wear Outfit". A brief also called a behaviour
+"not a fault" without checking the original. Then two later reports turned out not to be remap bugs at all, each
+settled by measuring rather than reasoning: a shape-key buffer the overworld character kept from before the mod
+was loaded, and a mod's own auto mode, checked against the original outfit. Read Overview habits **128-133**
+(earn a limit; verify every "not a fault"; measure the report and the original; re-fix every copy the game runs;
+state a reload does not reset; ask for game permissions up front) and Creating Remaps' **"COPYING A GAME SHADER
+ONTO THE OTHER CHARACTER: the checklist"** -- vertex signature, constant-buffer registers, no `ref ps-tN` (the
+overworld's layout differs), effect-only overlays, the source's own cut-off, the camera-near fade, `fxc` before
+the game.
+
 **After every prototype and every compiled fix, a full AUDIT (the maintainer's rule, 2026-09-27)**:
 against every mistake earlier agents made and every issue you hit, and against every mod a person
 COULD make -- some characters have almost no mods to test on, so the fix must be right for the ones
@@ -240,8 +258,14 @@ two resource sections declare is named by the one a section USES (and a re-fix m
 only a fix-twice comparison catches); `readInisBelow` reads an `.ini` in a mod's subfolder. And alpha MEANS different
 things per shader: on the skin's see-through shaders it is opacity (up to 255), on Changli's opaque ones a scalar that
 lights the part above ~117 -- so the reverse clamps it, and pads the texels the skin's shader cuts away, or her fine gold
-chains draw as dark cords. Limits: her chest tattoo (a cut-out shader) is not drawn on the skin, her arm feathers do not
-glow there, the skin's sheer parts are opaque on her, and one mod's own-mesh components are open (a session card). See
+chains draw as dark cords. **Since 2026-10-25 every one of its four shader-shaped limits is FIXED with a game shader**
+(the maintainer's rule above): the skin's sheer dress and shawl are drawn on Changli by HER OWN see-through passes (a
+screen-door dither, not a blend), and Changli's tattoo and feather glow on the skin by HERS -- the glow through the new
+`SourceComponent::overlay`, because her whole upper-body shader drew the dress dark red there. A copied shader must
+fit the target draw's vertex outputs and constant-buffer registers (a missing `COLOR0` shifted every input), and
+carry the overworld's camera-near fade: each character reads it from a different place, so the copies stayed solid
+while the body dithered out (fixed 2026-10-26; forward epoch 7 and reverse epoch 8 both clean after it). A mod
+component drawn from its OWN mesh files (Changli13's coat) is remapped since 2026-10-24 (`WWMIFixer::readOwnMeshes`). See
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "CHANGLI <-> CHANGLINYMPH".
 
 **AETHER <-> AETHERHEAVEN IS COMPILED BOTH WAYS (2026-10-25), LUMINE'S TWIN, AND ITS DRAPES TOOK MOST OF THE EPOCHS.**
@@ -344,7 +368,7 @@ summary counters do not mean the same thing**, so compare hashed artifacts, neve
 counts.
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
-feature or bug request here: the habits that pay" first.** It is over a hundred short habits (127 as of 2026-10-26), none of
+feature or bug request here: the habits that pay" first.** It is over a hundred short habits (133 as of 2026-10-27), none of
 them about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
 is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
 "The run was clean" is never evidence here. It also covers the two test trees (grep both, or you

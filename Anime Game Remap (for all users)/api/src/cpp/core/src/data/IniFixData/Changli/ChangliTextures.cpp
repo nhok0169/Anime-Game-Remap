@@ -135,6 +135,15 @@ namespace AGRemapCore {
             // not a game texture: the skin's own blindfold diffuse in her black
             // (Tools/Misc/Prototypes/changliNymphBlindfold.py)
             {"blindfold", "BlindfoldOnNymph"},
+            // her tattoo's glow texture (its own shader cuts the tattoo's shape out of it), and the game texture
+            // her upper-body shader reads at t5 that no draw of the skin's binds
+            {"glow", "21f813ba"},
+            {"upperShared", "bb73967a"},
+            // ...the subsurface ramp, and the tattoo shader's two game textures, which the skin's slots hold at
+            // registers that differ between passes
+            {"upperSubsurface", "5c290276"},
+            {"tattooNoise", "30bf03f4"},
+            {"tattooFlow", "7a9915c5"},
         };
 
         return facts;

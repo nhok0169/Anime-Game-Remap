@@ -398,6 +398,23 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             After each of the component's draws on the passes the slot's :cpp:member:`slotPasses` name, the
+             same draw again with this shader -- its :cpp:member:`Shader::registers`, constant buffers and
+             :cpp:member:`Shader::lines` -- while the component itself keeps the target slot's shader and its
+             plan bindings. For a part whose surface the target's shader draws right and only the SOURCE's
+             shader can finish, eg. a glow written into the scene-colour target alone (``mask[1] = 0`` ...
+             with ``depth_func = equal``). Its :cpp:member:`Shader::registers` bind the mod's own files,
+             unedited. Only :cpp:member:`Shader::name`, :cpp:member:`Shader::ps`,
+             :cpp:member:`Shader::constantBuffers`, :cpp:member:`Shader::registers`,
+             :cpp:member:`Shader::lines`, :cpp:member:`Shader::onlyWith` and
+             :cpp:member:`Shader::yieldToRabbitFX` are read. **Default**: none, no such draw
+             @endrst
+             */
+            std::optional<Shader> overlay;
+
+            /**
+             * @brief
+             @rst
              Passes of the target slot (pixel shader hashes, as in :cpp:member:`slotPasses`) that the
              component's draws are kept off -- eg. a slot's outline pass, whose shell of an under-layer
              the target's outline shader draws through the layer over it. **Default**: empty, every pass

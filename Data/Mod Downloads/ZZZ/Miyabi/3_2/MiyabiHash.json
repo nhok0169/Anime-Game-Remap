@@ -1,0 +1,257 @@
+[
+    {
+        "component_name": "Body",
+        "root_vs": "e8425f64cfb887cd",
+        "draw_vb": "6201dd9e",
+        "position_vb": "8ecb10b3",
+        "blend_vb": "9a4227c8",
+        "texcoord_vb": "303fb1b6",
+        "ib": "981c1a1e",
+        "position_stride": 40,
+        "vertex_count": 7747,
+        "texcoord_stride": 24,
+        "blend_stride": 32,
+        "object_indexes": [
+            0
+        ],
+        "object_counts": [
+            26925
+        ],
+        "object_classifications": [
+            "A"
+        ],
+        "texture_hashes": [
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "09a2bbd1"
+                ],
+                [
+                    "NormalMap",
+                    ".dds",
+                    "ebac056e"
+                ],
+                [
+                    "LightMap",
+                    ".dds",
+                    "fd289380"
+                ],
+                [
+                    "MaterialMap",
+                    ".dds",
+                    "450770fd"
+                ]
+            ]
+        ]
+    },
+    {
+        "component_name": "Hair",
+        "root_vs": "e8425f64cfb887cd",
+        "draw_vb": "5a8d28f4",
+        "position_vb": "f9b9b064",
+        "blend_vb": "8b2eeb77",
+        "texcoord_vb": "b6530b86",
+        "ib": "4faabaac",
+        "position_stride": 40,
+        "vertex_count": 6544,
+        "texcoord_stride": 20,
+        "blend_stride": 32,
+        "object_indexes": [
+            0,
+            15132
+        ],
+        "object_counts": [
+            15132,
+            6702
+        ],
+        "object_classifications": [
+            "A",
+            "B"
+        ],
+        "texture_hashes": [
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "012e84e9"
+                ],
+                [
+                    "NormalMap",
+                    ".dds",
+                    "ebac056e"
+                ],
+                [
+                    "LightMap",
+                    ".dds",
+                    "a6ea6d83"
+                ],
+                [
+                    "MaterialMap",
+                    ".dds",
+                    "d5462e37"
+                ]
+            ],
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "012e84e9"
+                ],
+                [
+                    "NormalMap",
+                    ".dds",
+                    "ebac056e"
+                ],
+                [
+                    "LightMap",
+                    ".dds",
+                    "a6ea6d83"
+                ],
+                [
+                    "MaterialMap",
+                    ".dds",
+                    "d5462e37"
+                ]
+            ]
+        ]
+    },
+    {
+        "component_name": "Legs",
+        "root_vs": "e8425f64cfb887cd",
+        "draw_vb": "8336ded4",
+        "position_vb": "e71bbd08",
+        "blend_vb": "bc586fd9",
+        "texcoord_vb": "fb94d66c",
+        "ib": "d8003df3",
+        "position_stride": 40,
+        "vertex_count": 9791,
+        "texcoord_stride": 20,
+        "blend_stride": 32,
+        "object_indexes": [
+            0
+        ],
+        "object_counts": [
+            36957
+        ],
+        "object_classifications": [
+            "A"
+        ],
+        "texture_hashes": [
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "012e84e9"
+                ],
+                [
+                    "NormalMap",
+                    ".dds",
+                    "ebac056e"
+                ],
+                [
+                    "LightMap",
+                    ".dds",
+                    "a6ea6d83"
+                ],
+                [
+                    "MaterialMap",
+                    ".dds",
+                    "d5462e37"
+                ]
+            ]
+        ]
+    },
+    {
+        "component_name": "Face",
+        "root_vs": "e8425f64cfb887cd",
+        "draw_vb": "0dbd45ea",
+        "position_vb": "37afd6ad",
+        "blend_vb": "d7781c46",
+        "texcoord_vb": "60732ab5",
+        "ib": "dbd59d30",
+        "position_stride": 40,
+        "vertex_count": 2346,
+        "texcoord_stride": 48,
+        "blend_stride": 32,
+        "object_indexes": [
+            0,
+            7290,
+            9234
+        ],
+        "object_counts": [
+            7290,
+            1944,
+            1080
+        ],
+        "object_classifications": [
+            "A",
+            "B",
+            "C"
+        ],
+        "texture_hashes": [
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "1d487fd5"
+                ]
+            ],
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "1d487fd5"
+                ]
+            ],
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "1d487fd5"
+                ]
+            ]
+        ]
+    },
+    {
+        "component_name": "HairShadow",
+        "root_vs": "e8425f64cfb887cd",
+        "draw_vb": "e8082f3c",
+        "position_vb": "a10b08d2",
+        "blend_vb": "9c3d5e1f",
+        "texcoord_vb": "70717c93",
+        "ib": "acff032e",
+        "position_stride": 40,
+        "vertex_count": 1159,
+        "texcoord_stride": 24,
+        "blend_stride": 32,
+        "object_indexes": [
+            0
+        ],
+        "object_counts": [
+            6702
+        ],
+        "object_classifications": [
+            "A"
+        ],
+        "texture_hashes": [
+            [
+                [
+                    "Diffuse",
+                    ".dds",
+                    "012e84e9"
+                ],
+                [
+                    "LightMap",
+                    ".dds",
+                    "a6ea6d83"
+                ],
+                [
+                    "MaterialMap",
+                    ".dds",
+                    "d5462e37"
+                ]
+            ]
+        ]
+    }
+]

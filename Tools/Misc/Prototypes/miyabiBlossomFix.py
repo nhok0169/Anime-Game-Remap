@@ -69,7 +69,10 @@
 #  15. the sword's textures differ per outfit (its ibs do not); its recolours are carried by text (runOne)
 #  16. a mesh drawn from two components' sections shows the later-drawn slot, and the two characters order
 #      their slots differently; the Body -> Dress copy drops an ib the Legs sections also draw
+#  17. the diffuse is scaled per light map band for the tint difference (THE TINT COMPENSATION); the light map
+#      is found by a scan of the .ini, as no edit pairs one texture with another
 #
+
 
 
 
@@ -113,7 +116,10 @@ TexRoles = {"diffuse": "Diffuse", "lightmap": "LightMap", "materialmap": "Materi
 # THE BAND EDIT: source band -> target band, per source component (bands not listed keep their value)
 BandLevels = (0, 77, 128, 179, 255)
 BandMoves = {"Body": {0: 179, 77: 179, 128: 0, 255: 179},       # onto the skin's Dress table
-             "Legs": {77: 179, 128: 179, 255: 179}}             # onto the skin's Body table
+             # Legs -> Body: NONE. Moving its bands by the same tint rule ({77, 128, 255} -> 179) turned Miyabi8's
+             # black-and-red dress (which that mod packs into the legs / hair atlas) grey, and the mod's own light map
+             # renders it as on Miyabi -- measured in game, 2026-10-27
+             "Legs": {}}
 DownloadFolder = os.path.join(os.path.dirname(os.path.abspath(API)), "..", "..", "..", "Data", "Mod Downloads", "ZZZ", SOURCE, "3_2")
 
 
@@ -354,6 +360,89 @@ def removeRef(value: str) -> str:
     return value[4:].strip() if (value[:4].lower() == "ref ") else value
 
 
+# THE TINT COMPENSATION. A band move picks the NEAREST of the skin's five tint pairs, which for dark cloth is a
+# lighter, more neutral pair (Miyabi6's teal dress came out pale, Miyabi8's black dress grey). So each diffuse
+# texel is also scaled, in linear light, by its band's Miyabi tint pair over the skin tint pair the band now lands
+# on. ps-cb3 rows 39-43 (lit) and 44-48 (shade) of each outfit's draw, from the two 3.2 frame dumps.
+# MEASURED WORSE, so OFF (2026-10-27): on the identity mod it turned the white shirt and lapels lavender, and the
+# grey / pale dark cloth it was written for was the LEGS band move's doing (now removed), not a tint ceiling.
+TintCompensation = False
+Tints = {
+    ("Miyabi", "Body"): [(0.598, 0.643, 0.787), (0.737, 0.807, 0.848), (0.791, 0.619, 0.521), (0.590, 0.546, 0.787), (0.738, 0.830, 0.888), (0.485, 0.481, 0.692), (0.492, 0.549, 0.748), (0.604, 0.375, 0.238), (0.451, 0.420, 0.604), (0.329, 0.433, 0.604)],
+    ("Miyabi", "Legs"): [(1.000, 0.911, 0.886), (0.701, 0.664, 0.890), (0.704, 0.765, 0.803), (0.791, 0.514, 0.509), (0.789, 0.657, 0.735), (0.880, 0.783, 0.783), (0.456, 0.423, 0.694), (0.408, 0.454, 0.619), (0.459, 0.257, 0.263), (0.606, 0.415, 0.491)],
+    ("MiyabiBlossom", "Dress"): [(0.856, 0.725, 0.725), (0.890, 0.854, 0.792), (0.890, 0.872, 0.792), (0.791, 0.707, 0.705), (1.000, 0.911, 0.886), (0.725, 0.521, 0.521), (0.692, 0.667, 0.617), (0.692, 0.665, 0.617), (0.604, 0.604, 0.604), (0.880, 0.783, 0.783)],
+    ("MiyabiBlossom", "Body"): [(1.000, 0.913, 0.888), (0.385, 0.368, 0.487), (0.890, 0.872, 0.792), (0.856, 0.725, 0.725), (1.000, 0.911, 0.886), (0.880, 0.784, 0.784), (0.134, 0.125, 0.197), (0.692, 0.665, 0.617), (0.725, 0.521, 0.521), (0.880, 0.783, 0.783)]}
+
+
+def tintRatios(comp: str):
+    """Per source band: Miyabi's (lit + shade) over the skin's (lit + shade) on the band it moves to"""
+    src, dst = Tints[(SOURCE, comp)], Tints[(TARGET, Routes[comp])]
+    out = []
+    for k, level in enumerate(BandLevels):
+        j = BandLevels.index(BandMoves[comp].get(level, level))
+        s = np.add(src[k], src[k + 5]); d = np.add(dst[j], dst[j + 5])
+        out.append(np.clip(s / np.maximum(d, 1e-3), 0.4, 2.5))
+    return np.array(out, np.float32)
+
+
+def tintCompensation(comp: str, lightMapOf):
+    """GAP 17: scale a diffuse per band. 'lightMapOf()' names the light map whose red channel gives each texel's band"""
+    ratios = tintRatios(comp)
+    levels = np.array(BandLevels, np.int16)
+
+    def edit(texFile) -> None:
+        path = lightMapOf()
+        if (not path or not os.path.isfile(path)):
+            print(f"      ! {comp}: no light map to read the bands from; diffuse left as it is")
+            return
+        lm = FRB.TextureFile(path, readPillowImg = True)
+        lm.open()
+        img = texFile.img.convert("RGBA")
+        red = np.asarray(lm.img.convert("RGBA").resize(img.size, Image.NEAREST))[..., 0].astype(np.int16)
+        band = np.abs(red[..., None] - levels).argmin(axis = -1)
+        px = np.asarray(img).astype(np.float32) / 255.0
+        rgb = px[..., :3]
+        lin = np.where(rgb <= 0.04045, rgb / 12.92, ((rgb + 0.055) / 1.055) ** 2.4) * ratios[band]
+        lin = np.clip(lin, 0.0, 1.0)
+        px[..., :3] = np.where(lin <= 0.0031308, lin * 12.92, 1.055 * lin ** (1 / 2.4) - 0.055)
+        texFile.img = Image.fromarray((px * 255.0 + 0.5).astype(np.uint8), "RGBA")
+    return edit
+
+
+def resourceFiles(iniPath: str) -> dict:
+    """{resource section: file path} of the .ini"""
+    text = open(iniPath, encoding = "utf-8", errors = "replace").read()
+    out = {}
+    for m in re.finditer(r"^\[(Resource[^\]]*)\]\s*\n(.*?)(?=^\[|\Z)", text, re.M | re.S):
+        file = re.search(r"^\s*filename\s*=\s*(.+?)\s*$", m.group(2), re.M)
+        if (file):
+            out[m.group(1)] = os.path.join(os.path.dirname(iniPath), file.group(1).replace("\\", os.sep))
+    return out
+
+
+def lightMapFor(iniPath: str, comp: str):
+    """GAP 17: the light map the mod binds for 'comp' (by hash, then in its ib sections), else the game's"""
+    def find():
+        text = open(iniPath, encoding = "utf-8", errors = "replace").read().split("; --------------- Miyabi Remap")[0]
+        files = resourceFiles(iniPath)
+        lmHash = texHash(SOURCE, comp, "lightmap").lower()
+        ibHash = modTypeOf(SOURCE).hashes.get([srcName(comp), "ib"], V).lower()
+        candidates = []
+        for m in re.finditer(r"^\[([^\]]+)\][ \t]*\r?\n(.*?)(?=^\[|\Z)", text, re.M | re.S):
+            h = re.search(r"^\s*hash\s*=\s*([0-9a-fA-F]{8})", m.group(2), re.M)
+            if (not h):
+                continue
+            if (h.group(1).lower() == lmHash):
+                candidates += re.findall(r"^\s*this\s*=\s*(\S+)", m.group(2), re.M)
+            elif (h.group(1).lower() == ibHash):
+                candidates += re.findall(r"^\s*(?:Resource\\ZZMI\\LightMap|ps-t5)\s*=\s*(?:ref\s+)?(\S+)", m.group(2), re.M | re.I)
+        for name in candidates:
+            if (name in files and os.path.isfile(files[name])):
+                return files[name]
+        return os.path.join(DownloadFolder, f"{srcName(comp)}ALightMap.dds")
+    return find
+
+
 _written = set()
 
 
@@ -413,7 +502,9 @@ def fallbackSections(ini, comp: str, toName: str) -> str:
             continue
         name = f"{toName}RemapDL{Role}"
         file = os.path.join(os.path.dirname(ini.file), name + ".dds")
-        _fallbacks.append((os.path.join(DownloadFolder, f"{srcName(comp)}A{Role}.dds"), file, bandEdit(comp) if (role == "lightmap") else None))
+        moves = bool(BandMoves.get(comp))
+        edit = (bandEdit(comp) if (role == "lightmap") else tintCompensation(comp, lightMapFor(ini.file, comp)) if (role == "diffuse" and TintCompensation) else None) if moves else None
+        _fallbacks.append((os.path.join(DownloadFolder, f"{srcName(comp)}A{Role}.dds"), file, edit))
         text.append(f"[TextureOverride{name}]\nhash = {texHash(TARGET, Routes[comp], role)}\nthis = Resource{name}\n\n"
                     f"[Resource{name}]\nfilename = {name}.dds\n")
         print(f"  {toName}: the mod recolours no {Role} -- the game's {srcName(comp)} {Role} goes on the skin's")
@@ -481,7 +572,7 @@ def makeFixer(comp, modType, indices):
         edits.append(FRB.GraphGroupEdit([{OBJ(comp, "RemapBorrowedTexcoord"): [FRB.RegNewVals({"stride": str(toStride)})]}]))
 
         # ---- 3b. the light maps, wherever the mod binds them: THE BAND EDIT ----
-        if (comp in TexPairs):
+        if (BandMoves.get(comp)):
             lightMapRefs = [(OBJ(comp, "tex_lightmap"), "this", "RemapTexLightMap")]
             for obj in objs:
                 lightMapRefs += [(OBJ(comp, obj), "Resource\\ZZMI\\LightMap", f"{obj}RemapTexLightMap"),
@@ -504,6 +595,23 @@ def makeFixer(comp, modType, indices):
             edits.append(FRB.GraphGroupEdit([{OBJ(comp, obj): [addRef] for obj in objs}]))
             tagName = FRB.RegNewVals({"filename": FRB.FromOldVal(lambda old, modType: taggedFile(old, tcomp))})
             edits.append(FRB.GraphGroupEdit([{OBJ(comp, resName): [tagName] for _, _, resName in lightMapRefs}]))
+
+        # ---- 3c. THE TINT COMPENSATION on every diffuse, the same three ways (OFF: see TintCompensation) ----
+        if (BandMoves.get(comp) and TintCompensation):
+            zzmiDiffuse = "Resource\\ZZMI\\Diffuse"
+            stripRefD = FRB.RegNewVals({zzmiDiffuse: FRB.FromOldVal(lambda old, modType: removeRef(old))})
+            addRefD = FRB.RegNewVals({zzmiDiffuse: FRB.FromOldVal(lambda old, modType: "ref " + removeRef(old))})
+            diffuseRefs = [(OBJ(comp, "tex_diffuse"), "this", "RemapTexDiffuse")]
+            for obj in objs:
+                diffuseRefs += [(OBJ(comp, obj), zzmiDiffuse, f"{obj}RemapTexDiffuse"), (OBJ(comp, obj), "ps-t3", f"{obj}RemapTexDiffuseT3")]
+            compensate = tintCompensation(comp, lightMapFor(ini.file, comp))
+            edits.append(FRB.GraphGroupEdit([{OBJ(comp, obj): [stripRefD] for obj in objs}]))
+            for graph, reg, resName in diffuseRefs:
+                edits.append(FRB.ResRegCollect({(0, *graph): reg},
+                                               {"diffuse": texReplace((0, *OBJ(comp, resName)), "Diffuse", compensate, tcomp)},
+                                               resPredicates = {(0, *graph): direct}))
+            edits.append(FRB.GraphGroupEdit([{OBJ(comp, obj): [addRefD] for obj in objs}]))
+            edits.append(FRB.GraphGroupEdit([{OBJ(comp, resName): [tagName] for _, _, resName in diffuseRefs}]))
 
         # ---- 4. names, hashes and slot indices ----
         # GAP 12: the names keep the ORIGINALS' order. 3DMigoto runs the sections of one hash and first index in

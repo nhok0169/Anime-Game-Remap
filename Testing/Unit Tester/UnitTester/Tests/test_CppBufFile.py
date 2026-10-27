@@ -734,3 +734,58 @@ format: DXGI_FORMAT_R16_UINT
         self.assertNotIsInstance(ctx.exception, FRB.BufFileNotRecognized)
 
     # ================================================
+
+    # ================== restride ====================
+
+    def _texcoordLayout(self, names):
+        """a 4-byte COLOR, then one 4-byte element per name -- only the sizes matter to a restride"""
+        return [FRB.BufElementType(n, "R32_FLOAT", [FRB.BufFloat()]) for n in ["COLOR"] + list(names)]
+
+    def _line(self, *words):
+        return b"".join(words)
+
+    def test_restride_narrowing_dropsTheElementTheTargetLacks(self):
+        line = self._line(b"CCCC", b"AAAA", b"BBBB", b"DDDD")
+        buf = FRB.CppBufFile(line * 2, self._texcoordLayout(["TEXCOORD0", "TEXCOORD1", "TEXCOORD3"]))
+
+        result = buf.restride(self._texcoordLayout(["TEXCOORD0", "TEXCOORD1"]))
+
+        self.assertEqual(result, self._line(b"CCCC", b"AAAA", b"BBBB") * 2)
+
+    def test_restride_widening_fillsFromTheNamedElement(self):
+        line = self._line(b"CCCC", b"AAAA", b"BBBB")
+        buf = FRB.CppBufFile(line, self._texcoordLayout(["TEXCOORD0", "TEXCOORD1"]))
+
+        result = buf.restride(self._texcoordLayout(["TEXCOORD0", "TEXCOORD1", "TEXCOORD3"]), {"TEXCOORD3": "TEXCOORD0"})
+
+        self.assertEqual(result, self._line(b"CCCC", b"AAAA", b"BBBB", b"AAAA"))
+
+    def test_restride_widening_withoutAFill_writesZeros(self):
+        buf = FRB.CppBufFile(self._line(b"CCCC", b"AAAA"), self._texcoordLayout(["TEXCOORD0"]))
+
+        result = buf.restride(self._texcoordLayout(["TEXCOORD0", "TEXCOORD3"]))
+
+        self.assertEqual(result, self._line(b"CCCC", b"AAAA", bytes(4)))
+
+    def test_restride_reordersByTheTargetLayout(self):
+        buf = FRB.CppBufFile(self._line(b"CCCC", b"AAAA", b"BBBB"), self._texcoordLayout(["TEXCOORD0", "TEXCOORD1"]))
+
+        result = buf.restride(self._texcoordLayout(["TEXCOORD1", "TEXCOORD0"]))
+
+        self.assertEqual(result, self._line(b"CCCC", b"BBBB", b"AAAA"))
+
+    def test_restride_leavesThisFileUntouched(self):
+        line = self._line(b"CCCC", b"AAAA")
+        buf = FRB.CppBufFile(line, self._texcoordLayout(["TEXCOORD0"]))
+
+        buf.restride(self._texcoordLayout([]))
+
+        self.assertEqual(bytes(buf.data), line)
+
+    def test_restride_sizeMismatch_raises(self):
+        buf = FRB.CppBufFile(self._line(b"CCCC", b"AAAA"), self._texcoordLayout(["TEXCOORD0"]))
+        wide = [FRB.BufElementType("COLOR", "R32_FLOAT", [FRB.BufFloat()]),
+                FRB.BufElementType("TEXCOORD0", "R32G32_FLOAT", [FRB.BufFloat(), FRB.BufFloat()])]
+
+        with self.assertRaises(FRB.BadBufData):
+            buf.restride(wide)

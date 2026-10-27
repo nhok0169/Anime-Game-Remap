@@ -28,8 +28,8 @@ namespace AGRemapCore {
         low(low), high(high), to(to), when(std::move(when)), negate(negate) {}
 
 
-    MaterialBandRemapFilter::MaterialBandRemapFilter(std::vector<Band> bands, std::string diffusePath):
-        bands(std::move(bands)), diffusePath(std::move(diffusePath)) {}
+    MaterialBandRemapFilter::MaterialBandRemapFilter(std::vector<Band> bands, std::string diffusePath, std::size_t channel):
+        bands(std::move(bands)), diffusePath(std::move(diffusePath)), channel(channel) {}
 
 
     bool MaterialBandRemapFilter::skinColoured(int red, int green, int blue) {
@@ -48,7 +48,7 @@ namespace AGRemapCore {
         const int width = texFile.getWidth();
         const int height = texFile.getHeight();
         std::vector<std::uint8_t> pixels = texFile.getPixels();
-        if (width <= 0 || height <= 0 || pixels.size() < static_cast<std::size_t>(width) * height * 4) {
+        if (channel > 3 || width <= 0 || height <= 0 || pixels.size() < static_cast<std::size_t>(width) * height * 4) {
             return;
         }
 
@@ -74,7 +74,7 @@ namespace AGRemapCore {
 
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                std::uint8_t& alpha = pixels[(static_cast<std::size_t>(y) * width + x) * 4 + 3];
+                std::uint8_t& alpha = pixels[(static_cast<std::size_t>(y) * width + x) * 4 + channel];
 
                 // EVERY test reads 'was', never a value a previous band wrote -- the moves are a
                 // permutation and applied in sequence a permutation chases itself.
@@ -126,10 +126,10 @@ namespace AGRemapCore {
     }
 
 
-    std::function<TexEditor::Filter(const std::string&)> MaterialBandRemapFilter::lightMapEdit(std::vector<Band> bands) {
-        return [bands = std::move(bands)](const std::string& diffusePath) -> TexEditor::Filter {
-            return [bands, diffusePath](TextureFile& texFile) {
-                MaterialBandRemapFilter(bands, diffusePath).transform(texFile);
+    std::function<TexEditor::Filter(const std::string&)> MaterialBandRemapFilter::lightMapEdit(std::vector<Band> bands, std::size_t channel) {
+        return [bands = std::move(bands), channel](const std::string& diffusePath) -> TexEditor::Filter {
+            return [bands, diffusePath, channel](TextureFile& texFile) {
+                MaterialBandRemapFilter(bands, diffusePath, channel).transform(texFile);
             };
         };
     }

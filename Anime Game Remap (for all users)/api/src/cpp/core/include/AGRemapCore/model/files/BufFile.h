@@ -19,6 +19,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <variant>
 #include <vector>
 
@@ -354,6 +355,37 @@ namespace AGRemapCore {
              *      reachable when this file's own data was not a whole number of lines)
              */
             void append(const std::vector<const BufFile*>& bufFiles);
+
+            /**
+             * @brief
+             @rst
+             This file's lines rewritten in another layout -- another stride -- element by element
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Two skins of a character can read one buffer in different layouts: Miyabi's Body
+             ``Texcoord.buf`` is 24 bytes a vertex (``COLOR``, ``TEXCOORD0`` to ``TEXCOORD3``) where her
+             skin's Dress reads 20 (no ``TEXCOORD3``). Each element of 'toElements' is filled, line by
+             line, from:
+
+             #. this file's element of the same name, byte for byte;
+             #. otherwise this file's element named by 'fillFrom' for it (``TEXCOORD3`` from
+                ``TEXCOORD0``), byte for byte;
+             #. otherwise zeros.
+
+             An element of this file that 'toElements' does not name is dropped. Nothing is decoded,
+             so no value can be perturbed on the way
+             @endrst
+             *
+             * @param toElements The layout to write, in byte order
+             * @param fillFrom For an element of 'toElements' this file does not have, the name of this
+             *      file's element to copy into it. **Default**: none
+             *
+             * @return The rewritten bytes, one line of 'toElements' per line of this file
+             *
+             * @throws BadBufData if an element copied across is not the same size on both sides
+             */
+            ByteVec restride(const std::vector<std::unique_ptr<BufElementType>>& toElements,
+                             const std::unordered_map<std::string, std::string>& fillFrom = {}) const;
 
             /**
              * @brief

@@ -21,6 +21,8 @@
 #include <pybind11/numpy.h>
 #include <pybind11/stl.h>
 
+#include <unordered_map>
+
 #include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/files/BufFileErrors.h"
 #include "../buffers/PyBufBytes.h"
@@ -464,6 +466,46 @@ Raises
 
 :class:`BadBufData`
     If the appended bytes do not divide evenly into lines
+        )doc"))
+
+        .def("restride", [](const AGRC::BufFile &self, const py::object &toElements, const std::unordered_map<std::string, std::string> &fillFrom) {
+            std::vector<std::unique_ptr<AGRC::BufElementType>> layout = parseBufElementTypes(toElements);
+            AGRC::ByteVec bytes = translateBufFileErrors([&]() { return self.restride(layout, fillFrom); });
+            return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+        }, py::arg("toElements"), py::arg("fillFrom") = std::unordered_map<std::string, std::string>{}, py::doc(R"doc(
+This file's lines rewritten in another layout --- another stride --- element by element
+
+Two skins of a character can read one buffer in different layouts: Miyabi's Body ``Texcoord.buf``
+is 24 bytes a vertex (``COLOR``, ``TEXCOORD0`` to ``TEXCOORD3``) where her skin's Dress reads 20 (no
+``TEXCOORD3``). Each element of 'toElements' is filled, line by line, from:
+
+#. this file's element of the same name, byte for byte;
+#. otherwise this file's element named by 'fillFrom' for it, byte for byte;
+#. otherwise zeros.
+
+An element of this file that 'toElements' does not name is dropped. Nothing is decoded, so no value
+can be perturbed on the way. This file is left as it is
+
+Parameters
+----------
+toElements: List[:class:`BufElementType`]
+    The layout to write, in byte order
+
+fillFrom: Dict[:class:`str`, :class:`str`]
+    For an element of 'toElements' this file does not have, the name of this file's element to copy
+    into it :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``{}``
+
+Returns
+-------
+:class:`bytes`
+    The rewritten bytes, one line of 'toElements' per line of this file
+
+Raises
+------
+:class:`BadBufData`
+    If an element copied across is not the same size on both sides
         )doc"))
 
         .def("getDumpStr", [](const AGRC::BufFile &self, const std::string &prefix) {

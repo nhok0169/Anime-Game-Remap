@@ -64,6 +64,9 @@ from .test_GraphInherit import GraphInheritTest
 from .test_GraphRemove import GraphRemoveTest
 from .test_GraphGroupRemove import GraphGroupRemoveTest
 from .test_GraphCreate import GraphCreateTest
+from .test_GraphFilter import GraphFilterTest
+from .test_GraphCopy import GraphCopyTest
+from .test_RegIfTemplateAdd import RegIfTemplateAddTest
 from .test_GraphRename import GraphRenameTest
 from .test_RegFillMissing import RegFillMissingTest
 from .test_IfContentPart import IfContentPartTest
@@ -193,3 +196,4 @@ __all__ += ["GIMIComponentBuildersTest"]
 __all__ += ["BaseIniFixerTest"]
 __all__ += ["NeuvilletteTemplateOptionsTest"]
 __all__ += ["InnerLayerOutlineTest", "VGSplitGroupInnerOutlineTest"]
+__all__ += ["GraphCreateTest", "GraphFilterTest", "GraphCopyTest", "RegIfTemplateAddTest"]

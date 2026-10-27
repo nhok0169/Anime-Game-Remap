@@ -470,3 +470,18 @@ try:
     __all__ += ["GraphCreate"]
 except ImportError:
     pass
+
+# ----- Added 2026-10-27: GraphFilter (keep only the KVPs a predicate accepts, in place) and GraphCopy
+# (the same selection on a copy, stored under another graph id). Guarded like the blocks above.
+try:
+    from .core import GraphFilter, GraphCopy
+    __all__ += ["GraphFilter", "GraphCopy"]
+except ImportError:
+    pass
+
+# ----- Added 2026-10-27: RegIfTemplateAdd (insert an IfTemplate's parts, if blocks included, at a position).
+try:
+    from .core import RegIfTemplateAdd
+    __all__ += ["RegIfTemplateAdd"]
+except ImportError:
+    pass

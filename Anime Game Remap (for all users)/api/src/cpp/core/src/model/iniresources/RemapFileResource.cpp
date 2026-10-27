@@ -18,6 +18,7 @@
 #include <fstream>
 #include <utility>
 
+#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/stats/RemapStats.h"
 
 
@@ -72,5 +73,29 @@ namespace AGRemapCore {
         }
 
         return _fix();
+    }
+
+
+    RemapBufRestrideResource::RemapBufRestrideResource(const std::string& iniFolderPath, const std::string& fromPath,
+                                                       const std::string& fixedPath,
+                                                       std::vector<std::unique_ptr<BufElementType>> fromElements,
+                                                       std::vector<std::unique_ptr<BufElementType>> toElements,
+                                                       std::unordered_map<std::string, std::string> fillFrom, std::string type):
+        RemapFileAddResource(iniFolderPath, fixedPath, {}, std::move(type)),
+        fromPath(FileService::absPathOfRelPath(fromPath, iniFolderPath)), fromElements(std::move(fromElements)),
+        toElements(std::move(toElements)), fillFrom(std::move(fillFrom)) {}
+
+    bool RemapBufRestrideResource::_fix() {
+        std::vector<std::unique_ptr<BufElementType>> elements;
+        for (const auto& element : fromElements) {
+            elements.push_back(std::make_unique<BufElementType>(*element));
+        }
+        try {
+            BufFile buf(fromPath, std::move(elements));
+            bytes = buf.restride(toElements, fillFrom);
+        } catch (const std::exception&) {
+            return false;
+        }
+        return RemapFileAddResource::_fix();
     }
 }

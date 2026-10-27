@@ -16,9 +16,12 @@
 
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
+#include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 
 
@@ -82,6 +85,67 @@ namespace AGRemapCore {
              * @return Whether the whole file was written
              */
             virtual bool _fix();
+    };
+
+
+    /**
+     * @brief
+     @rst
+     This class inherits from :cpp:class:`AGRemapCore::RemapFileAddResource`
+
+     A mod's buffer rewritten in another layout -- see :cpp:func:`BufFile::restride` -- and written
+     to the fixed path :raw-html:`<br />` :raw-html:`<br />`
+
+     The source is read when the resource is FIXED, not when it is built, so a buffer the run itself
+     writes or downloads first is read as it ends up. Like every add, it is counted under
+     :cpp:member:`RemapStats::fileAdd`, by the path it writes
+     @endrst
+     */
+    class RemapBufRestrideResource: public RemapFileAddResource {
+        public:
+            /**
+             * @param iniFolderPath The folder of the ``.ini`` file that references the buffer
+             * @param fromPath The mod's buffer to read
+             * @param fixedPath The path the rewritten buffer is written to
+             * @param fromElements The layout 'fromPath' is in, in byte order
+             * @param toElements The layout to write, in byte order
+             * @param fillFrom See :cpp:func:`BufFile::restride`. **Default**: none
+             * @param type The name of the type of resource. **Default**: ``"resourceRemapFileAdd"``
+             */
+            RemapBufRestrideResource(const std::string& iniFolderPath, const std::string& fromPath, const std::string& fixedPath,
+                                     std::vector<std::unique_ptr<BufElementType>> fromElements,
+                                     std::vector<std::unique_ptr<BufElementType>> toElements,
+                                     std::unordered_map<std::string, std::string> fillFrom = {},
+                                     std::string type = "resourceRemapFileAdd");
+
+            /**
+             * @brief The mod's buffer to read, as an absolute path
+             */
+            std::string fromPath;
+
+            /**
+             * @brief The layout #fromPath is in
+             */
+            std::vector<std::unique_ptr<BufElementType>> fromElements;
+
+            /**
+             * @brief The layout to write
+             */
+            std::vector<std::unique_ptr<BufElementType>> toElements;
+
+            /**
+             * @brief See :cpp:func:`BufFile::restride`
+             */
+            std::unordered_map<std::string, std::string> fillFrom;
+
+        protected:
+            /**
+             * @brief Reads #fromPath, rewrites it in #toElements and writes the result
+             *
+             * @return Whether the whole file was written. ``false`` when #fromPath cannot be read in
+             *      #fromElements
+             */
+            bool _fix() override;
     };
 }
 

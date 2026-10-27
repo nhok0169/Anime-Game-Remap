@@ -100,6 +100,7 @@ void initCppGraphRename(pybind11::module_ &m);
 void initCppRegFillMissing(pybind11::module_ &m);
 void initCppRegSurroundedAdd(pybind11::module_ &m);
 void initCppRegBottomAdd(pybind11::module_ &m);
+void initCppRegIfTemplateAdd(pybind11::module_ &m);
 void initCppRegDelimitedAdd(pybind11::module_ &m);
 void initCppRegBranchAdd(pybind11::module_ &m);
 void initCppGIMIObjPartFilter(pybind11::module_ &m);
@@ -107,6 +108,8 @@ void initCppBaseIniGraphGroupEdit(pybind11::module_ &m);
 void initCppGraphRemove(pybind11::module_ &m);
 void initCppGraphGroupRemove(pybind11::module_ &m);
 void initCppGraphCreate(pybind11::module_ &m);
+void initCppGraphFilter(pybind11::module_ &m);
+void initCppGraphCopy(pybind11::module_ &m);
 void initCppGraphInherit(pybind11::module_ &m);
 void initCppGraphGroupRemap(pybind11::module_ &m);
 void initCppGraphGroupEdit(pybind11::module_ &m);
@@ -306,6 +309,7 @@ PYBIND11_MODULE(core, m) {
     initCppRegFillMissing(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfContentPart (the parts it fills)
     initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegBottomAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parseAdditions/additionsToPy)
+    initCppRegIfTemplateAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfTemplate (its template is one)
     initCppRegDelimitedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parsers)
     initCppRegBranchAdd(m); // must come after initCppBaseIniGraphEdit (registers its base), initCppRegSurroundedAdd (shares its parseAdditions), initCppZ3Predicate and initCppSectionIterData (what branchOf is handed)
 
@@ -316,6 +320,8 @@ PYBIND11_MODULE(core, m) {
     initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphCreate(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppIniSectionGraph (its `graph` is one)
+    initCppGraphFilter(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppIfContentPart (its predicate is handed one)
+    initCppGraphCopy(m); // likewise
     initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)
     initCppGraphGroupRemap(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppBaseRegEdit (its isinstance target for register edits)

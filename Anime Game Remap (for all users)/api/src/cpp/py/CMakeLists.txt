@@ -124,6 +124,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphEdits/PyRegFillMissing.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegBottomAdd.cpp
+    src/model/strategies/iniFixers/graphEdits/PyRegIfTemplateAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegDelimitedAdd.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegBranchAdd.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyIniGraphGroups.cpp
@@ -131,6 +132,8 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemove.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphCreate.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphFilter.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphCopy.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemap.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.cpp

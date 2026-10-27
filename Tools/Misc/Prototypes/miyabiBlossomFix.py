@@ -806,6 +806,9 @@ def moveCrossSlotDraws(folder):
                 continue
             h = h.group(1).lower()
             written |= set(re.findall(r"^\s*(Resource\w+)\s*=\s*(?:copy\s+)?so0\s*$", m.group(2), re.M))
+            # ...or captured at the Body's own draw, from the pre-skinned vb0 it draws with (Miyabi9)
+            if (h == bodyIb):
+                written |= set(re.findall(r"^\s*(Resource\w+)\s*=\s*copy\s+vb0\s*$", m.group(2), re.M))
             if (h == legsIb):
                 legsIbs |= {removeRef(v) for v in re.findall(r"^\s*ib\s*=\s*(.+?)\s*$", m.group(2), re.M)}
             if (h in LegsTexRegs and re.search(r"^\s*this\s*=", m.group(2), re.M)):
@@ -845,6 +848,10 @@ def moveCrossSlotDraws(folder):
                 if (re.match(r"(if|else|elif|endif)\b", s) or mi or cross or tex or (pre and removeRef(pre.group(1)) in written)):
                     keep.append(line)
                 out.append(line.replace(s, "drawindexed = 0, 0, 0") if cross else line)
+                # ...and unbinds the Body ib, or a later `drawindexed = auto` of the same slot (Miyabi6 / 8's Legs IB
+                # section) draws the Body again, in this copy's pre-skin frame
+                if (cross):
+                    out.append(line[:len(line) - len(line.lstrip())] + "ib = null")
             if (any(re.match(r"\s*(drawindexed|Resource\\ZZMI|run\s*=|ps-t)", l, re.I) for l in keep)):
                 moved.append((any(re.match(r"\s*drawindexed", l) for l in keep), nl.join(keep)))
             return f"[{m.group(1)}]{nl}" + nl.join(out)

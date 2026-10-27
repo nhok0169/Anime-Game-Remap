@@ -1065,9 +1065,12 @@ namespace AGRemapCore {
                         if (!hash.has_value() || hashes.count(lowered(*hash)) == 0) {
                             continue;
                         }
+                        // the stream-out of the pre-skin pass, or (at the component's own draw) the pre-skinned vb0
+                        // it draws with
+                        const bool ownDraw = lowered(*hash) == lowered(hashOf(config_.source + comp, "ib").value_or(""));
                         for (const auto& kv : keyValues(s.body)) {
                             const std::string v = lowered(kv.second);
-                            if (v == "so0" || v == "copy so0") {
+                            if (v == "so0" || v == "copy so0" || (ownDraw && v == "copy vb0")) {
                                 written.insert(kv.first);
                             }
                         }
@@ -1108,7 +1111,13 @@ namespace AGRemapCore {
                         hasCross = hasCross || cross;
                         if (zero) {
                             const std::size_t indent = line.find_first_not_of(" \t");
-                            out += (cross ? line.substr(0, indent == std::string::npos ? 0 : indent) + IniKeywords::DrawIndexed + " = 0, 0, 0" : line) + nl;
+                            const std::string pad = line.substr(0, indent == std::string::npos ? 0 : indent);
+                            out += (cross ? pad + IniKeywords::DrawIndexed + " = 0, 0, 0" : line) + nl;
+                            // ...and unbinds the Body ib, or a later `drawindexed = auto` of the same slot (a Legs IB
+                            // section) draws the Body again, in this copy's pre-skin frame
+                            if (cross) {
+                                out += pad + "ib = null" + nl;
+                            }
                         } else if (keep) {
                             out += line + nl;
                         }

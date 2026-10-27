@@ -2,6 +2,10 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="namespace_a_g_remap_core" kind="namespace" language="C++">
     <compoundname>AGRemapCore</compoundname>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_fixer" prot="public">AGRemapCore::AetherFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_heaven_fixer" prot="public">AGRemapCore::AetherHeavenFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_heaven_parser" prot="public">AGRemapCore::AetherHeavenParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_parser" prot="public">AGRemapCore::AetherParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_fixer" prot="public">AGRemapCore::AmberCNFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_parser" prot="public">AGRemapCore::AmberCNParser</innerclass>
@@ -613,6 +617,52 @@ Different replacement modes for when the :cpp:class:`IniSectionGraph` already ex
         <type></type>
         <name>ModTypeId</name>
         <qualifiedname>AGRemapCore::ModTypeId</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7d2fc7d93b8844307c3bc674ebeaf2ed" prot="public">
+          <name>Aether</name>
+          <briefdescription>
+<para>Aether (the male Traveler) from GI <ndash/> the asset repo&apos;s <computeroutput>TravelerBoy</computeroutput>, and what his mods name their sections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa22eb11440721ca6a1102e0a3f08b6ff" prot="public">
+          <name>AetherHeaven</name>
+          <briefdescription>
+<para>Aether outfit skin (As Heaven and Earth Are Made Anew) from GI <ndash/> THREE skinned components (an unnamed main mesh, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac4e4cdde36f3e6aefc7901af01059295" prot="public">
+          <name>AetherHeavenMain</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+AetherHeaven&apos;s MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The :cpp:enumerator:`LumineHeavenMain` arrangement: the skin&apos;s own dump leaves this component UNNAMED
+(``AetherHeavenHead.ib``, ``AetherHeavenPosition.buf``), so its component name -- in the vertex-group table
+and the download file names -- is the empty string, and only this fix-target id carries ``Main``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa9d8fd741d6b0fcd8513d59f7276da448" prot="public">
+          <name>AetherHeavenBang</name>
+          <briefdescription>
+<para>AetherHeaven&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>AetherHeavenMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabebc6105168e4487c07febb7cc5766e6" prot="public">
+          <name>AetherHeavenEye</name>
+          <briefdescription>
+<para>AetherHeaven&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>AetherHeavenMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" prot="public">
           <name>Amber</name>
           <briefdescription>
@@ -1426,7 +1476,7 @@ The names of the different types of mods this fix will fix from or fix to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="581"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="613"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1949,6 +1999,31 @@ For each of ChangliNymph&apos;s shape-key slots, which of Changli&apos;s keys it
         </inbodydescription>
         <location file="src/data/IniFixData/Changli/ChangliSkeleton.cpp" line="130" column="23" bodyfile="src/data/IniFixData/Changli/ChangliSkeleton.cpp" bodystart="130" bodyend="139" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliSkeleton.h" declline="67" declcolumn="23"/>
       </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a56b039db9715d30bacb142ce9f481559" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::changliTattooShader</definition>
+        <argsstring>()</argsstring>
+        <name>changliTattooShader</name>
+        <qualifiedname>AGRemapCore::changliTattooShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changli&apos;s chest flame tattoo pixel shader (``bb1c5ba6e1be6395``) and the material constants its draw
+reads, for her tattoo drawn on ChangliNymph
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The shader cuts the tattoo&apos;s shape out of its glow texture&apos;s alpha and discards the rest of the quad.
+Its copy is made for ChangliNymph&apos;s body draw: it takes the ``TEXCOORD4`` / ``TEXCOORD5`` inputs it
+does not read (that draw&apos;s vertex shader writes them before the inputs it does read), and its material
+constants are at ``ps-cb1`` with the per-object constants at ``ps-cb2``, where that draw keeps them. It
+reads the glow texture at ``ps-t0`` and two game textures at ``ps-t1`` / ``ps-t2``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliTattooShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/Changli/ChangliTattooShader.cpp" bodystart="25" bodyend="54" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliTattooShader.h" declline="37" declcolumn="29"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6271ab9cbf6269a4f61a14aeefaeb6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
         <definition>WWMITextureFacts AGRemapCore::changliTextureFacts</definition>
@@ -1969,7 +2044,7 @@ the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/Changli/ChangliTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Changli/ChangliTextures.cpp" bodystart="20" bodyend="141" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/Changli/ChangliTextures.cpp" line="20" column="22" bodyfile="src/data/IniFixData/Changli/ChangliTextures.cpp" bodystart="20" bodyend="150" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afde70595a402f7f8d7ae7a744de2ae76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -1989,6 +2064,82 @@ see :cpp:member:`WWMIFixerConfig::textureThumbprints`. Generated by
         <inbodydescription>
         </inbodydescription>
         <location file="src/data/IniFixData/Changli/ChangliThumbprints.cpp" line="26" column="30" bodyfile="src/data/IniFixData/Changli/ChangliThumbprints.cpp" bodystart="26" bodyend="553" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliThumbprints.h" declline="32" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a29490600fa741856ad37cc0b1755a852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::changliUpperShader</definition>
+        <argsstring>()</argsstring>
+        <name>changliUpperShader</name>
+        <qualifiedname>AGRemapCore::changliUpperShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changli&apos;s upper-body pixel shader (``9d4c7d9618ef7f45``) and the material constants her upper body&apos;s
+draw reads at ``ps-cb4``, as an emissive overlay for her flame feathers&apos; glow on ChangliNymph
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A part of hers glows where its diffuse&apos;s alpha is above 230 of 255 (her emissive is a colour times
+``saturate((alpha - 0.9) / 0.1)``). This copy discards
+every pixel below that and writes the part&apos;s diffuse colour, doubled, as the pixel&apos;s emissive, so it is
+drawn over a surface another shader has already drawn, with that shader&apos;s other render targets kept. It
+reads the mod&apos;s normal map, mask, diffuse and detail map at ``ps-t0`` .. ``ps-t3``, her flame ramp at
+``ps-t4``, a game texture at ``ps-t5`` and the subsurface ramp at ``ps-t6``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Changli/ChangliUpperShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/Changli/ChangliUpperShader.cpp" bodystart="25" bodyend="106" declfile="include/AGRemapCore/data/IniFixData/Changli/ChangliUpperShader.h" declline="38" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1afe73961df8ef5db38793637d06155b50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::changliNymphShawlShader</definition>
+        <argsstring>()</argsstring>
+        <name>changliNymphShawlShader</name>
+        <qualifiedname>AGRemapCore::changliNymphShawlShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+ChangliNymph&apos;s see-through shawl pixel shader (``43b4972776737988``) and the material constants her
+shawl&apos;s draw reads at ``ps-cb4``, for her shawl drawn on Changli
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The same screen-door see-through as :cpp:func:`changliNymphSheerShader`, with the same register
+order: the mod&apos;s normal map at ``ps-t0`` and diffuse at ``ps-t1``, a matcap at ``ps-t2``, the dither
+noise at ``ps-t3`` and the subsurface ramp at ``ps-t4``. It reads the per-vertex ``COLOR0`` of the
+coat slot&apos;s vertex shader it runs on
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.cpp" bodystart="25" bodyend="87" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphShawlShader.h" declline="36" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a3ec419ae4ecbb5e75d8c95d3b120eedd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
+        <definition>WWMIFixerConfig::Shader AGRemapCore::changliNymphSheerShader</definition>
+        <argsstring>()</argsstring>
+        <name>changliNymphSheerShader</name>
+        <qualifiedname>AGRemapCore::changliNymphSheerShader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+ChangliNymph&apos;s see-through dress pixel shader (``d5572b1cbbba07a4``) and the material constants her
+dress&apos;s draw reads at ``ps-cb4``, for her sheer dress drawn on Changli
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The shader is see-through by a screen-door dither: it discards each pixel whose opacity (the diffuse&apos;s
+alpha) falls under a noise threshold that moves every frame, and the game&apos;s temporal anti-aliasing
+blends the result. It reads the mod&apos;s normal map at ``ps-t0`` and diffuse at ``ps-t1``, a matcap at
+``ps-t2``, the dither noise at ``ps-t3`` and the subsurface ramp at ``ps-t4``. Its ``COLOR0`` input
+is a constant 0 (her dress&apos;s value on every vertex): the vertex shader of the Changli draw it runs on
+passes no colour
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.cpp" bodystart="25" bodyend="87" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphSheerShader.h" declline="38" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1ad117dd906fbce3b1b8de42749e14d308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::map&lt; int, std::vector&lt; int &gt; &gt; &amp;</type>
@@ -2028,7 +2179,7 @@ the mod is being fixed onto
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="118" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
+        <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" line="21" column="22" bodyfile="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp" bodystart="21" bodyend="124" declfile="include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h" declline="34" declcolumn="22"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a340378ff651518da079a8e4c9b64a492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::uint8_t &gt; &gt; &amp;</type>
@@ -2228,7 +2379,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2475" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2475" bodyend="2479" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="786" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2573" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2573" bodyend="2577" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="803" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2262,7 +2413,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3385" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3385" bodyend="3389" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="545" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3416" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3416" bodyend="3420" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="572" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a725ad2ea6514c2a70bc2dccef27771d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
@@ -2990,7 +3141,7 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="9631" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="9631" bodyend="9635" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1457" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="10516" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="10516" bodyend="10520" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1474" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -3076,7 +3227,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1103" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1103" bodyend="1119" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1142" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1142" bodyend="1158" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -3377,7 +3528,7 @@ draws one source object needs no member at all: its index buffer is already righ
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="164" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="176" declcolumn="10"/>
+        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="51" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="51" bodyend="194" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="187" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -3456,7 +3607,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="363" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="235" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="131" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="131" bodyend="370" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="247" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

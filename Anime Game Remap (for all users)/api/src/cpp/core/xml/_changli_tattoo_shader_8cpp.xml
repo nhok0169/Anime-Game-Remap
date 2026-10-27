@@ -1,0 +1,1689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_changli_tattoo_shader_8cpp" kind="file" language="C++">
+    <compoundname>ChangliTattooShader.cpp</compoundname>
+    <includes refid="_changli_tattoo_shader_8h" local="yes">AGRemapCore/data/IniFixData/Changli/ChangliTattooShader.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="51">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="110">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="96">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="95">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="56">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="109">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="107">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="112">
+        <label>AGRemapCore/constants/FileExt.h</label>
+        <link refid="_file_ext_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>AGRemapCore/constants/GameTypeId.h</label>
+        <link refid="_game_type_id_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>AGRemapCore/constants/IfPredPartType.h</label>
+        <link refid="_if_pred_part_type_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="113">
+        <label>AGRemapCore/constants/IniKeywords.h</label>
+        <link refid="_ini_keywords_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/data/IniFixData/Changli/ChangliTattooShader.h</label>
+        <link refid="_changli_tattoo_shader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+      </node>
+      <node id="111">
+        <label>AGRemapCore/data/WWMITextureFacts.h</label>
+        <link refid="_w_w_m_i_texture_facts_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+        <childnode refid="116" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+      </node>
+      <node id="116">
+        <label>AGRemapCore/model/IniNamingTools.h</label>
+        <link refid="_ini_naming_tools_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+      </node>
+      <node id="72">
+        <label>AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/model/assets/Hashes.h</label>
+        <link refid="_hashes_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/model/assets/IndexCounts.h</label>
+        <link refid="_index_counts_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/model/assets/Indices.h</label>
+        <link refid="_indices_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>AGRemapCore/model/assets/ModAssets.h</label>
+        <link refid="_mod_assets_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>AGRemapCore/model/assets/ModDictAssets.h</label>
+        <link refid="_mod_dict_assets_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
+        <link refid="_mod_mapped_assets_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>AGRemapCore/model/assets/ShapeKeyChecksums.h</label>
+        <link refid="_shape_key_checksums_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/model/assets/VGCounts.h</label>
+        <link refid="_v_g_counts_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/model/assets/VGOffsets.h</label>
+        <link refid="_v_g_offsets_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>AGRemapCore/model/assets/VGRemaps.h</label>
+        <link refid="_v_g_remaps_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/model/assets/VertexCounts.h</label>
+        <link refid="_vertex_counts_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="115">
+        <label>AGRemapCore/model/files/IniScan.h</label>
+        <link refid="_ini_scan_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
+        <link refid="_base_ini_fixer_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
+        <link refid="_ini_fix_builder_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="94">
+        <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
+        <link refid="_ini_parse_builder_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+      </node>
+      <node id="100">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
+        <link refid="_ini_removal_context_8h"/>
+      </node>
+      <node id="101">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
+        <link refid="_ini_remove_builder_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
+      <node id="121">
+        <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
+        <link refid="_base_tex_editor_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="120">
+        <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
+        <link refid="_tex_editor_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+      </node>
+      <node id="122">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="114">
+        <label>AGRemapCore/model/textures/TexThumbprint.h</label>
+        <link refid="_tex_thumbprint_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="106">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="108">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+      </node>
+      <node id="119">
+        <label>AGRemapCore/tools/StringTools.h</label>
+        <link refid="_string_tools_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="117">
+        <label>AGRemapCore/tools/files/FileService.h</label>
+        <link refid="_file_service_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="44">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+      </node>
+      <node id="104">
+        <label>AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/data/IniFixData/Changli/ChangliTattooShader.cpp</label>
+        <link refid="_changli_tattoo_shader_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="90">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="64">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="65">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="85">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="82">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="84">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="46">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="92">
+        <label>IniGraphGroup.tpp</label>
+      </node>
+      <node id="91">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="36">
+        <label>ModAssets.tpp</label>
+      </node>
+      <node id="25">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="26">
+        <label>ModMappedAssets.tpp</label>
+      </node>
+      <node id="81">
+        <label>Node.tpp</label>
+      </node>
+      <node id="60">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="63">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="52">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="86">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="41">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>array</label>
+      </node>
+      <node id="62">
+        <label>cmath</label>
+      </node>
+      <node id="88">
+        <label>coroutine</label>
+      </node>
+      <node id="20">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="69">
+        <label>deque</label>
+      </node>
+      <node id="89">
+        <label>exception</label>
+      </node>
+      <node id="118">
+        <label>filesystem</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="54">
+        <label>list</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="50">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>set</label>
+      </node>
+      <node id="21">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="105">
+        <label>string_view</label>
+      </node>
+      <node id="39">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="58">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="55">
+        <label>tuple</label>
+      </node>
+      <node id="42">
+        <label>type_traits</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="38">
+        <label>variant</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GENERATED<sp/>by<sp/>Tools/Misc/Diagnostics/wwmiShaderData.py<sp/>--<sp/>do<sp/>not<sp/>edit<sp/>by<sp/>hand.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Changli&apos;s<sp/>chest<sp/>flame<sp/>tattoo<sp/>pass,<sp/>bb1c5ba6e1be6395<sp/>(TEXCOORD4<sp/>/<sp/>5<sp/>inputs<sp/>added<sp/>and<sp/>its<sp/>two<sp/>constant<sp/>buffers&apos;<sp/>registers<sp/>exchanged,<sp/>for<sp/>the<sp/>skin&apos;s<sp/>body<sp/>draw;<sp/>dropping<sp/>out<sp/>with<sp/>the<sp/>skin&apos;s<sp/>camera<sp/>fade):<sp/>its<sp/>decompiled<sp/>pixel<sp/>shader<sp/>and<sp/>the<sp/>constant<sp/>buffers<sp/>its<sp/>draw<sp/>read.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_changli_tattoo_shader_8h" kindref="compound">AGRemapCore/data/IniFixData/Changli/ChangliTattooShader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref><sp/><ref refid="namespace_a_g_remap_core_1a56b039db9715d30bacb142ce9f481559" kindref="member">changliTattooShader</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref><sp/>shader;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.<ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1a5ede2e7aecc963b58b709d1b895c58d2" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ChangliTattoo&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.ps<sp/>+=<sp/>R</highlight><highlight class="stringliteral">&quot;hlsl(//<sp/>Changli&apos;s<sp/>chest<sp/>flame<sp/>tattoo<sp/>pass,<sp/>bb1c5ba6e1be6395<sp/>(TEXCOORD4<sp/>/<sp/>5<sp/>inputs<sp/>added<sp/>and<sp/>its<sp/>two<sp/>constant<sp/>buffers&apos;<sp/>registers<sp/>exchanged,<sp/>for<sp/>the<sp/>skin&apos;s<sp/>body<sp/>draw)<sp/>--<sp/>decompiled<sp/>by<sp/>3DMigoto</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">Texture2D&lt;float4&gt;<sp/>t2<sp/>:<sp/>register(t2);</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral">Texture2D&lt;float4&gt;<sp/>t1<sp/>:<sp/>register(t1);</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">Texture2D&lt;float4&gt;<sp/>t0<sp/>:<sp/>register(t0);</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral">SamplerState<sp/>s2_s<sp/>:<sp/>register(s2);</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral">SamplerState<sp/>s1_s<sp/>:<sp/>register(s1);</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral">SamplerState<sp/>s0_s<sp/>:<sp/>register(s0);</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral">//<sp/>the<sp/>material,<sp/>bound<sp/>at<sp/>b1<sp/>by<sp/>the<sp/>fix:<sp/>the<sp/>draw<sp/>it<sp/>runs<sp/>on<sp/>keeps<sp/>its<sp/>per-object<sp/>constants<sp/>at<sp/>b2</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral">cbuffer<sp/>cb2<sp/>:<sp/>register(b1)</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral">{</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/>float4<sp/>cb2[38];</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral">//<sp/>the<sp/>per-object<sp/>constants,<sp/>at<sp/>b2<sp/>on<sp/>the<sp/>draw<sp/>it<sp/>runs<sp/>on</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">cbuffer<sp/>cb1<sp/>:<sp/>register(b2)</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral">{</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/>float4<sp/>cb1[44];</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral">cbuffer<sp/>cb0<sp/>:<sp/>register(b0)</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral">{</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/>float4<sp/>cb0[286];</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral">//<sp/>3Dmigoto<sp/>declarations</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral">#define<sp/>cmp<sp/>-</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral">Texture1D&lt;float4&gt;<sp/>IniParams<sp/>:<sp/>register(t120);</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral">void<sp/>main(</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/>linear<sp/>centroid<sp/>float4<sp/>v0<sp/>:<sp/>TEXCOORD10,</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/>linear<sp/>centroid<sp/>float4<sp/>v1<sp/>:<sp/>TEXCOORD11,</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/>float4<sp/>v2<sp/>:<sp/>TEXCOORD0,</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/>float4<sp/>v3<sp/>:<sp/>TEXCOORD1,</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/>float4<sp/>v4<sp/>:<sp/>TEXCOORD2,</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/>float2<sp/>v5<sp/>:<sp/>TEXCOORD3,</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/>//<sp/>not<sp/>read:<sp/>the<sp/>vertex<sp/>shader<sp/>of<sp/>the<sp/>draw<sp/>it<sp/>runs<sp/>on<sp/>writes<sp/>them<sp/>here</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/>float2<sp/>padTexcoord4<sp/>:<sp/>TEXCOORD4,</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/>float2<sp/>padTexcoord5<sp/>:<sp/>TEXCOORD5,</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/>float4<sp/>v6<sp/>:<sp/>VELOCITY_PREV_POS0,</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/>float4<sp/>v7<sp/>:<sp/>SV_Position0,</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/>uint<sp/>v8<sp/>:<sp/>SV_IsFrontFace0,</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o0<sp/>:<sp/>SV_Target0,</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o1<sp/>:<sp/>SV_Target1,</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o2<sp/>:<sp/>SV_Target2,</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o3<sp/>:<sp/>SV_Target3,</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o4<sp/>:<sp/>SV_Target4,</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o5<sp/>:<sp/>SV_Target5,</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/>out<sp/>float4<sp/>o6<sp/>:<sp/>SV_Target6)</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral">{</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/>float4<sp/>r0,r1,r2,r3,r4,r5;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/>uint4<sp/>bitmask,<sp/>uiDest;</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/>float4<sp/>fDest;</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>v1.zxy<sp/>*<sp/>v0.yzx;</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>v1.yzx<sp/>*<sp/>v0.zxy<sp/>+<sp/>-r0.xyz;</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>v1.www<sp/>*<sp/>r0.xyz;</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>cb0[144].www<sp/>*<sp/>float3(0,0,1)<sp/>+<sp/>cb0[144].xyz;</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>dot(r1.xyz,<sp/>r1.xyz);</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>rsqrt(r0.w);</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>r1.xyz<sp/>*<sp/>r0.www;</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>r1.yyy<sp/>*<sp/>r0.xyz;</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>r1.xxx<sp/>*<sp/>v0.xyz<sp/>+<sp/>r0.xyz;</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>r1.zzz<sp/>*<sp/>v1.xyz<sp/>+<sp/>r0.xyz;</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>dot(r0.xyz,<sp/>r0.xyz);</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>rsqrt(r0.w);</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>r0.xyz<sp/>*<sp/>r0.www;</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>cmp(cb2[33].y<sp/>&gt;=<sp/>0.00100000005);</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>r0.w<sp/>?<sp/>0.200000<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>cb2[33].z<sp/>+<sp/>r0.w;</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>cb2[23].xyz<sp/>*<sp/>r0.www;</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/>r2.xyzw<sp/>=<sp/>t0.SampleBias(s0_s,<sp/>v2.xy,<sp/>cb0[149].y).xyzw;</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>1<sp/>+<sp/>-r2.x;</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>saturate(cb2[34].x);</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/>r3.x<sp/>=<sp/>r2.x<sp/>*<sp/>-2<sp/>+<sp/>3;</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>r2.x<sp/>*<sp/>r2.x;</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>r3.x<sp/>*<sp/>r2.x;</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>r2.x<sp/>*<sp/>-r1.w<sp/>+<sp/>r1.w;</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/>r3.xyzw<sp/>=<sp/>float4(1.20000005,3.5,-0.200000003,15)<sp/>+<sp/>-cb2[35].xyzw;</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/>r3.xyzw<sp/>=<sp/>cb2[34].wwww<sp/>*<sp/>r3.xyzw<sp/>+<sp/>cb2[35].xyzw;</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/>r4.xz<sp/>=<sp/>float2(1,0);</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/>r4.yw<sp/>=<sp/>r3.yz;</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/>r3.yz<sp/>=<sp/>cb0[148].zz<sp/>*<sp/>r4.zw;</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/>r3.yz<sp/>=<sp/>v2.xy<sp/>*<sp/>r4.xy<sp/>+<sp/>r3.yz;</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>t1.SampleBias(s1_s,<sp/>r3.yz,<sp/>cb0[149].y).x;</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>r2.x<sp/>*<sp/>-0.057142999<sp/>+<sp/>0.00952399988;</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>0.5<sp/>*<sp/>r3.w;</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>max(1,<sp/>r3.y);</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>r3.y<sp/>*<sp/>r2.x;</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/>r3.yzw<sp/>=<sp/>float3(2.79999995,-0.400000006,15)<sp/>+<sp/>-cb2[36].xyz;</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/>r4.xyz<sp/>=<sp/>cb2[34].www<sp/>*<sp/>r3.yzw<sp/>+<sp/>cb2[36].xyz;</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/>r4.w<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/>r5.xw<sp/>=<sp/>float2(0,0);</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/>r5.y<sp/>=<sp/>r4.y;</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/>r3.yz<sp/>=<sp/>cb0[148].zz<sp/>*<sp/>r5.xy;</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/>r3.yz<sp/>=<sp/>v2.xy<sp/>*<sp/>r4.wx<sp/>+<sp/>r3.yz;</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>t2.SampleBias(s2_s,<sp/>r3.yz,<sp/>cb0[149].y).x;</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r3.y<sp/>*<sp/>-0.057142999<sp/>+<sp/>0.00952399988;</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/>r3.z<sp/>=<sp/>0.5<sp/>*<sp/>r4.z;</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/>r3.z<sp/>=<sp/>max(1,<sp/>r3.z);</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/>r3.w<sp/>=<sp/>cmp(0.513000011<sp/>&gt;=<sp/>v2.x);</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/>r3.w<sp/>=<sp/>r3.w<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r3.y<sp/>*<sp/>r3.z<sp/>+<sp/>-r2.x;</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>r3.w<sp/>*<sp/>r3.y<sp/>+<sp/>r2.x;</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/>r3.x<sp/>=<sp/>r3.x<sp/>*<sp/>0.5<sp/>+<sp/>-r2.x;</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>cb2[36].w<sp/>*<sp/>-29.5300007<sp/>+<sp/>30;</highlight></codeline>
+<codeline lineno="144"><highlight class="stringliteral"><sp/><sp/>r3.z<sp/>=<sp/>cmp(2.98023295e-08<sp/>&gt;=<sp/>r2.z);</highlight></codeline>
+<codeline lineno="145"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>log2(r2.z);</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>r3.y<sp/>*<sp/>r2.z;</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>exp2(r2.z);</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>min(1,<sp/>r2.z);</highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>r3.z<sp/>?<sp/>0<sp/>:<sp/>r2.z;</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>0.00100000005<sp/>*<sp/>cb0[148].z;</highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/>r3.z<sp/>=<sp/>cmp(r3.y<sp/>&gt;=<sp/>-r3.y);</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>frac(abs(r3.y));</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r3.z<sp/>?<sp/>r3.y<sp/>:<sp/>-r3.y;</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>3000<sp/>*<sp/>r3.y;</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r2.z<sp/>*<sp/>3<sp/>+<sp/>r3.y;</highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>frac(r3.y);</highlight></codeline>
+<codeline lineno="157"><highlight class="stringliteral"><sp/><sp/>r3.z<sp/>=<sp/>r3.y<sp/>*<sp/>-2<sp/>+<sp/>3;</highlight></codeline>
+<codeline lineno="158"><highlight class="stringliteral"><sp/><sp/>r3.w<sp/>=<sp/>r3.y<sp/>*<sp/>r3.y;</highlight></codeline>
+<codeline lineno="159"><highlight class="stringliteral"><sp/><sp/>r3.z<sp/>=<sp/>r3.z<sp/>*<sp/>r3.w;</highlight></codeline>
+<codeline lineno="160"><highlight class="stringliteral"><sp/><sp/>r3.w<sp/>=<sp/>-1<sp/>+<sp/>cb2[37].x;</highlight></codeline>
+<codeline lineno="161"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>-1<sp/>+<sp/>r3.y;</highlight></codeline>
+<codeline lineno="162"><highlight class="stringliteral"><sp/><sp/>r3.w<sp/>=<sp/>1<sp/>/<sp/>r3.w;</highlight></codeline>
+<codeline lineno="163"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>saturate(r3.y<sp/>*<sp/>r3.w);</highlight></codeline>
+<codeline lineno="164"><highlight class="stringliteral"><sp/><sp/>r3.w<sp/>=<sp/>r3.y<sp/>*<sp/>-2<sp/>+<sp/>3;</highlight></codeline>
+<codeline lineno="165"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r3.y<sp/>*<sp/>r3.y;</highlight></codeline>
+<codeline lineno="166"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r3.w<sp/>*<sp/>r3.y;</highlight></codeline>
+<codeline lineno="167"><highlight class="stringliteral"><sp/><sp/>r3.y<sp/>=<sp/>r3.z<sp/>*<sp/>r3.y;</highlight></codeline>
+<codeline lineno="168"><highlight class="stringliteral"><sp/><sp/>r2.z<sp/>=<sp/>r3.y<sp/>*<sp/>r2.z;</highlight></codeline>
+<codeline lineno="169"><highlight class="stringliteral"><sp/><sp/>r3.x<sp/>=<sp/>-r2.z<sp/>*<sp/>cb2[37].y<sp/>+<sp/>r3.x;</highlight></codeline>
+<codeline lineno="170"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>cmp(r3.x<sp/>&gt;=<sp/>r2.y);</highlight></codeline>
+<codeline lineno="171"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>r2.y<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>r2.y<sp/>+<sp/>r1.w;</highlight></codeline>
+<codeline lineno="173"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>r2.z<sp/>*<sp/>cb2[37].y<sp/>+<sp/>r1.w;</highlight></codeline>
+<codeline lineno="174"><highlight class="stringliteral"><sp/><sp/>r3.xyz<sp/>=<sp/>-cb2[23].xyz<sp/>*<sp/>r0.www<sp/>+<sp/>cb2[26].xyz;</highlight></codeline>
+<codeline lineno="175"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>r1.www<sp/>*<sp/>r3.xyz<sp/>+<sp/>r1.xyz;</highlight></codeline>
+<codeline lineno="176"><highlight class="stringliteral"><sp/><sp/>r2.xyz<sp/>=<sp/>r2.xxx<sp/>+<sp/>-r1.xyz;</highlight></codeline>
+<codeline lineno="177"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>cb2[37].zzz<sp/>*<sp/>r2.xyz<sp/>+<sp/>r1.xyz;</highlight></codeline>
+<codeline lineno="178"><highlight class="stringliteral"><sp/><sp/>r2.xyz<sp/>=<sp/>cb2[27].xyz<sp/>+<sp/>-r1.xyz;</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>cb2[37].www<sp/>*<sp/>r2.xyz<sp/>+<sp/>r1.xyz;</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>saturate(r1.w<sp/>*<sp/>r2.w);</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>-0.333299994<sp/>+<sp/>r0.w;</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>cmp(0<sp/>&lt;<sp/>cb1[43].x);</highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>saturate(cb1[43].y);</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>r1.w<sp/>?<sp/>r2.x<sp/>:<sp/>1;</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/>r2.x<sp/>=<sp/>cmp(r1.w<sp/>&lt;<sp/>1);</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>r1.w<sp/>+<sp/>r1.w;</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>1<sp/>+<sp/>r1.w;</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>r2.y<sp/>/<sp/>r1.w;</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral"><sp/><sp/>r2.yz<sp/>=<sp/>float2(0.25,0.25)<sp/>*<sp/>v7.xy;</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral"><sp/><sp/>r2.yz<sp/>=<sp/>floor(r2.yz);</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>dot(r2.yz,<sp/>float2(0.0671105608,0.00583714992));</highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>frac(r2.y);</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>52.9829178<sp/>*<sp/>r2.y;</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral"><sp/><sp/>r2.y<sp/>=<sp/>frac(r2.y);</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>-r2.y<sp/>+<sp/>r1.w;</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>r2.x<sp/>?<sp/>r1.w<sp/>:<sp/>1;</highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>min(r1.w,<sp/>r0.w);</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>cmp(r0.w<sp/>&lt;<sp/>0);</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral"><sp/><sp/>if<sp/>(r0.w<sp/>!=<sp/>0)<sp/>discard;</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/>//<sp/>the<sp/>SKIN&apos;s<sp/>camera-near<sp/>fade<sp/>(its<sp/>per-object<sp/>constants<sp/>at<sp/>b2,<sp/>row<sp/>43),<sp/>with<sp/>the<sp/>skin&apos;s<sp/>own<sp/>dither</highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/>if<sp/>(0<sp/>&lt;<sp/>cb1[43].x)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>float<sp/>fadeOpacity<sp/>=<sp/>saturate(cb1[43].y);</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if<sp/>(fadeOpacity<sp/>&lt;<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>float<sp/>fadeNoise<sp/>=<sp/>frac(52.9829178<sp/>*<sp/>frac(dot(floor(0.25<sp/>*<sp/>v7.xy),<sp/>float2(0.0671105608,<sp/>0.00583714992))));</highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(fadeOpacity<sp/>*<sp/>2<sp/>/<sp/>(1<sp/>+<sp/>fadeOpacity)<sp/>-<sp/>fadeNoise<sp/>&lt;<sp/>0)<sp/>discard;</highlight></codeline>
+<codeline lineno="206"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="stringliteral"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>asint(cb1[26].w)<sp/>&amp;<sp/>1;</highlight></codeline>
+<codeline lineno="209"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>cmp(0<sp/>&lt;<sp/>(uint)r0.w);</highlight></codeline>
+<codeline lineno="210"><highlight class="stringliteral"><sp/><sp/>r1.w<sp/>=<sp/>cmp(asint(cb0[160].x)<sp/>!=<sp/>0);</highlight></codeline>
+<codeline lineno="211"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>(int)r0.w<sp/>|<sp/>(int)r1.w;</highlight></codeline>
+<codeline lineno="212"><highlight class="stringliteral"><sp/><sp/>if<sp/>(r0.w<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>-cb0[134].xy<sp/>+<sp/>v7.xy;</highlight></codeline>
+<codeline lineno="214"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r2.xy<sp/>*<sp/>cb0[135].zw<sp/>+<sp/>float2(-0.5,-0.5);</highlight></codeline>
+<codeline lineno="215"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>v7.ww<sp/>*<sp/>r2.xy;</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.zw<sp/>=<sp/>v7.zw;</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xyw<sp/>=<sp/>float3(2,-2,1);</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.z<sp/>=<sp/>v7.w;</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyzw<sp/>=<sp/>r3.xyzw<sp/>*<sp/>r2.xyzw;</highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyz<sp/>=<sp/>r2.zxy<sp/>/<sp/>r2.www;</highlight></codeline>
+<codeline lineno="221"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.yz<sp/>=<sp/>-cb0[131].xy<sp/>+<sp/>r2.yz;</highlight></codeline>
+<codeline lineno="222"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xyz<sp/>=<sp/>v6.zxy<sp/>/<sp/>v6.www;</highlight></codeline>
+<codeline lineno="223"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.yz<sp/>=<sp/>-cb0[131].zw<sp/>+<sp/>r3.yz;</highlight></codeline>
+<codeline lineno="224"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.yz<sp/>=<sp/>-r3.yz<sp/>+<sp/>r2.yz;</highlight></codeline>
+<codeline lineno="225"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>-r3.x<sp/>+<sp/>r2.x;</highlight></codeline>
+<codeline lineno="226"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r2.yz<sp/>*<sp/>float2(0.249500006,0.249500006)<sp/>+<sp/>float2(0.499992371,0.499992371);</highlight></codeline>
+<codeline lineno="227"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>(uint)r0.w<sp/>&gt;&gt;<sp/>16;</highlight></codeline>
+<codeline lineno="228"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>(uint)r1.w;</highlight></codeline>
+<codeline lineno="229"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>r1.w<sp/>*<sp/>1.52590219e-05<sp/>+<sp/>1.52590223e-06;</highlight></codeline>
+<codeline lineno="230"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.z<sp/>=<sp/>min(1,<sp/>r1.w);</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>(int)r0.w<sp/>&amp;<sp/>0x0000ffff;</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>(uint)r0.w;</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>r0.w<sp/>*<sp/>1.52590219e-05<sp/>+<sp/>1.52590223e-06;</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.w<sp/>=<sp/>min(1,<sp/>r0.w);</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>cmp(cb1[20].w<sp/>==<sp/>0.000000);</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>cmp(asint(cb0[160].x)<sp/>==<sp/>0);</highlight></codeline>
+<codeline lineno="237"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>r0.w<sp/>?<sp/>r1.w<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o4.xyzw<sp/>=<sp/>r0.wwww<sp/>?<sp/>float4(0,0,0,0)<sp/>:<sp/>r2.xyzw;</highlight></codeline>
+<codeline lineno="239"><highlight class="stringliteral"><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o4.xyzw<sp/>=<sp/>float4(0,0,0,0);</highlight></codeline>
+<codeline lineno="241"><highlight class="stringliteral"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="stringliteral"><sp/><sp/>r1.xyz<sp/>=<sp/>max(float3(0,0,0),<sp/>r1.xyz);</highlight></codeline>
+<codeline lineno="243"><highlight class="stringliteral"><sp/><sp/>if<sp/>(cb1[42].w<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.xyz<sp/>=<sp/>cb0[285].xyz<sp/>*<sp/>r1.xyz;</highlight></codeline>
+<codeline lineno="245"><highlight class="stringliteral"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>cmp(0<sp/>&lt;<sp/>cb0[146].x);</highlight></codeline>
+<codeline lineno="247"><highlight class="stringliteral"><sp/><sp/>if<sp/>(r0.w<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyzw<sp/>=<sp/>cb0[45].xyzw<sp/>*<sp/>v7.yyyy;</highlight></codeline>
+<codeline lineno="249"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyzw<sp/>=<sp/>v7.xxxx<sp/>*<sp/>cb0[44].xyzw<sp/>+<sp/>r2.xyzw;</highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyzw<sp/>=<sp/>v7.zzzz<sp/>*<sp/>cb0[46].xyzw<sp/>+<sp/>r2.xyzw;</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyzw<sp/>=<sp/>cb0[47].xyzw<sp/>+<sp/>r2.xyzw;</highlight></codeline>
+<codeline lineno="252"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyz<sp/>=<sp/>r2.xyz<sp/>/<sp/>r2.www;</highlight></codeline>
+<codeline lineno="253"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyz<sp/>=<sp/>-cb0[70].xyz<sp/>+<sp/>r2.xyz;</highlight></codeline>
+<codeline lineno="254"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xyz<sp/>=<sp/>-cb1[5].xyz<sp/>+<sp/>r2.xyz;</highlight></codeline>
+<codeline lineno="255"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r4.xyz<sp/>=<sp/>float3(1,1,1)<sp/>+<sp/>cb1[19].xyz;</highlight></codeline>
+<codeline lineno="256"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xyz<sp/>=<sp/>cmp(r4.xyz<sp/>&lt;<sp/>abs(r3.xyz));</highlight></codeline>
+<codeline lineno="257"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>(int)r3.y<sp/>|<sp/>(int)r3.x;</highlight></codeline>
+<codeline lineno="258"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>(int)r3.z<sp/>|<sp/>(int)r0.w;</highlight></codeline>
+<codeline lineno="259"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>dot(r2.xyz,<sp/>float3(0.577000022,0.577000022,0.577000022));</highlight></codeline>
+<codeline lineno="260"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>0.00200000009<sp/>*<sp/>r1.w;</highlight></codeline>
+<codeline lineno="261"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>frac(r1.w);</highlight></codeline>
+<codeline lineno="262"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.w<sp/>=<sp/>cmp(0.5<sp/>&lt;<sp/>r1.w);</highlight></codeline>
+<codeline lineno="263"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xyz<sp/>=<sp/>r1.www<sp/>?<sp/>float3(0,1,1)<sp/>:<sp/>float3(1,1,0);</highlight></codeline>
+<codeline lineno="264"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r1.xyz<sp/>=<sp/>r0.www<sp/>?<sp/>r2.xyz<sp/>:<sp/>r1.xyz;</highlight></codeline>
+<codeline lineno="265"><highlight class="stringliteral"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="stringliteral"><sp/><sp/>r0.w<sp/>=<sp/>cmp(asint(cb0[276].x)<sp/>==<sp/>1);</highlight></codeline>
+<codeline lineno="267"><highlight class="stringliteral"><sp/><sp/>if<sp/>(r0.w<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>dot(float3(1,1,1),<sp/>abs(r0.xyz));</highlight></codeline>
+<codeline lineno="269"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r0.xy<sp/>/<sp/>r0.ww;</highlight></codeline>
+<codeline lineno="270"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.zw<sp/>=<sp/>float2(1,1)<sp/>+<sp/>-abs(r2.yx);</highlight></codeline>
+<codeline lineno="271"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>cmp(r2.xy<sp/>&gt;=<sp/>float2(0,0));</highlight></codeline>
+<codeline lineno="272"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>r3.xy<sp/>?<sp/>float2(0.5,0.5)<sp/>:<sp/>float2(-0.5,-0.5);</highlight></codeline>
+<codeline lineno="273"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.zw<sp/>=<sp/>r3.xy<sp/>*<sp/>r2.zw;</highlight></codeline>
+<codeline lineno="274"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>cmp(0<sp/>&gt;=<sp/>r0.z);</highlight></codeline>
+<codeline lineno="275"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>r0.w<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="276"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.zw<sp/>=<sp/>r2.zw<sp/>*<sp/>float2(2,2)<sp/>+<sp/>-r2.xy;</highlight></codeline>
+<codeline lineno="277"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r0.ww<sp/>*<sp/>r2.zw<sp/>+<sp/>r2.xy;</highlight></codeline>
+<codeline lineno="278"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r2.xy<sp/>*<sp/>float2(0.5,0.5)<sp/>+<sp/>float2(0.5,0.5);</highlight></codeline>
+<codeline lineno="279"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.w<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.w<sp/>=<sp/>((asuint(cb1[23].w)<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.w)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.w);</highlight></codeline>
+<codeline lineno="280"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>(uint)r0.w;</highlight></codeline>
+<codeline lineno="281"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r5.z<sp/>=<sp/>0.00392156886<sp/>*<sp/>r0.w;</highlight></codeline>
+<codeline lineno="282"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.z<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="283"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o4.xyzw<sp/>=<sp/>float4(0,0,0,0);</highlight></codeline>
+<codeline lineno="284"><highlight class="stringliteral"><sp/><sp/>}<sp/>else<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.w<sp/>=<sp/>dot(float3(1,1,1),<sp/>abs(r0.xyz));</highlight></codeline>
+<codeline lineno="286"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.xy<sp/>=<sp/>r0.xy<sp/>/<sp/>r0.ww;</highlight></codeline>
+<codeline lineno="287"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>float2(1,1)<sp/>+<sp/>-abs(r0.yx);</highlight></codeline>
+<codeline lineno="288"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.zw<sp/>=<sp/>cmp(r0.xy<sp/>&gt;=<sp/>float2(0,0));</highlight></codeline>
+<codeline lineno="289"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.zw<sp/>=<sp/>r3.zw<sp/>?<sp/>float2(0.5,0.5)<sp/>:<sp/>float2(-0.5,-0.5);</highlight></codeline>
+<codeline lineno="290"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>r3.zw<sp/>*<sp/>r3.xy;</highlight></codeline>
+<codeline lineno="291"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.z<sp/>=<sp/>cmp(0<sp/>&gt;=<sp/>r0.z);</highlight></codeline>
+<codeline lineno="292"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.z<sp/>=<sp/>r0.z<sp/>?<sp/>1.000000<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="293"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r3.xy<sp/>=<sp/>r3.xy<sp/>*<sp/>float2(2,2)<sp/>+<sp/>-r0.xy;</highlight></codeline>
+<codeline lineno="294"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.xy<sp/>=<sp/>r0.zz<sp/>*<sp/>r3.xy<sp/>+<sp/>r0.xy;</highlight></codeline>
+<codeline lineno="295"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.xy<sp/>=<sp/>r0.xy<sp/>*<sp/>float2(0.5,0.5)<sp/>+<sp/>float2(0.5,0.5);</highlight></codeline>
+<codeline lineno="296"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bitmask.x<sp/>=<sp/>((~(-1<sp/>&lt;&lt;<sp/>3))<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>0xffffffff;<sp/><sp/>r0.x<sp/>=<sp/>((asuint(cb1[23].w)<sp/>&lt;&lt;<sp/>5)<sp/>&amp;<sp/>bitmask.x)<sp/>|<sp/>((uint)12<sp/>&amp;<sp/>~bitmask.x);</highlight></codeline>
+<codeline lineno="297"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r0.x<sp/>=<sp/>(uint)r0.x;</highlight></codeline>
+<codeline lineno="298"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r5.z<sp/>=<sp/>0.00392156886<sp/>*<sp/>r0.x;</highlight></codeline>
+<codeline lineno="299"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>r2.z<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="300"><highlight class="stringliteral"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="301"><highlight class="stringliteral"><sp/><sp/>r0.xyz<sp/>=<sp/>min(float3(0,0,0),<sp/>-r1.xyz);</highlight></codeline>
+<codeline lineno="302"><highlight class="stringliteral"><sp/><sp/>o0.xyz<sp/>=<sp/>-r0.xyz;</highlight></codeline>
+<codeline lineno="303"><highlight class="stringliteral"><sp/><sp/>o0.w<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="304"><highlight class="stringliteral"><sp/><sp/>o1.xyw<sp/>=<sp/>r2.xyz;</highlight></codeline>
+<codeline lineno="305"><highlight class="stringliteral"><sp/><sp/>o1.z<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="306"><highlight class="stringliteral"><sp/><sp/>o2.xyzw<sp/>=<sp/>r5.wwwz;</highlight></codeline>
+<codeline lineno="307"><highlight class="stringliteral"><sp/><sp/>o3.xyzw<sp/>=<sp/>float4(0,0,0,0);</highlight></codeline>
+<codeline lineno="308"><highlight class="stringliteral"><sp/><sp/>o5.xyzw<sp/>=<sp/>v7.zzzz;</highlight></codeline>
+<codeline lineno="309"><highlight class="stringliteral"><sp/><sp/>o6.xyzw<sp/>=<sp/>float4(0,0,0,0);</highlight></codeline>
+<codeline lineno="310"><highlight class="stringliteral"><sp/><sp/>return;</highlight></codeline>
+<codeline lineno="311"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="312"><highlight class="stringliteral">)hlsl&quot;;</highlight></codeline>
+<codeline lineno="313"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="314"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shader.constantBuffers[</highlight><highlight class="stringliteral">&quot;ps-cb1&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::vector&lt;std::uint32_t&gt;{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x80000000u,<sp/>0x80000000u,<sp/>0x80000000u,</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,<sp/>0x3f800000u,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x80000000u,<sp/>0x3f800000u,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x42c80000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x40a00000u,</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x3f800000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000u,<sp/>0x3f59999au,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0xbe4ccccdu,<sp/>0x40733333u,<sp/>0xbe4ccccdu,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x40f9999au,<sp/>0xbf11eb85u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x3ee66666u,<sp/>0x00000000u,<sp/>0x00000000u,<sp/>0x00000000u,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shader;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/data/IniFixData/Changli/ChangliTattooShader.cpp"/>
+  </compounddef>
+</doxygen>

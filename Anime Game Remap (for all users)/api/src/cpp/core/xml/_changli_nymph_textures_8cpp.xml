@@ -408,11 +408,17 @@
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>a<sp/>game<sp/>texture:<sp/>Changli&apos;s<sp/>own<sp/>blindfold<sp/>diffuse<sp/>in<sp/>the<sp/>skin&apos;s<sp/>white<sp/>lace</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Tools/Misc/Prototypes/changliNymphBlindfold.py)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;blindfold&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BlindfoldOnChangli&quot;</highlight><highlight class="normal">},</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>facts;</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>two<sp/>game<sp/>textures<sp/>her<sp/>see-through<sp/>dress<sp/>and<sp/>shawl<sp/>passes<sp/>read<sp/>beside<sp/>the<sp/>mod&apos;s<sp/>maps,<sp/>which<sp/>no</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>draw<sp/>of<sp/>Changli&apos;s<sp/>binds:<sp/>a<sp/>matcap<sp/>(t2)<sp/>and<sp/>the<sp/>dither<sp/>noise<sp/>(t3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sheerDetail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;24d13e57&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sheerNoise&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;308e6e5e&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...and<sp/>their<sp/>subsurface<sp/>ramp,<sp/>which<sp/>Changli&apos;s<sp/>slots<sp/>hold<sp/>at<sp/>a<sp/>register<sp/>that<sp/>differs<sp/>between<sp/>passes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sheerRamp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5c290276&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>facts;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp"/>
   </compounddef>

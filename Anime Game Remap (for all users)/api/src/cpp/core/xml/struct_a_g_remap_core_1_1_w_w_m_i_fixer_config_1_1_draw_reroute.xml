@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="603" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="603" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="620" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="620" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -39,7 +39,7 @@ it is drawn from the mod&apos;s own ``.ini`` (give it ``sameFileSection``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="612" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="612" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="629" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="629" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -54,7 +54,7 @@ it is drawn from the mod&apos;s own ``.ini`` (give it ``sameFileSection``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="616" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="616" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="633" column="25" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="633" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1aea876c752e4c16f99f50dc9296cf4f95" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -73,7 +73,7 @@ texels under its vertices carry any of them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="624" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="624" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="641" column="17" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="641" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a4656fbb0e665c0e5ab620e1efa3b47b2" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask" kindref="compound">FlagMask</ref></type>
@@ -93,7 +93,7 @@ flags. **Default**: empty, and such a mod&apos;s component is left whole
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="660" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="660" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="677" column="22" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="677" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a700d5c2ae3fe68e796bc5d6a163fee99" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -113,7 +113,7 @@ The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the dr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="670" column="20" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="670" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="687" column="20" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="687" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -134,7 +134,7 @@ The share of a draw&apos;s texels that must carry :cpp:member:`flags` for the dr
         <link refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1_1_flag_mask"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="599" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="599" bodyend="671"/>
+    <location file="include/AGRemapCore/data/IniFixData/WWMIFixer.h" line="616" column="9" bodyfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" bodystart="616" bodyend="688"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1ad473b9dcaa6241b5e3bcf7a95a24e342" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>as</name></member>
       <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_draw_reroute_1a0c5c56518bebc7baf13f50a23b602c7d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIFixerConfig::DrawReroute</scope><name>codeRole</name></member>

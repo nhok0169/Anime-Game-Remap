@@ -12,6 +12,7 @@
     <includes refid="_ini_fix_builder_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includes>
     <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
     <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
+    <includedby refid="_aether_fixer_8cpp" local="yes">src/data/IniFixData/Aether/AetherFixer.cpp</includedby>
     <includedby refid="_bennett_fixer_8cpp" local="yes">src/data/IniFixData/Bennett/BennettFixer.cpp</includedby>
     <includedby refid="_charlotte_fixer_8cpp" local="yes">src/data/IniFixData/Charlotte/CharlotteFixer.cpp</includedby>
     <includedby refid="_citlali_fixer_8cpp" local="yes">src/data/IniFixData/Citlali/CitlaliFixer.cpp</includedby>
@@ -32,9 +33,6 @@
       </node>
       <node id="59">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -914,6 +912,9 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="88">
         <label>Generator.tpp</label>
       </node>
@@ -1061,36 +1062,42 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/data/IniFixData/Aether/AetherFixer.cpp</label>
+        <link refid="_aether_fixer_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/data/IniFixData/Bennett/BennettFixer.cpp</label>
         <link refid="_bennett_fixer_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/data/IniFixData/Charlotte/CharlotteFixer.cpp</label>
         <link refid="_charlotte_fixer_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/data/IniFixData/Citlali/CitlaliFixer.cpp</label>
         <link refid="_citlali_fixer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
         <link refid="_lumine_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/data/IniFixData/Neuvillette/NeuvilletteFixer.cpp</label>
         <link refid="_neuvillette_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
@@ -1214,38 +1221,40 @@
 <codeline lineno="597"><highlight class="normal"></highlight></codeline>
 <codeline lineno="614" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a4219f42e0f3a64ddc8267ceadeabc4d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a4219f42e0f3a64ddc8267ceadeabc4d5" kindref="member">lightMapObjs</ref>;</highlight></codeline>
 <codeline lineno="615"><highlight class="normal"></highlight></codeline>
-<codeline lineno="623" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" kindref="member">flatNormal</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>(55,<sp/>55,<sp/>255,<sp/>255);</highlight></codeline>
-<codeline lineno="624"><highlight class="normal"></highlight></codeline>
-<codeline lineno="628" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" kindref="member">flatNormalSize</ref><sp/>=<sp/>1024;</highlight></codeline>
-<codeline lineno="629"><highlight class="normal"></highlight></codeline>
-<codeline lineno="633" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" kindref="member">mipmaps</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="634"><highlight class="normal"></highlight></codeline>
-<codeline lineno="650" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" kindref="member">compressTextures</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="631" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a562a8eb49000c4a071f63ab409770524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a562a8eb49000c4a071f63ab409770524" kindref="member">lightMapPerDiffuse</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"></highlight></codeline>
+<codeline lineno="640" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" kindref="member">flatNormal</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>(55,<sp/>55,<sp/>255,<sp/>255);</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"></highlight></codeline>
+<codeline lineno="645" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" kindref="member">flatNormalSize</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" kindref="member">mipmaps</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="651"><highlight class="normal"></highlight></codeline>
-<codeline lineno="659" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" kindref="member">normaliseVertexColour</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="660"><highlight class="normal"></highlight></codeline>
-<codeline lineno="668" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" kindref="member">zeroSecondUV</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="669"><highlight class="normal"></highlight></codeline>
-<codeline lineno="673" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257e" kindref="member">SourceLayout</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" kindref="member">sourceLayout</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257ea4cd8413207629a963225f4314b53adcd" kindref="member">SourceLayout::Plain</ref>;</highlight></codeline>
-<codeline lineno="674"><highlight class="normal"></highlight></codeline>
-<codeline lineno="693" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" kindref="member">layoutFromOwnFixCall</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="694"><highlight class="normal"></highlight></codeline>
-<codeline lineno="707" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kindref="member">faceSwapOnlyFromDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="708"><highlight class="normal"></highlight></codeline>
-<codeline lineno="724" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" kindref="member">fillDrawOnlyWhenUndrawn</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="667" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a21c67a9854c8bc6133da8c5bb5a89a9c" kindref="member">compressTextures</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"></highlight></codeline>
+<codeline lineno="676" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aea153cdb88716d1065e57c2b9533a89a" kindref="member">normaliseVertexColour</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="677"><highlight class="normal"></highlight></codeline>
+<codeline lineno="685" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1addd0e78a5f6228f360f9c0ba68dfc41e" kindref="member">zeroSecondUV</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="686"><highlight class="normal"></highlight></codeline>
+<codeline lineno="690" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257e" kindref="member">SourceLayout</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a88d0ad61a114ed71ea76dc2d31d40ae8" kindref="member">sourceLayout</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a79c25ff858d93f249c7c0a2c03bb257ea4cd8413207629a963225f4314b53adcd" kindref="member">SourceLayout::Plain</ref>;</highlight></codeline>
+<codeline lineno="691"><highlight class="normal"></highlight></codeline>
+<codeline lineno="710" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5b30a430ceae4c90cfd06f3a51eba7e5" kindref="member">layoutFromOwnFixCall</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="711"><highlight class="normal"></highlight></codeline>
+<codeline lineno="724" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4a3452953a770a968f699df3d639bef" kindref="member">faceSwapOnlyFromDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="725"><highlight class="normal"></highlight></codeline>
-<codeline lineno="736" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1ac78fb2c7228c5963bff4b5ce1da5f94e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1ac78fb2c7228c5963bff4b5ce1da5f94e" kindref="member">texFxLayoutSwitch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="737"><highlight class="normal"></highlight></codeline>
-<codeline lineno="763" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kindref="member">texRegsByName</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="764"><highlight class="normal"></highlight></codeline>
-<codeline lineno="768" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kindref="member">copyPreamble</ref>;</highlight></codeline>
-<codeline lineno="769"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="770"><highlight class="normal"></highlight></codeline>
-<codeline lineno="771"><highlight class="normal"></highlight></codeline>
-<codeline lineno="786"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" kindref="member">makeGIMIComponentFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" kindref="compound">GIMIComponentFixerConfig</ref><sp/>config,<sp/>std::string<sp/>component);</highlight></codeline>
-<codeline lineno="787"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="741" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1acd8d21481f588f092bdda6ea264058c3" kindref="member">fillDrawOnlyWhenUndrawn</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="742"><highlight class="normal"></highlight></codeline>
+<codeline lineno="753" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1ac78fb2c7228c5963bff4b5ce1da5f94e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1ac78fb2c7228c5963bff4b5ce1da5f94e" kindref="member">texFxLayoutSwitch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="754"><highlight class="normal"></highlight></codeline>
+<codeline lineno="780" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a49a757630bf62ecf1afa2c1018f90586" kindref="member">texRegsByName</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="781"><highlight class="normal"></highlight></codeline>
+<codeline lineno="785" refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1af4e7a7c6ad78febe612b368f4c4894b0" kindref="member">copyPreamble</ref>;</highlight></codeline>
+<codeline lineno="786"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="787"><highlight class="normal"></highlight></codeline>
 <codeline lineno="788"><highlight class="normal"></highlight></codeline>
-<codeline lineno="789"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" kindref="member">makeGIMIComponentFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config" kindref="compound">GIMIComponentFixerConfig</ref><sp/>config,<sp/>std::string<sp/>component);</highlight></codeline>
+<codeline lineno="804"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="805"><highlight class="normal"></highlight></codeline>
+<codeline lineno="806"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h"/>
   </compounddef>

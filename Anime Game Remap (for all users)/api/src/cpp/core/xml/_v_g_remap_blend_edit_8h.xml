@@ -33,9 +33,6 @@
       <node id="125">
         <label>BlendEdit.tpp</label>
       </node>
-      <node id="85">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="89">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -1301,6 +1298,9 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+      </node>
+      <node id="85">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="103">
         <label>Generator.tpp</label>

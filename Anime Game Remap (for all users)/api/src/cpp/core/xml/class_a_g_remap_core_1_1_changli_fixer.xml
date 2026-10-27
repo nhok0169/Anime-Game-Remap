@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Changli/ChangliFixer.cpp" bodystart="192" bodyend="194"/>
+        <location file="include/AGRemapCore/data/IniFixData/Changli/ChangliFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Changli/ChangliFixer.cpp" bodystart="279" bodyend="281"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

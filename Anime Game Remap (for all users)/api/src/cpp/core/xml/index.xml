@@ -4,6 +4,24 @@
     <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1ad02cc70b06cbbf39301fe28b8ad26cf9" kind="variable"><name>sections</name></member>
     <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption_1af5e813688543bd92fd91ac3fd418abce" kind="variable"><name>refs</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_aether_fixer" kind="class"><name>AGRemapCore::AetherFixer</name>
+    <member refid="class_a_g_remap_core_1_1_aether_fixer_1aea8492b072d591f1a67910e99457308f" kind="function"><name>AetherFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_aether_fixer_1ad21e9b781b6139361ff5c8d63f931cce" kind="function"><name>main6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_aether_fixer_1a84392e61f087d610cb456d2d5685aa3f" kind="function"><name>bang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_aether_fixer_1a27a9eeab92798b9c54467f697133dd7f" kind="function"><name>eye6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_aether_heaven_fixer" kind="class"><name>AGRemapCore::AetherHeavenFixer</name>
+    <member refid="class_a_g_remap_core_1_1_aether_heaven_fixer_1a257cd315f661257bc674254891f2fd71" kind="function"><name>AetherHeavenFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_aether_heaven_fixer_1a31cea84bfd40d41d4ca1e0fc87b2ea94" kind="function"><name>toAether6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_aether_heaven_parser" kind="class"><name>AGRemapCore::AetherHeavenParser</name>
+    <member refid="class_a_g_remap_core_1_1_aether_heaven_parser_1a060903e91ae433c14468eafca2f6015e" kind="function"><name>AetherHeavenParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_aether_heaven_parser_1a1646def9f3bc613ea8d45e7334d5db85" kind="function"><name>v6_3</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_aether_parser" kind="class"><name>AGRemapCore::AetherParser</name>
+    <member refid="class_a_g_remap_core_1_1_aether_parser_1a405f3e86fcfa836001076f554b9350bf" kind="function"><name>AetherParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_aether_parser_1ada4c9dc7e0cc53f66f3c9f5312386db6" kind="function"><name>v4_0</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after" kind="struct"><name>AGRemapCore::WWMIFixerConfig::Shader::After</name>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1a35bf84c5fe071e949f197abd82f0800b" kind="variable"><name>component</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader_1_1_after_1ad241189af83d7237ddbfe502a145d320" kind="variable"><name>draws</name></member>
@@ -1154,6 +1172,8 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a56070ffb0264e75fa368fd1b79c96597" kind="variable"><name>positionOffset</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a4b88af438e12c13de27215b31c73ca78" kind="variable"><name>positionOffsetFade</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1a26753f8b7bf4495c8f379e6bbbbce143" kind="variable"><name>offsetOnlyWithGameFace</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1aebc4cde2ef5239c614acdfa5a0e97ff4" kind="variable"><name>pushAway</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_merge_fixer_config_1_1_component_1af0ac48715fae85e906bb3f9419f567e8" kind="variable"><name>splitGroups</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component" kind="struct"><name>AGRemapCore::VGComponentMerge::Component</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_component_merge_1_1_component_1a283d8f5c7e17bd6f15233db1a8276bb5" kind="variable"><name>spec</name></member>
@@ -1559,6 +1579,8 @@
     <member refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" kind="function"><name>value</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_g_i_builder" kind="class"><name>AGRemapCore::GIBuilder</name>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ac2c7b39c83f97bfb94d45e898deaeac7" kind="function"><name>aether</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1acfbc3e54fcba882ab0346657c289a007" kind="function"><name>aetherHeaven</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" kind="function"><name>amber</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a0321c432ac6421e650c2255cb4cf9b77" kind="function"><name>amberCN</name></member>
     <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9a975291c28b44a2d48ee37658757100" kind="function"><name>ayaka</name></member>
@@ -1673,6 +1695,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a7a626487be714861384609cf33819b3a" kind="variable"><name>diffuseEdits</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a9ad6948d41c2aab702baf544c1f419a0" kind="variable"><name>lightMapEdit</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a4219f42e0f3a64ddc8267ceadeabc4d5" kind="variable"><name>lightMapObjs</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a562a8eb49000c4a071f63ab409770524" kind="variable"><name>lightMapPerDiffuse</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a177f603163fc1f91274406a76c6a2fec" kind="variable"><name>flatNormal</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1aa4471db689105f74de5a9c04f17fc4c1" kind="variable"><name>flatNormalSize</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_component_fixer_config_1a5f5b373f09445ec712cd1b8cc64ea8bb" kind="variable"><name>mipmaps</name></member>
@@ -3098,6 +3121,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1afa122f306c94e6e0707666830bb360aa" kind="function"><name>lumineHeavenMain6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacb62b819d70d29e48b8c58a4eca7b99" kind="function"><name>lumineHeavenBang6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af86d6ac0370b4b7111b583be3cc0ad3f" kind="function"><name>lumineHeavenEye6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5376ce5247f4b07e84e3378cf576f478" kind="function"><name>aetherHeavenMain6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a642c03afc0a063d495a2b99ea9054754" kind="function"><name>aetherHeavenBang6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab0c392474859dade1ec0f339c96dbf77" kind="function"><name>aetherHeavenEye6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0b5014b8372de7a7b284806586b4258b" kind="function"><name>yelanTranquilBody6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a52b8823aca4f15e712953d93319cd846" kind="function"><name>yelanTranquilBang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28abe81ceeed138ca10039b96346910d" kind="function"><name>yelanTranquilEye6_1</name></member>
@@ -3107,6 +3133,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a15e01f23d185722e1923fc82d05a785d" kind="function"><name>neuvilletteMelusentToNeuvillette6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a36cbe56a14f88d017d25f021a02ed763" kind="function"><name>yaoyaoBambooToYaoyao6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae98592403e94efb74d4420feef63219d" kind="function"><name>lumineHeavenToLumine6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a5281e18a3ea60ced4a48eb71d8e45276" kind="function"><name>aetherHeavenToAether6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_fix_context" kind="class"><name>AGRemapCore::IniFixContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kind="typedef"><name>GraphGroups</name></member>
@@ -3393,7 +3420,9 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae5f0679a08dc5a7b76713f6bdcbf9bfb" kind="function"><name>neuvilletteMelusent6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a824eb509b168813ba0fd3e3ba52a0405" kind="function"><name>yaoyaoBamboo6_3</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adeaf1352f8809b24e39a8dda09339047" kind="function"><name>lumine4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ae0c5728d0d3b8979ad587e98ca71f744" kind="function"><name>aether4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa6df3db53d6170f419d55c418762220b" kind="function"><name>lumineHeaven6_3</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a18a10b24025f17addd5c7a300a68c923" kind="function"><name>aetherHeaven6_3</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_parse_context" kind="class"><name>AGRemapCore::IniParseContext</name>
     <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kind="typedef"><name>Section</name></member>
@@ -3458,6 +3487,8 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs" kind="class"><name>AGRemapCore::IniRemoveBuilderFuncs</name>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7224e3d7d5c1829885716ea291722e42" kind="function"><name>IniRemoveBuilderFuncs</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a24381e2c40bc33ee5c4eee0fc88651a0" kind="function"><name>aether4_0</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad77b6cbe62234b188c1dbaaa4376b342" kind="function"><name>aetherHeaven4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" kind="function"><name>amber4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" kind="function"><name>amberCN4_0</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" kind="function"><name>ayaka4_0</name></member>
@@ -5882,6 +5913,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aa1b6a7a373ca8fc31230b53c3c057f7a" kind="variable"><name>shader</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1adf2525e1ee33b01c71dc5484e35d10c9" kind="variable"><name>rabbitFX</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1ad3cbe49caf6f7fa16e8769b31459820d" kind="variable"><name>markLines</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1a49ea6e78342da26cd86589215c79f92f" kind="variable"><name>overlay</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_source_component_1aefde176ccda1450f94e181db5f20c5ac" kind="variable"><name>offPasses</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtBlock</name>
@@ -6583,10 +6615,12 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a05d00f3518bea0dc438eece7448b9da0" kind="variable"><name>positionPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a1f4fbd2386356aaaa72ee1dc7f3e1b7a" kind="variable"><name>texcoordPath</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a03b30c959dd30efe603d01e6032851f1" kind="variable"><name>positionLineEdit</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_files_1a682dc0aa8f8a280653957fd4bb43fdcf" kind="variable"><name>pushAway</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec" kind="struct"><name>AGRemapCore::VGMergeComponentSpec</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1a0253c789317229a5a26a3680b762c5a3" kind="variable"><name>name</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1ac01354111812774e6ea940409f712afe" kind="variable"><name>remap</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_merge_component_spec_1aa9aa9e3cc53e5bead2faa75b8a49348e" kind="variable"><name>splitGroups</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_v_g_merge_group_config" kind="struct"><name>AGRemapCore::VGMergeGroupConfig</name>
     <member refid="struct_a_g_remap_core_1_1_v_g_merge_group_config_1a8f81e888fe8bd57b492efb8f60ca2c39" kind="variable"><name>components</name></member>
@@ -6666,6 +6700,7 @@
     <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a6135fcd2ba1a4fb58274e604f868154d" kind="variable"><name>distance</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1ae8041ce3f70f6873248e9840d3d4e8e3" kind="variable"><name>side</name></member>
     <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1aa546762e7d1f8b847cc7b6ff0ffa5109" kind="variable"><name>fade</name></member>
+    <member refid="struct_a_g_remap_core_1_1_v_g_push_away_1a63520e5f31997dd8dcc667fc9f34c5b9" kind="function"><name>displacement</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_v_g_remap" kind="class"><name>AGRemapCore::VGRemap</name>
     <member refid="class_a_g_remap_core_1_1_v_g_remap_1ae7c7af4c2c7e27026b11d087fac5dae3" kind="variable"><name>remap_</name></member>
@@ -7028,6 +7063,11 @@
     <member refid="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236a0ebe6df8a3ac338e0512acc741823fdb" kind="enumvalue"><name>Replace</name></member>
     <member refid="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236ae7b3c0acb7168c7969b03e8aebc67ce7" kind="enumvalue"><name>Combine</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kind="enum"><name>ModTypeId</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7d2fc7d93b8844307c3bc674ebeaf2ed" kind="enumvalue"><name>Aether</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa22eb11440721ca6a1102e0a3f08b6ff" kind="enumvalue"><name>AetherHeaven</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac4e4cdde36f3e6aefc7901af01059295" kind="enumvalue"><name>AetherHeavenMain</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa9d8fd741d6b0fcd8513d59f7276da448" kind="enumvalue"><name>AetherHeavenBang</name></member>
+    <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabebc6105168e4487c07febb7cc5766e6" kind="enumvalue"><name>AetherHeavenEye</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kind="enumvalue"><name>Amber</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kind="enumvalue"><name>AmberCN</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kind="enumvalue"><name>Ayaka</name></member>
@@ -7142,8 +7182,12 @@
     <member refid="namespace_a_g_remap_core_1aa81caef4daa50c44f00f030d656e2252" kind="function"><name>changliBoneCentroids</name></member>
     <member refid="namespace_a_g_remap_core_1a975681bb87d21c2f130134045b37fdbe" kind="function"><name>changliVgMaps</name></member>
     <member refid="namespace_a_g_remap_core_1a79ea0feb0fbf62d2b06624a5ec4dfbc7" kind="function"><name>changliToNymphShapeKeys</name></member>
+    <member refid="namespace_a_g_remap_core_1a56b039db9715d30bacb142ce9f481559" kind="function"><name>changliTattooShader</name></member>
     <member refid="namespace_a_g_remap_core_1a6271ab9cbf6269a4f61a14aeefaeb6a5" kind="function"><name>changliTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1afde70595a402f7f8d7ae7a744de2ae76" kind="function"><name>changliTextureThumbprints</name></member>
+    <member refid="namespace_a_g_remap_core_1a29490600fa741856ad37cc0b1755a852" kind="function"><name>changliUpperShader</name></member>
+    <member refid="namespace_a_g_remap_core_1afe73961df8ef5db38793637d06155b50" kind="function"><name>changliNymphShawlShader</name></member>
+    <member refid="namespace_a_g_remap_core_1a3ec419ae4ecbb5e75d8c95d3b120eedd" kind="function"><name>changliNymphSheerShader</name></member>
     <member refid="namespace_a_g_remap_core_1ad117dd906fbce3b1b8de42749e14d308" kind="function"><name>changliNymphVgMaps</name></member>
     <member refid="namespace_a_g_remap_core_1a6dfd990d66521ff77ae245a6a0ae39a9" kind="function"><name>changliNymphTextureFacts</name></member>
     <member refid="namespace_a_g_remap_core_1a340378ff651518da079a8e4c9b64a492" kind="function"><name>changliNymphTextureThumbprints</name></member>
@@ -7297,8 +7341,6 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d130354270013131103345245300253307156125377337124" kind="namespace"><name>AGRemapCore::@130354270013131103345245300253307156125377337124</name>
   </compound>
-  <compound refid="namespace_a_g_remap_core_1_1_0d133237006112332350164077234343333370257146144136" kind="namespace"><name>AGRemapCore::@133237006112332350164077234343333370257146144136</name>
-  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d133302164035243174220122030050333045230164141122" kind="namespace"><name>AGRemapCore::@133302164035243174220122030050333045230164141122</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d134314006174047210021016320115306162147163361270" kind="namespace"><name>AGRemapCore::@134314006174047210021016320115306162147163361270</name>
@@ -7322,6 +7364,8 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d145332331053215074232176243344175305152152132174" kind="namespace"><name>AGRemapCore::@145332331053215074232176243344175305152152132174</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d154231060036363152004076273121126357324062033364" kind="namespace"><name>AGRemapCore::@154231060036363152004076273121126357324062033364</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d155076266062274253272036351114370122126046214041" kind="namespace"><name>AGRemapCore::@155076266062274253272036351114370122126046214041</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d155160370172325352133136103102022030060116341005" kind="namespace"><name>AGRemapCore::@155160370172325352133136103102022030060116341005</name>
@@ -7337,6 +7381,8 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d161065027214020127246373007234072266375365002340" kind="namespace"><name>AGRemapCore::@161065027214020127246373007234072266375365002340</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d165002103335175232174071225356256256254240257117" kind="namespace"><name>AGRemapCore::@165002103335175232174071225356256256254240257117</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d170001274220103216133342242250140317140153200074" kind="namespace"><name>AGRemapCore::@170001274220103216133342242250140317140153200074</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d170025164064205302346154317004355322050147022270" kind="namespace"><name>AGRemapCore::@170025164064205302346154317004355322050147022270</name>
   </compound>
@@ -7424,6 +7470,8 @@
     <member refid="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87ae7ca851922b13f555127b04b70435ca9" kind="enumvalue"><name>Collect</name></member>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d346076223036013117127115060253341163340127167343" kind="namespace"><name>AGRemapCore::@346076223036013117127115060253341163340127167343</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d352054274310210205345263336006202124325225113335" kind="namespace"><name>AGRemapCore::@352054274310210205345263336006202124325225113335</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d353250155205210304234200004027011163017176330313" kind="namespace"><name>AGRemapCore::@353250155205210304234200004027011163017176330313</name>
   </compound>
@@ -7534,6 +7582,10 @@
   </compound>
   <compound refid="_ini_fix_builder_data_8h" kind="file"><name>IniFixBuilderData.h</name>
   </compound>
+  <compound refid="_aether_fixer_8h" kind="file"><name>AetherFixer.h</name>
+  </compound>
+  <compound refid="_aether_heaven_fixer_8h" kind="file"><name>AetherHeavenFixer.h</name>
+  </compound>
   <compound refid="_amber_fixer_8h" kind="file"><name>AmberFixer.h</name>
   </compound>
   <compound refid="_amber_c_n_fixer_8h" kind="file"><name>AmberCNFixer.h</name>
@@ -7556,11 +7608,19 @@
   </compound>
   <compound refid="_changli_skeleton_8h" kind="file"><name>ChangliSkeleton.h</name>
   </compound>
+  <compound refid="_changli_tattoo_shader_8h" kind="file"><name>ChangliTattooShader.h</name>
+  </compound>
   <compound refid="_changli_textures_8h" kind="file"><name>ChangliTextures.h</name>
   </compound>
   <compound refid="_changli_thumbprints_8h" kind="file"><name>ChangliThumbprints.h</name>
   </compound>
+  <compound refid="_changli_upper_shader_8h" kind="file"><name>ChangliUpperShader.h</name>
+  </compound>
   <compound refid="_changli_nymph_fixer_8h" kind="file"><name>ChangliNymphFixer.h</name>
+  </compound>
+  <compound refid="_changli_nymph_shawl_shader_8h" kind="file"><name>ChangliNymphShawlShader.h</name>
+  </compound>
+  <compound refid="_changli_nymph_sheer_shader_8h" kind="file"><name>ChangliNymphSheerShader.h</name>
   </compound>
   <compound refid="_changli_nymph_skeleton_8h" kind="file"><name>ChangliNymphSkeleton.h</name>
   </compound>
@@ -7749,6 +7809,10 @@
   <compound refid="_yelan_tranquil_fixer_8h" kind="file"><name>YelanTranquilFixer.h</name>
   </compound>
   <compound refid="_ini_parse_builder_data_8h" kind="file"><name>IniParseBuilderData.h</name>
+  </compound>
+  <compound refid="_aether_parser_8h" kind="file"><name>AetherParser.h</name>
+  </compound>
+  <compound refid="_aether_heaven_parser_8h" kind="file"><name>AetherHeavenParser.h</name>
   </compound>
   <compound refid="_amber_parser_8h" kind="file"><name>AmberParser.h</name>
   </compound>
@@ -8409,6 +8473,10 @@
   </compound>
   <compound refid="_ini_fix_builder_data_8cpp" kind="file"><name>IniFixBuilderData.cpp</name>
   </compound>
+  <compound refid="_aether_fixer_8cpp" kind="file"><name>AetherFixer.cpp</name>
+  </compound>
+  <compound refid="_aether_heaven_fixer_8cpp" kind="file"><name>AetherHeavenFixer.cpp</name>
+  </compound>
   <compound refid="_amber_fixer_8cpp" kind="file"><name>AmberFixer.cpp</name>
   </compound>
   <compound refid="_amber_c_n_fixer_8cpp" kind="file"><name>AmberCNFixer.cpp</name>
@@ -8431,11 +8499,19 @@
   </compound>
   <compound refid="_changli_skeleton_8cpp" kind="file"><name>ChangliSkeleton.cpp</name>
   </compound>
+  <compound refid="_changli_tattoo_shader_8cpp" kind="file"><name>ChangliTattooShader.cpp</name>
+  </compound>
   <compound refid="_changli_textures_8cpp" kind="file"><name>ChangliTextures.cpp</name>
   </compound>
   <compound refid="_changli_thumbprints_8cpp" kind="file"><name>ChangliThumbprints.cpp</name>
   </compound>
+  <compound refid="_changli_upper_shader_8cpp" kind="file"><name>ChangliUpperShader.cpp</name>
+  </compound>
   <compound refid="_changli_nymph_fixer_8cpp" kind="file"><name>ChangliNymphFixer.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_shawl_shader_8cpp" kind="file"><name>ChangliNymphShawlShader.cpp</name>
+  </compound>
+  <compound refid="_changli_nymph_sheer_shader_8cpp" kind="file"><name>ChangliNymphSheerShader.cpp</name>
   </compound>
   <compound refid="_changli_nymph_skeleton_8cpp" kind="file"><name>ChangliNymphSkeleton.cpp</name>
   </compound>
@@ -8626,6 +8702,10 @@
   <compound refid="_yelan_tranquil_fixer_8cpp" kind="file"><name>YelanTranquilFixer.cpp</name>
   </compound>
   <compound refid="_ini_parse_builder_data_8cpp" kind="file"><name>IniParseBuilderData.cpp</name>
+  </compound>
+  <compound refid="_aether_parser_8cpp" kind="file"><name>AetherParser.cpp</name>
+  </compound>
+  <compound refid="_aether_heaven_parser_8cpp" kind="file"><name>AetherHeavenParser.cpp</name>
   </compound>
   <compound refid="_amber_parser_8cpp" kind="file"><name>AmberParser.cpp</name>
   </compound>
@@ -9092,6 +9172,22 @@
   <compound refid="_base_logger_8cpp" kind="file"><name>BaseLogger.cpp</name>
   </compound>
   <compound refid="_logger_8cpp" kind="file"><name>Logger.cpp</name>
+  </compound>
+  <compound refid="dir_4ff84a889d044887ccd0e7155837cc20" kind="dir"><name>include/AGRemapCore/data/IniFixData/Aether</name>
+  </compound>
+  <compound refid="dir_4ad63b782afbe45f6032ce592360d9fd" kind="dir"><name>include/AGRemapCore/data/IniParseData/Aether</name>
+  </compound>
+  <compound refid="dir_b46fb1b4ca46ba4fcc9f4eaa31f106f7" kind="dir"><name>src/data/IniFixData/Aether</name>
+  </compound>
+  <compound refid="dir_72ced0e00e7b7c9676ddc7e14d0a4e3c" kind="dir"><name>src/data/IniParseData/Aether</name>
+  </compound>
+  <compound refid="dir_2671b078e5167a706b065673a6738e41" kind="dir"><name>include/AGRemapCore/data/IniFixData/AetherHeaven</name>
+  </compound>
+  <compound refid="dir_b557910af2c7fc130747263841b5083c" kind="dir"><name>include/AGRemapCore/data/IniParseData/AetherHeaven</name>
+  </compound>
+  <compound refid="dir_6fd121d837450d22334fe27f3354e1e3" kind="dir"><name>src/data/IniFixData/AetherHeaven</name>
+  </compound>
+  <compound refid="dir_c3cb2110a037b15fb627ffb72d469dfd" kind="dir"><name>src/data/IniParseData/AetherHeaven</name>
   </compound>
   <compound refid="dir_57867bc7aa838c67f4b861cac9b4d014" kind="dir"><name>include/AGRemapCore</name>
   </compound>

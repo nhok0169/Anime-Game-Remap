@@ -21,8 +21,24 @@
 # that pair's fixer), renamed (GraphRename), re-pointed at the target's hashes (RegAssetRemap, filtered
 # to the source component's rows) and objects (RegNewVals on match_first_index), its Blend.buf rebuilt
 # through the vertex group row (RemapBlendReplace), and -- Body -> Dress only -- its Texcoord.buf cut
-# from 24 to 20 bytes a vertex. Textures need nothing: a ZZMI mod binds them by ROLE through
-# CommandList\ZZMI\SetTextures and both outfits draw with the same shaders. ZZZ has no NNFix / ORFix.
+# from 24 to 20 bytes a vertex. ZZZ has no NNFix / ORFix.
+#
+# TEXTURES. Hair and HairShadow draw the SAME textures on both outfits; Body -> Dress and Legs -> Body do
+# not, and most real mods recolour by texture HASH (`[TextureOverride...] hash = <Miyabi's diffuse> /
+# this = ...`), which never fires on the skin. So, for those two pairs:
+#   - every such texture-hash section is copied onto the TARGET's texture hash of the same role (toggles
+#     and all: it is the same section with another hash), like the mesh sections;
+#   - a role the mod does not override by hash gets the SOURCE's own game texture on the target's hash
+#     (the mod's UVs are the source's), copied from the download folder after the fix (GAP 6);
+#   - and every light map (bound in the section, by hash, or the fallback) gets the BAND EDIT below.
+# The normal map (ebac056e) is one texture for every object of both outfits, so it needs nothing.
+#
+# THE BAND EDIT. A light map's RED channel is a material band (0 / 77 / 128 / 179 / 255), and the band
+# picks a pair of shading tints out of the draw's ps-cb3 (rows 39-43 lit, 44-48 shade, band order). That
+# table is per OUTFIT: Miyabi's Body bands are cool blues, the skin's Dress bands warm, and band 0 is the
+# skin's SKIN tone -- so her navy hakama (band 0) rendered salmon. Each source band is moved to the target
+# band whose tint pair is nearest (Euclidean over lit + shade RGB, from the two 3.2 frame dumps; keep a band
+# when it ties). Texture-only, so approximate: the other per-outfit cb3 rows (rim, specular) stay the skin's.
 #
 # GAPS -- what the library does not do yet, and where this script fills in (each marked GAP below):
 #   1. no template is multi-component -> multi-component (each pair is a one-mesh remap here)
@@ -35,14 +51,28 @@
 #   4. no texcoord stride edit outside the GI templates' configs: a fixFunc writes the 20-byte file
 #   5. GIMIParser re-points every GIMISectionClassifier at the classified mod type's tables, so a classifier
 #      with a table of its own (the slot indices) is handed over wrapped in a plain function
+#   6. no fallback texture for a role a recolour does not cover outside the GI templates: the sections go in
+#      through GIMIFixer.appendedSections and the files are copied from the download folder after the run
+#   7. MaterialBandRemapFilter edits the ALPHA channel (GI's band); ZZZ's band is RED, so the edit is a
+#      TexEditor filter of this script's own
+#   8. ResRegCollect does not strip a binding's `ref ` prefix (IniNamingTools::removeRefPrefix), which every
+#      ZZMI `Resource\ZZMI\<Role> = ref ...` line carries
+#   9. TexReplace names an edited file after its source file only, so one file edited two ways collides
+#  10. a light map bound through a resource VARIABLE in a command list every component shares (Miyabi9)
+#      gets no band edit: the port needs a per-component copy of the list, or a band edit of the variable
 #
+
 
 import argparse
 import os
+import re
 import shutil
 import stat
 import struct
 import sys
+
+import numpy as np
+from PIL import Image
 
 API = os.environ.get("AG_REMAP_REPO", os.path.join(
     "E:", os.sep, "Computer", "Games", "Genshin", "Repos", "Repos", "Fix-Raiden-Boss",
@@ -65,6 +95,24 @@ TexcoordStride = {("Miyabi", "Body"): 24, ("Miyabi", "Legs"): 20, ("Miyabi", "Ha
 
 # the graphs a component's sections are sorted into, by the hash TYPE that names them
 HashKinds = {"ib": "ib", "blend_vb": "blend", "texcoord_vb": "texcoord", "draw_vb": "vertexlimit", "position_vb": "position"}
+
+# the pairs whose two components draw DIFFERENT textures, and the roles carried (see TEXTURES above)
+TexPairs = ("Body", "Legs")
+TexRoles = {"diffuse": "Diffuse", "lightmap": "LightMap", "materialmap": "MaterialMap"}
+
+# THE BAND EDIT: source band -> target band, per source component (bands not listed keep their value)
+BandLevels = (0, 77, 128, 179, 255)
+BandMoves = {"Body": {0: 179, 77: 179, 128: 0, 255: 179},       # onto the skin's Dress table
+             "Legs": {77: 179, 128: 179, 255: 179}}             # onto the skin's Body table
+DownloadFolder = os.path.join(os.path.dirname(os.path.abspath(API)), "..", "..", "..", "Data", "Mod Downloads", "ZZZ", SOURCE, "3_2")
+
+
+def compObjs(comp):
+    """Every graph a source component's sections are sorted into"""
+    objs = list(SourceSlots[comp]) + list(HashKinds.values())
+    if (comp in TexPairs):
+        objs += [f"tex_{role}" for role in TexRoles]
+    return objs
 
 _alive = []      # objects whose callables the API keeps pointers into (see Creating Remaps' prototype notes)
 naming = FRB.IniNamingTools
@@ -123,8 +171,12 @@ def makeParser(modType, indices):
     classifiers = []
     for comp in Routes:
         hashOnly = {kind: OBJ(comp, obj) for kind, obj in HashKinds.items()}
+        if (comp in TexPairs):
+            # a texture-hash section (`this = ...`) of the component's own textures. Legs shares its textures
+            # with Hair, and the name filter keeps that section in each component's graph
+            hashOnly.update({f"tex_{o}_{role}": OBJ(comp, f"tex_{role}") for o in SourceSlots[comp] for role in TexRoles})
         byIndex = {"ib": {OBJ(comp, o): OBJ(comp, o) for o in SourceSlots[comp]}}
-        modObjs += [OBJ(comp, o) for o in SourceSlots[comp]] + [OBJ(comp, obj) for obj in HashKinds.values()]
+        modObjs += [OBJ(comp, obj) for obj in compObjs(comp)]
         classifiers.append((hashOnly, byIndex, srcName(comp)))
 
     def factory(iniFile, modTypeId):
@@ -169,6 +221,105 @@ def texcoordCut(fromStride: int, toStride: int):
     return fix
 
 
+def bandEdit(comp: str):
+    """GAP 7: THE BAND EDIT on a light map's red channel -- each pixel to its nearest band level, then that band
+    moved per BandMoves. Every decision from the ORIGINAL red: the moves may form a permutation"""
+    levels = np.array(BandLevels, np.int16)
+    to = np.array([BandMoves[comp].get(int(v), int(v)) for v in BandLevels], np.uint8)
+
+    def edit(texFile) -> None:
+        pixels = np.array(texFile.img.convert("RGBA"))
+        red = pixels[..., 0].astype(np.int16)
+        nearest = np.abs(red[..., None] - levels).argmin(axis = -1)
+        pixels[..., 0] = to[nearest]
+        texFile.img = Image.fromarray(pixels, "RGBA")
+    return edit
+
+
+def removeRef(value: str) -> str:
+    """IniNamingTools::removeRefPrefix, which is not bound"""
+    value = value.strip()
+    return value[4:].strip() if (value[:4].lower() == "ref ") else value
+
+
+_written = set()
+
+
+def taggedFile(path: str, tag: str) -> str:
+    """GAP 9: TexReplace names the edited file after the SOURCE file alone (<file>RemapTex.dds), so one light map
+    two components share (Miyabi1's single atlas) would get both components' band edits written to ONE file.
+    The target component goes into the name, here and in the resource section (see makeFixer)"""
+    head, sep, tail = path.rpartition("RemapTex")
+    return f"{head}{tag}{sep}{tail}" if sep else path
+
+
+def texReplace(resModObj, kind: str, filterFunc, tag: str) -> "FRB.TexReplace":
+    """A texture edit through the API's TexEditor, written once per output file -- uncompressed, because BC7
+    would move red values off their band"""
+    def fix(resource) -> bool:
+        dest = taggedFile(resource.fixedPath, tag)
+        if (dest in _written):
+            return True
+        _written.add(dest)
+        editor = FRB.TexEditor([filterFunc], readPillowImg = True, compress = False, mipmaps = True)
+        editor.fix(FRB.TextureFile(resource.srcPath, readPillowImg = True), dest)
+        return True
+    edit = FRB.TexReplace(resModObj, FRB.TexEditor([], compress = False), fixFunc = fix, resSubType = kind)
+    _alive.append(edit)
+    return edit
+
+
+def texHash(name: str, comp: str, role: str) -> str:
+    return modTypeOf(name).hashes.get([name + comp, f"tex_a_{role}"], V)
+
+
+def recolouredHashes(iniPath: str) -> set:
+    """The texture hashes some `this =` section of the mod's .ini files overrides (the folder of 'iniPath' and
+    below, as readAllInis reads them; DISABLED files skipped)"""
+    found = set()
+    for root, _, files in os.walk(os.path.dirname(iniPath)):
+        for f in files:
+            if (not f.lower().endswith(".ini") or f.upper().startswith("DISABLED")):
+                continue
+            text = open(os.path.join(root, f), encoding = "utf-8", errors = "replace").read()
+            for m in re.finditer(r"^\[([^\]]+)\][^\[]*?^\s*hash\s*=\s*([0-9a-fA-F]{8})(.*?)(?=^\[|\Z)", text, re.M | re.S):
+                if ("Remap" not in m.group(1) and re.search(r"^\s*this\s*=", m.group(3), re.M)):
+                    found.add(m.group(2).lower())
+    return found
+
+
+_fallbacks = []      # (source download, file to write, band edit or None), written after the run (GAP 6)
+
+
+def fallbackSections(ini, comp: str, toName: str) -> str:
+    """GAP 6: a role the mod recolours by no hash gets the source's game texture on the target's hash"""
+    recoloured = recolouredHashes(ini.file)
+    text = []
+    for role, Role in TexRoles.items():
+        srcHash = texHash(SOURCE, comp, role)
+        if (srcHash.lower() in recoloured):
+            continue
+        name = f"{toName}RemapDL{Role}"
+        file = os.path.join(os.path.dirname(ini.file), name + ".dds")
+        _fallbacks.append((os.path.join(DownloadFolder, f"{srcName(comp)}A{Role}.dds"), file, bandEdit(comp) if (role == "lightmap") else None))
+        text.append(f"[TextureOverride{name}]\nhash = {texHash(TARGET, Routes[comp], role)}\nthis = Resource{name}\n\n"
+                    f"[Resource{name}]\nfilename = {name}.dds\n")
+        print(f"  {toName}: the mod recolours no {Role} -- the game's {srcName(comp)} {Role} goes on the skin's")
+    return "\n".join(text)
+
+
+def writeFallbacks():
+    for src, dest, edit in _fallbacks:
+        if (not os.path.isfile(src)):
+            print(f"  ! no download {src}")
+            continue
+        if (edit is None):
+            shutil.copyfile(src, dest)
+        else:
+            FRB.TexEditor([edit], readPillowImg = True, compress = False, mipmaps = True).fix(FRB.TextureFile(src, readPillowImg = True), dest)
+    _fallbacks.clear()
+
+
 def makeFixer(comp, modType, indices):
     tcomp = Routes[comp]
     toName = dstName(tcomp)
@@ -180,7 +331,7 @@ def makeFixer(comp, modType, indices):
         # ---- 1. this pair's graphs only: every other component's are some other fixer's ----
         remap = {}
         for other in Routes:
-            for obj in list(SourceSlots[other]) + list(HashKinds.values()):
+            for obj in compObjs(other):
                 remap[(0, *OBJ(other, obj))] = [(0, *OBJ(other, obj), keepName)] if (other == comp) else []
         edits = [FRB.GraphGroupRemap(remap = remap)]
 
@@ -199,6 +350,31 @@ def makeFixer(comp, modType, indices):
             # the declared stride are two edits (Creating Remaps' "WIDENING A BUFFER IS TWO EDITS")
             edits.append(FRB.GraphGroupEdit([{OBJ(comp, "RemapTexcoord"): [FRB.RegNewVals({"stride": str(toStride)})]}]))
 
+        # ---- 3b. the light maps, wherever the mod binds them: THE BAND EDIT ----
+        if (comp in TexPairs):
+            lightMapRefs = [(OBJ(comp, "tex_lightmap"), "this", "RemapTexLightMap")]
+            for obj in objs:
+                lightMapRefs += [(OBJ(comp, obj), "Resource\\ZZMI\\LightMap", f"{obj}RemapTexLightMap"),
+                                 (OBJ(comp, obj), "ps-t5", f"{obj}RemapTexLightMapT5")]
+            # GAP 8: ResRegCollect looks a register's value up as a section name as it stands, and ZZMI writes
+            # `Resource\ZZMI\LightMap = ref ResourceX` -- so the `ref` comes off for the collect and goes back on
+            # after it (without it 3DMigoto COPIES the resource rather than referencing it)
+            zzmiLightMap = "Resource\\ZZMI\\LightMap"
+            stripRef = FRB.RegNewVals({zzmiLightMap: FRB.FromOldVal(lambda old, modType: removeRef(old))})
+            addRef = FRB.RegNewVals({zzmiLightMap: FRB.FromOldVal(lambda old, modType: "ref " + removeRef(old))})
+            edits.append(FRB.GraphGroupEdit([{OBJ(comp, obj): [stripRef] for obj in objs}]))
+            # GAP 10: a `ps-t5 = ref <resource VARIABLE>` (Miyabi9's shared CommandListRunSlotFix, one list for every
+            # component) names no file, and editing it per component means rewriting the mod's own list -- left
+            # unedited, so such a mod keeps the skin's band tints
+            direct = lambda reg, name, data: not name.strip().lower().startswith("ref ")
+            for graph, reg, resName in lightMapRefs:
+                edits.append(FRB.ResRegCollect({(0, *graph): reg},
+                                               {"lightMap": texReplace((0, *OBJ(comp, resName)), "LightMap", bandEdit(comp), tcomp)},
+                                               resPredicates = {(0, *graph): direct}))
+            edits.append(FRB.GraphGroupEdit([{OBJ(comp, obj): [addRef] for obj in objs}]))
+            tagName = FRB.RegNewVals({"filename": FRB.FromOldVal(lambda old, modType: taggedFile(old, tcomp))})
+            edits.append(FRB.GraphGroupEdit([{OBJ(comp, resName): [tagName] for _, _, resName in lightMapRefs}]))
+
         # ---- 4. names, hashes and slot indices ----
         rename = FRB.GraphRename(lambda n: naming.getRemapFixName(n, toModName))
         hashRemap = FRB.RegAssetRemap({"hash": (modType.hashes, "HashNotFound")}, toModName, srcName(comp), ini.fromVersion, ini.toVersion)
@@ -209,10 +385,15 @@ def makeFixer(comp, modType, indices):
                  OBJ(comp, "position"): [rename, hashRemap]}
         for obj in objs:
             group[OBJ(comp, obj)] = [rename, hashRemap, FRB.RegNewVals({"match_first_index": str(TargetSlots[tcomp][obj])})]
+        if (comp in TexPairs):
+            for role in TexRoles:
+                group[OBJ(comp, f"tex_{role}")] = [rename, hashRemap]
         edits.append(FRB.GraphGroupEdit([group]))
 
         _alive.extend(edits)
         fixer = FRB.GIMIFixer(parser, graphGroupEdits = edits, modsToFix = [toModName])
+        if (comp in TexPairs and modType.hashes.get([srcName(comp), "ib"], V).lower() in open(ini.file, encoding = "utf-8", errors = "replace").read().lower()):
+            fixer.appendedSections = fallbackSections(ini, comp, toModName)
         _alive.append(fixer)
         return fixer
     return factory
@@ -241,6 +422,7 @@ def runOne(folder, undo = False):
     service = FRB.RemapService(path = folder, keepBackups = True, undoOnly = undo, readAllInis = True,
                                fromModTypeIds = ids, logger = FRB.Logger())
     service.fix()
+    writeFallbacks()
     stats = service.stats
     print(f"{folder}: ini fixed {len(stats.ini.fixed)}, skipped {len(stats.ini.skipped)}")
     for path, err in stats.ini.skipped.items():

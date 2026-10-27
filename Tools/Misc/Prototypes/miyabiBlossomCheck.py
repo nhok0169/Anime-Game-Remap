@@ -22,6 +22,9 @@ def hashesOf(name):
     for e in json.load(open(f"{R}/Data/Mod Downloads/ZZZ/{name}/3_2/{name}Hash.json")):
         for k in ("ib", "draw_vb", "position_vb", "blend_vb", "texcoord_vb"):
             out.setdefault(e["component_name"], set()).add(e[k])
+        # ...and its textures: a recolour's texture-hash sections are copied onto them
+        for obj in e.get("texture_hashes", []):
+            out[e["component_name"]].update(h for _, _, h in obj)
     return out
 
 

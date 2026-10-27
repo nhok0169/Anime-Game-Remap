@@ -2040,6 +2040,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.2", "MiyabiBody", "tex_a_normalmap"}, "ebac056e"},
         {{"3.2", "MiyabiBody", "tex_a_lightmap"}, "fd289380"},
         {{"3.2", "MiyabiBody", "tex_a_materialmap"}, "450770fd"},
+        // The sword: its index buffers are shared by both outfits and its textures are not, so a weapon
+        // mod's recolour has to move onto the skin's. Filed with the outfit (Body / Dress), whose fixer
+        // carries them; Miyabi alone draws these, so they also classify a weapon-only .ini.
+        {{"3.2", "MiyabiBody", "tex_weapon_diffuse"}, "718d7915"},
+        {{"3.2", "MiyabiBody", "tex_weapon_lightmap"}, "b73ed7e7"},
+        {{"3.2", "MiyabiBody", "tex_weapon_materialmap"}, "e1603ca5"},
         {{"3.2", "MiyabiHair", "draw_vb"}, "5a8d28f4"},
         {{"3.2", "MiyabiHair", "position_vb"}, "f9b9b064"},
         {{"3.2", "MiyabiHair", "blend_vb"}, "8b2eeb77"},
@@ -2096,6 +2102,9 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"3.2", "MiyabiBlossomDress", "tex_a_normalmap"}, "ebac056e"},
         {{"3.2", "MiyabiBlossomDress", "tex_a_lightmap"}, "7b8eb437"},
         {{"3.2", "MiyabiBlossomDress", "tex_a_materialmap"}, "30590865"},
+        {{"3.2", "MiyabiBlossomDress", "tex_weapon_diffuse"}, "e1215530"},
+        {{"3.2", "MiyabiBlossomDress", "tex_weapon_lightmap"}, "9d2adcc5"},
+        {{"3.2", "MiyabiBlossomDress", "tex_weapon_materialmap"}, "4659445f"},
         {{"3.2", "MiyabiBlossomHair", "draw_vb"}, "d011ed6c"},
         {{"3.2", "MiyabiBlossomHair", "position_vb"}, "e49def56"},
         {{"3.2", "MiyabiBlossomHair", "blend_vb"}, "28a01b2c"},

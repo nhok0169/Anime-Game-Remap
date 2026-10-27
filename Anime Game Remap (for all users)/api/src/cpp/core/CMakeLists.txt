@@ -131,6 +131,8 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/ChangliNymph/ChangliNymphSkeleton.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp
     src/data/IniFixData/ChangliNymph/ChangliNymphThumbprints.cpp
+    src/data/IniFixData/Miyabi/MiyabiFixer.cpp
+    src/data/IniFixData/ZZMIFixer.cpp
     src/data/IniFixData/Lynae/LynaeFixer.cpp
     src/data/IniFixData/Lynae/LynaeBangsShader.cpp
     src/data/IniFixData/Lynae/LynaeFilmShader.cpp

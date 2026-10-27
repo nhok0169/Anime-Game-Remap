@@ -138,6 +138,20 @@ namespace AGRemapCore {
             const ModType* modType;
 
             /**
+             * @brief
+             @rst
+             The mod name the vertex group row is looked up under, in place of the mod being fixed to
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A fixer whose target is ONE COMPONENT of a skin fixes to that component's own mod type (eg.
+             ``MiyabiBlossomDress``), while the skin's rows are filed under the skin with a component
+             column (``MiyabiBlossom``, ``Dress``) -- :cpp:member:`toComp` names the component, this the
+             skin. **Default**: ``std::nullopt``, the mod being fixed to
+             @endrst
+             */
+            std::optional<std::string> rowModName;
+
+            /**
              * @brief The version of the ``.ini`` file being fixed
              */
             std::optional<Version> fromVersion;

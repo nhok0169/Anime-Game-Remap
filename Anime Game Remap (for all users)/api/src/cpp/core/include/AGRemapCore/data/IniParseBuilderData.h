@@ -791,6 +791,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 3.2 parser for **Miyabi**, built by :cpp:func:`makeZZMIParser`: one classifier per
+             component (``Body``, ``Legs``, ``Hair``, ``HairShadow``), each filtered to that component's
+             own hash rows. See ``data/IniFixData/Miyabi/MiyabiFixer.cpp``
+             @endrst
+             */
+            static IniParseBuilder::Factory miyabi3_2();
+
+            /**
+             * @brief
+             @rst
              The 3.5 parser for **ChisaParfait**, built by :cpp:func:`makeWWMIParser`: EIGHT draw
              slots on her ``vb0`` hash plus their ``match_first_index``, the bone-data and shape-key
              overrides by a hash of their own. The version is the SKIN's, which is the one her assets

@@ -816,7 +816,11 @@ def moveCrossSlotDraws(folder):
             continue
         # the Legs copy sections: zero their Body draws, and collect them (with structure and texture lines)
         a = block.index("; ***** MiyabiBlossomBody *****")
-        legsPart = block[a:]
+        # only the Legs copies: up to the next component's heading (the Hair's copies follow, and their `ib` and
+        # `ps-t` lines had been swept into the Dress section with the moved draws)
+        nextHead = block.find("; ***** MiyabiBlossom", a + 10)
+        z = nextHead if nextHead > 0 else len(block)
+        legsPart, rest = block[a:z], block[z:]
         moved, sectionTex = [], []
         def zero(m):
             body = m.group(2)
@@ -848,7 +852,7 @@ def moveCrossSlotDraws(folder):
         if (not any(draws for draws, _ in moved)):
             continue
         moved = [text for _, text in moved]
-        block = block[:a] + legsPart
+        block = block[:a] + legsPart + rest
         # into the Dress copy's object section, at its end
         d = block.index("; ***** MiyabiBlossomDress *****")
         e = block.index("; ***** MiyabiBlossomBody *****")

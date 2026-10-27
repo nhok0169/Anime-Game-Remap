@@ -32,7 +32,13 @@ def vgRows():
     sys.path.insert(0, R + "/Anime Game Remap (for all users)/api/src/py")
     import FixRaidenBoss2 as F
     mt = {m.name: m for m in F.ZZMIBuilder.all()}["Miyabi"]
-    return {s: dict(mt.getVGRemap("MiyabiBlossom", fromComp = s, toComp = t).remap) for s, t in Routes.items()}
+    rows = {s: dict(mt.getVGRemap("MiyabiBlossom", fromComp = s, toComp = t).remap) for s, t in Routes.items()}
+    # the prototype's in-game corrections to the shipped rows
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from miyabiBlossomFix import RowOverrides
+    for (s, t), over in RowOverrides.items():
+        rows[s].update(over)
+    return rows
 
 
 def sections(text):
@@ -84,11 +90,13 @@ def main(folder):
             m = re.match(r"(.+?)MiyabiBlossom(\w+?)RemapBlend\.buf$", f)
             if not m or "Texcoord" in f:
                 continue
-            srcFile = os.path.join(root, m.group(1) + ".buf") if False else None
-            comp = next((s for s, t in Routes.items() if f.startswith(f"Miyabi{s}MiyabiBlossom{t}")), None)
-            if comp is None:
+            # <prefix>MiyabiBlossom<target>RemapBlend.buf is made from <prefix>Blend.buf, whatever the prefix
+            # (MiyabiLegs..., or a mod's own Legs...)
+            comp = next((s for s, t in Routes.items() if t == m.group(2)), None)
+            orig = os.path.join(root, m.group(1) + "Blend.buf")
+            if comp is None or not os.path.isfile(orig):
+                print(f"  UNCHECKED {f}: no {m.group(1)}Blend.buf beside it")
                 continue
-            orig = os.path.join(root, f"Miyabi{comp}Blend.buf")
             a, b = open(orig, "rb").read(), open(os.path.join(root, f), "rb").read()
             if len(a) != len(b):
                 print(f"  BLEND {f}: size {len(b)} vs source {len(a)}"); bad += 1; continue

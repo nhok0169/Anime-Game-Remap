@@ -66,7 +66,11 @@
 #      them in name order
 #  13. a VertexLimitRaise copy keeps the source's override_byte_stride
 #  14. a copy keeps the source object's match_index_count
+#  15. the sword's textures differ per outfit (its ibs do not); its recolours are carried by text (runOne)
+#  16. a mesh drawn from two components' sections shows the later-drawn slot, and the two characters order
+#      their slots differently; the Body -> Dress copy drops an ib the Legs sections also draw
 #
+
 
 
 import argparse
@@ -164,8 +168,18 @@ def fileRowsUnderComponentIds(modType):
         row = modType.getVGRemap(TARGET, fromComp = s, toComp = t)
         if (row is None):
             raise SystemExit(f"no vertex group row Miyabi {s} -> MiyabiBlossom {t}")
-        rows.append((["1.0", SOURCE, s, V, dstName(t), t], dict(row.remap)))
+        remap = dict(row.remap)
+        remap.update(RowOverrides.get((s, t), {}))
+        rows.append((["1.0", SOURCE, s, V, dstName(t), t], remap))
     vg.addRows(rows)
+
+
+# Corrections to the shipped rows, measured in game -- each still to be carried into the RemapDraft and
+# VGRemapData.cpp at the port. Miyabi Legs 44 is an upper-arm helper her own mesh barely uses (18 vertices) and
+# the finder sent it to the skin's 1 with 40 / 42 / 43; a mod that hangs its shoulder pieces on it (Miyabi3)
+# then had them slide to the elbow in the idle, and only the skin's SHOULDER (56) keeps them where they sit on
+# Miyabi (the main upper arm, 0, droops the same way 1 does)
+RowOverrides = {("Legs", "Body"): {44: 56}}
 
 
 # ============================================================================== the parser
@@ -225,6 +239,50 @@ def texcoordCut(fromStride: int, toStride: int):
             f.write(out)
         return True
     return fix
+
+
+ALL = None   # a draw of the whole ib (`drawindexed = auto`)
+
+
+def drawRange(value: str):
+    """(start, end) of a `drawindexed = count, start, base` value, or ALL for `auto`"""
+    parts = [p.strip() for p in value.split(",")]
+    if (parts[0].lower() == "auto"):
+        return ALL
+    try:
+        return (int(parts[1]), int(parts[1]) + int(parts[0]))
+    except (IndexError, ValueError):
+        return ALL
+
+
+def rangesDrawnBy(iniPath: str, ibHash: str) -> dict:
+    """GAP 16: {ib resource: [(start, end) or ALL]} that the mod's own sections on 'ibHash' draw, following each
+    section's `ib =` lines in order"""
+    text = open(iniPath, encoding = "utf-8", errors = "replace").read().split("; --------------- Miyabi Remap")[0]
+    out = {}
+    sections = []
+    for m in re.finditer(r"^\[([^\]]+)\][ \t]*\r?\n(.*?)(?=^\[|\Z)", text, re.M | re.S):
+        h = re.search(r"^\s*hash\s*=\s*([0-9a-fA-F]{8})", m.group(2), re.M)
+        if (h and h.group(1).lower() == ibHash.lower()):
+            sections.append(m)
+    # a section with no `ib =` of its own (Miyabi6's `handling = skip` + `drawindexed = auto` IB section) draws
+    # whatever ib the hash's other sections bound: credited to that ib when there is exactly one
+    bound = {removeRef(v) for m in sections for v in re.findall(r"^\s*ib\s*=\s*(.+?)\s*$", m.group(2), re.M)} - {"null"}
+    inherited = next(iter(bound)) if (len(bound) == 1) else None
+    for m in sections:
+        cur = inherited
+        for line in m.group(2).splitlines():
+            ib = re.match(r"\s*ib\s*=\s*(.+?)\s*$", line)
+            draw = re.match(r"\s*drawindexed\s*=\s*(.+?)\s*$", line)
+            if (ib):
+                cur = removeRef(ib.group(1))
+            elif (draw and cur and cur != "null"):
+                out.setdefault(cur, []).append(drawRange(draw.group(1)))
+    return out
+
+
+def overlaps(r, ranges) -> bool:
+    return any(o is ALL or r is ALL or (r[0] < o[1] and o[0] < r[1]) for o in ranges)
 
 
 _targetCounts = {}
@@ -464,9 +522,25 @@ def makeFixer(comp, modType, indices):
                  OBJ(comp, "position"): [rename, hashRemap]}
         # GAP 14: a section that also matches on match_index_count (Miyabi3) names the SOURCE object's count, and the
         # target object's differs (Miyabi's Body 26925 -> the skin's Dress 24567): unchanged, the copy matches nothing
+        # GAP 16: a mesh two components' sections BOTH draw (Miyabi5 / 6 draw the Body's ib from the Body section
+        # and again from LegsA2, over the pre-skinned Body) shows whichever slot the game draws LATER, at equal
+        # depth. Miyabi draws Body (frame dump draw 47) before Legs (48), so the Legs-slot copy is what shows on
+        # her; the skin draws Body (45) before Dress (46), which would show the Body-slot copy instead, with the
+        # game's Body texture at the mod's UVs. So the Body -> Dress copy drops a draw whose index RANGE a Legs section
+        # also draws from the same ib (Miyabi5 splits the Body ib between the two slots with no overlap and keeps
+        # all of its draws; Miyabi6 draws it whole from both)
+        later = rangesDrawnBy(ini.file, modType.hashes.get([srcName("Legs"), "ib"], V)) if (comp == "Body") else {}
+        mine = rangesDrawnBy(ini.file, modType.hashes.get([srcName("Body"), "ib"], V)) if (comp == "Body") else {}
+        shared = [r for ib in mine if ib in later for r in later[ib]]
+        noDouble = FRB.RegNewVals({"drawindexed": FRB.FromOldVal(
+            lambda old, modType: "0, 0, 0" if overlaps(drawRange(old), shared) else old)})
         for obj in objs:
             group[OBJ(comp, obj)] = [rename, hashRemap, FRB.RegNewVals({"match_first_index": str(TargetSlots[tcomp][obj]),
                                                                        "match_index_count": str(targetIndexCount(tcomp, obj))})]
+            if (shared):
+                group[OBJ(comp, obj)].append(noDouble)
+        if (shared):
+            group[OBJ(comp, "ib")].append(noDouble)
         if (comp in TexPairs):
             for role in TexRoles:
                 group[OBJ(comp, f"tex_{role}")] = [rename, hashRemap]
@@ -499,12 +573,62 @@ def install():
         FRB.CppStrategyOverrides.setFixer(SOURCE, dstName(tcomp), makeFixer(comp, modType, indices))
 
 
+# GAP 15: the sword's index buffers are shared by both outfits, its TEXTURES are not, so a weapon mod's
+# texture-hash recolour never fires on the skin (whose sword then draws the skin's glowing textures at the
+# mod's UVs). A weapon-only `.ini` holds no section the parser classifies as Miyabi, so no fixer runs on it:
+# the copies are written here, between markers of this script's own, and removed before every fix and undo.
+# The port wants weapon rows in HashData and a weapon pseudo-component instead.
+WeaponTextures = {"718d7915": "e1215530", "b73ed7e7": "9d2adcc5", "e1603ca5": "4659445f"}   # Miyabi -> skin
+WeaponBegin, WeaponEnd = "; ----- MiyabiBlossomWeaponRemap: begin -----", "; ----- MiyabiBlossomWeaponRemap: end -----"
+
+
+def _inis(folder):
+    for root, _, files in os.walk(folder):
+        for f in files:
+            if (f.lower().endswith(".ini") and not f.upper().startswith("DISABLED")):
+                yield os.path.join(root, f)
+
+
+def removeWeaponCopies(folder):
+    for ini in _inis(folder):
+        raw = open(ini, "rb").read().decode("utf-8", errors = "surrogateescape")
+        i = raw.find(WeaponBegin)
+        if (i < 0):
+            continue
+        j = raw.find(WeaponEnd, i)
+        j = len(raw) if (j < 0) else j + len(WeaponEnd)
+        open(ini, "wb").write((raw[:i].rstrip("\r\n") + raw[j:]).encode("utf-8", errors = "surrogateescape"))
+
+
+def addWeaponCopies(folder):
+    for ini in _inis(folder):
+        raw = open(ini, "rb").read().decode("utf-8", errors = "surrogateescape")
+        nl = "\r\n" if ("\r\n" in raw) else "\n"
+        own = raw.split("; --------------- Miyabi Remap")[0]
+        copies = []
+        for m in re.finditer(r"^\[(TextureOverride[^\]]*)\][ \t]*\r?\n(.*?)(?=^\[|\Z)", own, re.M | re.S):
+            body = m.group(2)
+            h = re.search(r"^(\s*hash\s*=\s*)([0-9a-fA-F]{8})", body, re.M)
+            if (not h or h.group(2).lower() not in WeaponTextures or not re.search(r"^\s*this\s*=", body, re.M)):
+                continue
+            body = body[:h.start(2)] + WeaponTextures[h.group(2).lower()] + body[h.end(2):]
+            name = "TextureOverrideMiyabiBlossomWeaponRemapFix" + m.group(1)[len("TextureOverride"):]
+            copies.append(f"[{name}]{nl}{body.rstrip()}{nl}")
+        if (copies):
+            block = nl.join([nl + WeaponBegin] + copies + [WeaponEnd + nl])
+            open(ini, "wb").write((raw.rstrip("\r\n") + nl + block).encode("utf-8", errors = "surrogateescape"))
+            print(f"  {os.path.relpath(ini, folder)}: {len(copies)} sword texture override(s) carried to the skin's sword")
+
+
 def runOne(folder, undo = False):
     ids = {int(getattr(FRB.ModTypeId, SOURCE))}
+    removeWeaponCopies(folder)
     service = FRB.RemapService(path = folder, keepBackups = True, undoOnly = undo, readAllInis = True,
                                fromModTypeIds = ids, logger = FRB.Logger())
     service.fix()
     writeFallbacks()
+    if (not undo):
+        addWeaponCopies(folder)
     stats = service.stats
     print(f"{folder}: ini fixed {len(stats.ini.fixed)}, skipped {len(stats.ini.skipped)}")
     for path, err in stats.ini.skipped.items():

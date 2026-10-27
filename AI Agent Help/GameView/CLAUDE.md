@@ -556,6 +556,15 @@ This is the maintainer's real account, and the tool presses real keys.
   tool did not capture, such as one of the maintainer's own screenshots or a Windows Snipping Tool
   file, without cropping its bottom yourself first. If a kept image ever shows an id, crop and
   re-save it before committing.
+  **The menus print it somewhere else per game, so the black box follows the GAME (2026-10-27).**
+  Every capture also blacks out `uidRects` for the game being driven (`-g/--game`, an alias of
+  `-i/--importer`, and auto-detected from the running game): WuWa's Terminal box (x 0.20-0.39,
+  y 0.35-0.43) for WWMI and GIMI, and ZZZ's top-left corner (x 0-0.20, y 0-0.18) for ZZMI, where the
+  profile header prints it (measured at x 0.071-0.155, y 0.131-0.147 on 3440x1440). The WuWa box had
+  covered the middle of ZZZ's character previews. `uidRects` in the config overrides it, as a list
+  for every game or a `{importer: [...]}` mapping. To measure a new game's position, grab the window
+  IN MEMORY with `uidRects=[]` and print where its bright text runs lie -- never save or view the
+  unmasked image.
 - **Look before every click.** Take a screenshot after each navigation step and click only
   coordinates read off the newest view. `view` coordinates are refused if the window was resized,
   but not if the screen merely changed underneath them.

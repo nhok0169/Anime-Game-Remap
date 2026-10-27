@@ -18,10 +18,28 @@ class GameViewError(Exception):
 UID_STRIP = 0.04
 
 #: Regions blacked out of every capture, as (x0, y0, x1, y1) fractions of the window. The bottom
-#: strip above covers where both games print the account id in PLAY; this covers where WuWa's
+#: strip above covers where the games print the account id in PLAY; this covers where WuWa's
 #: Terminal (the `esc` menu) prints "User ID: <digits>", beside the player's portrait at about a
 #: quarter across and a third down. Measured on a 2560x1382 client on 2026-09-23, with margin.
 UID_RECTS = [(0.20, 0.35, 0.39, 0.43)]
+
+#: The regions per GAME (importer name), since each menu prints the id somewhere else. A game not
+#: listed gets UID_RECTS. ZZZ's `esc` menu prints it in the TOP LEFT corner, beside the profile
+#: (measured on a 3440x1440 client on 2026-10-27), and WuWa's box there would cover the middle of
+#: ZZZ's character previews. GIMI keeps the WuWa box until Genshin's own screens are measured (its
+#: Paimon menu prints the UID top left too, see AI Agent Help/GameView).
+UID_RECTS_BY_GAME = {"WWMI": UID_RECTS, "ZZMI": [(0.0, 0.0, 0.20, 0.18)]}
+
+
+def uidRects(config, importer):
+    """The regions to black out for a capture of 'importer' (GIMI / WWMI / ZZMI ...). The config's
+    ``uidRects`` overrides: a list for every game, or a ``{importer: list}`` mapping per game."""
+    configured = config.get("uidRects")
+    if isinstance(configured, dict) and importer in configured:
+        return [tuple(r) for r in configured[importer]]
+    if isinstance(configured, list):
+        return [tuple(r) for r in configured]
+    return UID_RECTS_BY_GAME.get(importer, UID_RECTS)
 
 
 class Target:
@@ -104,10 +122,11 @@ class Session:
     """Focus the target for the duration of a command, then (by default) hand the foreground back
     to whatever had it, so the maintainer's own window is not left buried under the game."""
 
-    def __init__(self, target, restore=True, cropBottom=UID_STRIP):
+    def __init__(self, target, restore=True, cropBottom=UID_STRIP, uidRects=UID_RECTS):
         self.target = target
         self.restore = restore
         self.cropBottom = cropBottom
+        self.uidRects = uidRects
         self.previous = None
         self.focused = False
 
@@ -265,7 +284,7 @@ class Session:
             raw, w, h = win32.grabWindow(self.target.hwnd)
             image = Image.frombuffer("RGB", (w, h), raw, "raw", "BGRX", 0, 1)
             used = "print"
-        return hideUid(image, self.cropBottom), used
+        return hideUid(image, self.cropBottom, self.uidRects), used
 
 
 def hideUid(image, frac=UID_STRIP, rects=UID_RECTS):

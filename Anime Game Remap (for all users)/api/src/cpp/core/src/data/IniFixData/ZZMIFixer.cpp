@@ -892,7 +892,9 @@ namespace AGRemapCore {
                     if (file.has_value()) {
                         const std::filesystem::path path = FileService::strToPath(*file);
                         for (char ch : FileService::pathToStr(path.stem())) {
-                            if (std::isalnum(static_cast<unsigned char>(ch)) || ch == '_') {
+                            // a non-ASCII byte is kept: a stem in another script must not collapse to ""
+                            const unsigned char byte = static_cast<unsigned char>(ch);
+                            if (byte >= 0x80 || std::isalnum(byte) || ch == '_') {
                                 stem += ch;
                             }
                         }
@@ -1000,10 +1002,15 @@ namespace AGRemapCore {
                         return content;
                     }
                     const std::string nl = newline(content);
+                    // only a copy that recolours: another section on the hash (a watcher, a `run =`) is left alone
+                    std::set<std::string> recolouring;
+                    for (const RawSection& s : sectionsOf(content)) {
+                        if (firstValue(s.body, IniKeywords::This).has_value()) {
+                            recolouring.insert("[" + std::string(StringTools::strip(s.name)) + "]");
+                        }
+                    }
                     std::istringstream stream(content);
                     std::string line, out, section;
-                    bool pending = false;
-                    std::string pendingRes;
                     while (std::getline(stream, line)) {
                         if (!line.empty() && line.back() == '\r') {
                             line.pop_back();
@@ -1011,28 +1018,43 @@ namespace AGRemapCore {
                         const std::string stripped = std::string(StringTools::strip(line));
                         if (stripped.size() > 2 && stripped.front() == '[' && stripped.back() == ']') {
                             section = stripped;
-                            pending = false;
                         }
                         out += line + nl;
                         const auto kv = kvOf(stripped);
                         if (kv.has_value() && StringTools::equalsIgnoreCase(kv->first, IniKeywords::Hash)
-                                && section.find(IniKeywords::RemapFix) != std::string::npos) {
+                                && section.find(IniKeywords::RemapFix) != std::string::npos && recolouring.count(section) > 0) {
                             const auto found = defaults_.find(lowered(kv->second));
                             if (found != defaults_.end()) {
                                 out += IniKeywords::This + " = " + found->second + nl;
                             }
                         }
                     }
-                    (void)pending;
-                    (void)pendingRes;
                     return out;
                 }
 
-                // The buffers a section of 'comp' pre-skins into (`ResourceX = copy so0` / `= so0`)
+                // Whether the mod draws 'comp' from a section of its own (one with `match_first_index` on its ib):
+                // the copy of that section is where a pair's cross draws move to, so without it they stay put
+                bool drawsFromOwnSection(const std::string& comp) const {
+                    const std::optional<std::string> ib = hashOf(config_.source + comp, "ib");
+                    if (!ib.has_value()) {
+                        return false;
+                    }
+                    for (const RawSection& s : sectionsOf(own_)) {
+                        const std::optional<std::string> hash = firstValue(s.body, IniKeywords::Hash);
+                        if (hash.has_value() && StringTools::equalsIgnoreCase(*hash, *ib)
+                                && firstValue(s.body, IniKeywords::MatchFirstIndex).has_value()) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // The buffers a section of 'comp' pre-skins into (`ResourceX = copy so0` / `= so0`), on whichever
+                // of the component's hashes the mod captures it
                 std::set<std::string> preSkinBuffers(const std::string& comp) const {
                     std::set<std::string> written;
                     std::set<std::string> hashes;
-                    for (const char* type : {"blend_vb", "position_vb", "ib"}) {
+                    for (const char* type : {"blend_vb", "position_vb", "ib", "draw_vb", "texcoord_vb"}) {
                         const std::optional<std::string> h = hashOf(config_.source + comp, type);
                         if (h.has_value()) {
                             hashes.insert(lowered(*h));
@@ -1100,8 +1122,9 @@ namespace AGRemapCore {
                         if (pair.second != comp_.name) {
                             continue;
                         }
+                        // zeroed only where the first component's fixer has a section to move them into
                         const std::set<std::string> written = preSkinBuffers(pair.first);
-                        if (written.empty()) {
+                        if (written.empty() || !drawsFromOwnSection(pair.first)) {
                             continue;
                         }
                         const std::string nl = newline(content);

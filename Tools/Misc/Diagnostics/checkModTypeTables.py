@@ -45,7 +45,7 @@ import FixRaidenBoss2 as FRB
 
 live = {}
 # The binding exposes one factory per character rather than an all() -- enumerate those.
-for builder, game in ((FRB.GIBuilder, "GI"), (FRB.WWMIBuilder, "WuWa")):
+for builder, game in ((FRB.GIBuilder, "GI"), (FRB.WWMIBuilder, "WuWa"), (FRB.ZZMIBuilder, "ZZZ")):
     for attr in dir(builder):
         if attr.startswith("_"):
             continue
@@ -60,7 +60,7 @@ for builder, game in ((FRB.GIBuilder, "GI"), (FRB.WWMIBuilder, "WuWa")):
         if name:
             live[name] = (game, tuple(sorted(getattr(modType, "aliases", None) or [])))
 print(f"library: {len(live)} mod types ({sum(1 for g, _ in live.values() if g == 'GI')} GI, "
-      f"{sum(1 for g, _ in live.values() if g == 'WuWa')} WuWa)")
+      f"{sum(1 for g, _ in live.values() if g == 'WuWa')} WuWa, {sum(1 for g, _ in live.values() if g == 'ZZZ')} ZZZ)")
 
 def namesIn(path, pattern):
     text = open(path, encoding = "utf-8", errors = "replace").read()
@@ -76,9 +76,9 @@ def namesIn(path, pattern):
 
 places = {
     "api/README.md": (os.path.join(Repo, "Anime Game Remap (for all users)", "api", "README.md"),
-                      r"^\|\s*([A-Za-z0-9]+)\s*\|\s*(?:GI|WuWa)\s*\|"),
+                      r"^\|\s*([A-Za-z0-9]+)\s*\|\s*(?:GI|WuWa|ZZZ)\s*\|"),
     "apiMirror/README.md": (os.path.join(Repo, "Anime Game Remap (for all users)", "apiMirror", "README.md"),
-                            r"^\|\s*([A-Za-z0-9]+)\s*\|\s*(?:GI|WuWa)\s*\|"),
+                            r"^\|\s*([A-Za-z0-9]+)\s*\|\s*(?:GI|WuWa|ZZZ)\s*\|"),
     "Docs/src/commandOpts.rst": (os.path.join(Repo, "Docs", "src", "commandOpts.rst"),
                                  r"^\s*\*\s+-\s+\*\*([A-Za-z0-9]+)\*\*"),
 }

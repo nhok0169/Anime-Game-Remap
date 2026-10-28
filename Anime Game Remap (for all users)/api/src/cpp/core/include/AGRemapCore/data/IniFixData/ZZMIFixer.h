@@ -319,18 +319,6 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
-     Builds the parser of a ZZMI character's mods, from its pair's config -- one
-     :cpp:class:`GIMISectionClassifier` per component, filtered to that component's own hash rows, and
-     the drawn objects resolved from :cpp:member:`ZZMIFixerConfig::Component::slots`
-     @endrst
-     *
-     * @param config The pair's config
-     */
-    IniParseBuilder::Factory makeZZMIParser(ZZMIFixerConfig config);
-
-    /**
-     * @brief
-     @rst
      Builds the fixer that remaps one source component of a ZZMI mod onto its target component --
      see :cpp:class:`ZZMIFixerConfig` :raw-html:`<br />` :raw-html:`<br />`
 

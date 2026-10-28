@@ -1747,6 +1747,13 @@ WWMIParserConfig
     :protected-members:
 
 :raw-html:`<br />`
+
+makeZZMIParser
+--------------
+
+.. doxygenfunction:: AGRemapCore::makeZZMIParser
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Ini Removers

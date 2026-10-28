@@ -15,7 +15,6 @@
 
 #include "AGRemapCore/constants/IniComments.h"
 #include "AGRemapCore/data/IniFixBuilderData.h"
-#include "AGRemapCore/data/IniParseBuilderData.h"
 
 
 namespace AGRemapCore {
@@ -94,10 +93,6 @@ namespace AGRemapCore {
         return config;
     }
 
-
-    IniParseBuilder::Factory IniParseBuilderFuncs::miyabi3_2() {
-        return makeZZMIParser(miyabiBlossomConfig());
-    }
 
     IniFixBuilder::Factory IniFixBuilderFuncs::miyabiBlossomDress3_2() {
         return makeZZMIFixer(miyabiBlossomConfig(), "Body");

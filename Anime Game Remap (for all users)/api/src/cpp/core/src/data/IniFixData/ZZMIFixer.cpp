@@ -34,6 +34,7 @@
 
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
+#include "AGRemapCore/data/ZZMIModObjs.h"
 #include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufUnorm.h"
 #include "AGRemapCore/model/files/IniScan.h"
@@ -97,10 +98,9 @@ namespace AGRemapCore {
         // NOT 'GroupRemap': GIMIFixer inherits an alias of that name -- see GIMICharFixer
         using ObjGroupRemap = GraphGroupRemap<>;
 
-        // The hash types that name a component's graphs, and the graph each sorts into
-        const std::vector<std::pair<std::string, std::string>> HashKinds = {
-            {"ib", "ib"}, {"blend_vb", "blend"}, {"texcoord_vb", "texcoord"}, {"draw_vb", "vertexlimit"},
-            {"position_vb", "position"}};
+        using ZZMIModObjs::HashKinds;
+        using ZZMIModObjs::compObjs;
+        using ZZMIModObjs::objOf;
 
         const std::string Vb2 = "vb2";
         const std::string ZZMIResource = "Resource\\ZZMI\\";
@@ -108,29 +108,6 @@ namespace AGRemapCore {
         const std::string DiffuseRole = "diffuse";
 
         // ---- names ----
-
-        // A component's mod object: the ZZZ component goes into the OBJECT name and the mod object's own
-        // component stays "" -- a non-empty component means "the same object drawn more than once" to
-        // the graph groups
-        ModObj objOf(const std::string& comp, const std::string& name) {
-            return {"", comp + "_" + name};
-        }
-
-        std::vector<std::string> compObjs(const ZZMIFixerConfig::Component& c) {
-            std::vector<std::string> objs;
-            for (const ZZMIFixerConfig::Slot& slot : c.slots) {
-                objs.push_back(slot.name);
-            }
-            for (const auto& kind : HashKinds) {
-                objs.push_back(kind.second);
-            }
-            for (const ZZMIFixerConfig::Texture& tex : c.textures) {
-                if (std::find(objs.begin(), objs.end(), "tex_" + tex.role) == objs.end()) {
-                    objs.push_back("tex_" + tex.role);
-                }
-            }
-            return objs;
-        }
 
         std::string capitalised(const std::string& role) {
             if (role == "lightmap") return "LightMap";
@@ -352,86 +329,6 @@ namespace AGRemapCore {
             return StringTools::equalsIgnoreCase(kv.first, IniKeywords::Run)
                 && StringTools::equalsIgnoreCase(kv.second, "CommandList\\ZZMI\\SetTextures");
         }
-
-
-        /**
-         * The parser of a ZZMI character's mods: one classifier per component, filtered to that
-         * component's own hash rows (every component carries the same hash TYPES, so a type alone
-         * cannot say which one a section is), and a drawn object resolved from the component's slots
-         */
-        class ZZMIGIMIParser: public Parser {
-            public:
-                ZZMIGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
-                                const ZZMIFixerConfig& config):
-                    Parser(nullptr, std::move(modObjs)), ctx_(iniFile, modTypeId), config_(config) {
-                    this->setCtx(&ctx_);
-                    this->setIniFile(iniFile);
-                    this->disjointModObjs = false;
-                    this->trackKeys = true;
-                    this->keysToTrack = std::unordered_set<std::string>{IniKeywords::Hash, IniKeywords::MatchFirstIndex};
-
-                    for (const ZZMIFixerConfig::Component& c : config_.components) {
-                        std::unordered_map<std::string, ModObj> hashOnly;
-                        for (const auto& kind : HashKinds) {
-                            hashOnly[kind.first] = objOf(c.name, kind.second);
-                        }
-                        for (const ZZMIFixerConfig::Texture& tex : c.textures) {
-                            hashOnly[tex.hashType] = objOf(c.name, "tex_" + tex.role);
-                        }
-
-                        auto classifier = std::make_unique<Classifier>(
-                            std::move(hashOnly), ctx_.modTypeHashes(),
-                            std::unordered_map<std::string, Classifier::IndexModObjs>{}, ctx_.modTypeIndices(),
-                            ctx_.version());
-                        classifier->setHashNonVersionVals({config_.source + c.name, std::nullopt});
-                        classifiers_.push_back(std::move(classifier));
-                    }
-
-                    const ZZMIFixerConfig* cfg = &config_;
-                    std::vector<Classifier*> classifiers;
-                    for (const auto& classifier : classifiers_) {
-                        classifiers.push_back(classifier.get());
-                    }
-
-                    this->objTargetFuncs.emplace_back(
-                        [cfg, classifiers](Parser&, const std::string& sectionName, Section* section, bool,
-                                            ContentPart*, const Colouring* kvps) {
-                            std::vector<ModObj> result;
-                            if (kvps == nullptr) {
-                                return result;
-                            }
-
-                            for (std::size_t i = 0; i < classifiers.size() && i < cfg->components.size(); ++i) {
-                                std::vector<ModObj> found = classifiers[i]->classify(sectionName, section, *kvps);
-                                if (found.empty()) {
-                                    continue;
-                                }
-
-                                // A drawn object: the component's ib hash plus a match_first_index it knows
-                                const ZZMIFixerConfig::Component& c = cfg->components[i];
-                                std::vector<std::string> indexVals = kvps->getVals(IniKeywords::MatchFirstIndex);
-                                for (ModObj& modObj : found) {
-                                    if (modObj != objOf(c.name, "ib") || indexVals.empty()) {
-                                        continue;
-                                    }
-                                    for (const ZZMIFixerConfig::Slot& slot : c.slots) {
-                                        if (slot.srcIndex == std::string(StringTools::strip(indexVals.front()))) {
-                                            modObj = objOf(c.name, slot.name);
-                                            break;
-                                        }
-                                    }
-                                }
-                                result.insert(result.end(), found.begin(), found.end());
-                            }
-                            return result;
-                        });
-                }
-
-            private:
-                IniFileParseContext ctx_;
-                ZZMIFixerConfig config_;
-                std::vector<std::unique_ptr<Classifier>> classifiers_;
-        };
 
 
         /**
@@ -1615,19 +1512,6 @@ namespace AGRemapCore {
                 std::vector<std::set<std::string>> frozenNames_;
                 std::vector<std::string> frozenRegs_;
                 std::vector<std::unique_ptr<RegIfTemplateAdd<>>> defaultAdds_;
-        };
-    }
-
-
-    IniParseBuilder::Factory makeZZMIParser(ZZMIFixerConfig config) {
-        return [config](IniFile* iniFile, std::optional<int> modTypeId) {
-            std::vector<ModObj> modObjs;
-            for (const ZZMIFixerConfig::Component& c : config.components) {
-                for (const std::string& obj : compObjs(c)) {
-                    modObjs.push_back(objOf(c.name, obj));
-                }
-            }
-            return std::make_shared<ZZMIGIMIParser>(iniFile, modTypeId, std::move(modObjs), config);
         };
     }
 

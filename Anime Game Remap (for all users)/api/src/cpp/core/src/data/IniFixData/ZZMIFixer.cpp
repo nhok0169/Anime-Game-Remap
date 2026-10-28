@@ -51,6 +51,7 @@
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
+#include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h"
@@ -133,13 +134,6 @@ namespace AGRemapCore {
                 return fixed;
             }
             return prefix + fixed.substr(name.size()) + name.substr(prefix.size());
-        }
-
-        BaseResEdit<>::ResEditConfig resEditConfig() {
-            return BaseResEdit<>::ResEditConfig{
-                IniKeywords::Filename,
-                [](const std::string& value) { return value; },
-                [](const std::string& file) { return file; }};
         }
 
         // ---- the mod's own sections ----
@@ -334,18 +328,11 @@ namespace AGRemapCore {
         /**
          * The fixer of one source component onto its target component -- see ZZMIFixerConfig
          */
-        class ZZMIFixerImpl: public Fixer {
+        class ZZMIFixerImpl: public TemplateFixer {
             public:
                 ZZMIFixerImpl(BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId,
                                ZZMIFixerConfig config, const std::string& component):
-                    Fixer(parser, nullptr, {},
-                           toModName.empty() ? std::optional<std::vector<std::string>>(std::nullopt)
-                                             : std::optional<std::vector<std::string>>({toModName}),
-                           nullptr, makeConfig()),
-                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId), toModName_(toModName),
-                    config_(std::move(config)) {
-                    this->setCtx(&ctx_);
-
+                    TemplateFixer(parser, toModName, modTypeId), config_(std::move(config)) {
                     for (const ZZMIFixerConfig::Component& c : config_.components) {
                         if (c.name == component) {
                             comp_ = c;
@@ -383,34 +370,9 @@ namespace AGRemapCore {
                     this->copyPreamble = config_.copyPreamble;
                 }
 
-            protected:
-                // GIMIFixer's own hands every group edit a nullptr .ini file, which stops a collect ever
-                // building anything -- see GIMICharFixerImpl
-                void applyGraphGroupEdits(const std::string& modName) override {
-                    if (this->graphGroups() == nullptr) {
-                        return;
-                    }
-                    for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
-                        if (edit != nullptr) {
-                            edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
-                        }
-                    }
-                }
-
             private:
-                static FixerConfig makeConfig() {
-                    FixerConfig config{};
-                    config.sectionToStr = &renderIfTemplate;
-                    return config;
-                }
-
                 std::string srcName() const { return config_.source + comp_.name; }
                 std::string targetName() const { return config_.target + comp_.target; }
-
-                std::optional<Version> toVersion() const {
-                    IniFile* ini = ctx_.getIniFile();
-                    return ini == nullptr ? std::nullopt : ini->toVersion;
-                }
 
                 std::optional<std::string> hashOf(const std::string& name, const std::string& type) const {
                     Hashes* hashes = ctx_.modTypeHashes();
@@ -448,7 +410,7 @@ namespace AGRemapCore {
                 void buildBlendCollect() {
                     auto replace = std::make_unique<VGRemapBlendReplace<>>(
                         GraphId(0, "", comp_.name + "_RemapBlend"), resEditConfig(), ctx_.modType(), ctx_.version(),
-                        toVersion(), "blend", std::nullopt, comp_.name, comp_.target);
+                        iniToVersion(), "blend", std::nullopt, comp_.name, comp_.target);
                     replace->rowModName = config_.target;
 
                     auto collect = std::make_unique<Collector>();
@@ -609,7 +571,7 @@ namespace AGRemapCore {
                     auto hashRemap = std::make_unique<RegAssetRemap<>>(
                         std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
                             {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                        toModName_, srcName(), ctx_.version(), toVersion());
+                        toModName_, srcName(), ctx_.version(), iniToVersion());
                     partEdits_.push_back(std::make_unique<RegPartEdit<>>(hashRemap.get()));
                     GroupPartEdit* hash = partEdits_.back().get();
                     regEdits_.push_back(std::move(hashRemap));
@@ -770,7 +732,7 @@ namespace AGRemapCore {
                 }
 
                 FixSection* keepTemplate(std::vector<std::unique_ptr<IfTemplatePart>> parts) {
-                    fallbackSections_.push_back(std::make_unique<FixSection>(std::move(parts), runConfig(), ""));
+                    fallbackSections_.push_back(std::make_unique<FixSection>(std::move(parts), sectionRunConfig(), ""));
                     return fallbackSections_.back().get();
                 }
 
@@ -819,7 +781,7 @@ namespace AGRemapCore {
                         sections[name] = fallbackSections_.back().get();
                         names.push_back(name);
                     }
-                    extraGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(sections, names, runConfig()));
+                    extraGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(sections, names, sectionRunConfig()));
                     extrasEdits_.push_back(std::make_unique<GraphCreate<>>(GraphId(0, "", comp_.name + "_passFilters"), extraGraphs_.back().get()));
                 }
 
@@ -945,7 +907,7 @@ namespace AGRemapCore {
                         return false;
                     }
                     std::sort(drawn.begin(), drawn.end(), [](const std::string& a, const std::string& b) { return lowered(a) < lowered(b); });
-                    const std::string into = orderedName(drawn.front(), IniNamingTools::getRemapFixName(drawn.front(), toModName_));
+                    const std::string into = orderedName(drawn.front(), remapFixName(drawn.front()));
 
                     std::string passes;
                     for (const ZZMIFixerConfig::PassFilter& filter : config_.passFilters) {
@@ -1089,26 +1051,12 @@ namespace AGRemapCore {
                     std::unordered_map<std::string, FixSection*> bakSection;
                     fallbackSections_.push_back(makeSection(bak, {}));
                     bakSection[bak] = fallbackSections_.back().get();
-                    extraGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(bakSection, std::vector<std::string>{bak}, runConfig()));
+                    extraGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(bakSection, std::vector<std::string>{bak}, sectionRunConfig()));
                     extrasEdits_.push_back(std::make_unique<GraphCreate<>>(GraphId(0, "", comp_.name + "_extraBak"), extraGraphs_.back().get()));
                     return true;
                 }
 
 
-                // One section the fix writes itself
-                std::unique_ptr<FixSection> makeSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& kvps) {
-                    std::vector<std::unique_ptr<IfTemplatePart>> parts;
-                    parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, 0));
-                    return std::make_unique<FixSection>(std::move(parts), runConfig(), name);
-                }
-
-                static IfTemplateRunConfig<std::string, std::string> runConfig() {
-                    return IfTemplateRunConfig<std::string, std::string>{
-                        IniKeywords::Run,
-                        [](const std::string& val) { return val; },
-                        [](const std::string& section) { return section; }
-                    };
-                }
 
                 // A role the mod recolours by no hash gets the source's game texture on the target's hash (an
                 // override section of the fix's own, added by GraphCreate). One the mod DOES recolour, maybe only
@@ -1189,11 +1137,11 @@ namespace AGRemapCore {
 
                     const GraphId fallbackGraph(0, "", comp_.name + "_fallback");
                     if (!overrides.empty()) {
-                        fallbackGraph_ = std::make_unique<GraphCreate<>::Graph>(overrides, overrideNames, runConfig());
+                        fallbackGraph_ = std::make_unique<GraphCreate<>::Graph>(overrides, overrideNames, sectionRunConfig());
                         groupEdits_.push_back(std::make_unique<GraphCreate<>>(fallbackGraph, fallbackGraph_.get()));
                     }
                     if (!raws.empty()) {
-                        rawGraph_ = std::make_unique<GraphCreate<>::Graph>(raws, rawNames, runConfig());
+                        rawGraph_ = std::make_unique<GraphCreate<>::Graph>(raws, rawNames, sectionRunConfig());
                         groupEdits_.push_back(std::make_unique<GraphCreate<>>(GraphId(0, "", comp_.name + "_fallbackRaw"), rawGraph_.get()));
                     }
                     if (!defaults.edits.empty()) {
@@ -1396,7 +1344,7 @@ namespace AGRemapCore {
                             continue;
                         }
                         std::sort(drawn.begin(), drawn.end(), [](const std::string& a, const std::string& b) { return lowered(a) < lowered(b); });
-                        const std::string into = orderedName(drawn.front(), IniNamingTools::getRemapFixName(drawn.front(), toModName_));
+                        const std::string into = orderedName(drawn.front(), remapFixName(drawn.front()));
                         std::string intoSlot;
                         for (const ZZMIFixerConfig::Slot& slot : comp_.slots) {
                             intoSlot = intoSlot.empty() ? slot.name : intoSlot;
@@ -1443,7 +1391,7 @@ namespace AGRemapCore {
                                 continue;
                             }
                             const GraphId texGraph(0, "", comp_.name + "_crossTex_" + roleReg.first);
-                            crossTexGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(recolours, names, runConfig(), true, true));
+                            crossTexGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(recolours, names, sectionRunConfig(), true, true));
                             crossEdits_.push_back(std::make_unique<GraphCreate<>>(texGraph, crossTexGraphs_.back().get()));
                             crossEdits_.push_back(std::make_unique<GraphFilter<>>(std::vector<GraphId>{texGraph},
                                 [](const FixSection&, const IfContentPart<std::string, std::string>& part, std::size_t i) {
@@ -1481,8 +1429,6 @@ namespace AGRemapCore {
 
                 using GroupPartEdit = ObjGroupEdit::PartEdit;
 
-                mutable IniFileFixContext ctx_;
-                std::string toModName_;
                 ZZMIFixerConfig config_;
                 ZZMIFixerConfig::Component comp_;
                 std::vector<const Template*> own_;

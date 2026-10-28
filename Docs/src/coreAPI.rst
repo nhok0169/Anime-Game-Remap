@@ -1600,6 +1600,17 @@ RemapIniFixContext
 
 :raw-html:`<br />`
 
+TemplateFixer
+-------------
+
+.. cppattributetable:: AGRemapCore::TemplateFixer
+
+.. doxygenclass:: AGRemapCore::TemplateFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 WWMIFixerConfig
 ---------------
 

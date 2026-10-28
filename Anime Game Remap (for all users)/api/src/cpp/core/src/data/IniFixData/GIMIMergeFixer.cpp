@@ -57,6 +57,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
+#include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBottomAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegBranchAdd.h"
@@ -158,40 +159,9 @@ namespace AGRemapCore {
         const std::string TexFxDrawStart = "$\\texfx\\_2";
 
 
-        // ---- the sections the fix writes of its own ----
-        //
-        // Built as a section and rendered by the library's renderer, one per call, followed by a newline:
-        // GIMIFixer::appendedSections carries them into the fix block (see buildAppendedSections).
-        IfTemplateRunConfig<std::string, std::string> sectionRunConfig() {
-            return IfTemplateRunConfig<std::string, std::string>{
-                IniKeywords::Run,
-                [](const std::string& val) { return val; },
-                [](const std::string& section) { return section; }
-            };
-        }
-
-        std::string renderSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& kvps) {
-            std::vector<std::unique_ptr<IfTemplatePart>> parts;
-            parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, 0));
-            Template section(std::move(parts), sectionRunConfig(), name);
-            return renderIfTemplate(section) + "\n";
-        }
-
-
         const std::string FormatKey = "format";
         const std::string R32Format = "DXGI_FORMAT_R32_UINT";
         const std::string StrideKey = "stride";
-
-        // 'extras' are forced onto the generated resource section -- see ResEditConfig::extraKVPs.
-        BaseResEdit<>::ResEditConfig makeResEditConfig(std::vector<std::pair<std::string, std::string>> extras = {}) {
-            BaseResEdit<>::ResEditConfig config{
-                IniKeywords::Filename,
-                [](const std::string& value) { return value; },
-                [](const std::string& file) { return file; }
-            };
-            config.extraKVPs = std::move(extras);
-            return config;
-        }
 
 
         // How a merged master's per-branch values are read and paired is shared with the split --
@@ -310,17 +280,13 @@ namespace AGRemapCore {
          * components' buffers become one merged set, and two source slots landing on one target
          * object are concatenated into a single draw rather than spilling into a second file.
          */
-        class GIMIMergeFixerImpl: public Fixer {
+        class GIMIMergeFixerImpl: public TemplateFixer {
             public:
                 GIMIMergeFixerImpl(BaseIniParser<>* parser, const std::string& toModName,
                                     std::optional<int> modTypeId, GIMIMergeFixerConfig config):
-                    Fixer(parser, nullptr, {},
-                           toModName.empty() ? std::optional<std::vector<std::string>>(std::nullopt)
-                                             : std::optional<std::vector<std::string>>({toModName}),
-                           nullptr, makeConfig()),
-                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId), toModName_(toModName),
-                    config_(std::move(config)) {
-                    this->setCtx(&ctx_);
+                    TemplateFixer(parser, toModName, modTypeId), config_(std::move(config)) {
+                    // A fixer that gave up withdraws the parser's downloads too -- see TemplateFixer
+                    this->withdrawDownloadsOnGiveUp = true;
 
                     // A FILE THAT ONLY WATCHES THE SKIN GETS ITS OWN SECTIONS AND NOTHING ELSE
                     // (2026-09-24). A help overlay or a merged mod's master matches the skin's
@@ -446,39 +412,11 @@ namespace AGRemapCore {
                     this->appendedSections = text;
                 }
 
-            protected:
-                // GIMIFixer's own hands every group edit a nullptr .ini file, which stops a collect
-                // ever building anything -- see GIMIComponentFixerImpl.
-                void applyGraphGroupEdits(const std::string& modName) override {
-                    if (this->graphGroups() == nullptr) {
-                        return;
-                    }
-
-                    for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
-                        if (edit != nullptr) {
-                            edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
-                        }
-                    }
-
-                    // A fixer that gave up withdraws the downloads too. The parser registers one per
-                    // object it filled, at parse time, and fixResources fetches every one it finds
-                    // whether or not anything references it -- so writing nothing would still drop the
-                    // game's files into the mod's folder. They are the .ini file's rather than this
-                    // fixer's: this is right while every fixer over one file succeeds or fails
-                    // together, which holds here because each component's fixer reads the same files.
-                    if (gaveUp_ && ctx_.getIniFile() != nullptr) {
-                        ctx_.getIniFile()->getFileDownloads().clear();
-                    }
-                }
-
             private:
-                // Gives up: the fixer writes NOTHING. See GraphGroupRemove -- returning without this
-                // renders the mod's own sections again under their source names, which the remover
-                // cannot strip and every later run appends to, and the run counts the .ini as fixed.
+                // Gives up with a reason in the log: the fixer writes NOTHING (see TemplateFixer::giveUp)
                 void giveUp(const std::string& why) {
                     ctx_.log("the merge " + why + ", so it writes nothing for this .ini");
-                    gaveUp_ = true;
-                    this->graphGroupEdits = {&removeEveryGroup_};
+                    TemplateFixer::giveUp();
                 }
 
                 // The watcher's fix: each component-level section the file has (by its hash), under
@@ -1654,7 +1592,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, "", obj + "RemapTexDiffuse"),
-                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             auto collect = std::make_unique<Collector>();
@@ -1683,7 +1621,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexDiffuse"),
-                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                TexEditor({*filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("Diffuse"));
 
                             auto collect = std::make_unique<Collector>();
@@ -1726,7 +1664,7 @@ namespace AGRemapCore {
 
                         auto replace = std::make_unique<TexEditorReplace<>>(
                             GraphId(0, "", obj + "RemapTexLightMap"),
-                            TexEditor({filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                            TexEditor({filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                             "resourceRemapTexEdit", std::string("LightMap"));
 
                         auto collect = std::make_unique<Collector>();
@@ -1785,7 +1723,7 @@ namespace AGRemapCore {
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 GraphId(0, member.first, member.second + "RemapTexLightMap"),
-                                TexEditor({filter}, config_.compressTextures, config_.mipmaps), makeResEditConfig(),
+                                TexEditor({filter}, config_.compressTextures, config_.mipmaps), resEditConfig(),
                                 "resourceRemapTexEdit", std::string("LightMap"));
 
                             auto collect = std::make_unique<Collector>();
@@ -1943,7 +1881,7 @@ namespace AGRemapCore {
 
                     const std::string srcName = ctx_.modTypeName().value_or("");
                     const std::optional<Version> fromVersion = ctx_.version();
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
 
                     // Each component has a row of its OWN -- that is the whole reason they cannot
                     // be remapped together. Looked up once: the row does not vary with the variant,
@@ -2012,7 +1950,7 @@ namespace AGRemapCore {
                         }
 
                         // One fixed file per section -- see ResEditConfig::filePerSection.
-                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig(std::move(extras));
+                        BaseResEdit<>::ResEditConfig resConfig = resEditConfig(std::move(extras));
                         resConfig.filePerSection = true;
                         auto replace = std::make_unique<BufReplace<>>(resObj, std::move(resConfig), kind.first, std::nullopt);
                         srcRegs[resObj] = {{kind.second.first, kind.second.second}};
@@ -2031,7 +1969,7 @@ namespace AGRemapCore {
                             extras.emplace_back(FormatKey, R32Format);
                         }
 
-                        BaseResEdit<>::ResEditConfig ibConfig = makeResEditConfig(std::move(extras));
+                        BaseResEdit<>::ResEditConfig ibConfig = resEditConfig(std::move(extras));
                         ibConfig.filePerSection = true;
                         auto replace = std::make_unique<BufReplace<>>(resObj, std::move(ibConfig), "ib",
                                                                        std::optional<std::string>(obj));
@@ -2050,7 +1988,7 @@ namespace AGRemapCore {
                 void buildIndexEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
                     Indices* indices = ctx_.modTypeIndices();
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
 
                     objFilter_ = std::make_unique<ObjFilter>(ctx_.modTypeHashes(), ctx_.modTypeIndices(),
                                                               ObjFilter::KeySet{IbHashKey}, ctx_.version());
@@ -2451,7 +2389,7 @@ namespace AGRemapCore {
                 // ---- 6. everything else ----
                 void buildEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
-                    const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
                     const std::string toModName = toModName_;
 
                     renameGraph_ = std::make_unique<GraphRename<>>(
@@ -3229,24 +3167,13 @@ namespace AGRemapCore {
                     mainEdits_ = ObjGroupEdit(std::move(perGroup), false);
                 }
 
-                static FixerConfig makeConfig() {
-                    FixerConfig config{};
-                    config.sectionToStr = &renderIfTemplate;
-                    return config;
-                }
-
                 static const std::string MergeGroupType;
 
-                // FIRST, so it is destroyed LAST: every Z3Predicate read out of a mod's sections
-                // belongs to its context and is unusable once it goes. Z3 member ORDER has bitten
-                // this repo before -- see Z3Predicate::Impl.
+                // FIRST, so it is destroyed after every other member of this class: every Z3Predicate
+                // read out of a mod's sections belongs to its context and is unusable once it goes.
+                // Z3 member ORDER has bitten this repo before -- see Z3Predicate::Impl.
                 ModBranches branches_;
 
-                bool gaveUp_ = false;
-                GraphGroupRemove<> removeEveryGroup_;
-
-                IniFileFixContext ctx_;
-                std::string toModName_;
                 GIMIMergeFixerConfig config_;
 
                 std::unordered_map<std::string, ComponentFiles> files_;

@@ -6029,6 +6029,74 @@
     <member refid="class_a_g_remap_core_1_1_temp_control_1a23783672c0120ba0c7a72bf1188c1f96" kind="function"><name>transform</name></member>
     <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" kind="function"><name>operator()</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_template_fixer" kind="class"><name>AGRemapCore::TemplateFixer</name>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1aeb955c2f7277c0cc3cc9a66c872a1a74" kind="typedef"><name>Fixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a447dbeeaabe0228a59ce92b6584e3924" kind="typedef"><name>KVPs</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a48836dbabf78fc8353a871dfd4d8cbf3" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a3fa8df9d2cfc70e1bee6e48ec192d7f1" kind="typedef"><name>Core</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2ea43bd3e033adcfd162ba40f5d5c38a" kind="typedef"><name>ParseData</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a697c7277e73024af055a2164acf0cd99" kind="typedef"><name>FixResult</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5464afcc74a1ab38ec3d3cf1c40d0d47" kind="typedef"><name>GraphGroup</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aad3455517baa883f0cf6bb55ed1fea62" kind="typedef"><name>Graph</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a55ba66ec457cf085228b3794166dabd1" kind="typedef"><name>ModObj</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4679067d2e786b4077ee89100360a371" kind="typedef"><name>ModObjHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5bcddb1d5c9ab03248f9d3fd3c880870" kind="typedef"><name>GroupEdit</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aeec8c9ee49d5ed873de7d3cc190568ec" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0984802e6e220309334a6bde2ef0f0ac" kind="typedef"><name>GraphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5eac3c432029608e3d161aed56716ceb" kind="typedef"><name>FixTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8173db7e04d0a54256a0557476ddb6c6" kind="typedef"><name>SectionToStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a78cfb0ef699182832d22b25b1867eb61" kind="variable"><name>withdrawDownloadsOnGiveUp</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a9ab660168d0b1fdd6c032a133024d567" kind="variable"><name>ctx_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1af0410b53f9386ca84e2dcd9d1a8ae798" kind="variable"><name>toModName_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5ee6baf4220af9c4d3c4e29d9e5f803c" kind="variable"><name>graphGroups_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a280d4bdafd151b00b2f0b10061d67c93" kind="variable"><name>preEditSectionNames_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a20fa330cc7b17baf32d8fe2019f3df26" kind="variable"><name>fixTargets_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a1cec0133b1b43cbdedc741e848f8f33d" kind="variable"><name>fixedContents_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a1c8789814df39bd24cb2a286d91c5f1b" kind="variable"><name>gaveUp_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a0be54ceaeea2db488acaacb8276373e9" kind="variable"><name>removeEveryGroup_</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a22ec644e8c770afb76a76fe863aaba06" kind="variable"><name>config_</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a6c1a1b103e327c0e0b14427a54999b37" kind="function"><name>TemplateFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a94dea6ebb916551710b5a02c9ab0e148" kind="function"><name>TemplateFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a517168ed813b6b716ed29987a17c326d" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a05aec703fea29a46c471bdd8c9d54905" kind="function"><name>hasGivenUp</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a354493b8b21dc43a261a6885b1b39950" kind="function"><name>ctx</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ae2c624a14d5c090257cba4e57d62a9a2" kind="function"><name>setCtx</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab29e16d0a2e7f666bc59150b079b64a7" kind="function"><name>graphGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aab3dbcce5dbd3bdc54955640acc728e5" kind="function"><name>config</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a9139ad401288080bf8bc95da585f6634" kind="function"><name>fixTargets</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8932760b0afad16b510b9b3c2e1526f2" kind="function"><name>fixedContents</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af09d678281a7085fe5bf84d970f8fcca" kind="function"><name>getModsToFix</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7f7530373bbe67640f73148937563055" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7b7ca3c58f9e764065c856ab9b78462c" kind="function"><name>getFix</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ad6ef77be01a727db3c636fbbf72ed51f" kind="function"><name>groupToStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a37e315f6fb844029a649ea10c0a902de" kind="function"><name>fixKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af06a9cf5f45f8ce1ba6ae512447626a6" kind="function"><name>labelTargetBlock</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2b1221020a6bee72fe0271eda1ef27f0" kind="function"><name>touchedSectionNames</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0c9c06898d7ceb9f601b86463242c32d" kind="function"><name>hiddenSectionNames</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1ac575d09b495e5748cf36e06e85089bf6" kind="function"><name>resEditConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1ab9175e1806d6e53368634f953072790e" kind="function"><name>sectionRunConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a07c7c4ede1aa254dc6d00f072fcdf254" kind="function"><name>makeSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a30973bbecb9f85387f64cbc42db7329a" kind="function"><name>renderSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1ad1330a6652783cf8e79dae68ddb2c7ea" kind="function"><name>applyGraphGroupEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a37f99c5ac8cc8390a22ac7e1fcf4fc50" kind="function"><name>beforeGraphGroupEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1afc2d1e23d64fbad8748e1e6384993c01" kind="function"><name>afterGraphGroupEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1adb5666b3659ce2be2cd5ed3f21e469b8" kind="function"><name>giveUp</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a6b74654c01b7de93858b732554926d60" kind="function"><name>iniToVersion</name></member>
+    <member refid="class_a_g_remap_core_1_1_template_fixer_1a733cbee06612af9dcbc7929d255b2e03" kind="function"><name>remapFixName</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" kind="function"><name>snapshotPreEditSectionNames</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2d333cb908e828d8d82fa45c73431fd7" kind="function"><name>fixImpl</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aef6dedcf6548f3ee419093a4f87e008e" kind="variable"><name>graphGroupEdits</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a69dae513284d257e88c97583cd3db751" kind="variable"><name>modsToFix</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab7ebcd6914b22794cef0bb9f2027d854" kind="variable"><name>copyPreamble</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7e99fb87264ff2ce673f66060718e1fa" kind="variable"><name>appendedSections</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab2d7352d45fbd615b8ebae72d5aff841" kind="variable"><name>appendedSectionsInCopies</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af242f039784066ef408ad35d5c0e92a2" kind="variable"><name>appendedSectionsPerGroup</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4ddd243e7d800bef749dd3caa68af6a6" kind="variable"><name>appendedSectionsDropRepeats</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ad73a119abc6ce34cd479aeab07f6793c" kind="variable"><name>copyHiddenSectionNames</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4d9123ab804410bcd9ce99afcc4580e2" kind="variable"><name>hiddenModObjs</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8bbfcfba559d366f4e4e35674affe1b9" kind="variable"><name>prevFixer</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kind="struct"><name>AGRemapCore::GIMICharFixerConfig::TexAdd</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" kind="variable"><name>obj</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" kind="variable"><name>reg</name></member>
@@ -8161,6 +8229,8 @@
   <compound refid="_reg_restrict_8h" kind="file"><name>RegRestrict.h</name>
   </compound>
   <compound refid="_remap_ini_fix_context_8h" kind="file"><name>RemapIniFixContext.h</name>
+  </compound>
+  <compound refid="_template_fixer_8h" kind="file"><name>TemplateFixer.h</name>
   </compound>
   <compound refid="_base_ini_parser_8h" kind="file"><name>BaseIniParser.h</name>
   </compound>

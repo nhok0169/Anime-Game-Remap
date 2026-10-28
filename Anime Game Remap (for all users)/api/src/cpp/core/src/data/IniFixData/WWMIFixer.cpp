@@ -66,6 +66,7 @@
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
+#include "AGRemapCore/model/strategies/iniFixers/TemplateFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
@@ -845,14 +846,6 @@ namespace AGRemapCore {
 
             const std::uintmax_t stride = *blendSize / static_cast<std::uintmax_t>(vertices);
             return (stride < 2 || stride % 2 != 0) ? Fallback : static_cast<std::size_t>(stride / 2);
-        }
-
-        BaseResEdit<>::ResEditConfig makeResEditConfig() {
-            return BaseResEdit<>::ResEditConfig{
-                IniKeywords::Filename,
-                [](const std::string& value) { return value; },
-                [](const std::string& file) { return file; }
-            };
         }
 
 
@@ -1647,7 +1640,7 @@ namespace AGRemapCore {
 
         // ---- the fixer ----
 
-        class WWMIFixerImpl: public Fixer {
+        class WWMIFixerImpl: public TemplateFixer {
             // DECLARED FIRST, and it has to be: everything Z3 hands out belongs to this
             // context and must not outlive it, which member destruction order decides.
             // ModBranches carries the same note about its own.
@@ -1656,13 +1649,7 @@ namespace AGRemapCore {
             public:
                 WWMIFixerImpl(BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId,
                               WWMIFixerConfig config):
-                    Fixer(parser, nullptr, {},
-                          toModName.empty() ? std::optional<std::vector<std::string>>(std::nullopt)
-                                            : std::optional<std::vector<std::string>>({toModName}),
-                          nullptr, makeConfig()),
-                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId), toModName_(toModName),
-                    config_(std::move(config)) {
-                    this->setCtx(&ctx_);
+                    TemplateFixer(parser, toModName, modTypeId), config_(std::move(config)) {
                     this->copyPreamble = config_.copyPreamble;
 
                     std::string error;
@@ -1713,16 +1700,11 @@ namespace AGRemapCore {
                 }
 
             protected:
-                // GIMIFixer's own hands every group edit a nullptr .ini file, which stops a collect
-                // ever building anything -- see GIMICharFixerImpl. The files the fix writes outside
-                // the resource system (the zero stream) and the resources it adds by hand (the
-                // created textures) go in here too, at fix time, so a parse alone writes nothing.
-                void applyGraphGroupEdits(const std::string& modName) override {
-                    if (this->graphGroups() == nullptr) {
-                        return;
-                    }
-
-                    if (!gaveUp_) {
+                // The files the fix writes outside the resource system (the zero stream) and the
+                // resources it adds by hand (the created textures) go in at fix time, before the
+                // edits, so a parse alone writes nothing.
+                void beforeGraphGroupEdits(const std::string&) override {
+                    if (!hasGivenUp()) {
                         writeZeroStream();
                         writeShapeKeyOrder();
                         writeMirrorBuffers();
@@ -1730,14 +1712,10 @@ namespace AGRemapCore {
                         addFallbackDownloads();
                         addTexEdits();
                     }
+                }
 
-                    for (Fixer::GroupEdit* edit : this->graphGroupEdits) {
-                        if (edit != nullptr) {
-                            edit->editFromIni(*this->graphGroups(), ctx_.getIniFile(), nullptr, modName);
-                        }
-                    }
-
-                    if (!gaveUp_) {
+                void afterGraphGroupEdits(const std::string& modName) override {
+                    if (!hasGivenUp()) {
                         addShaderGraphs(modName);
                     }
 
@@ -1763,13 +1741,13 @@ namespace AGRemapCore {
 
                     Fixer::GraphGroups& groups = *this->graphGroups();
                     IniFile* ini = ctx_.getIniFile();
-                    FileRefAdd<> sourceAdd(shaderSources_, makeResEditConfig());
+                    FileRefAdd<> sourceAdd(shaderSources_, resEditConfig());
 
                     for (std::size_t g = 0; g < groups.size(); ++g) {
                         const GraphId shaders(g, "", "rerouteShaders");
                         GraphCreate<>(shaders, shaderGraph_.get()).edit(groups, nullptr, modName);
 
-                        FileAddCreate<> bufferCreate(GraphId(g, "", "rerouteShaderBuffers"), shaderBuffers_, makeResEditConfig());
+                        FileAddCreate<> bufferCreate(GraphId(g, "", "rerouteShaderBuffers"), shaderBuffers_, resEditConfig());
                         for (const std::string& reg : shaderBufferRegs_) {
                             Collector buffers;
                             buffers.srcRegs[shaders] = reg;
@@ -1786,17 +1764,7 @@ namespace AGRemapCore {
 
                 // One CustomShader section of shaderGraph_
                 void addShaderSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& keys) {
-                    using Section = GraphCreate<>::Graph::Section;
-                    std::vector<std::unique_ptr<IfTemplatePart>> parts;
-                    parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(keys, 0));
-
-                    IfTemplateRunConfig<std::string, std::string> runConfig{
-                        IniKeywords::Run,
-                        [](const std::string& val) { return val; },
-                        [](const std::string& section) { return section; }
-                    };
-
-                    shaderSections_.push_back(std::make_unique<Section>(std::move(parts), std::move(runConfig), name));
+                    shaderSections_.push_back(makeSection(name, keys));
                     shaderSectionNames_.push_back(name);
                 }
 
@@ -1813,14 +1781,13 @@ namespace AGRemapCore {
                 // rendered TEXT -- `getline`, find the `=`, splice lines back -- which is the section
                 // model written out and read straight back in. Fires on 19 of the 58 WuWa mod folders
                 // on disk, all of them this character's (2026-09-29).
-                // The context's log is not const where the callers are, so this is the one place
-                // that casts it away.
+                // The context's log, from a const member
                 void note(const std::string& message) const {
-                    const_cast<IniFileFixContext&>(ctx_).log(message);
+                    ctx_.log(message);
                 }
 
                 void rebindBlendOverride() {
-                    if (gaveUp_ || config_.blendReg.empty() || this->graphGroups() == nullptr) {
+                    if (hasGivenUp() || config_.blendReg.empty() || this->graphGroups() == nullptr) {
                         return;
                     }
 
@@ -1886,14 +1853,6 @@ namespace AGRemapCore {
                 }
 
             private:
-                using FixerConfig = Fixer::FixerConfig;
-
-                static FixerConfig makeConfig() {
-                    FixerConfig config{};
-                    config.sectionToStr = &renderIfTemplate;
-                    return config;
-                }
-
                 // A FILE THAT ONLY WATCHES THE SOURCE (2026-10-13). A help overlay, a key menu or a skill
                 // effect's recolour sits beside the mesh and matches the source's vb0 only to set a variable
                 // while she is on screen (`$active = 1`, `$\CECChange\activeVB = 1`): no index window, nothing
@@ -1959,7 +1918,7 @@ namespace AGRemapCore {
                             });
                             if (inWatched) {
                                 out += "\n";
-                                section.push_back("[" + fixName(name) + "]");
+                                section.push_back("[" + remapFixName(name) + "]");
                             }
                             continue;
                         }
@@ -1981,16 +1940,6 @@ namespace AGRemapCore {
                     ctx_.log("only watches " + source_.name + ", so its " + std::to_string(watching.size())
                              + " watching section(s) are carried onto " + toModName_ + "'s vb0 and nothing is drawn");
                     return true;
-                }
-
-                // Gives up: the fixer writes NOTHING (see GraphGroupRemove and GIMIComponentFixerImpl).
-                void giveUp() {
-                    gaveUp_ = true;
-                    this->graphGroupEdits = {&removeEveryGroup_};
-                }
-
-                std::string fixName(const std::string& name) const {
-                    return IniNamingTools::getRemapFixName(name, toModName_);
                 }
 
             public:
@@ -2051,11 +2000,11 @@ namespace AGRemapCore {
                     for (std::size_t slot = 0; slot < target_.slots.size(); ++slot) {
                         merges.insert(std::string(IniKeywords::Run) + " = " + mergeListName(static_cast<int>(slot)));
                     }
-                    merges.insert(std::string(IniKeywords::Run) + " = " + fixName("CommandListMergeWindow"));
+                    merges.insert(std::string(IniKeywords::Run) + " = " + remapFixName("CommandListMergeWindow"));
                     const std::string detected = "$object_detected = 1";
                     const std::vector<std::string> latch = {
                         "if $object_detected == 0",
-                        "\t" + std::string(IniKeywords::Run) + " = " + fixName("CommandListRemapMergedSkeleton"),
+                        "\t" + std::string(IniKeywords::Run) + " = " + remapFixName("CommandListRemapMergedSkeleton"),
                         "endif"};
 
                     std::vector<std::string> lines;
@@ -2745,7 +2694,7 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const std::string fixSuffix = fixName("");
+                    const std::string fixSuffix = remapFixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
                         // ANY texture override binding by hash, whatever its name (2026-10-16): Lynae3 calls
                         // its hair overrides [TextureOverrideX] / [TextureOverrideXX], and a mesh section
@@ -2901,7 +2850,7 @@ namespace AGRemapCore {
                     const std::string prefix = StringTools::toLower(config_.texRegPrefix);
                     const std::string ref = StringTools::toLower(IniKeywords::Ref);
 
-                    const std::string fixSuffix = fixName("");
+                    const std::string fixSuffix = remapFixName("");
                     for (const auto& entry : ini->getIfTemplates()) {
                         if (entry.second == nullptr
                             || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
@@ -4072,7 +4021,7 @@ namespace AGRemapCore {
                     }
 
                     for (const WWMIFixerConfig::CreatedTexture& created : config_.createdTextures) {
-                        resourceOfRole_[created.role] = fixName(IniKeywords::Resource + created.role);
+                        resourceOfRole_[created.role] = remapFixName(IniKeywords::Resource + created.role);
                     }
 
                     // A planned role the mod has NO file for: the SOURCE's own game texture, as a
@@ -4189,7 +4138,7 @@ namespace AGRemapCore {
                     }
 
                     return FileService::absPathOfRelPath(
-                        positionFile_, const_cast<IniFileFixContext&>(ctx_).getIniFile()->getFolder());
+                        positionFile_, ctx_.getIniFile()->getFolder());
                 }
 
                 static std::string modFile(const std::string& folder, const std::string& name) {
@@ -4305,7 +4254,7 @@ namespace AGRemapCore {
                                 const std::string value(StringTools::strip(old));
                                 for (const std::string& resource : ShapeKeyResources) {
                                     if (StringTools::equalsIgnoreCase(value, shapeKeyFiles_.at(resource).section)) {
-                                        return fixName(resource);
+                                        return remapFixName(resource);
                                     }
                                 }
                                 return old;
@@ -4471,7 +4420,7 @@ namespace AGRemapCore {
 
                 /** @brief The fix's own list that puts the captured bindings back -- see bypassRestore */
                 std::string restoreListName() {
-                    return fixName(IniKeywords::CommandList + "RestoreSharedResources");
+                    return remapFixName(IniKeywords::CommandList + "RestoreSharedResources");
                 }
 
                 // Which of the mod's own shared-resource bindings the fix has to put back, and the
@@ -4499,7 +4448,7 @@ namespace AGRemapCore {
                             continue;      // `vb0`, which WWMI's own pair already handles
                         }
 
-                        bypasses_.emplace_back(reg, fixName(IniKeywords::Resource + "Bypass"
+                        bypasses_.emplace_back(reg, remapFixName(IniKeywords::Resource + "Bypass"
                                                             + IniNamingTools::getRegTag(reg)));
                     }
                 }
@@ -4950,7 +4899,7 @@ namespace AGRemapCore {
                         }
 
                         if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
-                            additions.emplace_back(config_.shapeKeyStreamReg, fixName(IniKeywords::Resource + ShapeKeyZero));
+                            additions.emplace_back(config_.shapeKeyStreamReg, remapFixName(IniKeywords::Resource + ShapeKeyZero));
                         }
 
                         if (texcoordResource_.has_value()) {
@@ -4979,7 +4928,7 @@ namespace AGRemapCore {
                         }
 
                         if (!bindings.empty()) {
-                            const std::string cmdList = fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
+                            const std::string cmdList = remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                                                 + std::to_string(component) + "Textures");
                             SectionText list(z3_, cmdList);
                             list.open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
@@ -5013,7 +4962,7 @@ namespace AGRemapCore {
 
                             if (!gameBindings.empty()) {
                                 const std::string gameList =
-                                    fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
+                                    remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                             + std::to_string(component) + GameSuffix + "Textures");
                                 textureLists_.push_back(
                                     SectionText(z3_, gameList)
@@ -5064,7 +5013,7 @@ namespace AGRemapCore {
                                 }
 
                                 const std::string extraList =
-                                    fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
+                                    remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
                                             + std::to_string(component) + "TexturesPass" + std::to_string(n));
                                 textureLists_.push_back(SectionText(z3_, extraList)
                                                             .open(passCondition(pass))
@@ -5333,8 +5282,8 @@ namespace AGRemapCore {
                         // everything in `additions` goes BEFORE the draw.
                         if (mirroredSet().count(component) > 0) {
                             auto twin = mirrorTwin(
-                                fixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)),
-                                fixName(IniKeywords::Resource + "MirrorVector"),
+                                remapFixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)),
+                                remapFixName(IniKeywords::Resource + "MirrorVector"),
                                 IndexBufferResource, VectorBufferResource, config_.vectorReg,
                                 mirrorSpan(component).first);
                             auto adapter = std::make_unique<RegPartEdit<>>(twin.get());
@@ -5376,9 +5325,9 @@ namespace AGRemapCore {
                 // Every name a mod's command list can carry in the remapped graphs: its own, the
                 // fix's, and each reroute copy's (see buildSlotRemap)
                 std::vector<std::string> listNames(const std::string& list) const {
-                    std::vector<std::string> names{list, fixName(list)};
+                    std::vector<std::string> names{list, remapFixName(list)};
                     for (const auto& entry : rerouteFrom_) {
-                        names.push_back(fixName(list + "Reroute" + std::to_string(entry.first)));
+                        names.push_back(remapFixName(list + "Reroute" + std::to_string(entry.first)));
                     }
 
                     return names;
@@ -5400,7 +5349,7 @@ namespace AGRemapCore {
                 // own code map at the draws' vertices. A reroute that takes draws becomes a present
                 // component of its own, sharing the source's sections and every texture it reads.
                 void readReroutes() {
-                    if (config_.drawReroutes.empty() || gaveUp_) {
+                    if (config_.drawReroutes.empty() || hasGivenUp()) {
                         return;
                     }
 
@@ -5646,7 +5595,7 @@ namespace AGRemapCore {
                     rabbitFXFlags_.clear();
                     rabbitFXPins_.clear();
                     rabbitFXPinAdapters_.clear();
-                    if (gaveUp_) {
+                    if (hasGivenUp()) {
                         return;
                     }
 
@@ -5844,7 +5793,7 @@ namespace AGRemapCore {
                 }
 
                 std::string rabbitFXPinList(int component) const {
-                    return fixName(IniKeywords::CommandList + "RabbitFXPin" + std::to_string(component));
+                    return remapFixName(IniKeywords::CommandList + "RabbitFXPin" + std::to_string(component));
                 }
 
                 std::string rabbitFXPinSections() {
@@ -5865,7 +5814,7 @@ namespace AGRemapCore {
                 // included, which readReroutes has just made present)
                 void readShaders() {
                     rerouteShaders_.clear();
-                    if (gaveUp_) {
+                    if (hasGivenUp()) {
                         return;
                     }
 
@@ -6050,10 +5999,10 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            const std::string list = fixName(IniKeywords::CommandList + "DrawAfter" + std::to_string(first));
+                            const std::string list = remapFixName(IniKeywords::CommandList + "DrawAfter" + std::to_string(first));
                             afterDispatch_[first] = list;
                             afterEdits_[first] = runBeforeRuns(
-                                std::vector<std::string>{config_.cleanupResourcesList, fixName(config_.cleanupResourcesList)}, list,
+                                std::vector<std::string>{config_.cleanupResourcesList, remapFixName(config_.cleanupResourcesList)}, list,
                                 afterLatch(first));
                             afterAdapters_[first] = std::make_unique<RegPartEdit<>>(afterEdits_[first].get());
                         }
@@ -6065,7 +6014,7 @@ namespace AGRemapCore {
                                         const std::string& kind = IniKeywords::CommandList) const {
                     const std::set<std::pair<long long, long long>> draws = shaderDraws(component);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
-                    return fixName(kind + "Mark" + std::to_string(component) + "Draw" + std::to_string(at));
+                    return remapFixName(kind + "Mark" + std::to_string(component) + "Draw" + std::to_string(at));
                 }
 
                 // The source's own game texture of a role, as a component binds it: edited for the
@@ -6136,7 +6085,7 @@ namespace AGRemapCore {
                 }
 
                 std::string stashResource(int slot, const std::string& reg) const {
-                    return fixName(IniKeywords::Resource + "Stash" + std::to_string(slot) + IniNamingTools::getRegTag(reg));
+                    return remapFixName(IniKeywords::Resource + "Stash" + std::to_string(slot) + IniNamingTools::getRegTag(reg));
                 }
 
                 // A Shader line `X = stash <slot> <reg>` binds WWMIFixerConfig::stashRegs' capture
@@ -6199,7 +6148,7 @@ namespace AGRemapCore {
                 }
 
                 std::string afterLatch(int component) const {
-                    return "$" + fixName("DrawAfter" + std::to_string(component) + "Latch");
+                    return "$" + remapFixName("DrawAfter" + std::to_string(component) + "Latch");
                 }
 
                 std::string rerouteShaderSection(int as, const std::pair<long long, long long>& range,
@@ -6207,7 +6156,7 @@ namespace AGRemapCore {
                                                  const std::string& suffix = "") const {
                     const std::set<std::pair<long long, long long>> draws = shaderDraws(as);
                     const auto at = static_cast<std::size_t>(std::distance(draws.begin(), draws.find(range)));
-                    return fixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at) + suffix);
+                    return remapFixName(kind + rerouteShaders_.at(as)->name + std::to_string(as) + "Draw" + std::to_string(at) + suffix);
                 }
 
                 std::string rerouteShaderFile(const WWMIFixerConfig::Shader& shader) const {
@@ -6220,7 +6169,7 @@ namespace AGRemapCore {
                 }
 
                 std::string rerouteBufferResource(const WWMIFixerConfig::Shader& shader, const std::string& reg) const {
-                    return fixName(IniKeywords::Resource + shader.name + IniNamingTools::getRegTag(reg));
+                    return remapFixName(IniKeywords::Resource + shader.name + IniNamingTools::getRegTag(reg));
                 }
 
                 std::string rerouteBufferFile(const WWMIFixerConfig::Shader& shader, const std::string& reg) const {
@@ -6245,7 +6194,7 @@ namespace AGRemapCore {
                 }
 
                 std::string shaderBackup(const std::string& reg) const {
-                    return fixName(IniKeywords::Resource + std::string("ShaderBackup") + IniNamingTools::getRegTag(reg));
+                    return remapFixName(IniKeywords::Resource + std::string("ShaderBackup") + IniNamingTools::getRegTag(reg));
                 }
 
                 // A CustomShader's register bindings outlive it: 3DMigoto restores its shaders and render state,
@@ -6494,13 +6443,8 @@ namespace AGRemapCore {
                             sections[section->name] = section.get();
                         }
 
-                        IfTemplateRunConfig<std::string, std::string> runConfig{
-                            IniKeywords::Run,
-                            [](const std::string& val) { return val; },
-                            [](const std::string& section) { return section; }
-                        };
                         shaderGraph_ = std::make_unique<GraphCreate<>::Graph>(std::move(sections), shaderSectionNames_,
-                                                                              std::move(runConfig), true, false, &z3_);
+                                                                              sectionRunConfig(), true, false, &z3_);
                     }
 
                     for (const std::string& reg : shaderBackupRegs_) {
@@ -6534,7 +6478,7 @@ namespace AGRemapCore {
                     // two claimants of one slot collide with each other, which is what makes the
                     // further groups (GraphGroupRemap's own rule). Every section keeps its own name
                     // plus the fix suffix, as the prototype's output has it.
-                    const GraphGroupRemap<>::RenameFunc rename = [this](const std::string& name) { return fixName(name); };
+                    const GraphGroupRemap<>::RenameFunc rename = [this](const std::string& name) { return remapFixName(name); };
                     GraphGroupRemap<>::RemapList remap;
                     for (const auto& entry : present_) {
                         if (rerouteFrom_.count(entry.first) > 0) {
@@ -6558,7 +6502,7 @@ namespace AGRemapCore {
                             const ModObj target = targetObjOf(as);
                             const std::string tag = "Reroute" + std::to_string(as);
                             targets.emplace_back(GraphId(0, target.first, target.second),
-                                                 [this, tag](const std::string& name) { return fixName(name + tag); });
+                                                 [this, tag](const std::string& name) { return remapFixName(name + tag); });
                         }
 
                         const ModObj src = slotObj(entry.first);
@@ -6737,7 +6681,7 @@ namespace AGRemapCore {
                         // (WWMIFixerConfig::targetInfluences): whatever wrote the blend above, its
                         // output is then padded to the target's width, and the generated section --
                         // a copy of the mod's own -- is told the new stride.
-                        BaseResEdit<>::ResEditConfig resConfig = makeResEditConfig();
+                        BaseResEdit<>::ResEditConfig resConfig = resEditConfig();
                         if (config_.targetInfluences != 0 && config_.targetInfluences < srcBlendInfluences_) {
                             // ...or FEWER: each vertex keeps its heaviest slots
                             const std::size_t wide = srcBlendInfluences_;
@@ -6913,7 +6857,7 @@ namespace AGRemapCore {
                     }
 
                     const std::string name =
-                        fixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(role) + IniNamingTools::getRegTag(reg)
+                        remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(role) + IniNamingTools::getRegTag(reg)
                                 + (raw ? "Raw" : ""));
 
                     // A COPY OF THE MOD'S OWN SECTION, EDITED THROUGH THE SAME regEdits AS THE REST
@@ -7049,7 +6993,7 @@ namespace AGRemapCore {
                         counterparts.emplace(StringTools::toLower(from), to);
                     }
 
-                    const std::string ownSuffix = StringTools::toLower(fixName(""));
+                    const std::string ownSuffix = StringTools::toLower(remapFixName(""));
                     std::string out;
                     for (const auto& [name, tpl] : ctx_.getIniFile()->getIfTemplates()) {
                         if (tpl == nullptr || StringTools::endsWithIgnoreCase(name, ownSuffix)) {
@@ -7080,7 +7024,7 @@ namespace AGRemapCore {
                         }
 
                         std::unique_ptr<IfTemplate<std::string, std::string>> copy = tpl->deepcopy();
-                        copy->name = fixName(name);
+                        copy->name = remapFixName(name);
                         copy->prefix = "; " + name + " of the mod, on " + toModName_ + "'s counterpart of that mesh";
                         for (const std::unique_ptr<IfTemplatePart>& part : copy->parts()) {
                             auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(part.get());
@@ -7216,7 +7160,7 @@ namespace AGRemapCore {
                         return {IniKeywords::DrawIndexed, draw};
                     }
 
-                    const std::string name = fixName(IniKeywords::CommandList + "OffPass" + std::to_string(component) + "Draw"
+                    const std::string name = remapFixName(IniKeywords::CommandList + "OffPass" + std::to_string(component) + "Draw"
                                                      + std::to_string(range.first) + "_" + std::to_string(range.second));
                     offLists_[name] = {condition, draw};
                     return {IniKeywords::Run, name};
@@ -7273,7 +7217,7 @@ namespace AGRemapCore {
 
                 // The merge list the fix supplies per target slot for a legacy mod
                 std::string mergeListName(int slot) const {
-                    return fixName("CommandListMergeSlot" + std::to_string(slot));
+                    return remapFixName("CommandListMergeSlot" + std::to_string(slot));
                 }
 
                 // What a mod from before WWMI's merged skeleton has none of: the two skeleton buffers and
@@ -7281,10 +7225,10 @@ namespace AGRemapCore {
                 // merge list per target slot -- each gated on the marker, so a pass with something else in
                 // that slot cannot merge junk into the skeleton.
                 std::string legacySkeletonSections() {
-                    const std::string merged = fixName(IniKeywords::Resource + std::string("MergedSkeleton"));
-                    const std::string mergedRW = fixName(IniKeywords::Resource + std::string("MergedSkeletonRW"));
-                    const std::string extra = fixName(IniKeywords::Resource + std::string("ExtraMergedSkeleton"));
-                    const std::string extraRW = fixName(IniKeywords::Resource + std::string("ExtraMergedSkeletonRW"));
+                    const std::string merged = remapFixName(IniKeywords::Resource + std::string("MergedSkeleton"));
+                    const std::string mergedRW = remapFixName(IniKeywords::Resource + std::string("MergedSkeletonRW"));
+                    const std::string extra = remapFixName(IniKeywords::Resource + std::string("ExtraMergedSkeleton"));
+                    const std::string extraRW = remapFixName(IniKeywords::Resource + std::string("ExtraMergedSkeletonRW"));
                     std::string out = SectionText(z3_, merged).str() + SectionText(z3_, extra).str();
                     for (const std::string& name : {mergedRW, extraRW}) {
                         out += SectionText(z3_, name)
@@ -7294,7 +7238,7 @@ namespace AGRemapCore {
                                    .str();
                     }
 
-                    out += SectionText(z3_, fixName("TextureOverrideMarkBoneDataCB"))
+                    out += SectionText(z3_, remapFixName("TextureOverrideMarkBoneDataCB"))
                                .keys({{IniKeywords::Hash, target_.cb4Hash},
                                       {IniKeywords::MatchPriority, "0"},
                                       {IniKeywords::FilterIndex, config_.boneDataFilter}})
@@ -7304,10 +7248,10 @@ namespace AGRemapCore {
                     // SkeletonRemapper writes remapped[i] = merged[forward[i]], so a vertex whose
                     // blend names LOCAL i reaches the bone forward[i] -- which is how an 8-bit index
                     // addresses a 420-slot skeleton at all. Bound in place of the merged one.
-                    const std::string remappedRW = fixName(IniKeywords::Resource + std::string("RemappedSkeletonRW"));
-                    const std::string remapped = fixName(IniKeywords::Resource + std::string("RemappedSkeleton"));
-                    const std::string extraRemappedRW = fixName(IniKeywords::Resource + std::string("ExtraRemappedSkeletonRW"));
-                    const std::string extraRemapped = fixName(IniKeywords::Resource + std::string("ExtraRemappedSkeleton"));
+                    const std::string remappedRW = remapFixName(IniKeywords::Resource + std::string("RemappedSkeletonRW"));
+                    const std::string remapped = remapFixName(IniKeywords::Resource + std::string("RemappedSkeleton"));
+                    const std::string extraRemappedRW = remapFixName(IniKeywords::Resource + std::string("ExtraRemappedSkeletonRW"));
+                    const std::string extraRemapped = remapFixName(IniKeywords::Resource + std::string("ExtraRemappedSkeleton"));
                     if (targetPast256_) {
                         for (const std::string& name : {remapped, extraRemapped, remappedRW, extraRemappedRW}) {
                             out += SectionText(z3_, name).str();
@@ -7345,11 +7289,11 @@ namespace AGRemapCore {
                         // and accumulates, so at any draw it holds every window from this frame or the last, and
                         // a remap taken at any point reads a COMPLETE skeleton. That is what moving it out of
                         // the per-draw path was for, and it survives a mod that keeps no frame counter.
-                        SectionText remap(z3_, fixName("CommandListRemapMergedSkeleton"));
+                        SectionText remap(z3_, remapFixName("CommandListRemapMergedSkeleton"));
                         for (const auto& cb : {std::make_tuple(mergedRW, merged, remappedRW, remapped),
                                                std::make_tuple(extraRW, extra, extraRemappedRW, extraRemapped)}) {
                             remap.keys({{std::get<1>(cb), "copy " + std::get<0>(cb)},
-                                            {"cs-t37", fixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"))},
+                                            {"cs-t37", remapFixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"))},
                                             {"$\\WWMIv1\\blend_remap_id", "0"},
                                             {VgCountKey, std::to_string(blendRemapBones_)},
                                             {"cs-t38", std::get<1>(cb)},
@@ -7376,7 +7320,7 @@ namespace AGRemapCore {
                     //
                     // Merge only, no bind: the caller sets vg_offset / vg_count and the draw is skipped.
                     if (targetPast256_) {
-                        SectionText window(z3_, fixName("CommandListMergeWindow"));
+                        SectionText window(z3_, remapFixName("CommandListMergeWindow"));
                         window.key("$\\WWMIv1\\custom_mesh_scale", "1.00");
                         for (const auto& cb : {std::make_pair(std::string("vs-cb4"), mergedRW),
                                                std::make_pair(std::string("vs-cb3"), extraRW)}) {
@@ -7396,7 +7340,7 @@ namespace AGRemapCore {
                         if (targetPast256_ && !hostResetsDetected_) {
                             // Only without a frame latch (see latchFrameRemap): a remap here runs before
                             // EVERY slot's merge and so reads a buffer whose windows differ in age.
-                            mergeList.key(IniKeywords::Run, fixName("CommandListRemapMergedSkeleton"));
+                            mergeList.key(IniKeywords::Run, remapFixName("CommandListRemapMergedSkeleton"));
                         }
 
                         // see WWMIFixerConfig::currentPoseInCb3Only. Decided BEFORE anything is rebound: a
@@ -7499,13 +7443,13 @@ namespace AGRemapCore {
                 // declaring it here keeps this text independent of what the collect happened to
                 // name its resource.
                 std::string blendRemapSections() {
-                    const std::string vertexVG = fixName(IniKeywords::Resource + std::string("BlendRemapVertexVGBuffer"));
-                    const std::string forward = fixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
-                    const std::string reverse = fixName(IniKeywords::Resource + std::string("BlendRemapReverseBuffer"));
-                    const std::string noStride = fixName(IniKeywords::Resource + std::string("BlendNoStride"));
-                    const std::string strided = fixName(IniKeywords::Resource + std::string("BlendStrided"));
-                    const std::string blendRW = fixName(IniKeywords::Resource + std::string("RemappedBlendBufferRW"));
-                    const std::string blendOut = fixName(IniKeywords::Resource + std::string("RemappedBlendBuffer"));
+                    const std::string vertexVG = remapFixName(IniKeywords::Resource + std::string("BlendRemapVertexVGBuffer"));
+                    const std::string forward = remapFixName(IniKeywords::Resource + std::string("BlendRemapForwardBuffer"));
+                    const std::string reverse = remapFixName(IniKeywords::Resource + std::string("BlendRemapReverseBuffer"));
+                    const std::string noStride = remapFixName(IniKeywords::Resource + std::string("BlendNoStride"));
+                    const std::string strided = remapFixName(IniKeywords::Resource + std::string("BlendStrided"));
+                    const std::string blendRW = remapFixName(IniKeywords::Resource + std::string("RemappedBlendBufferRW"));
+                    const std::string blendOut = remapFixName(IniKeywords::Resource + std::string("RemappedBlendBuffer"));
                     const std::string blendPath = blendFixedFile();
 
                     std::string out;
@@ -7580,7 +7524,7 @@ namespace AGRemapCore {
                     }
 
                     if (config_.zeroShapeKeyStream && meshVertexCount_ > 0) {
-                        out += SectionText(z3_, fixName(IniKeywords::Resource + ShapeKeyZero))
+                        out += SectionText(z3_, remapFixName(IniKeywords::Resource + ShapeKeyZero))
                                    .keys({{IniKeywords::Type, "Buffer"},
                                           {IniKeywords::Format, "DXGI_FORMAT_R32G32B32_FLOAT"},
                                           {IniKeywords::Stride, std::to_string(config_.shapeKeyStride)},
@@ -7592,7 +7536,7 @@ namespace AGRemapCore {
                     if (!shapeKeyFiles_.empty()) {
                         for (const std::string& resource : ShapeKeyResources) {
                             const ShapeKeyFile& file = shapeKeyFiles_.at(resource);
-                            SectionText section(z3_, fixName(resource));
+                            SectionText section(z3_, remapFixName(resource));
                             section.key(IniKeywords::Type, file.type);
                             if (!file.format.empty()) {
                                 section.key(IniKeywords::Format, file.format);
@@ -7622,7 +7566,7 @@ namespace AGRemapCore {
 
                     const std::set<int> mirrored = mirroredSet();
                     if (!mirrored.empty()) {
-                        out += SectionText(z3_, fixName(IniKeywords::Resource + "MirrorVector"))
+                        out += SectionText(z3_, remapFixName(IniKeywords::Resource + "MirrorVector"))
                                    .keys({{IniKeywords::Type, "Buffer"},
                                           {IniKeywords::Format, "DXGI_FORMAT_R8G8B8A8_SNORM"},
                                           {IniKeywords::Stride, "8"},
@@ -7631,7 +7575,7 @@ namespace AGRemapCore {
                     }
 
                     for (int component : mirrored) {
-                        out += SectionText(z3_, fixName(IniKeywords::Resource + "MirrorIndex"
+                        out += SectionText(z3_, remapFixName(IniKeywords::Resource + "MirrorIndex"
                                                         + std::to_string(component)))
                                    .keys({{IniKeywords::Type, "Buffer"},
                                           {IniKeywords::Format, "DXGI_FORMAT_R32_UINT"},
@@ -7673,14 +7617,14 @@ namespace AGRemapCore {
                                 // The merge is idempotent, so running it per draw is waste rather than a fault.
                                 hide.keys({{VgOffsetKey, s.vgOffset},
                                            {VgCountKey, s.vgCount},
-                                           {IniKeywords::Run, fixName("CommandListMergeWindow")}});
+                                           {IniKeywords::Run, remapFixName("CommandListMergeWindow")}});
                             } else {
                                 hide.key("local " + state)
                                     .open(state + " != $state_id")
                                     .keys({{state, "$state_id"},
                                            {VgOffsetKey, s.vgOffset},
                                            {VgCountKey, s.vgCount},
-                                           {IniKeywords::Run, fixName("CommandListMergeSkeleton")}})
+                                           {IniKeywords::Run, remapFixName("CommandListMergeSkeleton")}})
                                     .close();
                             }
 
@@ -7719,7 +7663,7 @@ namespace AGRemapCore {
                     passFilter("");
                     std::size_t i = 0;
                     for (const std::string& pass : passOrder_) {
-                        out += SectionText(z3_, fixName("ShaderOverridePass" + std::to_string(i)))
+                        out += SectionText(z3_, remapFixName("ShaderOverridePass" + std::to_string(i)))
                                    .keys({{IniKeywords::Hash, pass}, {"filter_index", passFilters_[pass]}})
                                    .str();
                         ++i;
@@ -7728,7 +7672,7 @@ namespace AGRemapCore {
                     // Other meshes the character draws -- see WWMIFixerConfig::sharedMeshes
                     std::size_t meshNum = 0;
                     for (const auto& [meshHash, byPass] : config_.sharedMeshes) {
-                        SectionText mesh(z3_, fixName(IniKeywords::TextureOverride + source_.name
+                        SectionText mesh(z3_, remapFixName(IniKeywords::TextureOverride + source_.name
                                                       + "SharedMesh" + std::to_string(meshNum)));
                         mesh.key(IniKeywords::Hash, meshHash);
 
@@ -7757,7 +7701,7 @@ namespace AGRemapCore {
 
                     // The target's meshes the mod replaces -- see WWMIFixerConfig::hiddenMeshes
                     for (std::size_t i = 0; i < config_.hiddenMeshes.size(); ++i) {
-                        out += SectionText(z3_, fixName(IniKeywords::TextureOverride + toModName_
+                        out += SectionText(z3_, remapFixName(IniKeywords::TextureOverride + toModName_
                                                         + "HiddenMesh" + std::to_string(i)))
                                    .prefix("; a mesh of " + toModName_ + "'s own outfit the mod replaces: skipped")
                                    .key(IniKeywords::Hash, config_.hiddenMeshes[i])
@@ -7847,7 +7791,7 @@ namespace AGRemapCore {
                                 .open("$mod_enabled")
                                 .keys({{VgOffsetKey, window.vgOffset},
                                        {VgCountKey, window.vgCount},
-                                       {IniKeywords::Run, fixName("CommandListMergeWindow")}})
+                                       {IniKeywords::Run, remapFixName("CommandListMergeWindow")}})
                                 .close();
                             text += merge.str();
                         }
@@ -7860,7 +7804,7 @@ namespace AGRemapCore {
                 // wrote carries the target's name and `Remap`, and the resource section that names
                 // it lives inside the fix's block.
                 std::string blendRemapInitList() const {
-                    return fixName("CommandListBlendRemap");
+                    return remapFixName("CommandListBlendRemap");
                 }
 
                 // The remapped blend as the collect writes it, which is what the BlendRemapper reads
@@ -8251,7 +8195,7 @@ namespace AGRemapCore {
                 // Same split as the fallback downloads: the name is planned at read time and the
                 // resource registered at fix time, so a parse alone still writes nothing.
                 void planTexEdits() {
-                    if (config_.texEdits.empty() || gaveUp_) {
+                    if (config_.texEdits.empty() || hasGivenUp()) {
                         return;
                     }
 
@@ -8291,7 +8235,7 @@ namespace AGRemapCore {
                         plannedEdits_.push_back(PlannedEdit{&edit, source, fixedRel});
 
                         // every binding of the role follows the edited file
-                        const std::string resource = fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name
+                        const std::string resource = remapFixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name
                                                              + IniKeywords::RemapTex);
 
                         // Which of the mod's resources this replaces, so a copied toggle chain can
@@ -8356,7 +8300,7 @@ namespace AGRemapCore {
                                                     + TextTools::capitalize(edit.role) + edit.name + suffix
                                                     + editFileTag() + IniKeywords::RemapTex + FileExt::DDS);
                                         const std::string variantResource =
-                                            fixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
+                                            remapFixName(IniKeywords::Resource + TextTools::capitalize(edit.role) + edit.name + suffix
                                                     + IniKeywords::RemapTex);
                                         plannedEdits_.push_back(PlannedEdit{&edit, file->second, variantRel});
                                         editedResources_.emplace_back(variantResource, variantRel);
@@ -8446,7 +8390,7 @@ namespace AGRemapCore {
                                     source.downloadPrefix + TextTools::capitalize(role) + edit.name
                                     + GameSuffix + IniKeywords::RemapTex + FileExt::DDS);
                         const std::string editedResource =
-                            fixName(IniKeywords::Resource + TextTools::capitalize(role) + edit.name
+                            remapFixName(IniKeywords::Resource + TextTools::capitalize(role) + edit.name
                                     + GameSuffix + IniKeywords::RemapTex);
                         plannedEdits_.push_back(PlannedEdit{
                             &edit, FileService::absPathOfRelPath(relPath, folder), editedRel});
@@ -8473,7 +8417,7 @@ namespace AGRemapCore {
                 // get the source's own game texture planned: it is what the original draws with while the
                 // toggle is off, and bindLine puts it at the front of the role's copied list
                 void planSingleToggles() {
-                    if (gaveUp_ || singleToggled_.empty() || config_.sourceTextures.downloadCharFolder.empty()) {
+                    if (hasGivenUp() || singleToggled_.empty() || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
                     }
 
@@ -8505,7 +8449,7 @@ namespace AGRemapCore {
                 }
 
                 void planToggledRoles() {
-                    if (gaveUp_ || config_.sourceTextures.downloadCharFolder.empty()) {
+                    if (hasGivenUp() || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
                     }
 
@@ -8718,7 +8662,7 @@ namespace AGRemapCore {
                  * and nothing is added. Only a role the mod DOES serve needs a second file.
                  */
                 void planGameTexEdits() {
-                    if (lateBindRegs_.empty() || gaveUp_
+                    if (lateBindRegs_.empty() || hasGivenUp()
                             || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
                     }
@@ -8938,7 +8882,7 @@ namespace AGRemapCore {
                         return keep;
                     }
 
-                    IniFile* ini = const_cast<IniFileFixContext&>(ctx_).getIniFile();
+                    IniFile* ini = ctx_.getIniFile();
                     if (ini == nullptr) {
                         return keep;
                     }
@@ -9142,7 +9086,7 @@ namespace AGRemapCore {
                     }
 
                     const std::optional<std::string> format = ModBranches::firstVal(*resource, IniKeywords::Format);
-                    texcoordResource_ = fixName(IniKeywords::Resource + "TexcoordNoNaN");
+                    texcoordResource_ = remapFixName(IniKeywords::Resource + "TexcoordNoNaN");
                     texcoordSection_ = SectionText(z3_, *texcoordResource_)
                                            .keys({{IniKeywords::Type, "Buffer"},
                                                   {IniKeywords::Format, std::string(format.has_value()
@@ -9234,13 +9178,9 @@ namespace AGRemapCore {
                     }
                 }
 
-                IniFileFixContext ctx_;
-                std::string toModName_;
                 WWMIFixerConfig config_;
-                bool gaveUp_ = false;
                 bool editTagDone_ = false;
                 std::string editTag_;
-                GraphGroupRemove<> removeEveryGroup_;
 
                 std::optional<ModType> targetType_;
                 Character source_;

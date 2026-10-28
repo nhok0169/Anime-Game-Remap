@@ -22,7 +22,7 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-PyRegAdd::PyRegAdd(py::object valsObj, bool latest): Core({}, latest), valsObj(std::move(valsObj)) {}
+PyRegAdd::PyRegAdd(py::object valsObj, bool latest, bool skipExisting): Core({}, latest, skipExisting), valsObj(std::move(valsObj)) {}
 
 void PyRegAdd::refresh(const py::object &modType) {
     (void)modType;
@@ -46,15 +46,22 @@ latest: :class:`bool`
     provided to :meth:`edit`, at the end of that window), instead of at the beginning :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
+
+skipExisting: :class:`bool`
+    Whether a `KVP`_ of :attr:`vals` that the part already holds --- the same key and the same value, both
+    compared case-insensitively and ignoring surrounding whitespace --- is left out, so a part visited twice
+    gets the `KVPs`_ once :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
     )doc");
 
     // py::init(factory) rather than py::init<py::object, bool>(): AGRC::RegAdd owns std::function
     // and std::variant members through its base's typedefs, and a factory returning a unique_ptr
     // avoids ever needing to move-construct the class itself -- the same pattern BaseSLR1Parser's
     // constructor bindings use.
-    cls.def(py::init([](py::object vals, bool latest) {
-        return std::make_unique<PyRegAdd>(std::move(vals), latest);
-    }), py::arg("vals"), py::arg("latest") = true);
+    cls.def(py::init([](py::object vals, bool latest, bool skipExisting) {
+        return std::make_unique<PyRegAdd>(std::move(vals), latest, skipExisting);
+    }), py::arg("vals"), py::arg("latest") = true, py::arg("skipExisting") = false);
 
     cls.def_property("vals", [](const PyRegAdd &self) {
         return self.valsObj;
@@ -67,6 +74,10 @@ List[Tuple[:class:`str`, :class:`str`]]: The `KVPs`_ to add, in the order given
     cls.def_readwrite("latest", &PyRegAdd::latest, py::doc(R"doc(
 :class:`bool`: Whether to add :attr:`vals` at the end of the :class:`IfContentPart` (or, if
 'partRanges' is provided to :meth:`edit`, at the end of that window), instead of at the beginning
+    )doc"));
+
+    cls.def_readwrite("skipExisting", &PyRegAdd::skipExisting, py::doc(R"doc(
+:class:`bool`: Whether a `KVP`_ of :attr:`vals` that the part already holds (same key and value, compared case-insensitively and ignoring surrounding whitespace) is left out
     )doc"));
 
     bindRegEditEdit<PyRegAdd>(cls, R"doc(

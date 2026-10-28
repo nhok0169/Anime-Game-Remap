@@ -53,6 +53,7 @@
 #include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/buffers/BufFloat.h"
 #include "AGRemapCore/model/buffers/BufInt.h"
+#include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
@@ -78,6 +79,9 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
@@ -425,6 +429,90 @@ namespace AGRemapCore {
         }
 
 
+        using AnchorAdd = RegAnchorAdd<>;
+        using Kvps = std::vector<std::pair<std::string, std::string>>;
+        using DrawRange = std::pair<long long, long long>;
+
+
+        // The (count, first) of a `drawindexed = <count>, <first>, 0` line; nothing for any other value
+        // (a base vertex, `auto`, or a field that is not a number)
+        std::optional<DrawRange> drawRangeOf(const std::string& value) {
+            std::vector<long long> args;
+            try {
+                std::string rest(value);
+                std::size_t comma = 0;
+                while (true) {
+                    comma = rest.find(',');
+                    args.push_back(std::stoll(std::string(StringTools::strip(rest.substr(0, comma)))));
+                    if (comma == std::string::npos) {
+                        break;
+                    }
+                    rest = rest.substr(comma + 1);
+                }
+            } catch (const std::exception&) {
+                return std::nullopt;
+            }
+
+            if (args.size() != 3 || args[2] != 0) {
+                return std::nullopt;
+            }
+
+            return DrawRange(args[0], args[1]);
+        }
+
+
+        // A `run =` of the section 'sectionOf' names for each draw it knows, in place of the draw
+        // (a rerouted draw, drawn by the reroute's own pixel shader -- see
+        // WWMIFixerConfig::DrawReroute::shader -- or a draw suppressed on some passes, see
+        // SourceComponent::offPasses) or right after it (SourceComponent::markLines). A draw it does
+        // not name, or one with a base vertex, is left as it is.
+        std::unique_ptr<AnchorAdd> drawRunAdd(std::map<DrawRange, std::string> sectionOf, AnchorAdd::Placement placement) {
+            return std::make_unique<AnchorAdd>(
+                std::vector<std::string>{IniKeywords::DrawIndexed},
+                [sectionOf = std::move(sectionOf)](const std::string&, const std::string& value) -> std::optional<Kvps> {
+                    const std::optional<DrawRange> range = drawRangeOf(value);
+                    if (!range.has_value()) {
+                        return std::nullopt;
+                    }
+
+                    const auto section = sectionOf.find(*range);
+                    if (section == sectionOf.end()) {
+                        return std::nullopt;
+                    }
+
+                    return Kvps{{IniKeywords::Run, section->second}};
+                },
+                placement);
+        }
+
+
+        // WWMIFixerConfig::Shader::after: a `run =` of 'list' right before each `run =` of one of the
+        // anchors -- the cleanup list the section runs once after its draws, so the list runs once per
+        // game draw however many ranges the mod draws the component as. The latch makes the list run
+        // once per GAME draw however many of the mod's sections match it; `post` clears it once the
+        // draw is made.
+        std::unique_ptr<AnchorAdd> runBeforeRuns(std::vector<std::string> anchors, std::string list, std::string latch) {
+            return std::make_unique<AnchorAdd>(
+                std::vector<std::string>{IniKeywords::Run},
+                [anchors = std::move(anchors), list = std::move(list), latch = std::move(latch)]
+                (const std::string&, const std::string& value) -> std::optional<Kvps> {
+                    const std::string run(StringTools::strip(value));
+                    for (const std::string& anchor : anchors) {
+                        if (StringTools::equalsIgnoreCase(run, anchor)) {
+                            Kvps lines{{IniKeywords::Run, list}};
+                            if (!latch.empty()) {
+                                lines.emplace_back("post " + latch, "0");
+                            }
+                            return lines;
+                        }
+                    }
+
+                    return std::nullopt;
+                },
+                AnchorAdd::Placement::Before);
+        }
+
+
         /**
          * @brief
          @rst
@@ -438,260 +526,127 @@ namespace AGRemapCore {
          *
          * `ib` and the vector register are restored after each twin, so the next toggle's draw is
          * not left reading the mirrored buffers -- the mod's own names, which the shared-resource
-         * list binds and which the graph remap does not rename.
+         * list binds and which the graph remap does not rename. A twin draws the same count at
+         * `first - base`, which is where that triangle sits in the mirrored copy of the component's
+         * span; `auto`, or a range this cannot read, gets none.
          */
-        // A rerouted draw, drawn by the reroute's own pixel shader -- see
-        // WWMIFixerConfig::DrawReroute::shader. Each `drawindexed = <count>, <start>, 0` the reroute
-        // took becomes a `run =` of the CustomShader section that makes that draw; a draw it did not
-        // take, or one with a base vertex, is left as it is.
-        class RerouteShaderDraws : public BaseRegEdit<> {
-            public:
-                explicit RerouteShaderDraws(std::map<std::pair<long long, long long>, std::string> sectionOf)
-                    : sectionOf_(std::move(sectionOf)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-                    (void)partRanges;
-
-                    const std::vector<ContentPart::Item> items = part.items();
-                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
-                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::DrawIndexed)) {
-                            continue;
-                        }
-
-                        std::vector<long long> args;
-                        try {
-                            std::string rest(item->value);
-                            std::size_t comma = 0;
-                            while (true) {
-                                comma = rest.find(',');
-                                args.push_back(std::stoll(std::string(StringTools::strip(rest.substr(0, comma)))));
-                                if (comma == std::string::npos) {
-                                    break;
-                                }
-                                rest = rest.substr(comma + 1);
-                            }
-                        } catch (const std::exception&) {
-                            continue;
-                        }
-
-                        if (args.size() != 3 || args[2] != 0) {
-                            continue;
-                        }
-
-                        const auto section = sectionOf_.find({args[0], args[1]});
-                        if (section == sectionOf_.end()) {
-                            continue;
-                        }
-
-                        const auto at = static_cast<size_t>(item->orderIndex);
-                        part.removeKVPAt(at);
-                        part.addKVPAt(static_cast<long long>(at), IniKeywords::Run, section->second);
-                    }
-
-                    return part;
-                }
-
-            private:
-                std::map<std::pair<long long, long long>, std::string> sectionOf_;
-        };
-
-
-        // WWMIFixerConfig::SourceComponent::markLines: a `run =` of the mark list right after each of the
-        // component's draws it knows (applied before RerouteShaderDraws, which then turns the draw itself
-        // into a run and leaves this one after it)
-        class MarkDraws : public BaseRegEdit<> {
-            public:
-                explicit MarkDraws(std::map<std::pair<long long, long long>, std::string> sectionOf)
-                    : sectionOf_(std::move(sectionOf)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-                    (void)partRanges;
-
-                    const std::vector<ContentPart::Item> items = part.items();
-                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
-                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::DrawIndexed)) {
-                            continue;
-                        }
-
-                        std::vector<long long> args;
-                        try {
-                            std::string rest(item->value);
-                            std::size_t comma = 0;
-                            while (true) {
-                                comma = rest.find(',');
-                                args.push_back(std::stoll(std::string(StringTools::strip(rest.substr(0, comma)))));
-                                if (comma == std::string::npos) {
-                                    break;
-                                }
-                                rest = rest.substr(comma + 1);
-                            }
-                        } catch (const std::exception&) {
-                            continue;
-                        }
-
-                        if (args.size() != 3 || args[2] != 0) {
-                            continue;
-                        }
-
-                        const auto section = sectionOf_.find({args[0], args[1]});
-                        if (section != sectionOf_.end()) {
-                            part.addKVPAt(static_cast<long long>(item->orderIndex) + 1, IniKeywords::Run, section->second);
-                        }
-                    }
-
-                    return part;
-                }
-
-            private:
-                std::map<std::pair<long long, long long>, std::string> sectionOf_;
-        };
-
-
-        // WWMIFixerConfig::Shader::after: a `run =` of the list right before each `run =` of one of the
-        // anchors -- the cleanup list the section runs once after its draws, so the list runs once per
-        // game draw however many ranges the mod draws the component as
-        class RunBeforeRuns : public BaseRegEdit<> {
-            public:
-                RunBeforeRuns(std::vector<std::string> anchors, std::string list, std::string latch = "")
-                    : anchors_(std::move(anchors)), list_(std::move(list)), latch_(std::move(latch)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-                    (void)partRanges;
-
-                    const std::vector<ContentPart::Item> items = part.items();
-                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
-                        if (!StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::Run)) {
-                            continue;
-                        }
-
-                        const std::string value(StringTools::strip(item->value));
-                        for (const std::string& anchor : anchors_) {
-                            if (StringTools::equalsIgnoreCase(value, anchor)) {
-                                // (the latch makes the list run once per GAME draw however many of the
-                                // mod's sections match it; `post` clears it once the draw is made)
-                                if (!latch_.empty()) {
-                                    part.addKVPAt(static_cast<long long>(item->orderIndex), "post " + latch_, "0");
-                                }
-                                part.addKVPAt(static_cast<long long>(item->orderIndex), IniKeywords::Run, list_);
-                                break;
-                            }
-                        }
-                    }
-
-                    return part;
-                }
-
-            private:
-                std::vector<std::string> anchors_;
-                std::string list_;
-                std::string latch_;
-        };
-
-
-        // WWMIFixerConfig::SourceComponent::rabbitFX: a `run =` of the pin list right after each
-        // `run = CommandList\RabbitFX\SetTextures`, which sets RabbitFX's routing flags
-        class RabbitFXPin : public BaseRegEdit<> {
-            public:
-                explicit RabbitFXPin(std::string pinList) : pinList_(std::move(pinList)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-                    (void)partRanges;
-
-                    const std::vector<ContentPart::Item> items = part.items();
-                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
-                        if (StringTools::equalsIgnoreCase(StringTools::strip(item->key), IniKeywords::Run)
-                                && StringTools::equalsIgnoreCase(StringTools::strip(item->value), "commandlist\\rabbitfx\\settextures")) {
-                            part.addKVPAt(static_cast<long long>(item->orderIndex) + 1, IniKeywords::Run, pinList_);
-                        }
-                    }
-
-                    return part;
-                }
-
-            private:
-                std::string pinList_;
-        };
-
-
-        class MirrorTwin : public BaseRegEdit<> {
-            public:
-                MirrorTwin(std::string mirrorIndex, std::string mirrorVector, std::string ownIndex,
-                           std::string ownVector, std::string vectorReg, long long base)
-                    : mirrorIndex_(std::move(mirrorIndex)), mirrorVector_(std::move(mirrorVector)),
-                      ownIndex_(std::move(ownIndex)), ownVector_(std::move(ownVector)),
-                      vectorReg_(std::move(vectorReg)), base_(base) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-
-                    const auto ranges = toRangeSpec(partRanges);
-                    const std::vector<std::pair<long long, std::string>> draws =
-                        part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
-
-                    // BACKWARDS, so an insertion does not move the index of one not yet reached
-                    for (auto entry = draws.rbegin(); entry != draws.rend(); ++entry) {
-                        const std::optional<std::string> twin = twinDraw(entry->second);
-                        if (!twin.has_value()) {
-                            continue;                     // `auto`, or a range this cannot read
-                        }
-
-                        long long at = entry->first + 1;
-                        part.addKVPAt(at++, IniKeywords::Ib, mirrorIndex_);
-                        part.addKVPAt(at++, vectorReg_, mirrorVector_);
-                        part.addKVPAt(at++, IniKeywords::DrawIndexed, *twin);
-                        part.addKVPAt(at++, IniKeywords::Ib, ownIndex_);
-                        part.addKVPAt(at++, vectorReg_, ownVector_);
-                    }
-
-                    return part;
-                }
-
-            private:
-                std::string mirrorIndex_;
-                std::string mirrorVector_;
-                std::string ownIndex_;
-                std::string ownVector_;
-                std::string vectorReg_;
-                long long base_;
-
-                // `count, first, 0` -> the same count at `first - base`, which is where that triangle
-                // sits in the mirrored copy of the component's span
-                std::optional<std::string> twinDraw(const std::string& value) const {
+        std::unique_ptr<AnchorAdd> mirrorTwin(std::string mirrorIndex, std::string mirrorVector, std::string ownIndex,
+                                              std::string ownVector, std::string vectorReg, long long base) {
+            return std::make_unique<AnchorAdd>(
+                std::vector<std::string>{IniKeywords::DrawIndexed},
+                [mirrorIndex = std::move(mirrorIndex), mirrorVector = std::move(mirrorVector), ownIndex = std::move(ownIndex),
+                 ownVector = std::move(ownVector), vectorReg = std::move(vectorReg), base]
+                (const std::string&, const std::string& value) -> std::optional<Kvps> {
                     const std::size_t comma = value.find(',');
                     const std::size_t second = value.find(',', comma + 1);
                     if (comma == std::string::npos || second == std::string::npos) {
                         return std::nullopt;
                     }
 
+                    std::string twin;
                     try {
                         const long long count = std::stoll(std::string(StringTools::strip(value.substr(0, comma))));
                         const long long first = std::stoll(
                             std::string(StringTools::strip(value.substr(comma + 1, second - comma - 1))));
-                        return std::to_string(count) + ", " + std::to_string(first - base_) + ", 0";
+                        twin = std::to_string(count) + ", " + std::to_string(first - base) + ", 0";
                     } catch (const std::exception&) {
                         return std::nullopt;
                     }
+
+                    return Kvps{{IniKeywords::Ib, mirrorIndex}, {vectorReg, mirrorVector}, {IniKeywords::DrawIndexed, twin},
+                                {IniKeywords::Ib, ownIndex}, {vectorReg, ownVector}};
+                },
+                AnchorAdd::Placement::After);
+        }
+
+
+        /** @brief register -> the resource its previous binding is parked in -- see bypassRestore */
+        using Bypasses = std::vector<std::pair<std::string, std::string>>;
+
+        /**
+         * @brief Whether 'name' is one of 'names', ignoring case -- a section filter of bypassRestore's
+         */
+        bool namesSection(const std::vector<std::string>& names, const std::string& name) {
+            return std::any_of(names.begin(), names.end(), [&name](const std::string& one) {
+                return StringTools::equalsIgnoreCase(one, name);
+            });
+        }
+
+        // MAKING THE FIX'S CLEANUP LIST THE INVERSE OF ITS OVERRIDE LIST -- see
+        // WWMIFixerConfig::cleanupResourcesList
+        //
+        // In the OVERRIDE list, each register is captured into a bypass resource immediately before
+        // the line that rebinds it; in the CLEANUP list, each is bound back from that resource. The
+        // pattern is WWMI's own for `vb0` (`ResourceBypassVB0 = ref vb0`, then
+        // `vb0 = ref ResourceBypassVB0`), applied to the rest of what the list binds.
+        //
+        // It matters only on a remap. On the mod's own character every draw of that character is
+        // matched by one of the mod's sections, so a buffer left bound is rebound before anything
+        // reads it; a remapped mod is drawn on a target with slots it does not cover, and the first
+        // such draw inherits the MOD's buffers at the TARGET's index range.
+
+        /**
+         * @brief
+         * The edits that make the cleanup list the inverse of the override list, each with the names of
+         * the sections it applies to: a capture of every bypassed register in the override list, and a
+         * `run =` of the restore list at the end of the cleanup list
+         *
+         * The capture is `<bypass> = ref <reg>` just before the FIRST line that rebinds <reg>. The
+         * restore is NOT the `<reg> = ref <bypass>` lines themselves: written into the cleanup list
+         * they are part of the remapped graph, and the blend collect rewrites every line whose key is
+         * its register -- which turned the blend's restore into a second binding of the fix's own
+         * buffer. The capture half is safe where it is, because its key is a RESOURCE name and no
+         * collect looks at those. Both skip a line the part already holds, so a list of several
+         * branches gets one of each per branch and a repeated visit adds nothing.
+         */
+        std::vector<std::pair<std::unique_ptr<BaseRegEdit<>>, std::vector<std::string>>> bypassRestore(
+                const std::vector<std::string>& overrideNames, const std::vector<std::string>& cleanupNames,
+                const Bypasses& bypasses, const std::string& restoreList) {
+            std::vector<std::pair<std::unique_ptr<BaseRegEdit<>>, std::vector<std::string>>> edits;
+            for (const auto& [reg, bypass] : bypasses) {
+                edits.emplace_back(
+                    std::make_unique<AnchorAdd>(
+                        std::vector<std::string>{reg},
+                        [bypass = bypass, reg = reg](const std::string&, const std::string&) -> std::optional<Kvps> {
+                            return Kvps{{bypass, IniKeywords::Ref + " " + reg}};
+                        },
+                        AnchorAdd::Placement::Before, nullptr, true, true),
+                    overrideNames);
+            }
+
+            edits.emplace_back(std::make_unique<RegAdd<>>(Kvps{{IniKeywords::Run, restoreList}}, true, true), cleanupNames);
+            return edits;
+        }
+
+
+        /**
+         * @brief What a config's role name says the texture IS, with the part it belongs to stripped
+         *
+         * `upperDiffuse`, `lowerDiffuse` and `panelDiffuse` all have the kind `Diffuse`. The names
+         * are the config's own, so the convention is this repo's -- see carriedTexRegs.
+         */
+        std::string roleKind(const std::string& role) {
+            for (std::size_t i = 0; i < role.size(); ++i) {
+                if (std::isupper(static_cast<unsigned char>(role[i])) != 0) {
+                    return role.substr(i);
                 }
-        };
+            }
+
+            return "";
+        }
+
+
+        /** @brief resource (lowered) -> the role it plays, if the scan knows one */
+        using CarriedRoleOf = std::function<std::optional<std::string>(const std::string&)>;
+
+        /** @brief role -> the register the TARGET's draw reads it at */
+        using CarriedRegOf = std::function<std::optional<std::string>(const std::string&)>;
+
+        /** @brief resource + role -> the fix's edited copy of it, where one was written */
+        using CarriedEditedOf = std::function<std::string(const std::string&, const std::string&)>;
+
+        /** @brief source register (lowered) -> the role the SOURCE reads there, if known */
+        using CarriedRegRoleOf = std::function<std::optional<std::string>(const std::string&)>;
 
 
         /**
@@ -709,234 +664,66 @@ namespace AGRemapCore {
          * The role is asked of the RESOURCE, which the texture scan has already decided, and the
          * register is the one the target reads for that role. A line whose role is unknown is left
          * exactly where it is: this fix has no opinion about a register no plan row names, and the
-         * re-keyed lines are inserted in place, so the author's own ordering still decides who wins
+         * re-keyed lines are put in place, so the author's own ordering still decides who wins
          * where two of them land on one register.
          */
-        /**
-         * @brief
-         @rst
-         Makes the fix's cleanup list the inverse of its override list -- see
-         :cpp:member:`WWMIFixerConfig::cleanupResourcesList`
-         @endrst
-         *
-         * In the OVERRIDE list, each register is captured into a bypass resource immediately before
-         * the line that rebinds it; in the CLEANUP list, each is bound back from that resource. The
-         * pattern is WWMI's own for `vb0` (`ResourceBypassVB0 = ref vb0`, then
-         * `vb0 = ref ResourceBypassVB0`), applied to the rest of what the list binds.
-         *
-         * It matters only on a remap. On the mod's own character every draw of that character is
-         * matched by one of the mod's sections, so a buffer left bound is rebound before anything
-         * reads it; a remapped mod is drawn on a target with slots it does not cover, and the first
-         * such draw inherits the MOD's buffers at the TARGET's index range.
-         *
-         * Idempotent per part: a capture or a restore that is already there is not written again,
-         * so a list of several branches gets one of each per branch and a repeated visit adds
-         * nothing.
-         */
-        class BypassRestore : public BaseRegEdit<> {
-            public:
-                /** @brief register -> the resource its previous binding is parked in */
-                using Bypasses = std::vector<std::pair<std::string, std::string>>;
-
-                BypassRestore(std::vector<std::string> overrideNames, std::vector<std::string> cleanupNames,
-                              Bypasses bypasses, std::string restoreList)
-                    : overrideNames_(std::move(overrideNames)), cleanupNames_(std::move(cleanupNames)),
-                      bypasses_(std::move(bypasses)), restoreList_(std::move(restoreList)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)modType;
-                    (void)modName;
-                    (void)partRanges;
-
-                    if (names(overrideNames_, sectionName)) {
-                        capture(part);
-                    } else if (names(cleanupNames_, sectionName)) {
-                        restore(part);
+        std::unique_ptr<AnchorAdd> carriedTexRegs(const std::string& regPrefix, CarriedRoleOf roleOf, CarriedRegOf regOf,
+                                                  CarriedEditedOf editedOf, CarriedRegRoleOf regRoleOf = nullptr) {
+            const std::string prefix = StringTools::toLower(regPrefix);
+            return std::make_unique<AnchorAdd>(
+                std::vector<std::string>{},
+                [roleOf = std::move(roleOf), regOf = std::move(regOf), editedOf = std::move(editedOf),
+                 regRoleOf = std::move(regRoleOf)]
+                (const std::string& key, const std::string& rawValue) -> std::optional<Kvps> {
+                    // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
+                    std::string value(StringTools::strip(rawValue));
+                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
+                    if (StringTools::startsWith(StringTools::toLower(value), ref + " ")) {
+                        value = std::string(StringTools::lstrip(value.substr(ref.size())));
                     }
 
-                    return part;
-                }
+                    const std::optional<std::string> role = roleOf(StringTools::toLower(value));
 
-            private:
-                std::vector<std::string> overrideNames_;
-                std::vector<std::string> cleanupNames_;
-                Bypasses bypasses_;
-                std::string restoreList_;
-
-                static bool names(const std::vector<std::string>& of, const std::string& name) {
-                    for (const std::string& one : of) {
-                        if (StringTools::equalsIgnoreCase(one, name)) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-
-                // `<bypass> = ref <reg>` just before the FIRST line that rebinds <reg>. BACKWARDS, so
-                // an insertion does not move the position of one not yet reached.
-                void capture(ContentPart& part) {
-                    std::vector<std::pair<long long, std::string>> at;
-                    for (const auto& [reg, bypass] : bypasses_) {
-                        const std::vector<std::pair<long long, std::string>> binds =
-                            part.getValsWithInds(reg, true, std::nullopt);
-                        if (binds.empty() || has(part, bypass, IniKeywords::Ref + " " + reg)) {
-                            continue;
-                        }
-
-                        at.emplace_back(binds.front().first, bypass + "\x01" + reg);
-                    }
-
-                    std::sort(at.begin(), at.end(),
-                              [](const auto& a, const auto& b) { return a.first > b.first; });
-                    for (const auto& [index, both] : at) {
-                        const std::size_t cut = both.find('\x01');
-                        part.addKVPAt(index, both.substr(0, cut),
-                                      IniKeywords::Ref + " " + both.substr(cut + 1));
-                    }
-                }
-
-                // A `run =` into the fix's own restore list, appended so it runs after whatever the
-                // list already does.
-                //
-                // NOT the `<reg> = ref <bypass>` lines themselves: written here they are part of the
-                // remapped graph, and the blend collect rewrites every line whose key is its
-                // register -- which turned the blend's restore into a second binding of the fix's
-                // own buffer. The capture half is safe where it is, because its key is a RESOURCE
-                // name and no collect looks at those.
-                void restore(ContentPart& part) {
-                    if (!has(part, IniKeywords::Run, restoreList_)) {
-                        part.addKVP(IniKeywords::Run, restoreList_);
-                    }
-                }
-
-                static bool has(const ContentPart& part, const std::string& key, const std::string& value) {
-                    for (const std::string& val : part.getVals(key, true, std::nullopt)) {
-                        if (StringTools::equalsIgnoreCase(StringTools::strip(val), value)) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-        };
-
-
-        /**
-         * @brief What a config's role name says the texture IS, with the part it belongs to stripped
-         *
-         * `upperDiffuse`, `lowerDiffuse` and `panelDiffuse` all have the kind `Diffuse`. The names
-         * are the config's own, so the convention is this repo's -- see CarriedTexRegs.
-         */
-        std::string roleKind(const std::string& role) {
-            for (std::size_t i = 0; i < role.size(); ++i) {
-                if (std::isupper(static_cast<unsigned char>(role[i])) != 0) {
-                    return role.substr(i);
-                }
-            }
-
-            return "";
-        }
-
-
-        class CarriedTexRegs : public BaseRegEdit<> {
-            public:
-                /** @brief resource (lowered) -> the role it plays, if the scan knows one */
-                using RoleOf = std::function<std::optional<std::string>(const std::string&)>;
-
-                /** @brief role -> the register the TARGET's draw reads it at */
-                using RegOf = std::function<std::optional<std::string>(const std::string&)>;
-
-                /** @brief resource + role -> the fix's edited copy of it, where one was written */
-                using EditedOf = std::function<std::string(const std::string&, const std::string&)>;
-
-                /** @brief source register (lowered) -> the role the SOURCE reads there, if known */
-                using RegRoleOf = std::function<std::optional<std::string>(const std::string&)>;
-
-                CarriedTexRegs(std::string regPrefix, RoleOf roleOf, RegOf regOf, EditedOf editedOf,
-                               RegRoleOf regRoleOf = nullptr)
-                    : regPrefix_(StringTools::toLower(regPrefix)), roleOf_(std::move(roleOf)),
-                      regOf_(std::move(regOf)), editedOf_(std::move(editedOf)), regRoleOf_(std::move(regRoleOf)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-                    (void)partRanges;
-
-                    // BACKWARDS, so a removal does not move the position of one not yet reached
-                    const std::vector<ContentPart::Item> items = part.items();
-                    for (auto item = items.rbegin(); item != items.rend(); ++item) {
-                        if (!StringTools::startsWith(StringTools::toLower(item->key), regPrefix_)) {
-                            continue;
-                        }
-
-                        // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
-                        std::string value(StringTools::strip(item->value));
-                        const std::string ref = StringTools::toLower(IniKeywords::Ref);
-                        if (StringTools::startsWith(StringTools::toLower(value), ref + " ")) {
-                            value = std::string(StringTools::lstrip(value.substr(ref.size())));
-                        }
-
-                        const std::optional<std::string> role = roleOf_(StringTools::toLower(value));
-
-                        // A TEXTURE PUT INTO ANOTHER KIND OF SLOT ON PURPOSE goes by the slot (see
-                        // WWMIFixerConfig::carryByRegisterRole): to the target's register for the role
-                        // the source reads at this one, its file unchanged -- or left where it is when
-                        // the source's register has no role here
-                        if (role.has_value() && regRoleOf_) {
-                            const std::optional<std::string> slotRole = regRoleOf_(StringTools::toLower(item->key));
-                            if (!slotRole.has_value() || roleKind(*slotRole) != roleKind(*role)) {
-                                const std::optional<std::string> slotReg =
-                                    slotRole.has_value() ? regOf_(*slotRole) : std::nullopt;
-                                if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, item->key)) {
-                                    const auto at = static_cast<size_t>(item->orderIndex);
-                                    part.removeKVPAt(at);
-                                    part.addKVPAt(static_cast<long long>(at), *slotReg, item->value);
-                                }
-                                continue;
+                    // A TEXTURE PUT INTO ANOTHER KIND OF SLOT ON PURPOSE goes by the slot (see
+                    // WWMIFixerConfig::carryByRegisterRole): to the target's register for the role
+                    // the source reads at this one, its file unchanged -- or left where it is when
+                    // the source's register has no role here
+                    if (role.has_value() && regRoleOf) {
+                        const std::optional<std::string> slotRole = regRoleOf(StringTools::toLower(key));
+                        if (!slotRole.has_value() || roleKind(*slotRole) != roleKind(*role)) {
+                            const std::optional<std::string> slotReg =
+                                slotRole.has_value() ? regOf(*slotRole) : std::nullopt;
+                            if (slotReg.has_value() && !StringTools::equalsIgnoreCase(*slotReg, key)) {
+                                return Kvps{{*slotReg, rawValue}};
                             }
+                            return std::nullopt;
                         }
-
-                        const std::optional<std::string> reg = role.has_value() ? regOf_(*role) : std::nullopt;
-
-                        // LEFT ALONE rather than dropped. A role the scan does not know is a
-                        // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is
-                        // one, and the first cut of this edit took it out of two Sanhua mods.
-                        if (!reg.has_value()) {
-                            continue;
-                        }
-
-                        // In place, so the mod's own ordering decides who wins where two lines land
-                        // on one register: the unknown `5_0` at `ps-t0` precedes the re-keyed `5_2`
-                        // that arrives there, which is the layout order the author wrote.
-                        //
-                        // An EMPTY answer means the fix refused this file for this role and has
-                        // nothing to stand in: the line goes and nothing replaces it, so the game's
-                        // own texture stays bound. Nothing returned empty before 2026-10-03, so this
-                        // branch is inert for every caller that does not use it.
-                        const std::string replacement = editedOf_(value, *role);
-                        const auto at = static_cast<size_t>(item->orderIndex);
-                        part.removeKVPAt(at);
-                        if (replacement.empty()) {
-                            continue;
-                        }
-
-                        part.addKVPAt(static_cast<long long>(at), *reg, replacement);
                     }
 
-                    return part;
-                }
+                    const std::optional<std::string> reg = role.has_value() ? regOf(*role) : std::nullopt;
 
-            private:
-                std::string regPrefix_;
-                RoleOf roleOf_;
-                RegOf regOf_;
-                EditedOf editedOf_;
-                RegRoleOf regRoleOf_;
-        };
+                    // LEFT ALONE rather than dropped. A role the scan does not know is a
+                    // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is
+                    // one, and the first cut of this edit took it out of two Sanhua mods.
+                    if (!reg.has_value()) {
+                        return std::nullopt;
+                    }
+
+                    // An EMPTY answer means the fix refused this file for this role and has
+                    // nothing to stand in: the line goes and nothing replaces it, so the game's
+                    // own texture stays bound.
+                    const std::string replacement = editedOf(value, *role);
+                    if (replacement.empty()) {
+                        return Kvps{};
+                    }
+
+                    return Kvps{{*reg, replacement}};
+                },
+                AnchorAdd::Placement::Replace,
+                [prefix](const std::string& key) {
+                    return StringTools::startsWith(StringTools::toLower(key), prefix);
+                });
+        }
 
 
         std::vector<std::unique_ptr<BufElementType>> wwmiVertexVGElements(std::size_t influences) {
@@ -1067,81 +854,6 @@ namespace AGRemapCore {
                 [](const std::string& file) { return file; }
             };
         }
-
-
-        // ---- the blend: the library's vertex-group row, over the WWMI layout ----
-
-        /**
-         * RemapBlendReplace's buildResModel builds a straight copy; VGRemapBlendReplace's the GIMI
-         * layout. This one is the WuWa layout over the same vertex-group lookup.
-         */
-        class WWMIBlendReplace: public RemapBlendReplace<> {
-            public:
-                using Base = RemapBlendReplace<>;
-                using GraphId = Base::GraphId;
-                using ResEditConfig = Base::ResEditConfig;
-                using Context = Base::Context;
-
-                WWMIBlendReplace(GraphId resModObj, ResEditConfig config, const ModType* modType,
-                                 std::optional<Version> fromVersion, std::optional<Version> toVersion,
-                                 std::function<bool(RemapBlendResource&)> fixFunc = {},
-                                 std::map<long long, std::vector<long long>> anchorChains = {},
-                                 long long vertices = 0, std::string positionPath = {}):
-                    Base(std::move(resModObj), std::move(config), "blend"),
-                    modType_(modType), fromVersion_(std::move(fromVersion)), toVersion_(std::move(toVersion)),
-                    fixFunc_(std::move(fixFunc)), anchorChains_(std::move(anchorChains)),
-                    vertices_(vertices), positionPath_(std::move(positionPath)) {}
-
-            protected:
-                void buildResModel(const std::string& resType, const std::string& srcPath, const std::string& fixedPath,
-                                   const std::string& modName, const std::string& fileKey, Context& ctx) override {
-                    (void)resType;
-                    std::optional<VGRemap> vgRemap;
-                    if (modType_ != nullptr) {
-                        vgRemap = modType_->getVGRemap(modName, fromVersion_, toVersion_);
-                    }
-
-                    if (!vgRemap.has_value()) {
-                        Base::buildResModel(this->resType, srcPath, fixedPath, modName, fileKey, ctx);
-                        return;
-                    }
-
-                    // Pin each chain to whatever its ROOT maps to -- see
-                    // WWMIFixerConfig::anchorChains. A root the row has no entry for is left alone
-                    // rather than guessed at: that would write a target of 0, which is a real bone.
-                    if (!anchorChains_.empty()) {
-                        std::unordered_map<long long, long long> row = vgRemap->getRemap();
-                        for (const auto& [root, members] : anchorChains_) {
-                            const auto at = row.find(root);
-                            if (at == row.end()) {
-                                continue;
-                            }
-
-                            for (long long member : members) {
-                                row[member] = at->second;
-                            }
-                        }
-
-                        vgRemap->setRemap(std::move(row));
-                    }
-
-                    auto resource = std::make_unique<RemapBlendResource>(
-                        ctx.iniFolder(), srcPath, fixedPath, std::move(*vgRemap), this->resType,
-                        fixFunc_,
-                        wwmiBlendElements(wwmiBlendInfluences(srcPath, vertices_, positionPath_)));
-                    resource->logger = ctx.logger();
-                    ctx.storeResource(fileKey, std::move(resource));
-                }
-
-            private:
-                const ModType* modType_;
-                std::optional<Version> fromVersion_;
-                std::optional<Version> toVersion_;
-                std::function<bool(RemapBlendResource&)> fixFunc_;
-                std::map<long long, std::vector<long long>> anchorChains_;
-                long long vertices_ = 0;
-                std::string positionPath_;
-        };
 
 
         /**
@@ -1537,20 +1249,24 @@ namespace AGRemapCore {
             const auto write = [&resource](const std::string& path,
                                            const std::vector<std::uint16_t>& ids, std::size_t perLine) {
                 FileService::makeFolderFor(path);
-                ByteVec bytes;
-                bytes.reserve(ids.size() * 2);
-                for (const std::uint16_t id : ids) {
-                    bytes.push_back(static_cast<std::uint8_t>(id & 0xFF));
-                    bytes.push_back(static_cast<std::uint8_t>((id >> 8) & 0xFF));
-                }
+                const BufFile::Filter fill = [&ids, perLine](const BufLineData& line, long long, double index, long long) {
+                    BufLineData out = line;
+                    const auto at = out.find(BlendFile::BlendIndicesKey);
+                    const auto first = static_cast<std::size_t>(index) * perLine;
+                    for (std::size_t k = 0; at != out.end() && k < at->second.size() && first + k < ids.size(); ++k) {
+                        at->second[k] = static_cast<unsigned long long>(ids[first + k]);
+                    }
+
+                    return out;
+                };
 
                 try {
-                    BufFile out{std::move(bytes), wwmiVertexVGElements(perLine)};
+                    BufFile out{ByteVec(ids.size() * 2, 0), wwmiVertexVGElements(perLine)};
                     if (!out.isValid()) {
                         return bail(resource, "could not build " + path);
                     }
 
-                    out.fix(path);
+                    out.fix(path, {fill});
                 } catch (const std::exception& exception) {
                     return bail(resource, "could not write " + path + ": " + exception.what());
                 }
@@ -1633,6 +1349,26 @@ namespace AGRemapCore {
         }
 
 
+        // One element per (id, weight) slot of a line -- `Id<k>` of 'idBytes' bytes each, then with
+        // weights `Weight<k>` of one byte each -- so BufFile::restride copies a slot across by name and
+        // zeroes one the narrower line lacks.
+        std::vector<std::unique_ptr<BufElementType>> perSlotElements(std::size_t slots, std::size_t idBytes, bool hasWeights) {
+            std::vector<std::unique_ptr<BufElementType>> elements;
+            const std::string idType = "UnsignedInt" + std::to_string(idBytes * 8);
+            for (std::size_t k = 0; k < slots; ++k) {
+                elements.push_back(BufElementType::repeated(
+                    "Id" + std::to_string(k), 1, [idType, idBytes] { return std::make_unique<BufUnSignedInt>(idType, idBytes, false); }));
+            }
+
+            for (std::size_t k = 0; hasWeights && k < slots; ++k) {
+                elements.push_back(BufElementType::repeated(
+                    "Weight" + std::to_string(k), 1, [] { return std::make_unique<BufUnSignedInt>("UnsignedInt8", 1, false); }));
+            }
+
+            return elements;
+        }
+
+
         // ---- a target whose draws read more influences than the mod carries ----
         //
         // See WWMIFixerConfig::targetInfluences. Pads every vertex of a buffer the fix has WRITTEN
@@ -1659,28 +1395,15 @@ namespace AGRemapCore {
                                       + " influences over " + std::to_string(vertices) + " vertices");
             }
 
-            std::vector<char> in(static_cast<std::size_t>(*size));
-            {
-                std::ifstream file(FileService::strToPath(path), std::ios::binary);
-                file.read(in.data(), static_cast<std::streamsize>(in.size()));
-                if (!file) {
-                    return bail(resource, "could not read " + name + " to widen it");
-                }
+            ByteVec out;
+            try {
+                BufFile in{path, perSlotElements(from, idBytes, hasWeights)};
+                out = in.restride(perSlotElements(to, idBytes, hasWeights));
+            } catch (const std::exception&) {
+                return bail(resource, "could not read " + name + " to widen it");
             }
 
-            std::vector<char> out(vertices * toLine, 0);
-            for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
-                const char* src = in.data() + vertex * fromLine;
-                char* dst = out.data() + vertex * toLine;
-                std::memcpy(dst, src, from * idBytes);
-                if (hasWeights) {
-                    std::memcpy(dst + to * idBytes, src + from * idBytes, from);
-                }
-            }
-
-            std::ofstream file(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
-            file.write(out.data(), static_cast<std::streamsize>(out.size()));
-            if (!file) {
+            if (!BinaryFile::write(path, out)) {
                 return bail(resource, "could not write the widened " + name);
             }
 
@@ -1717,48 +1440,48 @@ namespace AGRemapCore {
                                       + " influences over " + std::to_string(vertices) + " vertices");
             }
 
-            const auto readAll = [&](const std::string& file, std::vector<unsigned char>& bytes) {
-                const std::optional<std::uintmax_t> fileSize = FileService::fileSize(file);
-                if (!fileSize.has_value()) {
-                    return false;
-                }
-                bytes.resize(static_cast<std::size_t>(*fileSize));
-                std::ifstream in(FileService::strToPath(file), std::ios::binary);
-                in.read(reinterpret_cast<char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
-                return static_cast<bool>(in);
-            };
-
-            std::vector<unsigned char> blend;
-            if (!readAll(path, blend)) {
+            std::vector<std::vector<long long>> blendIds;
+            std::vector<std::vector<long long>> blendWeights;
+            try {
+                BufFile blend{path, wwmiBlendElements(from)};
+                blendIds = bufRows(blend, BlendFile::BlendIndicesKey, from);
+                blendWeights = bufRows(blend, BlendFile::BlendWeightKey, from);
+            } catch (const std::exception&) {
                 return bail(resource, "could not read " + name + " to narrow it");
             }
 
-            std::vector<unsigned char> vg;
+            std::vector<std::vector<long long>> vg;
             const bool hasVg = !vertexVg.empty();
             const std::string vgName = hasVg ? FileService::pathToStr(FileService::strToPath(vertexVg).filename()) : "";
-            if (hasVg && (!readAll(vertexVg, vg) || vg.size() != vertices * from * 2)) {
-                return bail(resource, "could not read " + vgName + " at " + std::to_string(from)
-                                      + " influences over " + std::to_string(vertices) + " vertices to narrow it");
+            if (hasVg) {
+                bool read = true;
+                try {
+                    BufFile vgFile{vertexVg, wwmiVertexVGElements(from)};
+                    vg = bufRows(vgFile, BlendFile::BlendIndicesKey, from);
+                } catch (const std::exception&) {
+                    read = false;
+                }
+
+                if (!read || vg.size() != vertices) {
+                    return bail(resource, "could not read " + vgName + " at " + std::to_string(from)
+                                          + " influences over " + std::to_string(vertices) + " vertices to narrow it");
+                }
             }
 
-            std::vector<unsigned char> blendOut(vertices * toLine, 0);
-            std::vector<unsigned char> vgOut(hasVg ? vertices * to * 2 : 0, 0);
+            std::vector<std::vector<long long>> outIds(vertices, std::vector<long long>(to, 0));
+            std::vector<std::vector<long long>> outWeights(vertices, std::vector<long long>(to, 0));
+            std::vector<std::vector<long long>> outVg(hasVg ? vertices : 0, std::vector<long long>(to, 0));
             std::vector<std::size_t> order(from);
             std::vector<unsigned char> merged(from);
             for (std::size_t vertex = 0; vertex < vertices; ++vertex) {
-                const unsigned char* ids = blend.data() + vertex * fromLine;
-                const unsigned char* raw = ids + from;
+                const std::vector<long long>& ids = blendIds[vertex];
                 const auto boneOf = [&](std::size_t k) -> unsigned {
-                    if (hasVg) {
-                        const unsigned char* id = vg.data() + (vertex * from + k) * 2;
-                        return static_cast<unsigned>(id[0]) | (static_cast<unsigned>(id[1]) << 8);
-                    }
-                    return ids[k];
+                    return static_cast<unsigned>(hasVg ? vg[vertex][k] : ids[k]);
                 };
 
                 // one bone in several slots: its weight is summed onto the first of them
                 for (std::size_t k = 0; k < from; ++k) {
-                    merged[k] = raw[k];
+                    merged[k] = static_cast<unsigned char>(blendWeights[vertex][k]);
                 }
                 for (std::size_t k = 0; k < from; ++k) {
                     if (merged[k] == 0) {
@@ -1800,26 +1523,48 @@ namespace AGRemapCore {
                     scaled[0] = static_cast<unsigned>(static_cast<int>(scaled[0]) + static_cast<int>(total) - static_cast<int>(scaledSum));
                 }
 
-                unsigned char* dst = blendOut.data() + vertex * toLine;
                 for (std::size_t k = 0; k < to; ++k) {
-                    dst[k] = ids[order[k]];
-                    dst[to + k] = static_cast<unsigned char>(std::min(255u, scaled[k]));
+                    outIds[vertex][k] = ids[order[k]];
+                    outWeights[vertex][k] = static_cast<long long>(std::min(255u, scaled[k]));
                     if (hasVg) {
-                        std::memcpy(vgOut.data() + (vertex * to + k) * 2, vg.data() + (vertex * from + order[k]) * 2, 2);
+                        outVg[vertex][k] = vg[vertex][order[k]];
                     }
                 }
             }
 
-            const auto writeAll = [](const std::string& file, const std::vector<unsigned char>& bytes) {
-                std::ofstream out(FileService::strToPath(file), std::ios::binary | std::ios::trunc);
-                out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
-                return static_cast<bool>(out);
+            // Each line of a zeroed buffer of the narrow layout, filled from the rows above
+            const auto fill = [vertices](const std::vector<std::pair<std::string, const std::vector<std::vector<long long>>*>>& columns) {
+                return BufFile::Filter([vertices, columns](const BufLineData& line, long long, double index, long long) {
+                    BufLineData out = line;
+                    const auto vertex = static_cast<std::size_t>(index);
+                    if (vertex >= vertices) {
+                        return out;
+                    }
+
+                    for (const auto& [key, rows] : columns) {
+                        const auto values = out.find(key);
+                        for (std::size_t k = 0; values != out.end() && k < values->second.size(); ++k) {
+                            values->second[k] = static_cast<unsigned long long>((*rows)[vertex][k]);
+                        }
+                    }
+
+                    return out;
+                });
             };
 
-            if (!writeAll(path, blendOut)) {
+            try {
+                BufFile blendOut{ByteVec(vertices * toLine, 0), wwmiBlendElements(to)};
+                blendOut.fix(path, {fill({{BlendFile::BlendIndicesKey, &outIds}, {BlendFile::BlendWeightKey, &outWeights}})});
+            } catch (const std::exception&) {
                 return bail(resource, "could not write the narrowed " + name);
             }
-            if (hasVg && !writeAll(vertexVg, vgOut)) {
+
+            try {
+                if (hasVg) {
+                    BufFile vgOutFile{ByteVec(vertices * to * 2, 0), wwmiVertexVGElements(to)};
+                    vgOutFile.fix(vertexVg, {fill({{BlendFile::BlendIndicesKey, &outVg}})});
+                }
+            } catch (const std::exception&) {
                 return bail(resource, "could not write the narrowed " + vgName);
             }
 
@@ -2260,26 +2005,27 @@ namespace AGRemapCore {
             private:
                 // Whether the host's [Present] resets `$object_detected` each frame: the line WWMI Tools
                 // writes there, `post $object_detected = 0`, anywhere inside that section
-                static bool presentResetsObjectDetected(const std::string& txt) {
-                    bool inPresent = false;
-                    std::size_t start = 0;
-                    while (start <= txt.size()) {
-                        std::size_t end = txt.find('\n', start);
-                        if (end == std::string::npos) {
-                            end = txt.size();
+                static bool presentResetsObjectDetected(IniFile& ini) {
+                    for (const auto& [name, section] : ini.getIfTemplates()) {
+                        if (section == nullptr || !StringTools::equalsIgnoreCase(name, "Present")) {
+                            continue;
                         }
 
-                        const std::string line = StringTools::toLower(std::string(StringTools::strip(
-                            std::string_view(txt).substr(start, end - start))));
-                        if (!line.empty() && line.front() == '[') {
-                            inPresent = line == "[present]";
-                        } else if (inPresent && StringTools::startsWith(line, "post $object_detected")
-                                   && line.find('=') != std::string::npos
-                                   && StringTools::strip(std::string_view(line).substr(line.find('=') + 1)) == "0") {
-                            return true;
+                        for (const std::unique_ptr<IfTemplatePart>& part : section->parts()) {
+                            const auto* content = dynamic_cast<const ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& [key, value] : content->entries()) {
+                                if (StringTools::startsWith(StringTools::toLower(std::string(StringTools::strip(key))), "post $object_detected")
+                                        && StringTools::strip(value) == "0") {
+                                    return true;
+                                }
+                            }
                         }
-                        start = end + 1;
                     }
+
                     return false;
                 }
 
@@ -2540,7 +2286,7 @@ namespace AGRemapCore {
                         return false;
                     }
 
-                    hostResetsDetected_ = presentResetsObjectDetected(ini->getFileTxt());
+                    hostResetsDetected_ = presentResetsObjectDetected(*ini);
 
                     // The fixer is built BEFORE the parser parses, so the sections are found by hash
                     // over IniFile::getIfTemplates rather than through the parser's graphs.
@@ -3609,40 +3355,22 @@ namespace AGRemapCore {
                 // read off the raw text
                 static std::set<std::string> meshHashesIn(const std::string& path) {
                     std::set<std::string> result;
-                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
-                    if (!in) {
-                        return result;
-                    }
+                    for (const IniScanSection& section : IniScan::scan(path)) {
+                        std::string hash;
+                        bool indexed = false;
+                        for (const auto& [key, value] : section.kvps) {
+                            if (StringTools::equalsIgnoreCase(key, IniKeywords::Hash)) {
+                                hash = StringTools::toLower(value);
+                            } else if (StringTools::equalsIgnoreCase(key, IniKeywords::MatchFirstIndex)) {
+                                indexed = true;
+                            }
+                        }
 
-                    std::string line;
-                    std::string hash;
-                    bool indexed = false;
-                    const auto flush = [&]() {
                         if (indexed && !hash.empty()) {
                             result.insert(hash);
                         }
-                        hash.clear();
-                        indexed = false;
-                    };
-                    while (std::getline(in, line)) {
-                        const std::string trimmed = StringTools::toLower(std::string(StringTools::strip(line)));
-                        if (!trimmed.empty() && trimmed.front() == '[') {
-                            flush();
-                            continue;
-                        }
-                        const std::size_t eq = trimmed.find('=');
-                        if (eq == std::string::npos) {
-                            continue;
-                        }
-                        const std::string key(StringTools::strip(trimmed.substr(0, eq)));
-                        const std::string value(StringTools::strip(trimmed.substr(eq + 1)));
-                        if (key == "hash") {
-                            hash = value;
-                        } else if (key == "match_first_index") {
-                            indexed = true;
-                        }
                     }
-                    flush();
+
                     return result;
                 }
 
@@ -4620,50 +4348,72 @@ namespace AGRemapCore {
                         return from;
                     }
 
-                    auto readAll = [&ini](const std::string& rel) {
-                        std::ifstream in(FileService::strToPath(FileService::absPathOfRelPath(
-                                             FileService::iniPathToRel(rel), ini->getFolder())), std::ios::binary);
-                        return in ? std::vector<unsigned char>((std::istreambuf_iterator<char>(in)),
-                                                               std::istreambuf_iterator<char>())
-                                  : std::vector<unsigned char>();
+                    auto pathOf = [&ini](const std::string& rel) {
+                        return FileService::absPathOfRelPath(FileService::iniPathToRel(rel), ini->getFolder());
+                    };
+                    auto readAll = [](const std::string& path) {
+                        try {
+                            return BinaryFile(path).read();
+                        } catch (const std::exception&) {
+                            return ByteVec();
+                        }
                     };
 
-                    const std::vector<unsigned char> pos = readAll(positionFile_);
-                    const std::vector<unsigned char> blend = readAll(blendSourceFile_);
+                    const ByteVec pos = readAll(pathOf(positionFile_));
+                    const std::size_t blendBytes = static_cast<std::size_t>(FileService::fileSize(pathOf(blendSourceFile_)).value_or(0));
                     const std::size_t vertices = pos.size() / 12;
-                    if (vertices == 0 || blend.size() % vertices != 0 || (blend.size() / vertices) % 2 != 0) {
+                    if (vertices == 0 || blendBytes % vertices != 0 || (blendBytes / vertices) % 2 != 0) {
                         return from;
                     }
 
-                    const std::size_t influences = blend.size() / vertices / 2;
-                    std::vector<unsigned char> wide;
+                    const std::size_t influences = blendBytes / vertices / 2;
+                    std::vector<std::vector<long long>> blendIds;
+                    std::vector<std::vector<long long>> blendWeights;
+                    try {
+                        BufFile blend{pathOf(blendSourceFile_), wwmiBlendElements(influences)};
+                        blendIds = bufRows(blend, BlendFile::BlendIndicesKey, influences);
+                        blendWeights = bufRows(blend, BlendFile::BlendWeightKey, influences);
+                    } catch (const std::exception&) {
+                        return from;
+                    }
+
+                    if (blendIds.size() < vertices) {
+                        return from;
+                    }
+
+                    std::vector<std::vector<long long>> wide;
                     if (vertexVGFile_.has_value()) {
-                        wide = readAll(*vertexVGFile_);
-                        if (wide.size() != vertices * influences * 2) {
+                        try {
+                            BufFile vg{pathOf(*vertexVGFile_), wwmiVertexVGElements(influences)};
+                            wide = bufRows(vg, BlendFile::BlendIndicesKey, influences);
+                        } catch (const std::exception&) {
+                            wide.clear();
+                        }
+
+                        if (wide.size() != vertices) {
                             wide.clear();
                         }
                     }
 
+                    const BufFloat f32;
                     const std::size_t count = config_.skeletonNumberings.size();
                     std::vector<std::vector<double>> distances(count);
                     std::vector<long long> refs(count);
                     for (std::size_t v = 0; v < vertices; ++v) {
-                        const unsigned char* line = blend.data() + v * influences * 2;
+                        const std::vector<long long>& lineIds = blendIds[v];
+                        const std::vector<long long>& lineWeights = blendWeights[v];
                         std::size_t heaviest = 0;
                         for (std::size_t b = 1; b < influences; ++b) {
-                            if (line[influences + b] > line[influences + heaviest]) {
+                            if (lineWeights[b] > lineWeights[heaviest]) {
                                 heaviest = b;
                             }
                         }
 
-                        if (line[influences + heaviest] <= 127) {
+                        if (lineWeights[heaviest] <= 127) {
                             continue;                     // no bone carries over half the vertex
                         }
 
-                        const long long id = wide.empty()
-                            ? static_cast<long long>(line[heaviest])
-                            : static_cast<long long>(wide[(v * influences + heaviest) * 2])
-                                  | (static_cast<long long>(wide[(v * influences + heaviest) * 2 + 1]) << 8);
+                        const long long id = wide.empty() ? lineIds[heaviest] : wide[v][heaviest];
 
                         bool differ = false;
                         bool known = true;
@@ -4680,7 +4430,10 @@ namespace AGRemapCore {
                         }
 
                         float p[3];
-                        std::memcpy(p, pos.data() + v * 12, sizeof(p));
+                        for (std::size_t c = 0; c < 3; ++c) {
+                            const auto at = static_cast<std::ptrdiff_t>(v * 12 + c * 4);
+                            p[c] = static_cast<float>(std::get<double>(f32.decode(ByteVec(pos.begin() + at, pos.begin() + at + 4))));
+                        }
                         for (std::size_t n = 0; n < count; ++n) {
                             const std::array<double, 3>& c = config_.referenceBoneCentroids.at(refs[n]);
                             distances[n].push_back(std::sqrt((p[0] - c[0]) * (p[0] - c[0]) + (p[1] - c[1]) * (p[1] - c[1])
@@ -4716,7 +4469,7 @@ namespace AGRemapCore {
                     return Version::parse(config_.skeletonNumberings[best].version);
                 }
 
-                /** @brief The fix's own list that puts the captured bindings back -- see BypassRestore */
+                /** @brief The fix's own list that puts the captured bindings back -- see bypassRestore */
                 std::string restoreListName() {
                     return fixName(IniKeywords::CommandList + "RestoreSharedResources");
                 }
@@ -5328,14 +5081,15 @@ namespace AGRemapCore {
                         // component's own graph; the edit is idempotent, so being visited once per
                         // component writes one capture and one restore.
                         if (!bypasses_.empty()) {
-                            auto bypass = std::make_unique<BypassRestore>(
-                                listNames(config_.sharedResourcesList),
-                                listNames(config_.cleanupResourcesList),
-                                bypasses_, restoreListName());
-                            auto adapter = std::make_unique<RegPartEdit<>>(bypass.get());
-                            editsOf_[component].push_back(adapter.get());
-                            bypassEdits_.push_back(std::move(bypass));
-                            regAdapters_.push_back(std::move(adapter));
+                            for (auto& [bypass, sections] : bypassRestore(listNames(config_.sharedResourcesList),
+                                                                          listNames(config_.cleanupResourcesList),
+                                                                          bypasses_, restoreListName())) {
+                                auto adapter = std::make_unique<RegPartEdit<>>(
+                                    bypass.get(), [sections = sections](const std::string& name) { return namesSection(sections, name); });
+                                editsOf_[component].push_back(adapter.get());
+                                bypassEdits_.push_back(std::move(bypass));
+                                regAdapters_.push_back(std::move(adapter));
+                            }
                         }
 
                         // THE MOD'S OWN `ps-t` LINES, RE-KEYED BY ROLE (2026-10-02). Before the
@@ -5548,7 +5302,7 @@ namespace AGRemapCore {
                             };
 
                             // see WWMIFixerConfig::carryByRegisterRole
-                            CarriedTexRegs::RegRoleOf regRoleOf = nullptr;
+                            CarriedRegRoleOf regRoleOf = nullptr;
                             if (config_.carryByRegisterRole) {
                                 std::map<std::string, std::string> slotRoles;
                                 // a reroute reads its source component's layout -- it is that component's art
@@ -5566,8 +5320,7 @@ namespace AGRemapCore {
                                 };
                             }
 
-                            auto carried = std::make_unique<CarriedTexRegs>(
-                                config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf);
+                            auto carried = carriedTexRegs(config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf);
                             auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
                             editsOf_[component].push_back(adapter.get());
                             carriedEdits_.push_back(std::move(carried));
@@ -5579,7 +5332,7 @@ namespace AGRemapCore {
                         // the block at the earliest position that follows one. Its own add, because
                         // everything in `additions` goes BEFORE the draw.
                         if (mirroredSet().count(component) > 0) {
-                            auto twin = std::make_unique<MirrorTwin>(
+                            auto twin = mirrorTwin(
                                 fixName(IniKeywords::Resource + "MirrorIndex" + std::to_string(component)),
                                 fixName(IniKeywords::Resource + "MirrorVector"),
                                 IndexBufferResource, VectorBufferResource, config_.vectorReg,
@@ -5699,34 +5452,45 @@ namespace AGRemapCore {
                             const std::vector<std::uint8_t>& px = useMask ? noPixels : codes->getPixels();
                             const long long w = useMask ? mask.width : codes->getWidth();
                             const long long h = useMask ? mask.height : codes->getHeight();
-                            const ByteVec index = readWhole(FileService::absPathOfRelPath(indexFile_, folder), "this mod's index buffer");
-                            const ByteVec uvRaw = readWhole(FileService::absPathOfRelPath(texcoordFile_, folder), "this mod's texcoords");
+                            std::vector<std::uint32_t> index;
+                            {
+                                IbFile indices{FileService::absPathOfRelPath(indexFile_, folder)};
+                                for (const std::vector<long long>& triangle :
+                                         bufRows(indices, IbFile::TriangleBufElementKey, IbFile::VerticesPerTriangle)) {
+                                    for (const long long corner : triangle) {
+                                        index.push_back(static_cast<std::uint32_t>(corner));
+                                    }
+                                }
+                            }
+
+                            const std::string uvPath = FileService::absPathOfRelPath(texcoordFile_, folder);
+                            const std::size_t uvBytes = static_cast<std::size_t>(FileService::fileSize(uvPath).value_or(0));
                             const std::size_t vertices = static_cast<std::size_t>(std::filesystem::file_size(
                                 FileService::strToPath(positionBufPath())) / 12);
-                            if (vertices == 0 || uvRaw.size() % vertices != 0 || uvRaw.size() / vertices < 4) {
+                            if (vertices == 0 || uvBytes % vertices != 0 || uvBytes / vertices < 4) {
                                 continue;
                             }
 
-                            const std::size_t stride = uvRaw.size() / vertices;
-                            const BufFloat16 half(false);
+                            const std::size_t stride = uvBytes / vertices;
+                            BufFile uvFile{uvPath, texcoordElements(stride)};
+                            const std::vector<double> us = bufColumn(uvFile, TexcoordElement, 0);
+                            const std::vector<double> vs = bufColumn(uvFile, TexcoordElement, 1);
                             for (const auto& range : ranges->second) {
                                 std::set<std::uint32_t> seen;
                                 std::size_t marked = 0;
                                 for (long long i = range.second; i < range.second + range.first; ++i) {
-                                    if (static_cast<std::size_t>(i + 1) * 4 > index.size()) {
+                                    if (static_cast<std::size_t>(i) >= index.size()) {
                                         break;
                                     }
 
-                                    std::uint32_t v = 0;
-                                    std::memcpy(&v, index.data() + i * 4, 4);
-                                    if (v >= vertices || !seen.insert(v).second) {
+                                    const std::uint32_t v = index[static_cast<std::size_t>(i)];
+                                    if (v >= vertices || v >= us.size() || !seen.insert(v).second) {
                                         continue;
                                     }
 
                                     double uv[2];
                                     for (int k = 0; k < 2; ++k) {
-                                        const std::size_t at = static_cast<std::size_t>(v) * stride + static_cast<std::size_t>(k) * 2;
-                                        const double value = std::get<double>(half.decode(ByteVec(uvRaw.begin() + at, uvRaw.begin() + at + 2)));
+                                        const double value = (k == 0 ? us : vs)[v];
                                         uv[k] = std::isfinite(value) ? value - std::floor(value) : 0.0;
                                     }
 
@@ -5989,7 +5753,17 @@ namespace AGRemapCore {
                             }
                         }
                         rabbitFXFlags_[component] = flags;
-                        auto pin = std::make_unique<RabbitFXPin>(rabbitFXPinList(component));
+                        // a `run =` of the pin list right after each `run = CommandList\RabbitFX\SetTextures`,
+                        // which sets RabbitFX's routing flags
+                        auto pin = std::make_unique<AnchorAdd>(
+                            std::vector<std::string>{IniKeywords::Run},
+                            [pinList = rabbitFXPinList(component)](const std::string&, const std::string& value) -> std::optional<Kvps> {
+                                if (!StringTools::equalsIgnoreCase(StringTools::strip(value), "commandlist\\rabbitfx\\settextures")) {
+                                    return std::nullopt;
+                                }
+                                return Kvps{{IniKeywords::Run, pinList}};
+                            },
+                            AnchorAdd::Placement::After);
                         rabbitFXPinAdapters_[component] = std::make_unique<RegPartEdit<>>(pin.get());
                         rabbitFXPins_.push_back(std::move(pin));
                     }
@@ -6221,7 +5995,7 @@ namespace AGRemapCore {
                     rerouteShaderEdit_.reset();
                     rerouteShaderAdapter_.reset();
                     if (!sectionOf.empty()) {
-                        rerouteShaderEdit_ = std::make_unique<RerouteShaderDraws>(std::move(sectionOf));
+                        rerouteShaderEdit_ = drawRunAdd(std::move(sectionOf), AnchorAdd::Placement::Replace);
                         rerouteShaderAdapter_ = std::make_unique<RegPartEdit<>>(rerouteShaderEdit_.get());
                     }
 
@@ -6248,7 +6022,7 @@ namespace AGRemapCore {
                         }
 
                         if (!runOf.empty()) {
-                            auto edit = std::make_unique<RerouteShaderDraws>(std::move(runOf));
+                            auto edit = drawRunAdd(std::move(runOf), AnchorAdd::Placement::Replace);
                             offAdapters_[component] = std::make_unique<RegPartEdit<>>(edit.get());
                             offEdits_.push_back(std::move(edit));
                         }
@@ -6257,7 +6031,7 @@ namespace AGRemapCore {
                     markEdit_.reset();
                     markAdapter_.reset();
                     if (!markOf.empty()) {
-                        markEdit_ = std::make_unique<MarkDraws>(std::move(markOf));
+                        markEdit_ = drawRunAdd(std::move(markOf), AnchorAdd::Placement::After);
                         markAdapter_ = std::make_unique<RegPartEdit<>>(markEdit_.get());
                     }
 
@@ -6278,7 +6052,7 @@ namespace AGRemapCore {
 
                             const std::string list = fixName(IniKeywords::CommandList + "DrawAfter" + std::to_string(first));
                             afterDispatch_[first] = list;
-                            afterEdits_[first] = std::make_unique<RunBeforeRuns>(
+                            afterEdits_[first] = runBeforeRuns(
                                 std::vector<std::string>{config_.cleanupResourcesList, fixName(config_.cleanupResourcesList)}, list,
                                 afterLatch(first));
                             afterAdapters_[first] = std::make_unique<RegPartEdit<>>(afterEdits_[first].get());
@@ -7013,10 +6787,14 @@ namespace AGRemapCore {
                             resConfig.extraKVPs = {{IniKeywords::Stride, std::to_string(wide * 2)}};
                         }
 
-                        auto replace = std::make_unique<WWMIBlendReplace>(GraphId(g, "", "blend"), std::move(resConfig), source, from, to,
-                                                                          std::move(lift), config_.anchorChains,
-                                                                          meshVertexCount_,
-                                                                          positionBufPath());
+                        // The library's vertex-group row over the WWMI layout: the line is N ids then N
+                        // weights, N read off the mod's own Blend.buf
+                        auto replace = std::make_unique<VGRemapBlendReplace<>>(GraphId(g, "", "blend"), std::move(resConfig), source, from, to);
+                        replace->fixFunc = std::move(lift);
+                        replace->anchorChains = config_.anchorChains;
+                        replace->elements = [vertices = meshVertexCount_, positionPath = positionBufPath()](const std::string& srcPath) {
+                            return wwmiBlendElements(wwmiBlendInfluences(srcPath, vertices, positionPath));
+                        };
                         auto collect = std::make_unique<Collector>();
                         for (int component : groups_[g]) {
                             const ModObj obj = targetObjOf(component);
@@ -8381,24 +8159,17 @@ namespace AGRemapCore {
                 }
 
                 static ByteVec readWhole(const std::string& path, const std::string& what) {
-                    std::ifstream in(FileService::strToPath(path), std::ios::binary);
-                    if (!in) {
+                    try {
+                        return BinaryFile(path).read();
+                    } catch (const std::exception&) {
                         throw std::runtime_error("cannot read " + what + " at " + path);
                     }
-
-                    return ByteVec((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
                 }
 
                 static void writeWhole(const std::string& path, const ByteVec& bytes, const std::string& what) {
                     FileService::makeFolderFor(path);
-                    {
-                        std::ofstream out(FileService::strToPath(path), std::ios::binary);
-                        if (!out) {
-                            throw std::runtime_error("cannot write " + what + " to " + path);
-                        }
-
-                        out.write(reinterpret_cast<const char*>(bytes.data()),
-                                  static_cast<std::streamsize>(bytes.size()));
+                    if (!BinaryFile::write(path, bytes)) {
+                        throw std::runtime_error("cannot write " + what + " to " + path);
                     }
 
                     if (FileService::fileSize(path) != static_cast<std::uintmax_t>(bytes.size())) {
@@ -9527,19 +9298,19 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, ByteVec> shaderSources_;                         // a `ps =` file -> its source
                 std::unordered_map<std::string, FileAddCreate<>::File> shaderBuffers_;           // a `ps-cbN =` resource -> its section and file
                 std::set<std::string> shaderBufferRegs_;                                         // ...and the registers that name them
-                std::unique_ptr<MarkDraws> markEdit_;
+                std::unique_ptr<AnchorAdd> markEdit_;
                 std::unique_ptr<RegPartEdit<>> markAdapter_;
                 std::map<int, std::string> afterDispatch_;     // a component drawn first -> the list its draws run (Shader::after)
-                std::map<int, std::unique_ptr<RunBeforeRuns>> afterEdits_;
+                std::map<int, std::unique_ptr<AnchorAdd>> afterEdits_;
                 std::map<int, std::unique_ptr<RegPartEdit<>>> afterAdapters_;
                 std::vector<Kvp> afterConstants_;              // the variables the Shader::after lists keep
                 std::map<int, const WWMIFixerConfig::Shader*> rerouteShaders_;   // a drawn component -> its plan entry's own shader (SourceComponent::shader)
-                std::unique_ptr<RerouteShaderDraws> rerouteShaderEdit_;
+                std::unique_ptr<AnchorAdd> rerouteShaderEdit_;
                 std::unique_ptr<RegPartEdit<>> rerouteShaderAdapter_;
                 std::map<int, std::set<std::pair<long long, long long>>> reroutedDraws_;   // ...and those draws, keyed by `as`
                 // SourceComponent::offPasses: list name -> (condition, draw), and the edits that run them
                 std::map<std::string, std::pair<std::string, std::string>> offLists_;
-                std::vector<std::unique_ptr<RerouteShaderDraws>> offEdits_;
+                std::vector<std::unique_ptr<AnchorAdd>> offEdits_;
                 std::map<int, std::unique_ptr<RegPartEdit<>>> offAdapters_;
                 std::vector<std::unique_ptr<RegRemove<>>> rerouteRemoves_;
 
@@ -9584,20 +9355,20 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> regRemoveKeepRabbitFX_;               // regRemove_ without RabbitFX's lines
                 std::unique_ptr<RegPartEdit<>> removeKeepRabbitFXAdapter_;
                 std::map<int, std::array<int, 4>> rabbitFXFlags_;                 // SourceComponent::rabbitFX: component -> the source's x187..w187
-                std::vector<std::unique_ptr<RabbitFXPin>> rabbitFXPins_;
+                std::vector<std::unique_ptr<AnchorAdd>> rabbitFXPins_;
                 std::map<int, std::unique_ptr<RegPartEdit<>>> rabbitFXPinAdapters_;
                 std::map<int, PartEdit*> newValsOf_;
                 std::vector<std::unique_ptr<RegSurroundedAdd<>>> surroundedAdds_;
                 std::vector<std::unique_ptr<GraphPartEdit<>>> graphAdapters_;
                 std::vector<std::unique_ptr<RegNewVals<>>> newVals_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> regAdapters_;
-                std::vector<std::unique_ptr<MirrorTwin>> twinEdits_;   // owned beside the adapters that wrap them
-                std::vector<std::unique_ptr<CarriedTexRegs>> carriedEdits_;   // ...and the same for the carried-register edits
-                std::vector<std::unique_ptr<BypassRestore>> bypassEdits_;     // ...and for the cleanup-list edits
-                BypassRestore::Bypasses bypasses_;                            // register -> the resource its binding is parked in
+                std::vector<std::unique_ptr<AnchorAdd>> twinEdits_;   // owned beside the adapters that wrap them
+                std::vector<std::unique_ptr<AnchorAdd>> carriedEdits_;   // ...and the same for the carried-register edits
+                std::vector<std::unique_ptr<BaseRegEdit<>>> bypassEdits_;     // ...and for the cleanup-list edits
+                Bypasses bypasses_;                            // register -> the resource its binding is parked in
                 std::map<int, std::vector<PartEdit*>> editsOf_;
                 std::unique_ptr<ObjGroupEdit> mainEdits_;
-                std::vector<std::unique_ptr<WWMIBlendReplace>> blendReplaces_;
+                std::vector<std::unique_ptr<VGRemapBlendReplace<>>> blendReplaces_;
                 std::optional<std::string> vertexVGFile_;                            // WWMI's 16-bit ids, as the .ini names them
                 std::optional<std::string> texcoordResource_;                        // the cleaned texcoord copy's resource
                 std::optional<std::string> texcoordSection_;                         // ...and its section text

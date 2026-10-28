@@ -12,13 +12,14 @@
 // ##### EndCredits
 
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAnchorAdd.h"
 
 
 namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    RegAdd<K, V, KeyHash, KeyEqual>::RegAdd(std::vector<std::pair<K, V>> vals, bool latest):
-        vals(std::move(vals)), latest(latest) {}
+    RegAdd<K, V, KeyHash, KeyEqual>::RegAdd(std::vector<std::pair<K, V>> vals, bool latest, bool skipExisting):
+        vals(std::move(vals)), latest(latest), skipExisting(skipExisting) {}
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename RegAdd<K, V, KeyHash, KeyEqual>::ContentPart& RegAdd<K, V, KeyHash, KeyEqual>::edit(
@@ -31,6 +32,21 @@ namespace AGRemapCore {
         if (vals.empty()) {
             return part;
         }
+
+        std::vector<std::pair<K, V>> adding;
+        if (skipExisting) {
+            for (const auto& val : vals) {
+                if (!RegAnchorAdd<K, V, KeyHash, KeyEqual>::holds(part, val.first, val.second)) {
+                    adding.push_back(val);
+                }
+            }
+
+            if (adding.empty()) {
+                return part;
+            }
+        }
+
+        const std::vector<std::pair<K, V>>& vals = skipExisting ? adding : this->vals;
 
         // no window restriction -- add straight to the true beginning/end of 'part'
         if (partRanges == nullptr) {

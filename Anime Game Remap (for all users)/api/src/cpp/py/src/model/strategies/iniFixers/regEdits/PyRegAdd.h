@@ -60,7 +60,7 @@ class PyRegAdd: public AGRC::RegAdd<std::string, std::string> {
          * @param valsObj The Python list of (key, value) tuples to add, in the order given
          * @param latest Whether to add the KVPs at the end instead of at the beginning
          */
-        PyRegAdd(py::object valsObj, bool latest);
+        PyRegAdd(py::object valsObj, bool latest, bool skipExisting = false);
 
         /**
          * @brief

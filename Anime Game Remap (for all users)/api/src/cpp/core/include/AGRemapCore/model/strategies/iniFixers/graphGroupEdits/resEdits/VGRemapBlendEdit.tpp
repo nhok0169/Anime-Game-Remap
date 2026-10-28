@@ -46,10 +46,28 @@ namespace AGRemapCore {
             return;
         }
 
+        // Each chain to whatever its ROOT maps to. A root the row has no entry for is left alone rather
+        // than guessed at: that would write a target of 0, which is a real bone.
+        if (!anchorChains.empty()) {
+            std::unordered_map<long long, long long> row = vgRemap->getRemap();
+            for (const auto& [root, members] : anchorChains) {
+                const auto at = row.find(root);
+                if (at == row.end()) {
+                    continue;
+                }
+
+                for (long long member : members) {
+                    row[member] = at->second;
+                }
+            }
+
+            vgRemap->setRemap(std::move(row));
+        }
+
         auto resource = std::make_unique<RemapBlendResource>(
             ctx.iniFolder(), srcPath, fixedPath, std::move(*vgRemap), this->resType,
-            std::function<bool(RemapBlendResource&)>{},
-            std::vector<std::unique_ptr<BufElementType>>{});
+            fixFunc,
+            elements ? elements(srcPath) : std::vector<std::unique_ptr<BufElementType>>{});
 
         resource->logger = ctx.logger();
         ctx.storeResource(fileKey, std::move(resource));

@@ -1886,6 +1886,17 @@ RegDrawRangeShift
 
 :raw-html:`<br />`
 
+RegAnchorAdd
+============
+
+.. attributetable:: FixRaidenBoss2.RegAnchorAdd
+
+.. autoclass:: FixRaidenBoss2.RegAnchorAdd
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 ===========
 

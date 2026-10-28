@@ -20,6 +20,21 @@ class RegAddTest(BaseUnitTest):
     def test_init_latestDefaultsTrue(self):
         edit = FRB.RegAdd([("a", "1")])
         self.assertTrue(edit.latest)
+        self.assertFalse(edit.skipExisting)
+
+    def test_edit_skipExisting_leavesOutWhatThePartHolds(self):
+        part = FRB.IfContentPart({"run": [(0, " CommandListRestore ")]}, 0)
+        edit = FRB.RegAdd([("Run", "commandlistrestore"), ("z", "9")], skipExisting = True)
+
+        edit.edit(part, "root", None)
+        edit.edit(part, "root", None)
+        self.compareList(part.entries(), [("run", " CommandListRestore "), ("z", "9")])
+
+    def test_edit_skipExistingOff_addsAgain(self):
+        part = FRB.IfContentPart({"run": [(0, "CommandListRestore")]}, 0)
+
+        FRB.RegAdd([("run", "CommandListRestore")]).edit(part, "root", None)
+        self.compareList(part.entries(), [("run", "CommandListRestore"), ("run", "CommandListRestore")])
 
     # ================================================
     # ===================== edit ======================

@@ -499,3 +499,10 @@ try:
     __all__ += ["RegDrawRangeShift"]
 except ImportError:
     pass
+
+# RegAnchorAdd (lines added before, after or in place of every line whose key is an anchor).
+try:
+    from .core import RegAnchorAdd
+    __all__ += ["RegAnchorAdd"]
+except ImportError:
+    pass

@@ -2231,6 +2231,17 @@ RegDrawRangeShift
 
 :raw-html:`<br />`
 
+RegAnchorAdd
+------------
+
+.. cppattributetable:: AGRemapCore::RegAnchorAdd
+
+.. doxygenclass:: AGRemapCore::RegAnchorAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 -----------
 

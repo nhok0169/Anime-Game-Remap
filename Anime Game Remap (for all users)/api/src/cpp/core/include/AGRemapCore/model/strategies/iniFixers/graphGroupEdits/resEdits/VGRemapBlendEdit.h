@@ -14,6 +14,8 @@
 
 // ##### EndCredits
 
+#include <functional>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -21,6 +23,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
@@ -164,8 +167,46 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             What fixes the built resource in place of :cpp:func:`RemapBlendResource`'s own remap -- eg. a
+             blend whose true bone ids live in another buffer. It is handed the resource, and returns whether
+             the fixed file was written :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function, the resource's own remap
+             @endrst
+             */
+            std::function<bool(RemapBlendResource&)> fixFunc;
+
+            /**
+             * @brief
+             @rst
+             Vertex groups that move as one part: each key is a ROOT group of the source, and every group
+             in its list is remapped to whatever the root is remapped to -- a chain the target has no
+             counterpart for, pinned to the bone it hangs from. A root the remap has no entry for leaves its
+             chain as the remap has it :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: empty
+             @endrst
+             */
+            std::map<long long, std::vector<long long>> anchorChains;
+
+            /**
+             * @brief
+             @rst
+             The line layout of the source ``Blend.buf``, decided from its path -- eg. a layout whose
+             number of bone influences per vertex is read off the file's size. Given the source file's
+             path :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: an empty function, :cpp:class:`BlendFile`'s default layout
+             @endrst
+             */
+            std::function<std::vector<std::unique_ptr<BufElementType>>(const std::string& srcPath)> elements;
+
+            /**
+             * @brief
+             @rst
              Builds a real :cpp:class:`RemapBlendResource`, carrying the vertex group remap
-             :cpp:func:`ModType::getVGRemap` gives for this pair of mods :raw-html:`<br />`
+             :cpp:func:`ModType::getVGRemap` gives for this pair of mods (with \\ref anchorChains pinned),
+             \\ref fixFunc and the line layout \\ref elements gives :raw-html:`<br />`
              :raw-html:`<br />`
 
              The resource's ``type`` is this edit's own ``resType``, not the 'resType' argument --

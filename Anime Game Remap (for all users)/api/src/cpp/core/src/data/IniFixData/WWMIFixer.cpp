@@ -469,6 +469,9 @@ namespace AGRemapCore {
         /** @brief source register (lowered) -> the role the SOURCE reads there, if known */
         using CarriedRegRoleOf = std::function<std::optional<std::string>(const std::string&)>;
 
+        /** @brief register (lowered) -> whether the fix's own texture list binds it as a default */
+        using CarriedDefaulted = std::function<bool(const std::string&)>;
+
 
         /**
          * @brief
@@ -489,12 +492,13 @@ namespace AGRemapCore {
          * where two of them land on one register.
          */
         std::unique_ptr<AnchorAdd> carriedTexRegs(const std::string& regPrefix, CarriedRoleOf roleOf, CarriedRegOf regOf,
-                                                  CarriedEditedOf editedOf, CarriedRegRoleOf regRoleOf = nullptr) {
+                                                  CarriedEditedOf editedOf, CarriedRegRoleOf regRoleOf = nullptr,
+                                                  CarriedDefaulted defaulted = nullptr) {
             const std::string prefix = StringTools::toLower(regPrefix);
             return std::make_unique<AnchorAdd>(
                 std::vector<std::string>{},
                 [roleOf = std::move(roleOf), regOf = std::move(regOf), editedOf = std::move(editedOf),
-                 regRoleOf = std::move(regRoleOf)]
+                 regRoleOf = std::move(regRoleOf), defaulted = std::move(defaulted)]
                 (const std::string& key, const std::string& rawValue) -> std::optional<Kvps> {
                     // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
                     std::string value(StringTools::strip(rawValue));
@@ -526,7 +530,16 @@ namespace AGRemapCore {
                     // LEFT ALONE rather than dropped. A role the scan does not know is a
                     // register this fix has no opinion about -- `ps-t17 = ResourceClothFX` is
                     // one, and the first cut of this edit took it out of two Sanhua mods.
+                    //
+                    // ...UNLESS THE FIX'S LIST BINDS THAT REGISTER (2026-10-28). Then the register
+                    // means a role of the TARGET's, and a file the scan cannot place in it is art
+                    // for another slot of the source's layout: ChisaParfait2's `ps-t2` texture lands
+                    // on Chisa's diffuse register. The list sets the target's binding first, so the
+                    // line goes and the list's default stands.
                     if (!reg.has_value()) {
+                        if (defaulted && defaulted(StringTools::toLower(key))) {
+                            return Kvps{};
+                        }
                         return std::nullopt;
                     }
 
@@ -2987,169 +3000,6 @@ namespace AGRemapCore {
 
                 }
 
-                // A MOD'S OWN `ps-t` LINE UNDER A TOGGLE, ABOVE WHERE THE FIX BINDS (2026-10-16).
-                //
-                // Lynae3's `if $Wish == 1` binds a texture at `ps-t2` -- the upper body's DIFFUSE file, at
-                // her material-code register, on purpose: on her card that is a lace pattern and a maroon
-                // cast over her black jacket. The line sits at the top of the section, and on her card it
-                // is the last word for the draw. Carried into the remapped section it still sits at the
-                // top -- and the fix's texture list for the slot runs after it and binds the role's own
-                // file over it, so the toggle did nothing. The role scan cannot take it either: the file's
-                // own hash names it the diffuse, which it is.
-                //
-                // So every such line -- a `ps-t` binding inside an `if` that closes before the point the
-                // fix's lists go in (the shared-resource override) -- is replayed at the END of the list,
-                // under the same condition, on the register the source register's role takes in this
-                // component's row. A line the mod writes unconditionally is the role scan's (a
-                // default), and one inside the blocks that enclose the insertion point is after it already.
-                struct ToggledRegLine {
-                    std::string condition;
-                    std::string reg;
-                    std::string value;
-                };
-
-                std::vector<ToggledRegLine> toggledRegLinesBefore(int component) const {
-                    std::vector<ToggledRegLine> out;
-                    const auto sections = present_.find(component);
-                    const auto roles = config_.sourceTextures.registerRoles.find(component);
-                    if (sections == present_.end() || roles == config_.sourceTextures.registerRoles.end()) {
-                        return out;
-                    }
-
-                    std::map<std::string, std::string> regOfRole;
-                    for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
-                        if (binding.role != IniKeywords::Null) {
-                            regOfRole.emplace(binding.role, binding.reg);
-                        }
-                    }
-
-                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
-                    const std::vector<std::string> sharedLists = listNames(config_.sharedResourcesList);
-                    const auto& templates = ctx_.getIniFile()->getIfTemplates();
-
-                    // one open `if` chain: the expressions of its branches so far
-                    struct Chain {
-                        std::size_t id = 0;
-                        std::vector<std::string> branches;
-                        bool isElse = false;
-                    };
-                    const auto conditionOf = [](const std::vector<Chain>& chains) {
-                        std::vector<std::string> terms;
-                        for (const Chain& chain : chains) {
-                            for (std::size_t k = 0; k + 1 < chain.branches.size(); ++k) {
-                                terms.push_back("!(" + chain.branches[k] + ")");
-                            }
-                            if (!chain.isElse && !chain.branches.empty()) {
-                                terms.push_back("(" + chain.branches.back() + ")");
-                            } else if (chain.isElse && !chain.branches.empty()) {
-                                terms.push_back("!(" + chain.branches.back() + ")");
-                            }
-                        }
-                        std::string joined;
-                        for (const std::string& term : terms) {
-                            joined += (joined.empty() ? "" : " && ") + term;
-                        }
-                        return joined;
-                    };
-                    const auto exprOf = [](const std::string& src) {
-                        std::string text(StringTools::strip(src));
-                        const std::string lower = StringTools::toLower(text);
-                        for (const std::string& head : {std::string("else if "), std::string("elif "), std::string("if ")}) {
-                            if (StringTools::startsWith(lower, head)) {
-                                return std::string(StringTools::strip(text.substr(head.size())));
-                            }
-                        }
-                        return text;
-                    };
-
-                    for (const std::string& section : sections->second) {
-                        const auto tpl = templates.find(section);
-                        if (tpl == templates.end() || tpl->second == nullptr) {
-                            continue;
-                        }
-
-                        std::vector<Chain> chains;
-                        std::size_t nextChain = 0;
-                        std::vector<std::pair<std::vector<Chain>, ToggledRegLine>> pending;   // (the chains open where it was written, line)
-                        bool reached = false;
-                        for (const auto& part : tpl->second->parts()) {
-                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
-                                if (pred->type == IfPredPartType::If) {
-                                    chains.push_back(Chain{++nextChain, {exprOf(pred->src)}, false});
-                                } else if (pred->type == IfPredPartType::EndIf) {
-                                    if (!chains.empty()) {
-                                        chains.pop_back();
-                                    }
-                                } else if (!chains.empty()) {
-                                    Chain& chain = chains.back();
-                                    if (pred->type == IfPredPartType::Else) {
-                                        chain.isElse = true;
-                                    } else {
-                                        chain.branches.push_back(exprOf(pred->src));
-                                    }
-                                }
-                                continue;
-                            }
-
-                            const auto* content =
-                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            for (const auto& item : content->items()) {
-                                const std::string key = StringTools::toLower(StringTools::strip(item.key));
-                                if (key == StringTools::toLower(IniKeywords::Run)
-                                        && std::find(sharedLists.begin(), sharedLists.end(), std::string(StringTools::strip(item.value)))
-                                               != sharedLists.end()) {
-                                    // the insertion point: keep what was written in a block that is closed
-                                    // by now, under the chains that closed (the ones still open enclose
-                                    // the fix's lists as well)
-                                    std::set<std::size_t> open;
-                                    for (const Chain& chain : chains) {
-                                        open.insert(chain.id);
-                                    }
-                                    for (auto& [written, line] : pending) {
-                                        std::vector<Chain> closed;
-                                        for (const Chain& chain : written) {
-                                            if (open.count(chain.id) == 0) {
-                                                closed.push_back(chain);
-                                            }
-                                        }
-                                        if (!closed.empty()) {
-                                            line.condition = conditionOf(closed);
-                                            out.push_back(line);
-                                        }
-                                    }
-                                    reached = true;
-                                    break;
-                                }
-
-                                if (!StringTools::startsWith(key, prefix) || chains.empty()) {
-                                    continue;
-                                }
-
-                                const auto role = roles->second.find(key);
-                                if (role == roles->second.end()) {
-                                    continue;
-                                }
-                                const auto reg = regOfRole.find(role->second);
-                                if (reg == regOfRole.end()) {
-                                    continue;
-                                }
-
-                                pending.emplace_back(chains, ToggledRegLine{std::string(), reg->second,
-                                                                            std::string(StringTools::strip(item.value))});
-                            }
-
-                            if (reached) {
-                                break;
-                            }
-                        }
-                    }
-                    return out;
-                }
-
                 // Per drawn source component: the zero stream and its texture command list right
                 // after the shared-resource override. No after-register on the add: `drawindexed`
                 // as one is a MUST fact, and behind a `$draw_x` toggle no draw is certain, which
@@ -3186,6 +3036,7 @@ namespace AGRemapCore {
 
                         std::vector<Kvp> bindings;
                         RoleRegs bound;
+                        std::set<std::string> listRegs;
                         for (const WWMIFixerConfig::Binding& binding : bindingsOf(component)) {
                             if (binding.role == IniKeywords::Null) {
                                 bindings.push_back(nullLine(binding.reg));
@@ -3207,6 +3058,12 @@ namespace AGRemapCore {
                                 bound.emplace_back(binding.role, binding.reg);
                             }
                         }
+                        for (const Kvp& kvp : bindings) {
+                            listRegs.insert(StringTools::toLower(kvp.first));
+                        }
+                        for (const auto& [role, reg] : bound) {
+                            listRegs.insert(StringTools::toLower(reg));
+                        }
 
                         if (!bindings.empty()) {
                             const std::string cmdList = remapFixName(IniKeywords::CommandList + source_.name + TextTools::capitalize(config_.slotPrefix)
@@ -3214,11 +3071,22 @@ namespace AGRemapCore {
                             SectionText list(z3_, cmdList);
                             list.open(passCondition(config_.slotPasses.at(static_cast<std::size_t>(planned.slot))))
                                 .keys(bindings);
-                            for (const ToggledRegLine& line : toggledRegLinesBefore(component)) {
-                                list.open(line.condition).key(line.reg, line.value).close();
-                            }
                             addTextureList(list.close().build(), component, bound);
-                            additions.emplace_back(IniKeywords::Run, cmdList);
+
+                            // THE ROLE'S BINDINGS ARE DEFAULTS, SET BEFORE THE MOD'S OWN TEXTURE LINES
+                            // (2026-10-28): right after the match keys, so the carried lines -- re-keyed to
+                            // the target's registers -- override them wherever the mod binds a register,
+                            // and a branch the mod leaves unbound keeps the default. Run after those lines
+                            // instead, the list overrode the mod's own toggles with one variant.
+                            auto top = std::make_unique<RegSurroundedAdd<>>(
+                                RegSurroundedAdd<>::Additions{{std::string(IniKeywords::Run), cmdList}},
+                                RegSurroundedAdd<>::RegMap{{std::string(IniKeywords::MatchFirstIndex),
+                                                            [](const std::string&) { return true; }}},
+                                RegSurroundedAdd<>::RegMap{}, false);
+                            auto topAdapter = std::make_unique<GraphPartEdit<>>(top.get());
+                            editsOf_[component].push_back(topAdapter.get());
+                            surroundedAdds_.push_back(std::move(top));
+                            graphAdapters_.push_back(std::move(topAdapter));
                         }
 
                         // GENERATION 0: THE DRAWS THIS SECTION MAKES BEFORE IT BINDS ANYTHING
@@ -3527,7 +3395,8 @@ namespace AGRemapCore {
                                 };
                             }
 
-                            auto carried = carriedTexRegs(config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf);
+                            auto carried = carriedTexRegs(config_.texRegPrefix, roleOf, regOf, editedOf, regRoleOf,
+                                                          [listRegs](const std::string& reg) { return listRegs.count(reg) > 0; });
                             auto adapter = std::make_unique<RegPartEdit<>>(carried.get());
                             editsOf_[component].push_back(adapter.get());
                             carriedEdits_.push_back(std::move(carried));

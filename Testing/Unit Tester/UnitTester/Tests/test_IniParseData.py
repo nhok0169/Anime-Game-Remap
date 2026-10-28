@@ -89,6 +89,22 @@ class IniParseDataTest(BaseUnitTest):
         self.assertEqual(data.roleCandidates("bodyDiffuse"), [("a.dds", "how")])
         self.assertEqual(data.roleCandidates("faceDiffuse"), [])
 
+    def test_toggles_perResource(self):
+        data = FRB.IniParseData()
+        data.setThisToggle("resourcetexture7", FRB.IniParseData.TextureToggle("TextureOverrideTexture7", ["ResourceTexture7", "ResourceTexture7a"]))
+        data.setRegisterToggle("resourcetexture3_3", FRB.IniParseData.TextureToggle("TextureOverrideComponent3 ps-t3", ["ResourceTexture3_3", "ResourceTexture3_3_0"]))
+        data.setThisToggle("resourcehairblock", FRB.IniParseData.TextureToggle("TextureOverrideHair", ["ResourceHairBlock"], True))
+
+        toggle = data.thisToggleOf("resourcetexture7")
+        self.assertEqual((toggle.section, toggle.variants, toggle.single), ("TextureOverrideTexture7", ["ResourceTexture7", "ResourceTexture7a"], False))
+        self.assertTrue(data.thisToggleOf("resourcehairblock").single)
+        self.assertEqual(data.registerToggleOf("resourcetexture3_3").section, "TextureOverrideComponent3 ps-t3")
+        self.assertIsNone(data.thisToggleOf("resourcetexture3_3"))
+        self.assertIsNone(data.registerToggleOf("resourcetexture7"))
+
+        data.clear()
+        self.assertIsNone(data.thisToggleOf("resourcetexture7"))
+
     def test_clear_resetsTheDefaults(self):
         data = FRB.IniParseData()
         data.setRemappableContent(False)

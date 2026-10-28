@@ -133,6 +133,8 @@ holding the value, and ``0`` (component 0's index) is every GI head's index too
 
 **Default**: ``"2.5"``
         )doc"))
+        .def_readwrite("texRegPrefix", &AGRC::WWMIParserConfig::texRegPrefix,
+                        py::doc(":class:`str`: The register family a mod binds its textures with. **Default**: ``\"ps-t\"``"))
         .def_readwrite("slotHashType", &AGRC::WWMIParserConfig::slotHashType,
                         py::doc(":class:`str`: The hash type every draw slot section matches. **Default**: ``\"vb0\"``"))
         .def_readwrite("textures", &AGRC::WWMIParserConfig::textures, py::doc(R"doc(

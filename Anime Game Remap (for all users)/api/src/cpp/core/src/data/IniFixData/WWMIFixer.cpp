@@ -1092,7 +1092,7 @@ namespace AGRemapCore {
                  * The variant scans read what the MOD binds, and a mod that has been fixed before
                  * still carries the last run's sections when they are read. Counting those makes
                  * the fix's output depend on its own previous output: the first run of
-                 * `readRegisterVariants` reported `upperDiffuse: 2 variants bound by
+                 * the register toggles (IniParseData::registerToggleOf) gave `upperDiffuse: 2 variants bound by
                  * TextureOverrideComponent3 ps-t3` on a clean mod and `3 variants bound by
                  * TextureOverrideComponent3<Fix> ps-t2` on the same mod fixed once already, which
                  * is a different set of edited copies for the same input.
@@ -1686,232 +1686,6 @@ namespace AGRemapCore {
 
                 // ---- the textures: the run's index, and what this .ini binds of it ----
 
-                // WHICH of the mod's own resources it binds in SEVERAL VARIANTS. A toggle mod writes `if $hair == 0 / this = X / else / this = XA` in its
-                // [TextureOverrideTexture*], and a single `<reg> = <resource>` line in the fix can
-                // only ever carry one of those -- so the mod's texture toggle stopped working while
-                // the toggled `drawindexed` in its own section kept switching the geometry.
-                //
-                // A section that binds unconditionally with one value is not recorded, and keeps its
-                // direct register line: every Sanhua mod is that shape, and this must not move output
-                // that has been verified in game.
-                void readConditionalBindings() {
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return;
-                    }
-
-                    const std::string fixSuffix = remapFixName("");
-                    for (const auto& entry : ini->getIfTemplates()) {
-                        // ANY texture override binding by hash, whatever its name (2026-10-16): Lynae3 calls
-                        // its hair overrides [TextureOverrideX] / [TextureOverrideXX], and a mesh section
-                        // (one with match_first_index) is not a texture's override
-                        if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
-                            || isFixSection(entry.first, fixSuffix)) {
-                            continue;
-                        }
-
-                        std::vector<std::string> bound;
-                        bool meshSection = false;
-                        bool realToggle = false;
-                        for (const auto& part : entry.second->parts()) {
-                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
-                                if (pred->type == IfPredPartType::If || pred->type == IfPredPartType::Elif) {
-                                    std::string test = StringTools::toLower(pred->getTestStr());
-                                    test.erase(std::remove_if(test.begin(), test.end(),
-                                                              [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }),
-                                               test.end());
-                                    if (test != IniKeywords::WWMIObjectDetected && test != IniKeywords::WWMIObjectDetected + "==1") {
-                                        realToggle = true;
-                                    }
-                                }
-
-                                continue;
-                            }
-
-                            const auto* content =
-                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            if (!content->getVals(IniKeywords::MatchFirstIndex).empty()) {
-                                meshSection = true;
-                            }
-
-                            for (const std::string& val : content->getVals(IniKeywords::This)) {
-                                bound.push_back(std::string(StringTools::strip(val)));
-                            }
-                        }
-
-                        if (meshSection) {
-                            continue;
-                        }
-
-                        // SEVERAL resources, which is what a toggle is. A section binding ONE
-                        // resource keeps its direct register line even when it sits under an `if`:
-                        // every Sanhua mod wraps its one `this` in `if $object_detected`, which the
-                        // remapped section has already set to 1 by the time the list runs, so a copy
-                        // of it would be the same binding in more lines -- and moving output that has
-                        // been verified in game to say the same thing is not worth it.
-                        //
-                        // The gap that leaves: one `this` under a REAL condition and no else (`if
-                        // $hair == 0 / this = X / endif`) still binds X unconditionally. That is what
-                        // the fix did before this, so nothing regresses -- but a mod that renders
-                        // wrong on one toggle with a single-variant role is where to look next.
-                        //
-                        // ...AND IT WAS (2026-10-16): Lynae3 binds its hair block's textures only `if
-                        // $Hairs == 1`, and at `$Hairs = 0` her own hair draws with the GAME's; the fix
-                        // bound the block's textures at both, so the loose hair's bun came out in the
-                        // block's colours. One `this` under any condition other than `$object_detected`
-                        // is a toggle of one variant, and its list binds the role's game texture first
-                        // (singleToggled_, planSingleToggles)
-                        if (bound.size() == 1 && realToggle) {
-                            const std::string key = StringTools::toLower(bound.front());
-                            if (conditionalOwner_.count(key) == 0) {
-                                conditionalOwner_[key] = entry.first;
-                                variantsOf_[entry.first] = bound;
-                                singleToggled_.insert(key);
-                            }
-
-                            continue;
-                        }
-
-                        if (bound.size() < 2) {
-                            continue;
-                        }
-
-                        // TWO SECTIONS MAY BIND ONE RESOURCE BEHIND A TOGGLE, AND ONLY ONE OF THEM
-                        // MAY BE WHOLE (2026-09-28). SanhuaExorcist4 selects `7 / 7a / 7b` in
-                        // `[TextureOverrideTexture7]` and `7 / 7.1 / 7.2` in
-                        // `[TextureOverrideTexture7_injured]`, where the author typed names the mod
-                        // never declares. Last-writer-wins gave the copy the typo'd one -- one live
-                        // branch of three, so on the other two values the TARGET's own diffuse stayed
-                        // bound at the mod's UVs. Count the branches that name a section this .ini
-                        // has, and keep the section that answers for most of its own variants.
-                        const auto& templates = ini->getIfTemplates();
-                        const auto resolves = [&templates](const std::vector<std::string>& vals) {
-                            std::size_t n = 0;
-                            for (const std::string& val : vals) {
-                                if (templates.count(val) > 0) {
-                                    ++n;
-                                }
-                            }
-
-                            return n;
-                        };
-
-                        const std::size_t score = resolves(bound);
-                        for (const std::string& resource : bound) {
-                            const std::string key = StringTools::toLower(resource);
-                            const auto owner = conditionalOwner_.find(key);
-                            if (owner != conditionalOwner_.end()) {
-                                const auto held = variantsOf_.find(owner->second);
-                                if (held != variantsOf_.end() && resolves(held->second) >= score) {
-                                    continue;
-                                }
-                            }
-
-                            conditionalOwner_[key] = entry.first;
-                        }
-
-                        variantsOf_[entry.first] = bound;
-                    }
-
-                    readRegisterVariants();
-                }
-
-                /**
-                 * @brief The same toggle written as a REGISTER binding rather than a `this` section
-                 *
-                 * `[TextureOverrideTexture7]` selecting `7 / 7a / 7b` with `this` is one way to
-                 * write a texture toggle and the loop above reads it. The other way is to bind the
-                 * register directly in the component's own section, once per branch:
-                 *
-                 *     [TextureOverrideComponent3]
-                 *     if $key2 == 1
-                 *         ps-t3 = ResourceTexture3_3
-                 *     else
-                 *         ps-t3 = ResourceTexture3_3_0
-                 *     endif
-                 *
-                 * Both resources reach that slot, so both are variants of whatever role the fix
-                 * resolves there and both need the role's edit. Without this, the edit is built from
-                 * the one the role happened to resolve to and the other branch keeps the mod's raw
-                 * file -- ChisaParfait3's red aura came back the moment the key was pressed.
-                 *
-                 * A register bound to ONE resource is not a group. A register bound to several in a
-                 * MERGED section is: component 5 of that mod puts the panel's, the upper body's and
-                 * the lower body's art through one `ps-t3` on its toggles, and each of the three is
-                 * that slot's diffuse while its branch is live. Which is why the group is per
-                 * (section, register) and not per section -- two registers of one section are two
-                 * different roles, and merging them would run a mask's filter over a diffuse.
-                 */
-                void readRegisterVariants() {
-                    IniFile* ini = ctx_.getIniFile();
-                    if (ini == nullptr) {
-                        return;
-                    }
-
-                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
-                    const std::string ref = StringTools::toLower(IniKeywords::Ref);
-
-                    const std::string fixSuffix = remapFixName("");
-                    for (const auto& entry : ini->getIfTemplates()) {
-                        if (entry.second == nullptr
-                            || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
-                            || isFixSection(entry.first, fixSuffix)) {
-                            continue;
-                        }
-
-                        std::map<std::string, std::vector<std::string>> boundOfReg;
-                        for (const auto& part : entry.second->parts()) {
-                            const auto* content =
-                                dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
-                            if (content == nullptr) {
-                                continue;
-                            }
-
-                            for (const auto& item : content->items()) {
-                                const std::string key = StringTools::toLower(StringTools::strip(item.key));
-                                if (!StringTools::startsWith(key, prefix)) {
-                                    continue;
-                                }
-
-                                std::string val(StringTools::strip(item.value));
-                                if (StringTools::startsWith(StringTools::toLower(val), ref + " ")) {
-                                    val = std::string(StringTools::lstrip(val.substr(ref.size())));
-                                }
-
-                                if (val.empty() || StringTools::equalsIgnoreCase(val, IniKeywords::Null)) {
-                                    continue;
-                                }
-
-                                std::vector<std::string>& vals = boundOfReg[key];
-                                const auto seen = std::find_if(vals.begin(), vals.end(),
-                                    [&val](const std::string& had) {
-                                        return StringTools::equalsIgnoreCase(had, val);
-                                    });
-
-                                if (seen == vals.end()) {
-                                    vals.push_back(val);
-                                }
-                            }
-                        }
-
-                        for (const auto& [reg, vals] : boundOfReg) {
-                            if (vals.size() < 2) {
-                                continue;
-                            }
-
-                            const std::string label = entry.first + " " + reg;
-                            for (const std::string& val : vals) {
-                                regVariantsOf_[StringTools::toLower(val)] = {label, vals};
-                            }
-                        }
-                    }
-                }
-
                 // WHAT readTextures WORKS OUT, IN THE ORDER IT WORKS IT OUT.
                 //
                 // A struct rather than members: this is scan state, dead the moment the scan ends,
@@ -1936,7 +1710,6 @@ namespace AGRemapCore {
                     IniFile* ini = ctx_.getIniFile();
                     scan.iniFolder = ini->getFolder();
                     scan.iniPath = ini->getFile().value_or("");
-                    readConditionalBindings();
                     // WHAT THE MOD'S TEXTURES ARE IS THE PARSER'S ANSWER, NOT THIS ONE'S.
                     // A texture is identified by a HASH and a REGISTER -- the hash being the
                     // texture's own (the section IS that texture) or the mesh's (the section is a
@@ -2210,6 +1983,11 @@ namespace AGRemapCore {
                     }
 
                     return result;
+                }
+
+                // What the parser recorded about this .ini -- see IniParseData
+                const IniParseData& parseData() const {
+                    return this->getParser()->parseData();
                 }
 
                 // Which of the mod's files serves one role on one source component, if any.
@@ -3275,17 +3053,12 @@ namespace AGRemapCore {
                                 }
 
                                 std::vector<std::string> siblings;
-                                const auto owner = conditionalOwner_.find(key);
-                                if (owner != conditionalOwner_.end()) {
-                                    const auto held = variantsOf_.find(owner->second);
-                                    if (held != variantsOf_.end()) {
-                                        siblings = held->second;
-                                    }
+                                if (const IniParseData::TextureToggle* toggle = parseData().thisToggleOf(key)) {
+                                    siblings = toggle->variants;
                                 }
 
-                                const auto group = regVariantsOf_.find(key);
-                                if (group != regVariantsOf_.end()) {
-                                    siblings.insert(siblings.end(), group->second.second.begin(), group->second.second.end());
+                                if (const IniParseData::TextureToggle* toggle = parseData().registerToggleOf(key)) {
+                                    siblings.insert(siblings.end(), toggle->variants.begin(), toggle->variants.end());
                                 }
 
                                 for (const std::string& sibling : siblings) {
@@ -4764,8 +4537,8 @@ namespace AGRemapCore {
                     const Kvp direct{reg, resource};
 
                     const std::string& base = resource;
-                    const auto owner = conditionalOwner_.find(StringTools::toLower(base));
-                    if (owner == conditionalOwner_.end()) {
+                    const IniParseData::TextureToggle* toggle = parseData().thisToggleOf(StringTools::toLower(base));
+                    if (toggle == nullptr) {
                         return direct;
                     }
 
@@ -4777,7 +4550,7 @@ namespace AGRemapCore {
 
                     IniFile* ini = ctx_.getIniFile();
                     const auto& templates = ini->getIfTemplates();
-                    const auto tpl = templates.find(owner->second);
+                    const auto tpl = templates.find(toggle->section);
                     if (tpl == templates.end() || tpl->second == nullptr) {
                         return direct;
                     }
@@ -4863,7 +4636,7 @@ namespace AGRemapCore {
                     }
 
                     // a one-variant toggle: off, the original draws with the game's texture
-                    if (singleToggled_.count(StringTools::toLower(base)) > 0) {
+                    if (toggle->single) {
                         const auto game = gameResourceOfRole_.find(role);
                         if (game != gameResourceOfRole_.end()) {
                             list->addKVPToFront(reg, game->second);
@@ -6011,17 +5784,15 @@ namespace AGRemapCore {
                                     }
                                 };
 
-                            const auto owner = conditionalOwner_.find(wasKey);
-                            if (owner != conditionalOwner_.end()) {
-                                emitVariants(variantsOf_[owner->second], owner->second);
+                            if (const IniParseData::TextureToggle* toggle = parseData().thisToggleOf(wasKey)) {
+                                emitVariants(toggle->variants, toggle->section);
                             }
 
                             // ...and the same toggle written as a register binding -- see
-                            // readRegisterVariants. Both shapes feed one numbering, so a mod that
+                            // IniParseData::registerToggleOf. Both shapes feed one numbering, so a mod that
                             // uses both does not get two `...2RemapTex` files.
-                            const auto group = regVariantsOf_.find(wasKey);
-                            if (group != regVariantsOf_.end()) {
-                                emitVariants(group->second.second, group->second.first);
+                            if (const IniParseData::TextureToggle* toggle = parseData().registerToggleOf(wasKey)) {
+                                emitVariants(toggle->variants, toggle->section);
                             }
 
                             if (n > 1) {
@@ -6074,11 +5845,11 @@ namespace AGRemapCore {
                 // source's own game texture in the list instead (edited like the mod's would be); the
                 // mod's own conditional lines, carried after the list, still bind its file in the
                 // branches where it does. A section that draws only through `run =` is left alone.
-                // The roles whose file the mod binds with ONE `this` under a toggle (readConditionalBindings)
+                // The roles whose file the mod binds with ONE `this` under a toggle (IniParseData::TextureToggle::single)
                 // get the source's own game texture planned: it is what the original draws with while the
                 // toggle is off, and bindLine puts it at the front of the role's copied list
                 void planSingleToggles() {
-                    if (hasGivenUp() || singleToggled_.empty() || config_.sourceTextures.downloadCharFolder.empty()) {
+                    if (hasGivenUp() || config_.sourceTextures.downloadCharFolder.empty()) {
                         return;
                     }
 
@@ -6100,7 +5871,8 @@ namespace AGRemapCore {
                             }
 
                                                         const std::string base = StringTools::toLower(*resource);
-                            if (singleToggled_.count(base) > 0) {
+                            const IniParseData::TextureToggle* toggle = parseData().thisToggleOf(base);
+                            if (toggle != nullptr && toggle->single) {
                                 planGameResource(binding.role);
                             }
                         }
@@ -7042,10 +6814,6 @@ namespace AGRemapCore {
                 std::unordered_map<std::string, std::string> fileOfRole_;            // role -> the file it resolved to
                 // One texture edit, named and sourced at read time and registered at fix time
 
-                std::unordered_map<std::string, std::string> conditionalOwner_;      // the mod's resource -> the section that binds it behind a condition
-                std::unordered_map<std::string, std::vector<std::string>> variantsOf_;  // that section -> every resource it binds, in order
-                std::set<std::string> singleToggled_;                    // a resource the mod binds with ONE `this` under a real toggle
-                std::unordered_map<std::string, std::pair<std::string, std::vector<std::string>>> regVariantsOf_;  // ...and the same for a toggle written as a register binding: resource -> (label, the group)
                 std::unordered_map<std::string, std::string> fileOfResource_;         // the mod's resource -> the file it names
                 std::unordered_map<std::string, std::vector<std::string>> editedRolesOf_;  // the mod's resource -> every role edited from it
                 std::map<std::string, std::set<std::string>> editTargets_;           // an edited role -> the resources (lowered) its edit applies to

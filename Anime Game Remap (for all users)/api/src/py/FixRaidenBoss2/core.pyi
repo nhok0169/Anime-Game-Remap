@@ -11108,6 +11108,50 @@ class IniParseData:
         @tiedHow.setter
         def tiedHow(self, arg0: str) -> None:
             ...
+    class TextureToggle:
+        """
+        
+        A toggle that chooses among several of the mod's texture resources
+        
+        Parameters
+        ----------
+        section: :class:`str`
+            The `section`_ that chooses (for a register toggle, ``<section> <register>``)
+        
+        variants: List[:class:`str`]
+            Every resource it chooses among, in the order the `section`_ names them
+        
+        single: :class:`bool`
+            Whether it binds ONE resource under a real condition -- off, the original draws with the game's own
+            texture
+            
+        """
+        def __init__(self, section: str, variants: collections.abc.Sequence[str], single: bool = False) -> None:
+            ...
+        @property
+        def section(self) -> str:
+            """
+            :class:`str`: The section that chooses
+            """
+        @section.setter
+        def section(self, arg0: str) -> None:
+            ...
+        @property
+        def single(self) -> bool:
+            """
+            :class:`bool`: Whether it binds one resource under a real condition
+            """
+        @single.setter
+        def single(self, arg0: bool) -> None:
+            ...
+        @property
+        def variants(self) -> list[str]:
+            """
+            List[:class:`str`]: Every resource it chooses among
+            """
+        @variants.setter
+        def variants(self, arg0: collections.abc.Sequence[str]) -> None:
+            ...
     def __init__(self) -> None:
         ...
     def addUndrawn(self, modObj: tuple[str, str]) -> None:
@@ -11194,6 +11238,21 @@ class IniParseData:
         :class:`bool`
             Whether it is undrawn
         """
+    def registerToggleOf(self, resource: str) -> ...:
+        """
+        The register toggle that chooses a resource, or ``None`` -- one `section`_ binding one register to several
+        resources on its branches
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource, lowercased
+        
+        Returns
+        -------
+        Optional[:class:`IniParseData.TextureToggle`]
+            The toggle
+        """
     def reject(self, file: str, role: str, why: str) -> None:
         """
         Records that ``file`` was refused for ``role``
@@ -11269,6 +11328,18 @@ class IniParseData:
         recolourOnly: :class:`bool`
             Whether the file is a recolour and nothing else
         """
+    def setRegisterToggle(self, resource: str, toggle: ...) -> None:
+        """
+        Records the register toggle that chooses ``resource``
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource, lowercased
+        
+        toggle: :class:`IniParseData.TextureToggle`
+            The toggle
+        """
     def setRemappableContent(self, remappable: bool) -> None:
         """
         Sets :meth:`hasRemappableContent`
@@ -11314,6 +11385,18 @@ class IniParseData:
         roles: :class:`TextureRoles`
             The roles
         """
+    def setThisToggle(self, resource: str, toggle: ...) -> None:
+        """
+        Records the ``this =`` toggle that chooses ``resource``
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource, lowercased
+        
+        toggle: :class:`IniParseData.TextureToggle`
+            The toggle
+        """
     def textureRoles(self) -> TextureRoles:
         """
         What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
@@ -11323,6 +11406,21 @@ class IniParseData:
         -------
         Optional[:class:`TextureRoles`]
             The roles
+        """
+    def thisToggleOf(self, resource: str) -> ...:
+        """
+        The ``this =`` toggle that chooses a resource, or ``None`` -- a texture override
+        ``hash = <a texture> / if ... this = A / else this = B`` the mod writes to swap one texture for another
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The resource, lowercased
+        
+        Returns
+        -------
+        Optional[:class:`IniParseData.TextureToggle`]
+            The toggle
         """
     def undrawnObjs(self) -> set[tuple[str, str]]:
         """
@@ -29437,6 +29535,14 @@ class WWMIParserConfig:
         """
     @slotPrefix.setter
     def slotPrefix(self, arg0: str) -> None:
+        ...
+    @property
+    def texRegPrefix(self) -> str:
+        """
+        :class:`str`: The register family a mod binds its textures with. **Default**: ``"ps-t"``
+        """
+    @texRegPrefix.setter
+    def texRegPrefix(self, arg0: str) -> None:
         ...
     @property
     def textures(self) -> WWMITextureFacts:

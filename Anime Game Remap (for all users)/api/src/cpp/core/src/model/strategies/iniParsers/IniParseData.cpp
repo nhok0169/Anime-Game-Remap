@@ -24,6 +24,8 @@ namespace AGRemapCore {
         candidates_.clear();
         roleFiles_.clear();
         rejections_.clear();
+        thisToggles_.clear();
+        registerToggles_.clear();
         fill_ = nullptr;
     }
 
@@ -118,5 +120,25 @@ namespace AGRemapCore {
 
     void IniParseData::reject(const std::string& file, const std::string& role, const std::string& why) {
         rejections_.push_back(Rejection{file, role, why});
+    }
+
+    const IniParseData::TextureToggle* IniParseData::thisToggleOf(const std::string& resource) const {
+        fill();
+        const auto found = thisToggles_.find(resource);
+        return found == thisToggles_.end() ? nullptr : &found->second;
+    }
+
+    void IniParseData::setThisToggle(const std::string& resource, TextureToggle toggle) {
+        thisToggles_[resource] = std::move(toggle);
+    }
+
+    const IniParseData::TextureToggle* IniParseData::registerToggleOf(const std::string& resource) const {
+        fill();
+        const auto found = registerToggles_.find(resource);
+        return found == registerToggles_.end() ? nullptr : &found->second;
+    }
+
+    void IniParseData::setRegisterToggle(const std::string& resource, TextureToggle toggle) {
+        registerToggles_[resource] = std::move(toggle);
     }
 }

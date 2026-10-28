@@ -309,6 +309,56 @@ modObj: Tuple[:class:`str`, :class:`str`]
 file: :class:`IniParseData.RoleFile`
     The file it takes
        )doc")
+       .def("thisToggleOf", &AGRC::IniParseData::thisToggleOf, py::arg("resource"), py::return_value_policy::reference_internal, R"doc(
+The ``this =`` toggle that chooses a resource, or ``None`` -- a texture override
+``hash = <a texture> / if ... this = A / else this = B`` the mod writes to swap one texture for another
+
+Parameters
+----------
+resource: :class:`str`
+    The resource, lowercased
+
+Returns
+-------
+Optional[:class:`IniParseData.TextureToggle`]
+    The toggle
+       )doc")
+       .def("setThisToggle", &AGRC::IniParseData::setThisToggle, py::arg("resource"), py::arg("toggle"), R"doc(
+Records the ``this =`` toggle that chooses ``resource``
+
+Parameters
+----------
+resource: :class:`str`
+    The resource, lowercased
+
+toggle: :class:`IniParseData.TextureToggle`
+    The toggle
+       )doc")
+       .def("registerToggleOf", &AGRC::IniParseData::registerToggleOf, py::arg("resource"), py::return_value_policy::reference_internal, R"doc(
+The register toggle that chooses a resource, or ``None`` -- one `section`_ binding one register to several
+resources on its branches
+
+Parameters
+----------
+resource: :class:`str`
+    The resource, lowercased
+
+Returns
+-------
+Optional[:class:`IniParseData.TextureToggle`]
+    The toggle
+       )doc")
+       .def("setRegisterToggle", &AGRC::IniParseData::setRegisterToggle, py::arg("resource"), py::arg("toggle"), R"doc(
+Records the register toggle that chooses ``resource``
+
+Parameters
+----------
+resource: :class:`str`
+    The resource, lowercased
+
+toggle: :class:`IniParseData.TextureToggle`
+    The toggle
+       )doc")
        .def("rejections", &AGRC::IniParseData::rejections, py::return_value_policy::copy, R"doc(
 Every file refused for a role, in the order they were refused
 
@@ -357,6 +407,28 @@ tiedHow: :class:`str`
         .def_readwrite("how", &AGRC::IniParseData::RoleFile::how, py::doc(":class:`str`: How it was found, for the log"))
         .def_readwrite("tiedFile", &AGRC::IniParseData::RoleFile::tiedFile, py::doc(":class:`str`: Another file ranked equally good, or empty"))
         .def_readwrite("tiedHow", &AGRC::IniParseData::RoleFile::tiedHow, py::doc(":class:`str`: How :attr:`tiedFile` was found"));
+
+    py::class_<AGRC::IniParseData::TextureToggle>(cls, "TextureToggle", R"doc(
+A toggle that chooses among several of the mod's texture resources
+
+Parameters
+----------
+section: :class:`str`
+    The `section`_ that chooses (for a register toggle, ``<section> <register>``)
+
+variants: List[:class:`str`]
+    Every resource it chooses among, in the order the `section`_ names them
+
+single: :class:`bool`
+    Whether it binds ONE resource under a real condition -- off, the original draws with the game's own
+    texture
+    )doc")
+        .def(py::init([](std::string section, std::vector<std::string> variants, bool single) {
+            return AGRC::IniParseData::TextureToggle{std::move(section), std::move(variants), single};
+        }), py::arg("section"), py::arg("variants"), py::arg("single") = false)
+        .def_readwrite("section", &AGRC::IniParseData::TextureToggle::section, py::doc(":class:`str`: The section that chooses"))
+        .def_readwrite("variants", &AGRC::IniParseData::TextureToggle::variants, py::doc("List[:class:`str`]: Every resource it chooses among"))
+        .def_readwrite("single", &AGRC::IniParseData::TextureToggle::single, py::doc(":class:`bool`: Whether it binds one resource under a real condition"));
 
     py::class_<AGRC::IniParseData::Rejection>(cls, "Rejection", R"doc(
 A file refused for a role -- see :meth:`IniParseData.rejections`

@@ -3508,6 +3508,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af51d13706a0e7290660d3bf89f30cc46" kind="variable"><name>candidates_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a8b766e19b80d01847d481818694f46d5" kind="variable"><name>roleFiles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a11622ca7b7374086a0ff0454dcc31069" kind="variable"><name>rejections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aef18ba173fdeaa86de3f2b8dfeaca114" kind="variable"><name>thisToggles_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1aeebb6fea15d32f20797442ab18425884" kind="variable"><name>registerToggles_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a294729fcc1747659e76197c99f07549e" kind="variable"><name>fill_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a1522efd98cb579647d4b58b55701de40" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ae86bd07375404f47ba551dd67cb55d73" kind="function"><name>hasRemappableContent</name></member>
@@ -3527,6 +3529,10 @@
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a537e5cf70ce2531276723b5a80f86ba9" kind="function"><name>setRoleCandidates</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a30ba00626f2bd409c7759c4bc4b884fc" kind="function"><name>roleFile</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1abd6a92f644f49eda5efd23e9df5c9942" kind="function"><name>setRoleFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1ac3b0d50a907c928370b88e9721bcf084" kind="function"><name>thisToggleOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1af68bff663daa9b374ae6bda3baadb3f6" kind="function"><name>setThisToggle</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a505b42a2e1bd24c1140dea987b72bb42" kind="function"><name>registerToggleOf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a910ada70ee9c385f24f9742cecbd12d9" kind="function"><name>setRegisterToggle</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a19f6a76b48323e5d1de28ed2b79558b7" kind="function"><name>rejections</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a6364b89f0d3d967da5352efa86899ada" kind="function"><name>reject</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_parse_data_1a87bc4e1b90972b260c6a9baf964a0da2" kind="function"><name>fill</name></member>
@@ -6662,6 +6668,11 @@
     <member refid="class_a_g_remap_core_1_1_texture_roles_1a8f0b208645db08463babefb99700057d" kind="function"><name>rolesOf</name></member>
     <member refid="class_a_g_remap_core_1_1_texture_roles_1ae112f079feacdcde97ddbc22687c123f" kind="function"><name>resourcesOf</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle" kind="struct"><name>AGRemapCore::IniParseData::TextureToggle</name>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1a1d4f619de77b9a1baa68d1375902b1d8" kind="variable"><name>section</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1adebd4217936faa95dc66b301700d5f43" kind="variable"><name>variants</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ini_parse_data_1_1_texture_toggle_1aed0c47f7f0cce62b73ef922bd131e822" kind="variable"><name>single</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_tint_transform" kind="class"><name>AGRemapCore::TintTransform</name>
     <member refid="class_a_g_remap_core_1_1_tint_transform_1a4df7139d5bf771cb9d2a6d95e026c040" kind="variable"><name>tint</name></member>
     <member refid="class_a_g_remap_core_1_1_tint_transform_1a8ddce98b08f3b666114e48deb633a37f" kind="function"><name>TintTransform</name></member>
@@ -7226,6 +7237,7 @@
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ade553798b44b928e14a0ad40c1ec20a8" kind="variable"><name>version</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1ae136acddb4c36c678ef101f46a8df030" kind="variable"><name>slotHashType</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a0b5add8a9b297a25a19d9f97c8c324ae" kind="variable"><name>slotPrefix</name></member>
+    <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a4766a752f3a48e44352ddd4b7817ebac" kind="variable"><name>texRegPrefix</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a9702bf11e4f1c8224e36539597b68979" kind="variable"><name>hashOnlyObjs</name></member>
     <member refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config_1a82ed24bbf24f94b65ce6b44c25f886d3" kind="variable"><name>textures</name></member>
   </compound>

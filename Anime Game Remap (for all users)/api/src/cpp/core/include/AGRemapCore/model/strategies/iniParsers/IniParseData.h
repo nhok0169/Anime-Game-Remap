@@ -92,6 +92,34 @@ namespace AGRemapCore {
             };
 
             /**
+             * @brief
+             @rst
+             A toggle that chooses among several of the mod's texture resources -- see #thisToggleOf and
+             #registerToggleOf
+             @endrst
+             */
+            struct TextureToggle {
+                /**
+                 * @brief The `section`_ that chooses (for a register toggle, ``<section> <register>``)
+                 */
+                std::string section;
+
+                /**
+                 * @brief Every resource it chooses among, in the order the `section`_ names them
+                 */
+                std::vector<std::string> variants;
+
+                /**
+                 * @brief
+                 @rst
+                 Whether it binds ONE resource under a real condition -- off, the original draws with the
+                 game's own texture
+                 @endrst
+                 */
+                bool single = false;
+            };
+
+            /**
              * @brief A file refused for a role -- see #rejections
              */
             struct Rejection {
@@ -279,6 +307,45 @@ namespace AGRemapCore {
             void setRoleFile(const std::string& role, const ModObj& modObj, RoleFile file);
 
             /**
+             * @brief
+             @rst
+             The ``this =`` toggle that chooses a resource, or ``nullptr`` -- a texture override
+             ``hash = <a texture> / if ... this = A / else this = B`` the mod writes to swap one texture
+             for another
+             @endrst
+             *
+             * @param resource The resource, lowercased
+             */
+            const TextureToggle* thisToggleOf(const std::string& resource) const;
+
+            /**
+             * @brief Records the ``this =`` toggle that chooses 'resource'
+             *
+             * @param resource The resource, lowercased
+             * @param toggle The toggle
+             */
+            void setThisToggle(const std::string& resource, TextureToggle toggle);
+
+            /**
+             * @brief
+             @rst
+             The register toggle that chooses a resource, or ``nullptr`` -- one `section`_ binding one
+             register to several resources on its branches (``if $x == 1 / ps-t3 = A / else / ps-t3 = B``)
+             @endrst
+             *
+             * @param resource The resource, lowercased
+             */
+            const TextureToggle* registerToggleOf(const std::string& resource) const;
+
+            /**
+             * @brief Records the register toggle that chooses 'resource'
+             *
+             * @param resource The resource, lowercased
+             * @param toggle The toggle
+             */
+            void setRegisterToggle(const std::string& resource, TextureToggle toggle);
+
+            /**
              * @brief Every file refused for a role, in the order they were refused
              */
             const std::vector<Rejection>& rejections() const;
@@ -303,6 +370,8 @@ namespace AGRemapCore {
             std::map<std::string, std::vector<std::pair<std::string, std::string>>> candidates_;
             std::map<std::pair<std::string, ModObj>, RoleFile> roleFiles_;
             std::vector<Rejection> rejections_;
+            std::map<std::string, TextureToggle> thisToggles_;
+            std::map<std::string, TextureToggle> registerToggles_;
             mutable Filler fill_;
     };
 }

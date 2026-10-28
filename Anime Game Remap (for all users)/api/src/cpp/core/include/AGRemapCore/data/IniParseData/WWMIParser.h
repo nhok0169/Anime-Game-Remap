@@ -67,6 +67,11 @@ namespace AGRemapCore {
         std::string slotPrefix = "component";
 
         /**
+         * @brief The register family a mod binds its textures with. **Default**: ``"ps-t"``
+         */
+        std::string texRegPrefix = "ps-t";
+
+        /**
          * @brief
          @rst
          The sections identified by a hash alone, as ``(hash type in HashData, mod object name)``

@@ -21,6 +21,7 @@
 
 // ##### EndCredits
 
+#include <algorithm>
 #include <filesystem>
 #include <map>
 #include <memory>
@@ -35,6 +36,7 @@
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/IniNamingTools.h"
+#include "AGRemapCore/model/iftemplate/IfPredPart.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -163,7 +165,175 @@ namespace AGRemapCore {
                         buildRoles(roles);
                         data.setTextureRoles(std::move(roles));
                         chooseRoleFiles(data, *data.textureRoles());
+                        readThisToggles(data);
+                        readRegisterToggles(data);
                     });
+                }
+
+                // A section a previous fix wrote: its name ends `<target>RemapFix`
+                static bool isFixSection(const std::string& name) {
+                    return StringTools::endsWithIgnoreCase(name, IniKeywords::RemapFix);
+                }
+
+                // WHICH of the mod's own resources it binds in SEVERAL VARIANTS. A toggle mod writes
+                // `if $hair == 0 / this = X / else / this = XA` in a texture override, and a single
+                // `<reg> = <resource>` line in a fix can carry only one of them. A section binding ONE
+                // resource under `$object_detected` alone is not a toggle (every Sanhua mod wraps its one
+                // `this` that way); one `this` under any other condition is a toggle of one variant
+                // (Lynae3's `if $Hairs == 1`), whose original draws with the game's texture while off.
+                void readThisToggles(IniParseData& data) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const auto& templates = ini->getIfTemplates();
+                    std::unordered_map<std::string, std::string> ownerOf;            // resource -> the section binding it
+                    std::unordered_map<std::string, std::vector<std::string>> variantsOf;
+                    std::unordered_set<std::string> single;
+                    for (const auto& entry : templates) {
+                        // ANY texture override binding by hash, whatever its name: Lynae3 calls its hair
+                        // overrides [TextureOverrideX] / [TextureOverrideXX]; a mesh section (one with
+                        // match_first_index) is not a texture's override
+                        if (entry.second == nullptr || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                                || isFixSection(entry.first)) {
+                            continue;
+                        }
+
+                        std::vector<std::string> bound;
+                        bool meshSection = false;
+                        bool realToggle = false;
+                        for (const auto& part : entry.second->parts()) {
+                            if (const auto* pred = dynamic_cast<const IfPredPart*>(part.get())) {
+                                if (pred->type == IfPredPartType::If || pred->type == IfPredPartType::Elif) {
+                                    std::string test = StringTools::toLower(pred->getTestStr());
+                                    test.erase(std::remove_if(test.begin(), test.end(),
+                                                              [](char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; }),
+                                               test.end());
+                                    if (test != IniKeywords::WWMIObjectDetected && test != IniKeywords::WWMIObjectDetected + "==1") {
+                                        realToggle = true;
+                                    }
+                                }
+                                continue;
+                            }
+
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            if (!content->getVals(IniKeywords::MatchFirstIndex).empty()) {
+                                meshSection = true;
+                            }
+                            for (const std::string& val : content->getVals(IniKeywords::This)) {
+                                bound.push_back(std::string(StringTools::strip(val)));
+                            }
+                        }
+
+                        if (meshSection) {
+                            continue;
+                        }
+
+                        if (bound.size() == 1 && realToggle) {
+                            const std::string key = StringTools::toLower(bound.front());
+                            if (ownerOf.count(key) == 0) {
+                                ownerOf[key] = entry.first;
+                                variantsOf[entry.first] = bound;
+                                single.insert(key);
+                            }
+                            continue;
+                        }
+
+                        if (bound.size() < 2) {
+                            continue;
+                        }
+
+                        // TWO SECTIONS MAY BIND ONE RESOURCE BEHIND A TOGGLE, AND ONLY ONE OF THEM MAY BE
+                        // WHOLE: SanhuaExorcist4 selects `7 / 7a / 7b` in one and `7 / 7.1 / 7.2` -- names
+                        // it never declares -- in another. The section that answers for most of its own
+                        // variants keeps the resource.
+                        const auto resolves = [&templates](const std::vector<std::string>& vals) {
+                            std::size_t n = 0;
+                            for (const std::string& val : vals) {
+                                if (templates.count(val) > 0) {
+                                    ++n;
+                                }
+                            }
+                            return n;
+                        };
+
+                        const std::size_t score = resolves(bound);
+                        for (const std::string& resource : bound) {
+                            const std::string key = StringTools::toLower(resource);
+                            const auto owner = ownerOf.find(key);
+                            if (owner != ownerOf.end()) {
+                                const auto held = variantsOf.find(owner->second);
+                                if (held != variantsOf.end() && resolves(held->second) >= score) {
+                                    continue;
+                                }
+                            }
+                            ownerOf[key] = entry.first;
+                        }
+                        variantsOf[entry.first] = bound;
+                    }
+
+                    for (const auto& [resource, section] : ownerOf) {
+                        data.setThisToggle(resource, IniParseData::TextureToggle{section, variantsOf[section], single.count(resource) > 0});
+                    }
+                }
+
+                // THE SAME TOGGLE WRITTEN AS A REGISTER BINDING: a section binding one register to
+                // several resources on its branches (`if $key2 == 1 / ps-t3 = A / else / ps-t3 = B`).
+                // Every one reaches that slot, so each is a variant of the role resolved there. Per
+                // (section, register): two registers of one section are two roles.
+                void readRegisterToggles(IniParseData& data) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const std::string prefix = StringTools::toLower(config_.texRegPrefix);
+                    for (const auto& entry : ini->getIfTemplates()) {
+                        if (entry.second == nullptr || !StringTools::startsWith(entry.first, IniKeywords::TextureOverride)
+                                || isFixSection(entry.first)) {
+                            continue;
+                        }
+
+                        std::map<std::string, std::vector<std::string>> boundOfReg;
+                        for (const auto& part : entry.second->parts()) {
+                            const auto* content = dynamic_cast<const IfTemplate<std::string, std::string>::ContentPart*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+
+                            for (const auto& item : content->items()) {
+                                const std::string key = StringTools::toLower(StringTools::strip(item.key));
+                                if (!StringTools::startsWith(key, prefix)) {
+                                    continue;
+                                }
+
+                                const std::string val = IniNamingTools::removeRefPrefix(std::string(StringTools::strip(item.value)));
+                                if (val.empty() || StringTools::equalsIgnoreCase(val, IniKeywords::Null)) {
+                                    continue;
+                                }
+
+                                std::vector<std::string>& vals = boundOfReg[key];
+                                const bool seen = std::any_of(vals.begin(), vals.end(),
+                                                              [&val](const std::string& had) { return StringTools::equalsIgnoreCase(had, val); });
+                                if (!seen) {
+                                    vals.push_back(val);
+                                }
+                            }
+                        }
+
+                        for (const auto& [reg, vals] : boundOfReg) {
+                            if (vals.size() < 2) {
+                                continue;
+                            }
+                            for (const std::string& val : vals) {
+                                data.setRegisterToggle(StringTools::toLower(val), IniParseData::TextureToggle{entry.first + " " + reg, vals, false});
+                            }
+                        }
+                    }
                 }
 
                 // A vb0 hash of this character's, of ANY version: a mod carries whichever version's

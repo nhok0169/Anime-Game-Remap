@@ -2209,6 +2209,17 @@ RegRemove
 
 :raw-html:`<br />`
 
+RegDrawRangeRemap
+-----------------
+
+.. cppattributetable:: AGRemapCore::RegDrawRangeRemap
+
+.. doxygenclass:: AGRemapCore::RegDrawRangeRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 -----------
 

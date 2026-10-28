@@ -22,7 +22,6 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstring>
 #include <filesystem>
 #include <functional>
 #include <memory>
@@ -37,12 +36,18 @@
 #include "AGRemapCore/constants/RegFillMissingMode.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 #include "AGRemapCore/model/VGRemap.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
+#include "AGRemapCore/model/buffers/BufUnorm.h"
 #include "AGRemapCore/model/buffers/VGComponentSplit.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
 #include "AGRemapCore/model/files/BlendFile.h"
+#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
+#include "AGRemapCore/model/iftemplate/IfContentPart.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 #include "AGRemapCore/model/iniresources/VGSplitGroupResource.h"
@@ -66,6 +71,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
@@ -182,190 +188,25 @@ namespace AGRemapCore {
         }
 
 
-        // ---- a mod's own draw ranges, through the split (2026-09-21) ----
+        // ---- the sections the fix writes of its own ----
         //
-        // A mod that draws for itself carries `drawindexed = <count>, <start>, <base>` lines, and a
-        // mod with toggles carries SEVERAL, each a range of its object's index buffer that one toggle
-        // shows or hides. The split removes triangles from that buffer -- the ones another component
-        // draws, and not only at its end (Citlali's eyes sit in the middle of her body) -- so the
-        // mod's own numbers overrun the written buffer and every range after a removal draws the
-        // wrong triangles. Measured on a real Citlali mod: a head draw of 23439 indices over a split
-        // buffer of 20451, and nine body ranges summing past the body's end by exactly the eyes' 864.
-        //
-        // Each range is remapped through the SOURCE index of every kept triangle (ascending): its new
-        // start is the number of kept triangles before it, its new count the number inside it. An
-        // `auto` draw is left alone. File-local: it needs the split, which only this template has.
-        //
-        // SEE-THROUGH RANGES (2026-09-26). With a DrawTranslucency, a range the mod's TexFx mask marks
-        // see-through is not drawn in place: its line becomes `run = CustomShader<...>`, and the section
-        // it names -- written to `sections` once per name -- blends the remapped draw into the colour
-        // target. See GIMIComponentFixerConfig::Component::texFxBlend.
-        struct DrawTranslucency {
-            std::function<bool(std::size_t firstIndex, std::size_t indexCount)> isTranslucent;
-            float factor = 0.0f;
-            std::string namePrefix;
-            std::string* sections = nullptr;
-            bool* sectionsInCopies = nullptr;
-            std::shared_ptr<std::unordered_set<std::string>> written = std::make_shared<std::unordered_set<std::string>>();
-        };
+        // Built as a section and rendered by the library's renderer, one per call, followed by a newline:
+        // GIMIFixer::appendedSections carries them into the fix block (see buildHiddenComponents for why
+        // there rather than through a graph).
+        IfTemplateRunConfig<std::string, std::string> sectionRunConfig() {
+            return IfTemplateRunConfig<std::string, std::string>{
+                IniKeywords::Run,
+                [](const std::string& val) { return val; },
+                [](const std::string& section) { return section; }
+            };
+        }
 
-        class DrawRangeRemap : public BaseRegEdit<> {
-            public:
-                explicit DrawRangeRemap(std::vector<std::size_t> keptIds, std::optional<DrawTranslucency> translucency = std::nullopt):
-                    keptIds_(std::move(keptIds)), translucency_(std::move(translucency)) {}
-
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-
-                    const auto ranges = toRangeSpec(partRanges);
-                    const std::vector<std::pair<long long, std::string>> vals = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
-                    if (vals.empty()) {
-                        return part;
-                    }
-
-                    std::vector<std::string> remapped;
-                    std::vector<bool> seeThrough;
-                    bool changed = false;
-                    for (const auto& entry : vals) {
-                        std::optional<std::string> value = remap(entry.second);
-                        changed = changed || value.has_value();
-                        remapped.push_back(value.value_or(entry.second));
-
-                        const std::optional<std::vector<long long>> numbers = parse(entry.second);
-                        seeThrough.push_back(value.has_value() && translucency_.has_value() && numbers.has_value()
-                            && translucency_->isTranslucent(static_cast<std::size_t>((*numbers)[1]), static_cast<std::size_t>((*numbers)[0])));
-                    }
-
-                    if (changed) {
-                        part.replaceVals({{IniKeywords::DrawIndexed, ContentPart::ReplaceSpec(remapped)}}, false, ranges);
-                    }
-
-                    // Each see-through line swapped for a call, at the same position.
-                    if (std::find(seeThrough.begin(), seeThrough.end(), true) != seeThrough.end()) {
-                        const std::vector<std::pair<long long, std::string>> placed = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
-                        for (std::size_t i = 0; i < placed.size() && i < seeThrough.size(); ++i) {
-                            if (!seeThrough[i]) {
-                                continue;
-                            }
-
-                            const std::string name = customShaderName(remapped[i]);
-                            const std::size_t pos = static_cast<std::size_t>(placed[i].first);
-                            part.removeKVPAt(pos);
-                            part.addKVPAt(static_cast<long long>(pos), IniKeywords::Run, name);
-                            writeSection(name, remapped[i]);
-                        }
-                    }
-                    return part;
-                }
-
-            private:
-                std::vector<std::size_t> keptIds_;
-                std::optional<DrawTranslucency> translucency_;
-
-                std::string customShaderName(const std::string& drawValue) const {
-                    std::string suffix;
-                    for (char c : drawValue) {
-                        if (c >= '0' && c <= '9') {
-                            suffix += c;
-                        } else if (c == ',' && !suffix.empty() && suffix.back() != '_') {
-                            suffix += '_';
-                        }
-                    }
-                    return "CustomShader" + translucency_->namePrefix + suffix;
-                }
-
-                // The blend state: the game's shaders, the draw blended into o1 -- the G-buffer's colour --
-                // and every other target left as it was under the part.
-                void writeSection(const std::string& name, const std::string& drawValue) const {
-                    if (translucency_->sections == nullptr || !translucency_->written->insert(name).second) {
-                        return;
-                    }
-
-                    std::string factor = std::to_string(translucency_->factor);
-                    std::string text = "[" + name + "]\n";
-                    for (int target = 0; target < 8; ++target) {
-                        text += "blend[" + std::to_string(target) + "] = "
-                                + (target == 1 ? "ADD BLEND_FACTOR INV_BLEND_FACTOR" : "ADD ZERO ONE") + "\n";
-                    }
-                    for (int channel = 0; channel < 4; ++channel) {
-                        text += "blend_factor[" + std::to_string(channel) + "] = " + factor + "\n";
-                    }
-                    text += IniKeywords::DrawIndexed + " = " + drawValue + "\n";
-
-                    std::string& sections = *translucency_->sections;
-                    if (sections.empty()) {
-                        sections = "; The mod's see-through draws (its TexFx mask), through a blend state: TexFx does not\n"
-                                   "; serve the skin's shaders.\n";
-                    } else {
-                        sections += "\n";
-                    }
-                    sections += text;
-                    if (translucency_->sectionsInCopies != nullptr) {
-                        *translucency_->sectionsInCopies = true;
-                    }
-                }
-
-                // "count, start, base" -> its numbers, or nullopt for anything else (`auto`)
-                static std::optional<std::vector<long long>> parse(const std::string& value) {
-                    std::vector<long long> numbers;
-                    std::size_t pos = 0;
-                    while (pos <= value.size()) {
-                        std::size_t comma = value.find(',', pos);
-                        std::string field(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
-                        if (field.empty() || field.find_first_not_of("-0123456789") != std::string::npos) {
-                            return std::nullopt;
-                        }
-                        numbers.push_back(std::stoll(field));
-                        if (comma == std::string::npos) {
-                            break;
-                        }
-                        pos = comma + 1;
-                    }
-
-                    if (numbers.size() < 2 || numbers[0] < 0 || numbers[1] < 0) {
-                        return std::nullopt;
-                    }
-                    return numbers;
-                }
-
-                // "count, start, base" -> the remapped line, or nullopt for anything else (`auto`)
-                std::optional<std::string> remap(const std::string& value) const {
-                    std::vector<long long> numbers;
-                    std::size_t pos = 0;
-                    while (pos <= value.size()) {
-                        std::size_t comma = value.find(',', pos);
-                        std::string field(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
-                        if (field.empty() || field.find_first_not_of("-0123456789") != std::string::npos) {
-                            return std::nullopt;
-                        }
-                        numbers.push_back(std::stoll(field));
-                        if (comma == std::string::npos) {
-                            break;
-                        }
-                        pos = comma + 1;
-                    }
-
-                    if (numbers.size() < 2 || numbers[0] < 0 || numbers[1] < 0) {
-                        return std::nullopt;
-                    }
-
-                    const std::size_t first = static_cast<std::size_t>(numbers[1]) / 3;
-                    const std::size_t last = (static_cast<std::size_t>(numbers[1]) + static_cast<std::size_t>(numbers[0])) / 3;
-                    const auto begin = std::lower_bound(keptIds_.begin(), keptIds_.end(), first);
-                    const auto end = std::lower_bound(keptIds_.begin(), keptIds_.end(), last);
-                    const std::size_t start = static_cast<std::size_t>(begin - keptIds_.begin());
-                    const std::size_t count = static_cast<std::size_t>(end - begin);
-
-                    std::string out = std::to_string(count * 3) + ", " + std::to_string(start * 3);
-                    for (std::size_t i = 2; i < numbers.size(); ++i) {
-                        out += ", " + std::to_string(numbers[i]);
-                    }
-                    return out;
-                }
-        };
+        std::string renderSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& kvps) {
+            std::vector<std::unique_ptr<IfTemplatePart>> parts;
+            parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, 0));
+            Template section(std::move(parts), sectionRunConfig(), name);
+            return renderIfTemplate(section) + "\n";
+        }
 
 
         // ---- what one mod's .ini names, read off the raw parsed sections ----
@@ -898,10 +739,7 @@ namespace AGRemapCore {
                     // EVERY index buffer have to be downloads for this to skip: a mod that ships only
                     // index buffers over the game's own vertices is a real kind of mod -- it hides
                     // parts of the model -- and still has something of its own to split.
-                    const auto isDownload = [](const std::string& path) {
-                        return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL)
-                               != std::string::npos;
-                    };
+                    const auto isDownload = &isDownloadPath;
 
                     bool authored = false;
                     for (const std::vector<BranchVal>* branches : {&files_.blends, &files_.positions, &files_.texcoords}) {
@@ -1127,7 +965,7 @@ namespace AGRemapCore {
                                 // The kept triangles per object, for the mod's own draw ranges -- only
                                 // for a mod that does not branch: a merged master's ranges belong to
                                 // whichever variant's index buffer each branch binds, and are left as
-                                // they are (see DrawRangeRemap).
+                                // they are (see RegDrawRangeRemap).
                                 if (states_.size() == 1) {
                                     for (std::size_t i = 0; i < names.size() && i < buffers.keptTriangleIds.size(); ++i) {
                                         keptTriangleIds_[names[i]] = buffers.keptTriangleIds[i];
@@ -1769,9 +1607,8 @@ namespace AGRemapCore {
                         }
 
                         // Named with the Remap keyword like every other section a fix writes.
-                        text += "[TextureOverride" + modTypeName + "IB" + IniKeywords::Remap + "Hide]\n"
-                                "hash = " + *hash + "\n"
-                                "handling = skip\n";
+                        text += renderSection("TextureOverride" + modTypeName + "IB" + IniKeywords::Remap + "Hide",
+                                              {{IniKeywords::Hash, *hash}, {IniKeywords::Handling, "skip"}});
                     }
 
                     if (!text.empty()) {
@@ -1793,10 +1630,9 @@ namespace AGRemapCore {
                         }
 
                         for (const std::string& slotIndex : slotIndices) {
-                            guards += "\n[TextureOverride" + modTypeName + slotIndex + IniKeywords::Remap + "TexFxGuard]\n"
-                                      "hash = " + *hash + "\n"
-                                      "match_first_index = " + slotIndex + "\n"
-                                      "$\\TexFx\\use_default_shader = -1\n";
+                            guards += "\n" + renderSection("TextureOverride" + modTypeName + slotIndex + IniKeywords::Remap + "TexFxGuard",
+                                                           {{IniKeywords::Hash, *hash}, {IniKeywords::MatchFirstIndex, slotIndex},
+                                                            {"$\\TexFx\\use_default_shader", "-1"}});
                         }
                     }
 
@@ -1823,6 +1659,9 @@ namespace AGRemapCore {
                         return;
                     }
 
+                    // AS APPENDED SECTIONS, NOT A GRAPH: they belong to no copied object, and they have to be
+                    // written even when this fixer ends with no group of its own to put a graph in (the Eye,
+                    // under a mod that paints its eyes on the head -- see GIMIFixer::appendedSections).
                     this->appendedSections = text;
                 }
 
@@ -1833,24 +1672,27 @@ namespace AGRemapCore {
                                              config_.sideMeshes, config_.targetSkin, toVersion);
                 }
 
-                // The see-through judgement for one drawn object's ranges, or nullopt -- see
-                // GIMIComponentFixerConfig::Component::texFxBlend. The mask, index buffer and texcoords are
-                // the SOURCE's (the ranges it is asked about are the mod's own numbers), read once, on the
-                // first question; any of them unreadable answers "opaque".
-                std::optional<DrawTranslucency> translucencyFor(const std::string& obj) {
+                // The see-through reroute for one drawn object's ranges, or empty -- see
+                // GIMIComponentFixerConfig::Component::texFxBlend. A range the mod's TexFx mask marks
+                // see-through is not drawn in place: its line becomes `run = CustomShader<...>`, and the section
+                // it names -- written to appendedSections once per name -- blends the remapped draw into the
+                // colour target (o1, the G-buffer's colour), every other target left as it was under the part.
+                //
+                // The mask, index buffer and texcoords are the SOURCE's (the ranges it is asked about are the
+                // mod's own numbers), read once, on the first question; any of them unreadable answers "opaque".
+                RegDrawRangeRemap<>::Reroute translucencyFor(const std::string& obj) {
                     const ModObjectFiles* objFiles = objectFiles(obj);
                     if (component_.texFxBlend <= 0.0f || objFiles == nullptr || objFiles->texFxMask.empty()
                             || objFiles->ib.empty() || files_.texcoord.empty() || files_.texcoordStride < 12) {
-                        return std::nullopt;
+                        return {};
                     }
 
                     struct Source {
                         bool loaded = false;
-                        int width = 0;
-                        int height = 0;
-                        std::vector<std::uint8_t> mask;
+                        bool ok = false;
+                        std::unique_ptr<TextureFile> mask;
                         VGComponentSplit::Triangles triangles;
-                        ByteVec texcoords;
+                        std::vector<std::array<float, 2>> uvs;     // each vertex's first UV
                     };
                     auto source = std::make_shared<Source>();
                     const std::string maskPath = objFiles->texFxMask;
@@ -1860,37 +1702,54 @@ namespace AGRemapCore {
                     auto widthIt = files_.ibBytesPerIndex.find(ibPath);
                     const std::size_t ibWidth = (widthIt == files_.ibBytesPerIndex.end()) ? 4 : widthIt->second;
 
-                    DrawTranslucency result;
-                    result.factor = component_.texFxBlend;
-                    result.namePrefix = component_.modTypeName + IniKeywords::Remap + "SeeThrough";
-                    result.sections = &this->appendedSections;
-                    result.sectionsInCopies = &this->appendedSectionsInCopies;
-                    result.isTranslucent = [source, maskPath, ibPath, texcoordPath, stride, ibWidth](std::size_t firstIndex, std::size_t indexCount) {
+                    const auto isTranslucent = [source, maskPath, ibPath, texcoordPath, stride, ibWidth](std::size_t firstIndex, std::size_t indexCount) {
                         if (!source->loaded) {
                             source->loaded = true;
                             try {
-                                TextureFile mask(maskPath);
-                                mask.open();
-                                source->width = mask.getWidth();
-                                source->height = mask.getHeight();
-                                source->mask = mask.getPixels();
+                                source->mask = std::make_unique<TextureFile>(maskPath);
+                                source->mask->open();
                                 IbFile ib(ibPath, ibWidth);
                                 source->triangles = VGComponentSplit::readIb(ib);
-                                BinaryFile texcoords(texcoordPath);
-                                source->texcoords = texcoords.read();
+
+                                // The vertex colour, the first UV, and whatever the line carries after it
+                                std::vector<std::unique_ptr<BufElementType>> layout;
+                                layout.push_back(BufElementType::repeated("COLOR", 4, []() -> std::unique_ptr<BufDataType> {
+                                    return std::make_unique<BufUnorm>("UNORM", 1); }, "R8G8B8A8_UNORM"));
+                                layout.push_back(BufElementType::repeated("TEXCOORD", 2, []() -> std::unique_ptr<BufDataType> {
+                                    return std::make_unique<BufFloat>(); }, "R32G32_FLOAT"));
+                                if (stride > 12) {
+                                    layout.push_back(BufElementType::repeated("REST", stride - 12, []() -> std::unique_ptr<BufDataType> {
+                                        return std::make_unique<BufUnorm>("UNORM", 1); }));
+                                }
+                                BufFile texcoords(texcoordPath, std::move(layout), "Texcoord");
+                                const std::vector<double>* us = nullptr;
+                                const std::vector<double>* vs = nullptr;
+                                const std::vector<BufFile::BufColumnData> columns = texcoords.decodeAll();
+                                for (const BufFile::BufColumnData& column : columns) {
+                                    if (column.elementKey == "TEXCOORD") {
+                                        (column.valueInd == 0 ? us : vs) = &std::get<std::vector<double>>(column.values);
+                                    }
+                                }
+                                for (std::size_t vertex = 0; us != nullptr && vs != nullptr && vertex < us->size(); ++vertex) {
+                                    source->uvs.push_back({static_cast<float>((*us)[vertex]), static_cast<float>((*vs)[vertex])});
+                                }
+                                source->ok = true;
                             } catch (const std::exception&) {
-                                source->mask.clear();
+                                source->ok = false;
                             }
                         }
 
-                        const std::size_t w = static_cast<std::size_t>(source->width);
-                        const std::size_t h = static_cast<std::size_t>(source->height);
-                        if (source->mask.size() < w * h * 4 || w == 0 || h == 0) {
+                        if (!source->ok) {
+                            return false;
+                        }
+                        const std::size_t w = static_cast<std::size_t>(source->mask->getWidth());
+                        const std::size_t h = static_cast<std::size_t>(source->mask->getHeight());
+                        if (source->mask->getPixels().size() < w * h * 4 || w == 0 || h == 0) {
                             return false;
                         }
 
-                        // Each vertex once, its first UV (after the 4-byte vertex colour), wrapped into
-                        // [0, 1) as the sampler does; see-through when most sit on a mask code of 1-254.
+                        // Each vertex once, its first UV wrapped into [0, 1) as the sampler does; see-through
+                        // when most sit on a mask code of 1-254.
                         std::unordered_set<unsigned long long> vertices;
                         const std::size_t last = std::min(source->triangles.size(), (firstIndex + indexCount) / 3);
                         for (std::size_t t = firstIndex / 3; t < last; ++t) {
@@ -1900,23 +1759,66 @@ namespace AGRemapCore {
                         std::size_t sampled = 0;
                         std::size_t clear = 0;
                         for (unsigned long long vertex : vertices) {
-                            const std::size_t at = static_cast<std::size_t>(vertex) * stride + 4;
-                            if (at + 8 > source->texcoords.size()) {
+                            if (vertex >= source->uvs.size()) {
                                 continue;
                             }
-                            float uv[2];
-                            std::memcpy(uv, source->texcoords.data() + at, sizeof(uv));
+                            const std::array<float, 2>& uv = source->uvs[static_cast<std::size_t>(vertex)];
                             const float u = uv[0] - std::floor(uv[0]);
                             const float v = uv[1] - std::floor(uv[1]);
                             const std::size_t x = std::min(w - 1, static_cast<std::size_t>(u * static_cast<float>(w)));
                             const std::size_t y = std::min(h - 1, static_cast<std::size_t>(v * static_cast<float>(h)));
-                            const std::uint8_t red = source->mask[(y * w + x) * 4];
+                            const int red = source->mask->getPixel(static_cast<int>(x), static_cast<int>(y)).red;
                             ++sampled;
                             clear += (red >= 1 && red <= 254) ? 1 : 0;
                         }
                         return sampled > 0 && clear * 2 > sampled;
                     };
-                    return result;
+
+                    // The section a see-through range is drawn by, once per name: the game's shaders, the draw
+                    // blended into o1, every other target left as it was under the part.
+                    const std::string namePrefix = component_.modTypeName + IniKeywords::Remap + "SeeThrough";
+                    const std::string factor = std::to_string(component_.texFxBlend);
+                    auto written = std::make_shared<std::unordered_set<std::string>>();
+                    return [this, isTranslucent, namePrefix, factor, written](std::size_t firstIndex, std::size_t indexCount,
+                                                                            const std::string& remapped) -> std::optional<std::string> {
+                        if (!isTranslucent(firstIndex, indexCount)) {
+                            return std::nullopt;
+                        }
+
+                        std::string suffix;
+                        for (char c : remapped) {
+                            if (c >= '0' && c <= '9') {
+                                suffix += c;
+                            } else if (c == ',' && !suffix.empty() && suffix.back() != '_') {
+                                suffix += '_';
+                            }
+                        }
+                        const std::string name = "CustomShader" + namePrefix + suffix;
+                        if (!written->insert(name).second) {
+                            return name;
+                        }
+
+                        std::vector<std::pair<std::string, std::string>> kvps;
+                        for (int target = 0; target < 8; ++target) {
+                            kvps.emplace_back("blend[" + std::to_string(target) + "]",
+                                              target == 1 ? "ADD BLEND_FACTOR INV_BLEND_FACTOR" : "ADD ZERO ONE");
+                        }
+                        for (int channel = 0; channel < 4; ++channel) {
+                            kvps.emplace_back("blend_factor[" + std::to_string(channel) + "]", factor);
+                        }
+                        kvps.emplace_back(IniKeywords::DrawIndexed, remapped);
+
+                        std::string& sections = this->appendedSections;
+                        if (sections.empty()) {
+                            sections = "; The mod's see-through draws (its TexFx mask), through a blend state: TexFx does not\n"
+                                       "; serve the skin's shaders.\n";
+                        } else {
+                            sections += "\n";
+                        }
+                        sections += renderSection(name, kvps);
+                        this->appendedSectionsInCopies = true;
+                        return name;
+                    };
                 }
 
                 // The specs for one state's index buffers, named `names` in order: each component's
@@ -1953,24 +1855,7 @@ namespace AGRemapCore {
                     }
 
                     return [normalise, zeroUV, want](const ByteVec& line) {
-                        ByteVec out = line;
-
-                        // The target's width FIRST, so the edits below see the final line. Widening
-                        // zero-pads at the end, which is where TEXCOORD1 sits; narrowing drops it.
-                        if (want != 0 && out.size() != want) {
-                            out.resize(want, static_cast<std::uint8_t>(0));
-                        }
-
-                        if (normalise && out.size() >= 3) {
-                            out[1] = 128;
-                            out[2] = 128;
-                        }
-
-                        if (zeroUV && out.size() >= 20) {
-                            std::fill(out.begin() + 12, out.begin() + 20, static_cast<std::uint8_t>(0));
-                        }
-
-                        return out;
+                        return VGComponentSplit::fitTexcoordLine(line, want, normalise, zeroUV);
                     };
                 }
 
@@ -1990,30 +1875,8 @@ namespace AGRemapCore {
                     // A fade takes the offset to nothing by the height of the face -- see
                     // Component::positionOffsetFade. {0, 0} leaves it a plain translation.
                     const std::array<float, 2> fade = component_.positionOffsetFade;
-                    const bool fades = (fade[1] > fade[0]);
-
-                    return [offset, fade, fades](const ByteVec& line) {
-                        ByteVec out = line;
-                        if (out.size() < 3 * sizeof(float)) {
-                            return out;
-                        }
-
-                        // Scaled by the ORIGINAL height, read before any axis is written back.
-                        float scale = 1.0f;
-                        if (fades) {
-                            float y = 0.0f;
-                            std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
-                            scale = (fade[1] - y) / (fade[1] - fade[0]);
-                            scale = std::min(1.0f, std::max(0.0f, scale));
-                        }
-
-                        for (std::size_t axis = 0; axis < 3; ++axis) {
-                            float value = 0.0f;
-                            std::memcpy(&value, out.data() + axis * sizeof(float), sizeof(float));
-                            value += offset[axis] * scale;
-                            std::memcpy(out.data() + axis * sizeof(float), &value, sizeof(float));
-                        }
-                        return out;
+                    return [offset, fade](const ByteVec& line) {
+                        return VGComponentSplit::offsetPositionLine(line, offset, fade);
                     };
                 }
 
@@ -2369,12 +2232,13 @@ namespace AGRemapCore {
                             slotEdits.push_back(normalBackAdapter_.get());
                         }
 
-                        // The mod's own draw ranges, through the split -- see DrawRangeRemap. Group
-                        // `group` holds drawn_[group]'s graph.
+                        // The mod's own draw ranges, through the split -- see RegDrawRangeRemap. Group
+                        // `group` holds drawn_[group]'s graph. Only for a mod that does not branch: a merged
+                        // master's ranges belong to whichever variant's index buffer each branch binds.
                         if (group < drawn_.size()) {
                             auto kept = keptTriangleIds_.find(drawn_[group]);
                             if (kept != keptTriangleIds_.end()) {
-                                drawRangeRemaps_.push_back(std::make_unique<DrawRangeRemap>(kept->second, translucencyFor(drawn_[group])));
+                                drawRangeRemaps_.push_back(std::make_unique<RegDrawRangeRemap<>>(kept->second, translucencyFor(drawn_[group])));
                                 drawRangeAdapters_.push_back(std::make_unique<RegPartEdit<>>(drawRangeRemaps_.back().get()));
                                 slotEdits.push_back(drawRangeAdapters_.back().get());
                             }
@@ -2534,7 +2398,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> removeTexFxAdapter_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
                 std::unordered_map<std::string, std::vector<std::size_t>> keptTriangleIds_;
-                std::vector<std::unique_ptr<DrawRangeRemap>> drawRangeRemaps_;
+                std::vector<std::unique_ptr<RegDrawRangeRemap<>>> drawRangeRemaps_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> drawRangeAdapters_;
                 std::unique_ptr<RegDelimitedAdd<>> addFixCall_;
                 std::unique_ptr<RegRemap<>> normalBack_;

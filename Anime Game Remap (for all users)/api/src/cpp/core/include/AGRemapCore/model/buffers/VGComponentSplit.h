@@ -351,6 +351,47 @@ namespace AGRemapCore {
              */
             static ByteVec mirrorPositionLine(const ByteVec& line, float offset);
 
+            /**
+             * @brief
+             @rst
+             A GIMI ``Position.buf`` line with its POSITION (the first three floats) moved by 'offset',
+             optionally faded out with height: with ``fade = {full, none}`` and ``none > full``, the offset
+             is whole at or below the height ``full``, nothing at or above ``none``, and in proportion
+             between them -- scaled by the line's ORIGINAL height. Any other 'fade' moves every line the
+             whole 'offset'. The normal and the tangent are kept; a line shorter than a position is
+             returned as it is
+             @endrst
+             *
+             * @param line The source line
+             * @param offset How far to move the position, per axis, in model units
+             * @param fade The heights ``{full, none}`` the offset fades between. **Default**: ``{0, 0}``, no fade
+             *
+             * @return The moved line
+             */
+            static ByteVec offsetPositionLine(const ByteVec& line, const std::array<float, 3>& offset,
+                                              const std::array<float, 2>& fade = {0.0f, 0.0f});
+
+            /**
+             * @brief
+             @rst
+             A GIMI ``Texcoord.buf`` line (``COLOR`` R8G8B8A8, ``TEXCOORD`` float2, then an optional
+             ``TEXCOORD1`` float2) fitted for another character's shader:
+
+             #. resized to 'width' bytes first, when 'width' is not ``0`` -- widening zero-pads at the end,
+                where ``TEXCOORD1`` sits, and narrowing drops the end
+             #. with 'neutralColour', the vertex colour's green and blue set to ``128``
+             #. with 'zeroSecondUV', ``TEXCOORD1`` (bytes 12 to 20) set to zeros, when the line has it
+             @endrst
+             *
+             * @param line The source line
+             * @param width The width of the line to write, in bytes, or ``0`` to keep its own
+             * @param neutralColour Whether to set the vertex colour's green and blue to ``128``
+             * @param zeroSecondUV Whether to zero ``TEXCOORD1``
+             *
+             * @return The fitted line
+             */
+            static ByteVec fitTexcoordLine(const ByteVec& line, std::size_t width, bool neutralColour, bool zeroSecondUV);
+
             std::size_t vertexCount() const;
             const std::vector<VGComponentSpec>& specs() const;
 

@@ -485,3 +485,10 @@ try:
     __all__ += ["RegIfTemplateAdd"]
 except ImportError:
     pass
+
+# ----- Added 2026-10-27: RegDrawRangeRemap (a part's drawindexed ranges through an index buffer that lost triangles).
+try:
+    from .core import RegDrawRangeRemap
+    __all__ += ["RegDrawRangeRemap"]
+except ImportError:
+    pass

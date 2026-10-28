@@ -1864,6 +1864,17 @@ RegRemove
 
 :raw-html:`<br />`
 
+RegDrawRangeRemap
+=================
+
+.. attributetable:: FixRaidenBoss2.RegDrawRangeRemap
+
+.. autoclass:: FixRaidenBoss2.RegDrawRangeRemap
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 ===========
 

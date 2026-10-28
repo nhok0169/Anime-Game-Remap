@@ -87,9 +87,9 @@ namespace AGRemapCore {
                 return *this;
             }
 
-            // The blank line after a section is this file's own convention, not the renderer's.
-            std::string str() {
-                IfTemplate<std::string, std::string> section{
+            // The section built so far, its parts moved out -- what a fixer hands TemplateFixer::addFixSection
+            std::unique_ptr<IfTemplate<std::string, std::string>> build() {
+                return std::make_unique<IfTemplate<std::string, std::string>>(
                     std::move(parts_),
                     IfTemplateRunConfig<std::string, std::string>{
                         IniKeywords::Run,
@@ -97,9 +97,12 @@ namespace AGRemapCore {
                         [](const std::string& name) { return name; }},
                     name_,
                     IfTemplate<std::string, std::string>::TreeKind::NonEmptyNode,
-                    prefix_};
+                    prefix_);
+            }
 
-                return renderIfTemplate(section) + "\n\n";
+            // The blank line after a section is this file's own convention, not the renderer's.
+            std::string str() {
+                return renderIfTemplate(*build()) + "\n\n";
             }
 
         private:

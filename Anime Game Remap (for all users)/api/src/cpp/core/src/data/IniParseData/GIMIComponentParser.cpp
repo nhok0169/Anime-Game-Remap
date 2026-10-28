@@ -65,7 +65,7 @@ namespace AGRemapCore {
          * classifier's hash filter can only name one. A hash value is unique to one character, so a
          * section is answered by at most one of them.
          */
-        class GIMIComponentGIMIParser: public Parser, public GIMIComponentParseFacts {
+        class GIMIComponentGIMIParser: public Parser {
             public:
                 GIMIComponentGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
                                          const GIMIComponentParserConfig& config):
@@ -252,7 +252,7 @@ namespace AGRemapCore {
                 void editCommands() override {
                     bindTextureOverrides();
                     declareSiblingRefs();
-                    if (hasContent_) {
+                    if (this->parseData().hasRemappableContent()) {
                         for (const std::string kind : {"ib", "other"}) {
                             inventComponentSection(kind);
                         }
@@ -273,7 +273,7 @@ namespace AGRemapCore {
                 // registered: once setupDownloads has run, a download for a register the mod's own
                 // section lacks has been ADDED to that section, and ToggleMenu.ini's position watcher
                 // looks like it binds vb0. Such a file gets no downloads at all, so nothing is
-                // invented and the fix carries only its own sections -- see hasRemappableContent.
+                // invented and the fix carries only its own sections -- see IniParseData::hasRemappableContent.
                 void getSectionTargets() override {
                     readTextureOverrides();
                     adoptSiblingSlots();
@@ -283,7 +283,8 @@ namespace AGRemapCore {
                     Parser::getSectionTargets();
 
                     const bool bindsSomething = targetsBindSomething();
-                    hasContent_ = !textureBindings_.empty() || bindsSomething;
+                    IniParseData& data = this->parseData();
+                    data.setRemappableContent(!textureBindings_.empty() || bindsSomething);
 
                     // A RECOLOUR BESIDE ITS OWN MESH (2026-09-25). A file with nothing but texture
                     // overrides is remapped by drawing the whole skin from downloads in the recolour's
@@ -293,7 +294,7 @@ namespace AGRemapCore {
                     // its own sections, as a file that watches the skin does.
                     if (!bindsSomething && ownTextureOverrides_ && siblingDrawsMesh()) {
                         textureBindings_.clear();
-                        hasContent_ = false;
+                        data.setRemappableContent(false);
                     }
 
                     // A FILE WHOSE BUFFERS A SIBLING BINDS IS NOT A MOD OF ITS OWN (2026-10-11). A mod may
@@ -304,22 +305,13 @@ namespace AGRemapCore {
                     // such a file is left as its author wrote it; the slot it carries is not drawn on the
                     // target. GIMICharParser's dropSiblingSuppliedDownloads is the classic counterpart.
                     if (bindsSomething && !ownsPositionBuffer() && siblingBindsPosition()) {
-                        hasContent_ = false;
+                        data.setRemappableContent(false);
                     }
-                    if (!hasContent_) {
+                    if (!data.hasRemappableContent()) {
                         this->downloads.clear();
                     }
 
                     findUndrawnSlots();
-                }
-
-            public:
-                bool hasRemappableContent() const override {
-                    return hasContent_;
-                }
-
-                bool isSlotUndrawn(const std::string& component, const std::string& slot) const override {
-                    return undrawnSlots_.count(ModObj(component, slot)) != 0;
                 }
 
             private:
@@ -874,11 +866,11 @@ namespace AGRemapCore {
                 // CharlotteHurlock1 moved its slot C geometry into its slot B section and declared no
                 // C or D, and the downloaded C and D pulled its skirt up to its chest. A component the
                 // mod does not carry, or does not skip, keeps its downloads: there the game draws the
-                // slot too. Asked by GIMIMergeFixer through GIMIComponentParseFacts::isSlotUndrawn.
+                // slot too. Asked by GIMIMergeFixer through IniParseData::isUndrawn.
                 void findUndrawnSlots() {
-                    undrawnSlots_.clear();
+                    this->parseData().clearUndrawn();
                     IniFile* iniFile = this->getIniFile();
-                    if (!hasContent_ || iniFile == nullptr) {
+                    if (!this->parseData().hasRemappableContent() || iniFile == nullptr) {
                         return;
                     }
 
@@ -960,7 +952,7 @@ namespace AGRemapCore {
                                 }
                             }
                             this->downloads.erase(modObj);
-                            undrawnSlots_.insert(modObj);
+                            this->parseData().addUndrawn(modObj);
                         }
                     }
                 }
@@ -1125,7 +1117,6 @@ namespace AGRemapCore {
                 GIMIComponentParserConfig config_;
                 std::vector<std::unique_ptr<Classifier>> classifiers_;
                 std::map<ModObj, std::vector<std::pair<std::string, std::string>>> textureBindings_;
-                bool hasContent_ = true;
 
                 // A sibling .ini's recolour -- see readTextureOverrides: the RemapRef resource name ->
                 // the file it names, and the graphs that declare the ones a slot binds.
@@ -1133,7 +1124,6 @@ namespace AGRemapCore {
                 std::map<std::string, std::vector<std::pair<std::string, std::string>>> adoptedRefs_;   // adopted resource -> its keys
                 std::vector<std::pair<std::string, Graph*>> refGraphs_;
                 bool ownTextureOverrides_ = false;
-                std::set<ModObj> undrawnSlots_;
                 DownloadStore downloadStore_;
         };
     }

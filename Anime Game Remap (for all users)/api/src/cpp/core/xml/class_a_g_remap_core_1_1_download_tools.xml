@@ -448,6 +448,45 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </inbodydescription>
         <location file="include/AGRemapCore/tools/DownloadTools.h" line="198" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="95" bodyend="99"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a763dcfe79d38185841c97730e156b32f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::DownloadTools::url</definition>
+        <argsstring>(const std::string &amp;game, const std::string &amp;charFolder, const std::string &amp;versionFolder, const std::string &amp;prefix, const std::string &amp;kind, const std::string &amp;ext)</argsstring>
+        <name>url</name>
+        <qualifiedname>AGRemapCore::DownloadTools::url</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>game</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>charFolder</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>versionFolder</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ext</declname>
+        </param>
+        <briefdescription>
+<para>The whole URL of a download: <ref refid="class_a_g_remap_core_1_1_download_tools_1a293cacb720816c22680cfe62b49b1e4c" kindref="member">downloadFolder</ref>, then <ref refid="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" kindref="member">urlPath</ref>&apos;s six-argument form. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="205" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
         <definition>DownloadTools::KVPs AGRemapCore::DownloadTools::bufResourceKVPs</definition>
@@ -475,7 +514,7 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="207" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="102" bodyend="104"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="214" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="108" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -490,7 +529,7 @@ character&apos;s textures are filed by the hash the game binds them under, so &a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="212" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="107" bodyend="109"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="219" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="113" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -524,7 +563,7 @@ Without them the downloaded blend is bound but never drawn from
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="225" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="112" bodyend="119"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="232" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="118" bodyend="125"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -546,7 +585,7 @@ the character&apos;s own ``&lt;Name&gt;Parser.cpp``, which is where somebody add
 looking
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/DownloadTools.h" line="46" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="46" bodyend="226"/>
+    <location file="include/AGRemapCore/tools/DownloadTools.h" line="46" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="46" bodyend="233"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>blendRefKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>bufResourceKVPs</name></member>
@@ -560,6 +599,7 @@ looking
       <member refid="class_a_g_remap_core_1_1_download_tools_1aca818e2d47978787a7b77f16ba4c0e22" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>make</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1aa959dd4ec5d3bdd374bbcc39b12085c5" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>makeConfig</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a2ad5bea3df3528ae8f035f142603eabc" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a763dcfe79d38185841c97730e156b32f" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>url</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>urlPath</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a952e2ba127c82c7a5002485bae278bde" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>urlPath</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a7e18d2f83d61a2718ca1f04e50c2238d" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>vertexCountOf</name></member>

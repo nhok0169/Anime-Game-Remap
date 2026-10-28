@@ -149,6 +149,7 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     # her holographic foil (her jacket and props passes read it at ps-t4), bound where the pouch reads its own
     # ...and her lighting ramp, which the game refills per character on screen (core's LynaeTextures)
     facts.fallbackTextures = {**facts.fallbackTextures, "filmFoil": "74a761f5", "ramp": "3a40da92"}
+    facts.regionRoles = {"upperMask", "lowerMask", "jacketMask", "propsMask", "faceMask", "hairMask", "bangsMask"}
     return facts
 
 
@@ -546,7 +547,6 @@ def fixerConfig(facts, keepRabbitFX: bool = False) -> "FRB.WWMIFixerConfig":
     # her lower-body and jacket masks R = 255 throughout), so a flat mask is replaced by HER game
     # texture rather than left to the game: the skin's hair mask is structured and laid out for the
     # skin's UVs, and would land in patches on hers (Chisa's hairMask lesson).
-    config.flatFallsBackToSource = {"upperMask", "lowerMask", "jacketMask", "propsMask", "faceMask", "hairMask", "bangsMask"}
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
     R = FRB.WWMIFixerConfig.RegRemoval

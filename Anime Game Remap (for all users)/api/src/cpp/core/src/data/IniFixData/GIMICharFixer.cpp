@@ -210,14 +210,11 @@ namespace AGRemapCore {
                     // A SIBLING'S TOGGLE, IN EVERY FILE THIS FIX WRITES. A recolour carried from a
                     // sibling .ini is bound under that file's toggle, which this file can only read
                     // through a copy it declares and drives itself -- see
-                    // TextureOverrideFacts::carriedSections. A generated copy is a namespace of its own,
+                    // IniParseData::carriedSections. A generated copy is a namespace of its own,
                     // so it needs the declaration too.
-                    if (const auto* facts = dynamic_cast<const TextureOverrideFacts*>(parser)) {
-                        const std::string carried = facts->carriedSections();
-                        if (!carried.empty()) {
-                            this->appendedSections = carried;
-                            this->appendedSectionsInCopies = true;
-                        }
+                    if (parser != nullptr && !parser->parseData().carriedSections().empty()) {
+                        this->appendedSections = parser->parseData().carriedSections();
+                        this->appendedSectionsInCopies = true;
                     }
 
                     // head and body are told apart by a match_first_index following the shared 'ib'
@@ -739,8 +736,7 @@ namespace AGRemapCore {
 
                         // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
                         // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
-                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
-                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath) ||
+                        return isFixLibraryCall(value) ||
                                reissuedTexFx.find(value) != reissuedTexFx.end();
                     };
 
@@ -748,16 +744,12 @@ namespace AGRemapCore {
                     // then simply does not carry it -- see GIMICharFixerConfig::removeSrcFixCalls
                     // for why a pre-6.x row declines.
                     if (config_.removeSrcFixCalls || config_.removeSrcTexFxCalls) {
-                        removeFixCalls_ = std::make_unique<RegRemove<>>(
-                            std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                                {IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall)}});
+                        removeFixCalls_ = RegRemove<>::of(IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall));
                     }
 
                     // 2. Take the shared draw call off ("", "ib"). Each remapped object now draws
                     //    its own geometry, so the single drawindexed they all ran into is wrong.
-                    removeDrawIndexed_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {IniKeywords::DrawIndexed, std::nullopt}});
+                    removeDrawIndexed_ = RegRemove<>::of(IniKeywords::DrawIndexed);
 
                     // 3. Re-issue that draw call per object -- with RegFillMissing, which puts it
                     //    AFTER everything the object's CommandList sets up.
@@ -809,35 +801,19 @@ namespace AGRemapCore {
                     //    mod, the originals being untouched and coming back via the appended source
                     //    text. See RaidenFixer for the full story, including why the blend needs a
                     //    rename of its own using the blend naming convention.
-                    const std::string toModName = toModName_;
-                    renameGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapFixName(sectionName, toModName);
-                        });
+                    renameGraph_ = remapRename(RemapName::Fix);
 
                     // Each resource kind has a naming convention of its own, and using the
                     // generic RemapFix one for all of them produces names no other tool recognises
                     // (…AmberIBAmberCNRemapFix where the convention is …AmberAmberCNRemapIB).
                     // IniNamingTools has one function per kind; there is nothing to invent here.
-                    renameBlendGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapBlendName(sectionName, toModName);
-                        });
+                    renameBlendGraph_ = remapRename(RemapName::Blend);
 
-                    renamePositionGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapPositionName(sectionName, toModName);
-                        });
+                    renamePositionGraph_ = remapRename(RemapName::Position);
 
-                    renameTexcoordGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapTexcoordName(sectionName, toModName);
-                        });
+                    renameTexcoordGraph_ = remapRename(RemapName::Texcoord);
 
-                    renameIbGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& sectionName) {
-                            return IniNamingTools::getRemapIbName(sectionName, toModName);
-                        });
+                    renameIbGraph_ = remapRename(RemapName::Ib);
 
                     // The HASH only. Source and target are different models here, so a section
                     // still naming the source's own hash never triggers on the target -- and the
@@ -847,11 +823,7 @@ namespace AGRemapCore {
                     // The index is deliberately NOT here; see buildIndexEdits and RegAssetRemap's
                     // own warning. Reverse-looking-up "0" is ambiguous (it is every character's head
                     // index) and it simply fails, writing "IndexNotFound" into a numeric field.
-                    assetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash,
-                             RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+                    assetRemap_ = hashRemap(ctx_.modTypeName().value_or(""), toVersion);
 
                     // The face's register swap -- a plain register edit, applied to every part of
                     // the face graph. Left null when the config declines it, and the edit list
@@ -880,10 +852,7 @@ namespace AGRemapCore {
                     //
                     // The same reasoning RaidenFixer applies by giving its face a rename and no
                     // asset remap at all -- RaidenBoss has no tex_face_diffuse row either.
-                    faceAssetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes())}},
-                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+                    faceAssetRemap_ = hashRemap(ctx_.modTypeName().value_or(""), toVersion, std::nullopt);
 
                     renameAdapter_ = std::make_unique<GraphPartEdit<>>(renameGraph_.get());
                     renameBlendAdapter_ = std::make_unique<GraphPartEdit<>>(renameBlendGraph_.get());

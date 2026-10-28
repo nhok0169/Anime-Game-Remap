@@ -855,6 +855,17 @@ DownloadData
 
 :raw-html:`<br />`
 
+DrawUVCoverage
+==============
+
+.. attributetable:: FixRaidenBoss2.DrawUVCoverage
+
+.. autoclass:: FixRaidenBoss2.DrawUVCoverage
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 File
 ====
 
@@ -1457,6 +1468,17 @@ IniParseBuilder
 
 :raw-html:`<br />`
 
+IniParseData
+============
+
+.. attributetable:: FixRaidenBoss2.IniParseData
+
+.. autoclass:: FixRaidenBoss2.IniParseData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniRemovalContext
 =================
 
@@ -1757,6 +1779,17 @@ PositionFile
 
 :raw-html:`<br />`
 
+RabbitFX
+========
+
+.. attributetable:: FixRaidenBoss2.RabbitFX
+
+.. autoclass:: FixRaidenBoss2.RabbitFX
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegAdd
 ======
 
@@ -1826,6 +1859,17 @@ RegFillMissing
 .. attributetable:: FixRaidenBoss2.RegFillMissing
 
 .. autoclass:: FixRaidenBoss2.RegFillMissing
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegIfTemplateAdd
+================
+
+.. attributetable:: FixRaidenBoss2.RegIfTemplateAdd
+
+.. autoclass:: FixRaidenBoss2.RegIfTemplateAdd
     :members:
     :private-members:
 
@@ -2300,6 +2344,28 @@ TextureFile
 
 :raw-html:`<br />`
 
+TextureRoleChooser
+==================
+
+.. attributetable:: FixRaidenBoss2.TextureRoleChooser
+
+.. autoclass:: FixRaidenBoss2.TextureRoleChooser
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureRoles
+============
+
+.. attributetable:: FixRaidenBoss2.TextureRoles
+
+.. autoclass:: FixRaidenBoss2.TextureRoles
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 TintTransform
 =============
 
@@ -2564,6 +2630,17 @@ VGSplitGroupResource
 
 :raw-html:`<br />`
 
+WWMIBlend
+=========
+
+.. attributetable:: FixRaidenBoss2.WWMIBlend
+
+.. autoclass:: FixRaidenBoss2.WWMIBlend
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 WWMIBuilder
 ===========
 
@@ -2592,6 +2669,17 @@ WWMIParserConfig
 .. attributetable:: FixRaidenBoss2.WWMIParserConfig
 
 .. autoclass:: FixRaidenBoss2.WWMIParserConfig
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+WWMIShapeKeys
+=============
+
+.. attributetable:: FixRaidenBoss2.WWMIShapeKeys
+
+.. autoclass:: FixRaidenBoss2.WWMIShapeKeys
     :members:
     :private-members:
 

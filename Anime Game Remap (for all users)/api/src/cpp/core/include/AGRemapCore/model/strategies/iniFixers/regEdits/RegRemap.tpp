@@ -17,6 +17,16 @@
 namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::pair<K, typename RegRemap<K, V, KeyHash, KeyEqual>::KeyRemapValue> RegRemap<K, V, KeyHash, KeyEqual>::renameRule(K from, std::vector<K> to) {
+        RemapList<K, V> targets;
+        for (K& key : to) {
+            targets.push_back(std::move(key));
+        }
+
+        return {std::move(from), KeyRemapValue(std::move(targets))};
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     RegRemap<K, V, KeyHash, KeyEqual>::RegRemap(std::vector<std::pair<K, KeyRemapValue>> keyRemap):
         keyRemap(std::move(keyRemap)) {}
 

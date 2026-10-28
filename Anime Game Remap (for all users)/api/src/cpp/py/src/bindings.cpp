@@ -137,6 +137,10 @@ void initCppBufFile(pybind11::module_ &m);
 void initCppBlendFile(pybind11::module_ &m);
 void initCppPositionFile(pybind11::module_ &m);
 void initCppIbFile(pybind11::module_ &m);
+void initCppWWMIBlend(pybind11::module_ &m);
+void initCppWWMIShapeKeys(pybind11::module_ &m);
+void initCppRabbitFX(pybind11::module_ &m);
+void initCppDrawUVCoverage(pybind11::module_ &m);
 void initCppVbFile(pybind11::module_ &m);
 void initCppBaseBufEditor(pybind11::module_ &m);
 void initCppBufEditor(pybind11::module_ &m);
@@ -188,6 +192,9 @@ void initCppRemapBlendResource(pybind11::module_ &m);
 void initCppRemapTexAddResource(pybind11::module_ &m);
 void initCppRemapFileAddResource(pybind11::module_ &m);
 void initCppRemapTexEditResource(pybind11::module_ &m);
+void initCppTextureRoles(pybind11::module_ &m);
+void initCppIniParseData(pybind11::module_ &m);
+void initCppTextureRoleChooser(pybind11::module_ &m);
 void initCppBaseIniParser(pybind11::module_ &m);
 void initCppGIMISectionClassifier(pybind11::module_ &m);
 void initCppGIMIParser(pybind11::module_ &m);
@@ -352,6 +359,10 @@ PYBIND11_MODULE(core, m) {
     initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
     initCppPositionFile(m); // must come after initCppBufFile
     initCppIbFile(m); // must come after initCppBufFile (registers its base)
+    initCppWWMIBlend(m); // must come after initCppBufElementType and initCppVGRemap (hands both across)
+    initCppWWMIShapeKeys(m);
+    initCppRabbitFX(m);
+    initCppDrawUVCoverage(m);
     initCppVbFile(m); // must come after initCppBufFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBaseBufEditor(m); // must come after initCppBufFile (its 'fix' method signature references it)
     initCppBufEditor(m); // must come after initCppBaseBufEditor (registers its base)
@@ -410,7 +421,10 @@ PYBIND11_MODULE(core, m) {
 
     // ----- iniParsers (full replacement of the pure-Python BaseIniParser/GIMIParser pair --
     // see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
-    initCppBaseIniParser(m);
+    initCppTextureRoles(m);
+    initCppIniParseData(m); // must come after initCppTextureRoles (hands it across)
+    initCppTextureRoleChooser(m); // must come after initCppIniParseData (fills one)
+    initCppBaseIniParser(m); // must come after initCppIniParseData (its parseData)
     initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
     initCppGIMIParser(m); // must come after initCppBaseIniParser (registers its base), initCppIniGraphGroup/initCppIniSectionGraph (the graphs it builds) and initCppRemapIniDownload (the downloads it records)
 

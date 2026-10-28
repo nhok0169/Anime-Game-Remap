@@ -200,6 +200,13 @@ namespace AGRemapCore {
                                         const std::string& kind, const std::string& ext);
 
             /**
+             * @brief The whole URL of a download: \ref downloadFolder, then \ref urlPath's six-argument form
+             */
+            static std::string url(const std::string& game, const std::string& charFolder,
+                                   const std::string& versionFolder, const std::string& prefix,
+                                   const std::string& kind, const std::string& ext);
+
+            /**
              * @brief A plain buffer resource's `KVPs`_ -- ``type = Buffer`` and the given stride
              *
              * @param stride The byte size of one vertex in the buffer

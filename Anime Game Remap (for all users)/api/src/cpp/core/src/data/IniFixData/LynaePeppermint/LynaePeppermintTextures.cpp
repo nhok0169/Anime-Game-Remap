@@ -136,6 +136,8 @@ namespace AGRemapCore {
             {"upperNormal", "14b3b873"},
         };
 
+        // the masks a flat file, or one a slot also binds for another role, is refused for
+        facts.regionRoles = {"upperMask", "lowerMask", "jacketMask", "pouchMask", "hairMask", "bangsMask"};
         return facts;
     }
 }

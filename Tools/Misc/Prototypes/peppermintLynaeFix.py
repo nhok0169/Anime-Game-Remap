@@ -144,6 +144,7 @@ def textureFacts() -> "FRB.WWMITextureFacts":
                               "pouchFoil": "00e3f13b", "upperFoil": "9934ca23",
                               # ...and her lighting ramp, refilled per character on screen
                               "ramp": "82550cee"}
+    facts.regionRoles = {"upperMask", "lowerMask", "jacketMask", "pouchMask", "hairMask", "bangsMask"}
     return facts
 
 
@@ -421,7 +422,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.texEdits = list(config.texEdits) + [E(role, "SkinCode", skinCodeSwap) for role in ("upperDetail",)]
 
     # Masks mark regions: a flat one from a mod is replaced by HER game texture
-    config.flatFallsBackToSource = {"upperMask", "lowerMask", "jacketMask", "pouchMask", "hairMask", "bangsMask"}
 
     R = FRB.WWMIFixerConfig.RegRemoval
     config.removedRegs = [

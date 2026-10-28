@@ -222,4 +222,32 @@ Returns
 :class:`bool`
     Whether the file was actually written
         )doc"));
+
+    auto textureFile = py::reinterpret_borrow<py::class_<AGRC::TextureFile>>(m.attr("CppTextureFile"));
+    py::class_<AGRC::TextureFile::DDSHeader>(textureFile, "DDSHeader", R"doc(
+What the header of a ``.dds`` file says, without reading its pixels
+    )doc")
+        .def(py::init<>())
+        .def_readwrite("width", &AGRC::TextureFile::DDSHeader::width, ":class:`int`: The width of the top mip, in pixels")
+        .def_readwrite("height", &AGRC::TextureFile::DDSHeader::height, ":class:`int`: The height of the top mip, in pixels")
+        .def_readwrite("mipCount", &AGRC::TextureFile::DDSHeader::mipCount, ":class:`int`: How many mips the file holds -- at least 1")
+        .def_readwrite("dxgiFormat", &AGRC::TextureFile::DDSHeader::dxgiFormat, R"doc(
+:class:`int`: The pixel format, as a ``DXGI_FORMAT`` value: the ``DX10`` extension's, or for a legacy
+header ``61`` (``R8_UNORM``) for one 8-bit red channel and ``87`` (``B8G8R8A8_UNORM``) for 32-bit BGRA.
+``0`` for any other legacy format
+        )doc");
+
+    textureFile.def_static("readDDSHeader", &AGRC::TextureFile::readDDSHeader, py::arg("path"), py::doc(R"doc(
+Reads the header of the ``.dds`` file at ``path``
+
+Parameters
+----------
+path: :class:`str`
+    The file
+
+Returns
+-------
+Optional[:class:`CppTextureFile.DDSHeader`]
+    The header, or ``None`` when the file is shorter than a header or is not a ``.dds`` file
+    )doc"));
 }

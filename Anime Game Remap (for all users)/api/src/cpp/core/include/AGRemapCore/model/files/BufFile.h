@@ -288,6 +288,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Every line's values for one element, as integers in line order -- ``out[line][i]`` is
+             the element's ``i``-th data type :raw-html:`<br />` :raw-html:`<br />`
+
+             The row-shaped counterpart to :cpp:func:`decodeAll`, for a caller that works a vertex
+             at a time: a `blend`_ buffer's ids or weights, or an index buffer's triangles
+             @endrst
+             *
+             * @param elementKey The element to take, eg. :cpp:member:`BlendFile::BlendIndicesKey`
+             * @param width How many data types of the element to keep per line. A line whose element
+             *      has fewer is padded with zeros, and one with more is cut at 'width'
+             *
+             * @return One row of 'width' values per line. Empty when the file has no such element
+             */
+            std::vector<std::vector<long long>> rows(const std::string& elementKey, std::size_t width) const;
+
+            /**
+             * @brief One data type of one element, as numbers in line order -- see \ref rows
+             *
+             * @param elementKey The element to take
+             * @param valueInd Which of the element's data types
+             *
+             * @return One value per line. Empty when the file has no such column
+             */
+            std::vector<double> column(const std::string& elementKey, std::size_t valueInd) const;
+
+            /**
+             * @brief
+             @rst
              Merges several other ``.buf`` files into this one, line by line :raw-html:`<br />`
              :raw-html:`<br />`
 

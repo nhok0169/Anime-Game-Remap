@@ -20,7 +20,6 @@
 
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/WWMITextureFacts.h"
-#include "AGRemapCore/data/WWMITextureRoles.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
 
 
@@ -88,8 +87,8 @@ namespace AGRemapCore {
          What this character's own textures look like, so the mod's texture files can be sorted into
          ROLES :raw-html:`<br />` :raw-html:`<br />`
 
-         Left empty, the parser builds no index and :cpp:class:`WWMIParseFacts` answers ``nullptr``;
-         the fixer then builds its own.
+         Left empty, the parser records no roles and :cpp:func:`IniParseData::textureRoles` answers
+         ``nullptr``; the fixer then gives up, since it cannot tell what any texture is.
 
          .. note::
             The intended end state for :cpp:member:`WWMITextureFacts::roles` is that it is EMPTY and
@@ -101,35 +100,6 @@ namespace AGRemapCore {
          @endrst
          */
         WWMITextureFacts textures;
-    };
-
-
-    /**
-     * @brief
-     @rst
-     What a parser from :cpp:func:`makeWWMIParser` learned about a ``.ini`` file that its fixer needs
-     :raw-html:`<br />` :raw-html:`<br />`
-
-     The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser,
-     or a config with no :cpp:member:`WWMIParserConfig::textures`), the fixer falls back to building
-     its own index :raw-html:`<br />` :raw-html:`<br />`
-
-     The same shape as :cpp:class:`GIMIComponentParseFacts`, for the same reason: deciding what a
-     mod's files ARE is the parser's job, and the fixer only needs the answer
-     @endrst
-     */
-    class WWMIParseFacts {
-        public:
-            virtual ~WWMIParseFacts() = default;
-
-            /**
-             * @brief
-             @rst
-             Every texture the ``.ini`` names with the role it plays, or ``nullptr`` when the parser
-             was given no :cpp:member:`WWMIParserConfig::textures` to sort them by
-             @endrst
-             */
-            virtual const WWMITextureRoles* textureRoles() const = 0;
     };
 
 

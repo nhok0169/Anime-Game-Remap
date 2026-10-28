@@ -11,7 +11,7 @@
 
 // ##### EndCredits
 
-#include "AGRemapCore/data/WWMITextureRoles.h"
+#include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 
 #include <algorithm>
 
@@ -20,7 +20,7 @@
 
 namespace AGRemapCore {
 
-    void WWMITextureRoles::add(const std::string& file, const std::string& role, const std::string& how) {
+    void TextureRoles::add(const std::string& file, const std::string& role, const std::string& how) {
         if (file.empty() || role.empty()) {
             return;
         }
@@ -40,7 +40,7 @@ namespace AGRemapCore {
         roles.push_back(Role{role, how});
     }
 
-    void WWMITextureRoles::addResource(const std::string& iniPath, const std::string& resource,
+    void TextureRoles::addResource(const std::string& iniPath, const std::string& resource,
                                         const std::string& file) {
         if (resource.empty() || file.empty()) {
             return;
@@ -49,11 +49,11 @@ namespace AGRemapCore {
         resourcesByIni_[FileService::pathKey(iniPath)].emplace_back(resource, file);
     }
 
-    const std::unordered_map<std::string, std::vector<WWMITextureRoles::Role>>& WWMITextureRoles::rolesOf() const {
+    const std::unordered_map<std::string, std::vector<TextureRoles::Role>>& TextureRoles::rolesOf() const {
         return rolesOf_;
     }
 
-    const std::vector<std::pair<std::string, std::string>>& WWMITextureRoles::resourcesOf(
+    const std::vector<std::pair<std::string, std::string>>& TextureRoles::resourcesOf(
             const std::string& iniPath) const {
         static const std::vector<std::pair<std::string, std::string>> none;
         auto it = resourcesByIni_.find(FileService::pathKey(iniPath));

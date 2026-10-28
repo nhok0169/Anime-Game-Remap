@@ -365,6 +365,17 @@ BufUnSignedInt
 
 :raw-html:`<br />`
 
+DrawUVCoverage
+--------------
+
+.. cppattributetable:: AGRemapCore::DrawUVCoverage
+
+.. doxygenclass:: AGRemapCore::DrawUVCoverage
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IbFile
 ------
 
@@ -492,6 +503,28 @@ VGRemap
 .. cppattributetable:: AGRemapCore::VGRemap
 
 .. doxygenclass:: AGRemapCore::VGRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIBlend
+---------
+
+.. cppattributetable:: AGRemapCore::WWMIBlend
+
+.. doxygenclass:: AGRemapCore::WWMIBlend
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+WWMIShapeKeys
+-------------
+
+.. cppattributetable:: AGRemapCore::WWMIShapeKeys
+
+.. doxygenclass:: AGRemapCore::WWMIShapeKeys
     :members:
     :protected-members:
 
@@ -770,6 +803,17 @@ ModDataAssets
     :protected-members:
 
 :raw-html:`<br />`
+
+RabbitFX
+--------
+
+.. cppattributetable:: AGRemapCore::RabbitFX
+
+.. doxygenclass:: AGRemapCore::RabbitFX
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Graph Edits
@@ -838,6 +882,17 @@ RegFillMissing
 .. cppattributetable:: AGRemapCore::RegFillMissing
 
 .. doxygenclass:: AGRemapCore::RegFillMissing
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegIfTemplateAdd
+----------------
+
+.. cppattributetable:: AGRemapCore::RegIfTemplateAdd
+
+.. doxygenclass:: AGRemapCore::RegIfTemplateAdd
     :members:
     :protected-members:
 
@@ -1716,12 +1771,45 @@ IniParseContext
 
 :raw-html:`<br />`
 
+IniParseData
+------------
+
+.. cppattributetable:: AGRemapCore::IniParseData
+
+.. doxygenclass:: AGRemapCore::IniParseData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniParseDownloadData
 --------------------
 
 .. cppattributetable:: AGRemapCore::IniParseDownloadData
 
 .. doxygenclass:: AGRemapCore::IniParseDownloadData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureRoleChooser
+------------------
+
+.. cppattributetable:: AGRemapCore::TextureRoleChooser
+
+.. doxygenclass:: AGRemapCore::TextureRoleChooser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureRoles
+------------
+
+.. cppattributetable:: AGRemapCore::TextureRoles
+
+.. doxygenclass:: AGRemapCore::TextureRoles
     :members:
     :protected-members:
 

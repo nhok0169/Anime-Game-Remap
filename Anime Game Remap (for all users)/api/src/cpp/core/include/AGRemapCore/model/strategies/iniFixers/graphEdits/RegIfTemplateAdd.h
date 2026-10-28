@@ -121,8 +121,34 @@ namespace AGRemapCore {
                 /**
                  * @brief Right after the first `KVP`_ whose key is \ref key, at that `KVP`_'s depth
                  */
-                AfterKey
+                AfterKey,
+
+                /**
+                 * @brief
+                 @rst
+                 Right before the first `KVP`_ at the `section`_'s top level (outside every ``if``)
+                 whose key is \ref key
+                 @endrst
+                 */
+                BeforeTopKey,
+
+                /**
+                 * @brief
+                 @rst
+                 Right before the `section`_'s first top-level ``if``
+                 @endrst
+                 */
+                BeforeFirstIf
             };
+
+            /**
+             * @brief
+             @rst
+             Which `sections`_ the edit adds to, asked of each with its name -- see
+             \ref sectionFilter
+             @endrst
+             */
+            using SectionFilter = std::function<bool(const std::string& name, const Section& section)>;
 
             /**
              * @brief
@@ -139,24 +165,55 @@ namespace AGRemapCore {
             Position position;
 
             /**
-             * @brief The key \ref Position::AfterKey inserts after
+             * @brief The key \ref Position::AfterKey inserts after, and \ref Position::BeforeTopKey before
              */
             K key;
+
+            /**
+             * @brief
+             @rst
+             The value the \ref key `KVP`_ must have for \ref Position::AfterKey and
+             \ref Position::BeforeTopKey to take it. ``std::nullopt`` (the default) takes any value
+             @endrst
+             */
+            std::optional<V> value;
+
+            /**
+             * @brief
+             @rst
+             Whether the parts go into EVERY `section`_ of the graph -- the ones its roots call
+             included -- rather than only its roots. **Default**: ``false``
+             @endrst
+             */
+            bool everySection = false;
+
+            /**
+             * @brief
+             @rst
+             Which `sections`_ the edit adds to: one it answers ``false`` for is left alone. Empty
+             (the default) takes every `section`_. Asked after a \ref BaseIniGraphEdit::PartFilter,
+             and only of a `section`_ that has a place for the parts
+             @endrst
+             */
+            SectionFilter sectionFilter;
 
             /**
              * @brief Constructs a new template-adding edit
              *
              * @param ifTemplate The template whose parts are added -- see \ref ifTemplate
              * @param position Where in each root the parts go. **Default**: \ref Position::Bottom
-             * @param key The key \ref Position::AfterKey inserts after. **Default**: empty
+             * @param key The key \ref Position::AfterKey inserts after, and \ref Position::BeforeTopKey
+             *      before. **Default**: empty
              */
             explicit RegIfTemplateAdd(const Section* ifTemplate = nullptr, Position position = Position::Bottom, K key = K());
 
             /**
              @rst
-             Adds the parts of \ref ifTemplate into every root `section`_ of 'graph'. A
-             \ref BaseIniGraphEdit::PartFilter given is asked about the root's first
-             :cpp:class:`IfContentPart`, and a root it rejects is left alone
+             Adds the parts of \ref ifTemplate into every root `section`_ of 'graph' (every
+             `section`_ with \ref everySection). A \ref BaseIniGraphEdit::PartFilter given is asked
+             about the `section`_'s first :cpp:class:`IfContentPart`, and a `section`_ it or
+             \ref sectionFilter rejects is left alone, as is one with no place for the parts
+             (no \ref key, or no top-level ``if``)
              @endrst
              *
              * @copydoc BaseIniGraphEdit::edit

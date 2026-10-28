@@ -20,6 +20,7 @@
 #include <functional>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -165,6 +166,42 @@ namespace AGRemapCore {
          @endrst
          */
         std::map<std::string, std::string> fallbackTextures;
+
+        /**
+         * @brief
+         @rst
+         The roles whose texture marks REGIONS -- a material mask says which material each texel is
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         A file the mod ships for one of these is refused (:cpp:class:`TextureRoleChooser`) when it is
+         flat -- ``R = 255`` everywhere says "all of this is bare skin", which carried across shades a
+         jacket as skin -- or when one slot binds it for this role and another too, which is a mask
+         pointed at the slot's normal map. A refused role is one the mod has no file for, so it takes
+         :cpp:member:`fallbackTextures`, unless the fix leaves it to the game
+         (:cpp:member:`WWMIFixerConfig::flatLeftToGame`) :raw-html:`<br />` :raw-html:`<br />`
+
+         .. note::
+            Only for roles that mark regions. A DIFFUSE may legitimately be one flat colour, and a
+            normal map is nearly flat by construction, so naming either here would throw away art the
+            mod meant :raw-html:`<br />` :raw-html:`<br />`
+
+            Empty (the default) keeps every candidate whatever its pixels
+         @endrst
+         */
+        std::set<std::string> regionRoles;
+
+        /**
+         * @brief
+         @rst
+         Also look for a second ``.ini`` on the mod's own draws in the FOLDERS BELOW the one being
+         read, not only beside it and in the two above it. 3DMigoto loads every ``.ini`` under its
+         ``Mods`` folder, so a mod may keep its mesh in ``mod.ini`` and bind every texture from a
+         ``Textures/textures.ini`` that overrides the same draws -- which on the target never fires,
+         leaving each role to be downloaded from the GAME over the mod's art. Folders whose name starts
+         with ``DISABLED`` are skipped, as the game skips them. **Default**: ``false``
+         @endrst
+         */
+        bool readInisBelow = false;
     };
 
 }

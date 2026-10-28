@@ -94,15 +94,20 @@ namespace AGRemapCore {
 
 
     std::vector<std::string> TextureOverrides::siblingInis(IniFile* iniFile) {
-        std::vector<std::string> result;
         if (iniFile == nullptr || !iniFile->getFile().has_value()) {
-            return result;
+            return {};
         }
 
-        std::error_code error;
         const std::filesystem::path self = FileService::strToPath(*iniFile->getFile());
-        for (const auto& entry : std::filesystem::directory_iterator(self.parent_path(), error)) {
-            if (!entry.is_regular_file(error) || std::filesystem::equivalent(entry.path(), self, error)) {
+        return loadedInis(self.parent_path(), self);
+    }
+
+
+    std::vector<std::string> TextureOverrides::loadedInis(const std::filesystem::path& dir, const std::filesystem::path& exclude) {
+        std::vector<std::string> result;
+        std::error_code error;
+        for (const auto& entry : std::filesystem::directory_iterator(dir, error)) {
+            if (!entry.is_regular_file(error) || std::filesystem::equivalent(entry.path(), exclude, error)) {
                 continue;
             }
 

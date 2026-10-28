@@ -15,6 +15,8 @@
 
 #include <string>
 
+#include <pybind11/stl.h>
+
 #include "AGRemapCore/model/files/BufFileErrors.h"
 #include "AGRemapCore/model/files/IbFile.h"
 #include "../buffers/PyBufBytes.h"
@@ -122,6 +124,46 @@ Returns
 -------
 :class:`int`
     The number of indices
+    )doc"));
+
+    ibFile.def("getIndices", &AGRC::IbFile::getIndices, py::doc(R"doc(
+Every vertex index in the file, in order -- the list a ``drawindexed = <count>, <first>, 0`` addresses,
+with ``first`` counted in indices rather than triangles
+
+Returns
+-------
+List[:class:`int`]
+    :meth:`getIndexCount` indices
+    )doc"));
+
+    ibFile.def("windingReversed", [](const AGRC::IbFile& self, std::size_t firstIndex, std::size_t indexCount) {
+        const AGRC::ByteVec bytes = self.windingReversed(firstIndex, indexCount);
+        return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+    }, py::arg("firstIndex"), py::arg("indexCount"), py::doc(R"doc(
+The bytes of an index buffer holding one span of this file's indices with every triangle wound the other
+way -- the same vertices, presented to the rasterizer as their back faces
+
+Each triangle ``(a, b, c)`` of the span becomes ``(a, c, b)``. The span is laid out from index 0, so a draw
+of ``count, first`` into this file is ``count, first - firstIndex`` into the result. Written at this file's
+own index width
+
+Parameters
+----------
+firstIndex: :class:`int`
+    The index the span starts at
+
+indexCount: :class:`int`
+    How many indices the span holds. A trailing part-triangle is left zero
+
+Returns
+-------
+:class:`bytes`
+    The bytes, ``indexCount`` indices long
+
+Raises
+------
+:class:`IndexError`
+    If the span runs past the end of the file
     )doc"));
 
     ibFile.def("makeDumpHeader", &AGRC::IbFile::makeDumpHeader, py::arg("firstIndex") = 0, py::doc(R"doc(

@@ -389,7 +389,115 @@ see :class:`RegAssetRemap`
 Written in place of a ``match_first_index`` that has no mapping onto the mod being
 fixed to -- the index counterpart of :attr:`HashNotFound`
         )doc"))
+        .def_readonly_static("Copy", &AGRC::IniKeywords::Copy, py::doc(R"doc(
+The statement that fills a resource with a copy of another: ``ResourceX = copy ResourceY``
+        )doc"))
+        .def_readonly_static("CopyDesc", &AGRC::IniKeywords::CopyDesc, py::doc(R"doc(
+The statement that gives a resource another's description only: ``ResourceX = copy_desc ResourceY``
+        )doc"))
         .def_readonly_static("HideOriginalComment", &AGRC::IniKeywords::HideOriginalComment, py::doc(R"doc(
 The comment marker used to hide (comment out) a previously-fixed original `section`_
+        )doc"))
+        .def_readonly_static("Global", &AGRC::IniKeywords::Global, py::doc(R"doc(
+The statement keyword that declares a variable for the whole ``.ini`` file: ``global $x = 0``
+        )doc"))
+        .def_readonly_static("Local", &AGRC::IniKeywords::Local, py::doc(R"doc(
+The statement keyword that declares a variable for one `section`_: ``local $x``
+        )doc"))
+        .def_readonly_static("Post", &AGRC::IniKeywords::Post, py::doc(R"doc(
+The keyword that runs a line after the frame's draws rather than before them: ``post $x = 0``
+        )doc"))
+        .def_readonly_static("Skip", &AGRC::IniKeywords::Skip, py::doc(R"doc(
+The :attr:`Handling` value that stops the game drawing what a `section`_ matched
+        )doc"))
+        .def_readonly_static("Buffer", &AGRC::IniKeywords::Buffer, py::doc(R"doc(
+The :attr:`Type` of a resource holding a vertex, index or constant buffer
+        )doc"))
+        .def_readonly_static("Present", &AGRC::IniKeywords::Present, py::doc(R"doc(
+The `section`_ 3dmigoto runs once a frame, after every draw
+        )doc"))
+        .def_readonly_static("Constants", &AGRC::IniKeywords::Constants, py::doc(R"doc(
+The `section`_ 3dmigoto runs once, when the ``.ini`` file loads -- where ``global`` variables are declared
+        )doc"))
+        .def_readonly_static("WWMINamespace", &AGRC::IniKeywords::WWMINamespace, py::doc(R"doc(
+The namespace of WWMI's own variables and command lists, which every WWMI mod's ``.ini`` calls into
+        )doc"))
+        .def_readonly_static("WWMIVgOffset", &AGRC::IniKeywords::WWMIVgOffset, py::doc(R"doc(
+The first merged-skeleton bone of the component a WWMI draw is for
+        )doc"))
+        .def_readonly_static("WWMIVgCount", &AGRC::IniKeywords::WWMIVgCount, py::doc(R"doc(
+How many merged-skeleton bones the component a WWMI draw is for has
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyChecksum", &AGRC::IniKeywords::WWMIShapeKeyChecksum, py::doc(R"doc(
+The checksum WWMI checks a mod's shape keys against before applying them
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyDispatchSizeYOriginalBatch", &AGRC::IniKeywords::WWMIShapeKeyDispatchSizeYOriginalBatch, py::doc(R"doc(
+How many groups WWMI's shape-key compute pass dispatches over the game's own shape keys
+        )doc"))
+        .def_readonly_static("WWMICustomMeshScale", &AGRC::IniKeywords::WWMICustomMeshScale, py::doc(R"doc(
+The scale WWMI's skeleton shaders apply to a mod's mesh
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapId", &AGRC::IniKeywords::WWMIBlendRemapId, py::doc(R"doc(
+Which of a mod's blend remaps WWMI's ``BlendRemapper`` applies
+        )doc"))
+        .def_readonly_static("WWMIWeightsPerVertexCount", &AGRC::IniKeywords::WWMIWeightsPerVertexCount, py::doc(R"doc(
+How many bone influences a vertex of the mod's ``Blend.buf`` carries, as WWMI's ``BlendRemapper`` reads it
+        )doc"))
+        .def_readonly_static("WWMICustomVertexCount", &AGRC::IniKeywords::WWMICustomVertexCount, py::doc(R"doc(
+The vertex count WWMI's compute shaders run over
+        )doc"))
+        .def_readonly_static("WWMISkeletonMerger", &AGRC::IniKeywords::WWMISkeletonMerger, py::doc(R"doc(
+WWMI's shader that merges one component's bones into the mod's merged skeleton
+        )doc"))
+        .def_readonly_static("WWMISkeletonRemapper", &AGRC::IniKeywords::WWMISkeletonRemapper, py::doc(R"doc(
+WWMI's shader that remaps a merged skeleton through a blend remap
+        )doc"))
+        .def_readonly_static("WWMIBlendRemapper", &AGRC::IniKeywords::WWMIBlendRemapper, py::doc(R"doc(
+WWMI's shader that writes a mod's remapped ``Blend.buf`` at load
+        )doc"))
+        .def_readonly_static("WWMIObjectDetected", &AGRC::IniKeywords::WWMIObjectDetected, py::doc(R"doc(
+The flag every `section`_ of a WWMI mod sets when its character is drawn, and its ``[Present]`` resets each frame
+        )doc"))
+        .def_readonly_static("WWMIModEnabled", &AGRC::IniKeywords::WWMIModEnabled, py::doc(R"doc(
+The flag a WWMI mod draws under once WWMI has registered it
+        )doc"))
+        .def_readonly_static("WWMIMeshVertexCount", &AGRC::IniKeywords::WWMIMeshVertexCount, py::doc(R"doc(
+The ``global`` a WWMI mod declares its mesh's vertex count in
+        )doc"))
+        .def_readonly_static("WWMIStateId", &AGRC::IniKeywords::WWMIStateId, py::doc(R"doc(
+WWMI's per-frame state counter, which a mod compares to run a merge once a frame
+        )doc"))
+        .def_readonly_static("WWMIBlendBuffer", &AGRC::IniKeywords::WWMIBlendBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Blend.buf`` resource
+        )doc"))
+        .def_readonly_static("WWMIBlendBufferOverride", &AGRC::IniKeywords::WWMIBlendBufferOverride, py::doc(R"doc(
+The resource WWMI's ``BlendRemapper`` fills with a mod's remapped blend
+        )doc"))
+        .def_readonly_static("WWMIIndexBuffer", &AGRC::IniKeywords::WWMIIndexBuffer, py::doc(R"doc(
+A WWMI Tools export's index buffer resource
+        )doc"))
+        .def_readonly_static("WWMIPositionBuffer", &AGRC::IniKeywords::WWMIPositionBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Position.buf`` resource
+        )doc"))
+        .def_readonly_static("WWMITexcoordBuffer", &AGRC::IniKeywords::WWMITexcoordBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Texcoord.buf`` resource
+        )doc"))
+        .def_readonly_static("WWMIVectorBuffer", &AGRC::IniKeywords::WWMIVectorBuffer, py::doc(R"doc(
+A WWMI Tools export's ``Vector.buf`` resource: each vertex's normal and tangent
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyOffsetBuffer", &AGRC::IniKeywords::WWMIShapeKeyOffsetBuffer, py::doc(R"doc(
+A WWMI Tools export's shape-key offsets: the first entry of each key slot -- see :class:`WWMIShapeKeys`
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyVertexIdBuffer", &AGRC::IniKeywords::WWMIShapeKeyVertexIdBuffer, py::doc(R"doc(
+A WWMI Tools export's shape-key vertex ids -- see :class:`WWMIShapeKeys`
+        )doc"))
+        .def_readonly_static("WWMIShapeKeyVertexOffsetBuffer", &AGRC::IniKeywords::WWMIShapeKeyVertexOffsetBuffer, py::doc(R"doc(
+A WWMI Tools export's shape-key vertex offsets -- see :class:`WWMIShapeKeys`
+        )doc"))
+        .def_readonly_static("RabbitFXSetTexturesPath", &AGRC::IniKeywords::RabbitFXSetTexturesPath, py::doc(R"doc(
+RabbitFX's command list that binds the maps a mod hands it and sets its routing flags -- see :class:`RabbitFX`
+        )doc"))
+        .def_readonly_static("RabbitFXResourceFolder", &AGRC::IniKeywords::RabbitFXResourceFolder, py::doc(R"doc(
+The folder RabbitFX's resources live under -- a mod hands RabbitFX its maps as resources under it
         )doc"));
 }

@@ -153,6 +153,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
                               if role not in NoFallback and os.path.isfile(os.path.join(Downloads, f"ChangliNymphTexture{h}.dds"))}
     # not a game texture: Changli's own blindfold diffuse in the skin's white lace (changliNymphBlindfold.py)
     facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnChangli"}
+    facts.regionRoles = {"bodyMask", "faceMask"}
+    facts.readInisBelow = True
     return facts
 
 
@@ -288,7 +290,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
                               created("flatDetail", FRB.CppColour(70, 70, 70, 0))]
 
     config.sourceTextures = facts
-    config.flatFallsBackToSource = {"bodyMask", "faceMask"}
 
     # ---- her see-through parts' diffuse ALPHA is opacity (mean 165 on the sheer dress, 221 on the shawl,
     # up to 255) on their own shaders; on Changli's opaque shaders alpha is a scalar her own diffuses keep
@@ -353,7 +354,6 @@ def fixerConfig(facts) -> "FRB.WWMIFixerConfig":
     config.shapeKeyOrder = list(range(14, 86)) + [-1] * 14
     config.cleanTexcoords = True
     config.carryByRegisterRole = True
-    config.readInisBelow = True
     # her slots reach bone 275 (276 x 3 float4 = 828), past the 768 default
     config.mergedSkeletonSlots = 1536
     config.copiesShareSkeleton = True

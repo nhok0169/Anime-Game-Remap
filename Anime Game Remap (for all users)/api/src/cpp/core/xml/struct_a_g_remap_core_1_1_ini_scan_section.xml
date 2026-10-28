@@ -34,6 +34,24 @@
         </inbodydescription>
         <location file="include/AGRemapCore/model/files/IniScan.h" line="41" column="21" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="41" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_scan_section_1a7c45925a37a8dbc007e494e4dc8b0175" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::IniScanSection::lines</definition>
+        <argsstring></argsstring>
+        <name>lines</name>
+        <qualifiedname>AGRemapCore::IniScanSection::lines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every line of the section after its header, stripped, in file order -- ``if`` lines and
+lines with no ``=`` included, blank lines and ``;`` comments not
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/IniScan.h" line="50" column="21" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -42,9 +60,10 @@
 One `section`_ as :cpp:class:`IniScan` read it: a name, and its `KVPs`_ in file order
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/files/IniScan.h" line="31" column="5" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="31" bodyend="42"/>
+    <location file="include/AGRemapCore/model/files/IniScan.h" line="31" column="5" bodyfile="include/AGRemapCore/model/files/IniScan.h" bodystart="31" bodyend="51"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_scan_section_1ade0fc5344ce2fe9089ddecca8339431e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScanSection</scope><name>kvps</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_scan_section_1a7c45925a37a8dbc007e494e4dc8b0175" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScanSection</scope><name>lines</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_scan_section_1ae2c1f8cbf26f537c37053e0c9162decf" prot="public" virt="non-virtual"><scope>AGRemapCore::IniScanSection</scope><name>name</name></member>
     </listofallmembers>
   </compounddef>

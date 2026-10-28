@@ -39,6 +39,15 @@ namespace AGRemapCore {
          * @brief The section's ``key = value`` pairs, both sides stripped, in the order they appear
          */
         std::vector<std::pair<std::string, std::string>> kvps;
+
+        /**
+         * @brief
+         @rst
+         Every line of the section after its header, stripped, in file order -- ``if`` lines and
+         lines with no ``=`` included, blank lines and ``;`` comments not
+         @endrst
+         */
+        std::vector<std::string> lines;
     };
 
 
@@ -92,6 +101,15 @@ namespace AGRemapCore {
              * @return Its sections, or an empty list if the file will not open
              */
             static std::vector<IniScanSection> scan(const std::string& path);
+
+            /**
+             * @brief The same as \ref scan, over an ``.ini`` file's text rather than its path
+             *
+             * @param text The text of the ``.ini`` file
+             *
+             * @return Its sections, in file order
+             */
+            static std::vector<IniScanSection> scanText(const std::string& text);
 
             /**
              * @brief

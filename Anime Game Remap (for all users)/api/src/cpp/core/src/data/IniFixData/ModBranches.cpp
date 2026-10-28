@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "AGRemapCore/constants/IniKeywords.h"
@@ -333,6 +334,55 @@ namespace AGRemapCore {
         }
 
         return std::nullopt;
+    }
+
+
+    std::vector<std::string> ModBranches::looseValsThroughRun(const Templates& templates, const std::string& rootSection,
+                                                              const std::string& key) {
+        std::unordered_map<std::string, const Template*> byName;
+        for (const auto& entry : templates) {
+            if (entry.second != nullptr) {
+                byName.emplace(StringTools::toLower(entry.first), entry.second.get());
+            }
+        }
+
+        const std::string want = looseKey(key);
+        const std::string run = StringTools::toLower(IniKeywords::Run);
+        std::vector<std::string> out;
+        std::vector<std::string> todo{StringTools::toLower(rootSection)};
+        std::unordered_set<std::string> seen;
+        while (!todo.empty()) {
+            const std::string name = todo.back();
+            todo.pop_back();
+            if (!seen.insert(name).second) {
+                continue;
+            }
+
+            const auto section = byName.find(name);
+            if (section == byName.end()) {
+                continue;
+            }
+
+            for (const auto& part : section->second->parts()) {
+                const auto* content = dynamic_cast<const Template::ContentPart*>(part.get());
+                if (content == nullptr) {
+                    continue;
+                }
+
+                for (const std::string& candidate : content->getKeys()) {
+                    const std::string loose = looseKey(candidate);
+                    for (const std::string& val : content->getVals(candidate)) {
+                        if (loose == want) {
+                            out.emplace_back(StringTools::strip(val));
+                        } else if (loose == run) {
+                            todo.push_back(StringTools::toLower(std::string(StringTools::strip(val))));
+                        }
+                    }
+                }
+            }
+        }
+
+        return out;
     }
 
 

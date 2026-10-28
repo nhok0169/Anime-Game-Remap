@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="320" column="23" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="320" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="341" column="23" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="341" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -175,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="96" column="23" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="32" bodyend="34"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="96" column="23" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ad5d9346915a22d3a9ca5d86bb8198e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_branch_val" kindref="compound">BranchVal</ref> &gt;</type>
@@ -235,7 +235,7 @@ sections, because a fixer is constructed before the parser runs
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="113" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="37" bodyend="103"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="113" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="38" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1addc39d6ed906b817553da5a2d06c0ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -262,7 +262,7 @@ sections, because a fixer is constructed before the parser runs
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="119" column="27" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="106" bodyend="114"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="119" column="27" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="107" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1aa288fec2ef963ce1da04b73d64193f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
@@ -298,7 +298,7 @@ is reparented once here first
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="135" column="27" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="117" bodyend="123"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="135" column="27" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="118" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1aa7d1f153a9821ff05d0698c39e0f1cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -321,7 +321,7 @@ is reparented once here first
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="140" column="18" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="126" bodyend="128"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="140" column="18" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="127" bodyend="129"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a8bbfe3ef7382f569861eb280b7ba646c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>long long</type>
@@ -352,7 +352,7 @@ has one candidate, and every query belongs to it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="154" column="23" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="131" bodyend="156"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="154" column="23" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="132" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a29b6f5a0ba507cef63e5d4b97f41efe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -413,7 +413,7 @@ query does not constrain this register, and any of them is then a correct readin
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="172" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="159" bodyend="176"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="172" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="160" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -439,7 +439,7 @@ no condition, since an unconditional value is taken everywhere
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="182" column="18" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="179" bodyend="187"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="182" column="18" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="180" bodyend="188"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a346ee0a12fd68f18d20d1f5c72761f31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &gt;</type>
@@ -480,7 +480,7 @@ combination that can actually be selected. A list of one value refines nothing
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="201" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="190" bodyend="238"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="201" column="25" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="191" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a1e103c3914180208a3d4aa810ea0b1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add" kindref="compound">RegBranchAdd</ref>&lt;&gt; &gt;</type>
@@ -541,7 +541,7 @@ branch whose replacements come back empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="224" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="241" bodyend="263"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="224" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="242" bodyend="264"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a3b3c2910d7ecdf2dc09a705af4334df5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_branch_add" kindref="compound">RegBranchAdd</ref>&lt;&gt; &gt;</type>
@@ -598,7 +598,7 @@ one branch is left alone, and so is a branch whose removals come back empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="244" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="266" bodyend="288"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="244" column="29" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="267" bodyend="289"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -623,7 +623,7 @@ one branch is left alone, and so is a branch whose removals come back empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="250" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="291" bodyend="305"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="250" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="292" bodyend="306"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1ad4a6a00694eb16c89ed0f15d116a6711" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -657,7 +657,7 @@ with every backslash written as a forward slash
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="263" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="308" bodyend="312"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="263" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="309" bodyend="313"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a30e38afd6dbcb5ab1424db279a6add5d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -711,7 +711,70 @@ Like :cpp:func:`firstVal`, but matching the key through :cpp:func:`looseKey`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="285" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="315" bodyend="336"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="285" column="34" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="316" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1af86ab4388394cd9fc3d2a60bbfd65066" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ModBranches::looseValsThroughRun</definition>
+        <argsstring>(const Templates &amp;templates, const std::string &amp;rootSection, const std::string &amp;key)</argsstring>
+        <name>looseValsThroughRun</name>
+        <qualifiedname>AGRemapCore::ModBranches::looseValsThroughRun</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_branches_1a018631a8f15970525779073bb339eda9" kindref="member">Templates</ref> &amp;</type>
+          <declname>templates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rootSection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every value of ``key`` in ``rootSection`` and in every `section`_ of ``templates`` it
+reaches through ``run =``, the key matched through :cpp:func:`looseKey` and the section
+names without regard to case, as 3dmigoto matches them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The unconditional counterpart of #valsThroughRun, for a ``.ini`` the caller only reads --
+another file of the mod, say. A ``run =`` naming no section of ``templates`` (another
+file&apos;s, or a library&apos;s) is not followed
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>templates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file&apos;s parsed sections </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootSection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section to start from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to read, matched loosely</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The values, stripped, root section first </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="305" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="340" bodyend="386"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a38fdec1169b919fb688764d8d9bef55a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -733,7 +796,7 @@ an empty one, or ``null``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="294" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="339" bodyend="345"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="315" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="389" bodyend="395"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1acffd2f631f449b8f681e018e1ee6d9d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -789,7 +852,7 @@ no section or its section no ``filename``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="307" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="348" bodyend="364"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="328" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="398" bodyend="414"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -816,7 +879,7 @@ none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="317" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="367" bodyend="375"/>
+        <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="338" column="32" bodyfile="src/data/IniFixData/ModBranches.cpp" bodystart="417" bodyend="425"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -857,7 +920,7 @@ and so will a fix of several components onto several
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="82" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="82" bodyend="321"/>
+    <location file="include/AGRemapCore/data/IniFixData/ModBranches.h" line="82" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ModBranches.h" bodystart="82" bodyend="342"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a5d430a04d9d31b3ee17827cce515cbe7" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>anyCompatible</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a8bbfe3ef7382f569861eb280b7ba646c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>branchIndexOf</name></member>
@@ -873,6 +936,7 @@ and so will a fix of several components onto several
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a9b18cb2556065d736f4eb9db0664d321" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ibBytesPerIndexOf</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1aa288fec2ef963ce1da04b73d64193f21" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>localQuery</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ad4a6a00694eb16c89ed0f15d116a6711" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>looseKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_branches_1af86ab4388394cd9fc3d2a60bbfd65066" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>looseValsThroughRun</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1a1d61873028b334a4ea001aee2b60e6db" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ab8c5ca8bf8f99fbbd9dbb97e4231907c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_branches_1ae390f59903979213f5747ca64ab4bec8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModBranches</scope><name>ModBranches</name></member>

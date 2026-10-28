@@ -281,6 +281,22 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The statement that fills a resource with a copy of another: ``ResourceX = copy ResourceY``
+             @endrst
+             */
+            static inline const std::string Copy = "copy";
+
+            /**
+             * @brief
+             @rst
+             The statement that gives a resource another's description only: ``ResourceX = copy_desc ResourceY``
+             @endrst
+             */
+            static inline const std::string CopyDesc = "copy_desc";
+
+            /**
+             * @brief
+             @rst
              The `KVP`_ key naming a `section`_'s index buffer -- also the last index column of the
              :cpp:class:`Hashes` row holding that buffer's hash
              @endrst
@@ -410,6 +426,14 @@ namespace AGRemapCore {
             static inline const std::string PsT69 = "ps-t69";
 
             /**
+             * @brief
+             @rst
+             `TexFx`_'s variable that, at ``-1``, makes it leave a draw to the game's own shader
+             @endrst
+             */
+            static inline const std::string TexFxUseDefaultShader = "$\\TexFx\\use_default_shader";
+
+            /**
              * @brief The second of `TexFx`_'s two dedicated registers -- see \ref PsT69
              */
             static inline const std::string PsT70 = "ps-t70";
@@ -479,6 +503,278 @@ namespace AGRemapCore {
              * @brief The comment marker used to hide (comment out) a previously-fixed original `section`_
              */
             static inline const std::string HideOriginalComment = ";RemapFixHideOrig -->";
+
+            /**
+             * @brief
+             @rst
+             The statement keyword that declares a variable for the whole ``.ini`` file: ``global $x = 0``
+             @endrst
+             */
+            static inline const std::string Global = "global";
+
+            /**
+             * @brief
+             @rst
+             The statement keyword that declares a variable for one `section`_: ``local $x``
+             @endrst
+             */
+            static inline const std::string Local = "local";
+
+            /**
+             * @brief
+             @rst
+             The keyword that runs a line after the frame's draws rather than before them: ``post $x = 0``
+             @endrst
+             */
+            static inline const std::string Post = "post";
+
+            /**
+             * @brief
+             @rst
+             The :cpp:member:`Handling` value that stops the game drawing what a `section`_ matched
+             @endrst
+             */
+            static inline const std::string Skip = "skip";
+
+            /**
+             * @brief
+             @rst
+             The :cpp:member:`Type` of a resource holding a vertex, index or constant buffer
+             @endrst
+             */
+            static inline const std::string Buffer = "Buffer";
+
+            /**
+             * @brief
+             @rst
+             The `section`_ 3dmigoto runs once a frame, after every draw
+             @endrst
+             */
+            static inline const std::string Present = "Present";
+
+            /**
+             * @brief
+             @rst
+             The `section`_ 3dmigoto runs once, when the ``.ini`` file loads -- where ``global`` variables are declared
+             @endrst
+             */
+            static inline const std::string Constants = "Constants";
+
+            /**
+             * @brief
+             @rst
+             The namespace of WWMI's own variables and command lists, which every WWMI mod's ``.ini`` calls into
+             @endrst
+             */
+            static inline const std::string WWMINamespace = "$\\WWMIv1";
+
+            /**
+             * @brief
+             @rst
+             The first merged-skeleton bone of the component a WWMI draw is for
+             @endrst
+             */
+            static inline const std::string WWMIVgOffset = WWMINamespace + "\\vg_offset";
+
+            /**
+             * @brief
+             @rst
+             How many merged-skeleton bones the component a WWMI draw is for has
+             @endrst
+             */
+            static inline const std::string WWMIVgCount = WWMINamespace + "\\vg_count";
+
+            /**
+             * @brief
+             @rst
+             The checksum WWMI checks a mod's shape keys against before applying them
+             @endrst
+             */
+            static inline const std::string WWMIShapeKeyChecksum = WWMINamespace + "\\shapekey_checksum";
+
+            /**
+             * @brief
+             @rst
+             How many groups WWMI's shape-key compute pass dispatches over the game's own shape keys
+             @endrst
+             */
+            static inline const std::string WWMIShapeKeyDispatchSizeYOriginalBatch = WWMINamespace + "\\shapekey_dispatch_size_y_original_batch";
+
+            /**
+             * @brief
+             @rst
+             The scale WWMI's skeleton shaders apply to a mod's mesh
+             @endrst
+             */
+            static inline const std::string WWMICustomMeshScale = WWMINamespace + "\\custom_mesh_scale";
+
+            /**
+             * @brief
+             @rst
+             Which of a mod's blend remaps WWMI's ``BlendRemapper`` applies
+             @endrst
+             */
+            static inline const std::string WWMIBlendRemapId = WWMINamespace + "\\blend_remap_id";
+
+            /**
+             * @brief
+             @rst
+             How many bone influences a vertex of the mod's ``Blend.buf`` carries, as WWMI's ``BlendRemapper`` reads it
+             @endrst
+             */
+            static inline const std::string WWMIWeightsPerVertexCount = WWMINamespace + "\\weights_per_vertex_count";
+
+            /**
+             * @brief
+             @rst
+             The vertex count WWMI's compute shaders run over
+             @endrst
+             */
+            static inline const std::string WWMICustomVertexCount = WWMINamespace + "\\custom_vertex_count";
+
+            /**
+             * @brief
+             @rst
+             WWMI's shader that merges one component's bones into the mod's merged skeleton
+             @endrst
+             */
+            static inline const std::string WWMISkeletonMerger = "CustomShader\\WWMIv1\\SkeletonMerger";
+
+            /**
+             * @brief
+             @rst
+             WWMI's shader that remaps a merged skeleton through a blend remap
+             @endrst
+             */
+            static inline const std::string WWMISkeletonRemapper = "CustomShader\\WWMIv1\\SkeletonRemapper";
+
+            /**
+             * @brief
+             @rst
+             WWMI's shader that writes a mod's remapped ``Blend.buf`` at load
+             @endrst
+             */
+            static inline const std::string WWMIBlendRemapper = "CustomShader\\WWMIv1\\BlendRemapper";
+
+            /**
+             * @brief
+             @rst
+             The flag every `section`_ of a WWMI mod sets when its character is drawn, and its ``[Present]`` resets each frame
+             @endrst
+             */
+            static inline const std::string WWMIObjectDetected = "$object_detected";
+
+            /**
+             * @brief
+             @rst
+             The flag a WWMI mod draws under once WWMI has registered it
+             @endrst
+             */
+            static inline const std::string WWMIModEnabled = "$mod_enabled";
+
+            /**
+             * @brief
+             @rst
+             The ``global`` a WWMI mod declares its mesh's vertex count in
+             @endrst
+             */
+            static inline const std::string WWMIMeshVertexCount = "$mesh_vertex_count";
+
+            /**
+             * @brief
+             @rst
+             WWMI's per-frame state counter, which a mod compares to run a merge once a frame
+             @endrst
+             */
+            static inline const std::string WWMIStateId = "$state_id";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's ``Blend.buf`` resource
+             @endrst
+             */
+            static inline const std::string WWMIBlendBuffer = "ResourceBlendBuffer";
+
+            /**
+             * @brief
+             @rst
+             The resource WWMI's ``BlendRemapper`` fills with a mod's remapped blend
+             @endrst
+             */
+            static inline const std::string WWMIBlendBufferOverride = "ResourceBlendBufferOverride";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's index buffer resource
+             @endrst
+             */
+            static inline const std::string WWMIIndexBuffer = "ResourceIndexBuffer";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's ``Position.buf`` resource
+             @endrst
+             */
+            static inline const std::string WWMIPositionBuffer = "ResourcePositionBuffer";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's ``Texcoord.buf`` resource
+             @endrst
+             */
+            static inline const std::string WWMITexcoordBuffer = "ResourceTexcoordBuffer";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's ``Vector.buf`` resource: each vertex's normal and tangent
+             @endrst
+             */
+            static inline const std::string WWMIVectorBuffer = "ResourceVectorBuffer";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's shape-key offsets: the first entry of each key slot -- see :cpp:class:`WWMIShapeKeys`
+             @endrst
+             */
+            static inline const std::string WWMIShapeKeyOffsetBuffer = "ResourceShapeKeyOffsetBuffer";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's shape-key vertex ids -- see :cpp:class:`WWMIShapeKeys`
+             @endrst
+             */
+            static inline const std::string WWMIShapeKeyVertexIdBuffer = "ResourceShapeKeyVertexIdBuffer";
+
+            /**
+             * @brief
+             @rst
+             A WWMI Tools export's shape-key vertex offsets -- see :cpp:class:`WWMIShapeKeys`
+             @endrst
+             */
+            static inline const std::string WWMIShapeKeyVertexOffsetBuffer = "ResourceShapeKeyVertexOffsetBuffer";
+
+            /**
+             * @brief
+             @rst
+             RabbitFX's command list that binds the maps a mod hands it and sets its routing flags -- see :cpp:class:`RabbitFX`
+             @endrst
+             */
+            static inline const std::string RabbitFXSetTexturesPath = "CommandList\\RabbitFX\\SetTextures";
+
+            /**
+             * @brief
+             @rst
+             The folder RabbitFX's resources live under -- a mod hands RabbitFX its maps as resources under it
+             @endrst
+             */
+            static inline const std::string RabbitFXResourceFolder = "Resource\\RabbitFX";
     };
 }
 

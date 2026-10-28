@@ -10,6 +10,7 @@
     <includes refid="_tex_cache_8h" local="yes">AGRemapCore/model/files/TexCache.h</includes>
     <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
     <includes refid="_hash128_8h" local="yes">AGRemapCore/tools/hashing/Hash128.h</includes>
+    <includedby refid="_aether_fixer_8cpp" local="yes">src/data/IniFixData/Aether/AetherFixer.cpp</includedby>
     <includedby refid="_arlecchino_fixer_8cpp" local="yes">src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</includedby>
     <includedby refid="_ayaka_fixer_8cpp" local="yes">src/data/IniFixData/Ayaka/AyakaFixer.cpp</includedby>
     <includedby refid="_ayaka_springbloom_fixer_8cpp" local="yes">src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</includedby>
@@ -36,6 +37,8 @@
     <includedby refid="_yaoyao_fixer_8cpp" local="yes">src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</includedby>
     <includedby refid="_yelan_fixer_8cpp" local="yes">src/data/IniFixData/Yelan/YelanFixer.cpp</includedby>
     <includedby refid="_yelan_tranquil_fixer_8cpp" local="yes">src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</includedby>
+    <includedby refid="_z_z_m_i_fixer_8cpp" local="yes">src/data/IniFixData/ZZMIFixer.cpp</includedby>
+    <includedby refid="_rabbit_f_x_8cpp" local="yes">src/data/RabbitFX.cpp</includedby>
     <includedby refid="_texture_file_8cpp" local="yes">src/model/files/TextureFile.cpp</includedby>
     <includedby refid="_remap_tex_resource_8cpp" local="yes">src/model/iniresources/RemapTexResource.cpp</includedby>
     <includedby refid="_tex_creator_8cpp" local="yes">src/model/strategies/texEditors/TexCreator.cpp</includedby>
@@ -249,161 +252,180 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/data/IniFixData/Aether/AetherFixer.cpp</label>
+        <link refid="_aether_fixer_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
         <link refid="_arlecchino_fixer_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/data/IniFixData/Ayaka/AyakaFixer.cpp</label>
         <link refid="_ayaka_fixer_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
         <link refid="_ayaka_springbloom_fixer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp</label>
         <link refid="_changli_nymph_fixer_8cpp"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
         <link refid="_chisa_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
         <link refid="_chisa_parfait_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>src/data/IniFixData/DarkDiffuse.cpp</label>
         <link refid="_dark_diffuse_8cpp"/>
       </node>
-      <node id="10">
+      <node id="11">
         <label>src/data/IniFixData/DilucFlamme/DilucFlammeFixer.cpp</label>
         <link refid="_diluc_flamme_fixer_8cpp"/>
       </node>
-      <node id="11">
+      <node id="12">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="13">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="13">
+      <node id="14">
         <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
         <link refid="_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="14">
+      <node id="15">
         <label>src/data/IniFixData/JeanShading.cpp</label>
         <link refid="_jean_shading_8cpp"/>
       </node>
-      <node id="15">
+      <node id="16">
         <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
         <link refid="_keqing_fixer_8cpp"/>
       </node>
-      <node id="16">
+      <node id="17">
         <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
         <link refid="_keqing_opulent_fixer_8cpp"/>
       </node>
-      <node id="17">
+      <node id="18">
         <label>src/data/IniFixData/Kirara/KiraraFixer.cpp</label>
         <link refid="_kirara_fixer_8cpp"/>
       </node>
-      <node id="18">
+      <node id="19">
         <label>src/data/IniFixData/Klee/KleeFixer.cpp</label>
         <link refid="_klee_fixer_8cpp"/>
       </node>
-      <node id="19">
+      <node id="20">
         <label>src/data/IniFixData/KleeBlossomingStarlight/KleeBlossomingStarlightFixer.cpp</label>
         <link refid="_klee_blossoming_starlight_fixer_8cpp"/>
       </node>
-      <node id="20">
+      <node id="21">
         <label>src/data/IniFixData/Lumine/LumineFixer.cpp</label>
         <link refid="_lumine_fixer_8cpp"/>
       </node>
-      <node id="21">
+      <node id="22">
         <label>src/data/IniFixData/Lynae/LynaeSkinCodes.cpp</label>
         <link refid="_lynae_skin_codes_8cpp"/>
       </node>
-      <node id="22">
+      <node id="23">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</label>
         <link refid="_lynae_peppermint_fixer_8cpp"/>
       </node>
-      <node id="23">
+      <node id="24">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="24">
+      <node id="25">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>src/data/IniFixData/Yaoyao/YaoyaoFixer.cpp</label>
         <link refid="_yaoyao_fixer_8cpp"/>
       </node>
-      <node id="26">
+      <node id="27">
         <label>src/data/IniFixData/Yelan/YelanFixer.cpp</label>
         <link refid="_yelan_fixer_8cpp"/>
       </node>
-      <node id="27">
+      <node id="28">
         <label>src/data/IniFixData/YelanTranquil/YelanTranquilFixer.cpp</label>
         <link refid="_yelan_tranquil_fixer_8cpp"/>
       </node>
-      <node id="28">
+      <node id="29">
+        <label>src/data/IniFixData/ZZMIFixer.cpp</label>
+        <link refid="_z_z_m_i_fixer_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/data/RabbitFX.cpp</label>
+        <link refid="_rabbit_f_x_8cpp"/>
+      </node>
+      <node id="31">
         <label>src/model/files/TextureFile.cpp</label>
         <link refid="_texture_file_8cpp"/>
       </node>
-      <node id="29">
+      <node id="32">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="30">
+      <node id="33">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
-      <node id="31">
+      <node id="34">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>
-      <node id="32">
+      <node id="35">
         <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
         <link refid="_colour_replace_filter_8cpp"/>
       </node>
-      <node id="33">
+      <node id="36">
         <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
         <link refid="_gamma_filter_8cpp"/>
       </node>
-      <node id="34">
+      <node id="37">
         <label>src/model/strategies/texEditors/texFilters/HueAdjust.cpp</label>
         <link refid="_hue_adjust_8cpp"/>
       </node>
-      <node id="35">
+      <node id="38">
         <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
         <link refid="_invert_alpha_filter_8cpp"/>
       </node>
-      <node id="36">
+      <node id="39">
         <label>src/model/strategies/texEditors/texFilters/MaterialBandRemapFilter.cpp</label>
         <link refid="_material_band_remap_filter_8cpp"/>
       </node>
-      <node id="37">
+      <node id="40">
         <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
         <link refid="_pixel_filter_8cpp"/>
       </node>
-      <node id="38">
+      <node id="41">
         <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
         <link refid="_transparency_adjust_filter_8cpp"/>
       </node>
-      <node id="39">
+      <node id="42">
         <label>src/model/textures/TexThumbprint.cpp</label>
         <link refid="_tex_thumbprint_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header" prot="public">AGRemapCore::TextureFile::DDSHeader</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>
     </briefdescription>
@@ -473,34 +495,46 @@
 <codeline lineno="205"><highlight class="normal"></highlight></codeline>
 <codeline lineno="213" refid="class_a_g_remap_core_1_1_texture_file_1a14c159180494e3df8a0d91c69e2e9ceb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>CMP_FORMAT<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a14c159180494e3df8a0d91c69e2e9ceb" kindref="member">DefaultFormat</ref><sp/>=<sp/>CMP_FORMAT_BC7;</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
-<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ac43b967171a92f6cd1bdcc7be0f8fb26" kindref="member">setCache</ref>(<ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref><sp/>*cache);</highlight></codeline>
-<codeline lineno="230"><highlight class="normal"></highlight></codeline>
-<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref><sp/>*<ref refid="class_a_g_remap_core_1_1_texture_file_1ab29d2209a0e1d28e18297473d6cc5e23" kindref="member">getCache</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="235"><highlight class="normal"></highlight></codeline>
-<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Hash128&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ad7c2745cbf102a678afaec7b57311391" kindref="member">hashSource</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a57d75eb63d2d93bb8a43b5bad8972f5f" kindref="member">writeKey</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compress,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mipmaps)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"></highlight></codeline>
-<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a118a425e73837773c0945e3d4e95710c" kindref="member">writeUncompressedDds</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;dest)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="285"><highlight class="normal"></highlight></codeline>
-<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a0f7ac70336284c42b1fecdd06b612fc3" kindref="member">writeTo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;dest,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compress,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mipmaps<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="295"><highlight class="normal"></highlight></codeline>
-<codeline lineno="296" refid="class_a_g_remap_core_1_1_texture_file_1a3459e9910660fcd2649d0972e126a431" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a3459e9910660fcd2649d0972e126a431" kindref="member">src_</ref>;</highlight></codeline>
-<codeline lineno="297" refid="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::uint8_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" kindref="member">pixels_</ref>;</highlight></codeline>
-<codeline lineno="298" refid="class_a_g_remap_core_1_1_texture_file_1a2ccf0ca5bec45aa47d71f2c4f590efb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a2ccf0ca5bec45aa47d71f2c4f590efb3" kindref="member">width_</ref><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="299" refid="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" kindref="member">height_</ref><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="300" refid="class_a_g_remap_core_1_1_texture_file_1a6d6a5a97839bb6dffc0a51d110c07078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a6d6a5a97839bb6dffc0a51d110c07078" kindref="member">hasImage_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="301" refid="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CMP_FORMAT<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" kindref="member">format_</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a14c159180494e3df8a0d91c69e2e9ceb" kindref="member">DefaultFormat</ref>;</highlight></codeline>
-<codeline lineno="302" refid="class_a_g_remap_core_1_1_texture_file_1a7722c8fca4c379f63bcc83b2168e8fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a7722c8fca4c379f63bcc83b2168e8fe8" kindref="member">gamma_</ref>;</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"></highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>owned.<sp/>nullptr<sp/>means<sp/>&quot;no<sp/>caching&quot;,<sp/>which<sp/>is<sp/>what<sp/>every<sp/>caller<sp/>got<sp/>before<sp/>this</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>existed<sp/>--<sp/>see<sp/>setCache</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="306" refid="class_a_g_remap_core_1_1_texture_file_1aaa041d335018b90f6ba0e78d6c85bdd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref><sp/>*<ref refid="class_a_g_remap_core_1_1_texture_file_1aaa041d335018b90f6ba0e78d6c85bdd0" kindref="member">cache_</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="309"><highlight class="normal"></highlight></codeline>
-<codeline lineno="310"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="218" refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header" kindref="compound">DDSHeader</ref><sp/>{</highlight></codeline>
+<codeline lineno="222" refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ac0c963f24c4c900b115122d41ac1b6ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ac0c963f24c4c900b115122d41ac1b6ef" kindref="member">width</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ad388cc531052f5b6293cf2694d405b8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ad388cc531052f5b6293cf2694d405b8d" kindref="member">height</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1a1554793a241bf575452737ea09f98ef3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1a1554793a241bf575452737ea09f98ef3" kindref="member">mipCount</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ae0d2f8d3a93d0545c1d57acbf54a9906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="struct_a_g_remap_core_1_1_texture_file_1_1_d_d_s_header_1ae0d2f8d3a93d0545c1d57acbf54a9906" kindref="member">dxgiFormat</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DDSHeader&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ac77d6fcbe24fc5c008f2b9676fadb142" kindref="member">readDDSHeader</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ac43b967171a92f6cd1bdcc7be0f8fb26" kindref="member">setCache</ref>(<ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref><sp/>*cache);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref><sp/>*<ref refid="class_a_g_remap_core_1_1_texture_file_1ab29d2209a0e1d28e18297473d6cc5e23" kindref="member">getCache</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Hash128&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ad7c2745cbf102a678afaec7b57311391" kindref="member">hashSource</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a57d75eb63d2d93bb8a43b5bad8972f5f" kindref="member">writeKey</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compress,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mipmaps)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a118a425e73837773c0945e3d4e95710c" kindref="member">writeUncompressedDds</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;dest)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a0f7ac70336284c42b1fecdd06b612fc3" kindref="member">writeTo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;dest,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compress,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mipmaps<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="class_a_g_remap_core_1_1_texture_file_1a3459e9910660fcd2649d0972e126a431" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a3459e9910660fcd2649d0972e126a431" kindref="member">src_</ref>;</highlight></codeline>
+<codeline lineno="337" refid="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::uint8_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" kindref="member">pixels_</ref>;</highlight></codeline>
+<codeline lineno="338" refid="class_a_g_remap_core_1_1_texture_file_1a2ccf0ca5bec45aa47d71f2c4f590efb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a2ccf0ca5bec45aa47d71f2c4f590efb3" kindref="member">width_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="339" refid="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" kindref="member">height_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="340" refid="class_a_g_remap_core_1_1_texture_file_1a6d6a5a97839bb6dffc0a51d110c07078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a6d6a5a97839bb6dffc0a51d110c07078" kindref="member">hasImage_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341" refid="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CMP_FORMAT<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" kindref="member">format_</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a14c159180494e3df8a0d91c69e2e9ceb" kindref="member">DefaultFormat</ref>;</highlight></codeline>
+<codeline lineno="342" refid="class_a_g_remap_core_1_1_texture_file_1a7722c8fca4c379f63bcc83b2168e8fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="class_a_g_remap_core_1_1_texture_file_1a7722c8fca4c379f63bcc83b2168e8fe8" kindref="member">gamma_</ref>;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>owned.<sp/>nullptr<sp/>means<sp/>&quot;no<sp/>caching&quot;,<sp/>which<sp/>is<sp/>what<sp/>every<sp/>caller<sp/>got<sp/>before<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>existed<sp/>--<sp/>see<sp/>setCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="class_a_g_remap_core_1_1_texture_file_1aaa041d335018b90f6ba0e78d6c85bdd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_cache" kindref="compound">TexCache</ref><sp/>*<ref refid="class_a_g_remap_core_1_1_texture_file_1aaa041d335018b90f6ba0e78d6c85bdd0" kindref="member">cache_</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="348"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/files/TextureFile.h"/>
   </compounddef>

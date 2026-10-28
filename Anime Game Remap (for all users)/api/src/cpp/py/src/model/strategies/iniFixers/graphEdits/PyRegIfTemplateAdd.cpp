@@ -18,6 +18,9 @@
 #include <string>
 #include <utility>
 
+#include <pybind11/functional.h>
+#include <pybind11/stl.h>
+
 #include "../regEdits/PyBaseRegEdit.h"  // PyPartRanges, for a partFilter's return value
 #include "../../../iftemplate/PyIfTemplate.h"
 
@@ -51,6 +54,13 @@ PyRegIfTemplateAdd::PyRegIfTemplateAdd(py::object ifTemplateObj, Position positi
 
 void PyRegIfTemplateAdd::refresh() {
     ifTemplate = ifTemplateObj.is_none() ? nullptr : ifTemplateObj.cast<PyIfTemplate*>();
+    sectionFilter = nullptr;
+    if (sectionFilterObj && !sectionFilterObj.is_none()) {
+        py::object held = sectionFilterObj;
+        sectionFilter = [held](const std::string &name, const PyIfTemplate &section) {
+            return held(name, py::cast(&section, py::return_value_policy::reference)).cast<bool>();
+        };
+    }
 }
 
 
@@ -87,7 +97,9 @@ the one `section`_ of an :class:`IniFile` made from it
 .. note::
     At the bottom, a namespace-merged `section`_ (one guarded as a whole by
     ``if $\<Char>\Master\swapvar == n``) takes the parts inside its guard, as :class:`RegBottomAdd`
-    does. With :attr:`Position.AfterKey`, a root that has no :attr:`key` is left alone
+    does. With :attr:`Position.AfterKey` or :attr:`Position.BeforeTopKey`, a `section`_ with no
+    :attr:`key` is left alone, as is one with no top-level ``if`` under :attr:`Position.BeforeFirstIf`.
+    :attr:`everySection` and :attr:`sectionFilter` choose which `sections`_ are added to
 
 Parameters
 ----------
@@ -100,7 +112,8 @@ position: :class:`RegIfTemplateAdd.Position`
     **Default**: ``RegIfTemplateAdd.Position.Bottom``
 
 key: :class:`str`
-    The key :attr:`Position.AfterKey` inserts after :raw-html:`<br />` :raw-html:`<br />`
+    The key :attr:`Position.AfterKey` inserts after, and :attr:`Position.BeforeTopKey` before
+    :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``""``
     )doc");
@@ -110,7 +123,9 @@ Where in each root :class:`RegIfTemplateAdd` puts the template's parts
     )doc")
         .value("Top", PyRegIfTemplateAdd::Position::Top, "Before everything the `section`_ has")
         .value("Bottom", PyRegIfTemplateAdd::Position::Bottom, "After everything the `section`_ has, at its own depth (inside a namespace-merge guard)")
-        .value("AfterKey", PyRegIfTemplateAdd::Position::AfterKey, "Right after the first `KVP`_ whose key is :attr:`RegIfTemplateAdd.key`, at that `KVP`_'s depth");
+        .value("AfterKey", PyRegIfTemplateAdd::Position::AfterKey, "Right after the first `KVP`_ whose key is :attr:`RegIfTemplateAdd.key`, at that `KVP`_'s depth")
+        .value("BeforeTopKey", PyRegIfTemplateAdd::Position::BeforeTopKey, "Right before the first `KVP`_ at the `section`_'s top level (outside every ``if``) whose key is :attr:`RegIfTemplateAdd.key`")
+        .value("BeforeFirstIf", PyRegIfTemplateAdd::Position::BeforeFirstIf, "Right before the `section`_'s first top-level ``if``");
 
     cls.def(py::init([](py::object ifTemplate, PyRegIfTemplateAdd::Position position, std::string key) {
         return std::make_unique<PyRegIfTemplateAdd>(std::move(ifTemplate), position, std::move(key));
@@ -126,7 +141,24 @@ Optional[:class:`IfTemplate`]: The template whose parts are added
     )doc"));
 
     cls.def_readwrite("key", &PyRegIfTemplateAdd::key, py::doc(R"doc(
-:class:`str`: The key :attr:`Position.AfterKey` inserts after
+:class:`str`: The key :attr:`Position.AfterKey` inserts after, and :attr:`Position.BeforeTopKey` before
+    )doc"));
+
+    cls.def_readwrite("value", &PyRegIfTemplateAdd::value, py::doc(R"doc(
+Optional[:class:`str`]: The value the :attr:`key` `KVP`_ must have for :attr:`Position.AfterKey` and
+:attr:`Position.BeforeTopKey` to take it. ``None`` (the default) takes any value
+    )doc"));
+
+    cls.def_readwrite("everySection", &PyRegIfTemplateAdd::everySection, py::doc(R"doc(
+:class:`bool`: Whether the parts go into EVERY `section`_ of the graph -- the ones its roots call
+included -- rather than only its roots. **Default**: ``False``
+    )doc"));
+
+    cls.def_property("sectionFilter", [](const PyRegIfTemplateAdd &self) { return self.sectionFilterObj; },
+                     [](PyRegIfTemplateAdd &self, py::object v) { self.sectionFilterObj = std::move(v); }, py::doc(R"doc(
+Optional[Callable[[:class:`str`, :class:`IfTemplate`], :class:`bool`]]: Which `sections`_ the edit adds
+to, asked of each with its name: one it answers ``False`` for is left alone. ``None`` (the default) takes
+every `section`_. Asked only of a `section`_ that has a place for the parts
     )doc"));
 
     cls.def("edit", [](PyRegIfTemplateAdd &self, py::object graph, const py::object &modType,

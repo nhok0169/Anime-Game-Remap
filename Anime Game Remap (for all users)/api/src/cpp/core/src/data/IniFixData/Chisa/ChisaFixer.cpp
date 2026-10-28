@@ -581,7 +581,7 @@ namespace AGRemapCore {
         // the fallbackTextures route below instead, and no flatness test stands between it and the
         // register. That is deliberate: see the `hairMask` row below for why a flat fallback is
         // still the right thing to bind here.
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
         config.flatLeftToGame = {"hairMask", "frontHairMask"};
 
 

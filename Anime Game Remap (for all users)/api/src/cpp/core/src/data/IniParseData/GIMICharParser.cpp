@@ -169,7 +169,7 @@ namespace AGRemapCore {
          * outlive the parser -- the same ownership story as the context and the classifier, and the
          * same reason a Factory subclass exists at all rather than a bare lambda.
          */
-        class GIMICharGIMIParser: public Parser, public TextureOverrideFacts {
+        class GIMICharGIMIParser: public Parser {
             public:
                 GIMICharGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
                                     std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj,
@@ -340,16 +340,12 @@ namespace AGRemapCore {
                     recolourOnly_ = true;
                 }
 
-                bool isRecolourOnly() const override {
-                    return recolourOnly_;
-                }
-
-                std::string carriedSections() const override {
-                    return std::string(StringTools::rstrip(carriedSections_));
-                }
-
             protected:
                 void editCommands() override {
+                    // what the fixer needs from all of the above -- see IniParseData::isRecolourOnly
+                    // and IniParseData::carriedSections
+                    this->parseData().setRecolourOnly(recolourOnly_);
+                    this->parseData().setCarriedSections(std::string(StringTools::rstrip(carriedSections_)));
                     bindTextureOverrides();
                     declareSiblingRefs();
                     if (recolourOnly_) {

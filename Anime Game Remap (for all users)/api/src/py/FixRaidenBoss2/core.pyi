@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufFloat16Rounding', 'BufReplace', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppMaterialBandRemapFilter', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'DFA', 'DownloadMode', 'DownloadModeTools', 'FileDownload', 'FileExt', 'FilePrefixes', 'FileStats', 'FileTypes', 'FilteredTokenizer', 'FromOldVal', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIComponentFixerConfig', 'GIMIComponentParserConfig', 'GIMIFixer', 'GIMIMergeFixerConfig', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphCreate', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphGroupRemove', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredPartType', 'IfPredPartTypeTools', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'IndexCounts', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGraphModObjKeywords', 'IniGraphReplaceMode', 'IniGroupedResource', 'IniKeywords', 'IniNamingTools', 'IniParseBuilder', 'IniParseData', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'InnerLayerOutline', 'IntTools', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegBottomAdd', 'RegBranchAdd', 'RegDelimitedAdd', 'RegDelimitedAddMode', 'RegFillMissing', 'RegFillMissingMode', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegRestrict', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapFileAddResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'ShapeKeyChecksums', 'SideMeshes', 'SympyParser', 'SympyTokenizer', 'TexCache', 'TexCreate', 'TexReplace', 'TextureRoleChooser', 'TextureRoles', 'Token', 'VGComponentBuffers', 'VGComponentMerge', 'VGComponentMergeStats', 'VGComponentSpec', 'VGComponentSplit', 'VGComponentSplitStats', 'VGCounts', 'VGMergeComponent', 'VGMergeComponentFiles', 'VGMergeComponentSpec', 'VGMergeGroupResource', 'VGMergeObject', 'VGOffsets', 'VGPushAway', 'VGRemap', 'VGRemaps', 'VGSplitGroupResource', 'VbFile', 'Version', 'VersionSet', 'VertexCounts', 'WWMIBuilder', 'WWMIFixerConfig', 'WWMIParserConfig', 'WWMITextureFacts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser', 'makeGIMIComponentFixer', 'makeGIMIComponentParser', 'makeGIMIMergeFixer', 'makeWWMIFixer', 'makeWWMIParser']
 class BaseBufEditor:
     """
     
@@ -1655,6 +1655,26 @@ class BinaryFile:
     A class to handle binary files
         
     """
+    @staticmethod
+    def write(path: str, bytes: bytes) -> bool:
+        """
+        Writes 'bytes' to the file at 'path', replacing whatever the file held
+        
+        The folder the file goes in must already exist
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The file to write
+        
+        bytes: :class:`bytes`
+            The bytes to write
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether every byte was written
+        """
     def __init__(self, src: typing.Any) -> None:
         """
         Constructs a new binary file
@@ -2862,6 +2882,12 @@ class CppBaseIniParser:
     has to hand back ``None`` for a core-side object it has no richer type for
         
     """
+    @property
+    def parseData(self) -> IniParseData:
+        """
+        :class:`IniParseData`: What this parser learned about its .ini file that a fixer needs. A parser that
+        records nothing leaves its defaults
+        """
 class CppBaseIniRemover:
     """
     
@@ -3047,6 +3073,23 @@ class CppBufFile(BinaryFile):
         
         :class:`BadBufData`
             If the appended bytes do not divide evenly into lines
+        """
+    def column(self, elementKey: str, valueInd: typing.SupportsInt | typing.SupportsIndex) -> list[float]:
+        """
+        One data type of one element, as numbers in line order -- see :meth:`rows`
+        
+        Parameters
+        ----------
+        elementKey: :class:`str`
+            The element to take
+        
+        valueInd: :class:`int`
+            Which of the element's data types
+        
+        Returns
+        -------
+        List[:class:`float`]
+            One value per line. Empty when the file has no such column
         """
     def decodeAll(self) -> dict:
         """
@@ -3384,6 +3427,64 @@ class CppBufFile(BinaryFile):
         ------
         :class:`BadBufData`
             If the parsed bytes do not divide evenly into lines
+        """
+    def restride(self, toElements: typing.Any, fillFrom: collections.abc.Mapping[str, str] = {}) -> bytes:
+        """
+        This file's lines rewritten in another layout --- another stride --- element by element
+        
+        Two skins of a character can read one buffer in different layouts: Miyabi's Body ``Texcoord.buf``
+        is 24 bytes a vertex (``COLOR``, ``TEXCOORD0`` to ``TEXCOORD3``) where her skin's Dress reads 20 (no
+        ``TEXCOORD3``). Each element of 'toElements' is filled, line by line, from:
+        
+        #. this file's element of the same name, byte for byte;
+        #. otherwise this file's element named by 'fillFrom' for it, byte for byte;
+        #. otherwise zeros.
+        
+        An element of this file that 'toElements' does not name is dropped. Nothing is decoded, so no value
+        can be perturbed on the way. This file is left as it is
+        
+        Parameters
+        ----------
+        toElements: List[:class:`BufElementType`]
+            The layout to write, in byte order
+        
+        fillFrom: Dict[:class:`str`, :class:`str`]
+            For an element of 'toElements' this file does not have, the name of this file's element to copy
+            into it :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``{}``
+        
+        Returns
+        -------
+        :class:`bytes`
+            The rewritten bytes, one line of 'toElements' per line of this file
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If an element copied across is not the same size on both sides
+        """
+    def rows(self, elementKey: str, width: typing.SupportsInt | typing.SupportsIndex) -> list[list[int]]:
+        """
+        Every line's values for one element, as integers in line order -- ``result[line][i]`` is the element's
+        ``i``-th data type
+        
+        The row-shaped counterpart to :meth:`decodeAll`, for a caller that works a vertex at a time: a blend
+        buffer's ids or weights, or an index buffer's triangles
+        
+        Parameters
+        ----------
+        elementKey: :class:`str`
+            The element to take, eg. ``"BLENDINDICES"``
+        
+        width: :class:`int`
+            How many data types of the element to keep per line. A line whose element has fewer is padded with
+            zeros, and one with more is cut at ``width``
+        
+        Returns
+        -------
+        List[List[:class:`int`]]
+            One row of ``width`` values per line. Empty when the file has no such element
         """
     @property
     def bytesPerLine(self) -> int:
@@ -4430,7 +4531,7 @@ class CppMaterialBandRemapFilter(CppBaseTexFilter):
         :class:`bool`
             Whether the colour looks like white fur
         """
-    def __init__(self, bands: collections.abc.Sequence[CppMaterialBandRemapFilter.Band] | None = None, diffusePath: str = '') -> None:
+    def __init__(self, bands: collections.abc.Sequence[CppMaterialBandRemapFilter.Band] | None = None, diffusePath: str = '', channel: typing.SupportsInt | typing.SupportsIndex = 3) -> None:
         """
         Constructs a new material band remap filter
         
@@ -4446,6 +4547,13 @@ class CppMaterialBandRemapFilter(CppBaseTexFilter):
             The diffuse to read the gates against. If this names no readable file, every gate passes :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``""``
+        
+        channel: :class:`int`
+            The channel of the light map holding the band, ``0`` (red) to ``3`` (alpha) --- GI keeps its band in
+            the alpha, ZZZ in the red. The other channels are never touched; a channel past ``3`` makes the
+            filter a no-op :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``3``
         """
     @property
     def bands(self) -> list[CppMaterialBandRemapFilter.Band]:
@@ -4454,6 +4562,14 @@ class CppMaterialBandRemapFilter(CppBaseTexFilter):
         """
     @bands.setter
     def bands(self, arg0: collections.abc.Sequence[CppMaterialBandRemapFilter.Band]) -> None:
+        ...
+    @property
+    def channel(self) -> int:
+        """
+        :class:`int`: The channel of the light map holding the band, ``0`` (red) to ``3`` (alpha)
+        """
+    @channel.setter
+    def channel(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def diffusePath(self) -> str:
@@ -4897,6 +5013,63 @@ class CppTextureFile:
         texture filters in this codebase that still work directly against a real Pillow image
         
     """
+    class DDSHeader:
+        """
+        
+        What the header of a ``.dds`` file says, without reading its pixels
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def dxgiFormat(self) -> int:
+            """
+            :class:`int`: The pixel format, as a ``DXGI_FORMAT`` value: the ``DX10`` extension's, or for a legacy
+            header ``61`` (``R8_UNORM``) for one 8-bit red channel and ``87`` (``B8G8R8A8_UNORM``) for 32-bit BGRA.
+            ``0`` for any other legacy format
+            """
+        @dxgiFormat.setter
+        def dxgiFormat(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def height(self) -> int:
+            """
+            :class:`int`: The height of the top mip, in pixels
+            """
+        @height.setter
+        def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def mipCount(self) -> int:
+            """
+            :class:`int`: How many mips the file holds -- at least 1
+            """
+        @mipCount.setter
+        def mipCount(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def width(self) -> int:
+            """
+            :class:`int`: The width of the top mip, in pixels
+            """
+        @width.setter
+        def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    @staticmethod
+    def readDDSHeader(path: str) -> FixRaidenBoss2.core.CppTextureFile.DDSHeader | None:
+        """
+        Reads the header of the ``.dds`` file at ``path``
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The file
+        
+        Returns
+        -------
+        Optional[:class:`CppTextureFile.DDSHeader`]
+            The header, or ``None`` when the file is shorter than a header or is not a ``.dds`` file
+        """
     def __init__(self, src: str) -> None:
         """
         Constructs a new texture file. Does not read anything from disk yet -- see :meth:`open`
@@ -5735,6 +5908,110 @@ class DownloadModeTools:
         :class:`str`
             The name for 'value' (``"disabled"``, ``"normal"`` or ``"always"``)
         """
+class DrawUVCoverage:
+    """
+    
+    Which texels of a texture the vertices of one ``drawindexed`` range land on
+    
+    Built once from a mesh's index list and the U and V of each vertex, then asked per range: of the range's
+    distinct vertices, how many sit, at their UV, on a texel a test accepts. That is how a fix tells which of a
+    mod's draws paint a given part of an atlas
+    
+    A UV is wrapped into ``[0, 1)`` the way a sampler in wrap mode reads it, and a UV that is not a finite
+    number is read as ``0``
+    
+    Parameters
+    ----------
+    indices: List[:class:`int`]
+        The mesh's index list -- see :meth:`IbFile.getIndices`
+    
+    us: List[:class:`float`]
+        Each vertex's U
+    
+    vs: List[:class:`float`]
+        Each vertex's V
+    
+    vertices: :class:`int`
+        How many vertices the mesh has. An index at or past it is skipped
+        
+    """
+    class Count:
+        """
+        
+        What :meth:`DrawUVCoverage.count` found for one range
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def matched(self) -> int:
+            """
+            :class:`int`: How many of them land on a texel the test accepts
+            """
+        @matched.setter
+        def matched(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def vertices(self) -> int:
+            """
+            :class:`int`: How many distinct vertices the range draws
+            """
+        @vertices.setter
+        def vertices(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    @staticmethod
+    def texelOf(u: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex) -> tuple[int, int]:
+        """
+        The texel a UV lands on in a texture of ``width`` x ``height``, wrapped into the texture
+        
+        Parameters
+        ----------
+        u: :class:`float`
+            The U
+        
+        v: :class:`float`
+            The V
+        
+        width: :class:`int`
+            The texture's width
+        
+        height: :class:`int`
+            The texture's height
+        
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`int`]
+            (x, y)
+        """
+    def __init__(self, indices: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], us: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], vs: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], vertices: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def count(self, firstIndex: typing.SupportsInt | typing.SupportsIndex, indexCount: typing.SupportsInt | typing.SupportsIndex, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, test: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], bool]) -> DrawUVCoverage.Count:
+        """
+        Counts one ``drawindexed`` range's distinct vertices, and those landing on texels ``test`` accepts
+        
+        Parameters
+        ----------
+        firstIndex: :class:`int`
+            The range's first index
+        
+        indexCount: :class:`int`
+            How many indices it draws. The part past the end of the index list is not read
+        
+        width: :class:`int`
+            The width of the texture the texels are in
+        
+        height: :class:`int`
+            Its height
+        
+        test: Callable[[:class:`int`, :class:`int`], :class:`bool`]
+            Which texels count, asked with (x, y)
+        
+        Returns
+        -------
+        :class:`DrawUVCoverage.Count`
+            The counts
+        """
+
 class FileDownload:
     """
     
@@ -8560,6 +8837,47 @@ class GIMIObjPartFilter:
         Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]
             The window function
         """
+    def hashTypeParts(self, hashType: str) -> collections.abc.Callable:
+        """
+        Builds a part predicate for a :class:`ResRegCollect`'s ``partPredicates``: the WHOLE part when any of its
+        tracked ``hash`` values is a hash of type ``hashType`` (the last index column of its hash row, eg.
+        ``blend_vb``), nothing otherwise
+        
+        Unlike :meth:`filter` this needs no ``match_first_index`` and ignores :attr:`indexHashKeys` -- it is for a
+        register that lives in a different section from the hash it is bound under, such as a blend's ``vb1``
+        
+        .. note::
+            The collect has to track at least ``hash``; a part with no colouring yields empty ranges
+        
+        Parameters
+        ----------
+        hashType: :class:`str`
+            The type of hash whose parts may be read
+        
+        Returns
+        -------
+        Callable[[:class:`SectionIterData`], :class:`Ranges`]
+            The part predicate
+        """
+    def hashTypeWindow(self, hashType: str, colouring: IfContentPartColouring) -> Ranges:
+        """
+        The WHOLE part when any ``hash`` value of ``colouring`` is a hash of type ``hashType`` (the last index
+        column of its hash row, eg. ``blend_vb``), empty ranges otherwise -- and always when there is no hash
+        table. Needs no ``match_first_index`` and ignores :attr:`indexHashKeys`
+        
+        Parameters
+        ----------
+        hashType: :class:`str`
+            The type of hash to look for
+        
+        colouring: :class:`IfContentPartColouring`
+            The current `KVP`_ state of the part
+        
+        Returns
+        -------
+        :class:`Ranges`
+            The ranges of the part that are about a buffer of that type
+        """
     def keysToTrack(self) -> set:
         """
         The `KVP`_ keys a :class:`GraphGroupEdit` has to be tracking for :meth:`filter` to see anything
@@ -9368,6 +9686,113 @@ class GlobalRemapIniRemover(RemapIniRemover):
     @iniFile.setter
     def iniFile(self, arg0: typing.Any) -> None:
         ...
+class GraphCopy(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Copies one graph of a group of graphs to another graph id --- optionally only the part of it
+    :attr:`predicate` keeps (the same selection :class:`GraphFilter` makes in place)
+    
+    The copy is a deep copy, so editing it never touches the source. Its `sections`_ keep the source's
+    names: rename them (:class:`GraphRename`) before both graphs are rendered into one file. To compose
+    the copy into another graph, follow with :class:`GraphInherit`
+    
+    .. note::
+        The destination follows :class:`GraphCreate`'s rule: an ``iniIndex`` equal to the number of
+        groups appends one fresh group, one further past the end is skipped, and an existing graph at
+        the destination is replaced. A source id naming no graph copies nothing
+    
+    Parameters
+    ----------
+    srcId: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The id of the graph to copy: the .ini index, the component name and the mod object name
+    
+    dstId: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The id the copy is stored under
+    
+    predicate: Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]
+        Decides which `KVPs`_ of the copy are kept --- see :attr:`GraphFilter.predicate`. ``None`` copies
+        the whole graph :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    minimal: :class:`bool`
+        Whether the copy is a minimal one :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+    
+    newPartIds: :class:`bool`
+        Whether the parts of the copy get fresh ids :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, srcId: typing.Any, dstId: typing.Any, predicate: typing.Any = None, minimal: bool = True, newPartIds: bool = True) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Stores a (filtered) copy of the graph at :attr:`srcId` under :attr:`dstId`
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after the copy was added
+        """
+    @property
+    def dstId(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The id the copy is stored under
+        """
+    @dstId.setter
+    def dstId(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def minimal(self) -> bool:
+        """
+        :class:`bool`: Whether the copy is a minimal one
+        """
+    @minimal.setter
+    def minimal(self, arg0: bool) -> None:
+        ...
+    @property
+    def newPartIds(self) -> bool:
+        """
+        :class:`bool`: Whether the parts of the copy get fresh ids
+        """
+    @newPartIds.setter
+    def newPartIds(self, arg0: bool) -> None:
+        ...
+    @property
+    def predicate(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ of the copy are kept
+        """
+    @predicate.setter
+    def predicate(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def srcId(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the graph to copy
+        """
+    @srcId.setter
+    def srcId(self, arg1: typing.Any) -> None:
+        ...
+
 class GraphCreate(BaseIniGraphGroupEdit):
     """
     
@@ -9475,6 +9900,77 @@ class GraphCreate(BaseIniGraphGroupEdit):
     @newPartIds.setter
     def newPartIds(self, arg0: bool) -> None:
         ...
+class GraphFilter(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Keeps only part of some graphs, in place: every `KVP`_ that :attr:`predicate` rejects is removed
+    from the graphs' `sections`_
+    
+    The `section`_'s ``if`` / ``else`` structure is kept as it is, so a `KVP`_ that survives stays under
+    the same condition it was written under. :class:`GraphCopy` makes the same selection on a COPY of a
+    graph instead
+    
+    .. note::
+        A `section`_ a removed ``run =`` used to call stays in the graph: the selection is made per
+        `KVP`_, and what the graph reaches is not recomputed
+    
+    Parameters
+    ----------
+    graphIds: List[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+        The ids of the graphs to filter: the .ini index, the component name and the mod object name
+    
+    predicate: Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]
+        Decides whether one `KVP`_ is kept, given its `section`_ (the whole :class:`IfTemplate`, so the
+        decision can depend on what runs before it in any part), the part holding it and its index within
+        that part. Every decision is made before anything is removed, so the predicate
+        always sees the part as it was. ``None`` keeps everything :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, graphIds: typing.Any, predicate: typing.Any = None) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Removes, from every graph named by :attr:`graphIds`, the `KVPs`_ :attr:`predicate` rejects
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after filtering
+        """
+    @property
+    def graphIds(self) -> typing.Any:
+        """
+        List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to filter
+        """
+    @graphIds.setter
+    def graphIds(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def predicate(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`IfTemplate`, :class:`IfContentPart`, :class:`int`], :class:`bool`]]: Decides which `KVPs`_ are kept
+        """
+    @predicate.setter
+    def predicate(self, arg1: typing.Any) -> None:
+        ...
+
 class GraphGroupEdit(BaseIniGraphGroupEdit):
     """
     
@@ -10521,6 +11017,323 @@ class Hashes(ModMappedAssets):
         
             **Default**: ``None``
         """
+class IniParseData:
+    """
+    
+    What a parser learned about a .ini file that a fixer needs and cannot read off the `sections`_ it is
+    handed -- the classification data a parser keeps, whatever the game
+    
+    Every parser owns one (:attr:`CppBaseIniParser.parseData`): the parser fills it while it parses, and a
+    fixer reads it through the parser it is given. A parser that fills nothing leaves the defaults, which
+    say "everything is there": the file has something to remap, no mod object is undrawn, and no texture
+    has a known role
+    
+    A mod object is ``(component, object)``, as the parser's graphs are keyed -- eg. ``("Body", "C")`` for a
+    slot of a GI component, ``("", "component3")`` for a Wuthering Waves draw slot
+        
+    """
+    class Rejection:
+        """
+        
+        A file refused for a role -- see :meth:`IniParseData.rejections`
+            
+        """
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file
+            """
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: The role it was refused FOR
+            """
+        @property
+        def why(self) -> str:
+            """
+            :class:`str`: Why, as a sentence about the file
+            """
+    class RoleFile:
+        """
+        
+        The file a mod object takes for a role -- see :meth:`IniParseData.roleFile`
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file
+        
+        how: :class:`str`
+            How it was found, for the log
+        
+        tiedFile: :class:`str`
+            Another file ranked EQUALLY good for the role, or empty: only a measurement can say which is right,
+            so a fixer should say so
+        
+        tiedHow: :class:`str`
+            How :attr:`tiedFile` was found
+            
+        """
+        def __init__(self, file: str, how: str = '', tiedFile: str = '', tiedHow: str = '') -> None:
+            ...
+        @property
+        def file(self) -> str:
+            """
+            :class:`str`: The file
+            """
+        @file.setter
+        def file(self, arg0: str) -> None:
+            ...
+        @property
+        def how(self) -> str:
+            """
+            :class:`str`: How it was found, for the log
+            """
+        @how.setter
+        def how(self, arg0: str) -> None:
+            ...
+        @property
+        def tiedFile(self) -> str:
+            """
+            :class:`str`: Another file ranked equally good, or empty
+            """
+        @tiedFile.setter
+        def tiedFile(self, arg0: str) -> None:
+            ...
+        @property
+        def tiedHow(self) -> str:
+            """
+            :class:`str`: How :attr:`tiedFile` was found
+            """
+        @tiedHow.setter
+        def tiedHow(self, arg0: str) -> None:
+            ...
+    def __init__(self) -> None:
+        ...
+    def addUndrawn(self, modObj: tuple[str, str]) -> None:
+        """
+        Records that the mod leaves ``modObj`` undrawn
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        """
+    def carriedSections(self) -> str:
+        """
+        `Sections`_ a fix writes into every .ini file it generates, so a SIBLING's toggle keeps working there:
+        a ``[Constants]`` declaring a copy of each variable a carried recolour's condition reads, and a copy of
+        each sibling ``[Key...]`` section that cycles one, both under the copy's name
+        
+        **Default**: empty -- nothing to carry
+        
+        Returns
+        -------
+        :class:`str`
+            The `sections`_, as .ini text
+        """
+    def clear(self) -> None:
+        """
+        Resets everything to the defaults
+        """
+    def clearUndrawn(self) -> None:
+        """
+        Forgets every mod object :meth:`addUndrawn` recorded
+        """
+    def defer(self, fill: typing.Any) -> None:
+        """
+        Fills the texture data -- :meth:`textureRoles`, :meth:`roleCandidates`, :meth:`roleFile`,
+        :meth:`rejections` -- on the first ask of any of them, rather than now. Sorting a mod's textures may
+        open every one of them, and a parser is built for every .ini a run classifies, most of which no fixer
+        asks about
+        
+        Parameters
+        ----------
+        fill: Optional[Callable[[:class:`IniParseData`], None]]
+            What fills them, or ``None`` for nothing
+        """
+    def hasRemappableContent(self) -> bool:
+        """
+        Whether the .ini file carries anything to remap. ``False`` for a file that only WATCHES the character
+        -- eg. a help overlay whose one section matches the position hash to know she is on screen, which
+        remapped like a mod would draw a second copy of her :raw-html:`<br />` :raw-html:`<br />`
+        
+        **Default**: ``True``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether there is anything to remap
+        """
+    def isRecolourOnly(self) -> bool:
+        """
+        Whether the .ini file is a RECOLOUR and nothing else: it draws none of the character's mesh, no other
+        .ini file beside it does, and it overrides a texture of the character that the target does not draw.
+        Its whole model then comes from downloads, with the mod's textures bound in place of the downloaded
+        ones :raw-html:`<br />` :raw-html:`<br />`
+        
+        **Default**: ``False``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the file is a recolour and nothing else
+        """
+    def isUndrawn(self, modObj: tuple[str, str]) -> bool:
+        """
+        Whether the mod leaves a mod object UNDRAWN -- on its own character the game never draws it, so a fix
+        must not draw a download of it over the mod's own buffers
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether it is undrawn
+        """
+    def reject(self, file: str, role: str, why: str) -> None:
+        """
+        Records that ``file`` was refused for ``role``
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file
+        
+        role: :class:`str`
+            The role it was refused FOR -- it may still serve another
+        
+        why: :class:`str`
+            Why, as a sentence about the file, eg. ``is a flat hairMask, which marks no regions``
+        """
+    def rejections(self) -> list[...]:
+        """
+        Every file refused for a role, in the order they were refused
+        
+        Returns
+        -------
+        List[:class:`IniParseData.Rejection`]
+            The refusals
+        """
+    def roleCandidates(self, role: str) -> list[tuple[str, str]]:
+        """
+        The files left for a role once the ones that cannot serve it are refused, in the order they were found
+        
+        Parameters
+        ----------
+        role: :class:`str`
+            The role
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            ``(file, how it was found)`` for each; empty when nothing serves the role
+        """
+    def roleFile(self, role: str, modObj: tuple[str, str]) -> ...:
+        """
+        The file a mod object takes for a role, or ``None`` when no file of the mod serves the role. The choice
+        among :meth:`roleCandidates` is per mod object, since a file a mod binds on one object is the better
+        answer for that object
+        
+        Parameters
+        ----------
+        role: :class:`str`
+            The role
+        
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object, ``(component, object)``
+        
+        Returns
+        -------
+        Optional[:class:`IniParseData.RoleFile`]
+            The file it takes
+        """
+    def setCarriedSections(self, sections: str) -> None:
+        """
+        Sets :meth:`carriedSections`
+        
+        Parameters
+        ----------
+        sections: :class:`str`
+            The `sections`_, as .ini text
+        """
+    def setRecolourOnly(self, recolourOnly: bool) -> None:
+        """
+        Sets :meth:`isRecolourOnly`
+        
+        Parameters
+        ----------
+        recolourOnly: :class:`bool`
+            Whether the file is a recolour and nothing else
+        """
+    def setRemappableContent(self, remappable: bool) -> None:
+        """
+        Sets :meth:`hasRemappableContent`
+        
+        Parameters
+        ----------
+        remappable: :class:`bool`
+            Whether the file carries anything to remap
+        """
+    def setRoleCandidates(self, role: str, candidates: collections.abc.Sequence[tuple[str, str]]) -> None:
+        """
+        Sets :meth:`roleCandidates` for a role
+        
+        Parameters
+        ----------
+        role: :class:`str`
+            The role
+        
+        candidates: List[Tuple[:class:`str`, :class:`str`]]
+            ``(file, how)`` for each
+        """
+    def setRoleFile(self, role: str, modObj: tuple[str, str], file: ...) -> None:
+        """
+        Sets :meth:`roleFile`
+        
+        Parameters
+        ----------
+        role: :class:`str`
+            The role
+        
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The mod object
+        
+        file: :class:`IniParseData.RoleFile`
+            The file it takes
+        """
+    def setTextureRoles(self, roles: TextureRoles) -> None:
+        """
+        Sets the texture roles
+        
+        Parameters
+        ----------
+        roles: :class:`TextureRoles`
+            The roles
+        """
+    def textureRoles(self) -> TextureRoles:
+        """
+        What role each texture of the .ini plays, or ``None`` when the parser records none -- every role the
+        .ini binds a file for, since one atlas can serve two objects
+        
+        Returns
+        -------
+        Optional[:class:`TextureRoles`]
+            The roles
+        """
+    def undrawnObjs(self) -> set[tuple[str, str]]:
+        """
+        Every mod object the mod leaves undrawn
+        
+        Returns
+        -------
+        Set[Tuple[:class:`str`, :class:`str`]]
+            The mod objects
+        """
+
 class IOrderedMultiMap:
     """
     
@@ -10754,6 +11567,16 @@ class IbFile(CppBufFile):
         :class:`int`
             The number of indices
         """
+    def getIndices(self) -> list[int]:
+        """
+        Every vertex index in the file, in order -- the list a ``drawindexed = <count>, <first>, 0`` addresses,
+        with ``first`` counted in indices rather than triangles
+        
+        Returns
+        -------
+        List[:class:`int`]
+            :meth:`getIndexCount` indices
+        """
     def getTriangleCount(self) -> int:
         """
         Retrieves the number of triangular faces making up the mod's mesh
@@ -10802,6 +11625,33 @@ class IbFile(CppBufFile):
         ------
         :class:`BadBufData`
             If the parsed bytes do not divide evenly into face lines
+        """
+    def windingReversed(self, firstIndex: typing.SupportsInt | typing.SupportsIndex, indexCount: typing.SupportsInt | typing.SupportsIndex) -> bytes:
+        """
+        The bytes of an index buffer holding one span of this file's indices with every triangle wound the other
+        way -- the same vertices, presented to the rasterizer as their back faces
+        
+        Each triangle ``(a, b, c)`` of the span becomes ``(a, c, b)``. The span is laid out from index 0, so a draw
+        of ``count, first`` into this file is ``count, first - firstIndex`` into the result. Written at this file's
+        own index width
+        
+        Parameters
+        ----------
+        firstIndex: :class:`int`
+            The index the span starts at
+        
+        indexCount: :class:`int`
+            How many indices the span holds. A trailing part-triangle is left zero
+        
+        Returns
+        -------
+        :class:`bytes`
+            The bytes, ``indexCount`` indices long
+        
+        Raises
+        ------
+        :class:`IndexError`
+            If the span runs past the end of the file
         """
 class IfContentPart(IfTemplatePart):
     """
@@ -14022,7 +14872,11 @@ class IniKeywords:
     """
     Array: typing.ClassVar[str] = 'array'
     Blend: typing.ClassVar[str] = 'Blend'
+    Buffer: typing.ClassVar[str] = 'Buffer'
     CommandList: typing.ClassVar[str] = 'CommandList'
+    Constants: typing.ClassVar[str] = 'Constants'
+    Copy: typing.ClassVar[str] = 'copy'
+    CopyDesc: typing.ClassVar[str] = 'copy_desc'
     Draw: typing.ClassVar[str] = 'draw'
     DrawIndexed: typing.ClassVar[str] = 'drawindexed'
     Filename: typing.ClassVar[str] = 'filename'
@@ -14032,12 +14886,14 @@ class IniKeywords:
     GIMILightMap: typing.ClassVar[str] = 'Resource\\GIMI\\LightMap'
     GIMINormalMap: typing.ClassVar[str] = 'Resource\\GIMI\\NormalMap'
     GIMISetTexturesPath: typing.ClassVar[str] = 'CommandList\\GIMI\\SetTextures'
+    Global: typing.ClassVar[str] = 'global'
     Handling: typing.ClassVar[str] = 'handling'
     Hash: typing.ClassVar[str] = 'hash'
     HashNotFound: typing.ClassVar[str] = 'HashNotFound'
     HideOriginalComment: typing.ClassVar[str] = ';RemapFixHideOrig -->'
     Ib: typing.ClassVar[str] = 'ib'
     IndexNotFound: typing.ClassVar[str] = 'IndexNotFound'
+    Local: typing.ClassVar[str] = 'local'
     MatchFirstIndex: typing.ClassVar[str] = 'match_first_index'
     MatchIndexCount: typing.ClassVar[str] = 'match_index_count'
     MatchKeys: typing.ClassVar[set] = {'match_index_count', 'match_vertex_count', 'match_first_index', 'hash', 'match_type', 'match_priority'}
@@ -14048,8 +14904,12 @@ class IniKeywords:
     Null: typing.ClassVar[str] = 'null'
     ORFixPath: typing.ClassVar[str] = 'CommandList\\global\\ORFix\\ORFix'
     Position: typing.ClassVar[str] = 'Position'
+    Post: typing.ClassVar[str] = 'post'
+    Present: typing.ClassVar[str] = 'Present'
     PsT69: typing.ClassVar[str] = 'ps-t69'
     PsT70: typing.ClassVar[str] = 'ps-t70'
+    RabbitFXResourceFolder: typing.ClassVar[str] = 'Resource\\RabbitFX'
+    RabbitFXSetTexturesPath: typing.ClassVar[str] = 'CommandList\\RabbitFX\\SetTextures'
     Ref: typing.ClassVar[str] = 'ref'
     Remap: typing.ClassVar[str] = 'Remap'
     RemapDL: typing.ClassVar[str] = 'RemapDL'
@@ -14059,6 +14919,7 @@ class IniKeywords:
     Resource: typing.ClassVar[str] = 'Resource'
     Run: typing.ClassVar[str] = 'run'
     ShaderOverride: typing.ClassVar[str] = 'ShaderOverride'
+    Skip: typing.ClassVar[str] = 'skip'
     Stride: typing.ClassVar[str] = 'stride'
     TexFxFolder: typing.ClassVar[str] = 'CommandList\\TexFx'
     TexFxTransparency0: typing.ClassVar[str] = 'CommandList\\TexFx\\TN.0'
@@ -14071,6 +14932,31 @@ class IniKeywords:
     Type: typing.ClassVar[str] = 'type'
     Vb0: typing.ClassVar[str] = 'vb0'
     Vb1: typing.ClassVar[str] = 'vb1'
+    WWMIBlendBuffer: typing.ClassVar[str] = 'ResourceBlendBuffer'
+    WWMIBlendBufferOverride: typing.ClassVar[str] = 'ResourceBlendBufferOverride'
+    WWMIBlendRemapId: typing.ClassVar[str] = '$\\WWMIv1\\blend_remap_id'
+    WWMIBlendRemapper: typing.ClassVar[str] = 'CustomShader\\WWMIv1\\BlendRemapper'
+    WWMICustomMeshScale: typing.ClassVar[str] = '$\\WWMIv1\\custom_mesh_scale'
+    WWMICustomVertexCount: typing.ClassVar[str] = '$\\WWMIv1\\custom_vertex_count'
+    WWMIIndexBuffer: typing.ClassVar[str] = 'ResourceIndexBuffer'
+    WWMIMeshVertexCount: typing.ClassVar[str] = '$mesh_vertex_count'
+    WWMIModEnabled: typing.ClassVar[str] = '$mod_enabled'
+    WWMINamespace: typing.ClassVar[str] = '$\\WWMIv1'
+    WWMIObjectDetected: typing.ClassVar[str] = '$object_detected'
+    WWMIPositionBuffer: typing.ClassVar[str] = 'ResourcePositionBuffer'
+    WWMIShapeKeyChecksum: typing.ClassVar[str] = '$\\WWMIv1\\shapekey_checksum'
+    WWMIShapeKeyDispatchSizeYOriginalBatch: typing.ClassVar[str] = '$\\WWMIv1\\shapekey_dispatch_size_y_original_batch'
+    WWMIShapeKeyOffsetBuffer: typing.ClassVar[str] = 'ResourceShapeKeyOffsetBuffer'
+    WWMIShapeKeyVertexIdBuffer: typing.ClassVar[str] = 'ResourceShapeKeyVertexIdBuffer'
+    WWMIShapeKeyVertexOffsetBuffer: typing.ClassVar[str] = 'ResourceShapeKeyVertexOffsetBuffer'
+    WWMISkeletonMerger: typing.ClassVar[str] = 'CustomShader\\WWMIv1\\SkeletonMerger'
+    WWMISkeletonRemapper: typing.ClassVar[str] = 'CustomShader\\WWMIv1\\SkeletonRemapper'
+    WWMIStateId: typing.ClassVar[str] = '$state_id'
+    WWMITexcoordBuffer: typing.ClassVar[str] = 'ResourceTexcoordBuffer'
+    WWMIVectorBuffer: typing.ClassVar[str] = 'ResourceVectorBuffer'
+    WWMIVgCount: typing.ClassVar[str] = '$\\WWMIv1\\vg_count'
+    WWMIVgOffset: typing.ClassVar[str] = '$\\WWMIv1\\vg_offset'
+    WWMIWeightsPerVertexCount: typing.ClassVar[str] = '$\\WWMIv1\\weights_per_vertex_count'
 class IniNamingTools:
     """
     
@@ -14192,6 +15078,16 @@ class IniNamingTools:
     def getTextureOverrideRemapFix(component: str, obj: str, modName: str = '') -> str:
         """
         The name of the ``TextureOverride`` `section`_ a fix invents for some mod object
+        """
+    @staticmethod
+    def hasKeywordPrefix(value: str, keyword: str) -> bool:
+        """
+        Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``, :attr:`IniKeywords.Copy`, :attr:`IniKeywords.CopyDesc` -- rather than a resource name
+        """
+    @staticmethod
+    def isDownloadFile(path: str) -> bool:
+        """
+        Whether a file is one the library DOWNLOADS rather than one a mod ships: its name carries :attr:`IniKeywords.RemapDL`
         """
     @staticmethod
     def removeResourceName(name: str) -> str:
@@ -16137,103 +17033,139 @@ class ModTypeId:
       Changli : Changli from WuWa; a mod may carry any of her three mesh generations (1.1, 1.2, 1.4 on)
     
       ChangliNymph : Changli's Laurel Nymph skin from WuWa (WWMI-Assets' ChangliSkin1)
+    
+      Miyabi : Hoshimi Miyabi from ZZZ: a Body, Hair, Legs, Face and HairShadow, each with its own bone palette
+    
+      MiyabiBody : Miyabi's Body component, as an asset-table name
+    
+      MiyabiHair : Miyabi's Hair component, as an asset-table name
+    
+      MiyabiLegs : Miyabi's Legs component, as an asset-table name
+    
+      MiyabiFace : Miyabi's Face component, as an asset-table name
+    
+      MiyabiHairShadow : Miyabi's HairShadow component, as an asset-table name
+    
+      MiyabiBlossom : Miyabi's Dignified Blossom skin from ZZZ: a Body, Dress, Hair, Face and HairShadow
+    
+      MiyabiBlossomBody : MiyabiBlossom's Body component, as an asset-table name
+    
+      MiyabiBlossomDress : MiyabiBlossom's Dress component, as an asset-table name
+    
+      MiyabiBlossomHair : MiyabiBlossom's Hair component, as an asset-table name
+    
+      MiyabiBlossomFace : MiyabiBlossom's Face component, as an asset-table name
+    
+      MiyabiBlossomHairShadow : MiyabiBlossom's HairShadow component, as an asset-table name
     """
     Aether: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Aether: 0>
     AetherHeaven: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeaven: 1>
     AetherHeavenBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenBang: 3>
     AetherHeavenEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenEye: 4>
     AetherHeavenMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AetherHeavenMain: 2>
-    Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
-    AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
-    Arlecchino: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Arlecchino: 4>
-    ArlecchinoBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ArlecchinoBoss: 5>
-    Ayaka: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ayaka: 2>
-    AyakaSpringbloom: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AyakaSpringbloom: 3>
-    Barbara: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Barbara: 6>
-    BarbaraSummertime: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BarbaraSummertime: 7>
-    Bennett: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Bennett: 8>
-    BennettAdventure: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventure: 9>
-    BennettAdventureBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBang: 11>
-    BennettAdventureBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBody: 10>
-    BennettAdventureEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureEye: 12>
-    Changli: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Changli: 88>
-    ChangliNymph: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChangliNymph: 89>
-    Charlotte: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Charlotte: 13>
-    CharlotteHurlock: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlock: 14>
-    CharlotteHurlockBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockBangs: 16>
-    CharlotteHurlockBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockBody: 15>
-    CharlotteHurlockCamera: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockCamera: 18>
-    CharlotteHurlockEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockEyes: 17>
-    CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 19>
-    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 84>
-    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 85>
-    Citlali: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Citlali: 20>
-    CitlaliWhisperofStars: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStars: 21>
-    CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 23>
-    CitlaliWhisperofStarsBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBody: 22>
-    CitlaliWhisperofStarsEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsEyes: 24>
-    Diluc: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Diluc: 25>
-    DilucFlamme: typing.ClassVar[ModTypeId]  # value = <ModTypeId.DilucFlamme: 26>
-    Fischl: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Fischl: 27>
-    FischlHighness: typing.ClassVar[ModTypeId]  # value = <ModTypeId.FischlHighness: 28>
-    Ganyu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ganyu: 29>
-    GanyuTwilight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.GanyuTwilight: 30>
-    HuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.HuTao: 31>
-    Jean: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Jean: 32>
-    JeanCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.JeanCN: 33>
-    JeanSea: typing.ClassVar[ModTypeId]  # value = <ModTypeId.JeanSea: 34>
-    Kaeya: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Kaeya: 35>
-    KaeyaSailwind: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KaeyaSailwind: 36>
-    Keqing: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Keqing: 37>
-    KeqingOpulent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KeqingOpulent: 38>
-    Kirara: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Kirara: 39>
-    KiraraBoots: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KiraraBoots: 40>
-    Klee: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Klee: 41>
-    KleeBlossomingStarlight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KleeBlossomingStarlight: 42>
-    Lisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lisa: 43>
-    LisaStudent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LisaStudent: 44>
-    Lumine: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lumine: 45>
-    LumineHeaven: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeaven: 46>
-    LumineHeavenBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenBang: 48>
-    LumineHeavenEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenEye: 49>
-    LumineHeavenMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenMain: 47>
-    Lynae: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lynae: 86>
-    LynaePeppermint: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LynaePeppermint: 87>
-    Mona: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Mona: 50>
-    MonaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MonaCN: 51>
-    Neuvillette: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Neuvillette: 52>
-    NeuvilletteMelusent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusent: 53>
-    NeuvilletteMelusentBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentBang: 56>
-    NeuvilletteMelusentCoat: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentCoat: 55>
-    NeuvilletteMelusentEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentEye: 57>
-    NeuvilletteMelusentMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentMain: 54>
-    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 58>
-    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 59>
-    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 60>
-    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 61>
-    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 62>
-    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 63>
-    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 64>
-    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 65>
-    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 82>
-    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 83>
-    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 66>
-    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 67>
-    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 68>
-    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 69>
-    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 70>
-    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 71>
-    Yaoyao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yaoyao: 72>
-    YaoyaoBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBamboo: 73>
-    YaoyaoBambooBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooBang: 75>
-    YaoyaoBambooEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooEye: 76>
-    YaoyaoBambooMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooMain: 74>
-    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 77>
-    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 78>
-    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 80>
-    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 79>
-    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 81>
-    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'Bennett': <ModTypeId.Bennett: 8>, 'BennettAdventure': <ModTypeId.BennettAdventure: 9>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 10>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 11>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 12>, 'Charlotte': <ModTypeId.Charlotte: 13>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 14>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 15>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 16>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 17>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 18>, 'CherryHuTao': <ModTypeId.CherryHuTao: 19>, 'Citlali': <ModTypeId.Citlali: 20>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 21>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 22>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 23>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 24>, 'Diluc': <ModTypeId.Diluc: 25>, 'DilucFlamme': <ModTypeId.DilucFlamme: 26>, 'Fischl': <ModTypeId.Fischl: 27>, 'FischlHighness': <ModTypeId.FischlHighness: 28>, 'Ganyu': <ModTypeId.Ganyu: 29>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 30>, 'HuTao': <ModTypeId.HuTao: 31>, 'Jean': <ModTypeId.Jean: 32>, 'JeanCN': <ModTypeId.JeanCN: 33>, 'JeanSea': <ModTypeId.JeanSea: 34>, 'Kaeya': <ModTypeId.Kaeya: 35>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 36>, 'Keqing': <ModTypeId.Keqing: 37>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 38>, 'Kirara': <ModTypeId.Kirara: 39>, 'KiraraBoots': <ModTypeId.KiraraBoots: 40>, 'Klee': <ModTypeId.Klee: 41>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 42>, 'Lisa': <ModTypeId.Lisa: 43>, 'LisaStudent': <ModTypeId.LisaStudent: 44>, 'Lumine': <ModTypeId.Lumine: 45>, 'LumineHeaven': <ModTypeId.LumineHeaven: 46>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 47>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 48>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 49>, 'Mona': <ModTypeId.Mona: 50>, 'MonaCN': <ModTypeId.MonaCN: 51>, 'Neuvillette': <ModTypeId.Neuvillette: 52>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 53>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 54>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 55>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 56>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 57>, 'Nilou': <ModTypeId.Nilou: 58>, 'NilouBreeze': <ModTypeId.NilouBreeze: 59>, 'Ningguang': <ModTypeId.Ningguang: 60>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 61>, 'Raiden': <ModTypeId.Raiden: 62>, 'RaidenBoss': <ModTypeId.RaidenBoss: 63>, 'Rosaria': <ModTypeId.Rosaria: 64>, 'RosariaCN': <ModTypeId.RosariaCN: 65>, 'Shenhe': <ModTypeId.Shenhe: 66>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 67>, 'Xiangling': <ModTypeId.Xiangling: 68>, 'XianglingCheer': <ModTypeId.XianglingCheer: 69>, 'Xingqiu': <ModTypeId.Xingqiu: 70>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 71>, 'Yaoyao': <ModTypeId.Yaoyao: 72>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 73>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 74>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 75>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 76>, 'Yelan': <ModTypeId.Yelan: 77>, 'YelanTranquil': <ModTypeId.YelanTranquil: 78>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 79>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 80>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 81>, 'Sanhua': <ModTypeId.Sanhua: 82>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 83>, 'Chisa': <ModTypeId.Chisa: 84>, 'ChisaParfait': <ModTypeId.ChisaParfait: 85>, 'Lynae': <ModTypeId.Lynae: 86>, 'LynaePeppermint': <ModTypeId.LynaePeppermint: 87>, 'Changli': <ModTypeId.Changli: 88>, 'ChangliNymph': <ModTypeId.ChangliNymph: 89>}
+    Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 5>
+    AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 6>
+    Arlecchino: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Arlecchino: 9>
+    ArlecchinoBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ArlecchinoBoss: 10>
+    Ayaka: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ayaka: 7>
+    AyakaSpringbloom: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AyakaSpringbloom: 8>
+    Barbara: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Barbara: 11>
+    BarbaraSummertime: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BarbaraSummertime: 12>
+    Bennett: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Bennett: 13>
+    BennettAdventure: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventure: 14>
+    BennettAdventureBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBang: 16>
+    BennettAdventureBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureBody: 15>
+    BennettAdventureEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BennettAdventureEye: 17>
+    Changli: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Changli: 93>
+    ChangliNymph: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChangliNymph: 94>
+    Charlotte: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Charlotte: 18>
+    CharlotteHurlock: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlock: 19>
+    CharlotteHurlockBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockBangs: 21>
+    CharlotteHurlockBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockBody: 20>
+    CharlotteHurlockCamera: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockCamera: 23>
+    CharlotteHurlockEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CharlotteHurlockEyes: 22>
+    CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 24>
+    Chisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Chisa: 89>
+    ChisaParfait: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ChisaParfait: 90>
+    Citlali: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Citlali: 25>
+    CitlaliWhisperofStars: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStars: 26>
+    CitlaliWhisperofStarsBangs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBangs: 28>
+    CitlaliWhisperofStarsBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsBody: 27>
+    CitlaliWhisperofStarsEyes: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CitlaliWhisperofStarsEyes: 29>
+    Diluc: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Diluc: 30>
+    DilucFlamme: typing.ClassVar[ModTypeId]  # value = <ModTypeId.DilucFlamme: 31>
+    Fischl: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Fischl: 32>
+    FischlHighness: typing.ClassVar[ModTypeId]  # value = <ModTypeId.FischlHighness: 33>
+    Ganyu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ganyu: 34>
+    GanyuTwilight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.GanyuTwilight: 35>
+    HuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.HuTao: 36>
+    Jean: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Jean: 37>
+    JeanCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.JeanCN: 38>
+    JeanSea: typing.ClassVar[ModTypeId]  # value = <ModTypeId.JeanSea: 39>
+    Kaeya: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Kaeya: 40>
+    KaeyaSailwind: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KaeyaSailwind: 41>
+    Keqing: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Keqing: 42>
+    KeqingOpulent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KeqingOpulent: 43>
+    Kirara: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Kirara: 44>
+    KiraraBoots: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KiraraBoots: 45>
+    Klee: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Klee: 46>
+    KleeBlossomingStarlight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KleeBlossomingStarlight: 47>
+    Lisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lisa: 48>
+    LisaStudent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LisaStudent: 49>
+    Lumine: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lumine: 50>
+    LumineHeaven: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeaven: 51>
+    LumineHeavenBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenBang: 53>
+    LumineHeavenEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenEye: 54>
+    LumineHeavenMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LumineHeavenMain: 52>
+    Lynae: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lynae: 91>
+    LynaePeppermint: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LynaePeppermint: 92>
+    Miyabi: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Miyabi: 95>
+    MiyabiBlossom: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBlossom: 101>
+    MiyabiBlossomBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBlossomBody: 102>
+    MiyabiBlossomDress: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBlossomDress: 103>
+    MiyabiBlossomFace: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBlossomFace: 105>
+    MiyabiBlossomHair: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBlossomHair: 104>
+    MiyabiBlossomHairShadow: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBlossomHairShadow: 106>
+    MiyabiBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiBody: 96>
+    MiyabiFace: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiFace: 99>
+    MiyabiHair: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiHair: 97>
+    MiyabiHairShadow: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiHairShadow: 100>
+    MiyabiLegs: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MiyabiLegs: 98>
+    Mona: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Mona: 55>
+    MonaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MonaCN: 56>
+    Neuvillette: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Neuvillette: 57>
+    NeuvilletteMelusent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusent: 58>
+    NeuvilletteMelusentBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentBang: 61>
+    NeuvilletteMelusentCoat: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentCoat: 60>
+    NeuvilletteMelusentEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentEye: 62>
+    NeuvilletteMelusentMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NeuvilletteMelusentMain: 59>
+    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 63>
+    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 64>
+    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 65>
+    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 66>
+    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 67>
+    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 68>
+    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 69>
+    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 70>
+    Sanhua: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Sanhua: 87>
+    SanhuaExorcist: typing.ClassVar[ModTypeId]  # value = <ModTypeId.SanhuaExorcist: 88>
+    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 71>
+    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 72>
+    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 73>
+    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 74>
+    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 75>
+    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 76>
+    Yaoyao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yaoyao: 77>
+    YaoyaoBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBamboo: 78>
+    YaoyaoBambooBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooBang: 80>
+    YaoyaoBambooEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooEye: 81>
+    YaoyaoBambooMain: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YaoyaoBambooMain: 79>
+    Yelan: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Yelan: 82>
+    YelanTranquil: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquil: 83>
+    YelanTranquilBang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBang: 85>
+    YelanTranquilBody: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilBody: 84>
+    YelanTranquilEye: typing.ClassVar[ModTypeId]  # value = <ModTypeId.YelanTranquilEye: 86>
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Aether': <ModTypeId.Aether: 0>, 'AetherHeaven': <ModTypeId.AetherHeaven: 1>, 'AetherHeavenMain': <ModTypeId.AetherHeavenMain: 2>, 'AetherHeavenBang': <ModTypeId.AetherHeavenBang: 3>, 'AetherHeavenEye': <ModTypeId.AetherHeavenEye: 4>, 'Amber': <ModTypeId.Amber: 5>, 'AmberCN': <ModTypeId.AmberCN: 6>, 'Ayaka': <ModTypeId.Ayaka: 7>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 8>, 'Arlecchino': <ModTypeId.Arlecchino: 9>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 10>, 'Barbara': <ModTypeId.Barbara: 11>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 12>, 'Bennett': <ModTypeId.Bennett: 13>, 'BennettAdventure': <ModTypeId.BennettAdventure: 14>, 'BennettAdventureBody': <ModTypeId.BennettAdventureBody: 15>, 'BennettAdventureBang': <ModTypeId.BennettAdventureBang: 16>, 'BennettAdventureEye': <ModTypeId.BennettAdventureEye: 17>, 'Charlotte': <ModTypeId.Charlotte: 18>, 'CharlotteHurlock': <ModTypeId.CharlotteHurlock: 19>, 'CharlotteHurlockBody': <ModTypeId.CharlotteHurlockBody: 20>, 'CharlotteHurlockBangs': <ModTypeId.CharlotteHurlockBangs: 21>, 'CharlotteHurlockEyes': <ModTypeId.CharlotteHurlockEyes: 22>, 'CharlotteHurlockCamera': <ModTypeId.CharlotteHurlockCamera: 23>, 'CherryHuTao': <ModTypeId.CherryHuTao: 24>, 'Citlali': <ModTypeId.Citlali: 25>, 'CitlaliWhisperofStars': <ModTypeId.CitlaliWhisperofStars: 26>, 'CitlaliWhisperofStarsBody': <ModTypeId.CitlaliWhisperofStarsBody: 27>, 'CitlaliWhisperofStarsBangs': <ModTypeId.CitlaliWhisperofStarsBangs: 28>, 'CitlaliWhisperofStarsEyes': <ModTypeId.CitlaliWhisperofStarsEyes: 29>, 'Diluc': <ModTypeId.Diluc: 30>, 'DilucFlamme': <ModTypeId.DilucFlamme: 31>, 'Fischl': <ModTypeId.Fischl: 32>, 'FischlHighness': <ModTypeId.FischlHighness: 33>, 'Ganyu': <ModTypeId.Ganyu: 34>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 35>, 'HuTao': <ModTypeId.HuTao: 36>, 'Jean': <ModTypeId.Jean: 37>, 'JeanCN': <ModTypeId.JeanCN: 38>, 'JeanSea': <ModTypeId.JeanSea: 39>, 'Kaeya': <ModTypeId.Kaeya: 40>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 41>, 'Keqing': <ModTypeId.Keqing: 42>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 43>, 'Kirara': <ModTypeId.Kirara: 44>, 'KiraraBoots': <ModTypeId.KiraraBoots: 45>, 'Klee': <ModTypeId.Klee: 46>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 47>, 'Lisa': <ModTypeId.Lisa: 48>, 'LisaStudent': <ModTypeId.LisaStudent: 49>, 'Lumine': <ModTypeId.Lumine: 50>, 'LumineHeaven': <ModTypeId.LumineHeaven: 51>, 'LumineHeavenMain': <ModTypeId.LumineHeavenMain: 52>, 'LumineHeavenBang': <ModTypeId.LumineHeavenBang: 53>, 'LumineHeavenEye': <ModTypeId.LumineHeavenEye: 54>, 'Mona': <ModTypeId.Mona: 55>, 'MonaCN': <ModTypeId.MonaCN: 56>, 'Neuvillette': <ModTypeId.Neuvillette: 57>, 'NeuvilletteMelusent': <ModTypeId.NeuvilletteMelusent: 58>, 'NeuvilletteMelusentMain': <ModTypeId.NeuvilletteMelusentMain: 59>, 'NeuvilletteMelusentCoat': <ModTypeId.NeuvilletteMelusentCoat: 60>, 'NeuvilletteMelusentBang': <ModTypeId.NeuvilletteMelusentBang: 61>, 'NeuvilletteMelusentEye': <ModTypeId.NeuvilletteMelusentEye: 62>, 'Nilou': <ModTypeId.Nilou: 63>, 'NilouBreeze': <ModTypeId.NilouBreeze: 64>, 'Ningguang': <ModTypeId.Ningguang: 65>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 66>, 'Raiden': <ModTypeId.Raiden: 67>, 'RaidenBoss': <ModTypeId.RaidenBoss: 68>, 'Rosaria': <ModTypeId.Rosaria: 69>, 'RosariaCN': <ModTypeId.RosariaCN: 70>, 'Shenhe': <ModTypeId.Shenhe: 71>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 72>, 'Xiangling': <ModTypeId.Xiangling: 73>, 'XianglingCheer': <ModTypeId.XianglingCheer: 74>, 'Xingqiu': <ModTypeId.Xingqiu: 75>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 76>, 'Yaoyao': <ModTypeId.Yaoyao: 77>, 'YaoyaoBamboo': <ModTypeId.YaoyaoBamboo: 78>, 'YaoyaoBambooMain': <ModTypeId.YaoyaoBambooMain: 79>, 'YaoyaoBambooBang': <ModTypeId.YaoyaoBambooBang: 80>, 'YaoyaoBambooEye': <ModTypeId.YaoyaoBambooEye: 81>, 'Yelan': <ModTypeId.Yelan: 82>, 'YelanTranquil': <ModTypeId.YelanTranquil: 83>, 'YelanTranquilBody': <ModTypeId.YelanTranquilBody: 84>, 'YelanTranquilBang': <ModTypeId.YelanTranquilBang: 85>, 'YelanTranquilEye': <ModTypeId.YelanTranquilEye: 86>, 'Sanhua': <ModTypeId.Sanhua: 87>, 'SanhuaExorcist': <ModTypeId.SanhuaExorcist: 88>, 'Chisa': <ModTypeId.Chisa: 89>, 'ChisaParfait': <ModTypeId.ChisaParfait: 90>, 'Lynae': <ModTypeId.Lynae: 91>, 'LynaePeppermint': <ModTypeId.LynaePeppermint: 92>, 'Changli': <ModTypeId.Changli: 93>, 'ChangliNymph': <ModTypeId.ChangliNymph: 94>, 'Miyabi': <ModTypeId.Miyabi: 95>, 'MiyabiBody': <ModTypeId.MiyabiBody: 96>, 'MiyabiHair': <ModTypeId.MiyabiHair: 97>, 'MiyabiLegs': <ModTypeId.MiyabiLegs: 98>, 'MiyabiFace': <ModTypeId.MiyabiFace: 99>, 'MiyabiHairShadow': <ModTypeId.MiyabiHairShadow: 100>, 'MiyabiBlossom': <ModTypeId.MiyabiBlossom: 101>, 'MiyabiBlossomBody': <ModTypeId.MiyabiBlossomBody: 102>, 'MiyabiBlossomDress': <ModTypeId.MiyabiBlossomDress: 103>, 'MiyabiBlossomHair': <ModTypeId.MiyabiBlossomHair: 104>, 'MiyabiBlossomFace': <ModTypeId.MiyabiBlossomFace: 105>, 'MiyabiBlossomHairShadow': <ModTypeId.MiyabiBlossomHairShadow: 106>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -17783,6 +18715,94 @@ class PositionFile(CppBufFile):
         :class:`BadBufData`
             If 'src' holds raw bytes that are not valid for a position file
         """
+class RabbitFX:
+    """
+    
+    What a fix needs to know about RabbitFX 8.3.2, the Wuthering Waves effects library a mod calls through
+    :attr:`IniKeywords.RabbitFXSetTexturesPath`
+    
+    RabbitFX's ``SetTextures`` decides how to route the maps a draw has bound at ``ps-t0`` .. ``ps-t3`` by a
+    TAG its texture overrides give each texture (a ``filter_index`` of ``1718.3`` .. ``1718.6``), and writes
+    the result as four routing flags, ``x187`` .. ``w187``. A remapped draw binds the TARGET's textures there,
+    so the flags the source's draw would have had are worked out from the source's textures
+    (:meth:`textureTag`, :meth:`routingFlags`) and pinned after the call (:attr:`FlagKeys`)
+    
+    .. note::
+        Every method is static; the class holds nothing
+        
+    """
+    FlagKeys: typing.ClassVar[list] = ['x187', 'y187', 'z187', 'w187']
+    @staticmethod
+    def isOwnKVP(key: str, value: str) -> bool:
+        """
+        Whether a `KVP`_ is one of RabbitFX's own: a resource under :attr:`IniKeywords.RabbitFXResourceFolder`, or
+        a ``run =`` of one of its command lists
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key
+        
+        value: :class:`str`
+            The value
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether it is
+        """
+    @staticmethod
+    def names(text: str) -> bool:
+        """
+        Whether ``text`` names RabbitFX, ignoring case
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            An ``.ini`` line, key or value
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether it does
+        """
+    @staticmethod
+    def routingFlags(tags: typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]) -> typing.Annotated[list[int], "FixedSize(4)"]:
+        """
+        The routing flags ``SetTextures`` writes for a draw whose ``ps-t0`` .. ``ps-t3`` carry ``tags``. A flag it
+        leaves unwritten keeps whatever the previous draw left, which no fix can know; it is ``0`` here
+        
+        Parameters
+        ----------
+        tags: List[:class:`int`]
+            Each register's :meth:`textureTag`, four of them
+        
+        Returns
+        -------
+        List[:class:`int`]
+            The flags, in :attr:`FlagKeys`' order
+        """
+    @staticmethod
+    def textureTag(path: str) -> int:
+        """
+        The tag RabbitFX's texture overrides give the texture at ``path``, from its ``.dds`` header: ``3`` for
+        ``filter_index = 1718.3`` .. ``6`` for ``1718.6``, ``0`` for none
+        
+        .. note::
+            A square ``BC7`` of at most 512 pixels with ONE mip matches both ``1718.4`` and ``1718.6``; it is
+            taken as ``6``
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The ``.dds`` file
+        
+        Returns
+        -------
+        :class:`int`
+            The tag
+        """
+
 class Ranges:
     """
     
@@ -18606,9 +19626,16 @@ class RegAdd(BaseRegEdit):
         provided to :meth:`edit`, at the end of that window), instead of at the beginning :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``True``
+    
+    skipExisting: :class:`bool`
+        Whether a `KVP`_ of :attr:`vals` that the part already holds --- the same key and the same value, both
+        compared case-insensitively and ignoring surrounding whitespace --- is left out, so a part visited twice
+        gets the `KVPs`_ once :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
         
     """
-    def __init__(self, vals: typing.Any, latest: bool = True) -> None:
+    def __init__(self, vals: typing.Any, latest: bool = True, skipExisting: bool = False) -> None:
         ...
     def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
         """
@@ -18656,6 +19683,14 @@ class RegAdd(BaseRegEdit):
     def latest(self, arg0: bool) -> None:
         ...
     @property
+    def skipExisting(self) -> bool:
+        """
+        :class:`bool`: Whether a `KVP`_ of :attr:`vals` that the part already holds (same key and value, compared case-insensitively and ignoring surrounding whitespace) is left out
+        """
+    @skipExisting.setter
+    def skipExisting(self, arg0: bool) -> None:
+        ...
+    @property
     def vals(self) -> typing.Any:
         """
         List[Tuple[:class:`str`, :class:`str`]]: The `KVPs`_ to add, in the order given
@@ -18663,6 +19698,214 @@ class RegAdd(BaseRegEdit):
     @vals.setter
     def vals(self, arg1: typing.Any) -> None:
         ...
+class RegAnchorAdd(BaseRegEdit):
+    """
+    
+    This class inherits from :class:`BaseRegEdit`
+    
+    Adds lines next to every line of a part whose key is one of the :attr:`anchorKeys`, or replaces that line
+    
+    For each such line (an *anchor*), :attr:`adder` is handed the anchor's key and value and answers with the
+    lines to add --- or ``None`` to leave that anchor alone. Where the lines go is :attr:`placement`:
+    immediately before the anchor, immediately after it, or in its place. The lines keep the order
+    :attr:`adder` gives them, and the anchors are visited from the last to the first, so every anchor of the
+    part is visited exactly once however many lines are added.
+    
+    .. code-block:: ini
+    
+        ; anchorKeys = ["drawindexed"], placement = RegAnchorAdd.Placement.After,
+        ; adder: "6, 0, 0" -> [("run", "CommandListMark")], anything else -> None
+        drawindexed = 6, 0, 0
+        run = CommandListMark       ; added
+        drawindexed = 3, 6, 0       ; left alone
+    
+    A key matches an anchor key case-insensitively, ignoring surrounding whitespace, as 3DMigoto reads keys;
+    :attr:`anchorIf`, when set, decides instead. Only the lines whose order index is inside 'partRanges' are anchors
+    
+    Parameters
+    ----------
+    anchorKeys: List[:class:`str`]
+        The keys whose lines are anchors :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``[]``
+    
+    adder: Optional[Callable[[:class:`str`, :class:`str`], Optional[List[Tuple[:class:`str`, :class:`str`]]]]]
+        Takes an anchor's key and value and returns the lines to add for it, as ``(key, value)`` pairs, or
+        ``None`` to leave the anchor alone. An empty list with :attr:`Placement.Replace` removes the anchor.
+        ``None`` leaves every anchor alone :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    placement: :class:`RegAnchorAdd.Placement`
+        Where the added lines go :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: :attr:`RegAnchorAdd.Placement.After`
+    
+    anchorIf: Optional[Callable[[:class:`str`], :class:`bool`]]
+        Takes a line's key and decides whether that line is an anchor, in place of 'anchorKeys' --- eg. every
+        key starting with ``ps-t``. ``None`` leaves the choice to 'anchorKeys' :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    firstOnly: :class:`bool`
+        Whether only the part's FIRST anchor --- the one with the lowest order index inside 'partRanges' --- gets
+        lines, eg. to capture a register just before the line that first rebinds it :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    skipExisting: :class:`bool`
+        Whether a line the part already holds --- the same key and the same value, both compared case-insensitively
+        and ignoring surrounding whitespace --- is left out, so a part visited twice gets its lines once :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+        
+    """
+    class Placement:
+        """
+        
+        Where a :class:`RegAnchorAdd`'s lines go, relative to their anchor
+            
+        
+        Members:
+        
+          Before : Immediately before the anchor
+        
+          After : Immediately after the anchor
+        
+          Replace : In the anchor's place: the anchor is removed
+        """
+        After: typing.ClassVar[RegAnchorAdd.Placement]  # value = <Placement.After: 1>
+        Before: typing.ClassVar[RegAnchorAdd.Placement]  # value = <Placement.Before: 0>
+        Replace: typing.ClassVar[RegAnchorAdd.Placement]  # value = <Placement.Replace: 2>
+        __members__: typing.ClassVar[dict[str, RegAnchorAdd.Placement]]  # value = {'Before': <Placement.Before: 0>, 'After': <Placement.After: 1>, 'Replace': <Placement.Replace: 2>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    @staticmethod
+    def holds(part: typing.Any, key: str, value: str) -> bool:
+        """
+        Whether 'part' holds a line of 'key' and 'value', both compared case-insensitively and ignoring surrounding whitespace
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part to search
+        
+        key: :class:`str`
+            The key of the line
+        
+        value: :class:`str`
+            The value of the line
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'part' holds it
+        """
+    def __init__(self, anchorKeys: collections.abc.Sequence[str] = [], adder: typing.Any = None, placement: RegAnchorAdd.Placement = ..., anchorIf: typing.Any = None, firstOnly: bool = False, skipExisting: bool = False) -> None:
+        ...
+    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
+        """
+        Adds :attr:`adder`'s lines at every anchor of 'part' inside 'partRanges', from the last anchor to the first
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the `IfTemplate` that is being editted
+        
+        sectionName: :class:`str`
+            The name of the `section`_ that is being editted. Unused by this edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The same part that was passed in, after editing
+        """
+    @property
+    def adder(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`str`, :class:`str`], Optional[List[Tuple[:class:`str`, :class:`str`]]]]]: The lines each anchor gets, or ``None`` to leave every anchor alone
+        """
+    @adder.setter
+    def adder(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def anchorIf(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`str`], :class:`bool`]]: Which keys make a line an anchor, in place of :attr:`anchorKeys`, or ``None`` to leave the choice to :attr:`anchorKeys`
+        """
+    @anchorIf.setter
+    def anchorIf(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def anchorKeys(self) -> list[str]:
+        """
+        List[:class:`str`]: The keys whose lines are anchors, matched case-insensitively and ignoring surrounding whitespace
+        """
+    @anchorKeys.setter
+    def anchorKeys(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def firstOnly(self) -> bool:
+        """
+        :class:`bool`: Whether only the part's first anchor inside 'partRanges' gets lines
+        """
+    @firstOnly.setter
+    def firstOnly(self, arg0: bool) -> None:
+        ...
+    @property
+    def placement(self) -> RegAnchorAdd.Placement:
+        """
+        :class:`RegAnchorAdd.Placement`: Where the added lines go
+        """
+    @placement.setter
+    def placement(self, arg0: RegAnchorAdd.Placement) -> None:
+        ...
+    @property
+    def skipExisting(self) -> bool:
+        """
+        :class:`bool`: Whether a line the part already holds (same key and value, compared case-insensitively and ignoring surrounding whitespace) is left out
+        """
+    @skipExisting.setter
+    def skipExisting(self, arg0: bool) -> None:
+        ...
+
 class RegAssetRemap(BaseRegEdit):
     """
     
@@ -19229,6 +20472,261 @@ class RegDelimitedAddMode:
     @property
     def value(self) -> int:
         ...
+class RegDrawRangeRemap(BaseRegEdit):
+    """
+    
+    This class inherits from :class:`BaseRegEdit`
+    
+    Remaps the ranges a part's ``drawindexed`` lines draw through an index buffer that lost some of its
+    triangles
+    
+    A mod that draws for itself writes ``drawindexed = <count>, <start>, <base>``, and a mod with toggles
+    writes several such lines, each a range of its object's index buffer that one toggle shows or hides.
+    When a fix writes that index buffer again without some of its triangles (the ones another component
+    draws, say), the mod's own numbers overrun the written buffer and every range after a removed triangle
+    draws the wrong triangles.
+    
+    :attr:`keptTriangleIds` lists, in ascending order, the SOURCE index of every triangle the written buffer
+    keeps. A range's new start is the number of kept triangles before it and its new count the number
+    inside it, both times 3; any further number on the line (the base vertex) is kept as it is. A line that
+    is not at least two non-negative numbers --- ``drawindexed = auto`` --- is left alone.
+    
+    .. code-block:: ini
+    
+        ; keptTriangleIds = [0, 1, 2, 5, 6, 7]: triangles 3 and 4 were removed
+        drawindexed = 9, 0, 0       ; -> 9, 0, 0
+        drawindexed = 9, 9, 0       ; -> 3, 9, 0   (only triangle 5 of 3..5 is kept)
+        drawindexed = auto          ; untouched
+    
+    A range may also be drawn some other way: :attr:`reroute` is asked about every remapped line, and when
+    it answers with a name the line is replaced, at the same position, by ``run = <name>`` --- eg. a
+    ``CustomShader`` `section`_ that draws the remapped range under a blend state of its own.
+    
+    Parameters
+    ----------
+    keptTriangleIds: List[:class:`int`]
+        The source index of every triangle the written index buffer keeps, ascending :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``[]``
+    
+    reroute: Optional[Callable[[:class:`int`, :class:`int`, :class:`str`], Optional[:class:`str`]]]
+        Decides whether a remapped range is drawn by a ``run =`` instead: takes the range's first index and
+        index count as the MOD wrote them, and the remapped value of the line, and returns the name to ``run``,
+        or ``None`` to keep the ``drawindexed`` line. ``None`` keeps every line :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def parseRange(value: str) -> list[int] | None:
+        """
+        The numbers of a ``drawindexed`` value --- ``count, start[, base, ...]`` --- or ``None`` when it is not
+        at least two numbers, or its count or start is negative (``auto``)
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value of the ``drawindexed`` line
+        
+        Returns
+        -------
+        Optional[List[:class:`int`]]
+            The numbers, in the order they are written
+        """
+    @staticmethod
+    def remapRange(value: str, keptTriangleIds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> str | None:
+        """
+        The value of a ``drawindexed`` line remapped through 'keptTriangleIds', or ``None`` for one
+        :meth:`parseRange` cannot read
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value of the ``drawindexed`` line
+        
+        keptTriangleIds: List[:class:`int`]
+            The source index of every kept triangle, ascending
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The remapped value, written ``count, start[, base, ...]``
+        """
+    def __init__(self, keptTriangleIds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex] = [], reroute: typing.Any = None) -> None:
+        ...
+    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
+        """
+        Remaps every ``drawindexed`` line of 'part' through :attr:`keptTriangleIds`, then replaces each one
+        :attr:`reroute` names with a ``run =`` line at the same position
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the `IfTemplate` that is being editted
+        
+        sectionName: :class:`str`
+            The name of the `section`_ that is being editted. Unused by this edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The same part that was passed in, after editing
+        """
+    @property
+    def keptTriangleIds(self) -> list[int]:
+        """
+        List[:class:`int`]: The source index of every triangle the written index buffer keeps, ascending
+        """
+    @keptTriangleIds.setter
+    def keptTriangleIds(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @property
+    def reroute(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`int`, :class:`int`, :class:`str`], Optional[:class:`str`]]]: Which remapped ranges are drawn by a ``run =`` instead, or ``None`` to keep every line
+        """
+    @reroute.setter
+    def reroute(self, arg1: typing.Any) -> None:
+        ...
+
+class RegDrawRangeShift(BaseRegEdit):
+    """
+    
+    This class inherits from :class:`BaseRegEdit`
+    
+    Moves the ranges a part's ``drawindexed`` lines draw by a fixed number of indices, for an index buffer that
+    now sits behind other indices
+    
+    When a fix concatenates several index buffers into one, every buffer after the first starts :attr:`offset`
+    indices in, and the ``drawindexed = <count>, <start>, <base>`` lines written for it address the start of the
+    merged buffer instead of its own part of it. This edit adds :attr:`offset` to each line's start and keeps
+    every other field as written; ``drawindexed = auto`` becomes the buffer's whole range,
+    ``<count>, <offset>, 0``. A line whose start is not a plain non-negative number is left as it is.
+    
+    .. code-block:: ini
+    
+        ; offset = 30, count = 12
+        drawindexed = 6, 0, 0       ; -> 6, 30, 0
+        drawindexed = 6, 6          ; -> 6, 36
+        drawindexed = auto          ; -> 12, 30, 0
+        drawindexed = $n, $s, 0     ; untouched
+    
+    Some draws take their start from a variable the part sets (eg. a library's command list drawing
+    ``drawindexed = $_1, $_2, 0``): every key of :attr:`startKeys` --- matched case-insensitively, ignoring
+    surrounding whitespace --- holds such a start, and its plain non-negative values are moved by :attr:`offset` too
+    
+    Parameters
+    ----------
+    offset: :class:`int`
+        How many indices the ranges are moved by :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``
+    
+    count: :class:`int`
+        How many indices the buffer holds, which is what ``drawindexed = auto`` becomes :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``
+    
+    startKeys: List[:class:`str`]
+        Further keys whose values are start indices into the same buffer :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``[]``
+        
+    """
+    @staticmethod
+    def shiftRange(value: str, offset: typing.SupportsInt | typing.SupportsIndex, count: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        The value of a ``drawindexed`` line moved by 'offset': ``auto`` becomes ``<count>, <offset>, 0``, a line
+        whose second field is a plain non-negative number has 'offset' added to it (every field then written
+        stripped, separated by ``", "``), and anything else is returned as it is
+        
+        Parameters
+        ----------
+        value: :class:`str`
+            The value of the ``drawindexed`` line
+        
+        offset: :class:`int`
+            How many indices to move the range by
+        
+        count: :class:`int`
+            How many indices the buffer holds
+        
+        Returns
+        -------
+        :class:`str`
+            The moved value
+        """
+    def __init__(self, offset: typing.SupportsInt | typing.SupportsIndex = 0, count: typing.SupportsInt | typing.SupportsIndex = 0, startKeys: collections.abc.Sequence[str] = []) -> None:
+        ...
+    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
+        """
+        Moves every ``drawindexed`` line of 'part' by :attr:`offset`, then every plain non-negative value of the
+        keys :attr:`startKeys` names
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the `IfTemplate` that is being editted
+        
+        sectionName: :class:`str`
+            The name of the `section`_ that is being editted. Unused by this edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The same part that was passed in, after editing
+        """
+    @property
+    def count(self) -> int:
+        """
+        :class:`int`: How many indices the buffer holds, which is what ``drawindexed = auto`` becomes
+        """
+    @count.setter
+    def count(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def offset(self) -> int:
+        """
+        :class:`int`: How many indices the ranges are moved by
+        """
+    @offset.setter
+    def offset(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def startKeys(self) -> list[str]:
+        """
+        List[:class:`str`]: Further keys whose values are start indices into the same buffer, matched case-insensitively and ignoring surrounding whitespace
+        """
+    @startKeys.setter
+    def startKeys(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+
 class RegFillMissing(BaseIniGraphEdit):
     """
     
@@ -19508,6 +21006,17 @@ class RegFillMissing(BaseIniGraphEdit):
     def reg(self, arg1: str) -> None:
         ...
     @property
+    def skipWhen(self) -> typing.Any:
+        """
+        Optional[Tuple[:class:`str`, :class:`str`]]: A `KVP`_ that keeps a part from being filled -- a part already
+        carrying this key with this value (compared stripped and case-insensitively, as 3dmigoto reads it) is left
+        as it is, in every :attr:`fillMode`. The usual one is ``("handling", "skip")``: a part that skips the draw
+        draws nothing on the mod's own character, so it is given no ``drawindexed`` either. **Default**: ``None``
+        """
+    @skipWhen.setter
+    def skipWhen(self, arg1: typing.Any) -> None:
+        ...
+    @property
     def trackKeys(self) -> bool:
         """
         :class:`bool`: Whether to keep track of the `KVPs`_ seen so far for colouring while walking the
@@ -19566,6 +21075,204 @@ class RegFillMissingMode:
     @property
     def value(self) -> int:
         ...
+class RegIfTemplateAdd(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Adds the parts of an :class:`IfTemplate` --- `KVPs`_ and whole ``if`` / ``else`` blocks --- into every
+    root `section`_ of a graph, at the :attr:`position` given
+    
+    Where :class:`RegAdd` adds `KVPs`_ to parts that already exist and :class:`RegBottomAdd` appends one
+    block at the bottom, this one inserts a structure the caller wrote, wherever the fix needs it to run
+    --- eg. a constant buffer bound per pass BEFORE the `section`_'s draws:
+    
+    .. code-block:: ini
+    
+        [TextureOverrideCharacterLegs]
+        hash = a913e9a9
+        match_first_index = 0
+        ; position = AfterKey, key = match_first_index: the template's parts go HERE
+        if ps == 51840.1
+            ps-cb3 = ResourceLegsMainCb3
+        else if ps == 51840.2
+            ps-cb3 = ResourceLegsOutlineCb3
+        endif
+        ib = ResourceLegsIB
+        drawindexed = auto
+    
+    The template's parts are copied in, so one template serves every root and every graph. Its ``if``
+    lines are re-parsed under the graph's own :class:`Z3Context`, and its `KVPs`_ keep their nesting,
+    shifted to the depth they are inserted at. A template is most easily written as text and parsed:
+    the one `section`_ of an :class:`IniFile` made from it
+    
+    .. note::
+        At the bottom, a namespace-merged `section`_ (one guarded as a whole by
+        ``if $\\<Char>\\Master\\swapvar == n``) takes the parts inside its guard, as :class:`RegBottomAdd`
+        does. With :attr:`Position.AfterKey` or :attr:`Position.BeforeTopKey`, a `section`_ with no
+        :attr:`key` is left alone, as is one with no top-level ``if`` under :attr:`Position.BeforeFirstIf`.
+        :attr:`everySection` and :attr:`sectionFilter` choose which `sections`_ are added to
+    
+    Parameters
+    ----------
+    ifTemplate: Optional[:class:`IfTemplate`]
+        The template whose parts are added. ``None`` makes the edit a no-op
+    
+    position: :class:`RegIfTemplateAdd.Position`
+        Where in each root the parts go :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``RegIfTemplateAdd.Position.Bottom``
+    
+    key: :class:`str`
+        The key :attr:`Position.AfterKey` inserts after, and :attr:`Position.BeforeTopKey` before
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``""``
+        
+    """
+    class Position:
+        """
+        
+        Where in each root :class:`RegIfTemplateAdd` puts the template's parts
+            
+        
+        Members:
+        
+          Top : Before everything the `section`_ has
+        
+          Bottom : After everything the `section`_ has, at its own depth (inside a namespace-merge guard)
+        
+          AfterKey : Right after the first `KVP`_ whose key is :attr:`RegIfTemplateAdd.key`, at that `KVP`_'s depth
+        
+          BeforeTopKey : Right before the first `KVP`_ at the `section`_'s top level (outside every ``if``) whose key is :attr:`RegIfTemplateAdd.key`
+        
+          BeforeFirstIf : Right before the `section`_'s first top-level ``if``
+        """
+        AfterKey: typing.ClassVar[RegIfTemplateAdd.Position]  # value = <Position.AfterKey: 2>
+        BeforeFirstIf: typing.ClassVar[RegIfTemplateAdd.Position]  # value = <Position.BeforeFirstIf: 4>
+        BeforeTopKey: typing.ClassVar[RegIfTemplateAdd.Position]  # value = <Position.BeforeTopKey: 3>
+        Bottom: typing.ClassVar[RegIfTemplateAdd.Position]  # value = <Position.Bottom: 1>
+        Top: typing.ClassVar[RegIfTemplateAdd.Position]  # value = <Position.Top: 0>
+        __members__: typing.ClassVar[dict[str, RegIfTemplateAdd.Position]]  # value = {'Top': <Position.Top: 0>, 'Bottom': <Position.Bottom: 1>, 'AfterKey': <Position.AfterKey: 2>, 'BeforeTopKey': <Position.BeforeTopKey: 3>, 'BeforeFirstIf': <Position.BeforeFirstIf: 4>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    def __init__(self, ifTemplate: typing.Any = None, position: RegIfTemplateAdd.Position = ..., key: str = '') -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Adds the parts of :attr:`ifTemplate` into every root `section`_ of 'graph'
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            Asked about each root's first :class:`IfContentPart`; a root it rejects is left alone
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            The caller's key-tracking default. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            The caller's key-tracking key set. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, after editing
+        """
+    @property
+    def everySection(self) -> bool:
+        """
+        :class:`bool`: Whether the parts go into EVERY `section`_ of the graph -- the ones its roots call
+        included -- rather than only its roots. **Default**: ``False``
+        """
+    @everySection.setter
+    def everySection(self, arg0: bool) -> None:
+        ...
+    @property
+    def ifTemplate(self) -> typing.Any:
+        """
+        Optional[:class:`IfTemplate`]: The template whose parts are added
+        """
+    @ifTemplate.setter
+    def ifTemplate(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def key(self) -> str:
+        """
+        :class:`str`: The key :attr:`Position.AfterKey` inserts after, and :attr:`Position.BeforeTopKey` before
+        """
+    @key.setter
+    def key(self, arg0: str) -> None:
+        ...
+    @property
+    def position(self) -> RegIfTemplateAdd.Position:
+        """
+        :class:`RegIfTemplateAdd.Position`: Where in each root the parts go
+        """
+    @position.setter
+    def position(self, arg0: RegIfTemplateAdd.Position) -> None:
+        ...
+    @property
+    def sectionFilter(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`str`, :class:`IfTemplate`], :class:`bool`]]: Which `sections`_ the edit adds
+        to, asked of each with its name: one it answers ``False`` for is left alone. ``None`` (the default) takes
+        every `section`_. Asked only of a `section`_ that has a place for the parts
+        """
+    @sectionFilter.setter
+    def sectionFilter(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def value(self) -> str | None:
+        """
+        Optional[:class:`str`]: The value the :attr:`key` `KVP`_ must have for :attr:`Position.AfterKey` and
+        :attr:`Position.BeforeTopKey` to take it. ``None`` (the default) takes any value
+        """
+    @value.setter
+    def value(self, arg0: str | None) -> None:
+        ...
+
 class RegNewVals(BaseRegEdit):
     """
     
@@ -22454,8 +24161,13 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     
     Parameters
     ----------
-    srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]
+    srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]
         The different registers that reference the particular resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        A value may be a list of registers, to collect a resource bound at several registers of one graph
+        in ONE edit -- each resource edit builds its resources once per edit, so two collects sharing an
+        edit would leave the second one's references pointing at names nothing declares. A
+        ``resPredicates`` entry is handed the register it is judging :raw-html:`<br />` :raw-html:`<br />`
     
         The keys in the dictionary are the location of which :class:`IniSectionGraph` to search for,
         which contains:
@@ -22628,8 +24340,8 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     @property
     def srcRegs(self) -> typing.Any:
         """
-        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]: The different registers that
-        reference the particular resource
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]: The
+        different registers that reference the particular resource -- a list for several registers of one graph
         """
     @srcRegs.setter
     def srcRegs(self, arg1: typing.Any) -> None:
@@ -24053,6 +25765,204 @@ class TexReplace(BaseResEdit):
     @texEditor.setter
     def texEditor(self, arg0: typing.Any) -> None:
         ...
+class TextureRoleChooser:
+    """
+    
+    Chooses, from what a parser found out about a mod's textures, the one file each mod object takes for
+    each role -- and records the answer in an :class:`IniParseData`
+    
+    A parser collects the evidence (:attr:`candidates`, :attr:`bindings`, :attr:`declared`,
+    :attr:`declaredFiles`) and :meth:`choose` does the rest, in three steps:
+    
+    #. **One entry per file**: a file found for a role more than one way keeps the first way it was found
+    #. **Refusals**, for a :attr:`regionRoles` role only -- a role whose texture marks REGIONS, such as a
+       material mask: a file one mod object binds for that role AND another role is not that role's file,
+       and a flat file (:attr:`isFlat`) marks no regions. A refused role takes the ordinary "the mod has no
+       file for this role" path
+    #. **Ranking, per mod object**, lower first: a file the mod DECLARES as another role by the ``hash =``
+       over it comes after one it does not; then how specifically the mod binds it on THIS object (only
+       here, here and elsewhere, nowhere, only elsewhere); then whether the .ini declares a resource for it;
+       then how far it is from the .ini. Two files equal on the first four are a tie, recorded in
+       :attr:`IniParseData.RoleFile.tiedFile`
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def choose(self, data: IniParseData, modObjs: collections.abc.Sequence[tuple[str, str]]) -> None:
+        """
+        Narrows the candidates and chooses a file for every role and mod object, into ``data``
+        
+        Parameters
+        ----------
+        data: :class:`IniParseData`
+            Where the answers go
+        
+        modObjs: List[Tuple[:class:`str`, :class:`str`]]
+            The mod objects to choose for
+        """
+    @property
+    def bindings(self) -> dict[str, dict[tuple[str, str], set[str]]]:
+        """
+        Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Set[:class:`str`]]]: What the mod's own
+        `sections`_ bind each file for, as ``file -> mod object -> roles``
+        """
+    @bindings.setter
+    def bindings(self, arg0: collections.abc.Mapping[str, collections.abc.Mapping[tuple[str, str], collections.abc.Set[str]]]) -> None:
+        ...
+    @property
+    def candidates(self) -> dict[str, list[tuple[str, str]]]:
+        """
+        Dict[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]: Every file found for each role, as
+        ``role -> (file, how it was found)``, in the order found
+        """
+    @candidates.setter
+    def candidates(self, arg0: collections.abc.Mapping[str, collections.abc.Sequence[tuple[str, str]]]) -> None:
+        ...
+    @property
+    def declared(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The roles the mod DECLARES each file as, by writing the game
+        texture's ``hash =`` over it
+        """
+    @declared.setter
+    def declared(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def declaredFiles(self) -> set[str]:
+        """
+        Set[:class:`str`]: The files the .ini declares a resource `section`_ for
+        """
+    @declaredFiles.setter
+    def declaredFiles(self, arg0: collections.abc.Set[str]) -> None:
+        ...
+    @property
+    def folder(self) -> str:
+        """
+        :class:`str`: The folder of the .ini, which distance is measured from
+        """
+    @folder.setter
+    def folder(self, arg0: str) -> None:
+        ...
+    @property
+    def isFlat(self) -> collections.abc.Callable[[str], bool]:
+        """
+        Optional[Callable[[:class:`str`], :class:`bool`]]: Whether a file is flat, for a :attr:`regionRoles`
+        role. **Default**: its channel 0 -- the code that says where the regions are -- is constant
+        """
+    @isFlat.setter
+    def isFlat(self, arg0: collections.abc.Callable[[str], bool]) -> None:
+        ...
+    @property
+    def regionRoles(self) -> set[str]:
+        """
+        Set[:class:`str`]: The roles whose textures mark regions -- the only ones a file is refused for
+        """
+    @regionRoles.setter
+    def regionRoles(self, arg0: collections.abc.Set[str]) -> None:
+        ...
+
+class TextureRoles:
+    """
+    
+    What ROLE each of a mod's textures plays -- read off the .ini, never off the folder
+    
+    A texture is identified by a **hash and a register**, in both games: the hash is either the texture's
+    own (the `section`_ IS that texture and its ``this =`` names the file), or the mesh's (the `section`_ is
+    a draw the parser placed on a mod object, and the ``ps-t<N>`` within it says which role the file it
+    binds plays). A parser builds this and hands it to the fixer through :class:`IniParseData`
+    
+    A file plays EVERY role the .ini binds it for, since one atlas can serve two components
+        
+    """
+    class Role:
+        """
+        
+        One role a file plays, and how it was decided
+        
+        Parameters
+        ----------
+        role: :class:`str`
+            The role, eg. ``bodyDiffuse``
+        
+        how: :class:`str`
+            How it was decided, for the log
+            
+        """
+        def __init__(self, role: str, how: str = '') -> None:
+            ...
+        @property
+        def how(self) -> str:
+            """
+            :class:`str`: How it was decided, for the log
+            """
+        @how.setter
+        def how(self, arg0: str) -> None:
+            ...
+        @property
+        def role(self) -> str:
+            """
+            :class:`str`: The role, eg. ``bodyDiffuse``
+            """
+        @role.setter
+        def role(self, arg0: str) -> None:
+            ...
+    DeclaredHash: typing.ClassVar[str] = 'its own hash '
+    def __init__(self) -> None:
+        ...
+    def add(self, file: str, role: str, how: str) -> None:
+        """
+        Records that ``file`` plays ``role``, decided by ``how``. The same role twice for one file is kept once
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The texture file, as the .ini names it resolved against its folder
+        
+        role: :class:`str`
+            The role it plays
+        
+        how: :class:`str`
+            How that was decided
+        """
+    def addResource(self, iniPath: str, resource: str, file: str) -> None:
+        """
+        Records the file a .ini's resource `section`_ names
+        
+        Parameters
+        ----------
+        iniPath: :class:`str`
+            The .ini the resource was declared in
+        
+        resource: :class:`str`
+            The resource `section`_'s name
+        
+        file: :class:`str`
+            The file it names
+        """
+    def resourcesOf(self, iniPath: str) -> list[tuple[str, str]]:
+        """
+        The resource `sections`_ one .ini declares
+        
+        Parameters
+        ----------
+        iniPath: :class:`str`
+            The .ini
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            ``(resource, file)`` for each
+        """
+    def rolesOf(self) -> dict[str, list[TextureRoles.Role]]:
+        """
+        Every file with the roles it plays
+        
+        Returns
+        -------
+        Dict[:class:`str`, List[:class:`TextureRoles.Role`]]
+            file -> its roles
+        """
+
 class Token:
     """
     
@@ -24492,6 +26402,33 @@ class VGComponentSplit:
         Encodes triangles into ``.ib`` bytes (3 unsigned ints per triangle)
         """
     @staticmethod
+    def fitTexcoordLine(line: bytes, width: typing.SupportsInt | typing.SupportsIndex, neutralColour: bool, zeroSecondUV: bool) -> bytes:
+        """
+        A GIMI ``Texcoord.buf`` line (``COLOR`` R8G8B8A8, ``TEXCOORD`` float2, then an optional ``TEXCOORD1`` float2)
+        fitted for another character's shader: resized to 'width' bytes first when 'width' is not ``0`` (widening
+        zero-pads at the end, narrowing drops the end), then with 'neutralColour' the vertex colour's green and blue set
+        to ``128``, and with 'zeroSecondUV' ``TEXCOORD1`` (bytes 12 to 20) set to zeros when the line has it
+        
+        Parameters
+        ----------
+        line: :class:`bytes`
+            The source line
+        
+        width: :class:`int`
+            The width of the line to write, in bytes, or ``0`` to keep its own
+        
+        neutralColour: :class:`bool`
+            Whether to set the vertex colour's green and blue to ``128``
+        
+        zeroSecondUV: :class:`bool`
+            Whether to zero ``TEXCOORD1``
+        
+        Returns
+        -------
+        :class:`bytes`
+            The fitted line
+        """
+    @staticmethod
     def keepLines(src: bytes, bytesPerLine: typing.SupportsInt | typing.SupportsIndex, lines: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> bytes:
         """
         Keeps only the given lines of a fixed-stride buffer, in the order given
@@ -24515,6 +26452,33 @@ class VGComponentSplit:
         -------
         :class:`bytes`
             The mirrored line
+        """
+    @staticmethod
+    def offsetPositionLine(line: bytes, offset: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(3)"], fade: typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(2)"] = [0.0, 0.0]) -> bytes:
+        """
+        A GIMI ``Position.buf`` line with its POSITION (the first three floats) moved by 'offset', optionally faded out
+        with height: with ``fade = (full, none)`` and ``none > full``, the offset is whole at or below the height
+        ``full``, nothing at or above ``none``, and in proportion between them --- scaled by the line's ORIGINAL height.
+        Any other 'fade' moves every line the whole 'offset'. The normal and the tangent are kept; a line shorter than a
+        position comes back as it is
+        
+        Parameters
+        ----------
+        line: :class:`bytes`
+            The source line
+        
+        offset: Tuple[:class:`float`, :class:`float`, :class:`float`]
+            How far to move the position, per axis, in model units
+        
+        fade: Tuple[:class:`float`, :class:`float`]
+            The heights ``(full, none)`` the offset fades between :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``(0, 0)``, no fade
+        
+        Returns
+        -------
+        :class:`bytes`
+            The moved line
         """
     def __init__(self, weights: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], "FixedSize(4)"]], indices: collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(4)"]], ibs: collections.abc.Sequence[collections.abc.Sequence[typing.Annotated[collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], "FixedSize(3)"]]], specs: collections.abc.Sequence[VGComponentSpec]) -> None:
         ...
@@ -25868,6 +27832,392 @@ class VertexCounts:
         """
         :class:`int`: The position (0-based) of the version index within a row's index values
         """
+class WWMIBlend:
+    """
+    
+    Remaps the vertex groups of a Wuthering Waves (WWMI) mod's ``Blend.buf``
+    
+    A WWMI ``Blend.buf`` line is N one-byte bone ids followed by N one-byte weights, where N -- the
+    influences per vertex -- is a property of the character (four for Sanhua, eight for Chisa) and is read
+    off the buffer's size against its ``Position.buf`` (:meth:`layoutOf`) rather than assumed. Three shapes
+    of mod need more than :meth:`BlendFile.remap`:
+    
+    * a character past 256 merged bones keeps each vertex's true 16-bit ids in a ``BlendRemapVertexVG.buf``
+      beside the blend, whose 8-bit ids are then only an index into WWMI's blend remap --
+      :meth:`remapThroughVertexVG`
+    * a mod from before WWMI's merged skeleton writes each component's OWN bone ids, which have to be lifted
+      into the merged skeleton through that component's ``vg_map`` before the row applies -- :meth:`liftLegacy`
+    * a remap ONTO a character past 256 bones has to write WWMI's own blend remap -- :meth:`writeRemap`
+    
+    and a target whose draws read a different number of influences than the mod carries is met by
+    :meth:`widen` and :meth:`narrow`
+    
+    Every method raises a :class:`RuntimeError` with the reason when a buffer cannot be read or written in
+    the shape asked
+    
+    .. note::
+        Every method is static; the class holds nothing
+        
+    """
+    class Layout:
+        """
+        
+        What a mod's ``Position.buf`` and ``Blend.buf`` sizes say its blend layout is
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def influences(self) -> int:
+            """
+            :class:`int`: How many (id, weight) slots each vertex carries
+            """
+        @influences.setter
+        def influences(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def vertices(self) -> int:
+            """
+            :class:`int`: How many vertices the mesh has
+            """
+        @vertices.setter
+        def vertices(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    class LegacyLift:
+        """
+        
+        A mod from before WWMI's merged skeleton, as :meth:`WWMIBlend.liftLegacy` and :meth:`WWMIBlend.writeRemap`
+        read one
+        
+        Parameters
+        ----------
+        indexPath: :class:`str`
+            The mod's index buffer
+        
+        drawRanges: Dict[:class:`int`, List[Tuple[:class:`int`, :class:`int`]]]
+            source component -> the (index count, first index) of each of its draws
+        
+        vgMaps: Dict[:class:`int`, List[:class:`int`]]
+            source component -> its ``vg_map``: component-local bone id -> merged bone id
+            
+        """
+        def __init__(self, indexPath: str, drawRanges: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]], vgMaps: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+        @property
+        def drawRanges(self) -> dict[int, list[tuple[int, int]]]:
+            """
+            Dict[:class:`int`, List[Tuple[:class:`int`, :class:`int`]]]: source component -> its draws
+            """
+        @drawRanges.setter
+        def drawRanges(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]]) -> None:
+            ...
+        @property
+        def indexPath(self) -> str:
+            """
+            :class:`str`: The mod's index buffer
+            """
+        @indexPath.setter
+        def indexPath(self, arg0: str) -> None:
+            ...
+        @property
+        def vgMaps(self) -> dict[int, list[int]]:
+            """
+            Dict[:class:`int`, List[:class:`int`]]: source component -> its ``vg_map``
+            """
+        @vgMaps.setter
+        def vgMaps(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]]) -> None:
+            ...
+    class RemapFiles:
+        """
+        
+        The three buffers of a WWMI blend remap, besides the remapped blend itself
+        
+        Parameters
+        ----------
+        vertexVG: :class:`str`
+            Every vertex's remapped ids at their full 16 bits
+        
+        forward: :class:`str`
+            :attr:`WWMIBlend.RemapSize` uint16, local id -> merged bone
+        
+        reverse: :class:`str`
+            :attr:`WWMIBlend.RemapSize` uint16, merged bone -> local id
+            
+        """
+        def __init__(self, vertexVG: str, forward: str, reverse: str) -> None:
+            ...
+        @property
+        def forward(self) -> str:
+            """
+            :class:`str`: local id -> merged bone
+            """
+        @forward.setter
+        def forward(self, arg0: str) -> None:
+            ...
+        @property
+        def reverse(self) -> str:
+            """
+            :class:`str`: merged bone -> local id
+            """
+        @reverse.setter
+        def reverse(self, arg0: str) -> None:
+            ...
+        @property
+        def vertexVG(self) -> str:
+            """
+            :class:`str`: The 16-bit ids
+            """
+        @vertexVG.setter
+        def vertexVG(self, arg0: str) -> None:
+            ...
+    MaxByteBone: typing.ClassVar[int] = 255
+    PositionStride: typing.ClassVar[int] = 12
+    RemapSize: typing.ClassVar[int] = 512
+    @staticmethod
+    def blendElements(influences: typing.SupportsInt | typing.SupportsIndex) -> list:
+        """
+        The elements of a WWMI ``Blend.buf`` line: ``influences`` one-byte ids under ``"BLENDINDICES"``,
+        then ``influences`` one-byte weights under ``"BLENDWEIGHT"``
+        
+        Parameters
+        ----------
+        influences: :class:`int`
+            How many (id, weight) slots each vertex carries
+        
+        Returns
+        -------
+        List[:class:`BufElementType`]
+            The elements
+        """
+    @staticmethod
+    def componentOfVertex(indexPath: str, drawRanges: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]]], vertices: typing.SupportsInt | typing.SupportsIndex) -> list[int]:
+        """
+        Which source component draws each vertex, off the mod's own draw ranges over its index buffer -- ``-1`` for
+        a vertex no range draws. Where two ranges reach one vertex, the later component in ``drawRanges`` wins
+        
+        Parameters
+        ----------
+        indexPath: :class:`str`
+            The mod's index buffer
+        
+        drawRanges: Dict[:class:`int`, List[Tuple[:class:`int`, :class:`int`]]]
+            source component -> the (index count, first index) of each of its draws
+        
+        vertices: :class:`int`
+            How many vertices the mesh has
+        
+        Returns
+        -------
+        List[:class:`int`]
+            One component per vertex
+        """
+    @staticmethod
+    def influencesOf(blendPath: str, vertices: typing.SupportsInt | typing.SupportsIndex, positionPath: str, fallback: typing.SupportsInt | typing.SupportsIndex = 4) -> int:
+        """
+        How many influences a vertex of the mod's blend carries -- :meth:`layoutOf`'s answer, else the blend's size
+        over ``vertices``, else ``fallback``
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The mod's ``Blend.buf``
+        
+        vertices: :class:`int`
+            The vertex count the mod declares, used only when the ``Position.buf`` does not answer. Zero or less
+            for none
+        
+        positionPath: :class:`str`
+            Its ``Position.buf``
+        
+        fallback: :class:`int`
+            The answer when nothing else gives one :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``4``
+        
+        Returns
+        -------
+        :class:`int`
+            The influences per vertex
+        """
+    @staticmethod
+    def layoutOf(blendPath: str, positionPath: str) -> FixRaidenBoss2.core.WWMIBlend.Layout | None:
+        """
+        The vertex count and influences per vertex the two buffers' SIZES imply
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The mod's ``Blend.buf``
+        
+        positionPath: :class:`str`
+            Its ``Position.buf``, which gives the vertex count
+        
+        Returns
+        -------
+        Optional[:class:`WWMIBlend.Layout`]
+            The layout, or ``None`` when the sizes imply none: no vertices, a blend that does not divide by them,
+            or an odd number of bytes per vertex
+        """
+    @staticmethod
+    def liftLegacy(blendPath: str, fixedPath: str, positionPath: str, legacy: WWMIBlend.LegacyLift, row: typing.Any) -> None:
+        """
+        Remaps the blend of a mod from before WWMI's merged skeleton: each weighted slot's id is local to the
+        component that draws the vertex (:meth:`componentOfVertex`), so it is lifted through that component's
+        ``vg_map`` and only then sent through ``row``. A vertex no component with a ``vg_map`` draws is left alone
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The mod's ``Blend.buf``
+        
+        fixedPath: :class:`str`
+            Where the remapped blend is written
+        
+        positionPath: :class:`str`
+            Its ``Position.buf``
+        
+        legacy: :class:`WWMIBlend.LegacyLift`
+            The mod's index buffer, draw ranges and ``vg_map``\\\\s
+        
+        row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+            The vertex group remap
+        """
+    @staticmethod
+    def narrow(path: str, vertexVG: str, vertices: typing.SupportsInt | typing.SupportsIndex, fromInfluences: typing.SupportsInt | typing.SupportsIndex, toInfluences: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Narrows every vertex of a blend, in place, from ``fromInfluences`` slots to ``toInfluences``
+        
+        Slots of one vertex naming the same bone are merged first, their weights summed onto the first; then each
+        vertex keeps its ``toInfluences`` heaviest slots (a tie goes to the lower slot), their weights scaled so the vertex's
+        total is what it was, the rounding remainder on the heaviest. ``vertexVG``, when given, names the bones and
+        keeps the SAME slots. A blend already ``toInfluences`` wide is left alone
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The blend
+        
+        vertexVG: :class:`str`
+            The ``BlendRemapVertexVG.buf`` beside it, or ``""`` for none
+        
+        vertices: :class:`int`
+            How many vertices it holds
+        
+        fromInfluences: :class:`int`
+            How many slots it has
+        
+        toInfluences: :class:`int`
+            How many it should keep
+        """
+    @staticmethod
+    def remapThroughVertexVG(blendPath: str, fixedPath: str, vertexVGPath: str, positionPath: str, row: typing.Any) -> None:
+        """
+        Remaps the blend of a mod whose skeleton passes 256 bones: each weighted slot's id is read from its
+        ``BlendRemapVertexVG.buf`` (the one-byte id in the blend is only an index into the mod's blend remap) and
+        sent through ``row``. The weights are kept
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The mod's ``Blend.buf``
+        
+        fixedPath: :class:`str`
+            Where the remapped blend is written
+        
+        vertexVGPath: :class:`str`
+            The mod's ``BlendRemapVertexVG.buf``
+        
+        positionPath: :class:`str`
+            Its ``Position.buf``
+        
+        row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+            The vertex group remap
+        """
+    @staticmethod
+    def vertexVGElements(influences: typing.SupportsInt | typing.SupportsIndex) -> list:
+        """
+        The elements of a ``BlendRemapVertexVG.buf`` line: ``influences`` 16-bit ids under
+        ``"BLENDINDICES"``, and no weights
+        
+        Parameters
+        ----------
+        influences: :class:`int`
+            How many ids each vertex carries
+        
+        Returns
+        -------
+        List[:class:`BufElementType`]
+            The elements
+        """
+    @staticmethod
+    def widen(path: str, vertices: typing.SupportsInt | typing.SupportsIndex, fromInfluences: typing.SupportsInt | typing.SupportsIndex, toInfluences: typing.SupportsInt | typing.SupportsIndex, idBytes: typing.SupportsInt | typing.SupportsIndex, hasWeights: bool) -> None:
+        """
+        Pads every vertex of a per-vertex buffer, in place, from ``fromInfluences`` slots to ``toInfluences``: ``fromInfluences`` ids of
+        ``idBytes`` bytes, then -- for a blend line -- ``fromInfluences`` one-byte weights. The new slots are bone 0 at
+        weight 0, which no shader weighs. A file already ``toInfluences`` wide is left alone
+        
+        Parameters
+        ----------
+        path: :class:`str`
+            The buffer
+        
+        vertices: :class:`int`
+            How many vertices it holds
+        
+        fromInfluences: :class:`int`
+            How many slots it has
+        
+        toInfluences: :class:`int`
+            How many it should have
+        
+        idBytes: :class:`int`
+            The bytes of one id: ``1`` in a blend, ``2`` in a ``BlendRemapVertexVG.buf``
+        
+        hasWeights: :class:`bool`
+            Whether each line carries weights after its ids
+        """
+    @staticmethod
+    def writeRemap(blendPath: str, fixedPath: str, srcVertexVGPath: str, positionPath: str, row: typing.Any, out: WWMIBlend.RemapFiles, legacy: FixRaidenBoss2.core.WWMIBlend.LegacyLift | None = None) -> None:
+        """
+        Remaps a blend ONTO a character whose merged skeleton passes 256 bones, writing WWMI's blend remap for it
+        
+        One remap serves the whole mesh, over the distinct targets ``row`` names, so a caller can declare the
+        remap's bone count from the row alone. The blend gets the LOCAL id each mapped bone has in that remap,
+        which is what WWMI's BlendRemapper writes there at run time, and the weights are kept. The true ids are
+        the mod's own ``BlendRemapVertexVG.buf`` when it has one, else the blend's, lifted as :meth:`liftLegacy`
+        lifts them when ``legacy`` is given
+        
+        Parameters
+        ----------
+        blendPath: :class:`str`
+            The mod's ``Blend.buf``
+        
+        fixedPath: :class:`str`
+            Where the remapped blend is written
+        
+        srcVertexVGPath: :class:`str`
+            The mod's own ``BlendRemapVertexVG.buf``, or ``""`` for none
+        
+        positionPath: :class:`str`
+            Its ``Position.buf``
+        
+        row: Union[:class:`VGRemap`, Dict[:class:`int`, :class:`int`]]
+            The vertex group remap
+        
+        out: :class:`WWMIBlend.RemapFiles`
+            Where the remap's three buffers are written
+        
+        legacy: Optional[:class:`WWMIBlend.LegacyLift`]
+            The mod's legacy lift, for a mod from before WWMI's merged skeleton :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`RuntimeError`
+            Also when ``row`` maps to a bone a remap of :attr:`RemapSize` entries cannot name
+        """
+
 class WWMIBuilder:
     """
     
@@ -26719,18 +29069,10 @@ class WWMIFixerConfig:
     def filterStep(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
-    def flatFallsBackToSource(self) -> set[str]:
-        """
-        Set[:class:`str`]: Roles whose texture marks REGIONS, so a constant one from the mod is replaced by
-        the source's own (its fallback download)
-        """
-    @flatFallsBackToSource.setter
-    def flatFallsBackToSource(self, arg0: collections.abc.Set[str]) -> None:
-        ...
-    @property
     def flatLeftToGame(self) -> set[str]:
         """
-        Set[:class:`str`]: Like :attr:`flatFallsBackToSource`, except that a flat one is left to the GAME
+        Set[:class:`str`]: Roles of :attr:`WWMITextureFacts.regionRoles` whose refused file is left to the GAME
+        rather than replaced by the source's own download
         """
     @flatLeftToGame.setter
     def flatLeftToGame(self, arg0: collections.abc.Set[str]) -> None:
@@ -26801,16 +29143,6 @@ class WWMIFixerConfig:
         """
     @plan.setter
     def plan(self, arg0: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, WWMIFixerConfig.SourceComponent]) -> None:
-        ...
-    @property
-    def readInisBelow(self) -> bool:
-        """
-        :class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
-        fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
-        above it; ``DISABLED`` folders are skipped. **Default**: ``False``
-        """
-    @readInisBelow.setter
-    def readInisBelow(self, arg0: bool) -> None:
         ...
     @property
     def referenceBoneCentroids(self) -> dict[int, typing.Annotated[list[float], "FixedSize(3)"]]:
@@ -27127,6 +29459,164 @@ class WWMIParserConfig:
     @version.setter
     def version(self, arg0: str) -> None:
         ...
+class WWMIShapeKeys:
+    """
+    
+    The three shape-key buffers of a Wuthering Waves (WWMI) mod, as WWMI Tools writes them
+    
+    * ``ShapeKeyOffset`` holds the FIRST entry of each key slot, one ``uint32`` a slot
+    * ``ShapeKeyVertexId`` holds one ``uint32`` vertex id per entry
+    * ``ShapeKeyVertexOffset`` holds one vertex offset of a fixed width per entry
+    
+    A slot's entries run to the next slot's first, the last slot's to the end
+    
+    The game drives a character's shape keys -- blinks, mouth shapes -- by SLOT, and two skins of one
+    character can number the same keys differently, so a mod remapped between them has its keys put in the
+    target's order by :meth:`reorder`
+    
+    .. note::
+        Every method is static; the class holds nothing
+        
+    """
+    class Files:
+        """
+        
+        The three buffers of one set of shape keys
+        
+        Parameters
+        ----------
+        offsets: :class:`str`
+            ``ShapeKeyOffset``: each slot's first entry
+        
+        vertexIds: :class:`str`
+            ``ShapeKeyVertexId``: each entry's vertex
+        
+        vertexOffsets: :class:`str`
+            ``ShapeKeyVertexOffset``: each entry's offset
+            
+        """
+        def __init__(self, offsets: str, vertexIds: str, vertexOffsets: str) -> None:
+            ...
+        @property
+        def offsets(self) -> str:
+            """
+            :class:`str`: Each slot's first entry
+            """
+        @offsets.setter
+        def offsets(self, arg0: str) -> None:
+            ...
+        @property
+        def vertexIds(self) -> str:
+            """
+            :class:`str`: Each entry's vertex
+            """
+        @vertexIds.setter
+        def vertexIds(self, arg0: str) -> None:
+            ...
+        @property
+        def vertexOffsets(self) -> str:
+            """
+            :class:`str`: Each entry's offset
+            """
+        @vertexOffsets.setter
+        def vertexOffsets(self, arg0: str) -> None:
+            ...
+    class Layout:
+        """
+        
+        What a set of shape-key buffers holds
+            
+        """
+        def __init__(self) -> None:
+            ...
+        @property
+        def entries(self) -> int:
+            """
+            :class:`int`: How many entries there are
+            """
+        @entries.setter
+        def entries(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+        @property
+        def firsts(self) -> list[int]:
+            """
+            List[:class:`int`]: Each slot's first entry. Empty when the buffers are not this layout
+            """
+        @firsts.setter
+        def firsts(self, arg0: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+            ...
+        @property
+        def offsetWidth(self) -> int:
+            """
+            :class:`int`: The bytes of one vertex offset. Zero when the buffers are not this layout
+            """
+        @offsetWidth.setter
+        def offsetWidth(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+            ...
+    @staticmethod
+    def checkReorder(files: WWMIShapeKeys.Files, order: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> str:
+        """
+        Why the buffers cannot be put in ``order`` -- empty when they can
+        
+        Parameters
+        ----------
+        files: :class:`WWMIShapeKeys.Files`
+            The buffers
+        
+        order: List[:class:`int`]
+            The order :meth:`reorder` would be asked for
+        
+        Returns
+        -------
+        :class:`str`
+            The reason, or ``""``
+        """
+    @staticmethod
+    def layoutOf(files: WWMIShapeKeys.Files) -> WWMIShapeKeys.Layout:
+        """
+        Reads the layout off the three buffers' bytes and sizes
+        
+        Parameters
+        ----------
+        files: :class:`WWMIShapeKeys.Files`
+            The buffers
+        
+        Returns
+        -------
+        :class:`WWMIShapeKeys.Layout`
+            The layout, with no slots when the sizes do not divide as this layout's do
+        
+        Raises
+        ------
+        :class:`RuntimeError`
+            If the offsets cannot be read
+        """
+    @staticmethod
+    def reorder(files: WWMIShapeKeys.Files, order: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], out: WWMIShapeKeys.Files) -> None:
+        """
+        Writes the buffers again with their slots in another order
+        
+        ``order[j]`` is the key whose entries go in slot ``j``, ``-1`` for a slot that takes none. Slots past the
+        end of ``order`` keep their entries and position. A key of the first ``len(order)`` that no slot takes is
+        kept, its offsets zeroed, after the last ordered slot, so the number of entries does not change
+        
+        Parameters
+        ----------
+        files: :class:`WWMIShapeKeys.Files`
+            The buffers to read
+        
+        order: List[:class:`int`]
+            The source key for each slot
+        
+        out: :class:`WWMIShapeKeys.Files`
+            Where the reordered buffers are written
+        
+        Raises
+        ------
+        :class:`RuntimeError`
+            If a buffer cannot be read or written, or the reorder would change the number of entries
+        """
+
 class WWMITextureFacts:
     """
     
@@ -27218,6 +29708,27 @@ class WWMITextureFacts:
         """
     @identityMin.setter
     def identityMin(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def readInisBelow(self) -> bool:
+        """
+        :class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+        read (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+        above it; ``DISABLED`` folders are skipped. **Default**: ``False``
+        """
+    @readInisBelow.setter
+    def readInisBelow(self, arg0: bool) -> None:
+        ...
+    @property
+    def regionRoles(self) -> set[str]:
+        """
+        Set[:class:`str`]: The roles whose texture marks REGIONS, such as a material mask. A file the mod ships
+        for one is refused when it is flat, or when one slot binds it for this role and another too (a mask
+        pointed at the slot's normal map); the role then takes :attr:`fallbackTextures`, unless the fix leaves
+        it to the game (:attr:`WWMIFixerConfig.flatLeftToGame`). **Default**: empty
+        """
+    @regionRoles.setter
+    def regionRoles(self, arg0: collections.abc.Set[str]) -> None:
         ...
     @property
     def registerRoles(self) -> dict[int, dict[str, str]]:
@@ -27577,3 +30088,27 @@ def makeWWMIParser(config: WWMIParserConfig) -> CppIniParseFactory:
     :param config: The character's config
     :returns: A parser factory, for :meth:`CppStrategyOverrides.setParser` or the builder table
     """
+
+class ZZMIBuilder:
+    """
+    
+    Creates new :class:`ModType` objects for ZZZ (Zenless Zone Zero) mods -- the ZZMI counterpart of
+    :class:`GIBuilder`. A ZZMI mod is GIMI-shaped, and every component of a ZZZ character skins from its
+    own bone palette
+        
+    """
+    @staticmethod
+    def all() -> list[ModType]:
+        """
+        Every ZZZ :class:`ModType`, freshly built on each call
+        """
+    @staticmethod
+    def miyabi() -> ModType:
+        """
+        Creates the :class:`ModType` for Miyabi
+        """
+    @staticmethod
+    def miyabiBlossom() -> ModType:
+        """
+        Creates the :class:`ModType` for MiyabiBlossom (Miyabi's Dignified Blossom skin)
+        """

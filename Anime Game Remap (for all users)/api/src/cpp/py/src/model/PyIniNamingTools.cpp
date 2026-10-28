@@ -59,6 +59,12 @@ Every method is static.
                     py::arg("name"), py::arg("modName") = "",
                     py::doc("The remapped name for some ``.ib`` `section`_"));
 
+    cls.def_static("hasKeywordPrefix", &AGRC::IniNamingTools::hasKeywordPrefix, py::arg("value"), py::arg("keyword"),
+                    py::doc("Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``, :attr:`IniKeywords.Copy`, :attr:`IniKeywords.CopyDesc` -- rather than a resource name"));
+
+    cls.def_static("isDownloadFile", &AGRC::IniNamingTools::isDownloadFile, py::arg("path"),
+                    py::doc("Whether a file is one the library DOWNLOADS rather than one a mod ships: its name carries :attr:`IniKeywords.RemapDL`"));
+
     cls.def_static("getModSuffixedName", &AGRC::IniNamingTools::getModSuffixedName,
                     py::arg("name"), py::arg("suffix") = "", py::arg("modName") = "",
                     py::doc(R"doc(

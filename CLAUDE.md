@@ -161,7 +161,7 @@ DIFFERENT pixel shaders, and her body had been routed through the skin's hair-sh
 (`GIMIComponentFixerConfig::Component::objSlotIndices` gives each source object its own slot now).
 *Skirt triangles up to the chest*: the merge downloaded index buffers for slots the MOD never draws
 (it skips the component and declares no section for them) and drew them over the mod's own vertices;
-such a slot is now left undrawn (`GIMIComponentParseFacts::isSlotUndrawn`). *Turquoise turned red*:
+such a slot is now left undrawn (`IniParseData::isUndrawn`). *Turquoise turned red*:
 the fix was right -- the mod's textures ARE red, and the maintainer's old-loader GIMI rejects the
 newer-API lines that bind them on its own character. Each was settled by ONE hand edit of the fixed
 `.ini` or one look at the mod's texture, before any code changed (Overview habits 79-80). And

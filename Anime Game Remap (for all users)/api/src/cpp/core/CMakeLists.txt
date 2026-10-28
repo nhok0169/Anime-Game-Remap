@@ -37,7 +37,6 @@ add_library(AGRemapCore STATIC
     src/data/VGCountData.cpp
     src/data/ShapeKeyChecksumData.cpp
     src/data/VGRemapData.cpp
-    src/data/WWMITextureRoles.cpp
     src/data/ModDataAssets.cpp
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp
@@ -289,6 +288,10 @@ add_library(AGRemapCore STATIC
     src/model/buffers/VGComponentSplit.cpp
     src/model/buffers/InnerLayerOutline.cpp
     src/model/buffers/VGComponentMerge.cpp
+    src/model/buffers/DrawUVCoverage.cpp
+    src/model/buffers/WWMIBlend.cpp
+    src/model/buffers/WWMIShapeKeys.cpp
+    src/data/RabbitFX.cpp
     src/model/files/BufFileErrors.cpp
     src/model/files/BinaryFile.cpp
     src/model/files/BufFile.cpp
@@ -301,6 +304,9 @@ add_library(AGRemapCore STATIC
     src/model/strategies/bufEditors/BaseBufEditor.cpp
     src/model/strategies/bufEditors/BufEditor.cpp
     src/model/strategies/iniParsers/IniParseBuilder.cpp
+    src/model/strategies/iniParsers/IniParseData.cpp
+    src/model/strategies/iniParsers/TextureRoles.cpp
+    src/model/strategies/iniParsers/TextureRoleChooser.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp
     src/model/strategies/iniFixers/TemplateFixer.cpp

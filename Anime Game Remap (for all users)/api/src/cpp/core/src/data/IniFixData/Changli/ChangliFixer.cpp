@@ -145,7 +145,7 @@ namespace AGRemapCore {
         };
 
         config.sourceTextures = changliTextureFacts();
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
         config.removedRegs = {
@@ -170,7 +170,6 @@ namespace AGRemapCore {
         config.cleanTexcoords = true;
         config.carryByRegisterRole = true;
         // Changli13 draws from mod.ini and binds every texture from Textures/textures.ini
-        config.readInisBelow = true;
         // the skin's slots reach bone 263 (264 x 3 float4 = 792), past the 768 default
         config.mergedSkeletonSlots = 1536;
         // INERT for every mod in hand: her slot-4 sources are drawn from the mod's own file

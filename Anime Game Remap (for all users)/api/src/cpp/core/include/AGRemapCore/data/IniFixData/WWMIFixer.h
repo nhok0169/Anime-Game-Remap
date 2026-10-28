@@ -709,35 +709,8 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
-         Roles whose texture says WHERE something is, so a CONSTANT one from the mod is not usable
-         :raw-html:`<br />` :raw-html:`<br />`
-
-         A material mask marks regions. A mod that ships one holding a single value everywhere is not
-         saying "no preference": ``R = 255`` everywhere says "all of this is bare skin", and carried
-         across faithfully that is what the target's shader is told -- a jacket shaded as skin, or
-         bare thighs shaded as cloth :raw-html:`<br />` :raw-html:`<br />`
-
-         A role named here whose only candidate file is flat is treated as a role the mod has NO file
-         for, so it takes \ref fallbackTextures like any other: the SOURCE's own texture, which has
-         real regions and is authored for the UVs this mesh actually carries. The target's would be
-         authored for the target's UV layout, which this mesh does not use :raw-html:`<br />`
-         :raw-html:`<br />`
-
-         .. note::
-            Only for roles that mark regions. A DIFFUSE may legitimately be one flat colour, and a
-            normal map is nearly flat by construction, so naming either here would throw away art the
-            mod meant :raw-html:`<br />` :raw-html:`<br />`
-
-            Empty (the default) keeps every candidate whatever its pixels
-         @endrst
-         */
-        std::set<std::string> flatFallsBackToSource;
-
-        /**
-         * @brief
-         @rst
-         Roles like \ref flatFallsBackToSource, except that a flat one is left to the GAME rather
-         than replaced by a download :raw-html:`<br />` :raw-html:`<br />`
+         Roles of :cpp:member:`WWMITextureFacts::regionRoles` whose refused file is left to the GAME
+         rather than replaced by a download :raw-html:`<br />` :raw-html:`<br />`
 
          Both drop the mod's flat file; they differ in what stands in for it. A body mask takes the
          source's, because the mod's UVs are the source's and its regions land where they belong. A
@@ -1384,19 +1357,6 @@ namespace AGRemapCore {
          @endrst
          */
         bool carryByRegisterRole = false;
-
-        /**
-         * @brief
-         @rst
-         Also look for a second ``.ini`` on the mod's own draws in the FOLDERS BELOW the one being
-         fixed, not only beside it and in the two above it. 3DMigoto loads every ``.ini`` under its
-         ``Mods`` folder, so a mod may keep its mesh in ``mod.ini`` and bind every texture from a
-         ``Textures/textures.ini`` that overrides the same draws -- which on the target never fires,
-         leaving each role to be downloaded from the GAME over the mod's art. Folders whose name starts
-         with ``DISABLED`` are skipped, as the game skips them. **Default**: ``false``
-         @endrst
-         */
-        bool readInisBelow = false;
 
         /**
          * @brief

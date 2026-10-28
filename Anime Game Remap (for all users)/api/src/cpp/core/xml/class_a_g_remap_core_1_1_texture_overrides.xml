@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="79" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="43" bodyend="93"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="80" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="43" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1af6a5c7a5053d3d207c956ec439d10b5c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -70,7 +70,54 @@ The other ``.ini`` files of the folder &apos;iniFile&apos; is in that the game l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="93" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="96" bodyend="126"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="94" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a1f3af29c0d6ad52eb014d0a45d54cbfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::TextureOverrides::loadedInis</definition>
+        <argsstring>(const std::filesystem::path &amp;dir, const std::filesystem::path &amp;exclude)</argsstring>
+        <name>loadedInis</name>
+        <qualifiedname>AGRemapCore::TextureOverrides::loadedInis</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>exclude</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini`` files directly in &apos;dir&apos; that the game loads, other than &apos;exclude&apos;: not a
+``DISABLED`` one, and not a copy a fix wrote (``&lt;name&gt;RemapFix&lt;N&gt;.ini``) -- the rule
+#siblingInis applies to one file&apos;s own folder
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exclude</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A file to leave out, eg. the <computeroutput>.ini</computeroutput> being read</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The full paths of the files, sorted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="109" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="106" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1a4d945d0c81935f0e958bf288f262f02a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -108,7 +155,7 @@ them without any fix -- eg. Amber and AmberCN draw one face diffuse, ``1d064079`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="110" column="25" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="129" bodyend="159"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="126" column="25" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="134" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1ad4825fcf4f5e8965360e4dec1fe6b7db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -157,7 +204,7 @@ and dress share ``df127976`` -- and an override of that texture recolours all of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="127" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="162" bodyend="192"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="143" column="32" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="167" bodyend="197"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_overrides_1af8167172605f002b6cc2b3f68ab41fbc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_adoption" kindref="compound">Adoption</ref> &gt;</type>
@@ -217,7 +264,7 @@ object is remapped with the rest
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="169" column="34" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="255" bodyend="330"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="185" column="34" bodyfile="src/data/IniParseData/TextureOverrides.cpp" bodystart="260" bodyend="335"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -234,12 +281,13 @@ resource there in its place. The parsers built by :cpp:func:`makeGIMICharParser`
 :cpp:func:`makeGIMIComponentParser` both read overrides through this class
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="39" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="39" bodyend="170"/>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="40" column="5" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="40" bodyend="186"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1af8167172605f002b6cc2b3f68ab41fbc" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>adopt</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1a591e754cc7f19c1d0fcb5c3d4cbcfa7f" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>collect</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1a4d945d0c81935f0e958bf288f262f02a" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>isShared</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1ad4825fcf4f5e8965360e4dec1fe6b7db" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>keysOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_overrides_1a1f3af29c0d6ad52eb014d0a45d54cbfd" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>loadedInis</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_overrides_1af6a5c7a5053d3d207c956ec439d10b5c" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides</scope><name>siblingInis</name></member>
     </listofallmembers>
   </compounddef>

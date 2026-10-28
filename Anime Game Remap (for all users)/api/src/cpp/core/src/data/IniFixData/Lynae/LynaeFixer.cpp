@@ -307,7 +307,7 @@ namespace AGRemapCore {
         // over the whole texture, her lower-body and jacket masks R = 255 throughout), so a flat mask
         // is replaced by HER game texture rather than left to the game: the skin's hair mask is
         // structured and laid out for the skin's UVs, and would land in patches on hers
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "jacketMask", "propsMask", "faceMask", "hairMask", "bangsMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
         config.removedRegs = {

@@ -19,6 +19,22 @@ class IbFileTest(BaseUnitTest):
     """
 
     # ================================================
+    # =================== indices ====================
+
+    def test_getIndices_flattensTheTriangles(self):
+        ibFile = FRB.IbFile(_makeIbData((0, 1, 2), (3, 4, 5)))
+        self.assertEqual(ibFile.getIndices(), [0, 1, 2, 3, 4, 5])
+
+    def test_windingReversed_swapsTheLastTwoCornersOfTheSpan(self):
+        ibFile = FRB.IbFile(_makeIbData((0, 1, 2), (3, 4, 5), (6, 7, 8)))
+        self.assertEqual(ibFile.windingReversed(3, 6), _makeIbData((3, 5, 4), (6, 8, 7)))
+
+    def test_windingReversed_pastTheEnd_raises(self):
+        ibFile = FRB.IbFile(_makeIbData((0, 1, 2)))
+        with self.assertRaises(IndexError):
+            ibFile.windingReversed(3, 3)
+
+    # ================================================
     # =================== elements ===================
 
     def test_defaultElements_oneTriangleElementOf3UInts(self):

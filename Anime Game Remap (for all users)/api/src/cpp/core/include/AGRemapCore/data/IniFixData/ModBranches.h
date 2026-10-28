@@ -287,6 +287,27 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Every value of ``key`` in ``rootSection`` and in every `section`_ of ``templates`` it
+             reaches through ``run =``, the key matched through :cpp:func:`looseKey` and the section
+             names without regard to case, as 3dmigoto matches them :raw-html:`<br />` :raw-html:`<br />`
+
+             The unconditional counterpart of #valsThroughRun, for a ``.ini`` the caller only reads --
+             another file of the mod, say. A ``run =`` naming no section of ``templates`` (another
+             file's, or a library's) is not followed
+             @endrst
+             *
+             * @param templates The ``.ini`` file's parsed sections
+             * @param rootSection The section to start from
+             * @param key The key to read, matched loosely
+             *
+             * @return The values, stripped, root section first
+             */
+            static std::vector<std::string> looseValsThroughRun(const Templates& templates, const std::string& rootSection,
+                                                                const std::string& key);
+
+            /**
+             * @brief
+             @rst
              A register value naming a resource, as that resource's name -- or ``""`` for no value,
              an empty one, or ``null``
              @endrst

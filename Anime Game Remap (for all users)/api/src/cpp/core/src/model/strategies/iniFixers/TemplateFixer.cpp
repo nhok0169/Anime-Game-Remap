@@ -18,6 +18,9 @@
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
+#include "AGRemapCore/tools/StringTools.h"
+
+#include <unordered_map>
 
 
 namespace AGRemapCore {
@@ -88,6 +91,10 @@ namespace AGRemapCore {
             }
         }
 
+        if (!gaveUp_) {
+            addFixSectionGraphs(modName);
+        }
+
         // The parser registers a download per object it filled, at parse time, and fixResources
         // fetches every one it finds whether or not anything references it -- so a fix that writes
         // nothing would still drop the game's files into the mod's folder.
@@ -114,5 +121,129 @@ namespace AGRemapCore {
 
     std::string TemplateFixer::remapFixName(const std::string& name) const {
         return IniNamingTools::getRemapFixName(name, toModName_);
+    }
+
+    std::string TemplateFixer::remapName(RemapName kind, const std::string& name) const {
+        switch (kind) {
+            case RemapName::Blend:
+                return IniNamingTools::getRemapBlendName(name, toModName_);
+            case RemapName::Position:
+                return IniNamingTools::getRemapPositionName(name, toModName_);
+            case RemapName::Texcoord:
+                return IniNamingTools::getRemapTexcoordName(name, toModName_);
+            case RemapName::Ib:
+                return IniNamingTools::getRemapIbName(name, toModName_);
+            default:
+                return IniNamingTools::getRemapFixName(name, toModName_);
+        }
+    }
+
+    std::unique_ptr<GraphRename<std::string, std::string>> TemplateFixer::remapRename(RemapName kind, RenameWrap wrap) const {
+        // the names are the target's, captured by value: the edit outlives no fixer, but runs after
+        // the fixer's constructor has returned
+        return std::make_unique<GraphRename<std::string, std::string>>(
+            [toModName = toModName_, kind, wrap = std::move(wrap)](const std::string& name) {
+                std::string renamed;
+                switch (kind) {
+                    case RemapName::Blend:
+                        renamed = IniNamingTools::getRemapBlendName(name, toModName);
+                        break;
+                    case RemapName::Position:
+                        renamed = IniNamingTools::getRemapPositionName(name, toModName);
+                        break;
+                    case RemapName::Texcoord:
+                        renamed = IniNamingTools::getRemapTexcoordName(name, toModName);
+                        break;
+                    case RemapName::Ib:
+                        renamed = IniNamingTools::getRemapIbName(name, toModName);
+                        break;
+                    default:
+                        renamed = IniNamingTools::getRemapFixName(name, toModName);
+                        break;
+                }
+                return wrap ? wrap(name, renamed) : renamed;
+            });
+    }
+
+    std::unique_ptr<RegAssetRemap<std::string, std::string>> TemplateFixer::hashRemap(
+            const std::string& fromName, const std::optional<Version>& toVersion,
+            const std::optional<std::string>& notFound, AssetSpecs extraSpecs) const {
+        AssetSpecs specs;
+        specs.emplace_back(IniKeywords::Hash, RegAssetRemap<std::string, std::string>::AssetSpec(ctx_.modTypeHashes(), notFound));
+        for (auto& spec : extraSpecs) {
+            specs.push_back(std::move(spec));
+        }
+
+        return std::make_unique<RegAssetRemap<std::string, std::string>>(std::move(specs), toModName_, fromName, ctx_.version(), toVersion);
+    }
+
+    bool TemplateFixer::isFixLibraryCall(const std::string& value) {
+        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath)
+               || StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath);
+    }
+
+    std::string TemplateFixer::texFxGuardSection(const std::string& name, const std::string& hash, const std::string& firstIndex) {
+        return renderSection(name, {{IniKeywords::Hash, hash}, {IniKeywords::MatchFirstIndex, firstIndex},
+                                    {IniKeywords::TexFxUseDefaultShader, "-1"}});
+    }
+
+    void TemplateFixer::addFixSection(std::unique_ptr<Section> section, std::optional<std::size_t> group) {
+        if (section == nullptr) {
+            return;
+        }
+
+        if (group.has_value()) {
+            groupFixSections_[*group].push_back(std::move(section));
+        } else {
+            fixSections_.push_back(std::move(section));
+        }
+    }
+
+    GraphRemove<std::string, std::string>::GraphId TemplateFixer::fixSectionsGraphId(std::size_t group) {
+        return GraphRemove<std::string, std::string>::GraphId(group, "", "fixSections");
+    }
+
+    void TemplateFixer::addFixSectionGraphs(const std::string& modName) {
+        Fixer::GraphGroups& groups = *this->graphGroups();
+        const std::size_t count = groups.size();
+        for (std::size_t g = 0; g < count; ++g) {
+            std::vector<Section*> sections;
+            if (g == 0 || fixSectionsInCopies) {
+                for (const auto& section : fixSections_) {
+                    sections.push_back(section.get());
+                }
+            }
+            const auto own = groupFixSections_.find(g);
+            if (own != groupFixSections_.end()) {
+                for (const auto& section : own->second) {
+                    sections.push_back(section.get());
+                }
+            }
+            if (sections.empty()) {
+                continue;
+            }
+
+            // in the order they were added; a repeated name keeps its first section
+            std::unordered_map<std::string, Section*> byName;
+            std::vector<std::string> names;
+            for (Section* section : sections) {
+                if (byName.emplace(section->name, section).second) {
+                    names.push_back(section->name);
+                }
+            }
+
+            GraphCreate<std::string, std::string>::Graph graph(std::move(byName), names, sectionRunConfig(), true, false, fixSectionsZ3);
+            GraphCreate<std::string, std::string>(fixSectionsGraphId(g), &graph).edit(groups, nullptr, modName);
+        }
+    }
+
+    void TemplateFixer::giveUp(const std::string& logLine) {
+        ctx_.log(logLine);
+        giveUp();
+    }
+
+    bool TemplateFixer::iniCallsTexFx() const {
+        const IniFile* ini = ctx_.getIniFile();
+        return ini != nullptr && StringTools::containsIgnoreCase(ini->getFileTxt(), IniKeywords::TexFxFolder + "\\");
     }
 }

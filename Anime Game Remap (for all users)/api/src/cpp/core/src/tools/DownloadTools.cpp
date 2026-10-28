@@ -98,6 +98,12 @@ namespace AGRemapCore {
         return game + "/" + charFolder + "/" + versionFolder + "/" + prefix + kind + ext;
     }
 
+    std::string DownloadTools::url(const std::string& game, const std::string& charFolder,
+                                   const std::string& versionFolder, const std::string& prefix,
+                                   const std::string& kind, const std::string& ext) {
+        return downloadFolder() + "/" + urlPath(game, charFolder, versionFolder, prefix, kind, ext);
+    }
+
 
     DownloadTools::KVPs DownloadTools::bufResourceKVPs(int stride) {
         return {{"type", "Buffer"}, {"stride", std::to_string(stride)}};

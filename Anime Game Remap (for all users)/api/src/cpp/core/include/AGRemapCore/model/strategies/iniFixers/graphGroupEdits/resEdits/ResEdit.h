@@ -345,6 +345,27 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The `sections`_ a resource's graph is built from: the .ini file's own, plus any of
+             'targetSectionNames' the file does not declare and a graph in 'graphGroups' holds
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: a resource a FIX declares, as a section of one of its own graphs rather
+             than of the .ini file (a download the fix adds, say). Without it the resource's graph is
+             given a target it has no section for, the edited copy is never built, and the
+             references collected to it are repointed at a name nothing declares. The .ini file's
+             own section wins over a graph's of the same name
+             @endrst
+             *
+             * @param ctx The associated original .ini file being fixed
+             * @param graphGroups The group of graphs for each .ini file
+             * @param targetSectionNames The resources' `sections`_
+             */
+            std::unordered_map<std::string, Section*> sourceSections(Context& ctx, GraphGroups& graphGroups,
+                                                                    const std::vector<std::string>& targetSectionNames) const;
+
+            /**
+             * @brief
+             @rst
              Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
              @endrst
              *

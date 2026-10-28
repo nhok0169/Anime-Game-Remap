@@ -16,8 +16,22 @@
 
 #include <utility>
 
+#include "AGRemapCore/model/IniNamingTools.h"
+
 
 namespace AGRemapCore {
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::ResPredicate ResRegCollect<K, V, KeyHash, KeyEqual>::skipsKeywords(std::vector<std::string> keywords) {
+        return [keywords = std::move(keywords)](const K&, const V& value, const IterData&) {
+            for (const std::string& keyword : keywords) {
+                if (IniNamingTools::hasKeywordPrefix(value, keyword)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+    }
+
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     ResRegCollect<K, V, KeyHash, KeyEqual>::ResRegCollect(ByGraph<K> srcRegs, tsl::ordered_map<std::string, ResEdit*> resEdits):
         srcRegs(std::move(srcRegs)), resEdits(std::move(resEdits)) {}
@@ -262,6 +276,11 @@ namespace AGRemapCore {
 
         for (const auto& srcEntry : srcRegs) {
             collectFromGraphGroup(graphGroups, srcEntry.first, srcEntry.second);
+        }
+        for (const auto& srcEntry : extraSrcRegs) {
+            for (const K& srcReg : srcEntry.second) {
+                collectFromGraphGroup(graphGroups, srcEntry.first, srcReg);
+            }
         }
 
         RemappedGraphs remappedGraphsStorage;

@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <utility>
@@ -85,6 +86,16 @@ namespace AGRemapCore {
              * @param removeKeys Each key to remove, paired with its own optional check predicate
              */
             explicit RegRemove(std::vector<std::pair<K, std::optional<RemoveKeyCheck>>> removeKeys = {});
+
+            /**
+             * @brief An edit removing one key -- every line of it, or only those 'check' accepts
+             *
+             * @param key The key
+             * @param check Which of its lines go, asked with each line's index and value. **Default**: every line
+             *
+             * @return The edit
+             */
+            static std::unique_ptr<RegRemove> of(K key, std::optional<RemoveKeyCheck> check = std::nullopt);
 
             /**
              * @brief

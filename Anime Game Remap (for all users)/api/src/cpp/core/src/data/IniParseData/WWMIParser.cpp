@@ -1,7 +1,9 @@
 #include "AGRemapCore/data/IniParseData/WWMIParser.h"
 
 #include "AGRemapCore/data/IniFixData/ModBranches.h"
-#include "AGRemapCore/data/WWMITextureRoles.h"
+#include "AGRemapCore/data/IniParseData/TextureOverrides.h"
+#include "AGRemapCore/model/strategies/iniParsers/TextureRoleChooser.h"
+#include "AGRemapCore/model/strategies/iniParsers/TextureRoles.h"
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/model/textures/TexThumbprint.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -19,7 +21,10 @@
 
 // ##### EndCredits
 
+#include <filesystem>
+#include <map>
 #include <memory>
+#include <set>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -56,7 +61,7 @@ namespace AGRemapCore {
          * is still empty then, and a parser built with no slot objects classifies every slot section
          * as nothing while the hash-only ones still work -- which is exactly how it failed first.
          */
-        class WWMIParser: public Parser, public WWMIParseFacts {
+        class WWMIParser: public Parser {
             // DECLARED FIRST: it owns the Z3Context every BranchVal it hands out belongs to, and
             // member destruction order is what keeps them alive long enough. ModBranches carries
             // the same note.
@@ -131,30 +136,377 @@ namespace AGRemapCore {
 
                             return objs;
                         });
+
+                    recordTextureRoles();
                 }
 
-                /**
-                 * Built on the first ask, not in the constructor: the index walks the mod's folder
-                 * and opens every candidate texture, and a parser is built for every `.ini` a run
-                 * classifies -- most of which no WuWa fixer will ever ask about.
-                 *
-                 * `nullptr` when the character's config carries no textures to sort by, which is
-                 * what makes the fixer fall back to building its own.
-                 */
-                const WWMITextureRoles* textureRoles() const override {
-                    if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
-                        return nullptr;         // nothing to sort by: the fixer does what it did before
-                    }
-
-                    if (!roles_) {
-                        roles_ = std::make_unique<WWMITextureRoles>();
-                        buildRoles(*roles_);
-                    }
-
-                    return roles_.get();
+                void clear() override {
+                    Parser::clear();
+                    recordTextureRoles();
                 }
 
             private:
+                /**
+                 * The texture roles go into the parse data as a BUILDER, run on the first ask: sorting
+                 * opens every candidate texture, and a parser is built for every `.ini` a run
+                 * classifies -- most of which no WuWa fixer will ever ask about. None when the
+                 * character's config carries no textures to sort by. Re-installed after a clear,
+                 * which resets the parse data.
+                 */
+                void recordTextureRoles() {
+                    if (config_.textures.roles.empty() && config_.textures.registerRoles.empty()) {
+                        return;
+                    }
+
+                    this->parseData().defer([this](IniParseData& data) {
+                        TextureRoles roles;
+                        buildRoles(roles);
+                        data.setTextureRoles(std::move(roles));
+                        chooseRoleFiles(data, *data.textureRoles());
+                    });
+                }
+
+                // A vb0 hash of this character's, of ANY version: a mod carries whichever version's
+                // hashes its author dumped, and the slot test beside it is what keeps this safe -- the
+                // section must still carry a match_first_index one of the slots declares.
+                bool isOwnVb0(const std::string& hash) const {
+                    const auto* hashes = const_cast<IniFileParseContext&>(ctx_).modTypeHashes();
+                    const std::string ownName = const_cast<IniFileParseContext&>(ctx_).modTypeName();
+                    return hashes != nullptr && !ownName.empty()
+                           && hashes->hasFrom(hash, std::nullopt, {std::optional<std::string>(ownName),
+                                                                   std::optional<std::string>(config_.slotHashType)});
+                }
+
+                // The slot a match_first_index belongs to, in ANY version the library files this
+                // character under: a mod is drawn at whichever generation its author dumped, and the
+                // slots move between them -- Changli's components 4 to 7 sit 1020 indices later at 1.4
+                // than at 1.1, so asking only the parser's own version left them undrawn.
+                std::optional<int> slotOfIndex(const std::string& index) const {
+                    const auto* indices = const_cast<IniFileParseContext&>(ctx_).modTypeIndices();
+                    const std::string ownName = const_cast<IniFileParseContext&>(ctx_).modTypeName();
+                    if (indices == nullptr || ownName.empty()) {
+                        return std::nullopt;
+                    }
+
+                    const std::optional<std::vector<std::string>> key =
+                        indices->getKey(std::string(StringTools::strip(index)), std::nullopt,
+                                        {std::optional<std::string>(ownName), std::nullopt, std::nullopt}, false);
+                    if (!key.has_value() || key->size() < 3 || key->back().rfind(config_.slotPrefix, 0) != 0) {
+                        return std::nullopt;
+                    }
+
+                    try {
+                        return std::stoi(key->back().substr(config_.slotPrefix.size()));
+                    } catch (const std::exception&) {
+                        return std::nullopt;
+                    }
+                }
+
+                // slot -> the sections that draw it: a vb0 of this character's and one slot's offset
+                std::map<int, std::vector<std::string>> slotSections(const ModBranches::Templates& templates) const {
+                    std::map<int, std::vector<std::string>> result;
+                    for (const auto& entry : templates) {
+                        if (entry.second == nullptr) {
+                            continue;
+                        }
+
+                        const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                        const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                        if (!hash.has_value() || !index.has_value() || !isOwnVb0(StringTools::toLower(*hash))) {
+                            continue;
+                        }
+
+                        if (const std::optional<int> slot = slotOfIndex(*index)) {
+                            result[*slot].push_back(entry.first);
+                        }
+                    }
+
+                    return result;
+                }
+
+                // The file a resource section names, resolved as the rest of this parser resolves one --
+                // so a file found two ways is one path, and its two candidates one
+                static std::string fileOfResource(const ModBranches::Templates& templates, const std::string& resource,
+                                                  const std::string& folder) {
+                    const auto found = templates.find(resource);
+                    if (found == templates.end() || found->second == nullptr) {
+                        return "";
+                    }
+
+                    const std::optional<std::string> file = ModBranches::firstVal(*found->second, IniKeywords::Filename);
+                    if (!file.has_value() || file->empty()) {
+                        return "";
+                    }
+
+                    return FileService::absPathOfRelPath(FileService::iniPathToRel(*file), folder);
+                }
+
+                ModObj slotObj(int slot) const {
+                    return ModObj("", config_.slotPrefix + std::to_string(slot));
+                }
+
+                /**
+                 * The file each drawn slot takes for each role: every candidate the .ini offers, then
+                 * TextureRoleChooser. The candidates are the roles above, the registers each slot's own
+                 * sections bind (WWMITextureFacts::registerRoles), a sibling .ini's recolour of one of
+                 * this character's textures, and another .ini of the mod binding textures on one of
+                 * this file's draws.
+                 */
+                void chooseRoleFiles(IniParseData& data, const TextureRoles& roles) {
+                    IniFile* ini = ctx_.getIniFile();
+                    if (ini == nullptr) {
+                        return;
+                    }
+
+                    const ModBranches::Templates& templates = ini->getIfTemplates();
+                    const std::string iniPath = ini->getFile().value_or(std::string());
+                    const std::map<int, std::vector<std::string>> drawn = slotSections(templates);
+
+                    TextureRoleChooser chooser;
+                    chooser.folder = ini->getFolder();
+                    chooser.regionRoles = config_.textures.regionRoles;
+                    for (const auto& entry : roles.resourcesOf(iniPath)) {
+                        chooser.declaredFiles.insert(entry.second);
+                    }
+
+                    addOwnCandidates(chooser, roles, templates, iniPath, drawn);
+                    if (!drawn.empty() && !iniPath.empty()) {
+                        addSiblingRecolours(chooser, iniPath);
+                        addSameDrawInis(chooser, iniPath, drawn);
+                    }
+
+                    std::vector<ModObj> objs;
+                    for (const auto& entry : drawn) {
+                        objs.push_back(slotObj(entry.first));
+                    }
+                    chooser.choose(data, objs);
+                }
+
+                // The roles above, and the ones the slots' own sections bind by register. A file the
+                // .ini DECLARES but the folder does not hold is no candidate (2026-10-05): six of
+                // thirteen Lynae mods name a texture they never shipped, from a dump's stale list, and on
+                // the target that binds a missing resource where the role's fallback download is right.
+                void addOwnCandidates(TextureRoleChooser& chooser, const TextureRoles& roles,
+                                      const ModBranches::Templates& templates, const std::string& iniPath,
+                                      const std::map<int, std::vector<std::string>>& drawn) {
+                    std::set<std::string> missing;
+                    auto isMissing = [&missing](const std::string& file) {
+                        std::error_code error;
+                        if (std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
+                            return false;
+                        }
+
+                        missing.insert(file);
+                        return true;
+                    };
+
+                    for (const auto& entry : roles.rolesOf()) {
+                        if (isMissing(entry.first)) {
+                            continue;
+                        }
+
+                        for (const TextureRoles::Role& role : entry.second) {
+                            chooser.candidates[role.role].emplace_back(entry.first, role.how);
+                            if (StringTools::startsWith(role.how, TextureRoles::DeclaredHash)) {
+                                chooser.declared[entry.first].insert(role.role);
+                            }
+                        }
+                    }
+
+                    if (!config_.textures.registerRoles.empty()) {
+                        std::unordered_map<std::string, std::string> fileOfResource;
+                        for (const auto& entry : roles.resourcesOf(iniPath)) {
+                            fileOfResource.emplace(StringTools::toLower(entry.first), entry.second);
+                        }
+
+                        for (const auto& [slot, sections] : drawn) {
+                            const auto layout = config_.textures.registerRoles.find(slot);
+                            if (layout == config_.textures.registerRoles.end()) {
+                                continue;
+                            }
+
+                            for (const std::string& section : sections) {
+                                const auto tpl = templates.find(section);
+                                if (tpl == templates.end() || tpl->second == nullptr) {
+                                    continue;
+                                }
+
+                                for (const auto& [reg, role] : layout->second) {
+                                    const std::optional<std::string> bound = ModBranches::firstValLoose(*tpl->second, reg);
+                                    if (!bound.has_value()) {
+                                        continue;
+                                    }
+
+                                    // `ps-t1 = ref ResourceFoo` names the same resource as `ps-t1 = ResourceFoo`
+                                    const auto file = fileOfResource.find(StringTools::toLower(IniNamingTools::removeRefPrefix(*bound)));
+                                    if (file == fileOfResource.end() || isMissing(file->second)) {
+                                        continue;
+                                    }
+
+                                    chooser.candidates[role].emplace_back(file->second, "the " + reg + " its own section binds it at");
+                                    chooser.bindings[file->second][slotObj(slot)].insert(role);
+                                }
+                            }
+                        }
+                    }
+
+                    for (const std::string& file : missing) {
+                        ctx_.log(FileService::pathToStr(FileService::strToPath(file).filename())
+                                 + " is declared but not in the mod's folder; its role is treated as one the"
+                                 + " mod has no file for");
+                    }
+                }
+
+                // A TEXTURE-ONLY RECOLOUR IN A SIBLING .ini, of the form `hash = <the GAME texture it
+                // replaces>` / `this = ResourceFoo`. On the mod's own character the game binds that
+                // texture and the recolour shows; remapped, the slots take the TARGET's textures and the
+                // hashes never appear. The role is STATED rather than guessed -- the hash is this
+                // character's texture of that role -- and the mod's own candidates come first.
+                void addSiblingRecolours(TextureRoleChooser& chooser, const std::string& iniPath) {
+                    const auto& byHash = config_.textures.roles;
+                    if (byHash.empty()) {
+                        return;
+                    }
+
+                    std::size_t found = 0;
+                    const std::filesystem::path own = FileService::strToPath(iniPath);
+                    for (const std::string& path : TextureOverrides::loadedInis(own.parent_path(), own)) {
+                        IniFile sibling(path);
+                        const std::string folder = sibling.getFolder();
+                        const ModBranches::Templates& templates = sibling.getIfTemplates();
+                        for (const TextureOverrides::Override& override : TextureOverrides::collect(templates)) {
+                            if (!StringTools::startsWith(override.section, IniKeywords::TextureOverride)) {
+                                continue;
+                            }
+
+                            const auto role = byHash.find(override.hash);
+                            if (role == byHash.end()) {
+                                continue;   // not one of this character's textures
+                            }
+
+                            const std::string file = fileOfResource(templates, override.resource, folder);
+                            std::error_code error;
+                            if (file.empty() || !std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
+                                continue;
+                            }
+
+                            chooser.candidates[role->second].emplace_back(
+                                file, "a sibling .ini overrides " + override.hash + ", the game texture it replaces");
+                            ++found;
+                        }
+                    }
+
+                    if (found > 0) {
+                        ctx_.log("a sibling .ini recolours " + std::to_string(found)
+                                 + " of the game's textures; carried over to the target, which binds"
+                                 + " its own and would never see those hashes");
+                    }
+                }
+
+                // TEXTURES ANOTHER .ini OF THE MOD BINDS ON ONE OF THIS FILE'S DRAWS -- the same vb0 and
+                // match_first_index. On the mod's own character both fire; remapped, the other never does,
+                // so every role it serves would be downloaded from the GAME over the mod's art. Only the
+                // registers WWMITextureFacts::registerRoles names for that slot are read, so this is the
+                // mod stating a role. Looked for beside this .ini and in the two folders above it -- and
+                // with WWMITextureFacts::readInisBelow, in every folder below it.
+                void addSameDrawInis(TextureRoleChooser& chooser, const std::string& iniPath,
+                                     const std::map<int, std::vector<std::string>>& drawn) {
+                    const auto& layouts = config_.textures.registerRoles;
+                    if (layouts.empty()) {
+                        return;
+                    }
+
+                    const std::filesystem::path own = FileService::strToPath(iniPath);
+                    std::vector<std::string> inis;
+                    std::filesystem::path dir = own.parent_path();
+                    for (int depth = 0; depth < 3 && !dir.empty(); ++depth) {
+                        for (const std::string& path : TextureOverrides::loadedInis(dir, own)) {
+                            inis.push_back(path);
+                        }
+
+                        const std::filesystem::path parent = dir.parent_path();
+                        if (parent == dir) {
+                            break;
+                        }
+                        dir = parent;
+                    }
+
+                    if (config_.textures.readInisBelow) {
+                        std::error_code error;
+                        std::filesystem::recursive_directory_iterator it(own.parent_path(), error);
+                        for (; !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+                            if (!it->is_directory(error)) {
+                                continue;
+                            }
+
+                            if (StringTools::startsWith(StringTools::toLower(FileService::pathToStr(it->path().filename())), "disabled")) {
+                                it.disable_recursion_pending();
+                                continue;
+                            }
+
+                            for (const std::string& path : TextureOverrides::loadedInis(it->path(), own)) {
+                                inis.push_back(path);
+                            }
+                        }
+                    }
+
+                    std::size_t found = 0;
+                    for (const std::string& path : inis) {
+                        IniFile other(path);
+                        const ModBranches::Templates& templates = other.getIfTemplates();
+                        const std::string folder = other.getFolder();
+                        for (const auto& entry : templates) {
+                            if (entry.second == nullptr) {
+                                continue;
+                            }
+
+                            const std::optional<std::string> hash = ModBranches::firstVal(*entry.second, IniKeywords::Hash);
+                            const std::optional<std::string> index = ModBranches::firstVal(*entry.second, IniKeywords::MatchFirstIndex);
+                            if (!hash.has_value() || !index.has_value()
+                                    || !isOwnVb0(StringTools::toLower(std::string(StringTools::strip(*hash))))) {
+                                continue;
+                            }
+
+                            const std::optional<int> indexSlot = slotOfIndex(*index);
+                            for (const int slot : indexSlot.has_value() ? std::vector<int>{*indexSlot} : std::vector<int>{}) {
+                                const auto layout = layouts.find(slot);
+                                if (drawn.count(slot) == 0 || layout == layouts.end()) {
+                                    continue;
+                                }
+
+                                for (const auto& [reg, role] : layout->second) {
+                                    for (const std::string& bound : ModBranches::looseValsThroughRun(templates, entry.first, reg)) {
+                                        const auto declared = std::find_if(templates.begin(), templates.end(), [&](const auto& t) {
+                                            return StringTools::equalsIgnoreCase(t.first, IniNamingTools::removeRefPrefix(bound));
+                                        });
+                                        if (declared == templates.end() || declared->second == nullptr) {
+                                            continue;
+                                        }
+
+                                        const std::string file = fileOfResource(templates, declared->first, folder);
+                                        std::error_code error;
+                                        if (file.empty() || !std::filesystem::is_regular_file(FileService::strToPath(file), error)) {
+                                            continue;
+                                        }
+
+                                        chooser.candidates[role].emplace_back(
+                                            file, "the " + reg + " " + FileService::pathToStr(FileService::strToPath(path).filename())
+                                                  + " binds on the same draw");
+                                        chooser.bindings[file][slotObj(slot)].insert(role);
+                                        ++found;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (found > 0) {
+                        ctx_.log("another .ini of the mod binds " + std::to_string(found)
+                                 + " textures on this file's draws; carried over to the target, where"
+                                 + " that .ini's overrides never fire");
+                    }
+                }
+
 
                 /**
                  * Every texture the .ini names, with the role it plays. Nothing here looks at the
@@ -183,7 +535,7 @@ namespace AGRemapCore {
                            || StringTools::endsWith(stem, StringTools::toLower(IniKeywords::RemapTex));
                 }
 
-                void buildRoles(WWMITextureRoles& out) const {
+                void buildRoles(TextureRoles& out) const {
                     IniFile* ini = const_cast<IniFileParseContext&>(ctx_).getIniFile();
                     if (ini == nullptr) {
                         return;
@@ -269,7 +621,7 @@ namespace AGRemapCore {
                                 auto file = fileOf.find(StringTools::toLower(
                                     std::string(StringTools::strip(bound.val))));
                                 if (file != fileOf.end()) {
-                                    out.add(file->second, *role, WWMITextureRoles::DeclaredHash + value);
+                                    out.add(file->second, *role, TextureRoles::DeclaredHash + value);
                                 }
                             }
                         }
@@ -355,15 +707,12 @@ namespace AGRemapCore {
                     }
                 }
 
-            public:
-
             private:
                 IniFileParseContext ctx_;
                 std::unique_ptr<Classifier> classifier_;
                 WWMIParserConfig config_;
                 std::optional<Version> version_;
                 mutable std::unordered_map<std::string, std::vector<ModObj>> classified_;
-                mutable std::unique_ptr<WWMITextureRoles> roles_;
         };
     }
 

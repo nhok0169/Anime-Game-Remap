@@ -144,8 +144,11 @@ that works on the mods you happened to test.
 **A texture is identified by a HASH and a REGISTER** -- the hash being the texture's own (the section
 IS that texture, and `this =` names the file) or the MESH's (the section is a draw
 `GIMISectionClassifier` placed, and the register says what it binds). That is section classification,
-so **the parser does it** (`WWMIParser::buildRoles` -> `WWMITextureRoles`) and the fixer asks through
-the `WWMIParseFacts` seam, the way `GIMIComponentParseFacts` already works. It holds for both games;
+so **the parser does it** (`WWMIParser::buildRoles` -> `TextureRoles`) and the fixer asks through
+the parser's `IniParseData` (`BaseIniParser::parseData`, 2026-10-28; every parser owns one, and it
+replaced the three per-template `*Facts` interfaces a fixer used to `dynamic_cast` for). The parser
+also CHOOSES the file each slot takes per role (`TextureRoleChooser`: refusals for
+`WWMITextureFacts::regionRoles`, then the per-slot ranking), so a fixer only names and binds it. It holds for both games;
 GI uses the mesh-hash form and WuWa almost always the texture's own -- 609 files against 31 over this
 corpus -- and the mesh route is kept because a future mod could be written that way.
 
@@ -1180,7 +1183,7 @@ oracles; port-table generators `changliPortTables.py` and `nymphPortTables.py`. 
   pixel correlation; a hash several characters share (`c235c6a7`, 27 of them) is not filed, and an "old" hash whose
   successor is the CURRENT asset hash belongs in the config's roles, not in HashData.
 * **A mod may bind its textures from an `.ini` in a SUBFOLDER** (`Textures/textures.ini` on the same draws).
-  `WWMIFixerConfig::readInisBelow` (default off) reads those too; the old search looked beside and above only.
+  `WWMITextureFacts::readInisBelow` (default off; on `WWMIFixerConfig` until 2026-10-28) reads those too; the old search looked beside and above only.
 * **One texture file, two resource sections: name it by the one a section USES.** Changli1 declares
   `[ResourceTexture19]` on its body diffuse and binds that file only as `[Resource-1]` inside a `$sawpvarA` toggle,
   so taking the first declaration lost the toggle. And the "used" scan must skip this pair's OWN previous fix
@@ -3577,7 +3580,7 @@ dress, a Citlali mod's disabled variant that binds only a normal map and leaves 
 the game).
 
 **5. A mod with NO mesh sections is two different things, and the merge template now tells them
-apart** (`GIMIComponentParseFacts`, reached by the fixer through `dynamic_cast` on its parser):
+apart** (`IniParseData::hasRemappableContent`, read by the fixer off its parser's `parseData()`):
 
 - **A texture-only recolour** (`hash = <the skin's texture> / this = Resource...`, CharlotteHurlock3):
   every buffer comes from downloads, and the recolour applies wherever the GAME binds that texture --
@@ -3654,7 +3657,7 @@ mod's merged vertices. Those indices count in the GAME's vertex order, which a r
 keep, so each triangle joined three arbitrary vertices. Commenting out the two `run =` lines in the
 fixed `.ini` cleared it in game before any code changed. The rule is now in
 `GIMIComponentParser::findUndrawnSlots`, exposed to the merge as
-`GIMIComponentParseFacts::isSlotUndrawn`: **a component the mod carries buffers for AND skips gets no
+`IniParseData::isUndrawn`: **a component the mod carries buffers for AND skips gets no
 download and no merge member for a slot it declares no section for.** A component the mod does not
 carry (texture-only mods, a missing Eye) keeps its downloads, and so does one it does not skip, since
 there the game really does draw the slot over the mod's buffers. CharlotteHurlock2 (no D) was the only
@@ -3752,7 +3755,7 @@ What each piece does now:
 - **The component fixer fetches a recolour's downloads itself**, before its split
   (`GIMIComponentFixerImpl::fetchDownloads`), because the split reads the buffers while the fixer is
   built and `fixResources` fetches them afterwards. The parser says the file is a recolour through
-  `TextureOverrideFacts`, reached by `dynamic_cast` the way `GIMIComponentParseFacts` is.
+  `IniParseData::isRecolourOnly`, read off the parser's `parseData()` like every other parse answer.
 - **Three skins had no slot texture rows**: YelanTranquil (off her `hash.json`), BennettAdventure and
   CitlaliWhisperofStars (off their frame dumps through `giDrawTable.py`, each value seen in two passes of
   different register layouts). A skin without `tex_<slot>_<role>` rows remaps a recolour as the plain skin.
@@ -7171,6 +7174,10 @@ strands and never along the shadow boundary. The three-state picture
 what settles it, and a statistic that cannot fail is habit 34 in its other form.
 
 ### ...AND EXTENDING THAT RULE TO THE DOWNLOAD WAS WRONG (2026-09-26, RETRACTED SAME DAY)
+
+(2026-10-28: `flatFallsBackToSource` is now the source's `WWMITextureFacts::regionRoles`, together with the
+`flatLeftToGame` roles, and the refusals run in the PARSER's `TextureRoleChooser`; the fixer keeps only
+`flatLeftToGame`, to decide that a refused role is left to the game. The mechanism below is unchanged.)
 
 The mechanism written up here is real: `flatLeftToGame` and `flatFallsBackToSource` run over
 `byRole`, which only ever holds the MOD's own candidates, so a role the mod ships no file for takes

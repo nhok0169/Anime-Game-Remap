@@ -359,7 +359,7 @@ namespace AGRemapCore {
         };
 
         // Masks mark regions: a flat one from a mod is replaced by HER game texture
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "jacketMask", "pouchMask", "hairMask", "bangsMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
         config.removedRegs = {

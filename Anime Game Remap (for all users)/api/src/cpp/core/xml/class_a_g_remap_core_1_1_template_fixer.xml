@@ -5,6 +5,63 @@
     <basecompoundref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public" virt="non-virtual">AGRemapCore::GIMIFixer&lt; std::string, std::string &gt;</basecompoundref>
     <includes refid="_template_fixer_8h" local="no">TemplateFixer.h</includes>
     <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RemapName</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::RemapName</qualifiedname>
+        <enumvalue id="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538a2de1239f236684c5bee75bd524a38a51" prot="public">
+          <name>Fix</name>
+          <briefdescription>
+<para>:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1a1666a2fea3b23fd9152b183f35d989ea" kindref="member">IniNamingTools::getRemapFixName</ref></computeroutput> </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538a09ac609fcdb514c9adca34e7f97b4ac4" prot="public">
+          <name>Blend</name>
+          <briefdescription>
+<para>:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1a07d2c24a38092e47d1648e03e3aff0df" kindref="member">IniNamingTools::getRemapBlendName</ref></computeroutput> </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538a52f5e0bc3859bc5f5e25130b6c7e8881" prot="public">
+          <name>Position</name>
+          <briefdescription>
+<para>:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1ab9f7ccab40e61804e3d35b0c7d7ad5ca" kindref="member">IniNamingTools::getRemapPositionName</ref></computeroutput> </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538ada074282ed9873b8f9e288912d2e1ab0" prot="public">
+          <name>Texcoord</name>
+          <briefdescription>
+<para>:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1a5d343265392d01558bac84fd1f9862df" kindref="member">IniNamingTools::getRemapTexcoordName</ref></computeroutput> </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538a666e2518da9ddc8ca6c186993cb450b8" prot="public">
+          <name>Ib</name>
+          <briefdescription>
+<para>:cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_naming_tools_1addf3ec1b21a31136b74e144773e80f74" kindref="member">IniNamingTools::getRemapIbName</ref></computeroutput> </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which of :cpp:class:`IniNamingTools`&apos; naming conventions a fix renames a `section`_ by --
+each resource kind has its own (``…AmberAmberCNRemapIB``, not ``…AmberIBAmberCNRemapFix``),
+and a section that is no resource takes :cpp:func:`IniNamingTools::getRemapFixName`&apos;s
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="96" bodyend="121"/>
+      </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_template_fixer_1aeb955c2f7277c0cc3cc9a66c872a1a74" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a582e90393e44b4ef49203796dd32e3c6" kindref="member">GIMIFixer</ref>&lt; std::string, std::string &gt;</type>
         <definition>using AGRemapCore::TemplateFixer::Fixer = GIMIFixer&lt;std::string, std::string&gt;</definition>
@@ -18,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="76" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt;</type>
@@ -33,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="81" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_template_fixer_1a447dbeeaabe0228a59ce92b6584e3924" prot="public" static="no">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -48,7 +105,40 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="79" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_template_fixer_1abc519cdfca46f216ac70a29338566804" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;oldName, const std::string &amp;renamed)&gt;</type>
+        <definition>using AGRemapCore::TemplateFixer::RenameWrap = std::function&lt;std::string(const std::string&amp; oldName, const std::string&amp; renamed)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RenameWrap</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::RenameWrap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What a renamed `section`_ is finally called, from its old name and the name
+:cpp:func:`remapName` gave it -- see :cpp:func:`remapRename`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="130" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_template_fixer_1a7e4fad889b2e3541830f297aaab21fda" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_reg_asset_remap" kindref="compound">RegAssetRemap</ref>&lt; std::string, std::string &gt;::AssetSpec &gt; &gt;</type>
+        <definition>using AGRemapCore::TemplateFixer::AssetSpecs = std::vector&lt;std::pair&lt;std::string, RegAssetRemap&lt;std::string, std::string&gt;::AssetSpec&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>AssetSpecs</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::AssetSpecs</qualifiedname>
+        <briefdescription>
+<para>The asset specs a :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_reg_asset_remap" kindref="compound">RegAssetRemap</ref></computeroutput> remaps, keyed by register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="135" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="135" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a48836dbabf78fc8353a871dfd4d8cbf3" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</type>
@@ -274,6 +364,42 @@ so what a `section`_ *looks like* is the caller&apos;s business
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1aa118301d9a0cf78b58ea3530411949ce" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TemplateFixer::fixSectionsInCopies</definition>
+        <argsstring></argsstring>
+        <name>fixSectionsInCopies</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::fixSectionsInCopies</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether a section :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" kindref="member">addFixSection</ref></computeroutput> adds with no group goes into every copy as well. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="357" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1af6788d5f60a2f56df8ab8ef11db9235b" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+        <definition>Z3Context* AGRemapCore::TemplateFixer::fixSectionsZ3</definition>
+        <argsstring></argsstring>
+        <name>fixSectionsZ3</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::fixSectionsZ3</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `Z3`_ context the conditions of :cpp:func:`addFixSection`&apos;s sections were built in.
+**Borrowed**; ``nullptr`` (the default) for sections with no ``if``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="366" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1a78cfb0ef699182832d22b25b1867eb61" prot="protected" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::TemplateFixer::withdrawDownloadsOnGiveUp</definition>
@@ -291,7 +417,7 @@ Whether a fixer that gave up also clears the downloads the parser registered on 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="206" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="206" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="380" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="380" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1a9ab660168d0b1fdd6c032a133024d567" prot="protected" static="no" mutable="yes">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file_fix_context" kindref="compound">IniFileFixContext</ref></type>
@@ -306,7 +432,7 @@ Whether a fixer that gave up also clears the downloads the parser registered on 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="211" column="39" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="211" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="385" column="39" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="385" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1af0410b53f9386ca84e2dcd9d1a8ae798" prot="protected" static="no" mutable="no">
         <type>std::string</type>
@@ -321,7 +447,7 @@ Whether a fixer that gave up also clears the downloads the parser registered on 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="216" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="216" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="390" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="390" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5ee6baf4220af9c4d3c4e29d9e5f803c" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0984802e6e220309334a6bde2ef0f0ac" kindref="member">GraphGroups</ref> &gt;</type>
@@ -396,6 +522,34 @@ the fix
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1ae922274df1da737d0c8c16b27a418594" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" kindref="member">Section</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;Section&gt; &gt; AGRemapCore::TemplateFixer::fixSections_</definition>
+        <argsstring></argsstring>
+        <name>fixSections_</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::fixSections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="395" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1a9e4f0ab01d0bfced1212de84912b43ad" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::size_t, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" kindref="member">Section</ref> &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::size_t, std::vector&lt;std::unique_ptr&lt;Section&gt; &gt; &gt; AGRemapCore::TemplateFixer::groupFixSections_</definition>
+        <argsstring></argsstring>
+        <name>groupFixSections_</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::groupFixSections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="396" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1a1c8789814df39bd24cb2a286d91c5f1b" prot="private" static="no" mutable="no">
         <type>bool</type>
         <definition>bool AGRemapCore::TemplateFixer::gaveUp_</definition>
@@ -409,7 +563,7 @@ the fix
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="219" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="219" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="397" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="397" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_template_fixer_1a0be54ceaeea2db488acaacb8276373e9" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_remove" kindref="compound">GraphGroupRemove</ref>&lt; std::string, std::string &gt;</type>
@@ -423,7 +577,7 @@ the fix
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="220" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="220" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="398" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="398" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a22ec644e8c770afb76a76fe863aaba06" prot="private" static="no" mutable="no">
         <type>FixerConfig</type>
@@ -495,7 +649,7 @@ The parser that read the ``.ini`` file -- **borrowed**, nullable. Its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="92" column="13" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="38" bodyend="43"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="148" column="13" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="41" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a94dea6ebb916551710b5a02c9ab0e148" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -512,7 +666,7 @@ The parser that read the ``.ini`` file -- **borrowed**, nullable. Its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="95" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="151" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a517168ed813b6b716ed29987a17c326d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_template_fixer_1a6c1a1b103e327c0e0b14427a54999b37" kindref="member">TemplateFixer</ref> &amp;</type>
@@ -529,7 +683,7 @@ The parser that read the ``.ini`` file -- **borrowed**, nullable. Its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="96" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="152" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a05aec703fea29a46c471bdd8c9d54905" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -544,7 +698,7 @@ The parser that read the ``.ini`` file -- **borrowed**, nullable. Its
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="101" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="45" bodyend="47"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="157" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="48" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a354493b8b21dc43a261a6885b1b39950" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aeec8c9ee49d5ed873de7d3cc190568ec" kindref="member">Context</ref> *</type>
@@ -985,7 +1139,7 @@ Lines forced onto every resource section the edit writes -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="116" column="48" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="49" bodyend="57"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="172" column="48" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="52" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1ab9175e1806d6e53368634f953072790e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; std::string, std::string &gt;</type>
@@ -1003,7 +1157,7 @@ section it calls, unchanged
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="125" column="40" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="59" bodyend="65"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="181" column="40" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="62" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a07c7c4ede1aa254dc6d00f072fcdf254" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" kindref="member">Section</ref> &gt;</type>
@@ -1029,7 +1183,7 @@ One `section`_ of one content part holding &apos;kvps&apos;, named &apos;name&ap
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="134" column="36" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="67" bodyend="71"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="190" column="36" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="70" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a30973bbecb9f85387f64cbc42db7329a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1055,7 +1209,97 @@ The text of the `section`_ :cpp:func:`makeSection` builds, rendered by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="143" column="32" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="73" bodyend="76"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="199" column="32" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1af5d0855b00478d949963e4c229da48cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TemplateFixer::isFixLibraryCall</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>isFixLibraryCall</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::isFixLibraryCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether a ``run =`` value calls one of the fix libraries every remapped draw re-issues --
+:cpp:member:`IniKeywords::ORFixPath` or :cpp:member:`IniKeywords::NNFixPath` -- matched
+case-insensitively, as 3dmigoto matches a command list&apos;s path
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>run =</computeroutput> value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="211" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="180" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a9124aee61a56e7d7035c1864612a6cb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TemplateFixer::texFxGuardSection</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;hash, const std::string &amp;firstIndex)</argsstring>
+        <name>texFxGuardSection</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::texFxGuardSection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>firstIndex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The text of a `section`_ that withdraws a `TexFx`_ request for one draw the fix leaves
+to the game: ``$\TexFx\use_default_shader = -1`` on that draw&apos;s ``hash`` and
+``match_first_index``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_&apos;s name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw&apos;s <computeroutput>hash</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>firstIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The draw&apos;s <computeroutput>match_first_index</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="225" column="32" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="185" bodyend="188"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -1095,7 +1339,7 @@ downloads, then :cpp:func:`afterGraphGroupEdits`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="160" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="78" bodyend="99"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="242" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="81" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a37f99c5ac8cc8390a22ac7e1fcf4fc50" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1125,7 +1369,7 @@ downloads, then :cpp:func:`afterGraphGroupEdits`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="167" column="26" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="101" bodyend="101"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="249" column="26" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="108" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1afc2d1e23d64fbad8748e1e6384993c01" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -1155,7 +1399,7 @@ downloads, then :cpp:func:`afterGraphGroupEdits`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="174" column="26" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="103" bodyend="103"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="256" column="26" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="110" bodyend="110"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1adb5666b3659ce2be2cd5ed3f21e469b8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1173,7 +1417,54 @@ nothing for the ``.ini`` file, and #hasGivenUp answers ``true``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="183" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="105" bodyend="108"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="265" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a183b6c6de40c4298220e46cf207c961f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TemplateFixer::giveUp</definition>
+        <argsstring>(const std::string &amp;logLine)</argsstring>
+        <name>giveUp</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::giveUp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>logLine</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_template_fixer_1adb5666b3659ce2be2cd5ed3f21e469b8" kindref="member">giveUp</ref>, saying why in the log </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>logLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line logged </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="272" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a27c1fb5455cfb5f39061b83eac9f1216" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::TemplateFixer::iniCallsTexFx</definition>
+        <argsstring>() const</argsstring>
+        <name>iniCallsTexFx</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::iniCallsTexFx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the ``.ini`` file calls `TexFx`_ anywhere -- a ``run =`` into
+:cpp:member:`IniKeywords::TexFxFolder`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="281" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="245" bodyend="248"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a6b74654c01b7de93858b732554926d60" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -1188,7 +1479,7 @@ nothing for the ``.ini`` file, and #hasGivenUp answers ``true``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="188" column="27" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="110" bodyend="113"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="286" column="27" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="117" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a733cbee06612af9dcbc7929d255b2e03" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1210,7 +1501,215 @@ of &apos;name&apos; for :cpp:member:`toModName_`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="197" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="115" bodyend="117"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="295" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a0f1b0b58b25332e9604212798c9124c2" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TemplateFixer::remapName</definition>
+        <argsstring>(RemapName kind, const std::string &amp;name) const</argsstring>
+        <name>remapName</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::remapName</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538" kindref="member">RemapName</ref></type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>The name the fix gives a section of the mod&apos;s, by the convention of &apos;kind&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The naming convention </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section&apos;s name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="303" column="25" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="126" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a8f1387e3e521c1000eb9a27ad55b2b23" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_graph_rename" kindref="compound">GraphRename</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; GraphRename&lt; std::string, std::string &gt; &gt; AGRemapCore::TemplateFixer::remapRename</definition>
+        <argsstring>(RemapName kind, RenameWrap wrap={}) const</argsstring>
+        <name>remapRename</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::remapRename</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538" kindref="member">RemapName</ref></type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_template_fixer_1abc519cdfca46f216ac70a29338566804" kindref="member">RenameWrap</ref></type>
+          <declname>wrap</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A :cpp:class:`GraphRename` to :cpp:func:`remapName`&apos;s names of &apos;kind&apos; -- or, with &apos;wrap&apos;,
+to what &apos;wrap&apos; makes of the old name and that one
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The naming convention </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wrap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What a renamed section is finally called. <bold>Default</bold>: the renamed name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="315" column="29" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="141" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a0b0c42176e6a6634f8bd9f067142edd7" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_reg_asset_remap" kindref="compound">RegAssetRemap</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; RegAssetRemap&lt; std::string, std::string &gt; &gt; AGRemapCore::TemplateFixer::hashRemap</definition>
+        <argsstring>(const std::string &amp;fromName, const std::optional&lt; Version &gt; &amp;toVersion, const std::optional&lt; std::string &gt; &amp;notFound=IniKeywords::HashNotFound, AssetSpecs extraSpecs={}) const</argsstring>
+        <name>hashRemap</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::hashRemap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fromName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>notFound</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" kindref="member">IniKeywords::HashNotFound</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_template_fixer_1a7e4fad889b2e3541830f297aaab21fda" kindref="member">AssetSpecs</ref></type>
+          <declname>extraSpecs</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The :cpp:class:`RegAssetRemap` of a section&apos;s ``hash`` from &apos;fromName&apos; onto
+:cpp:member:`toModName_`, through the fixer&apos;s own mod type&apos;s hashes, plus &apos;extraSpecs&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fromName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type the hashes are reverse-looked-up under </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version the hashes are remapped to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>notFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What a hash with no mapping becomes; <computeroutput>std::nullopt</computeroutput> leaves it as it is. <bold>Default</bold>: :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" kindref="member">IniKeywords::HashNotFound</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>extraSpecs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>More registers to remap the same way. <bold>Default</bold>: none </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="330" column="29" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="168" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TemplateFixer::addFixSection</definition>
+        <argsstring>(std::unique_ptr&lt; Section &gt; section, std::optional&lt; std::size_t &gt; group=std::nullopt)</argsstring>
+        <name>addFixSection</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::addFixSection</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" kindref="member">Section</ref> &gt;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::size_t &gt;</type>
+          <declname>group</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a `section`_ the fix writes itself -- a resource it declares, a command list, a
+section on a draw the mod has none for -- to the ``.ini`` file the fix renders
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The sections go into the groups as ONE graph per group (see :cpp:class:`GraphCreate`),
+after every :cpp:member:`GIMIFixer::graphGroupEdits` entry has run and before
+:cpp:func:`afterGraphGroupEdits`, so an edit run there reads and changes them as it does
+the mod&apos;s own. A section the group already renders with the same name and text is written
+once
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The section </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The one group it goes into. <bold>Default</bold>: the first group, and every copy too when :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_template_fixer_1aa118301d9a0cf78b58ea3530411949ce" kindref="member">fixSectionsInCopies</ref></computeroutput> is set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="352" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="190" bodyend="200"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1276,6 +1775,47 @@ comments out nothing
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="598" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1aefc9b02bedaae3f41b27cde0afd95fbd" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_remove" kindref="compound">GraphRemove</ref>&lt; std::string, std::string &gt;<ref refid="class_a_g_remap_core_1_1_res_group_collect" kindref="compound">::GraphId</ref></type>
+        <definition>GraphRemove&lt; std::string, std::string &gt;::GraphId AGRemapCore::TemplateFixer::fixSectionsGraphId</definition>
+        <argsstring>(std::size_t group)</argsstring>
+        <name>fixSectionsGraphId</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::fixSectionsGraphId</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>group</declname>
+        </param>
+        <briefdescription>
+<para>The graph id :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" kindref="member">addFixSection</ref></computeroutput>&apos;s sections are added under in group &apos;group&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="371" column="42" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="202" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_template_fixer_1adc4d53d3b32d5e1cee7f9fe27d8f05c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TemplateFixer::addFixSectionGraphs</definition>
+        <argsstring>(const std::string &amp;modName)</argsstring>
+        <name>addFixSectionGraphs</name>
+        <qualifiedname>AGRemapCore::TemplateFixer::addFixSectionGraphs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="393" column="18" bodyfile="src/model/strategies/iniFixers/TemplateFixer.cpp" bodystart="206" bodyend="238"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -1580,7 +2120,7 @@ This class then supplies what every such fixer needs and none of them is about:
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="8">
+      <node id="9">
         <label>AGRemapCore::BaseIniClassifier</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
       </node>
@@ -1606,33 +2146,33 @@ This class then supplies what every such fixer needs and none of them is about:
         <childnode refid="11" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>AGRemapCore::IniFile</label>
         <link refid="class_a_g_remap_core_1_1_ini_file"/>
-        <childnode refid="8" relation="usage">
+        <childnode refid="9" relation="usage">
           <edgelabel>iniClassifier_</edgelabel>
         </childnode>
-        <childnode refid="9" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>z3Ctx_</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>AGRemapCore::IniFileFixContext</label>
         <link refid="class_a_g_remap_core_1_1_ini_file_fix_context"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="8" relation="usage">
           <edgelabel>iniFile_</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::IniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_ini_fix_context"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>AGRemapCore::RemapIniFixContext&lt; std::string, std::string &gt;</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_fix_context"/>
-        <childnode refid="6" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">
@@ -1641,13 +2181,16 @@ This class then supplies what every such fixer needs and none of them is about:
         <childnode refid="2" relation="public-inheritance">
         </childnode>
         <childnode refid="4" relation="usage">
+          <edgelabel>fixSectionsZ3</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
           <edgelabel>ctx_</edgelabel>
         </childnode>
         <childnode refid="10" relation="usage">
           <edgelabel>removeEveryGroup_</edgelabel>
         </childnode>
       </node>
-      <node id="9">
+      <node id="4">
         <label>AGRemapCore::Z3Context</label>
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
@@ -1655,14 +2198,17 @@ This class then supplies what every such fixer needs and none of them is about:
         <label>BaseIniFixer&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="64" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="64" bodyend="221"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" line="71" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h" bodystart="71" bodyend="399"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a40840bf4a5084d9627dbc1e3339af2b5" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>addFixSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1adc4d53d3b32d5e1cee7f9fe27d8f05c2" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>addFixSectionGraphs</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1afc2d1e23d64fbad8748e1e6384993c01" prot="protected" virt="virtual"><scope>AGRemapCore::TemplateFixer</scope><name>afterGraphGroupEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7e99fb87264ff2ce673f66060718e1fa" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>appendedSections</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4ddd243e7d800bef749dd3caa68af6a6" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>appendedSectionsDropRepeats</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab2d7352d45fbd615b8ebae72d5aff841" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>appendedSectionsInCopies</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af242f039784066ef408ad35d5c0e92a2" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>appendedSectionsPerGroup</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1ad1330a6652783cf8e79dae68ddb2c7ea" prot="protected" virt="virtual"><scope>AGRemapCore::TemplateFixer</scope><name>applyGraphGroupEdits</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a7e4fad889b2e3541830f297aaab21fda" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>AssetSpecs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a48836dbabf78fc8353a871dfd4d8cbf3" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a37f99c5ac8cc8390a22ac7e1fcf4fc50" prot="protected" virt="virtual"><scope>AGRemapCore::TemplateFixer</scope><name>beforeGraphGroupEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7f7530373bbe67640f73148937563055" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>clear</name></member>
@@ -1680,6 +2226,10 @@ This class then supplies what every such fixer needs and none of them is about:
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2d333cb908e828d8d82fa45c73431fd7" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixImpl</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a37e315f6fb844029a649ea10c0a902de" prot="public" virt="virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixKey</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a697c7277e73024af055a2164acf0cd99" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>FixResult</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1ae922274df1da737d0c8c16b27a418594" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixSections_</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1aefc9b02bedaae3f41b27cde0afd95fbd" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixSectionsGraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1aa118301d9a0cf78b58ea3530411949ce" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixSectionsInCopies</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1af6788d5f60a2f56df8ab8ef11db9235b" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixSectionsZ3</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5eac3c432029608e3d161aed56716ceb" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>FixTargets</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a9139ad401288080bf8bc95da585f6634" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixTargets</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a20fa330cc7b17baf32d8fe2019f3df26" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>fixTargets_</name></member>
@@ -1688,6 +2238,7 @@ This class then supplies what every such fixer needs and none of them is about:
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af09d678281a7085fe5bf84d970f8fcca" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>getModsToFix</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a582e90393e44b4ef49203796dd32e3c6" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>GIMIFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1adb5666b3659ce2be2cd5ed3f21e469b8" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>giveUp</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a183b6c6de40c4298220e46cf207c961f" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>giveUp</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aad3455517baa883f0cf6bb55ed1fea62" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>Graph</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5464afcc74a1ab38ec3d3cf1c40d0d47" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>GraphGroup</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aef6dedcf6548f3ee419093a4f87e008e" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>graphGroupEdits</name></member>
@@ -1695,11 +2246,15 @@ This class then supplies what every such fixer needs and none of them is about:
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab29e16d0a2e7f666bc59150b079b64a7" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>graphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5ee6baf4220af9c4d3c4e29d9e5f803c" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>graphGroups_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5bcddb1d5c9ab03248f9d3fd3c880870" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>GroupEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a9e4f0ab01d0bfced1212de84912b43ad" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>groupFixSections_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ad6ef77be01a727db3c636fbbf72ed51f" prot="public" virt="virtual"><scope>AGRemapCore::TemplateFixer</scope><name>groupToStr</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a05aec703fea29a46c471bdd8c9d54905" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>hasGivenUp</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a0b0c42176e6a6634f8bd9f067142edd7" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>hashRemap</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4d9123ab804410bcd9ce99afcc4580e2" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>hiddenModObjs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0c9c06898d7ceb9f601b86463242c32d" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>hiddenSectionNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a27c1fb5455cfb5f39061b83eac9f1216" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>iniCallsTexFx</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a6b74654c01b7de93858b732554926d60" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>iniToVersion</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1af5d0855b00478d949963e4c229da48cf" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>isFixLibraryCall</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a447dbeeaabe0228a59ce92b6584e3924" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>KVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af06a9cf5f45f8ce1ba6ae512447626a6" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>labelTargetBlock</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a07c7c4ede1aa254dc6d00f072fcdf254" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>makeSection</name></member>
@@ -1711,7 +2266,11 @@ This class then supplies what every such fixer needs and none of them is about:
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a280d4bdafd151b00b2f0b10061d67c93" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>preEditSectionNames_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8bbfcfba559d366f4e4e35674affe1b9" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>prevFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a733cbee06612af9dcbc7929d255b2e03" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>remapFixName</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a5176870bd4dda8149672a951d4f43538" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>RemapName</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a0f1b0b58b25332e9604212798c9124c2" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>remapName</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a8f1387e3e521c1000eb9a27ad55b2b23" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>remapRename</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a0be54ceaeea2db488acaacb8276373e9" prot="private" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>removeEveryGroup_</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1abc519cdfca46f216ac70a29338566804" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>RenameWrap</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a30973bbecb9f85387f64cbc42db7329a" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>renderSection</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1ac575d09b495e5748cf36e06e85089bf6" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>resEditConfig</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a5456242ace6c7ac2e790482be4381c3c" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>Section</name></member>
@@ -1721,6 +2280,7 @@ This class then supplies what every such fixer needs and none of them is about:
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4a8599309d747e4d2800778803df0bd9" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>snapshotPreEditSectionNames</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a6c1a1b103e327c0e0b14427a54999b37" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>TemplateFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a94dea6ebb916551710b5a02c9ab0e148" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>TemplateFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_template_fixer_1a9124aee61a56e7d7035c1864612a6cb8" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>texFxGuardSection</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1af0410b53f9386ca84e2dcd9d1a8ae798" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>toModName_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2b1221020a6bee72fe0271eda1ef27f0" prot="public" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>touchedSectionNames</name></member>
       <member refid="class_a_g_remap_core_1_1_template_fixer_1a78cfb0ef699182832d22b25b1867eb61" prot="protected" virt="non-virtual"><scope>AGRemapCore::TemplateFixer</scope><name>withdrawDownloadsOnGiveUp</name></member>

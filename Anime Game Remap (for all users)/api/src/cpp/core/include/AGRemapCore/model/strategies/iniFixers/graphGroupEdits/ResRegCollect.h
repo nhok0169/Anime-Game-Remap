@@ -24,6 +24,7 @@
 
 #include <tsl/ordered_map.h>
 
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/SectionIterData.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
@@ -154,6 +155,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             More registers to search a graph for, besides its entry in \ref srcRegs -- a graph
+             named here and not there is searched for these alone :raw-html:`<br />` :raw-html:`<br />`
+
+             What it is for: one resource bound at SEVERAL registers of one graph, collected by ONE
+             edit. Each \ref resEdits entry builds its resources once per \ref edit, so a second
+             collect sharing the same edit would repoint its references at names nothing declares;
+             searching every register in one collect builds them all together. A \ref ResPredicate
+             is handed the register it is judging, so it can still tell the registers apart
+             @endrst
+             */
+            ByGraph<std::vector<K>> extraSrcRegs;
+
+            /**
+             * @brief
+             @rst
              The key to bind the collected resource's fixed name to, instead of overwriting the one
              it was READ from -- empty for the usual behaviour :raw-html:`<br />` :raw-html:`<br />`
 
@@ -188,6 +204,19 @@ namespace AGRemapCore {
              * @brief Which references to collect, keyed by which graph the predicate applies to
              */
             ByGraph<ResPredicate> resPredicates;
+
+            /**
+             * @brief
+             @rst
+             A \ref ResPredicate that collects a reference only when its value is a resource NAME,
+             not a 3dmigoto statement opening with one of 'keywords' (see
+             :cpp:func:`IniNamingTools::hasKeywordPrefix`) -- ``ref ResourceX`` binds a resource already
+             declared, so collecting it as a file would look for a section called ``ref ResourceX``
+             @endrst
+             *
+             * @param keywords The statements to skip. **Default**: ``ref``
+             */
+            static ResPredicate skipsKeywords(std::vector<std::string> keywords = {IniKeywords::Ref});
 
             /**
              * @brief

@@ -95,6 +95,38 @@ namespace AGRemapCore {
             std::size_t getIndexCount() const;
 
             /**
+             * @brief
+             @rst
+             Every vertex index in the file, in order -- the list a ``drawindexed = <count>, <first>, 0``
+             addresses, with ``first`` counted in indices rather than triangles
+             @endrst
+             *
+             * @return #getIndexCount indices
+             */
+            std::vector<long long> getIndices() const;
+
+            /**
+             * @brief
+             @rst
+             The bytes of an index buffer holding one span of this file's indices with every
+             triangle wound the other way -- the same vertices, presented to the rasterizer as their
+             back faces :raw-html:`<br />` :raw-html:`<br />`
+
+             Each triangle ``(a, b, c)`` of the span becomes ``(a, c, b)``. The span is laid out from
+             index 0, so a draw of ``count, first`` into this file is ``count, first - firstIndex``
+             into the result. Written at this file's own index width
+             @endrst
+             *
+             * @param firstIndex The index the span starts at
+             * @param indexCount How many indices the span holds. A trailing part-triangle is left zero
+             *
+             * @return The bytes, 'indexCount' indices long
+             *
+             * @throws std::out_of_range if the span runs past the end of the file
+             */
+            ByteVec windingReversed(std::size_t firstIndex, std::size_t indexCount) const;
+
+            /**
              * @brief Makes the header for a dumped *ib.txt* file
              *
              * @param firstIndex The index this file's first vertex index is numbered from. A mod's

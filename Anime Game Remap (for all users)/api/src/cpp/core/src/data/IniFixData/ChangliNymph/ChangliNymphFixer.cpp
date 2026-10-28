@@ -238,7 +238,7 @@ namespace AGRemapCore {
         };
 
         config.sourceTextures = changliNymphTextureFacts();
-        config.flatFallsBackToSource = {"bodyMask", "faceMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
         // ---- her see-through parts' diffuse alpha, clamped to Changli's ceiling (see alphaClampFilter) ----
         config.texEdits = {
@@ -276,7 +276,6 @@ namespace AGRemapCore {
         config.shapeKeyOrder.insert(config.shapeKeyOrder.end(), 14, -1);
         config.cleanTexcoords = true;
         config.carryByRegisterRole = true;
-        config.readInisBelow = true;
         // her slots reach bone 275 (276 x 3 float4 = 828), past the 768 default
         config.mergedSkeletonSlots = 1536;
         config.copiesShareSkeleton = true;

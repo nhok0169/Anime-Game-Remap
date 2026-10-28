@@ -46,6 +46,11 @@ class PyRegIfTemplateAdd: public AGRC::RegIfTemplateAdd<std::string, std::string
         py::object ifTemplateObj;
 
         /**
+         * @brief The `Python`_ section filter, or ``None`` -- see ``sectionFilter``
+         */
+        py::object sectionFilterObj;
+
+        /**
          * @brief Constructs a new template-adding edit
          *
          * @param ifTemplateObj The Python ``IfTemplate``, or None
@@ -55,7 +60,7 @@ class PyRegIfTemplateAdd: public AGRC::RegIfTemplateAdd<std::string, std::string
         PyRegIfTemplateAdd(py::object ifTemplateObj, Position position, std::string key);
 
         /**
-         * @brief Re-derives the core template pointer from #ifTemplateObj
+         * @brief Re-derives the core template pointer from #ifTemplateObj, and the core section filter from #sectionFilterObj
          */
         void refresh();
 };

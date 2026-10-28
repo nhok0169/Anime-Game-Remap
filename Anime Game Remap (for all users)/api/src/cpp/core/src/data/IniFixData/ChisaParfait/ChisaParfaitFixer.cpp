@@ -418,7 +418,7 @@ namespace AGRemapCore {
         // the MOD's candidate file, not on the download.
         // `faceMask` is NOT here: the face slot does not bind a mask at all -- see the
         // plan above. A role no plan names cannot fall back to anything.
-        config.flatFallsBackToSource = {"upperMask", "lowerMask", "panelMask", "propMask"};
+        // the masks a flat or aliased file is refused for are the source's: see WWMITextureFacts::regionRoles
 
 
         // ---- RabbitFX's own texture binding, which would override the fix's ----------------------
@@ -571,7 +571,7 @@ namespace AGRemapCore {
         config.shapeKeyDispatchSize = "1441";        // Chisa's dispatch_y -- see ChisaFixer
 
         // ---- a flat mask is LEFT TO THE GAME on the hair, as in the forward direction ------------
-        // `flatFallsBackToSource` below is about a mask whose REGIONS are missing; this is about the
+        // The body masks of WWMITextureFacts::regionRoles fall back to hers when their REGIONS are missing; this is about the
         // hair, where the right answer is neither the mod's nor the source's. Chisa's own hair mask
         // is a flat (255, 0, 126, 0) -- "all of this is skin" -- so a flat one is not a neutral one
         // and the register is better left alone. The earlier comment justified omitting this by the
@@ -598,7 +598,7 @@ namespace AGRemapCore {
                  return hairNormalFilter();
              }},
 
-            // Every mask bound on a BODY slot -- the four roles flatFallsBackToSource names, which
+            // Every mask bound on a BODY slot -- the four body roles of her regionRoles, which
             // is the same set for the same reason: they are the ones Chisa's body shaders read.
             // The hair masks are left to the game (flatLeftToGame) and the face mask is not bound
             // at all, so neither needs repacking.

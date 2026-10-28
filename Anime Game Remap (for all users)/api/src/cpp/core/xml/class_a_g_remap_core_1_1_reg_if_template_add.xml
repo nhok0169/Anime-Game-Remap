@@ -1,0 +1,802 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_reg_if_template_add" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegIfTemplateAdd</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_reg_if_template_add_8h" local="no">RegIfTemplateAdd.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Position</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::Position</qualifiedname>
+        <enumvalue id="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68eaa4ffdcf0dc1f31b9acaf295d75b51d00" prot="public">
+          <name>Top</name>
+          <briefdescription>
+<para>Before everything the <computeroutput>section</computeroutput>_ has. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea2ad9d63b69c4a10a5cc9cad923133bc4" prot="public">
+          <name>Bottom</name>
+          <briefdescription>
+<para>After everything the <computeroutput>section</computeroutput>_ has, at its own depth (inside a namespace-merge guard). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68eaf4407bd5c53a75da5930676f0f3423ab" prot="public">
+          <name>AfterKey</name>
+          <briefdescription>
+<para>Right after the first <computeroutput>KVP</computeroutput>_ whose key is <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a30d71cd4002ab44e11088ed92d15ff11" kindref="member">key</ref>, at that <computeroutput>KVP</computeroutput>_&apos;s depth. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea92f9bf7412f771001cefd06317dd7360" prot="public">
+          <name>BeforeTopKey</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Right before the first `KVP`_ at the `section`_&apos;s top level (outside every ``if``)
+whose key is \ref key
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea5233b9162a339256fa2fae46f34c6841" prot="public">
+          <name>BeforeFirstIf</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Right before the `section`_&apos;s first top-level ``if``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Where in each root the template&apos;s parts go. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="110" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="110" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1a4716021452dc0038469df4e0aa412f2e" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" kindref="compound">BaseIniGraphEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="80" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1aa26822221835dab5d408894d9c025be4" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph this edits.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="85" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1a359e508905b9bb1b0749a2214cbb9dd1" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = typename Base::PartFilter</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate the valid order indices to process for some
+:cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers -- an
+empty ``std::function`` means &quot;no filter&quot;. Identical to
+:cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="90" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1af65c81691ca2e4d4cfcf5347012bb928" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::KeySet = typename Base::KeySet</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::KeySet</qualifiedname>
+        <briefdescription>
+<para>A set of the keys to keep track of for colouring.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="95" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1a537f9605fc93dfea667713e971c43b65" prot="public" static="no">
+        <type>typename Graph::Section</type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::Section = typename Graph::Section</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::Section</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>section</computeroutput>_ type this edit adds to, and the template&apos;s type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="100" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1affe14c749e254c19c5cb7a171b7bb48d" prot="public" static="no">
+        <type>typename Graph::ContentPart</type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = typename Graph::ContentPart</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The parts holding <computeroutput>KVPs</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="105" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_if_template_add_1a5c2dab18dd780f2ecf04f7d5ca89ed10" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;name, const <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a537f9605fc93dfea667713e971c43b65" kindref="member">Section</ref> &amp;section)&gt;</type>
+        <definition>using AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::SectionFilter = std::function&lt;bool(const std::string&amp; name, const Section&amp; section)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SectionFilter</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::SectionFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which `sections`_ the edit adds to, asked of each with its name -- see
+\ref sectionFilter
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="151" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::IterData = SectionIterData&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">PartFilter</ref> is handed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices a #PartFilter returns -- ``long long`` because
+that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="67" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_if_template_add_1a5a5a6922b328eeca72a97397a75b524f" prot="public" static="no" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a537f9605fc93dfea667713e971c43b65" kindref="member">Section</ref> *</type>
+        <definition>const Section* AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::ifTemplate</definition>
+        <argsstring></argsstring>
+        <name>ifTemplate</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::ifTemplate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The template whose parts are added. **Borrowed**: the caller keeps it alive while the
+edit runs. ``nullptr`` makes the edit a no-op
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="160" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_if_template_add_1a5132a7074c1b4bccb89979dd064a9fdc" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68e" kindref="member">Position</ref></type>
+        <definition>Position AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::position</qualifiedname>
+        <briefdescription>
+<para>Where in each root the parts go. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="165" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_if_template_add_1a30d71cd4002ab44e11088ed92d15ff11" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::key</qualifiedname>
+        <briefdescription>
+<para>The key <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68eaf4407bd5c53a75da5930676f0f3423ab" kindref="member">Position::AfterKey</ref> inserts after, and <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea92f9bf7412f771001cefd06317dd7360" kindref="member">Position::BeforeTopKey</ref> before. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="170" column="15" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_if_template_add_1a195bea30ce1d263cf740795c9e909ff2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt;V&gt; AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The value the \ref key `KVP`_ must have for \ref Position::AfterKey and
+\ref Position::BeforeTopKey to take it. ``std::nullopt`` (the default) takes any value
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="179" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_if_template_add_1a04abc0e2d3524e5c5e32834e75021ae9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::everySection</definition>
+        <argsstring></argsstring>
+        <name>everySection</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::everySection</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the parts go into EVERY `section`_ of the graph -- the ones its roots call
+included -- rather than only its roots. **Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="188" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_if_template_add_1a68c77f61a369101fe0b7c3dc41731853" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a5c2dab18dd780f2ecf04f7d5ca89ed10" kindref="member">SectionFilter</ref></type>
+        <definition>SectionFilter AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::sectionFilter</definition>
+        <argsstring></argsstring>
+        <name>sectionFilter</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::sectionFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which `sections`_ the edit adds to: one it answers ``false`` for is left alone. Empty
+(the default) takes every `section`_. Asked after a \ref BaseIniGraphEdit::PartFilter,
+and only of a `section`_ that has a place for the parts
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="198" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_if_template_add_1a004316a832a196274c58ea26075bd301" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::RegIfTemplateAdd</definition>
+        <argsstring>(const Section *ifTemplate=nullptr, Position position=Position::Bottom, K key=K())</argsstring>
+        <name>RegIfTemplateAdd</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::RegIfTemplateAdd</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a537f9605fc93dfea667713e971c43b65" kindref="member">Section</ref> *</type>
+          <declname>ifTemplate</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68e" kindref="member">Position</ref></type>
+          <declname>position</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea2ad9d63b69c4a10a5cc9cad923133bc4" kindref="member">Position::Bottom</ref></defval>
+        </param>
+        <param>
+          <type>K</type>
+          <declname>key</declname>
+          <defval>K()</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new template-adding edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ifTemplate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The template whose parts are added <ndash/> see <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a5a5a6922b328eeca72a97397a75b524f" kindref="member">ifTemplate</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where in each root the parts go. <bold>Default</bold>: <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea2ad9d63b69c4a10a5cc9cad923133bc4" kindref="member">Position::Bottom</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68eaf4407bd5c53a75da5930676f0f3423ab" kindref="member">Position::AfterKey</ref> inserts after, and <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68ea92f9bf7412f771001cefd06317dd7360" kindref="member">Position::BeforeTopKey</ref> before. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="208" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_if_template_add_1a644d3f8be0708e6aca3193933467ad26" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1aa26822221835dab5d408894d9c025be4" kindref="member">Graph</ref> &amp;</type>
+        <definition>Graph &amp; AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(Graph &amp;graph, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::RegIfTemplateAdd::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1aa26822221835dab5d408894d9c025be4" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a359e508905b9bb1b0749a2214cbb9dd1" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1af65c81691ca2e4d4cfcf5347012bb928" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds the parts of \ref ifTemplate into every root `section`_ of &apos;graph&apos; (every
+`section`_ with \ref everySection). A \ref BaseIniGraphEdit::PartFilter given is asked
+about the `section`_&apos;s first :cpp:class:`IfContentPart`, and a `section`_ it or
+\ref sectionFilter rejects is left alone, as is one with no place for the parts
+(no \ref key, or no top-level ``if``)
+</verbatim></para>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **caller&apos;s** key-tracking default, handed down by whatever is driving this edit
+(:cpp:class:`GraphGroupEdit` passes its own ``trackKeys`` here) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A subclass that has its own key-tracking setting decides how to combine the two;
+:cpp:class:`RegFillMissing` treats this as a default it can turn *on* but not off, so
+either side asking for tracking is enough. A subclass with no such setting simply
+ignores it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **caller&apos;s** key-tracking key set, handed down the same way -- ``std::nullopt``
+meaning &quot;every key&quot;, matching
+:cpp:func:`IfContentPartColouring::updateColouring`&apos;s own convention :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="221" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1aa26822221835dab5d408894d9c025be4" kindref="member">Graph</ref> &amp;</type>
+        <definition>virtual Graph &amp; AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt)</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::editFromIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47">editFromIni</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1aa26822221835dab5d408894d9c025be4" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1a359e508905b9bb1b0749a2214cbb9dd1" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_if_template_add_1af65c81691ca2e4d4cfcf5347012bb928" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**.
+   Subclasses that
+   actually need the ``.ini`` file&apos;s state override this rather than #edit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="109" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniPartEdit::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniPartEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a6dd26f6a26ecbeb5de1bb1bc70b572ed">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h" line="42" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniPartEdit.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphEdit`
+
+Adds the parts of an :cpp:class:`IfTemplate` -- `KVPs`_ and whole ``if`` / ``else`` blocks --
+into every root `section`_ of a graph, at the \ref position given :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Where :cpp:class:`RegAdd` adds `KVPs`_ to parts that already exist and :cpp:class:`RegBottomAdd`
+appends one block at the bottom, this one inserts a structure the caller wrote, wherever the
+fix needs it to run -- eg. a constant buffer bound per pass BEFORE the `section`_&apos;s draws:
+
+.. code-block:: ini
+
+   [TextureOverrideCharacterLegs]
+   hash = a913e9a9
+   match_first_index = 0
+   ; position = AfterKey, key = match_first_index: the template&apos;s parts go HERE
+   if ps == 51840.1
+       ps-cb3 = ResourceLegsMainCb3
+   else if ps == 51840.2
+       ps-cb3 = ResourceLegsOutlineCb3
+   endif
+   ib = ResourceLegsIB
+   drawindexed = auto
+
+The template&apos;s parts are copied in, so one template serves every root and every graph. Its
+``if`` lines are re-parsed under the graph&apos;s own :cpp:class:`Z3Context`, and its `KVPs`_ keep
+their nesting, shifted to the depth they are inserted at. A template is most easily written
+as text and parsed: the one `section`_ of an :cpp:class:`IniFile` made from it.
+
+.. note::
+   At the bottom, a namespace-merged `section`_ (one guarded as a whole by
+   ``if $\&lt;Char&gt;\Master\swapvar == n``) takes the parts inside its guard, before the guard&apos;s
+   ``endif``, as :cpp:class:`RegBottomAdd` does. With \ref Position::AfterKey, a root that has no
+   \ref key is left alone
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_if_template_add"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegIfTemplateAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_if_template_add"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" line="74" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegIfTemplateAdd.h" bodystart="74" bodyend="223"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a4716021452dc0038469df4e0aa412f2e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1affe14c749e254c19c5cb7a171b7bb48d" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a644d3f8be0708e6aca3193933467ad26" prot="public" virt="virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" virt="virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a04abc0e2d3524e5c5e32834e75021ae9" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>everySection</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1aa26822221835dab5d408894d9c025be4" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a5a5a6922b328eeca72a97397a75b524f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>ifTemplate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a30d71cd4002ab44e11088ed92d15ff11" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>key</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1af65c81691ca2e4d4cfcf5347012bb928" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>KeySet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a359e508905b9bb1b0749a2214cbb9dd1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a7b23c3787b23c48c33f865f9216ef68e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>Position</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a5132a7074c1b4bccb89979dd064a9fdc" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>position</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a004316a832a196274c58ea26075bd301" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>RegIfTemplateAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a537f9605fc93dfea667713e971c43b65" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a5c2dab18dd780f2ecf04f7d5ca89ed10" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>SectionFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a68c77f61a369101fe0b7c3dc41731853" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>sectionFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_if_template_add_1a195bea30ce1d263cf740795c9e909ff2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>value</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegIfTemplateAdd</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

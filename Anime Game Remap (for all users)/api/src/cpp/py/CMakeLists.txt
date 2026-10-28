@@ -147,6 +147,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.cpp
     src/model/strategies/iniParsers/PyBaseIniParser.cpp
+    src/model/strategies/iniParsers/PyIniParseData.cpp
     src/model/strategies/iniParsers/PyGIMISectionClassifier.cpp
     src/model/strategies/iniParsers/PyGIMIParser.cpp
     src/model/strategies/iniParsers/PyIniParseBuilder.cpp
@@ -178,6 +179,7 @@ pybind11_add_module(core
     src/model/PyVGRemap.cpp
     src/model/buffers/PyVGComponentSplit.cpp
     src/model/buffers/PyVGComponentMerge.cpp
+    src/model/buffers/PyWWMIBlend.cpp
     src/model/files/PyBlendFile.cpp
     src/model/files/PyPositionFile.cpp
     src/model/files/PyIbFile.cpp

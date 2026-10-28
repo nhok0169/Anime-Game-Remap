@@ -175,6 +175,31 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unordered_map<std::string, typename BaseResEdit<K, V, KeyHash, KeyEqual>::Section*> BaseResEdit<K, V, KeyHash, KeyEqual>::sourceSections(
+            Context& ctx, GraphGroups& graphGroups, const std::vector<std::string>& targetSectionNames) const {
+        std::unordered_map<std::string, Section*> result = ctx.sectionIfTemplates();
+        for (const std::string& name : targetSectionNames) {
+            if (result.count(name) > 0) {
+                continue;
+            }
+
+            for (std::size_t groupInd = 0; groupInd < graphGroups.size() && result.count(name) == 0; ++groupInd) {
+                for (const auto& modObj : graphGroups.modObjs(groupInd)) {
+                    Graph* graph = graphGroups.getGraph(groupInd, modObj);
+                    Section* section = (graph == nullptr) ? nullptr : graph->getSection(name, false);
+                    if (section != nullptr) {
+                        result[name] = section;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename BaseResEdit<K, V, KeyHash, KeyEqual>::Graph* BaseResEdit<K, V, KeyHash, KeyEqual>::getResGraph(const CollectedSections& collectedSections,
                                                                                                             Context& ctx, GraphGroups& graphGroups,
                                                                                                             const std::string& modName, bool rename,
@@ -205,7 +230,8 @@ namespace AGRemapCore {
         }
 
         if (graph == nullptr || graphReplaceMode == IniGraphReplaceMode::Replace) {
-            graph = graphGroups.createGraph(ctx.sectionIfTemplates(), targetSectionNames, copySections, ctx.z3Ctx());
+            graph = graphGroups.createGraph(sourceSections(ctx, graphGroups, targetSectionNames), targetSectionNames, copySections,
+                                            ctx.z3Ctx());
 
             if (rename && graph != nullptr) {
                 graph->rename([this, &collectedSections, &modName](const std::string& sectionName) {
@@ -225,7 +251,7 @@ namespace AGRemapCore {
             // DictTools.update(graph.sections, ini.sectionIfTemplates) -- the .ini file's own
             // sections win over whatever the graph already had under the same name.
             std::unordered_map<std::string, Section*> sections = graph->sections();
-            for (const auto& entry : ctx.sectionIfTemplates()) {
+            for (const auto& entry : sourceSections(ctx, graphGroups, targetSectionNames)) {
                 sections[entry.first] = entry.second;
             }
 

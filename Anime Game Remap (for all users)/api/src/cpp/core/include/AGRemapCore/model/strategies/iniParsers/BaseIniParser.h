@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/IniGraphGroup.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseData.h"
 
 
 namespace AGRemapCore {
@@ -147,6 +148,20 @@ namespace AGRemapCore {
              */
             virtual std::vector<GraphGroup> parse();
 
+            /**
+             * @brief
+             @rst
+             What this parser learned about its ``.ini`` file that a fixer needs -- see
+             :cpp:class:`IniParseData`. A parser that records nothing leaves its defaults
+             @endrst
+             */
+            const IniParseData& parseData() const;
+
+            /**
+             * @brief #parseData, to fill
+             */
+            IniParseData& parseData();
+
         protected:
 
             /**
@@ -156,6 +171,11 @@ namespace AGRemapCore {
              @endrst
              */
             IniFile* iniFile_;
+
+            /**
+             * @brief See #parseData
+             */
+            IniParseData parseData_;
     };
 }
 

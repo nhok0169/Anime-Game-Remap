@@ -2,6 +2,10 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="namespace_a_g_remap_core" kind="namespace" language="C++">
     <compoundname>AGRemapCore</compoundname>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_fixer" prot="public">AGRemapCore::AetherFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_heaven_fixer" prot="public">AGRemapCore::AetherHeavenFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_heaven_parser" prot="public">AGRemapCore::AetherHeavenParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_aether_parser" prot="public">AGRemapCore::AetherParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_fixer" prot="public">AGRemapCore::AmberCNFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_parser" prot="public">AGRemapCore::AmberCNParser</innerclass>
@@ -58,6 +62,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_buf_float" prot="public">AGRemapCore::BufFloat</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_float16" prot="public">AGRemapCore::BufFloat16</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_replace" prot="public">AGRemapCore::BufReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_restride_replace" prot="public">AGRemapCore::BufRestrideReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_signed_int" prot="public">AGRemapCore::BufSignedInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_type" prot="public">AGRemapCore::BufType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_unorm" prot="public">AGRemapCore::BufUnorm</innerclass>
@@ -98,8 +103,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_tools" prot="public">AGRemapCore::DownloadTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_draw_u_v_coverage" prot="public">AGRemapCore::DrawUVCoverage</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_add_create" prot="public">AGRemapCore::FileAddCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_download_create" prot="public">AGRemapCore::FileDownloadCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ref_add" prot="public">AGRemapCore::FileRefAdd</innerclass>
@@ -136,9 +143,11 @@
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_mod_types" prot="public">AGRemapCore::GlobalModTypes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_remap_ini_remover" prot="public">AGRemapCore::GlobalRemapIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_copy" prot="public">AGRemapCore::GraphCopy</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_create" prot="public">AGRemapCore::GraphCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_filter" prot="public">AGRemapCore::GraphFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public">AGRemapCore::GraphGroupRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_remove" prot="public">AGRemapCore::GraphGroupRemove</innerclass>
@@ -267,6 +276,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_lynae_peppermint_fixer" prot="public">AGRemapCore::LynaePeppermintFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lynae_peppermint_parser" prot="public">AGRemapCore::LynaePeppermintParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_material_band_remap_filter" prot="public">AGRemapCore::MaterialBandRemapFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_miyabi_parser" prot="public">AGRemapCore::MiyabiParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_branches" prot="public">AGRemapCore::ModBranches</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_data_assets" prot="public">AGRemapCore::ModDataAssets</innerclass>
@@ -303,15 +313,20 @@
     <innerclass refid="class_a_g_remap_core_1_1_pixel_filter" prot="public">AGRemapCore::PixelFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_position_edit_replace" prot="public">AGRemapCore::PositionEditReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rabbit_f_x" prot="public">AGRemapCore::RabbitFX</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_raiden_fixer" prot="public">AGRemapCore::RaidenFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_raiden_parser" prot="public">AGRemapCore::RaidenParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_anchor_add" prot="public">AGRemapCore::RegAnchorAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_asset_remap" prot="public">AGRemapCore::RegAssetRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_bottom_add" prot="public">AGRemapCore::RegBottomAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_branch_add" prot="public">AGRemapCore::RegBranchAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public">AGRemapCore::RegDelimitedAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_draw_range_remap" prot="public">AGRemapCore::RegDrawRangeRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_draw_range_shift" prot="public">AGRemapCore::RegDrawRangeShift</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_if_template_add" prot="public">AGRemapCore::RegIfTemplateAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_part_edit" prot="public">AGRemapCore::RegPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
@@ -321,6 +336,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_reg_val_checks" prot="public">AGRemapCore::RegValChecks</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public">AGRemapCore::RemapBlendReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public">AGRemapCore::RemapBlendResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_buf_restride_resource" prot="public">AGRemapCore::RemapBufRestrideResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_file_add_resource" prot="public">AGRemapCore::RemapFileAddResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public">AGRemapCore::RemapIniDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public">AGRemapCore::RemapIniFixContext</innerclass>
@@ -367,6 +383,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_template_fixer" prot="public">AGRemapCore::TemplateFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_cache" prot="public">AGRemapCore::TexCache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
@@ -411,10 +428,12 @@
     <innerclass refid="struct_a_g_remap_core_1_1_v_g_split_group_config" prot="public">AGRemapCore::VGSplitGroupConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_res_builder" prot="public">AGRemapCore::VGSplitGroupResBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_split_group_resource" prot="public">AGRemapCore::VGSplitGroupResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_blend" prot="public">AGRemapCore::WWMIBlend</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_builder" prot="public">AGRemapCore::WWMIBuilder</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config" prot="public">AGRemapCore::WWMIFixerConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_parse_facts" prot="public">AGRemapCore::WWMIParseFacts</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_parser_config" prot="public">AGRemapCore::WWMIParserConfig</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_shape_keys" prot="public">AGRemapCore::WWMIShapeKeys</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" prot="public">AGRemapCore::WWMITextureFacts</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles" prot="public">AGRemapCore::WWMITextureRoles</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_xiangling_cheer_fixer" prot="public">AGRemapCore::XianglingCheerFixer</innerclass>
@@ -436,9 +455,12 @@
     <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_if_pred_generator" prot="public">AGRemapCore::Z3IfPredGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_predicate" prot="public">AGRemapCore::Z3Predicate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z_z_m_i_builder" prot="public">AGRemapCore::ZZMIBuilder</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_z_z_m_i_fixer_config" prot="public">AGRemapCore::ZZMIFixerConfig</innerclass>
     <innernamespace refid="namespace_a_g_remap_core_1_1_data">AGRemapCore::Data</innernamespace>
     <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
     <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1_z_z_m_i_mod_objs">AGRemapCore::ZZMIModObjs</innernamespace>
     <sectiondef kind="enum">
       <memberdef kind="enum" id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" prot="public" static="no" strong="yes">
         <type></type>
@@ -613,6 +635,52 @@ Different replacement modes for when the :cpp:class:`IniSectionGraph` already ex
         <type></type>
         <name>ModTypeId</name>
         <qualifiedname>AGRemapCore::ModTypeId</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7d2fc7d93b8844307c3bc674ebeaf2ed" prot="public">
+          <name>Aether</name>
+          <briefdescription>
+<para>Aether (the male Traveler) from GI <ndash/> the asset repo&apos;s <computeroutput>TravelerBoy</computeroutput>, and what his mods name their sections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa22eb11440721ca6a1102e0a3f08b6ff" prot="public">
+          <name>AetherHeaven</name>
+          <briefdescription>
+<para>Aether outfit skin (As Heaven and Earth Are Made Anew) from GI <ndash/> THREE skinned components (an unnamed main mesh, Bang, Eye). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac4e4cdde36f3e6aefc7901af01059295" prot="public">
+          <name>AetherHeavenMain</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+AetherHeaven&apos;s MAIN mesh (Head / Body on one index buffer), as a fix TARGET
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+The :cpp:enumerator:`LumineHeavenMain` arrangement: the skin&apos;s own dump leaves this component UNNAMED
+(``AetherHeavenHead.ib``, ``AetherHeavenPosition.buf``), so its component name -- in the vertex-group table
+and the download file names -- is the empty string, and only this fix-target id carries ``Main``
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa9d8fd741d6b0fcd8513d59f7276da448" prot="public">
+          <name>AetherHeavenBang</name>
+          <briefdescription>
+<para>AetherHeaven&apos;s <computeroutput>Bang</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>AetherHeavenMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabebc6105168e4487c07febb7cc5766e6" prot="public">
+          <name>AetherHeavenEye</name>
+          <briefdescription>
+<para>AetherHeaven&apos;s <computeroutput>Eye</computeroutput> component, as a fix target <ndash/> see :cpp:enumerator:<computeroutput>AetherHeavenMain</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" prot="public">
           <name>Amber</name>
           <briefdescription>
@@ -1417,6 +1485,108 @@ same index windows with one bone fewer) and ``d14bed8b`` (1.4 on, component 3 gr
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac42121cb10e719424c8c31dd4d3ca9c0" prot="public">
+          <name>Miyabi</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Hoshimi Miyabi from ZZZ (Zenless Zone Zero) -- the first ZZZ mod type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ZZMI character is drawn the GIMI way, but EVERY component skins from its own bone palette: Miyabi is
+a ``Body``, ``Hair``, ``Legs``, ``Face`` and ``HairShadow`` (:cpp:enumerator:`MiyabiBody` and the rest),
+each with its own buffers and hashes, which is why both she and her skin have component ids
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6d35929b2a297243838bb00e93e85667" prot="public">
+          <name>MiyabiBody</name>
+          <briefdescription>
+<para>Miyabi&apos;s <computeroutput>Body</computeroutput> component (her outfit (coat, top, skirt)) <ndash/> filed in the asset tables under its own name, as :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput> is. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa65b5ed0814dc33e00ee7a48ee0dcdf6a" prot="public">
+          <name>MiyabiHair</name>
+          <briefdescription>
+<para>Miyabi&apos;s <computeroutput>Hair</computeroutput> component (her hair and bangs (objects A and B)) <ndash/> filed in the asset tables under its own name, as :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput> is. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab1b7ff11b104684142f11754a131d90e" prot="public">
+          <name>MiyabiLegs</name>
+          <briefdescription>
+<para>Miyabi&apos;s <computeroutput>Legs</computeroutput> component (her bare arms and legs) <ndash/> filed in the asset tables under its own name, as :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput> is. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2facc7c822ab4a75b4e687a436ddf37f63d" prot="public">
+          <name>MiyabiFace</name>
+          <briefdescription>
+<para>Miyabi&apos;s <computeroutput>Face</computeroutput> component (her face (objects A, B and C), the SAME mesh and hashes as the skin&apos;s) <ndash/> filed in the asset tables under its own name, as :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput> is. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab2b8601157fc3ddaacc0a024c2155953" prot="public">
+          <name>MiyabiHairShadow</name>
+          <briefdescription>
+<para>Miyabi&apos;s <computeroutput>HairShadow</computeroutput> component (the shadow her bangs cast on her face) <ndash/> filed in the asset tables under its own name, as :cpp:enumerator:<computeroutput>YelanTranquilBody</computeroutput> is. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77a342ed7a3b5df0fc5da8b862cad1cc" prot="public">
+          <name>MiyabiBlossom</name>
+          <briefdescription>
+<para>Miyabi&apos;s Dignified Blossom skin from ZZZ <ndash/> a <computeroutput>Body</computeroutput>, <computeroutput>Dress</computeroutput>, <computeroutput>Hair</computeroutput>, <computeroutput>Face</computeroutput> and <computeroutput>HairShadow</computeroutput>, as :cpp:enumerator:<computeroutput>Miyabi</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00877b7ef53672cd6954b50f2cb59aca" prot="public">
+          <name>MiyabiBlossomBody</name>
+          <briefdescription>
+<para>MiyabiBlossom&apos;s <computeroutput>Body</computeroutput> component (the skin&apos;s body: bare skin and the under layers) <ndash/> see :cpp:enumerator:<computeroutput>MiyabiBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fad730fe064d91297551f5536790f40790" prot="public">
+          <name>MiyabiBlossomDress</name>
+          <briefdescription>
+<para>MiyabiBlossom&apos;s <computeroutput>Dress</computeroutput> component (the kimono over it) <ndash/> see :cpp:enumerator:<computeroutput>MiyabiBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6b2a07668e5ccb9c250b6b4c0dcfb875" prot="public">
+          <name>MiyabiBlossomHair</name>
+          <briefdescription>
+<para>MiyabiBlossom&apos;s <computeroutput>Hair</computeroutput> component (the skin&apos;s hair (objects A and B), re-cut but on the same 39 hair bones as hers) <ndash/> see :cpp:enumerator:<computeroutput>MiyabiBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa363d12e0acaec9ca086ee64567610cfb" prot="public">
+          <name>MiyabiBlossomFace</name>
+          <briefdescription>
+<para>MiyabiBlossom&apos;s <computeroutput>Face</computeroutput> component (the face, the SAME mesh and hashes as Miyabi&apos;s) <ndash/> see :cpp:enumerator:<computeroutput>MiyabiBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5f8d77c88df4473701da385f1741453c" prot="public">
+          <name>MiyabiBlossomHairShadow</name>
+          <briefdescription>
+<para>MiyabiBlossom&apos;s <computeroutput>HairShadow</computeroutput> component (the bangs&apos; shadow on the face) <ndash/> see :cpp:enumerator:<computeroutput>MiyabiBody</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1426,7 +1596,7 @@ The names of the different types of mods this fix will fix from or fix to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="581"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="36" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="36" bodyend="680"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a579ef99bbb6290bdffba39f8ad9a274e" prot="public" static="no" strong="yes">
         <type></type>
@@ -1857,6 +2027,36 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </inbodydescription>
         <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="43" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="namespace_a_g_remap_core_1a4908d10de7b92fb5e25e54e5af38f3b9" prot="public" static="no" mutable="no">
+        <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>const std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::ZZMIModObjs::HashKinds</definition>
+        <argsstring></argsstring>
+        <name>HashKinds</name>
+        <qualifiedname>AGRemapCore::HashKinds</qualifiedname>
+        <briefdescription>
+<para>The hash types that name a component&apos;s graphs, and the object each sorts into. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ZZMIFixer.cpp" line="102" column="9" bodyfile="include/AGRemapCore/data/ZZMIModObjs.h" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_a_g_remap_core_1a4908d10de7b92fb5e25e54e5af38f3b9" prot="public" static="no" mutable="no">
+        <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>const std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; AGRemapCore::ZZMIModObjs::HashKinds</definition>
+        <argsstring></argsstring>
+        <name>HashKinds</name>
+        <qualifiedname>AGRemapCore::HashKinds</qualifiedname>
+        <briefdescription>
+<para>The hash types that name a component&apos;s graphs, and the object each sorts into. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/ZZMIParser.cpp" line="41" column="9" bodyfile="include/AGRemapCore/data/ZZMIModObjs.h" bodystart="37" bodyend="39"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="func">
       <memberdef kind="function" id="namespace_a_g_remap_core_1a1531dda1a1f8168d3490fd50c9764a20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -2180,7 +2380,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1359" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1359" bodyend="1363" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1259" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1259" bodyend="1263" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="635" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1afa90e717a5e7edeab5e5d9188ef93001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2228,7 +2428,7 @@ keyed by that component&apos;s own :cpp:enum:`ModTypeId`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2475" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2475" bodyend="2479" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="786" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIComponentFixer.cpp" line="2316" column="28" bodyfile="src/data/IniFixData/GIMIComponentFixer.cpp" bodystart="2316" bodyend="2320" declfile="include/AGRemapCore/data/IniFixData/GIMIComponentFixer.h" declline="803" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a6b7f466c05086ab110d37ffdefb77645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -2262,7 +2462,7 @@ for :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3385" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3385" bodyend="3389" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="545" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMIMergeFixer.cpp" line="3241" column="28" bodyfile="src/data/IniFixData/GIMIMergeFixer.cpp" bodystart="3241" bodyend="3245" declfile="include/AGRemapCore/data/IniFixData/GIMIMergeFixer.h" declline="572" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a725ad2ea6514c2a70bc2dccef27771d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_fixer_config_1_1_shader" kindref="compound">WWMIFixerConfig::Shader</ref></type>
@@ -2877,6 +3077,27 @@ character&apos;s subsurface ramp at ``ps-t6``
         </inbodydescription>
         <location file="src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp" line="25" column="29" bodyfile="src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp" bodystart="25" bodyend="106" declfile="include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h" declline="36" declcolumn="29"/>
       </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a3b8c344dae1bfed5932162e978cf7b31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_z_z_m_i_fixer_config" kindref="compound">ZZMIFixerConfig</ref></type>
+        <definition>ZZMIFixerConfig AGRemapCore::miyabiBlossomConfig</definition>
+        <argsstring>()</argsstring>
+        <name>miyabiBlossomConfig</name>
+        <qualifiedname>AGRemapCore::miyabiBlossomConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The Miyabi -&gt; MiyabiBlossom (Hoshimi Miyabi: Dignified Blossom) remap, ZZZ 3.2 -- the config
+:cpp:func:`makeZZMIParser` and :cpp:func:`makeZZMIFixer` build Miyabi&apos;s parser and her four fixers
+from: her ``Body`` (her outfit) onto the skin&apos;s ``Dress``, her ``Legs`` (bare limbs) onto its
+``Body``, and ``Hair`` / ``HairShadow`` onto theirs. The ``Face`` is one mesh under one set of hashes
+on both, so it is left alone
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/Miyabi/MiyabiFixer.cpp" line="22" column="21" bodyfile="src/data/IniFixData/Miyabi/MiyabiFixer.cpp" bodystart="22" bodyend="94" declfile="include/AGRemapCore/data/IniFixData/Miyabi/MiyabiFixer.h" declline="32" declcolumn="21"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1adfafe466c85bc08cd9d8608e2e8f98db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_facts" kindref="compound">WWMITextureFacts</ref></type>
         <definition>WWMITextureFacts AGRemapCore::sanhuaTextureFacts</definition>
@@ -2990,7 +3211,54 @@ of their own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/WWMIFixer.cpp" line="9631" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="9631" bodyend="9635" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1457" declcolumn="28"/>
+        <location file="src/data/IniFixData/WWMIFixer.cpp" line="8020" column="28" bodyfile="src/data/IniFixData/WWMIFixer.cpp" bodystart="8020" bodyend="8024" declfile="include/AGRemapCore/data/IniFixData/WWMIFixer.h" declline="1457" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1add108ea30a6b29f945e77947f8fa7577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::makeZZMIFixer</definition>
+        <argsstring>(ZZMIFixerConfig config, std::string component)</argsstring>
+        <name>makeZZMIFixer</name>
+        <qualifiedname>AGRemapCore::makeZZMIFixer</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_z_z_m_i_fixer_config" kindref="compound">ZZMIFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the fixer that remaps one source component of a ZZMI mod onto its target component --
+see :cpp:class:`ZZMIFixerConfig` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Called once per component, each result a row of :cpp:class:`IniFixBuilderData` keyed by the
+target component&apos;s own :cpp:enum:`ModTypeId`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair&apos;s config <ndash/> the same one for every component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which of <computeroutput>config.components</computeroutput> this fixer is for, by its source name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ZZMIFixer.cpp" line="1457" column="28" bodyfile="src/data/IniFixData/ZZMIFixer.cpp" bodystart="1457" bodyend="1461" declfile="include/AGRemapCore/data/IniFixData/ZZMIFixer.h" declline="332" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -3076,7 +3344,7 @@ through :cpp:class:`Indices`; see there for why
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1103" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1103" bodyend="1119" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMIComponentParser.cpp" line="1142" column="30" bodyfile="src/data/IniParseData/GIMIComponentParser.cpp" bodystart="1142" bodyend="1158" declfile="include/AGRemapCore/data/IniParseData/GIMIComponentParser.h" declline="224" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a71353ecec052c71edfa6c5b90da4c4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -3107,6 +3375,39 @@ Builds the parser for a mod of one Wuthering Waves character -- see :cpp:struct:
         <inbodydescription>
         </inbodydescription>
         <location file="src/data/IniParseData/WWMIParser.cpp" line="371" column="30" bodyfile="src/data/IniParseData/WWMIParser.cpp" bodystart="371" bodyend="382" declfile="include/AGRemapCore/data/IniParseData/WWMIParser.h" declline="143" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aad3c3e3d2d3d9a180071dc09ae8b1565" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::makeZZMIParser</definition>
+        <argsstring>(ZZMIFixerConfig config)</argsstring>
+        <name>makeZZMIParser</name>
+        <qualifiedname>AGRemapCore::makeZZMIParser</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_z_z_m_i_fixer_config" kindref="compound">ZZMIFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the parser of a ZZMI character&apos;s mods, from its pair&apos;s config -- one
+:cpp:class:`GIMISectionClassifier` per component, filtered to that component&apos;s own hash rows, and
+the drawn objects resolved from :cpp:member:`ZZMIFixerConfig::Component::slots`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pair&apos;s config </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/ZZMIParser.cpp" line="127" column="30" bodyfile="src/data/IniParseData/ZZMIParser.cpp" bodystart="127" bodyend="137" declfile="include/AGRemapCore/data/IniParseData/ZZMIParser.h" declline="32" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1af345bf406bf262670fdd608726f76ee4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>long long</type>
@@ -3377,7 +3678,7 @@ draws one source object needs no member at all: its index buffer is already righ
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="49" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="49" bodyend="164" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="176" declcolumn="10"/>
+        <location file="src/model/iniresources/VGMergeGroupResource.cpp" line="51" column="10" bodyfile="src/model/iniresources/VGMergeGroupResource.cpp" bodystart="51" bodyend="194" declfile="include/AGRemapCore/model/iniresources/VGMergeGroupResource.h" declline="187" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a27bf55b7bda9b241d64b7ce37fd368a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -3456,7 +3757,7 @@ and ``texcoord`` (at most one each) and ``buf`` (the index buffers, any number, 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="102" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="102" bodyend="363" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="235" declcolumn="10"/>
+        <location file="src/model/iniresources/VGSplitGroupResource.cpp" line="131" column="10" bodyfile="src/model/iniresources/VGSplitGroupResource.cpp" bodystart="131" bodyend="370" declfile="include/AGRemapCore/model/iniresources/VGSplitGroupResource.h" declline="247" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -3707,6 +4008,160 @@ user-supplied implementation, including one implemented from `Python`_.
         <inbodydescription>
         </inbodydescription>
         <location file="src/tools/z3/Z3Internal.h" line="100" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1af65f38bd5d4304d2616edcc8ff204c77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ZZMIModObjs::compObjs</definition>
+        <argsstring>(const ZZMIFixerConfig::Component &amp;c)</argsstring>
+        <name>compObjs</name>
+        <qualifiedname>AGRemapCore::compObjs</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_z_z_m_i_fixer_config_1_1_component" kindref="compound">ZZMIFixerConfig::Component</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every object of one component: its draw slots, one per :cpp:var:`HashKinds` entry, and one
+``tex_&lt;role&gt;`` per texture role
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ZZMIFixer.cpp" line="103" column="9" bodyfile="include/AGRemapCore/data/ZZMIModObjs.h" bodystart="65" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ac614b6243b6dfdf1ce279c862c45e4a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; AGRemapCore::ZZMIModObjs::objOf</definition>
+        <argsstring>(const std::string &amp;comp, const std::string &amp;name)</argsstring>
+        <name>objOf</name>
+        <qualifiedname>AGRemapCore::objOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comp</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A component&apos;s mod object. The ZZZ component goes into the OBJECT name and the mod object&apos;s
+own component stays ``&quot;&quot;``: a non-empty component means &quot;the same object drawn more than
+once&quot; to the graph groups
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component, by its source name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object within it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/ZZMIFixer.cpp" line="104" column="9" bodyfile="include/AGRemapCore/data/ZZMIModObjs.h" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1af65f38bd5d4304d2616edcc8ff204c77" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::ZZMIModObjs::compObjs</definition>
+        <argsstring>(const ZZMIFixerConfig::Component &amp;c)</argsstring>
+        <name>compObjs</name>
+        <qualifiedname>AGRemapCore::compObjs</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_z_z_m_i_fixer_config_1_1_component" kindref="compound">ZZMIFixerConfig::Component</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every object of one component: its draw slots, one per :cpp:var:`HashKinds` entry, and one
+``tex_&lt;role&gt;`` per texture role
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/ZZMIParser.cpp" line="42" column="9" bodyfile="include/AGRemapCore/data/ZZMIModObjs.h" bodystart="65" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ac614b6243b6dfdf1ce279c862c45e4a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; AGRemapCore::ZZMIModObjs::objOf</definition>
+        <argsstring>(const std::string &amp;comp, const std::string &amp;name)</argsstring>
+        <name>objOf</name>
+        <qualifiedname>AGRemapCore::objOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comp</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A component&apos;s mod object. The ZZZ component goes into the OBJECT name and the mod object&apos;s
+own component stays ``&quot;&quot;``: a non-empty component means &quot;the same object drawn more than
+once&quot; to the graph groups
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component, by its source name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The object within it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/ZZMIParser.cpp" line="43" column="9" bodyfile="include/AGRemapCore/data/ZZMIModObjs.h" bodystart="52" bodyend="54"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

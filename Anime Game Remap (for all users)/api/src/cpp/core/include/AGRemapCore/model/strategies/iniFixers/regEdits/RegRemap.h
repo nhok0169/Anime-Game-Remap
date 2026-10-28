@@ -87,6 +87,16 @@ namespace AGRemapCore {
             explicit RegRemap(std::vector<std::pair<K, KeyRemapValue>> keyRemap = {});
 
             /**
+             * @brief One rule of \ref keyRemap -- 'from' becomes every key of 'to', unconditionally
+             *
+             * @param from The key renamed
+             * @param to What it becomes -- several keys copy its lines to each
+             *
+             * @return The rule
+             */
+            static std::pair<K, KeyRemapValue> renameRule(K from, std::vector<K> to);
+
+            /**
              * @brief
              @rst
              Applies \ref keyRemap to 'part', by forwarding straight to

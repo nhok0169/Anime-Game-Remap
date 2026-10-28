@@ -12,8 +12,8 @@
 // ##### EndCredits
 
 
-#ifndef WWMI_TEXTURE_ROLES_H
-#define WWMI_TEXTURE_ROLES_H
+#ifndef AGRemapCore_TextureRoles_H
+#define AGRemapCore_TextureRoles_H
 
 #include <map>
 #include <string>
@@ -41,7 +41,7 @@ namespace AGRemapCore {
 
      Either way the question is *which section is this* followed by *which register*, which is
      :cpp:class:`GIMISectionClassifier`'s job, so this is built by the PARSER and handed to the fixer
-     through :cpp:class:`WWMIParseFacts` :raw-html:`<br />` :raw-html:`<br />`
+     through :cpp:class:`IniParseData` :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
         **It does not look at the file system at all**, and that is the point. What replaced it used
@@ -52,7 +52,7 @@ namespace AGRemapCore {
         (2026-09-29). A texture the ``.ini`` does not name is not the mod's texture.
      @endrst
      */
-    class WWMITextureRoles {
+    class TextureRoles {
         public:
 
             /**
@@ -74,7 +74,7 @@ namespace AGRemapCore {
                 std::string how;
             };
 
-            WWMITextureRoles() = default;
+            TextureRoles() = default;
 
             /**
              * @brief Records that 'file' plays 'role', decided by 'how'

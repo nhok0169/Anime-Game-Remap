@@ -92,6 +92,8 @@ namespace AGRemapCore {
             {"propMask", "2c990f51"}, {"propNormal", "e4463fca"}, {"propDiffuse", "71a6e63f"},
         };
 
+        // the masks a flat file, or one a slot also binds for another role, is refused for
+        facts.regionRoles = {"upperMask", "lowerMask", "panelMask", "propMask", "hairMask", "frontHairMask"};
         return facts;
     }
 }

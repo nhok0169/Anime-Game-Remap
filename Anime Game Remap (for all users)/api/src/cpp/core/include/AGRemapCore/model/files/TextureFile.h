@@ -213,6 +213,46 @@ namespace AGRemapCore {
             static constexpr CMP_FORMAT DefaultFormat = CMP_FORMAT_BC7;
 
             /**
+             * @brief What the header of a ``.dds`` file says, without reading its pixels
+             */
+            struct DDSHeader {
+                /**
+                 * @brief The width of the top mip, in pixels
+                 */
+                std::uint32_t width = 0;
+
+                /**
+                 * @brief The height of the top mip, in pixels
+                 */
+                std::uint32_t height = 0;
+
+                /**
+                 * @brief How many mips the file holds -- at least 1
+                 */
+                std::uint32_t mipCount = 1;
+
+                /**
+                 * @brief
+                 @rst
+                 The pixel format, as a ``DXGI_FORMAT`` value: the ``DX10`` extension's, or for a
+                 legacy header ``61`` (``R8_UNORM``) for one 8-bit red channel and ``87``
+                 (``B8G8R8A8_UNORM``) for 32-bit BGRA. ``0`` for any other legacy format
+                 @endrst
+                 */
+                std::uint32_t dxgiFormat = 0;
+            };
+
+            /**
+             * @brief Reads the header of the ``.dds`` file at 'path'
+             *
+             * @param path The file
+             *
+             * @return The header, or ``std::nullopt`` when the file is shorter than a header or is
+             *      not a ``.dds`` file
+             */
+            static std::optional<DDSHeader> readDDSHeader(const std::string& path);
+
+            /**
              * @brief
              @rst
              Gives this texture a run-level :cpp:class:`TexCache`, so that a source it has already

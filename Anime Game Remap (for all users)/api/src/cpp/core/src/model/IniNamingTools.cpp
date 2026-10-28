@@ -163,8 +163,16 @@ namespace AGRemapCore {
     }
 
     bool IniNamingTools::hasRefPrefix(const std::string& value) {
+        return hasKeywordPrefix(value, IniKeywords::Ref);
+    }
+
+    bool IniNamingTools::hasKeywordPrefix(const std::string& value, const std::string& keyword) {
         return StringTools::startsWith(
-            StringTools::toLower(std::string(StringTools::lstrip(value))), IniKeywords::Ref + " ");
+            StringTools::toLower(std::string(StringTools::lstrip(value))), StringTools::toLower(keyword) + " ");
+    }
+
+    bool IniNamingTools::isDownloadFile(const std::string& path) {
+        return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL) != std::string::npos;
     }
 
     std::string IniNamingTools::getRemapElementName(const std::string& name, const std::string& elementName, const std::string& modName) {

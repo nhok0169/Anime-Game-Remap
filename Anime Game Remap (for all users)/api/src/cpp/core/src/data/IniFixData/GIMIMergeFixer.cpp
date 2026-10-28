@@ -100,12 +100,6 @@ namespace AGRemapCore {
 
         const ModObj FaceObj{"", "face"};
 
-        // A file the PARSER registered as a download rather than one the mod ships, recognised by the
-        // RemapDL its name must carry -- the component fixer's test of the same name.
-        bool isDownloadPath(const std::string& path) {
-            return FileService::pathToStr(FileService::strToPath(path).filename()).find(IniKeywords::RemapDL) != std::string::npos;
-        }
-
         const std::string IbHashKey = "ib";
         const std::string PositionHashKey = "position_vb";
         const std::string BlendHashKey = "blend_vb";
@@ -138,16 +132,6 @@ namespace AGRemapCore {
 
 
 
-        std::pair<std::string, RegRemap<>::KeyRemapValue> renameRule(const std::string& from, std::vector<std::string> to) {
-            RemapList<std::string, std::string> targets;
-            for (std::string& reg : to) {
-                targets.push_back(std::move(reg));
-            }
-
-            return {from, RegRemap<>::KeyRemapValue(std::move(targets))};
-        }
-
-
         // ps-t0 again: the register a normal-map layout reads the NORMAL MAP out of, which the
         // plain layout reads the diffuse out of -- named for both so a rule says which it means.
         const std::string& NormalMapReg = DiffuseReg;
@@ -167,17 +151,6 @@ namespace AGRemapCore {
         // How a merged master's per-branch values are read and paired is shared with the split --
         // see ModBranches.
         const auto firstVal = &ModBranches::firstVal;
-
-
-        std::size_t fileSize(const std::string& path) {
-            if (path.empty()) {
-                return 0;
-            }
-
-            std::error_code ec;
-            auto size = std::filesystem::file_size(FileService::strToPath(path), ec);
-            return ec ? 0 : static_cast<std::size_t>(size);
-        }
 
 
         // ---- what one source SLOT's section names ----
@@ -294,10 +267,9 @@ namespace AGRemapCore {
                     // mod, it got every object from downloads and drew a second whole skin over the
                     // real mod's -- CharlotteHurlock4's ToggleMenu.ini shattered the model. What it
                     // needs is what the old script gave MasterHuTao.ini: the same section on the
-                    // TARGET's hash, so the toggle keys still work. See GIMIComponentParseFacts.
-                    const auto* facts = dynamic_cast<const GIMIComponentParseFacts*>(parser);
-                    parseFacts_ = facts;
-                    if (facts != nullptr && !facts->hasRemappableContent()) {
+                    // TARGET's hash, so the toggle keys still work. See IniParseData::hasRemappableContent.
+                    parseData_ = (parser == nullptr) ? nullptr : &parser->parseData();
+                    if (parseData_ != nullptr && !parseData_->hasRemappableContent()) {
                         if (!buildWatcher()) {
                             giveUp("found nothing of the skin in this .ini to carry over");
                         }
@@ -381,11 +353,11 @@ namespace AGRemapCore {
                         return;
                     }
 
-                    const std::optional<Version> toVersion = iniFile->toVersion;
+                    const std::optional<Version> toVersion = iniToVersion();
                     std::string text = SideMeshes::build(iniFile->getFileTxt(), *hashes, ctx_.modTypeName().value_or(""), ctx_.version(),
                                                          config_.sideMeshes, toModName_, toVersion);
 
-                    const bool callsTexFx = StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
+                    const bool callsTexFx = iniCallsTexFx();
                     if (config_.texFxGuardUnreached && callsTexFx && indices != nullptr) {
                         const std::optional<std::string> ib = hashes->get({toModName_, IbHashKey}, toVersion, false);
                         std::string guards;
@@ -397,9 +369,8 @@ namespace AGRemapCore {
                             if (!index.has_value()) {
                                 continue;
                             }
-                            guards += "\n" + renderSection("TextureOverride" + toModName_ + obj + IniKeywords::Remap + "TexFxGuard",
-                                                           {{IniKeywords::Hash, *ib}, {IniKeywords::MatchFirstIndex, *index},
-                                                            {"$\\TexFx\\use_default_shader", "-1"}});
+                            guards += "\n" + texFxGuardSection("TextureOverride" + toModName_ + obj + IniKeywords::Remap + "TexFxGuard",
+                                                               *ib, *index);
                         }
                         if (!guards.empty()) {
                             text += (text.empty() ? "" : "\n") + std::string(
@@ -415,8 +386,7 @@ namespace AGRemapCore {
             private:
                 // Gives up with a reason in the log: the fixer writes NOTHING (see TemplateFixer::giveUp)
                 void giveUp(const std::string& why) {
-                    ctx_.log("the merge " + why + ", so it writes nothing for this .ini");
-                    TemplateFixer::giveUp();
+                    TemplateFixer::giveUp("the merge " + why + ", so it writes nothing for this .ini");
                 }
 
                 // The watcher's fix: each component-level section the file has (by its hash), under
@@ -481,19 +451,14 @@ namespace AGRemapCore {
                     remap.emplace_back(GraphId(0, FaceObj.first, FaceObj.second), std::vector<SlotRemap::RemapTarget>{});
                     slotRemap_ = std::make_unique<SlotRemap>(std::move(remap));
 
-                    const std::optional<Version> toVersion = iniFile->toVersion;
-                    const std::string toModName = toModName_;
-                    renameGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapFixName(n, toModName); });
+                    const std::optional<Version> toVersion = iniToVersion();
+                    renameGraph_ = remapRename(RemapName::Fix);
                     renameAdapter_ = std::make_unique<GraphPartEdit<>>(renameGraph_.get());
 
                     std::vector<ObjGroupEdit::IniEdits> perGroup(1);
                     for (const auto& [kind, component] : ownerOfKind) {
                         if (assetRemaps_.count(component) == 0) {
-                            assetRemaps_[component] = std::make_unique<RegAssetRemap<>>(
-                                std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                                    {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                                toModName_, componentModTypeName(component), ctx_.version(), toVersion);
+                            assetRemaps_[component] = hashRemap(componentModTypeName(component), toVersion);
                             assetAdapters_[component] = std::make_unique<RegPartEdit<>>(assetRemaps_[component].get());
                         }
 
@@ -638,10 +603,10 @@ namespace AGRemapCore {
                                         continue;
                                     }
 
-                                    // A section that only hides its slot (GIMIComponentParseFacts::isSlotUndrawn)
+                                    // A section that only hides its slot (IniParseData::isUndrawn)
                                     // is no member: carried, it put its skip and no ib on the target object's
                                     // draw, which then drew the GAME's index buffer at the slot's count.
-                                    if (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name)) {
+                                    if (parseData_ != nullptr && parseData_->isUndrawn({component.name, slot.name})) {
                                         continue;
                                     }
 
@@ -700,10 +665,10 @@ namespace AGRemapCore {
                                     // character. A list of nothing but downloads (a slot the mod lacks
                                     // outright) keeps them. GIMIComponentFixer's preferAuthored.
                                     if (std::any_of(slotFiles.ibs.begin(), slotFiles.ibs.end(), [](const BranchVal& v) {
-                                            return !v.val.empty() && !isDownloadPath(v.val);
+                                            return !v.val.empty() && !IniNamingTools::isDownloadFile(v.val);
                                         })) {
                                         slotFiles.ibs.erase(std::remove_if(slotFiles.ibs.begin(), slotFiles.ibs.end(),
-                                            [](const BranchVal& v) { return !v.val.empty() && isDownloadPath(v.val); }),
+                                            [](const BranchVal& v) { return !v.val.empty() && IniNamingTools::isDownloadFile(v.val); }),
                                             slotFiles.ibs.end());
                                     }
 
@@ -834,10 +799,10 @@ namespace AGRemapCore {
 
                             for (const GIMIMergeFixerConfig::Slot& slot : component.slots) {
                                 // A slot the mod never draws on its own character brings nothing --
-                                // see GIMIComponentParseFacts::isSlotUndrawn. Nor does a split slot: its
+                                // see IniParseData::isUndrawn. Nor does a split slot: its
                                 // triangles come from another slot, see splitSlots.
                                 if (!slot.splitFrom.empty()
-                                        || (parseFacts_ != nullptr && parseFacts_->isSlotUndrawn(component.name, slot.name))) {
+                                        || (parseData_ != nullptr && parseData_->isUndrawn({component.name, slot.name}))) {
                                     continue;
                                 }
 
@@ -856,7 +821,7 @@ namespace AGRemapCore {
                             }
                         }
 
-                        files.vertexCount = fileSize(files.blend) / BlendStride;
+                        files.vertexCount = FileService::fileSize(files.blend).value_or(0) / BlendStride;
 
                         // Nothing on disk yet -- this component is one the mod does not have, and
                         // its buffers are downloads the service has not fetched. Fall back to the
@@ -869,7 +834,7 @@ namespace AGRemapCore {
                         }
 
                         if (files.vertexCount != 0) {
-                            const std::size_t positionSize = fileSize(files.position);
+                            const std::size_t positionSize = FileService::fileSize(files.position).value_or(0);
                             if (positionSize != 0) {
                                 files.positionStride = positionSize / files.vertexCount;
                             }
@@ -1001,7 +966,7 @@ namespace AGRemapCore {
                                 // The branch's texcoords where the component's branches pair with the slot's, else its first
                                 const std::string& texcoordPath = (comp->texcoords.size() == source.ibs.size() && !comp->texcoords[b].val.empty())
                                     ? comp->texcoords[b].val : comp->texcoord;
-                                const std::size_t stride = comp->vertexCount == 0 ? 0 : fileSize(texcoordPath) / comp->vertexCount;
+                                const std::size_t stride = comp->vertexCount == 0 ? 0 : FileService::fileSize(texcoordPath).value_or(0) / comp->vertexCount;
                                 const std::vector<std::array<float, 2>> uvs = firstUVs(texcoordPath, stride);
 
                                 auto widthIt = ibBytesPerIndex_.find(branch.val);
@@ -1205,7 +1170,7 @@ namespace AGRemapCore {
                 long long indexCountOf(const std::string& path) {
                     auto width = ibBytesPerIndex_.find(path);
                     const std::size_t bytes = (width == ibBytesPerIndex_.end() || width->second == 0) ? IbIndexStride : width->second;
-                    return static_cast<long long>(fileSize(path) / bytes);
+                    return static_cast<long long>(FileService::fileSize(path).value_or(0) / bytes);
                 }
 
                 std::string componentModTypeName(const std::string& component) const {
@@ -2295,14 +2260,6 @@ namespace AGRemapCore {
                     }
                 }
 
-                // Whether the .ini calls TexFx anywhere -- buildAppendedSections' test, for the restore after
-                // an object's member blocks.
-                bool fileCallsTexFx() {
-                    IniFile* iniFile = ctx_.getIniFile();
-                    return iniFile != nullptr
-                           && StringTools::containsIgnoreCase(iniFile->getFileTxt(), IniKeywords::TexFxFolder + "\\");
-                }
-
                 // Whether a slot is drawn in the target's outline pass -- see Slot::outline.
                 bool slotOutlined(const std::pair<std::string, std::string>& member) const {
                     for (const GIMIMergeFixerConfig::Component& component : config_.components) {
@@ -2349,7 +2306,7 @@ namespace AGRemapCore {
                         }
 
                         const std::string path = branches_.pick(files->blends, files->blend, query);
-                        const std::size_t count = fileSize(path) / BlendStride;
+                        const std::size_t count = FileService::fileSize(path).value_or(0) / BlendStride;
                         total += (count > 0) ? count : files->vertexCount;
                     }
 
@@ -2390,14 +2347,10 @@ namespace AGRemapCore {
                 void buildEdits() {
                     IniFile* iniFile = ctx_.getIniFile();
                     const std::optional<Version> toVersion = iniToVersion();
-                    const std::string toModName = toModName_;
 
-                    renameGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapFixName(n, toModName); });
-                    renameIbGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapIbName(n, toModName); });
-                    renameBlendGraph_ = std::make_unique<GraphRename<>>(
-                        [toModName](const std::string& n) { return IniNamingTools::getRemapBlendName(n, toModName); });
+                    renameGraph_ = remapRename(RemapName::Fix);
+                    renameIbGraph_ = remapRename(RemapName::Ib);
+                    renameBlendGraph_ = remapRename(RemapName::Blend);
 
                     // ONE hash remap PER COMPONENT, because RegAssetRemap is reverse-then-forward
                     // and the reverse half is filtered by the source's NAME -- and a multi-component
@@ -2407,53 +2360,42 @@ namespace AGRemapCore {
                     // did while its BUFFERS were already byte-identical to the prototype's.
                     for (const std::string& component : mergeOrder_) {
                         const std::string fromName = componentModTypeName(component);
-                        assetRemaps_[component] = std::make_unique<RegAssetRemap<>>(
-                            std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                                {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                            toModName_, fromName, ctx_.version(), toVersion);
+                        assetRemaps_[component] = hashRemap(fromName, toVersion);
                         assetAdapters_[component] = std::make_unique<RegPartEdit<>>(assetRemaps_[component].get());
                     }
 
                     // The face's own, lenient remap: every component files the skin's face diffuse
                     // under its own name with the same value, so the skeleton's serves.
-                    faceAssetRemap_ = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes())}},
-                        toModName_, componentModTypeName(mergeOrder_.front()), ctx_.version(), toVersion);
+                    faceAssetRemap_ = hashRemap(componentModTypeName(mergeOrder_.front()), toVersion, std::nullopt);
 
                     // The face diffuse onto the register the TARGET binds it to. A no-op when the
                     // mod already agrees; the mods that do not are the pre-6.x ones still writing
                     // ps-t0, which on a 6.x target replaces the face LIGHT MAP.
                     if (config_.faceReg == LightMapReg) {
                         faceRegFix_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                            renameRule(DiffuseReg, {LightMapReg})});
+                            RegRemap<>::renameRule(DiffuseReg, {LightMapReg})});
                     } else if (config_.faceReg == DiffuseReg) {
                         faceRegFix_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                            renameRule(LightMapReg, {DiffuseReg})});
+                            RegRemap<>::renameRule(LightMapReg, {DiffuseReg})});
                     }
 
                     auto isFixCall = [](long long, const std::string& value) {
                         // Case-insensitively, as 3DMigoto matches a CommandList path: a mod writing
                         // CommandList\Global\ORFix\ORFix kept its own call beside the re-issued one (2026-09-23).
-                        return StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::ORFixPath) ||
-                               StringTools::equalsIgnoreCase(StringTools::strip(value), IniKeywords::NNFixPath);
+                        return isFixLibraryCall(value);
                     };
-                    removeFixCalls_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall)}});
+                    removeFixCalls_ = RegRemove<>::of(IniKeywords::Run, RegRemove<>::RemoveKeyCheck(isFixCall));
 
                     // The target has no normal-map slot: drop it and shift the rest down.
-                    dropNormalMap_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {DiffuseReg, std::nullopt}});
+                    dropNormalMap_ = RegRemove<>::of(DiffuseReg);
                     shiftDown_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                        renameRule(NormalShiftedDiffuseReg, {DiffuseReg}),
-                        renameRule(NormalShiftedLightMapReg, {LightMapReg})});
+                        RegRemap<>::renameRule(NormalShiftedDiffuseReg, {DiffuseReg}),
+                        RegRemap<>::renameRule(NormalShiftedLightMapReg, {LightMapReg})});
 
                     // And the other way, for a plain-layout slot onto a normal-map target.
                     shiftUp_ = std::make_unique<RegRemap<>>(std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
-                        renameRule(DiffuseReg, {NormalShiftedDiffuseReg}),
-                        renameRule(LightMapReg, {NormalShiftedLightMapReg})});
+                        RegRemap<>::renameRule(DiffuseReg, {NormalShiftedDiffuseReg}),
+                        RegRemap<>::renameRule(LightMapReg, {NormalShiftedLightMapReg})});
 
                     // Both of those by NAME instead -- see GIMIMergeFixerConfig::texRegsByName,
                     // and TexRegLayout, which is where the rule itself lives so the other two
@@ -2471,9 +2413,7 @@ namespace AGRemapCore {
                         }
                     }
 
-                    removeDrawIndexed_ = std::make_unique<RegRemove<>>(
-                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
-                            {IniKeywords::DrawIndexed, std::nullopt}});
+                    removeDrawIndexed_ = RegRemove<>::of(IniKeywords::DrawIndexed);
 
                     // BottomCover: the collects spliced their registers into `if 1 ... endif` blocks,
                     // which split the section into parts, and the default fill would put the draw in
@@ -2707,7 +2647,7 @@ namespace AGRemapCore {
                         // its own command list and leaves 'bound' unknown. Whether TexFx is served right after
                         // one has not been seen in game (CharlotteHurlock5, CitlaliWhisper1 and YelanTranquil3
                         // are that shape), so their output is left as it was.
-                        if (bound != repFiles && bound != &unknown && fileCallsTexFx()) {
+                        if (bound != repFiles && bound != &unknown && iniCallsTexFx()) {
                             RegBottomAdd<>::Additions restore;
                             const SlotFiles* restoreFrom = bound;
                             appendMemberBindings(restore, repIt->second, restoreFrom, nullptr, false);
@@ -3242,7 +3182,7 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemove<>> dropNormalMapByName_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
-                const GIMIComponentParseFacts* parseFacts_ = nullptr;
+                const IniParseData* parseData_ = nullptr;
                 std::vector<std::unique_ptr<RegFillMissing<>>> objFills_;
 
                 // The carried members -- see isCarried. Keyed by memberKey: (member, (start, count)).

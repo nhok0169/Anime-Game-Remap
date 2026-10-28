@@ -61,6 +61,7 @@ PyResRegCollect::PyResRegCollect(py::object srcRegs, py::object resEdits, py::ob
 
 void PyResRegCollect::refresh() {
     srcRegs.clear();
+    extraSrcRegs.clear();
     resEdits.clear();
     partPredicates.clear();
     resPredicates.clear();
@@ -70,8 +71,18 @@ void PyResRegCollect::refresh() {
 
     if (!srcRegsObj.is_none()) {
         for (auto item : srcRegsObj.cast<py::dict>()) {
-            srcRegs.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(item.first)),
-                                      py::str(item.second).cast<std::string>());
+            const GraphId graphId = parseGraphId(py::reinterpret_borrow<py::object>(item.first));
+            if (py::isinstance<py::str>(item.second)) {
+                srcRegs.insert_or_assign(graphId, py::str(item.second).cast<std::string>());
+                continue;
+            }
+
+            // several registers for one graph: see ResRegCollect::extraSrcRegs
+            std::vector<std::string> regs;
+            for (auto reg : py::reinterpret_borrow<py::iterable>(item.second)) {
+                regs.push_back(py::str(reg).cast<std::string>());
+            }
+            extraSrcRegs.insert_or_assign(graphId, std::move(regs));
         }
     }
 
@@ -201,8 +212,13 @@ Creates the :class:`IniSectionGraph` for a particular resource
 
 Parameters
 ----------
-srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]
+srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]
     The different registers that reference the particular resource :raw-html:`<br />` :raw-html:`<br />`
+
+    A value may be a list of registers, to collect a resource bound at several registers of one graph
+    in ONE edit -- each resource edit builds its resources once per edit, so two collects sharing an
+    edit would leave the second one's references pointing at names nothing declares. A
+    ``resPredicates`` entry is handed the register it is judging :raw-html:`<br />` :raw-html:`<br />`
 
     The keys in the dictionary are the location of which :class:`IniSectionGraph` to search for,
     which contains:
@@ -267,8 +283,8 @@ keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Opti
     cls.def_property("srcRegs", [](const PyResRegCollect &self) { return self.srcRegsObj; },
                      [](PyResRegCollect &self, py::object value) { self.srcRegsObj = std::move(value); },
                      py::doc(R"doc(
-Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]: The different registers that
-reference the particular resource
+Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[:class:`str`, List[:class:`str`]]]: The
+different registers that reference the particular resource -- a list for several registers of one graph
     )doc"));
 
     cls.def_property("resEdits", [](const PyResRegCollect &self) { return self.resEditsObj; },

@@ -143,6 +143,75 @@ class RegIfTemplateAddTest(BaseUnitTest):
         self.compareList(self._shape(b)[4:], self._BLOCK)
         self.assertEqual(len(template.parts), 5)  # the template itself is untouched
 
+    def test_edit_beforeTopKey_cutsThePartBeforeTheKey(self):
+        section = self._section()
+        graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)
+
+        FRB.RegIfTemplateAdd(self._template(), Position.BeforeTopKey, "match_first_index").edit(graph, None)
+
+        self.compareList(self._shape(section), [(0, [("hash", "h")])] + self._BLOCK + [
+            (0, [("match_first_index", "0"), ("ib", "I")]), "if $x == 1", (1, [("drawindexed", "5, 0, 0")]), "endif"])
+
+    def test_edit_beforeTopKey_skipsAKeyInsideAnIf(self):
+        # `drawindexed` sits only inside `if $x == 1`: not a top-level KVP, so nothing goes in
+        section = self._section()
+        graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)
+        before = self._shape(section)
+
+        FRB.RegIfTemplateAdd(self._template(), Position.BeforeTopKey, "drawindexed").edit(graph, None)
+
+        self.compareList(self._shape(section), before)
+
+    def test_edit_value_onlyThatValueIsTaken(self):
+        section = self._section()
+        graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)
+        before = self._shape(section)
+
+        edit = FRB.RegIfTemplateAdd(self._template(), Position.BeforeTopKey, "ib")
+        edit.value = "other"
+        edit.edit(graph, None)
+        self.compareList(self._shape(section), before)
+
+        edit.value = "I"
+        edit.edit(graph, None)
+        self.compareList(self._shape(section)[1:6], self._BLOCK)
+
+    def test_edit_beforeFirstIf(self):
+        section = self._section()
+        graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)
+
+        FRB.RegIfTemplateAdd(self._template(), Position.BeforeFirstIf).edit(graph, None)
+
+        shape = self._shape(section)
+        self.compareList(shape[1:6], self._BLOCK)
+        self.assertEqual(shape[6], "if $x == 1")
+
+    def test_edit_everySection_reachesCalledSections(self):
+        root = FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "CommandListA")]}, 0)])
+        called = FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")]}, 0)])
+        graph = FRB.IniSectionGraph({"root": root, "CommandListA": called}, ["root"], z3Ctx = _Z3CTX)
+
+        edit = FRB.RegIfTemplateAdd(self._template(), Position.Top)
+        edit.edit(graph, None)
+        self.assertEqual(len(called.parts), 1)
+
+        edit.everySection = True
+        edit.edit(graph, None)
+        self.compareList(self._shape(called)[:5], self._BLOCK)
+
+    def test_edit_sectionFilter_choosesTheSections(self):
+        a, b = self._section(), self._section()
+        graph = FRB.IniSectionGraph({"a": a, "b": b}, ["a", "b"], z3Ctx = _Z3CTX)
+        asked = []
+
+        edit = FRB.RegIfTemplateAdd(self._template(), Position.Bottom)
+        edit.sectionFilter = lambda name, section: asked.append(name) or name == "b"
+        edit.edit(graph, None)
+
+        self.assertEqual(sorted(asked), ["a", "b"])
+        self.assertEqual(len(a.parts), 4)
+        self.compareList(self._shape(b)[4:], self._BLOCK)
+
     def test_edit_noTemplate_isANoOp(self):
         section = self._section()
         graph = FRB.IniSectionGraph({"root": section}, ["root"], z3Ctx = _Z3CTX)

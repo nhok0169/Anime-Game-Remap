@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIBlend::Layout</compoundname>
+    <includes refid="_w_w_m_i_blend_8h" local="no">WWMIBlend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout_1aeaac2ee1032aed7b18f1543eb94a53e5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIBlend::Layout::vertices</definition>
+        <argsstring></argsstring>
+        <name>vertices</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::Layout::vertices</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many vertices the mesh has. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="69" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout_1a00d3166b8e2f966d32454429473b71ae" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::WWMIBlend::Layout::influences</definition>
+        <argsstring></argsstring>
+        <name>influences</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::Layout::influences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many (id, weight) slots each vertex carries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="74" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>What a mod&apos;s <computeroutput>Position.buf</computeroutput> and <computeroutput>Blend.buf</computeroutput> sizes say its blend layout is. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="65" column="13" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="65" bodyend="75"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout_1a00d3166b8e2f966d32454429473b71ae" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend::Layout</scope><name>influences</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_layout_1aeaac2ee1032aed7b18f1543eb94a53e5" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend::Layout</scope><name>vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

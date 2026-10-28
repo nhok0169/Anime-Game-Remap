@@ -239,7 +239,7 @@ namespace AGRemapCore {
 
     void IniClassifier::readLine(const std::string& line, IniClassifyStats& stats, GameTypeIdFilter gameTypeIds) {
         static constexpr std::string_view hashPrefix = "hash";
-        static constexpr std::string_view wwmiPrefix = "$\\WWMIv1";
+        const std::string_view wwmiPrefix = IniKeywords::WWMINamespace;
 
         // A previously-fixed .ini file has its original section commented out this way -- every
         // line of it (including the section header) individually prefixed, glued directly onto the

@@ -14,6 +14,7 @@
 #ifndef AGRemapCore_RegIfTemplateAdd_TPP
 #define AGRemapCore_RegIfTemplateAdd_TPP
 
+#include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <memory>
@@ -53,7 +54,17 @@ namespace AGRemapCore {
             z3Ctx = &(*fallbackZ3Ctx);
         }
 
-        for (const std::string& rootName : graph.roots()) {
+        std::vector<std::string> names;
+        if (everySection) {
+            for (const auto& entry : graph.sections()) {
+                names.push_back(entry.first);
+            }
+            std::sort(names.begin(), names.end());
+        } else {
+            names = graph.roots();
+        }
+
+        for (const std::string& rootName : names) {
             Section* section = graph.getSection(rootName, false);
             if (section == nullptr) {
                 continue;
@@ -80,7 +91,59 @@ namespace AGRemapCore {
             // where the parts go, and the depth they are shifted to
             std::size_t at = 0;
             int depth = 0;
-            if (position == Position::Bottom) {
+            const auto keyMatches = [this](const std::pair<K, V>& kvp) {
+                return KeyEqual()(kvp.first, key) && (!value.has_value() || kvp.second == *value);
+            };
+
+            if (position == Position::BeforeTopKey || position == Position::BeforeFirstIf) {
+                std::optional<std::size_t> partInd, kvpInd;
+                int level = 0;
+                for (std::size_t i = 0; i < parts.size() && !partInd.has_value(); ++i) {
+                    if (const auto* pred = dynamic_cast<const IfPredPart*>(parts[i].get())) {
+                        if (pred->type == IfPredPartType::If) {
+                            if (level == 0 && position == Position::BeforeFirstIf) {
+                                partInd = i;
+                                break;
+                            }
+                            ++level;
+                        } else if (pred->type == IfPredPartType::EndIf && level > 0) {
+                            --level;
+                        }
+                        continue;
+                    }
+
+                    auto* part = dynamic_cast<ContentPart*>(parts[i].get());
+                    if (part == nullptr || position != Position::BeforeTopKey || level != 0) {
+                        continue;
+                    }
+                    const std::size_t len = part->size();
+                    for (std::size_t k = 0; k < len; ++k) {
+                        if (keyMatches(part->getByInd(static_cast<long long>(k)))) {
+                            partInd = i;
+                            kvpInd = k;
+                            break;
+                        }
+                    }
+                }
+                if (!partInd.has_value() || (sectionFilter && !sectionFilter(rootName, *section))) {
+                    continue;
+                }
+
+                at = *partInd;
+                if (kvpInd.has_value() && *kvpInd > 0) {
+                    // the part is cut before the key: its head stays, the template's parts follow it
+                    auto* part = dynamic_cast<ContentPart*>(parts[*partInd].get());
+                    const int partDepth = part->depth();
+                    const std::vector<std::pair<K, V>> entries = part->entries();
+                    std::vector<std::pair<K, V>> head(entries.begin(), entries.begin() + static_cast<std::ptrdiff_t>(*kvpInd));
+                    std::vector<std::pair<K, V>> tail(entries.begin() + static_cast<std::ptrdiff_t>(*kvpInd), entries.end());
+                    parts[*partInd] = std::make_unique<ContentPart>(head, partDepth);
+                    parts.insert(parts.begin() + static_cast<std::ptrdiff_t>(*partInd + 1), std::make_unique<ContentPart>(tail, partDepth));
+                    at = *partInd + 1;
+                }
+            } else if (sectionFilter && !sectionFilter(rootName, *section)) {
+                continue;
+            } else if (position == Position::Bottom) {
                 const std::optional<std::size_t> guardEnd = RegFillMissing<K, V, KeyHash, KeyEqual>::guardEndIndex(*section);
                 at = guardEnd.has_value() ? *guardEnd : parts.size();
                 depth = guardEnd.has_value() ? 1 : 0;
@@ -93,7 +156,7 @@ namespace AGRemapCore {
                     }
                     const std::size_t len = part->size();
                     for (std::size_t k = 0; k < len; ++k) {
-                        if (KeyEqual()(part->getByInd(static_cast<long long>(k)).first, key)) {
+                        if (keyMatches(part->getByInd(static_cast<long long>(k)))) {
                             partInd = i;
                             kvpInd = k;
                             break;

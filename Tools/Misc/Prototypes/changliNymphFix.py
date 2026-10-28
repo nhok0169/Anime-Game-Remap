@@ -156,6 +156,8 @@ def textureFacts() -> "FRB.WWMITextureFacts":
     facts.fallbackTextures = {role: h for h, role in files.items() if role not in NoFallback}
     # not a game texture: the skin's own blindfold diffuse in her black (changliNymphBlindfold.py)
     facts.fallbackTextures = {**facts.fallbackTextures, "blindfold": "BlindfoldOnNymph"}
+    facts.regionRoles = {"upperMask", "lowerMask", "faceMask"}
+    facts.readInisBelow = True
     return facts
 
 
@@ -358,7 +360,6 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.createdTextures = [noGlow, flatClothMask]
 
     config.sourceTextures = facts
-    config.flatFallsBackToSource = {"upperMask", "lowerMask", "faceMask"}
 
     # ---- the three lines that undo the remap on a source past 256 bones, and RabbitFX's ----
     R = FRB.WWMIFixerConfig.RegRemoval
@@ -383,7 +384,6 @@ def fixerConfig(facts, hideShapeKeys: bool = False, noOrder: bool = False, noDis
     config.cleanTexcoords = True
     config.carryByRegisterRole = True
     # Changli13 draws from mod.ini and binds every texture from Textures/textures.ini
-    config.readInisBelow = True
     # the skin's slots reach bone 263 (264 x 3 float4 = 792), past the 768 default
     config.mergedSkeletonSlots = 1536
     # INERT for every mod in hand: her slot-4 sources are drawn from the mod's own file (sameFileSection),

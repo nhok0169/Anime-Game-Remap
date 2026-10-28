@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
-  <compounddef id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles" kind="class" language="C++" prot="public">
-    <compoundname>AGRemapCore::WWMITextureRoles</compoundname>
-    <includes refid="_w_w_m_i_texture_roles_8h" local="no">WWMITextureRoles.h</includes>
-    <innerclass refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_roles_1_1_role" prot="public">AGRemapCore::WWMITextureRoles::Role</innerclass>
+  <compounddef id="class_a_g_remap_core_1_1_texture_roles" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextureRoles</compoundname>
+    <includes refid="_texture_roles_8h" local="no">TextureRoles.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role" prot="public">AGRemapCore::TextureRoles::Role</innerclass>
     <sectiondef kind="public-static-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ad42a6948aedc3730cc4170bc3510ee73" prot="public" static="yes" mutable="no">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_roles_1a07f73b1598aaf0485d3443373b2f578e" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
-        <definition>const std::string AGRemapCore::WWMITextureRoles::DeclaredHash</definition>
+        <definition>const std::string AGRemapCore::TextureRoles::DeclaredHash</definition>
         <argsstring></argsstring>
         <name>DeclaredHash</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::DeclaredHash</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::DeclaredHash</qualifiedname>
         <initializer>= &quot;its own hash &quot;</initializer>
         <briefdescription>
 <para>Records that &apos;file&apos; plays &apos;role&apos;, decided by &apos;how&apos;. </para>
@@ -54,60 +54,60 @@ session
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="99" column="45" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="99" column="45" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="99" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a3c9eec7dc05267b1903d3f1b613ae265" prot="private" static="no" mutable="no">
-        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_roles_1_1_role" kindref="compound">Role</ref> &gt; &gt;</type>
-        <definition>std::unordered_map&lt;std::string, std::vector&lt;Role&gt; &gt; AGRemapCore::WWMITextureRoles::rolesOf_</definition>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_roles_1ab663fbcd08beb1aaa1b6d08d857bb26f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role" kindref="compound">Role</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;Role&gt; &gt; AGRemapCore::TextureRoles::rolesOf_</definition>
         <argsstring></argsstring>
         <name>rolesOf_</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::rolesOf_</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::rolesOf_</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="128" column="32" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="128" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="128" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="128" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a4fcb480f91f366f5725c6a1124c9ed82" prot="private" static="no" mutable="no">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_roles_1a50f3de0d1dafc2ede536e91fa714bad6" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
-        <definition>std::map&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; AGRemapCore::WWMITextureRoles::resourcesByIni_</definition>
+        <definition>std::map&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; AGRemapCore::TextureRoles::resourcesByIni_</definition>
         <argsstring></argsstring>
         <name>resourcesByIni_</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::resourcesByIni_</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::resourcesByIni_</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="129" column="22" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="129" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="129" column="22" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="129" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5cc3e3d4e365f7d95887f56bf82de68d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_roles_1a0f23292497a3ff7a4483e0aaa3be46e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::WWMITextureRoles::WWMITextureRoles</definition>
+        <definition>AGRemapCore::TextureRoles::TextureRoles</definition>
         <argsstring>()=default</argsstring>
-        <name>WWMITextureRoles</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::WWMITextureRoles</qualifiedname>
+        <name>TextureRoles</name>
+        <qualifiedname>AGRemapCore::TextureRoles::TextureRoles</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="77" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="77" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a8b73a3ceb523b9d1c683a95ef4428688" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_roles_1a0a7006146ffb3dde481701ced444b5d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void AGRemapCore::WWMITextureRoles::add</definition>
+        <definition>void AGRemapCore::TextureRoles::add</definition>
         <argsstring>(const std::string &amp;file, const std::string &amp;role, const std::string &amp;how)</argsstring>
         <name>add</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::add</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::add</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>file</declname>
@@ -126,14 +126,14 @@ session
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="101" column="18" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="23" bodyend="41"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="101" column="18" bodyfile="src/model/strategies/iniParsers/TextureRoles.cpp" bodystart="23" bodyend="41"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5c4b9b0d1b07c2ce01a35c9654f5ed31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_roles_1aac882c239dec87edc8fba058578b999e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void AGRemapCore::WWMITextureRoles::addResource</definition>
+        <definition>void AGRemapCore::TextureRoles::addResource</definition>
         <argsstring>(const std::string &amp;iniPath, const std::string &amp;resource, const std::string &amp;file)</argsstring>
         <name>addResource</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::addResource</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::addResource</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>iniPath</declname>
@@ -179,14 +179,14 @@ session
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="110" column="18" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="43" bodyend="50"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="110" column="18" bodyfile="src/model/strategies/iniParsers/TextureRoles.cpp" bodystart="43" bodyend="50"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a51423db073e1e2bc0e460a7135b2e7e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const std::unordered_map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_w_w_m_i_texture_roles_1_1_role" kindref="compound">Role</ref> &gt; &gt; &amp;</type>
-        <definition>const std::unordered_map&lt; std::string, std::vector&lt; WWMITextureRoles::Role &gt; &gt; &amp; AGRemapCore::WWMITextureRoles::rolesOf</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_roles_1a8f0b208645db08463babefb99700057d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_texture_roles_1_1_role" kindref="compound">Role</ref> &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::vector&lt; TextureRoles::Role &gt; &gt; &amp; AGRemapCore::TextureRoles::rolesOf</definition>
         <argsstring>() const</argsstring>
         <name>rolesOf</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::rolesOf</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::rolesOf</qualifiedname>
         <briefdescription>
 <para>Every file with the roles it plays. </para>
         </briefdescription>
@@ -197,14 +197,14 @@ session
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="117" column="38" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="52" bodyend="54"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="117" column="38" bodyfile="src/model/strategies/iniParsers/TextureRoles.cpp" bodystart="52" bodyend="54"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ac89f4ca28ee3edc3152dd3386890d1ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_roles_1ae112f079feacdcde97ddbc22687c123f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
-        <definition>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp; AGRemapCore::WWMITextureRoles::resourcesOf</definition>
+        <definition>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp; AGRemapCore::TextureRoles::resourcesOf</definition>
         <argsstring>(const std::string &amp;iniPath) const</argsstring>
         <name>resourcesOf</name>
-        <qualifiedname>AGRemapCore::WWMITextureRoles::resourcesOf</qualifiedname>
+        <qualifiedname>AGRemapCore::TextureRoles::resourcesOf</qualifiedname>
         <param>
           <type>const std::string &amp;</type>
           <declname>iniPath</declname>
@@ -228,7 +228,7 @@ session
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="125" column="31" bodyfile="src/data/WWMITextureRoles.cpp" bodystart="56" bodyend="61"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="125" column="31" bodyfile="src/model/strategies/iniParsers/TextureRoles.cpp" bodystart="56" bodyend="61"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -248,7 +248,7 @@ A texture is identified by a **hash and a register**, in both games, and the has
 
 Either way the question is *which section is this* followed by *which register*, which is
 :cpp:class:`GIMISectionClassifier`&apos;s job, so this is built by the PARSER and handed to the fixer
-through :cpp:class:`WWMIParseFacts` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+through :cpp:class:`IniParseData` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
    **It does not look at the file system at all**, and that is the point. What replaced it used
@@ -259,16 +259,16 @@ through :cpp:class:`WWMIParseFacts` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
    (2026-09-29). A texture the ``.ini`` does not name is not the mod&apos;s texture.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/WWMITextureRoles.h" line="55" column="5" bodyfile="include/AGRemapCore/data/WWMITextureRoles.h" bodystart="55" bodyend="130"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/TextureRoles.h" bodystart="55" bodyend="130"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a8b73a3ceb523b9d1c683a95ef4428688" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>add</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5c4b9b0d1b07c2ce01a35c9654f5ed31" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>addResource</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ad42a6948aedc3730cc4170bc3510ee73" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>DeclaredHash</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a4fcb480f91f366f5725c6a1124c9ed82" prot="private" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>resourcesByIni_</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1ac89f4ca28ee3edc3152dd3386890d1ab" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>resourcesOf</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a51423db073e1e2bc0e460a7135b2e7e6" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>rolesOf</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a3c9eec7dc05267b1903d3f1b613ae265" prot="private" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>rolesOf_</name></member>
-      <member refid="class_a_g_remap_core_1_1_w_w_m_i_texture_roles_1a5cc3e3d4e365f7d95887f56bf82de68d" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMITextureRoles</scope><name>WWMITextureRoles</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1a0a7006146ffb3dde481701ced444b5d6" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1aac882c239dec87edc8fba058578b999e" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1a07f73b1598aaf0485d3443373b2f578e" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>DeclaredHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1a50f3de0d1dafc2ede536e91fa714bad6" prot="private" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>resourcesByIni_</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1ae112f079feacdcde97ddbc22687c123f" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>resourcesOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1a8f0b208645db08463babefb99700057d" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>rolesOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1ab663fbcd08beb1aaa1b6d08d857bb26f" prot="private" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>rolesOf_</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_roles_1a0f23292497a3ff7a4483e0aaa3be46e0" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureRoles</scope><name>TextureRoles</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

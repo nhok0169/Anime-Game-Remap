@@ -391,6 +391,52 @@ namespace AGRemapCore {
         return result;
     }
 
+    std::vector<std::vector<long long>> BufFile::rows(const std::string& elementKey, std::size_t width) const {
+        const std::vector<BufColumnData> columns = decodeAll();
+
+        std::size_t lines = 0;
+        for (const BufColumnData& column : columns) {
+            if (column.elementKey == elementKey) {
+                lines = std::max(lines, std::visit([](auto&& values) { return values.size(); }, column.values));
+            }
+        }
+
+        std::vector<std::vector<long long>> result(lines, std::vector<long long>(width, 0));
+        for (const BufColumnData& column : columns) {
+            if (column.elementKey != elementKey || column.valueInd >= width) {
+                continue;
+            }
+
+            std::visit([&result, &column, lines](auto&& values) {
+                for (std::size_t i = 0; i < values.size() && i < lines; ++i) {
+                    result[i][column.valueInd] = static_cast<long long>(values[i]);
+                }
+            }, column.values);
+        }
+
+        return result;
+    }
+
+    std::vector<double> BufFile::column(const std::string& elementKey, std::size_t valueInd) const {
+        for (const BufColumnData& column : decodeAll()) {
+            if (column.elementKey != elementKey || column.valueInd != valueInd) {
+                continue;
+            }
+
+            return std::visit([](auto&& values) {
+                std::vector<double> out;
+                out.reserve(values.size());
+                for (const auto& value : values) {
+                    out.push_back(static_cast<double>(value));
+                }
+
+                return out;
+            }, column.values);
+        }
+
+        return {};
+    }
+
     void BufFile::merge(const std::vector<const BufFile*>& bufFiles) {
         std::vector<std::unique_ptr<BufElementType>> mergedElements;
         std::size_t lineCount = 0;

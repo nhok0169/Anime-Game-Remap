@@ -32,11 +32,25 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    void BaseIniParser<K, V, KeyHash, KeyEqual>::clear() {}
+    void BaseIniParser<K, V, KeyHash, KeyEqual>::clear() {
+        parseData_.clear();
+    }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::vector<typename BaseIniParser<K, V, KeyHash, KeyEqual>::GraphGroup> BaseIniParser<K, V, KeyHash, KeyEqual>::parse() {
         return {};
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    const IniParseData& BaseIniParser<K, V, KeyHash, KeyEqual>::parseData() const {
+        return parseData_;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    IniParseData& BaseIniParser<K, V, KeyHash, KeyEqual>::parseData() {
+        return parseData_;
     }
 }
 

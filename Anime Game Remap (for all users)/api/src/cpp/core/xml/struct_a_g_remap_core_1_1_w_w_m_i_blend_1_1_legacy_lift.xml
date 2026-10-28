@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::WWMIBlend::LegacyLift</compoundname>
+    <includes refid="_w_w_m_i_blend_8h" local="no">WWMIBlend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8cd74de37a68662014c3c565431f5c8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::WWMIBlend::LegacyLift::indexPath</definition>
+        <argsstring></argsstring>
+        <name>indexPath</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::LegacyLift::indexPath</qualifiedname>
+        <briefdescription>
+<para>The mod&apos;s index buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="88" column="29" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a65b6ae3249ca059846e4796efe58d804" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;std::pair&lt;long long, long long&gt; &gt; &gt; AGRemapCore::WWMIBlend::LegacyLift::drawRanges</definition>
+        <argsstring></argsstring>
+        <name>drawRanges</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::LegacyLift::drawRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+source component -&gt; the (index count, first index) of each of its draws, which is
+what says which component owns each vertex
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="97" column="26" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8bb9766eedb72ef8248edcf0221b8b12" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, std::vector&lt; int &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;int&gt; &gt; AGRemapCore::WWMIBlend::LegacyLift::vgMaps</definition>
+        <argsstring></argsstring>
+        <name>vgMaps</name>
+        <qualifiedname>AGRemapCore::WWMIBlend::LegacyLift::vgMaps</qualifiedname>
+        <briefdescription>
+<para>source component -&gt; its <computeroutput>vg_map</computeroutput>: component-local bone id -&gt; merged bone id </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="102" column="26" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A mod from before WWMI&apos;s merged skeleton, as :cpp:func:`liftLegacy` and
+:cpp:func:`writeRemap` read one
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/WWMIBlend.h" line="84" column="13" bodyfile="include/AGRemapCore/model/buffers/WWMIBlend.h" bodystart="84" bodyend="103"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a65b6ae3249ca059846e4796efe58d804" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend::LegacyLift</scope><name>drawRanges</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8cd74de37a68662014c3c565431f5c8b" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend::LegacyLift</scope><name>indexPath</name></member>
+      <member refid="struct_a_g_remap_core_1_1_w_w_m_i_blend_1_1_legacy_lift_1a8bb9766eedb72ef8248edcf0221b8b12" prot="public" virt="non-virtual"><scope>AGRemapCore::WWMIBlend::LegacyLift</scope><name>vgMaps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

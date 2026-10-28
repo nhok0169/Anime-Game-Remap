@@ -105,6 +105,30 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether a register's value is a 3dmigoto statement opening with 'keyword' -- ``ref``,
+             :cpp:member:`IniKeywords::Copy`, :cpp:member:`IniKeywords::CopyDesc` -- rather than a resource
+             name, ignoring case and leading whitespace. #hasRefPrefix is this for ``ref``
+             @endrst
+             *
+             * @param value The value of the register binding
+             * @param keyword The statement's keyword
+             */
+            static bool hasKeywordPrefix(const std::string& value, const std::string& keyword);
+
+            /**
+             * @brief
+             @rst
+             Whether a file is one the library DOWNLOADS rather than one a mod ships: its name
+             carries :cpp:member:`IniKeywords::RemapDL`
+             @endrst
+             *
+             * @param path The file's path
+             */
+            static bool isDownloadFile(const std::string& path);
+
+            /**
+             * @brief
+             @rst
              Changes a `section`_ name to have the keyword from 'elementName' to identify that the
              `section`_ is created by this fix -- replaces the LAST occurrence of 'elementName'
              within 'name' with ``{modName}Remap{elementName}``, or appends it if 'elementName'

@@ -66,3 +66,16 @@ No git writes in the shared checkout; no game, no GameView; never run the CLI ov
 
 The two commits built, the corpus size, the SAME / DIFF / ERR / MISSING counts for each run, and every DIFF
 or ERR in full.
+
+## Result (2026-10-28, the Xeon, 137 WWMI folders from `WWMI/Mods` and its parent, downloads disabled)
+
+- **`e359867a` against `e782a9df`: 132 SAME, 5 DIFF, 0 ERR.** All five are one regression: Changli4 (and its copies
+  inside ChangliRestored / ChangliTest) and Lynae14 / Lynae14Restored lost the once-a-frame skeleton latch
+  (`if $object_detected == 0` / `run = CommandListRemapMergedSkeleton...` / `endif`). Their `.ini` declares `[Present]`
+  more than once and the reset sits in a later one; `presentResetsObjectDetected` had moved onto
+  `getIfTemplates()`, which keeps one section per name. Fixed by reading every `[Present]` through `IniScan`
+  (`IniScan::scanText`).
+- **`e359867a` against the next slice (`WWMIBlend` / `WWMIShapeKeys`, the latch as `RegIfTemplateAdd` edits, the
+  fix above): 137 SAME.** The same 137 against `e782a9df` for the slice before the `[Present]` fix: 137 SAME.
+- Still unswept: `--download normal` (step 5), and the mirrored-twin path, which no shipped config turns on.
+

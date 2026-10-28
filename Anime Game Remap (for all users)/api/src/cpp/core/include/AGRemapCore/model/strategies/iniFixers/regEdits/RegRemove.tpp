@@ -17,6 +17,11 @@
 namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unique_ptr<RegRemove<K, V, KeyHash, KeyEqual>> RegRemove<K, V, KeyHash, KeyEqual>::of(K key, std::optional<RemoveKeyCheck> check) {
+        return std::make_unique<RegRemove>(std::vector<std::pair<K, std::optional<RemoveKeyCheck>>>{{std::move(key), std::move(check)}});
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     RegRemove<K, V, KeyHash, KeyEqual>::RegRemove(std::vector<std::pair<K, std::optional<RemoveKeyCheck>>> removeKeys):
         removeKeys(std::move(removeKeys)) {}
 

@@ -10,6 +10,8 @@
     <includedby refid="_g_i_m_i_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includedby>
     <includedby refid="_g_i_m_i_obj_part_filter_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h</includedby>
     <includedby refid="_remap_ini_fix_context_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</includedby>
+    <includedby refid="_template_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</includedby>
+    <includedby refid="_res_reg_collect_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</includedby>
     <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
     <includedby refid="_g_i_m_i_section_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</includedby>
     <includedby refid="_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includedby>
@@ -42,10 +44,13 @@
     <includedby refid="_w_w_m_i_fixer_8cpp" local="yes">src/data/IniFixData/WWMIFixer.cpp</includedby>
     <includedby refid="_xiangling_fixer_8cpp" local="yes">src/data/IniFixData/Xiangling/XianglingFixer.cpp</includedby>
     <includedby refid="_xiangling_cheer_fixer_8cpp" local="yes">src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</includedby>
+    <includedby refid="_z_z_m_i_fixer_8cpp" local="yes">src/data/IniFixData/ZZMIFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
     <includedby refid="_g_i_m_i_component_parser_8cpp" local="yes">src/data/IniParseData/GIMIComponentParser.cpp</includedby>
     <includedby refid="_texture_overrides_8cpp" local="yes">src/data/IniParseData/TextureOverrides.cpp</includedby>
     <includedby refid="_w_w_m_i_parser_8cpp" local="yes">src/data/IniParseData/WWMIParser.cpp</includedby>
+    <includedby refid="_z_z_m_i_parser_8cpp" local="yes">src/data/IniParseData/ZZMIParser.cpp</includedby>
+    <includedby refid="_rabbit_f_x_8cpp" local="yes">src/data/RabbitFX.cpp</includedby>
     <includedby refid="_ini_naming_tools_8cpp" local="yes">src/model/IniNamingTools.cpp</includedby>
     <includedby refid="_g_i_m_i_api_normalizer_8cpp" local="yes">src/model/files/GIMIApiNormalizer.cpp</includedby>
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
@@ -53,6 +58,7 @@
     <includedby refid="_mod_type_8cpp" local="yes">src/model/strategies/ModType.cpp</includedby>
     <includedby refid="_ini_classifier_8cpp" local="yes">src/model/strategies/iniClassifiers/IniClassifier.cpp</includedby>
     <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
+    <includedby refid="_template_fixer_8cpp" local="yes">src/model/strategies/iniFixers/TemplateFixer.cpp</includedby>
     <includedby refid="_ini_file_parse_context_8cpp" local="yes">src/model/strategies/iniParsers/IniFileParseContext.cpp</includedby>
     <includedby refid="_download_tools_8cpp" local="yes">src/tools/DownloadTools.cpp</includedby>
     <incdepgraph>
@@ -77,55 +83,25 @@
         <link refid="_ini_keywords_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="54" relation="include">
+        <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="64" relation="include">
+        <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
-        </childnode>
-        <childnode refid="69" relation="include">
-        </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
-        </childnode>
-        <childnode refid="90" relation="include">
-        </childnode>
-        <childnode refid="91" relation="include">
-        </childnode>
-        <childnode refid="92" relation="include">
-        </childnode>
-        <childnode refid="56" relation="include">
-        </childnode>
-        <childnode refid="57" relation="include">
-        </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
         <childnode refid="94" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
-        </childnode>
         <childnode refid="96" relation="include">
-        </childnode>
-        <childnode refid="97" relation="include">
-        </childnode>
-        <childnode refid="98" relation="include">
-        </childnode>
-        <childnode refid="99" relation="include">
-        </childnode>
-        <childnode refid="100" relation="include">
-        </childnode>
-        <childnode refid="101" relation="include">
         </childnode>
         <childnode refid="102" relation="include">
         </childnode>
@@ -137,7 +113,11 @@
         </childnode>
         <childnode refid="106" relation="include">
         </childnode>
-        <childnode refid="59" relation="include">
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
         </childnode>
         <childnode refid="107" relation="include">
         </childnode>
@@ -145,25 +125,11 @@
         </childnode>
         <childnode refid="109" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
         <childnode refid="110" relation="include">
         </childnode>
         <childnode refid="111" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
-        </childnode>
-        <childnode refid="60" relation="include">
-        </childnode>
         <childnode refid="112" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-        <childnode refid="85" relation="include">
         </childnode>
         <childnode refid="113" relation="include">
         </childnode>
@@ -171,16 +137,68 @@
         </childnode>
         <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="66" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="118" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
+        </childnode>
+        <childnode refid="125" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="126" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="127" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+        <childnode refid="130" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
       <node id="3">
-        <label>include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h</label>
-        <link refid="_chisa_textures_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/Changli/ChangliTextures.h</label>
+        <link refid="_changli_textures_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
@@ -189,8 +207,8 @@
         </childnode>
       </node>
       <node id="7">
-        <label>include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h</label>
-        <link refid="_chisa_parfait_textures_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/ChangliNymph/ChangliNymphTextures.h</label>
+        <link refid="_changli_nymph_textures_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
@@ -198,53 +216,9 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="28">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeBangsShader.h</label>
-        <link refid="_lynae_bangs_shader_8h"/>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="30">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h</label>
-        <link refid="_lynae_film_shader_8h"/>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-      </node>
-      <node id="33">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h</label>
-        <link refid="_lynae_hair_shader_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-      </node>
-      <node id="35">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h</label>
-        <link refid="_lynae_lower_shader_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-      </node>
-      <node id="37">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h</label>
-        <link refid="_lynae_skin_codes_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-      </node>
       <node id="11">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h</label>
-        <link refid="_lynae_textures_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/Chisa/ChisaTextures.h</label>
+        <link refid="_chisa_textures_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
@@ -252,49 +226,9 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="39">
-        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h</label>
-        <link refid="_lynae_upper_shader_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-      </node>
-      <node id="41">
-        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h</label>
-        <link refid="_lynae_peppermint_lower_shader_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-      </node>
-      <node id="43">
-        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h</label>
-        <link refid="_lynae_peppermint_sheer_coat_shader_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-      </node>
-      <node id="45">
-        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h</label>
-        <link refid="_lynae_peppermint_sheer_shader_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-      </node>
-      <node id="47">
-        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h</label>
-        <link refid="_lynae_peppermint_solid_shader_8h"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-      </node>
       <node id="15">
-        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h</label>
-        <link refid="_lynae_peppermint_textures_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/ChisaParfait/ChisaParfaitTextures.h</label>
+        <link refid="_chisa_parfait_textures_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
@@ -302,17 +236,53 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="49">
-        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h</label>
-        <link refid="_lynae_peppermint_upper_shader_8h"/>
-        <childnode refid="16" relation="include">
+      <node id="36">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeBangsShader.h</label>
+        <link refid="_lynae_bangs_shader_8h"/>
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeFilmShader.h</label>
+        <link refid="_lynae_film_shader_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeHairShader.h</label>
+        <link refid="_lynae_hair_shader_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeLowerShader.h</label>
+        <link refid="_lynae_lower_shader_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeSkinCodes.h</label>
+        <link refid="_lynae_skin_codes_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
         </childnode>
       </node>
       <node id="19">
-        <label>include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h</label>
-        <link refid="_sanhua_textures_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeTextures.h</label>
+        <link refid="_lynae_textures_8h"/>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
@@ -320,9 +290,49 @@
         <childnode refid="22" relation="include">
         </childnode>
       </node>
+      <node id="47">
+        <label>include/AGRemapCore/data/IniFixData/Lynae/LynaeUpperShader.h</label>
+        <link refid="_lynae_upper_shader_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.h</label>
+        <link refid="_lynae_peppermint_lower_shader_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.h</label>
+        <link refid="_lynae_peppermint_sheer_coat_shader_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.h</label>
+        <link refid="_lynae_peppermint_sheer_shader_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.h</label>
+        <link refid="_lynae_peppermint_solid_shader_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
       <node id="23">
-        <label>include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h</label>
-        <link refid="_sanhua_exorcist_textures_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.h</label>
+        <link refid="_lynae_peppermint_textures_8h"/>
         <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
@@ -330,20 +340,40 @@
         <childnode refid="26" relation="include">
         </childnode>
       </node>
+      <node id="57">
+        <label>include/AGRemapCore/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.h</label>
+        <link refid="_lynae_peppermint_upper_shader_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
       <node id="27">
-        <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
-        <link refid="_w_w_m_i_fixer_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/Sanhua/SanhuaTextures.h</label>
+        <link refid="_sanhua_textures_8h"/>
         <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
+      </node>
+      <node id="31">
+        <label>include/AGRemapCore/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.h</label>
+        <link refid="_sanhua_exorcist_textures_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+      </node>
+      <node id="35">
+        <label>include/AGRemapCore/data/IniFixData/WWMIFixer.h</label>
+        <link refid="_w_w_m_i_fixer_8h"/>
+        <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="39" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="41" relation="include">
         </childnode>
@@ -355,6 +385,14 @@
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
@@ -367,13 +405,17 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
         </childnode>
       </node>
-      <node id="52">
+      <node id="60">
         <label>include/AGRemapCore/data/IniParseData/WWMIParser.h</label>
         <link refid="_w_w_m_i_parser_8h"/>
-        <childnode refid="51" relation="include">
+        <childnode refid="59" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -387,7 +429,11 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -407,55 +453,79 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="52" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
         </childnode>
       </node>
-      <node id="54">
+      <node id="62">
         <label>include/AGRemapCore/model/IniNamingTools.h</label>
         <link refid="_ini_naming_tools_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="55" relation="include">
+        <childnode refid="63" relation="include">
         </childnode>
-        <childnode refid="56" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="57" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="58" relation="include">
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
         </childnode>
         <childnode refid="59" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="60" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
         <childnode refid="61" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
         </childnode>
       </node>
-      <node id="63">
+      <node id="73">
         <label>include/AGRemapCore/model/IniSectionText.h</label>
         <link refid="_ini_section_text_8h"/>
-        <childnode refid="51" relation="include">
+        <childnode refid="59" relation="include">
         </childnode>
       </node>
-      <node id="64">
+      <node id="74">
         <label>include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</label>
         <link refid="_g_i_m_i_fixer_8h"/>
-        <childnode refid="56" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
-        <childnode refid="57" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="58" relation="include">
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
         </childnode>
         <childnode refid="59" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h</label>
+        <link refid="_g_i_m_i_obj_part_filter_8h"/>
+        <childnode refid="64" relation="include">
         </childnode>
         <childnode refid="65" relation="include">
         </childnode>
@@ -464,447 +534,523 @@
         <childnode refid="67" relation="include">
         </childnode>
       </node>
-      <node id="68">
-        <label>include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h</label>
-        <link refid="_g_i_m_i_obj_part_filter_8h"/>
-        <childnode refid="56" relation="include">
-        </childnode>
-        <childnode refid="57" relation="include">
-        </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="59" relation="include">
-        </childnode>
-      </node>
-      <node id="70">
+      <node id="81">
         <label>include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</label>
         <link refid="_ini_file_fix_context_8h"/>
-        <childnode refid="56" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
-        <childnode refid="57" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="59" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
         </childnode>
-      </node>
-      <node id="69">
-        <label>include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</label>
-        <link refid="_remap_ini_fix_context_8h"/>
-        <childnode refid="64" relation="include">
+        <childnode refid="59" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
-        </childnode>
-        <childnode refid="71" relation="include">
-        </childnode>
-      </node>
-      <node id="55">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
-        <link refid="_position_edit_8h"/>
-        <childnode refid="56" relation="include">
-        </childnode>
-      </node>
-      <node id="72">
-        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
-        <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="73" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-        <childnode refid="74" relation="include">
-        </childnode>
-        <childnode refid="60" relation="include">
-        </childnode>
-        <childnode refid="76" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="66" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
-        </childnode>
       </node>
       <node id="80">
-        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
-        <link refid="_g_i_m_i_section_classifier_8h"/>
-        <childnode refid="72" relation="include">
-        </childnode>
+        <label>include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</label>
+        <link refid="_remap_ini_fix_context_8h"/>
         <childnode refid="74" relation="include">
-        </childnode>
-        <childnode refid="76" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
         </childnode>
         <childnode refid="81" relation="include">
         </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>include/AGRemapCore/model/strategies/iniFixers/TemplateFixer.h</label>
+        <link refid="_template_fixer_8h"/>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
       </node>
       <node id="83">
-        <label>include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h</label>
-        <link refid="_global_remap_ini_remover_8h"/>
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</label>
+        <link refid="_res_reg_collect_8h"/>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
         <childnode refid="84" relation="include">
         </childnode>
       </node>
-      <node id="82">
-        <label>include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</label>
-        <link refid="_remap_ini_remover_8h"/>
-        <childnode refid="83" relation="include">
+      <node id="63">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h</label>
+        <link refid="_position_edit_8h"/>
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
-        </childnode>
+      </node>
+      <node id="85">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
         <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
         </childnode>
         <childnode refid="87" relation="include">
         </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
       </node>
-      <node id="73">
+      <node id="94">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
+        <link refid="_g_i_m_i_section_classifier_8h"/>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h</label>
+        <link refid="_global_remap_ini_remover_8h"/>
+        <childnode refid="98" relation="include">
+        </childnode>
+      </node>
+      <node id="96">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</label>
+        <link refid="_remap_ini_remover_8h"/>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
         <label>include/AGRemapCore/tools/DownloadTools.h</label>
         <link refid="_download_tools_8h"/>
-        <childnode refid="58" relation="include">
+        <childnode refid="66" relation="include">
         </childnode>
-        <childnode refid="51" relation="include">
+        <childnode refid="59" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="60" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="102">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
-      <node id="84">
+      <node id="98">
         <label>src/constants/GlobalIniRemoveBuilders.cpp</label>
         <link refid="_global_ini_remove_builders_8cpp"/>
       </node>
-      <node id="89">
+      <node id="103">
         <label>src/data/IniFixData/Arlecchino/ArlecchinoFixer.cpp</label>
         <link refid="_arlecchino_fixer_8cpp"/>
       </node>
-      <node id="90">
+      <node id="104">
         <label>src/data/IniFixData/Ayaka/AyakaFixer.cpp</label>
         <link refid="_ayaka_fixer_8cpp"/>
       </node>
-      <node id="91">
+      <node id="105">
         <label>src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp</label>
         <link refid="_ayaka_springbloom_fixer_8cpp"/>
       </node>
-      <node id="92">
+      <node id="4">
+        <label>src/data/IniFixData/Changli/ChangliFixer.cpp</label>
+        <link refid="_changli_fixer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniFixData/Changli/ChangliTextures.cpp</label>
+        <link refid="_changli_textures_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniFixData/ChangliNymph/ChangliNymphFixer.cpp</label>
+        <link refid="_changli_nymph_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/ChangliNymph/ChangliNymphTextures.cpp</label>
+        <link refid="_changli_nymph_textures_8cpp"/>
+      </node>
+      <node id="106">
         <label>src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp</label>
         <link refid="_cherry_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="4">
+      <node id="12">
         <label>src/data/IniFixData/Chisa/ChisaFixer.cpp</label>
         <link refid="_chisa_fixer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="13">
         <label>src/data/IniFixData/Chisa/ChisaTextures.cpp</label>
         <link refid="_chisa_textures_8cpp"/>
       </node>
-      <node id="8">
+      <node id="16">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitFixer.cpp</label>
         <link refid="_chisa_parfait_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="17">
         <label>src/data/IniFixData/ChisaParfait/ChisaParfaitTextures.cpp</label>
         <link refid="_chisa_parfait_textures_8cpp"/>
       </node>
-      <node id="56">
+      <node id="64">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
-      <node id="57">
+      <node id="65">
         <label>src/data/IniFixData/GIMIComponentFixer.cpp</label>
         <link refid="_g_i_m_i_component_fixer_8cpp"/>
       </node>
-      <node id="58">
+      <node id="66">
         <label>src/data/IniFixData/GIMIMergeFixer.cpp</label>
         <link refid="_g_i_m_i_merge_fixer_8cpp"/>
       </node>
-      <node id="93">
+      <node id="107">
         <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
         <link refid="_ganyu_fixer_8cpp"/>
       </node>
-      <node id="94">
+      <node id="108">
         <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
         <link refid="_ganyu_twilight_fixer_8cpp"/>
       </node>
-      <node id="95">
+      <node id="109">
         <label>src/data/IniFixData/HuTao/HuTaoFixer.cpp</label>
         <link refid="_hu_tao_fixer_8cpp"/>
       </node>
-      <node id="96">
+      <node id="110">
         <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
-      <node id="97">
+      <node id="111">
         <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
         <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
-      <node id="98">
+      <node id="112">
         <label>src/data/IniFixData/Kaeya/KaeyaFixer.cpp</label>
         <link refid="_kaeya_fixer_8cpp"/>
       </node>
-      <node id="99">
+      <node id="113">
         <label>src/data/IniFixData/KaeyaSailwind/KaeyaSailwindFixer.cpp</label>
         <link refid="_kaeya_sailwind_fixer_8cpp"/>
       </node>
-      <node id="100">
+      <node id="114">
         <label>src/data/IniFixData/Kirara/KiraraFixer.cpp</label>
         <link refid="_kirara_fixer_8cpp"/>
       </node>
-      <node id="101">
+      <node id="115">
         <label>src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp</label>
         <link refid="_kirara_boots_fixer_8cpp"/>
       </node>
-      <node id="102">
+      <node id="116">
         <label>src/data/IniFixData/Lisa/LisaFixer.cpp</label>
         <link refid="_lisa_fixer_8cpp"/>
       </node>
-      <node id="103">
+      <node id="117">
         <label>src/data/IniFixData/LisaStudent/LisaStudentFixer.cpp</label>
         <link refid="_lisa_student_fixer_8cpp"/>
       </node>
-      <node id="29">
+      <node id="37">
         <label>src/data/IniFixData/Lynae/LynaeBangsShader.cpp</label>
         <link refid="_lynae_bangs_shader_8cpp"/>
       </node>
-      <node id="31">
+      <node id="39">
         <label>src/data/IniFixData/Lynae/LynaeFilmShader.cpp</label>
         <link refid="_lynae_film_shader_8cpp"/>
       </node>
-      <node id="12">
+      <node id="20">
         <label>src/data/IniFixData/Lynae/LynaeFixer.cpp</label>
         <link refid="_lynae_fixer_8cpp"/>
       </node>
-      <node id="34">
+      <node id="42">
         <label>src/data/IniFixData/Lynae/LynaeHairShader.cpp</label>
         <link refid="_lynae_hair_shader_8cpp"/>
       </node>
-      <node id="36">
+      <node id="44">
         <label>src/data/IniFixData/Lynae/LynaeLowerShader.cpp</label>
         <link refid="_lynae_lower_shader_8cpp"/>
       </node>
-      <node id="32">
+      <node id="40">
         <label>src/data/IniFixData/Lynae/LynaePropsFilmFlags.cpp</label>
         <link refid="_lynae_props_film_flags_8cpp"/>
       </node>
-      <node id="38">
+      <node id="46">
         <label>src/data/IniFixData/Lynae/LynaeSkinCodes.cpp</label>
         <link refid="_lynae_skin_codes_8cpp"/>
       </node>
-      <node id="13">
+      <node id="21">
         <label>src/data/IniFixData/Lynae/LynaeTextures.cpp</label>
         <link refid="_lynae_textures_8cpp"/>
       </node>
-      <node id="40">
+      <node id="48">
         <label>src/data/IniFixData/Lynae/LynaeUpperShader.cpp</label>
         <link refid="_lynae_upper_shader_8cpp"/>
       </node>
-      <node id="16">
+      <node id="24">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintFixer.cpp</label>
         <link refid="_lynae_peppermint_fixer_8cpp"/>
       </node>
-      <node id="42">
+      <node id="50">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintLowerShader.cpp</label>
         <link refid="_lynae_peppermint_lower_shader_8cpp"/>
       </node>
-      <node id="44">
+      <node id="52">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerCoatShader.cpp</label>
         <link refid="_lynae_peppermint_sheer_coat_shader_8cpp"/>
       </node>
-      <node id="46">
+      <node id="54">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSheerShader.cpp</label>
         <link refid="_lynae_peppermint_sheer_shader_8cpp"/>
       </node>
-      <node id="48">
+      <node id="56">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintSolidShader.cpp</label>
         <link refid="_lynae_peppermint_solid_shader_8cpp"/>
       </node>
-      <node id="17">
+      <node id="25">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintTextures.cpp</label>
         <link refid="_lynae_peppermint_textures_8cpp"/>
       </node>
-      <node id="50">
+      <node id="58">
         <label>src/data/IniFixData/LynaePeppermint/LynaePeppermintUpperShader.cpp</label>
         <link refid="_lynae_peppermint_upper_shader_8cpp"/>
       </node>
-      <node id="104">
+      <node id="118">
         <label>src/data/IniFixData/ModBranches.cpp</label>
         <link refid="_mod_branches_8cpp"/>
       </node>
-      <node id="105">
+      <node id="119">
         <label>src/data/IniFixData/Nilou/NilouFixer.cpp</label>
         <link refid="_nilou_fixer_8cpp"/>
       </node>
-      <node id="106">
+      <node id="120">
         <label>src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp</label>
         <link refid="_nilou_breeze_fixer_8cpp"/>
       </node>
-      <node id="59">
+      <node id="67">
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="20">
+      <node id="28">
         <label>src/data/IniFixData/Sanhua/SanhuaFixer.cpp</label>
         <link refid="_sanhua_fixer_8cpp"/>
       </node>
-      <node id="21">
+      <node id="29">
         <label>src/data/IniFixData/Sanhua/SanhuaTextures.cpp</label>
         <link refid="_sanhua_textures_8cpp"/>
       </node>
-      <node id="24">
+      <node id="32">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistFixer.cpp</label>
         <link refid="_sanhua_exorcist_fixer_8cpp"/>
       </node>
-      <node id="25">
+      <node id="33">
         <label>src/data/IniFixData/SanhuaExorcist/SanhuaExorcistTextures.cpp</label>
         <link refid="_sanhua_exorcist_textures_8cpp"/>
       </node>
-      <node id="107">
+      <node id="121">
         <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
         <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
-      <node id="108">
+      <node id="122">
         <label>src/data/IniFixData/SideMeshes.cpp</label>
         <link refid="_side_meshes_8cpp"/>
       </node>
-      <node id="109">
+      <node id="123">
         <label>src/data/IniFixData/TexFxLayout.cpp</label>
         <link refid="_tex_fx_layout_8cpp"/>
       </node>
-      <node id="51">
+      <node id="59">
         <label>src/data/IniFixData/WWMIFixer.cpp</label>
         <link refid="_w_w_m_i_fixer_8cpp"/>
       </node>
-      <node id="110">
+      <node id="124">
         <label>src/data/IniFixData/Xiangling/XianglingFixer.cpp</label>
         <link refid="_xiangling_fixer_8cpp"/>
       </node>
-      <node id="111">
+      <node id="125">
         <label>src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp</label>
         <link refid="_xiangling_cheer_fixer_8cpp"/>
       </node>
+      <node id="68">
+        <label>src/data/IniFixData/ZZMIFixer.cpp</label>
+        <link refid="_z_z_m_i_fixer_8cpp"/>
+      </node>
       <node id="6">
+        <label>src/data/IniParseData/Changli/ChangliParser.cpp</label>
+        <link refid="_changli_parser_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniParseData/ChangliNymph/ChangliNymphParser.cpp</label>
+        <link refid="_changli_nymph_parser_8cpp"/>
+      </node>
+      <node id="14">
         <label>src/data/IniParseData/Chisa/ChisaParser.cpp</label>
         <link refid="_chisa_parser_8cpp"/>
       </node>
-      <node id="10">
+      <node id="18">
         <label>src/data/IniParseData/ChisaParfait/ChisaParfaitParser.cpp</label>
         <link refid="_chisa_parfait_parser_8cpp"/>
       </node>
-      <node id="74">
+      <node id="87">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="60">
+      <node id="69">
         <label>src/data/IniParseData/GIMIComponentParser.cpp</label>
         <link refid="_g_i_m_i_component_parser_8cpp"/>
       </node>
-      <node id="14">
+      <node id="22">
         <label>src/data/IniParseData/Lynae/LynaeParser.cpp</label>
         <link refid="_lynae_parser_8cpp"/>
       </node>
-      <node id="18">
+      <node id="26">
         <label>src/data/IniParseData/LynaePeppermint/LynaePeppermintParser.cpp</label>
         <link refid="_lynae_peppermint_parser_8cpp"/>
       </node>
-      <node id="76">
+      <node id="89">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="22">
+      <node id="30">
         <label>src/data/IniParseData/Sanhua/SanhuaParser.cpp</label>
         <link refid="_sanhua_parser_8cpp"/>
       </node>
-      <node id="26">
+      <node id="34">
         <label>src/data/IniParseData/SanhuaExorcist/SanhuaExorcistParser.cpp</label>
         <link refid="_sanhua_exorcist_parser_8cpp"/>
       </node>
-      <node id="112">
+      <node id="126">
         <label>src/data/IniParseData/TextureOverrides.cpp</label>
         <link refid="_texture_overrides_8cpp"/>
       </node>
-      <node id="53">
+      <node id="61">
         <label>src/data/IniParseData/WWMIParser.cpp</label>
         <link refid="_w_w_m_i_parser_8cpp"/>
       </node>
-      <node id="61">
+      <node id="90">
+        <label>src/data/IniParseData/ZZMIParser.cpp</label>
+        <link refid="_z_z_m_i_parser_8cpp"/>
+      </node>
+      <node id="127">
+        <label>src/data/RabbitFX.cpp</label>
+        <link refid="_rabbit_f_x_8cpp"/>
+      </node>
+      <node id="70">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
       </node>
-      <node id="62">
+      <node id="71">
         <label>src/model/files/GIMIApiNormalizer.cpp</label>
         <link refid="_g_i_m_i_api_normalizer_8cpp"/>
       </node>
-      <node id="85">
+      <node id="99">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="113">
+      <node id="128">
         <label>src/model/iniresources/VGSplitGroupResource.cpp</label>
         <link refid="_v_g_split_group_resource_8cpp"/>
       </node>
-      <node id="114">
+      <node id="129">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="115">
+      <node id="130">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
-      <node id="65">
+      <node id="76">
         <label>src/model/strategies/iniFixers/GIMIFixerInstantiation.cpp</label>
         <link refid="_g_i_m_i_fixer_instantiation_8cpp"/>
       </node>
-      <node id="66">
+      <node id="77">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="67">
+      <node id="78">
         <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
         <link refid="_ini_fix_builder_8cpp"/>
       </node>
-      <node id="71">
+      <node id="82">
         <label>src/model/strategies/iniFixers/RemapIniFixContextInstantiation.cpp</label>
         <link refid="_remap_ini_fix_context_instantiation_8cpp"/>
       </node>
-      <node id="77">
+      <node id="72">
+        <label>src/model/strategies/iniFixers/TemplateFixer.cpp</label>
+        <link refid="_template_fixer_8cpp"/>
+      </node>
+      <node id="84">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/ResRegCollectInstantiation.cpp</label>
+        <link refid="_res_reg_collect_instantiation_8cpp"/>
+      </node>
+      <node id="91">
         <label>src/model/strategies/iniParsers/GIMIParserInstantiation.cpp</label>
         <link refid="_g_i_m_i_parser_instantiation_8cpp"/>
       </node>
-      <node id="81">
+      <node id="95">
         <label>src/model/strategies/iniParsers/GIMISectionClassifierInstantiation.cpp</label>
         <link refid="_g_i_m_i_section_classifier_instantiation_8cpp"/>
       </node>
-      <node id="78">
+      <node id="92">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="79">
+      <node id="93">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="86">
+      <node id="100">
         <label>src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</label>
         <link refid="_ini_remove_builder_8cpp"/>
       </node>
-      <node id="87">
+      <node id="101">
         <label>src/model/strategies/iniRemovers/RemapIniRemoverInstantiation.cpp</label>
         <link refid="_remap_ini_remover_instantiation_8cpp"/>
       </node>
-      <node id="75">
+      <node id="88">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
@@ -1000,53 +1146,127 @@
 <codeline lineno="271"><highlight class="normal"></highlight></codeline>
 <codeline lineno="279" refid="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" kindref="member">Null</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;null&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="280"><highlight class="normal"></highlight></codeline>
-<codeline lineno="288" refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" kindref="member">Ib</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ib&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="289"><highlight class="normal"></highlight></codeline>
-<codeline lineno="293" refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" kindref="member">Vb0</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb0&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="294"><highlight class="normal"></highlight></codeline>
-<codeline lineno="302" refid="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" kindref="member">Vb1</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"></highlight></codeline>
-<codeline lineno="311" refid="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" kindref="member">Handling</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;handling&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="312"><highlight class="normal"></highlight></codeline>
-<codeline lineno="320" refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" kindref="member">Draw</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;draw&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="321"><highlight class="normal"></highlight></codeline>
-<codeline lineno="329" refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" kindref="member">DrawIndexed</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;drawindexed&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="330"><highlight class="normal"></highlight></codeline>
-<codeline lineno="342" refid="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" kindref="member">ORFixPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\global\\ORFix\\ORFix&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="343"><highlight class="normal"></highlight></codeline>
-<codeline lineno="355" refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">NNFixPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\global\\ORFix\\NNFix&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="356"><highlight class="normal"></highlight></codeline>
-<codeline lineno="366" refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" kindref="member">GIMISetTexturesPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\GIMI\\SetTextures&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="367"><highlight class="normal"></highlight></codeline>
-<codeline lineno="371" refid="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" kindref="member">GIMINormalMap</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\GIMI\\NormalMap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287" refid="class_a_g_remap_core_1_1_ini_keywords_1a8905e46b67ea251bd49ef6862d45fe16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8905e46b67ea251bd49ef6862d45fe16" kindref="member">Copy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;copy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="class_a_g_remap_core_1_1_ini_keywords_1abd69f1a451a753cb3c2f49a7778a4b6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1abd69f1a451a753cb3c2f49a7778a4b6a" kindref="member">CopyDesc</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;copy_desc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304" refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" kindref="member">Ib</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ib&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" kindref="member">Vb0</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" kindref="member">Vb1</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a16ef425e1632ec1bb2442db36ca0d79a" kindref="member">Handling</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;handling&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" kindref="member">Draw</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;draw&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345" refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" kindref="member">DrawIndexed</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;drawindexed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" kindref="member">ORFixPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\global\\ORFix\\ORFix&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371" refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">NNFixPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\global\\ORFix\\NNFix&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="372"><highlight class="normal"></highlight></codeline>
-<codeline lineno="376" refid="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" kindref="member">GIMIDiffuse</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\GIMI\\Diffuse&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="377"><highlight class="normal"></highlight></codeline>
-<codeline lineno="381" refid="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" kindref="member">GIMILightMap</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\GIMI\\LightMap&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="382"><highlight class="normal"></highlight></codeline>
-<codeline lineno="398" refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\TexFx&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="399"><highlight class="normal"></highlight></codeline>
-<codeline lineno="410" refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" kindref="member">PsT69</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t69&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="411"><highlight class="normal"></highlight></codeline>
-<codeline lineno="415" refid="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" kindref="member">PsT70</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t70&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="416"><highlight class="normal"></highlight></codeline>
-<codeline lineno="427" refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">TexFxTransparency0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\TN.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="428"><highlight class="normal"></highlight></codeline>
-<codeline lineno="436" refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" kindref="member">TexFxTransparency1</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\TN.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="437"><highlight class="normal"></highlight></codeline>
-<codeline lineno="450" refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" kindref="member">TexFxTransparency0Pre5_0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\T.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="451"><highlight class="normal"></highlight></codeline>
-<codeline lineno="458" refid="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" kindref="member">TexFxTransparency1Pre5_0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\T.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="459"><highlight class="normal"></highlight></codeline>
-<codeline lineno="467" refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" kindref="member">HashNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HashNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="468"><highlight class="normal"></highlight></codeline>
-<codeline lineno="476" refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" kindref="member">IndexNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;IndexNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="477"><highlight class="normal"></highlight></codeline>
-<codeline lineno="481" refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" kindref="member">HideOriginalComment</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;;RemapFixHideOrig<sp/>--&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="483"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="484"><highlight class="normal"></highlight></codeline>
-<codeline lineno="485"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="382" refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ac4986a7b02eb1185f7fdba532facafa5" kindref="member">GIMISetTexturesPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\GIMI\\SetTextures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387" refid="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a23f45e850f9b934571a431d5781e0c19" kindref="member">GIMINormalMap</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\GIMI\\NormalMap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392" refid="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1adb66233a1a9d11f8d8af5b38db7364f1" kindref="member">GIMIDiffuse</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\GIMI\\Diffuse&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397" refid="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a36eb3d096980510be6ee570d02c35e79" kindref="member">GIMILightMap</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\GIMI\\LightMap&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414" refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\TexFx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426" refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" kindref="member">PsT69</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t69&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434" refid="class_a_g_remap_core_1_1_ini_keywords_1a7bc077cb52ccafb4c9827f8ecf02d645" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a7bc077cb52ccafb4c9827f8ecf02d645" kindref="member">TexFxUseDefaultShader</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;$\\TexFx\\use_default_shader&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439" refid="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" kindref="member">PsT70</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t70&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451" refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">TexFxTransparency0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\TN.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460" refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" kindref="member">TexFxTransparency1</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\TN.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="474" refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a079388fac5e35fde9ecdfe285ae8137e" kindref="member">TexFxTransparency0Pre5_0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\T.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482" refid="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4cce110f0eafe9da5062b35d622598e2" kindref="member">TexFxTransparency1Pre5_0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\T.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491" refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" kindref="member">HashNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HashNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500" refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" kindref="member">IndexNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;IndexNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505" refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" kindref="member">HideOriginalComment</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;;RemapFixHideOrig<sp/>--&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513" refid="class_a_g_remap_core_1_1_ini_keywords_1aca4b0f175e238c796c445f9152fc2776" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aca4b0f175e238c796c445f9152fc2776" kindref="member">Global</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;global&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521" refid="class_a_g_remap_core_1_1_ini_keywords_1abeedebbd6b37f4ed60200d0955793a4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1abeedebbd6b37f4ed60200d0955793a4d" kindref="member">Local</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;local&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529" refid="class_a_g_remap_core_1_1_ini_keywords_1aa0865d1094828ac79dc011ad9ff5bbef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aa0865d1094828ac79dc011ad9ff5bbef" kindref="member">Post</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;post&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="537" refid="class_a_g_remap_core_1_1_ini_keywords_1a006a3da8a0ba5c39266060128988eba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a006a3da8a0ba5c39266060128988eba6" kindref="member">Skip</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;skip&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"></highlight></codeline>
+<codeline lineno="545" refid="class_a_g_remap_core_1_1_ini_keywords_1a8fb40d7d3bc56050bcee7574fb75869c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8fb40d7d3bc56050bcee7574fb75869c" kindref="member">Buffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Buffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="553" refid="class_a_g_remap_core_1_1_ini_keywords_1a5cc067e3e2dafa4839d22a79242991b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a5cc067e3e2dafa4839d22a79242991b9" kindref="member">Present</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Present&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="561" refid="class_a_g_remap_core_1_1_ini_keywords_1a5c22475eb9aff1d50b13149d9be7dfb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a5c22475eb9aff1d50b13149d9be7dfb7" kindref="member">Constants</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Constants&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="569" refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;$\\WWMIv1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"></highlight></codeline>
+<codeline lineno="577" refid="class_a_g_remap_core_1_1_ini_keywords_1a43fae2db235cdd20df17959d5478fbed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a43fae2db235cdd20df17959d5478fbed" kindref="member">WWMIVgOffset</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\vg_offset&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"></highlight></codeline>
+<codeline lineno="585" refid="class_a_g_remap_core_1_1_ini_keywords_1a3fab6ad720d71c0e02d98f9dd481c15e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a3fab6ad720d71c0e02d98f9dd481c15e" kindref="member">WWMIVgCount</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\vg_count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593" refid="class_a_g_remap_core_1_1_ini_keywords_1ae997aba1dc7838173af84c45dcecbc47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ae997aba1dc7838173af84c45dcecbc47" kindref="member">WWMIShapeKeyChecksum</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\shapekey_checksum&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"></highlight></codeline>
+<codeline lineno="601" refid="class_a_g_remap_core_1_1_ini_keywords_1a61262ec4c294b51ca6221ecf998c5655" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a61262ec4c294b51ca6221ecf998c5655" kindref="member">WWMIShapeKeyDispatchSizeYOriginalBatch</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\shapekey_dispatch_size_y_original_batch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609" refid="class_a_g_remap_core_1_1_ini_keywords_1a59214c9787296db3553286a6c08d72b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a59214c9787296db3553286a6c08d72b0" kindref="member">WWMICustomMeshScale</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\custom_mesh_scale&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"></highlight></codeline>
+<codeline lineno="617" refid="class_a_g_remap_core_1_1_ini_keywords_1a7b089fe7041a8e1667267639b83e68a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a7b089fe7041a8e1667267639b83e68a9" kindref="member">WWMIBlendRemapId</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\blend_remap_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight></codeline>
+<codeline lineno="625" refid="class_a_g_remap_core_1_1_ini_keywords_1a455afa11f5f059138413704dc558661f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a455afa11f5f059138413704dc558661f" kindref="member">WWMIWeightsPerVertexCount</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\weights_per_vertex_count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"></highlight></codeline>
+<codeline lineno="633" refid="class_a_g_remap_core_1_1_ini_keywords_1a04b91f747cb6d612b0b312ee9dde0769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a04b91f747cb6d612b0b312ee9dde0769" kindref="member">WWMICustomVertexCount</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a466678a2fdbde38578a9c7e793aca502" kindref="member">WWMINamespace</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\custom_vertex_count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"></highlight></codeline>
+<codeline lineno="641" refid="class_a_g_remap_core_1_1_ini_keywords_1a11d5be5f1445cbb474272358a0eb2c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a11d5be5f1445cbb474272358a0eb2c50" kindref="member">WWMISkeletonMerger</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CustomShader\\WWMIv1\\SkeletonMerger&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="642"><highlight class="normal"></highlight></codeline>
+<codeline lineno="649" refid="class_a_g_remap_core_1_1_ini_keywords_1a6c2c99fcff96035ca6b7c5fdd68a33b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a6c2c99fcff96035ca6b7c5fdd68a33b2" kindref="member">WWMISkeletonRemapper</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CustomShader\\WWMIv1\\SkeletonRemapper&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"></highlight></codeline>
+<codeline lineno="657" refid="class_a_g_remap_core_1_1_ini_keywords_1aa6cc2ff9037a99c340f9d86d6ddaf64d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aa6cc2ff9037a99c340f9d86d6ddaf64d" kindref="member">WWMIBlendRemapper</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CustomShader\\WWMIv1\\BlendRemapper&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"></highlight></codeline>
+<codeline lineno="665" refid="class_a_g_remap_core_1_1_ini_keywords_1a7e18c43878eee8ec1eb637fa9bf652dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a7e18c43878eee8ec1eb637fa9bf652dc" kindref="member">WWMIObjectDetected</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;$object_detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"></highlight></codeline>
+<codeline lineno="673" refid="class_a_g_remap_core_1_1_ini_keywords_1a18662ec539ff2169a820cc676e0c79ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a18662ec539ff2169a820cc676e0c79ec" kindref="member">WWMIModEnabled</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;$mod_enabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="674"><highlight class="normal"></highlight></codeline>
+<codeline lineno="681" refid="class_a_g_remap_core_1_1_ini_keywords_1a58f14160cdb490c1059d78ecd99f6a71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a58f14160cdb490c1059d78ecd99f6a71" kindref="member">WWMIMeshVertexCount</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;$mesh_vertex_count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="682"><highlight class="normal"></highlight></codeline>
+<codeline lineno="689" refid="class_a_g_remap_core_1_1_ini_keywords_1a3a7dcf1323d49dcf8ce45a3cc944a8a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a3a7dcf1323d49dcf8ce45a3cc944a8a8" kindref="member">WWMIStateId</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;$state_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="690"><highlight class="normal"></highlight></codeline>
+<codeline lineno="697" refid="class_a_g_remap_core_1_1_ini_keywords_1a9d1c74eb9e762fb5de1750770f5a6bef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a9d1c74eb9e762fb5de1750770f5a6bef" kindref="member">WWMIBlendBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceBlendBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="698"><highlight class="normal"></highlight></codeline>
+<codeline lineno="705" refid="class_a_g_remap_core_1_1_ini_keywords_1a32e353032d26a969398bb2da843a1154" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a32e353032d26a969398bb2da843a1154" kindref="member">WWMIBlendBufferOverride</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceBlendBufferOverride&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="706"><highlight class="normal"></highlight></codeline>
+<codeline lineno="713" refid="class_a_g_remap_core_1_1_ini_keywords_1a79cc87ea387221064c61977663053aef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a79cc87ea387221064c61977663053aef" kindref="member">WWMIIndexBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceIndexBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight></codeline>
+<codeline lineno="721" refid="class_a_g_remap_core_1_1_ini_keywords_1ace168d3fc6733d1fe9281d0a8294bde3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ace168d3fc6733d1fe9281d0a8294bde3" kindref="member">WWMIPositionBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourcePositionBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="722"><highlight class="normal"></highlight></codeline>
+<codeline lineno="729" refid="class_a_g_remap_core_1_1_ini_keywords_1a0dd7cb82814abfbfb020b9af5b90d448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0dd7cb82814abfbfb020b9af5b90d448" kindref="member">WWMITexcoordBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceTexcoordBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="730"><highlight class="normal"></highlight></codeline>
+<codeline lineno="737" refid="class_a_g_remap_core_1_1_ini_keywords_1a860ea33450dae15491e45fdcc005779e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a860ea33450dae15491e45fdcc005779e" kindref="member">WWMIVectorBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceVectorBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"></highlight></codeline>
+<codeline lineno="745" refid="class_a_g_remap_core_1_1_ini_keywords_1a0d6e7fc2d569d505963261bb8855a63d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0d6e7fc2d569d505963261bb8855a63d" kindref="member">WWMIShapeKeyOffsetBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceShapeKeyOffsetBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="746"><highlight class="normal"></highlight></codeline>
+<codeline lineno="753" refid="class_a_g_remap_core_1_1_ini_keywords_1adddf98f965ae7ea1c914c2d2a8843718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1adddf98f965ae7ea1c914c2d2a8843718" kindref="member">WWMIShapeKeyVertexIdBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceShapeKeyVertexIdBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="754"><highlight class="normal"></highlight></codeline>
+<codeline lineno="761" refid="class_a_g_remap_core_1_1_ini_keywords_1ae76627933544c90da67d7ce432c876d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ae76627933544c90da67d7ce432c876d1" kindref="member">WWMIShapeKeyVertexOffsetBuffer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ResourceShapeKeyVertexOffsetBuffer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="762"><highlight class="normal"></highlight></codeline>
+<codeline lineno="769" refid="class_a_g_remap_core_1_1_ini_keywords_1ab7f7a0013a6328bf07f080f5216c0fcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ab7f7a0013a6328bf07f080f5216c0fcd" kindref="member">RabbitFXSetTexturesPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\RabbitFX\\SetTextures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="770"><highlight class="normal"></highlight></codeline>
+<codeline lineno="777" refid="class_a_g_remap_core_1_1_ini_keywords_1a9df35889425e39120d2d54bfd13ea836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a9df35889425e39120d2d54bfd13ea836" kindref="member">RabbitFXResourceFolder</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Resource\\RabbitFX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="778"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="779"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="780"><highlight class="normal"></highlight></codeline>
+<codeline lineno="781"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/IniKeywords.h"/>
   </compounddef>

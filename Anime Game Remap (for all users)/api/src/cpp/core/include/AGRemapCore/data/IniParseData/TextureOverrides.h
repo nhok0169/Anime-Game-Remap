@@ -12,6 +12,7 @@
 #ifndef AGRemapCore_TextureOverrides_H
 #define AGRemapCore_TextureOverrides_H
 
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <string>
@@ -95,6 +96,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The ``.ini`` files directly in 'dir' that the game loads, other than 'exclude': not a
+             ``DISABLED`` one, and not a copy a fix wrote (``<name>RemapFix<N>.ini``) -- the rule
+             #siblingInis applies to one file's own folder
+             @endrst
+             *
+             * @param dir The folder
+             * @param exclude A file to leave out, eg. the ``.ini`` being read
+             *
+             * @return The full paths of the files, sorted
+             */
+            static std::vector<std::string> loadedInis(const std::filesystem::path& dir, const std::filesystem::path& exclude);
+
+            /**
+             * @brief
+             @rst
              Whether ``HashData`` files 'hash' under more than one character :raw-html:`<br />`
              :raw-html:`<br />`
 
@@ -167,55 +183,6 @@ namespace AGRemapCore {
              * @param own The `sections`_ of the file adopting it
              */
             static std::optional<Adoption> adopt(IniFile& sibling, const std::string& root, const ModBranches::Templates& own);
-    };
-
-    /**
-     * @brief
-     @rst
-     What a parser from :cpp:func:`makeGIMICharParser` learned about a ``.ini`` file's texture
-     overrides that a fixer needs :raw-html:`<br />` :raw-html:`<br />`
-
-     The fixer reaches it by ``dynamic_cast`` from the parser it is handed. Absent (another parser),
-     the ``.ini`` file is not a recolour
-     @endrst
-     */
-    class TextureOverrideFacts {
-        public:
-            virtual ~TextureOverrideFacts() = default;
-
-            /**
-             * @brief
-             @rst
-             Whether the ``.ini`` file is a RECOLOUR and nothing else: it draws none of the
-             character's mesh, no other ``.ini`` file beside it does, and it overrides a texture of
-             the character that the target does not draw :raw-html:`<br />` :raw-html:`<br />`
-
-             Its whole model then comes from downloads, with the mod's textures bound in place of the
-             downloaded ones -- so a fixer that reads the mod's buffers while it is being built has
-             to fetch those downloads first
-             @endrst
-             */
-            virtual bool isRecolourOnly() const = 0;
-
-            /**
-             * @brief
-             @rst
-             `Sections`_ the fix writes into every ``.ini`` file it generates, so a SIBLING's toggle
-             keeps working there: a ``[Constants]`` declaring a copy of each variable a carried
-             recolour's condition reads, and a copy of each sibling ``[Key...]`` section that cycles
-             one, both under the copy's name :raw-html:`<br />` :raw-html:`<br />`
-
-             A file with no ``namespace =`` is named after its PATH, so a variable of one ``.ini``
-             cannot be read from another (and a namespace reference stops at the first space of the
-             folder's name). The copy is driven by the same key under the same condition, so the two
-             keep in step
-
-             **Default**: empty -- nothing to carry
-             @endrst
-             */
-            virtual std::string carriedSections() const {
-                return "";
-            }
     };
 }
 

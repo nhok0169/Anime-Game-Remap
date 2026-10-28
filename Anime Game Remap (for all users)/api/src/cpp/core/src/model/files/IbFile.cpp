@@ -13,6 +13,9 @@
 
 #include "AGRemapCore/model/files/IbFile.h"
 
+#include <algorithm>
+#include <stdexcept>
+#include <string>
 #include <utility>
 
 #include "AGRemapCore/model/buffers/BufInt.h"
@@ -58,6 +61,38 @@ namespace AGRemapCore {
 
     std::size_t IbFile::getIndexCount() const {
         return getTriangleCount() * VerticesPerTriangle;
+    }
+
+    std::vector<long long> IbFile::getIndices() const {
+        std::vector<long long> indices;
+        indices.reserve(getIndexCount());
+        for (const std::vector<long long>& triangle : rows(TriangleBufElementKey, VerticesPerTriangle)) {
+            indices.insert(indices.end(), triangle.begin(), triangle.end());
+        }
+
+        return indices;
+    }
+
+    ByteVec IbFile::windingReversed(std::size_t firstIndex, std::size_t indexCount) const {
+        const std::size_t indexBytes = getBytesPerLine() / VerticesPerTriangle;
+        const ByteVec& data = getData();
+        if (indexBytes == 0 || (firstIndex + indexCount) * indexBytes > data.size()) {
+            throw std::out_of_range("the span of " + std::to_string(indexCount) + " indices at "
+                                    + std::to_string(firstIndex) + " runs past the end of the index buffer");
+        }
+
+        // The corners' bytes are copied rather than decoded, so the width is the file's own
+        ByteVec out(indexCount * indexBytes, 0);
+        const auto width = static_cast<std::ptrdiff_t>(indexBytes);
+        for (std::size_t t = 0; t + 2 < indexCount; t += VerticesPerTriangle) {
+            const auto from = data.begin() + static_cast<std::ptrdiff_t>((firstIndex + t) * indexBytes);
+            const auto to = out.begin() + static_cast<std::ptrdiff_t>(t * indexBytes);
+            std::copy(from, from + width, to);
+            std::copy(from + 2 * width, from + 3 * width, to + width);
+            std::copy(from + width, from + 2 * width, to + 2 * width);
+        }
+
+        return out;
     }
 
     std::string IbFile::makeDumpHeader(long long firstIndex) const {

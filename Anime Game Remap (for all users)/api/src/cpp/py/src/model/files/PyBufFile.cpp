@@ -302,6 +302,45 @@ Returns
     The encoded bytes for the line
         )doc"))
 
+        .def("rows", &AGRC::BufFile::rows, py::arg("elementKey"), py::arg("width"), py::doc(R"doc(
+Every line's values for one element, as integers in line order -- ``result[line][i]`` is the element's
+``i``-th data type
+
+The row-shaped counterpart to :meth:`decodeAll`, for a caller that works a vertex at a time: a blend
+buffer's ids or weights, or an index buffer's triangles
+
+Parameters
+----------
+elementKey: :class:`str`
+    The element to take, eg. ``"BLENDINDICES"``
+
+width: :class:`int`
+    How many data types of the element to keep per line. A line whose element has fewer is padded with
+    zeros, and one with more is cut at ``width``
+
+Returns
+-------
+List[List[:class:`int`]]
+    One row of ``width`` values per line. Empty when the file has no such element
+        )doc"))
+
+        .def("column", &AGRC::BufFile::column, py::arg("elementKey"), py::arg("valueInd"), py::doc(R"doc(
+One data type of one element, as numbers in line order -- see :meth:`rows`
+
+Parameters
+----------
+elementKey: :class:`str`
+    The element to take
+
+valueInd: :class:`int`
+    Which of the element's data types
+
+Returns
+-------
+List[:class:`float`]
+    One value per line. Empty when the file has no such column
+        )doc"))
+
         .def("decodeAll", [](const AGRC::BufFile &self) {
             py::dict result;
             for (const auto &column : self.decodeAll()) {

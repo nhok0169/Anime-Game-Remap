@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="48" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="48" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="49" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a6dd6229439da61f69839121ad192dc1d" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="53" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="54" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1af21070be3035a2139a6145214597d364" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="58" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="58" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="59" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a286475cb1863e580f3a2bc390bfaabaf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
@@ -67,7 +67,7 @@ branch), stripped. Empty for an unconditional override
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="69" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="70" column="29" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="70" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -75,7 +75,7 @@ branch), stripped. Empty for an unconditional override
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="44" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="44" bodyend="70"/>
+    <location file="include/AGRemapCore/data/IniParseData/TextureOverrides.h" line="45" column="13" bodyfile="include/AGRemapCore/data/IniParseData/TextureOverrides.h" bodystart="45" bodyend="71"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a286475cb1863e580f3a2bc390bfaabaf" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Override</scope><name>branches</name></member>
       <member refid="struct_a_g_remap_core_1_1_texture_overrides_1_1_override_1a6dd6229439da61f69839121ad192dc1d" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureOverrides::Override</scope><name>hash</name></member>

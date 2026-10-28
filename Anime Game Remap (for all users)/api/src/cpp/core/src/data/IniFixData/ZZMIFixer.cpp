@@ -554,13 +554,9 @@ namespace AGRemapCore {
 
                 // ---- 4. names, hashes, slot indices, strides, and a doubled mesh ----
                 void buildObjEdits() {
-                    const std::string toModName = toModName_;
-                    renames_.push_back(std::make_unique<GraphRename<>>([toModName](const std::string& n) {
-                        return orderedName(n, IniNamingTools::getRemapFixName(n, toModName)); }));
-                    renames_.push_back(std::make_unique<GraphRename<>>([toModName](const std::string& n) {
-                        return orderedName(n, IniNamingTools::getRemapIbName(n, toModName)); }));
-                    renames_.push_back(std::make_unique<GraphRename<>>([toModName](const std::string& n) {
-                        return orderedName(n, IniNamingTools::getRemapBlendName(n, toModName)); }));
+                    renames_.push_back(remapRename(RemapName::Fix, orderedName));
+                    renames_.push_back(remapRename(RemapName::Ib, orderedName));
+                    renames_.push_back(remapRename(RemapName::Blend, orderedName));
                     for (auto& rename : renames_) {
                         partEdits_.push_back(std::make_unique<GraphPartEdit<>>(rename.get()));
                     }
@@ -568,13 +564,10 @@ namespace AGRemapCore {
                     GroupPartEdit* renameIb = partEdits_[partEdits_.size() - 2].get();
                     GroupPartEdit* renameBlend = partEdits_[partEdits_.size() - 1].get();
 
-                    auto hashRemap = std::make_unique<RegAssetRemap<>>(
-                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
-                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                        toModName_, srcName(), ctx_.version(), iniToVersion());
-                    partEdits_.push_back(std::make_unique<RegPartEdit<>>(hashRemap.get()));
+                    auto hashEdit = hashRemap(srcName(), iniToVersion());
+                    partEdits_.push_back(std::make_unique<RegPartEdit<>>(hashEdit.get()));
                     GroupPartEdit* hash = partEdits_.back().get();
-                    regEdits_.push_back(std::move(hashRemap));
+                    regEdits_.push_back(std::move(hashEdit));
 
                     // a VertexLimitRaise's override_byte_stride is the SOURCE component's draw stride
                     // (Position 40 + Texcoord + Blend 32), and the target's is its own
@@ -737,7 +730,7 @@ namespace AGRemapCore {
                 }
 
                 std::string downloadUrl(const std::string& kind, const std::string& ext) const {
-                    return DownloadTools::downloadFolder() + "/" + DownloadTools::urlPath(
+                    return DownloadTools::url(
                         config_.downloadGameFolder, config_.downloadCharFolder, config_.downloadVersionFolder, config_.source, kind, ext);
                 }
 
@@ -1099,8 +1092,7 @@ namespace AGRemapCore {
                         const std::string resource = IniKeywords::Resource + name;
                         FileDownloadCreate<>::File file;
                         file.file = name + FileExt::DDS;
-                        file.url = DownloadTools::downloadFolder() + "/"
-                            + DownloadTools::urlPath(config_.downloadGameFolder, config_.downloadCharFolder,
+                        file.url = DownloadTools::url(config_.downloadGameFolder, config_.downloadCharFolder,
                                                      config_.downloadVersionFolder, srcName(), "A" + capitalised(tex.role), FileExt::DDS);
                         if (tex.role == LightMapRole && !comp_.bandMoves.empty()) {
                             file.texEdit = TexEditor({bandEdit(config_, comp_.bandMoves)}, false, true);

@@ -32,6 +32,22 @@ class CppBufFileTest(BaseUnitTest):
     # ================================================
     # ================ elements ======================
 
+    def test_rows_oneRowPerLinePaddedToWidth(self):
+        data = struct.pack("<3f", 1.0, 2.0, 3.0) + struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.CppBufFile(data, _makePositionElements())
+
+        self.assertEqual(bufFile.rows("POSITION", 4), [[1, 2, 3, 0], [4, 5, 6, 0]])
+        self.assertEqual(bufFile.rows("POSITION", 2), [[1, 2], [4, 5]])
+        self.assertEqual(bufFile.rows("NOTHERE", 2), [])
+
+    def test_column_oneValuePerLine(self):
+        data = struct.pack("<3f", 1.5, 2.0, 3.0) + struct.pack("<3f", 4.0, 5.0, 6.25)
+        bufFile = FRB.CppBufFile(data, _makePositionElements())
+
+        self.assertEqual(bufFile.column("POSITION", 0), [1.5, 4.0])
+        self.assertEqual(bufFile.column("POSITION", 2), [3.0, 6.25])
+        self.assertEqual(bufFile.column("POSITION", 3), [])
+
     def test_bytesPerLine_sumOfElementSizes(self):
         line = struct.pack("<3f", 1.0, 2.0, 3.0)
         bufFile = FRB.CppBufFile(line, _makePositionElements())

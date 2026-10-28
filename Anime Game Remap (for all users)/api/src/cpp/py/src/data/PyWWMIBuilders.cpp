@@ -102,6 +102,17 @@ by construction.
 Name the hash ``Data/Mod Downloads`` actually holds, which is the one thing this says that
 :attr:`roles` does not -- the folder was built from one frame dump, and that is not always the
 generation :class:`HashData` files as current. **Default**: empty
+        )doc"))
+        .def_readwrite("regionRoles", &AGRC::WWMITextureFacts::regionRoles, py::doc(R"doc(
+Set[:class:`str`]: The roles whose texture marks REGIONS, such as a material mask. A file the mod ships
+for one is refused when it is flat, or when one slot binds it for this role and another too (a mask
+pointed at the slot's normal map); the role then takes :attr:`fallbackTextures`, unless the fix leaves
+it to the game (:attr:`WWMIFixerConfig.flatLeftToGame`). **Default**: empty
+        )doc"))
+        .def_readwrite("readInisBelow", &AGRC::WWMITextureFacts::readInisBelow, py::doc(R"doc(
+:class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
+read (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
+above it; ``DISABLED`` folders are skipped. **Default**: ``False``
         )doc"));
 
     py::class_<AGRC::WWMIParserConfig>(m, "WWMIParserConfig", R"doc(
@@ -566,12 +577,9 @@ Dict[:class:`str`, :class:`str`]: Shader hash -> the ``filter_index`` to tag it 
 :attr:`filterBase` / :attr:`filterStep`. Both directions of a pair must agree on every shader they
 both tag, since 3dmigoto keys a ``[ShaderOverride]`` by its hash across every loaded ``.ini``
         )doc"))
-        .def_readwrite("flatFallsBackToSource", &AGRC::WWMIFixerConfig::flatFallsBackToSource, py::doc(R"doc(
-Set[:class:`str`]: Roles whose texture marks REGIONS, so a constant one from the mod is replaced by
-the source's own (its fallback download)
-        )doc"))
         .def_readwrite("flatLeftToGame", &AGRC::WWMIFixerConfig::flatLeftToGame, py::doc(R"doc(
-Set[:class:`str`]: Like :attr:`flatFallsBackToSource`, except that a flat one is left to the GAME
+Set[:class:`str`]: Roles of :attr:`WWMITextureFacts.regionRoles` whose refused file is left to the GAME
+rather than replaced by the source's own download
         )doc"))
         .def_readwrite("mirroredComponents", &AGRC::WWMIFixerConfig::mirroredComponents, py::doc(R"doc(
 Set[:class:`int`]: Source components drawn a second time, wound the other way with their normals
@@ -642,11 +650,6 @@ WWMI's merged skeleton (its blend holds per-component LOCAL ids); without it suc
 :class:`bool`: Carry a mod's own texture line that puts a texture into a register of a different kind by
 the REGISTER's role on the source rather than the texture's -- so a toggle that binds a diffuse into a
 ramp or detail slot keeps doing so on the target. **Default**: ``False``
-        )doc"))
-        .def_readwrite("readInisBelow", &AGRC::WWMIFixerConfig::readInisBelow, py::doc(R"doc(
-:class:`bool`: Also read a second ``.ini`` on the mod's own draws from the folders BELOW the one being
-fixed (``Textures/textures.ini`` binding every texture of a ``mod.ini`` mesh), not only beside it and
-above it; ``DISABLED`` folders are skipped. **Default**: ``False``
         )doc"))
         .def_readwrite("copiesShareSkeleton", &AGRC::WWMIFixerConfig::copiesShareSkeleton, py::doc(R"doc(
 :class:`bool`: On a target past 256 bones, make every generated copy ``.ini`` share the mod's skeleton

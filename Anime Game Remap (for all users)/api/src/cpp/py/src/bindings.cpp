@@ -96,6 +96,7 @@ void initCppRegRemap(pybind11::module_ &m);
 void initCppRegRemove(pybind11::module_ &m);
 void initCppRegRestrict(pybind11::module_ &m);
 void initCppRegDrawRangeRemap(pybind11::module_ &m);
+void initCppRegDrawRangeShift(pybind11::module_ &m);
 void initCppBaseIniGraphEdit(pybind11::module_ &m);
 void initCppGraphRename(pybind11::module_ &m);
 void initCppRegFillMissing(pybind11::module_ &m);
@@ -303,6 +304,7 @@ PYBIND11_MODULE(core, m) {
     initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRestrict(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegDrawRangeRemap(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegDrawRangeShift(m); // must come after initCppBaseRegEdit (registers its base)
 
     // ----- iniFixers/graphEdits (full replacement of the pure-Python graphEdits package -- see
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----

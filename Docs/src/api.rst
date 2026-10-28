@@ -1875,6 +1875,17 @@ RegDrawRangeRemap
 
 :raw-html:`<br />`
 
+RegDrawRangeShift
+=================
+
+.. attributetable:: FixRaidenBoss2.RegDrawRangeShift
+
+.. autoclass:: FixRaidenBoss2.RegDrawRangeShift
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 ===========
 

@@ -48,6 +48,21 @@ class BinaryFileTest(BaseUnitTest):
         with self.assertRaises(RuntimeError):
             binFile.read()
 
+    def test_write_replacesTheFile(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = os.path.join(folder, "out.bin")
+
+            self.assertTrue(FRB.BinaryFile.write(path, b"\x01\x02\x03\x04"))
+            self.assertTrue(FRB.BinaryFile.write(path, b"\x05"))
+            self.assertEqual(FRB.BinaryFile(path).read(), b"\x05")
+
+            self.assertTrue(FRB.BinaryFile.write(path, b""))
+            self.assertEqual(FRB.BinaryFile(path).read(), b"")
+
+    def test_write_missingFolder_isFalse(self):
+        with tempfile.TemporaryDirectory() as folder:
+            self.assertFalse(FRB.BinaryFile.write(os.path.join(folder, "no", "out.bin"), b"\x01"))
+
     def test_setSrc_readReturnsNewData(self):
         binFile = FRB.BinaryFile(b"\x01")
         binFile.src = b"\x02\x03"

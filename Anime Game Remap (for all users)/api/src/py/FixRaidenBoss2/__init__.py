@@ -492,3 +492,10 @@ try:
     __all__ += ["RegDrawRangeRemap"]
 except ImportError:
     pass
+
+# RegDrawRangeShift (a part's drawindexed ranges moved to where their buffer sits in a concatenated one).
+try:
+    from .core import RegDrawRangeShift
+    __all__ += ["RegDrawRangeShift"]
+except ImportError:
+    pass

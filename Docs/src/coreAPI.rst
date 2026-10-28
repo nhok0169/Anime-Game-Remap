@@ -2220,6 +2220,17 @@ RegDrawRangeRemap
 
 :raw-html:`<br />`
 
+RegDrawRangeShift
+-----------------
+
+.. cppattributetable:: AGRemapCore::RegDrawRangeShift
+
+.. doxygenclass:: AGRemapCore::RegDrawRangeShift
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 RegRestrict
 -----------
 

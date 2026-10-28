@@ -21,8 +21,6 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstring>
-#include <fstream>
 #include <functional>
 #include <map>
 #include <filesystem>
@@ -43,11 +41,16 @@
 #include "AGRemapCore/model/buffers/VGComponentMerge.h"
 #include "AGRemapCore/model/IniSectionGraph.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/buffers/BufElementType.h"
+#include "AGRemapCore/model/buffers/BufFloat.h"
+#include "AGRemapCore/model/buffers/BufUnorm.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
+#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/files/IbFile.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 #include "AGRemapCore/model/buffers/VGComponentSplit.h"
 #include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/iftemplate/IfContentPart.h"
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/iniresources/VGMergeGroupResource.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -70,6 +73,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegDrawRangeShift.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
@@ -148,90 +152,30 @@ namespace AGRemapCore {
         const std::string& NormalMapReg = DiffuseReg;
 
 
-        // ---- a carried member's draws, moved to where it sits in the merged ib ----
+        // A carried member's draws are moved to where it sits in the merged ib (see buildSlotRemap) by a
+        // RegDrawRangeShift, and so is TexFx's own draw: its component command lists draw
+        // `drawindexed = $_1, $_2, 0` from variables the mod sets, so `$\texfx\_2` is a start index too.
+        const std::string TexFxDrawStart = "$\\texfx\\_2";
+
+
+        // ---- the sections the fix writes of its own ----
         //
-        // A merged object's ib is member after member, so a member carried as a command list of its
-        // own (see buildSlotRemap) draws its OWN ranges, each shifted by its start: `count, start,
-        // base` -> `count, start + offset, base`, and `auto` -> the member's whole range. File-local,
-        // like the component template's DrawRangeRemap: it needs the merge's offsets.
-        class DrawOffset : public BaseRegEdit<> {
-            public:
-                DrawOffset(long long offset, long long count): offset_(offset), count_(count) {}
+        // Built as a section and rendered by the library's renderer, one per call, followed by a newline:
+        // GIMIFixer::appendedSections carries them into the fix block (see buildAppendedSections).
+        IfTemplateRunConfig<std::string, std::string> sectionRunConfig() {
+            return IfTemplateRunConfig<std::string, std::string>{
+                IniKeywords::Run,
+                [](const std::string& val) { return val; },
+                [](const std::string& section) { return section; }
+            };
+        }
 
-                ContentPart& edit(ContentPart& part, const std::string& sectionName, const ModType* modType = nullptr,
-                                  const std::string& modName = "", const OrderRanges* partRanges = nullptr) override {
-                    (void)sectionName;
-                    (void)modType;
-                    (void)modName;
-
-                    const auto ranges = toRangeSpec(partRanges);
-                    const std::vector<std::pair<long long, std::string>> vals = part.getValsWithInds(IniKeywords::DrawIndexed, true, ranges);
-                    if (!vals.empty()) {
-                        std::vector<std::string> shifted;
-                        shifted.reserve(vals.size());
-                        for (const auto& entry : vals) {
-                            shifted.push_back(shift(entry.second));
-                        }
-                        part.replaceVals({{IniKeywords::DrawIndexed, ContentPart::ReplaceSpec(shifted)}}, false, ranges);
-                    }
-
-                    // AND TEXFX'S OWN DRAW: its component command lists draw
-                    // `drawindexed = $_1, $_2, 0` from variables the mod sets, so `$\texfx\_2` is a
-                    // start index too (a CitlaliWhisperofStars mod's toggled piece, 2026-09-22).
-                    std::vector<std::string> startKeys;
-                    for (const auto& kvp : part.entries()) {
-                        if (StringTools::equalsIgnoreCase(StringTools::strip(kvp.first), TexFxDrawStart)
-                                && std::find(startKeys.begin(), startKeys.end(), kvp.first) == startKeys.end()) {
-                            startKeys.push_back(kvp.first);
-                        }
-                    }
-                    for (const std::string& key : startKeys) {
-                        std::vector<std::string> shifted;
-                        for (const auto& entry : part.getValsWithInds(key, true, ranges)) {
-                            const std::string value(StringTools::strip(entry.second));
-                            shifted.push_back(!value.empty() && value.find_first_not_of("0123456789") == std::string::npos
-                                              ? std::to_string(std::stoll(value) + offset_) : entry.second);
-                        }
-                        part.replaceVals({{key, ContentPart::ReplaceSpec(shifted)}}, false, ranges);
-                    }
-
-                    return part;
-                }
-
-            private:
-                static inline const std::string TexFxDrawStart = "$\\texfx\\_2";
-
-                long long offset_;
-                long long count_;
-
-                std::string shift(const std::string& value) const {
-                    if (StringTools::equalsIgnoreCase(StringTools::strip(value), "auto")) {
-                        return std::to_string(count_) + ", " + std::to_string(offset_) + ", 0";
-                    }
-
-                    std::vector<std::string> fields;
-                    std::size_t pos = 0;
-                    while (true) {
-                        std::size_t comma = value.find(',', pos);
-                        fields.emplace_back(StringTools::strip(value.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos)));
-                        if (comma == std::string::npos) {
-                            break;
-                        }
-                        pos = comma + 1;
-                    }
-
-                    if (fields.size() < 2 || fields[1].empty() || fields[1].find_first_not_of("0123456789") != std::string::npos) {
-                        return value;
-                    }
-
-                    fields[1] = std::to_string(std::stoll(fields[1]) + offset_);
-                    std::string out = fields[0];
-                    for (std::size_t i = 1; i < fields.size(); ++i) {
-                        out += ", " + fields[i];
-                    }
-                    return out;
-                }
-        };
+        std::string renderSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& kvps) {
+            std::vector<std::unique_ptr<IfTemplatePart>> parts;
+            parts.push_back(std::make_unique<IfContentPart<std::string, std::string>>(kvps, 0));
+            Template section(std::move(parts), sectionRunConfig(), name);
+            return renderIfTemplate(section) + "\n";
+        }
 
 
         const std::string FormatKey = "format";
@@ -487,10 +431,9 @@ namespace AGRemapCore {
                             if (!index.has_value()) {
                                 continue;
                             }
-                            guards += "\n[TextureOverride" + toModName_ + obj + IniKeywords::Remap + "TexFxGuard]\n"
-                                      "hash = " + *ib + "\n"
-                                      "match_first_index = " + *index + "\n"
-                                      "$\\TexFx\\use_default_shader = -1\n";
+                            guards += "\n" + renderSection("TextureOverride" + toModName_ + obj + IniKeywords::Remap + "TexFxGuard",
+                                                           {{IniKeywords::Hash, *ib}, {IniKeywords::MatchFirstIndex, *index},
+                                                            {"$\\TexFx\\use_default_shader", "-1"}});
                         }
                         if (!guards.empty()) {
                             text += (text.empty() ? "" : "\n") + std::string(
@@ -1071,7 +1014,6 @@ namespace AGRemapCore {
                                 continue;
                             }
 
-                            const std::vector<std::uint8_t>& pixels = lightMap.getPixels();
                             const int width = lightMap.getWidth();
                             const int height = lightMap.getHeight();
                             const auto bandAt = [&](float u, float v) {
@@ -1079,9 +1021,9 @@ namespace AGRemapCore {
                                 v -= std::floor(v);
                                 const int x = std::min(width - 1, std::max(0, static_cast<int>(u * static_cast<float>(width))));
                                 const int y = std::min(height - 1, std::max(0, static_cast<int>(v * static_cast<float>(height))));
-                                return pixels[(static_cast<std::size_t>(y) * static_cast<std::size_t>(width) + static_cast<std::size_t>(x)) * 4 + 3];
+                                return lightMap.getPixel(x, y).alpha;
                             };
-                            const auto inBands = [&](std::uint8_t band) {
+                            const auto inBands = [&](int band) {
                                 for (const auto& range : slot.splitBands) {
                                     if (band >= range.first && band <= range.second) {
                                         return true;
@@ -1121,9 +1063,8 @@ namespace AGRemapCore {
                                 // The branch's texcoords where the component's branches pair with the slot's, else its first
                                 const std::string& texcoordPath = (comp->texcoords.size() == source.ibs.size() && !comp->texcoords[b].val.empty())
                                     ? comp->texcoords[b].val : comp->texcoord;
-                                BinaryFile texcoordFile(texcoordPath);
-                                const ByteVec texcoords = texcoordFile.read();
-                                const std::size_t stride = comp->vertexCount == 0 ? 0 : texcoords.size() / comp->vertexCount;
+                                const std::size_t stride = comp->vertexCount == 0 ? 0 : fileSize(texcoordPath) / comp->vertexCount;
+                                const std::vector<std::array<float, 2>> uvs = firstUVs(texcoordPath, stride);
 
                                 auto widthIt = ibBytesPerIndex_.find(branch.val);
                                 IbFile ibFile(branch.val, widthIt == ibBytesPerIndex_.end() ? 4 : widthIt->second);
@@ -1135,12 +1076,11 @@ namespace AGRemapCore {
                                     float u = 0.0f, v = 0.0f;
                                     bool readable = stride >= 12;
                                     for (unsigned long long corner : triangle) {
-                                        if (!readable || (corner + 1) * stride > texcoords.size()) {
+                                        if (!readable || corner >= uvs.size()) {
                                             readable = false;
                                             break;
                                         }
-                                        float uv[2];
-                                        std::memcpy(uv, texcoords.data() + corner * stride + 4, sizeof(uv));
+                                        const std::array<float, 2>& uv = uvs[static_cast<std::size_t>(corner)];
                                         u += uv[0] / 3.0f;
                                         v += uv[1] / 3.0f;
                                     }
@@ -1155,9 +1095,7 @@ namespace AGRemapCore {
                                         return std::string();
                                     }
                                     const std::string path = FileService::pathToStr(scratch / FileService::strToPath(stem + suffix + ".ib"));
-                                    const ByteVec bytes = VGComponentSplit::encodeIb(tris);
-                                    std::ofstream out(FileService::strToPath(path), std::ios::binary);
-                                    out.write(reinterpret_cast<const char*>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
+                                    BinaryFile::write(path, VGComponentSplit::encodeIb(tris));
                                     ibBytesPerIndex_[path] = 4;
                                     return path;
                                 };
@@ -1187,6 +1125,43 @@ namespace AGRemapCore {
                             comp->slots[slot.name] = std::move(taken);
                         }
                     }
+                }
+
+                // Each vertex's first UV in a GIMI Texcoord.buf of 'stride' bytes a line (the 4-byte vertex colour,
+                // then TEXCOORD), or nothing when a line cannot hold one. The file is read whatever the stride, so
+                // a missing one throws as reading it always has.
+                static std::vector<std::array<float, 2>> firstUVs(const std::string& path, std::size_t stride) {
+                    std::vector<std::unique_ptr<BufElementType>> layout;
+                    if (stride >= 12) {
+                        layout.push_back(BufElementType::repeated("COLOR", 4, []() -> std::unique_ptr<BufDataType> {
+                            return std::make_unique<BufUnorm>("UNORM", 1); }, "R8G8B8A8_UNORM"));
+                        layout.push_back(BufElementType::repeated("TEXCOORD", 2, []() -> std::unique_ptr<BufDataType> {
+                            return std::make_unique<BufFloat>(); }, "R32G32_FLOAT"));
+                        if (stride > 12) {
+                            layout.push_back(BufElementType::repeated("REST", stride - 12, []() -> std::unique_ptr<BufDataType> {
+                                return std::make_unique<BufUnorm>("UNORM", 1); }));
+                        }
+                    }
+
+                    std::vector<std::array<float, 2>> uvs;
+                    if (layout.empty()) {
+                        BinaryFile(path).read();
+                        return uvs;
+                    }
+
+                    BufFile texcoords(path, std::move(layout), "Texcoord");
+                    const std::vector<double>* us = nullptr;
+                    const std::vector<double>* vs = nullptr;
+                    const std::vector<BufFile::BufColumnData> columns = texcoords.decodeAll();
+                    for (const BufFile::BufColumnData& column : columns) {
+                        if (column.elementKey == "TEXCOORD") {
+                            (column.valueInd == 0 ? us : vs) = &std::get<std::vector<double>>(column.values);
+                        }
+                    }
+                    for (std::size_t vertex = 0; us != nullptr && vs != nullptr && vertex < us->size(); ++vertex) {
+                        uvs.push_back({static_cast<float>((*us)[vertex]), static_cast<float>((*vs)[vertex])});
+                    }
+                    return uvs;
                 }
 
                 // ---- which target object each source slot lands on, and who represents it ----
@@ -1884,27 +1859,9 @@ namespace AGRemapCore {
                             }
                             const std::array<float, 3> offset = c.positionOffset;
                             const std::array<float, 2> fade = c.positionOffsetFade;
-                            const bool fades = (fade[1] > fade[0]);
-                            entry.positionLineEdit = [offset, fade, fades](const ByteVec& line) {
-                                ByteVec out = line;
-
-                                // See Component::positionOffsetFade: the offset falls off with
-                                // height, read from the ORIGINAL y before any axis is written back.
-                                float scale = 1.0f;
-                                if (fades && 2 * sizeof(float) <= out.size()) {
-                                    float y = 0.0f;
-                                    std::memcpy(&y, out.data() + sizeof(float), sizeof(float));
-                                    scale = (fade[1] - y) / (fade[1] - fade[0]);
-                                    scale = std::min(1.0f, std::max(0.0f, scale));
-                                }
-
-                                for (std::size_t k = 0; k < 3 && (k + 1) * sizeof(float) <= out.size(); ++k) {
-                                    float value;
-                                    std::memcpy(&value, out.data() + k * sizeof(float), sizeof(float));
-                                    value += offset[k] * scale;
-                                    std::memcpy(out.data() + k * sizeof(float), &value, sizeof(float));
-                                }
-                                return out;
+                            entry.positionLineEdit = [offset, fade](const ByteVec& line) {
+                                // See Component::positionOffsetFade: the offset falls off with height.
+                                return VGComponentSplit::offsetPositionLine(line, offset, fade);
                             };
                         }
                         config.components.push_back(std::move(entry));
@@ -3097,7 +3054,7 @@ namespace AGRemapCore {
                             edits.push_back(shiftUpAdapter_.get());
                         }
 
-                        auto offsetEdit = std::make_unique<DrawOffset>(start, count);
+                        auto offsetEdit = std::make_unique<RegDrawRangeShift<>>(start, count, std::vector<std::string>{TexFxDrawStart});
                         auto offsetAdapter = std::make_unique<RegPartEdit<>>(offsetEdit.get());
                         edits.push_back(offsetAdapter.get());
 
@@ -3365,7 +3322,7 @@ namespace AGRemapCore {
                 std::map<std::string, std::pair<std::pair<std::string, std::string>, std::pair<long long, long long>>> carriedDraws_;
                 std::unique_ptr<RegRemove<>> stripCarried_;
                 std::unique_ptr<RegPartEdit<>> stripCarriedAdapter_;
-                std::vector<std::unique_ptr<DrawOffset>> carriedOffsets_;
+                std::vector<std::unique_ptr<RegDrawRangeShift<>>> carriedOffsets_;
                 std::vector<std::unique_ptr<RegPartEdit<>>> carriedAdapters_;
                 std::vector<std::unique_ptr<GraphPartEdit<>>> carriedGraphAdapters_;
                 std::unordered_map<std::string, std::unique_ptr<GraphPartEdit<>>> objFillAdapters_;

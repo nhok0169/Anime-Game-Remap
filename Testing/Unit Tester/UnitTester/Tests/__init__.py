@@ -113,6 +113,7 @@ from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
 from .test_RegRestrict import RegRestrictTest
 from .test_RegDrawRangeRemap import RegDrawRangeRemapTest
+from .test_RegDrawRangeShift import RegDrawRangeShiftTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RegDelimitedAdd import RegDelimitedAddTest
 from .test_RegBranchAdd import RegBranchAddTest
@@ -175,7 +176,7 @@ __all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest"
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegDrawRangeRemapTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest", "RegBottomAddTest", "GIMIApiNormalizerTest"]
+__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegRestrictTest", "RegDrawRangeRemapTest", "RegDrawRangeShiftTest", "RegSurroundedAddTest", "RegDelimitedAddTest", "RegBranchAddTest", "RegBottomAddTest", "GIMIApiNormalizerTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]

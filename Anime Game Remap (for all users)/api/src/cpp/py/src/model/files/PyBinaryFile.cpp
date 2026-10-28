@@ -64,5 +64,27 @@ Returns
 -------
 :class:`bytes`
     The read bytes
+        )doc"))
+
+        .def_static("write", [](const std::string &path, const py::bytes &bytes) {
+            const std::string raw = bytes;
+            return AGRC::BinaryFile::write(path, AGRC::ByteVec(raw.begin(), raw.end()));
+        }, py::arg("path"), py::arg("bytes"), py::doc(R"doc(
+Writes 'bytes' to the file at 'path', replacing whatever the file held
+
+The folder the file goes in must already exist
+
+Parameters
+----------
+path: :class:`str`
+    The file to write
+
+bytes: :class:`bytes`
+    The bytes to write
+
+Returns
+-------
+:class:`bool`
+    Whether every byte was written
         )doc"));
 }

@@ -232,6 +232,61 @@ class RegFillMissingTest(BaseUnitTest):
         ], name = "a")}
         return FRB.IniSectionGraph(sections, ["a"])
 
+    # ================================================
+    # ==================== skipWhen ===================
+
+    def test_skipWhen_defaultsToNone(self):
+        self.assertIsNone(FRB.RegFillMissing("z", "9").skipWhen)
+
+    def test_skipWhen_roundTrips(self):
+        edit = FRB.RegFillMissing("z", "9")
+        edit.skipWhen = ("handling", "skip")
+        self.assertEqual(edit.skipWhen, ("handling", "skip"))
+
+        edit.skipWhen = None
+        self.assertIsNone(edit.skipWhen)
+
+    def test_skipWhen_notAPair_raises(self):
+        edit = FRB.RegFillMissing("z", "9")
+        with self.assertRaises(TypeError):
+            edit.skipWhen = ("handling",)
+
+    def test_edit_skipWhen_partCarryingTheKVP_leftAlone(self):
+        graph = self.makeGraph(src = {"x": [(0, "1")], "handling": [(1, "skip")]})
+        edit = FRB.RegFillMissing("z", "9")
+        edit.skipWhen = ("handling", "skip")
+        edit.edit(graph, None)
+
+        self.compareList(self.entries(graph), [("x", "1"), ("handling", "skip")])
+
+    def test_edit_skipWhen_valueComparedStrippedAndCaseInsensitively(self):
+        graph = self.makeGraph(src = {"handling": [(0, " SKIP ")]})
+        edit = FRB.RegFillMissing("z", "9")
+        edit.skipWhen = ("handling", "skip")
+        edit.edit(graph, None)
+
+        self.compareList(self.entries(graph), [("handling", " SKIP ")])
+
+    def test_edit_skipWhen_otherValue_stillFilled(self):
+        graph = self.makeGraph(src = {"handling": [(0, "skip_all")]})
+        edit = FRB.RegFillMissing("z", "9")
+        edit.skipWhen = ("handling", "skip")
+        edit.edit(graph, None)
+
+        self.compareList(self.entries(graph), [("handling", "skip_all"), ("z", "9")])
+
+    def test_edit_skipWhen_onlyTheSectionCarryingIt_isSkipped(self):
+        sections = {"a": FRB.IfTemplate([FRB.IfContentPart({"handling": [(0, "skip")]}, 0)], name = "a"),
+                    "b": FRB.IfTemplate([FRB.IfContentPart({"y": [(0, "2")]}, 0)], name = "b")}
+        graph = FRB.IniSectionGraph(sections, ["a", "b"])
+
+        edit = FRB.RegFillMissing("z", "9")
+        edit.skipWhen = ("handling", "skip")
+        edit.edit(graph, None)
+
+        self.compareList(self.entries(graph, "a"), [("handling", "skip")])
+        self.compareList(self.entries(graph, "b"), [("y", "2"), ("z", "9")])
+
     def test_onlyWhenAbsent_defaultsToFalse(self):
         self.assertFalse(FRB.RegFillMissing("z", "9").onlyWhenAbsent)
 

@@ -82,6 +82,9 @@ namespace AGRemapCore {
         // What a re-issued draw call draws. 3dmigoto works the count out itself.
         const std::string DrawIndexedAuto = "auto";
 
+        // A part that skips the draw: it draws nothing on the mod's own character, so it gets no draw call.
+        const std::string SkipHandling = "skip";
+
         // The mod objects every character of this shape has, whatever its drawn objects are.
         // The DRAWN ones are per character and arrive through GIMICharFixerConfig::drawnObjs.
         //
@@ -232,6 +235,13 @@ namespace AGRemapCore {
                             this->appendedSectionsInCopies = true;
                         }
                     }
+
+                    // head and body are told apart by a match_first_index following the shared 'ib'
+                    // hash, so 'ib' is the one index-qualified hash type here. Built before the blend
+                    // collector, whose part predicate it supplies, and the index edits, whose windows
+                    // it supplies.
+                    objFilter_ = std::make_unique<ObjFilter>(ctx_.modTypeHashes(), ctx_.modTypeIndices(),
+                                                              ObjFilter::KeySet{IbHashKey}, ctx_.version());
 
                     // buildObjMap FIRST -- it is what works out groupCount_, and both collectors
                     // below build one instance per group.
@@ -580,7 +590,9 @@ namespace AGRemapCore {
                         auto collect = std::make_unique<Collector>();
                         collect->srcRegs = {{blendGraph, BlendReg}};
                         collect->resEdits = {{IniKeywords::Blend, replace.get()}};
-                        collect->partPredicates = {{blendGraph, blendHashParts()}};
+                        // Whole-part accept/reject, not a sub-part window -- the qualifying hash and
+                        // the vb1 are in different sections. See RaidenFixer for why that matters.
+                        collect->partPredicates = {{blendGraph, objFilter_->hashTypeParts(BlendHashKey)}};
 
                         collect->trackKeysIsGlobal = false;
                         collect->trackKeys = {{blendGraph, true}};
@@ -623,36 +635,6 @@ namespace AGRemapCore {
                         positionReplaces_.push_back(std::move(replace));
                         positionCollects_.push_back(std::move(collect));
                     }
-                }
-
-                // Whole-part accept/reject, not a sub-part window -- the qualifying hash and the
-                // vb1 are in different sections. See RaidenFixer for why that matters.
-                Collector::PartPredicate blendHashParts() {
-                    return [this](const Collector::IterData& iterData) {
-                        const Collector::OrderRanges nothing(std::vector<Collector::OrderRanges::Range>{});
-                        if (iterData.colouring == nullptr) {
-                            return nothing;
-                        }
-
-                        Hashes* hashes = ctx_.modTypeHashes();
-                        if (hashes == nullptr) {
-                            return nothing;
-                        }
-
-                        std::optional<Version> version = ctx_.version();
-
-                        for (const auto& hashVal : iterData.colouring->getIndVals(IniKeywords::Hash)) {
-                            std::optional<std::vector<std::string>> hashKeyRow =
-                                hashes->getKey(hashVal.second, version,
-                                                std::vector<std::optional<std::string>>{}, false);
-
-                            if (hashKeyRow.has_value() && !hashKeyRow->empty() && hashKeyRow->back() == BlendHashKey) {
-                                return Collector::OrderRanges::createFull();
-                            }
-                        }
-
-                        return nothing;
-                    };
                 }
 
                 /**
@@ -755,12 +737,6 @@ namespace AGRemapCore {
                     const std::optional<Version> toVersion =
                         (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
 
-                    // head and body are told apart by a match_first_index following the shared 'ib'
-                    // hash, so 'ib' is the one index-qualified hash type here. Built up here because
-                    // buildIndexEdits, called below, is the only thing that reads it.
-                    objFilter_ = std::make_unique<ObjFilter>(ctx_.modTypeHashes(), ctx_.modTypeIndices(),
-                                                              ObjFilter::KeySet{IbHashKey}, ctx_.version());
-
                     // 1. Drop the mod's own calls into the external ORFix library. Both halves go:
                     //    the fix re-issues NNFix itself below, in the one place it belongs, and
                     //    ORFix has no equivalent re-issue.
@@ -860,14 +836,8 @@ namespace AGRemapCore {
                     //    of an Ayaka mod's dress.
                     fillDrawIndexed_ = std::make_unique<RegFillMissing<>>(
                         IniKeywords::DrawIndexed,
-                        [](RegFillMissing<>::ContentPart& part) {
-                            for (const std::string& handling : part.getVals(IniKeywords::Handling)) {
-                                if (StringTools::equalsIgnoreCase(StringTools::strip(handling), "skip")) {
-                                    return;
-                                }
-                            }
-                            part.addKVP(IniKeywords::DrawIndexed, DrawIndexedAuto);
-                        });
+                        RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed, DrawIndexedAuto));
+                    fillDrawIndexed_->skipWhen = std::make_pair(IniKeywords::Handling, SkipHandling);
 
                     // 4. Re-issuing the external libraries is per object now -- see the
                     //    objFixCalls loop below, which builds one RegDelimitedAdd per call. The rule

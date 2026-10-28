@@ -52,6 +52,7 @@ from .test_StrategyOverrides import StrategyOverridesTest
 from .test_GIMICharBuilders import GIMICharBuildersTest
 from .test_GIMIComponentBuilders import GIMIComponentBuildersTest
 from .test_GIMISectionClassifier import GIMISectionClassifierTest
+from .test_GIMIObjPartFilter import GIMIObjPartFilterTest
 from .test_BaseIniParser import BaseIniParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
 from .test_BaseIniGraphEdit import BaseIniGraphEditTest
@@ -188,7 +189,7 @@ __all__ += ["FileStatsTest", "CachedFileStatsTest", "RemapStatsTest", "FileDownl
 __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "RemapIniGroupedResourceTest"]
 __all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest", "RemapFileAddResourceTest"]
 __all__ += ["IniGraphGroupTest"]
-__all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
+__all__ += ["BaseIniParserTest", "GIMISectionClassifierTest", "GIMIObjPartFilterTest"]
 __all__ += ["IniParseBuilderTest", "IniFixBuilderTest", "IniRemoveBuilderTest"]
 __all__ += ["StrategyOverridesTest"]
 __all__ += ["GIMICharBuildersTest"]

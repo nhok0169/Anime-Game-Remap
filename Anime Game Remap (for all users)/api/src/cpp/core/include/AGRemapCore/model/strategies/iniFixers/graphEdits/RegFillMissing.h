@@ -237,6 +237,36 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A `KVP`_ that keeps a part from being filled: a part already carrying this key with this
+             value is left as it is, in every \ref fillMode :raw-html:`<br />` :raw-html:`<br />`
+
+             The usual one is ``handling = skip``: a part that tells 3dmigoto to skip the draw draws nothing
+             on the mod's own character, so it is given no ``drawindexed`` either. For ``std::string``
+             values the part's value is compared stripped of whitespace and case-insensitively, as
+             3dmigoto reads it; any other ``V`` is compared with ``==`` :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``std::nullopt``, every missing part is filled
+             @endrst
+             */
+            std::optional<std::pair<K, V>> skipWhen;
+
+            /**
+             * @brief
+             @rst
+             Whether 'part' carries 'kvp' -- the test \ref skipWhen makes: its key with a value equal to
+             the `KVP`_'s, stripped and case-insensitively for ``std::string`` values
+             @endrst
+             *
+             * @param part The part to inspect
+             * @param kvp The key and value to look for
+             *
+             * @return Whether the part carries the `KVP`_
+             */
+            static bool partHasKVP(const ContentPart& part, const std::pair<K, V>& kvp);
+
+            /**
+             * @brief
+             @rst
              Whether the editing is dependent on :cpp:member:`IniFile::downloadMode` -- see
              \ref editFromIni :raw-html:`<br />` :raw-html:`<br />`
 

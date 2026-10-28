@@ -256,6 +256,29 @@ section that draws on some of them (an ``if`` / ``else if`` chain with no ``else
 included. ``FillMissing`` is not affected. **Default**: ``False``
     )doc"));
 
+    cls.def_property("skipWhen", [](const PyRegFillMissing &self) -> py::object {
+        if (!self.skipWhen.has_value()) {
+            return py::none();
+        }
+        return py::make_tuple(py::str(self.skipWhen->first), py::str(self.skipWhen->second));
+    }, [](PyRegFillMissing &self, const py::object &skipWhen) {
+        if (skipWhen.is_none()) {
+            self.skipWhen = std::nullopt;
+            return;
+        }
+
+        py::sequence kvp = skipWhen.cast<py::sequence>();
+        if (kvp.size() != 2) {
+            throw py::type_error("'skipWhen' must be a (key, value) tuple or None");
+        }
+        self.skipWhen = std::make_pair(py::str(kvp[0]).cast<std::string>(), py::str(kvp[1]).cast<std::string>());
+    }, py::doc(R"doc(
+Optional[Tuple[:class:`str`, :class:`str`]]: A `KVP`_ that keeps a part from being filled -- a part already
+carrying this key with this value (compared stripped and case-insensitively, as 3dmigoto reads it) is left
+as it is, in every :attr:`fillMode`. The usual one is ``("handling", "skip")``: a part that skips the draw
+draws nothing on the mod's own character, so it is given no ``drawindexed`` either. **Default**: ``None``
+    )doc"));
+
     cls.def_property("trackKeys", [](const PyRegFillMissing &self) {
         return self.trackKeys;
     }, [](PyRegFillMissing &self, bool trackKeys) {

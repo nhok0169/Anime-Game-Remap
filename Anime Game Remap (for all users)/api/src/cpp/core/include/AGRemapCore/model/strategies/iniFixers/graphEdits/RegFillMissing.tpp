@@ -18,6 +18,7 @@
 #include <memory>
 #include <optional>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -59,6 +60,23 @@ namespace AGRemapCore {
                 part.addKVPs(kvps);
             }
         };
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    bool RegFillMissing<K, V, KeyHash, KeyEqual>::partHasKVP(const ContentPart& part, const std::pair<K, V>& kvp) {
+        for (const V& val : part.getVals(kvp.first)) {
+            if constexpr (std::is_same_v<V, std::string>) {
+                if (StringTools::equalsIgnoreCase(StringTools::strip(val), kvp.second)) {
+                    return true;
+                }
+            } else {
+                if (val == kvp.second) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -542,12 +560,22 @@ namespace AGRemapCore {
         }
         const std::unordered_set<std::string>* skip = skipRoots.empty() ? nullptr : &skipRoots;
 
+        // A part carrying skipWhen's KVP is never handed to the filler.
+        FillMissingFunc fill = fillMissing;
+        if (skipWhen.has_value() && fill) {
+            fill = [inner = fillMissing, kvp = *skipWhen](ContentPart& part) {
+                if (!partHasKVP(part, kvp)) {
+                    inner(part);
+                }
+            };
+        }
+
         if (fillMode == RegFillMissingMode::TopdownCover) {
-            addCover(graph, reg, fillMissing, selection, skip);
+            addCover(graph, reg, fill, selection, skip);
         } else if (fillMode == RegFillMissingMode::BottomCover) {
-            addBottomCover(graph, reg, fillMissing, selection, skip);
+            addBottomCover(graph, reg, fill, selection, skip);
         } else if (fillMode == RegFillMissingMode::FillMissing) {
-            fillMissingGraph(graph, reg, fillMissing, selection);
+            fillMissingGraph(graph, reg, fill, selection);
         }
 
         return graph;

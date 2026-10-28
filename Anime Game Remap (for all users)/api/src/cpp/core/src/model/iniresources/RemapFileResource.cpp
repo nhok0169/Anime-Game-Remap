@@ -68,6 +68,10 @@ namespace AGRemapCore {
             logger->log("Creating " + FileService::pathToStr(FileService::strToPath(srcPath).filename()));
         }
 
+        if (makeBytes) {
+            bytes = makeBytes();
+        }
+
         if (fixFunc) {
             return fixFunc(*this);
         }

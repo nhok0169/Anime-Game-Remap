@@ -64,6 +64,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BufRestrideEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileAddEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/FileDownloadEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
@@ -78,6 +79,7 @@
 #include "AGRemapCore/tools/DownloadTools.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
+#include "AGRemapCore/tools/z3/Z3Context.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/tools/files/FileService.h"
 
@@ -461,6 +463,7 @@ namespace AGRemapCore {
                     buildBandEdits();
                     buildObjEdits();
                     buildFallbacks();
+                    buildExtras();
 
                     this->graphGroupEdits.clear();
                     for (auto& edit : preRemapEdits_) {
@@ -474,6 +477,9 @@ namespace AGRemapCore {
                         this->graphGroupEdits.push_back(edit.get());
                     }
                     for (auto& edit : crossEdits_) {
+                        this->graphGroupEdits.push_back(edit.get());
+                    }
+                    for (auto& edit : extrasEdits_) {
                         this->graphGroupEdits.push_back(edit.get());
                     }
 
@@ -790,6 +796,12 @@ namespace AGRemapCore {
 
                 // ---- the fallbacks: the source's game texture of a role the mod recolours by no hash ----
                 std::string fallbackName(const std::string& role) const {
+                    return dlName(capitalised(role));
+                }
+
+                // `<target component>RemapDL<thing><.ini stem>`: one name per .ini file, as two .ini files in one
+                // folder writing the same file would have an undo of one delete the other's
+                std::string dlName(const std::string& thing) const {
                     std::string stem;
                     const std::optional<std::string>& file = ctx_.getIniFile()->getFile();
                     if (file.has_value()) {
@@ -802,11 +814,15 @@ namespace AGRemapCore {
                             }
                         }
                     }
-                    return toModName_ + IniKeywords::RemapDL + capitalised(role) + stem;
+                    return toModName_ + IniKeywords::RemapDL + thing + stem;
                 }
 
                 bool drawsComponent() const {
-                    const std::optional<std::string> ib = hashOf(srcName(), "ib");
+                    return draws(comp_.name);
+                }
+
+                bool draws(const std::string& compName) const {
+                    const std::optional<std::string> ib = hashOf(config_.source + compName, "ib");
                     if (!ib.has_value()) {
                         return false;
                     }
@@ -845,6 +861,342 @@ namespace AGRemapCore {
                 }
 
                 using FixSection = GraphCreate<>::Graph::Section;
+
+                // ---- 6. THE EXTRAS: the source's extra objects, the frozen buffers and their pass filters ----
+
+                std::unique_ptr<IfTemplatePart> pred(const std::string& src, IfPredPartType type) {
+                    return std::make_unique<IfPredPart>(src, type, templateZ3_);
+                }
+
+                static std::unique_ptr<IfTemplatePart> kvps(std::vector<std::pair<std::string, std::string>> entries, int depth) {
+                    return std::make_unique<IfContentPart<std::string, std::string>>(entries, depth);
+                }
+
+                FixSection* keepTemplate(std::vector<std::unique_ptr<IfTemplatePart>> parts) {
+                    fallbackSections_.push_back(std::make_unique<FixSection>(std::move(parts), runConfig(), ""));
+                    return fallbackSections_.back().get();
+                }
+
+                std::string downloadUrl(const std::string& kind, const std::string& ext) const {
+                    return DownloadTools::downloadFolder() + "/" + DownloadTools::urlPath(
+                        config_.downloadGameFolder, config_.downloadCharFolder, config_.downloadVersionFolder, config_.source, kind, ext);
+                }
+
+                // ResRegCollect + a resource edit over one register of some graphs, for the names 'names' only
+                void collectNames(const std::vector<GraphId>& graphs, const std::string& reg, std::set<std::string> names, BaseResEdit<>* edit) {
+                    auto collect = std::make_unique<Collector>();
+                    const Collector::ResPredicate named = [names](const std::string&, const std::string& val, const Collector::IterData&) {
+                        return names.count(removeRef(val)) > 0;
+                    };
+                    for (const GraphId& graph : graphs) {
+                        collect->srcRegs[graph] = reg;
+                        collect->resPredicates[graph] = named;
+                    }
+                    collect->resEdits = {{"extra", edit}};
+                    extrasEdits_.push_back(std::move(collect));
+                }
+
+                void buildExtras() {
+                    if (ctx_.getIniFile() == nullptr || !drawsComponent()) {
+                        return;
+                    }
+                    const bool frozen = buildFrozenBuffers();
+                    const bool extra = buildExtraObjects();
+
+                    // the pass filters, once per .ini file: by the first component that needs them and that the mod draws
+                    const ZZMIFixerConfig::Component* owner = nullptr;
+                    for (const ZZMIFixerConfig::Component& c : config_.components) {
+                        if ((!c.extraObjects.empty() || !c.frozenBuffers.empty()) && draws(c.name)) {
+                            owner = &c;
+                            break;
+                        }
+                    }
+                    if (owner == nullptr || owner->name != comp_.name || config_.passFilters.empty() || !(frozen || extra)) {
+                        return;
+                    }
+                    std::unordered_map<std::string, FixSection*> sections;
+                    std::vector<std::string> names;
+                    for (const ZZMIFixerConfig::PassFilter& filter : config_.passFilters) {
+                        const std::string name = "ShaderOverride" + config_.target + IniKeywords::Remap + filter.label;
+                        fallbackSections_.push_back(makeSection(name, {{IniKeywords::Hash, filter.shaderHash}, {"filter_index", filter.filterIndex}}));
+                        sections[name] = fallbackSections_.back().get();
+                        names.push_back(name);
+                    }
+                    extraGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(sections, names, runConfig()));
+                    extrasEdits_.push_back(std::make_unique<GraphCreate<>>(GraphId(0, "", comp_.name + "_passFilters"), extraGraphs_.back().get()));
+                }
+
+                // Each frozen buffer bound per pass at the top of every drawn copy:
+                //   if ps == <pass 1>  / <reg> = <its copy>  / else if ps == <pass 2> / ... / endif
+                bool buildFrozenBuffers() {
+                    if (comp_.frozenBuffers.empty()) {
+                        return false;
+                    }
+                    std::vector<GraphId> slotGraphs;
+                    for (const ZZMIFixerConfig::Slot& slot : comp_.slots) {
+                        slotGraphs.emplace_back(0, "", comp_.name + "_" + slot.name);
+                    }
+                    ObjGroupEdit::IniEdits adds;
+                    std::unordered_map<std::string, FileDownloadCreate<>::File> files;
+                    for (const ZZMIFixerConfig::FrozenBuffer& buffer : comp_.frozenBuffers) {
+                        std::vector<std::unique_ptr<IfTemplatePart>> parts;
+                        std::set<std::string> names;
+                        for (std::size_t i = 0; i < buffer.perPass.size(); ++i) {
+                            const std::string name = dlName(buffer.perPass[i].second);
+                            const std::string resource = IniKeywords::Resource + name;
+                            parts.push_back(pred((i == 0 ? "if ps == " : "else if ps == ") + buffer.perPass[i].first,
+                                                 i == 0 ? IfPredPartType::If : IfPredPartType::Elif));
+                            parts.push_back(kvps({{buffer.reg, resource}}, 1));
+                            FileDownloadCreate<>::File file;
+                            file.keys = {{IniKeywords::Type, "Buffer"}};
+                            file.file = name + ".buf";
+                            file.url = downloadUrl(buffer.perPass[i].second, ".buf");
+                            files[resource] = std::move(file);
+                            names.insert(resource);
+                        }
+                        parts.push_back(pred("endif", IfPredPartType::EndIf));
+                        templateAdds_.push_back(std::make_unique<RegIfTemplateAdd<>>(keepTemplate(std::move(parts)),
+                            RegIfTemplateAdd<>::Position::AfterKey, IniKeywords::MatchFirstIndex));
+                        partEdits_.push_back(std::make_unique<GraphPartEdit<>>(templateAdds_.back().get()));
+                        for (const GraphId& graph : slotGraphs) {
+                            adds.edits[graph.modObj].push_back(partEdits_.back().get());
+                        }
+                        frozenNames_.push_back(names);
+                        frozenRegs_.push_back(buffer.reg);
+                    }
+                    extrasEdits_.push_back(std::make_unique<ObjGroupEdit>(std::vector<ObjGroupEdit::IniEdits>{adds}));
+                    for (std::size_t i = 0; i < frozenRegs_.size(); ++i) {
+                        std::unordered_map<std::string, FileDownloadCreate<>::File> subset;
+                        for (const std::string& name : frozenNames_[i]) {
+                            subset[name] = files[name];
+                        }
+                        resEdits_.push_back(std::make_unique<FileDownloadCreate<>>(
+                            GraphId(0, "", comp_.name + "_frozenDL" + std::to_string(i)), subset, resEditConfig()));
+                        collectNames(slotGraphs, frozenRegs_[i], frozenNames_[i], resEdits_.back().get());
+                    }
+                    return true;
+                }
+
+                // The mod's own sections on an extra object's ib, as parts that clear 'var' where they skip it.
+                // None when a section skips it with no condition, or draws geometry of its own there
+                std::optional<std::vector<std::unique_ptr<IfTemplatePart>>> gatesOf(const std::string& ibHash, const std::string& var) {
+                    std::vector<std::unique_ptr<IfTemplatePart>> gates;
+                    for (const Template* tpl : own_) {
+                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                        if (!hash.has_value() || !StringTools::equalsIgnoreCase(*hash, ibHash)) {
+                            continue;
+                        }
+                        if (valOf(*tpl, IniKeywords::Ib).has_value() || valOf(*tpl, IniKeywords::DrawIndexed).has_value()) {
+                            ctx_.log("the mod draws its own " + ibHash + ": the game's object is not added");
+                            return std::nullopt;
+                        }
+                        for (const auto& part : tpl->parts()) {
+                            if (const auto* p = dynamic_cast<const IfPredPart*>(part.get())) {
+                                gates.push_back(pred(p->src, p->type));
+                                continue;
+                            }
+                            const auto* content = dynamic_cast<const IfContentPart<std::string, std::string>*>(part.get());
+                            if (content == nullptr) {
+                                continue;
+                            }
+                            for (const auto& kv : content->entries()) {
+                                if (!StringTools::equalsIgnoreCase(std::string(StringTools::strip(kv.first)), IniKeywords::Handling)
+                                        || !StringTools::equalsIgnoreCase(std::string(StringTools::strip(kv.second)), "skip")) {
+                                    continue;
+                                }
+                                if (content->depth() == 0) {
+                                    return std::nullopt;
+                                }
+                                gates.push_back(kvps({{var, "0"}}, content->depth()));
+                            }
+                        }
+                    }
+                    return gates;
+                }
+
+                // The source's extra objects: pre-skinned after the mod's mesh (stream-out APPENDS, so they land at
+                // vertex N, the mod's vertex count), the vertex limit raised by their count, and drawn first in the
+                // component's first object copy -- before the mod's own bindings, so they read the game's textures
+                // (and any recolour of them) -- with base vertex N and a texcoord padded with N empty entries
+                bool buildExtraObjects() {
+                    if (comp_.extraObjects.empty() || comp_.slots.empty() || config_.passFilters.empty()) {
+                        return false;
+                    }
+                    const std::optional<std::string> drawVb = hashOf(srcName(), "draw_vb");
+                    const std::optional<std::string> ib = hashOf(srcName(), "ib");
+                    std::optional<std::size_t> n;
+                    std::vector<std::string> drawn;
+                    for (const Template* tpl : own_) {
+                        const std::optional<std::string> hash = valOf(*tpl, IniKeywords::Hash);
+                        if (!hash.has_value()) {
+                            continue;
+                        }
+                        if (drawVb.has_value() && StringTools::equalsIgnoreCase(*hash, *drawVb) && !n.has_value()) {
+                            const std::optional<std::string> count = valOf(*tpl, "override_vertex_count");
+                            if (count.has_value()) {
+                                n = static_cast<std::size_t>(std::atoll(count->c_str()));
+                            }
+                        }
+                        const std::optional<std::string> first = valOf(*tpl, IniKeywords::MatchFirstIndex);
+                        if (ib.has_value() && StringTools::equalsIgnoreCase(*hash, *ib) && first.has_value()
+                                && std::string(StringTools::strip(*first)) == comp_.slots.front().srcIndex) {
+                            drawn.push_back(tpl->name);
+                        }
+                    }
+                    if (!n.has_value() || drawn.empty()) {
+                        ctx_.log("no " + comp_.name + " object / vertex limit section to add the extra objects to");
+                        return false;
+                    }
+                    std::sort(drawn.begin(), drawn.end(), [](const std::string& a, const std::string& b) { return lowered(a) < lowered(b); });
+                    const std::string into = orderedName(drawn.front(), IniNamingTools::getRemapFixName(drawn.front(), toModName_));
+
+                    std::string passes;
+                    for (const ZZMIFixerConfig::PassFilter& filter : config_.passFilters) {
+                        passes += (passes.empty() ? "" : " || ") + std::string("ps == ") + filter.filterIndex;
+                    }
+                    const std::string bak = IniKeywords::Resource + toModName_ + IniKeywords::Remap + "Vb1Bak";
+                    const std::string pad = IniKeywords::Resource + dlName("AccessoryTexcoord");
+
+                    std::vector<std::pair<std::string, std::string>> preSkin, locals;
+                    std::vector<std::unique_ptr<IfTemplatePart>> draws;
+                    std::unordered_map<std::string, FileDownloadCreate<>::File> files;
+                    std::set<std::string> positions, texcoords, blends, ibs;
+                    std::vector<std::string> texcoordFiles;
+                    std::size_t base = *n;
+                    for (const ZZMIFixerConfig::ExtraObject& object : comp_.extraObjects) {
+                        const std::string var = "$remap" + lowered(object.name);
+                        std::optional<std::vector<std::unique_ptr<IfTemplatePart>>> gates = gatesOf(object.ibHash, var);
+                        if (!gates.has_value()) {
+                            continue;
+                        }
+                        const auto file = [this, &files, &object](const std::string& kind, const std::string& ext,
+                                                                   std::vector<std::pair<std::string, std::string>> keys) {
+                            const std::string name = dlName(object.name + kind);
+                            FileDownloadCreate<>::File f;
+                            f.keys = std::move(keys);
+                            f.file = name + ext;
+                            f.url = downloadUrl(object.name + (kind == "IB" ? "A" : kind), ext);
+                            files[IniKeywords::Resource + name] = std::move(f);
+                            return IniKeywords::Resource + name;
+                        };
+                        const std::string position = file("Position", ".buf", {{IniKeywords::Type, "Buffer"}, {IniKeywords::Stride, "40"}});
+                        const std::string blend = file("Blend", ".buf", {{IniKeywords::Type, "Buffer"}, {IniKeywords::Stride, "32"}});
+                        const std::string texcoord = file("Texcoord", ".buf", {{IniKeywords::Type, "Buffer"}, {IniKeywords::Stride, "20"}});
+                        const std::string ibRes = file("IB", ".ib", {{IniKeywords::Type, "Buffer"}, {"format", "DXGI_FORMAT_R32_UINT"}});
+                        positions.insert(position);
+                        blends.insert(blend);
+                        texcoords.insert(texcoord);
+                        ibs.insert(ibRes);
+                        texcoordFiles.push_back(files[texcoord].file);
+
+                        preSkin.insert(preSkin.end(), {{IniKeywords::Vb0, position}, {IniKeywords::Vb1, texcoord}, {"vb2", blend},
+                                                       {IniKeywords::Draw, std::to_string(object.vertexCount) + ", 0"}});
+                        locals.emplace_back("local " + var, "");
+                        draws.push_back(kvps({{var, "1"}}, 1));
+                        for (auto& gate : *gates) {
+                            if (auto* content = dynamic_cast<IfContentPart<std::string, std::string>*>(gate.get())) {
+                                content->setDepth(content->depth() + 1);
+                            }
+                            draws.push_back(std::move(gate));
+                        }
+                        draws.push_back(pred("if " + var + " == 1", IfPredPartType::If));
+                        draws.push_back(kvps({{IniKeywords::Ib, ibRes}, {IniKeywords::DrawIndexed, std::to_string(object.indexCount) + ", 0, " + std::to_string(base)}}, 2));
+                        draws.push_back(pred("endif", IfPredPartType::EndIf));
+                        base += object.vertexCount;
+                    }
+                    if (preSkin.empty()) {
+                        return false;
+                    }
+                    // a mod runs its pre-skin pass from its Blend section or from its Position one (Miyabi11): the
+                    // template goes after the `draw` of whichever has it
+                    const GraphId blendGraph(0, "", comp_.name + "_blend");
+                    const GraphId positionGraph(0, "", comp_.name + "_position");
+                    const GraphId objGraph(0, "", comp_.name + "_" + comp_.slots.front().name);
+                    const GraphId limitGraph(0, "", comp_.name + "_vertexlimit");
+
+                    // the pre-skin: after the mod's mesh, inside its DRAW_TYPE test
+                    std::vector<std::unique_ptr<IfTemplatePart>> preParts;
+                    preParts.push_back(kvps(preSkin, 0));
+                    templateAdds_.push_back(std::make_unique<RegIfTemplateAdd<>>(keepTemplate(std::move(preParts)),
+                        RegIfTemplateAdd<>::Position::AfterKey, IniKeywords::Draw));
+                    partEdits_.push_back(std::make_unique<GraphPartEdit<>>(templateAdds_.back().get()));
+                    GroupPartEdit* addPreSkin = partEdits_.back().get();
+
+                    // the vertex limit, raised by their count
+                    const std::size_t was = *n;
+                    const std::size_t raised = base;
+                    regEdits_.push_back(std::make_unique<RegNewVals<>>(std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
+                        {"override_vertex_count", RegNewVals<>::NewVal(RegNewVals<>::OldValProducer(
+                            [was, raised](const std::string& old, const ModType*) {
+                                return std::string(StringTools::strip(old)) == std::to_string(was) ? std::to_string(raised) : old;
+                            }))}}));
+                    partEdits_.push_back(std::make_unique<RegPartEdit<>>(regEdits_.back().get()));
+                    GroupPartEdit* raise = partEdits_.back().get();
+
+                    // the draws, first in the object copy, in the passes the game draws them in
+                    std::vector<std::unique_ptr<IfTemplatePart>> drawParts;
+                    drawParts.push_back(kvps(locals, 0));
+                    drawParts.push_back(pred("if " + passes, IfPredPartType::If));
+                    drawParts.push_back(kvps({{bak, "ref vb1"}, {IniKeywords::Vb1, pad}}, 1));
+                    for (auto& part : draws) {
+                        drawParts.push_back(std::move(part));
+                    }
+                    drawParts.push_back(kvps({{IniKeywords::Vb1, bak}}, 1));
+                    drawParts.push_back(pred("endif", IfPredPartType::EndIf));
+                    templateAdds_.push_back(std::make_unique<RegIfTemplateAdd<>>(keepTemplate(std::move(drawParts)),
+                        RegIfTemplateAdd<>::Position::AfterKey, IniKeywords::MatchFirstIndex));
+                    partEdits_.push_back(std::make_unique<GraphPartEdit<>>(templateAdds_.back().get()));
+
+                    ObjGroupEdit::IniEdits edits;
+                    edits.edits[blendGraph.modObj] = {addPreSkin};
+                    edits.edits[positionGraph.modObj] = {addPreSkin};
+                    edits.edits[limitGraph.modObj] = {raise};
+                    edits.edits[objGraph.modObj] = {partEdits_.back().get()};
+                    edits.keyFilters[objGraph.modObj] = {[into](const ObjGroupEdit::IterData& data, const ModType*, IniFile*) {
+                        return data.sectionName == into ? ObjGroupEdit::OrderRanges::createFull() : ObjGroupEdit::OrderRanges::createEmpty();
+                    }};
+                    extrasEdits_.push_back(std::make_unique<ObjGroupEdit>(std::vector<ObjGroupEdit::IniEdits>{edits}));
+
+                    // the files: the downloads, the texcoord padded with N empty entries (made from the downloaded
+                    // texcoords when it is written), and the empty section the vb1 backup goes in
+                    // one resource edit per collect: an edit a collect has built through does not serve another
+                    const auto downloadsOf = [this, &files](const std::string& kind, const std::set<std::string>& names) {
+                        std::unordered_map<std::string, FileDownloadCreate<>::File> subset;
+                        for (const std::string& name : names) {
+                            subset[name] = files[name];
+                        }
+                        resEdits_.push_back(std::make_unique<FileDownloadCreate<>>(GraphId(0, "", comp_.name + "_extraDL" + kind), subset, resEditConfig()));
+                        return resEdits_.back().get();
+                    };
+                    collectNames({blendGraph, positionGraph}, IniKeywords::Vb0, positions, downloadsOf("Position", positions));
+                    collectNames({blendGraph, positionGraph}, IniKeywords::Vb1, texcoords, downloadsOf("Texcoord", texcoords));
+                    collectNames({blendGraph, positionGraph}, "vb2", blends, downloadsOf("Blend", blends));
+                    collectNames({objGraph}, IniKeywords::Ib, ibs, downloadsOf("IB", ibs));
+
+                    const std::string folder = ctx_.getIniFile()->getFolder();
+                    FileAddCreate<>::File padFile;
+                    padFile.keys = {{IniKeywords::Type, "Buffer"}, {IniKeywords::Stride, "20"}};
+                    padFile.file = dlName("AccessoryTexcoord") + ".buf";
+                    padFile.makeBytes = [folder, was, texcoordFiles]() {
+                        std::vector<std::uint8_t> bytes(was * 20, 0);
+                        for (const std::string& f : texcoordFiles) {
+                            std::ifstream in(FileService::strToPath(FileService::absPathOfRelPath(f, folder)), std::ios::binary);
+                            bytes.insert(bytes.end(), std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+                        }
+                        return bytes;
+                    };
+                    resEdits_.push_back(std::make_unique<FileAddCreate<>>(GraphId(0, "", comp_.name + "_extraPad"),
+                        std::unordered_map<std::string, FileAddCreate<>::File>{{pad, std::move(padFile)}}, resEditConfig()));
+                    collectNames({objGraph}, IniKeywords::Vb1, {pad}, resEdits_.back().get());
+
+                    std::unordered_map<std::string, FixSection*> bakSection;
+                    fallbackSections_.push_back(makeSection(bak, {}));
+                    bakSection[bak] = fallbackSections_.back().get();
+                    extraGraphs_.push_back(std::make_unique<GraphCreate<>::Graph>(bakSection, std::vector<std::string>{bak}, runConfig()));
+                    extrasEdits_.push_back(std::make_unique<GraphCreate<>>(GraphId(0, "", comp_.name + "_extraBak"), extraGraphs_.back().get()));
+                    return true;
+                }
+
 
                 // One section the fix writes itself
                 std::unique_ptr<FixSection> makeSection(const std::string& name, const std::vector<std::pair<std::string, std::string>>& kvps) {
@@ -1252,9 +1604,16 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<BaseRegEdit<>>> regEdits_;
                 std::vector<std::unique_ptr<GraphRename<>>> renames_;
                 std::vector<std::unique_ptr<GroupPartEdit>> partEdits_;
+                // before every section holding a predicate parsed under it: members are destroyed in reverse order
+                Z3Context templateZ3_;
                 std::vector<std::unique_ptr<FixSection>> fallbackSections_;
                 std::unique_ptr<GraphCreate<>::Graph> fallbackGraph_;
                 std::unique_ptr<GraphCreate<>::Graph> rawGraph_;
+                std::vector<std::unique_ptr<Fixer::GroupEdit>> extrasEdits_;
+                std::vector<std::unique_ptr<GraphCreate<>::Graph>> extraGraphs_;
+                std::vector<std::unique_ptr<RegIfTemplateAdd<>>> templateAdds_;
+                std::vector<std::set<std::string>> frozenNames_;
+                std::vector<std::string> frozenRegs_;
                 std::vector<std::unique_ptr<RegIfTemplateAdd<>>> defaultAdds_;
         };
     }

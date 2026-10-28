@@ -15,6 +15,7 @@
 // ##### EndCredits
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -84,6 +85,16 @@ namespace AGRemapCore {
                  * @brief The file's contents
                  */
                 std::vector<std::uint8_t> bytes;
+
+                /**
+                 * @brief
+                 @rst
+                 The contents computed when the file is written -- see
+                 :cpp:member:`RemapFileAddResource::makeBytes` (a buffer made from files the run downloads
+                 first). Set, it replaces ef bytes. **Default**: empty
+                 @endrst
+                 */
+                std::function<std::vector<std::uint8_t>()> makeBytes;
             };
 
             /**

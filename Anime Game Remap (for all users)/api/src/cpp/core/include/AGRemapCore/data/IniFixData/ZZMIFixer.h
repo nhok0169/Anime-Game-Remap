@@ -98,6 +98,78 @@ namespace AGRemapCore {
         };
 
         /**
+         * @brief
+         @rst
+         An object the SOURCE's game draws only for its own outfit -- an accessory with an ib of its own --
+         which the target never draws, so a mod on the target lost it. It is downloaded in its component's
+         layout, pre-skinned after the mod's mesh on the component's pre-skin pass, and drawn from the
+         component's first object section; a mod that skips its ib (``handling = skip``, under its own
+         toggle or not) skips it there too
+         @endrst
+         */
+        struct ExtraObject {
+            /**
+             * @brief The object's name in the download folder, after the source's: ``<source><name>Position.buf`` ...
+             */
+            std::string name;
+
+            /**
+             * @brief The ib the source's game draws it with -- the hash a mod skips it by
+             */
+            std::string ibHash;
+
+            /**
+             * @brief Its vertex count
+             */
+            std::size_t vertexCount = 0;
+
+            /**
+             * @brief Its index count
+             */
+            std::size_t indexCount = 0;
+        };
+
+        /**
+         * @brief
+         @rst
+         A register the TARGET's draw fills with values no texture can stand in for, bound instead to a
+         frozen copy of the SOURCE's (a downloaded ``.buf``), one per pass -- eg. the stocking material of a
+         ZZZ character's ``ps-cb3``. The copy pins whatever the source's values were when it was dumped
+         @endrst
+         */
+        struct FrozenBuffer {
+            /**
+             * @brief The register, eg. ``"ps-cb3"``
+             */
+            std::string reg;
+
+            /**
+             * @brief Per pass: the pass filter's ``filter_index`` and the downloaded file's name after the source's
+             */
+            std::vector<std::pair<std::string, std::string>> perPass;
+        };
+
+        /**
+         * @brief A pixel shader told apart by a ``filter_index`` -- the passes extra objects and frozen buffers belong to
+         */
+        struct PassFilter {
+            /**
+             * @brief Names its ``[ShaderOverride...]`` section
+             */
+            std::string label;
+
+            /**
+             * @brief The pixel shader's hash
+             */
+            std::string shaderHash;
+
+            /**
+             * @brief The ``filter_index`` it is given
+             */
+            std::string filterIndex;
+        };
+
+        /**
          * @brief One source component and the target component it is remapped onto
          */
         struct Component {
@@ -151,6 +223,16 @@ namespace AGRemapCore {
              @endrst
              */
             std::map<int, int> bandMoves;
+
+            /**
+             * @brief The source's objects this component draws that the target never draws -- see :cpp:class:`ExtraObject`
+             */
+            std::vector<ExtraObject> extraObjects;
+
+            /**
+             * @brief The registers bound to a frozen copy of the source's -- see :cpp:class:`FrozenBuffer`
+             */
+            std::vector<FrozenBuffer> frozenBuffers;
         };
 
         /**
@@ -201,6 +283,16 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<std::pair<std::string, std::string>> crossSlotDraws;
+
+        /**
+         * @brief
+         @rst
+         The passes :cpp:member:`Component::extraObjects` and :cpp:member:`Component::frozenBuffers` are
+         drawn and bound in, by ``if ps == <filter_index>``. Their ``[ShaderOverride...]`` sections are
+         written once per ``.ini`` file, by the first component that needs them and that the mod draws
+         @endrst
+         */
+        std::vector<PassFilter> passFilters;
 
         /**
          * @brief The download folders of the source's game textures (the fallbacks): game, character and version

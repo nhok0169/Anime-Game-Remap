@@ -65,6 +65,16 @@ namespace AGRemapCore {
              */
             std::function<bool(RemapFileAddResource&)> fixFunc;
 
+            /**
+             * @brief
+             @rst
+             The file's contents computed when it is WRITTEN rather than when the resource is built --
+             eg. a buffer made from files the same run downloads first. Set, its result replaces #bytes
+             at the start of #fix. **Default**: empty, #bytes as given
+             @endrst
+             */
+            std::function<std::vector<std::uint8_t>()> makeBytes;
+
             bool srcEncounteredError(const RemapStats& stats) const override;
             bool srcIsFixed(const RemapStats& stats) const override;
             bool fixEncounteredError(const RemapStats& stats) const override;

@@ -1037,7 +1037,9 @@ def addExtras(folder):
             part = block[hb[0]:hb[1]]
             secs = list(SectionRe.finditer(part))
             lim = next((m for m in secs if hasHash(m.group(2), hair["draw_vb"])), None)
-            pre = next((m for m in secs if hasHash(m.group(2), hair["blend_vb"])), None)
+            # the pre-skin pass runs from the Blend section or from the Position one (Miyabi11): whichever has the `draw`
+            pre = next((m for m in secs if (hasHash(m.group(2), hair["blend_vb"]) or hasHash(m.group(2), hair["position_vb"]))
+                        and re.search(r"^\s*draw\s*=", m.group(2), re.M)), None)
             obj = firstObjectSection(part, hair["ib"])
             n = re.search(r"^\s*override_vertex_count\s*=\s*(\d+)", lim.group(2), re.M) if lim else None
             if (not (lim and pre and obj and n)):
